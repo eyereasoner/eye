@@ -1,0 +1,1150 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/fib/fib.n3 --query http://josd.github.io/eye/reasoning/fib/fibQ.n3
+
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    (91) :fib 7540113804746346429 .
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    (91) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    (91) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    <#lemma4>
+  );
+  r:rule <#lemma5>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {(91) :fib ?x_0_1} => {(91) :fib ?x_0_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fib/fibQ.n3>].
+
+<#lemma4> a r:Inference;
+  r:gives {
+    (91 1 1) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {91 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(91 1) math:difference 90}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    <#lemma6>
+  );
+  r:rule <#lemma7>.
+
+<#lemma5> a r:Extraction;
+  r:gives {
+    {(?x_0_2) :fib ?x_1_2} <= {(?x_0_2 1 1) :fib ?x_1_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fib/fib.n3>].
+
+<#lemma6> a r:Inference;
+  r:gives {
+    (90 1 2) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {90 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(90 1) math:difference 89}]
+    [ a r:Fact; r:gives {(1 2) math:sum 3}]
+    <#lemma8>
+  );
+  r:rule <#lemma7>.
+
+<#lemma7> a r:Extraction;
+  r:gives {
+    {(?x_0_3 ?x_2_3 ?x_3_3) :fib ?x_5_3} <= {?x_0_3 math:greaterThan 1 .
+     (?x_0_3 1) math:difference ?x_1_3.
+     (?x_2_3 ?x_3_3) math:sum ?x_4_3.
+     (?x_1_3 ?x_3_3 ?x_4_3) :fib ?x_5_3}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fib/fib.n3>].
+
+<#lemma8> a r:Inference;
+  r:gives {
+    (89 2 3) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {89 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(89 1) math:difference 88}]
+    [ a r:Fact; r:gives {(2 3) math:sum 5}]
+    <#lemma9>
+  );
+  r:rule <#lemma7>.
+
+<#lemma9> a r:Inference;
+  r:gives {
+    (88 3 5) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {88 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(88 1) math:difference 87}]
+    [ a r:Fact; r:gives {(3 5) math:sum 8}]
+    <#lemma10>
+  );
+  r:rule <#lemma7>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    (87 5 8) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {87 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(87 1) math:difference 86}]
+    [ a r:Fact; r:gives {(5 8) math:sum 13}]
+    <#lemma11>
+  );
+  r:rule <#lemma7>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    (86 8 13) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {86 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(86 1) math:difference 85}]
+    [ a r:Fact; r:gives {(8 13) math:sum 21}]
+    <#lemma12>
+  );
+  r:rule <#lemma7>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    (85 13 21) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {85 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(85 1) math:difference 84}]
+    [ a r:Fact; r:gives {(13 21) math:sum 34}]
+    <#lemma13>
+  );
+  r:rule <#lemma7>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    (84 21 34) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {84 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(84 1) math:difference 83}]
+    [ a r:Fact; r:gives {(21 34) math:sum 55}]
+    <#lemma14>
+  );
+  r:rule <#lemma7>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    (83 34 55) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {83 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(83 1) math:difference 82}]
+    [ a r:Fact; r:gives {(34 55) math:sum 89}]
+    <#lemma15>
+  );
+  r:rule <#lemma7>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    (82 55 89) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {82 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(82 1) math:difference 81}]
+    [ a r:Fact; r:gives {(55 89) math:sum 144}]
+    <#lemma16>
+  );
+  r:rule <#lemma7>.
+
+<#lemma16> a r:Inference;
+  r:gives {
+    (81 89 144) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {81 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(81 1) math:difference 80}]
+    [ a r:Fact; r:gives {(89 144) math:sum 233}]
+    <#lemma17>
+  );
+  r:rule <#lemma7>.
+
+<#lemma17> a r:Inference;
+  r:gives {
+    (80 144 233) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {80 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(80 1) math:difference 79}]
+    [ a r:Fact; r:gives {(144 233) math:sum 377}]
+    <#lemma18>
+  );
+  r:rule <#lemma7>.
+
+<#lemma18> a r:Inference;
+  r:gives {
+    (79 233 377) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {79 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(79 1) math:difference 78}]
+    [ a r:Fact; r:gives {(233 377) math:sum 610}]
+    <#lemma19>
+  );
+  r:rule <#lemma7>.
+
+<#lemma19> a r:Inference;
+  r:gives {
+    (78 377 610) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {78 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(78 1) math:difference 77}]
+    [ a r:Fact; r:gives {(377 610) math:sum 987}]
+    <#lemma20>
+  );
+  r:rule <#lemma7>.
+
+<#lemma20> a r:Inference;
+  r:gives {
+    (77 610 987) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {77 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(77 1) math:difference 76}]
+    [ a r:Fact; r:gives {(610 987) math:sum 1597}]
+    <#lemma21>
+  );
+  r:rule <#lemma7>.
+
+<#lemma21> a r:Inference;
+  r:gives {
+    (76 987 1597) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {76 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(76 1) math:difference 75}]
+    [ a r:Fact; r:gives {(987 1597) math:sum 2584}]
+    <#lemma22>
+  );
+  r:rule <#lemma7>.
+
+<#lemma22> a r:Inference;
+  r:gives {
+    (75 1597 2584) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {75 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(75 1) math:difference 74}]
+    [ a r:Fact; r:gives {(1597 2584) math:sum 4181}]
+    <#lemma23>
+  );
+  r:rule <#lemma7>.
+
+<#lemma23> a r:Inference;
+  r:gives {
+    (74 2584 4181) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {74 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(74 1) math:difference 73}]
+    [ a r:Fact; r:gives {(2584 4181) math:sum 6765}]
+    <#lemma24>
+  );
+  r:rule <#lemma7>.
+
+<#lemma24> a r:Inference;
+  r:gives {
+    (73 4181 6765) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {73 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(73 1) math:difference 72}]
+    [ a r:Fact; r:gives {(4181 6765) math:sum 10946}]
+    <#lemma25>
+  );
+  r:rule <#lemma7>.
+
+<#lemma25> a r:Inference;
+  r:gives {
+    (72 6765 10946) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {72 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(72 1) math:difference 71}]
+    [ a r:Fact; r:gives {(6765 10946) math:sum 17711}]
+    <#lemma26>
+  );
+  r:rule <#lemma7>.
+
+<#lemma26> a r:Inference;
+  r:gives {
+    (71 10946 17711) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {71 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(71 1) math:difference 70}]
+    [ a r:Fact; r:gives {(10946 17711) math:sum 28657}]
+    <#lemma27>
+  );
+  r:rule <#lemma7>.
+
+<#lemma27> a r:Inference;
+  r:gives {
+    (70 17711 28657) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {70 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(70 1) math:difference 69}]
+    [ a r:Fact; r:gives {(17711 28657) math:sum 46368}]
+    <#lemma28>
+  );
+  r:rule <#lemma7>.
+
+<#lemma28> a r:Inference;
+  r:gives {
+    (69 28657 46368) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {69 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(69 1) math:difference 68}]
+    [ a r:Fact; r:gives {(28657 46368) math:sum 75025}]
+    <#lemma29>
+  );
+  r:rule <#lemma7>.
+
+<#lemma29> a r:Inference;
+  r:gives {
+    (68 46368 75025) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {68 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(68 1) math:difference 67}]
+    [ a r:Fact; r:gives {(46368 75025) math:sum 121393}]
+    <#lemma30>
+  );
+  r:rule <#lemma7>.
+
+<#lemma30> a r:Inference;
+  r:gives {
+    (67 75025 121393) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {67 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(67 1) math:difference 66}]
+    [ a r:Fact; r:gives {(75025 121393) math:sum 196418}]
+    <#lemma31>
+  );
+  r:rule <#lemma7>.
+
+<#lemma31> a r:Inference;
+  r:gives {
+    (66 121393 196418) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {66 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(66 1) math:difference 65}]
+    [ a r:Fact; r:gives {(121393 196418) math:sum 317811}]
+    <#lemma32>
+  );
+  r:rule <#lemma7>.
+
+<#lemma32> a r:Inference;
+  r:gives {
+    (65 196418 317811) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {65 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(65 1) math:difference 64}]
+    [ a r:Fact; r:gives {(196418 317811) math:sum 514229}]
+    <#lemma33>
+  );
+  r:rule <#lemma7>.
+
+<#lemma33> a r:Inference;
+  r:gives {
+    (64 317811 514229) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {64 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(64 1) math:difference 63}]
+    [ a r:Fact; r:gives {(317811 514229) math:sum 832040}]
+    <#lemma34>
+  );
+  r:rule <#lemma7>.
+
+<#lemma34> a r:Inference;
+  r:gives {
+    (63 514229 832040) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {63 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(63 1) math:difference 62}]
+    [ a r:Fact; r:gives {(514229 832040) math:sum 1346269}]
+    <#lemma35>
+  );
+  r:rule <#lemma7>.
+
+<#lemma35> a r:Inference;
+  r:gives {
+    (62 832040 1346269) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {62 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(62 1) math:difference 61}]
+    [ a r:Fact; r:gives {(832040 1346269) math:sum 2178309}]
+    <#lemma36>
+  );
+  r:rule <#lemma7>.
+
+<#lemma36> a r:Inference;
+  r:gives {
+    (61 1346269 2178309) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {61 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(61 1) math:difference 60}]
+    [ a r:Fact; r:gives {(1346269 2178309) math:sum 3524578}]
+    <#lemma37>
+  );
+  r:rule <#lemma7>.
+
+<#lemma37> a r:Inference;
+  r:gives {
+    (60 2178309 3524578) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {60 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(60 1) math:difference 59}]
+    [ a r:Fact; r:gives {(2178309 3524578) math:sum 5702887}]
+    <#lemma38>
+  );
+  r:rule <#lemma7>.
+
+<#lemma38> a r:Inference;
+  r:gives {
+    (59 3524578 5702887) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {59 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(59 1) math:difference 58}]
+    [ a r:Fact; r:gives {(3524578 5702887) math:sum 9227465}]
+    <#lemma39>
+  );
+  r:rule <#lemma7>.
+
+<#lemma39> a r:Inference;
+  r:gives {
+    (58 5702887 9227465) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {58 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(58 1) math:difference 57}]
+    [ a r:Fact; r:gives {(5702887 9227465) math:sum 14930352}]
+    <#lemma40>
+  );
+  r:rule <#lemma7>.
+
+<#lemma40> a r:Inference;
+  r:gives {
+    (57 9227465 14930352) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {57 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(57 1) math:difference 56}]
+    [ a r:Fact; r:gives {(9227465 14930352) math:sum 24157817}]
+    <#lemma41>
+  );
+  r:rule <#lemma7>.
+
+<#lemma41> a r:Inference;
+  r:gives {
+    (56 14930352 24157817) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {56 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(56 1) math:difference 55}]
+    [ a r:Fact; r:gives {(14930352 24157817) math:sum 39088169}]
+    <#lemma42>
+  );
+  r:rule <#lemma7>.
+
+<#lemma42> a r:Inference;
+  r:gives {
+    (55 24157817 39088169) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {55 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(55 1) math:difference 54}]
+    [ a r:Fact; r:gives {(24157817 39088169) math:sum 63245986}]
+    <#lemma43>
+  );
+  r:rule <#lemma7>.
+
+<#lemma43> a r:Inference;
+  r:gives {
+    (54 39088169 63245986) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {54 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(54 1) math:difference 53}]
+    [ a r:Fact; r:gives {(39088169 63245986) math:sum 102334155}]
+    <#lemma44>
+  );
+  r:rule <#lemma7>.
+
+<#lemma44> a r:Inference;
+  r:gives {
+    (53 63245986 102334155) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {53 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(53 1) math:difference 52}]
+    [ a r:Fact; r:gives {(63245986 102334155) math:sum 165580141}]
+    <#lemma45>
+  );
+  r:rule <#lemma7>.
+
+<#lemma45> a r:Inference;
+  r:gives {
+    (52 102334155 165580141) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {52 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(52 1) math:difference 51}]
+    [ a r:Fact; r:gives {(102334155 165580141) math:sum 267914296}]
+    <#lemma46>
+  );
+  r:rule <#lemma7>.
+
+<#lemma46> a r:Inference;
+  r:gives {
+    (51 165580141 267914296) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {51 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(51 1) math:difference 50}]
+    [ a r:Fact; r:gives {(165580141 267914296) math:sum 433494437}]
+    <#lemma47>
+  );
+  r:rule <#lemma7>.
+
+<#lemma47> a r:Inference;
+  r:gives {
+    (50 267914296 433494437) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {50 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(50 1) math:difference 49}]
+    [ a r:Fact; r:gives {(267914296 433494437) math:sum 701408733}]
+    <#lemma48>
+  );
+  r:rule <#lemma7>.
+
+<#lemma48> a r:Inference;
+  r:gives {
+    (49 433494437 701408733) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {49 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(49 1) math:difference 48}]
+    [ a r:Fact; r:gives {(433494437 701408733) math:sum 1134903170}]
+    <#lemma49>
+  );
+  r:rule <#lemma7>.
+
+<#lemma49> a r:Inference;
+  r:gives {
+    (48 701408733 1134903170) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {48 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(48 1) math:difference 47}]
+    [ a r:Fact; r:gives {(701408733 1134903170) math:sum 1836311903}]
+    <#lemma50>
+  );
+  r:rule <#lemma7>.
+
+<#lemma50> a r:Inference;
+  r:gives {
+    (47 1134903170 1836311903) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {47 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(47 1) math:difference 46}]
+    [ a r:Fact; r:gives {(1134903170 1836311903) math:sum 2971215073}]
+    <#lemma51>
+  );
+  r:rule <#lemma7>.
+
+<#lemma51> a r:Inference;
+  r:gives {
+    (46 1836311903 2971215073) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {46 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(46 1) math:difference 45}]
+    [ a r:Fact; r:gives {(1836311903 2971215073) math:sum 4807526976}]
+    <#lemma52>
+  );
+  r:rule <#lemma7>.
+
+<#lemma52> a r:Inference;
+  r:gives {
+    (45 2971215073 4807526976) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {45 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(45 1) math:difference 44}]
+    [ a r:Fact; r:gives {(2971215073 4807526976) math:sum 7778742049}]
+    <#lemma53>
+  );
+  r:rule <#lemma7>.
+
+<#lemma53> a r:Inference;
+  r:gives {
+    (44 4807526976 7778742049) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {44 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(44 1) math:difference 43}]
+    [ a r:Fact; r:gives {(4807526976 7778742049) math:sum 12586269025}]
+    <#lemma54>
+  );
+  r:rule <#lemma7>.
+
+<#lemma54> a r:Inference;
+  r:gives {
+    (43 7778742049 12586269025) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {43 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(43 1) math:difference 42}]
+    [ a r:Fact; r:gives {(7778742049 12586269025) math:sum 20365011074}]
+    <#lemma55>
+  );
+  r:rule <#lemma7>.
+
+<#lemma55> a r:Inference;
+  r:gives {
+    (42 12586269025 20365011074) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {42 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(42 1) math:difference 41}]
+    [ a r:Fact; r:gives {(12586269025 20365011074) math:sum 32951280099}]
+    <#lemma56>
+  );
+  r:rule <#lemma7>.
+
+<#lemma56> a r:Inference;
+  r:gives {
+    (41 20365011074 32951280099) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {41 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(41 1) math:difference 40}]
+    [ a r:Fact; r:gives {(20365011074 32951280099) math:sum 53316291173}]
+    <#lemma57>
+  );
+  r:rule <#lemma7>.
+
+<#lemma57> a r:Inference;
+  r:gives {
+    (40 32951280099 53316291173) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {40 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(40 1) math:difference 39}]
+    [ a r:Fact; r:gives {(32951280099 53316291173) math:sum 86267571272}]
+    <#lemma58>
+  );
+  r:rule <#lemma7>.
+
+<#lemma58> a r:Inference;
+  r:gives {
+    (39 53316291173 86267571272) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {39 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(39 1) math:difference 38}]
+    [ a r:Fact; r:gives {(53316291173 86267571272) math:sum 139583862445}]
+    <#lemma59>
+  );
+  r:rule <#lemma7>.
+
+<#lemma59> a r:Inference;
+  r:gives {
+    (38 86267571272 139583862445) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {38 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(38 1) math:difference 37}]
+    [ a r:Fact; r:gives {(86267571272 139583862445) math:sum 225851433717}]
+    <#lemma60>
+  );
+  r:rule <#lemma7>.
+
+<#lemma60> a r:Inference;
+  r:gives {
+    (37 139583862445 225851433717) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {37 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(37 1) math:difference 36}]
+    [ a r:Fact; r:gives {(139583862445 225851433717) math:sum 365435296162}]
+    <#lemma61>
+  );
+  r:rule <#lemma7>.
+
+<#lemma61> a r:Inference;
+  r:gives {
+    (36 225851433717 365435296162) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {36 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(36 1) math:difference 35}]
+    [ a r:Fact; r:gives {(225851433717 365435296162) math:sum 591286729879}]
+    <#lemma62>
+  );
+  r:rule <#lemma7>.
+
+<#lemma62> a r:Inference;
+  r:gives {
+    (35 365435296162 591286729879) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {35 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(35 1) math:difference 34}]
+    [ a r:Fact; r:gives {(365435296162 591286729879) math:sum 956722026041}]
+    <#lemma63>
+  );
+  r:rule <#lemma7>.
+
+<#lemma63> a r:Inference;
+  r:gives {
+    (34 591286729879 956722026041) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {34 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(34 1) math:difference 33}]
+    [ a r:Fact; r:gives {(591286729879 956722026041) math:sum 1548008755920}]
+    <#lemma64>
+  );
+  r:rule <#lemma7>.
+
+<#lemma64> a r:Inference;
+  r:gives {
+    (33 956722026041 1548008755920) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {33 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(33 1) math:difference 32}]
+    [ a r:Fact; r:gives {(956722026041 1548008755920) math:sum 2504730781961}]
+    <#lemma65>
+  );
+  r:rule <#lemma7>.
+
+<#lemma65> a r:Inference;
+  r:gives {
+    (32 1548008755920 2504730781961) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {32 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(32 1) math:difference 31}]
+    [ a r:Fact; r:gives {(1548008755920 2504730781961) math:sum 4052739537881}]
+    <#lemma66>
+  );
+  r:rule <#lemma7>.
+
+<#lemma66> a r:Inference;
+  r:gives {
+    (31 2504730781961 4052739537881) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {31 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(31 1) math:difference 30}]
+    [ a r:Fact; r:gives {(2504730781961 4052739537881) math:sum 6557470319842}]
+    <#lemma67>
+  );
+  r:rule <#lemma7>.
+
+<#lemma67> a r:Inference;
+  r:gives {
+    (30 4052739537881 6557470319842) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {30 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(30 1) math:difference 29}]
+    [ a r:Fact; r:gives {(4052739537881 6557470319842) math:sum 10610209857723}]
+    <#lemma68>
+  );
+  r:rule <#lemma7>.
+
+<#lemma68> a r:Inference;
+  r:gives {
+    (29 6557470319842 10610209857723) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {29 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(29 1) math:difference 28}]
+    [ a r:Fact; r:gives {(6557470319842 10610209857723) math:sum 17167680177565}]
+    <#lemma69>
+  );
+  r:rule <#lemma7>.
+
+<#lemma69> a r:Inference;
+  r:gives {
+    (28 10610209857723 17167680177565) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {28 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(28 1) math:difference 27}]
+    [ a r:Fact; r:gives {(10610209857723 17167680177565) math:sum 27777890035288}]
+    <#lemma70>
+  );
+  r:rule <#lemma7>.
+
+<#lemma70> a r:Inference;
+  r:gives {
+    (27 17167680177565 27777890035288) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {27 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(27 1) math:difference 26}]
+    [ a r:Fact; r:gives {(17167680177565 27777890035288) math:sum 44945570212853}]
+    <#lemma71>
+  );
+  r:rule <#lemma7>.
+
+<#lemma71> a r:Inference;
+  r:gives {
+    (26 27777890035288 44945570212853) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {26 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(26 1) math:difference 25}]
+    [ a r:Fact; r:gives {(27777890035288 44945570212853) math:sum 72723460248141}]
+    <#lemma72>
+  );
+  r:rule <#lemma7>.
+
+<#lemma72> a r:Inference;
+  r:gives {
+    (25 44945570212853 72723460248141) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {25 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(25 1) math:difference 24}]
+    [ a r:Fact; r:gives {(44945570212853 72723460248141) math:sum 117669030460994}]
+    <#lemma73>
+  );
+  r:rule <#lemma7>.
+
+<#lemma73> a r:Inference;
+  r:gives {
+    (24 72723460248141 117669030460994) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {24 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(24 1) math:difference 23}]
+    [ a r:Fact; r:gives {(72723460248141 117669030460994) math:sum 190392490709135}]
+    <#lemma74>
+  );
+  r:rule <#lemma7>.
+
+<#lemma74> a r:Inference;
+  r:gives {
+    (23 117669030460994 190392490709135) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {23 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(23 1) math:difference 22}]
+    [ a r:Fact; r:gives {(117669030460994 190392490709135) math:sum 308061521170129}]
+    <#lemma75>
+  );
+  r:rule <#lemma7>.
+
+<#lemma75> a r:Inference;
+  r:gives {
+    (22 190392490709135 308061521170129) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {22 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(22 1) math:difference 21}]
+    [ a r:Fact; r:gives {(190392490709135 308061521170129) math:sum 498454011879264}]
+    <#lemma76>
+  );
+  r:rule <#lemma7>.
+
+<#lemma76> a r:Inference;
+  r:gives {
+    (21 308061521170129 498454011879264) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {21 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(21 1) math:difference 20}]
+    [ a r:Fact; r:gives {(308061521170129 498454011879264) math:sum 806515533049393}]
+    <#lemma77>
+  );
+  r:rule <#lemma7>.
+
+<#lemma77> a r:Inference;
+  r:gives {
+    (20 498454011879264 806515533049393) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {20 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(498454011879264 806515533049393) math:sum 1304969544928657}]
+    <#lemma78>
+  );
+  r:rule <#lemma7>.
+
+<#lemma78> a r:Inference;
+  r:gives {
+    (19 806515533049393 1304969544928657) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {19 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(19 1) math:difference 18}]
+    [ a r:Fact; r:gives {(806515533049393 1304969544928657) math:sum 2111485077978050}]
+    <#lemma79>
+  );
+  r:rule <#lemma7>.
+
+<#lemma79> a r:Inference;
+  r:gives {
+    (18 1304969544928657 2111485077978050) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {18 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
+    [ a r:Fact; r:gives {(1304969544928657 2111485077978050) math:sum 3416454622906707}]
+    <#lemma80>
+  );
+  r:rule <#lemma7>.
+
+<#lemma80> a r:Inference;
+  r:gives {
+    (17 2111485077978050 3416454622906707) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {17 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
+    [ a r:Fact; r:gives {(2111485077978050 3416454622906707) math:sum 5527939700884757}]
+    <#lemma81>
+  );
+  r:rule <#lemma7>.
+
+<#lemma81> a r:Inference;
+  r:gives {
+    (16 3416454622906707 5527939700884757) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {16 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
+    [ a r:Fact; r:gives {(3416454622906707 5527939700884757) math:sum 8944394323791464}]
+    <#lemma82>
+  );
+  r:rule <#lemma7>.
+
+<#lemma82> a r:Inference;
+  r:gives {
+    (15 5527939700884757 8944394323791464) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {15 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
+    [ a r:Fact; r:gives {(5527939700884757 8944394323791464) math:sum 14472334024676221}]
+    <#lemma83>
+  );
+  r:rule <#lemma7>.
+
+<#lemma83> a r:Inference;
+  r:gives {
+    (14 8944394323791464 14472334024676221) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {14 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
+    [ a r:Fact; r:gives {(8944394323791464 14472334024676221) math:sum 23416728348467685}]
+    <#lemma84>
+  );
+  r:rule <#lemma7>.
+
+<#lemma84> a r:Inference;
+  r:gives {
+    (13 14472334024676221 23416728348467685) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {13 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
+    [ a r:Fact; r:gives {(14472334024676221 23416728348467685) math:sum 37889062373143906}]
+    <#lemma85>
+  );
+  r:rule <#lemma7>.
+
+<#lemma85> a r:Inference;
+  r:gives {
+    (12 23416728348467685 37889062373143906) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {12 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
+    [ a r:Fact; r:gives {(23416728348467685 37889062373143906) math:sum 61305790721611591}]
+    <#lemma86>
+  );
+  r:rule <#lemma7>.
+
+<#lemma86> a r:Inference;
+  r:gives {
+    (11 37889062373143906 61305790721611591) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {11 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
+    [ a r:Fact; r:gives {(37889062373143906 61305790721611591) math:sum 99194853094755497}]
+    <#lemma87>
+  );
+  r:rule <#lemma7>.
+
+<#lemma87> a r:Inference;
+  r:gives {
+    (10 61305790721611591 99194853094755497) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {10 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
+    [ a r:Fact; r:gives {(61305790721611591 99194853094755497) math:sum 160500643816367088}]
+    <#lemma88>
+  );
+  r:rule <#lemma7>.
+
+<#lemma88> a r:Inference;
+  r:gives {
+    (9 99194853094755497 160500643816367088) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {9 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
+    [ a r:Fact; r:gives {(99194853094755497 160500643816367088) math:sum 259695496911122585}]
+    <#lemma89>
+  );
+  r:rule <#lemma7>.
+
+<#lemma89> a r:Inference;
+  r:gives {
+    (8 160500643816367088 259695496911122585) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {8 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
+    [ a r:Fact; r:gives {(160500643816367088 259695496911122585) math:sum 420196140727489673}]
+    <#lemma90>
+  );
+  r:rule <#lemma7>.
+
+<#lemma90> a r:Inference;
+  r:gives {
+    (7 259695496911122585 420196140727489673) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {7 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(7 1) math:difference 6}]
+    [ a r:Fact; r:gives {(259695496911122585 420196140727489673) math:sum 679891637638612258}]
+    <#lemma91>
+  );
+  r:rule <#lemma7>.
+
+<#lemma91> a r:Inference;
+  r:gives {
+    (6 420196140727489673 679891637638612258) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {6 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(6 1) math:difference 5}]
+    [ a r:Fact; r:gives {(420196140727489673 679891637638612258) math:sum 1100087778366101931}]
+    <#lemma92>
+  );
+  r:rule <#lemma7>.
+
+<#lemma92> a r:Inference;
+  r:gives {
+    (5 679891637638612258 1100087778366101931) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {5 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(5 1) math:difference 4}]
+    [ a r:Fact; r:gives {(679891637638612258 1100087778366101931) math:sum 1779979416004714189}]
+    <#lemma93>
+  );
+  r:rule <#lemma7>.
+
+<#lemma93> a r:Inference;
+  r:gives {
+    (4 1100087778366101931 1779979416004714189) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {4 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(4 1) math:difference 3}]
+    [ a r:Fact; r:gives {(1100087778366101931 1779979416004714189) math:sum 2880067194370816120}]
+    <#lemma94>
+  );
+  r:rule <#lemma7>.
+
+<#lemma94> a r:Inference;
+  r:gives {
+    (3 1779979416004714189 2880067194370816120) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {3 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(3 1) math:difference 2}]
+    [ a r:Fact; r:gives {(1779979416004714189 2880067194370816120) math:sum 4660046610375530309}]
+    <#lemma95>
+  );
+  r:rule <#lemma7>.
+
+<#lemma95> a r:Inference;
+  r:gives {
+    (2 2880067194370816120 4660046610375530309) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {2 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(2 1) math:difference 1}]
+    [ a r:Fact; r:gives {(2880067194370816120 4660046610375530309) math:sum 7540113804746346429}]
+    <#lemma96>
+  );
+  r:rule <#lemma7>.
+
+<#lemma96> a r:Inference;
+  r:gives {
+    (1 4660046610375530309 7540113804746346429) :fib 7540113804746346429 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+  );
+  r:rule <#lemma97>.
+
+<#lemma97> a r:Extraction;
+  r:gives {
+    {(1 ?x_0_4 ?x_1_4) :fib ?x_1_4} <= true.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fib/fib.n3>].
+
+#2019-03-25T14:25:40.129Z in=4 out=1 ent=1 step=1 brake=1 inf=136560 sec=0.046 inf/sec=2968696
+#ENDS
+

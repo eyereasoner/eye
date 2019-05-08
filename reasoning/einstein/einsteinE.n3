@@ -1,0 +1,115 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/einstein/einstein.n3 --query http://josd.github.io/eye/reasoning/einstein/einsteinQ.n3
+
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX : <http://eulersharp.sourceforge.net/2005/11swap/einstein#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    :german :eats :fish.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :german :eats :fish.
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :german :eats :fish.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) log:equalTo ((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters))}]
+    <#lemma4>
+    <#lemma4>
+    <#lemma5>
+    <#lemma4>
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:red :brit :birds :milk :pallmall)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:white :swede :dogs :beer :bluemasters)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:blue :dane :horse :tea :blends)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:red :brit :birds :milk :pallmall)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:yellow :norwegian :cats :water :dunhill)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:white :swede :dogs :beer :bluemasters)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:green :german :fish :coffee :prince)}]
+    [ a r:Fact; r:gives {((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) list:member (:green :german :fish :coffee :prince)}]
+  );
+  r:rule <#lemma6>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {?x_0_1 :eats :fish} => {?x_0_1 :eats :fish}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/einstein/einsteinQ.n3>].
+
+<#lemma4> a r:Inference;
+  r:gives {
+    ((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) :pair ((:blue :dane :horse :tea :blends) (:yellow :norwegian :cats :water :dunhill)).
+  };
+  r:evidence (
+    <#lemma7>
+  );
+  r:rule <#lemma8>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    ((:yellow :norwegian :cats :water :dunhill) (:blue :dane :horse :tea :blends) (:red :brit :birds :milk :pallmall) (:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)) :sublist ((:green :german :fish :coffee :prince) (:white :swede :dogs :beer :bluemasters)).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(((_:sk_0 :norwegian :cats _:sk_1 :dunhill) (:blue _:sk_2 :horse _:sk_3 :blends) (_:sk_4 _:sk_5 _:sk_6 :milk _:sk_7) (:green _:sk_8 _:sk_9 :coffee _:sk_10) (:white _:sk_11 _:sk_12 _:sk_13 _:sk_14)) ()) list:append ((_:sk_0 :norwegian :cats _:sk_1 :dunhill) (:blue _:sk_2 :horse _:sk_3 :blends) (_:sk_4 _:sk_5 _:sk_6 :milk _:sk_7) (:green _:sk_8 _:sk_9 :coffee _:sk_10) (:white _:sk_11 _:sk_12 _:sk_13 _:sk_14))}]
+    [ a r:Fact; r:gives {(((_:sk_0 :norwegian :cats _:sk_1 :dunhill) (:blue _:sk_2 :horse _:sk_3 :blends) (_:sk_4 _:sk_5 _:sk_6 :milk _:sk_7)) ((:green _:sk_8 _:sk_9 :coffee _:sk_10) (:white _:sk_11 _:sk_12 _:sk_13 _:sk_14))) list:append ((_:sk_0 :norwegian :cats _:sk_1 :dunhill) (:blue _:sk_2 :horse _:sk_3 :blends) (_:sk_4 _:sk_5 _:sk_6 :milk _:sk_7) (:green _:sk_8 _:sk_9 :coffee _:sk_10) (:white _:sk_11 _:sk_12 _:sk_13 _:sk_14))}]
+  );
+  r:rule <#lemma9>.
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    {?x_0_2 log:equalTo ((?x_1_2 :norwegian ?x_2_2 ?x_3_2 ?x_4_2) (:blue ?x_5_2 ?x_6_2 ?x_7_2 ?x_8_2) (?x_9_2 ?x_10_2 ?x_11_2 :milk ?x_12_2) ?x_13_2 ?x_14_2).
+     ?x_0_2 :pair ((?x_15_2 ?x_16_2 ?x_17_2 ?x_18_2 :blends) (?x_19_2 ?x_20_2 :cats ?x_21_2 ?x_22_2)).
+     ?x_0_2 :pair ((?x_23_2 ?x_24_2 :horse ?x_25_2 ?x_26_2) (?x_27_2 ?x_28_2 ?x_29_2 ?x_30_2 :dunhill)).
+     ?x_0_2 :sublist ((:green ?x_31_2 ?x_32_2 :coffee ?x_33_2) (:white ?x_34_2 ?x_35_2 ?x_36_2 ?x_37_2)).
+     ?x_0_2 :pair ((?x_38_2 ?x_39_2 ?x_40_2 ?x_41_2 :blends) (?x_42_2 ?x_43_2 ?x_44_2 :water ?x_45_2)).
+     ?x_0_2 list:member (:red :brit ?x_46_2 ?x_47_2 ?x_48_2).
+     ?x_0_2 list:member (?x_49_2 :swede :dogs ?x_50_2 ?x_51_2).
+     ?x_0_2 list:member (?x_52_2 :dane ?x_53_2 :tea ?x_54_2).
+     ?x_0_2 list:member (?x_55_2 ?x_56_2 :birds ?x_57_2 :pallmall).
+     ?x_0_2 list:member (:yellow ?x_58_2 ?x_59_2 ?x_60_2 :dunhill).
+     ?x_0_2 list:member (?x_61_2 ?x_62_2 ?x_63_2 :beer :bluemasters).
+     ?x_0_2 list:member (?x_64_2 :german ?x_65_2 ?x_66_2 :prince).
+     ?x_0_2 list:member (?x_67_2 ?x_68_2 :fish ?x_69_2 ?x_70_2)} => {?x_68_2 :eats :fish}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/einstein/einstein.n3>].
+
+<#lemma7> a r:Inference;
+  r:gives {
+    ((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends) (_:sk_6 _:sk_7 _:sk_8 :milk _:sk_9) _:sk_10 _:sk_11) :sublist ((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends)).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends)) ((_:sk_6 _:sk_7 _:sk_8 :milk _:sk_9) _:sk_10 _:sk_11)) list:append ((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends) (_:sk_6 _:sk_7 _:sk_8 :milk _:sk_9) _:sk_10 _:sk_11)}]
+    [ a r:Fact; r:gives {(() ((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends))) list:append ((_:sk_0 :norwegian :cats _:sk_1 _:sk_2) (:blue _:sk_3 _:sk_4 _:sk_5 :blends))}]
+  );
+  r:rule <#lemma9>.
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    {?x_0_3 :pair (?x_2_3 ?x_1_3)} <= {?x_0_3 :sublist (?x_1_3 ?x_2_3)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/einstein/einstein.n3>].
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    {?x_2_4 :sublist ?x_4_4} <= {(?x_0_4 ?x_1_4) list:append ?x_2_4.
+     (?x_3_4 ?x_4_4) list:append ?x_0_4}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/einstein/einstein.n3>].
+
+#2019-03-25T14:25:34.863Z in=5 out=1 ent=2 step=4 brake=2 inf=686542 sec=0.133 inf/sec=5161970
+#ENDS
+

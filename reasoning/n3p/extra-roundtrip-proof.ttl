@@ -1,0 +1,138 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --plugin http://josd.github.io/eye/reasoning/n3p/extra.n3p --pass
+
+PREFIX : <http://example.org/try#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:component <#lemma7>;
+  r:gives {
+    :s :p "we 'try zero".
+    :s :p "we \"try one".
+    :s :p "we \"try\ntwo".
+    :s :p "we \"try three".
+    :s :p "we \"\"try four".
+    :s :p "we \\try five".
+    :s :p <http://example.org/Connor's>.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :s :p "we 'try zero".
+  };
+  r:evidence (
+    <#lemma8>
+  );
+  r:rule <#lemma9>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :s :p "we \"try one".
+  };
+  r:evidence (
+    <#lemma10>
+  );
+  r:rule <#lemma9>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    :s :p "we \"try\ntwo".
+  };
+  r:evidence (
+    <#lemma11>
+  );
+  r:rule <#lemma9>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    :s :p "we \"try three".
+  };
+  r:evidence (
+    <#lemma12>
+  );
+  r:rule <#lemma9>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :s :p "we \"\"try four".
+  };
+  r:evidence (
+    <#lemma13>
+  );
+  r:rule <#lemma9>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    :s :p "we \\try five".
+  };
+  r:evidence (
+    <#lemma14>
+  );
+  r:rule <#lemma9>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    :s :p <http://example.org/Connor's>.
+  };
+  r:evidence (
+    <#lemma15>
+  );
+  r:rule <#lemma9>.
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    :s :p "we 'try zero".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+<#lemma10> a r:Extraction;
+  r:gives {
+    :s :p "we \"try one".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma11> a r:Extraction;
+  r:gives {
+    :s :p "we \"try\ntwo".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma12> a r:Extraction;
+  r:gives {
+    :s :p "we \"try three".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    :s :p "we \"\"try four".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma14> a r:Extraction;
+  r:gives {
+    :s :p "we \\try five".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+<#lemma15> a r:Extraction;
+  r:gives {
+    :s :p <http://example.org/Connor's>.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/extra.ttl>].
+
+#2019-03-25T14:25:52.768Z in=7 out=7 ent=7 step=7 brake=1 inf=24452 sec=0.031 inf/sec=788774
+#ENDS
+

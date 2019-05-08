@@ -1,0 +1,68 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --turtle http://josd.github.io/eye/reasoning/djiti/graph-10.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
+
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    :a :b (:i22 :i9 :i61 :i29 :i42).
+    :a :b (:i72 :i12 :i67 :i19 :i73).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :a :b (:i22 :i9 :i61 :i29 :i42).
+  };
+  r:evidence (
+    <#lemma3>
+    <#lemma4>
+  );
+  r:rule <#lemma5>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :a :b (:i72 :i12 :i67 :i19 :i73).
+  };
+  r:evidence (
+    <#lemma6>
+    <#lemma7>
+  );
+  r:rule <#lemma5>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    (:i22 :i9 :i61) :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/graph-10.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    (:i61 :i29 :i42) :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/graph-10.n3>].
+
+<#lemma5> a r:Extraction;
+  r:gives {
+    {(?x_0_1 ?x_1_1 ?x_2_1) :p :o.
+     (?x_2_1 ?x_3_1 ?x_4_1) :p :o} => {:a :b (?x_0_1 ?x_1_1 ?x_2_1 ?x_3_1 ?x_4_1)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/query.n3>].
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    (:i72 :i12 :i67) :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/graph-10.n3>].
+
+<#lemma7> a r:Extraction;
+  r:gives {
+    (:i67 :i19 :i73) :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/graph-10.n3>].
+
+#2019-03-25T14:25:13.318Z in=11 out=2 ent=2 step=2 brake=1 inf=25901 sec=0.030 inf/sec=863367
+#ENDS
+

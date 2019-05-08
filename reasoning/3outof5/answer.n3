@@ -1,0 +1,128 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/3outof5/sample.n3 --query http://josd.github.io/eye/reasoning/3outof5/query.n3
+
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    :s a <http://josd.github.io/eye/reasoning#3outof5>.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :s a <http://josd.github.io/eye/reasoning#3outof5>.
+  };
+  r:evidence (
+    <#lemma2>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {1 log:equalTo 0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p2 true.
+     0 log:equalTo 1}}]
+    <#lemma3>
+    <#lemma4>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {1 log:equalTo 0}}]
+    <#lemma5>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {1 log:equalTo 0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p5 true.
+     0 log:equalTo 1}}]
+    <#lemma3>
+    [ a r:Fact; r:gives {(1 0 1 1 0) math:sum 3}]
+    [ a r:Fact; r:gives {3 math:notLessThan 3}]
+  );
+  r:rule <#lemma6>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    ((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p1 true.
+     1 log:equalTo 1}.
+  };
+  r:evidence (
+    <#lemma7>
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {{:s :p1 true.
+    1 log:equalTo 1} => {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p1 true.
+     1 log:equalTo 1}}}].
+
+<#lemma3> a r:Inference;
+  r:gives {
+    ((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {0 log:equalTo 0}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {0 log:equalTo 0}]
+  );
+  r:rule [ a r:Fact; r:gives {{0 log:equalTo 0} => {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {0 log:equalTo 0}}}].
+
+<#lemma4> a r:Inference;
+  r:gives {
+    ((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p3 true.
+     1 log:equalTo 1}.
+  };
+  r:evidence (
+    <#lemma8>
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {{:s :p3 true.
+    1 log:equalTo 1} => {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p3 true.
+     1 log:equalTo 1}}}].
+
+<#lemma5> a r:Inference;
+  r:gives {
+    ((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p4 true.
+     1 log:equalTo 1}.
+  };
+  r:evidence (
+    <#lemma9>
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {{:s :p4 true.
+    1 log:equalTo 1} => {((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1) e:optional {:s :p4 true.
+     1 log:equalTo 1}}}].
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    {?x_0_5 e:optional {:s :p1 true.
+      ?x_1_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_1_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p2 true.
+      ?x_2_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_2_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p3 true.
+      ?x_3_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_3_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p4 true.
+      ?x_4_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_4_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p5 true.
+      ?x_5_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_5_5 log:equalTo 0}.
+     (?x_1_5 ?x_2_5 ?x_3_5 ?x_4_5 ?x_5_5) math:sum ?x_6_5.
+     ?x_6_5 math:notLessThan 3} => {:s a <http://josd.github.io/eye/reasoning#3outof5>}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/query.n3>].
+
+<#lemma7> a r:Extraction;
+  r:gives {
+    :s :p1 true.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/sample.n3>].
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    :s :p3 true.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/sample.n3>].
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    :s :p4 true.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/sample.n3>].
+
+#2019-03-25T14:25:03.858Z in=6 out=1 ent=1 step=1 brake=2 inf=53959 sec=0.043 inf/sec=1254860
+#ENDS
+

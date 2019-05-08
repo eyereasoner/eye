@@ -1,0 +1,353 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --proof http://josd.github.io/eye/reasoning/djiti/proof-100.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
+
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:gives {
+    :a :b (:i522 :i474 :i797 :i690 :i967).
+    :a :b (:i831 :i976 :i797 :i690 :i967).
+    :a :b (:i214 :i257 :i158 :i233 :i31).
+    :a :b (:i745 :i214 :i277 :i911 :i35).
+    :a :b (:i773 :i905 :i127 :i879 :i80).
+    :a :b (:i123 :i646 :i533 :i556 :i435).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :a :b (:i522 :i474 :i797 :i690 :i967).
+  };
+  r:evidence (
+    <#lemma7>
+    <#lemma8>
+  );
+  r:rule <#lemma9>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :a :b (:i831 :i976 :i797 :i690 :i967).
+  };
+  r:evidence (
+    <#lemma10>
+    <#lemma8>
+  );
+  r:rule <#lemma9>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    :a :b (:i214 :i257 :i158 :i233 :i31).
+  };
+  r:evidence (
+    <#lemma11>
+    <#lemma12>
+  );
+  r:rule <#lemma9>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    :a :b (:i745 :i214 :i277 :i911 :i35).
+  };
+  r:evidence (
+    <#lemma13>
+    <#lemma14>
+  );
+  r:rule <#lemma9>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :a :b (:i773 :i905 :i127 :i879 :i80).
+  };
+  r:evidence (
+    <#lemma15>
+    <#lemma16>
+  );
+  r:rule <#lemma9>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    :a :b (:i123 :i646 :i533 :i556 :i435).
+  };
+  r:evidence (
+    <#lemma17>
+    <#lemma18>
+  );
+  r:rule <#lemma9>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    (:i522 :i474 :i797) :p :o.
+  };
+  r:evidence (
+    <#lemma19>
+    <#lemma20>
+    [ a r:Fact; r:gives {{(:i522 :i474 :i797) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i522 :i474 :i797) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    (:i797 :i690 :i967) :p :o.
+  };
+  r:evidence (
+    <#lemma22>
+    <#lemma23>
+    [ a r:Fact; r:gives {{(:i797 :i690 :i967) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i797 :i690 :i967) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    {(?x_0_1 ?x_1_1 ?x_2_1) :p :o.
+     (?x_2_1 ?x_3_1 ?x_4_1) :p :o} => {:a :b (?x_0_1 ?x_1_1 ?x_2_1 ?x_3_1 ?x_4_1)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/query.n3>].
+
+<#lemma10> a r:Inference;
+  r:gives {
+    (:i831 :i976 :i797) :p :o.
+  };
+  r:evidence (
+    <#lemma24>
+    <#lemma25>
+    [ a r:Fact; r:gives {{(:i831 :i976 :i797) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i831 :i976 :i797) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    (:i214 :i257 :i158) :p :o.
+  };
+  r:evidence (
+    <#lemma26>
+    <#lemma27>
+    [ a r:Fact; r:gives {{(:i214 :i257 :i158) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i214 :i257 :i158) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    (:i158 :i233 :i31) :p :o.
+  };
+  r:evidence (
+    <#lemma28>
+    <#lemma29>
+    [ a r:Fact; r:gives {{(:i158 :i233 :i31) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i158 :i233 :i31) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    (:i745 :i214 :i277) :p :o.
+  };
+  r:evidence (
+    <#lemma30>
+    <#lemma31>
+    [ a r:Fact; r:gives {{(:i745 :i214 :i277) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i745 :i214 :i277) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    (:i277 :i911 :i35) :p :o.
+  };
+  r:evidence (
+    <#lemma32>
+    <#lemma33>
+    [ a r:Fact; r:gives {{(:i277 :i911 :i35) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i277 :i911 :i35) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    (:i773 :i905 :i127) :p :o.
+  };
+  r:evidence (
+    <#lemma34>
+    <#lemma35>
+    [ a r:Fact; r:gives {{(:i773 :i905 :i127) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i773 :i905 :i127) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma16> a r:Inference;
+  r:gives {
+    (:i127 :i879 :i80) :p :o.
+  };
+  r:evidence (
+    <#lemma36>
+    <#lemma37>
+    [ a r:Fact; r:gives {{(:i127 :i879 :i80) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i127 :i879 :i80) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma17> a r:Inference;
+  r:gives {
+    (:i123 :i646 :i533) :p :o.
+  };
+  r:evidence (
+    <#lemma38>
+    <#lemma39>
+    [ a r:Fact; r:gives {{(:i123 :i646 :i533) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i123 :i646 :i533) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma18> a r:Inference;
+  r:gives {
+    (:i533 :i556 :i435) :p :o.
+  };
+  r:evidence (
+    <#lemma40>
+    <#lemma41>
+    [ a r:Fact; r:gives {{(:i533 :i556 :i435) :p :o} <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {(:i533 :i556 :i435) :p :o}}]
+  );
+  r:rule <#lemma21>.
+
+<#lemma19> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma7> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma20> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma7> r:gives {(:i522 :i474 :i797) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma21> a r:Extraction;
+  r:gives {
+    {?x_0_2 a r:Extraction.
+     ?x_0_2 r:gives ?x_1_2.
+     ?x_1_2 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {?x_3_2 ?x_2_2 ?x_4_2}} => {?x_3_2 ?x_2_2 ?x_4_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
+
+<#lemma22> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma8> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma23> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma8> r:gives {(:i797 :i690 :i967) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma24> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma10> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma25> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma10> r:gives {(:i831 :i976 :i797) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma26> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma11> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma27> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma11> r:gives {(:i214 :i257 :i158) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma28> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma12> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma29> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma12> r:gives {(:i158 :i233 :i31) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma30> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma13> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma31> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma13> r:gives {(:i745 :i214 :i277) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma32> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma14> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma33> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma14> r:gives {(:i277 :i911 :i35) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma34> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma15> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma35> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma15> r:gives {(:i773 :i905 :i127) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma36> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma16> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma37> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma16> r:gives {(:i127 :i879 :i80) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma38> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma17> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma39> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma17> r:gives {(:i123 :i646 :i533) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma40> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma18> a r:Extraction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+<#lemma41> a r:Extraction;
+  r:gives {
+    <http://josd.github.io/eye/reasoning/djiti/proof-100.n3#lemma18> r:gives {(:i533 :i556 :i435) :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
+
+#2019-03-25T14:25:22.076Z in=94 out=6 ent=23 step=48 brake=2 inf=118478 sec=0.060 inf/sec=1974633
+#ENDS
+

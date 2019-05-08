@@ -1,0 +1,162 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/graph/graph.axiom.n3 --n3 http://josd.github.io/eye/reasoning/graph/rpo-rules.n3 --query http://josd.github.io/eye/reasoning/graph/graph.filter.n3
+
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <http://www.agfa.com/w3c/euler/graph.axiom#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX ns1: <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    :paris :path :nantes.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :paris :path :nantes.
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :paris :path :nantes.
+  };
+  r:evidence (
+    <#lemma4>
+    <#lemma5>
+    <#lemma6>
+  );
+  r:rule <#lemma7>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {:paris :path :nantes} => {:paris :path :nantes}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.filter.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    :path a owl:TransitiveProperty.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :angers :path :nantes.
+  };
+  r:evidence (
+    <#lemma8>
+    <#lemma9>
+  );
+  r:rule <#lemma10>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    :paris :path :angers.
+  };
+  r:evidence (
+    <#lemma4>
+    <#lemma11>
+    <#lemma12>
+  );
+  r:rule <#lemma7>.
+
+<#lemma7> a r:Extraction;
+  r:gives {
+    {?x_0_2 a owl:TransitiveProperty.
+     ?x_1_2 ?x_0_2 ?x_2_2.
+     ?x_3_2 ?x_0_2 ?x_1_2} => {?x_3_2 ?x_0_2 ?x_2_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/rpo-rules.n3>].
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    :oneway rdfs:subPropertyOf :path.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    :angers :oneway :nantes.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+<#lemma10> a r:Extraction;
+  r:gives {
+    {?x_0_3 rdfs:subPropertyOf ?x_1_3.
+     ?x_2_3 ?x_0_3 ?x_3_3} => {?x_2_3 ?x_1_3 ?x_3_3}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/rpo-rules.n3>].
+
+<#lemma11> a r:Inference;
+  r:gives {
+    :lemans :path :angers.
+  };
+  r:evidence (
+    <#lemma8>
+    <#lemma13>
+  );
+  r:rule <#lemma10>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    :paris :path :lemans.
+  };
+  r:evidence (
+    <#lemma4>
+    <#lemma14>
+    <#lemma15>
+  );
+  r:rule <#lemma7>.
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    :lemans :oneway :angers.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+<#lemma14> a r:Inference;
+  r:gives {
+    :chartres :path :lemans.
+  };
+  r:evidence (
+    <#lemma8>
+    <#lemma16>
+  );
+  r:rule <#lemma10>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    :paris :path :chartres.
+  };
+  r:evidence (
+    <#lemma8>
+    <#lemma17>
+  );
+  r:rule <#lemma10>.
+
+<#lemma16> a r:Extraction;
+  r:gives {
+    :chartres :oneway :lemans.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+<#lemma17> a r:Extraction;
+  r:gives {
+    :paris :oneway :chartres.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/graph.axiom.n3>].
+
+#2019-03-25T14:25:44.113Z in=89 out=1 ent=24 step=70 brake=2 inf=91920 sec=0.043 inf/sec=2137674
+#ENDS
+

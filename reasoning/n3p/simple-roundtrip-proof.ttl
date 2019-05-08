@@ -1,0 +1,155 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --plugin http://josd.github.io/eye/reasoning/n3p/simple.n3p --pass
+
+PREFIX : <http://example.org/try#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:component <#lemma7>;
+  r:component <#lemma8>;
+  r:gives {
+    :s1 :p1 :o1.
+    :s2 :p2 "We".
+    :s3 :p3 "run"@en.
+    :s4 :p4 "LV"^^:dt.
+    :s5 :p5 5 .
+    :s6 :p6 (:a :b :c).
+    :s7 :p7 _:t_0.
+    _:t_1 :p8 :o7.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :s1 :p1 :o1.
+  };
+  r:evidence (
+    <#lemma9>
+  );
+  r:rule <#lemma10>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :s2 :p2 "We".
+  };
+  r:evidence (
+    <#lemma11>
+  );
+  r:rule <#lemma10>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    :s3 :p3 "run"@en.
+  };
+  r:evidence (
+    <#lemma12>
+  );
+  r:rule <#lemma10>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    :s4 :p4 "LV"^^:dt.
+  };
+  r:evidence (
+    <#lemma13>
+  );
+  r:rule <#lemma10>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :s5 :p5 5 .
+  };
+  r:evidence (
+    <#lemma14>
+  );
+  r:rule <#lemma10>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    :s6 :p6 (:a :b :c).
+  };
+  r:evidence (
+    <#lemma15>
+  );
+  r:rule <#lemma10>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    :s7 :p7 _:t_0.
+  };
+  r:evidence (
+    <#lemma16>
+  );
+  r:rule <#lemma10>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    _:t_1 :p8 :o7.
+  };
+  r:evidence (
+    <#lemma17>
+  );
+  r:rule <#lemma10>.
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    :s1 :p1 :o1.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma10> a r:Extraction;
+  r:gives {
+    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+<#lemma11> a r:Extraction;
+  r:gives {
+    :s2 :p2 "We".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma12> a r:Extraction;
+  r:gives {
+    :s3 :p3 "run"@en.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    :s4 :p4 "LV"^^:dt.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma14> a r:Extraction;
+  r:gives {
+    :s5 :p5 5 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma15> a r:Extraction;
+  r:gives {
+    :s6 :p6 (:a :b :c).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma16> a r:Extraction;
+  r:gives {
+    :s7 :p7 _:t_0.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+<#lemma17> a r:Extraction;
+  r:gives {
+    _:t_1 :p8 :o7.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3p/simple.ttl>].
+
+#2019-03-25T14:25:52.585Z in=8 out=8 ent=8 step=8 brake=1 inf=30221 sec=0.029 inf/sec=1042103
+#ENDS
+

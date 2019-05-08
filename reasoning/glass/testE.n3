@@ -1,0 +1,177 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/glass/test.n3 --query http://josd.github.io/eye/reasoning/glass/testQ.n3
+
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/try#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:gives {
+    :test1 :answer :a.
+    :test2 :answer :s.
+    :test3 :answer :s.
+    :test4 :answer :e.
+    :test5 :answer :e.
+    :test6 :answer :e.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :test1 :answer :a.
+  };
+  r:evidence (
+    <#lemma7>
+    [ a r:Fact; r:gives {{:a :b :c} log:equalTo {:a :b :c}}]
+  );
+  r:rule <#lemma8>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :test2 :answer :s.
+  };
+  r:evidence (
+    <#lemma9>
+    [ a r:Fact; r:gives {{:r :s :t} log:equalTo {:r :s :t}}]
+  );
+  r:rule <#lemma10>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    :test3 :answer :s.
+  };
+  r:evidence (
+    <#lemma11>
+    [ a r:Fact; r:gives {{:r :s :t.
+     :d :e :f.
+     :r :s :t} log:equalTo {:d :e :f.
+     :r :s :t}}]
+  );
+  r:rule <#lemma12>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    :test4 :answer :e.
+  };
+  r:evidence (
+    <#lemma11>
+    [ a r:Fact; r:gives {{:r :s :t.
+     :d :e :f.
+     :r :s :t} log:equalTo {:d :e :f.
+     :r :s :t}}]
+  );
+  r:rule <#lemma13>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :test5 :answer :e.
+  };
+  r:evidence (
+    <#lemma11>
+    [ a r:Fact; r:gives {{:r :s :t.
+     :d :e :f.
+     :r :s :t} log:equalTo {:d :e :f.
+     :r :s :t.
+     :d :e :f}}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    :test6 :answer :e.
+  };
+  r:evidence (
+    <#lemma11>
+    [ a r:Fact; r:gives {{:d :e :f.
+     :r :s :t.
+     :d :e :f} log:equalTo {:r :s :t.
+     :d :e :f.
+     :r :s :t}}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    {:a :b :c} :p :o.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {:b log:equalTo :b}]
+  );
+  r:rule <#lemma16>.
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    {?x_0_1 :p :o.
+     ?x_0_1 log:equalTo {?x_1_1 :b :c}} => {:test1 :answer ?x_1_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma9> a r:Extraction;
+  r:gives {
+    {:r :s :t} :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/test.n3>].
+
+<#lemma10> a r:Extraction;
+  r:gives {
+    {?x_0_2 :p :o.
+     ?x_0_2 log:equalTo {:r ?x_1_2 :t}} => {:test2 :answer ?x_1_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma11> a r:Extraction;
+  r:gives {
+    {:r :s :t.
+     :d :e :f.
+     :r :s :t} :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/test.n3>].
+
+<#lemma12> a r:Extraction;
+  r:gives {
+    {?x_0_3 :p :o.
+     ?x_0_3 log:equalTo {:d :e :f.
+      :r ?x_1_3 :t}} => {:test3 :answer ?x_1_3}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    {?x_0_4 :p :o.
+     ?x_0_4 log:equalTo {:d ?x_1_4 :f.
+      :r :s :t}} => {:test4 :answer ?x_1_4}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma14> a r:Extraction;
+  r:gives {
+    {?x_0_5 :p :o.
+     ?x_0_5 log:equalTo {:d :e :f.
+      :r :s :t.
+      :d ?x_1_5 :f}} => {:test5 :answer ?x_1_5}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma15> a r:Extraction;
+  r:gives {
+    {?x_0_6 :p :o.
+     {:d :e :f.
+      :r :s :t.
+      :d ?x_1_6 :f} log:equalTo ?x_0_6} => {:test6 :answer ?x_1_6}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
+
+<#lemma16> a r:Extraction;
+  r:gives {
+    {?x_0_7 log:equalTo :b} => {{:a ?x_0_7 :c} :p :o}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/test.n3>].
+
+#2019-03-25T14:25:42.037Z in=9 out=6 ent=7 step=30 brake=2 inf=51893 sec=0.040 inf/sec=1297325
+#ENDS
+

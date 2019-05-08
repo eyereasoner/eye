@@ -1,0 +1,63 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --turtle http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 --turtle http://josd.github.io/eye/reasoning/h2o/data-001.n3 --n3 http://josd.github.io/eye/reasoning/h2o/rules-001.n3 --query http://josd.github.io/eye/reasoning/h2o/query-001.n3
+
+PREFIX h: <http://josd.github.io/eye/reasoning/h2o#>
+PREFIX t: <http://josd.github.io/eye/reasoning/tfcontext#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    h:traveler1 h:location (51.0535 3.7304).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    h:traveler1 h:location (51.0535 3.7304).
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    h:traveler1 h:location (51.0535 3.7304).
+  };
+  r:evidence (
+    <#lemma4>
+    [ a r:Fact; r:gives {t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)}]
+    <#lemma5>
+  );
+  r:rule <#lemma6>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {h:traveler1 h:location (51.0535 3.7304)} => {h:traveler1 h:location (51.0535 3.7304)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/query-001.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3>].
+
+<#lemma5> a r:Extraction;
+  r:gives {
+    t:Ghent-Belgium t:position-tensor (51.0535 3.7304).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/data-001.n3>].
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    {?x_0_2 h:inOneOf ?x_1_2.
+     ?x_2_2 list:in ?x_1_2.
+     ?x_2_2 t:position-tensor (?x_3_2 ?x_4_2)} => {?x_0_2 h:location (?x_3_2 ?x_4_2)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/rules-001.n3>].
+
+#2019-03-25T14:25:44.880Z in=10 out=1 ent=6 step=12 brake=2 inf=30374 sec=0.040 inf/sec=759350
+#ENDS
+

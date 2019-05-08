@@ -1,0 +1,154 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/hanoi/hanoi.n3 --pass
+
+# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
+# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#center>
+# Move top disk from <http://josd.github.io/eye/reasoning#right> to <http://josd.github.io/eye/reasoning#center>
+# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
+# Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#left>
+# Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#right>
+# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    3 :answer (:left :right :center).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    3 :answer (:left :right :center).
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    3 :answer (:left :right :center).
+  };
+  r:evidence (
+    <#lemma4>
+  );
+  r:rule <#lemma5>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+<#lemma4> a r:Inference;
+  r:gives {
+    3 :move (:left :right :center).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {3 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(3 1) math:difference 2}]
+    <#lemma6>
+    [ a r:Fact; r:gives {1 :move (:left :right _:sk_0)}]
+    <#lemma7>
+  );
+  r:rule <#lemma8>.
+
+<#lemma5> a r:Extraction;
+  r:gives {
+    {3 :move (:left :right :center)} => {3 :answer (:left :right :center)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+
+<#lemma6> a r:Inference;
+  r:gives {
+    2 :move (:left :center :right).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {2 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(2 1) math:difference 1}]
+    <#lemma9>
+    <#lemma10>
+    <#lemma11>
+  );
+  r:rule <#lemma8>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    2 :move (:center :right :left).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {2 math:greaterThan 1}]
+    [ a r:Fact; r:gives {(2 1) math:difference 1}]
+    <#lemma12>
+    <#lemma13>
+    <#lemma9>
+  );
+  r:rule <#lemma8>.
+
+<#lemma8> a r:Extraction;
+  r:gives {
+    {?x_0_3 :move (?x_2_3 ?x_4_3 ?x_3_3)} <= {?x_0_3 math:greaterThan 1 .
+     (?x_0_3 1) math:difference ?x_1_3.
+     ?x_1_3 :move (?x_2_3 ?x_3_3 ?x_4_3).
+     1 :move (?x_2_3 ?x_4_3 ?x_5_3).
+     ?x_1_3 :move (?x_3_3 ?x_4_3 ?x_2_3)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+
+<#lemma9> a r:Inference;
+  r:gives {
+    1 :move (:left :right :center).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:left :right)) e:derive true}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    1 :move (:left :center _:sk_0).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:left :center)) e:derive true}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    1 :move (:right :center :left).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:right :center)) e:derive true}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    1 :move (:center :left :right).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:center :left)) e:derive true}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    1 :move (:center :right _:sk_0).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:center :right)) e:derive true}]
+  );
+  r:rule <#lemma14>.
+
+<#lemma14> a r:Extraction;
+  r:gives {
+    {1 :move (?x_0_4 ?x_1_4 ?x_2_4)} <= {("format" "# Move top disk from ~w to ~w~n" (?x_0_4 ?x_1_4)) e:derive true}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+
+#2019-03-25T14:25:45.069Z in=3 out=1 ent=2 step=2 brake=1 inf=38621 sec=0.037 inf/sec=1043811
+#ENDS
+

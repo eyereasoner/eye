@@ -1,0 +1,204 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --no-genid --n3 http://josd.github.io/eye/reasoning/iq/iq.n3 --pass-all
+
+PREFIX : <http://example.org/test#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:component <#lemma7>;
+  r:component <#lemma8>;
+  r:component <#lemma9>;
+  r:component <#lemma10>;
+  r:gives {
+    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+    :s :p :o.
+    :s :pp {:s :ppp :ooo}.
+    {?U_1 :knows :Albert} => {_:x_0_1 :knows :Kurt}.
+    {:e :p :a} => {:e :q :b}.
+    {{?U_2 :p :a} => {?U_2 :q :b}} => {{?U_2 :r :c} => {?U_2 :s :d}}.
+    {?U_3 :p :o} => {?U_3 :pp {?U_3 :ppp :ooo}}.
+    {?U_4 :p :o} => {{{?U_4 :p2 _:sk_5} => {?U_4 :p3 _:sk_5}} => {{?U_4 :p4 _:sk_5} => {?U_4 :p5 _:sk_5}}}.
+    {:e :r :c} => {:e :s :d}.
+    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+  };
+  r:evidence (
+    <#lemma11>
+    [ a r:Fact; r:gives {:says <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
+  );
+  r:rule <#lemma12>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :s :p :o.
+  };
+  r:evidence (
+    <#lemma13>
+    [ a r:Fact; r:gives {:p <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
+  );
+  r:rule <#lemma12>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    :s :pp {:s :ppp :ooo}.
+  };
+  r:evidence (
+    <#lemma14>
+    [ a r:Fact; r:gives {:pp <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
+  );
+  r:rule <#lemma12>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    {?U_1 :knows :Albert} => {_:x_0_8 :knows :Kurt}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{?U_1 :knows :Albert} => {_:x_0_9 :knows :Kurt}}]
+    [ a r:Fact; r:gives {{_:sk_1 :knows :Albert} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    {:e :p :a} => {:e :q :b}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{:e :p :a} => {:e :q :b}}]
+    [ a r:Fact; r:gives {{:e :p :a} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    {{?U_2 :p :a} => {?U_2 :q :b}} => {{?U_2 :r :c} => {?U_2 :s :d}}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{{?U_2 :p :a} => {?U_2 :q :b}} => {{?U_2 :r :c} => {?U_2 :s :d}}}]
+    [ a r:Fact; r:gives {{{_:sk_2 :p :a} => {_:sk_2 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    {?U_3 :p :o} => {?U_3 :pp {?U_3 :ppp :ooo}}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{?U_3 :p :o} => {?U_3 :pp {?U_3 :ppp :ooo}}}]
+    [ a r:Fact; r:gives {{_:sk_3 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    {?U_4 :p :o} => {{{?U_4 :p2 _:sk_5} => {?U_4 :p3 _:sk_5}} => {{?U_4 :p4 _:sk_5} => {?U_4 :p5 _:sk_5}}}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{?U_4 :p :o} => {{{?U_4 :p2 _:sk_5} => {?U_4 :p3 _:sk_5}} => {{?U_4 :p4 _:sk_5} => {?U_4 :p5 _:sk_5}}}}]
+    [ a r:Fact; r:gives {{_:sk_4 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma9> a r:Inference;
+  r:gives {
+    {:e :r :c} => {:e :s :d}.
+  };
+  r:evidence (
+    <#lemma16>
+    [ a r:Fact; r:gives {{:e :r :c} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
+  };
+  r:evidence (
+    <#lemma17>
+    [ a r:Fact; r:gives {{{:s :p2 _:sk_0} => {:s :p3 _:sk_0}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+  );
+  r:rule <#lemma15>.
+
+<#lemma11> a r:Extraction;
+  r:gives {
+    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+<#lemma12> a r:Extraction;
+  r:gives {
+    {?x_1_22 ?x_0_22 ?x_2_22.
+     ?x_0_22 <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>} => {?x_1_22 ?x_0_22 ?x_2_22}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    :s :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+<#lemma14> a r:Inference;
+  r:gives {
+    :s :pp {:s :ppp :ooo}.
+  };
+  r:evidence (
+    <#lemma13>
+  );
+  r:rule <#lemma18>.
+
+<#lemma15> a r:Extraction;
+  r:gives {
+    {?x_0_23 => ?x_1_23.
+     ?x_0_23 <http://www.w3.org/2000/10/swap/log#notEqualTo> true} => {?x_0_23 => ?x_1_23}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
+
+<#lemma16> a r:Inference;
+  r:gives {
+    {:e :r :c} => {:e :s :d}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {{:e :p :a} => {:e :q :b}}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma17> a r:Inference;
+  r:gives {
+    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
+  };
+  r:evidence (
+    <#lemma13>
+  );
+  r:rule <#lemma20>.
+
+<#lemma18> a r:Extraction;
+  r:gives {
+    {?x_0_27 :p :o} => {?x_0_27 :pp {?x_0_27 :ppp :ooo}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+<#lemma19> a r:Extraction;
+  r:gives {
+    {{?x_0_28 :p :a} => {?x_0_28 :q :b}} => {{?x_0_28 :r :c} => {?x_0_28 :s :d}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+<#lemma20> a r:Extraction;
+  r:gives {
+    {?x_0_29 :p :o} => {{{?x_0_29 :p2 _:x_1_29} => {?x_0_29 :p3 _:x_1_29}} => {{?x_0_29 :p4 _:x_1_29} => {?x_0_29 :p5 _:x_1_29}}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+#2019-03-25T14:25:46.264Z in=7 out=10 ent=13 step=26 brake=2 inf=60361 sec=0.033 inf/sec=1829121
+#ENDS
+

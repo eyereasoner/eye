@@ -1,0 +1,47 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/rgb/redgraph003.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery003.n3
+
+PREFIX : <http://example.org/try#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    {?U_0 :p ?U_1} => {?U_0 :q ?U_1}.
+    {?U_2 :q ?U_3} => {?U_2 :r ?U_3}.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    {?U_0 :p ?U_1} => {?U_0 :q ?U_1}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+  );
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    {?U_2 :q ?U_3} => {?U_2 :r ?U_3}.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+  );
+  r:rule <#lemma4>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    true => {{_:x_0_5 :p _:x_1_5} => {_:x_0_5 :q _:x_1_5}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    true => {{_:x_0_6 :q _:x_1_6} => {_:x_0_6 :r _:x_1_6}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
+
+#2019-03-25T14:26:02.428Z in=5 out=2 ent=2 step=2 brake=1 inf=21433 sec=0.033 inf/sec=649485
+#ENDS
+

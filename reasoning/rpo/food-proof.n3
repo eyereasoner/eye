@@ -1,0 +1,434 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/rpo/food-example.n3 --n3 http://josd.github.io/eye/reasoning/rpo/food.n3 --n3 http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 --query http://josd.github.io/eye/reasoning/rpo/food-query.n3
+
+PREFIX food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:component <#lemma7>;
+  r:component <#lemma8>;
+  r:component <#lemma9>;
+  r:component <#lemma10>;
+  r:component <#lemma11>;
+  r:component <#lemma12>;
+  r:component <#lemma13>;
+  r:component <#lemma14>;
+  r:component <#lemma15>;
+  r:component <#lemma16>;
+  r:gives {
+    _:e_g_1 a food:Grape.
+    _:e_cnd_1 a food:CheeseNutsDessert.
+    _:e_pwlcs_1 a food:PastaWithLightCreamSauce.
+    _:e_ct_1 a food:ConsumableThing.
+    _:e_m_1 a food:Meal.
+    _:e_g_1 a food:SweetFruit.
+    _:e_pwlcs_1 a food:PastaWithWhiteSauce.
+    _:e_m_1 a food:ConsumableThing.
+    _:e_g_1 a food:EdibleThing.
+    _:e_cnd_1 a food:Dessert.
+    _:e_g_1 a food:ConsumableThing.
+    _:e_pwlcs_1 a food:Pasta.
+    _:e_cnd_1 a food:EdibleThing.
+    _:e_pwlcs_1 a food:ConsumableThing.
+    _:e_pwlcs_1 a food:EdibleThing.
+    _:e_cnd_1 a food:ConsumableThing.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:Grape.
+  };
+  r:evidence (
+    <#lemma17>
+  );
+  r:rule <#lemma18>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:CheeseNutsDessert.
+  };
+  r:evidence (
+    <#lemma19>
+  );
+  r:rule <#lemma18>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:PastaWithLightCreamSauce.
+  };
+  r:evidence (
+    <#lemma20>
+  );
+  r:rule <#lemma18>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    _:e_ct_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma21>
+  );
+  r:rule <#lemma18>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    _:e_m_1 a food:Meal.
+  };
+  r:evidence (
+    <#lemma22>
+  );
+  r:rule <#lemma18>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:SweetFruit.
+  };
+  r:evidence (
+    <#lemma23>
+  );
+  r:rule <#lemma18>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:PastaWithWhiteSauce.
+  };
+  r:evidence (
+    <#lemma24>
+  );
+  r:rule <#lemma18>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    _:e_m_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma25>
+  );
+  r:rule <#lemma18>.
+
+<#lemma9> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma26>
+  );
+  r:rule <#lemma18>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:Dessert.
+  };
+  r:evidence (
+    <#lemma27>
+  );
+  r:rule <#lemma18>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma28>
+  );
+  r:rule <#lemma18>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:Pasta.
+  };
+  r:evidence (
+    <#lemma29>
+  );
+  r:rule <#lemma18>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma30>
+  );
+  r:rule <#lemma18>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma31>
+  );
+  r:rule <#lemma18>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma32>
+  );
+  r:rule <#lemma18>.
+
+<#lemma16> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma33>
+  );
+  r:rule <#lemma18>.
+
+<#lemma17> a r:Extraction;
+  r:gives {
+    _:e_g_1 a food:Grape.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
+
+<#lemma18> a r:Extraction;
+  r:gives {
+    {?x_0_1 a ?x_1_1} => {?x_0_1 a ?x_1_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-query.n3>].
+
+<#lemma19> a r:Extraction;
+  r:gives {
+    _:e_cnd_1 a food:CheeseNutsDessert.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
+
+<#lemma20> a r:Extraction;
+  r:gives {
+    _:e_pwlcs_1 a food:PastaWithLightCreamSauce.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
+
+<#lemma21> a r:Extraction;
+  r:gives {
+    _:e_ct_1 a food:ConsumableThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
+
+<#lemma22> a r:Extraction;
+  r:gives {
+    _:e_m_1 a food:Meal.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
+
+<#lemma23> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:SweetFruit.
+  };
+  r:evidence (
+    <#lemma34>
+    <#lemma17>
+  );
+  r:rule <#lemma35>.
+
+<#lemma24> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:PastaWithWhiteSauce.
+  };
+  r:evidence (
+    <#lemma36>
+    <#lemma20>
+  );
+  r:rule <#lemma35>.
+
+<#lemma25> a r:Inference;
+  r:gives {
+    _:e_m_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma37>
+    <#lemma22>
+  );
+  r:rule <#lemma35>.
+
+<#lemma26> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma38>
+    <#lemma23>
+  );
+  r:rule <#lemma35>.
+
+<#lemma27> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:Dessert.
+  };
+  r:evidence (
+    <#lemma39>
+    <#lemma19>
+  );
+  r:rule <#lemma35>.
+
+<#lemma28> a r:Inference;
+  r:gives {
+    _:e_g_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma40>
+    <#lemma26>
+  );
+  r:rule <#lemma35>.
+
+<#lemma29> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:Pasta.
+  };
+  r:evidence (
+    <#lemma41>
+    <#lemma24>
+  );
+  r:rule <#lemma35>.
+
+<#lemma30> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma42>
+    <#lemma27>
+  );
+  r:rule <#lemma35>.
+
+<#lemma31> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma43>
+    <#lemma29>
+  );
+  r:rule <#lemma35>.
+
+<#lemma32> a r:Inference;
+  r:gives {
+    _:e_pwlcs_1 a food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma44>
+    <#lemma24>
+  );
+  r:rule <#lemma35>.
+
+<#lemma33> a r:Inference;
+  r:gives {
+    _:e_cnd_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma45>
+    <#lemma27>
+  );
+  r:rule <#lemma35>.
+
+<#lemma34> a r:Extraction;
+  r:gives {
+    food:Grape rdfs:subClassOf food:SweetFruit.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma35> a r:Extraction;
+  r:gives {
+    {?x_0_2 rdfs:subClassOf ?x_1_2.
+     ?x_2_2 a ?x_0_2} => {?x_2_2 a ?x_1_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3>].
+
+<#lemma36> a r:Extraction;
+  r:gives {
+    food:PastaWithLightCreamSauce rdfs:subClassOf food:PastaWithWhiteSauce.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma37> a r:Extraction;
+  r:gives {
+    food:Meal rdfs:subClassOf food:ConsumableThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma38> a r:Extraction;
+  r:gives {
+    food:SweetFruit rdfs:subClassOf food:EdibleThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma39> a r:Extraction;
+  r:gives {
+    food:CheeseNutsDessert rdfs:subClassOf food:Dessert.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma40> a r:Extraction;
+  r:gives {
+    food:EdibleThing rdfs:subClassOf food:ConsumableThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma41> a r:Extraction;
+  r:gives {
+    food:PastaWithWhiteSauce rdfs:subClassOf food:Pasta.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma42> a r:Extraction;
+  r:gives {
+    food:Dessert rdfs:subClassOf food:EdibleThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma43> a r:Inference;
+  r:gives {
+    food:Pasta rdfs:subClassOf food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma46>
+    <#lemma40>
+  );
+  r:rule <#lemma47>.
+
+<#lemma44> a r:Inference;
+  r:gives {
+    food:PastaWithWhiteSauce rdfs:subClassOf food:EdibleThing.
+  };
+  r:evidence (
+    <#lemma41>
+    <#lemma46>
+  );
+  r:rule <#lemma47>.
+
+<#lemma45> a r:Inference;
+  r:gives {
+    food:Dessert rdfs:subClassOf food:ConsumableThing.
+  };
+  r:evidence (
+    <#lemma42>
+    <#lemma40>
+  );
+  r:rule <#lemma47>.
+
+<#lemma46> a r:Extraction;
+  r:gives {
+    food:Pasta rdfs:subClassOf food:EdibleThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food.n3>].
+
+<#lemma47> a r:Extraction;
+  r:gives {
+    {?x_0_3 rdfs:subClassOf ?x_1_3.
+     ?x_1_3 rdfs:subClassOf ?x_2_3} => {?x_0_3 rdfs:subClassOf ?x_2_3}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3>].
+
+#2019-03-25T14:26:03.989Z in=45 out=16 ent=91 step=338 brake=3 inf=91080 sec=0.049 inf/sec=1858776
+#ENDS
+

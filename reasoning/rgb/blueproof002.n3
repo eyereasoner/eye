@@ -1,0 +1,53 @@
+#Processed by EYE v19.0221.2026 josd
+#eye --n3 http://josd.github.io/eye/reasoning/rgb/redgraph002.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery002.n3
+
+PREFIX : <http://example.org/try#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    {:s :p _:sk_0} :u {:s :q _:sk_0}.
+    {:s :q _:sk_1} :u {:s :r _:sk_1}.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    {:s :p _:sk_0} :u {:s :q _:sk_0}.
+  };
+  r:evidence (
+    <#lemma3>
+  );
+  r:rule <#lemma4>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    {:s :q _:sk_1} :u {:s :r _:sk_1}.
+  };
+  r:evidence (
+    <#lemma3>
+  );
+  r:rule <#lemma5>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    :s :p :o.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/redgraph002.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    {?x_0_1 :p :o} => {{?x_0_1 :p _:x_1_1} :u {?x_0_1 :q _:x_1_1}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery002.n3>].
+
+<#lemma5> a r:Extraction;
+  r:gives {
+    {?x_0_2 :p :o} => {{?x_0_2 :q _:x_1_2} :u {?x_0_2 :r _:x_1_2}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery002.n3>].
+
+#2019-03-25T14:26:02.041Z in=5 out=2 ent=2 step=2 brake=1 inf=22804 sec=0.036 inf/sec=633444
+#ENDS
+
