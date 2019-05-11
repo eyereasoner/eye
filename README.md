@@ -40,6 +40,3 @@ EYE tutorial
 
 EYE talk
 * [EYE looking through N3 glasses](http://josd.github.io/Talks/2012/04swig/index.html)
-
-FOL background
-* [First-Order Logic - Syntax, Semantics, Resolution](http://www.cs.yale.edu/homes/piskac/teaching/decpro-729/fol.pdf)
