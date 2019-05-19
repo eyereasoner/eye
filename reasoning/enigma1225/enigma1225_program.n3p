@@ -1,5 +1,7 @@
 % New Scientist puzzle Enigma 1225
 
+:- use_module(library(apply)).
+
 var_matrix(Size, M) :-
 	repeat(Size, Size, RowLengths),
 	maplist(var_list, RowLengths, M).
