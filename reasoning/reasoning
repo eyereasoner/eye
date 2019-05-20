@@ -17,6 +17,7 @@ function reasoning {
    pushd dt; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
    pushd easter; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
    pushd einstein; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
+   pushd enigma1225; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
    pushd equation4; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
    pushd fcm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
    pushd fgcm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
