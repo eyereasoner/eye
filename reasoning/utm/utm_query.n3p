@@ -1,10 +1,12 @@
 :-
-    compute([1, 0, 1, 0, 0, 1], Out1),
-    write_term(compute([1, 0, 1, 0, 0, 1], Out1), [fullstop(true), nl(true)]),
-    compute([1, 0, 1, 1, 1, 1], Out2),
-    write_term(compute([1, 0, 1, 1, 1, 1], Out2), [fullstop(true), nl(true)]),
-    compute([1, 1, 1, 1, 1, 1], Out3),
-    write_term(compute([1, 1, 1, 1, 1, 1], Out3), [fullstop(true), nl(true)]),
-    compute([], Out4),
-    write_term(compute([], Out4), [fullstop(true), nl(true)]),
-    halt.
+    compute([1, 0, 1, 0, 0, 1], Out),
+    write_term(compute([1, 0, 1, 0, 0, 1], Out), [fullstop(true), nl(true)]).
+:-
+    compute([1, 0, 1, 1, 1, 1], Out),
+    write_term(compute([1, 0, 1, 1, 1, 1], Out), [fullstop(true), nl(true)]).
+:-
+    compute([1, 1, 1, 1, 1, 1], Out),
+    write_term(compute([1, 1, 1, 1, 1, 1], Out), [fullstop(true), nl(true)]).
+:-
+    compute([], Out),
+    write_term(compute([], Out), [fullstop(true), nl(true)]).
