@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0509.1258 josd').
+version_info('EYE v19.0521.1527 josd').
 
 license_info('MIT License
 
@@ -1087,7 +1087,10 @@ args(['--plugin', Argument|Args]) :-
     nb_getval(input_statements, IN),
     Inp is SC+IN,
     nb_setval(input_statements, Inp),
-    format(user_error, 'SC=~w~n', [SC]),
+    (   SC =\= 0
+    ->  format(user_error, 'SC=~w~n', [SC])
+    ;   format(user_error, '~n', [])
+    ),
     flush_output(user_error),
     args(Args).
 args(['--proof', Arg|Args]) :-
