@@ -5,15 +5,15 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://josd.github.io/eye/reasoning#>
 
 {1 :move (?X ?Y ?Z)} <=
-{	("format" "# Move top disk from ~w to ~w~n" (?X ?Y)) e:derive true.
+{   ("format" "# Move top disk from ~w to ~w~n" (?X ?Y)) e:derive true.
 }.
 
 {?N :move (?X ?Y ?Z)} <=
-{	?N math:greaterThan 1.
-	(?N 1) math:difference ?M.
-	?M :move (?X ?Z ?Y).
-	1 :move (?X ?Y ?U).
-	?M :move (?Z ?Y ?X).
+{   ?N math:greaterThan 1.
+    (?N 1) math:difference ?M.
+    ?M :move (?X ?Z ?Y).
+    1 :move (?X ?Y ?U).
+    ?M :move (?Z ?Y ?X).
 }.
 
 {3 :move (:left :right :center)} => {3 :answer (:left :right :center)}.

@@ -39,18 +39,18 @@ month upon which Easter Sunday falls in the year y.
 2029 a :Year.
 2030 a :Year.
 
-{	?Y a :Year.
-	(?Y 19) math:remainder ?J.
-	(?Y 100) math:integerQuotient ?K; math:remainder ?H.
-	(?K 4) math:integerQuotient ?M; math:remainder ?N.
-	((?K 8)!math:sum 25) math:integerQuotient ?P.
-	(((?K ?P)!math:difference 1)!math:sum 3) math:integerQuotient ?Q.
-	((((((19 ?J)!math:product ?K)!math:sum ?M)!math:difference ?Q)!math:difference 15)!math:sum 30) math:remainder ?R.
-	(?H 4) math:integerQuotient ?S; math:remainder ?U.
-	((32 (2 ?N)!math:product (2 ?S)!math:product ?R!math:negation ?U!math:negation)!math:sum 7) math:remainder ?V.
-	((?J (11 ?R)!math:product (22 ?V)!math:product)!math:sum 451) math:integerQuotient ?W.
-	((?R ?V (7 ?W)!math:product!math:negation 114)!math:sum 31) math:integerQuotient ?X; math:remainder ?Z.
-	(?Z 1) math:sum ?DAY.
+{   ?Y a :Year.
+    (?Y 19) math:remainder ?J.
+    (?Y 100) math:integerQuotient ?K; math:remainder ?H.
+    (?K 4) math:integerQuotient ?M; math:remainder ?N.
+    ((?K 8)!math:sum 25) math:integerQuotient ?P.
+    (((?K ?P)!math:difference 1)!math:sum 3) math:integerQuotient ?Q.
+    ((((((19 ?J)!math:product ?K)!math:sum ?M)!math:difference ?Q)!math:difference 15)!math:sum 30) math:remainder ?R.
+    (?H 4) math:integerQuotient ?S; math:remainder ?U.
+    ((32 (2 ?N)!math:product (2 ?S)!math:product ?R!math:negation ?U!math:negation)!math:sum 7) math:remainder ?V.
+    ((?J (11 ?R)!math:product (22 ?V)!math:product)!math:sum 451) math:integerQuotient ?W.
+    ((?R ?V (7 ?W)!math:product!math:negation 114)!math:sum 31) math:integerQuotient ?X; math:remainder ?Z.
+    (?Z 1) math:sum ?DAY.
 } => {
-	(?DAY ?X) :easterFor ?Y.
+    (?DAY ?X) :easterFor ?Y.
 }.

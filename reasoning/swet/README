@@ -29,10 +29,10 @@ SWAP wet experiment
 [] e:answer {:obs :like :obs005}.
 
 ### swetQ01.n3
-{	?S e:answer {:obs :like ?OBS}.
-	?OBS :ascribed :WetGrass.
+{   ?S e:answer {:obs :like ?OBS}.
+    ?OBS :ascribed :WetGrass.
 } =>
-{	?S e:answer {?OBS :ascribed :WetGrass}.
+{   ?S e:answer {?OBS :ascribed :WetGrass}.
 }.
 
 ### swetA01.n3
@@ -44,10 +44,10 @@ _:e5 e:answer {:obs005 :ascribed :WetGrass}.
 _:e6 e:answer {:obs006 :ascribed :WetGrass}.
 
 ### swetQ21.n3
-{	?S e:answer {:obs :like ?OBS}.
-	?OBS :ascribed :Sprinkler, :WetGrass.
+{   ?S e:answer {:obs :like ?OBS}.
+    ?OBS :ascribed :Sprinkler, :WetGrass.
 } =>
-{	?S e:answer {?OBS :ascribed :Sprinkler, :WetGrass}.
+{   ?S e:answer {?OBS :ascribed :Sprinkler, :WetGrass}.
 }.
 
 ### swetA21.n3
@@ -57,13 +57,13 @@ _:e12 e:answer {:obs012 :ascribed :Sprinkler. :obs012 :ascribed :WetGrass}.
 _:e14 e:answer {:obs014 :ascribed :Sprinkler. :obs014 :ascribed :WetGrass}.
 
 ### swetQ.n3
-{	<swetA21.n3> log:semantics ?A.
-	?A math:memberCount ?D.
-	<swetA01.n3> log:semantics ?E.
-	?E math:memberCount ?H.
-	(?D ?H) math:quotient ?I.
+{   <swetA21.n3> log:semantics ?A.
+    ?A math:memberCount ?D.
+    <swetA01.n3> log:semantics ?E.
+    ?E math:memberCount ?H.
+    (?D ?H) math:quotient ?I.
 } =>
-{	{{:obs :ascribed :Sprinkler} :given {:obs :ascribed :WetGrass}} e:possibility ?I.
+{   {{:obs :ascribed :Sprinkler} :given {:obs :ascribed :WetGrass}} e:possibility ?I.
 }.
 
 ### swet_result.n3

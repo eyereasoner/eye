@@ -5,16 +5,16 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 
 {(?U ?N) :randomsample ?A} <=
 {
-	?U log:semantics ?G.
-	?G e:graphList ?L.
-	?L math:memberCount ?C.
-	?S e:findall (
-		?T
-		{	("between" 1 ?N ?I) e:derive true.
-			(?C) e:random ?J.
-			("nth0" ?J ?L ?T) e:derive true.
-		}
-		?B
-	).
-	?B log:conjunction ?A.
+    ?U log:semantics ?G.
+    ?G e:graphList ?L.
+    ?L math:memberCount ?C.
+    ?S e:findall (
+        ?T
+        {   ("between" 1 ?N ?I) e:derive true.
+            (?C) e:random ?J.
+            ("nth0" ?J ?L ?T) e:derive true.
+        }
+        ?B
+    ).
+    ?B log:conjunction ?A.
 }.

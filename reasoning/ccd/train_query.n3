@@ -4,11 +4,11 @@ PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
 PREFIX : <http://josd.github.io/eye/reasoning#>
 
 {
-	(?IN ?IV) ccd:model (?ON ?C ?N).
+    (?IN ?IV) ccd:model (?ON ?C ?N).
 } <= {
-	(?IN ?IV) ccd:output ?ON.
-	?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 1} ?CL).
-	?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 0} ?NL).
-	?CL math:sum ?C.
-	?NL math:sum ?N.
+    (?IN ?IV) ccd:output ?ON.
+    ?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 1} ?CL).
+    ?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 0} ?NL).
+    ?CL math:sum ?C.
+    ?NL math:sum ?N.
 }.

@@ -11,61 +11,61 @@ PREFIX organism: <http://eulersharp.sourceforge.net/2003/03swap/organism#>
 PREFIX schema: <http://schema.org/>
 
 <http://eulersharp.sourceforge.net/2003/03swap/age_rules_backward>
-	dce:title """Age rules backward"""@en;
-	dce:creator """Hans Cools"""@en;
-	dce:publisher """Agfa Healthcare/Belgium"""@en;
-	dce:description """Rules to calculate an age of a person at a reference time."""@en;
-	skos:note """Rules are triggered in another rule and executed backwardly."""@en.
+    dce:title """Age rules backward"""@en;
+    dce:creator """Hans Cools"""@en;
+    dce:publisher """Agfa Healthcare/Belgium"""@en;
+    dce:description """Rules to calculate an age of a person at a reference time."""@en;
+    skos:note """Rules are triggered in another rule and executed backwardly."""@en.
 
 
 ## STARTING FROM BIRTH DATE TIME AND AGE EXPRESSED IN YEARS:
-	
-{	(?person ?dateTime) time:calculatingAge ?ageInYears}
+    
+{   (?person ?dateTime) time:calculatingAge ?ageInYears}
 <=
-{	?person organism:hasBirthDateTime ?birthDateTime.
-	(?dateTime ?birthDateTime) math:difference ?seconds.
-	?seconds math:greaterThan 0.
-	(?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
-#	?monthsNumeral math:notLessThan 1.
-	(?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
-	(?yearMonthDuration) func:years-from-duration ?ageInYears}.
+{   ?person organism:hasBirthDateTime ?birthDateTime.
+    (?dateTime ?birthDateTime) math:difference ?seconds.
+    ?seconds math:greaterThan 0.
+    (?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
+#    ?monthsNumeral math:notLessThan 1.
+    (?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
+    (?yearMonthDuration) func:years-from-duration ?ageInYears}.
 
 
 ## STARTING FROM BIRTH DATE AND AGE EXPRESSED IN YEARS:
-	
-{	(?person ?dateTime) time:calculatingAge ?ageInYears}
+    
+{   (?person ?dateTime) time:calculatingAge ?ageInYears}
 <=
-{	?person organism:hasBirthDate ?birthDate.
-	(?dateTime ?birthDate) math:difference ?seconds.
-	?seconds math:greaterThan 0.
-	(?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
-#	?monthsNumeral math:notLessThan 1.
-	(?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
-	(?yearMonthDuration) func:years-from-duration ?ageInYears}.
+{   ?person organism:hasBirthDate ?birthDate.
+    (?dateTime ?birthDate) math:difference ?seconds.
+    ?seconds math:greaterThan 0.
+    (?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
+#    ?monthsNumeral math:notLessThan 1.
+    (?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
+    (?yearMonthDuration) func:years-from-duration ?ageInYears}.
 
 
 
 ## STARTING FROM BIRTH DATE AND AGE EXPRESSED IN YEARS:
-	
-{	(?person ?dateTime) time:calculatingAge ?ageInYears}
+    
+{   (?person ?dateTime) time:calculatingAge ?ageInYears}
 <=
-{	?person schema:birthDate ?birthDate.
-	(?dateTime ?birthDate) math:difference ?seconds.
-	?seconds math:greaterThan 0.
-	(?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
-#	?monthsNumeral math:notLessThan 1.
-	(?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
-	(?yearMonthDuration) func:years-from-duration ?ageInYears}.
+{   ?person schema:birthDate ?birthDate.
+    (?dateTime ?birthDate) math:difference ?seconds.
+    ?seconds math:greaterThan 0.
+    (?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
+#    ?monthsNumeral math:notLessThan 1.
+    (?lexical xsd:yearMonthDuration) log:dtlit ?monthsNumeral, ?yearMonthDuration.
+    (?yearMonthDuration) func:years-from-duration ?ageInYears}.
 
-	
+    
 
 ## AGE EXPRESSED IN DAYS:
 
-#{	(?person ?dateTime) event:calculatingDayAge ?ageInDays}
+#{   (?person ?dateTime) event:calculatingDayAge ?ageInDays}
 #<=
-#{	?person organism:hasBirthDateTime ?birthDateTime.
-#	(?dateTime ?birthDateTime) math:difference ?seconds.
-#	?seconds math:greaterThan 0.
-#	(?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
-#	?monthsNumeral math:lessThan 1.
-#	(?seconds "P1D"^^xsd:duration) math:integerQuotient ?ageInDays}.
+#{   ?person organism:hasBirthDateTime ?birthDateTime.
+#    (?dateTime ?birthDateTime) math:difference ?seconds.
+#    ?seconds math:greaterThan 0.
+#    (?seconds "P1M"^^xsd:duration) math:integerQuotient ?monthsNumeral.
+#    ?monthsNumeral math:lessThan 1.
+#    (?seconds "P1D"^^xsd:duration) math:integerQuotient ?ageInDays}.

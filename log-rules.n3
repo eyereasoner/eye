@@ -13,427 +13,427 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 
 ### classes
 e:Builtin a rdfs:Class;
-	rdfs:comment "class of EYE built-ins".
+    rdfs:comment "class of EYE built-ins".
 
 e:ComplexNumber a rdfs:Class;
-	rdfs:comment "class of complex numbers";
-	rdfs:subClassOf e:Tuple;
-	e:tupleTypes (e:Number e:Number).
+    rdfs:comment "class of complex numbers";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Number e:Number).
 
 e:Component a rdfs:Class;
-	rdfs:comment "class of EYE components".
+    rdfs:comment "class of EYE components".
 
 e:Context a rdfs:Class;
-	rdfs:comment "class of contexts";
-	rdfs:subClassOf rdf:List;
-	e:listType rdfs:Resource.
+    rdfs:comment "class of contexts";
+    rdfs:subClassOf rdf:List;
+    e:listType rdfs:Resource.
 
 e:Fact a rdfs:Class;
-	rdfs:comment "class of facts".
+    rdfs:comment "class of facts".
 
 e:Lemma a rdfs:Class;
-	rdfs:comment "class of lemmas".
+    rdfs:comment "class of lemmas".
 
 e:Number a rdfs:Class;
-	rdfs:comment "class of numbers";
-	rdfs:subClassOf rdfs:Literal.
+    rdfs:comment "class of numbers";
+    rdfs:subClassOf rdfs:Literal.
 
 e:Numbers a rdfs:Class;
-	rdfs:comment "class of lists of numbers";
-	rdfs:subClassOf rdf:List;
-	e:listType e:Number.
+    rdfs:comment "class of lists of numbers";
+    rdfs:subClassOf rdf:List;
+    e:listType e:Number.
 
 e:PairOfNumbers a rdfs:Class;
-	rdfs:comment "class of pairs of numbers";
-	rdfs:subClassOf e:Tuple;
-	e:tupleTypes (e:Numbers e:Numbers).
+    rdfs:comment "class of pairs of numbers";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Numbers e:Numbers).
 
 e:Polynomial a rdfs:Class;
-	rdfs:comment "class of polynomials";
-	rdfs:subClassOf rdf:List;
-	e:listType e:ComplexNumber.
+    rdfs:comment "class of polynomials";
+    rdfs:subClassOf rdf:List;
+    e:listType e:ComplexNumber.
 
 e:Roots a rdfs:Class;
-	rdfs:comment "class of roots of polynomials";
-	rdfs:subClassOf rdf:List;
-	e:listType e:ComplexNumber.
+    rdfs:comment "class of roots of polynomials";
+    rdfs:subClassOf rdf:List;
+    e:listType e:ComplexNumber.
 
 e:Scope a rdfs:Class;
-	rdfs:comment "class of (context span) pairs where a context is a list of consulted URI's and a span is the deductive closure number";
-	rdfs:subClassOf e:Tuple;
-	e:tupleTypes (e:Context e:Number).
+    rdfs:comment "class of (context span) pairs where a context is a list of consulted URI's and a span is the deductive closure number";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Context e:Number).
 
 e:Tuple a rdfs:Class;
-	rdfs:comment "class of n-tuples";
-	rdfs:subClassOf rdf:List.
+    rdfs:comment "class of n-tuples";
+    rdfs:subClassOf rdf:List.
 
 e:TupleTypes a rdfs:Class;
-	rdfs:comment "class of lists of types";
-	rdfs:subClassOf rdf:List;
-	e:listType rdfs:Class.
+    rdfs:comment "class of lists of types";
+    rdfs:subClassOf rdf:List;
+    e:listType rdfs:Class.
 
 
 ### constants
 e:epsilon a e:Number;
-	rdfs:comment "the difference between the float 1.0 and the first larger floating point number".
+    rdfs:comment "the difference between the float 1.0 and the first larger floating point number".
 
 e:F a rdfs:Resource;
-	rdfs:comment "identifier for boolean false".
+    rdfs:comment "identifier for boolean false".
 
 e:T a rdfs:Resource;
-	rdfs:comment "identifier for boolean true".
+    rdfs:comment "identifier for boolean true".
 
 
 ### properties
 e:avg a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate the average e.g. (55 66 72 87 56 77 73 69 74 56) e:avg 68.5";
-	rdfs:domain e:Numbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate the average e.g. (55 66 72 87 56 77 73 69 74 56) e:avg 68.5";
+    rdfs:domain e:Numbers;
+    rdfs:range e:Number.
 
 e:becomes a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to perform RDF linear implication i.e. retracting the subject graph and asserting the object graph";
-	rdfs:domain log:Formula;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to perform RDF linear implication i.e. retracting the subject graph and asserting the object graph";
+    rdfs:domain log:Formula;
+    rdfs:range log:Formula.
 
 e:biconditional a rdf:Property, e:Builtin;
-	rdfs:comment "built-in and object is conditional belief of first element of subject list given rest of subject list";
-	rdfs:domain rdf:List;
-	rdfs:range e:Number.
+    rdfs:comment "built-in and object is conditional belief of first element of subject list given rest of subject list";
+    rdfs:domain rdf:List;
+    rdfs:range e:Number.
 
 e:binaryEntropy a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate binary entropy e.g. 0.25 e:binaryEntropy 0.8112781244591328";
-	rdfs:domain e:Number;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate binary entropy e.g. 0.25 e:binaryEntropy 0.8112781244591328";
+    rdfs:domain e:Number;
+    rdfs:range e:Number.
 
 e:boolean a rdf:Property;
-	rdfs:comment "to model a logical proposition";
-	rdfs:domain rdfs:Resource;
-	rdfs:range [ owl:oneOf (e:F e:T)].
+    rdfs:comment "to model a logical proposition";
+    rdfs:domain rdfs:Resource;
+    rdfs:range [ owl:oneOf (e:F e:T)].
 
 e:calculate a rdf:Property, e:Builtin;
-	rdfs:comment """built-in to evaluate arithmetic expressions e.g.
-				("1+1") e:calculate 2 .
-				?X log:equalTo 3. ("sqrt(_width^2+_length^2)" ?X 4) e:calculate 5.0 .
-				("_period-250" "PT5M2S"^^xsd:dayTimeDuration) e:calculate 52.0 .
-			the first element of the subject list is the arithmetic expression in which variable names start with an underscore and the rest of the subject list are the variable values
-			the supported arithmetic functions are described in http://www.swi-prolog.org/pldoc/man?section=functions""";
-	rdfs:domain rdf:List;
-	rdfs:range e:Number.
+    rdfs:comment """built-in to evaluate arithmetic expressions e.g.
+                ("1+1") e:calculate 2 .
+                ?X log:equalTo 3. ("sqrt(_width^2+_length^2)" ?X 4) e:calculate 5.0 .
+                ("_period-250" "PT5M2S"^^xsd:dayTimeDuration) e:calculate 52.0 .
+            the first element of the subject list is the arithmetic expression in which variable names start with an underscore and the rest of the subject list are the variable values
+            the supported arithmetic functions are described in http://www.swi-prolog.org/pldoc/man?section=functions""";
+    rdfs:domain rdf:List;
+    rdfs:range e:Number.
 
 e:call a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call succeeds";
-	rdfs:domain e:Scope;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call succeeds";
+    rdfs:domain e:Scope;
+    rdfs:range log:Formula.
 
 e:cartesianProduct a rdf:Property, e:Builtin;
-	rdfs:comment "built-in (L1 L2 ... Ln) e:cartesianProduct L, where L is the n-ary cartesian product of the sets L1, L2, ...., Ln";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in (L1 L2 ... Ln) e:cartesianProduct L, where L is the n-ary cartesian product of the sets L1, L2, ...., Ln";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:clashesWith a rdf:Property;
-	rdfs:comment "to say that the graph is XSD-inconsistent or has a datatype clash";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Datatype.
+    rdfs:comment "to say that the graph is XSD-inconsistent or has a datatype clash";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Datatype.
 
 e:columns a rdf:Property;
-	rdfs:comment "to list the webized relational database collumns";
-	rdfs:domain rdfs:Class;
-	rdfs:range rdf:List.
+    rdfs:comment "to list the webized relational database collumns";
+    rdfs:domain rdfs:Class;
+    rdfs:range rdf:List.
 
 e:compoundTerm a rdf:Property, e:Builtin;
-	rdfs:comment """built-in to create a compound term e.g. ("date(_Y, _M, _D, 0, 0, 0.0, 0, 'UTC', -)" ?Y ?M ?D) e:compoundTerm ?T.
-			the first element of the subject list is the template expression in which variable names start with an underscore and the rest of the subject list are the variable values""";
-	rdfs:domain rdf:List;
-	rdfs:range rdfs:Resource.
+    rdfs:comment """built-in to create a compound term e.g. ("date(_Y, _M, _D, 0, 0, 0.0, 0, 'UTC', -)" ?Y ?M ?D) e:compoundTerm ?T.
+            the first element of the subject list is the template expression in which variable names start with an underscore and the rest of the subject list are the variable values""";
+    rdfs:domain rdf:List;
+    rdfs:range rdfs:Resource.
 
 e:conditional a rdf:Property;
-	rdfs:comment "object is conditional belief of first element of subject list given rest of subject list";
-	rdfs:domain rdf:List;
-	rdfs:range e:Number.
+    rdfs:comment "object is conditional belief of first element of subject list given rest of subject list";
+    rdfs:domain rdf:List;
+    rdfs:range e:Number.
 
 e:cov a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate the sample covariance e.g. ((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.80 1.66)) e:cov 0.992777777777778";
-	rdfs:domain e:PairOfNumbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate the sample covariance e.g. ((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.80 1.66)) e:cov 0.992777777777778";
+    rdfs:domain e:PairOfNumbers;
+    rdfs:range e:Number.
 
 e:csvTuple a rdf:Property, e:Builtin;
-	rdfs:comment "to generate CSV output with --strings; columns ending with ID are outputted as Modified Base64 for XML identifiers encoded SHA-1 hash";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdf:List.
+    rdfs:comment "to generate CSV output with --strings; columns ending with ID are outputted as Modified Base64 for XML identifiers encoded SHA-1 hash";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdf:List.
 
 e:derive a rdf:Property, e:Builtin;
-	rdfs:comment """built-in to interpret prolog predicates e.g.
-				("atom_codes" "HOME" (72 79 77 69)) e:derive true.
-				("=.." ?U ("date" 1970 1 1 0 0 0.0 0 "UTC" "-")) e:derive true.
-				("date_time_stamp" ?U 0^math:equalTo) e:derive true.
-			the supported prolog predicates are described in http://www.swi-prolog.org/pldoc/man?section=builtin""";
-	rdfs:domain rdf:List;
-	rdfs:range xsd:boolean.
+    rdfs:comment """built-in to interpret prolog predicates e.g.
+                ("atom_codes" "HOME" (72 79 77 69)) e:derive true.
+                ("=.." ?U ("date" 1970 1 1 0 0 0.0 0 "UTC" "-")) e:derive true.
+                ("date_time_stamp" ?U 0^math:equalTo) e:derive true.
+            the supported prolog predicates are described in http://www.swi-prolog.org/pldoc/man?section=builtin""";
+    rdfs:domain rdf:List;
+    rdfs:range xsd:boolean.
 
 e:fail a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call fails";
-	rdfs:domain e:Scope;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call fails";
+    rdfs:domain e:Scope;
+    rdfs:range log:Formula.
 
 e:finalize a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to call object formula exactly once after subject formula is finished: either on failure, deterministic success, commit, or an exception";
-	rdfs:domain log:Formula;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to call object formula exactly once after subject formula is finished: either on failure, deterministic success, commit, or an exception";
+    rdfs:domain log:Formula;
+    rdfs:range log:Formula.
 
 e:findall a rdf:Property, e:Builtin;
-	rdfs:comment """built-in used as ?SCOPE e:findall (?SELECT ?WHERE ?ANSWER).
-			within the subject ?SCOPE it unifies ?ANSWER with a list that contains all the instantiations of ?SELECT satisfying the ?WHERE clause""";
-	rdfs:domain e:Scope;
-	rdfs:range rdf:List.
+    rdfs:comment """built-in used as ?SCOPE e:findall (?SELECT ?WHERE ?ANSWER).
+            within the subject ?SCOPE it unifies ?ANSWER with a list that contains all the instantiations of ?SELECT satisfying the ?WHERE clause""";
+    rdfs:domain e:Scope;
+    rdfs:range rdf:List.
 
 e:firstRest a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to convert a list into its first rest tuple";
-	rdfs:domain rdf:List;
-	rdfs:range e:Tuple.
+    rdfs:comment "built-in to convert a list into its first rest tuple";
+    rdfs:domain rdf:List;
+    rdfs:range e:Tuple.
 
 e:format a rdf:Property, e:Builtin;
-	rdfs:comment """built-in with the subject a list, whose first member is a format string, and whose remaining members are
-			arguments to the format string. The format string is the one used in prolog's format predicate.
-			The object is calculated from the subject""";
-	rdfs:domain rdf:List;
-	rdfs:range rdfs:Literal.
+    rdfs:comment """built-in with the subject a list, whose first member is a format string, and whose remaining members are
+            arguments to the format string. The format string is the one used in prolog's format predicate.
+            The object is calculated from the subject""";
+    rdfs:domain rdf:List;
+    rdfs:range rdfs:Literal.
 
 e:graphCopy a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to make a bounded copy of the subject graph e.g. {:a :b :c. :d :e :f} e:graphCopy ?GRAPH";
-	rdfs:domain log:Formula;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to make a bounded copy of the subject graph e.g. {:a :b :c. :d :e :f} e:graphCopy ?GRAPH";
+    rdfs:domain log:Formula;
+    rdfs:range log:Formula.
 
 e:graphDifference a rdf:Property, e:Builtin;
-	rdfs:comment "built-in used for graph difference e.g. ({:a :b :c. :d :e :f} {:d :e :f}) e:graphDifference {:a :b :c}";
-	rdfs:domain rdf:List;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in used for graph difference e.g. ({:a :b :c. :d :e :f} {:d :e :f}) e:graphDifference {:a :b :c}";
+    rdfs:domain rdf:List;
+    rdfs:range log:Formula.
 
 e:graphIntersection a rdf:Property, e:Builtin;
-	rdfs:comment "built-in used for graph intersection e.g. ({:a :b :c. :d :e :f} {:d :e :f}) e:graphIntersection {:d :e :f}";
-	rdfs:domain rdf:List;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in used for graph intersection e.g. ({:a :b :c. :d :e :f} {:d :e :f}) e:graphIntersection {:d :e :f}";
+    rdfs:domain rdf:List;
+    rdfs:range log:Formula.
 
 e:graphList a rdf:Property, e:Builtin;
-	rdfs:comment "built-in used for graph/list transformation e.g. {:a :b :c. :d :e :f. :g :h :i} e:graphList ({:a :b :c} {:d :e :f} {:g :h :i})";
-	rdfs:domain log:Formula;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in used for graph/list transformation e.g. {:a :b :c. :d :e :f. :g :h :i} e:graphList ({:a :b :c} {:d :e :f} {:g :h :i})";
+    rdfs:domain log:Formula;
+    rdfs:range rdf:List.
 
 e:graphMember a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to get the triples from the subject graph e.g. {:a :b :c. :d :e :f} e:graphMember {:a :b :c}, {:d :e :f}";
-	rdfs:domain log:Formula;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to get the triples from the subject graph e.g. {:a :b :c. :d :e :f} e:graphMember {:a :b :c}, {:d :e :f}";
+    rdfs:domain log:Formula;
+    rdfs:range log:Formula.
 
 e:graphPair a rdf:Property, e:Builtin;
-	rdfs:comment "built-in used for graph/pair transformation e.g. {:a :b :c. :d :e :f. :g :h :i} e:graphPair ({:a :b :c} {:d :e :f. :g :h :i})";
-	rdfs:domain log:Formula;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in used for graph/pair transformation e.g. {:a :b :c. :d :e :f. :g :h :i} e:graphPair ({:a :b :c} {:d :e :f. :g :h :i})";
+    rdfs:domain log:Formula;
+    rdfs:range rdf:List.
 
 e:hmac-sha a rdf:Property, e:Builtin;
-	rdfs:comment "built-in function where the object is a Modified Base64 for XML identifiers encoded HMAC SHA-1 hash of the subject";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in function where the object is a Modified Base64 for XML identifiers encoded HMAC SHA-1 hash of the subject";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Literal.
 
 e:ignore a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to call the object formula within the subject scope and to succeed anyway but only once";
-	rdfs:domain e:Scope;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to call the object formula within the subject scope and to succeed anyway but only once";
+    rdfs:domain e:Scope;
+    rdfs:range log:Formula.
 
 e:label a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to test wether the subject is a blank node or a Skolem IRI and return the relabeled blank node label or the Skolem IRI fragment as object (this is a level breaker)";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in to test wether the subject is a blank node or a Skolem IRI and return the relabeled blank node label or the Skolem IRI fragment as object (this is a level breaker)";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Literal.
 
 e:labelvars a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to make a bounded copy of the subject";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "built-in to make a bounded copy of the subject";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Resource.
 
 e:length a rdf:Property, e:Builtin;
-	rdfs:comment "built-in that calculates the length of the subject list";
-	rdfs:domain rdf:List;
-	rdfs:range xsd:integer.
+    rdfs:comment "built-in that calculates the length of the subject list";
+    rdfs:domain rdf:List;
+    rdfs:range xsd:integer.
 
 e:listType a rdf:Property;
-	rdfs:comment "to declare that all the elements of a list have a common type";
-	rdfs:domain rdfs:Class;
-	rdfs:range rdfs:Class.
+    rdfs:comment "to declare that all the elements of a list have a common type";
+    rdfs:domain rdfs:Class;
+    rdfs:range rdfs:Class.
 
 e:match a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to succeed when the object formula succeeds and to forget the bindings";
-	rdfs:domain rdf:Resource;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to succeed when the object formula succeeds and to forget the bindings";
+    rdfs:domain rdf:Resource;
+    rdfs:range log:Formula.
 
 e:max a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to get the maximum value e.g. (8 5 6 7 9 4) e:max 9";
-	rdfs:domain e:Numbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to get the maximum value e.g. (8 5 6 7 9 4) e:max 9";
+    rdfs:domain e:Numbers;
+    rdfs:range e:Number.
 
 e:min a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to get the minimum value e.g. (8 5 6 7 9 4) e:min 4";
-	rdfs:domain e:Numbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to get the minimum value e.g. (8 5 6 7 9 4) e:min 4";
+    rdfs:domain e:Numbers;
+    rdfs:range e:Number.
 
 e:multisetEqualTo a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to succeed when the subject multiset is equal to the object multiset e.g. (1 3 6 6 7 2 3) e:multisetEqualTo (3 3 7 6 6 2 1)";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to succeed when the subject multiset is equal to the object multiset e.g. (1 3 6 6 7 2 3) e:multisetEqualTo (3 3 7 6 6 2 1)";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:multisetNotEqualTo a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to succeed when the subject multiset is not equal to the object multiset e.g. (1 3 6 6 7 2 3) e:multisetEqualTo (3 3 7 6 2 1)";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to succeed when the subject multiset is not equal to the object multiset e.g. (1 3 6 6 7 2 3) e:multisetEqualTo (3 3 7 6 2 1)";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:notLabel a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to test wether the subject is not a blank node with label in object (this is a level breaker)";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in to test wether the subject is not a blank node with label in object (this is a level breaker)";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Literal.
 
 e:numeral a rdf:Property, e:Builtin;
-	rdfs:comment """built-in to convert literals to numbers e.g. "2012"^^xsd:long e:numeral 2012""";
-	rdfs:domain rdfs:Literal;
-	rdfs:range e:Number.
+    rdfs:comment """built-in to convert literals to numbers e.g. "2012"^^xsd:long e:numeral 2012""";
+    rdfs:domain rdfs:Literal;
+    rdfs:range e:Number.
 
 e:optional a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to call the object formula within the subject scope and to succeed anyway";
-	rdfs:domain e:Scope;
-	rdfs:range log:Formula.
+    rdfs:comment "built-in to call the object formula within the subject scope and to succeed anyway";
+    rdfs:domain e:Scope;
+    rdfs:range log:Formula.
 
 e:pcc a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate the Pearson correlation coefficient e.g. ((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.80 1.66)) e:pcc 0.9569729506311461";
-	rdfs:domain e:PairOfNumbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate the Pearson correlation coefficient e.g. ((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.80 1.66)) e:pcc 0.9569729506311461";
+    rdfs:domain e:PairOfNumbers;
+    rdfs:range e:Number.
 
 e:prefix a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to produce an object literal containing all prefixes";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in to produce an object literal containing all prefixes";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Literal.
 
 e:propertyChainExtension a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to support owl:propertyChainAxiom inferencing i.e. {?sc owl:propertyChainAxiom ?x; rdfs:subPropertyOf ?p. ?x e:propertyChainExtension (?s ?o)} => {?s ?p ?o}";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to support owl:propertyChainAxiom inferencing i.e. {?sc owl:propertyChainAxiom ?x; rdfs:subPropertyOf ?p. ?x e:propertyChainExtension (?s ?o)} => {?s ?p ?o}";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:random a rdf:Property, e:Builtin;
-	rdfs:comment "object is a random integer i such that 0 =< i < first element of subject list; when the rest of subject list rest is not empty i is reproducible in function of the subject list";
-	rdfs:domain rdf:List;
-	rdfs:range xsd:integer.
+    rdfs:comment "object is a random integer i such that 0 =< i < first element of subject list; when the rest of subject list rest is not empty i is reproducible in function of the subject list";
+    rdfs:domain rdf:List;
+    rdfs:range xsd:integer.
 
 e:relabel a rdf:Property, e:Builtin;
-	rdfs:comment "relabel subject with object in the output of the reasoning run";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "relabel subject with object in the output of the reasoning run";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Resource.
 
 e:rms a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate the root mean square e.g. (55 66 72 87 56 77 73 69 74 56) e:rms 69.2105483289939";
-	rdfs:domain e:Numbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate the root mean square e.g. (55 66 72 87 56 77 73 69 74 56) e:rms 69.2105483289939";
+    rdfs:domain e:Numbers;
+    rdfs:range e:Number.
 
 e:roc a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to simulate ROC curve e.g. strength e:roc (sensitivity aspecificity)";
-	rdfs:domain e:Number;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to simulate ROC curve e.g. strength e:roc (sensitivity aspecificity)";
+    rdfs:domain e:Number;
+    rdfs:range rdf:List.
 
 e:roots a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to solve polynomial equations of degree 4";
-	rdfs:domain e:Polynomial;
-	rdfs:range e:Roots.
+    rdfs:comment "built-in to solve polynomial equations of degree 4";
+    rdfs:domain e:Polynomial;
+    rdfs:range e:Roots.
 
 e:sha a rdf:Property, e:Builtin;
-	rdfs:comment "built-in function where the object is a Modified Base64 for XML identifiers encoded SHA-1 hash of the subject";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in function where the object is a Modified Base64 for XML identifiers encoded SHA-1 hash of the subject";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Literal.
 
 e:sigmoid a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate a sigmoid e.g. -6 e:sigmoid 0.0024726231566347743";
-	rdfs:domain rdf:List;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate a sigmoid e.g. -6 e:sigmoid 0.0024726231566347743";
+    rdfs:domain rdf:List;
+    rdfs:range e:Number.
 
 e:skolem a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to generate a Skolem IRI object which is a function of the arguments in the subject list";
-	rdfs:domain rdf:List;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "built-in to generate a Skolem IRI object which is a function of the arguments in the subject list";
+    rdfs:domain rdf:List;
+    rdfs:range rdfs:Resource.
 
 e:sort a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to sort the subject list";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to sort the subject list";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:std a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to calculate the sample standard deviation e.g. (55 66 72 87 56 77 73 69 74 56) e:std 10.426994879744703";
-	rdfs:domain e:Numbers;
-	rdfs:range e:Number.
+    rdfs:comment "built-in to calculate the sample standard deviation e.g. (55 66 72 87 56 77 73 69 74 56) e:std 10.426994879744703";
+    rdfs:domain e:Numbers;
+    rdfs:range e:Number.
 
 e:stringEscape a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to escape the subject string";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in to escape the subject string";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Literal.
 
 e:stringReverse a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to reverse the subject string";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in to reverse the subject string";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Literal.
 
 e:stringSplit a rdf:Property, e:Builtin;
-	rdfs:comment """built-in to split a string into a list of strings according to a string containing separator characters e.g. ("a-b/c-d/e" "-/") e:stringSplit ("a" "b" "c" "d" "e")""";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment """built-in to split a string into a list of strings according to a string containing separator characters e.g. ("a-b/c-d/e" "-/") e:stringSplit ("a" "b" "c" "d" "e")""";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:subsequence a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to succeed if all elements of object list appear in subject list in the same order";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to succeed if all elements of object list appear in subject list in the same order";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:trace a rdf:Property, e:Builtin;
-	rdfs:comment "built-in that outputs the object";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "built-in that outputs the object";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Resource.
 
 e:transaction a rdf:Property, e:Builtin;
-	rdfs:comment "used to rewrite P => C. as P => {P e:transaction C}. {P e:transaction C} => C";
-	rdfs:domain log:Formula;
-	rdfs:range log:Formula.
+    rdfs:comment "used to rewrite P => C. as P => {P e:transaction C}. {P e:transaction C} => C";
+    rdfs:domain log:Formula;
+    rdfs:range log:Formula.
 
 e:transpose a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to transpose the subject matrix e.g. ((0 1) (2 3) (4 5)) e:transpose ((0 2 4) (1 3 5))";
-	rdfs:domain rdf:List;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to transpose the subject matrix e.g. ((0 1) (2 3) (4 5)) e:transpose ((0 2 4) (1 3 5))";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:tripleList a rdf:Property, e:Builtin;
-	rdfs:comment "built-in used for triple/list transformation e.g. {:a :b :c} e:tripleList (:a :b :c)";
-	rdfs:domain log:Formula;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in used for triple/list transformation e.g. {:a :b :c} e:tripleList (:a :b :c)";
+    rdfs:domain log:Formula;
+    rdfs:range rdf:List.
 
 e:tuple a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to bind the subject to a unique blank node which is a function of the object tuple";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdf:List.
+    rdfs:comment "built-in to bind the subject to a unique blank node which is a function of the object tuple";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdf:List.
 
 e:tupleTypes a rdf:Property;
-	rdfs:comment "to declare the types of all the elements of a tuple";
-	rdfs:domain rdfs:Class;
-	rdfs:range e:TupleTypes.
+    rdfs:comment "to declare the types of all the elements of a tuple";
+    rdfs:domain rdfs:Class;
+    rdfs:range e:TupleTypes.
 
 e:unique a rdf:Property, e:Builtin;
-	rdfs:comment "built-in to succeed when the subject object pair is unique";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "built-in to succeed when the subject object pair is unique";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Resource.
 
 e:valuation a rdf:Property;
-	rdfs:comment "to express (lower upper) valuation of a formula e.g. {:PatientWithNoFlu rdfs:subClassOf :PatientWithFever} e:valuation (0.032 0.048)";
-	rdfs:domain log:Formula;
-	rdfs:range rdf:List.
+    rdfs:comment "to express (lower upper) valuation of a formula e.g. {:PatientWithNoFlu rdfs:subClassOf :PatientWithFever} e:valuation (0.032 0.048)";
+    rdfs:domain log:Formula;
+    rdfs:range rdf:List.
 
 e:weight a rdf:Property;
-	rdfs:comment "used to express the weight in MLN (Markov Logic Network) inspired descriptions";
-	rdfs:domain rdf:List;
-	rdfs:range e:Number.
+    rdfs:comment "used to express the weight in MLN (Markov Logic Network) inspired descriptions";
+    rdfs:domain rdf:List;
+    rdfs:range e:Number.
 
 e:whenGround a rdf:Property, e:Builtin;
-	rdfs:comment "when the subject is RDF ground the object is called, otherwise this built-in succeeds e.g.?value e:whenGround {?value math:greaterThan 40}";
-	rdfs:domain rdfs:Resource;
-	rdfs:range rdfs:Resource.
+    rdfs:comment "when the subject is RDF ground the object is called, otherwise this built-in succeeds e.g.?value e:whenGround {?value math:greaterThan 40}";
+    rdfs:domain rdfs:Resource;
+    rdfs:range rdfs:Resource.
 
 e:wwwFormEncode a rdf:Property, e:Builtin;
-	rdfs:comment "built-in bidirectional www form encoder";
-	rdfs:domain rdfs:Literal;
-	rdfs:range rdfs:Literal.
+    rdfs:comment "built-in bidirectional www form encoder";
+    rdfs:domain rdfs:Literal;
+    rdfs:range rdfs:Literal.
