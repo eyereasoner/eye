@@ -1,0 +1,40 @@
+% Fast Fourier Transform
+% Code from the book "Clause and Effect" Chapter 10
+
+alternate([], [], []).
+alternate([A, B|T], [A|T1], [B|T2]) :-
+    alternate(T, T1, T2).
+
+eval(p([I], _), a(I), _).
+eval(p(L, V^P), A1+V^P*A2, N) :-
+    alternate(L, L1, L2),
+    P1 is (P*2) mod N,
+    eval(p(L1, V^P1), A1, N),
+    eval(p(L2, V^P1), A2, N).
+
+% gen(InTree, ListOutFront-ListOutBack, NodeIndex)
+gen(X+Y, L0-L3, A) :-
+    !,
+    gen(X, L0-L1, A1),
+    gen(Y, L1-L2, A2),
+    node(n(A, op(+, A1, A2)), L2-L3).
+gen(X*Y, L0-L3, A) :-
+    !,
+    gen(X, L0-L1, A1),
+    gen(Y, L1-L2, A2),
+    node(n(A, op(*, A1, A2)), L2-L3).
+gen((X;Y), L0-L2, _) :-
+    !,
+    gen(X, L0-L1, _),
+    gen(Y, L1-L2, _).
+gen(X, L0-L1, A) :-
+    node(n(A, X), L0-L1).
+
+% node(TryNode, OutDiffList)
+node(n(1, N), []-[n(1, N)]) :-
+    !.
+node(N, L-L) :-
+    memberchk(N, L),
+    !.
+node(n(A1, N1), [n(A, N)|T]-[n(A1, N1), n(A, N)|T]) :-
+    A1 is A+1.
