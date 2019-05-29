@@ -1,65 +1,71 @@
 #!/bin/bash
-function reasoning {
-   echo "# $(date)" > reasoning.diff
-   pushd 3outof5; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd bi; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd bmi; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd bmt; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd ccd; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd crypto; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd cs; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd csv; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd de; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd djiti; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd dp; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd dpe; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd dqc; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd dt; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd easter; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd einstein; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd equation4; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd fcm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd fgcm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd fib; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd gedcom; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd glass; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd gps; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd graph; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd h2o; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd hanoi; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd image; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd iq; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd lldm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd map; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd medic; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd mmln; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd mq; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd n3p; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd nbbn; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd numeral; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd pi; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd pptbank; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd preduction; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd restpath; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd resto; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd rgb; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd rif; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd rpo; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd rs; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd skos; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd socrates; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd streason; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd swet; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd tak; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd tfcontext; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd turing; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd usm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd utf8; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd utm; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   pushd witch; ./test "$@"; git diff -U0 . | grep -E -v '^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS' >> ../reasoning.diff; popd
-   eye --n3 reasoning.diff --pass > /dev/null
-}
+# -------------------
+# EYE Reasoning tests
+# -------------------
 
 pushd ~/github.com/josd/eye/reasoning
-reasoning "$@" 2>&1 | tee reasoning.txt
+echo "" > reasoning.txt
+echo "# $(date)" > reasoning.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS"
+
+pushd 3outof5; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd bi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd bmi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd bmt; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd ccd; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd crypto; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd cs; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd csv; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd de; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd djiti; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd dp; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd dpe; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd dqc; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd dt; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd easter; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd einstein; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd enigma1225; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd equation4; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd fcm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd fft; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd fgcm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd fib; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd gedcom; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd glass; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd gps; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd graph; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd h2o; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd hanoi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd image; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd iq; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd lldm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd map; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd medic; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd mmln; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd mq; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd n3p; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd nbbn; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd numeral; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd pi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd pptbank; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd preduction; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd restpath; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd resto; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd rgb; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd rif; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd rpo; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd rs; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd skos; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd socrates; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd streason; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd swet; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd tak; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd tfcontext; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd turing; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd usm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd utf8; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd utm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd witch; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+
+eye --n3 reasoning.diff --pass > /dev/null
 popd
