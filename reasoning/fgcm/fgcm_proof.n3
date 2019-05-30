@@ -1,5 +1,5 @@
 #Processed by EYE v19.0221.2026 josd
-#eye --n3 http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3 --n3 http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 --n3 http://josd.github.io/eye/reasoning/fgcm/patient.n3 --n3 http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3 --query http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3
+#eye --n3 https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3 --n3 https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3 --n3 https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3 --n3 https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3 --query https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-query.n3
 
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
@@ -231,7 +231,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {(?x_0_1 ?x_1_1 false) fl:gpi ?x_2_1} => {(?x_0_1 ?x_1_1 false) fl:gpi ?x_2_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-query.n3>].
 
 <#lemma21> a r:Inference;
   r:gives {
@@ -388,14 +388,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma38> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleUrinaryTractInfection 0.15609492798580316 0.24989839953254675 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.15609492798580316 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.15609492798580316 log:equalTo _:sk_0.
       0.24989839953254675 log:equalTo _:sk_1} {0.15609492798580316 log:equalTo 0.15609492798580316 .
       0.24989839953254675 log:equalTo 0.24989839953254675}) e:derive true}.
   };
@@ -407,7 +407,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:SimpleUrinaryTractInfection 0.15609492798580316 0.24989839953254675 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.15609492798580316 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.15609492798580316 log:equalTo ?V0.
      0.24989839953254675 log:equalTo ?V1} {0.15609492798580316 log:equalTo 0.15609492798580316 .
      0.24989839953254675 log:equalTo 0.24989839953254675}) e:derive true}]
   );
@@ -418,16 +418,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:SimpleUrinaryTractInfection 0.15609492798580316 0.24989839953254675 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:x_0_2 _:x_1_2)}} {0.15609492798580316 log:equalTo _:x_0_2.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:x_0_2 _:x_1_2)}} {0.15609492798580316 log:equalTo _:x_0_2.
      0.24989839953254675 log:equalTo _:x_1_2} {0.15609492798580316 log:equalTo 0.15609492798580316 .
-     0.24989839953254675 log:equalTo 0.24989839953254675}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.24989839953254675 log:equalTo 0.24989839953254675}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleUrinaryTractInfection 0.15609492798580316 0.24989839953254675 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:x_0_2 _:x_1_2)}} {0.15609492798580316 log:equalTo _:x_0_2.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleUrinaryTractInfection) fl:gpi (_:x_0_2 _:x_1_2)}} {0.15609492798580316 log:equalTo _:x_0_2.
       0.24989839953254675 log:equalTo _:x_1_2} {0.15609492798580316 log:equalTo 0.15609492798580316 .
       0.24989839953254675 log:equalTo 0.24989839953254675}) e:derive true}}}].
 
@@ -444,18 +444,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
        ?x_10_3 log:equalTo ?x_8_3} {?x_9_3 log:equalTo ?x_5_3.
        ?x_10_3 log:equalTo ?x_6_3}) e:derive true}}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3>].
 
 <#lemma40> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleAcuteCystitis 0.5 0.6818062399896525 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:sk_0 _:sk_1)}} {0.5 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:sk_0 _:sk_1)}} {0.5 log:equalTo _:sk_0.
       0.6818062399896525 log:equalTo _:sk_1} {0.5 log:equalTo 0.5 .
       0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}.
   };
@@ -467,7 +467,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:SimpleAcuteCystitis 0.5 0.6818062399896525 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (?V0 ?V1)}} {0.5 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (?V0 ?V1)}} {0.5 log:equalTo ?V0.
      0.6818062399896525 log:equalTo ?V1} {0.5 log:equalTo 0.5 .
      0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}]
   );
@@ -478,29 +478,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:SimpleAcuteCystitis 0.5 0.6818062399896525 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:x_0_4 _:x_1_4)}} {0.5 log:equalTo _:x_0_4.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:x_0_4 _:x_1_4)}} {0.5 log:equalTo _:x_0_4.
      0.6818062399896525 log:equalTo _:x_1_4} {0.5 log:equalTo 0.5 .
-     0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleAcuteCystitis 0.5 0.6818062399896525 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:x_0_4 _:x_1_4)}} {0.5 log:equalTo _:x_0_4.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcuteCystitis) fl:gpi (_:x_0_4 _:x_1_4)}} {0.5 log:equalTo _:x_0_4.
       0.6818062399896525 log:equalTo _:x_1_4} {0.5 log:equalTo 0.5 .
       0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}}}].
 
 <#lemma41> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedUrinaryTractInfection 0.9962884114614465 0.9975150883686373 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.9962884114614465 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.9962884114614465 log:equalTo _:sk_0.
       0.9975150883686373 log:equalTo _:sk_1} {0.9962884114614465 log:equalTo 0.9962884114614465 .
       0.9975150883686373 log:equalTo 0.9975150883686373}) e:derive true}.
   };
@@ -512,7 +512,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:ComplicatedUrinaryTractInfection 0.9962884114614465 0.9975150883686373 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.9962884114614465 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.9962884114614465 log:equalTo ?V0.
      0.9975150883686373 log:equalTo ?V1} {0.9962884114614465 log:equalTo 0.9962884114614465 .
      0.9975150883686373 log:equalTo 0.9975150883686373}) e:derive true}]
   );
@@ -523,29 +523,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:ComplicatedUrinaryTractInfection 0.9962884114614465 0.9975150883686373 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:x_0_5 _:x_1_5)}} {0.9962884114614465 log:equalTo _:x_0_5.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:x_0_5 _:x_1_5)}} {0.9962884114614465 log:equalTo _:x_0_5.
      0.9975150883686373 log:equalTo _:x_1_5} {0.9962884114614465 log:equalTo 0.9962884114614465 .
-     0.9975150883686373 log:equalTo 0.9975150883686373}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.9975150883686373 log:equalTo 0.9975150883686373}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedUrinaryTractInfection 0.9962884114614465 0.9975150883686373 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:x_0_5 _:x_1_5)}} {0.9962884114614465 log:equalTo _:x_0_5.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedUrinaryTractInfection) fl:gpi (_:x_0_5 _:x_1_5)}} {0.9962884114614465 log:equalTo _:x_0_5.
       0.9975150883686373 log:equalTo _:x_1_5} {0.9962884114614465 log:equalTo 0.9962884114614465 .
       0.9975150883686373 log:equalTo 0.9975150883686373}) e:derive true}}}].
 
 <#lemma42> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleAcutePyelonephritis 0.9352648821737795 0.9575078825964835 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.9352648821737795 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.9352648821737795 log:equalTo _:sk_0.
       0.9575078825964835 log:equalTo _:sk_1} {0.9352648821737795 log:equalTo 0.9352648821737795 .
       0.9575078825964835 log:equalTo 0.9575078825964835}) e:derive true}.
   };
@@ -557,7 +557,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:SimpleAcutePyelonephritis 0.9352648821737795 0.9575078825964835 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (?V0 ?V1)}} {0.9352648821737795 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (?V0 ?V1)}} {0.9352648821737795 log:equalTo ?V0.
      0.9575078825964835 log:equalTo ?V1} {0.9352648821737795 log:equalTo 0.9352648821737795 .
      0.9575078825964835 log:equalTo 0.9575078825964835}) e:derive true}]
   );
@@ -568,29 +568,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:SimpleAcutePyelonephritis 0.9352648821737795 0.9575078825964835 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:x_0_6 _:x_1_6)}} {0.9352648821737795 log:equalTo _:x_0_6.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:x_0_6 _:x_1_6)}} {0.9352648821737795 log:equalTo _:x_0_6.
      0.9575078825964835 log:equalTo _:x_1_6} {0.9352648821737795 log:equalTo 0.9352648821737795 .
-     0.9575078825964835 log:equalTo 0.9575078825964835}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.9575078825964835 log:equalTo 0.9575078825964835}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:SimpleAcutePyelonephritis 0.9352648821737795 0.9575078825964835 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:x_0_6 _:x_1_6)}} {0.9352648821737795 log:equalTo _:x_0_6.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:SimpleAcutePyelonephritis) fl:gpi (_:x_0_6 _:x_1_6)}} {0.9352648821737795 log:equalTo _:x_0_6.
       0.9575078825964835 log:equalTo _:x_1_6} {0.9352648821737795 log:equalTo 0.9352648821737795 .
       0.9575078825964835 log:equalTo 0.9575078825964835}) e:derive true}}}].
 
 <#lemma43> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedAcutePyelonephritis 0.3181937600103475 0.5 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.3181937600103475 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.3181937600103475 log:equalTo _:sk_0.
       0.5 log:equalTo _:sk_1} {0.3181937600103475 log:equalTo 0.3181937600103475 .
       0.5 log:equalTo 0.5}) e:derive true}.
   };
@@ -602,7 +602,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:ComplicatedAcutePyelonephritis 0.3181937600103475 0.5 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (?V0 ?V1)}} {0.3181937600103475 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (?V0 ?V1)}} {0.3181937600103475 log:equalTo ?V0.
      0.5 log:equalTo ?V1} {0.3181937600103475 log:equalTo 0.3181937600103475 .
      0.5 log:equalTo 0.5}) e:derive true}]
   );
@@ -613,29 +613,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:ComplicatedAcutePyelonephritis 0.3181937600103475 0.5 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:x_0_7 _:x_1_7)}} {0.3181937600103475 log:equalTo _:x_0_7.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:x_0_7 _:x_1_7)}} {0.3181937600103475 log:equalTo _:x_0_7.
      0.5 log:equalTo _:x_1_7} {0.3181937600103475 log:equalTo 0.3181937600103475 .
-     0.5 log:equalTo 0.5}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.5 log:equalTo 0.5}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedAcutePyelonephritis 0.3181937600103475 0.5 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:x_0_7 _:x_1_7)}} {0.3181937600103475 log:equalTo _:x_0_7.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePyelonephritis) fl:gpi (_:x_0_7 _:x_1_7)}} {0.3181937600103475 log:equalTo _:x_0_7.
       0.5 log:equalTo _:x_1_7} {0.3181937600103475 log:equalTo 0.3181937600103475 .
       0.5 log:equalTo 0.5}) e:derive true}}}].
 
 <#lemma44> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:PregnancyUrinaryTractInfection 0.6968116667552052 0.7501016004674532 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.6968116667552052 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:sk_0 _:sk_1)}} {0.6968116667552052 log:equalTo _:sk_0.
       0.7501016004674532 log:equalTo _:sk_1} {0.6968116667552052 log:equalTo 0.6968116667552052 .
       0.7501016004674532 log:equalTo 0.7501016004674532}) e:derive true}.
   };
@@ -647,7 +647,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:PregnancyUrinaryTractInfection 0.6968116667552052 0.7501016004674532 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.6968116667552052 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (?V0 ?V1)}} {0.6968116667552052 log:equalTo ?V0.
      0.7501016004674532 log:equalTo ?V1} {0.6968116667552052 log:equalTo 0.6968116667552052 .
      0.7501016004674532 log:equalTo 0.7501016004674532}) e:derive true}]
   );
@@ -658,29 +658,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:PregnancyUrinaryTractInfection 0.6968116667552052 0.7501016004674532 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:x_0_8 _:x_1_8)}} {0.6968116667552052 log:equalTo _:x_0_8.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:x_0_8 _:x_1_8)}} {0.6968116667552052 log:equalTo _:x_0_8.
      0.7501016004674532 log:equalTo _:x_1_8} {0.6968116667552052 log:equalTo 0.6968116667552052 .
-     0.7501016004674532 log:equalTo 0.7501016004674532}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.7501016004674532 log:equalTo 0.7501016004674532}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:PregnancyUrinaryTractInfection 0.6968116667552052 0.7501016004674532 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:x_0_8 _:x_1_8)}} {0.6968116667552052 log:equalTo _:x_0_8.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyUrinaryTractInfection) fl:gpi (_:x_0_8 _:x_1_8)}} {0.6968116667552052 log:equalTo _:x_0_8.
       0.7501016004674532 log:equalTo _:x_1_8} {0.6968116667552052 log:equalTo 0.6968116667552052 .
       0.7501016004674532 log:equalTo 0.7501016004674532}) e:derive true}}}].
 
 <#lemma45> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ObstructiveUropathy 0.3181937600103475 0.3181937600103475 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:sk_0 _:sk_1)}} {0.3181937600103475 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:sk_0 _:sk_1)}} {0.3181937600103475 log:equalTo _:sk_0.
       0.3181937600103475 log:equalTo _:sk_1} {0.3181937600103475 log:equalTo 0.3181937600103475 .
       0.3181937600103475 log:equalTo 0.3181937600103475}) e:derive true}.
   };
@@ -692,7 +692,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:ObstructiveUropathy 0.3181937600103475 0.3181937600103475 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (?V0 ?V1)}} {0.3181937600103475 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (?V0 ?V1)}} {0.3181937600103475 log:equalTo ?V0.
      0.3181937600103475 log:equalTo ?V1} {0.3181937600103475 log:equalTo 0.3181937600103475 .
      0.3181937600103475 log:equalTo 0.3181937600103475}) e:derive true}]
   );
@@ -703,29 +703,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:ObstructiveUropathy 0.3181937600103475 0.3181937600103475 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:x_0_9 _:x_1_9)}} {0.3181937600103475 log:equalTo _:x_0_9.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:x_0_9 _:x_1_9)}} {0.3181937600103475 log:equalTo _:x_0_9.
      0.3181937600103475 log:equalTo _:x_1_9} {0.3181937600103475 log:equalTo 0.3181937600103475 .
-     0.3181937600103475 log:equalTo 0.3181937600103475}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.3181937600103475 log:equalTo 0.3181937600103475}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ObstructiveUropathy 0.3181937600103475 0.3181937600103475 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:x_0_9 _:x_1_9)}} {0.3181937600103475 log:equalTo _:x_0_9.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ObstructiveUropathy) fl:gpi (_:x_0_9 _:x_1_9)}} {0.3181937600103475 log:equalTo _:x_0_9.
       0.3181937600103475 log:equalTo _:x_1_9} {0.3181937600103475 log:equalTo 0.3181937600103475 .
       0.3181937600103475 log:equalTo 0.3181937600103475}) e:derive true}}}].
 
 <#lemma46> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:PregnancyObstructiveUropathy 0.6497482370328734 0.6818062399896525 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:sk_0 _:sk_1)}} {0.6497482370328734 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:sk_0 _:sk_1)}} {0.6497482370328734 log:equalTo _:sk_0.
       0.6818062399896525 log:equalTo _:sk_1} {0.6497482370328734 log:equalTo 0.6497482370328734 .
       0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}.
   };
@@ -737,7 +737,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:PregnancyObstructiveUropathy 0.6497482370328734 0.6818062399896525 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (?V0 ?V1)}} {0.6497482370328734 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (?V0 ?V1)}} {0.6497482370328734 log:equalTo ?V0.
      0.6818062399896525 log:equalTo ?V1} {0.6497482370328734 log:equalTo 0.6497482370328734 .
      0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}]
   );
@@ -748,29 +748,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:PregnancyObstructiveUropathy 0.6497482370328734 0.6818062399896525 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:x_0_10 _:x_1_10)}} {0.6497482370328734 log:equalTo _:x_0_10.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:x_0_10 _:x_1_10)}} {0.6497482370328734 log:equalTo _:x_0_10.
      0.6818062399896525 log:equalTo _:x_1_10} {0.6497482370328734 log:equalTo 0.6497482370328734 .
-     0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:PregnancyObstructiveUropathy 0.6497482370328734 0.6818062399896525 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:x_0_10 _:x_1_10)}} {0.6497482370328734 log:equalTo _:x_0_10.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:PregnancyObstructiveUropathy) fl:gpi (_:x_0_10 _:x_1_10)}} {0.6497482370328734 log:equalTo _:x_0_10.
       0.6818062399896525 log:equalTo _:x_1_10} {0.6497482370328734 log:equalTo 0.6497482370328734 .
       0.6818062399896525 log:equalTo 0.6818062399896525}) e:derive true}}}].
 
 <#lemma47> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedAcutePregnancyPyelonephritis 0.5968726072149699 0.7501016004674533 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.5968726072149699 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:sk_0 _:sk_1)}} {0.5968726072149699 log:equalTo _:sk_0.
       0.7501016004674533 log:equalTo _:sk_1} {0.5968726072149699 log:equalTo 0.5968726072149699 .
       0.7501016004674533 log:equalTo 0.7501016004674533}) e:derive true}.
   };
@@ -782,7 +782,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:ComplicatedAcutePregnancyPyelonephritis 0.5968726072149699 0.7501016004674533 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (?V0 ?V1)}} {0.5968726072149699 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (?V0 ?V1)}} {0.5968726072149699 log:equalTo ?V0.
      0.7501016004674533 log:equalTo ?V1} {0.5968726072149699 log:equalTo 0.5968726072149699 .
      0.7501016004674533 log:equalTo 0.7501016004674533}) e:derive true}]
   );
@@ -793,29 +793,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:ComplicatedAcutePregnancyPyelonephritis 0.5968726072149699 0.7501016004674533 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:x_0_11 _:x_1_11)}} {0.5968726072149699 log:equalTo _:x_0_11.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:x_0_11 _:x_1_11)}} {0.5968726072149699 log:equalTo _:x_0_11.
      0.7501016004674533 log:equalTo _:x_1_11} {0.5968726072149699 log:equalTo 0.5968726072149699 .
-     0.7501016004674533 log:equalTo 0.7501016004674533}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.7501016004674533 log:equalTo 0.7501016004674533}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:ComplicatedAcutePregnancyPyelonephritis 0.5968726072149699 0.7501016004674533 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:x_0_11 _:x_1_11)}} {0.5968726072149699 log:equalTo _:x_0_11.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:ComplicatedAcutePregnancyPyelonephritis) fl:gpi (_:x_0_11 _:x_1_11)}} {0.5968726072149699 log:equalTo _:x_0_11.
       0.7501016004674533 log:equalTo _:x_1_11} {0.5968726072149699 log:equalTo 0.5968726072149699 .
       0.7501016004674533 log:equalTo 0.7501016004674533}) e:derive true}}}].
 
 <#lemma48> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:AcuteProstatis 0.9950831899235624 0.9954629272837167 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:sk_0 _:sk_1)}} {0.9950831899235624 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:sk_0 _:sk_1)}} {0.9950831899235624 log:equalTo _:sk_0.
       0.9954629272837167 log:equalTo _:sk_1} {0.9950831899235624 log:equalTo 0.9950831899235624 .
       0.9954629272837167 log:equalTo 0.9954629272837167}) e:derive true}.
   };
@@ -827,7 +827,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:AcuteProstatis 0.9950831899235624 0.9954629272837167 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (?V0 ?V1)}} {0.9950831899235624 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (?V0 ?V1)}} {0.9950831899235624 log:equalTo ?V0.
      0.9954629272837167 log:equalTo ?V1} {0.9950831899235624 log:equalTo 0.9950831899235624 .
      0.9954629272837167 log:equalTo 0.9954629272837167}) e:derive true}]
   );
@@ -838,29 +838,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:AcuteProstatis 0.9950831899235624 0.9954629272837167 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:x_0_12 _:x_1_12)}} {0.9950831899235624 log:equalTo _:x_0_12.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:x_0_12 _:x_1_12)}} {0.9950831899235624 log:equalTo _:x_0_12.
      0.9954629272837167 log:equalTo _:x_1_12} {0.9950831899235624 log:equalTo 0.9950831899235624 .
-     0.9954629272837167 log:equalTo 0.9954629272837167}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0.9954629272837167 log:equalTo 0.9954629272837167}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:AcuteProstatis 0.9950831899235624 0.9954629272837167 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:x_0_12 _:x_1_12)}} {0.9950831899235624 log:equalTo _:x_0_12.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:AcuteProstatis) fl:gpi (_:x_0_12 _:x_1_12)}} {0.9950831899235624 log:equalTo _:x_0_12.
       0.9954629272837167 log:equalTo _:x_1_12} {0.9950831899235624 log:equalTo 0.9950831899235624 .
       0.9954629272837167 log:equalTo 0.9954629272837167}) e:derive true}}}].
 
 <#lemma49> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Fever 0.8 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:sk_0 _:sk_1)}} {0.8 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:sk_0 _:sk_1)}} {0.8 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {0.8 log:equalTo 0.8 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -872,7 +872,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:Fever 0.8 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (?V0 ?V1)}} {0.8 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (?V0 ?V1)}} {0.8 log:equalTo ?V0.
      1 log:equalTo ?V1} {0.8 log:equalTo 0.8 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -883,29 +883,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:Fever 0.8 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:x_0_13 _:x_1_13)}} {0.8 log:equalTo _:x_0_13.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:x_0_13 _:x_1_13)}} {0.8 log:equalTo _:x_0_13.
      1 log:equalTo _:x_1_13} {0.8 log:equalTo 0.8 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Fever 0.8 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:x_0_13 _:x_1_13)}} {0.8 log:equalTo _:x_0_13.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Fever) fl:gpi (_:x_0_13 _:x_1_13)}} {0.8 log:equalTo _:x_0_13.
       1 log:equalTo _:x_1_13} {0.8 log:equalTo 0.8 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma50> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:UrineDipstickTest 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -917,7 +917,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:UrineDipstickTest 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -928,29 +928,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:UrineDipstickTest 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:x_0_14 _:x_1_14)}} {1 log:equalTo _:x_0_14.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:x_0_14 _:x_1_14)}} {1 log:equalTo _:x_0_14.
      1 log:equalTo _:x_1_14} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:UrineDipstickTest 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:x_0_14 _:x_1_14)}} {1 log:equalTo _:x_0_14.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:UrineDipstickTest) fl:gpi (_:x_0_14 _:x_1_14)}} {1 log:equalTo _:x_0_14.
       1 log:equalTo _:x_1_14} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma51> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Chills 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -962,7 +962,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:Chills 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -973,29 +973,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:Chills 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:x_0_15 _:x_1_15)}} {1 log:equalTo _:x_0_15.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:x_0_15 _:x_1_15)}} {1 log:equalTo _:x_0_15.
      1 log:equalTo _:x_1_15} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Chills 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:x_0_15 _:x_1_15)}} {1 log:equalTo _:x_0_15.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Chills) fl:gpi (_:x_0_15 _:x_1_15)}} {1 log:equalTo _:x_0_15.
       1 log:equalTo _:x_1_15} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma52> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:DiabetesMellitus 0 0 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:sk_0 _:sk_1)}} {0 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:sk_0 _:sk_1)}} {0 log:equalTo _:sk_0.
       0 log:equalTo _:sk_1} {0 log:equalTo 0 .
       0 log:equalTo 0}) e:derive true}.
   };
@@ -1007,7 +1007,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:DiabetesMellitus 0 0 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (?V0 ?V1)}} {0 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (?V0 ?V1)}} {0 log:equalTo ?V0.
      0 log:equalTo ?V1} {0 log:equalTo 0 .
      0 log:equalTo 0}) e:derive true}]
   );
@@ -1018,29 +1018,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:DiabetesMellitus 0 0 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:x_0_16 _:x_1_16)}} {0 log:equalTo _:x_0_16.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:x_0_16 _:x_1_16)}} {0 log:equalTo _:x_0_16.
      0 log:equalTo _:x_1_16} {0 log:equalTo 0 .
-     0 log:equalTo 0}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     0 log:equalTo 0}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:DiabetesMellitus 0 0 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:x_0_16 _:x_1_16)}} {0 log:equalTo _:x_0_16.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DiabetesMellitus) fl:gpi (_:x_0_16 _:x_1_16)}} {0 log:equalTo _:x_0_16.
       0 log:equalTo _:x_1_16} {0 log:equalTo 0 .
       0 log:equalTo 0}) e:derive true}}}].
 
 <#lemma53> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Male 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -1052,7 +1052,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:Male 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -1063,29 +1063,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:Male 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:x_0_17 _:x_1_17)}} {1 log:equalTo _:x_0_17.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:x_0_17 _:x_1_17)}} {1 log:equalTo _:x_0_17.
      1 log:equalTo _:x_1_17} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Male 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:x_0_17 _:x_1_17)}} {1 log:equalTo _:x_0_17.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Male) fl:gpi (_:x_0_17 _:x_1_17)}} {1 log:equalTo _:x_0_17.
       1 log:equalTo _:x_1_17} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma54> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Old 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -1097,7 +1097,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:Old 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -1108,29 +1108,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:Old 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:x_0_18 _:x_1_18)}} {1 log:equalTo _:x_0_18.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:x_0_18 _:x_1_18)}} {1 log:equalTo _:x_0_18.
      1 log:equalTo _:x_1_18} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Old 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:x_0_18 _:x_1_18)}} {1 log:equalTo _:x_0_18.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Old) fl:gpi (_:x_0_18 _:x_1_18)}} {1 log:equalTo _:x_0_18.
       1 log:equalTo _:x_1_18} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma55> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Dysuria 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -1142,7 +1142,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:Dysuria 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -1153,29 +1153,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:Dysuria 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:x_0_19 _:x_1_19)}} {1 log:equalTo _:x_0_19.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:x_0_19 _:x_1_19)}} {1 log:equalTo _:x_0_19.
      1 log:equalTo _:x_1_19} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:Dysuria 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:x_0_19 _:x_1_19)}} {1 log:equalTo _:x_0_19.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:Dysuria) fl:gpi (_:x_0_19 _:x_1_19)}} {1 log:equalTo _:x_0_19.
       1 log:equalTo _:x_1_19} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
 <#lemma56> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:DigitalRectalExamination 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:sk_0 _:sk_1)}} {1 log:equalTo _:sk_0.
       1 log:equalTo _:sk_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}.
   };
@@ -1187,7 +1187,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true}]
     [ a r:Fact; r:gives {("nb_getval" "IterationsNeeded" 7) e:derive true}]
     [ a r:Fact; r:gives {:patient008 fgcm:gpi (dco:DigitalRectalExamination 1 1 7)}]
-    [ a r:Fact; r:gives {("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
+    [ a r:Fact; r:gives {("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (?V0 ?V1)}} {1 log:equalTo ?V0.
      1 log:equalTo ?V1} {1 log:equalTo 1 .
      1 log:equalTo 1}) e:derive true}]
   );
@@ -1198,16 +1198,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
     ("nb_getval" "IterationsNeeded" 7) e:derive true.
     :patient008 fgcm:gpi (dco:DigitalRectalExamination 1 1 7).
-    ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:x_0_20 _:x_1_20)}} {1 log:equalTo _:x_0_20.
+    ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:x_0_20 _:x_1_20)}} {1 log:equalTo _:x_0_20.
      1 log:equalTo _:x_1_20} {1 log:equalTo 1 .
-     1 log:equalTo 1}) e:derive true} => {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+     1 log:equalTo 1}) e:derive true} => {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
        () fgcm:expandClosureGsigma true.
        (false) fgcm:handleUnknownVariables true.
        (:patient008 1) fgcm:iterate 7 .
        ("nb_setval" "IterationsNeeded" 7) e:derive true} {("nb_setval" "fnet" "done") e:derive true}) e:derive true}) e:derive true.
      ("nb_getval" "IterationsNeeded" 7) e:derive true.
      :patient008 fgcm:gpi (dco:DigitalRectalExamination 1 1 7).
-     ("if_then_else" {((<http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fgcm/patient.n3> <http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:x_0_20 _:x_1_20)}} {1 log:equalTo _:x_0_20.
+     ("if_then_else" {((<https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/fcm/fl-rules.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/patient.n3> <https://github.com/josd/eye/blob/master/reasoning/fgcm/fgcm-model.n3>) 1) e:closure {(:patient008 dco:DigitalRectalExamination) fl:gpi (_:x_0_20 _:x_1_20)}} {1 log:equalTo _:x_0_20.
       1 log:equalTo _:x_1_20} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 

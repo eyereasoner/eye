@@ -1,5 +1,5 @@
 #Processed by EYE v19.0221.2026 josd
-#eye --n3 http://josd.github.io/eye/reasoning/medic/medic.n3 --query http://josd.github.io/eye/reasoning/medic/medicF.n3
+#eye --n3 https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3 --query https://github.com/josd/eye/blob/master/reasoning/medic/medicF.n3
 
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
@@ -42,8 +42,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma6>
     <#lemma7>
     [ a r:Fact; r:gives {0.9 math:greaterThan 0.7}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1) e:findall (_:sk_0 {:aspirinLowDose :excludedFor _:sk_0} (:ActivePepticUlcerDisease :AllergyForAspirin))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1) e:findall (_:sk_0 {:aspirinLowDose :excludedFor _:sk_0.
+    [ a r:Fact; r:gives {((<https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>) 1) e:findall (_:sk_0 {:aspirinLowDose :excludedFor _:sk_0} (:ActivePepticUlcerDisease :AllergyForAspirin))}]
+    [ a r:Fact; r:gives {((<https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>) 1) e:findall (_:sk_0 {:aspirinLowDose :excludedFor _:sk_0.
      (:Joe _:sk_0) fl:mu _:sk_1.
      _:sk_1 math:notGreaterThan 0.01} (:ActivePepticUlcerDisease :AllergyForAspirin))}]
   );
@@ -53,7 +53,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {?x_0_1 :isPrescribed ?x_1_1} => {?x_0_1 :isPrescribed ?x_1_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medicF.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/medic/medicF.n3>].
 
 <#lemma5> a r:Inference;
   r:gives {
@@ -63,8 +63,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma9>
     <#lemma7>
     [ a r:Fact; r:gives {0.9 math:greaterThan 0.7}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1) e:findall (_:sk_2 {:betaBlocker :excludedFor _:sk_2} (:SevereAsthma :ChronicObstructivePumonaryDisease))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1) e:findall (_:sk_2 {:betaBlocker :excludedFor _:sk_2.
+    [ a r:Fact; r:gives {((<https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>) 1) e:findall (_:sk_2 {:betaBlocker :excludedFor _:sk_2} (:SevereAsthma :ChronicObstructivePumonaryDisease))}]
+    [ a r:Fact; r:gives {((<https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>) 1) e:findall (_:sk_2 {:betaBlocker :excludedFor _:sk_2.
      (:Joe _:sk_2) fl:mu _:sk_3.
      _:sk_3 math:notGreaterThan 0.01} (:SevereAsthma :ChronicObstructivePumonaryDisease))}]
   );
@@ -74,13 +74,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     :aspirinLowDose :prescribedFor :AcuteMyocardialInfarction.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>].
 
 <#lemma7> a r:Extraction;
   r:gives {
     (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 .
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>].
 
 <#lemma8> a r:Extraction;
   r:gives {
@@ -92,13 +92,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       (?x_2_2 ?x_5_2) fl:mu ?x_7_2.
       ?x_7_2 math:notGreaterThan 0.01} ?x_6_2)} => {?x_2_2 :isPrescribed ?x_0_2}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>].
 
 <#lemma9> a r:Extraction;
   r:gives {
     :betaBlocker :prescribedFor :AcuteMyocardialInfarction.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/medic/medic.n3>].
 
 #2019-05-30T20:23:17.049Z in=18 out=2 ent=4 step=8 brake=4 inf=49962 sec=0.051 inf/sec=979647
 #ENDS

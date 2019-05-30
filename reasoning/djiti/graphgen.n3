@@ -3,12 +3,12 @@
 # ------------------------------
 
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX : <https://github.com/josd/eye/blob/master/reasoning#>
 
 {(?F ?N ?M) :graphgen true} <=
 {   ("open" ?F "write" ?FD) e:derive true.
     ("tell" ?FD) e:derive true.
-    ("format" "PREFIX : <http://josd.github.io/eye/reasoning#>~n~n" ()) e:derive true.
+    ("format" "PREFIX : <https://github.com/josd/eye/blob/master/reasoning#>~n~n" ()) e:derive true.
     ("between" 1 ?N ?I) e:derive true.
     (?M) e:random ?S1.
     (?M) e:random ?S2.

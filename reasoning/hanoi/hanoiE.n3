@@ -1,16 +1,16 @@
 #Processed by EYE v19.0221.2026 josd
-#eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/hanoi/hanoi.n3 --pass
+#eye --tactic limited-answer 1 --n3 https://github.com/josd/eye/blob/master/reasoning/hanoi/hanoi.n3 --pass
 
-# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
-# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#center>
-# Move top disk from <http://josd.github.io/eye/reasoning#right> to <http://josd.github.io/eye/reasoning#center>
-# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
-# Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#left>
-# Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#right>
-# Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#left> to <https://github.com/josd/eye/blob/master/reasoning#right>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#left> to <https://github.com/josd/eye/blob/master/reasoning#center>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#right> to <https://github.com/josd/eye/blob/master/reasoning#center>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#left> to <https://github.com/josd/eye/blob/master/reasoning#right>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#center> to <https://github.com/josd/eye/blob/master/reasoning#left>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#center> to <https://github.com/josd/eye/blob/master/reasoning#right>
+# Move top disk from <https://github.com/josd/eye/blob/master/reasoning#left> to <https://github.com/josd/eye/blob/master/reasoning#right>
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX : <https://github.com/josd/eye/blob/master/reasoning#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof, r:Conjunction;
@@ -60,7 +60,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {3 :move (:left :right :center)} => {3 :answer (:left :right :center)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/hanoi/hanoi.n3>].
 
 <#lemma6> a r:Inference;
   r:gives {
@@ -96,7 +96,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      1 :move (?x_2_3 ?x_4_3 ?x_5_3).
      ?x_1_3 :move (?x_3_3 ?x_4_3 ?x_2_3)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/hanoi/hanoi.n3>].
 
 <#lemma9> a r:Inference;
   r:gives {
@@ -147,7 +147,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {1 :move (?x_0_4 ?x_1_4 ?x_2_4)} <= {("format" "# Move top disk from ~w to ~w~n" (?x_0_4 ?x_1_4)) e:derive true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/hanoi/hanoi.n3>].
 
 #2019-05-30T20:23:11.797Z in=3 out=1 ent=2 step=2 brake=1 inf=39697 sec=0.046 inf/sec=862978
 #ENDS

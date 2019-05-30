@@ -1,12 +1,12 @@
 #Processed by EYE v19.0221.2026 josd
-#eye --n3 http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 --n3 http://josd.github.io/eye/reasoning/gps/gps-example1.n3 --query http://josd.github.io/eye/reasoning/gps/gps-query1.n3
+#eye --n3 https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3 --n3 https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3 --query https://github.com/josd/eye/blob/master/reasoning/gps/gps-query1.n3
 
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX list: <http://www.w3.org/2000/10/swap/list#>
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX gps: <https://github.com/josd/eye/blob/master/reasoning/gps/gps-schema#>
+PREFIX : <https://github.com/josd/eye/blob/master/reasoning#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof, r:Conjunction;
@@ -26,7 +26,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma2> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpath ({:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpath ({:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
   };
   r:evidence (
     <#lemma4>
@@ -37,11 +37,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {?x_0_1 gps:findpath ({?x_1_1 :location :Oostende} ?x_2_1 ?x_3_1 ?x_4_1 ?x_5_1 ?x_6_1 (3600.0 5.0 0.2 0.4 1))} => {?x_1_1 gps:path (?x_2_1 ?x_3_1 ?x_4_1 ?x_5_1 ?x_6_1)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-query1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-query1.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths (() {:i1 :location :Oostende} () 0.0 0.0 1.0 1.0 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths (() {:i1 :location :Oostende} () 0.0 0.0 1.0 1.0 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
   };
   r:evidence (
     <#lemma6>
@@ -69,31 +69,31 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {?x_0_2 gps:findpath (?x_1_2 ?x_2_2 ?x_3_2 ?x_4_2 ?x_5_2 ?x_6_2 (?x_7_2 ?x_8_2 ?x_9_2 ?x_10_2 ?x_11_2))} <= {?x_0_2 gps:findpaths (() ?x_1_2 () 0.0 0.0 1.0 1.0 ?x_2_2 ?x_3_2 ?x_4_2 ?x_5_2 ?x_6_2 (?x_7_2 ?x_8_2 ?x_9_2 ?x_10_2 ?x_11_2))}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3>].
 
 <#lemma6> a r:Extraction;
   r:gives {
     :map-BE gps:description ({:i1 :location :Gent} true {:i1 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99).
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>].
 
 <#lemma7> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Gent}.
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Gent}.
   };
   r:evidence (
     <#lemma13>
   );
-  r:rule [ a r:Fact; r:gives {{:i1 :location :Gent} => {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Gent}}}].
+  r:rule [ a r:Fact; r:gives {{:i1 :location :Gent} => {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Gent}}}].
 
 <#lemma8> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call true.
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call true.
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule [ a r:Fact; r:gives {true => {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call true}}].
+  r:rule [ a r:Fact; r:gives {true => {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call true}}].
 
 <#lemma9> a r:Inference;
   r:gives {
@@ -116,14 +116,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma11> a r:Inference;
   r:gives {
-    {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Brugge} e:becomes {:i1 :location :Gent}}.
+    {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Brugge} e:becomes {:i1 :location :Gent}}.
   };
   r:evidence (
     <#lemma17>
     [ a r:Fact; r:gives {{:i1 :location :Brugge} e:becomes {:i1 :location :Gent}}]
   );
-  r:rule [ a r:Fact; r:gives {{((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
-    {:i1 :location :Brugge} e:becomes {:i1 :location :Gent}} => {{((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Brugge} e:becomes {:i1 :location :Gent}}}}].
+  r:rule [ a r:Fact; r:gives {{((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    {:i1 :location :Brugge} e:becomes {:i1 :location :Gent}} => {{((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Brugge} e:becomes {:i1 :location :Gent}}}}].
 
 <#lemma12> a r:Extraction;
   r:gives {
@@ -146,19 +146,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ?x_1_3 e:becomes ?x_3_3.
      {?x_10_3 gps:findpaths (?x_12_3 ?x_29_3 ?x_28_3 ?x_16_3 ?x_19_3 ?x_22_3 ?x_25_3 ?x_30_3 ?x_31_3 ?x_32_3 ?x_33_3 ?x_34_3 (?x_17_3 ?x_20_3 ?x_23_3 ?x_26_3 ?x_14_3))} e:finalize {?x_3_3 e:becomes ?x_1_3}}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3>].
 
 <#lemma13> a r:Extraction;
   r:gives {
     :i1 :location :Gent.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>].
 
 <#lemma14> a r:Extraction;
   r:gives {
     {:map-BE gps:description ({?x_0_3 :location :Gent} true {?x_0_3 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>].
 
 <#lemma15> a r:Inference;
   r:gives {
@@ -174,11 +174,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {?x_0_3 gps:stagecount ?x_3_3} <= {?x_0_3 e:firstRest (?x_1_3 ?x_2_3).
      ?x_2_3 gps:stagecount ?x_3_3}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3>].
 
 <#lemma17> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {:i1 :location :Oostende} (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
   };
   r:evidence (
     <#lemma19>
@@ -206,22 +206,22 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {() gps:stagecount 1} <= true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3>].
 
 <#lemma19> a r:Extraction;
   r:gives {
     :map-BE gps:description ({:i1 :location :Brugge} true {:i1 :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0).
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>].
 
 <#lemma20> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Brugge}.
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Brugge}.
   };
   r:evidence (
     [ a r:Fact; r:gives {:i1 :location :Brugge}]
   );
-  r:rule [ a r:Fact; r:gives {{:i1 :location :Brugge} => {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Brugge}}}].
+  r:rule [ a r:Fact; r:gives {{:i1 :location :Brugge} => {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Brugge}}}].
 
 <#lemma21> a r:Inference;
   r:gives {
@@ -244,24 +244,24 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma23> a r:Inference;
   r:gives {
-    {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}}.
+    {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}}.
   };
   r:evidence (
     <#lemma25>
     [ a r:Fact; r:gives {{:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}}]
   );
-  r:rule [ a r:Fact; r:gives {{((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
-    {:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}} => {{((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}}}}].
+  r:rule [ a r:Fact; r:gives {{((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    {:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}} => {{((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1))} e:finalize {{:i1 :location :Oostende} e:becomes {:i1 :location :Brugge}}}}].
 
 <#lemma24> a r:Extraction;
   r:gives {
     {:map-BE gps:description ({?x_0_3 :location :Brugge} true {?x_0_3 :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)} <= true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>].
 
 <#lemma25> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {:i1 :location :Oostende} (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (3600.0 5.0 0.2 0.4 1)).
   };
   r:evidence (
     <#lemma26>
@@ -271,19 +271,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma26> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Oostende}.
+    ((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Oostende}.
   };
   r:evidence (
     [ a r:Fact; r:gives {:i1 :location :Oostende}]
   );
-  r:rule [ a r:Fact; r:gives {{:i1 :location :Oostende} => {((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Oostende}}}].
+  r:rule [ a r:Fact; r:gives {{:i1 :location :Oostende} => {((<https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/gps/gps-example1.n3>) 1) e:call {:i1 :location :Oostende}}}].
 
 <#lemma27> a r:Extraction;
   r:gives {
     {?x_0_3 gps:findpaths (?x_2_3 ?x_1_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 (?x_8_3 ?x_9_3 ?x_10_3 ?x_11_3 ?x_12_3))} <= {?x_0_3 e:call ?x_1_3.
      ("!") e:derive true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gps/gps-plugin.n3>].
 
 #2019-05-30T20:23:07.643Z in=11 out=1 ent=1 step=1 brake=2 inf=123627 sec=0.055 inf/sec=2247764
 #ENDS
