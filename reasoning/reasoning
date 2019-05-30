@@ -24,10 +24,8 @@ pushd dqc; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E 
 pushd dt; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd easter; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd einstein; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
-pushd enigma1225; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd equation4; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd fcm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
-pushd fft; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd fgcm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd fib; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd gedcom; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
@@ -64,7 +62,6 @@ pushd tfcontext; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | gr
 pushd turing; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd usm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd utf8; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
-pushd utm; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd witch; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 
 eye --n3 reasoning.diff --pass > /dev/null
