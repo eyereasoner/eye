@@ -1,5 +1,13 @@
 % New Scientist puzzle Enigma 1225
 
+pfx('enigma:', '<http://josd.github.io/eye/reasoning/enigma#>').
+cpred('<http://josd.github.io/eye/reasoning/enigma#solve>').
+
+'<http://josd.github.io/eye/reasoning/enigma#solve>'([Size, Permutation], [Board, Max]) :-
+    setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
+    last(Totals, Max),
+    square(Size, Board, Max, _, Permutation).
+
 :- use_module(library(apply)).
 
 var_matrix(Size, M) :-
@@ -187,8 +195,3 @@ square(Size, M, Total, Frequencies, Permutation) :-
     distinct(M),
     eval_matrix(M, Frequencies),
     total(Frequencies, Total).
-
-enigma(Size, Permutation, Board, Max) :-
-    setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
-    last(Totals, Max),
-    square(Size, Board, Max, _, Permutation).
