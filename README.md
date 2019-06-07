@@ -6,11 +6,11 @@
 It performs controlled chaining and it supports Euler paths.  
 Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
 
-`Controlled chaining` is backward chaining for rules using <= in [N3](http://www.w3.org/TeamSubmission/n3/)  
+*`Controlled chaining`* is backward chaining for rules using <= in [N3](http://www.w3.org/TeamSubmission/n3/)  
 and forward chaining for rules using => in [N3](http://www.w3.org/TeamSubmission/n3/).  
 This can be seen in [Reasoning as controlled chaining](http://github.com/josd/eye/tree/master/reasoning).  
 
-`Euler paths` are roughly "_don't step in your own steps_" which is inspired by  
+*`Euler paths`* are roughly "_don't step in your own steps_" which is inspired by  
 what [Leonhard Euler](http://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html).  
 EYE sees the rule _P => C_ as _P & NOT(C) => C_.  
 
