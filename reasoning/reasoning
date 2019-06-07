@@ -50,6 +50,7 @@ pushd numeral; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep
 pushd pi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd pptbank; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd preduction; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
+pushd queens; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd restpath; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd resto; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd rgb; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
