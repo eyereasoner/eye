@@ -1,0 +1,17 @@
+#!/bin/bash
+# -------------------
+# EYE cc tests
+# -------------------
+
+pushd ~/github.com/josd/eye/cc
+echo -n > eyecc.txt
+echo "# $(date)" > eyecc.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@"
+
+pushd fft; ./test "$@" 2>&1 | tee -a ../eyecc.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../eyecc.diff; popd
+pushd hanoi; ./test "$@" 2>&1 | tee -a ../eyecc.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../eyecc.diff; popd
+pushd queens; ./test "$@" 2>&1 | tee -a ../eyecc.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../eyecc.diff; popd
+pushd utm; ./test "$@" 2>&1 | tee -a ../eyecc.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../eyecc.diff; popd
+
+cat eyecc.diff
+popd
