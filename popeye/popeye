@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# ------------
+# POPEYE tests
+# ------------
+
+pushd ~/github.com/josd/eye/cc
+echo -n > popeye.txt
+echo "# $(date)" > popeye.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@"
+
+pushd bell; ./test "$@" 2>&1 | tee -a ../popeye.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../popeye.diff; popd
+pushd easter; ./test "$@" 2>&1 | tee -a ../popeye.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../popeye.diff; popd
+pushd euler; ./test "$@" 2>&1 | tee -a ../popeye.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../popeye.diff; popd
+pushd fibonacci; ./test "$@" 2>&1 | tee -a ../popeye.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../popeye.diff; popd
+pushd grover; ./test "$@" 2>&1 | tee -a ../popeye.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../popeye.diff; popd
+
+cat popeye.diff
+popd
