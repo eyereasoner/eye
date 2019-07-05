@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0702.2313 josd').
+version_info('EYE v19.0705.1450 josd').
 
 license_info('MIT License
 
@@ -5012,6 +5012,7 @@ djiti_fact(A, A) :-
         P \= query,
         P \= pfx,
         P \= flag,
+        P \= semantics,
         \+pred(P)
     ->  assertz(pred(P))
     ;   true
