@@ -1,11 +1,11 @@
-flag('no-skolem', 'http://josd.github.io/eye/.well-known/genid/okUV7D18aoxPqAoy9zlZmgAyE4Q#').
+flag('no-skolem', 'http://josd.github.io/.well-known/genid-n3/siMGAX_CLIIeqLJlB5rB1zn49sk#').
 scope('<http://josd.github.io/eye/reasoning/n3p/sample.n3>').
 pfx('e:',
-                          '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#>').
+                                                          '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#>').
 pfx(:, '<http://example.org/try#>').
 '<http://example.org/try#p>'('<http://example.org/try#s>', '<http://example.org/try#b>'('<http://example.org/try#a>', '<http://example.org/try#c>')).
 '<http://example.org/try#p>'('<http://example.org/try#s>',  ('<http://example.org/try#b>'('<http://example.org/try#a>', '<http://example.org/try#c>'), '<http://example.org/try#e>'('<http://example.org/try#d>', '<http://example.org/try#f>'))).
-'<http://example.org/try#p>'('<http://josd.github.io/eye/.well-known/genid/okUV7D18aoxPqAoy9zlZmgAyE4Q#e_X_1>', '<http://example.org/try#b>'('<http://josd.github.io/eye/.well-known/genid/okUV7D18aoxPqAoy9zlZmgAyE4Q#e_X_2>', '<http://example.org/try#c>')).
+'<http://example.org/try#p>'('<http://josd.github.io/.well-known/genid-n3/siMGAX_CLIIeqLJlB5rB1zn49sk#e_X_1>', '<http://example.org/try#b>'('<http://josd.github.io/.well-known/genid-n3/siMGAX_CLIIeqLJlB5rB1zn49sk#e_X_2>', '<http://example.org/try#c>')).
 implies(('<http://example.org/try#v>'('<http://example.org/try#u>', A), '<http://example.org/try#y>'(B, '<http://example.org/try#z>')), '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(A, B), '<http://josd.github.io/eye/reasoning/n3p/sample.n3>').
 implies(true, '<http://example.org/try#p>'(_, '<http://example.org/try#o>'), '<http://josd.github.io/eye/reasoning/n3p/sample.n3>').
 implies('<http://example.org/try#p>'('<http://example.org/try#u>', _), false, '<http://josd.github.io/eye/reasoning/n3p/sample.n3>').
@@ -18,7 +18,7 @@ cpred('<http://example.org/try#q>').
 cpred('<http://example.org/try#y>').
 '<http://example.org/try#y>'(B, A) :-
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#firstRest>'(A,
-                                          [C, D]),
+                                                                          [C, D]),
     '<http://example.org/try#p>'(B, C),
     '<http://example.org/try#y>'(B, D).
 cpred('<http://example.org/try#r>').
