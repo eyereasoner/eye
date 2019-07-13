@@ -1,0 +1,11 @@
+PREFIX n3: <https://www.w3.org/ns/n3#>
+PREFIX : <http://example.org/test#>
+
+{
+    ?T a :CompositeTask.
+    ({?T :subTask ?ST} {?ST a :Completed}) n3:allIn <subtasks.n3>.
+}
+    =>
+{
+    ?T a :AllTasksCompleted.
+}.
