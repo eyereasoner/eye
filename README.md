@@ -8,7 +8,7 @@ Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](ht
 
 __Controlled chaining__ is backward chaining for rules using <= in [N3](http://www.w3.org/TeamSubmission/n3/)  
 and forward chaining for rules using => in [N3](http://www.w3.org/TeamSubmission/n3/).  
-This can be seen in [Reasoning as controlled chaining](http://github.com/josd/eye/tree/master/reasoning).  
+This can be seen in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
 
 __Euler paths__ are roughly "_don't step in your own steps_" which is inspired by  
 what [Leonhard Euler](http://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html).  
