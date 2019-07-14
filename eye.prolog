@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0711.0927 josd').
+version_info('EYE v19.0714.1509 josd').
 
 license_info('MIT License
 
@@ -4567,7 +4567,10 @@ wct([A], [C]) :-
     wcf(A, C).
 wct([A|B], [C|D]) :-
     wcf(A, C),
-    flag('csv-separator', S),
+    (   flag('csv-separator', S)
+    ->  true
+    ;   S = ','
+    ),
     write(S),
     wct(B, D).
 
