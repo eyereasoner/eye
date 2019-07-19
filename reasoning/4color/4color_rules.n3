@@ -1,0 +1,18 @@
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX : <http://josd.github.io/eye/reasoning/4color#>
+
+{  
+    ?COUNTRY :neighbours ?NEIGHBOURS.
+    :map :coloring ?COLOR.
+    ?SCOPE e:fail {
+        ?COUNTRY :color ?ANY.
+    }.
+    ?SCOPE e:fail {
+        ?NEIGHBOURS list:member ?NEIGHBOUR.
+        ?NEIGHBOUR :color ?COLOR.
+    }.
+} => {
+    ?COUNTRY :color ?COLOR.
+}.
