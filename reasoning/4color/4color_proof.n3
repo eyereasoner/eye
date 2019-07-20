@@ -1,9 +1,8 @@
-#Processed by EYE v19.0714.1509 josd
+#Processed by EYE v19.0720.1522 josd
 #eye --turtle http://josd.github.io/eye/reasoning/4color/4color_data.ttl --n3 http://josd.github.io/eye/reasoning/4color/4color_rules.n3 --query http://josd.github.io/eye/reasoning/4color/4color_query.n3
 
 PREFIX : <http://josd.github.io/eye/reasoning/4color#>
 PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof, r:Conjunction;
@@ -325,15 +324,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma58>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Austria :color _:sk_0}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia) list:member _:sk_1.
-     _:sk_1 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Austria :color ?U_0}}]
+    [ a r:Fact; r:gives {false <= {(:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia) list:member ?U_1.
+     ?U_1 :color :red}}]
   );
   r:rule <#lemma60>.
 
 <#lemma30> a r:Extraction;
   r:gives {
-    {?x_0_1 :color ?x_1_1} => {?x_0_1 :color ?x_1_1}.
+    {?x_0_3 :color ?x_1_3} => {?x_0_3 :color ?x_1_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_query.n3>].
 
@@ -344,9 +343,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma61>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Belgium :color _:sk_2}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:France :Netherlands :Luxemburg :Germany :United_Kingdom) list:member _:sk_3.
-     _:sk_3 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Belgium :color ?U_2}}]
+    [ a r:Fact; r:gives {false <= {(:France :Netherlands :Luxemburg :Germany :United_Kingdom) list:member ?U_3.
+     ?U_3 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -357,9 +356,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma62>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Bulgaria :color _:sk_4}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Romania :Greece) list:member _:sk_5.
-     _:sk_5 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Bulgaria :color ?U_4}}]
+    [ a r:Fact; r:gives {false <= {(:Romania :Greece) list:member ?U_5.
+     ?U_5 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -370,9 +369,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma63>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Croatia :color _:sk_6}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Slovenia :Hungary) list:member _:sk_7.
-     _:sk_7 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Croatia :color ?U_6}}]
+    [ a r:Fact; r:gives {false <= {(:Slovenia :Hungary) list:member ?U_7.
+     ?U_7 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -383,9 +382,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma64>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Cyprus :color _:sk_8}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Greece) list:member _:sk_9.
-     _:sk_9 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Cyprus :color ?U_8}}]
+    [ a r:Fact; r:gives {false <= {(:Greece) list:member ?U_9.
+     ?U_9 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -396,9 +395,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma65>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Czech_Republic :color _:sk_10}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Germany :Poland :Slovakia :Austria) list:member _:sk_11.
-     _:sk_11 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Czech_Republic :color ?U_10}}]
+    [ a r:Fact; r:gives {false <= {(:Germany :Poland :Slovakia :Austria) list:member ?U_11.
+     ?U_11 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -409,9 +408,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma67>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Denmark :color _:sk_12}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Germany :Sweden) list:member _:sk_13.
-     _:sk_13 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Denmark :color ?U_12}}]
+    [ a r:Fact; r:gives {false <= {(:Germany :Sweden) list:member ?U_13.
+     ?U_13 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -422,9 +421,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma68>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Estonia :color _:sk_14}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Finland :Latvia :Lithuania) list:member _:sk_15.
-     _:sk_15 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Estonia :color ?U_14}}]
+    [ a r:Fact; r:gives {false <= {(:Finland :Latvia :Lithuania) list:member ?U_15.
+     ?U_15 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -435,9 +434,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma69>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Finland :color _:sk_16}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Estonia :Sweden) list:member _:sk_17.
-     _:sk_17 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Finland :color ?U_16}}]
+    [ a r:Fact; r:gives {false <= {(:Estonia :Sweden) list:member ?U_17.
+     ?U_17 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -448,9 +447,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma70>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:France :color _:sk_18}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom) list:member _:sk_19.
-     _:sk_19 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:France :color ?U_18}}]
+    [ a r:Fact; r:gives {false <= {(:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom) list:member ?U_19.
+     ?U_19 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -461,9 +460,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma71>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Germany :color _:sk_20}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic) list:member _:sk_21.
-     _:sk_21 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Germany :color ?U_20}}]
+    [ a r:Fact; r:gives {false <= {(:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic) list:member ?U_21.
+     ?U_21 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -474,9 +473,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma73>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Greece :color _:sk_22}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Bulgaria :Cyprus) list:member _:sk_23.
-     _:sk_23 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Greece :color ?U_22}}]
+    [ a r:Fact; r:gives {false <= {(:Bulgaria :Cyprus) list:member ?U_23.
+     ?U_23 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -487,9 +486,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma74>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Hungary :color _:sk_24}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Austria :Slovakia :Romania :Croatia :Slovenia) list:member _:sk_25.
-     _:sk_25 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Hungary :color ?U_24}}]
+    [ a r:Fact; r:gives {false <= {(:Austria :Slovakia :Romania :Croatia :Slovenia) list:member ?U_25.
+     ?U_25 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -500,9 +499,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma75>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Ireland :color _:sk_26}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:United_Kingdom) list:member _:sk_27.
-     _:sk_27 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Ireland :color ?U_26}}]
+    [ a r:Fact; r:gives {false <= {(:United_Kingdom) list:member ?U_27.
+     ?U_27 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -513,9 +512,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma76>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Italy :color _:sk_28}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:France :Austria :Slovenia) list:member _:sk_29.
-     _:sk_29 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Italy :color ?U_28}}]
+    [ a r:Fact; r:gives {false <= {(:France :Austria :Slovenia) list:member ?U_29.
+     ?U_29 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -526,9 +525,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma77>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Latvia :color _:sk_30}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Estonia :Lithuania) list:member _:sk_31.
-     _:sk_31 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Latvia :color ?U_30}}]
+    [ a r:Fact; r:gives {false <= {(:Estonia :Lithuania) list:member ?U_31.
+     ?U_31 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -539,9 +538,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma78>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Lithuania :color _:sk_32}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Estonia :Latvia :Poland) list:member _:sk_33.
-     _:sk_33 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Lithuania :color ?U_32}}]
+    [ a r:Fact; r:gives {false <= {(:Estonia :Latvia :Poland) list:member ?U_33.
+     ?U_33 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -552,9 +551,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma79>
     <#lemma80>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Luxemburg :color _:sk_34}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Belgium :France :Germany) list:member _:sk_35.
-     _:sk_35 :color :yellow}}]
+    [ a r:Fact; r:gives {false <= {:Luxemburg :color ?U_34}}]
+    [ a r:Fact; r:gives {false <= {(:Belgium :France :Germany) list:member ?U_35.
+     ?U_35 :color :yellow}}]
   );
   r:rule <#lemma60>.
 
@@ -565,9 +564,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma81>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Malta :color _:sk_36}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {() list:member _:sk_37.
-     _:sk_37 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Malta :color ?U_36}}]
+    [ a r:Fact; r:gives {false <= {() list:member ?U_37.
+     ?U_37 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -578,9 +577,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma82>
     <#lemma66>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Netherlands :color _:sk_38}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Belgium :Germany :United_Kingdom) list:member _:sk_39.
-     _:sk_39 :color :green}}]
+    [ a r:Fact; r:gives {false <= {:Netherlands :color ?U_38}}]
+    [ a r:Fact; r:gives {false <= {(:Belgium :Germany :United_Kingdom) list:member ?U_39.
+     ?U_39 :color :green}}]
   );
   r:rule <#lemma60>.
 
@@ -591,9 +590,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma83>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Poland :color _:sk_40}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Germany :Czech_Republic :Slovakia :Lithuania) list:member _:sk_41.
-     _:sk_41 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Poland :color ?U_40}}]
+    [ a r:Fact; r:gives {false <= {(:Germany :Czech_Republic :Slovakia :Lithuania) list:member ?U_41.
+     ?U_41 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -604,9 +603,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma84>
     <#lemma59>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Portugal :color _:sk_42}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Spain) list:member _:sk_43.
-     _:sk_43 :color :red}}]
+    [ a r:Fact; r:gives {false <= {:Portugal :color ?U_42}}]
+    [ a r:Fact; r:gives {false <= {(:Spain) list:member ?U_43.
+     ?U_43 :color :red}}]
   );
   r:rule <#lemma60>.
 
@@ -617,9 +616,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma85>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Romania :color _:sk_44}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Hungary :Bulgaria) list:member _:sk_45.
-     _:sk_45 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Romania :color ?U_44}}]
+    [ a r:Fact; r:gives {false <= {(:Hungary :Bulgaria) list:member ?U_45.
+     ?U_45 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -630,9 +629,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma86>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Slovakia :color _:sk_46}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Czech_Republic :Poland :Hungary :Austria) list:member _:sk_47.
-     _:sk_47 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Slovakia :color ?U_46}}]
+    [ a r:Fact; r:gives {false <= {(:Czech_Republic :Poland :Hungary :Austria) list:member ?U_47.
+     ?U_47 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -643,9 +642,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma87>
     <#lemma80>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Slovenia :color _:sk_48}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Austria :Italy :Hungary :Croatia) list:member _:sk_49.
-     _:sk_49 :color :yellow}}]
+    [ a r:Fact; r:gives {false <= {:Slovenia :color ?U_48}}]
+    [ a r:Fact; r:gives {false <= {(:Austria :Italy :Hungary :Croatia) list:member ?U_49.
+     ?U_49 :color :yellow}}]
   );
   r:rule <#lemma60>.
 
@@ -656,9 +655,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma88>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Spain :color _:sk_50}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:France :Portugal) list:member _:sk_51.
-     _:sk_51 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Spain :color ?U_50}}]
+    [ a r:Fact; r:gives {false <= {(:France :Portugal) list:member ?U_51.
+     ?U_51 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -669,9 +668,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma89>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:Sweden :color _:sk_52}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Finland :Denmark) list:member _:sk_53.
-     _:sk_53 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:Sweden :color ?U_52}}]
+    [ a r:Fact; r:gives {false <= {(:Finland :Denmark) list:member ?U_53.
+     ?U_53 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -682,9 +681,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma90>
     <#lemma72>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {:United_Kingdom :color _:sk_54}}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {(:Ireland :Netherlands :Belgium :France) list:member _:sk_55.
-     _:sk_55 :color :blue}}]
+    [ a r:Fact; r:gives {false <= {:United_Kingdom :color ?U_54}}]
+    [ a r:Fact; r:gives {false <= {(:Ireland :Netherlands :Belgium :France) list:member ?U_55.
+     ?U_55 :color :blue}}]
   );
   r:rule <#lemma60>.
 
@@ -702,11 +701,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma60> a r:Extraction;
   r:gives {
-    {?x_0_2 :neighbours ?x_1_2.
-     :map :coloring ?x_2_2.
-     ?x_3_2 e:fail {?x_0_2 :color ?x_4_2}.
-     ?x_3_2 e:fail {?x_1_2 list:member ?x_5_2.
-      ?x_5_2 :color ?x_2_2}} => {?x_0_2 :color ?x_2_2}.
+    {?x_0_58 :neighbours ?x_1_58.
+     :map :coloring ?x_2_58.
+     false <= {?x_0_58 :color ?x_3_58}.
+     false <= {?x_1_58 list:member ?x_4_58.
+      ?x_4_58 :color ?x_2_58}} => {?x_0_58 :color ?x_2_58}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>].
 
@@ -890,6 +889,6 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
-#2019-07-19T11:15:33.313Z in=34 out=28 ent=56 step=84 brake=4 inf=143011 sec=0.070 inf/sec=2043014
+#2019-07-20T15:25:35.878Z in=34 out=28 ent=56 step=84 brake=4 inf=132873 sec=0.147 inf/sec=903898
 #ENDS
 
