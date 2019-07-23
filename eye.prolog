@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0720.1522 josd').
+version_info('EYE v19.0723.1200 josd').
 
 license_info('MIT License
 
@@ -9761,12 +9761,6 @@ inv(true, false).
 +(A, B, C) :-
     plus(A, B, C).
 
-':-'(A, B) :-
-    ground(A),
-    A = false,
-    !,
-    within_scope(_),
-    \+catch(call(B), _, fail).
 ':-'(A, B) :-
     (   var(A)
     ->  cpred(C),
