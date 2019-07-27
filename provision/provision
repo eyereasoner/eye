@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# ------------------------
+# Generating EYE provision
+# ------------------------
+
+pushd ~/github.com/josd/eye/provision
+echo "# $(date)" > provision.txt
+echo "# $(date)" > provision.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@"
+
+pushd 4color; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd bell; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd easter; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd euler; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd fibonacci; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd grover; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+pushd queens; ./test "$@" 2>&1 | tee -a ../provision.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../provision.diff; popd
+
+cat provision.diff
+popd
