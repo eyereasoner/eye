@@ -1,8 +1,10 @@
+PREFIX func: <http://www.w3.org/2007/rif-builtin-function#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://josd.github.io/eye/reasoning/4color#>
 
 {
-    ?SCOPE e:findall ((?PLACE ?COLOR) {?PLACE :neighbours ?NEIGHBOURS} ?PLACES).
+    ?SCOPE e:findall ((?PLACE ?COLOR) {?PLACE :neighbours ?NEIGHBOURS} ?LIST).
+    (?LIST) func:reverse ?PLACES.
     ?PLACES :places true.
 } => {
     ?PLACES :coloring true.
