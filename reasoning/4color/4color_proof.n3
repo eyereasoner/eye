@@ -4,88 +4,92 @@
 PREFIX : <http://josd.github.io/eye/reasoning/4color#>
 PREFIX list: <http://www.w3.org/2000/10/swap/list#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX func: <http://www.w3.org/2007/rif-builtin-function#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:gives {
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :coloring true.
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :coloring true.
+    ((:United_Kingdom :blue) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :coloring true.
+    ((:United_Kingdom :yellow) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :coloring true.
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :coloring true.
+    ((:United_Kingdom :blue) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :coloring true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1) {_:sk_0 :neighbours _:sk_2} ((:Austria :green) (:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1) {_:sk_0 :neighbours _:sk_2} ((:Austria :red) (:Belgium :red) (:Bulgaria :red) (:Croatia :red) (:Cyprus :red) (:Czech_Republic :green) (:Denmark :red) (:Estonia :red) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :green) (:Hungary :green) (:Ireland :red) (:Italy :blue) (:Latvia :green) (:Lithuania :blue) (:Luxemburg :yellow) (:Malta :red) (:Netherlands :green) (:Poland :red) (:Portugal :red) (:Romania :blue) (:Slovakia :blue) (:Slovenia :yellow) (:Spain :blue) (:Sweden :blue) (:United_Kingdom :blue)))}]
+    [ a r:Fact; r:gives {(((:Austria :red) (:Belgium :red) (:Bulgaria :red) (:Croatia :red) (:Cyprus :red) (:Czech_Republic :green) (:Denmark :red) (:Estonia :red) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :green) (:Hungary :green) (:Ireland :red) (:Italy :blue) (:Latvia :green) (:Lithuania :blue) (:Luxemburg :yellow) (:Malta :red) (:Netherlands :green) (:Poland :red) (:Portugal :red) (:Romania :blue) (:Slovakia :blue) (:Slovenia :yellow) (:Spain :blue) (:Sweden :blue) (:United_Kingdom :blue))) func:reverse ((:United_Kingdom :blue) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red))}]
     <#lemma3>
   );
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
   r:gives {
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :coloring true.
+    ((:United_Kingdom :yellow) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :coloring true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:findall ((_:sk_3 _:sk_4) {_:sk_3 :neighbours _:sk_5} ((:Austria :green) (:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:findall ((_:sk_3 _:sk_4) {_:sk_3 :neighbours _:sk_5} ((:Austria :red) (:Belgium :red) (:Bulgaria :red) (:Croatia :red) (:Cyprus :red) (:Czech_Republic :green) (:Denmark :red) (:Estonia :red) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :green) (:Hungary :green) (:Ireland :red) (:Italy :blue) (:Latvia :green) (:Lithuania :blue) (:Luxemburg :yellow) (:Malta :red) (:Netherlands :green) (:Poland :red) (:Portugal :red) (:Romania :blue) (:Slovakia :blue) (:Slovenia :yellow) (:Spain :blue) (:Sweden :blue) (:United_Kingdom :yellow)))}]
+    [ a r:Fact; r:gives {(((:Austria :red) (:Belgium :red) (:Bulgaria :red) (:Croatia :red) (:Cyprus :red) (:Czech_Republic :green) (:Denmark :red) (:Estonia :red) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :green) (:Hungary :green) (:Ireland :red) (:Italy :blue) (:Latvia :green) (:Lithuania :blue) (:Luxemburg :yellow) (:Malta :red) (:Netherlands :green) (:Poland :red) (:Portugal :red) (:Romania :blue) (:Slovakia :blue) (:Slovenia :yellow) (:Spain :blue) (:Sweden :blue) (:United_Kingdom :yellow))) func:reverse ((:United_Kingdom :yellow) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red))}]
     <#lemma5>
   );
   r:rule <#lemma4>.
 
 <#lemma3> a r:Inference;
   r:gives {
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:United_Kingdom :blue) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Austria :green) (:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Austria :green) ((:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:United_Kingdom :blue) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:United_Kingdom :blue) ((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma6>
     <#lemma7>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Ireland :Netherlands :Belgium :France) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma4> a r:Extraction;
   r:gives {
     {?x_0_1 e:findall ((?x_1_1 ?x_2_1) {?x_1_1 :neighbours ?x_3_1} ?x_4_1).
-     ?x_4_1 :places true} => {?x_4_1 :coloring true}.
+     (?x_4_1) func:reverse ?x_5_1.
+     ?x_5_1 :places true} => {?x_5_1 :coloring true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_query.n3>].
 
 <#lemma5> a r:Inference;
   r:gives {
-    ((:Austria :green) (:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:United_Kingdom :yellow) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Austria :green) (:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Austria :green) ((:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
-    <#lemma9>
+    [ a r:Fact; r:gives {((:United_Kingdom :yellow) (:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:United_Kingdom :yellow) ((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
+    <#lemma6>
     <#lemma7>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :yellow).
+     (:Ireland :Netherlands :Belgium :France) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma6> a r:Inference;
   r:gives {
-    ((:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Belgium :yellow) (:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Belgium :yellow) ((:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Sweden :blue) (:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Sweden :blue) ((:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
+    <#lemma9>
     <#lemma10>
-    <#lemma11>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :yellow).
-     (:France :Netherlands :Luxemburg :Germany :United_Kingdom) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Finland :Denmark) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    :Austria :neighbours (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia).
+    :United_Kingdom :neighbours (:Ireland :Netherlands :Belgium :France).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
@@ -102,283 +106,275 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma9> a r:Inference;
   r:gives {
-    ((:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Belgium :yellow) (:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Belgium :yellow) ((:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
-    <#lemma12>
+    [ a r:Fact; r:gives {((:Spain :blue) (:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Spain :blue) ((:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma11>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :yellow).
-     (:France :Netherlands :Luxemburg :Germany :United_Kingdom) list:member _:sk_0}}]
+    <#lemma12>
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:France :Portugal) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
-<#lemma10> a r:Inference;
+<#lemma10> a r:Extraction;
   r:gives {
-    ((:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((:Bulgaria :green) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Bulgaria :green) ((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
-    <#lemma13>
-    <#lemma14>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Romania :Greece) list:member _:sk_0}}]
-  );
-  r:rule <#lemma8>.
-
-<#lemma11> a r:Extraction;
-  r:gives {
-    :Belgium :neighbours (:France :Netherlands :Luxemburg :Germany :United_Kingdom).
+    :Sweden :neighbours (:Finland :Denmark).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
-<#lemma12> a r:Inference;
+<#lemma11> a r:Inference;
   r:gives {
-    ((:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Bulgaria :blue) (:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Bulgaria :blue) ((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Slovenia :yellow) (:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Slovenia :yellow) ((:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma13>
     <#lemma14>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :blue).
-     (:Romania :Greece) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :yellow).
+     (:Austria :Italy :Hungary :Croatia) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
+<#lemma12> a r:Extraction;
+  r:gives {
+    :Spain :neighbours (:France :Portugal).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
+
 <#lemma13> a r:Inference;
   r:gives {
-    ((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Croatia :green) (:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Croatia :green) ((:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Slovakia :blue) (:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Slovakia :blue) ((:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma15>
     <#lemma16>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Slovenia :Hungary) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Czech_Republic :Poland :Hungary :Austria) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    :Bulgaria :neighbours (:Romania :Greece).
+    :Slovenia :neighbours (:Austria :Italy :Hungary :Croatia).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma15> a r:Inference;
   r:gives {
-    ((:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Cyprus :green) (:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Cyprus :green) ((:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Romania :blue) (:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Romania :blue) ((:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma17>
     <#lemma18>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Greece) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Hungary :Bulgaria) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma16> a r:Extraction;
   r:gives {
-    :Croatia :neighbours (:Slovenia :Hungary).
+    :Slovakia :neighbours (:Czech_Republic :Poland :Hungary :Austria).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma17> a r:Inference;
   r:gives {
-    ((:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Czech_Republic :yellow) (:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Czech_Republic :yellow) ((:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Portugal :red) (:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Portugal :red) ((:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma19>
     <#lemma20>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :yellow).
-     (:Germany :Poland :Slovakia :Austria) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Spain) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma18> a r:Extraction;
   r:gives {
-    :Cyprus :neighbours (:Greece).
+    :Romania :neighbours (:Hungary :Bulgaria).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma19> a r:Inference;
   r:gives {
-    ((:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Denmark :green) (:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Denmark :green) ((:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Poland :red) (:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Poland :red) ((:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma21>
     <#lemma22>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Germany :Sweden) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Germany :Czech_Republic :Slovakia :Lithuania) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma20> a r:Extraction;
   r:gives {
-    :Czech_Republic :neighbours (:Germany :Poland :Slovakia :Austria).
+    :Portugal :neighbours (:Spain).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma21> a r:Inference;
   r:gives {
-    ((:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Estonia :blue) (:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Estonia :blue) ((:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Netherlands :green) (:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Netherlands :green) ((:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma23>
     <#lemma24>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :blue).
-     (:Finland :Latvia :Lithuania) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Belgium :Germany :United_Kingdom) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma22> a r:Extraction;
   r:gives {
-    :Denmark :neighbours (:Germany :Sweden).
+    :Poland :neighbours (:Germany :Czech_Republic :Slovakia :Lithuania).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma23> a r:Inference;
   r:gives {
-    ((:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Finland :green) (:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Finland :green) ((:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Malta :red) (:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Malta :red) ((:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma25>
     <#lemma26>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Estonia :Sweden) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     () list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma24> a r:Extraction;
   r:gives {
-    :Estonia :neighbours (:Finland :Latvia :Lithuania).
+    :Netherlands :neighbours (:Belgium :Germany :United_Kingdom).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma25> a r:Inference;
   r:gives {
-    ((:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:France :green) (:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:France :green) ((:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Luxemburg :yellow) (:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Luxemburg :yellow) ((:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma27>
     <#lemma28>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :yellow}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :yellow).
+     (:Belgium :France :Germany) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma26> a r:Extraction;
   r:gives {
-    :Finland :neighbours (:Estonia :Sweden).
+    :Malta :neighbours ().
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma27> a r:Inference;
   r:gives {
-    ((:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Germany :blue) (:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Germany :blue) ((:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Lithuania :blue) (:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Lithuania :blue) ((:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma29>
     <#lemma30>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :blue).
-     (:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Estonia :Latvia :Poland) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma28> a r:Extraction;
   r:gives {
-    :France :neighbours (:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom).
+    :Luxemburg :neighbours (:Belgium :France :Germany).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma29> a r:Inference;
   r:gives {
-    ((:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Greece :red) (:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Greece :red) ((:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Latvia :green) (:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Latvia :green) ((:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma31>
     <#lemma32>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Bulgaria :Cyprus) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Estonia :Lithuania) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma30> a r:Extraction;
   r:gives {
-    :Germany :neighbours (:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic).
+    :Lithuania :neighbours (:Estonia :Latvia :Poland).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma31> a r:Inference;
   r:gives {
-    ((:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Hungary :blue) (:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Hungary :blue) ((:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Italy :blue) (:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Italy :blue) ((:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma33>
     <#lemma34>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :blue).
-     (:Austria :Slovakia :Romania :Croatia :Slovenia) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:France :Austria :Slovenia) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma32> a r:Extraction;
   r:gives {
-    :Greece :neighbours (:Bulgaria :Cyprus).
+    :Latvia :neighbours (:Estonia :Lithuania).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma33> a r:Inference;
   r:gives {
-    ((:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Ireland :green) (:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Ireland :green) ((:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Ireland :red) (:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Ireland :red) ((:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma35>
     <#lemma36>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
      (:United_Kingdom) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma34> a r:Extraction;
   r:gives {
-    :Hungary :neighbours (:Austria :Slovakia :Romania :Croatia :Slovenia).
+    :Italy :neighbours (:France :Austria :Slovenia).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma35> a r:Inference;
   r:gives {
-    ((:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Italy :blue) (:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Italy :blue) ((:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Hungary :green) (:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Hungary :green) ((:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma37>
     <#lemma38>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :blue).
-     (:France :Austria :Slovenia) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Austria :Slovakia :Romania :Croatia :Slovenia) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
@@ -390,285 +386,265 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma37> a r:Inference;
   r:gives {
-    ((:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Latvia :green) (:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Latvia :green) ((:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Greece :green) (:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Greece :green) ((:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma39>
     <#lemma40>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Estonia :Lithuania) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Bulgaria :Cyprus) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma38> a r:Extraction;
   r:gives {
-    :Italy :neighbours (:France :Austria :Slovenia).
+    :Hungary :neighbours (:Austria :Slovakia :Romania :Croatia :Slovenia).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma39> a r:Inference;
   r:gives {
-    ((:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Lithuania :red) (:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Lithuania :red) ((:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Germany :blue) (:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Germany :blue) ((:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma41>
     <#lemma42>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Estonia :Latvia :Poland) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :blue}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :blue).
+     (:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma40> a r:Extraction;
   r:gives {
-    :Latvia :neighbours (:Estonia :Lithuania).
+    :Greece :neighbours (:Bulgaria :Cyprus).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma41> a r:Inference;
   r:gives {
-    ((:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Luxemburg :red) (:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Luxemburg :red) ((:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:France :green) (:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:France :green) ((:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma43>
     <#lemma44>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Belgium :France :Germany) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma42> a r:Extraction;
   r:gives {
-    :Lithuania :neighbours (:Estonia :Latvia :Poland).
+    :Germany :neighbours (:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma43> a r:Inference;
   r:gives {
-    ((:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Malta :red) (:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Malta :red) ((:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Finland :green) (:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Finland :green) ((:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma45>
     <#lemma46>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     () list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Estonia :Sweden) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma44> a r:Extraction;
   r:gives {
-    :Luxemburg :neighbours (:Belgium :France :Germany).
+    :France :neighbours (:Spain :Belgium :Luxemburg :Germany :Italy :United_Kingdom).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma45> a r:Inference;
   r:gives {
-    ((:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Netherlands :green) (:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Netherlands :green) ((:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Estonia :red) (:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Estonia :red) ((:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma47>
     <#lemma48>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Belgium :Germany :United_Kingdom) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Finland :Latvia :Lithuania) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma46> a r:Extraction;
   r:gives {
-    :Malta :neighbours ().
+    :Finland :neighbours (:Estonia :Sweden).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma47> a r:Inference;
   r:gives {
-    ((:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Poland :green) (:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Poland :green) ((:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Denmark :red) (:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Denmark :red) ((:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma49>
     <#lemma50>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Germany :Czech_Republic :Slovakia :Lithuania) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Germany :Sweden) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma48> a r:Extraction;
   r:gives {
-    :Netherlands :neighbours (:Belgium :Germany :United_Kingdom).
+    :Estonia :neighbours (:Finland :Latvia :Lithuania).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma49> a r:Inference;
   r:gives {
-    ((:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Portugal :green) (:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Portugal :green) ((:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Czech_Republic :green) (:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Czech_Republic :green) ((:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma51>
     <#lemma52>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :green}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :green).
-     (:Spain) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :green).
+     (:Germany :Poland :Slovakia :Austria) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma50> a r:Extraction;
   r:gives {
-    :Poland :neighbours (:Germany :Czech_Republic :Slovakia :Lithuania).
+    :Denmark :neighbours (:Germany :Sweden).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma51> a r:Inference;
   r:gives {
-    ((:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Romania :red) (:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Romania :red) ((:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Cyprus :red) (:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Cyprus :red) ((:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma53>
     <#lemma54>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Hungary :Bulgaria) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Greece) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma52> a r:Extraction;
   r:gives {
-    :Portugal :neighbours (:Spain).
+    :Czech_Republic :neighbours (:Germany :Poland :Slovakia :Austria).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma53> a r:Inference;
   r:gives {
-    ((:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Slovakia :red) (:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Slovakia :red) ((:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Croatia :red) (:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Croatia :red) ((:Bulgaria :red) (:Belgium :red) (:Austria :red)))}]
     <#lemma55>
     <#lemma56>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Czech_Republic :Poland :Hungary :Austria) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Bulgaria :red) (:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Slovenia :Hungary) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma54> a r:Extraction;
   r:gives {
-    :Romania :neighbours (:Hungary :Bulgaria).
+    :Cyprus :neighbours (:Greece).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma55> a r:Inference;
   r:gives {
-    ((:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Bulgaria :red) (:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Slovenia :red) (:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Slovenia :red) ((:Spain :red) (:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Bulgaria :red) (:Belgium :red) (:Austria :red)) e:firstRest ((:Bulgaria :red) ((:Belgium :red) (:Austria :red)))}]
     <#lemma57>
     <#lemma58>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Spain :red) (:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Austria :Italy :Hungary :Croatia) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Belgium :red) (:Austria :red)) list:member (_:sk_0 :red).
+     (:Romania :Greece) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma56> a r:Extraction;
   r:gives {
-    :Slovakia :neighbours (:Czech_Republic :Poland :Hungary :Austria).
+    :Croatia :neighbours (:Slovenia :Hungary).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma57> a r:Inference;
   r:gives {
-    ((:Spain :red) (:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Belgium :red) (:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Spain :red) (:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Spain :red) ((:Sweden :red) (:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Belgium :red) (:Austria :red)) e:firstRest ((:Belgium :red) ((:Austria :red)))}]
     <#lemma59>
     <#lemma60>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Sweden :red) (:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:France :Portugal) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:Austria :red)) list:member (_:sk_0 :red).
+     (:France :Netherlands :Luxemburg :Germany :United_Kingdom) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma58> a r:Extraction;
   r:gives {
-    :Slovenia :neighbours (:Austria :Italy :Hungary :Croatia).
+    :Bulgaria :neighbours (:Romania :Greece).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma59> a r:Inference;
   r:gives {
-    ((:Sweden :red) (:United_Kingdom :red)) :places true.
+    ((:Austria :red)) :places true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((:Sweden :red) (:United_Kingdom :red)) e:firstRest ((:Sweden :red) ((:United_Kingdom :red)))}]
+    [ a r:Fact; r:gives {((:Austria :red)) e:firstRest ((:Austria :red) ())}]
     <#lemma61>
     <#lemma62>
     [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {((:United_Kingdom :red)) list:member (_:sk_0 :red).
-     (:Finland :Denmark) list:member _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {() list:member (_:sk_0 :red).
+     (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia) list:member _:sk_0}}]
   );
   r:rule <#lemma8>.
 
 <#lemma60> a r:Extraction;
   r:gives {
-    :Spain :neighbours (:France :Portugal).
+    :Belgium :neighbours (:France :Netherlands :Luxemburg :Germany :United_Kingdom).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
 <#lemma61> a r:Inference;
-  r:gives {
-    ((:United_Kingdom :red)) :places true.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((:United_Kingdom :red)) e:firstRest ((:United_Kingdom :red) ())}]
-    <#lemma63>
-    <#lemma64>
-    [ a r:Fact; r:gives {(:red :green :blue :yellow) list:member :red}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/4color/4color_data.ttl> <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>) 1) e:fail {() list:member (_:sk_0 :red).
-     (:Ireland :Netherlands :Belgium :France) list:member _:sk_0}}]
-  );
-  r:rule <#lemma8>.
-
-<#lemma62> a r:Extraction;
-  r:gives {
-    :Sweden :neighbours (:Finland :Denmark).
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
-
-<#lemma63> a r:Inference;
   r:gives {
     () :places true.
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule <#lemma65>.
+  r:rule <#lemma63>.
 
-<#lemma64> a r:Extraction;
+<#lemma62> a r:Extraction;
   r:gives {
-    :United_Kingdom :neighbours (:Ireland :Netherlands :Belgium :France).
+    :Austria :neighbours (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_data.ttl>].
 
-<#lemma65> a r:Extraction;
+<#lemma63> a r:Extraction;
   r:gives {
     {() :places true} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4color/4color_rules.n3>].
 
-#2019-08-02T12:45:44.302Z in=31 out=2 ent=2 step=2 brake=2 inf=55152961 sec=10.197 inf/sec=5408744
+#2019-08-02T14:06:16.190Z in=31 out=2 ent=2 step=2 brake=2 inf=349078 sec=0.097 inf/sec=3598742
 #ENDS
 
