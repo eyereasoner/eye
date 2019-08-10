@@ -1,0 +1,315 @@
+#Processed by EYE v19.0723.1200 josd
+#eye --plugin http://josd.github.io/eye/reasoning/sudoku/sudoku_program.n3pl --query http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3
+
+PREFIX sudoku: <http://josd.github.io/eye/reasoning/sudoku#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    1 sudoku:solve ((8 1 3 4 2 5 7 9 6) (6 2 4 8 9 7 3 5 1) (5 7 9 6 1 3 8 4 2) (4 3 7 2 8 9 6 1 5) (2 8 6 3 5 1 4 7 9) (1 9 5 7 6 4 2 3 8) (9 4 2 5 3 8 1 6 7) (7 5 8 1 4 6 9 2 3) (3 6 1 9 7 2 5 8 4)).
+    2 sudoku:solve ((4 3 9 7 6 8 5 1 2) (6 8 7 2 1 5 9 4 3) (5 2 1 4 9 3 8 7 6) (1 7 8 9 2 4 3 6 5) (2 6 3 5 8 1 7 9 4) (9 4 5 3 7 6 1 2 8) (3 1 4 6 5 9 2 8 7) (8 5 2 1 4 7 6 3 9) (7 9 6 8 3 2 4 5 1)).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    1 sudoku:solve ((8 1 3 4 2 5 7 9 6) (6 2 4 8 9 7 3 5 1) (5 7 9 6 1 3 8 4 2) (4 3 7 2 8 9 6 1 5) (2 8 6 3 5 1 4 7 9) (1 9 5 7 6 4 2 3 8) (9 4 2 5 3 8 1 6 7) (7 5 8 1 4 6 9 2 3) (3 6 1 9 7 2 5 8 4)).
+  };
+  r:evidence (
+    <#lemma3>
+  );
+  r:rule <#lemma4>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    2 sudoku:solve ((4 3 9 7 6 8 5 1 2) (6 8 7 2 1 5 9 4 3) (5 2 1 4 9 3 8 7 6) (1 7 8 9 2 4 3 6 5) (2 6 3 5 8 1 7 9 4) (9 4 5 3 7 6 1 2 8) (3 1 4 6 5 9 2 8 7) (8 5 2 1 4 7 6 3 9) (7 9 6 8 3 2 4 5 1)).
+  };
+  r:evidence (
+    <#lemma5>
+  );
+  r:rule <#lemma4>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    1 sudoku:solve ((8 1 3 4 2 5 7 9 6) (6 2 4 8 9 7 3 5 1) (5 7 9 6 1 3 8 4 2) (4 3 7 2 8 9 6 1 5) (2 8 6 3 5 1 4 7 9) (1 9 5 7 6 4 2 3 8) (9 4 2 5 3 8 1 6 7) (7 5 8 1 4 6 9 2 3) (3 6 1 9 7 2 5 8 4)).
+  };
+  r:evidence (
+    <#lemma6>
+    [ a r:Fact; r:gives {"append([[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]],[8,1,3,4,2,5,7,9,6,6,2,4,8,9,7,3,5,1,5,7,9,6,1,3,8,4,2,4,3,7,2,8,9,6,1,5,2,8,6,3,5,1,4,7,9,1,9,5,7,6,4,2,3,8,9,4,2,5,3,8,1,6,7,7,5,8,1,4,6,9,2,3,3,6,1,9,7,2,5,8,4])"}]
+    [ a r:Fact; r:gives {"[8,1,3,4,2,5,7,9,6,6,2,4,8,9,7,3,5,1,5,7,9,6,1,3,8,4,2,4,3,7,2,8,9,6,1,5,2,8,6,3,5,1,4,7,9,1,9,5,7,6,4,2,3,8,9,4,2,5,3,8,1,6,7,7,5,8,1,4,6,9,2,3,3,6,1,9,7,2,5,8,4]ins 1..9"}]
+    [ a r:Fact; r:gives {"maplist(all_distinct,[[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]])"}]
+    [ a r:Fact; r:gives {"transpose([[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]],[[8,6,5,4,2,1,9,7,3],[1,2,7,3,8,9,4,5,6],[3,4,9,7,6,5,2,8,1],[4,8,6,2,3,7,5,1,9],[2,9,1,8,5,6,3,4,7],[5,7,3,9,1,4,8,6,2],[7,3,8,6,4,2,1,9,5],[9,5,4,1,7,3,6,2,8],[6,1,2,5,9,8,7,3,4]])"}]
+    [ a r:Fact; r:gives {"maplist(all_distinct,[[8,6,5,4,2,1,9,7,3],[1,2,7,3,8,9,4,5,6],[3,4,9,7,6,5,2,8,1],[4,8,6,2,3,7,5,1,9],[2,9,1,8,5,6,3,4,7],[5,7,3,9,1,4,8,6,2],[7,3,8,6,4,2,1,9,5],[9,5,4,1,7,3,6,2,8],[6,1,2,5,9,8,7,3,4]])"}]
+    [ a r:Fact; r:gives {"[[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]]=[[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]]"}]
+    <#lemma7>
+    <#lemma8>
+    <#lemma9>
+    [ a r:Fact; r:gives {"maplist(label,[[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]])"}]
+  );
+  r:rule [ a r:Fact; r:gives {{_:x_0_1 sudoku:solve _:x_1_1} <= {"problem(avar0,avar1)".
+    "append(avar1,avar2)".
+    "avar2 ins 1..9".
+    "maplist(all_distinct,avar1)".
+    "transpose(avar1,avar3)".
+    "maplist(all_distinct,avar3)".
+    "avar1=[avar4,avar5,avar6,avar7,avar8,avar9,avar10,avar11,avar12]".
+    "blocks(avar4,avar5,avar6)".
+    "blocks(avar7,avar8,avar9)".
+    "blocks(avar10,avar11,avar12)".
+    "maplist(label,avar1)"}}].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    {?x_0_2 sudoku:solve ?x_1_2} => {?x_0_2 sudoku:solve ?x_1_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3>].
+
+<#lemma5> a r:Inference;
+  r:gives {
+    2 sudoku:solve ((4 3 9 7 6 8 5 1 2) (6 8 7 2 1 5 9 4 3) (5 2 1 4 9 3 8 7 6) (1 7 8 9 2 4 3 6 5) (2 6 3 5 8 1 7 9 4) (9 4 5 3 7 6 1 2 8) (3 1 4 6 5 9 2 8 7) (8 5 2 1 4 7 6 3 9) (7 9 6 8 3 2 4 5 1)).
+  };
+  r:evidence (
+    <#lemma10>
+    [ a r:Fact; r:gives {"append([[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]],[4,3,9,7,6,8,5,1,2,6,8,7,2,1,5,9,4,3,5,2,1,4,9,3,8,7,6,1,7,8,9,2,4,3,6,5,2,6,3,5,8,1,7,9,4,9,4,5,3,7,6,1,2,8,3,1,4,6,5,9,2,8,7,8,5,2,1,4,7,6,3,9,7,9,6,8,3,2,4,5,1])"}]
+    [ a r:Fact; r:gives {"[4,3,9,7,6,8,5,1,2,6,8,7,2,1,5,9,4,3,5,2,1,4,9,3,8,7,6,1,7,8,9,2,4,3,6,5,2,6,3,5,8,1,7,9,4,9,4,5,3,7,6,1,2,8,3,1,4,6,5,9,2,8,7,8,5,2,1,4,7,6,3,9,7,9,6,8,3,2,4,5,1]ins 1..9"}]
+    [ a r:Fact; r:gives {"maplist(all_distinct,[[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]])"}]
+    [ a r:Fact; r:gives {"transpose([[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]],[[4,6,5,1,2,9,3,8,7],[3,8,2,7,6,4,1,5,9],[9,7,1,8,3,5,4,2,6],[7,2,4,9,5,3,6,1,8],[6,1,9,2,8,7,5,4,3],[8,5,3,4,1,6,9,7,2],[5,9,8,3,7,1,2,6,4],[1,4,7,6,9,2,8,3,5],[2,3,6,5,4,8,7,9,1]])"}]
+    [ a r:Fact; r:gives {"maplist(all_distinct,[[4,6,5,1,2,9,3,8,7],[3,8,2,7,6,4,1,5,9],[9,7,1,8,3,5,4,2,6],[7,2,4,9,5,3,6,1,8],[6,1,9,2,8,7,5,4,3],[8,5,3,4,1,6,9,7,2],[5,9,8,3,7,1,2,6,4],[1,4,7,6,9,2,8,3,5],[2,3,6,5,4,8,7,9,1]])"}]
+    [ a r:Fact; r:gives {"[[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]]=[[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]]"}]
+    <#lemma11>
+    <#lemma12>
+    <#lemma13>
+    [ a r:Fact; r:gives {"maplist(label,[[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]])"}]
+  );
+  r:rule [ a r:Fact; r:gives {{_:x_0_3 sudoku:solve _:x_1_3} <= {"problem(avar0,avar1)".
+    "append(avar1,avar2)".
+    "avar2 ins 1..9".
+    "maplist(all_distinct,avar1)".
+    "transpose(avar1,avar3)".
+    "maplist(all_distinct,avar3)".
+    "avar1=[avar4,avar5,avar6,avar7,avar8,avar9,avar10,avar11,avar12]".
+    "blocks(avar4,avar5,avar6)".
+    "blocks(avar7,avar8,avar9)".
+    "blocks(avar10,avar11,avar12)".
+    "maplist(label,avar1)"}}].
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    "problem(1,[[8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2],[4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8],[9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4]])".
+  };
+  r:because [ a r:Parsing; r:source <>].
+
+<#lemma7> a r:Inference;
+  r:gives {
+    "blocks([8,1,3,4,2,5,7,9,6],[6,2,4,8,9,7,3,5,1],[5,7,9,6,1,3,8,4,2])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([8,1,some0,6,2,4,some1,7,some2])"}]
+    <#lemma14>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma8> a r:Inference;
+  r:gives {
+    "blocks([4,3,7,2,8,9,6,1,5],[2,8,6,3,5,1,4,7,9],[1,9,5,7,6,4,2,3,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([4,3,7,2,8,6,1,9,5])"}]
+    <#lemma15>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma9> a r:Inference;
+  r:gives {
+    "blocks([9,4,2,5,3,8,1,6,7],[7,5,8,1,4,6,9,2,3],[3,6,1,9,7,2,5,8,4])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([9,4,2,7,5,8,3,6,1])"}]
+    <#lemma16>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma10> a r:Extraction;
+  r:gives {
+    "problem(2,[[4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6],[1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8],[3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1]])".
+  };
+  r:because [ a r:Parsing; r:source <>].
+
+<#lemma11> a r:Inference;
+  r:gives {
+    "blocks([4,3,9,7,6,8,5,1,2],[6,8,7,2,1,5,9,4,3],[5,2,1,4,9,3,8,7,6])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([4,some0,9,6,8,7,5,some1,1])"}]
+    <#lemma17>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma12> a r:Inference;
+  r:gives {
+    "blocks([1,7,8,9,2,4,3,6,5],[2,6,3,5,8,1,7,9,4],[9,4,5,3,7,6,1,2,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([1,7,8,2,6,3,9,4,5])"}]
+    <#lemma18>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma13> a r:Inference;
+  r:gives {
+    "blocks([3,1,4,6,5,9,2,8,7],[8,5,2,1,4,7,6,3,9],[7,9,6,8,3,2,4,5,1])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([3,1,4,8,5,2,7,9,6])"}]
+    <#lemma19>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma14> a r:Inference;
+  r:gives {
+    "blocks([4,2,5,some3,some4,some5],[some6,some7,7,some8,some9,1],[some10,1,some11,some12,some13,2])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([4,2,5,some0,some1,7,some2,1,some3])"}]
+    <#lemma20>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma15> a r:Inference;
+  r:gives {
+    "blocks([2,8,9,6,1,5],[3,5,1,4,7,9],[7,6,4,2,3,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([2,8,9,3,5,1,7,6,4])"}]
+    <#lemma21>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma16> a r:Inference;
+  r:gives {
+    "blocks([5,3,8,1,6,7],[1,4,6,9,2,3],[9,7,2,5,8,4])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([5,3,8,1,4,6,9,7,2])"}]
+    <#lemma22>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma17> a r:Inference;
+  r:gives {
+    "blocks([some2,some3,8,5,1,some4],[some5,1,5,9,some6,some7],[some8,some9,some10,8,7,some11])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([some0,some1,8,some2,1,5,some3,some4,some5])"}]
+    <#lemma23>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma18> a r:Inference;
+  r:gives {
+    "blocks([9,2,4,3,6,5],[5,8,1,7,9,4],[3,7,6,1,2,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([9,2,4,5,8,1,3,7,6])"}]
+    <#lemma24>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma19> a r:Inference;
+  r:gives {
+    "blocks([6,5,9,2,8,7],[1,4,7,6,3,9],[8,3,2,4,5,1])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([6,5,9,1,4,7,8,3,2])"}]
+    <#lemma25>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma20> a r:Inference;
+  r:gives {
+    "blocks([some4,some5,some6],[some7,some8,1],[some9,some10,2])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([some0,some1,some2,some3,some4,1,some5,some6,2])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma21> a r:Inference;
+  r:gives {
+    "blocks([6,1,5],[4,7,9],[2,3,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([6,1,5,4,7,9,2,3,8])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma22> a r:Inference;
+  r:gives {
+    "blocks([1,6,7],[9,2,3],[5,8,4])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([1,6,7,9,2,3,5,8,4])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma23> a r:Inference;
+  r:gives {
+    "blocks([5,1,some6],[9,some7,some8],[8,7,some9])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([5,1,some0,9,some1,some2,8,7,some3])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma24> a r:Inference;
+  r:gives {
+    "blocks([3,6,5],[7,9,4],[1,2,8])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([3,6,5,7,9,4,1,2,8])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma25> a r:Inference;
+  r:gives {
+    "blocks([2,8,7],[6,3,9],[4,5,1])".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"all_distinct([2,8,7,6,3,9,4,5,1])"}]
+    <#lemma26>
+  );
+  r:rule [ a r:Fact; r:gives {"blocks([avar0,avar1,avar2|avar9],[avar3,avar4,avar5|avar10],[avar6,avar7,avar8|avar11])" <= {"all_distinct([avar0,avar1,avar2,avar3,avar4,avar5,avar6,avar7,avar8])".
+    "blocks(avar9,avar10,avar11)"}}].
+
+<#lemma26> a r:Extraction;
+  r:gives {
+    "blocks([],[],[])".
+  };
+  r:because [ a r:Parsing; r:source <>].
+
+#2019-08-10T22:24:23.579Z in=1 out=2 ent=2 step=2 brake=1 inf=2074118 sec=0.747 inf/sec=2776597
+#ENDS
+
