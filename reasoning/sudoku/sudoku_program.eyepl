@@ -1,24 +1,84 @@
-% Original https://www.metalevel.at/sudoku/sudoku.pl
-
-:- use_module(library(clpfd)).
-:- use_module(library(apply)).
-
 pfx('sudoku:', '<http://josd.github.io/eye/reasoning/sudoku#>').
 
 '<http://josd.github.io/eye/reasoning/sudoku#solve>'(Problem, Rows) :-
     problem(Problem, Rows),
-    append(Rows, Vs), Vs ins 1..9,
-    maplist(all_distinct, Rows),
-    transpose(Rows, Columns),
-    maplist(all_distinct, Columns),
-    Rows = [A,B,C,D,E,F,G,H,I],
-    blocks(A, B, C), blocks(D, E, F), blocks(G, H, I),
-    maplist(label, Rows).
+    forall(
+        (   between(0, 8, I)
+        ),
+        (   nth0(I, Rows, Row),
+            forall(
+                (   between(0, 8, J)
+                ),
+                (   nth0(J, Row, N),
+                    assertz(grid(I, J, N))
+                )
+            )
+        )
+    ),
+    sudoku(0, 0),
+    findall(
+        Row,
+        (   between(0, 8, I),
+            findall(
+                N,
+                (   between(0, 8, J),
+                    retract(grid(I, J, N))
+                ),
+                Row
+            )
+        ),
+        Rows
+    ).
 
-blocks([], [], []).
-blocks([A,B,C|Bs1], [D,E,F|Bs2], [G,H,I|Bs3]) :-
-    all_distinct([A,B,C,D,E,F,G,H,I]),
-    blocks(Bs1, Bs2, Bs3).
+sudoku(Row, Col) :-
+    grid(Row, Col, Num),
+    nonvar(Num),
+    !,
+    (   Colp1 is Col+1,
+        Colp1 < 9
+    ->  sudoku(Row, Colp1)
+    ;   (   Rowp1 is Row+1,
+            Rowp1 < 9
+        ->  sudoku(Rowp1, 0)
+        ;   true
+        )
+    ).
+sudoku(Row, Col) :-
+    between(1, 9, I),
+    available(Row, Col, I),
+    retract(grid(Row, Col, _)),
+    assertz(grid(Row, Col, I)),
+    (   Colp1 is Col+1,
+        Colp1 < 9
+    ->  (   sudoku(Row, Colp1)
+        ->  true
+        ;   retract(grid(Row, Col, _)),
+            assertz(grid(Row, Col, _)),
+            fail
+        )
+    ;   (   Rowp1 is Row+1,
+            Rowp1 < 9
+        ->  (   sudoku(Rowp1, 0)
+            ->  true
+            ;   retract(grid(Row, Col, _)),
+                assertz(grid(Row, Col, _)),
+                fail
+            )
+        ;   true
+        )
+    ).
+
+available(Row, Col, Num) :-
+    forall(
+        (   between(0, 8, I)
+        ),
+        (   \+ (grid(Row, I, N), nonvar(N), N = Num),
+            \+ (grid(I, Col, N), nonvar(N), N = Num),
+            Rb is div(Row, 3)*3+mod(I, 3),
+            Cb is div(Col, 3)*3+div(I, 3),
+            \+ (grid(Rb, Cb, N), nonvar(N), N = Num)
+        )
+    ).
 
 problem(1, [[8,_,_,4,_,5,_,_,_],
             [6,_,4,_,_,_,_,_,1],
