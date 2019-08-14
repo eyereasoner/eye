@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0723.1200 josd').
+version_info('EYE v19.0814.1148 josd').
 
 license_info('MIT License
 
@@ -2554,8 +2554,9 @@ symbol(Name, [bnode(Label)|L2], L2) :-
     ;   atom_concat(N, '_', M),
         gensym(M, S),
         assertz(evar(N, S, D))
-    ),
-    (   (   nb_getval(fdepth, 0)
+   ),
+    (   (   nb_getval(fdepth, FD),
+            FD =\= 1
         ;   flag('pass-all-ground')
         )
     ->  nb_getval(var_ns, Vns),

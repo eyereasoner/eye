@@ -1,1 +1,1141 @@
-# Sun Aug 11 00:36:55 CEST 2019
+# Wed Aug 14 12:38:44 CEST 2019
+-    {{{:a :b :_c} log:equalTo {:a :b :_c}} => {:loged3 :result true}} a :PASS.
+-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-      {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}} => {:loges3 :result true}} a :PASS.
+-    {{{:a :b :c} log:includes {:a :b :c}} => {:logid1 :result true}} a :PASS.
+-    {{{:a :b :_c} log:includes {:a :b :_c}} => {:logid3 :result true}} a :PASS.
+-    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-      {:a :b :c} log:includes {:a :b :c}} => {:logis1 :result true}} a :PASS.
+-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-      {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}} => {:logis3 :result true}} a :PASS.
++    {{{:a :b :_c} log:equalTo {:a :b _:e_c_2}} => {:loged3 :result true}} a :FAIL.
++    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_18.
++      _:sk_18 log:equalTo {:a :b _:e_c_3}} => {:loges3 :result true}} a :FAIL.
++    {{{:a :b :c} log:includes {:a :b _:e_c_4}} => {:logid1 :result true}} a :FAIL.
++    {{{:a :b :_c} log:includes {:a :b _:e_c_5}} => {:logid3 :result true}} a :FAIL.
++    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics _:sk_19.
++      _:sk_19 log:includes {:a :b _:e_c_6}} => {:logis1 :result true}} a :FAIL.
++    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_20.
++      _:sk_20 log:includes {:a :b _:e_c_7}} => {:logis3 :result true}} a :FAIL.
+-    {{{:a :b :_c} log:equalTo {:a :b :_c}} => {:loged3 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++      {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :_c} log:equalTo {:a :b :_c}} => {:loged3 :result true}}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++     {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}}]
+-    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-      {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
++    {{{:b :a :c.
++       :e :d :f.
++       :h :g :i.
++       :k :j :l} log:includes {:k :j :l.
++       :e :d :f}} => {:logi1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-     {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}}]
++    [ a r:Fact; r:gives {{{:b :a :c.
++      :e :d :f.
++      :h :g :i.
++      :k :j :l} log:includes {:k :j :l.
++      :e :d :f}} => {:logi1 :result true}}]
+-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-      {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}} => {:loges3 :result true}} a :PASS.
++    {{{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}} => {:loges3 :result true}}]
++    [ a r:Fact; r:gives {{{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}}]
+-    {{{:b :a :c.
+-       :e :d :f.
+-       :h :g :i.
+-       :k :j :l} log:includes {:k :j :l.
+-       :e :d :f}} => {:logi1 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++      {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:b :a :c.
+-      :e :d :f.
+-      :h :g :i.
+-      :k :j :l} log:includes {:k :j :l.
+-      :e :d :f}} => {:logi1 :result true}}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++     {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}}]
+-    {{{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}} a :PASS.
++    {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}}]
++    [ a r:Fact; r:gives {{:a log:notEqualTo :b} => {:logne1 :result true}}]
+-    {{{:a :b :c} log:includes {:a :b :c}} => {:logid1 :result true}} a :PASS.
++    {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :c} log:includes {:a :b :c}} => {:logid1 :result true}}]
++    [ a r:Fact; r:gives {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}}]
+-    <#lemma209>
++    <#lemma211>
+-    {{{:a :b :_c} log:includes {:a :b :_c}} => {:logid3 :result true}} a :PASS.
++    {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :_c} log:includes {:a :b :_c}} => {:logid3 :result true}}]
+-    <#lemma211>
++    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}}]
++    <#lemma213>
+-    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-      {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}} a :PASS.
++    {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-     {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}}]
+-    <#lemma213>
++    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}}]
+-  );
+-  r:rule <#lemma100>.
+-
+-<#lemma60> a r:Inference;
+-  r:gives {
+-    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-      {:a :b :c} log:includes {:a :b :c}} => {:logis1 :result true}} a :PASS.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-     {:a :b :c} log:includes {:a :b :c}} => {:logis1 :result true}}]
+-    <#lemma214>
+-<#lemma61> a r:Inference;
++<#lemma60> a r:Inference;
+-      {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}} => {:logis3 :result true}} a :PASS.
++      {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+-     {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}} => {:logis3 :result true}}]
++     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
+-<#lemma62> a r:Inference;
++<#lemma61> a r:Inference;
+-    {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
++      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++      {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis3 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{:a log:notEqualTo :b} => {:logne1 :result true}}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
++     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
++     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis3 :result true}}]
+-<#lemma63> a r:Inference;
++<#lemma62> a r:Inference;
+-    {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
++    {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}}]
++    [ a r:Fact; r:gives {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}}]
+-<#lemma64> a r:Inference;
++<#lemma63> a r:Inference;
+-    {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
++    {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}}]
++    [ a r:Fact; r:gives {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}}]
+-<#lemma65> a r:Inference;
++<#lemma64> a r:Inference;
+-    {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
++    {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}}]
++    [ a r:Fact; r:gives {{(1 1) math:difference 0} => {:mathd1 :result true}}]
+-<#lemma66> a r:Inference;
++<#lemma65> a r:Inference;
+-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-      {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
++    {{("2009-01-25T12:00:00"^^xsd:dateTime "1970-01-01T00:00:00"^^xsd:dateTime) math:difference 1232884800} => {:mathd2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
++    [ a r:Fact; r:gives {{("2009-01-25T12:00:00"^^xsd:dateTime "1970-01-01T00:00:00"^^xsd:dateTime) math:difference 1232884800} => {:mathd2 :result true}}]
+-<#lemma67> a r:Inference;
++<#lemma66> a r:Inference;
+-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-      {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis3 :result true}} a :PASS.
++    {{(2 3.0) math:exponentiation 8.0 .
++      (4.0 3.0) math:product 12.0} => {:mathe1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+-     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis3 :result true}}]
++    [ a r:Fact; r:gives {{(2 3.0) math:exponentiation 8.0 .
++     (4.0 3.0) math:product 12.0} => {:mathe1 :result true}}]
+-<#lemma68> a r:Inference;
++<#lemma67> a r:Inference;
+-    {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
++    {{2 math:greaterThan 1} => {:mathg1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}}]
++    [ a r:Fact; r:gives {{2 math:greaterThan 1} => {:mathg1 :result true}}]
+-<#lemma69> a r:Inference;
++<#lemma68> a r:Inference;
+-    {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
++    {{"02" math:greaterThan "1"} => {:mathg2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}}]
++    [ a r:Fact; r:gives {{"02" math:greaterThan "1"} => {:mathg2 :result true}}]
+-<#lemma70> a r:Inference;
++<#lemma69> a r:Inference;
+-    {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.
++    {{(:u :v :u) math:memberCount 3} => {:mathm1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(1 1) math:difference 0} => {:mathd1 :result true}}]
++    [ a r:Fact; r:gives {{(:u :v :u) math:memberCount 3} => {:mathm1 :result true}}]
+-<#lemma71> a r:Inference;
++<#lemma70> a r:Inference;
+-    {{("2009-01-25T12:00:00"^^xsd:dateTime "1970-01-01T00:00:00"^^xsd:dateTime) math:difference 1232884800} => {:mathd2 :result true}} a :PASS.
++    {{{:s :p :o1.
++       :s :p :o2.
++       :s :p :o1} math:memberCount 2} => {:mathm2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("2009-01-25T12:00:00"^^xsd:dateTime "1970-01-01T00:00:00"^^xsd:dateTime) math:difference 1232884800} => {:mathd2 :result true}}]
++    [ a r:Fact; r:gives {{{:s :p :o1.
++      :s :p :o2.
++      :s :p :o1} math:memberCount 2} => {:mathm2 :result true}}]
+-<#lemma72> a r:Inference;
++<#lemma71> a r:Inference;
+-    {{(2 3.0) math:exponentiation 8.0 .
+-      (4.0 3.0) math:product 12.0} => {:mathe1 :result true}} a :PASS.
++    {{7 math:notLessThan 5} => {:mathnl1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(2 3.0) math:exponentiation 8.0 .
+-     (4.0 3.0) math:product 12.0} => {:mathe1 :result true}}]
++    [ a r:Fact; r:gives {{7 math:notLessThan 5} => {:mathnl1 :result true}}]
+-<#lemma73> a r:Inference;
++<#lemma72> a r:Inference;
+-    {{2 math:greaterThan 1} => {:mathg1 :result true}} a :PASS.
++    {{(1 1) math:sum 2} => {:maths1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{2 math:greaterThan 1} => {:mathg1 :result true}}]
++    [ a r:Fact; r:gives {{(1 1) math:sum 2} => {:maths1 :result true}}]
+-<#lemma74> a r:Inference;
++<#lemma73> a r:Inference;
+-    {{"02" math:greaterThan "1"} => {:mathg2 :result true}} a :PASS.
++    {{("1" "1") math:sum 2} => {:maths2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{"02" math:greaterThan "1"} => {:mathg2 :result true}}]
++    [ a r:Fact; r:gives {{("1" "1") math:sum 2} => {:maths2 :result true}}]
+-<#lemma75> a r:Inference;
++<#lemma74> a r:Inference;
+-    {{(:u :v :u) math:memberCount 3} => {:mathm1 :result true}} a :PASS.
++    {{("1970-01-01T00:00:00+01:00"^^xsd:dateTime) math:sum -3600} => {:maths3 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(:u :v :u) math:memberCount 3} => {:mathm1 :result true}}]
++    [ a r:Fact; r:gives {{("1970-01-01T00:00:00+01:00"^^xsd:dateTime) math:sum -3600} => {:maths3 :result true}}]
+-<#lemma76> a r:Inference;
++<#lemma75> a r:Inference;
+-    {{{:s :p :o1.
+-       :s :p :o2.
+-       :s :p :o1} math:memberCount 2} => {:mathm2 :result true}} a :PASS.
++    {{("P1D"^^xsd:duration) math:sum 86400.0} => {:maths4 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{{:s :p :o1.
+-      :s :p :o2.
+-      :s :p :o1} math:memberCount 2} => {:mathm2 :result true}}]
++    [ a r:Fact; r:gives {{("P1D"^^xsd:duration) math:sum 86400.0} => {:maths4 :result true}}]
+-<#lemma77> a r:Inference;
++<#lemma76> a r:Inference;
+-    {{7 math:notLessThan 5} => {:mathnl1 :result true}} a :PASS.
++    {{(:f :g) rdf:first :f} => {:rdff1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{7 math:notLessThan 5} => {:mathnl1 :result true}}]
++    [ a r:Fact; r:gives {{(:f :g) rdf:first :f} => {:rdff1 :result true}}]
+-<#lemma78> a r:Inference;
++<#lemma77> a r:Inference;
+-    {{(1 1) math:sum 2} => {:maths1 :result true}} a :PASS.
++    {{(:f :g) rdf:rest (:g)} => {:rdfr1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(1 1) math:sum 2} => {:maths1 :result true}}]
++    [ a r:Fact; r:gives {{(:f :g) rdf:rest (:g)} => {:rdfr1 :result true}}]
+-<#lemma79> a r:Inference;
++<#lemma78> a r:Inference;
+-    {{("1" "1") math:sum 2} => {:maths2 :result true}} a :PASS.
++    {{("eul" "er") string:concatenation "euler"} => {:strc1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("1" "1") math:sum 2} => {:maths2 :result true}}]
++    [ a r:Fact; r:gives {{("eul" "er") string:concatenation "euler"} => {:strc1 :result true}}]
+-<#lemma80> a r:Inference;
++<#lemma79> a r:Inference;
+-    {{("1970-01-01T00:00:00+01:00"^^xsd:dateTime) math:sum -3600} => {:maths3 :result true}} a :PASS.
++    {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("1970-01-01T00:00:00+01:00"^^xsd:dateTime) math:sum -3600} => {:maths3 :result true}}]
++    [ a r:Fact; r:gives {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}}]
+-<#lemma81> a r:Inference;
++<#lemma80> a r:Inference;
+-    {{("P1D"^^xsd:duration) math:sum 86400.0} => {:maths4 :result true}} a :PASS.
++    {{("test " "is \"ok\"") string:concatenation "test is \"ok\""} => {:strc3 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("P1D"^^xsd:duration) math:sum 86400.0} => {:maths4 :result true}}]
++    [ a r:Fact; r:gives {{("test " "is \"ok\"") string:concatenation "test is \"ok\""} => {:strc3 :result true}}]
+-<#lemma82> a r:Inference;
++<#lemma81> a r:Inference;
+-    {{(:f :g) rdf:first :f} => {:rdff1 :result true}} a :PASS.
++    {{"Rob Smith" string:contains "Smith"} => {:strcn1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(:f :g) rdf:first :f} => {:rdff1 :result true}}]
++    [ a r:Fact; r:gives {{"Rob Smith" string:contains "Smith"} => {:strcn1 :result true}}]
+-<#lemma83> a r:Inference;
++<#lemma82> a r:Inference;
+-    {{(:f :g) rdf:rest (:g)} => {:rdfr1 :result true}} a :PASS.
++    {{"Rob Smith"@en string:contains "Smith"@en} => {:strcn2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{(:f :g) rdf:rest (:g)} => {:rdfr1 :result true}}]
++    [ a r:Fact; r:gives {{"Rob Smith"@en string:contains "Smith"@en} => {:strcn2 :result true}}]
+-<#lemma84> a r:Inference;
++<#lemma83> a r:Inference;
+-    {{("eul" "er") string:concatenation "euler"} => {:strc1 :result true}} a :PASS.
++    {{"Tim" string:containsIgnoringCase "IM"} => {:strci1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("eul" "er") string:concatenation "euler"} => {:strc1 :result true}}]
++    [ a r:Fact; r:gives {{"Tim" string:containsIgnoringCase "IM"} => {:strci1 :result true}}]
+-<#lemma85> a r:Inference;
++<#lemma84> a r:Inference;
+-    {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
++    {{"abracadabra" string:matches "(a|b|r|c|d)+"} => {:strm1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}}]
++    [ a r:Fact; r:gives {{"abracadabra" string:matches "(a|b|r|c|d)+"} => {:strm1 :result true}}]
+-<#lemma86> a r:Inference;
++<#lemma85> a r:Inference;
+-    {{("test " "is \"ok\"") string:concatenation "test is \"ok\""} => {:strc3 :result true}} a :PASS.
++    {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:scrape "example.org"} => {:strs1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("test " "is \"ok\"") string:concatenation "test is \"ok\""} => {:strc3 :result true}}]
++    [ a r:Fact; r:gives {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:scrape "example.org"} => {:strs1 :result true}}]
+-<#lemma87> a r:Inference;
++<#lemma86> a r:Inference;
+-    {{"Rob Smith" string:contains "Smith"} => {:strcn1 :result true}} a :PASS.
++    {{("{x" "{(.)") string:scrape "x"} => {:strs2 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{"Rob Smith" string:contains "Smith"} => {:strcn1 :result true}}]
++    [ a r:Fact; r:gives {{("{x" "{(.)") string:scrape "x"} => {:strs2 :result true}}]
+-<#lemma88> a r:Inference;
++<#lemma87> a r:Inference;
+-    {{"Rob Smith"@en string:contains "Smith"@en} => {:strcn2 :result true}} a :PASS.
++    {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:search ("example.org" "1995")} => {:strs3 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{"Rob Smith"@en string:contains "Smith"@en} => {:strcn2 :result true}}]
++    [ a r:Fact; r:gives {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:search ("example.org" "1995")} => {:strs3 :result true}}]
+-<#lemma89> a r:Inference;
++<#lemma88> a r:Inference;
+-    {{"Tim" string:containsIgnoringCase "IM"} => {:strci1 :result true}} a :PASS.
++    {{"euler" string:startsWith "eu"} => {:strs4 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{"Tim" string:containsIgnoringCase "IM"} => {:strci1 :result true}}]
++    [ a r:Fact; r:gives {{"euler" string:startsWith "eu"} => {:strs4 :result true}}]
+-<#lemma90> a r:Inference;
++<#lemma89> a r:Inference;
+-    {{"abracadabra" string:matches "(a|b|r|c|d)+"} => {:strm1 :result true}} a :PASS.
++    {{"2006-12-14"^^xsd:date time:day "14"} => {:timed1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{"abracadabra" string:matches "(a|b|r|c|d)+"} => {:strm1 :result true}}]
++    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:day "14"} => {:timed1 :result true}}]
+-<#lemma91> a r:Inference;
++<#lemma90> a r:Inference;
+-    {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:scrape "example.org"} => {:strs1 :result true}} a :PASS.
++    {{"2006-12-14"^^xsd:date time:month "12"} => {:timem1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:scrape "example.org"} => {:strs1 :result true}}]
++    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:month "12"} => {:timem1 :result true}}]
+-<#lemma92> a r:Inference;
++<#lemma91> a r:Inference;
+-    {{("{x" "{(.)") string:scrape "x"} => {:strs2 :result true}} a :PASS.
++    {{"2006-12-14"^^xsd:date time:year "2006"} => {:timey1 :result true}} a :PASS.
+-    [ a r:Fact; r:gives {{("{x" "{(.)") string:scrape "x"} => {:strs2 :result true}}]
++    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:year "2006"} => {:timey1 :result true}}]
++<#lemma92> a r:Inference;
++  r:gives {
++    {{{:a :b :_c} log:equalTo {:a :b _:e_c_2}} => {:loged3 :result true}} a :FAIL.
++  };
++  r:evidence (
++    [ a r:Fact; r:gives {{{:a :b :_c} log:equalTo {:a :b _:e_c_2}} => {:loged3 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:loged3 :result true} ())}]
++    [ a r:Fact; r:gives {{{:a :b :_c} log:equalTo {:a :b _:e_c_2}} e:labelvars {{:a :b :_c} log:equalTo {:a :b _:e_c_2}}}]
++  );
++  r:rule <#lemma280>.
++
+-    {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:search ("example.org" "1995")} => {:strs3 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_18.
++      _:sk_18 log:equalTo {:a :b _:e_c_3}} => {:loges3 :result true}} a :FAIL.
+-    [ a r:Fact; r:gives {{("http://example.org/1995/manifesto" "http://([^/]+)/([^/]+)") string:search ("example.org" "1995")} => {:strs3 :result true}}]
+-    <#lemma280>
+-    <#lemma281>
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?U_18.
++     ?U_18 log:equalTo {:a :b _:e_c_3}} => {:loges3 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:loges3 :result true} ())}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_18.
++     _:sk_18 log:equalTo {:a :b _:e_c_3}} e:labelvars {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_18.
++     _:sk_18 log:equalTo {:a :b _:e_c_3}}}]
+-  r:rule <#lemma100>.
++  r:rule <#lemma280>.
+-    {{"euler" string:startsWith "eu"} => {:strs4 :result true}} a :PASS.
++    {{{:a :b :c} log:includes {:a :b _:e_c_4}} => {:logid1 :result true}} a :FAIL.
+-    [ a r:Fact; r:gives {{"euler" string:startsWith "eu"} => {:strs4 :result true}}]
+-    <#lemma282>
+-    <#lemma283>
++    [ a r:Fact; r:gives {{{:a :b :c} log:includes {:a :b _:e_c_4}} => {:logid1 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:logid1 :result true} ())}]
++    [ a r:Fact; r:gives {{{:a :b :c} log:includes {:a :b _:e_c_4}} e:labelvars {{:a :b :c} log:includes {:a :b _:e_c_4}}}]
+-  r:rule <#lemma100>.
++  r:rule <#lemma280>.
+-    {{"2006-12-14"^^xsd:date time:day "14"} => {:timed1 :result true}} a :PASS.
++    {{{:a :b :_c} log:includes {:a :b _:e_c_5}} => {:logid3 :result true}} a :FAIL.
+-    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:day "14"} => {:timed1 :result true}}]
+-    <#lemma284>
+-    <#lemma285>
++    [ a r:Fact; r:gives {{{:a :b :_c} log:includes {:a :b _:e_c_5}} => {:logid3 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:logid3 :result true} ())}]
++    [ a r:Fact; r:gives {{{:a :b :_c} log:includes {:a :b _:e_c_5}} e:labelvars {{:a :b :_c} log:includes {:a :b _:e_c_5}}}]
+-  r:rule <#lemma100>.
++  r:rule <#lemma280>.
+-    {{"2006-12-14"^^xsd:date time:month "12"} => {:timem1 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics _:sk_19.
++      _:sk_19 log:includes {:a :b _:e_c_6}} => {:logis1 :result true}} a :FAIL.
+-    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:month "12"} => {:timem1 :result true}}]
+-    <#lemma286>
+-    <#lemma287>
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?U_19.
++     ?U_19 log:includes {:a :b _:e_c_6}} => {:logis1 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:logis1 :result true} ())}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics _:sk_19.
++     _:sk_19 log:includes {:a :b _:e_c_6}} e:labelvars {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics _:sk_19.
++     _:sk_19 log:includes {:a :b _:e_c_6}}}]
+-  r:rule <#lemma100>.
++  r:rule <#lemma280>.
+-    {{"2006-12-14"^^xsd:date time:year "2006"} => {:timey1 :result true}} a :PASS.
++    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_20.
++      _:sk_20 log:includes {:a :b _:e_c_7}} => {:logis3 :result true}} a :FAIL.
+-    [ a r:Fact; r:gives {{"2006-12-14"^^xsd:date time:year "2006"} => {:timey1 :result true}}]
+-    <#lemma288>
+-    <#lemma289>
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?U_20.
++     ?U_20 log:includes {:a :b _:e_c_7}} => {:logis3 :result true}}]
++    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 2) e:findall ((true) {:logis3 :result true} ())}]
++    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_20.
++     _:sk_20 log:includes {:a :b _:e_c_7}} e:labelvars {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics _:sk_20.
++     _:sk_20 log:includes {:a :b _:e_c_7}}}]
+-  r:rule <#lemma100>.
++  r:rule <#lemma280>.
+-  r:rule <#lemma290>.
++  r:rule <#lemma281>.
+-  r:rule <#lemma291>.
++  r:rule <#lemma282>.
+-  r:rule <#lemma292>.
++  r:rule <#lemma283>.
+-  r:rule <#lemma293>.
++  r:rule <#lemma284>.
+-  r:rule <#lemma294>.
++  r:rule <#lemma285>.
+-  r:rule <#lemma295>.
++  r:rule <#lemma286>.
+-  r:rule <#lemma296>.
++  r:rule <#lemma287>.
+-  r:rule <#lemma297>.
++  r:rule <#lemma288>.
+-  r:rule <#lemma298>.
++  r:rule <#lemma289>.
+-  r:rule <#lemma299>.
++  r:rule <#lemma290>.
+-  r:rule <#lemma300>.
++  r:rule <#lemma291>.
+-  r:rule <#lemma301>.
++  r:rule <#lemma292>.
+-  r:rule <#lemma302>.
++  r:rule <#lemma293>.
+-  r:rule <#lemma303>.
++  r:rule <#lemma294>.
+-  r:rule <#lemma304>.
++  r:rule <#lemma295>.
+-  r:rule <#lemma305>.
++  r:rule <#lemma296>.
+-  r:rule <#lemma306>.
++  r:rule <#lemma297>.
+-  r:rule <#lemma307>.
++  r:rule <#lemma298>.
+-  r:rule <#lemma308>.
++  r:rule <#lemma299>.
+-  r:rule <#lemma309>.
++  r:rule <#lemma300>.
+-  r:rule <#lemma310>.
++  r:rule <#lemma301>.
+-  r:rule <#lemma311>.
++  r:rule <#lemma302>.
+-  r:rule <#lemma312>.
++  r:rule <#lemma303>.
+-    <#lemma313>
++    <#lemma304>
+-  r:rule <#lemma314>.
++  r:rule <#lemma305>.
+-    <#lemma313>
++    <#lemma304>
+-  r:rule <#lemma315>.
++  r:rule <#lemma306>.
+-  r:rule <#lemma316>.
++  r:rule <#lemma307>.
+-  r:rule <#lemma317>.
++  r:rule <#lemma308>.
+-  r:rule <#lemma318>.
++  r:rule <#lemma309>.
+-  r:rule <#lemma319>.
++  r:rule <#lemma310>.
+-  r:rule <#lemma320>.
++  r:rule <#lemma311>.
+-  r:rule <#lemma321>.
++  r:rule <#lemma312>.
+-  r:rule <#lemma322>.
++  r:rule <#lemma313>.
+-  r:rule <#lemma323>.
++  r:rule <#lemma314>.
+-  r:rule <#lemma324>.
++  r:rule <#lemma315>.
+-  r:rule <#lemma325>.
++  r:rule <#lemma316>.
+-  r:rule <#lemma326>.
++  r:rule <#lemma317>.
+-    <#lemma327>
++    <#lemma318>
+-  r:rule <#lemma328>.
++  r:rule <#lemma319>.
+-    <#lemma327>
++    <#lemma318>
+-    <#lemma313>
++    <#lemma304>
+-  r:rule <#lemma329>.
++  r:rule <#lemma320>.
+-  r:rule <#lemma330>.
++  r:rule <#lemma321>.
+-  r:rule <#lemma331>.
++  r:rule <#lemma322>.
+-  r:rule <#lemma332>.
++  r:rule <#lemma323>.
+-  r:rule <#lemma333>.
++  r:rule <#lemma324>.
+-  r:rule <#lemma334>.
++  r:rule <#lemma325>.
+-  r:rule <#lemma335>.
++  r:rule <#lemma326>.
+-  r:rule <#lemma336>.
++  r:rule <#lemma327>.
+-  r:rule <#lemma337>.
++  r:rule <#lemma328>.
+-  r:rule <#lemma338>.
++  r:rule <#lemma329>.
+-  r:rule <#lemma339>.
++  r:rule <#lemma330>.
+-  r:rule <#lemma340>.
++  r:rule <#lemma331>.
+-  r:rule <#lemma341>.
++  r:rule <#lemma332>.
+-  r:gives {
+-    :loged3 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{:a :b :_c} log:equalTo {:a :b :_c}}]
+-  );
+-  r:rule <#lemma342>.
+-
+-<#lemma201> a r:Inference;
+-  r:gives {
+-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:equalTo {:a :b :_c}}.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{:a :b :_c} log:equalTo {:a :b :_c}}]
+-  );
+-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:equalTo {:a :b :_c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:equalTo {:a :b :_c}}}}].
+-
+-<#lemma202> a r:Inference;
+-  r:rule <#lemma343>.
++  r:rule <#lemma333>.
+-<#lemma203> a r:Inference;
++<#lemma201> a r:Inference;
+-<#lemma204> a r:Inference;
+-  r:gives {
+-    :loges3 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}}]
+-    [ a r:Fact; r:gives {{:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}}]
+-  );
+-  r:rule <#lemma344>.
+-
+-<#lemma205> a r:Inference;
+-  r:gives {
+-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}}.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}}]
+-    [ a r:Fact; r:gives {{:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}}]
+-  );
+-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-    {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:equalTo {:a :b _:e_c_8}}}}].
+-
+-<#lemma206> a r:Inference;
++<#lemma202> a r:Inference;
+-  r:rule <#lemma345>.
++  r:rule <#lemma334>.
+-<#lemma207> a r:Inference;
++<#lemma203> a r:Inference;
+-<#lemma208> a r:Inference;
++<#lemma204> a r:Inference;
+-  r:rule <#lemma346>.
++  r:rule <#lemma335>.
+-<#lemma209> a r:Inference;
++<#lemma205> a r:Inference;
+-<#lemma210> a r:Inference;
+-  r:gives {
+-    :logid1 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{:a :b :c} log:includes {:a :b :c}}]
+-  );
+-  r:rule <#lemma347>.
+-
+-<#lemma211> a r:Inference;
+-  r:gives {
+-    :logid3 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{:a :b :_c} log:includes {:a :b :_c}}]
+-  );
+-  r:rule <#lemma348>.
+-
+-<#lemma212> a r:Inference;
+-  r:gives {
+-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:includes {:a :b :_c}}.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {{:a :b :_c} log:includes {:a :b :_c}}]
+-  );
+-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:includes {:a :b :_c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:includes {:a :b :_c}}}}].
+-
+-<#lemma213> a r:Inference;
++<#lemma206> a r:Inference;
+-  r:rule <#lemma349>.
++  r:rule <#lemma336>.
+-<#lemma214> a r:Inference;
++<#lemma207> a r:Inference;
+-<#lemma215> a r:Inference;
+-  r:gives {
+-    :logis1 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
+-    [ a r:Fact; r:gives {{:a :b :c} log:includes {:a :b :c}}]
+-  );
+-  r:rule <#lemma350>.
+-
+-<#lemma216> a r:Inference;
+-  r:gives {
+-    :logis3 :result true.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}}]
+-    [ a r:Fact; r:gives {{:a :b _:e_c_8} log:includes {:a :b _:e_c_8}}]
+-  );
+-  r:rule <#lemma351>.
+-
+-<#lemma217> a r:Inference;
+-  r:gives {
+-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}}.
+-  };
+-  r:evidence (
+-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}}]
+-    [ a r:Fact; r:gives {{:a :b _:e_c_8} log:includes {:a :b _:e_c_8}}]
+-  );
+-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-    {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+-     {:a :b _:e_c_8} log:includes {:a :b _:e_c_8}}}}].
+-
+-<#lemma218> a r:Inference;
++<#lemma208> a r:Inference;
+-  r:rule <#lemma352>.
++  r:rule <#lemma337>.
+-<#lemma219> a r:Inference;
++<#lemma209> a r:Inference;
+-<#lemma220> a r:Inference;
++<#lemma210> a r:Inference;
+-  r:rule <#lemma353>.
++  r:rule <#lemma338>.
+-<#lemma221> a r:Inference;
++<#lemma211> a r:Inference;
+-<#lemma222> a r:Inference;
++<#lemma212> a r:Inference;
+-  r:rule <#lemma354>.
++  r:rule <#lemma339>.
+-<#lemma223> a r:Inference;
++<#lemma213> a r:Inference;
+-<#lemma224> a r:Inference;
++<#lemma214> a r:Inference;
+-  r:rule <#lemma355>.
++  r:rule <#lemma340>.
+-<#lemma225> a r:Inference;
++<#lemma215> a r:Inference;
+-<#lemma226> a r:Inference;
++<#lemma216> a r:Inference;
+-  r:rule <#lemma356>.
++  r:rule <#lemma341>.
+-<#lemma227> a r:Inference;
++<#lemma217> a r:Inference;
+-<#lemma228> a r:Inference;
++<#lemma218> a r:Inference;
+-  r:rule <#lemma357>.
++  r:rule <#lemma342>.
+-<#lemma229> a r:Inference;
++<#lemma219> a r:Inference;
+-<#lemma230> a r:Inference;
++<#lemma220> a r:Inference;
+-  r:rule <#lemma358>.
++  r:rule <#lemma343>.
+-<#lemma231> a r:Inference;
++<#lemma221> a r:Inference;
+-<#lemma232> a r:Inference;
++<#lemma222> a r:Inference;
+-  r:rule <#lemma359>.
++  r:rule <#lemma344>.
+-<#lemma233> a r:Inference;
++<#lemma223> a r:Inference;
+-<#lemma234> a r:Inference;
++<#lemma224> a r:Inference;
+-  r:rule <#lemma360>.
++  r:rule <#lemma345>.
+-<#lemma235> a r:Inference;
++<#lemma225> a r:Inference;
+-<#lemma236> a r:Inference;
++<#lemma226> a r:Inference;
+-  r:rule <#lemma361>.
++  r:rule <#lemma346>.
+-<#lemma237> a r:Inference;
++<#lemma227> a r:Inference;
+-<#lemma238> a r:Inference;
++<#lemma228> a r:Inference;
+-  r:rule <#lemma362>.
++  r:rule <#lemma347>.
+-<#lemma239> a r:Inference;
++<#lemma229> a r:Inference;
+-<#lemma240> a r:Inference;
++<#lemma230> a r:Inference;
+-  r:rule <#lemma363>.
++  r:rule <#lemma348>.
+-<#lemma241> a r:Inference;
++<#lemma231> a r:Inference;
+-<#lemma242> a r:Inference;
++<#lemma232> a r:Inference;
+-  r:rule <#lemma364>.
++  r:rule <#lemma349>.
+-<#lemma243> a r:Inference;
++<#lemma233> a r:Inference;
+-<#lemma244> a r:Inference;
++<#lemma234> a r:Inference;
+-  r:rule <#lemma365>.
++  r:rule <#lemma350>.
+-<#lemma245> a r:Inference;
++<#lemma235> a r:Inference;
+-<#lemma246> a r:Inference;
++<#lemma236> a r:Inference;
+-  r:rule <#lemma366>.
++  r:rule <#lemma351>.
+-<#lemma247> a r:Inference;
++<#lemma237> a r:Inference;
+-<#lemma248> a r:Inference;
++<#lemma238> a r:Inference;
+-  r:rule <#lemma367>.
++  r:rule <#lemma352>.
+-<#lemma249> a r:Inference;
++<#lemma239> a r:Inference;
+-<#lemma250> a r:Inference;
++<#lemma240> a r:Inference;
+-  r:rule <#lemma368>.
++  r:rule <#lemma353>.
+-<#lemma251> a r:Inference;
++<#lemma241> a r:Inference;
+-<#lemma252> a r:Inference;
++<#lemma242> a r:Inference;
+-  r:rule <#lemma369>.
++  r:rule <#lemma354>.
+-<#lemma253> a r:Inference;
++<#lemma243> a r:Inference;
+-<#lemma254> a r:Inference;
++<#lemma244> a r:Inference;
+-  r:rule <#lemma370>.
++  r:rule <#lemma355>.
+-<#lemma255> a r:Inference;
++<#lemma245> a r:Inference;
+-<#lemma256> a r:Inference;
++<#lemma246> a r:Inference;
+-  r:rule <#lemma371>.
++  r:rule <#lemma356>.
+-<#lemma257> a r:Inference;
++<#lemma247> a r:Inference;
+-<#lemma258> a r:Inference;
++<#lemma248> a r:Inference;
+-  r:rule <#lemma372>.
++  r:rule <#lemma357>.
+-<#lemma259> a r:Inference;
++<#lemma249> a r:Inference;
+-<#lemma260> a r:Inference;
++<#lemma250> a r:Inference;
+-  r:rule <#lemma373>.
++  r:rule <#lemma358>.
+-<#lemma261> a r:Inference;
++<#lemma251> a r:Inference;
+-<#lemma262> a r:Inference;
++<#lemma252> a r:Inference;
+-  r:rule <#lemma374>.
++  r:rule <#lemma359>.
+-<#lemma263> a r:Inference;
++<#lemma253> a r:Inference;
+-<#lemma264> a r:Inference;
++<#lemma254> a r:Inference;
+-  r:rule <#lemma375>.
++  r:rule <#lemma360>.
+-<#lemma265> a r:Inference;
++<#lemma255> a r:Inference;
+-<#lemma266> a r:Inference;
++<#lemma256> a r:Inference;
+-  r:rule <#lemma376>.
++  r:rule <#lemma361>.
+-<#lemma267> a r:Inference;
++<#lemma257> a r:Inference;
+-<#lemma268> a r:Inference;
++<#lemma258> a r:Inference;
+-  r:rule <#lemma377>.
++  r:rule <#lemma362>.
+-<#lemma269> a r:Inference;
++<#lemma259> a r:Inference;
+-<#lemma270> a r:Inference;
++<#lemma260> a r:Inference;
+-  r:rule <#lemma378>.
++  r:rule <#lemma363>.
+-<#lemma271> a r:Inference;
++<#lemma261> a r:Inference;
+-<#lemma272> a r:Inference;
++<#lemma262> a r:Inference;
+-  r:rule <#lemma379>.
++  r:rule <#lemma364>.
+-<#lemma273> a r:Inference;
++<#lemma263> a r:Inference;
+-<#lemma274> a r:Inference;
++<#lemma264> a r:Inference;
+-  r:rule <#lemma380>.
++  r:rule <#lemma365>.
+-<#lemma275> a r:Inference;
++<#lemma265> a r:Inference;
+-<#lemma276> a r:Inference;
++<#lemma266> a r:Inference;
+-  r:rule <#lemma381>.
++  r:rule <#lemma366>.
+-<#lemma277> a r:Inference;
++<#lemma267> a r:Inference;
+-<#lemma278> a r:Inference;
++<#lemma268> a r:Inference;
+-  r:rule <#lemma382>.
++  r:rule <#lemma367>.
+-<#lemma279> a r:Inference;
++<#lemma269> a r:Inference;
+-<#lemma280> a r:Inference;
++<#lemma270> a r:Inference;
+-  r:rule <#lemma383>.
++  r:rule <#lemma368>.
+-<#lemma281> a r:Inference;
++<#lemma271> a r:Inference;
+-<#lemma282> a r:Inference;
++<#lemma272> a r:Inference;
+-  r:rule <#lemma384>.
++  r:rule <#lemma369>.
+-<#lemma283> a r:Inference;
++<#lemma273> a r:Inference;
+-<#lemma284> a r:Inference;
++<#lemma274> a r:Inference;
+-  r:rule <#lemma385>.
++  r:rule <#lemma370>.
+-<#lemma285> a r:Inference;
++<#lemma275> a r:Inference;
+-<#lemma286> a r:Inference;
++<#lemma276> a r:Inference;
+-  r:rule <#lemma386>.
++  r:rule <#lemma371>.
+-<#lemma287> a r:Inference;
++<#lemma277> a r:Inference;
+-<#lemma288> a r:Inference;
++<#lemma278> a r:Inference;
+-  r:rule <#lemma387>.
++  r:rule <#lemma372>.
+-<#lemma289> a r:Inference;
++<#lemma279> a r:Inference;
+-<#lemma290> a r:Extraction;
++<#lemma280> a r:Extraction;
++  r:gives {
++    {?x_0_384 => {?x_1_384 :result ?x_2_384}.
++     (?x_3_384 2) e:findall ((?x_2_384) {?x_1_384 :result ?x_2_384} ()).
++     ?x_0_384 e:labelvars ?x_0_384} => {{?x_0_384 => {?x_1_384 :result ?x_2_384}} a :FAIL}.
++  };
++  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biQ.n3>].
++
++<#lemma281> a r:Extraction;
+-    {(55 66 72 87 56 77 73 69 74 56) e:avg ?x_0_388.
+-     ?x_0_388 math:equalTo 68.5} => {:ea1 :result true}.
++    {(55 66 72 87 56 77 73 69 74 56) e:avg ?x_0_385.
++     ?x_0_385 math:equalTo 68.5} => {:ea1 :result true}.
+-<#lemma291> a r:Extraction;
++<#lemma282> a r:Extraction;
+-    {("1+1") e:calculate ?x_0_389.
+-     ?x_0_389 math:equalTo 2} => {:ec1 :result true}.
++    {("1+1") e:calculate ?x_0_386.
++     ?x_0_386 math:equalTo 2} => {:ec1 :result true}.
+-<#lemma292> a r:Extraction;
++<#lemma283> a r:Extraction;
+-    {?x_0_390 log:equalTo 3 .
+-     ("sqrt(_width^2+_length^2)" ?x_0_390 4) e:calculate ?x_1_390.
+-     ?x_1_390 math:equalTo 5.0} => {:ec2 :result true}.
++    {?x_0_387 log:equalTo 3 .
++     ("sqrt(_width^2+_length^2)" ?x_0_387 4) e:calculate ?x_1_387.
++     ?x_1_387 math:equalTo 5.0} => {:ec2 :result true}.
+-<#lemma293> a r:Extraction;
++<#lemma284> a r:Extraction;
+-    {("_period-250" "PT5M2S"^^xsd:dayTimeDuration) e:calculate ?x_0_391.
+-     ?x_0_391 math:equalTo 52.0} => {:ec3 :result true}.
++    {("_period-250" "PT5M2S"^^xsd:dayTimeDuration) e:calculate ?x_0_388.
++     ?x_0_388 math:equalTo 52.0} => {:ec3 :result true}.
+-<#lemma294> a r:Extraction;
++<#lemma285> a r:Extraction;
+-    {((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.8 1.66)) e:cov ?x_0_392.
+-     ?x_0_392 math:equalTo 0.992777777777778} => {:eco1 :result true}.
++    {((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.8 1.66)) e:cov ?x_0_389.
++     ?x_0_389 math:equalTo 0.992777777777778} => {:eco1 :result true}.
+-<#lemma295> a r:Extraction;
++<#lemma286> a r:Extraction;
+-<#lemma296> a r:Extraction;
++<#lemma287> a r:Extraction;
+-    {("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm ?x_0_394.
+-     ("date_time_stamp" ?x_0_394 ?x_1_394) e:derive true.
+-     ?x_1_394 math:equalTo 0.0} => {:epdts1 :result true}.
++    {("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm ?x_0_391.
++     ("date_time_stamp" ?x_0_391 ?x_1_391) e:derive true.
++     ?x_1_391 math:equalTo 0.0} => {:epdts1 :result true}.
+-<#lemma297> a r:Extraction;
++<#lemma288> a r:Extraction;
+-<#lemma298> a r:Extraction;
++<#lemma289> a r:Extraction;
+-<#lemma299> a r:Extraction;
++<#lemma290> a r:Extraction;
+-<#lemma300> a r:Extraction;
++<#lemma291> a r:Extraction;
+-<#lemma301> a r:Extraction;
++<#lemma292> a r:Extraction;
+-      :g :h :i} {?x_0_399 :e :f}) e:graphDifference {:a :b :c.
++      :g :h :i} {?x_0_396 :e :f}) e:graphDifference {:a :b :c.
+-<#lemma302> a r:Extraction;
++<#lemma293> a r:Extraction;
+-<#lemma303> a r:Extraction;
++<#lemma294> a r:Extraction;
+-<#lemma304> a r:Extraction;
++<#lemma295> a r:Extraction;
+-<#lemma305> a r:Extraction;
++<#lemma296> a r:Extraction;
+-<#lemma306> a r:Extraction;
++<#lemma297> a r:Extraction;
+-<#lemma307> a r:Extraction;
++<#lemma298> a r:Extraction;
+-      ?x_0_405 :e :f} {?x_0_405 :e :f.
+-      :g :h :i}) e:graphIntersection {?x_0_405 :e :f.
++      ?x_0_402 :e :f} {?x_0_402 :e :f.
++      :g :h :i}) e:graphIntersection {?x_0_402 :e :f.
+-<#lemma308> a r:Extraction;
++<#lemma299> a r:Extraction;
+-<#lemma309> a r:Extraction;
++<#lemma300> a r:Extraction;
+-<#lemma310> a r:Extraction;
++<#lemma301> a r:Extraction;
+-<#lemma311> a r:Extraction;
++<#lemma302> a r:Extraction;
+-<#lemma312> a r:Extraction;
++<#lemma303> a r:Extraction;
+-<#lemma313> a r:Extraction;
++<#lemma304> a r:Extraction;
+-<#lemma314> a r:Extraction;
++<#lemma305> a r:Extraction;
+-     ?x_0_411 e:optional {:g :h :i}} => {:eo1 :result true}.
++     ?x_0_408 e:optional {:g :h :i}} => {:eo1 :result true}.
+-<#lemma315> a r:Extraction;
++<#lemma306> a r:Extraction;
+-    {((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.8 1.66)) e:pcc ?x_0_412.
+-     ?x_0_412 math:equalTo 0.9569729506311461} => {:ep1 :result true}.
++    {((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.8 1.66)) e:pcc ?x_0_409.
++     ?x_0_409 math:equalTo 0.9569729506311461} => {:ep1 :result true}.
+-<#lemma316> a r:Extraction;
++<#lemma307> a r:Extraction;
+-<#lemma317> a r:Extraction;
++<#lemma308> a r:Extraction;
+-    {(55 66 72 87 56 77 73 69 74 56) e:rms ?x_0_414.
+-     ?x_0_414 math:equalTo 69.2105483289939} => {:erm1 :result true}.
++    {(55 66 72 87 56 77 73 69 74 56) e:rms ?x_0_411.
++     ?x_0_411 math:equalTo 69.2105483289939} => {:erm1 :result true}.
+-<#lemma318> a r:Extraction;
++<#lemma309> a r:Extraction;
+-<#lemma319> a r:Extraction;
++<#lemma310> a r:Extraction;
+-<#lemma320> a r:Extraction;
++<#lemma311> a r:Extraction;
+-    {(55 66 72 87 56 77 73 69 74 56) e:std ?x_0_417.
+-     ?x_0_417 math:equalTo 10.426994879744703} => {:est1 :result true}.
++    {(55 66 72 87 56 77 73 69 74 56) e:std ?x_0_414.
++     ?x_0_414 math:equalTo 10.426994879744703} => {:est1 :result true}.
+-<#lemma321> a r:Extraction;
++<#lemma312> a r:Extraction;
+-<#lemma322> a r:Extraction;
++<#lemma313> a r:Extraction;
+-<#lemma323> a r:Extraction;
++<#lemma314> a r:Extraction;
+-<#lemma324> a r:Extraction;
++<#lemma315> a r:Extraction;
+-    {?x_0_421 e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}.
++    {?x_0_418 e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}.
+-<#lemma325> a r:Extraction;
++<#lemma316> a r:Extraction;
+-<#lemma326> a r:Extraction;
++<#lemma317> a r:Extraction;
+-<#lemma327> a r:Extraction;
++<#lemma318> a r:Extraction;
+-<#lemma328> a r:Extraction;
++<#lemma319> a r:Extraction;
+-    {?x_0_424 e:whenGround {:a :b :d}.
+-     :a :b ?x_0_424} => {:ewg1 :result true}.
++    {?x_0_421 e:whenGround {:a :b :d}.
++     :a :b ?x_0_421} => {:ewg1 :result true}.
+-<#lemma329> a r:Extraction;
++<#lemma320> a r:Extraction;
+-<#lemma330> a r:Extraction;
++<#lemma321> a r:Extraction;
+-<#lemma331> a r:Extraction;
++<#lemma322> a r:Extraction;
+-<#lemma332> a r:Extraction;
++<#lemma323> a r:Extraction;
+-<#lemma333> a r:Extraction;
++<#lemma324> a r:Extraction;
+-<#lemma334> a r:Extraction;
++<#lemma325> a r:Extraction;
+-<#lemma335> a r:Extraction;
++<#lemma326> a r:Extraction;
+-<#lemma336> a r:Extraction;
++<#lemma327> a r:Extraction;
+-<#lemma337> a r:Extraction;
++<#lemma328> a r:Extraction;
+-<#lemma338> a r:Extraction;
++<#lemma329> a r:Extraction;
+-<#lemma339> a r:Extraction;
++<#lemma330> a r:Extraction;
+-<#lemma340> a r:Extraction;
++<#lemma331> a r:Extraction;
+-    {(:a ?x_0_436) log:equalTo (?x_1_436 :b)} => {:loge1 :result true}.
++    {(:a ?x_0_433) log:equalTo (?x_1_433 :b)} => {:loge1 :result true}.
+-<#lemma341> a r:Extraction;
++<#lemma332> a r:Extraction;
+-<#lemma342> a r:Extraction;
+-  r:gives {
+-    {{:a :b :_c} log:equalTo {:a :b ?x_0_438}} => {:loged3 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma343> a r:Extraction;
+-  r:gives {
+-    {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_439.
+-     ?x_0_439 log:equalTo {:a :b :c}} => {:loges0 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma344> a r:Extraction;
++<#lemma333> a r:Extraction;
+-    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_440.
+-     ?x_0_440 log:equalTo {:a :b ?x_1_440}} => {:loges3 :result true}.
++    {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_435.
++     ?x_0_435 log:equalTo {:a :b :c}} => {:loges0 :result true}.
+-<#lemma345> a r:Extraction;
++<#lemma334> a r:Extraction;
+-      ?x_0_441 :d ?x_1_441}} => {:logi1 :result true}.
++      ?x_0_436 :d ?x_1_436}} => {:logi1 :result true}.
+-<#lemma346> a r:Extraction;
++<#lemma335> a r:Extraction;
+-<#lemma347> a r:Extraction;
+-  r:gives {
+-    {{:a :b :c} log:includes {:a :b ?x_0_443}} => {:logid1 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma348> a r:Extraction;
+-  r:gives {
+-    {{:a :b :_c} log:includes {:a :b ?x_0_444}} => {:logid3 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma349> a r:Extraction;
+-  r:gives {
+-    {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_445.
+-     ?x_0_445 log:includes {:a :b :c}} => {:logis0 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma350> a r:Extraction;
+-  r:gives {
+-    {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_446.
+-     ?x_0_446 log:includes {:a :b ?x_1_446}} => {:logis1 :result true}.
+-  };
+-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
+-
+-<#lemma351> a r:Extraction;
++<#lemma336> a r:Extraction;
+-    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_447.
+-     ?x_0_447 log:includes {:a :b ?x_1_447}} => {:logis3 :result true}.
++    {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_438.
++     ?x_0_438 log:includes {:a :b :c}} => {:logis0 :result true}.
+-<#lemma352> a r:Extraction;
++<#lemma337> a r:Extraction;
+-<#lemma353> a r:Extraction;
++<#lemma338> a r:Extraction;
+-<#lemma354> a r:Extraction;
++<#lemma339> a r:Extraction;
+-<#lemma355> a r:Extraction;
++<#lemma340> a r:Extraction;
+-<#lemma356> a r:Extraction;
++<#lemma341> a r:Extraction;
+-    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_452.
+-     ?x_0_452 log:notIncludes {:a :b :c}} => {:lognis2 :result true}.
++    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_443.
++     ?x_0_443 log:notIncludes {:a :b :c}} => {:lognis2 :result true}.
+-<#lemma357> a r:Extraction;
++<#lemma342> a r:Extraction;
+-    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_453.
+-     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_1_453.
+-     ?x_0_453 log:notIncludes ?x_1_453} => {:lognis3 :result true}.
++    {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_444.
++     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_1_444.
++     ?x_0_444 log:notIncludes ?x_1_444} => {:lognis3 :result true}.
+-<#lemma358> a r:Extraction;
++<#lemma343> a r:Extraction;
+-<#lemma359> a r:Extraction;
++<#lemma344> a r:Extraction;
+-<#lemma360> a r:Extraction;
++<#lemma345> a r:Extraction;
+-<#lemma361> a r:Extraction;
++<#lemma346> a r:Extraction;
+-<#lemma362> a r:Extraction;
++<#lemma347> a r:Extraction;
+-    {(2 ?x_0_458) math:exponentiation 8.0 .
+-     (4.0 ?x_0_458) math:product 12.0} => {:mathe1 :result true}.
++    {(2 ?x_0_449) math:exponentiation 8.0 .
++     (4.0 ?x_0_449) math:product 12.0} => {:mathe1 :result true}.
+-<#lemma363> a r:Extraction;
++<#lemma348> a r:Extraction;
+-<#lemma364> a r:Extraction;
++<#lemma349> a r:Extraction;
+-<#lemma365> a r:Extraction;
++<#lemma350> a r:Extraction;
+-<#lemma366> a r:Extraction;
++<#lemma351> a r:Extraction;
+-<#lemma367> a r:Extraction;
++<#lemma352> a r:Extraction;
+-<#lemma368> a r:Extraction;
++<#lemma353> a r:Extraction;
+-<#lemma369> a r:Extraction;
++<#lemma354> a r:Extraction;
+-<#lemma370> a r:Extraction;
++<#lemma355> a r:Extraction;
+-<#lemma371> a r:Extraction;
++<#lemma356> a r:Extraction;
+-<#lemma372> a r:Extraction;
++<#lemma357> a r:Extraction;
+-<#lemma373> a r:Extraction;
++<#lemma358> a r:Extraction;
+-<#lemma374> a r:Extraction;
++<#lemma359> a r:Extraction;
+-<#lemma375> a r:Extraction;
++<#lemma360> a r:Extraction;
+-<#lemma376> a r:Extraction;
++<#lemma361> a r:Extraction;
+-<#lemma377> a r:Extraction;
++<#lemma362> a r:Extraction;
+-<#lemma378> a r:Extraction;
++<#lemma363> a r:Extraction;
+-<#lemma379> a r:Extraction;
++<#lemma364> a r:Extraction;
+-<#lemma380> a r:Extraction;
++<#lemma365> a r:Extraction;
+-<#lemma381> a r:Extraction;
++<#lemma366> a r:Extraction;
+-<#lemma382> a r:Extraction;
++<#lemma367> a r:Extraction;
+-<#lemma383> a r:Extraction;
++<#lemma368> a r:Extraction;
+-<#lemma384> a r:Extraction;
++<#lemma369> a r:Extraction;
+-<#lemma385> a r:Extraction;
++<#lemma370> a r:Extraction;
+-<#lemma386> a r:Extraction;
++<#lemma371> a r:Extraction;
+-<#lemma387> a r:Extraction;
++<#lemma372> a r:Extraction;
