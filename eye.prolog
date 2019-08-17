@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0814.1148 josd').
+version_info('EYE v19.0817.2233 josd').
 
 license_info('MIT License
 
@@ -2280,7 +2280,8 @@ pathitem(literal(Atom, DtLang), [], L1, L2) :-
 pathitem(BNode, Triples, ['['|L2], L4) :-
     !,
     gensym('bn_', S),
-    (   (   nb_getval(fdepth, 0)
+    (   (   nb_getval(fdepth, FD),
+            FD =\= 1
         ;   flag('pass-all-ground')
         )
     ->  nb_getval(var_ns, Vns),

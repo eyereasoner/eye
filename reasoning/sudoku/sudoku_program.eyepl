@@ -12,7 +12,9 @@ pfx('sudoku:', '<http://josd.github.io/eye/reasoning/sudoku#>').
     transpose(Rows, Columns),
     maplist(all_distinct, Columns),
     Rows = [A,B,C,D,E,F,G,H,I],
-    blocks(A, B, C), blocks(D, E, F), blocks(G, H, I),
+    blocks(A, B, C),
+    blocks(D, E, F),
+    blocks(G, H, I),
     maplist(label, Rows).
 
 blocks([], [], []).
