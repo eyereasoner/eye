@@ -14,7 +14,6 @@ pushd 4color; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep 
 pushd bi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd bmi; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd bmt; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
-pushd ccd; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd crypto; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd cs; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
 pushd csv; ./test "$@" 2>&1 | tee -a ../reasoning.txt; git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff; popd
