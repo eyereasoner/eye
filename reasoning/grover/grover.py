@@ -82,6 +82,6 @@ if __name__ == "__main__":
     # run Grover search to find a 7-bit solution
     lst = run_grover(eng, 7, alternating_bits_oracle)
     n3_lst = '(' + ' '.join([str(i) for i in lst]) + ')'
-    print('PREFIX : <http://josd.github.io/eye/scripting#>')
+    print('PREFIX : <http://josd.github.io/eye/reasoning#>')
     print('')
     print('[] :grover-algorithm "grover(7_bits, alternating_bits_oracle) = %s".' % (n3_lst))
