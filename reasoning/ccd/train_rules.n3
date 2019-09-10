@@ -1,0 +1,17 @@
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
+PREFIX : <http://josd.github.io/eye/reasoning#>
+
+{   
+    (
+        :input1
+        :input2
+        :input3
+        :input4
+        :input5
+        :input10
+    ) list:member ?IN.
+    ?S ?IN ?IV.
+} => {
+    (?IN ?IV) ccd:output :output1.
+}.
