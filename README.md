@@ -1,6 +1,6 @@
 # Euler Yet another proof Engine - EYE
 
-### Elaborating Unifying Logic with EYE Reasoning
+## Elaborating Unifying Logic with EYE Reasoning
 
 <img align="left" src="http://josd.github.io/images/eye.png" alt="EYE"/> EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
 It performs controlled chaining and it supports Euler paths.  
@@ -18,7 +18,7 @@ EYE can be [installed manually](http://github.com/josd/eye/blob/master/INSTALL) 
 EYE is also available in a [Docker container for command line use](http://hub.docker.com/r/bdevloed/eye/)  
 and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed/eyeserver/).  
 
-### Architecture and design
+## Architecture and design
 
 Here are the layers of the EYE Stack:  
 <img src="http://josd.github.io/images/EYE-stack.png" width="60%" height="60%" alt="EYE Stack"/>  
@@ -30,7 +30,7 @@ This is what the basic EAM (Euler Abstract Machine) does in a nutshell:
 4. If C = answer(A) and tactic limited-answer stop, else backtrack to 2.  
 5. If brake or tactic linear-select stop, else start again at 1.  
 
-### See also
+## See also
 
 EYE paper
 * [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner](http://josd.github.io/Papers/EYE.pdf)
