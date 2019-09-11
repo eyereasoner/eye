@@ -1,8 +1,8 @@
 # EYE
 
-### Euler Yet another proof Engine
+## Euler Yet another proof Engine
 
-#### Elaborating Unifying Logic with EYE Reasoning
+### Elaborating Unifying Logic with EYE Reasoning
 
 <img align="left" src="http://josd.github.io/images/eye.png" alt="EYE"/> EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
 It performs controlled chaining and it supports Euler paths.  
