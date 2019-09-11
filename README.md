@@ -1,4 +1,4 @@
-# EYE - Euler Yet another proof Engine
+# Euler Yet another proof Engine - EYE
 
 ### Elaborating Unifying Logic with EYE Reasoning
 
