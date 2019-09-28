@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0904.2157 josd').
+version_info('EYE v19.0928.2249 josd').
 
 license_info('MIT License
 
