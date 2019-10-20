@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.0928.2249 josd').
+version_info('EYE v19.1020.1832 josd').
 
 license_info('MIT License
 
@@ -110,7 +110,7 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     --n3 <uri>                      N3 triples and rules
-    --plugin <uri>                  N3P code
+    --plugin <uri>                  Prolog code
     --proof <uri>                   N3 proof
     --turtle <uri>                  Turtle data
 <query>
