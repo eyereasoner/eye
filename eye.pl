@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1020.1832 josd').
+version_info('EYE v19.1020.2224 josd').
 
 license_info('MIT License
 
@@ -548,7 +548,8 @@ gre(Argus) :-
             fail
         )
     ;   (   flag(profile)
-        ->  profiler(_, cputime)
+        ->  asserta(pce_profile:pce_show_profile :- fail),
+            profiler(_, cputime)
         ;   true
         ),
         catch(eam(0), Exc3,
