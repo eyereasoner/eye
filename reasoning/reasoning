@@ -5,16 +5,10 @@
 
 pushd ~/github.com/josd/eye/reasoning
 echo -n > reasoning.txt
-echo "# $(date)" > reasoning.diff
-IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS"
-
 for dir in */
 do
     pushd ${dir}
     ./test "$@" 2>&1 | tee -a ../reasoning.txt
-    git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff
     popd
 done
-
-eye --n3 reasoning.diff --pass > /dev/null
 popd
