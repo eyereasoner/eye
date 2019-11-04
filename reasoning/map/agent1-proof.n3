@@ -1,13 +1,15 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --n3 http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 --n3 http://josd.github.io/eye/reasoning/map/agent1-map.n3 --query http://josd.github.io/eye/reasoning/map/agent1-query.n3
 
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -22,6 +24,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_2"]; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_3"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_4"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_5"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_6"]; r:boundTo 0.99];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -31,11 +40,23 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma4>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_1"]; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_2"]; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_3"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_4"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_5"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_6"]; r:boundTo 0.99];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_7"]; r:boundTo 3600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_8"]; r:boundTo 5.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_9"]; r:boundTo 0.2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_10"]; r:boundTo 0.4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_11"]; r:boundTo 1];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {?x_0_1 gps:findpath ({?x_1_1 :location :Brugge} ?x_2_1 ?x_3_1 ?x_4_1 ?x_5_1 ?x_6_1 (3600.0 5.0 0.2 0.4 1))} => {?x_1_1 gps:path (?x_2_1 ?x_3_1 ?x_4_1 ?x_5_1 ?x_6_1)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 gps:findpath ({var:x_1 :location :Brugge} var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (3600.0 5.0 0.2 0.4 1))} => {var:x_1 gps:path (var:x_2 var:x_3 var:x_4 var:x_5 var:x_6)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent1-query.n3>].
 
@@ -63,11 +84,46 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {{:i1 :location :Gent} e:becomes {:i1 :location :Brugge}}]
     <#lemma11>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_9"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_1"]; r:boundTo {:i1 :location :Gent}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_2"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_3"]; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#drive_gent_brugge"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_5"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_6"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_7"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_8"]; r:boundTo 0.99];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_10"]; r:boundTo ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_12"]; r:boundTo (:map-BE)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_11"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_13"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_14"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_16"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_15"]; r:boundTo 0.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_17"]; r:boundTo 3600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_19"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_18"]; r:boundTo 0.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_20"]; r:boundTo 5.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_22"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_21"]; r:boundTo 1.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_23"]; r:boundTo 0.2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_25"]; r:boundTo 0.99];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_24"]; r:boundTo 1.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_26"]; r:boundTo 0.4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_28"]; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_27"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_29"]; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_30"]; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_31"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_32"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_33"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_34"]; r:boundTo 0.99];
   r:rule <#lemma12>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {?x_0_2 gps:findpath (?x_1_2 ?x_2_2 ?x_3_2 ?x_4_2 ?x_5_2 ?x_6_2 (?x_7_2 ?x_8_2 ?x_9_2 ?x_10_2 ?x_11_2))} <= {?x_0_2 gps:findpaths (() ?x_1_2 () 0.0 0.0 1.0 1.0 ?x_2_2 ?x_3_2 ?x_4_2 ?x_5_2 ?x_6_2 (?x_7_2 ?x_8_2 ?x_9_2 ?x_10_2 ?x_11_2))}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 gps:findpath (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))} <= {var:x_0 gps:findpaths (() var:x_1 () 0.0 0.0 1.0 1.0 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -102,6 +158,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives true]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
   r:rule <#lemma14>.
 
 <#lemma10> a r:Inference;
@@ -112,6 +169,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:map-BE) e:firstRest (:map-BE ())}]
     <#lemma15>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo (:map-BE)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_2"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_3"]; r:boundTo 1];
   r:rule <#lemma16>.
 
 <#lemma11> a r:Inference;
@@ -127,24 +188,24 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma12> a r:Extraction;
   r:gives {
-    {?x_10_3 gps:findpaths (?x_11_3 ?x_29_3 ?x_27_3 ?x_15_3 ?x_18_3 ?x_21_3 ?x_24_3 ?x_30_3 ?x_31_3 ?x_32_3 ?x_33_3 ?x_34_3 (?x_17_3 ?x_20_3 ?x_23_3 ?x_26_3 ?x_14_3))} <= {{?x_0_3 gps:description (?x_1_3 ?x_2_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 ?x_8_3)} <= ?x_9_3.
-     ?x_10_3 e:call ?x_1_3.
-     ?x_10_3 e:call ?x_9_3.
-     ?x_0_3 gps:description (?x_1_3 ?x_2_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 ?x_8_3).
-     (?x_11_3 (?x_0_3)) list:append ?x_12_3.
-     ?x_12_3 gps:stagecount ?x_13_3.
-     ?x_13_3 math:notGreaterThan ?x_14_3.
-     (?x_15_3 ?x_5_3) math:sum ?x_16_3.
-     ?x_16_3 math:notGreaterThan ?x_17_3.
-     (?x_18_3 ?x_6_3) math:sum ?x_19_3.
-     ?x_19_3 math:notGreaterThan ?x_20_3.
-     (?x_21_3 ?x_7_3) math:product ?x_22_3.
-     ?x_22_3 math:notLessThan ?x_23_3.
-     (?x_24_3 ?x_8_3) math:product ?x_25_3.
-     ?x_25_3 math:notLessThan ?x_26_3.
-     (?x_27_3 (?x_4_3)) list:append ?x_28_3.
-     ?x_1_3 e:becomes ?x_3_3.
-     {?x_10_3 gps:findpaths (?x_12_3 ?x_29_3 ?x_28_3 ?x_16_3 ?x_19_3 ?x_22_3 ?x_25_3 ?x_30_3 ?x_31_3 ?x_32_3 ?x_33_3 ?x_34_3 (?x_17_3 ?x_20_3 ?x_23_3 ?x_26_3 ?x_14_3))} e:finalize {?x_3_3 e:becomes ?x_1_3}}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {var:x_10 gps:findpaths (var:x_11 var:x_29 var:x_27 var:x_15 var:x_18 var:x_21 var:x_24 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} <= {{var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8)} <= var:x_9.
+     var:x_10 e:call var:x_1.
+     var:x_10 e:call var:x_9.
+     var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8).
+     (var:x_11 (var:x_0)) list:append var:x_12.
+     var:x_12 gps:stagecount var:x_13.
+     var:x_13 math:notGreaterThan var:x_14.
+     (var:x_15 var:x_5) math:sum var:x_16.
+     var:x_16 math:notGreaterThan var:x_17.
+     (var:x_18 var:x_6) math:sum var:x_19.
+     var:x_19 math:notGreaterThan var:x_20.
+     (var:x_21 var:x_7) math:product var:x_22.
+     var:x_22 math:notLessThan var:x_23.
+     (var:x_24 var:x_8) math:product var:x_25.
+     var:x_25 math:notLessThan var:x_26.
+     (var:x_27 (var:x_4)) list:append var:x_28.
+     var:x_1 e:becomes var:x_3.
+     {var:x_10 gps:findpaths (var:x_12 var:x_29 var:x_28 var:x_16 var:x_19 var:x_22 var:x_25 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} e:finalize {var:x_3 e:becomes var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -156,7 +217,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma14> a r:Extraction;
   r:gives {
-    {:map-BE gps:description ({?x_0_3 :location :Gent} true {?x_0_3 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
+    @forSome var:x_0. {:map-BE gps:description ({var:x_0 :location :Gent} true {var:x_0 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent1-map.n3>].
 
@@ -171,8 +232,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma16> a r:Extraction;
   r:gives {
-    {?x_0_3 gps:stagecount ?x_3_3} <= {?x_0_3 e:firstRest (?x_1_3 ?x_2_3).
-     ?x_2_3 gps:stagecount ?x_3_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 gps:stagecount var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+     var:x_2 gps:stagecount var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -184,6 +245,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma19>
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/gps/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_1"]; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_2"]; r:boundTo (:map-BE)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_3"]; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_4"]; r:boundTo 1500.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_5"]; r:boundTo 0.006];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_6"]; r:boundTo 0.96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_7"]; r:boundTo 0.99];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_8"]; r:boundTo 3600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_9"]; r:boundTo 5.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_10"]; r:boundTo 0.2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_11"]; r:boundTo 0.4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/yatEmrcbUUw_A_0OrH6P_wS1xi4#x_12"]; r:boundTo 1];
   r:rule <#lemma20>.
 
 <#lemma18> a r:Extraction;
@@ -203,11 +277,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma20> a r:Extraction;
   r:gives {
-    {?x_0_3 gps:findpaths (?x_2_3 ?x_1_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 ?x_3_3 ?x_4_3 ?x_5_3 ?x_6_3 ?x_7_3 (?x_8_3 ?x_9_3 ?x_10_3 ?x_11_3 ?x_12_3))} <= {?x_0_3 e:call ?x_1_3.
+    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 gps:findpaths (var:x_2 var:x_1 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 (var:x_8 var:x_9 var:x_10 var:x_11 var:x_12))} <= {var:x_0 e:call var:x_1.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
-#2019-10-20T17:33:10.767Z in=10 out=1 ent=1 step=1 brake=2 inf=104345 sec=0.127 inf/sec=821614
+#2019-11-04T22:46:30.680Z in=10 out=1 ent=1 step=1 brake=2 inf=119037 sec=0.138 inf/sec=862587
 #ENDS
 

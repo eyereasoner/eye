@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1020.2224 josd').
+version_info('EYE v19.1104.2254 josd').
 
 license_info('MIT License
 
@@ -104,7 +104,6 @@ eye
     --tactic limited-brake <count>  take only a limited number of brakes
     --tactic limited-step <count>   take only a limited number of steps
     --tactic linear-select          select each rule only once
-    --traditional                   traditional mode
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
@@ -277,6 +276,7 @@ main :-
     ->  assertz(prolog_file_type(pvm, qlf))
     ;   true
     ),
+    assertz(flag(traditional)),
     catch(gre(Argus), Exc,
         (   Exc = halt
         ->  true

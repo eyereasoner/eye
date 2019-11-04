@@ -1,8 +1,10 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/usm/usmP.n3 --query http://josd.github.io/eye/reasoning/usm/usmQ.n3
 
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -20,6 +22,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma2>
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 0];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -30,6 +35,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma5>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 2];
   r:rule <#lemma7>.
 
 <#lemma3> a r:Extraction;
@@ -40,9 +49,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 :state (?x_1_1 ?x_2_1).
-     ?x_0_1 :instruction (:halt)} => {?x_0_1 :state (?x_1_1 ?x_2_1).
-     ?x_0_1 :instruction (:halt)}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :state (var:x_1 var:x_2).
+     var:x_0 :instruction (:halt)} => {var:x_0 :state (var:x_1 var:x_2).
+     var:x_0 :instruction (:halt)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmQ.n3>].
 
@@ -54,6 +63,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma6> a r:Extraction;
@@ -64,8 +77,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma7> a r:Extraction;
   r:gives {
-    {?x_0_2 :state (?x_1_2 0).
-     ?x_0_2 :instruction (:jpz 2 ?x_2_2 ?x_3_2)} => {?x_2_2 :state (?x_1_2 0)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 :state (var:x_1 0).
+     var:x_0 :instruction (:jpz 2 var:x_2 var:x_3)} => {var:x_2 :state (var:x_1 0)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -78,6 +91,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma12>
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma14>.
 
 <#lemma9> a r:Extraction;
@@ -88,8 +106,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma10> a r:Extraction;
   r:gives {
-    {?x_0_3 :state (?x_1_3 ?x_2_3).
-     ?x_0_3 :instruction (:goto ?x_3_3)} => {?x_3_3 :state (?x_1_3 ?x_2_3)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 :state (var:x_1 var:x_2).
+     var:x_0 :instruction (:goto var:x_3)} => {var:x_3 :state (var:x_1 var:x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -102,6 +120,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma16>
     <#lemma17>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 0];
   r:rule <#lemma18>.
 
 <#lemma12> a r:Extraction;
@@ -117,13 +140,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma19>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma20>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    {?x_0_4 :state (?x_1_4 ?x_2_4).
-     ?x_0_4 :instruction (:inc 1 ?x_3_4).
-     ?x_1_4 :inc ?x_4_4} => {?x_3_4 :state (?x_4_4 ?x_2_4)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 :state (var:x_1 var:x_2).
+     var:x_0 :instruction (:inc 1 var:x_3).
+     var:x_1 :inc var:x_4} => {var:x_3 :state (var:x_4 var:x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -136,6 +162,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma17>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_5"]; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma16> a r:Extraction;
@@ -152,9 +184,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma18> a r:Extraction;
   r:gives {
-    {?x_0_5 :state (?x_1_5 ?x_2_5).
-     ?x_0_5 :instruction (:dec 2 ?x_3_5).
-     ?x_4_5 :inc ?x_2_5} => {?x_3_5 :state (?x_1_5 ?x_4_5)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 :state (var:x_1 var:x_2).
+     var:x_0 :instruction (:dec 2 var:x_3).
+     var:x_4 :inc var:x_2} => {var:x_3 :state (var:x_1 var:x_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -165,11 +197,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma23>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma20>.
 
 <#lemma20> a r:Extraction;
   r:gives {
-    {?x_0_6 :inc ?x_1_6} => {?x_1_6 :inc _:x_2_6}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {var:x_0 :inc var:x_1} => {var:x_1 :inc var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -181,13 +216,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma24>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma22> a r:Extraction;
   r:gives {
-    {?x_0_7 :state (?x_1_7 ?x_2_7).
-     ?x_3_7 :inc ?x_2_7.
-     ?x_0_7 :instruction (:jpz 2 ?x_4_7 ?x_5_7)} => {?x_5_7 :state (?x_1_7 ?x_2_7)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 :state (var:x_1 var:x_2).
+     var:x_3 :inc var:x_2.
+     var:x_0 :instruction (:jpz 2 var:x_4 var:x_5)} => {var:x_5 :state (var:x_1 var:x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -198,6 +237,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma20>.
 
 <#lemma24> a r:Inference;
@@ -209,6 +251,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma12>
     <#lemma19>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma14>.
 
 <#lemma25> a r:Extraction;
@@ -226,6 +273,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma16>
     <#lemma28>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 1];
   r:rule <#lemma18>.
 
 <#lemma27> a r:Inference;
@@ -237,6 +289,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma28>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_5"]; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma28> a r:Extraction;
@@ -253,6 +311,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma30>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma30> a r:Inference;
@@ -264,6 +326,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma12>
     <#lemma23>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma14>.
 
 <#lemma31> a r:Inference;
@@ -275,6 +342,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma16>
     <#lemma33>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 2];
   r:rule <#lemma18>.
 
 <#lemma32> a r:Inference;
@@ -286,6 +358,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma33>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_5"]; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma33> a r:Extraction;
@@ -302,6 +380,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma35>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma35> a r:Inference;
@@ -313,6 +395,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma12>
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 4];
   r:rule <#lemma14>.
 
 <#lemma36> a r:Inference;
@@ -324,6 +411,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma16>
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 3];
   r:rule <#lemma18>.
 
 <#lemma37> a r:Inference;
@@ -335,6 +427,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma25>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_2"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_3"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FAs8Rq4XRt0kGyaKv9K072N0URs#x_5"]; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma38> a r:Extraction;
@@ -343,6 +441,6 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
-#2019-10-20T17:34:18.910Z in=21 out=2 ent=24 step=88 brake=5 inf=72323 sec=0.120 inf/sec=602692
+#2019-11-04T22:47:51.027Z in=21 out=2 ent=24 step=88 brake=5 inf=84902 sec=0.123 inf/sec=690260
 #ENDS
 

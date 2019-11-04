@@ -1,10 +1,12 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/tak/tak.n3 --query http://josd.github.io/eye/reasoning/tak/takQ.n3
 
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -19,6 +21,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -34,11 +37,21 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma6>
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {(18 13 8) :tak ?x_0_1} => {(18 13 8) :tak ?x_0_1}.
+    @forAll var:x_0. {(18 13 8) :tak var:x_0} => {(18 13 8) :tak var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/takQ.n3>].
 
@@ -55,6 +68,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma11>
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Inference;
@@ -70,6 +93,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma15>
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma6> a r:Inference;
@@ -80,6 +113,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma7> a r:Inference;
@@ -90,17 +126,20 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {(?x_0_2 ?x_2_2 ?x_3_2) :tak ?x_9_2} <= {("_X-1" ?x_0_2) e:calculate ?x_1_2.
-     (?x_1_2 ?x_2_2 ?x_3_2) :tak ?x_4_2.
-     ("_Y-1" ?x_2_2) e:calculate ?x_5_2.
-     (?x_5_2 ?x_3_2 ?x_0_2) :tak ?x_6_2.
-     ("_Z-1" ?x_3_2) e:calculate ?x_7_2.
-     (?x_7_2 ?x_0_2 ?x_2_2) :tak ?x_8_2.
-     (?x_4_2 ?x_6_2 ?x_8_2) :tak ?x_9_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_0 var:x_2 var:x_3) :tak var:x_9} <= {("_X-1" var:x_0) e:calculate var:x_1.
+     (var:x_1 var:x_2 var:x_3) :tak var:x_4.
+     ("_Y-1" var:x_2) e:calculate var:x_5.
+     (var:x_5 var:x_3 var:x_0) :tak var:x_6.
+     ("_Z-1" var:x_3) e:calculate var:x_7.
+     (var:x_7 var:x_0 var:x_2) :tak var:x_8.
+     (var:x_4 var:x_6 var:x_8) :tak var:x_9}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/tak.n3>].
 
@@ -117,6 +156,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma20>
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma10> a r:Inference;
@@ -132,6 +181,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma23>
     <#lemma24>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma11> a r:Inference;
@@ -142,6 +201,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma12> a r:Inference;
@@ -157,6 +219,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma27>
     <#lemma28>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma13> a r:Inference;
@@ -172,6 +244,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma31>
     <#lemma32>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma14> a r:Inference;
@@ -182,6 +264,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma15> a r:Inference;
@@ -197,6 +282,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma22>
     <#lemma33>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma16> a r:Inference;
@@ -207,11 +302,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma17> a r:Extraction;
   r:gives {
-    {(?x_0_3 ?x_1_3 ?x_2_3) :tak ?x_2_3} <= {("=<" ?x_0_3 ?x_1_3) e:derive true.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {(var:x_0 var:x_1 var:x_2) :tak var:x_2} <= {("=<" var:x_0 var:x_1) e:derive true.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/tak.n3>].
@@ -229,6 +327,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma36>
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma19> a r:Inference;
@@ -244,6 +352,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma39>
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma20> a r:Inference;
@@ -254,6 +372,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma21> a r:Inference;
@@ -269,6 +390,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma42>
     <#lemma43>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma22> a r:Inference;
@@ -279,6 +410,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma23> a r:Inference;
@@ -294,6 +428,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma38>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma24> a r:Inference;
@@ -304,6 +448,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 11 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma25> a r:Inference;
@@ -319,6 +466,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma47>
     <#lemma24>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma26> a r:Inference;
@@ -329,6 +486,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma27> a r:Inference;
@@ -339,6 +499,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 12 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma28> a r:Inference;
@@ -349,6 +512,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma29> a r:Inference;
@@ -364,6 +530,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma50>
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma30> a r:Inference;
@@ -374,6 +550,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma31> a r:Inference;
@@ -389,6 +568,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma41>
     <#lemma52>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma32> a r:Inference;
@@ -399,6 +588,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma33> a r:Inference;
@@ -409,6 +601,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma34> a r:Inference;
@@ -424,6 +619,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma55>
     <#lemma56>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma35> a r:Inference;
@@ -439,6 +644,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma59>
     <#lemma24>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma36> a r:Inference;
@@ -449,6 +664,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma37> a r:Inference;
@@ -464,6 +682,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma62>
     <#lemma32>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma38> a r:Inference;
@@ -474,6 +702,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma39> a r:Inference;
@@ -489,6 +720,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma58>
     <#lemma33>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma40> a r:Inference;
@@ -504,6 +745,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma65>
     <#lemma66>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma41> a r:Inference;
@@ -514,6 +765,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma42> a r:Inference;
@@ -529,6 +783,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma61>
     <#lemma67>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma43> a r:Inference;
@@ -539,6 +803,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma44> a r:Inference;
@@ -554,6 +821,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma24>
     <#lemma70>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma45> a r:Inference;
@@ -569,6 +846,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma73>
     <#lemma74>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma46> a r:Inference;
@@ -579,6 +866,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma47> a r:Inference;
@@ -589,6 +879,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma48> a r:Inference;
@@ -604,6 +897,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma77>
     <#lemma78>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma49> a r:Inference;
@@ -614,6 +917,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma50> a r:Inference;
@@ -629,6 +935,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma64>
     <#lemma79>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma51> a r:Inference;
@@ -639,6 +955,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma52> a r:Inference;
@@ -654,6 +973,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma32>
     <#lemma32>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma53> a r:Inference;
@@ -664,6 +993,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 13 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma54> a r:Inference;
@@ -679,6 +1011,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma84>
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma55> a r:Inference;
@@ -689,6 +1031,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma56> a r:Inference;
@@ -699,6 +1044,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma57> a r:Inference;
@@ -714,6 +1062,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma87>
     <#lemma43>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma58> a r:Inference;
@@ -724,6 +1082,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma59> a r:Inference;
@@ -739,6 +1100,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma83>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma60> a r:Inference;
@@ -754,6 +1125,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma90>
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma61> a r:Inference;
@@ -764,6 +1145,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma62> a r:Inference;
@@ -779,6 +1163,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma86>
     <#lemma52>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma63> a r:Inference;
@@ -794,6 +1188,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma93>
     <#lemma94>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma64> a r:Inference;
@@ -804,6 +1208,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma65> a r:Inference;
@@ -819,6 +1226,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma89>
     <#lemma95>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma66> a r:Inference;
@@ -829,6 +1246,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma67> a r:Inference;
@@ -839,6 +1259,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma68> a r:Inference;
@@ -854,6 +1277,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma98>
     <#lemma32>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma69> a r:Inference;
@@ -864,6 +1297,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma70> a r:Inference;
@@ -874,6 +1310,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma71> a r:Inference;
@@ -889,6 +1328,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma101>
     <#lemma102>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma72> a r:Inference;
@@ -899,6 +1348,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma73> a r:Inference;
@@ -914,6 +1366,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma97>
     <#lemma67>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma74> a r:Inference;
@@ -924,6 +1386,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma75> a r:Inference;
@@ -934,6 +1399,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 18];
   r:rule <#lemma17>.
 
 <#lemma76> a r:Inference;
@@ -944,6 +1412,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma77> a r:Inference;
@@ -959,6 +1430,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma92>
     <#lemma103>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma78> a r:Inference;
@@ -974,6 +1455,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma105>
     <#lemma106>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma79> a r:Inference;
@@ -984,6 +1475,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma80> a r:Inference;
@@ -999,6 +1493,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma109>
     <#lemma110>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma81> a r:Inference;
@@ -1009,6 +1513,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma82> a r:Inference;
@@ -1024,6 +1531,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma113>
     <#lemma32>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma83> a r:Inference;
@@ -1034,6 +1551,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma84> a r:Inference;
@@ -1049,6 +1569,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma116>
     <#lemma117>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma85> a r:Inference;
@@ -1064,6 +1594,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma120>
     <#lemma66>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma86> a r:Inference;
@@ -1074,6 +1614,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma87> a r:Inference;
@@ -1089,6 +1632,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma112>
     <#lemma67>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma88> a r:Inference;
@@ -1104,6 +1657,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma123>
     <#lemma124>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma89> a r:Inference;
@@ -1114,6 +1677,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma90> a r:Inference;
@@ -1129,6 +1695,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma119>
     <#lemma79>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma91> a r:Inference;
@@ -1139,6 +1715,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 17];
   r:rule <#lemma17>.
 
 <#lemma92> a r:Inference;
@@ -1149,6 +1728,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma93> a r:Inference;
@@ -1164,6 +1746,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma122>
     <#lemma125>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma94> a r:Inference;
@@ -1179,6 +1771,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma127>
     <#lemma103>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma95> a r:Inference;
@@ -1194,6 +1796,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma66>
     <#lemma109>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma96> a r:Inference;
@@ -1209,6 +1821,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma110>
     <#lemma131>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma97> a r:Inference;
@@ -1219,6 +1841,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma98> a r:Inference;
@@ -1229,6 +1854,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma99> a r:Inference;
@@ -1239,6 +1867,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma100> a r:Inference;
@@ -1249,6 +1880,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma101> a r:Inference;
@@ -1264,6 +1898,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma130>
     <#lemma132>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma102> a r:Inference;
@@ -1279,6 +1923,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma134>
     <#lemma135>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma103> a r:Inference;
@@ -1289,6 +1943,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma104> a r:Inference;
@@ -1299,6 +1956,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 18];
   r:rule <#lemma17>.
 
 <#lemma105> a r:Inference;
@@ -1309,6 +1969,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma106> a r:Inference;
@@ -1319,6 +1982,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma107> a r:Inference;
@@ -1329,6 +1995,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma108> a r:Inference;
@@ -1339,6 +2008,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma109> a r:Inference;
@@ -1349,6 +2021,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma110> a r:Inference;
@@ -1364,6 +2039,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma108>
     <#lemma136>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma111> a r:Inference;
@@ -1379,6 +2064,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma139>
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma112> a r:Inference;
@@ -1389,6 +2084,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma113> a r:Inference;
@@ -1404,6 +2102,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma142>
     <#lemma52>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma114> a r:Inference;
@@ -1414,6 +2122,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma115> a r:Inference;
@@ -1429,6 +2140,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma140>
     <#lemma43>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma116> a r:Inference;
@@ -1439,6 +2160,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma117> a r:Inference;
@@ -1449,6 +2173,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma118> a r:Inference;
@@ -1464,6 +2191,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma145>
     <#lemma146>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma119> a r:Inference;
@@ -1474,6 +2211,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma120> a r:Inference;
@@ -1489,6 +2229,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma138>
     <#lemma95>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma121> a r:Inference;
@@ -1499,6 +2249,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 16];
   r:rule <#lemma17>.
 
 <#lemma122> a r:Inference;
@@ -1509,6 +2262,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma123> a r:Inference;
@@ -1524,6 +2280,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma144>
     <#lemma147>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma124> a r:Inference;
@@ -1539,6 +2305,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma149>
     <#lemma125>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma125> a r:Inference;
@@ -1549,6 +2325,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma126> a r:Inference;
@@ -1559,6 +2338,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 17];
   r:rule <#lemma17>.
 
 <#lemma127> a r:Inference;
@@ -1569,6 +2351,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma128> a r:Inference;
@@ -1579,6 +2364,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma129> a r:Inference;
@@ -1589,6 +2377,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma130> a r:Inference;
@@ -1599,6 +2390,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma131> a r:Inference;
@@ -1614,6 +2408,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma152>
     <#lemma132>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma132> a r:Inference;
@@ -1624,6 +2428,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma133> a r:Inference;
@@ -1634,6 +2441,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma134> a r:Inference;
@@ -1644,6 +2454,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma135> a r:Inference;
@@ -1654,6 +2467,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma136> a r:Inference;
@@ -1664,6 +2480,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma137> a r:Inference;
@@ -1679,6 +2498,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma155>
     <#lemma156>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma138> a r:Inference;
@@ -1689,6 +2518,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma139> a r:Inference;
@@ -1704,6 +2536,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma159>
     <#lemma79>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma140> a r:Inference;
@@ -1719,6 +2561,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma162>
     <#lemma163>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma141> a r:Inference;
@@ -1734,6 +2586,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma157>
     <#lemma66>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma142> a r:Inference;
@@ -1744,6 +2606,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma143> a r:Inference;
@@ -1754,6 +2619,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 15];
   r:rule <#lemma17>.
 
 <#lemma144> a r:Inference;
@@ -1764,6 +2632,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma145> a r:Inference;
@@ -1779,6 +2650,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma154>
     <#lemma164>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma146> a r:Inference;
@@ -1794,6 +2675,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma166>
     <#lemma147>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma147> a r:Inference;
@@ -1804,6 +2695,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma148> a r:Inference;
@@ -1814,6 +2708,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 16];
   r:rule <#lemma17>.
 
 <#lemma149> a r:Inference;
@@ -1824,6 +2721,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma150> a r:Inference;
@@ -1839,6 +2739,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma136>
     <#lemma168>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma151> a r:Inference;
@@ -1849,6 +2759,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma152> a r:Inference;
@@ -1859,6 +2772,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma153> a r:Inference;
@@ -1869,6 +2785,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 14];
   r:rule <#lemma17>.
 
 <#lemma154> a r:Inference;
@@ -1879,6 +2798,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma155> a r:Inference;
@@ -1894,6 +2816,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma171>
     <#lemma28>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma156> a r:Inference;
@@ -1909,6 +2841,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma174>
     <#lemma164>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma157> a r:Inference;
@@ -1924,6 +2866,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma177>
     <#lemma95>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma158> a r:Inference;
@@ -1939,6 +2891,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma169>
     <#lemma172>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma159> a r:Inference;
@@ -1949,6 +2911,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma160> a r:Inference;
@@ -1959,6 +2924,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma161> a r:Inference;
@@ -1974,6 +2942,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma175>
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma162> a r:Inference;
@@ -1984,6 +2962,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma163> a r:Inference;
@@ -1994,6 +2975,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma164> a r:Inference;
@@ -2004,6 +2988,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma165> a r:Inference;
@@ -2014,6 +3001,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 15];
   r:rule <#lemma17>.
 
 <#lemma166> a r:Inference;
@@ -2024,6 +3014,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma167> a r:Inference;
@@ -2034,6 +3027,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma168> a r:Inference;
@@ -2044,6 +3040,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma169> a r:Inference;
@@ -2059,6 +3058,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma180>
     <#lemma70>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma170> a r:Inference;
@@ -2069,6 +3078,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma171> a r:Inference;
@@ -2079,6 +3091,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma172> a r:Inference;
@@ -2094,6 +3109,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma183>
     <#lemma28>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma173> a r:Inference;
@@ -2104,6 +3129,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 14];
   r:rule <#lemma17>.
 
 <#lemma174> a r:Inference;
@@ -2114,6 +3142,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma175> a r:Inference;
@@ -2129,6 +3160,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma186>
     <#lemma187>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma176> a r:Inference;
@@ -2144,6 +3185,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma178>
     <#lemma181>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma177> a r:Inference;
@@ -2154,6 +3205,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma178> a r:Inference;
@@ -2169,6 +3223,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma190>
     <#lemma191>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma179> a r:Inference;
@@ -2179,6 +3243,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma180> a r:Inference;
@@ -2189,6 +3256,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma181> a r:Inference;
@@ -2204,6 +3274,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma194>
     <#lemma70>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma182> a r:Inference;
@@ -2214,6 +3294,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma183> a r:Inference;
@@ -2224,6 +3307,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma184> a r:Inference;
@@ -2234,6 +3320,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma185> a r:Inference;
@@ -2249,6 +3338,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma188>
     <#lemma192>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma186> a r:Inference;
@@ -2259,6 +3358,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma187> a r:Inference;
@@ -2269,6 +3371,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma188> a r:Inference;
@@ -2284,6 +3389,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma197>
     <#lemma198>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma189> a r:Inference;
@@ -2294,6 +3409,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma190> a r:Inference;
@@ -2304,6 +3422,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma191> a r:Inference;
@@ -2314,6 +3435,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma192> a r:Inference;
@@ -2329,6 +3453,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma201>
     <#lemma191>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma193> a r:Inference;
@@ -2339,6 +3473,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma194> a r:Inference;
@@ -2349,6 +3486,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma195> a r:Inference;
@@ -2359,6 +3499,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma196> a r:Inference;
@@ -2369,6 +3512,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma197> a r:Inference;
@@ -2379,6 +3525,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 7 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma198> a r:Inference;
@@ -2389,6 +3538,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma199> a r:Inference;
@@ -2404,6 +3556,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma198>
     <#lemma66>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_4"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_3"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_5"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_6"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_7"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_8"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_9"]; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma200> a r:Inference;
@@ -2414,6 +3576,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma201> a r:Inference;
@@ -2424,6 +3589,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma202> a r:Inference;
@@ -2434,8 +3602,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_1"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/FBzHUAIQhJxxtIJNOm0dRaO4EWI#x_2"]; r:boundTo 9];
   r:rule <#lemma17>.
 
-#2019-10-20T17:34:14.577Z in=3 out=1 ent=1 step=1 brake=1 inf=1247457 sec=0.686 inf/sec=1818450
+#2019-11-04T22:47:47.605Z in=3 out=1 ent=1 step=1 brake=1 inf=1357947 sec=0.741 inf/sec=1832587
 #ENDS
 

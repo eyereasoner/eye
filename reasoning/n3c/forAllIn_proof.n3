@@ -1,11 +1,12 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --n3 http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 
-PREFIX n3: <https://www.w3.org/ns/n3#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://example.org/test#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix n3: <https://www.w3.org/ns/n3#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://example.org/test#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -21,6 +22,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma2>
     <#lemma3>
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Extraction;
@@ -51,7 +54,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       :subtask3 a :Completed.
       :task2 :subTask :subtask4.
       :subtask4 a :Completed.
-      :task2 :subTask :subtask5} log:includes {:task1 :subTask ?V0}} {{:task1 :subTask :subtask1.
+      :task2 :subTask :subtask5} log:includes {:task1 :subTask _:sk_0}} {{:task1 :subTask :subtask1.
       :subtask1 a :Completed.
       :task1 :subTask :subtask2.
       :subtask2 a :Completed.
@@ -59,24 +62,36 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
       :subtask3 a :Completed.
       :task2 :subTask :subtask4.
       :subtask4 a :Completed.
-      :task2 :subTask :subtask5} log:includes {?V0 a :Completed}}) e:derive true}]
+      :task2 :subTask :subtask5} log:includes {_:sk_0 a :Completed}}) e:derive true}]
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/subtasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_1"]; r:boundTo {:task1 :subTask :subtask1.
+   :subtask1 a :Completed.
+   :task1 :subTask :subtask2.
+   :subtask2 a :Completed.
+   :task1 :subTask :subtask3.
+   :subtask3 a :Completed.
+   :task2 :subTask :subtask4.
+   :subtask4 a :Completed.
+   :task2 :subTask :subtask5}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_2"]; r:boundTo {:task1 :subTask _:sk_0}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/wwVWJF38_7uS7nom1NxdCVUeSDM#x_3"]; r:boundTo {_:sk_0 a :Completed}];
   r:rule <#lemma5>.
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 a :CompositeTask.
-     ({?x_0_1 :subTask ?x_1_1} {?x_1_1 a :Completed}) n3:forAllIn <http://josd.github.io/eye/reasoning/n3c/subtasks.n3>} => {?x_0_1 a :AllTasksCompleted}.
+    @forAll var:x_0, var:x_1. {var:x_0 a :CompositeTask.
+     ({var:x_0 :subTask var:x_1} {var:x_1 a :Completed}) n3:forAllIn <http://josd.github.io/eye/reasoning/n3c/subtasks.n3>} => {var:x_0 a :AllTasksCompleted}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3>].
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {(?x_2_2 ?x_3_2) n3:forAllIn ?x_0_2} <= {?x_0_2 log:semantics ?x_1_2.
-     ("forall" {?x_1_2 log:includes ?x_2_2} {?x_1_2 log:includes ?x_3_2}) e:derive true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(var:x_2 var:x_3) n3:forAllIn var:x_0} <= {var:x_0 log:semantics var:x_1.
+     ("forall" {var:x_1 log:includes var:x_2} {var:x_1 log:includes var:x_3}) e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2019-10-20T17:33:26.993Z in=14 out=1 ent=1 step=1 brake=1 inf=44078 sec=0.109 inf/sec=404385
+#2019-11-04T22:46:47.021Z in=14 out=1 ent=1 step=1 brake=1 inf=46243 sec=0.107 inf/sec=432178
 #ENDS
 

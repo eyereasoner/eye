@@ -1,8 +1,10 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --turtle http://josd.github.io/eye/reasoning/djiti/graph-10.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -20,6 +22,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma3>
     <#lemma4>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i61"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i29"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i42"]];
   r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
@@ -30,6 +37,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma6>
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i72"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i67"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/aV7Q22XnR8fElI2WQTQKHqrg9rs#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i73"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -46,8 +58,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {(?x_0_1 ?x_1_1 ?x_2_1) :p :o.
-     (?x_2_1 ?x_3_1 ?x_4_1) :p :o} => {:a :b (?x_0_1 ?x_1_1 ?x_2_1 ?x_3_1 ?x_4_1)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 var:x_1 var:x_2) :p :o.
+     (var:x_2 var:x_3 var:x_4) :p :o} => {:a :b (var:x_0 var:x_1 var:x_2 var:x_3 var:x_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/query.n3>].
 
@@ -63,6 +75,6 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/graph-10.n3>].
 
-#2019-10-20T17:32:00.771Z in=11 out=2 ent=2 step=2 brake=1 inf=28581 sec=0.093 inf/sec=307323
+#2019-11-04T22:45:09.682Z in=11 out=2 ent=2 step=2 brake=1 inf=31040 sec=0.098 inf/sec=316735
 #ENDS
 

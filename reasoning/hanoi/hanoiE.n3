@@ -1,4 +1,4 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/hanoi/hanoi.n3 --pass
 
 # Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
@@ -8,10 +8,12 @@
 # Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#left>
 # Move top disk from <http://josd.github.io/eye/reasoning#center> to <http://josd.github.io/eye/reasoning#right>
 # Move top disk from <http://josd.github.io/eye/reasoning#left> to <http://josd.github.io/eye/reasoning#right>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -26,6 +28,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#answer"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo (:left :right :center)];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -39,7 +44,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -54,6 +59,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {1 :move (:left :right _:sk_0)}]
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
@@ -73,6 +84,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma10>
     <#lemma11>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma8>.
 
 <#lemma7> a r:Inference;
@@ -86,15 +103,21 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma13>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {?x_0_3 :move (?x_2_3 ?x_4_3 ?x_3_3)} <= {?x_0_3 math:greaterThan 1 .
-     (?x_0_3 1) math:difference ?x_1_3.
-     ?x_1_3 :move (?x_2_3 ?x_3_3 ?x_4_3).
-     1 :move (?x_2_3 ?x_4_3 ?x_5_3).
-     ?x_1_3 :move (?x_3_3 ?x_4_3 ?x_2_3)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 :move (var:x_2 var:x_4 var:x_3)} <= {var:x_0 math:greaterThan 1 .
+     (var:x_0 1) math:difference var:x_1.
+     var:x_1 :move (var:x_2 var:x_3 var:x_4).
+     1 :move (var:x_2 var:x_4 var:x_5).
+     var:x_1 :move (var:x_3 var:x_4 var:x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
@@ -105,6 +128,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:left :right)) e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
   r:rule <#lemma14>.
 
 <#lemma10> a r:Inference;
@@ -114,6 +140,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:left :center)) e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma14>.
 
 <#lemma11> a r:Inference;
@@ -123,6 +152,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:right :center)) e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
   r:rule <#lemma14>.
 
 <#lemma12> a r:Inference;
@@ -132,6 +164,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:center :left)) e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
   r:rule <#lemma14>.
 
 <#lemma13> a r:Inference;
@@ -141,14 +176,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("format" "# Move top disk from ~w to ~w~n" (:center :right)) e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/1FyKpmwG2iuVK_K8NUs7QdxWSEo#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma14>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    {1 :move (?x_0_4 ?x_1_4 ?x_2_4)} <= {("format" "# Move top disk from ~w to ~w~n" (?x_0_4 ?x_1_4)) e:derive true}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {1 :move (var:x_0 var:x_1 var:x_2)} <= {("format" "# Move top disk from ~w to ~w~n" (var:x_0 var:x_1)) e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
-#2019-10-20T17:33:02.820Z in=3 out=1 ent=2 step=2 brake=1 inf=41146 sec=0.096 inf/sec=428604
+#2019-11-04T22:46:21.663Z in=3 out=1 ent=2 step=2 brake=1 inf=47120 sec=0.094 inf/sec=501277
 #ENDS
 

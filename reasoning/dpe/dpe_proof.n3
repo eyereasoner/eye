@@ -1,8 +1,10 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --tactic limited-answer 1 --n3 http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3 --n3 http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3 --query http://josd.github.io/eye/reasoning/dpe/dpe_query.n3
 
-PREFIX : <http://josd.github.io/eye/reasoning/dpe/dpe#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning/dpe/dpe#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -20,6 +22,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma2>
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -29,6 +32,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma5>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Inference;
@@ -38,13 +43,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma5>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma6>.
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {:b :re ?x_0_1.
-     :c :re ?x_0_1} => {:b :re ?x_0_1.
-     :c :re ?x_0_1}.
+    @forAll var:x_0. {:b :re var:x_0.
+     :c :re var:x_0} => {:b :re var:x_0.
+     :c :re var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_query.n3>].
 
@@ -57,11 +64,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma7>
     <#lemma8>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma9>.
 
 <#lemma6> a r:Extraction;
   r:gives {
-    {?x_0_2 :r ?x_1_2} => {?x_0_2 :re ?x_1_2}.
+    @forAll var:x_0, var:x_1. {var:x_0 :r var:x_1} => {var:x_0 :re var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -73,6 +84,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma10>
     <#lemma11>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule <#lemma12>.
 
 <#lemma8> a r:Inference;
@@ -83,13 +96,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma13>
     <#lemma14>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule <#lemma12>.
 
 <#lemma9> a r:Extraction;
   r:gives {
-    {?x_0_3 :r ?x_1_3.
-     ?x_0_3 :r ?x_2_3} => {?x_1_3 :r _:x_3_3.
-     ?x_2_3 :r _:x_3_3}.
+    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3. {var:x_0 :r var:x_1.
+     var:x_0 :r var:x_2} => {var:x_1 :r var:x_3.
+     var:x_2 :r var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -106,12 +121,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma15>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule <#lemma16>.
 
 <#lemma12> a r:Extraction;
   r:gives {
-    {?x_0_4 :re ?x_1_4.
-     ?x_0_4 :not_e ?x_1_4} => {?x_0_4 :r ?x_1_4}.
+    @forAll var:x_0, var:x_1. {var:x_0 :re var:x_1.
+     var:x_0 :not_e var:x_1} => {var:x_0 :r var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -128,6 +145,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma17>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule <#lemma16>.
 
 <#lemma15> a r:Inference;
@@ -138,11 +157,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma18>
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule <#lemma19>.
 
 <#lemma16> a r:Extraction;
   r:gives {
-    {?x_0_5 :not_e ?x_1_5} => {?x_1_5 :not_e ?x_0_5}.
+    @forAll var:x_0, var:x_1. {var:x_0 :not_e var:x_1} => {var:x_1 :not_e var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -154,6 +176,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma20>
     <#lemma10>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule <#lemma19>.
 
 <#lemma18> a r:Inference;
@@ -163,12 +188,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma21>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule <#lemma22>.
 
 <#lemma19> a r:Extraction;
   r:gives {
-    {?x_0_6 :not_re ?x_1_6.
-     ?x_2_6 :re ?x_1_6} => {?x_0_6 :not_e ?x_2_6}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :not_re var:x_1.
+     var:x_2 :re var:x_1} => {var:x_0 :not_e var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -179,6 +205,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma23>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule <#lemma24>.
 
 <#lemma21> a r:Inference;
@@ -188,11 +215,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule <#lemma26>.
 
 <#lemma22> a r:Extraction;
   r:gives {
-    {:c :re ?x_0_7} => {:b :not_re ?x_0_7}.
+    @forAll var:x_0. {:c :re var:x_0} => {:b :not_re var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
 
@@ -203,11 +232,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma27>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule <#lemma26>.
 
 <#lemma24> a r:Extraction;
   r:gives {
-    {:b :re ?x_0_8} => {:c :not_re ?x_0_8}.
+    @forAll var:x_0. {:b :re var:x_0} => {:c :not_re var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
 
@@ -218,11 +249,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule <#lemma28>.
 
 <#lemma26> a r:Extraction;
   r:gives {
-    {?x_0_9 :e ?x_1_9} => {?x_0_9 :re ?x_1_9}.
+    @forAll var:x_0, var:x_1. {var:x_0 :e var:x_1} => {var:x_0 :re var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
@@ -233,14 +266,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma10>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/IAt:Yo:4vB4WoqfnkZ0KZLUckMw#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule <#lemma28>.
 
 <#lemma28> a r:Extraction;
   r:gives {
-    {?x_0_10 :re ?x_1_10} => {?x_1_10 :e ?x_1_10}.
+    @forAll var:x_0, var:x_1. {var:x_0 :re var:x_1} => {var:x_1 :e var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
-#2019-10-20T17:32:21.230Z in=16 out=2 ent=32 step=120 brake=4 inf=54370 sec=0.114 inf/sec=476930
+#2019-11-04T22:45:31.948Z in=16 out=2 ent=32 step=120 brake=4 inf=59156 sec=0.111 inf/sec=532937
 #ENDS
 

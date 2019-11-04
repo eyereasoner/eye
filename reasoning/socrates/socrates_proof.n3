@@ -1,12 +1,14 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --n3 http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socratesF.n3
 
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX : <http://www.agfa.com/w3c/euler/socrates#>
-PREFIX q: <http://www.w3.org/2004/ql#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://www.agfa.com/w3c/euler/socrates#>.
+@prefix q: <http://www.w3.org/2004/ql#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -23,6 +25,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Socrates"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Man"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -32,6 +36,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma5>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Socrates"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Mortal"]];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Extraction;
@@ -42,7 +48,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 a ?x_1_1} => {?x_0_1 a ?x_1_1}.
+    @forAll var:x_0, var:x_1. {var:x_0 a var:x_1} => {var:x_0 a var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socratesF.n3>].
 
@@ -54,6 +60,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma6>
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Man"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Mortal"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/x6a81HHTw0MeHgqysN9eHrmmVeo#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/socrates#Socrates"]];
   r:rule <#lemma7>.
 
 <#lemma6> a r:Extraction;
@@ -64,11 +73,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma7> a r:Extraction;
   r:gives {
-    {?x_0_2 rdfs:subClassOf ?x_1_2.
-     ?x_2_2 a ?x_0_2} => {?x_2_2 a ?x_1_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 rdfs:subClassOf var:x_1.
+     var:x_2 a var:x_0} => {var:x_2 a var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3>].
 
-#2019-10-20T17:34:00.652Z in=4 out=2 ent=3 step=6 brake=2 inf=26638 sec=0.091 inf/sec=292725
+#2019-11-04T22:47:31.079Z in=4 out=2 ent=3 step=6 brake=2 inf=28517 sec=0.100 inf/sec=285170
 #ENDS
 

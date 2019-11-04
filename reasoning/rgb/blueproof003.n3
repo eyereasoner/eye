@@ -1,8 +1,10 @@
-#Processed by EYE v19.0928.2249 josd
+#Processed by EYE v19.1020.2224 josd
 #eye --n3 http://josd.github.io/eye/reasoning/rgb/redgraph003.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery003.n3
 
-PREFIX : <http://example.org/try#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://example.org/try#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/HiSVmCtHhxjpVhUHml_lwX63G3c#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -19,6 +21,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives true]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/HiSVmCtHhxjpVhUHml_lwX63G3c#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/HiSVmCtHhxjpVhUHml_lwX63G3c#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -28,20 +32,22 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives true]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/HiSVmCtHhxjpVhUHml_lwX63G3c#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/HiSVmCtHhxjpVhUHml_lwX63G3c#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    true => {{_:x_0_5 :p _:x_1_5} => {_:x_0_5 :q _:x_1_5}}.
+    @forSome var:x_0, var:x_1. true => {{var:x_0 :p var:x_1} => {var:x_0 :q var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
 <#lemma4> a r:Extraction;
   r:gives {
-    true => {{_:x_0_6 :q _:x_1_6} => {_:x_0_6 :r _:x_1_6}}.
+    @forSome var:x_0, var:x_1. true => {{var:x_0 :q var:x_1} => {var:x_0 :r var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
-#2019-10-20T17:33:52.415Z in=5 out=2 ent=2 step=2 brake=1 inf=23883 sec=0.093 inf/sec=256806
+#2019-11-04T22:47:19.344Z in=5 out=2 ent=2 step=2 brake=1 inf=26017 sec=0.085 inf/sec=306082
 #ENDS
 
