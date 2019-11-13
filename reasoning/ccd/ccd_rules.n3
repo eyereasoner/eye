@@ -5,13 +5,13 @@
 @prefix ccd: <http://josd.github.io/eye/reasoning/ccd#>.
 
 {
-    (?A ?B) ccd:transformer (?Y ?Z).
+    (?POD ?ALPHA ?BETA) ccd:transformer (?Y ?Z).
 } <= {
     ?SCOPE e:findall (
         (?H ?F ?G ?J ?K)
         {
-            ?A math:memberCount ?I.
-            ?A list:member (?F ?G ?J ?K).
+            ?POD math:memberCount ?I.
+            ?POD list:member (?F ?G ?J ?K).
             ?SCOPE e:optional {
                 ?J math:equalTo 0.
                 ("log(1/_I)-log(_K)" ?I ?K) e:calculate ?H.
@@ -69,9 +69,9 @@
     ?L math:memberCount ?N.
     ?SCOPE e:optional {
         ?N math:greaterThan 0.
-        ("1/(1+(1/_B-1)*exp(-3.14*_M/_N))" ?B ?M ?N) e:calculate ?Z.
+        ("1/(1+(1/_BETA-1)*exp(-_ALPHA*_M/_N))" ?BETA ?ALPHA ?M ?N) e:calculate ?Z.
     }, {
         ?N math:notGreaterThan 0.
-        ("_B" ?B) e:calculate ?Z.
+        ("_BETA" ?BETA) e:calculate ?Z.
     }.
 }.
