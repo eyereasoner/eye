@@ -12,17 +12,7 @@
         {
             ?POD math:memberCount ?I.
             ?POD list:member (?F ?G ?J ?K).
-            ?SCOPE e:optional {
-                ?J math:equalTo 0.
-                ("log(1/_I)-log(_K)" ?I ?K) e:calculate ?H.
-            }, {
-                ?K math:equalTo 0.
-                ("log(_J)-log(1/_I)" ?J ?I) e:calculate ?H.
-            }, {
-                ?J math:notEqualTo 0.
-                ?K math:notEqualTo 0.
-                ("log(_J)-log(_K)" ?J ?K) e:calculate ?H.
-            }.
+            ("log(_J+0.5)-log(_K+0.5)" ?J ?K) e:calculate ?H.
         }
         ?YL
     ).
