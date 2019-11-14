@@ -1,12 +1,12 @@
 #Processed by EYE v19.1104.2254 josd
-#eye --n3 http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
+#eye --no-genid --n3 http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 
 @prefix n3: <https://www.w3.org/ns/n3#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://example.org/test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -22,8 +22,8 @@
     <#lemma2>
     <#lemma3>
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Extraction;
@@ -64,8 +64,8 @@
       :subtask4 a :Completed.
       :task2 :subTask :subtask5} log:includes {_:sk_0 a :Completed}}) e:derive true}]
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/subtasks.n3"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_1"]; r:boundTo {:task1 :subTask :subtask1.
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/subtasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:task1 :subTask :subtask1.
    :subtask1 a :Completed.
    :task1 :subTask :subtask2.
    :subtask2 a :Completed.
@@ -74,8 +74,8 @@
    :task2 :subTask :subtask4.
    :subtask4 a :Completed.
    :task2 :subTask :subtask5}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_2"]; r:boundTo {:task1 :subTask _:sk_0}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/chIRRGVyNgiEMV1GbuWt:gF9Vog#x_3"]; r:boundTo {_:sk_0 a :Completed}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {:task1 :subTask _:sk_0}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_3"]; r:boundTo {_:sk_0 a :Completed}];
   r:rule <#lemma5>.
 
 <#lemma4> a r:Extraction;
@@ -92,6 +92,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2019-11-04T22:58:20.862Z in=14 out=1 ent=1 step=1 brake=1 inf=46304 sec=0.112 inf/sec=413429
+#2019-11-14T11:13:41.845Z in=14 out=1 ent=1 step=1 brake=1 inf=45714 sec=0.055 inf/sec=831164
 #ENDS
 
