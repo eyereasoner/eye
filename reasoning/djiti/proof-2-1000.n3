@@ -3,7 +3,7 @@
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/ZJAhIFWMRNiQMjzQve7CbzLIcl4#>.
+@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -1608,8 +1608,8 @@
 
 <#lemma95> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid-n3/#x_0>, <http://josd.github.io/.well-known/genid-n3/#x_1>, <http://josd.github.io/.well-known/genid-n3/#x_2>, <http://josd.github.io/.well-known/genid-n3/#x_3>, <http://josd.github.io/.well-known/genid-n3/#x_4>. {(<http://josd.github.io/.well-known/genid-n3/#x_0> <http://josd.github.io/.well-known/genid-n3/#x_1> <http://josd.github.io/.well-known/genid-n3/#x_2>) :p :o.
-     (<http://josd.github.io/.well-known/genid-n3/#x_2> <http://josd.github.io/.well-known/genid-n3/#x_3> <http://josd.github.io/.well-known/genid-n3/#x_4>) :p :o} => {:a :b (<http://josd.github.io/.well-known/genid-n3/#x_0> <http://josd.github.io/.well-known/genid-n3/#x_1> <http://josd.github.io/.well-known/genid-n3/#x_2> <http://josd.github.io/.well-known/genid-n3/#x_3> <http://josd.github.io/.well-known/genid-n3/#x_4>)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 var:x_1 var:x_2) :p :o.
+     (var:x_2 var:x_3 var:x_4) :p :o} => {:a :b (var:x_0 var:x_1 var:x_2 var:x_3 var:x_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/query.n3>].
 
@@ -4331,9 +4331,9 @@
 
 <#lemma267> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid-n3/#x_0>, <http://josd.github.io/.well-known/genid-n3/#x_1>, <http://josd.github.io/.well-known/genid-n3/#x_2>, <http://josd.github.io/.well-known/genid-n3/#x_3>, <http://josd.github.io/.well-known/genid-n3/#x_4>. {<http://josd.github.io/.well-known/genid-n3/#x_0> a r:Extraction.
-     <http://josd.github.io/.well-known/genid-n3/#x_0> r:gives <http://josd.github.io/.well-known/genid-n3/#x_1>.
-     <http://josd.github.io/.well-known/genid-n3/#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/.well-known/genid-n3/#x_3> <http://josd.github.io/.well-known/genid-n3/#x_2> <http://josd.github.io/.well-known/genid-n3/#x_4>}} => {<http://josd.github.io/.well-known/genid-n3/#x_3> <http://josd.github.io/.well-known/genid-n3/#x_2> <http://josd.github.io/.well-known/genid-n3/#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Extraction.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
@@ -6377,6 +6377,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-1000.n3>].
 
-#2019-11-14T11:12:50.741Z in=3624 out=92 ent=356 step=712 brake=2 inf=3037837 sec=0.491 inf/sec=6187041
+#2019-11-14T13:20:21.174Z in=3624 out=92 ent=356 step=712 brake=2 inf=2889419 sec=0.501 inf/sec=5767303
 #ENDS
 
