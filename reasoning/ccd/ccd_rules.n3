@@ -59,7 +59,7 @@
     ?L math:memberCount ?N.
     ?SCOPE e:optional {
         ?N math:greaterThan 0.
-        ("1/(1+(1/_BETA-1)*exp(-_ALPHA*_M/_N))" ?BETA ?ALPHA ?M ?N) e:calculate ?Z.
+        ("1/(1+exp(-_ALPHA*_M/_N+_BETA))" ?ALPHA ?M ?N ?BETA) e:calculate ?Z.
     }, {
         ?N math:notGreaterThan 0.
         ("_BETA" ?BETA) e:calculate ?Z.
