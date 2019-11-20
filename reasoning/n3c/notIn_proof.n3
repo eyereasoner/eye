@@ -6,7 +6,7 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://example.org/test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
+@prefix var: <http://josd.github.io/.well-known/genid/#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -24,7 +24,7 @@
     <#lemma3>
     <#lemma4>
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
   r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
@@ -35,7 +35,7 @@
     <#lemma6>
     <#lemma7>
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -54,10 +54,10 @@
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task1 a :DiscardedTask}}]
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:task1 a :CompositeTask.
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {:task1 a :CompositeTask.
    :task2 a :CompositeTask}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {:task1 a :DiscardedTask}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {:task1 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
@@ -83,10 +83,10 @@
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task2 a :DiscardedTask}}]
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:task1 a :CompositeTask.
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {:task1 a :CompositeTask.
    :task2 a :CompositeTask}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {:task2 a :DiscardedTask}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {:task2 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
@@ -96,6 +96,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2019-11-18T15:57:09.930Z in=7 out=2 ent=2 step=2 brake=1 inf=37681 sec=0.056 inf/sec=672875
+#2019-11-20T22:14:57.212Z in=7 out=2 ent=2 step=2 brake=1 inf=37914 sec=0.106 inf/sec=357679
 #ENDS
 

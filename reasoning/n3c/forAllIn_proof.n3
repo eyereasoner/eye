@@ -6,7 +6,7 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://example.org/test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
+@prefix var: <http://josd.github.io/.well-known/genid/#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -22,8 +22,8 @@
     <#lemma2>
     <#lemma3>
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Extraction;
@@ -64,8 +64,8 @@
       :subtask4 a :Completed.
       :task2 :subTask :subtask5} log:includes {_:sk_0 a :Completed}}) e:derive true}]
   );
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/subtasks.n3"]];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:task1 :subTask :subtask1.
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/subtasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {:task1 :subTask :subtask1.
    :subtask1 a :Completed.
    :task1 :subTask :subtask2.
    :subtask2 a :Completed.
@@ -74,8 +74,8 @@
    :task2 :subTask :subtask4.
    :subtask4 a :Completed.
    :task2 :subTask :subtask5}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {:task1 :subTask _:sk_0}];
-  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid-n3/#x_3"]; r:boundTo {_:sk_0 a :Completed}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {:task1 :subTask _:sk_0}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/.well-known/genid/#x_3"]; r:boundTo {_:sk_0 a :Completed}];
   r:rule <#lemma5>.
 
 <#lemma4> a r:Extraction;
@@ -92,6 +92,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2019-11-18T15:57:10.824Z in=14 out=1 ent=1 step=1 brake=1 inf=45714 sec=0.050 inf/sec=914280
+#2019-11-20T22:14:58.631Z in=14 out=1 ent=1 step=1 brake=1 inf=45967 sec=0.111 inf/sec=414117
 #ENDS
 

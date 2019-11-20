@@ -36,7 +36,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1104.2254 josd').
+version_info('EYE v19.1120.2218 josd').
 
 license_info('MIT License
 
@@ -81,7 +81,7 @@ eye
     --n3p                           output all <data> as N3 P-code on stdout
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
-    --no-genid                      no generated id in Skolem IRI
+    --no-genid                      no generated id in well-known genid URIs
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
@@ -229,7 +229,7 @@ main :-
     format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
     flush_output(user_error),
     (   memberchk('--no-genid', Argus)
-    ->  Vns = 'http://josd.github.io/.well-known/genid-n3/#'
+    ->  Vns = 'http://josd.github.io/.well-known/genid/#'
     ;   Run1 is random(2^62),
         atom_number(Run2, Run1),
         catch(sha_hash(Run2, Run3, [algorithm(sha1)]), _,
@@ -240,7 +240,7 @@ main :-
         ),
         atom_codes(Run4, Run3),
         base64xml(Run4, Run5),
-        atomic_list_concat(['http://josd.github.io/.well-known/genid-n3/', Run5, '#'], Vns)
+        atomic_list_concat(['http://josd.github.io/.well-known/genid/', Run5, '#'], Vns)
     ),
     nb_setval(var_ns, Vns),
     version_info(Version),
@@ -5278,7 +5278,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   atom(A),
-            (   sub_atom(A, _, 18, _, '/.well-known/genid')
+            (   sub_atom(A, _, 19, _, '/.well-known/genid/')
             ->  (   sub_atom(A, I, 1, _, '#')
                 ->  J is I+1,
                     sub_atom(A, J, _, 1, B)
@@ -10080,7 +10080,7 @@ findvar(A, alpha) :-
     nb_getval(var_ns, Vns),
     sub_atom(A, 1, _, _, Vns).
 findvar(A, beta) :-
-    (   sub_atom(A, _, 18, _, '/.well-known/genid')
+    (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat('_bn_', _, A)
     ;   atom_concat('_e_', _, A)
     ;   atom_concat(some, _, A)
@@ -10088,11 +10088,11 @@ findvar(A, beta) :-
     !.
 findvar(A, gamma) :-
     !,
-    sub_atom(A, _, 18, _, '/.well-known/genid'),
+    sub_atom(A, _, 19, _, '/.well-known/genid/'),
     \+sub_atom(A, _, 4, _, '#bn_'),
     \+sub_atom(A, _, 3, _, '#e_').
 findvar(A, delta) :-
-    (   sub_atom(A, _, 18, _, '/.well-known/genid')
+    (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat(some, _, A)
     ),
     !.

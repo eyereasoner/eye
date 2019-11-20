@@ -3,7 +3,7 @@
 
 @prefix : <http://example.org/test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
+@prefix var: <http://josd.github.io/.well-known/genid/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -38,9 +38,9 @@
     <#lemma11>
     [ a r:Fact; r:gives {:says <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#says"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid-n3/#e_x_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {var:e_x_2 :knows :Albert}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#says"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_x_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {var:e_x_2 :knows :Albert}];
   r:rule <#lemma12>.
 
 <#lemma2> a r:Inference;
@@ -51,9 +51,9 @@
     <#lemma13>
     [ a r:Fact; r:gives {:p <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#p"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo [ n3:uri "http://example.org/test#o"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#p"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo [ n3:uri "http://example.org/test#o"]];
   r:rule <#lemma12>.
 
 <#lemma3> a r:Inference;
@@ -64,9 +64,9 @@
     <#lemma14>
     [ a r:Fact; r:gives {:pp <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#pp"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_2"]; r:boundTo {:s :ppp :ooo}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#pp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {:s :ppp :ooo}];
   r:rule <#lemma12>.
 
 <#lemma4> a r:Inference;
@@ -77,8 +77,8 @@
     [ a r:Fact; r:gives {{?U_1 :knows :Albert} => {var:x_0 :knows :Kurt}}]
     [ a r:Fact; r:gives {{_:sk_1 :knows :Albert} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {_:sk_1 :knows :Albert}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {var:x_0 :knows :Kurt}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {_:sk_1 :knows :Albert}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {var:x_0 :knows :Kurt}];
   r:rule <#lemma15>.
 
 <#lemma5> a r:Inference;
@@ -89,8 +89,8 @@
     [ a r:Fact; r:gives {{:e :p :a} => {:e :q :b}}]
     [ a r:Fact; r:gives {{:e :p :a} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {:e :p :a}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:e :q :b}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {:e :p :a}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {:e :q :b}];
   r:rule <#lemma15>.
 
 <#lemma6> a r:Inference;
@@ -101,8 +101,8 @@
     [ a r:Fact; r:gives {{{?U_2 :p :a} => {?U_2 :q :b}} => {{?U_2 :r :c} => {?U_2 :s :d}}}]
     [ a r:Fact; r:gives {{{_:sk_2 :p :a} => {_:sk_2 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {{_:sk_2 :p :a} => {_:sk_2 :q :b}}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {{_:sk_2 :r :c} => {_:sk_2 :s :d}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {{_:sk_2 :p :a} => {_:sk_2 :q :b}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {{_:sk_2 :r :c} => {_:sk_2 :s :d}}];
   r:rule <#lemma15>.
 
 <#lemma7> a r:Inference;
@@ -113,8 +113,8 @@
     [ a r:Fact; r:gives {{?U_3 :p :o} => {?U_3 :pp {?U_3 :ppp :ooo}}}]
     [ a r:Fact; r:gives {{_:sk_3 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {_:sk_3 :p :o}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {_:sk_3 :pp {_:sk_3 :ppp :ooo}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {_:sk_3 :p :o}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {_:sk_3 :pp {_:sk_3 :ppp :ooo}}];
   r:rule <#lemma15>.
 
 <#lemma8> a r:Inference;
@@ -125,8 +125,8 @@
     [ a r:Fact; r:gives {{?U_4 :p :o} => {{{?U_4 :p2 _:sk_5} => {?U_4 :p3 _:sk_5}} => {{?U_4 :p4 _:sk_5} => {?U_4 :p5 _:sk_5}}}}]
     [ a r:Fact; r:gives {{_:sk_4 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {_:sk_4 :p :o}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {{{_:sk_4 :p2 _:sk_5} => {_:sk_4 :p3 _:sk_5}} => {{_:sk_4 :p4 _:sk_5} => {_:sk_4 :p5 _:sk_5}}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {_:sk_4 :p :o}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {{{_:sk_4 :p2 _:sk_5} => {_:sk_4 :p3 _:sk_5}} => {{_:sk_4 :p4 _:sk_5} => {_:sk_4 :p5 _:sk_5}}}];
   r:rule <#lemma15>.
 
 <#lemma9> a r:Inference;
@@ -137,8 +137,8 @@
     <#lemma16>
     [ a r:Fact; r:gives {{:e :r :c} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {:e :r :c}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {:e :s :d}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {:e :r :c}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {:e :s :d}];
   r:rule <#lemma15>.
 
 <#lemma10> a r:Inference;
@@ -149,8 +149,8 @@
     <#lemma17>
     [ a r:Fact; r:gives {{{:s :p2 _:sk_0} => {:s :p3 _:sk_0}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo {{:s :p2 _:sk_0} => {:s :p3 _:sk_0}}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo {{:s :p4 _:sk_0} => {:s :p5 _:sk_0}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo {{:s :p2 _:sk_0} => {:s :p3 _:sk_0}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo {{:s :p4 _:sk_0} => {:s :p5 _:sk_0}}];
   r:rule <#lemma15>.
 
 <#lemma11> a r:Extraction;
@@ -179,7 +179,7 @@
   r:evidence (
     <#lemma13>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
   r:rule <#lemma18>.
 
 <#lemma15> a r:Extraction;
@@ -196,7 +196,7 @@
   r:evidence (
     [ a r:Fact; r:gives {{:e :p :a} => {:e :q :b}}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#e"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#e"]];
   r:rule <#lemma19>.
 
 <#lemma17> a r:Inference;
@@ -206,8 +206,8 @@
   r:evidence (
     <#lemma13>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid-n3/#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://example.org/test#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma20>.
 
 <#lemma18> a r:Extraction;
@@ -228,6 +228,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
-#2019-11-18T15:56:57.558Z in=7 out=10 ent=13 step=26 brake=2 inf=69471 sec=0.044 inf/sec=1578886
+#2019-11-20T22:14:35.049Z in=7 out=10 ent=13 step=26 brake=2 inf=69589 sec=0.111 inf/sec=626928
 #ENDS
 
