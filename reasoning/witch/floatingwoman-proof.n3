@@ -1,9 +1,9 @@
-#Processed by EYE v19.1104.2254 josd
+#Processed by EYE v19.1120.2218 josd
 #eye --no-genid --no-genid --n3 http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --proof http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3
 
 @prefix : <http://josd.github.io/eye/reasoning/witch#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid-n3/#>.
+@prefix var: <http://josd.github.io/.well-known/genid/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -35,7 +35,7 @@
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid/#x_0>. {<http://josd.github.io/.well-known/genid/#x_0> a :FLOATINGWOMAN} => {<http://josd.github.io/.well-known/genid/#x_0> a :FLOATINGWOMAN}.
+    @forAll var:x_0. {var:x_0 a :FLOATINGWOMAN} => {var:x_0 a :FLOATINGWOMAN}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3>].
 
@@ -73,8 +73,8 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid/#x_0>. {<http://josd.github.io/.well-known/genid/#x_0> a :FLOATS.
-     <http://josd.github.io/.well-known/genid/#x_0> a :WOMAN} => {<http://josd.github.io/.well-known/genid/#x_0> a :FLOATINGWOMAN}.
+    @forAll var:x_0. {var:x_0 a :FLOATS.
+     var:x_0 a :WOMAN} => {var:x_0 a :FLOATINGWOMAN}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/floatingwoman.n3>].
 
@@ -92,9 +92,9 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid/#x_0>, <http://josd.github.io/.well-known/genid/#x_1>, <http://josd.github.io/.well-known/genid/#x_2>, <http://josd.github.io/.well-known/genid/#x_3>, <http://josd.github.io/.well-known/genid/#x_4>. {<http://josd.github.io/.well-known/genid/#x_0> a r:Inference.
-     <http://josd.github.io/.well-known/genid/#x_0> r:gives <http://josd.github.io/.well-known/genid/#x_1>.
-     <http://josd.github.io/.well-known/genid/#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/.well-known/genid/#x_3> <http://josd.github.io/.well-known/genid/#x_2> <http://josd.github.io/.well-known/genid/#x_4>}} => {<http://josd.github.io/.well-known/genid/#x_3> <http://josd.github.io/.well-known/genid/#x_2> <http://josd.github.io/.well-known/genid/#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Inference.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
@@ -112,12 +112,12 @@
 
 <#lemma12> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/.well-known/genid/#x_0>, <http://josd.github.io/.well-known/genid/#x_1>, <http://josd.github.io/.well-known/genid/#x_2>, <http://josd.github.io/.well-known/genid/#x_3>, <http://josd.github.io/.well-known/genid/#x_4>. {<http://josd.github.io/.well-known/genid/#x_0> a r:Extraction.
-     <http://josd.github.io/.well-known/genid/#x_0> r:gives <http://josd.github.io/.well-known/genid/#x_1>.
-     <http://josd.github.io/.well-known/genid/#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/.well-known/genid/#x_3> <http://josd.github.io/.well-known/genid/#x_2> <http://josd.github.io/.well-known/genid/#x_4>}} => {<http://josd.github.io/.well-known/genid/#x_3> <http://josd.github.io/.well-known/genid/#x_2> <http://josd.github.io/.well-known/genid/#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Extraction.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
-#2019-11-20T22:16:07.472Z in=96 out=1 ent=14 step=43 brake=3 inf=96302 sec=0.149 inf/sec=646322
+#2019-11-20T22:23:43.215Z in=96 out=1 ent=14 step=43 brake=3 inf=96732 sec=0.153 inf/sec=632235
 #ENDS
 
