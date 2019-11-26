@@ -25,6 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(sha)), _, true).
 :- catch(use_module(library(uri)), _, true).
+:- catch(use_module(library(pcre)), _, true).
 :- endif.
 :- if(\+current_predicate(date_time_stamp/2)).
 :- load_foreign_files(['pl-tai'], [], install).
@@ -36,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1120.2300 josd').
+version_info('EYE v19.1126.1434 josd').
 
 license_info('MIT License
 
@@ -3989,9 +3990,7 @@ wt0(X) :-
             pfx(E, D),
             K is J-1,
             sub_atom(X, _, K, 1, F),
-            atom_codes(F, G),
-            atom_codes('^[A-Z_a-z][\\\\-0-9A-Z_a-z]*$', H),
-            regex(H, G, _)
+            regex('^[A-Z_a-z][\\-0-9A-Z_a-z]*$', F, _)
         ->  atom_concat(E, F, W),
             assertz(wtcache(X, W))
         ;   (   \+flag(strings),
@@ -5502,13 +5501,22 @@ djiti_assertz(A) :-
         (   ground([X, Y])
         ),
         (   atom_codes(X, U),
-            atom_codes(Y, V),
-            split_string(U, V, "", W),
-            findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                (   member(B, W),
-                    atom_codes(A, B)
-                ),
-                Z
+            atom_codes(Y, C),
+            (   C = []
+            ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                    (   member(B, U),
+                        atom_codes(A, [B])
+                    ),
+                    Z
+                )
+            ;   escape_string(V, C),
+                split_string(U, V, "", W),
+                findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                    (   member(B, W),
+                        atom_codes(A, B)
+                    ),
+                    Z
+                )
             )
         )
     ).
@@ -6315,9 +6323,7 @@ djiti_assertz(A) :-
     when(
         (   ground([X, Y])
         ),
-        (   atom_codes(X, U),
-            atom_codes(Y, V),
-            regex(V, U, _)
+        (   regex(Y, X, _)
         )
     ).
 
@@ -6360,10 +6366,8 @@ djiti_assertz(A) :-
     when(
         (   ground([X, Y])
         ),
-        (   atom_codes(X, U),
-            atom_codes(Y, V),
-            regex(V, U, [W|_]),
-            atom_codes(Z, W)
+        (   regex(Y, X, [W|_]),
+            atom_string(Z, W)
         )
     ).
 
@@ -6371,12 +6375,10 @@ djiti_assertz(A) :-
     when(
         (   ground([X, Y])
         ),
-        (   atom_codes(X, U),
-            atom_codes(Y, V),
-            regex(V, U, L),
+        (   regex(Y, X, L),
             findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 (   member(M, L),
-                    atom_codes(A, M)
+                    atom_string(A, M)
                 ),
                 Z
             )
@@ -6865,9 +6867,7 @@ djiti_assertz(A) :-
     when(
         (   ground([A, B])
         ),
-        (   atom_codes(A, U),
-            atom_codes(B, V),
-            regex(V, U, _)
+        (   regex(B, A, _)
         ->  C = true
         ;   C = false
         )
@@ -8339,9 +8339,7 @@ djiti_assertz(A) :-
     atomic_list_concat(['^', E], F),
     downcase_atom(F, G),
     downcase_atom(B, H),
-    atom_codes(G, I),
-    atom_codes(H, J),
-    regex(I, J, _).
+    regex(G, H, _).
 
 % 4.11.3.1 pred:is-list
 
@@ -10823,6 +10821,29 @@ timestamp(Stamp) :-
     ;   Stamp = StampA
     ).
 
+regex(Pattern, String, List) :-
+    atom_codes(Pattern, PatternC),
+    escape_string(PatC, PatternC),
+    atom_codes(Pat, PatC),
+    atom_codes(String, StringC),
+    escape_string(StrC, StringC),
+    atom_codes(Str, StrC),
+    re_matchsub(Pat, Str, Dict, []),
+    findall(Value,
+        (   get_dict(Key, Dict, Value),
+            Key \== 0
+        ),
+        List
+    ).
+
+regexp_wildcard([], []) :-
+    !.
+regexp_wildcard([0'*|A], [0'., 0'*|B]) :-
+    !,
+    regexp_wildcard(A, B).
+regexp_wildcard([A|B], [A|C]) :-
+    regexp_wildcard(B, C).
+
 fm(A) :-
     format(user_error, '*** ~q~n', [A]),
     flush_output(user_error).
@@ -10835,168 +10856,3 @@ mf(A) :-
         )
     ),
     flush_output(user_error).
-
-%
-% Regular Expressions inspired by http://www.cs.sfu.ca/~cameron/Teaching/384/99-3/regexp-plg.html
-%
-
-regex(RE_esc, Input_esc, Outputs_esc) :-
-    escape_string(RE, RE_esc),
-    re(Parsed_RE, RE, []),
-    (   RE = [0'^|_]
-    ->  Bos = true
-    ;   Bos = false
-    ),
-    escape_string(Input, Input_esc),
-    tokenize2(Parsed_RE, Input, Outputs, Bos),
-    findall(Output_esc,
-        (   member(Output, Outputs),
-            escape_string(Output, Output_esc)
-        ),
-        Outputs_esc
-    ),
-    !.
-
-tokenize2(_P_RE, [], [], true).
-tokenize2(P_RE, Input, Output, Bos) :-
-    (   rematch1(P_RE, Input, _, Output)
-    ->  true
-    ;   Bos = false,
-        Input = [_|Inp],
-        tokenize2(P_RE, Inp, Output, Bos)
-    ).
-
-rematch1(union(RE1, _RE2), S, U, Selected) :-
-    rematch1(RE1, S, U, Selected).
-rematch1(union(_RE1, RE2), S, U, Selected) :-
-    rematch1(RE2, S, U, Selected).
-rematch1(conc(RE1, RE2), S, U, Selected) :-
-    rematch1(RE1, S, U1, Sel1),
-    rematch1(RE2, U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(star(RE), S, U, Selected) :-
-    rematch1(RE, S, U1, Sel1),
-    rematch1(star(RE), U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(star(_RE), S, S, []).
-rematch1(qm(RE), S, U, Selected) :-
-    rematch1(RE, S, U, Selected).
-rematch1(qm(_RE), S, S, []).
-rematch1(plus(RE), S, U, Selected) :-
-    rematch1(RE, S, U1, Sel1),
-    rematch1(star(RE), U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(group(RE), S, U, Selected) :-
-    rematch1(RE, S, U, Sel1),
-    append(P, U, S),
-    append(Sel1, [P], Selected).
-rematch1(any, [_C1|U], U, []).
-rematch1(char(C), [C|U], U, []).
-rematch1(bos, S, S, []).
-rematch1(eos, [], [], []).
-rematch1(negSet(Set), [C|U], U, []) :-
-    \+charSetMember(C, Set).
-rematch1(posSet(Set), [C|U], U, []) :-
-    charSetMember(C, Set).
-
-charSetMember(C, [char(C)|_]).
-charSetMember(C, [range(C1, C2)|_]) :-
-    C1 =< C,
-    C =< C2.
-charSetMember(C, [negSet(Set)|_]) :-
-    \+charSetMember(C, Set).
-charSetMember(C, [posSet(Set)|_]) :-
-    charSetMember(C, Set).
-charSetMember(C, [_|T]) :-
-    charSetMember(C, T).
-
-re(Z, L1, L3) :-
-    basicRE(W, L1, L2),
-    reTail(W, Z, L2, L3).
-
-reTail(W, Z, [0'||L2], L4) :-
-    basicRE(X, L2, L3),
-    reTail(union(W, X), Z, L3, L4).
-reTail(W, W, L1, L1).
-
-basicRE(Z, L1, L3) :-
-    simpleRE(W, L1, L2),
-    basicREtail(W, Z, L2, L3).
-
-basicREtail(W, Z, L1, L3) :-
-    simpleRE(X, L1, L2),
-    basicREtail(conc(W, X), Z, L2, L3).
-basicREtail(W, W, L1, L1).
-
-simpleRE(Z, L1, L3) :-
-    elementalRE(W, L1, L2),
-    simpleREtail(W, Z, L2, L3).
-
-simpleREtail(W, star(W), [0'*|L2], L2).
-simpleREtail(W, qm(W), [0'?|L2], L2).
-simpleREtail(W, plus(W), [0'+|L2], L2).
-simpleREtail(W, W, L1, L1).
-
-elementalRE(any, [0'.|L2], L2).
-elementalRE(group(X), [0'(|L2], L4) :-
-    re(X, L2, [0')|L4]).
-elementalRE(bos, [0'^|L2], L2).
-elementalRE(eos, [0'$|L2], L2).
-elementalRE(posSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'w|L2], L2).
-elementalRE(negSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'W|L2], L2).
-elementalRE(posSet([range(0'0, 0'9)]), [0'\\, 0'd|L2], L2).
-elementalRE(negSet([range(0'0, 0'9)]), [0'\\, 0'D|L2], L2).
-elementalRE(posSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0's|L2], L2).
-elementalRE(negSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0'S|L2], L2).
-elementalRE(char(C), [0'\\, C|L2], L2) :-
-    re_metachar([C]).
-elementalRE(char(C), [C|L2], L2) :-
-    \+re_metachar([C]).
-elementalRE(negSet(X), [0'[, 0'^|L2], L4) :-
-    !,
-    setItems(X, L2, [0']|L4]).
-elementalRE(posSet(X), [0'[|L2], L4) :-
-    setItems(X, L2, [0']|L4]).
-
-re_metachar([0'\\]).
-re_metachar([0'|]).
-re_metachar([0'*]).
-re_metachar([0'?]).
-re_metachar([0'+]).
-re_metachar([0'.]).
-re_metachar([0'[]).
-re_metachar([0'$]).
-re_metachar([0'(]).
-re_metachar([0')]).
-
-setItems([Item1|MoreItems], L1, L3) :-
-    setItem(Item1, L1, L2),
-    setItems(MoreItems, L2, L3).
-setItems([Item1], L1, L2) :-
-    setItem(Item1, L1, L2).
-
-setItem(posSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'w|L2], L2).
-setItem(negSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'W|L2], L2).
-setItem(posSet([range(0'0, 0'9)]), [0'\\, 0'd|L2], L2).
-setItem(negSet([range(0'0, 0'9)]), [0'\\, 0'D|L2], L2).
-setItem(posSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0's|L2], L2).
-setItem(negSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0'S|L2], L2).
-setItem(char(C), [0'\\, C|L2], L2) :-
-    set_metachar([C]).
-setItem(char(C), [C|L2], L2) :-
-    \+set_metachar([C]).
-setItem(range(A, B), L1, L4) :-
-    setItem(char(A), L1, [0'-|L3]),
-    setItem(char(B), L3, L4).
-
-set_metachar([0'\\]).
-set_metachar([0']]).
-set_metachar([0'-]).
-
-regexp_wildcard([], []) :-
-    !.
-regexp_wildcard([0'*|A], [0'., 0'*|B]) :-
-    !,
-    regexp_wildcard(A, B).
-regexp_wildcard([A|B], [A|C]) :-
-    regexp_wildcard(B, C).
