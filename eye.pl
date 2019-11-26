@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1126.1434 josd').
+version_info('EYE v19.1126.2203 josd').
 
 license_info('MIT License
 
@@ -111,8 +111,8 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --plugin <uri>                  Prolog code
-    --proof <uri>                   N3 proof
     --turtle <uri>                  Turtle data
+    --twinkle <uri>                 N3 proof expressed as thinking with lemmas
 <query>
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
@@ -312,7 +312,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--proof', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--twinkle', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -891,7 +891,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1095,7 +1095,7 @@ args(['--plugin', Argument|Args]) :-
     ),
     flush_output(user_error),
     args(Args).
-args(['--proof', Arg|Args]) :-
+args(['--twinkle', Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
@@ -3990,7 +3990,7 @@ wt0(X) :-
             pfx(E, D),
             K is J-1,
             sub_atom(X, _, K, 1, F),
-            regex('^[A-Z_a-z][\\-0-9A-Z_a-z]*$', F, _)
+            regex('^[A-Z_a-z][-0-9A-Z_a-z]*$', F, _)
         ->  atom_concat(E, F, W),
             assertz(wtcache(X, W))
         ;   (   \+flag(strings),
