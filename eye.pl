@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1126.2203 josd').
+version_info('EYE v19.1129.2208 josd').
 
 license_info('MIT License
 
@@ -109,7 +109,7 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
-    --n3 <uri>                      N3 triples and rules
+    <uri>                           N3 triples and rules
     --plugin <uri>                  Prolog code
     --turtle <uri>                  Turtle data
     --twinkle <uri>                 N3 proof expressed as thinking with lemmas
@@ -312,7 +312,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--twinkle', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--no-skolem', '--plugin', '--twinkle', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -891,7 +891,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -976,20 +976,6 @@ curl_http_headers(Headers) :-
 
 args([]) :-
     !.
-args(['--n3', Arg|Args]) :-
-    !,
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
-    ;   true
-    ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
-    args(Args).
 args(['--pass'|Args]) :-
     !,
     (   flag(nope),
@@ -1319,7 +1305,18 @@ args(['--turtle', Argument|Args]) :-
     ),
     args(Args).
 args([Arg|Args]) :-
-    args(['--n3', Arg|Args]).
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(n3p)
+    ->  portray_clause(scope(R))
+    ;   true
+    ),
+    (   flag(carl)
+    ->  carl(Arg, data)
+    ;   n3_n3p(Arg, data)
+    ),
+    args(Args).
 
 carl(Argument, Mode) :-
     !,
