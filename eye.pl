@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1129.2208 josd').
+version_info('EYE v19.1129.2354 josd').
 
 license_info('MIT License
 
@@ -112,7 +112,7 @@ eye
     <uri>                           N3 triples and rules
     --plugin <uri>                  Prolog code
     --turtle <uri>                  Turtle data
-    --twinkle <uri>                 N3 proof expressed as thinking with lemmas
+    --twinkle <uri>                 Thinking with lemmas from N3 proof
 <query>
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
