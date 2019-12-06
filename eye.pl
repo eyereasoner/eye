@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1129.2354 josd').
+version_info('EYE v19.1206.2337 josd').
 
 license_info('MIT License
 
@@ -371,9 +371,8 @@ gre(Argus) :-
     (   (   flag('no-qvars')
         ;   flag('pass-all-ground')
         )
-    ->  atomic_list_concat(['<', Vns, '>'], Vpfx),
-        retractall(pfx('var:', _)),
-        assertz(pfx('var:', Vpfx))
+    ->  retractall(pfx('var:', _)),
+        assertz(pfx('var:', '<http://josd.github.io/var#>'))
     ;   true
     ),
     (   flag(n3p)
@@ -450,8 +449,7 @@ gre(Argus) :-
         ->  true
         ;   (   pfx('var:', _)
             ->  true
-            ;   atomic_list_concat(['<', Vns, '>'], Vpfx),
-                assertz(pfx('var:', Vpfx))
+            ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
             ),
             (   pfx('n3:', _)
             ->  true
@@ -3872,8 +3870,7 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   nb_getval(var_ns, Vns),
-        atomic_list_concat(['<', Vns, 'sk_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://josd.github.io/var#some_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -3895,16 +3892,14 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   nb_getval(var_ns, Vns),
-        atomic_list_concat(['<', Vns, 'U_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://josd.github.io/var#all_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
-    nb_getval(var_ns, Vns),
-    atomic_list_concat(['<', Vns, 'x_', Y, '>'], Z),
+    atomic_list_concat(['<http://josd.github.io/var#x_', Y, '>'], Z),
     wt0(Z).
 wt0(X) :-
     (   \+flag(traditional)
@@ -4460,10 +4455,7 @@ wv(X) :-
     !,
     write('[ '),
     wp('<http://www.w3.org/2004/06/rei#uri>'),
-    write(' "'),
-    nb_getval(var_ns, Vns),
-    write(Vns),
-    write('x_'),
+    write(' "http://josd.github.io/var#x_'),
     write(Y),
     write('"]').
 wv(X) :-
@@ -10072,8 +10064,7 @@ findvars(A, B, Z) :-
 
 findvar(A, alpha) :-
     !,
-    nb_getval(var_ns, Vns),
-    sub_atom(A, 1, _, _, Vns).
+    atom_concat('<http://josd.github.io/var#', _, A).
 findvar(A, beta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat('_bn_', _, A)
