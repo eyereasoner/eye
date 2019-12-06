@@ -1,5 +1,5 @@
-#Processed by EYE v19.1129.2208 josd
-#eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/dp/dp.n3 --query http://josd.github.io/eye/reasoning/dp/dpQ.n3
+#Processed by EYE v19.1129.2354 josd
+#eye --tactic limited-answer 1 http://josd.github.io/eye/reasoning/dp/dp.n3 --query http://josd.github.io/eye/reasoning/dp/dpQ.n3
 
 # <http://josd.github.io/eye/reasoning#person5> thinking for 0.025 seconds
 # <http://josd.github.io/eye/reasoning#person1> thinking for 0.1 seconds
@@ -14,7 +14,7 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -37,27 +37,27 @@
     :all :got :dinner.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("thread_create" {:person1 :run (0.1 0.1)} var:t_0 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person2 :run (0.2 0.2)} var:t_1 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person3 :run (0.3 0.3)} var:t_2 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person4 :run (0.25 0.2)} var:t_3 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person5 :run (0.025 0.1)} var:t_4 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" var:t_0 true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" var:t_1 true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" var:t_2 true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" var:t_3 true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" var:t_4 true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person1 :run (0.1 0.1)} <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_0> ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person2 :run (0.2 0.2)} <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_1> ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person3 :run (0.3 0.3)} <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_2> ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person4 :run (0.25 0.2)} <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_3> ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person5 :run (0.025 0.1)} <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_4> ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_0> true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_1> true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_2> true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_3> true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_4> true) e:derive true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo var:t_0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo var:t_1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo var:t_2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_3"]; r:boundTo var:t_3];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_4"]; r:boundTo var:t_4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_5"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_6"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_7"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_8"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_9"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_0>];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_1>];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_2>];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_3>];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo <http://josd.github.io/.well-known/genid/Us_aUq1XNikAgWpKq0Lsew:kuiQ#t_4>];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo true];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Extraction;
@@ -81,6 +81,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dp/dp.n3>].
 
-#2019-11-29T22:10:41.566Z in=10 out=1 ent=2 step=2 brake=1 inf=50680 sec=0.110 inf/sec=460727
+#2019-12-06T23:08:36.620Z in=10 out=1 ent=2 step=2 brake=1 inf=50746 sec=0.108 inf/sec=469870
 #ENDS
 

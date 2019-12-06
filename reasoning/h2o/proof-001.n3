@@ -1,11 +1,11 @@
-#Processed by EYE v19.1129.2208 josd
-#eye --no-genid --turtle http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 --turtle http://josd.github.io/eye/reasoning/h2o/data-001.n3 http://josd.github.io/eye/reasoning/h2o/rules-001.n3 --query http://josd.github.io/eye/reasoning/h2o/query-001.n3
+#Processed by EYE v19.1129.2354 josd
+#eye --turtle http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 --turtle http://josd.github.io/eye/reasoning/h2o/data-001.n3 http://josd.github.io/eye/reasoning/h2o/rules-001.n3 --query http://josd.github.io/eye/reasoning/h2o/query-001.n3
 
 @prefix h: <http://josd.github.io/eye/reasoning/h2o#>.
 @prefix t: <http://josd.github.io/eye/reasoning/tfcontext#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -32,11 +32,11 @@
     [ a r:Fact; r:gives {t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)}]
     <#lemma5>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/h2o#traveler1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/tfcontext#Ghent-Belgium"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_3"]; r:boundTo 51.0535];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_4"]; r:boundTo 3.7304];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/h2o#traveler1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/tfcontext#Ghent-Belgium"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 51.0535];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 3.7304];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
@@ -65,6 +65,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/rules-001.n3>].
 
-#2019-11-29T22:11:37.223Z in=10 out=1 ent=6 step=12 brake=2 inf=28170 sec=0.105 inf/sec=268286
+#2019-12-06T23:09:18.716Z in=10 out=1 ent=6 step=12 brake=2 inf=28464 sec=0.097 inf/sec=293443
 #ENDS
 

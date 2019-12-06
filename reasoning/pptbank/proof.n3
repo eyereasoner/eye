@@ -1,5 +1,5 @@
-#Processed by EYE v19.1129.2208 josd
-#eye --no-genid http://josd.github.io/eye/reasoning/pptbank/bankSW.n3 http://josd.github.io/eye/reasoning/pptbank/checking.n3 --query http://josd.github.io/eye/reasoning/pptbank/query.n3
+#Processed by EYE v19.1129.2354 josd
+#eye http://josd.github.io/eye/reasoning/pptbank/bankSW.n3 http://josd.github.io/eye/reasoning/pptbank/checking.n3 --query http://josd.github.io/eye/reasoning/pptbank/query.n3
 
 @prefix my: <http://josd.github.io/eye/reasoning/ppt-bank/acct3#>.
 @prefix ck: <http://josd.github.io/eye/reasoning/ppt-bank/checking#>.
@@ -9,7 +9,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -25,8 +25,8 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo 2.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.0];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -48,19 +48,19 @@
     [ a r:Fact; r:gives {(5.0 3.0) math:sum 8.0}]
     [ a r:Fact; r:gives {(10.0 8.0) math:difference 2.0}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/pptbank/acct3start.n3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_2"]; r:boundTo {my:account a ck:Account.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/pptbank/acct3start.n3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo {my:account a ck:Account.
    my:account ck:balance 10.0}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_3"]; r:boundTo 10.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_4"]; r:boundTo (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/pptbank/bankSW.n3> <http://josd.github.io/eye/reasoning/pptbank/checking.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_9"]; r:boundTo (5.0 3.0)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_10"]; r:boundTo 8.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/.well-known/genid/#x_11"]; r:boundTo 2.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 10.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/pptbank/bankSW.n3> <http://josd.github.io/eye/reasoning/pptbank/checking.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo (5.0 3.0)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 8.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 2.0];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
@@ -97,6 +97,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/checking.n3>].
 
-#2019-11-29T22:12:21.737Z in=17 out=1 ent=2 step=4 brake=4 inf=46262 sec=0.116 inf/sec=398810
+#2019-12-06T23:09:51.690Z in=17 out=1 ent=2 step=4 brake=4 inf=46460 sec=0.111 inf/sec=418559
 #ENDS
 
