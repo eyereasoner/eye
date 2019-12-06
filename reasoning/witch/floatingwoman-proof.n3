@@ -1,9 +1,9 @@
 #Processed by EYE v19.1129.2354 josd
-#eye http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --twinkle http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --twinkle http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3
 
 @prefix : <http://josd.github.io/eye/reasoning/witch#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -35,7 +35,7 @@
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>. {<http://josd.github.io/var#x_0> a :FLOATINGWOMAN} => {<http://josd.github.io/var#x_0> a :FLOATINGWOMAN}.
+    @forAll var:x_0. {var:x_0 a :FLOATINGWOMAN} => {var:x_0 a :FLOATINGWOMAN}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3>].
 
@@ -73,8 +73,8 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>. {<http://josd.github.io/var#x_0> a :FLOATS.
-     <http://josd.github.io/var#x_0> a :WOMAN} => {<http://josd.github.io/var#x_0> a :FLOATINGWOMAN}.
+    @forAll var:x_0. {var:x_0 a :FLOATS.
+     var:x_0 a :WOMAN} => {var:x_0 a :FLOATINGWOMAN}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/floatingwoman.n3>].
 
@@ -92,9 +92,9 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>. {<http://josd.github.io/var#x_0> a r:Inference.
-     <http://josd.github.io/var#x_0> r:gives <http://josd.github.io/var#x_1>.
-     <http://josd.github.io/var#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}} => {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Inference.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
@@ -112,12 +112,12 @@
 
 <#lemma12> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>. {<http://josd.github.io/var#x_0> a r:Extraction.
-     <http://josd.github.io/var#x_0> r:gives <http://josd.github.io/var#x_1>.
-     <http://josd.github.io/var#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}} => {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Extraction.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
-#2019-12-06T23:10:33.806Z in=96 out=1 ent=14 step=43 brake=3 inf=92188 sec=0.154 inf/sec=598623
+#2019-12-06T23:26:38.344Z in=96 out=1 ent=14 step=43 brake=3 inf=90524 sec=0.150 inf/sec=603493
 #ENDS
 

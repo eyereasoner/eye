@@ -1,5 +1,5 @@
 #Processed by EYE v19.1129.2354 josd
-#eye http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent2-map.n3 --twinkle http://josd.github.io/eye/reasoning/map/agent1-proof.n3 --query http://josd.github.io/eye/reasoning/map/agent2-query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent2-map.n3 --twinkle http://josd.github.io/eye/reasoning/map/agent1-proof.n3 --query http://josd.github.io/eye/reasoning/map/agent2-query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -8,7 +8,7 @@
 @prefix gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -56,7 +56,7 @@
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>, <http://josd.github.io/var#x_5>, <http://josd.github.io/var#x_6>. {<http://josd.github.io/var#x_0> gps:findpath ({<http://josd.github.io/var#x_1> :location :Oostende} <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> (3600.0 5.0 0.2 0.4 1))} => {<http://josd.github.io/var#x_1> gps:path (<http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6>)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 gps:findpath ({var:x_1 :location :Oostende} var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (3600.0 5.0 0.2 0.4 1))} => {var:x_1 gps:path (var:x_2 var:x_3 var:x_4 var:x_5 var:x_6)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent2-query.n3>].
 
@@ -123,7 +123,7 @@
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>, <http://josd.github.io/var#x_5>, <http://josd.github.io/var#x_6>, <http://josd.github.io/var#x_7>, <http://josd.github.io/var#x_8>, <http://josd.github.io/var#x_9>, <http://josd.github.io/var#x_10>, <http://josd.github.io/var#x_11>. {<http://josd.github.io/var#x_0> gps:findpath (<http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> (<http://josd.github.io/var#x_7> <http://josd.github.io/var#x_8> <http://josd.github.io/var#x_9> <http://josd.github.io/var#x_10> <http://josd.github.io/var#x_11>))} <= {<http://josd.github.io/var#x_0> gps:findpaths (() <http://josd.github.io/var#x_1> () 0.0 0.0 1.0 1.0 <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> (<http://josd.github.io/var#x_7> <http://josd.github.io/var#x_8> <http://josd.github.io/var#x_9> <http://josd.github.io/var#x_10> <http://josd.github.io/var#x_11>))}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 gps:findpath (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))} <= {var:x_0 gps:findpaths (() var:x_1 () 0.0 0.0 1.0 1.0 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -188,24 +188,24 @@
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>, <http://josd.github.io/var#x_5>, <http://josd.github.io/var#x_6>, <http://josd.github.io/var#x_7>, <http://josd.github.io/var#x_8>, <http://josd.github.io/var#x_9>, <http://josd.github.io/var#x_10>, <http://josd.github.io/var#x_11>, <http://josd.github.io/var#x_12>, <http://josd.github.io/var#x_13>, <http://josd.github.io/var#x_14>, <http://josd.github.io/var#x_15>, <http://josd.github.io/var#x_16>, <http://josd.github.io/var#x_17>, <http://josd.github.io/var#x_18>, <http://josd.github.io/var#x_19>, <http://josd.github.io/var#x_20>, <http://josd.github.io/var#x_21>, <http://josd.github.io/var#x_22>, <http://josd.github.io/var#x_23>, <http://josd.github.io/var#x_24>, <http://josd.github.io/var#x_25>, <http://josd.github.io/var#x_26>, <http://josd.github.io/var#x_27>, <http://josd.github.io/var#x_28>, <http://josd.github.io/var#x_29>, <http://josd.github.io/var#x_30>, <http://josd.github.io/var#x_31>, <http://josd.github.io/var#x_32>, <http://josd.github.io/var#x_33>, <http://josd.github.io/var#x_34>. {<http://josd.github.io/var#x_10> gps:findpaths (<http://josd.github.io/var#x_11> <http://josd.github.io/var#x_29> <http://josd.github.io/var#x_27> <http://josd.github.io/var#x_15> <http://josd.github.io/var#x_18> <http://josd.github.io/var#x_21> <http://josd.github.io/var#x_24> <http://josd.github.io/var#x_30> <http://josd.github.io/var#x_31> <http://josd.github.io/var#x_32> <http://josd.github.io/var#x_33> <http://josd.github.io/var#x_34> (<http://josd.github.io/var#x_17> <http://josd.github.io/var#x_20> <http://josd.github.io/var#x_23> <http://josd.github.io/var#x_26> <http://josd.github.io/var#x_14>))} <= {{<http://josd.github.io/var#x_0> gps:description (<http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> <http://josd.github.io/var#x_7> <http://josd.github.io/var#x_8>)} <= <http://josd.github.io/var#x_9>.
-     <http://josd.github.io/var#x_10> e:call <http://josd.github.io/var#x_1>.
-     <http://josd.github.io/var#x_10> e:call <http://josd.github.io/var#x_9>.
-     <http://josd.github.io/var#x_0> gps:description (<http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> <http://josd.github.io/var#x_7> <http://josd.github.io/var#x_8>).
-     (<http://josd.github.io/var#x_11> (<http://josd.github.io/var#x_0>)) list:append <http://josd.github.io/var#x_12>.
-     <http://josd.github.io/var#x_12> gps:stagecount <http://josd.github.io/var#x_13>.
-     <http://josd.github.io/var#x_13> math:notGreaterThan <http://josd.github.io/var#x_14>.
-     (<http://josd.github.io/var#x_15> <http://josd.github.io/var#x_5>) math:sum <http://josd.github.io/var#x_16>.
-     <http://josd.github.io/var#x_16> math:notGreaterThan <http://josd.github.io/var#x_17>.
-     (<http://josd.github.io/var#x_18> <http://josd.github.io/var#x_6>) math:sum <http://josd.github.io/var#x_19>.
-     <http://josd.github.io/var#x_19> math:notGreaterThan <http://josd.github.io/var#x_20>.
-     (<http://josd.github.io/var#x_21> <http://josd.github.io/var#x_7>) math:product <http://josd.github.io/var#x_22>.
-     <http://josd.github.io/var#x_22> math:notLessThan <http://josd.github.io/var#x_23>.
-     (<http://josd.github.io/var#x_24> <http://josd.github.io/var#x_8>) math:product <http://josd.github.io/var#x_25>.
-     <http://josd.github.io/var#x_25> math:notLessThan <http://josd.github.io/var#x_26>.
-     (<http://josd.github.io/var#x_27> (<http://josd.github.io/var#x_4>)) list:append <http://josd.github.io/var#x_28>.
-     <http://josd.github.io/var#x_1> e:becomes <http://josd.github.io/var#x_3>.
-     {<http://josd.github.io/var#x_10> gps:findpaths (<http://josd.github.io/var#x_12> <http://josd.github.io/var#x_29> <http://josd.github.io/var#x_28> <http://josd.github.io/var#x_16> <http://josd.github.io/var#x_19> <http://josd.github.io/var#x_22> <http://josd.github.io/var#x_25> <http://josd.github.io/var#x_30> <http://josd.github.io/var#x_31> <http://josd.github.io/var#x_32> <http://josd.github.io/var#x_33> <http://josd.github.io/var#x_34> (<http://josd.github.io/var#x_17> <http://josd.github.io/var#x_20> <http://josd.github.io/var#x_23> <http://josd.github.io/var#x_26> <http://josd.github.io/var#x_14>))} e:finalize {<http://josd.github.io/var#x_3> e:becomes <http://josd.github.io/var#x_1>}}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {var:x_10 gps:findpaths (var:x_11 var:x_29 var:x_27 var:x_15 var:x_18 var:x_21 var:x_24 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} <= {{var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8)} <= var:x_9.
+     var:x_10 e:call var:x_1.
+     var:x_10 e:call var:x_9.
+     var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8).
+     (var:x_11 (var:x_0)) list:append var:x_12.
+     var:x_12 gps:stagecount var:x_13.
+     var:x_13 math:notGreaterThan var:x_14.
+     (var:x_15 var:x_5) math:sum var:x_16.
+     var:x_16 math:notGreaterThan var:x_17.
+     (var:x_18 var:x_6) math:sum var:x_19.
+     var:x_19 math:notGreaterThan var:x_20.
+     (var:x_21 var:x_7) math:product var:x_22.
+     var:x_22 math:notLessThan var:x_23.
+     (var:x_24 var:x_8) math:product var:x_25.
+     var:x_25 math:notLessThan var:x_26.
+     (var:x_27 (var:x_4)) list:append var:x_28.
+     var:x_1 e:becomes var:x_3.
+     {var:x_10 gps:findpaths (var:x_12 var:x_29 var:x_28 var:x_16 var:x_19 var:x_22 var:x_25 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} e:finalize {var:x_3 e:becomes var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -229,9 +229,9 @@
 
 <#lemma15> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>. {<http://josd.github.io/var#x_0> a r:Inference.
-     <http://josd.github.io/var#x_0> r:gives <http://josd.github.io/var#x_1>.
-     <http://josd.github.io/var#x_1> e:graphMember {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}} => {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Inference.
+     var:x_0 r:gives var:x_1.
+     var:x_1 e:graphMember {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
@@ -246,8 +246,8 @@
 
 <#lemma17> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>. {<http://josd.github.io/var#x_0> gps:stagecount <http://josd.github.io/var#x_3>} <= {<http://josd.github.io/var#x_0> e:firstRest (<http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2>).
-     <http://josd.github.io/var#x_2> gps:stagecount <http://josd.github.io/var#x_3>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 gps:stagecount var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+     var:x_2 gps:stagecount var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -370,7 +370,7 @@
 
 <#lemma25> a r:Extraction;
   r:gives {
-    @forSome <http://josd.github.io/var#x_0>. {:map-BE gps:description ({<http://josd.github.io/var#x_0> :location :Brugge} true {<http://josd.github.io/var#x_0> :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)} <= true.
+    @forSome var:x_0. {:map-BE gps:description ({var:x_0 :location :Brugge} true {var:x_0 :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent2-map.n3>].
 
@@ -408,11 +408,11 @@
 
 <#lemma28> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>. @forSome <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>, <http://josd.github.io/var#x_5>, <http://josd.github.io/var#x_6>, <http://josd.github.io/var#x_7>, <http://josd.github.io/var#x_8>, <http://josd.github.io/var#x_9>, <http://josd.github.io/var#x_10>, <http://josd.github.io/var#x_11>, <http://josd.github.io/var#x_12>. {<http://josd.github.io/var#x_0> gps:findpaths (<http://josd.github.io/var#x_2> <http://josd.github.io/var#x_1> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> <http://josd.github.io/var#x_7> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4> <http://josd.github.io/var#x_5> <http://josd.github.io/var#x_6> <http://josd.github.io/var#x_7> (<http://josd.github.io/var#x_8> <http://josd.github.io/var#x_9> <http://josd.github.io/var#x_10> <http://josd.github.io/var#x_11> <http://josd.github.io/var#x_12>))} <= {<http://josd.github.io/var#x_0> e:call <http://josd.github.io/var#x_1>.
+    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 gps:findpaths (var:x_2 var:x_1 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 (var:x_8 var:x_9 var:x_10 var:x_11 var:x_12))} <= {var:x_0 e:call var:x_1.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
-#2019-12-06T23:09:28.836Z in=442 out=1 ent=11 step=82 brake=4 inf=453050 sec=0.298 inf/sec=1520302
+#2019-12-06T23:25:42.221Z in=442 out=1 ent=11 step=82 brake=4 inf=438814 sec=0.290 inf/sec=1513152
 #ENDS
 

@@ -1,5 +1,5 @@
 #Processed by EYE v19.1129.2354 josd
-#eye http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -201,8 +201,8 @@
     {{{:a :b :c} log:equalTo {:a :b :c}} => {:logee1 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
       {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}} => {:loges3 :result true}} a :PASS.
     {{{:b :a :c.
        :e :d :f.
        :h :g :i.
@@ -214,19 +214,19 @@
     {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
     {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
     {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}} => {:logned3 :result true}} a :PASS.
-    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}} => {:lognid1 :result true}} a :PASS.
     {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}} => {:lognid3 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}} => {:lognis1 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}} => {:lognis3 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}} => {:lognis1 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
     {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
     {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
     {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.
@@ -1146,17 +1146,17 @@
 
 <#lemma53> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}} => {:loges3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}} => {:loges3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}} => {:loges3 :result true}}]
     <#lemma202>
     <#lemma203>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-   {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+   {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#loges3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1269,14 +1269,14 @@
 
 <#lemma60> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}} => {:logned3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}} => {:logned3 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}} => {:logned3 :result true}}]
     <#lemma216>
     <#lemma217>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#logned3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1284,14 +1284,14 @@
 
 <#lemma61> a r:Inference;
   r:gives {
-    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}} => {:lognid1 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}} => {:lognid1 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}} => {:lognid1 :result true}}]
     <#lemma218>
     <#lemma219>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognid1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1314,14 +1314,14 @@
 
 <#lemma63> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}} => {:lognid3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}} => {:lognid3 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}} => {:lognid3 :result true}}]
     <#lemma222>
     <#lemma223>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognid3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1330,16 +1330,16 @@
 <#lemma64> a r:Inference;
   r:gives {
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}} => {:lognis1 :result true}} a :PASS.
+      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}} => {:lognis1 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}} => {:lognis1 :result true}}]
+     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}} => {:lognis1 :result true}}]
     <#lemma224>
     <#lemma225>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-   {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}}];
+   {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognis1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1347,17 +1347,17 @@
 
 <#lemma65> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
     <#lemma226>
     <#lemma227>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-   {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+   {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognis2"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1365,17 +1365,17 @@
 
 <#lemma66> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}} => {:lognis3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}} => {:lognis3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}} => {:lognis3 :result true}}]
     <#lemma228>
     <#lemma229>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-   {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+   {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognis3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -1383,20 +1383,20 @@
 
 <#lemma67> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
     <#lemma230>
     <#lemma231>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
    <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-   {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}];
+   {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lognis4"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1)];
@@ -2989,24 +2989,24 @@
     :loges3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}];
   r:rule <#lemma345>.
 
 <#lemma203> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+    {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}}}}].
 
 <#lemma204> a r:Inference;
   r:gives {
@@ -3149,36 +3149,36 @@
     :logned3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}}]
   );
   r:rule <#lemma352>.
 
 <#lemma217> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}}}}].
 
 <#lemma218> a r:Inference;
   r:gives {
     :lognid1 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}}]
   );
   r:rule <#lemma353>.
 
 <#lemma219> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}}}}].
 
 <#lemma220> a r:Inference;
   r:gives {
@@ -3203,18 +3203,18 @@
     :lognid3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}}]
   );
   r:rule <#lemma355>.
 
 <#lemma223> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}}}}].
 
 <#lemma224> a r:Inference;
   r:gives {
@@ -3222,7 +3222,7 @@
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b :c}];
   r:rule <#lemma356>.
@@ -3230,93 +3230,93 @@
 <#lemma225> a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}}.
+     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}}}}].
+    {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}}}}].
 
 <#lemma226> a r:Inference;
   r:gives {
     :lognis2 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}];
   r:rule <#lemma357>.
 
 <#lemma227> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+    {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}}}].
 
 <#lemma228> a r:Inference;
   r:gives {
     :lognis3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}];
   r:rule <#lemma358>.
 
 <#lemma229> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+    {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}}}}].
 
 <#lemma230> a r:Inference;
   r:gives {
     :lognis4 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo {:a :b :c}];
   r:rule <#lemma359>.
 
 <#lemma231> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}.
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>}.
+    {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_8>} log:notIncludes {:a :b :c}}}}].
+     {:a :b <http://josd.github.io/.well-known/genid/#e_c_8>} log:notIncludes {:a :b :c}}}}].
 
 <#lemma232> a r:Inference;
   r:gives {
@@ -4228,7 +4228,7 @@
 <#lemma345> a r:Extraction;
   r:gives {
     @forAll var:x_0. {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics var:x_0.
-     var:x_0 log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_2>}} => {:loges3 :result true}.
+     var:x_0 log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_2>}} => {:loges3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4275,13 +4275,13 @@
 
 <#lemma352> a r:Extraction;
   r:gives {
-    {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_3>}} => {:logned3 :result true}.
+    {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/#e_c_3>}} => {:logned3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
 <#lemma353> a r:Extraction;
   r:gives {
-    {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_4>}} => {:lognid1 :result true}.
+    {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_4>}} => {:lognid1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4293,14 +4293,14 @@
 
 <#lemma355> a r:Extraction;
   r:gives {
-    {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_5>}} => {:lognid3 :result true}.
+    {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_5>}} => {:lognid3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
 <#lemma356> a r:Extraction;
   r:gives {
     @forAll var:x_0. {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics var:x_0.
-     var:x_0 log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_6>}} => {:lognis1 :result true}.
+     var:x_0 log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_6>}} => {:lognis1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4314,7 +4314,7 @@
 <#lemma358> a r:Extraction;
   r:gives {
     @forAll var:x_0. {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics var:x_0.
-     var:x_0 log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/BYwwIDFsLu9fDbZi8EbgqgET1x8#e_c_7>}} => {:lognis3 :result true}.
+     var:x_0 log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/#e_c_7>}} => {:lognis3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4509,6 +4509,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
-#2019-12-06T23:07:48.518Z in=131 out=97 ent=200 step=910 brake=6 inf=1127549 sec=0.584 inf/sec=1930735
+#2019-12-06T23:24:17.179Z in=131 out=97 ent=200 step=910 brake=6 inf=1127213 sec=0.574 inf/sec=1963786
 #ENDS
 

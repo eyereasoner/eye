@@ -1,9 +1,9 @@
 #Processed by EYE v19.1129.2354 josd
-#eye --twinkle http://josd.github.io/eye/reasoning/djiti/proof-100.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
+#eye --no-genid --twinkle http://josd.github.io/eye/reasoning/djiti/proof-100.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/.well-known/genid/#>.
+@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -146,8 +146,8 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>. {(<http://josd.github.io/var#x_0> <http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2>) :p :o.
-     (<http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4>) :p :o} => {:a :b (<http://josd.github.io/var#x_0> <http://josd.github.io/var#x_1> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_3> <http://josd.github.io/var#x_4>)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 var:x_1 var:x_2) :p :o.
+     (var:x_2 var:x_3 var:x_4) :p :o} => {:a :b (var:x_0 var:x_1 var:x_2 var:x_3 var:x_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/query.n3>].
 
@@ -309,9 +309,9 @@
 
 <#lemma21> a r:Extraction;
   r:gives {
-    @forAll <http://josd.github.io/var#x_0>, <http://josd.github.io/var#x_1>, <http://josd.github.io/var#x_2>, <http://josd.github.io/var#x_3>, <http://josd.github.io/var#x_4>. {<http://josd.github.io/var#x_0> a r:Extraction.
-     <http://josd.github.io/var#x_0> r:gives <http://josd.github.io/var#x_1>.
-     <http://josd.github.io/var#x_1> <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}} => {<http://josd.github.io/var#x_3> <http://josd.github.io/var#x_2> <http://josd.github.io/var#x_4>}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 a r:Extraction.
+     var:x_0 r:gives var:x_1.
+     var:x_1 <http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember> {var:x_3 var:x_2 var:x_4}} => {var:x_3 var:x_2 var:x_4}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>].
 
@@ -435,6 +435,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/djiti/proof-100.n3>].
 
-#2019-12-06T23:08:17.152Z in=244 out=6 ent=24 step=48 brake=2 inf=204501 sec=0.187 inf/sec=1093588
+#2019-12-06T23:24:41.770Z in=244 out=6 ent=24 step=48 brake=2 inf=198586 sec=0.179 inf/sec=1109419
 #ENDS
 
