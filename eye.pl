@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1206.2337 josd').
+version_info('EYE v19.1211.1447 josd').
 
 license_info('MIT License
 
@@ -86,13 +86,13 @@ eye
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
-    --no-skolem <prefix>            no uris with <prefix> in the output
     --nope                          no proof explanation
     --pass-all-ground               ground the rules and run --pass-all
     --pass-only-new                 output only new derived triples
     --pass-turtle                   output the --turtle data
     --probe                         output speedtest info on stderr
     --profile                       output profile info on stderr
+    --quantify <prefix>             quantify uris with <prefix> in the output
     --random-seed                   create random seed
     --rule-histogram                output rule histogram info on stderr
     --source <file>                 read command line arguments from <file>
@@ -312,7 +312,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--no-skolem', '--plugin', '--twinkle', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--no-skolem', '--plugin', '--quantify', '--twinkle', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -376,7 +376,7 @@ gre(Argus) :-
     ;   true
     ),
     (   flag(n3p)
-    ->  format('flag(\'no-skolem\', \'~w\').~n', [Vns])
+    ->  format('flag(\'quantify\', \'~w\').~n', [Vns])
     ;   true
     ),
     args(Args),
@@ -409,7 +409,7 @@ gre(Argus) :-
     (   flag(image, File)
     ->  assertz(argi(Argus)),
         retractall(flag(image, _)),
-        assertz(flag('no-skolem', Vns)),
+        assertz(flag('quantify', Vns)),
         retractall(input_statements(_)),
         assertz(input_statements(SC)),
         reset_gensym,
@@ -746,6 +746,7 @@ opts(['--no-qvars'|Argus], Args) :-
     retractall(flag('no-qvars')),
     assertz(flag('no-qvars')),
     opts(Argus, Args).
+% DEPRECATED
 opts(['--no-skolem', Prefix|Argus], Args) :-
     !,
     assertz(flag('no-skolem', Prefix)),
@@ -778,6 +779,10 @@ opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
     assertz(flag(profile)),
+    opts(Argus, Args).
+opts(['--quantify', Prefix|Argus], Args) :-
+    !,
+    assertz(flag('quantify', Prefix)),
     opts(Argus, Args).
 opts(['--random-seed'|Argus], Args) :-
     !,
@@ -3934,7 +3939,9 @@ wt0(X) :-
             )
         ;   (   \+flag('no-qvars')
             ->  true
-            ;   flag('no-skolem', Prefix),
+            ;   (   flag('no-skolem', Prefix)   % DEPRECATED
+                ;   flag('quantify', Prefix)
+                ),
                 sub_atom(X, 1, _, _, Prefix)
             ),
             write('_:')
@@ -3949,7 +3956,9 @@ wt0(X) :-
     ),
     !.
 wt0(X) :-
-    flag('no-skolem', Prefix),
+    (   flag('no-skolem', Prefix)   % DEPRECATED
+    ;   flag('quantify', Prefix)
+    ),
     (   \+flag(traditional)
     ->  true
     ;   flag(nope)
@@ -3959,7 +3968,7 @@ wt0(X) :-
     !,
     (   getlist(X, M)
     ->  wt(M)
-    ;   '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, ['no-skolem', Prefix, X]),
+    ;   '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, ['quantify', Prefix, X]),
         wt0(Y)
     ).
 wt0(X) :-
@@ -4609,10 +4618,12 @@ wcf(A, _) :-
     write(B).
 wcf(A, _) :-
     atom(A),
-    flag('no-skolem', Prefix),
+    (   flag('no-skolem', Prefix)   % DEPRECATED
+    ;   flag('quantify', Prefix)
+    ),
     sub_atom(A, 1, _, _, Prefix),
     !,
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(B, ['no-skolem', Prefix, A]),
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(B, ['quantify', Prefix, A]),
     wt0(B).
 wcf(A, B) :-
     atom(A),
