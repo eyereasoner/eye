@@ -1,6 +1,6 @@
-# EYE reasoning
+# N3 reasoning
 
-A collection of concrete reasoning examples which can be tested via
+A collection of concrete [N3](http://www.w3.org/TeamSubmission/n3/) reasoning examples which can be tested via
 ```
 ./reasoning
 ```
