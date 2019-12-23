@@ -20,8 +20,8 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 
 ### Architecture and design
 
-Here are the layers of the EYE Stack:  
-<img src="http://josd.github.io/images/EYE-stack.png" width="60%" height="60%" alt="EYE Stack"/>  
+The NPU (N3 Processing Unit) comprises the following Software and Machines:  
+<img src="http://josd.github.io/images/NPU.png" width="60%" height="60%" alt="NPU"/>  
 
 This is what the basic EAM (Euler Abstract Machine) does in a nutshell:
 1. Select rule P => C  
