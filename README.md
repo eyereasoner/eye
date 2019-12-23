@@ -20,10 +20,10 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 
 ### Architecture and design
 
-The NPU (N3 Processing Unit) comprises the following Software and Machines:  
+The __NPU (N3 Processing Unit)__ comprises the following Software and Machines:  
 <img src="http://josd.github.io/images/NPU.png" width="60%" height="60%" alt="NPU"/>  
 
-This is what the basic EAM (Euler Abstract Machine) does in a nutshell:
+This is what the basic __EAM (Euler Abstract Machine)__ does in a nutshell:
 1. Select rule P => C  
 2. Prove P & NOT(C) (backward chaining) and if it fails backtrack to 1.  
 3. If P & NOT(C) assert C (forward chaining) and remove brake  
