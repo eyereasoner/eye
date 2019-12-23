@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1214.1458 josd').
+version_info('EYE v19.1223.0106 josd').
 
 license_info('MIT License
 
@@ -74,6 +74,7 @@ eye
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key
+    --ignore-immediate-goal         do not run a rule of the form true <= goal
     --ignore-inference-fuse         do not halt in case of inference fuse
     --ignore-syntax-error           do not halt in case of syntax error
     --image <pvm-file>              output all <data> and all code to <pvm-file>
@@ -688,6 +689,11 @@ opts(['--ignore-inference-fuse'|Argus], Args) :-
     !,
     retractall(flag('ignore-inference-fuse')),
     assertz(flag('ignore-inference-fuse')),
+    opts(Argus, Args).
+opts(['--ignore-immediate-goal'|Argus], Args) :-
+    !,
+    retractall(flag('ignore-immediate-goal')),
+    assertz(flag('ignore-immediate-goal')),
     opts(Argus, Args).
 opts(['--ignore-syntax-error'|Argus], Args) :-
     !,
@@ -1319,6 +1325,9 @@ args([Arg|Args]) :-
     ->  carl(Arg, data)
     ;   n3_n3p(Arg, data)
     ),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
     args(Args).
 
 carl(Argument, Mode) :-
@@ -1499,7 +1508,10 @@ carltr(X, _, X, _, _).
 
 n3pin(Rt, In, File, Mode) :-
     (   Rt = ':-'(Rg)
-    ->  call(Rg),
+    ->  (   flag('ignore-immediate-goal')
+        ->  true
+        ;   call(Rg)
+        ),
         (   flag(n3p)
         ->  format('~q.~n', [Rt])
         ;   true
@@ -1531,7 +1543,10 @@ n3pin(Rt, In, File, Mode) :-
         (   Rt = ':-'(Ci, Px),
             conjify(Px, Pi)
         ->  (   Ci = true
-            ->  call(Pi)
+            ->  (   flag('ignore-immediate-goal')
+                ->  true
+                ;   call(Pi)
+                )
             ;   nb_getval(current_scope, Si),
                 copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Pi, Ci), Ri),
                 (   flag(nope)
@@ -1782,7 +1797,10 @@ n3_n3p(Argument, Mode) :-
                         ->  (   Ci = true
                             ->  (   flag(n3p)
                                 ->  portray_clause(':-'(Pi))
-                                ;   call(Pi)
+                                ;   (   flag('ignore-immediate-goal')
+                                    ->  true
+                                    ;   call(Pi)
+                                    )
                                 )
                             ;   atomic_list_concat(['<', Arg, '>'], Si),
                                 copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Pi, Ci), Ri),
