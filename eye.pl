@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1226.1140 josd').
+version_info('EYE v19.1228.1018 josd').
 
 license_info('MIT License
 
@@ -1170,7 +1170,7 @@ args(['--turtle', Argument|Args]) :-
         ->  Format = '-f=n3p-rdiv'
         ;   Format = '-f=n3p'
         ),
-        catch(process_create(path(cturtle), [Format, Base, file(File)], [stdout(pipe(In)), stderr(null)]), Exc,
+        catch(process_create(path(cturtle), [Format, Base, file(File)], [stdout(pipe(In)), stderr(std)]), Exc,
             (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
                 flush_output(user_error),
                 flush_output,
