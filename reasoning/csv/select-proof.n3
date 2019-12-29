@@ -1,5 +1,5 @@
 #Processed by EYE v19.1228.1018 josd
-#eye --no-genid http://josd.github.io/eye/reasoning/csv/select-data.n3 --query select-query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/csv/select-data.n3 --query http://josd.github.io/eye/reasoning/csv/select-query.n3
 
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix : <http://eulersharp.sourceforge.net/try#>.
@@ -329,7 +329,7 @@
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6. {var:x_1 var:x_0 var:x_2.
      var:x_3 e:optional {var:x_4 :b var:x_5}} => {var:x_6 e:csvTuple (var:x_1 var:x_0 var:x_4 var:x_2 var:x_5)}.
   };
-  r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/josd/eye/reasoning/csv/select-query.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-query.n3>].
 
 <#lemma20> a r:Extraction;
   r:gives {
@@ -427,6 +427,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data.n3>].
 
-#2019-12-29T23:49:19.674Z in=18 out=17 ent=17 step=17 brake=2 inf=91222 sec=0.138 inf/sec=661029
+#2019-12-29T23:52:27.723Z in=18 out=17 ent=17 step=17 brake=2 inf=90642 sec=0.137 inf/sec=661620
 #ENDS
 
