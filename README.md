@@ -20,8 +20,8 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 
 ### Architecture and design
 
-The __NPU (N3 Processing Unit)__ comprises the following Software and Machines:  
-<img src="http://josd.github.io/images/NPU.png" width="60%" height="60%" alt="NPU"/>  
+The __EYE stack__ comprises the following Software and Machines:  
+<img src="http://josd.github.io/images/EYE-stack.png" width="60%" height="60%" alt="EYE-stack"/>  
 
 This is what the basic __EAM (Euler Abstract Machine)__ does in a nutshell:
 1. Select rule P => C  
