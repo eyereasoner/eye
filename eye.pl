@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v19.1228.1018 josd').
+version_info('EYE v20.0104.0037 josd').
 
 license_info('MIT License
 
@@ -74,7 +74,6 @@ eye
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key
-    --ignore-immediate-goal         do not run a rule of the form true <= goal
     --ignore-inference-fuse         do not halt in case of inference fuse
     --ignore-syntax-error           do not halt in case of syntax error
     --image <pvm-file>              output all <data> and all code to <pvm-file>
@@ -88,6 +87,7 @@ eye
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
     --nope                          no proof explanation
+    --parse-only                    parse only
     --pass-all-ground               ground the rules and run --pass-all
     --pass-only-new                 output only new derived triples
     --pass-turtle                   output the --turtle data
@@ -281,9 +281,12 @@ main :-
     catch(gre(Argus), Exc,
         (   Exc = halt
         ->  true
-        ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
-            flush_output(user_error),
-            nb_setval(exit_code, 1)
+        ;   (   flag('parse-only')
+            ->  true
+            ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
+                flush_output(user_error),
+                nb_setval(exit_code, 1)
+            )
         )
     ),
     (   flag(statistics)
@@ -690,11 +693,6 @@ opts(['--ignore-inference-fuse'|Argus], Args) :-
     retractall(flag('ignore-inference-fuse')),
     assertz(flag('ignore-inference-fuse')),
     opts(Argus, Args).
-opts(['--ignore-immediate-goal'|Argus], Args) :-
-    !,
-    retractall(flag('ignore-immediate-goal')),
-    assertz(flag('ignore-immediate-goal')),
-    opts(Argus, Args).
 opts(['--ignore-syntax-error'|Argus], Args) :-
     !,
     retractall(flag('ignore-syntax-error')),
@@ -760,6 +758,11 @@ opts(['--nope'|Argus], Args) :-
     !,
     retractall(flag(nope)),
     assertz(flag(nope)),
+    opts(Argus, Args).
+opts(['--parse-only'|Argus], Args) :-
+    !,
+    retractall(flag('parse-only')),
+    assertz(flag('parse-only')),
     opts(Argus, Args).
 opts(['--pass-all-ground'|Argus], Args) :-
     !,
@@ -1508,7 +1511,7 @@ carltr(X, _, X, _, _).
 
 n3pin(Rt, In, File, Mode) :-
     (   Rt = ':-'(Rg)
-    ->  (   flag('ignore-immediate-goal')
+    ->  (   flag('parse-only')
         ->  true
         ;   call(Rg)
         ),
@@ -1543,7 +1546,7 @@ n3pin(Rt, In, File, Mode) :-
         (   Rt = ':-'(Ci, Px),
             conjify(Px, Pi)
         ->  (   Ci = true
-            ->  (   flag('ignore-immediate-goal')
+            ->  (   flag('parse-only')
                 ->  true
                 ;   call(Pi)
                 )
@@ -1797,7 +1800,7 @@ n3_n3p(Argument, Mode) :-
                         ->  (   Ci = true
                             ->  (   flag(n3p)
                                 ->  portray_clause(':-'(Pi))
-                                ;   (   flag('ignore-immediate-goal')
+                                ;   (   flag('parse-only')
                                     ->  true
                                     ;   call(Pi)
                                     )
@@ -1959,24 +1962,6 @@ tr_n3p([X|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   conj_list(X, L),
-        forall(
-            (   member(I, L)
-            ),
-            (   I = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(J, _),
-                findvars(J, K, beta),
-                K \= []
-            ->  throw('premise_rule_may_not_contain_existential_in_premise'('\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)))
-            ;   true
-            )
-        )
-    ),
-    (   Y = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(U, _),
-        findvars(U, V, beta),
-        V \= []
-    ->  throw('derived_rule_may_not_contain_existential_in_premise'('\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)))
-    ;   true
-    ),
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
         writeln('.'),
@@ -1988,11 +1973,6 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
     tr_n3p(Z, Src, Mode).
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
-    findvars(Y, V, eta),
-    (   V = []
-    ->  true
-    ;   throw('backward_rule_may_not_contain_existential_in_conclusion'(':-'(Y, X)))
-    ),
     write(':-'(Y, X)),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
@@ -10119,14 +10099,6 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     atom_concat(some, _, A).
-findvar(A, eta) :-
-    (   nb_getval(var_ns, Vns),
-        sub_atom(A, 1, _, _, Vns)
-    ;   atom_concat('_bn_', _, A)
-    ;   atom_concat('_e_', _, A)
-    ;   atom_concat(some, _, A)
-    ),
-    !.
 
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
