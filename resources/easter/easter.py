@@ -17,5 +17,5 @@ if __name__ == "__main__":
     print('@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.')
     print('@prefix : <http://josd.github.io/eye/resources#>.')
     print('')
-    for y in range(2019, 2040):
+    for y in range(2020, 2040):
         print('%d :easter "%s"^^xsd:date.' % (y, easter(y)))
