@@ -1,5 +1,4 @@
 # Original from https://github.com/ProjectQ-Framework/ProjectQ/blob/develop/examples/grover.py
-# See also https://en.wikipedia.org/wiki/Grover%27s_algorithm
 
 import math
 
@@ -76,12 +75,25 @@ def alternating_bits_oracle(eng, qubits, output):
         X | output
     Uncompute(eng)
 
+def to_n3_list(l):
+    s = '('
+    for i in l:
+        if len(s) > 1:
+            s += ' '
+        if type(i) is list:
+            s += to_n3_list(i)
+        elif type(i) is tuple:
+            s += to_n3_list(i)
+        else:
+            s += str(i)
+    s += ')'
+    return s
 
 if __name__ == "__main__":
     eng = MainEngine()  # use default compiler engine
     # run Grover search to find a 7-bit solution
     lst = run_grover(eng, 7, alternating_bits_oracle)
-    n3_lst = '(' + ' '.join([str(i) for i in lst]) + ')'
+
     print('@prefix : <http://josd.github.io/eye/resources#>.')
     print('')
-    print('[] :grover-algorithm "grover(7_bits, alternating_bits_oracle) = %s".' % (n3_lst))
+    print('(7 :alternating_bits_oracle) :grover %s.' % (to_n3_list(lst)))

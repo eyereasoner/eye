@@ -8,4 +8,4 @@ if __name__ == "__main__":
     print('@prefix : <http://josd.github.io/eye/resources#>.')
     print('')
     for i in [0, 91, 283]:
-        print('[] :fibonacci-number "fibonacci(%d) = %d".' % (i, fibonacci(i)))
+        print('%d :fibonacci %d .' % (i, fibonacci(i)))

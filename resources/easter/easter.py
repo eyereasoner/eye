@@ -18,4 +18,4 @@ if __name__ == "__main__":
     print('@prefix : <http://josd.github.io/eye/resources#>.')
     print('')
     for y in range(2019, 2040):
-        print('[] :easter-date "%s"^^xsd:date.' % (easter(y)))
+        print('%d :easter "%s"^^xsd:date.' % (y, easter(y)))
