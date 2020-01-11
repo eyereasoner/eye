@@ -1,3 +1,6 @@
 #!/bin/bash
-eye "$@" --nope --turtle train_data.n3 background_rules.n3 train_rules.n3 --query train_query.n3 > train_model.n3
-eye "$@" --nope --turtle test_data.n3 --turtle train_model.n3 background_rules.n3 ccd_rules.n3 --query test_query.n3 > test_answer.n3
+eye "$@" --wcache http://josd.github.io/eye/research/ccd . --nope --turtle http://josd.github.io/eye/research/ccd/train_data.n3 http://josd.github.io/eye/research/ccd/background_rules.n3 http://josd.github.io/eye/research/ccd/train_rules.n3 --query http://josd.github.io/eye/research/ccd/train_query.n3 > train_model.n3
+eye "$@" --wcache http://josd.github.io/eye/research/ccd . --turtle http://josd.github.io/eye/research/ccd/train_data.n3 http://josd.github.io/eye/research/ccd/background_rules.n3 http://josd.github.io/eye/research/ccd/train_rules.n3 --query http://josd.github.io/eye/research/ccd/train_query.n3 > train_model_proof.n3
+
+eye "$@" --wcache http://josd.github.io/eye/research/ccd . --nope --turtle http://josd.github.io/eye/research/ccd/test_data.n3 --turtle http://josd.github.io/eye/research/ccd/train_model.n3 http://josd.github.io/eye/research/ccd/background_rules.n3 http://josd.github.io/eye/research/ccd/ccd_rules.n3 --query http://josd.github.io/eye/research/ccd/test_query.n3 > test_answer.n3
+eye "$@" --wcache http://josd.github.io/eye/research/ccd . --turtle http://josd.github.io/eye/research/ccd/test_data.n3 --turtle http://josd.github.io/eye/research/ccd/train_model.n3 http://josd.github.io/eye/research/ccd/background_rules.n3 http://josd.github.io/eye/research/ccd/ccd_rules.n3 --query http://josd.github.io/eye/research/ccd/test_query.n3 > test_proof.n3
