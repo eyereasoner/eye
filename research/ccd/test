@@ -1,0 +1,3 @@
+#!/bin/bash
+eye "$@" --nope --turtle train_data.n3 background_rules.n3 train_rules.n3 --query train_query.n3 > train_model.n3
+eye "$@" --nope --turtle test_data.n3 --turtle train_model.n3 background_rules.n3 ccd_rules.n3 --query test_query.n3 > test_answer.n3
