@@ -3,28 +3,40 @@
 def fill(puzzle, row, col):
     if row < 9 and col < 9:
         if puzzle[row][col] != 0:
-            if col+1 < 9: return fill(puzzle, row, col+1)
-            elif row+1 < 9: return fill(puzzle, row+1, 0)
-            else: return 1
+            if col+1 < 9:
+                return fill(puzzle, row, col+1)
+            elif row+1 < 9:
+                return fill(puzzle, row+1, 0)
+            else:
+                return 1
         else:
             for i in range(9):
                 if available(puzzle, row, col, i+1):
                     puzzle[row][col] = i+1
                     if col+1 < 9:
-                        if fill(puzzle, row, col+1): return 1
-                        else: puzzle[row][col] = 0
+                        if fill(puzzle, row, col+1):
+                            return 1
+                        else:
+                            puzzle[row][col] = 0
                     elif row+1 < 9:
-                        if fill(puzzle, row+1, 0): return 1
-                        else: puzzle[row][col] = 0
-                    else: return 1
+                        if fill(puzzle, row+1, 0):
+                            return 1
+                        else:
+                            puzzle[row][col] = 0
+                    else:
+                        return 1
         return 0
-    else: return 1
+    else:
+        return 1
 
 def available(puzzle, row, col, num):
     for i in range(9):
-        if puzzle[row][i] == num: return 0
-        if puzzle[i][col] == num: return 0
-        if puzzle[row//3*3+i%3][col//3*3+i//3] == num: return 0
+        if puzzle[row][i] == num:
+            return 0
+        if puzzle[i][col] == num:
+            return 0
+        if puzzle[row//3*3+i%3][col//3*3+i//3] == num:
+            return 0
     return 1
 
 def to_n3_list(l):

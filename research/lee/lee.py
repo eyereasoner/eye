@@ -43,13 +43,12 @@ def to_n3_list(l):
     for i in l:
         if len(s) > 1:
             s += ' '
-        if type(i) is list:
-            s += to_n3_list(i)
-        elif type(i) is tuple:
+        if type(i) in [list, tuple]:
             s += to_n3_list(i)
         else:
             s += str(i)
     s += ')'
+    return s
     return s
 
 if __name__ == "__main__":

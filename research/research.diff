@@ -1,1 +1,50 @@
-# Sat Jan 11 23:40:37 CET 2020
+# Sun Jan 12 00:54:21 CET 2020
+-        if type(i) is list:
+-            s += to_n3_list(i)
+-        elif type(i) is tuple:
++        if type(i) in [list, tuple]:
+-        if type(i) is list:
+-            s += to_n3_list(i)
+-        elif type(i) is tuple:
++        if type(i) in [list, tuple]:
++    return s
+-        if type(i) is list:
+-            s += to_n3_list(i)
+-        elif type(i) is tuple:
++        if type(i) in [list, tuple]:
+-            if col+1 < 9: return fill(puzzle, row, col+1)
+-            elif row+1 < 9: return fill(puzzle, row+1, 0)
+-            else: return 1
++            if col+1 < 9:
++                return fill(puzzle, row, col+1)
++            elif row+1 < 9:
++                return fill(puzzle, row+1, 0)
++            else:
++                return 1
+-                        if fill(puzzle, row, col+1): return 1
+-                        else: puzzle[row][col] = 0
++                        if fill(puzzle, row, col+1):
++                            return 1
++                        else:
++                            puzzle[row][col] = 0
+-                        if fill(puzzle, row+1, 0): return 1
+-                        else: puzzle[row][col] = 0
+-                    else: return 1
++                        if fill(puzzle, row+1, 0):
++                            return 1
++                        else:
++                            puzzle[row][col] = 0
++                    else:
++                        return 1
+-    else: return 1
++    else:
++        return 1
+-        if puzzle[row][i] == num: return 0
+-        if puzzle[i][col] == num: return 0
+-        if puzzle[row//3*3+i%3][col//3*3+i//3] == num: return 0
++        if puzzle[row][i] == num:
++            return 0
++        if puzzle[i][col] == num:
++            return 0
++        if puzzle[row//3*3+i%3][col//3*3+i//3] == num:
++            return 0
