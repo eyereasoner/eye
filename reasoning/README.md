@@ -1,6 +1,6 @@
 # EYE reasoning
 
-A collection of reasoning cases for EYE.  
+Research And Development of Automated Reasoning - RADAR.  
 
 ### Architecture and design
 
