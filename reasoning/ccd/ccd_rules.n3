@@ -10,7 +10,6 @@
     ?SCOPE e:findall (
         (?H ?F ?G ?J ?K)
         {
-            ?POD math:memberCount ?I.
             ?POD list:member (?F ?G ?J ?K).
             ("log(_J+0.5)-log(_K+0.5)" ?J ?K) e:calculate ?H.
         }
@@ -62,6 +61,6 @@
         ("1/(1+exp(-_ALPHA*_M/_N+_BETA))" ?ALPHA ?M ?N ?BETA) e:calculate ?Z.
     }, {
         ?N math:notGreaterThan 0.
-        ("_BETA" ?BETA) e:calculate ?Z.
+        ("1/(1+exp(_BETA))" ?BETA) e:calculate ?Z.
     }.
 }.
