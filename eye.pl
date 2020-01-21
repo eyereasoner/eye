@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0105.1336 josd').
+version_info('EYE v20.0121.2250 josd').
 
 license_info('MIT License
 
@@ -87,7 +87,6 @@ eye
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
     --nope                          no proof explanation
-    --parse-only                    parse only
     --pass-all-ground               ground the rules and run --pass-all
     --pass-only-new                 output only new derived triples
     --pass-turtle                   output the --turtle data
@@ -111,6 +110,7 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     <uri>                           N3 triples and rules
+    --n3 <uri>                      N3 triples and rules
     --turtle <uri>                  Turtle data
     --twinkle <uri>                 Thinking with lemmas from N3 proof
 <query>
@@ -277,7 +277,13 @@ main :-
     ->  assertz(prolog_file_type(pvm, qlf))
     ;   true
     ),
+    retractall(flag(traditional)),
     assertz(flag(traditional)),
+    (   Argv = ['--n3', _]
+    ->  retractall(flag('parse-only')),
+        assertz(flag('parse-only'))
+    ;   true
+    ),
     catch(gre(Argus), Exc,
         (   Exc = halt
         ->  true
@@ -315,7 +321,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--no-skolem', '--plugin', '--quantify', '--twinkle', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--quantify', '--twinkle', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -759,11 +765,6 @@ opts(['--nope'|Argus], Args) :-
     retractall(flag(nope)),
     assertz(flag(nope)),
     opts(Argus, Args).
-opts(['--parse-only'|Argus], Args) :-
-    !,
-    retractall(flag('parse-only')),
-    assertz(flag('parse-only')),
-    opts(Argus, Args).
 opts(['--pass-all-ground'|Argus], Args) :-
     !,
     retractall(flag('pass-all-ground')),
@@ -902,7 +903,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -987,6 +988,23 @@ curl_http_headers(Headers) :-
 
 args([]) :-
     !.
+args(['--n3', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(n3p)
+    ->  portray_clause(scope(R))
+    ;   true
+    ),
+    (   flag(carl)
+    ->  carl(Arg, data)
+    ;   n3_n3p(Arg, data)
+    ),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
+    args(Args).
 args(['--pass'|Args]) :-
     !,
     (   flag(nope),
@@ -1317,21 +1335,7 @@ args(['--turtle', Argument|Args]) :-
     ),
     args(Args).
 args([Arg|Args]) :-
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
-    ;   true
-    ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
-    nb_setval(fdepth, 0),
-    nb_setval(pdepth, 0),
-    nb_setval(cdepth, 0),
-    args(Args).
+    args(['--n3', Arg|Args]).
 
 carl(Argument, Mode) :-
     !,
@@ -2126,7 +2130,7 @@ document(Triples, L1, L2) :-
 dtlang(lang(Langcode), [atname(Name)|L2], L2) :-
     !,
     atomic_list_concat(['\'', Name, '\''], Langcode).
-dtlang(type(Datatype), [caretcaret|L2], L3) :-
+dtlang(type(Datatype), [caret_caret|L2], L3) :-
     !,
     uri(Datatype, L2, L3).
 dtlang(type('\'<http://www.w3.org/2001/XMLSchema#string>\''), L1, L1).
@@ -2633,12 +2637,15 @@ verb(Node, Triples, [name(has)|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
 % DEPRECATED
-verb(isof(Node), Triples, [atname(is)|L2], L4) :-
+verb(isof(Node), Triples, [atname(is)|L2], L3) :-
     !,
-    expression(Node, Triples, L2, [atname(of)|L4]).
-verb(isof(Node), Triples, [name(is)|L2], L4) :-
+    expression(Node, Triples, L2, [atname(of)|L3]).
+verb(isof(Node), Triples, [name(is)|L2], L3) :-
     !,
-    expression(Node, Triples, L2, [name(of)|L4]).
+    expression(Node, Triples, L2, [name(of)|L3]).
+verb(isof(Node), Triples, [white_space_caret|L2], L3) :-
+    !,
+    expression(Node, Triples, L2, L3).
 verb(Node, Triples, L1, L2) :-
     expression(Node, Triples, L1, L2).
 
@@ -2712,7 +2719,11 @@ token(C0, In, C, Token) :-
     white_space(C0),
     !,
     get_code(In, C1),
-    token(C1, In, C, Token).
+    (   C1 = 0'^
+    ->  Token = white_space_caret,
+        C = C0
+    ;   token(C1, In, C, Token)
+    ).
 token(C0, In, C, Number) :-
     0'0 =< C0,
     C0 =< 0'9,
@@ -2791,7 +2802,7 @@ token(0'@, In, C, atname(Name)) :-
     get_code(In, C0),
     token(C0, In, C, name(Name)),
     !.
-token(0'^, In, C, caretcaret) :-
+token(0'^, In, C, caret_caret) :-
     peek_code(In, 0'^),
     !,
     get_code(In, _),
