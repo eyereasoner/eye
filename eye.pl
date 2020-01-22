@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0122.1952 josd').
+version_info('EYE v20.0122.2039 josd').
 
 license_info('MIT License
 
@@ -3218,7 +3218,7 @@ iri_escape(C, _, _, _) :-
 
 non_iri_char(C) :-
     0x00 =< C,
-    C =< 0x20,
+    C =< 0x1F,
     !.
 non_iri_char(0'<).
 non_iri_char(0'>).
