@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0121.2250 josd').
+version_info('EYE v20.0122.1952 josd').
 
 license_info('MIT License
 
@@ -1111,32 +1111,6 @@ args(['--plugin', Argument|Args]) :-
     ),
     flush_output(user_error),
     args(Args).
-args(['--twinkle', Arg|Args]) :-
-    !,
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
-    ;   true
-    ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
-    (   got_pi
-    ->  true
-    ;   assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Inference>'),
-                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
-                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
-                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
-        assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Extraction>'),
-                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
-                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
-                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
-        assertz(got_pi)
-    ),
-    args(Args).
 args(['--query', Arg|Args]) :-
     !,
     (   flag(carl)
@@ -1332,6 +1306,32 @@ args(['--turtle', Argument|Args]) :-
             flush_output(user_error)
         ;   true
         )
+    ),
+    args(Args).
+args(['--twinkle', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(n3p)
+    ->  portray_clause(scope(R))
+    ;   true
+    ),
+    (   flag(carl)
+    ->  carl(Arg, data)
+    ;   n3_n3p(Arg, data)
+    ),
+    (   got_pi
+    ->  true
+    ;   assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Inference>'),
+                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
+                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
+                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
+        assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Extraction>'),
+                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
+                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
+                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
+        assertz(got_pi)
     ),
     args(Args).
 args([Arg|Args]) :-
@@ -2078,7 +2078,14 @@ boolean(false, [name('false')|L2], L2) :-
 boolean(Boolean, L1, L2) :-
     literal(Atom, type(T), L1, L2),
     T = '\'<http://www.w3.org/2001/XMLSchema#boolean>\'',
-    memberchk([Boolean, Atom], [[true, '\'true\''], [true, true], [true, '\'1\''], [false, '\'false\''], [false, false], [false, '\'0\'']]).
+    (   memberchk([Boolean, Atom], [[true, '\'true\''], [true, true], [true, '\'1\''], [false, '\'false\''], [false, false], [false, '\'0\'']])
+    ->  true
+    ;   (   flag('parse-only')
+        ->  true
+        ;   nb_getval(line_number, Ln),
+            throw(invalid_boolean_literal(Atom, after_line(Ln)))
+        )
+    ).
 
 % DEPRECATED
 declaration([atname(base)|L2], L3) :-
@@ -2267,6 +2274,7 @@ pathitem(Atom, [], L1, L2) :-
     escape_string(C, B),
     atom_codes(Atom, C).
 pathitem(Number, [], L1, L2) :-
+    \+flag('parse-only'),
     literal(Atom, type(Type), L1, L2),
     memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
     sub_atom(Atom, 1, _, 1, A),
@@ -3208,7 +3216,10 @@ iri_escape(C, _, _, _) :-
     atom_codes(A, [0'\\, C]),
     throw(illegal_iri_escape_sequence(A, line(Ln))).
 
-non_iri_char(0x20).
+non_iri_char(C) :-
+    0x00 =< C,
+    C =< 0x20,
+    !.
 non_iri_char(0'<).
 non_iri_char(0'>).
 non_iri_char(0'").
