@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0122.2039 josd').
+version_info('EYE v20.0122.2153 josd').
 
 license_info('MIT License
 
@@ -147,7 +147,6 @@ eye
 :- dynamic(input_statements/1).
 :- dynamic(intern/1).
 :- dynamic(keep_skolem/1).
-:- dynamic(keywords/1).
 :- dynamic(lemma/6).    % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
 :- dynamic(ncllit/0).
@@ -1680,7 +1679,6 @@ n3_n3p(Argument, Mode) :-
     ;   atomic_list_concat([Arg, '#'], D)
     ),
     assertz(ns('', D)),
-    retractall(keywords(_)),
     retractall(quvar(_, _, _)),
     retractall(qevar(_, _, _)),
     retractall(evar(_, _, _)),
@@ -2065,12 +2063,10 @@ barename_csl_tail([BareName|Tail], [','|L2], L4) :-
     barename_csl_tail(Tail, L3, L4).
 barename_csl_tail([], L1, L1).
 
-% DEPRECATED
 boolean(true, [atname('true')|L2], L2) :-
     !.
 boolean(true, [name('true')|L2], L2) :-
     !.
-% DEPRECATED
 boolean(false, [atname('false')|L2], L2) :-
     !.
 boolean(false, [name('false')|L2], L2) :-
@@ -2087,7 +2083,6 @@ boolean(Boolean, L1, L2) :-
         )
     ).
 
-% DEPRECATED
 declaration([atname(base)|L2], L3) :-
     !,
     explicituri(U, L2, L3),
@@ -2104,13 +2099,6 @@ declaration([name(Name)|L2], L4) :-
     retractall(base_uri(_)),
     assertz(base_uri(URI)),
     withoutdot(L3, L4).
-% DEPRECATED
-declaration([atname(keywords)|L2], L3) :-
-    !,
-    barename_csl(List, L2, L3),
-    retractall(keywords(_)),
-    assertz(keywords(List)).
-% DEPRECATED
 declaration([atname(prefix)|L2], L4) :-
     !,
     prefix(Prefix, L2, L3),
@@ -2142,7 +2130,6 @@ dtlang(type(Datatype), [caret_caret|L2], L3) :-
     uri(Datatype, L2, L3).
 dtlang(type('\'<http://www.w3.org/2001/XMLSchema#string>\''), L1, L1).
 
-% DEPRECATED
 existential([atname(forSome)|L2], L3) :-
     !,
     symbol_csl(Symbols, L2, L3),
@@ -2160,13 +2147,7 @@ explicituri(ExplicitURI, [relative_uri(ExplicitURI)|L2], L2).
 expression(Node, T, L1, L3) :-
     pathitem(N1, T1, L1, L2),
     pathtail(N1, Node, T2, L2, L3),
-    append(T1, T2, T),
-    (   keywords(List),
-        memberchk(Node, List)
-    ->  nb_getval(line_number, Ln),
-        throw(invalid_keyword_use(Node, after_line(Ln)))
-    ;   true
-    ).
+    append(T1, T2, T).
 
 formulacontent(Formula, L1, L2) :-
     statementlist(L, L1, L2),
@@ -2542,17 +2523,10 @@ symbol(Name, L1, L2) :-
     !.
 symbol(Name, [name(N)|L2], L2) :-
     !,
-    (   keywords(List)
-    ->  (   memberchk(N, List)
-        ->  Name = N
-        ;   ns('', Base),
-            atomic_list_concat(['\'<', Base, N, '>\''], Name)
-        )
-    ;   (   memberchk(N, [true, false])
-        ->  Name = N
-        ;   nb_getval(line_number, Ln),
-            throw(invalid_keyword(N, after_line(Ln)))
-        )
+    (   memberchk(N, [true, false])
+    ->  Name = N
+    ;   nb_getval(line_number, Ln),
+        throw(invalid_keyword(N, after_line(Ln)))
     ).
 symbol(Name, [bnode(Label)|L2], L2) :-
     nb_getval(fdepth, D),
@@ -2593,7 +2567,6 @@ symbol_csl_tail([Symbol|T], [','|L2], L4) :-
     symbol_csl_tail(T, L3, L4).
 symbol_csl_tail([], L1, L1).
 
-% DEPRECATED
 universal([atname(forAll)|L2], L3) :-
     !,
     symbol_csl(Symbols, L2, L3),
@@ -2632,19 +2605,16 @@ verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', [], ['='|L2], L2) :-
     !.
 verb(':-', [], ['<', '='|L2], L2) :-
     !.
-% DEPRECATED
 verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [atname(a)|L2], L2) :-
     !.
 verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [name(a)|L2], L2) :-
     !.
-% DEPRECATED
 verb(Node, Triples, [atname(has)|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
 verb(Node, Triples, [name(has)|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
-% DEPRECATED
 verb(isof(Node), Triples, [atname(is)|L2], L3) :-
     !,
     expression(Node, Triples, L2, [atname(of)|L3]).
