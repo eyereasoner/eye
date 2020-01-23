@@ -1,6 +1,7 @@
 # EYE reasoning
 
-Research And Development of Automated Reasoning - RADAR.  
+A collection of concrete EYE reasoning cases.  
+Some cases use Python Oriented Programming (POPEYE).  
 
 ### Architecture and design
 
