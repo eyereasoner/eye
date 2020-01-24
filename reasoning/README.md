@@ -1,7 +1,6 @@
 # EYE reasoning
 
-A collection of concrete EYE reasoning cases.  
-Some cases use Python Oriented Programming (POPEYE).  
+A collection of concrete EYE reasoning cases using notation3 and python3.  
 
 ### Architecture and design
 
