@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0128.2228 josd').
+version_info('EYE v20.0129.2247 josd').
 
 license_info('MIT License
 
@@ -111,7 +111,6 @@ eye
 <data>
     <uri>                           N3 triples and rules
     --n3 <uri>                      N3 triples and rules
-    --plugin <uri>                  Prolog facts and rules
     --turtle <uri>                  Turtle data
     --twinkle <uri>                 Thinking with lemmas from N3 proof
 <query>
@@ -185,6 +184,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
+:- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 
@@ -1041,6 +1041,7 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
+% DEPRECATED
 args(['--plugin', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
@@ -10263,6 +10264,12 @@ lzero([], []) :-
 lzero([_|A], [0'0|B]) :-
     lzero(A, B).
 
+dtlit([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), C], B) :-
+    nonvar(C),
+    '<http://www.w3.org/2000/01/rdf-schema#subClassOf>'(C, '<http://www.w3.org/2001/XMLSchema#integer>'),
+    integer(B),
+    !,
+    atom_number(A, B).
 dtlit([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), '<http://www.w3.org/2001/XMLSchema#integer>'], B) :-
     integer(B),
     !,
