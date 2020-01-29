@@ -309,7 +309,7 @@ e:prefix a rdf:Property, e:Builtin;
     rdfs:range rdfs:Literal.
 
 e:propertyChainExtension a rdf:Property, e:Builtin;
-    rdfs:comment "built-in to support owl:propertyChainAxiom inferencing i.e. {?sc owl:propertyChainAxiom ?x; rdfs:subPropertyOf ?p. ?x e:propertyChainExtension (?s ?o)} => {?s ?p ?o}";
+    rdfs:comment "built-in to support owl:propertyChainAxiom inferencing i.e. {?sc owl:propertyChainAxiom ?x. ?x e:propertyChainExtension (?s ?o)} => {?s ?p ?o}";
     rdfs:domain rdf:List;
     rdfs:range rdf:List.
 
