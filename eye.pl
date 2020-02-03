@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0129.2333 josd').
+version_info('EYE v20.0203.2202 josd').
 
 license_info('MIT License
 
@@ -2743,15 +2743,6 @@ token(0'', In, C, literal(Codes)) :-
         string_sq(C1, In, C, Codes)
     ).
 token(0'?, In, C, uvar(Name)) :-
-    !,
-    get_code(In, C0),
-    (   name(C0, In, C, Name)
-    ->  true
-    ;   C = C0,
-        nb_getval(line_number, Ln),
-        throw(empty_quickvar_name(line(Ln)))
-    ).
-token(0'$, In, C, uvar(Name)) :-
     !,
     get_code(In, C0),
     (   name(C0, In, C, Name)
