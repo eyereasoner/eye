@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0203.2202 josd').
+version_info('EYE v20.0204.1058 josd').
 
 license_info('MIT License
 
@@ -247,8 +247,15 @@ main :-
     version_info(Version),
     format(user_error, '~w~n', [Version]),
     flush_output(user_error),
-    prolog_flag(version, PVersion),
-    format(user_error, '~w~n', [PVersion]),
+    (   current_prolog_flag(version_git, PVersion)
+    ->  true
+    ;   current_prolog_flag(version_data, swi(Major, Minor, Patch, Options)),
+        (   memberchk(tag(Tag), Options)
+        ->  atomic_list_concat([Major, '.', Minor, '.', Patch, '-', Tag], PVersion)
+        ;   atomic_list_concat([Major, '.', Minor, '.', Patch], PVersion)
+        )
+    ),
+    format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
     flush_output(user_error),
     catch(process_create(path(curl), ['--version'], [stdin(null), stdout(null), stderr(null)]), _,
         (   format(user_error, '** ERROR ** EYE depends on curl which can be installed from http://curl.haxx.se/download.html **~n', []),
