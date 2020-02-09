@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0204.1058 josd').
+version_info('EYE v20.0209.2139 josd').
 
 license_info('MIT License
 
@@ -10348,7 +10348,7 @@ get_time(A) :-
 memotime(datime(A, B, C, D, E, F), G) :-
     (   mtime(datime(A, B, C, D, E, F), G)
     ->  true
-    ;   date_time_stamp(date(A, B, C, D, E, F, 0, -, -), H),
+    ;   catch(date_time_stamp(date(A, B, C, D, E, F, 0, -, -), H), _, fail),
         fmsec(F, H, G),
         assertz(mtime(datime(A, B, C, D, E, F), G))
     ).
@@ -10362,7 +10362,7 @@ datetime(A, L1, L13) :-
     decimal(G, L11, L12),
     timezone(H, L12, L13),
     I is -H,
-    date_time_stamp(date(B, C, D, E, F, G, I, -, -), J),
+    catch(date_time_stamp(date(B, C, D, E, F, G, I, -, -), J), _, fail),
     fmsec(G, J, A).
 
 datetime(A, B, C, D, E, F, G, L1, L13) :-
@@ -10380,7 +10380,7 @@ date(A, L1, L7) :-
     int(D, L5, L6),
     timezone(H, L6, L7),
     I is -H,
-    date_time_stamp(date(B, C, D, 0, 0, 0, I, -, -), E),
+    catch(date_time_stamp(date(B, C, D, 0, 0, 0, I, -, -), E), _, fail),
     fmsec(0, E, A).
 
 date(A, B, C, D, L1, L7) :-
