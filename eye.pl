@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0209.2139 josd').
+version_info('EYE v20.0211.2332 josd').
 
 license_info('MIT License
 
@@ -2254,7 +2254,6 @@ pathitem(Number, [], L1, L2) :-
 pathitem(Boolean, [], L1, L2) :-
     boolean(Boolean, L1, L2),
     !.
-% DEPRECATED
 pathitem(Atom, [], L1, L2) :-
     literal(A, type(T), L1, L2),
     T = '\'<http://eulersharp.sourceforge.net/2003/03swap/prolog#atom>\'',
@@ -2355,7 +2354,7 @@ pathtail(Node, PNode, [Triple|Triples], ['!'|L2], L4) :-
             ;   (   BNode = false
                 ->  T =.. [Pred|Node],
                     Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)    % DEPRECATED
+                ;   (   prolog_sym(_, Pred, func)
                     ->  T =.. [Pred|Node],
                         Triple = is(BNode, T)
                     ;   Triple =.. [Pred, Node, BNode]
@@ -2396,7 +2395,7 @@ pathtail(Node, PNode, [Triple|Triples], ['^'|L2], L4) :-
             ;   (   Node = false
                 ->  T =.. [Pred|BNode],
                     Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)    % DEPRECATED
+                ;   (   prolog_sym(_, Pred, func)
                     ->  T =.. [Pred|BNode],
                         Triple = is(Node, T)
                     ;   Triple =.. [Pred, BNode, Node]
@@ -2438,7 +2437,7 @@ propertylist(Subject, [Triple|Triples], L1, L5) :-
             ;   (   Object = false
                 ->  T =.. [Pred|Subject],
                     Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)    % DEPRECATED
+                ;   (   prolog_sym(_, Pred, func)
                     ->  T =.. [Pred|Subject],
                         Triple = is(Object, T)
                     ;   Triple =.. [Pred, Subject, Object]
@@ -4305,7 +4304,7 @@ wt2(prolog:X) :-
     !,
     (   X = '\';\''
     ->  Y = disjunction
-    ;   prolog_sym(Y, X, _)    % DEPRECATED
+    ;   prolog_sym(Y, X, _)
     ),
     atomic_list_concat(['<http://eulersharp.sourceforge.net/2003/03swap/prolog#', Y, '>'], Z),
     wt0(Z).
@@ -4358,7 +4357,7 @@ wg(X) :-
     functor(X, F, A),
     (   (   F = exopred,
             !
-        ;   prolog_sym(_, F, _),    % DEPRECATED
+        ;   prolog_sym(_, F, _),
             F \= true,
             F \= false,
             F \= '-',
@@ -4400,7 +4399,7 @@ wp(':-') :-
     !,
     write('<=').
 wp(X) :-
-    (   prolog_sym(Y, X, _),    % DEPRECATED
+    (   prolog_sym(Y, X, _),
         X \= true,
         X \= false
     ->  atomic_list_concat(['<http://eulersharp.sourceforge.net/2003/03swap/prolog#', Y, '>'], Z),
@@ -8558,7 +8557,6 @@ djiti_assertz(A) :-
         )
     ).
 
-% DEPRECATED
 % Prolog built-ins
 
 prolog_sym(abolish, abolish, rel).
@@ -10794,7 +10792,7 @@ prolog_verb(S, Name) :-
         ->  Pred = '\',\''
         ;   (   B = disjunction
             ->  Pred = '\';\''
-            ;   (   prolog_sym(B, Pred, _)    % DEPRECATED
+            ;   (   prolog_sym(B, Pred, _)
                 ->  true
                 ;   nb_getval(line_number, Ln),
                     throw(invalid_prolog_builtin(B, after_line(Ln)))
