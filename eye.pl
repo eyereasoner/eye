@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0211.2332 josd').
+version_info('EYE v20.0214.1629 josd').
 
 license_info('MIT License
 
@@ -111,6 +111,7 @@ eye
 <data>
     <uri>                           N3 triples and rules
     --n3 <uri>                      N3 triples and rules
+    --plugin <uri>                  Prolog facts and rules
     --turtle <uri>                  Turtle data
     --twinkle <uri>                 Thinking with lemmas from N3 proof
 <query>
@@ -1048,7 +1049,6 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
-% DEPRECATED
 args(['--plugin', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
@@ -8852,6 +8852,7 @@ prolog_sym(unify_with_occurs_check, unify_with_occurs_check, rel).
 prolog_sym(univ, =.., rel).
 prolog_sym(unknown, unknown, rel).
 prolog_sym(update_mutable, update_mutable, rel).
+prolog_sym(use_module, use_module, rel).
 prolog_sym(var, var, rel).
 prolog_sym(variant, variant, rel).
 prolog_sym(version, version, rel).
