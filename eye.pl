@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0214.1629 josd').
+version_info('EYE v20.0218.2044 josd').
 
 license_info('MIT License
 
@@ -112,8 +112,8 @@ eye
     <uri>                           N3 triples and rules
     --n3 <uri>                      N3 triples and rules
     --plugin <uri>                  Prolog facts and rules
-    --turtle <uri>                  Turtle data
-    --twinkle <uri>                 Thinking with lemmas from N3 proof
+    --proof <uri>                   N3 proof lemmas
+    --turtle <uri>                  Turtle triples
 <query>
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
@@ -329,7 +329,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--quantify', '--twinkle', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -911,7 +911,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--twinkle', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1118,6 +1118,32 @@ args(['--plugin', Argument|Args]) :-
     ),
     flush_output(user_error),
     args(Args).
+args(['--proof', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(n3p)
+    ->  portray_clause(scope(R))
+    ;   true
+    ),
+    (   flag(carl)
+    ->  carl(Arg, data)
+    ;   n3_n3p(Arg, data)
+    ),
+    (   got_pi
+    ->  true
+    ;   assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Inference>'),
+                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
+                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
+                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
+        assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Extraction>'),
+                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
+                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
+                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
+        assertz(got_pi)
+    ),
+    args(Args).
 args(['--query', Arg|Args]) :-
     !,
     (   flag(carl)
@@ -1313,32 +1339,6 @@ args(['--turtle', Argument|Args]) :-
             flush_output(user_error)
         ;   true
         )
-    ),
-    args(Args).
-args(['--twinkle', Arg|Args]) :-
-    !,
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
-    ;   true
-    ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
-    (   got_pi
-    ->  true
-    ;   assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Inference>'),
-                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
-                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
-                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
-        assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Extraction>'),
-                '<http://www.w3.org/2000/10/swap/reason#gives>'(LEMMA, GRAPH),
-                '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
-                exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
-        assertz(got_pi)
     ),
     args(Args).
 args([Arg|Args]) :-
