@@ -1,0 +1,16 @@
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://example.org/try#>.
+
+:s :p {:a :b :c}.
+:s :p {:a :b :c. :d :e :f}.
+_:X :p {_:X :b :c}.
+{:u :v ?W. ?X :y :z} => {?W a ?X}.
+{} => {_:X :p :o}.
+{:u :p ?Z} => false.
+{?W :q ?X} <= {:u :v ?W. ?X ?Y :z}.
+true <= {:u :v ?W. ?X ?Y :z}.
+{?X :y ?Z} <= {?Z e:firstRest (?H ?T). ?X :p ?H. ?X :y ?T}.
+{?S :r ?P} <= {{?S :q ?X} <= ?P}.
+{_:b :u ?O. _:b :v ?R} => {_:b :x ?O. _:b :y ?R}.
+{:a :b [ :c :d; :e :f]} => {:g :h :i}.
+:s :p <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>.

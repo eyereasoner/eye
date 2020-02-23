@@ -1,0 +1,17 @@
+#!/bin/bash
+
+pushd ~/github.com/josd/eye/reasoning
+echo -n > reasoning.txt
+echo "# $(date)" > reasoning.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS"
+
+for dir in */
+do
+    pushd ${dir}
+    ./test --no-genid |& tee -a ../reasoning.txt
+    git diff -U0 . | grep -E -v "$IMATCH" >> ../reasoning.diff
+    popd
+done
+
+eye reasoning.diff --pass > /dev/null
+popd

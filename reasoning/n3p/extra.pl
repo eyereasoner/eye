@@ -1,0 +1,12 @@
+flag('quantify', 'http://josd.github.io/.well-known/genid/by:LiWh_OIDdUr69:VujzioyCgE#').
+scope('<http://josd.github.io/eye/reasoning/n3p/extra.ttl>').
+pfx(:, '<http://example.org/try#>').
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \'try zero', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \\"try one', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \\"try\\ntwo', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \\"try three', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \\"\\"try four', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', literal('we \\\\try five', type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://example.org/try#p>'('<http://example.org/try#s>', '<http://example.org/Connor\'s>').
+scount(7).
+end_of_file.
