@@ -37,7 +37,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0223.1436 josd').
+version_info('EYE v20.0225.2300 josd').
 
 license_info('MIT License
 
@@ -5049,9 +5049,10 @@ djiti_assertz(A) :-
     unify(B, F),
     conj_list(F, G),
     forall(
-        (   member(H, G)
+        (   member(H, G),
+            \+catch(call(H), _, fail)
         ),
-        (   djiti_assertz(H)
+        (   assertz(H)
         )
     ).
 
