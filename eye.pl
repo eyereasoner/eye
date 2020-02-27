@@ -18,15 +18,18 @@
 :- use_module(library(terms)).
 :- use_module(library('url.pl')).
 :- use_module(library(charsio)).
+
 :- if(current_prolog_flag(dialect, swi)).
 :- use_module(library(when), [when/2]).
 :- use_module(library(qsave)).
-:- catch(use_module(library(base64)), _, true).
-:- catch(use_module(library(process)), _, true).
-:- catch(use_module(library(sha)), _, true).
-:- catch(use_module(library(uri)), _, true).
-:- catch(use_module(library(pcre)), _, true).
+:- use_module(library(base64)).
+:- use_module(library(process)).
+:- use_module(library(sha)).
+:- use_module(library(uri)).
+:- use_module(library(pcre)).
+:- use_module(library(date)).
 :- endif.
+
 :- if(\+current_predicate(date_time_stamp/2)).
 :- load_foreign_files(['pl-tai'], [], install).
 :- endif.
@@ -37,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0225.2300 josd').
+version_info('EYE v20.0227.1323 josd').
 
 license_info('MIT License
 
