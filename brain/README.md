@@ -1,6 +1,6 @@
-# BRAnches od INtelligence
+# BRAnches of INtelligence
 
-N3 proof engine inspired by http://www.ibiblio.org/obp/py4fun/prolog/prolog3.py
+N3 proof engine inspired by http://www.openbookproject.net/py4fun/prolog/intro.html
 and is with depth first search and euler path anti-looping detection.
 Thanks to Tim Berners-Lee and Dan Connolly for inventing N3 and for creating N3
 running code.
