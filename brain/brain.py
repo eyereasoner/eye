@@ -447,7 +447,6 @@ def run(args):
     why = False
     once = False
     debug = False
-    ts = time.time()
     for arg in args:
         if arg == '--why': why = True
         elif arg == '--once': once = True
@@ -472,8 +471,7 @@ def run(args):
         print(prove(g, rules, why, once, count))
     sys.stdout.flush()
     
-    sys.stderr.write('#ENDS %s [%s triples] [%s steps/%s sec]\n' %
-          (args[-1], triple, step[0], time.time()-ts))
+    sys.stderr.write('#ENDS %s [%s triples] [%s steps]\n' % (args[-1], triple, step[0]))
     sys.stderr.flush()
 
 def _test():
