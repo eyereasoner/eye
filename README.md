@@ -3,12 +3,12 @@
 ### Engine for Unifying Logic and Explainable Reasoning - EULER
 
 <img align="left" src="http://josd.github.io/images/eye.png" alt="EYE"/> EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
-It performs controlled chaining and it supports Euler paths.  
+It performs controlled chaining of data and it supports Euler paths.  
 Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
 
-__Controlled chaining__ is backward chaining for rules using <= in [N3](http://www.w3.org/TeamSubmission/n3/)  
+__Controlled chaining of data__ is backward chaining for rules using <= in [N3](http://www.w3.org/TeamSubmission/n3/)  
 and forward chaining for rules using => in [N3](http://www.w3.org/TeamSubmission/n3/).  
-This can be seen in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
+This is also called __CCD__ and can be seen in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
 
 __Euler paths__ are roughly "_don't step in your own steps_" which is inspired by  
 what [Leonhard Euler](http://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html).  
