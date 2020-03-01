@@ -1,7 +1,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix ccd: <http://josd.github.io/eye/reasoning/c2d#>.
+@prefix c2d: <http://josd.github.io/eye/reasoning/c2d#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 
 {
@@ -20,11 +20,11 @@
                 :input10
             ) list:member ?P.
             ?S ?P ?O.
-            (?P ?O) ccd:model (:output1 ?C ?N).
+            (?P ?O) c2d:model (:output1 ?C ?N).
         }
         ?POD
     ).
-    (?POD 3.0 1.0) ccd:transformer (?E ?Q).
+    (?POD 3.0 1.0) c2d:transformer (?E ?Q).
     ?SCOPE e:optional {
         ?Q math:greaterThan 0.5.
         ("1") e:calculate ?V.
