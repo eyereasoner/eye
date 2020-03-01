@@ -10,7 +10,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
 ### Implementation
  
 * neural networks (see fcm, fgcm)
-* bayesian networks (see ccd, nbbn, swet)
+* bayesian networks (see c2d, nbbn, swet)
 * markov logic networks (see mmln)
 * plan/workflow composers (see gps, map, resto, restpath)
 * control system (see cs)
