@@ -13,8 +13,8 @@ like a world wide welding machine transforming data into pragmatic proofs:
 * bayesian networks (see c2d, nbbn, swet)
 * markov logic networks (see mmln)
 * plan/workflow composers (see gps, map, resto, restpath)
-* control system (see cs)
-* quantum computation (see dqc)
+* control systems (see cs)
+* quantum computation (see dqc, grover)
 * mathematical computation (see equation4, fib, lldm, pi, tak)
 * logic puzzles (see 4color, dp, einstein, graph, hanoi, witch)
 * etc...
