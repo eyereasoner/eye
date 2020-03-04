@@ -76,9 +76,9 @@ def alternating_bits_oracle(eng, qubits, output):
     Uncompute(eng)
 
 def to_n3(item):
-    if item is list or item is tuple:
+    if type(item) == list or type(item) == tuple:
         s = '('
-        for e in list:
+        for e in item:
             if s != '(':
                 s += ' '
             s += repr(e)
@@ -91,7 +91,8 @@ if __name__ == "__main__":
     print("@prefix grover: <http://josd.github.io/eye/reasoning/grover#>.")
     print("")
     eng = MainEngine()  # use default compiler engine
-    # run Grover search to find a 7-bit solution
-    list = run_grover(eng, 7, alternating_bits_oracle)
-    s = to_n3(list)
-    print('[] grover:7_alternating_bits_oracle %s.' % (s))
+    # run Grover search to find n-bit solutions
+    for n in range(1, 10):
+        bits = run_grover(eng, n, alternating_bits_oracle)
+        n3_bits = to_n3(bits)
+        print('(%d) grover:alternating_bits_oracle %s.' % (n, n3_bits))
