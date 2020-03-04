@@ -2,7 +2,11 @@
 #eye http://josd.github.io/eye/reasoning/easter/easterP.n3 --query http://josd.github.io/eye/reasoning/easter/easterF.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix prolog: <http://eulersharp.sourceforge.net/2003/03swap/prolog#>.
 @prefix : <http://www.agfa.com/w3c/euler/easterP#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
@@ -25,207 +29,337 @@
   r:component <#lemma14>;
   r:component <#lemma15>;
   r:component <#lemma16>;
+  r:component <#lemma17>;
+  r:component <#lemma18>;
+  r:component <#lemma19>;
+  r:component <#lemma20>;
+  r:component <#lemma21>;
+  r:component <#lemma22>;
+  r:component <#lemma23>;
+  r:component <#lemma24>;
+  r:component <#lemma25>;
+  r:component <#lemma26>;
   r:gives {
-    (5 4) :easterFor 2015 .
-    (27 3) :easterFor 2016 .
-    (16 4) :easterFor 2017 .
-    (1 4) :easterFor 2018 .
-    (21 4) :easterFor 2019 .
-    (12 4) :easterFor 2020 .
-    (4 4) :easterFor 2021 .
-    (17 4) :easterFor 2022 .
-    (9 4) :easterFor 2023 .
-    (31 3) :easterFor 2024 .
-    (20 4) :easterFor 2025 .
-    (5 4) :easterFor 2026 .
-    (28 3) :easterFor 2027 .
-    (16 4) :easterFor 2028 .
-    (1 4) :easterFor 2029 .
-    (21 4) :easterFor 2030 .
+    _:sk_0 :easter "2015-04-05+02:00"^^xsd:date.
+    _:sk_1 :easter "2016-03-27+01:00"^^xsd:date.
+    _:sk_2 :easter "2017-04-16+02:00"^^xsd:date.
+    _:sk_3 :easter "2018-04-01+02:00"^^xsd:date.
+    _:sk_4 :easter "2019-04-21+02:00"^^xsd:date.
+    _:sk_5 :easter "2020-04-12+02:00"^^xsd:date.
+    _:sk_6 :easter "2021-04-04+02:00"^^xsd:date.
+    _:sk_7 :easter "2022-04-17+02:00"^^xsd:date.
+    _:sk_8 :easter "2023-04-09+02:00"^^xsd:date.
+    _:sk_9 :easter "2024-03-31+01:00"^^xsd:date.
+    _:sk_10 :easter "2025-04-20+02:00"^^xsd:date.
+    _:sk_11 :easter "2026-04-05+02:00"^^xsd:date.
+    _:sk_12 :easter "2027-03-28+01:00"^^xsd:date.
+    _:sk_13 :easter "2028-04-16+02:00"^^xsd:date.
+    _:sk_14 :easter "2029-04-01+02:00"^^xsd:date.
+    _:sk_15 :easter "2030-04-21+02:00"^^xsd:date.
+    _:sk_16 :easter "2031-04-13+02:00"^^xsd:date.
+    _:sk_17 :easter "2032-03-28+01:00"^^xsd:date.
+    _:sk_18 :easter "2033-04-17+02:00"^^xsd:date.
+    _:sk_19 :easter "2034-04-09+02:00"^^xsd:date.
+    _:sk_20 :easter "2035-03-25+01:00"^^xsd:date.
+    _:sk_21 :easter "2036-04-13+02:00"^^xsd:date.
+    _:sk_22 :easter "2037-04-05+02:00"^^xsd:date.
+    _:sk_23 :easter "2038-04-25+02:00"^^xsd:date.
+    _:sk_24 :easter "2039-04-10+01:00"^^xsd:date.
+    _:sk_25 :easter "2040-04-01+01:00"^^xsd:date.
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    (5 4) :easterFor 2015 .
-  };
-  r:evidence (
-    <#lemma17>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (5 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2015];
-  r:rule <#lemma18>.
-
-<#lemma2> a r:Inference;
-  r:gives {
-    (27 3) :easterFor 2016 .
-  };
-  r:evidence (
-    <#lemma19>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (27 3)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2016];
-  r:rule <#lemma18>.
-
-<#lemma3> a r:Inference;
-  r:gives {
-    (16 4) :easterFor 2017 .
-  };
-  r:evidence (
-    <#lemma20>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (16 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2017];
-  r:rule <#lemma18>.
-
-<#lemma4> a r:Inference;
-  r:gives {
-    (1 4) :easterFor 2018 .
-  };
-  r:evidence (
-    <#lemma21>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2018];
-  r:rule <#lemma18>.
-
-<#lemma5> a r:Inference;
-  r:gives {
-    (21 4) :easterFor 2019 .
-  };
-  r:evidence (
-    <#lemma22>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (21 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2019];
-  r:rule <#lemma18>.
-
-<#lemma6> a r:Inference;
-  r:gives {
-    (12 4) :easterFor 2020 .
-  };
-  r:evidence (
-    <#lemma23>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (12 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2020];
-  r:rule <#lemma18>.
-
-<#lemma7> a r:Inference;
-  r:gives {
-    (4 4) :easterFor 2021 .
-  };
-  r:evidence (
-    <#lemma24>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (4 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2021];
-  r:rule <#lemma18>.
-
-<#lemma8> a r:Inference;
-  r:gives {
-    (17 4) :easterFor 2022 .
-  };
-  r:evidence (
-    <#lemma25>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (17 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2022];
-  r:rule <#lemma18>.
-
-<#lemma9> a r:Inference;
-  r:gives {
-    (9 4) :easterFor 2023 .
-  };
-  r:evidence (
-    <#lemma26>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (9 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2023];
-  r:rule <#lemma18>.
-
-<#lemma10> a r:Inference;
-  r:gives {
-    (31 3) :easterFor 2024 .
+    _:sk_0 :easter "2015-04-05+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma27>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (31 3)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2024];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2015-04-05+02:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma11> a r:Inference;
+<#lemma2> a r:Inference;
   r:gives {
-    (20 4) :easterFor 2025 .
-  };
-  r:evidence (
-    <#lemma28>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (20 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2025];
-  r:rule <#lemma18>.
-
-<#lemma12> a r:Inference;
-  r:gives {
-    (5 4) :easterFor 2026 .
+    _:sk_1 :easter "2016-03-27+01:00"^^xsd:date.
   };
   r:evidence (
     <#lemma29>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (5 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2026];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2016-03-27+01:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma13> a r:Inference;
+<#lemma3> a r:Inference;
   r:gives {
-    (28 3) :easterFor 2027 .
+    _:sk_2 :easter "2017-04-16+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma30>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (28 3)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2027];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2017-04-16+02:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma14> a r:Inference;
+<#lemma4> a r:Inference;
   r:gives {
-    (16 4) :easterFor 2028 .
+    _:sk_3 :easter "2018-04-01+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma31>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (16 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2028];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2018-04-01+02:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma15> a r:Inference;
+<#lemma5> a r:Inference;
   r:gives {
-    (1 4) :easterFor 2029 .
+    _:sk_4 :easter "2019-04-21+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma32>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2029];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2019-04-21+02:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma16> a r:Inference;
+<#lemma6> a r:Inference;
   r:gives {
-    (21 4) :easterFor 2030 .
+    _:sk_5 :easter "2020-04-12+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma33>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (21 4)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2030];
-  r:rule <#lemma18>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2020-04-12+02:00"^^xsd:date];
+  r:rule <#lemma28>.
 
-<#lemma17> a r:Inference;
+<#lemma7> a r:Inference;
   r:gives {
-    (5 4) :easterFor 2015 .
+    _:sk_6 :easter "2021-04-04+02:00"^^xsd:date.
   };
   r:evidence (
     <#lemma34>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2021-04-04+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    _:sk_7 :easter "2022-04-17+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma35>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2022-04-17+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma9> a r:Inference;
+  r:gives {
+    _:sk_8 :easter "2023-04-09+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma36>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2023-04-09+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    _:sk_9 :easter "2024-03-31+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma37>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2024-03-31+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    _:sk_10 :easter "2025-04-20+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma38>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2025-04-20+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    _:sk_11 :easter "2026-04-05+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma39>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2026-04-05+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    _:sk_12 :easter "2027-03-28+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma40>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2027-03-28+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    _:sk_13 :easter "2028-04-16+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma41>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2028-04-16+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    _:sk_14 :easter "2029-04-01+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma42>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2029-04-01+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma16> a r:Inference;
+  r:gives {
+    _:sk_15 :easter "2030-04-21+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma43>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2030-04-21+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma17> a r:Inference;
+  r:gives {
+    _:sk_16 :easter "2031-04-13+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma44>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2031-04-13+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma18> a r:Inference;
+  r:gives {
+    _:sk_17 :easter "2032-03-28+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma45>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2032-03-28+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma19> a r:Inference;
+  r:gives {
+    _:sk_18 :easter "2033-04-17+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma46>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2033-04-17+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma20> a r:Inference;
+  r:gives {
+    _:sk_19 :easter "2034-04-09+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma47>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2034-04-09+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma21> a r:Inference;
+  r:gives {
+    _:sk_20 :easter "2035-03-25+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma48>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2035-03-25+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma22> a r:Inference;
+  r:gives {
+    _:sk_21 :easter "2036-04-13+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma49>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2036-04-13+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma23> a r:Inference;
+  r:gives {
+    _:sk_22 :easter "2037-04-05+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma50>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2037-04-05+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma24> a r:Inference;
+  r:gives {
+    _:sk_23 :easter "2038-04-25+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma51>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2038-04-25+02:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma25> a r:Inference;
+  r:gives {
+    _:sk_24 :easter "2039-04-10+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma52>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2039-04-10+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma26> a r:Inference;
+  r:gives {
+    _:sk_25 :easter "2040-04-01+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma53>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "2040-04-01+01:00"^^xsd:date];
+  r:rule <#lemma28>.
+
+<#lemma27> a r:Inference;
+  r:gives {
+    _:sk_0 :easter "2015-04-05+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma54>
     [ a r:Fact; r:gives {(2015 19) math:remainder 1}]
     [ a r:Fact; r:gives {(2015 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2015 100) math:remainder 15}]
@@ -260,6 +394,10 @@
     [ a r:Fact; r:gives {(128 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(128 31) math:remainder 4}]
     [ a r:Fact; r:gives {(4 1) math:sum 5}]
+    [ a r:Fact; r:gives {"date(2015,4,5)=..[date,2015,4,5]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2015,4,5),1428184800.0)"}]
+    [ a r:Fact; r:gives {("2015-04-05+02:00" xsd:date) log:dtlit 1428184800.0}]
+    [ a r:Fact; r:gives {("2015-04-05+02:00" xsd:date) log:dtlit "2015-04-05+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2015];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
@@ -296,20 +434,25 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 5];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2015,4,5)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1428184800.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2015-04-05+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2015-04-05+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:rule <#lemma55>.
 
-<#lemma18> a r:Extraction;
+<#lemma28> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 :easterFor var:x_1} => {var:x_0 :easterFor var:x_1}.
+    @forAll var:x_0, var:x_1. {var:x_0 :easter var:x_1} => {var:x_0 :easter var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterF.n3>].
 
-<#lemma19> a r:Inference;
+<#lemma29> a r:Inference;
   r:gives {
-    (27 3) :easterFor 2016 .
+    _:sk_1 :easter "2016-03-27+01:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma36>
+    <#lemma56>
     [ a r:Fact; r:gives {(2016 19) math:remainder 2}]
     [ a r:Fact; r:gives {(2016 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2016 100) math:remainder 16}]
@@ -344,6 +487,10 @@
     [ a r:Fact; r:gives {(119 31) math:integerQuotient 3}]
     [ a r:Fact; r:gives {(119 31) math:remainder 26}]
     [ a r:Fact; r:gives {(26 1) math:sum 27}]
+    [ a r:Fact; r:gives {"date(2016,3,27)=..[date,2016,3,27]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2016,3,27),1459033200.0)"}]
+    [ a r:Fact; r:gives {("2016-03-27+01:00" xsd:date) log:dtlit 1459033200.0}]
+    [ a r:Fact; r:gives {("2016-03-27+01:00" xsd:date) log:dtlit "2016-03-27+01:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2016];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
@@ -380,14 +527,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 26];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 27];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2016,3,27)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1459033200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2016-03-27+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2016-03-27+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:rule <#lemma55>.
 
-<#lemma20> a r:Inference;
+<#lemma30> a r:Inference;
   r:gives {
-    (16 4) :easterFor 2017 .
+    _:sk_2 :easter "2017-04-16+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma37>
+    <#lemma57>
     [ a r:Fact; r:gives {(2017 19) math:remainder 3}]
     [ a r:Fact; r:gives {(2017 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2017 100) math:remainder 17}]
@@ -422,6 +574,10 @@
     [ a r:Fact; r:gives {(139 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(139 31) math:remainder 15}]
     [ a r:Fact; r:gives {(15 1) math:sum 16}]
+    [ a r:Fact; r:gives {"date(2017,4,16)=..[date,2017,4,16]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2017,4,16),1492293600.0)"}]
+    [ a r:Fact; r:gives {("2017-04-16+02:00" xsd:date) log:dtlit 1492293600.0}]
+    [ a r:Fact; r:gives {("2017-04-16+02:00" xsd:date) log:dtlit "2017-04-16+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2017];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
@@ -458,14 +614,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 15];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 16];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2017,4,16)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1492293600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2017-04-16+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2017-04-16+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:rule <#lemma55>.
 
-<#lemma21> a r:Inference;
+<#lemma31> a r:Inference;
   r:gives {
-    (1 4) :easterFor 2018 .
+    _:sk_3 :easter "2018-04-01+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma38>
+    <#lemma58>
     [ a r:Fact; r:gives {(2018 19) math:remainder 4}]
     [ a r:Fact; r:gives {(2018 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2018 100) math:remainder 18}]
@@ -500,6 +661,10 @@
     [ a r:Fact; r:gives {(124 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(124 31) math:remainder 0}]
     [ a r:Fact; r:gives {(0 1) math:sum 1}]
+    [ a r:Fact; r:gives {"date(2018,4,1)=..[date,2018,4,1]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2018,4,1),1522533600.0)"}]
+    [ a r:Fact; r:gives {("2018-04-01+02:00" xsd:date) log:dtlit 1522533600.0}]
+    [ a r:Fact; r:gives {("2018-04-01+02:00" xsd:date) log:dtlit "2018-04-01+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2018];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
@@ -536,14 +701,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 1];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2018,4,1)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1522533600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2018-04-01+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2018-04-01+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:rule <#lemma55>.
 
-<#lemma22> a r:Inference;
+<#lemma32> a r:Inference;
   r:gives {
-    (21 4) :easterFor 2019 .
+    _:sk_4 :easter "2019-04-21+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma39>
+    <#lemma59>
     [ a r:Fact; r:gives {(2019 19) math:remainder 5}]
     [ a r:Fact; r:gives {(2019 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2019 100) math:remainder 19}]
@@ -578,6 +748,10 @@
     [ a r:Fact; r:gives {(144 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(144 31) math:remainder 20}]
     [ a r:Fact; r:gives {(20 1) math:sum 21}]
+    [ a r:Fact; r:gives {"date(2019,4,21)=..[date,2019,4,21]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2019,4,21),1555797600.0)"}]
+    [ a r:Fact; r:gives {("2019-04-21+02:00" xsd:date) log:dtlit 1555797600.0}]
+    [ a r:Fact; r:gives {("2019-04-21+02:00" xsd:date) log:dtlit "2019-04-21+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2019];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
@@ -614,14 +788,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 20];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 21];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2019,4,21)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1555797600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2019-04-21+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2019-04-21+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:rule <#lemma55>.
 
-<#lemma23> a r:Inference;
+<#lemma33> a r:Inference;
   r:gives {
-    (12 4) :easterFor 2020 .
+    _:sk_5 :easter "2020-04-12+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma40>
+    <#lemma60>
     [ a r:Fact; r:gives {(2020 19) math:remainder 6}]
     [ a r:Fact; r:gives {(2020 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2020 100) math:remainder 20}]
@@ -656,6 +835,10 @@
     [ a r:Fact; r:gives {(135 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(135 31) math:remainder 11}]
     [ a r:Fact; r:gives {(11 1) math:sum 12}]
+    [ a r:Fact; r:gives {"date(2020,4,12)=..[date,2020,4,12]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2020,4,12),1586642400.0)"}]
+    [ a r:Fact; r:gives {("2020-04-12+02:00" xsd:date) log:dtlit 1586642400.0}]
+    [ a r:Fact; r:gives {("2020-04-12+02:00" xsd:date) log:dtlit "2020-04-12+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2020];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
@@ -692,14 +875,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 12];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2020,4,12)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1586642400.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2020-04-12+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2020-04-12+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:rule <#lemma55>.
 
-<#lemma24> a r:Inference;
+<#lemma34> a r:Inference;
   r:gives {
-    (4 4) :easterFor 2021 .
+    _:sk_6 :easter "2021-04-04+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma41>
+    <#lemma61>
     [ a r:Fact; r:gives {(2021 19) math:remainder 7}]
     [ a r:Fact; r:gives {(2021 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2021 100) math:remainder 21}]
@@ -734,6 +922,10 @@
     [ a r:Fact; r:gives {(127 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(127 31) math:remainder 3}]
     [ a r:Fact; r:gives {(3 1) math:sum 4}]
+    [ a r:Fact; r:gives {"date(2021,4,4)=..[date,2021,4,4]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2021,4,4),1617487200.0)"}]
+    [ a r:Fact; r:gives {("2021-04-04+02:00" xsd:date) log:dtlit 1617487200.0}]
+    [ a r:Fact; r:gives {("2021-04-04+02:00" xsd:date) log:dtlit "2021-04-04+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2021];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
@@ -770,14 +962,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 4];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2021,4,4)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1617487200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2021-04-04+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2021-04-04+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:rule <#lemma55>.
 
-<#lemma25> a r:Inference;
+<#lemma35> a r:Inference;
   r:gives {
-    (17 4) :easterFor 2022 .
+    _:sk_7 :easter "2022-04-17+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma42>
+    <#lemma62>
     [ a r:Fact; r:gives {(2022 19) math:remainder 8}]
     [ a r:Fact; r:gives {(2022 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2022 100) math:remainder 22}]
@@ -812,6 +1009,10 @@
     [ a r:Fact; r:gives {(140 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(140 31) math:remainder 16}]
     [ a r:Fact; r:gives {(16 1) math:sum 17}]
+    [ a r:Fact; r:gives {"date(2022,4,17)=..[date,2022,4,17]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2022,4,17),1650146400.0)"}]
+    [ a r:Fact; r:gives {("2022-04-17+02:00" xsd:date) log:dtlit 1650146400.0}]
+    [ a r:Fact; r:gives {("2022-04-17+02:00" xsd:date) log:dtlit "2022-04-17+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2022];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 8];
@@ -848,14 +1049,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 16];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 17];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2022,4,17)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1650146400.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2022-04-17+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2022-04-17+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:rule <#lemma55>.
 
-<#lemma26> a r:Inference;
+<#lemma36> a r:Inference;
   r:gives {
-    (9 4) :easterFor 2023 .
+    _:sk_8 :easter "2023-04-09+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma43>
+    <#lemma63>
     [ a r:Fact; r:gives {(2023 19) math:remainder 9}]
     [ a r:Fact; r:gives {(2023 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2023 100) math:remainder 23}]
@@ -890,6 +1096,10 @@
     [ a r:Fact; r:gives {(132 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(132 31) math:remainder 8}]
     [ a r:Fact; r:gives {(8 1) math:sum 9}]
+    [ a r:Fact; r:gives {"date(2023,4,9)=..[date,2023,4,9]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2023,4,9),1680991200.0)"}]
+    [ a r:Fact; r:gives {("2023-04-09+02:00" xsd:date) log:dtlit 1680991200.0}]
+    [ a r:Fact; r:gives {("2023-04-09+02:00" xsd:date) log:dtlit "2023-04-09+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2023];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 9];
@@ -926,14 +1136,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 9];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2023,4,9)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1680991200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2023-04-09+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2023-04-09+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:rule <#lemma55>.
 
-<#lemma27> a r:Inference;
+<#lemma37> a r:Inference;
   r:gives {
-    (31 3) :easterFor 2024 .
+    _:sk_9 :easter "2024-03-31+01:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma44>
+    <#lemma64>
     [ a r:Fact; r:gives {(2024 19) math:remainder 10}]
     [ a r:Fact; r:gives {(2024 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2024 100) math:remainder 24}]
@@ -968,6 +1183,10 @@
     [ a r:Fact; r:gives {(123 31) math:integerQuotient 3}]
     [ a r:Fact; r:gives {(123 31) math:remainder 30}]
     [ a r:Fact; r:gives {(30 1) math:sum 31}]
+    [ a r:Fact; r:gives {"date(2024,3,31)=..[date,2024,3,31]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2024,3,31),1711839600.0)"}]
+    [ a r:Fact; r:gives {("2024-03-31+01:00" xsd:date) log:dtlit 1711839600.0}]
+    [ a r:Fact; r:gives {("2024-03-31+01:00" xsd:date) log:dtlit "2024-03-31+01:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2024];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 10];
@@ -1004,14 +1223,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 30];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 31];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2024,3,31)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1711839600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2024-03-31+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2024-03-31+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:rule <#lemma55>.
 
-<#lemma28> a r:Inference;
+<#lemma38> a r:Inference;
   r:gives {
-    (20 4) :easterFor 2025 .
+    _:sk_10 :easter "2025-04-20+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma45>
+    <#lemma65>
     [ a r:Fact; r:gives {(2025 19) math:remainder 11}]
     [ a r:Fact; r:gives {(2025 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2025 100) math:remainder 25}]
@@ -1046,6 +1270,10 @@
     [ a r:Fact; r:gives {(143 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(143 31) math:remainder 19}]
     [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {"date(2025,4,20)=..[date,2025,4,20]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2025,4,20),1745100000.0)"}]
+    [ a r:Fact; r:gives {("2025-04-20+02:00" xsd:date) log:dtlit 1745100000.0}]
+    [ a r:Fact; r:gives {("2025-04-20+02:00" xsd:date) log:dtlit "2025-04-20+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2025];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 11];
@@ -1082,14 +1310,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 19];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 20];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2025,4,20)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1745100000.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2025-04-20+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2025-04-20+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:rule <#lemma55>.
 
-<#lemma29> a r:Inference;
+<#lemma39> a r:Inference;
   r:gives {
-    (5 4) :easterFor 2026 .
+    _:sk_11 :easter "2026-04-05+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma46>
+    <#lemma66>
     [ a r:Fact; r:gives {(2026 19) math:remainder 12}]
     [ a r:Fact; r:gives {(2026 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2026 100) math:remainder 26}]
@@ -1124,6 +1357,10 @@
     [ a r:Fact; r:gives {(128 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(128 31) math:remainder 4}]
     [ a r:Fact; r:gives {(4 1) math:sum 5}]
+    [ a r:Fact; r:gives {"date(2026,4,5)=..[date,2026,4,5]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2026,4,5),1775340000.0)"}]
+    [ a r:Fact; r:gives {("2026-04-05+02:00" xsd:date) log:dtlit 1775340000.0}]
+    [ a r:Fact; r:gives {("2026-04-05+02:00" xsd:date) log:dtlit "2026-04-05+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2026];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 12];
@@ -1160,14 +1397,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 5];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2026,4,5)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1775340000.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2026-04-05+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2026-04-05+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:rule <#lemma55>.
 
-<#lemma30> a r:Inference;
+<#lemma40> a r:Inference;
   r:gives {
-    (28 3) :easterFor 2027 .
+    _:sk_12 :easter "2027-03-28+01:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma47>
+    <#lemma67>
     [ a r:Fact; r:gives {(2027 19) math:remainder 13}]
     [ a r:Fact; r:gives {(2027 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2027 100) math:remainder 27}]
@@ -1202,6 +1444,10 @@
     [ a r:Fact; r:gives {(120 31) math:integerQuotient 3}]
     [ a r:Fact; r:gives {(120 31) math:remainder 27}]
     [ a r:Fact; r:gives {(27 1) math:sum 28}]
+    [ a r:Fact; r:gives {"date(2027,3,28)=..[date,2027,3,28]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2027,3,28),1806188400.0)"}]
+    [ a r:Fact; r:gives {("2027-03-28+01:00" xsd:date) log:dtlit 1806188400.0}]
+    [ a r:Fact; r:gives {("2027-03-28+01:00" xsd:date) log:dtlit "2027-03-28+01:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2027];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 13];
@@ -1238,14 +1484,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 27];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 28];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2027,3,28)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1806188400.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2027-03-28+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2027-03-28+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:rule <#lemma55>.
 
-<#lemma31> a r:Inference;
+<#lemma41> a r:Inference;
   r:gives {
-    (16 4) :easterFor 2028 .
+    _:sk_13 :easter "2028-04-16+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma48>
+    <#lemma68>
     [ a r:Fact; r:gives {(2028 19) math:remainder 14}]
     [ a r:Fact; r:gives {(2028 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2028 100) math:remainder 28}]
@@ -1280,6 +1531,10 @@
     [ a r:Fact; r:gives {(139 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(139 31) math:remainder 15}]
     [ a r:Fact; r:gives {(15 1) math:sum 16}]
+    [ a r:Fact; r:gives {"date(2028,4,16)=..[date,2028,4,16]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2028,4,16),1839448800.0)"}]
+    [ a r:Fact; r:gives {("2028-04-16+02:00" xsd:date) log:dtlit 1839448800.0}]
+    [ a r:Fact; r:gives {("2028-04-16+02:00" xsd:date) log:dtlit "2028-04-16+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2028];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 14];
@@ -1316,14 +1571,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 15];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 16];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2028,4,16)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1839448800.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2028-04-16+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2028-04-16+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:rule <#lemma55>.
 
-<#lemma32> a r:Inference;
+<#lemma42> a r:Inference;
   r:gives {
-    (1 4) :easterFor 2029 .
+    _:sk_14 :easter "2029-04-01+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma49>
+    <#lemma69>
     [ a r:Fact; r:gives {(2029 19) math:remainder 15}]
     [ a r:Fact; r:gives {(2029 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2029 100) math:remainder 29}]
@@ -1358,6 +1618,10 @@
     [ a r:Fact; r:gives {(124 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(124 31) math:remainder 0}]
     [ a r:Fact; r:gives {(0 1) math:sum 1}]
+    [ a r:Fact; r:gives {"date(2029,4,1)=..[date,2029,4,1]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2029,4,1),1869688800.0)"}]
+    [ a r:Fact; r:gives {("2029-04-01+02:00" xsd:date) log:dtlit 1869688800.0}]
+    [ a r:Fact; r:gives {("2029-04-01+02:00" xsd:date) log:dtlit "2029-04-01+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2029];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 15];
@@ -1394,14 +1658,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 1];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2029,4,1)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1869688800.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2029-04-01+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2029-04-01+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:rule <#lemma55>.
 
-<#lemma33> a r:Inference;
+<#lemma43> a r:Inference;
   r:gives {
-    (21 4) :easterFor 2030 .
+    _:sk_15 :easter "2030-04-21+02:00"^^xsd:date.
   };
   r:evidence (
-    <#lemma50>
+    <#lemma70>
     [ a r:Fact; r:gives {(2030 19) math:remainder 16}]
     [ a r:Fact; r:gives {(2030 100) math:integerQuotient 20}]
     [ a r:Fact; r:gives {(2030 100) math:remainder 30}]
@@ -1436,6 +1705,10 @@
     [ a r:Fact; r:gives {(144 31) math:integerQuotient 4}]
     [ a r:Fact; r:gives {(144 31) math:remainder 20}]
     [ a r:Fact; r:gives {(20 1) math:sum 21}]
+    [ a r:Fact; r:gives {"date(2030,4,21)=..[date,2030,4,21]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2030,4,21),1902952800.0)"}]
+    [ a r:Fact; r:gives {("2030-04-21+02:00" xsd:date) log:dtlit 1902952800.0}]
+    [ a r:Fact; r:gives {("2030-04-21+02:00" xsd:date) log:dtlit "2030-04-21+02:00"^^xsd:date}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2030];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 16];
@@ -1472,17 +1745,892 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 20];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 21];
-  r:rule <#lemma35>.
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2030,4,21)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1902952800.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2030-04-21+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2030-04-21+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:rule <#lemma55>.
 
-<#lemma34> a r:Extraction;
+<#lemma44> a r:Inference;
+  r:gives {
+    _:sk_16 :easter "2031-04-13+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma71>
+    [ a r:Fact; r:gives {(2031 19) math:remainder 17}]
+    [ a r:Fact; r:gives {(2031 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2031 100) math:remainder 31}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 17) math:product 323}]
+    [ a r:Fact; r:gives {(323 20) math:sum 343}]
+    [ a r:Fact; r:gives {(343 5) math:difference 338}]
+    [ a r:Fact; r:gives {(338 6) math:difference 332}]
+    [ a r:Fact; r:gives {(332 15) math:sum 347}]
+    [ a r:Fact; r:gives {(347 30) math:remainder 17}]
+    [ a r:Fact; r:gives {(31 4) math:integerQuotient 7}]
+    [ a r:Fact; r:gives {(31 4) math:remainder 3}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 7) math:product 14}]
+    [ a r:Fact; r:gives {17 math:negation -17}]
+    [ a r:Fact; r:gives {3 math:negation -3}]
+    [ a r:Fact; r:gives {(32 0 14 -17 -3) math:sum 26}]
+    [ a r:Fact; r:gives {(26 7) math:remainder 5}]
+    [ a r:Fact; r:gives {(11 17) math:product 187}]
+    [ a r:Fact; r:gives {(22 5) math:product 110}]
+    [ a r:Fact; r:gives {(17 187 110) math:sum 314}]
+    [ a r:Fact; r:gives {(314 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(17 5 0 114) math:sum 136}]
+    [ a r:Fact; r:gives {(136 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(136 31) math:remainder 12}]
+    [ a r:Fact; r:gives {(12 1) math:sum 13}]
+    [ a r:Fact; r:gives {"date(2031,4,13)=..[date,2031,4,13]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2031,4,13),1933797600.0)"}]
+    [ a r:Fact; r:gives {("2031-04-13+02:00" xsd:date) log:dtlit 1933797600.0}]
+    [ a r:Fact; r:gives {("2031-04-13+02:00" xsd:date) log:dtlit "2031-04-13+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2031];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 31];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 323];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 343];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 338];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 332];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 347];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 26];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 187];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 314];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 136];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2031,4,13)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1933797600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2031-04-13+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2031-04-13+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:rule <#lemma55>.
+
+<#lemma45> a r:Inference;
+  r:gives {
+    _:sk_17 :easter "2032-03-28+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma72>
+    [ a r:Fact; r:gives {(2032 19) math:remainder 18}]
+    [ a r:Fact; r:gives {(2032 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2032 100) math:remainder 32}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 18) math:product 342}]
+    [ a r:Fact; r:gives {(342 20) math:sum 362}]
+    [ a r:Fact; r:gives {(362 5) math:difference 357}]
+    [ a r:Fact; r:gives {(357 6) math:difference 351}]
+    [ a r:Fact; r:gives {(351 15) math:sum 366}]
+    [ a r:Fact; r:gives {(366 30) math:remainder 6}]
+    [ a r:Fact; r:gives {(32 4) math:integerQuotient 8}]
+    [ a r:Fact; r:gives {(32 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 8) math:product 16}]
+    [ a r:Fact; r:gives {6 math:negation -6}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(32 0 16 -6 0) math:sum 42}]
+    [ a r:Fact; r:gives {(42 7) math:remainder 0}]
+    [ a r:Fact; r:gives {(11 6) math:product 66}]
+    [ a r:Fact; r:gives {(22 0) math:product 0}]
+    [ a r:Fact; r:gives {(18 66 0) math:sum 84}]
+    [ a r:Fact; r:gives {(84 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(6 0 0 114) math:sum 120}]
+    [ a r:Fact; r:gives {(120 31) math:integerQuotient 3}]
+    [ a r:Fact; r:gives {(120 31) math:remainder 27}]
+    [ a r:Fact; r:gives {(27 1) math:sum 28}]
+    [ a r:Fact; r:gives {"date(2032,3,28)=..[date,2032,3,28]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2032,3,28),1964041200.0)"}]
+    [ a r:Fact; r:gives {("2032-03-28+01:00" xsd:date) log:dtlit 1964041200.0}]
+    [ a r:Fact; r:gives {("2032-03-28+01:00" xsd:date) log:dtlit "2032-03-28+01:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2032];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 32];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 342];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 362];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 357];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 351];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 366];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 42];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 66];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 84];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 120];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 27];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2032,3,28)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1964041200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2032-03-28+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2032-03-28+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:rule <#lemma55>.
+
+<#lemma46> a r:Inference;
+  r:gives {
+    _:sk_18 :easter "2033-04-17+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma73>
+    [ a r:Fact; r:gives {(2033 19) math:remainder 0}]
+    [ a r:Fact; r:gives {(2033 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2033 100) math:remainder 33}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 0) math:product 0}]
+    [ a r:Fact; r:gives {(0 20) math:sum 20}]
+    [ a r:Fact; r:gives {(20 5) math:difference 15}]
+    [ a r:Fact; r:gives {(15 6) math:difference 9}]
+    [ a r:Fact; r:gives {(9 15) math:sum 24}]
+    [ a r:Fact; r:gives {(24 30) math:remainder 24}]
+    [ a r:Fact; r:gives {(33 4) math:integerQuotient 8}]
+    [ a r:Fact; r:gives {(33 4) math:remainder 1}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 8) math:product 16}]
+    [ a r:Fact; r:gives {24 math:negation -24}]
+    [ a r:Fact; r:gives {1 math:negation -1}]
+    [ a r:Fact; r:gives {(32 0 16 -24 -1) math:sum 23}]
+    [ a r:Fact; r:gives {(23 7) math:remainder 2}]
+    [ a r:Fact; r:gives {(11 24) math:product 264}]
+    [ a r:Fact; r:gives {(22 2) math:product 44}]
+    [ a r:Fact; r:gives {(0 264 44) math:sum 308}]
+    [ a r:Fact; r:gives {(308 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(24 2 0 114) math:sum 140}]
+    [ a r:Fact; r:gives {(140 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(140 31) math:remainder 16}]
+    [ a r:Fact; r:gives {(16 1) math:sum 17}]
+    [ a r:Fact; r:gives {"date(2033,4,17)=..[date,2033,4,17]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2033,4,17),1997301600.0)"}]
+    [ a r:Fact; r:gives {("2033-04-17+02:00" xsd:date) log:dtlit 1997301600.0}]
+    [ a r:Fact; r:gives {("2033-04-17+02:00" xsd:date) log:dtlit "2033-04-17+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2033];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 33];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 23];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 264];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 44];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 308];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 140];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 17];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2033,4,17)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 1997301600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2033-04-17+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2033-04-17+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:rule <#lemma55>.
+
+<#lemma47> a r:Inference;
+  r:gives {
+    _:sk_19 :easter "2034-04-09+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma74>
+    [ a r:Fact; r:gives {(2034 19) math:remainder 1}]
+    [ a r:Fact; r:gives {(2034 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2034 100) math:remainder 34}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 1) math:product 19}]
+    [ a r:Fact; r:gives {(19 20) math:sum 39}]
+    [ a r:Fact; r:gives {(39 5) math:difference 34}]
+    [ a r:Fact; r:gives {(34 6) math:difference 28}]
+    [ a r:Fact; r:gives {(28 15) math:sum 43}]
+    [ a r:Fact; r:gives {(43 30) math:remainder 13}]
+    [ a r:Fact; r:gives {(34 4) math:integerQuotient 8}]
+    [ a r:Fact; r:gives {(34 4) math:remainder 2}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 8) math:product 16}]
+    [ a r:Fact; r:gives {13 math:negation -13}]
+    [ a r:Fact; r:gives {2 math:negation -2}]
+    [ a r:Fact; r:gives {(32 0 16 -13 -2) math:sum 33}]
+    [ a r:Fact; r:gives {(33 7) math:remainder 5}]
+    [ a r:Fact; r:gives {(11 13) math:product 143}]
+    [ a r:Fact; r:gives {(22 5) math:product 110}]
+    [ a r:Fact; r:gives {(1 143 110) math:sum 254}]
+    [ a r:Fact; r:gives {(254 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(13 5 0 114) math:sum 132}]
+    [ a r:Fact; r:gives {(132 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(132 31) math:remainder 8}]
+    [ a r:Fact; r:gives {(8 1) math:sum 9}]
+    [ a r:Fact; r:gives {"date(2034,4,9)=..[date,2034,4,9]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2034,4,9),2028146400.0)"}]
+    [ a r:Fact; r:gives {("2034-04-09+02:00" xsd:date) log:dtlit 2028146400.0}]
+    [ a r:Fact; r:gives {("2034-04-09+02:00" xsd:date) log:dtlit "2034-04-09+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2034];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 34];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 39];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 34];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 43];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 33];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 143];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 254];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 132];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2034,4,9)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2028146400.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2034-04-09+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2034-04-09+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:rule <#lemma55>.
+
+<#lemma48> a r:Inference;
+  r:gives {
+    _:sk_20 :easter "2035-03-25+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma75>
+    [ a r:Fact; r:gives {(2035 19) math:remainder 2}]
+    [ a r:Fact; r:gives {(2035 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2035 100) math:remainder 35}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 2) math:product 38}]
+    [ a r:Fact; r:gives {(38 20) math:sum 58}]
+    [ a r:Fact; r:gives {(58 5) math:difference 53}]
+    [ a r:Fact; r:gives {(53 6) math:difference 47}]
+    [ a r:Fact; r:gives {(47 15) math:sum 62}]
+    [ a r:Fact; r:gives {(62 30) math:remainder 2}]
+    [ a r:Fact; r:gives {(35 4) math:integerQuotient 8}]
+    [ a r:Fact; r:gives {(35 4) math:remainder 3}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 8) math:product 16}]
+    [ a r:Fact; r:gives {2 math:negation -2}]
+    [ a r:Fact; r:gives {3 math:negation -3}]
+    [ a r:Fact; r:gives {(32 0 16 -2 -3) math:sum 43}]
+    [ a r:Fact; r:gives {(43 7) math:remainder 1}]
+    [ a r:Fact; r:gives {(11 2) math:product 22}]
+    [ a r:Fact; r:gives {(22 1) math:product 22}]
+    [ a r:Fact; r:gives {(2 22 22) math:sum 46}]
+    [ a r:Fact; r:gives {(46 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(2 1 0 114) math:sum 117}]
+    [ a r:Fact; r:gives {(117 31) math:integerQuotient 3}]
+    [ a r:Fact; r:gives {(117 31) math:remainder 24}]
+    [ a r:Fact; r:gives {(24 1) math:sum 25}]
+    [ a r:Fact; r:gives {"date(2035,3,25)=..[date,2035,3,25]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2035,3,25),2058390000.0)"}]
+    [ a r:Fact; r:gives {("2035-03-25+01:00" xsd:date) log:dtlit 2058390000.0}]
+    [ a r:Fact; r:gives {("2035-03-25+01:00" xsd:date) log:dtlit "2035-03-25+01:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2035];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 35];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 38];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 58];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 53];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 47];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 62];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 16];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 43];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 22];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 22];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 46];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 25];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2035,3,25)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2058390000.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2035-03-25+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2035-03-25+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:rule <#lemma55>.
+
+<#lemma49> a r:Inference;
+  r:gives {
+    _:sk_21 :easter "2036-04-13+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma76>
+    [ a r:Fact; r:gives {(2036 19) math:remainder 3}]
+    [ a r:Fact; r:gives {(2036 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2036 100) math:remainder 36}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 3) math:product 57}]
+    [ a r:Fact; r:gives {(57 20) math:sum 77}]
+    [ a r:Fact; r:gives {(77 5) math:difference 72}]
+    [ a r:Fact; r:gives {(72 6) math:difference 66}]
+    [ a r:Fact; r:gives {(66 15) math:sum 81}]
+    [ a r:Fact; r:gives {(81 30) math:remainder 21}]
+    [ a r:Fact; r:gives {(36 4) math:integerQuotient 9}]
+    [ a r:Fact; r:gives {(36 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 9) math:product 18}]
+    [ a r:Fact; r:gives {21 math:negation -21}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(32 0 18 -21 0) math:sum 29}]
+    [ a r:Fact; r:gives {(29 7) math:remainder 1}]
+    [ a r:Fact; r:gives {(11 21) math:product 231}]
+    [ a r:Fact; r:gives {(22 1) math:product 22}]
+    [ a r:Fact; r:gives {(3 231 22) math:sum 256}]
+    [ a r:Fact; r:gives {(256 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(21 1 0 114) math:sum 136}]
+    [ a r:Fact; r:gives {(136 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(136 31) math:remainder 12}]
+    [ a r:Fact; r:gives {(12 1) math:sum 13}]
+    [ a r:Fact; r:gives {"date(2036,4,13)=..[date,2036,4,13]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2036,4,13),2091650400.0)"}]
+    [ a r:Fact; r:gives {("2036-04-13+02:00" xsd:date) log:dtlit 2091650400.0}]
+    [ a r:Fact; r:gives {("2036-04-13+02:00" xsd:date) log:dtlit "2036-04-13+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2036];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 36];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 57];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 77];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 72];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 66];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 81];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 21];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -21];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 29];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 231];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 22];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 256];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 136];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 13];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2036,4,13)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2091650400.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2036-04-13+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2036-04-13+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:rule <#lemma55>.
+
+<#lemma50> a r:Inference;
+  r:gives {
+    _:sk_22 :easter "2037-04-05+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma77>
+    [ a r:Fact; r:gives {(2037 19) math:remainder 4}]
+    [ a r:Fact; r:gives {(2037 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2037 100) math:remainder 37}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 4) math:product 76}]
+    [ a r:Fact; r:gives {(76 20) math:sum 96}]
+    [ a r:Fact; r:gives {(96 5) math:difference 91}]
+    [ a r:Fact; r:gives {(91 6) math:difference 85}]
+    [ a r:Fact; r:gives {(85 15) math:sum 100}]
+    [ a r:Fact; r:gives {(100 30) math:remainder 10}]
+    [ a r:Fact; r:gives {(37 4) math:integerQuotient 9}]
+    [ a r:Fact; r:gives {(37 4) math:remainder 1}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 9) math:product 18}]
+    [ a r:Fact; r:gives {10 math:negation -10}]
+    [ a r:Fact; r:gives {1 math:negation -1}]
+    [ a r:Fact; r:gives {(32 0 18 -10 -1) math:sum 39}]
+    [ a r:Fact; r:gives {(39 7) math:remainder 4}]
+    [ a r:Fact; r:gives {(11 10) math:product 110}]
+    [ a r:Fact; r:gives {(22 4) math:product 88}]
+    [ a r:Fact; r:gives {(4 110 88) math:sum 202}]
+    [ a r:Fact; r:gives {(202 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(10 4 0 114) math:sum 128}]
+    [ a r:Fact; r:gives {(128 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(128 31) math:remainder 4}]
+    [ a r:Fact; r:gives {(4 1) math:sum 5}]
+    [ a r:Fact; r:gives {"date(2037,4,5)=..[date,2037,4,5]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2037,4,5),2122495200.0)"}]
+    [ a r:Fact; r:gives {("2037-04-05+02:00" xsd:date) log:dtlit 2122495200.0}]
+    [ a r:Fact; r:gives {("2037-04-05+02:00" xsd:date) log:dtlit "2037-04-05+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2037];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 37];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 76];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 96];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 91];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 85];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 100];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 39];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 88];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 202];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 128];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2037,4,5)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2122495200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2037-04-05+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2037-04-05+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:rule <#lemma55>.
+
+<#lemma51> a r:Inference;
+  r:gives {
+    _:sk_23 :easter "2038-04-25+02:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma78>
+    [ a r:Fact; r:gives {(2038 19) math:remainder 5}]
+    [ a r:Fact; r:gives {(2038 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2038 100) math:remainder 38}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 5) math:product 95}]
+    [ a r:Fact; r:gives {(95 20) math:sum 115}]
+    [ a r:Fact; r:gives {(115 5) math:difference 110}]
+    [ a r:Fact; r:gives {(110 6) math:difference 104}]
+    [ a r:Fact; r:gives {(104 15) math:sum 119}]
+    [ a r:Fact; r:gives {(119 30) math:remainder 29}]
+    [ a r:Fact; r:gives {(38 4) math:integerQuotient 9}]
+    [ a r:Fact; r:gives {(38 4) math:remainder 2}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 9) math:product 18}]
+    [ a r:Fact; r:gives {29 math:negation -29}]
+    [ a r:Fact; r:gives {2 math:negation -2}]
+    [ a r:Fact; r:gives {(32 0 18 -29 -2) math:sum 19}]
+    [ a r:Fact; r:gives {(19 7) math:remainder 5}]
+    [ a r:Fact; r:gives {(11 29) math:product 319}]
+    [ a r:Fact; r:gives {(22 5) math:product 110}]
+    [ a r:Fact; r:gives {(5 319 110) math:sum 434}]
+    [ a r:Fact; r:gives {(434 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(29 5 0 114) math:sum 148}]
+    [ a r:Fact; r:gives {(148 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(148 31) math:remainder 24}]
+    [ a r:Fact; r:gives {(24 1) math:sum 25}]
+    [ a r:Fact; r:gives {"date(2038,4,25)=..[date,2038,4,25]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2038,4,25),2155759200.0)"}]
+    [ a r:Fact; r:gives {("2038-04-25+02:00" xsd:date) log:dtlit 2155759200.0}]
+    [ a r:Fact; r:gives {("2038-04-25+02:00" xsd:date) log:dtlit "2038-04-25+02:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2038];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 38];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 95];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 115];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 104];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 119];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 29];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -29];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 319];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 434];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 148];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 25];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2038,4,25)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2155759200.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2038-04-25+02:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2038-04-25+02:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:rule <#lemma55>.
+
+<#lemma52> a r:Inference;
+  r:gives {
+    _:sk_24 :easter "2039-04-10+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma79>
+    [ a r:Fact; r:gives {(2039 19) math:remainder 6}]
+    [ a r:Fact; r:gives {(2039 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2039 100) math:remainder 39}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 6) math:product 114}]
+    [ a r:Fact; r:gives {(114 20) math:sum 134}]
+    [ a r:Fact; r:gives {(134 5) math:difference 129}]
+    [ a r:Fact; r:gives {(129 6) math:difference 123}]
+    [ a r:Fact; r:gives {(123 15) math:sum 138}]
+    [ a r:Fact; r:gives {(138 30) math:remainder 18}]
+    [ a r:Fact; r:gives {(39 4) math:integerQuotient 9}]
+    [ a r:Fact; r:gives {(39 4) math:remainder 3}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 9) math:product 18}]
+    [ a r:Fact; r:gives {18 math:negation -18}]
+    [ a r:Fact; r:gives {3 math:negation -3}]
+    [ a r:Fact; r:gives {(32 0 18 -18 -3) math:sum 29}]
+    [ a r:Fact; r:gives {(29 7) math:remainder 1}]
+    [ a r:Fact; r:gives {(11 18) math:product 198}]
+    [ a r:Fact; r:gives {(22 1) math:product 22}]
+    [ a r:Fact; r:gives {(6 198 22) math:sum 226}]
+    [ a r:Fact; r:gives {(226 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(18 1 0 114) math:sum 133}]
+    [ a r:Fact; r:gives {(133 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(133 31) math:remainder 9}]
+    [ a r:Fact; r:gives {(9 1) math:sum 10}]
+    [ a r:Fact; r:gives {"date(2039,4,10)=..[date,2039,4,10]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2039,4,10),2186002800.0)"}]
+    [ a r:Fact; r:gives {("2039-04-10+01:00" xsd:date) log:dtlit 2186002800.0}]
+    [ a r:Fact; r:gives {("2039-04-10+01:00" xsd:date) log:dtlit "2039-04-10+01:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2039];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 39];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 114];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 134];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 129];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 123];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 138];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo -3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 29];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 198];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 22];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 226];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 133];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2039,4,10)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2186002800.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2039-04-10+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2039-04-10+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:rule <#lemma55>.
+
+<#lemma53> a r:Inference;
+  r:gives {
+    _:sk_25 :easter "2040-04-01+01:00"^^xsd:date.
+  };
+  r:evidence (
+    <#lemma80>
+    [ a r:Fact; r:gives {(2040 19) math:remainder 7}]
+    [ a r:Fact; r:gives {(2040 100) math:integerQuotient 20}]
+    [ a r:Fact; r:gives {(2040 100) math:remainder 40}]
+    [ a r:Fact; r:gives {(20 4) math:integerQuotient 5}]
+    [ a r:Fact; r:gives {(20 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(20 8) math:sum 28}]
+    [ a r:Fact; r:gives {(28 25) math:integerQuotient 1}]
+    [ a r:Fact; r:gives {(20 1) math:difference 19}]
+    [ a r:Fact; r:gives {(19 1) math:sum 20}]
+    [ a r:Fact; r:gives {(20 3) math:integerQuotient 6}]
+    [ a r:Fact; r:gives {(19 7) math:product 133}]
+    [ a r:Fact; r:gives {(133 20) math:sum 153}]
+    [ a r:Fact; r:gives {(153 5) math:difference 148}]
+    [ a r:Fact; r:gives {(148 6) math:difference 142}]
+    [ a r:Fact; r:gives {(142 15) math:sum 157}]
+    [ a r:Fact; r:gives {(157 30) math:remainder 7}]
+    [ a r:Fact; r:gives {(40 4) math:integerQuotient 10}]
+    [ a r:Fact; r:gives {(40 4) math:remainder 0}]
+    [ a r:Fact; r:gives {(2 0) math:product 0}]
+    [ a r:Fact; r:gives {(2 10) math:product 20}]
+    [ a r:Fact; r:gives {7 math:negation -7}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(32 0 20 -7 0) math:sum 45}]
+    [ a r:Fact; r:gives {(45 7) math:remainder 3}]
+    [ a r:Fact; r:gives {(11 7) math:product 77}]
+    [ a r:Fact; r:gives {(22 3) math:product 66}]
+    [ a r:Fact; r:gives {(7 77 66) math:sum 150}]
+    [ a r:Fact; r:gives {(150 451) math:integerQuotient 0}]
+    [ a r:Fact; r:gives {(7 0) math:product 0}]
+    [ a r:Fact; r:gives {0 math:negation 0}]
+    [ a r:Fact; r:gives {(7 3 0 114) math:sum 124}]
+    [ a r:Fact; r:gives {(124 31) math:integerQuotient 4}]
+    [ a r:Fact; r:gives {(124 31) math:remainder 0}]
+    [ a r:Fact; r:gives {(0 1) math:sum 1}]
+    [ a r:Fact; r:gives {"date(2040,4,1)=..[date,2040,4,1]"}]
+    [ a r:Fact; r:gives {"date_time_stamp(date(2040,4,1),2216847600.0)"}]
+    [ a r:Fact; r:gives {("2040-04-01+01:00" xsd:date) log:dtlit 2216847600.0}]
+    [ a r:Fact; r:gives {("2040-04-01+01:00" xsd:date) log:dtlit "2040-04-01+01:00"^^xsd:date}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2040];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 28];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 19];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 133];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 153];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 148];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 142];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 157];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo -7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 45];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 77];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 66];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo 150];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 124];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo "date(2040,4,1)"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo 2216847600.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo "2040-04-01+01:00"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo "2040-04-01+01:00"^^xsd:date];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:rule <#lemma55>.
+
+<#lemma54> a r:Extraction;
   r:gives {
     2015 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma35> a r:Extraction;
+<#lemma55> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {var:x_0 a :Year.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34, var:x_35, var:x_36, var:x_37, var:x_38. @forSome var:x_39. {var:x_0 a :Year.
      (var:x_0 19) math:remainder var:x_1.
      (var:x_0 100) math:integerQuotient var:x_2.
      (var:x_0 100) math:remainder var:x_3.
@@ -1516,100 +2664,164 @@
      (var:x_16 var:x_24 var:x_30 114) math:sum var:x_31.
      (var:x_31 31) math:integerQuotient var:x_32.
      (var:x_31 31) math:remainder var:x_33.
-     (var:x_33 1) math:sum var:x_34} => {(var:x_34 var:x_32) :easterFor var:x_0}.
+     (var:x_33 1) math:sum var:x_34.
+     "avar35=..[date,avar0,avar32,avar34]".
+     "date_time_stamp(avar35,avar36)".
+     (var:x_37 xsd:date) log:dtlit var:x_36.
+     (var:x_37 xsd:date) log:dtlit var:x_38} => {var:x_39 :easter var:x_38}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma36> a r:Extraction;
+<#lemma56> a r:Extraction;
   r:gives {
     2016 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma37> a r:Extraction;
+<#lemma57> a r:Extraction;
   r:gives {
     2017 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma38> a r:Extraction;
+<#lemma58> a r:Extraction;
   r:gives {
     2018 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma39> a r:Extraction;
+<#lemma59> a r:Extraction;
   r:gives {
     2019 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma40> a r:Extraction;
+<#lemma60> a r:Extraction;
   r:gives {
     2020 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma41> a r:Extraction;
+<#lemma61> a r:Extraction;
   r:gives {
     2021 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma42> a r:Extraction;
+<#lemma62> a r:Extraction;
   r:gives {
     2022 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma43> a r:Extraction;
+<#lemma63> a r:Extraction;
   r:gives {
     2023 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma44> a r:Extraction;
+<#lemma64> a r:Extraction;
   r:gives {
     2024 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma45> a r:Extraction;
+<#lemma65> a r:Extraction;
   r:gives {
     2025 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma46> a r:Extraction;
+<#lemma66> a r:Extraction;
   r:gives {
     2026 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma47> a r:Extraction;
+<#lemma67> a r:Extraction;
   r:gives {
     2027 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma48> a r:Extraction;
+<#lemma68> a r:Extraction;
   r:gives {
     2028 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma49> a r:Extraction;
+<#lemma69> a r:Extraction;
   r:gives {
     2029 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-<#lemma50> a r:Extraction;
+<#lemma70> a r:Extraction;
   r:gives {
     2030 a :Year.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
 
-#2020-03-04T22:10:02.843Z in=19 out=16 ent=32 step=64 brake=2 inf=298417 sec=0.215 inf/sec=1387986
+<#lemma71> a r:Extraction;
+  r:gives {
+    2031 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma72> a r:Extraction;
+  r:gives {
+    2032 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma73> a r:Extraction;
+  r:gives {
+    2033 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma74> a r:Extraction;
+  r:gives {
+    2034 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma75> a r:Extraction;
+  r:gives {
+    2035 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma76> a r:Extraction;
+  r:gives {
+    2036 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma77> a r:Extraction;
+  r:gives {
+    2037 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma78> a r:Extraction;
+  r:gives {
+    2038 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma79> a r:Extraction;
+  r:gives {
+    2039 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+<#lemma80> a r:Extraction;
+  r:gives {
+    2040 a :Year.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/easter/easterP.n3>].
+
+#2020-03-04T22:43:28.033Z in=29 out=26 ent=52 step=104 brake=2 inf=521250 sec=0.312 inf/sec=1670673
 #ENDS
 
