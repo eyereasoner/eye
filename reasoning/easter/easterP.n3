@@ -1,7 +1,11 @@
 # original copy at http://www.w3.org/2000/10/swap/test/easter/easter.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix prolog: <http://eulersharp.sourceforge.net/2003/03swap/prolog#>.
 @prefix : <http://www.agfa.com/w3c/euler/easterP#>.
 
 <> rdfs:comment """
@@ -38,6 +42,16 @@ month upon which Easter Sunday falls in the year y.
 2028 a :Year.
 2029 a :Year.
 2030 a :Year.
+2031 a :Year.
+2032 a :Year.
+2033 a :Year.
+2034 a :Year.
+2035 a :Year.
+2036 a :Year.
+2037 a :Year.
+2038 a :Year.
+2039 a :Year.
+2040 a :Year.
 
 {   ?Y a :Year.
     (?Y 19) math:remainder ?J.
@@ -51,6 +65,8 @@ month upon which Easter Sunday falls in the year y.
     ((?J (11 ?R)!math:product (22 ?V)!math:product)!math:sum 451) math:integerQuotient ?W.
     ((?R ?V (7 ?W)!math:product!math:negation 114)!math:sum 31) math:integerQuotient ?X; math:remainder ?Z.
     (?Z 1) math:sum ?DAY.
+    (("date"^^prolog:atom ?Y ?X ?DAY)^prolog:univ ?T) prolog:date_time_stamp true.
+    (?LV xsd:date) log:dtlit ?T, ?E.
 } => {
-    (?DAY ?X) :easterFor ?Y.
+    [] :easter ?E.
 }.
