@@ -1,17 +1,9 @@
-#!/usr/bin/python3
+# ------------------------------------------------------
+# Seeing With Another eye in Python - SWAP -- Jos De Roo
+# ------------------------------------------------------
 #
-# EYE python script
+# See https://github.com/josd/eye/blob/master/swap/README.md
 #
-# N3 proof engine inspired by http://www.ibiblio.org/obp/py4fun/prolog/prolog3.py
-# and is with depth first search and euler path anti-looping detection.
-# Thanks to Tim Berners-Lee and Dan Connolly for inventing N3 and for creating N3
-# running code.
-#
-# Usage: python3 eye.py [--why] [--once] [--debug] triples
-# Test:  python3 eye.py --why http://josd.github.io/eye/scripting/tree.n3
-#
-# Remark that the N3 that is actually understood is very limited:
-# qnames, () lists, facts and => rules on a single line and not yet [] ; , ^ ! ^^ @
 
 import copy, math, string, sys, time, urllib.request, urllib.error, urllib.parse
 
@@ -416,12 +408,13 @@ def load(path, rules, goals, np):
         s = s.strip()
         if s == '': continue
         elif s[0] == '#': continue
-        elif s.find('PREFIX') != -1:
+        elif s.find('@prefix') != -1:
             t = tokenize(s, ' ')
-            if np.get(t[1]) and np[t[1]] != t[2]:
-                sys.stderr.write('#FAIL PREFIX %s %s\n'%(t[1], t[2]))
+            u = t[2].strip('.')
+            if np.get(t[1]) and np[t[1]] != u:
+                sys.stderr.write('#FAIL @prefix %s %s.\n'%(t[1], u))
                 break
-            else: np[t[1]] = t[2]
+            else: np[t[1]] = u
         elif s.find('=> []') != -1:
             goals.append(Rule(s.strip('.')))
         else:
@@ -468,7 +461,7 @@ def run(args):
         if debug: print('step %s %s %s' % (step[0], rule, env))
 
     for pfx, i in np.items():
-        print("PREFIX %s %s" % (pfx, i))
+        print("@prefix %s %s." % (pfx, i))
     print()
     for g in goals:
         print(prove(g, rules, why, once, count))
