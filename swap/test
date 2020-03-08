@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function test {
+    python3 eye.py http://josd.github.io/eye/swap/bell.n3
+    python3 eye.py http://josd.github.io/eye/swap/easter.n3
+    python3 eye.py http://josd.github.io/eye/swap/einstein.n3
+    python3 eye.py http://josd.github.io/eye/swap/euler.n3
+    python3 eye.py http://josd.github.io/eye/swap/fibonacci.n3
+    python3 eye.py http://josd.github.io/eye/swap/graph.n3
+    python3 eye.py http://josd.github.io/eye/swap/grapht.n3
+    python3 eye.py http://josd.github.io/eye/swap/grover.n3
+    python3 eye.py http://josd.github.io/eye/swap/list.n3
+    python3 eye.py http://josd.github.io/eye/swap/socrates.n3
+    python3 eye.py http://josd.github.io/eye/swap/tree.n3
+    python3 eye.py http://josd.github.io/eye/swap/xanthippe.n3
+    python3 eye.py http://www.agfa.com/w3c/euler/example003P.n3
+    python3 eye.py http://www.agfa.com/w3c/euler/medI.n3
+}
+
+test "$@" |& tee test.txt
