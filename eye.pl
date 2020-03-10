@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0227.1323 josd').
+version_info('EYE v20.0310.2137 josd').
 
 license_info('MIT License
 
@@ -5219,6 +5219,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   intersect(A, M),
+            ground(A),
             unify(M, B)
         )
     ).
@@ -9099,7 +9100,6 @@ intersect([], _, []) :-
 intersect([X|Y], U, V) :-
     member(Z, U),
     unify(X, Z),
-    !,
     V = [X|W],
     intersect(Y, U, W).
 intersect([_|Y], U, V) :-
