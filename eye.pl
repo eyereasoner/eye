@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0310.2137 josd').
+version_info('EYE v20.0313.1435 josd').
 
 license_info('MIT License
 
@@ -5219,7 +5219,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   intersect(A, M),
-            ground(A),
+            M \= true,
             unify(M, B)
         )
     ).
