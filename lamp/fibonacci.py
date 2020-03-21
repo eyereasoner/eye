@@ -8,6 +8,6 @@ def fibonacci(n, c = {0:1, 1:1}):
 
 if __name__ == "__main__":
     print("# main of fibonacci.py")
-    for i in [0, 91, 283, 3674]:
+    for i in [0, 91, 283, 3674, 1000000]:
         print("fibonacci_%d = %d" % (i, fibonacci(i)))
     print("")
