@@ -16,6 +16,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
 * markov networks (see mmln)
 * workflow composers (see gps, map, resto, restpath)
 * control systems (see cs)
+* evolutionary algorithms (see ea)
 * quantum computation (see dqc)
 * mathematical computation (see 4eq, equation4, fib, lldm, pi, tak)
 * logic puzzles (see 4color, dp, einstein, graph, hanoi, witch)
