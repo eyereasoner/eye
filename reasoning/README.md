@@ -1,5 +1,7 @@
 # EYE reasoning
 
+### Formalizing, Linking, Unifying and Inferring Data -- FLUID
+
 ### Architecture and design
 
 The Semantic Web Databus and Proofbus from [Tim Berners-Lee](http://www.w3.org/People/Berners-Lee/) which is  
@@ -11,10 +13,10 @@ like a world wide welding machine transforming data into pragmatic proofs:
  
 * neural networks (see fcm, fgcm)
 * bayesian networks (see c2d, nbbn, swet)
-* markov logic networks (see mmln)
-* plan/workflow composers (see gps, map, resto, restpath)
+* markov networks (see mmln)
+* workflow composers (see gps, map, resto, restpath)
 * control systems (see cs)
 * quantum computation (see dqc)
-* mathematical computation (see equation4, fib, lldm, pi, tak)
+* mathematical computation (see 4eq, equation4, fib, lldm, pi, tak)
 * logic puzzles (see 4color, dp, einstein, graph, hanoi, witch)
 * etc...
