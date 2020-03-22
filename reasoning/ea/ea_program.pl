@@ -2,59 +2,33 @@
 
 :- use_module(library(random)).
 
-'<http://josd.github.io/eye/reasoning/ea#solve>'(Target, true) :-
-    atom_codes(Target, C),
-    length(C, Len),
-    rndTxt(Len, Start),         % Start is the initial text
-    Chance is 1-(1/(Len+1)),    % Chance is the probability for a mutation
-    ea(0, Chance, C, Start).
+'<http://josd.github.io/eye/reasoning/ea#solve>'(TargetAtom, true) :-
+    atom_codes(TargetAtom, Target),
+    length(Target, Len),
+    random_text(Len, Start),        % Start is the initial text
+    Chance is 1-(1/(Len+1)),        % Chance is the probability for a mutation
+    evolve(Chance, Target, Start).
 
-rndAlpha(64, 32).               % Generate a single random character
-rndAlpha(P, P).                 % 32 is a space, and 65->90 are upper case
+random_text(0, []).                 % generate some random text (fixed length)
+random_text(Len, [H|T]) :-
+    succ(L, Len),
+    random_alpha(H),
+    random_text(L, T).
 
-rndAlpha(Ch) :-
+random_alpha(Ch) :-                 % generate a single random character
     random(N),
     P is truncate(64+(N*27)),
-    !,
-    rndAlpha(P, Ch).
+    random_alpha(P, Ch).
 
-rndTxt(0, []).                  % Generate some random text (fixed length)
-rndTxt(Len, [H|T]) :-
-    succ(L, Len),
-    rndAlpha(H),
-    !,
-    rndTxt(L, T).
+random_alpha(64, 32).
+random_alpha(P, P).
 
-score([], [], Score, Score).   % Score a generated mutation (count diffs)
-score([Ht|Tt], [Ht|Tp], C, Score) :-
+evolve(_, _, mutation(0, Result)).
+evolve(Chance, Target, mutation(S, Value)) :-
     !,
-    score(Tt, Tp, C, Score).
-score([_|Tt], [_|Tp], C, Score) :-
-    succ(C, N),
-    !,
-    score(Tt, Tp, N, Score).
-
-score(Txt, Score, Target) :-
-    !,
-    score(Target, Txt, 0, Score).
-
-mutate(_, [], []).              % mutate(Probability, Input, Output)
-mutate(P, [H|Txt], [H|Mut]) :-
-    random(R),
-    R < P,
-    !,
-    mutate(P, Txt, Mut).
-mutate(P, [_|Txt], [M|Mut]) :-
-    rndAlpha(M),
-    !,
-    mutate(P, Txt, Mut).
-
-ea(Tries, _, _, mutation(0, Result)).
-ea(Tries, Chance, Target, mutation(S, Value)) :-
-    !,
-    ea(Tries, Chance, Target, Value).
-ea(Tries, Chance, Target, Start) :-
-    findall(mutation(S, M),     % Generate 30 mutations, select the best.
+    evolve(Chance, Target, Value).
+evolve(Chance, Target, Start) :-
+    findall(mutation(S, M),         % generate 30 mutations, select the best
         (   between(1, 30, _),
             mutate(Chance, Start, M),
             score(M, S, Target)
@@ -62,6 +36,25 @@ ea(Tries, Chance, Target, Start) :-
         Mutations
     ),
     sort(Mutations, [Best|_]),
-    succ(Tries, N),
+    evolve(Chance, Target, Best).
+
+mutate(_, [], []).                  % mutate(Probability, Input, Output)
+mutate(P, [H|Txt], [H|Mut]) :-
+    random(R),
+    R < P,
     !,
-    ea(N, Chance, Target, Best).
+    mutate(P, Txt, Mut).
+mutate(P, [_|Txt], [M|Mut]) :-
+    random_alpha(M),
+    mutate(P, Txt, Mut).
+
+score(Txt, Score, Target) :-
+    score(Target, Txt, 0, Score).
+
+score([], [], Score, Score).        % score a generated mutation (count diffs)
+score([Ht|Tt], [Ht|Tp], C, Score) :-
+    !,
+    score(Tt, Tp, C, Score).
+score([_|Tt], [_|Tp], C, Score) :-
+    succ(C, N),
+    score(Tt, Tp, N, Score).
