@@ -1,13 +1,10 @@
 % Original code from https://rosettacode.org/wiki/Evolutionary_algorithm#Prolog
 
-:- use_module(library(random)).
-
 '<http://josd.github.io/eye/reasoning/ea#solve>'(TargetAtom, true) :-
     atom_codes(TargetAtom, Target),
     length(Target, Len),
-    random_text(Len, Start),        % Start is the initial text
-    Chance is 1-(1/(Len+1)),        % Chance is the probability for a mutation
-    evolve(Chance, Target, Start).
+    random_text(Len, Start),
+    evolve(0, 5, Target, Start).    % evolution 0 and 5% probability for a mutation
 
 random_text(0, []).                 % generate some random text (fixed length)
 random_text(Len, [H|T]) :-
@@ -16,37 +13,43 @@ random_text(Len, [H|T]) :-
     random_text(L, T).
 
 random_alpha(Ch) :-                 % generate a single random character
-    random(N),
-    P is truncate(64+(N*27)),
-    random_alpha(P, Ch).
+    P is random(27),
+    (   P = 0
+    ->  Ch is 32
+    ;   Ch is P+64
+    ).
 
-random_alpha(64, 32).
-random_alpha(P, P).
-
-evolve(_, _, mutation(0, Result)).
-evolve(Chance, Target, mutation(S, Value)) :-
-    !,
-    evolve(Chance, Target, Value).
-evolve(Chance, Target, Start) :-
-    findall(mutation(S, M),         % generate 30 mutations, select the best
-        (   between(1, 30, _),
-            mutate(Chance, Start, M),
-            score(M, S, Target)
+evolve(Evolution, Probability, Target, mutation(Score, Value)) :-
+    (   flag(debug)
+    ->  atom_codes(Val, Value),
+        format('evolution=~w score=~w value=~w~n', [Evolution, Score, Val])
+    ;   true
+    ),
+    (   Score = 0
+    ->  true
+    ;   evolve(Evolution, Probability, Target, Value)
+    ).
+evolve(Evolution, Probability, Target, Start) :-
+    findall(mutation(Score, M),     % generate 80 mutations, select the best
+        (   between(1, 80, _),
+            mutate(Probability, Start, M),
+            score(M, Score, Target)
         ),
         Mutations
     ),
     sort(Mutations, [Best|_]),
-    evolve(Chance, Target, Best).
+    succ(Evolution, Evo),
+    evolve(Evo, Probability, Target, Best).
 
 mutate(_, [], []).                  % mutate(Probability, Input, Output)
-mutate(P, [H|Txt], [H|Mut]) :-
-    random(R),
-    R < P,
+mutate(Probability, [H|Txt], [H|Mut]) :-
+    R is random(100),
+    R > Probability,
     !,
-    mutate(P, Txt, Mut).
-mutate(P, [_|Txt], [M|Mut]) :-
+    mutate(Probability, Txt, Mut).
+mutate(Probability, [_|Txt], [M|Mut]) :-
     random_alpha(M),
-    mutate(P, Txt, Mut).
+    mutate(Probability, Txt, Mut).
 
 score(Txt, Score, Target) :-
     score(Target, Txt, 0, Score).
