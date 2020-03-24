@@ -1,3 +1,6 @@
+# See https://en.wikipedia.org/wiki/Evolutionary_algorithm
+# Original code from https://rosettacode.org/wiki/Evolutionary_algorithm#Python
+
 from random import choice, random
  
 target  = list("METHINKS IT IS LIKE A WEASEL")
@@ -13,9 +16,9 @@ def mutate(parent):
  
 parent = [choice(alphabet) for _ in range(len(target))]
 i = 0
-print("%3d" % i, "".join(parent))
 while parent != target:
     copies = (mutate(parent) for _ in range(c))
     parent = min(copies, key=neg_fitness)
-    print("%3d" % i, "".join(parent))
+    # print("%3d" % i)
     i += 1
+print("".join(parent))
