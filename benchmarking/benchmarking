@@ -1,3 +1,11 @@
 #!/bin/bash
+
+pushd ~/github.com/josd/eye/benchmarking
 echo -n > benchmarking.txt
-for f in *.py; do python3 "$f" | tee -a benchmarking.txt; done
+
+for f in *.py
+do
+    python3 "$f" | tee -a benchmarking.txt
+done
+
+popd
