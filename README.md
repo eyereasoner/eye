@@ -6,13 +6,13 @@
 It performs controlled chaining of data and it supports Euler paths.  
 Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
 
-__Controlled chaining of data__ is backward chaining for rules using _<=_ in [N3](http://www.w3.org/TeamSubmission/n3/)  
-or _:-_ in POPEYE and forward chaining for rules using _=>_ in [N3](http://www.w3.org/TeamSubmission/n3/).  
+__Controlled chaining of data__ is backward chaining for rules using `<=` in [N3](http://www.w3.org/TeamSubmission/n3/)  
+or `:-` in POPEYE and forward chaining for rules using `=>` in [N3](http://www.w3.org/TeamSubmission/n3/).  
 This is also called CCD and can be seen in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
 
-__Euler paths__ are roughly "_don't step in your own steps_" which is inspired by  
+__Euler paths__ are roughly _"don't step in your own steps"_ which is inspired by  
 what [Leonhard Euler](http://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html).  
-EYE sees the rule _P => C_ as _P & NOT(C) => C_.  
+EYE sees the rule `P => C` as `P & NOT(C) => C`.  
 
 EYE can be [installed manually](http://github.com/josd/eye/blob/master/INSTALL) on Linux, Windows and MacOSX.  
 EYE is also available in a [Docker container for command line use](http://hub.docker.com/r/bdevloed/eye/)  
