@@ -20,7 +20,7 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 
 ### Glossary
 
-|        |                                                     |
+| Term   | Description                                         |
 |--------|-----------------------------------------------------|
 | CCD    | Controlled Chaining of Data                         |
 | CPU    | Central Processing Unit                             |
