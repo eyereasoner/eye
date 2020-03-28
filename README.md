@@ -20,20 +20,20 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 
 ### Glossary
 
-| Term   | Description                                         |
-|--------|-----------------------------------------------------|
-| CCD    | Controlled Chaining of Data                         |
-| CPU    | Central Processing Unit                             |
-| CWM    | Closed World Machine                                |
-| EAM    | Euler Abstract Machine                              |
-| EULER  | Engine for Unifying Logic and Explainable Reasoning |
-| EYE    | Euler Yet another proof Engine                      |
-| GRE    | Generic Reasoning Engine                            |
-| N3     | Notation3                                           |
-| N3P    | Notation3 Prolog code                               |
-| POPEYE | Plugin Of Prolog code for EYE                       |
-| PVM    | Prolog Virtual Machine                              |
-| RDF    | Resource Description Framework                      |
+       | Description
+-------|------------
+CCD    | Controlled Chaining of Data
+CPU    | Central Processing Unit
+CWM    | Closed World Machine
+EAM    | Euler Abstract Machine
+EULER  | Engine for Unifying Logic and Explainable Reasoning
+EYE    | Euler Yet another proof Engine
+GRE    | Generic Reasoning Engine
+N3     | Notation3
+N3P    | Notation3 Prolog code
+POPEYE | Plugin Of Prolog code for EYE
+PVM    | Prolog Virtual Machine
+RDF    | Resource Description Framework
 
 ### Architecture and design
 
