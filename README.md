@@ -28,6 +28,7 @@ CWM    | Closed World Machine
 EAM    | Euler Abstract Machine
 EULER  | Engine for Unifying Logic and Explainable Reasoning
 EYE    | Euler Yet another proof Engine
+FLUID  | Formalizing, Linking, Unifying and Inferring Data
 GRE    | Generic Reasoning Engine
 N3     | Notation3
 N3P    | Notation3 Prolog code

@@ -1,6 +1,6 @@
 # EYE reasoning
 
-### Formalizing, Linking, Unifying and Inferring Data -- FLUID
+### Formalizing, Linking, Unifying and Inferring Data - FLUID
 
 ### Architecture and design
 
