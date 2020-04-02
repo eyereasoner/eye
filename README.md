@@ -7,7 +7,7 @@ It performs controlled chaining of data and it supports Euler paths.
 Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
 
 __Controlled chaining of data__ is backward chaining for rules using `<=` in [N3](http://www.w3.org/TeamSubmission/n3/)  
-or `:-` in POPEYE and forward chaining for rules using `=>` in [N3](http://www.w3.org/TeamSubmission/n3/).  
+and forward chaining for rules using `=>` in [N3](http://www.w3.org/TeamSubmission/n3/).  
 This is also called CCD and can be seen in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
 
 __Euler paths__ are roughly _"don't step in your own steps"_ which is inspired by  
