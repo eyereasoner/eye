@@ -32,7 +32,6 @@ FLUID  | Formalizing, Linking, Unifying and Inferring Data
 GRE    | Generic Reasoning Engine
 N3     | Notation3
 N3P    | Notation3 Prolog code
-POPEYE | Plugin Of Prolog code for EYE
 PVM    | Prolog Virtual Machine
 RDF    | Resource Description Framework
 
