@@ -1,0 +1,75 @@
+#Processed by EYE v20.0323.1552 josd
+#eye --no-genid --wcache http://josd.github.io/eye/reasoning/4eq . --plugin http://josd.github.io/eye/reasoning/4eq/4eq_program.pl --query http://josd.github.io/eye/reasoning/4eq/4eq_query.n3
+
+@prefix : <http://josd.github.io/eye/reasoning/4eq#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:gives {
+    (((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11)) (856 1308 0 0)) :solve (700.8570731707317 155.14292682926828 52.75268292682927 1255.2473170731707).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    (((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11)) (856 1308 0 0)) :solve (700.8570731707317 155.14292682926828 52.75268292682927 1255.2473170731707).
+  };
+  r:evidence (
+    <#lemma2>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (700.8570731707317 155.14292682926828 52.75268292682927 1255.2473170731707)];
+  r:rule <#lemma3>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    (((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11)) (856 1308 0 0)) :solve (700.8570731707317 155.14292682926828 52.75268292682927 1255.2473170731707).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"[[1,1,0,0],[0,0,1,1],[0.07,0,-0.93,0],[0,-0.89,0,0.11]]=[[1,1,0,0],[0,0,1,1],[0.07,0,-0.93,0],[0,-0.89,0,0.11]]"}]
+    [ a r:Fact; r:gives {"[856,1308,0,0]=[856,1308,0,0]"}]
+    [ a r:Fact; r:gives {"{1*700.8570731707317+1*155.14292682926828+0*52.75268292682927+0*1255.2473170731707=856,0*700.8570731707317+0*155.14292682926828+1*52.75268292682927+1*1255.2473170731707=1308,0.07*700.8570731707317+0*155.14292682926828+ -0.93*52.75268292682927+0*1255.2473170731707=0,0*700.8570731707317+ -0.89*155.14292682926828+0*52.75268292682927+0.11*1255.2473170731707=0}"}]
+    [ a r:Fact; r:gives {"[700.8570731707317,155.14292682926828,52.75268292682927,1255.2473170731707]=[700.8570731707317,155.14292682926828,52.75268292682927,1255.2473170731707]"}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.07];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -0.93];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo -0.89];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 0.11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo (856 1308 0 0)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 856];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 1308];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo 700.8570731707317];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 155.14292682926828];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 52.75268292682927];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 1255.2473170731707];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo (700.8570731707317 155.14292682926828 52.75268292682927 1255.2473170731707)];
+  r:rule [ a r:Fact; r:gives {{(var:x_0 var:x_17) :solve var:x_26} <= {"avar0=[[avar1,avar2,avar3,avar4],[avar5,avar6,avar7,avar8],[avar9,avar10,avar11,avar12],[avar13,avar14,avar15,avar16]]".
+    "avar17=[avar18,avar19,avar20,avar21]".
+    "{avar1*avar22+avar2*avar23+avar3*avar24+avar4*avar25=avar18,avar5*avar22+avar6*avar23+avar7*avar24+avar8*avar25=avar19,avar9*avar22+avar10*avar23+avar11*avar24+avar12*avar25=avar20,avar13*avar22+avar14*avar23+avar15*avar24+avar16*avar25=avar21}".
+    "avar26=[avar22,avar23,avar24,avar25]"}}].
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {(((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11)) (856 1308 0 0)) :solve var:x_0} => {(((1 1 0 0) (0 0 1 1) (0.07 0 -0.93 0) (0 -0.89 0 0.11)) (856 1308 0 0)) :solve var:x_0}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/4eq/4eq_query.n3>].
+
+#2020-03-30T07:24:03.535Z in=1 out=1 ent=1 step=1 brake=1 inf=484168 sec=0.330 inf/sec=1467176
+#ENDS
+
