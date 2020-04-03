@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0323.1552 josd').
+version_info('EYE v20.0403.2208 josd').
 
 license_info('MIT License
 
@@ -9462,6 +9462,12 @@ nulreel(0) :-
 nulreel(0.0) :-
     !.
 nulreel(-0.0).
+
+% extensions
+exponentiation([A, B], [C, D], [E, F]) :-
+    polaire([A, B], [R, T]),
+    E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
+    F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
 
 avg(A, B) :-
     sum(A, As),
