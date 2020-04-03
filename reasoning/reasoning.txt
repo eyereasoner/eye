@@ -1,69 +1,89 @@
 eye --no-genid http://josd.github.io/eye/reasoning/3outof5/sample.n3 --query http://josd.github.io/eye/reasoning/3outof5/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 75 [msec cputime] 93 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 90 [msec walltime]
 GET http://josd.github.io/eye/reasoning/3outof5/sample.n3 SC=5
 GET http://josd.github.io/eye/reasoning/3outof5/query.n3 SC=1
-networking 9 [msec cputime] 818 [msec walltime]
-reasoning 41 [msec cputime] 46 [msec walltime]
-2020-04-02T23:00:39.182Z in=6 out=1 ent=1 step=1 brake=2 inf=50699 sec=0.125 inf/sec=405592
+networking 9 [msec cputime] 769 [msec walltime]
+reasoning 40 [msec cputime] 40 [msec walltime]
+2020-04-03T12:11:39.365Z in=6 out=1 ent=1 step=1 brake=2 inf=50702 sec=0.121 inf/sec=419025
 
 eye --no-genid --nope --tactic limited-answer 2 --turtle http://josd.github.io/eye/reasoning/4color/4color_data.n3 http://josd.github.io/eye/reasoning/4color/4color_rules.n3 --query http://josd.github.io/eye/reasoning/4color/4color_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 73 [msec cputime] 90 [msec walltime]
-GET http://josd.github.io/eye/reasoning/4color/4color_data.n3 translating file:///tmp/swipl_eye_13977_0
-Done: translated 28 triples in 0.4 ms (71457 triples/s)
+GET http://josd.github.io/eye/reasoning/4color/4color_data.n3 translating file:///tmp/swipl_eye_6903_0
+Done: translated 28 triples in 0.5 ms (57904 triples/s)
 SC=28
 GET http://josd.github.io/eye/reasoning/4color/4color_rules.n3 SC=2
 GET http://josd.github.io/eye/reasoning/4color/4color_query.n3 SC=1
-networking 12 [msec cputime] 1100 [msec walltime]
-reasoning 18 [msec cputime] 18 [msec walltime]
-2020-04-02T23:00:40.505Z in=31 out=2 ent=2 step=2 brake=2 inf=56873 sec=0.103 inf/sec=552165
+networking 13 [msec cputime] 1156 [msec walltime]
+reasoning 18 [msec cputime] 19 [msec walltime]
+2020-04-03T12:11:40.746Z in=31 out=2 ent=2 step=2 brake=2 inf=56875 sec=0.104 inf/sec=546875
 
 eye --no-genid --tactic limited-answer 2 --turtle http://josd.github.io/eye/reasoning/4color/4color_data.n3 http://josd.github.io/eye/reasoning/4color/4color_rules.n3 --query http://josd.github.io/eye/reasoning/4color/4color_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 86 [msec walltime]
-GET http://josd.github.io/eye/reasoning/4color/4color_data.n3 translating file:///tmp/swipl_eye_13997_0
-Done: translated 28 triples in 0.4 ms (74273 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 88 [msec walltime]
+GET http://josd.github.io/eye/reasoning/4color/4color_data.n3 translating file:///tmp/swipl_eye_6921_0
+Done: translated 28 triples in 0.4 ms (76288 triples/s)
 SC=28
 GET http://josd.github.io/eye/reasoning/4color/4color_rules.n3 SC=2
 GET http://josd.github.io/eye/reasoning/4color/4color_query.n3 SC=1
-networking 12 [msec cputime] 619 [msec walltime]
-reasoning 164 [msec cputime] 165 [msec walltime]
-2020-04-02T23:00:41.484Z in=31 out=2 ent=2 step=2 brake=2 inf=435682 sec=0.247 inf/sec=1763895
+networking 12 [msec cputime] 611 [msec walltime]
+reasoning 164 [msec cputime] 164 [msec walltime]
+2020-04-03T12:11:41.717Z in=31 out=2 ent=2 step=2 brake=2 inf=435684 sec=0.248 inf/sec=1756790
+
+eye --no-genid --nope --wcache http://josd.github.io/eye/reasoning/4eq . --plugin http://josd.github.io/eye/reasoning/4eq/4eq_program.pl --query http://josd.github.io/eye/reasoning/4eq/4eq_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/4eq/4eq_program.pl FROM ./4eq_program.pl 
+GET http://josd.github.io/eye/reasoning/4eq/4eq_query.n3 FROM ./4eq_query.n3 SC=1
+networking 263 [msec cputime] 266 [msec walltime]
+reasoning 1 [msec cputime] 1 [msec walltime]
+2020-04-03T12:11:42.187Z in=1 out=1 ent=1 step=1 brake=1 inf=471772 sec=0.336 inf/sec=1404083
+
+eye --no-genid --wcache http://josd.github.io/eye/reasoning/4eq . --plugin http://josd.github.io/eye/reasoning/4eq/4eq_program.pl --query http://josd.github.io/eye/reasoning/4eq/4eq_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 77 [msec cputime] 99 [msec walltime]
+GET http://josd.github.io/eye/reasoning/4eq/4eq_program.pl FROM ./4eq_program.pl 
+GET http://josd.github.io/eye/reasoning/4eq/4eq_query.n3 FROM ./4eq_query.n3 SC=1
+networking 261 [msec cputime] 265 [msec walltime]
+reasoning 8 [msec cputime] 8 [msec walltime]
+2020-04-03T12:11:42.668Z in=1 out=1 ent=1 step=1 brake=1 inf=484162 sec=0.346 inf/sec=1399312
 
 eye --no-genid http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/bi/biP.n3 SC=110
 GET http://josd.github.io/eye/reasoning/bi/biQ.n3 SC=2
-networking 72 [msec cputime] 815 [msec walltime]
+networking 72 [msec cputime] 780 [msec walltime]
 GET http://josd.github.io/eye/reasoning/bi/abc.n3 SC=1
 GET http://josd.github.io/eye/reasoning/bi/ab_c.n3 SC=1
 GET http://josd.github.io/eye/reasoning/bi/medic.n3 SC=17
-reasoning 484 [msec cputime] 1901 [msec walltime]
-2020-04-02T23:00:44.402Z in=131 out=97 ent=200 step=910 brake=6 inf=1150650 sec=0.627 inf/sec=1835167
+reasoning 486 [msec cputime] 1639 [msec walltime]
+2020-04-03T12:11:45.289Z in=131 out=97 ent=200 step=910 brake=6 inf=1150655 sec=0.630 inf/sec=1826437
 
 eye --no-genid http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3 http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3 http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3 http://josd.github.io/eye/reasoning/bmi/age_rules_backward.n3 --query http://josd.github.io/eye/reasoning/bmi/bmi_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3 SC=68
 GET http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3 SC=7
 GET http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3 SC=13
 GET http://josd.github.io/eye/reasoning/bmi/age_rules_backward.n3 SC=8
 GET http://josd.github.io/eye/reasoning/bmi/bmi_query.n3 SC=1
-networking 88 [msec cputime] 1877 [msec walltime]
-reasoning 129 [msec cputime] 129 [msec walltime]
-2020-04-02T23:00:46.612Z in=97 out=50 ent=100 step=48 brake=4 inf=399979 sec=0.288 inf/sec=1388816
+networking 89 [msec cputime] 1917 [msec walltime]
+reasoning 130 [msec cputime] 130 [msec walltime]
+2020-04-03T12:11:47.541Z in=97 out=50 ent=100 step=48 brake=4 inf=399984 sec=0.290 inf/sec=1379255
 
 eye --no-genid http://josd.github.io/eye/reasoning/bmt/1tt1.n3 http://josd.github.io/eye/reasoning/bmt/1tt2.n3 http://josd.github.io/eye/reasoning/bmt/1tt3.n3 http://josd.github.io/eye/reasoning/bmt/1tt4.n3 http://josd.github.io/eye/reasoning/bmt/1tt5.n3 http://josd.github.io/eye/reasoning/bmt/1tt6.n3 http://josd.github.io/eye/reasoning/bmt/1tt7.n3 http://josd.github.io/eye/reasoning/bmt/1tt8.n3 http://josd.github.io/eye/reasoning/bmt/1tt9.n3 http://josd.github.io/eye/reasoning/bmt/1tt10.n3 --query http://josd.github.io/eye/reasoning/bmt/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/bmt/1tt1.n3 SC=999
 GET http://josd.github.io/eye/reasoning/bmt/1tt2.n3 SC=996
 GET http://josd.github.io/eye/reasoning/bmt/1tt3.n3 SC=991
@@ -75,1421 +95,1533 @@ GET http://josd.github.io/eye/reasoning/bmt/1tt8.n3 SC=977
 GET http://josd.github.io/eye/reasoning/bmt/1tt9.n3 SC=973
 GET http://josd.github.io/eye/reasoning/bmt/1tt10.n3 SC=966
 GET http://josd.github.io/eye/reasoning/bmt/query.n3 SC=1
-networking 2324 [msec cputime] 7544 [msec walltime]
-reasoning 3114 [msec cputime] 3124 [msec walltime]
-2020-04-02T23:00:57.487Z in=9841 out=1518 ent=1518 step=1518 brake=1 inf=9796971 sec=5.510 inf/sec=1778035
+networking 2293 [msec cputime] 6603 [msec walltime]
+reasoning 3137 [msec cputime] 3143 [msec walltime]
+2020-04-03T12:11:57.491Z in=9841 out=1518 ent=1518 step=1518 brake=1 inf=9796973 sec=5.502 inf/sec=1780620
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/c2d . --nope http://josd.github.io/eye/reasoning/c2d/train_data.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/train_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/train_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/c2d/train_data.n3 FROM ./train_data.n3 SC=51
 GET http://josd.github.io/eye/reasoning/c2d/background_rules.n3 FROM ./background_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/train_rules.n3 FROM ./train_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/train_query.n3 FROM ./train_query.n3 SC=1
-networking 17 [msec cputime] 17 [msec walltime]
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:00:57.821Z in=54 out=17 ent=24 step=110 brake=2 inf=51171 sec=0.096 inf/sec=533031
+networking 16 [msec cputime] 17 [msec walltime]
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:11:57.794Z in=54 out=17 ent=24 step=110 brake=2 inf=51174 sec=0.095 inf/sec=538674
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/c2d . http://josd.github.io/eye/reasoning/c2d/train_data.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/train_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/train_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/c2d/train_data.n3 FROM ./train_data.n3 SC=51
 GET http://josd.github.io/eye/reasoning/c2d/background_rules.n3 FROM ./background_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/train_rules.n3 FROM ./train_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/train_query.n3 FROM ./train_query.n3 SC=1
-networking 19 [msec cputime] 19 [msec walltime]
-reasoning 69 [msec cputime] 73 [msec walltime]
-2020-04-02T23:00:58.105Z in=54 out=17 ent=41 step=254 brake=4 inf=179546 sec=0.158 inf/sec=1136367
+networking 20 [msec cputime] 20 [msec walltime]
+reasoning 70 [msec cputime] 70 [msec walltime]
+2020-04-03T12:11:58.076Z in=54 out=17 ent=41 step=254 brake=4 inf=179549 sec=0.160 inf/sec=1122181
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/c2d . --nope http://josd.github.io/eye/reasoning/c2d/test_data.n3 http://josd.github.io/eye/reasoning/c2d/train_model.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/test_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/c2d/test_data.n3 FROM ./test_data.n3 SC=20
 GET http://josd.github.io/eye/reasoning/c2d/train_model.n3 FROM ./train_model.n3 SC=17
 GET http://josd.github.io/eye/reasoning/c2d/background_rules.n3 FROM ./background_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 FROM ./c2d_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/test_query.n3 FROM ./test_query.n3 SC=1
-networking 29 [msec cputime] 30 [msec walltime]
-reasoning 8 [msec cputime] 7 [msec walltime]
-2020-04-02T23:00:58.332Z in=40 out=4 ent=3 step=6 brake=2 inf=81027 sec=0.107 inf/sec=757262
+networking 28 [msec cputime] 29 [msec walltime]
+reasoning 8 [msec cputime] 8 [msec walltime]
+2020-04-03T12:11:58.305Z in=40 out=4 ent=3 step=6 brake=2 inf=81029 sec=0.107 inf/sec=757280
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/c2d . http://josd.github.io/eye/reasoning/c2d/test_data.n3 http://josd.github.io/eye/reasoning/c2d/train_model.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/test_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/c2d/test_data.n3 FROM ./test_data.n3 SC=20
 GET http://josd.github.io/eye/reasoning/c2d/train_model.n3 FROM ./train_model.n3 SC=17
 GET http://josd.github.io/eye/reasoning/c2d/background_rules.n3 FROM ./background_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 FROM ./c2d_rules.n3 SC=1
 GET http://josd.github.io/eye/reasoning/c2d/test_query.n3 FROM ./test_query.n3 SC=1
-networking 32 [msec cputime] 31 [msec walltime]
-reasoning 117 [msec cputime] 118 [msec walltime]
-2020-04-02T23:00:58.672Z in=40 out=4 ent=7 step=20 brake=4 inf=330321 sec=0.219 inf/sec=1508315
+networking 32 [msec cputime] 32 [msec walltime]
+reasoning 121 [msec cputime] 121 [msec walltime]
+2020-04-03T12:11:58.651Z in=40 out=4 ent=7 step=20 brake=4 inf=330323 sec=0.223 inf/sec=1481269
 
 eye --no-genid --hmac-key k123 http://josd.github.io/eye/reasoning/crypto/cryptoP.n3 --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/crypto/cryptoP.n3 SC=3
-networking 4 [msec cputime] 403 [msec walltime]
+networking 4 [msec cputime] 416 [msec walltime]
 reasoning 8 [msec cputime] 7 [msec walltime]
-2020-04-02T23:00:59.287Z in=3 out=3 ent=6 step=12 brake=2 inf=26463 sec=0.083 inf/sec=318831
+2020-04-03T12:11:59.279Z in=3 out=3 ent=6 step=12 brake=2 inf=26465 sec=0.084 inf/sec=315060
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/cs . --nope http://josd.github.io/eye/reasoning/cs/data-001.n3 http://josd.github.io/eye/reasoning/cs/rules-001.n3 --query http://josd.github.io/eye/reasoning/cs/query-001.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/cs/data-001.n3 FROM ./data-001.n3 SC=10
 GET http://josd.github.io/eye/reasoning/cs/rules-001.n3 FROM ./rules-001.n3 SC=4
 GET http://josd.github.io/eye/reasoning/cs/query-001.n3 FROM ./query-001.n3 SC=1
-networking 12 [msec cputime] 11 [msec walltime]
+networking 11 [msec cputime] 11 [msec walltime]
 reasoning 1 [msec cputime] 1 [msec walltime]
-2020-04-02T23:00:59.500Z in=15 out=2 ent=4 step=8 brake=2 inf=31243 sec=0.084 inf/sec=371940
+2020-04-03T12:11:59.491Z in=15 out=2 ent=4 step=8 brake=2 inf=31245 sec=0.084 inf/sec=371964
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/cs . http://josd.github.io/eye/reasoning/cs/data-001.n3 http://josd.github.io/eye/reasoning/cs/rules-001.n3 --query http://josd.github.io/eye/reasoning/cs/query-001.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/cs/data-001.n3 FROM ./data-001.n3 SC=10
 GET http://josd.github.io/eye/reasoning/cs/rules-001.n3 FROM ./rules-001.n3 SC=4
 GET http://josd.github.io/eye/reasoning/cs/query-001.n3 FROM ./query-001.n3 SC=1
 networking 12 [msec cputime] 12 [msec walltime]
-reasoning 13 [msec cputime] 12 [msec walltime]
-2020-04-02T23:00:59.716Z in=15 out=2 ent=4 step=8 brake=2 inf=50716 sec=0.095 inf/sec=533853
+reasoning 13 [msec cputime] 13 [msec walltime]
+2020-04-03T12:11:59.708Z in=15 out=2 ent=4 step=8 brake=2 inf=50718 sec=0.095 inf/sec=533874
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/csv/select-data.n3 --query http://josd.github.io/eye/reasoning/csv/select-query.n3 --strings
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/csv/select-data.n3 SC=17
 GET http://josd.github.io/eye/reasoning/csv/select-query.n3 SC=1
-networking 9 [msec cputime] 777 [msec walltime]
-reasoning 34 [msec cputime] 34 [msec walltime]
-2020-04-02T23:01:00.726Z in=18 out=85 ent=0 step=0 brake=1 inf=39794 sec=0.115 inf/sec=346035
+networking 9 [msec cputime] 752 [msec walltime]
+reasoning 33 [msec cputime] 33 [msec walltime]
+2020-04-03T12:12:00.693Z in=18 out=85 ent=0 step=0 brake=1 inf=39798 sec=0.113 inf/sec=352195
 
 eye --no-genid http://josd.github.io/eye/reasoning/csv/select-data.n3 --query http://josd.github.io/eye/reasoning/csv/select-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/csv/select-data.n3 SC=17
 GET http://josd.github.io/eye/reasoning/csv/select-query.n3 SC=1
-networking 10 [msec cputime] 363 [msec walltime]
+networking 11 [msec cputime] 439 [msec walltime]
 reasoning 60 [msec cputime] 59 [msec walltime]
-2020-04-02T23:01:01.339Z in=18 out=17 ent=17 step=17 brake=2 inf=89348 sec=0.140 inf/sec=638200
+2020-04-03T12:12:01.382Z in=18 out=17 ent=17 step=17 brake=2 inf=89352 sec=0.140 inf/sec=638229
 
 eye --no-genid http://josd.github.io/eye/reasoning/csv/select-data-extra.n3 --query http://josd.github.io/eye/reasoning/csv/select-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/csv/select-data-extra.n3 SC=5
 GET http://josd.github.io/eye/reasoning/csv/select-query.n3 SC=1
-networking 8 [msec cputime] 548 [msec walltime]
-reasoning 44 [msec cputime] 45 [msec walltime]
-2020-04-02T23:01:02.124Z in=6 out=5 ent=5 step=5 brake=2 inf=52123 sec=0.122 inf/sec=427238
+networking 8 [msec cputime] 589 [msec walltime]
+reasoning 46 [msec cputime] 65 [msec walltime]
+2020-04-03T12:12:02.227Z in=6 out=5 ent=5 step=5 brake=2 inf=52127 sec=0.124 inf/sec=420379
 
 eye --no-genid http://josd.github.io/eye/reasoning/de/de.n3 http://josd.github.io/eye/reasoning/de/deA.n3 --query http://josd.github.io/eye/reasoning/de/deQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 80 [msec cputime] 127 [msec walltime]
 GET http://josd.github.io/eye/reasoning/de/de.n3 SC=6
 GET http://josd.github.io/eye/reasoning/de/deA.n3 SC=1
 GET http://josd.github.io/eye/reasoning/de/deQ.n3 SC=1
-networking 9 [msec cputime] 1676 [msec walltime]
-reasoning 5 [msec cputime] 5 [msec walltime]
-2020-04-02T23:01:04.040Z in=8 out=1 ent=6 step=18 brake=3 inf=25420 sec=0.085 inf/sec=299059
+networking 8 [msec cputime] 1106 [msec walltime]
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:12:03.590Z in=8 out=1 ent=6 step=18 brake=3 inf=25436 sec=0.094 inf/sec=270596
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/djiti/graph-10.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 88 [msec walltime]
-GET http://josd.github.io/eye/reasoning/djiti/graph-10.n3 translating file:///tmp/swipl_eye_14275_0
-Done: translated 10 triples in 0.3 ms (35700 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 90 [msec walltime]
+GET http://josd.github.io/eye/reasoning/djiti/graph-10.n3 translating file:///tmp/swipl_eye_7172_0
+Done: translated 10 triples in 0.3 ms (34485 triples/s)
 SC=10
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 7 [msec cputime] 1009 [msec walltime]
-reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:01:05.259Z in=11 out=2 ent=2 step=2 brake=1 inf=22853 sec=0.085 inf/sec=268859
+networking 7 [msec cputime] 754 [msec walltime]
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:12:04.554Z in=11 out=2 ent=2 step=2 brake=1 inf=22857 sec=0.086 inf/sec=265779
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/djiti/graph-100.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 91 [msec walltime]
-GET http://josd.github.io/eye/reasoning/djiti/graph-100.n3 translating file:///tmp/swipl_eye_14290_0
-Done: translated 100 triples in 0.7 ms (146700 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 87 [msec walltime]
+GET http://josd.github.io/eye/reasoning/djiti/graph-100.n3 translating file:///tmp/swipl_eye_7186_0
+Done: translated 100 triples in 0.9 ms (115149 triples/s)
 SC=100
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 11 [msec cputime] 571 [msec walltime]
-reasoning 13 [msec cputime] 13 [msec walltime]
-2020-04-02T23:01:06.046Z in=101 out=6 ent=6 step=6 brake=1 inf=39930 sec=0.097 inf/sec=411649
+networking 11 [msec cputime] 619 [msec walltime]
+reasoning 13 [msec cputime] 12 [msec walltime]
+2020-04-03T12:12:05.381Z in=101 out=6 ent=6 step=6 brake=1 inf=39932 sec=0.095 inf/sec=420337
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/djiti/graph-1000.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 71 [msec cputime] 87 [msec walltime]
-GET http://josd.github.io/eye/reasoning/djiti/graph-1000.n3 translating file:///tmp/swipl_eye_14304_0
-Done: translated 1000 triples in 39.4 ms (25379 triples/s)
+GET http://josd.github.io/eye/reasoning/djiti/graph-1000.n3 translating file:///tmp/swipl_eye_7200_0
+Done: translated 1000 triples in 47.7 ms (20975 triples/s)
 SC=1000
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 56 [msec cputime] 804 [msec walltime]
-reasoning 154 [msec cputime] 169 [msec walltime]
-2020-04-02T23:01:07.214Z in=1001 out=92 ent=92 step=92 brake=1 inf=364396 sec=0.281 inf/sec=1296783
+networking 60 [msec cputime] 1028 [msec walltime]
+reasoning 155 [msec cputime] 155 [msec walltime]
+2020-04-03T12:12:06.760Z in=1001 out=92 ent=92 step=92 brake=1 inf=364398 sec=0.286 inf/sec=1274119
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/djiti/graph-10000.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 71 [msec cputime] 87 [msec walltime]
-GET http://josd.github.io/eye/reasoning/djiti/graph-10000.n3 translating file:///tmp/swipl_eye_14318_0
-Done: translated 10000 triples in 480.1 ms (20830 triples/s)
+GET http://josd.github.io/eye/reasoning/djiti/graph-10000.n3 translating file:///tmp/swipl_eye_7215_0
+Done: translated 10000 triples in 495.7 ms (20172 triples/s)
 SC=10000
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 497 [msec cputime] 1482 [msec walltime]
-reasoning 1622 [msec cputime] 1624 [msec walltime]
-2020-04-02T23:01:10.516Z in=10001 out=966 ent=966 step=966 brake=1 inf=3624281 sec=2.190 inf/sec=1654923
+networking 512 [msec cputime] 1916 [msec walltime]
+reasoning 1646 [msec cputime] 1649 [msec walltime]
+2020-04-03T12:12:10.521Z in=10001 out=966 ent=966 step=966 brake=1 inf=3624283 sec=2.229 inf/sec=1625968
 
 eye --no-genid --proof http://josd.github.io/eye/reasoning/djiti/proof-10.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 82 [msec walltime]
 GET http://josd.github.io/eye/reasoning/djiti/proof-10.n3 SC=88
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 31 [msec cputime] 584 [msec walltime]
-reasoning 13 [msec cputime] 12 [msec walltime]
-2020-04-02T23:01:11.306Z in=89 out=2 ent=9 step=18 brake=2 inf=84912 sec=0.114 inf/sec=744842
+networking 33 [msec cputime] 640 [msec walltime]
+reasoning 13 [msec cputime] 13 [msec walltime]
+2020-04-03T12:12:11.368Z in=89 out=2 ent=9 step=18 brake=2 inf=84914 sec=0.115 inf/sec=738383
 
 eye --no-genid --proof http://josd.github.io/eye/reasoning/djiti/proof-100.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 69 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/djiti/proof-100.n3 SC=243
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 76 [msec cputime] 863 [msec walltime]
-reasoning 30 [msec cputime] 29 [msec walltime]
-2020-04-02T23:01:12.389Z in=244 out=6 ent=24 step=48 brake=2 inf=200248 sec=0.175 inf/sec=1144274
+networking 76 [msec cputime] 667 [msec walltime]
+reasoning 34 [msec cputime] 44 [msec walltime]
+2020-04-03T12:12:12.271Z in=244 out=6 ent=24 step=48 brake=2 inf=200250 sec=0.180 inf/sec=1112500
 
 eye --no-genid --proof http://josd.github.io/eye/reasoning/djiti/proof-1000.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/djiti/proof-1000.n3 SC=3623
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 1055 [msec cputime] 1853 [msec walltime]
-reasoning 388 [msec cputime] 388 [msec walltime]
-2020-04-02T23:01:14.821Z in=3624 out=92 ent=356 step=712 brake=2 inf=2752213 sec=1.514 inf/sec=1817842
+networking 1048 [msec cputime] 1920 [msec walltime]
+reasoning 390 [msec cputime] 391 [msec walltime]
+2020-04-03T12:12:14.774Z in=3624 out=92 ent=356 step=712 brake=2 inf=2752221 sec=1.508 inf/sec=1825080
 
 eye --no-genid --proof http://josd.github.io/eye/reasoning/djiti/proof-10000.n3 --query http://josd.github.io/eye/reasoning/djiti/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/djiti/proof-10000.n3 SC=37738
 GET http://josd.github.io/eye/reasoning/djiti/query.n3 SC=1
-networking 11319 [msec cputime] 12852 [msec walltime]
-reasoning 4028 [msec cputime] 4039 [msec walltime]
-2020-04-02T23:01:31.906Z in=37739 out=966 ent=3683 step=7366 brake=2 inf=28579149 sec=15.417 inf/sec=1853743
+networking 11310 [msec cputime] 12522 [msec walltime]
+reasoning 4211 [msec cputime] 4268 [msec walltime]
+2020-04-03T12:12:31.758Z in=37739 out=966 ent=3683 step=7366 brake=2 inf=28579151 sec=15.590 inf/sec=1833172
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/dp/dp.n3 --query http://josd.github.io/eye/reasoning/dp/dpQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dp/dp.n3 SC=9
 GET http://josd.github.io/eye/reasoning/dp/dpQ.n3 SC=1
-networking 14 [msec cputime] 788 [msec walltime]
-reasoning 10 [msec cputime] 760 [msec walltime]
-2020-04-02T23:01:33.840Z in=10 out=1 ent=2 step=2 brake=1 inf=48669 sec=0.095 inf/sec=512305
+networking 15 [msec cputime] 785 [msec walltime]
+reasoning 9 [msec cputime] 760 [msec walltime]
+2020-04-03T12:12:33.662Z in=10 out=1 ent=2 step=2 brake=1 inf=48671 sec=0.096 inf/sec=506990
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3 http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3 --query http://josd.github.io/eye/reasoning/dpe/dpe_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3 SC=13
 GET http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3 SC=2
 GET http://josd.github.io/eye/reasoning/dpe/dpe_query.n3 SC=1
-networking 11 [msec cputime] 1098 [msec walltime]
-reasoning 16 [msec cputime] 16 [msec walltime]
-2020-04-02T23:01:35.155Z in=16 out=2 ent=32 step=120 brake=4 inf=51664 sec=0.099 inf/sec=521859
+networking 12 [msec cputime] 1180 [msec walltime]
+reasoning 16 [msec cputime] 15 [msec walltime]
+2020-04-03T12:12:35.060Z in=16 out=2 ent=32 step=120 brake=4 inf=51666 sec=0.101 inf/sec=511545
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/dqc . --no-distinct-output --nope http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 FROM ./sdcoding.n3 SC=28
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 FROM ./sdcoding-q.n3 SC=1
-networking 12 [msec cputime] 12 [msec walltime]
+networking 12 [msec cputime] 13 [msec walltime]
 reasoning 2 [msec cputime] 1 [msec walltime]
-2020-04-02T23:01:35.376Z in=29 out=24 ent=0 step=0 brake=1 inf=34879 sec=0.086 inf/sec=405570
+2020-04-03T12:12:35.274Z in=29 out=24 ent=0 step=0 brake=1 inf=34881 sec=0.085 inf/sec=410365
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/dqc . --no-distinct-output http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 FROM ./sdcoding.n3 SC=28
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 FROM ./sdcoding-q.n3 SC=1
-networking 13 [msec cputime] 14 [msec walltime]
-reasoning 35 [msec cputime] 35 [msec walltime]
-2020-04-02T23:01:35.616Z in=29 out=14 ent=14 step=24 brake=1 inf=96863 sec=0.119 inf/sec=813975
+networking 12 [msec cputime] 13 [msec walltime]
+reasoning 37 [msec cputime] 37 [msec walltime]
+2020-04-03T12:12:35.515Z in=29 out=14 ent=14 step=24 brake=1 inf=96865 sec=0.119 inf/sec=813992
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/dqc . --no-distinct-input --nope http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 82 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 FROM ./sdcoding-a.n3 SC=24
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 FROM ./sdcoding-query.n3 SC=1
-networking 8 [msec cputime] 7 [msec walltime]
+networking 8 [msec cputime] 11 [msec walltime]
 reasoning 2 [msec cputime] 2 [msec walltime]
-2020-04-02T23:01:35.816Z in=25 out=4 ent=4 step=4 brake=2 inf=25665 sec=0.080 inf/sec=320813
+2020-04-03T12:12:35.718Z in=25 out=4 ent=4 step=4 brake=2 inf=25667 sec=0.079 inf/sec=324899
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/dqc . --no-distinct-input http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 FROM ./sdcoding-a.n3 SC=24
 GET http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 FROM ./sdcoding-query.n3 SC=1
-networking 9 [msec cputime] 9 [msec walltime]
-reasoning 10 [msec cputime] 10 [msec walltime]
-2020-04-02T23:01:36.026Z in=25 out=4 ent=4 step=4 brake=2 inf=39114 sec=0.089 inf/sec=439483
+networking 9 [msec cputime] 8 [msec walltime]
+reasoning 9 [msec cputime] 9 [msec walltime]
+2020-04-03T12:12:35.927Z in=25 out=4 ent=4 step=4 brake=2 inf=39116 sec=0.088 inf/sec=444500
 
 eye --no-genid http://josd.github.io/eye/reasoning/dt/test-facts.n3 http://josd.github.io/eye/reasoning/dt/test-dt-1000.n3 --query http://josd.github.io/eye/reasoning/dt/test-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/dt/test-facts.n3 SC=2
 GET http://josd.github.io/eye/reasoning/dt/test-dt-1000.n3 SC=3001
 GET http://josd.github.io/eye/reasoning/dt/test-query.n3 SC=1
-networking 1002 [msec cputime] 2582 [msec walltime]
-reasoning 844 [msec cputime] 844 [msec walltime]
-2020-04-02T23:01:39.654Z in=3004 out=1 ent=2999 step=5998 brake=2 inf=3983248 sec=1.918 inf/sec=2076772
+networking 1004 [msec cputime] 2249 [msec walltime]
+reasoning 843 [msec cputime] 849 [msec walltime]
+2020-04-03T12:12:39.228Z in=3004 out=1 ent=2999 step=5998 brake=2 inf=3983250 sec=1.918 inf/sec=2076773
+
+eye --no-genid --nope --tactic limited-answer 1 --wcache http://josd.github.io/eye/reasoning/ea . --plugin http://josd.github.io/eye/reasoning/ea/ea_program.pl --query http://josd.github.io/eye/reasoning/ea/ea_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 86 [msec walltime]
+GET http://josd.github.io/eye/reasoning/ea/ea_program.pl FROM ./ea_program.pl 
+GET http://josd.github.io/eye/reasoning/ea/ea_query.n3 FROM ./ea_query.n3 SC=1
+networking 4 [msec cputime] 4 [msec walltime]
+reasoning 321 [msec cputime] 325 [msec walltime]
+2020-04-03T12:12:39.775Z in=1 out=1 ent=1 step=1 brake=1 inf=610264 sec=0.397 inf/sec=1537189
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/easter/easterP.n3 --query http://josd.github.io/eye/reasoning/easter/easterF.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/easter/easterP.n3 SC=28
 GET http://josd.github.io/eye/reasoning/easter/easterF.n3 SC=1
-networking 20 [msec cputime] 733 [msec walltime]
-reasoning 26 [msec cputime] 26 [msec walltime]
-2020-04-02T23:01:40.630Z in=29 out=26 ent=52 step=104 brake=2 inf=98911 sec=0.117 inf/sec=845393
+networking 19 [msec cputime] 827 [msec walltime]
+reasoning 27 [msec cputime] 27 [msec walltime]
+2020-04-03T12:12:40.829Z in=29 out=26 ent=52 step=104 brake=2 inf=98913 sec=0.118 inf/sec=838246
 
 eye --no-genid http://josd.github.io/eye/reasoning/easter/easterP.n3 --query http://josd.github.io/eye/reasoning/easter/easterF.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/easter/easterP.n3 SC=28
 GET http://josd.github.io/eye/reasoning/easter/easterF.n3 SC=1
-networking 20 [msec cputime] 436 [msec walltime]
-reasoning 215 [msec cputime] 214 [msec walltime]
-2020-04-02T23:01:41.471Z in=29 out=26 ent=52 step=104 brake=2 inf=520948 sec=0.305 inf/sec=1708026
+networking 21 [msec cputime] 468 [msec walltime]
+reasoning 215 [msec cputime] 215 [msec walltime]
+2020-04-03T12:12:41.703Z in=29 out=26 ent=52 step=104 brake=2 inf=520949 sec=0.306 inf/sec=1702448
 
 eye --no-genid http://josd.github.io/eye/reasoning/einstein/einstein.n3 --query http://josd.github.io/eye/reasoning/einstein/einsteinQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/einstein/einstein.n3 SC=4
 GET http://josd.github.io/eye/reasoning/einstein/einsteinQ.n3 SC=1
-networking 13 [msec cputime] 809 [msec walltime]
-reasoning 353 [msec cputime] 354 [msec walltime]
-2020-04-02T23:01:42.837Z in=5 out=1 ent=2 step=4 brake=2 inf=701326 sec=0.437 inf/sec=1604865
+networking 13 [msec cputime] 751 [msec walltime]
+reasoning 364 [msec cputime] 364 [msec walltime]
+2020-04-03T12:12:43.023Z in=5 out=1 ent=2 step=4 brake=2 inf=701328 sec=0.448 inf/sec=1565464
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/equation4/polynomial.n3 --query http://josd.github.io/eye/reasoning/equation4/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 74 [msec cputime] 89 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/equation4/polynomial.n3 SC=1000
 GET http://josd.github.io/eye/reasoning/equation4/query.n3 SC=1
-networking 1135 [msec cputime] 2065 [msec walltime]
-reasoning 4587 [msec cputime] 4999 [msec walltime]
-2020-04-02T23:01:50.107Z in=1001 out=1000 ent=1000 step=1000 brake=1 inf=12858825 sec=5.796 inf/sec=2218569
+networking 1148 [msec cputime] 2476 [msec walltime]
+reasoning 4642 [msec cputime] 5014 [msec walltime]
+2020-04-03T12:12:50.717Z in=1001 out=1000 ent=1000 step=1000 brake=1 inf=12858826 sec=5.863 inf/sec=2193216
 
 eye --no-genid http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3 http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 http://josd.github.io/eye/reasoning/fcm/example001P.n3 http://josd.github.io/eye/reasoning/fcm/example002P.n3 --query http://josd.github.io/eye/reasoning/fcm/example003Q.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3 SC=1
 GET http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 SC=53
 GET http://josd.github.io/eye/reasoning/fcm/example001P.n3 SC=8
 GET http://josd.github.io/eye/reasoning/fcm/example002P.n3 SC=13
 GET http://josd.github.io/eye/reasoning/fcm/example003Q.n3 SC=1
-networking 68 [msec cputime] 1927 [msec walltime]
-reasoning 206 [msec cputime] 207 [msec walltime]
-2020-04-02T23:01:52.452Z in=76 out=8 ent=50 step=307 brake=6 inf=561460 sec=0.345 inf/sec=1627420
+networking 67 [msec cputime] 1929 [msec walltime]
+reasoning 211 [msec cputime] 211 [msec walltime]
+2020-04-03T12:12:53.068Z in=76 out=8 ent=50 step=307 brake=6 inf=561464 sec=0.349 inf/sec=1608779
+
+eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/fft/fft_program.pl --query http://josd.github.io/eye/reasoning/fft/fft_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/fft/fft_program.pl 
+GET http://josd.github.io/eye/reasoning/fft/fft_query.n3 SC=4
+networking 8 [msec cputime] 750 [msec walltime]
+reasoning 15 [msec cputime] 15 [msec walltime]
+2020-04-03T12:12:54.036Z in=4 out=4 ent=4 step=4 brake=1 inf=43435 sec=0.095 inf/sec=457211
+
+eye --no-genid --plugin http://josd.github.io/eye/reasoning/fft/fft_program.pl --query http://josd.github.io/eye/reasoning/fft/fft_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/fft/fft_program.pl 
+GET http://josd.github.io/eye/reasoning/fft/fft_query.n3 SC=4
+networking 7 [msec cputime] 389 [msec walltime]
+reasoning 8063 [msec cputime] 8222 [msec walltime]
+2020-04-03T12:13:02.843Z in=4 out=4 ent=4 step=4 brake=1 inf=18295381 sec=8.141 inf/sec=2247314
 
 eye --no-genid http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3 http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 http://josd.github.io/eye/reasoning/fgcm/patient.n3 http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3 --query http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 80 [msec cputime] 103 [msec walltime]
 GET http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3 SC=16
 GET http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 SC=53
 GET http://josd.github.io/eye/reasoning/fgcm/patient.n3 SC=8
 GET http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3 SC=175
 GET http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3 SC=1
-networking 192 [msec cputime] 1909 [msec walltime]
-reasoning 486 [msec cputime] 487 [msec walltime]
-2020-04-02T23:01:55.050Z in=253 out=18 ent=237 step=1917 brake=5 inf=1214858 sec=0.749 inf/sec=1621973
+networking 188 [msec cputime] 1888 [msec walltime]
+reasoning 487 [msec cputime] 491 [msec walltime]
+2020-04-03T12:13:05.577Z in=253 out=18 ent=237 step=1917 brake=5 inf=1214880 sec=0.755 inf/sec=1609113
 
 eye --no-genid http://josd.github.io/eye/reasoning/fib/fib.n3 --query http://josd.github.io/eye/reasoning/fib/fibQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/fib/fib.n3 SC=4
 GET http://josd.github.io/eye/reasoning/fib/fibQ.n3 SC=3
-networking 8 [msec cputime] 736 [msec walltime]
-reasoning 368 [msec cputime] 370 [msec walltime]
-2020-04-02T23:01:56.368Z in=7 out=3 ent=3 step=3 brake=1 inf=770328 sec=0.449 inf/sec=1715653
+networking 8 [msec cputime] 802 [msec walltime]
+reasoning 376 [msec cputime] 378 [msec walltime]
+2020-04-03T12:13:06.960Z in=7 out=3 ent=3 step=3 brake=1 inf=770350 sec=0.455 inf/sec=1693077
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/fib/fib.n3 --query http://josd.github.io/eye/reasoning/fib/fibQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 69 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/fib/fib.n3 SC=4
 GET http://josd.github.io/eye/reasoning/fib/fibQ.n3 SC=3
-networking 8 [msec cputime] 384 [msec walltime]
+networking 7 [msec cputime] 413 [msec walltime]
 reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:01:56.949Z in=7 out=3 ent=3 step=3 brake=1 inf=28522 sec=0.084 inf/sec=339548
+2020-04-03T12:13:07.575Z in=7 out=3 ent=3 step=3 brake=1 inf=28544 sec=0.085 inf/sec=335812
 
 eye --no-genid http://josd.github.io/eye/reasoning/gedcom/gedcom-facts.n3 http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3 http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3 --query http://josd.github.io/eye/reasoning/gedcom/gedcom-filter.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/gedcom/gedcom-facts.n3 SC=82
 GET http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3 SC=31
 GET http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3 SC=71
 GET http://josd.github.io/eye/reasoning/gedcom/gedcom-filter.n3 SC=1
-networking 68 [msec cputime] 1592 [msec walltime]
-reasoning 314 [msec cputime] 314 [msec walltime]
-2020-04-02T23:01:59.068Z in=185 out=6 ent=1591 step=18973 brake=12 inf=881151 sec=0.454 inf/sec=1940861
+networking 69 [msec cputime] 2052 [msec walltime]
+reasoning 319 [msec cputime] 319 [msec walltime]
+2020-04-03T12:13:10.157Z in=185 out=6 ent=1591 step=18973 brake=12 inf=881155 sec=0.459 inf/sec=1919728
 
 eye --no-genid http://josd.github.io/eye/reasoning/glass/test.n3 --query http://josd.github.io/eye/reasoning/glass/testQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/glass/test.n3 SC=3
 GET http://josd.github.io/eye/reasoning/glass/testQ.n3 SC=6
-networking 9 [msec cputime] 723 [msec walltime]
-reasoning 15 [msec cputime] 16 [msec walltime]
-2020-04-02T23:02:00.008Z in=9 out=6 ent=7 step=30 brake=2 inf=48475 sec=0.096 inf/sec=504948
+networking 10 [msec cputime] 794 [msec walltime]
+reasoning 16 [msec cputime] 18 [msec walltime]
+2020-04-03T12:13:11.170Z in=9 out=6 ent=7 step=30 brake=2 inf=48457 sec=0.097 inf/sec=499557
 
 eye --no-genid http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 http://josd.github.io/eye/reasoning/gps/gps-example1.n3 --query http://josd.github.io/eye/reasoning/gps/gps-query1.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 74 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/gps/gps-example1.n3 SC=3
 GET http://josd.github.io/eye/reasoning/gps/gps-query1.n3 SC=1
-networking 24 [msec cputime] 1146 [msec walltime]
-reasoning 37 [msec cputime] 37 [msec walltime]
-2020-04-02T23:02:01.391Z in=11 out=1 ent=1 step=1 brake=2 inf=128256 sec=0.133 inf/sec=964331
+networking 24 [msec cputime] 1408 [msec walltime]
+reasoning 37 [msec cputime] 38 [msec walltime]
+2020-04-03T12:13:12.819Z in=11 out=1 ent=1 step=1 brake=2 inf=128224 sec=0.135 inf/sec=949807
 
 eye --no-genid http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 http://josd.github.io/eye/reasoning/gps/gps-example2.n3 --query http://josd.github.io/eye/reasoning/gps/gps-query2.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/gps/gps-example2.n3 SC=36
 GET http://josd.github.io/eye/reasoning/gps/gps-query2.n3 SC=1
-networking 45 [msec cputime] 983 [msec walltime]
-reasoning 1317 [msec cputime] 1324 [msec walltime]
-2020-04-02T23:02:03.891Z in=44 out=10 ent=10 step=10 brake=2 inf=2933843 sec=1.432 inf/sec=2048773
+networking 45 [msec cputime] 984 [msec walltime]
+reasoning 1384 [msec cputime] 1392 [msec walltime]
+2020-04-03T12:13:15.389Z in=44 out=10 ent=10 step=10 brake=2 inf=2933827 sec=1.500 inf/sec=1955885
 
 eye --no-genid http://josd.github.io/eye/reasoning/graph/graph.axiom.n3 http://josd.github.io/eye/reasoning/graph/rpo-rules.n3 --query http://josd.github.io/eye/reasoning/graph/graph.filter.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/graph/graph.axiom.n3 SC=12
 GET http://josd.github.io/eye/reasoning/graph/rpo-rules.n3 SC=76
 GET http://josd.github.io/eye/reasoning/graph/graph.filter.n3 SC=1
-networking 34 [msec cputime] 1153 [msec walltime]
+networking 35 [msec cputime] 1178 [msec walltime]
 reasoning 13 [msec cputime] 12 [msec walltime]
-2020-04-02T23:02:05.280Z in=89 out=1 ent=24 step=70 brake=2 inf=91126 sec=0.120 inf/sec=759383
+2020-04-03T12:13:16.802Z in=89 out=1 ent=24 step=70 brake=2 inf=91110 sec=0.119 inf/sec=765630
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 --turtle http://josd.github.io/eye/reasoning/h2o/data-001.n3 http://josd.github.io/eye/reasoning/h2o/rules-001.n3 --query http://josd.github.io/eye/reasoning/h2o/query-001.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 74 [msec cputime] 89 [msec walltime]
-GET http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 translating file:///tmp/swipl_eye_14774_0
-Done: translated 1 triples in 0.3 ms (3922 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 89 [msec walltime]
+GET http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3 translating file:///tmp/swipl_eye_7666_0
+Done: translated 1 triples in 0.3 ms (3897 triples/s)
 SC=1
-GET http://josd.github.io/eye/reasoning/h2o/data-001.n3 translating file:///tmp/swipl_eye_14774_1
-Done: translated 7 triples in 0.3 ms (25827 triples/s)
+GET http://josd.github.io/eye/reasoning/h2o/data-001.n3 translating file:///tmp/swipl_eye_7666_1
+Done: translated 7 triples in 1.5 ms (4633 triples/s)
 SC=7
 GET http://josd.github.io/eye/reasoning/h2o/rules-001.n3 SC=1
 GET http://josd.github.io/eye/reasoning/h2o/query-001.n3 SC=1
-networking 12 [msec cputime] 1792 [msec walltime]
-reasoning 6 [msec cputime] 5 [msec walltime]
-2020-04-02T23:02:07.287Z in=10 out=1 ent=6 step=12 brake=2 inf=26609 sec=0.092 inf/sec=289228
+networking 13 [msec cputime] 2007 [msec walltime]
+reasoning 5 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:19.019Z in=10 out=1 ent=6 step=12 brake=2 inf=26591 sec=0.091 inf/sec=292209
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/hanoi/hanoi.n3 --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 74 [msec cputime] 88 [msec walltime]
 GET http://josd.github.io/eye/reasoning/hanoi/hanoi.n3 SC=3
-networking 6 [msec cputime] 351 [msec walltime]
+networking 6 [msec cputime] 375 [msec walltime]
 reasoning 12 [msec cputime] 12 [msec walltime]
-2020-04-02T23:02:07.849Z in=3 out=1 ent=2 step=2 brake=1 inf=38875 sec=0.089 inf/sec=436798
+2020-04-03T12:13:19.620Z in=3 out=1 ent=2 step=2 brake=1 inf=38857 sec=0.092 inf/sec=422359
 
 eye --no-genid http://josd.github.io/eye/reasoning/image/year.n3 http://josd.github.io/eye/reasoning/image/easter.n3 --image ype.pvm
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/image/year.n3 SC=2
 GET http://josd.github.io/eye/reasoning/image/easter.n3 SC=2
-networking 14 [msec cputime] 758 [msec walltime]
+networking 14 [msec cputime] 770 [msec walltime]
 eye --no-genid http://josd.github.io/eye/reasoning/image/year.n3 http://josd.github.io/eye/reasoning/image/easter.n3 --no-genid --query http://josd.github.io/eye/reasoning/image/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 69 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/image/query.n3 SC=1
-networking 3 [msec cputime] 373 [msec walltime]
-reasoning 757 [msec cputime] 759 [msec walltime]
-2020-04-02T23:02:10.814Z in=5 out=101 ent=202 step=404 brake=2 inf=1726355 sec=0.829 inf/sec=2082455
+networking 3 [msec cputime] 363 [msec walltime]
+reasoning 783 [msec cputime] 783 [msec walltime]
+2020-04-03T12:13:22.657Z in=5 out=101 ent=202 step=404 brake=2 inf=1726351 sec=0.856 inf/sec=2016765
 
 eye --no-genid http://josd.github.io/eye/reasoning/iq/iq.n3 --pass-all
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/iq/iq.n3 SC=7
-networking 6 [msec cputime] 365 [msec walltime]
+networking 6 [msec cputime] 383 [msec walltime]
 reasoning 21 [msec cputime] 21 [msec walltime]
-2020-04-02T23:02:11.414Z in=7 out=10 ent=13 step=26 brake=2 inf=59774 sec=0.099 inf/sec=603778
+2020-04-03T12:13:23.288Z in=7 out=10 ent=13 step=26 brake=2 inf=59777 sec=0.098 inf/sec=609969
+
+eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/lee/lee_program.pl --query http://josd.github.io/eye/reasoning/lee/lee_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/lee/lee_program.pl 
+GET http://josd.github.io/eye/reasoning/lee/lee_query.n3 SC=1
+networking 6 [msec cputime] 1055 [msec walltime]
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:24.550Z in=1 out=1 ent=1 step=1 brake=1 inf=29988 sec=0.084 inf/sec=357000
+
+eye --no-genid --plugin http://josd.github.io/eye/reasoning/lee/lee_program.pl --query http://josd.github.io/eye/reasoning/lee/lee_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
+GET http://josd.github.io/eye/reasoning/lee/lee_program.pl 
+GET http://josd.github.io/eye/reasoning/lee/lee_query.n3 SC=1
+networking 7 [msec cputime] 452 [msec walltime]
+reasoning 361 [msec cputime] 363 [msec walltime]
+2020-04-03T12:13:25.556Z in=1 out=1 ent=1 step=1 brake=1 inf=676820 sec=0.437 inf/sec=1548787
 
 eye --no-genid http://josd.github.io/eye/reasoning/lldm/lldmD.n3 http://josd.github.io/eye/reasoning/lldm/lldmP.n3 --query http://josd.github.io/eye/reasoning/lldm/lldmF.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/lldm/lldmD.n3 SC=9
 GET http://josd.github.io/eye/reasoning/lldm/lldmP.n3 SC=158
 GET http://josd.github.io/eye/reasoning/lldm/lldmF.n3 SC=1
-networking 61 [msec cputime] 1190 [msec walltime]
-reasoning 57 [msec cputime] 56 [msec walltime]
-2020-04-02T23:02:12.860Z in=168 out=1 ent=39 step=124 brake=4 inf=230697 sec=0.190 inf/sec=1214195
+networking 63 [msec cputime] 1156 [msec walltime]
+reasoning 58 [msec cputime] 58 [msec walltime]
+2020-04-03T12:13:26.974Z in=168 out=1 ent=39 step=124 brake=4 inf=230699 sec=0.192 inf/sec=1201557
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/map . --nope http://josd.github.io/eye/reasoning/map/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent1-map.n3 --query http://josd.github.io/eye/reasoning/map/agent1-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 74 [msec cputime] 94 [msec walltime]
 GET http://josd.github.io/eye/reasoning/map/gps-plugin.n3 FROM ./gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/map/agent1-map.n3 FROM ./agent1-map.n3 SC=2
 GET http://josd.github.io/eye/reasoning/map/agent1-query.n3 FROM ./agent1-query.n3 SC=1
-networking 21 [msec cputime] 23 [msec walltime]
+networking 22 [msec cputime] 27 [msec walltime]
 reasoning 1 [msec cputime] 1 [msec walltime]
-2020-04-02T23:02:13.095Z in=10 out=1 ent=1 step=1 brake=2 inf=55283 sec=0.096 inf/sec=575865
+2020-04-03T12:13:27.212Z in=10 out=1 ent=1 step=1 brake=2 inf=55285 sec=0.097 inf/sec=569948
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/map . http://josd.github.io/eye/reasoning/map/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent1-map.n3 --query http://josd.github.io/eye/reasoning/map/agent1-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/map/gps-plugin.n3 FROM ./gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/map/agent1-map.n3 FROM ./agent1-map.n3 SC=2
 GET http://josd.github.io/eye/reasoning/map/agent1-query.n3 FROM ./agent1-query.n3 SC=1
-networking 21 [msec cputime] 22 [msec walltime]
-reasoning 26 [msec cputime] 25 [msec walltime]
-2020-04-02T23:02:13.335Z in=10 out=1 ent=1 step=1 brake=2 inf=103023 sec=0.117 inf/sec=880538
+networking 22 [msec cputime] 22 [msec walltime]
+reasoning 26 [msec cputime] 27 [msec walltime]
+2020-04-03T12:13:27.453Z in=10 out=1 ent=1 step=1 brake=2 inf=103026 sec=0.118 inf/sec=873102
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/map . --nope http://josd.github.io/eye/reasoning/map/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent2-map.n3 --proof http://josd.github.io/eye/reasoning/map/agent1-proof.n3 --query http://josd.github.io/eye/reasoning/map/agent2-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 82 [msec walltime]
 GET http://josd.github.io/eye/reasoning/map/gps-plugin.n3 FROM ./gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/map/agent2-map.n3 FROM ./agent2-map.n3 SC=2
 GET http://josd.github.io/eye/reasoning/map/agent1-proof.n3 FROM ./agent1-proof.n3 SC=432
 GET http://josd.github.io/eye/reasoning/map/agent2-query.n3 FROM ./agent2-query.n3 SC=1
-networking 132 [msec cputime] 135 [msec walltime]
-reasoning 11 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:13.672Z in=442 out=1 ent=11 step=82 brake=4 inf=350610 sec=0.213 inf/sec=1646056
+networking 135 [msec cputime] 141 [msec walltime]
+reasoning 12 [msec cputime] 12 [msec walltime]
+2020-04-03T12:13:27.797Z in=442 out=1 ent=11 step=82 brake=4 inf=350613 sec=0.216 inf/sec=1623208
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/map . http://josd.github.io/eye/reasoning/map/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent2-map.n3 --proof http://josd.github.io/eye/reasoning/map/agent1-proof.n3 --query http://josd.github.io/eye/reasoning/map/agent2-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/map/gps-plugin.n3 FROM ./gps-plugin.n3 SC=7
 GET http://josd.github.io/eye/reasoning/map/agent2-map.n3 FROM ./agent2-map.n3 SC=2
 GET http://josd.github.io/eye/reasoning/map/agent1-proof.n3 FROM ./agent1-proof.n3 SC=432
 GET http://josd.github.io/eye/reasoning/map/agent2-query.n3 FROM ./agent2-query.n3 SC=1
-networking 166 [msec cputime] 169 [msec walltime]
-reasoning 56 [msec cputime] 56 [msec walltime]
-2020-04-02T23:02:14.090Z in=442 out=1 ent=11 step=82 brake=4 inf=442397 sec=0.293 inf/sec=1509887
+networking 171 [msec cputime] 175 [msec walltime]
+reasoning 58 [msec cputime] 58 [msec walltime]
+2020-04-03T12:13:28.221Z in=442 out=1 ent=11 step=82 brake=4 inf=442399 sec=0.298 inf/sec=1484560
 
 eye --no-genid http://josd.github.io/eye/reasoning/medic/medic.n3 --query http://josd.github.io/eye/reasoning/medic/medicF.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/medic/medic.n3 SC=17
 GET http://josd.github.io/eye/reasoning/medic/medicF.n3 SC=1
-networking 13 [msec cputime] 746 [msec walltime]
-reasoning 10 [msec cputime] 10 [msec walltime]
-2020-04-02T23:02:15.047Z in=18 out=2 ent=4 step=8 brake=4 inf=45459 sec=0.095 inf/sec=478516
+networking 13 [msec cputime] 786 [msec walltime]
+reasoning 11 [msec cputime] 11 [msec walltime]
+2020-04-03T12:13:29.220Z in=18 out=2 ent=4 step=8 brake=4 inf=45461 sec=0.096 inf/sec=473552
 
 eye --no-genid http://josd.github.io/eye/reasoning/mmln/mmln-gv-example.n3 http://josd.github.io/eye/reasoning/mmln/mmln-gv-mln.n3 http://josd.github.io/eye/reasoning/mmln/mmln-plugin.n3 --query http://josd.github.io/eye/reasoning/mmln/mmln-gv-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/mmln/mmln-gv-example.n3 SC=15
 GET http://josd.github.io/eye/reasoning/mmln/mmln-gv-mln.n3 SC=328
 GET http://josd.github.io/eye/reasoning/mmln/mmln-plugin.n3 SC=1
 GET http://josd.github.io/eye/reasoning/mmln/mmln-gv-query.n3 SC=1
-networking 221 [msec cputime] 1786 [msec walltime]
-reasoning 1027 [msec cputime] 1032 [msec walltime]
-2020-04-02T23:02:18.065Z in=345 out=47 ent=105 step=332 brake=4 inf=2072576 sec=1.319 inf/sec=1571324
+networking 222 [msec cputime] 1820 [msec walltime]
+reasoning 1031 [msec cputime] 1033 [msec walltime]
+2020-04-03T12:13:32.275Z in=345 out=47 ent=105 step=332 brake=4 inf=2072578 sec=1.324 inf/sec=1565391
 
 eye --no-genid --wcache http://josd.github.io/eye/reasoning/mq . --turtle http://josd.github.io/eye/reasoning/mq/data.n3 --multi-query
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 89 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 89 [msec walltime]
 GET http://josd.github.io/eye/reasoning/mq/data.n3 FROM ./data.n3 translating file:///home/jdroo/github.com/josd/eye/reasoning/mq/data.n3
-Done: translated 100000 triples in 3930.3 ms (25443 triples/s)
+Done: translated 100000 triples in 4083.2 ms (24491 triples/s)
 SC=100000
-networking 3863 [msec cputime] 3965 [msec walltime]
+networking 4094 [msec cputime] 4101 [msec walltime]
 GET http://josd.github.io/eye/reasoning/mq/queries/query1.n3 FROM ./queries/query1.n3 SC=1
-reasoning 99 [msec cputime] 148 [msec walltime]
-2020-04-02T23:02:22.388Z mq=1 out=0 inf=3424 sec=0.148 out/sec=0 inf/sec=23135
+reasoning 98 [msec cputime] 98 [msec walltime]
+2020-04-03T12:13:36.682Z mq=1 out=0 inf=3414 sec=0.098 out/sec=0 inf/sec=34837
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query2.n3 FROM ./queries/query2.n3 SC=1
-reasoning 15 [msec cputime] 18 [msec walltime]
-2020-04-02T23:02:22.407Z mq=2 out=3 inf=15743 sec=0.018 out/sec=167 inf/sec=874611
+reasoning 11 [msec cputime] 11 [msec walltime]
+2020-04-03T12:13:36.693Z mq=2 out=3 inf=15733 sec=0.011 out/sec=273 inf/sec=1430273
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query3.n3 FROM ./queries/query3.n3 SC=1
-reasoning 4 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.415Z mq=3 out=0 inf=3430 sec=0.008 out/sec=0 inf/sec=428750
+reasoning 4 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.697Z mq=3 out=0 inf=3420 sec=0.003 out/sec=0 inf/sec=1140000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query4.n3 FROM ./queries/query4.n3 SC=1
-reasoning 8 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.423Z mq=4 out=1 inf=8343 sec=0.007 out/sec=143 inf/sec=1191857
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.704Z mq=4 out=1 inf=8332 sec=0.006 out/sec=167 inf/sec=1388667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query5.n3 FROM ./queries/query5.n3 SC=1
-reasoning 13 [msec cputime] 13 [msec walltime]
-2020-04-02T23:02:22.437Z mq=5 out=4 inf=15438 sec=0.013 out/sec=308 inf/sec=1187538
+reasoning 14 [msec cputime] 13 [msec walltime]
+2020-04-03T12:13:36.717Z mq=5 out=4 inf=15428 sec=0.013 out/sec=308 inf/sec=1186769
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query6.n3 FROM ./queries/query6.n3 SC=1
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:22.441Z mq=6 out=0 inf=3430 sec=0.004 out/sec=0 inf/sec=857500
+reasoning 4 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.721Z mq=6 out=0 inf=3420 sec=0.003 out/sec=0 inf/sec=1140000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query7.n3 FROM ./queries/query7.n3 SC=1
-reasoning 11 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:22.453Z mq=7 out=2 inf=12077 sec=0.011 out/sec=182 inf/sec=1097909
+reasoning 10 [msec cputime] 9 [msec walltime]
+2020-04-03T12:13:36.731Z mq=7 out=2 inf=12067 sec=0.009 out/sec=222 inf/sec=1340778
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query8.n3 FROM ./queries/query8.n3 SC=1
-reasoning 9 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:22.463Z mq=8 out=1 inf=8314 sec=0.009 out/sec=111 inf/sec=923778
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.737Z mq=8 out=1 inf=8304 sec=0.006 out/sec=167 inf/sec=1384000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query9.n3 FROM ./queries/query9.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.471Z mq=9 out=1 inf=8456 sec=0.007 out/sec=143 inf/sec=1208000
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.743Z mq=9 out=1 inf=8446 sec=0.005 out/sec=200 inf/sec=1689200
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query10.n3 FROM ./queries/query10.n3 SC=1
-reasoning 14 [msec cputime] 14 [msec walltime]
-2020-04-02T23:02:22.486Z mq=10 out=3 inf=14176 sec=0.014 out/sec=214 inf/sec=1012571
+reasoning 11 [msec cputime] 10 [msec walltime]
+2020-04-03T12:13:36.754Z mq=10 out=3 inf=14167 sec=0.010 out/sec=300 inf/sec=1416700
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query11.n3 FROM ./queries/query11.n3 SC=1
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:22.491Z mq=11 out=0 inf=3402 sec=0.004 out/sec=0 inf/sec=850500
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.757Z mq=11 out=0 inf=3392 sec=0.002 out/sec=0 inf/sec=1696000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query12.n3 FROM ./queries/query12.n3 SC=1
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:22.496Z mq=12 out=0 inf=3417 sec=0.004 out/sec=0 inf/sec=854250
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.761Z mq=12 out=0 inf=3407 sec=0.003 out/sec=0 inf/sec=1135667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query13.n3 FROM ./queries/query13.n3 SC=1
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:22.501Z mq=13 out=0 inf=3471 sec=0.004 out/sec=0 inf/sec=867750
+reasoning 4 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.764Z mq=13 out=0 inf=3461 sec=0.003 out/sec=0 inf/sec=1153667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query14.n3 FROM ./queries/query14.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.505Z mq=14 out=0 inf=3402 sec=0.003 out/sec=0 inf/sec=1134000
+reasoning 2 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.767Z mq=14 out=0 inf=3392 sec=0.002 out/sec=0 inf/sec=1696000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query15.n3 FROM ./queries/query15.n3 SC=1
-reasoning 8 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.514Z mq=15 out=1 inf=8242 sec=0.007 out/sec=143 inf/sec=1177429
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.773Z mq=15 out=1 inf=8232 sec=0.006 out/sec=167 inf/sec=1372000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query16.n3 FROM ./queries/query16.n3 SC=1
-reasoning 7 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.524Z mq=16 out=1 inf=7895 sec=0.008 out/sec=125 inf/sec=986875
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.779Z mq=16 out=1 inf=7887 sec=0.005 out/sec=200 inf/sec=1577400
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query17.n3 FROM ./queries/query17.n3 SC=1
-reasoning 8 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.531Z mq=17 out=1 inf=8303 sec=0.007 out/sec=143 inf/sec=1186143
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.786Z mq=17 out=1 inf=8293 sec=0.006 out/sec=167 inf/sec=1382167
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query18.n3 FROM ./queries/query18.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.536Z mq=18 out=0 inf=3369 sec=0.003 out/sec=0 inf/sec=1123000
+reasoning 4 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.790Z mq=18 out=0 inf=3359 sec=0.003 out/sec=0 inf/sec=1119667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query19.n3 FROM ./queries/query19.n3 SC=1
-reasoning 7 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.543Z mq=19 out=1 inf=8042 sec=0.006 out/sec=167 inf/sec=1340333
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.796Z mq=19 out=1 inf=8032 sec=0.005 out/sec=200 inf/sec=1606400
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query20.n3 FROM ./queries/query20.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.547Z mq=20 out=0 inf=3353 sec=0.003 out/sec=0 inf/sec=1117667
+reasoning 2 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.798Z mq=20 out=0 inf=3337 sec=0.002 out/sec=0 inf/sec=1668500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query21.n3 FROM ./queries/query21.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.555Z mq=21 out=1 inf=8326 sec=0.008 out/sec=125 inf/sec=1040750
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.804Z mq=21 out=1 inf=8316 sec=0.005 out/sec=200 inf/sec=1663200
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query22.n3 FROM ./queries/query22.n3 SC=1
-reasoning 11 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:22.567Z mq=22 out=3 inf=15739 sec=0.011 out/sec=273 inf/sec=1430818
+reasoning 12 [msec cputime] 11 [msec walltime]
+2020-04-03T12:13:36.816Z mq=22 out=3 inf=15729 sec=0.011 out/sec=273 inf/sec=1429909
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query23.n3 FROM ./queries/query23.n3 SC=1
-reasoning 11 [msec cputime] 10 [msec walltime]
-2020-04-02T23:02:22.578Z mq=23 out=3 inf=12743 sec=0.010 out/sec=300 inf/sec=1274300
+reasoning 10 [msec cputime] 9 [msec walltime]
+2020-04-03T12:13:36.826Z mq=23 out=3 inf=12733 sec=0.009 out/sec=333 inf/sec=1414778
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query24.n3 FROM ./queries/query24.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.586Z mq=24 out=1 inf=7913 sec=0.007 out/sec=143 inf/sec=1130429
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.832Z mq=24 out=1 inf=7902 sec=0.005 out/sec=200 inf/sec=1580400
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query25.n3 FROM ./queries/query25.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.594Z mq=25 out=1 inf=6843 sec=0.007 out/sec=143 inf/sec=977571
+reasoning 5 [msec cputime] 4 [msec walltime]
+2020-04-03T12:13:36.837Z mq=25 out=1 inf=6833 sec=0.004 out/sec=250 inf/sec=1708250
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query26.n3 FROM ./queries/query26.n3 SC=1
-reasoning 16 [msec cputime] 16 [msec walltime]
-2020-04-02T23:02:22.610Z mq=26 out=5 inf=20148 sec=0.016 out/sec=313 inf/sec=1259250
+reasoning 15 [msec cputime] 14 [msec walltime]
+2020-04-03T12:13:36.852Z mq=26 out=5 inf=20138 sec=0.014 out/sec=357 inf/sec=1438429
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query27.n3 FROM ./queries/query27.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.614Z mq=27 out=0 inf=3432 sec=0.003 out/sec=0 inf/sec=1144000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.855Z mq=27 out=0 inf=3422 sec=0.002 out/sec=0 inf/sec=1711000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query28.n3 FROM ./queries/query28.n3 SC=1
 reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.622Z mq=28 out=1 inf=7930 sec=0.006 out/sec=167 inf/sec=1321667
+2020-04-03T12:13:36.861Z mq=28 out=1 inf=7920 sec=0.006 out/sec=167 inf/sec=1320000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query29.n3 FROM ./queries/query29.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.625Z mq=29 out=0 inf=3338 sec=0.003 out/sec=0 inf/sec=1112667
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.864Z mq=29 out=0 inf=3329 sec=0.002 out/sec=0 inf/sec=1664500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query30.n3 FROM ./queries/query30.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.629Z mq=30 out=0 inf=3436 sec=0.003 out/sec=0 inf/sec=1145333
+reasoning 2 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.866Z mq=30 out=0 inf=3426 sec=0.002 out/sec=0 inf/sec=1713000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query31.n3 FROM ./queries/query31.n3 SC=1
 reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.633Z mq=31 out=0 inf=3441 sec=0.003 out/sec=0 inf/sec=1147000
+2020-04-03T12:13:36.870Z mq=31 out=0 inf=3432 sec=0.003 out/sec=0 inf/sec=1144000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query32.n3 FROM ./queries/query32.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.642Z mq=32 out=1 inf=8314 sec=0.008 out/sec=125 inf/sec=1039250
+reasoning 7 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:36.878Z mq=32 out=1 inf=8304 sec=0.007 out/sec=143 inf/sec=1186286
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query33.n3 FROM ./queries/query33.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.645Z mq=33 out=0 inf=3405 sec=0.003 out/sec=0 inf/sec=1135000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.881Z mq=33 out=0 inf=3395 sec=0.002 out/sec=0 inf/sec=1697500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query34.n3 FROM ./queries/query34.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.654Z mq=34 out=1 inf=8382 sec=0.008 out/sec=125 inf/sec=1047750
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:36.888Z mq=34 out=1 inf=8372 sec=0.007 out/sec=143 inf/sec=1196000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query35.n3 FROM ./queries/query35.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.662Z mq=35 out=1 inf=8298 sec=0.008 out/sec=125 inf/sec=1037250
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.894Z mq=35 out=1 inf=8289 sec=0.006 out/sec=167 inf/sec=1381500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query36.n3 FROM ./queries/query36.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.666Z mq=36 out=0 inf=3435 sec=0.003 out/sec=0 inf/sec=1145000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.897Z mq=36 out=0 inf=3426 sec=0.002 out/sec=0 inf/sec=1713000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query37.n3 FROM ./queries/query37.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.670Z mq=37 out=0 inf=3408 sec=0.003 out/sec=0 inf/sec=1136000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.900Z mq=37 out=0 inf=3398 sec=0.002 out/sec=0 inf/sec=1699000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query38.n3 FROM ./queries/query38.n3 SC=1
-reasoning 12 [msec cputime] 12 [msec walltime]
-2020-04-02T23:02:22.682Z mq=38 out=1 inf=8396 sec=0.012 out/sec=83 inf/sec=699667
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:36.908Z mq=38 out=1 inf=8386 sec=0.007 out/sec=143 inf/sec=1198000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query39.n3 FROM ./queries/query39.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.690Z mq=39 out=1 inf=7889 sec=0.007 out/sec=143 inf/sec=1127000
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:36.915Z mq=39 out=1 inf=7879 sec=0.005 out/sec=200 inf/sec=1575800
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query40.n3 FROM ./queries/query40.n3 SC=1
-reasoning 9 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:22.700Z mq=40 out=1 inf=8284 sec=0.009 out/sec=111 inf/sec=920444
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.921Z mq=40 out=1 inf=8276 sec=0.006 out/sec=167 inf/sec=1379333
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query41.n3 FROM ./queries/query41.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.704Z mq=41 out=0 inf=3417 sec=0.003 out/sec=0 inf/sec=1139000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.924Z mq=41 out=0 inf=3407 sec=0.002 out/sec=0 inf/sec=1703500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query42.n3 FROM ./queries/query42.n3 SC=1
-reasoning 17 [msec cputime] 18 [msec walltime]
-2020-04-02T23:02:22.722Z mq=42 out=5 inf=21575 sec=0.018 out/sec=278 inf/sec=1198611
+reasoning 16 [msec cputime] 16 [msec walltime]
+2020-04-03T12:13:36.941Z mq=42 out=5 inf=21565 sec=0.016 out/sec=313 inf/sec=1347813
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query43.n3 FROM ./queries/query43.n3 SC=1
-reasoning 12 [msec cputime] 12 [msec walltime]
-2020-04-02T23:02:22.735Z mq=43 out=3 inf=14574 sec=0.012 out/sec=250 inf/sec=1214500
+reasoning 11 [msec cputime] 10 [msec walltime]
+2020-04-03T12:13:36.951Z mq=43 out=3 inf=14564 sec=0.010 out/sec=300 inf/sec=1456400
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query44.n3 FROM ./queries/query44.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.744Z mq=44 out=1 inf=8366 sec=0.008 out/sec=125 inf/sec=1045750
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.958Z mq=44 out=1 inf=8356 sec=0.006 out/sec=167 inf/sec=1392667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query45.n3 FROM ./queries/query45.n3 SC=1
-reasoning 4 [msec cputime] 5 [msec walltime]
-2020-04-02T23:02:22.750Z mq=45 out=0 inf=3322 sec=0.005 out/sec=0 inf/sec=664400
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.961Z mq=45 out=0 inf=3312 sec=0.002 out/sec=0 inf/sec=1656000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query46.n3 FROM ./queries/query46.n3 SC=1
-reasoning 5 [msec cputime] 5 [msec walltime]
-2020-04-02T23:02:22.755Z mq=46 out=0 inf=3479 sec=0.005 out/sec=0 inf/sec=695800
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.965Z mq=46 out=0 inf=3469 sec=0.003 out/sec=0 inf/sec=1156333
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query47.n3 FROM ./queries/query47.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.759Z mq=47 out=0 inf=3347 sec=0.003 out/sec=0 inf/sec=1115667
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:36.967Z mq=47 out=0 inf=3337 sec=0.002 out/sec=0 inf/sec=1668500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query48.n3 FROM ./queries/query48.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.767Z mq=48 out=1 inf=6826 sec=0.007 out/sec=143 inf/sec=975143
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.974Z mq=48 out=1 inf=6818 sec=0.006 out/sec=167 inf/sec=1136333
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query49.n3 FROM ./queries/query49.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.770Z mq=49 out=0 inf=3407 sec=0.003 out/sec=0 inf/sec=1135667
+reasoning 4 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:36.977Z mq=49 out=0 inf=3397 sec=0.003 out/sec=0 inf/sec=1132333
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query50.n3 FROM ./queries/query50.n3 SC=1
-reasoning 11 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:22.782Z mq=50 out=3 inf=14639 sec=0.011 out/sec=273 inf/sec=1330818
+reasoning 11 [msec cputime] 10 [msec walltime]
+2020-04-03T12:13:36.988Z mq=50 out=3 inf=14629 sec=0.010 out/sec=300 inf/sec=1462900
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query51.n3 FROM ./queries/query51.n3 SC=1
-reasoning 7 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.789Z mq=51 out=1 inf=7897 sec=0.006 out/sec=167 inf/sec=1316167
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:36.995Z mq=51 out=1 inf=7887 sec=0.006 out/sec=167 inf/sec=1314500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query52.n3 FROM ./queries/query52.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.796Z mq=52 out=1 inf=8275 sec=0.007 out/sec=143 inf/sec=1182143
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.001Z mq=52 out=1 inf=8265 sec=0.006 out/sec=167 inf/sec=1377500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query53.n3 FROM ./queries/query53.n3 SC=1
-reasoning 9 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:22.806Z mq=53 out=2 inf=10598 sec=0.009 out/sec=222 inf/sec=1177556
+reasoning 9 [msec cputime] 8 [msec walltime]
+2020-04-03T12:13:37.010Z mq=53 out=2 inf=10588 sec=0.008 out/sec=250 inf/sec=1323500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query54.n3 FROM ./queries/query54.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.809Z mq=54 out=0 inf=3385 sec=0.003 out/sec=0 inf/sec=1128333
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:37.013Z mq=54 out=0 inf=3374 sec=0.003 out/sec=0 inf/sec=1124667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query55.n3 FROM ./queries/query55.n3 SC=1
-reasoning 15 [msec cputime] 15 [msec walltime]
-2020-04-02T23:02:22.826Z mq=55 out=5 inf=20075 sec=0.015 out/sec=333 inf/sec=1338333
+reasoning 15 [msec cputime] 14 [msec walltime]
+2020-04-03T12:13:37.029Z mq=55 out=5 inf=20064 sec=0.014 out/sec=357 inf/sec=1433143
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query56.n3 FROM ./queries/query56.n3 SC=1
 reasoning 7 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.833Z mq=56 out=1 inf=8269 sec=0.006 out/sec=167 inf/sec=1378167
+2020-04-03T12:13:37.035Z mq=56 out=1 inf=8259 sec=0.006 out/sec=167 inf/sec=1376500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query57.n3 FROM ./queries/query57.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.840Z mq=57 out=1 inf=6690 sec=0.007 out/sec=143 inf/sec=955714
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:37.041Z mq=57 out=1 inf=6680 sec=0.005 out/sec=200 inf/sec=1336000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query58.n3 FROM ./queries/query58.n3 SC=1
-reasoning 6 [msec cputime] 10 [msec walltime]
-2020-04-02T23:02:22.851Z mq=58 out=0 inf=3465 sec=0.010 out/sec=0 inf/sec=346500
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:37.045Z mq=58 out=0 inf=3455 sec=0.003 out/sec=0 inf/sec=1151667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query59.n3 FROM ./queries/query59.n3 SC=1
-reasoning 11 [msec cputime] 12 [msec walltime]
-2020-04-02T23:02:22.864Z mq=59 out=2 inf=10516 sec=0.012 out/sec=167 inf/sec=876333
+reasoning 9 [msec cputime] 8 [msec walltime]
+2020-04-03T12:13:37.054Z mq=59 out=2 inf=10507 sec=0.008 out/sec=250 inf/sec=1313375
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query60.n3 FROM ./queries/query60.n3 SC=1
-reasoning 11 [msec cputime] 17 [msec walltime]
-2020-04-02T23:02:22.881Z mq=60 out=3 inf=14245 sec=0.017 out/sec=176 inf/sec=837941
+reasoning 10 [msec cputime] 9 [msec walltime]
+2020-04-03T12:13:37.064Z mq=60 out=3 inf=14235 sec=0.009 out/sec=333 inf/sec=1581667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query61.n3 FROM ./queries/query61.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:22.884Z mq=61 out=0 inf=3401 sec=0.002 out/sec=0 inf/sec=1700500
+2020-04-03T12:13:37.067Z mq=61 out=0 inf=3390 sec=0.002 out/sec=0 inf/sec=1695000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query62.n3 FROM ./queries/query62.n3 SC=1
-reasoning 13 [msec cputime] 13 [msec walltime]
-2020-04-02T23:02:22.898Z mq=62 out=5 inf=18907 sec=0.013 out/sec=385 inf/sec=1454385
+reasoning 15 [msec cputime] 15 [msec walltime]
+2020-04-03T12:13:37.082Z mq=62 out=5 inf=18897 sec=0.015 out/sec=333 inf/sec=1259800
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query63.n3 FROM ./queries/query63.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.901Z mq=63 out=0 inf=3401 sec=0.003 out/sec=0 inf/sec=1133667
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.085Z mq=63 out=0 inf=3391 sec=0.002 out/sec=0 inf/sec=1695500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query64.n3 FROM ./queries/query64.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.905Z mq=64 out=0 inf=3479 sec=0.003 out/sec=0 inf/sec=1159667
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.088Z mq=64 out=0 inf=3469 sec=0.002 out/sec=0 inf/sec=1734500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query65.n3 FROM ./queries/query65.n3 SC=1
-reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.911Z mq=65 out=1 inf=6690 sec=0.006 out/sec=167 inf/sec=1115000
+reasoning 5 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:37.093Z mq=65 out=1 inf=6680 sec=0.005 out/sec=200 inf/sec=1336000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query66.n3 FROM ./queries/query66.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.919Z mq=66 out=2 inf=10115 sec=0.007 out/sec=286 inf/sec=1445000
+reasoning 9 [msec cputime] 8 [msec walltime]
+2020-04-03T12:13:37.101Z mq=66 out=2 inf=10105 sec=0.008 out/sec=250 inf/sec=1263125
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query67.n3 FROM ./queries/query67.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:22.923Z mq=67 out=0 inf=3430 sec=0.003 out/sec=0 inf/sec=1143333
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.105Z mq=67 out=0 inf=3420 sec=0.002 out/sec=0 inf/sec=1710000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query68.n3 FROM ./queries/query68.n3 SC=1
-reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:22.929Z mq=68 out=1 inf=7953 sec=0.006 out/sec=167 inf/sec=1325500
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.112Z mq=68 out=1 inf=7943 sec=0.006 out/sec=167 inf/sec=1323833
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query69.n3 FROM ./queries/query69.n3 SC=1
 reasoning 10 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:22.939Z mq=69 out=2 inf=11932 sec=0.009 out/sec=222 inf/sec=1325778
+2020-04-03T12:13:37.122Z mq=69 out=2 inf=11922 sec=0.009 out/sec=222 inf/sec=1324667
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query70.n3 FROM ./queries/query70.n3 SC=1
-reasoning 2 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:22.942Z mq=70 out=0 inf=3380 sec=0.002 out/sec=0 inf/sec=1690000
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:37.125Z mq=70 out=0 inf=3370 sec=0.003 out/sec=0 inf/sec=1123333
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query71.n3 FROM ./queries/query71.n3 SC=1
-reasoning 12 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:22.954Z mq=71 out=3 inf=14288 sec=0.011 out/sec=273 inf/sec=1298909
+reasoning 13 [msec cputime] 12 [msec walltime]
+2020-04-03T12:13:37.138Z mq=71 out=3 inf=14278 sec=0.012 out/sec=250 inf/sec=1189833
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query72.n3 FROM ./queries/query72.n3 SC=1
-reasoning 10 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:22.963Z mq=72 out=3 inf=12738 sec=0.009 out/sec=333 inf/sec=1415333
+reasoning 11 [msec cputime] 10 [msec walltime]
+2020-04-03T12:13:37.149Z mq=72 out=3 inf=12722 sec=0.010 out/sec=300 inf/sec=1272200
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query73.n3 FROM ./queries/query73.n3 SC=1
 reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:22.972Z mq=73 out=2 inf=10550 sec=0.008 out/sec=250 inf/sec=1318750
+2020-04-03T12:13:37.157Z mq=73 out=2 inf=10540 sec=0.008 out/sec=250 inf/sec=1317500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query74.n3 FROM ./queries/query74.n3 SC=1
 reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.979Z mq=74 out=1 inf=8319 sec=0.007 out/sec=143 inf/sec=1188429
+2020-04-03T12:13:37.165Z mq=74 out=1 inf=8309 sec=0.007 out/sec=143 inf/sec=1187000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query75.n3 FROM ./queries/query75.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.987Z mq=75 out=1 inf=6705 sec=0.007 out/sec=143 inf/sec=957857
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.171Z mq=75 out=1 inf=6695 sec=0.006 out/sec=167 inf/sec=1115833
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query76.n3 FROM ./queries/query76.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:22.994Z mq=76 out=1 inf=8344 sec=0.007 out/sec=143 inf/sec=1192000
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:37.179Z mq=76 out=1 inf=8334 sec=0.007 out/sec=143 inf/sec=1190571
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query77.n3 FROM ./queries/query77.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:23.002Z mq=77 out=1 inf=7901 sec=0.007 out/sec=143 inf/sec=1128714
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:37.185Z mq=77 out=1 inf=7891 sec=0.005 out/sec=200 inf/sec=1578200
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query78.n3 FROM ./queries/query78.n3 SC=1
-reasoning 16 [msec cputime] 15 [msec walltime]
-2020-04-02T23:02:23.018Z mq=78 out=5 inf=18668 sec=0.015 out/sec=333 inf/sec=1244533
+reasoning 17 [msec cputime] 17 [msec walltime]
+2020-04-03T12:13:37.203Z mq=78 out=5 inf=18657 sec=0.017 out/sec=294 inf/sec=1097471
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query79.n3 FROM ./queries/query79.n3 SC=1
-reasoning 10 [msec cputime] 10 [msec walltime]
-2020-04-02T23:02:23.028Z mq=79 out=3 inf=14639 sec=0.010 out/sec=300 inf/sec=1463900
+reasoning 11 [msec cputime] 10 [msec walltime]
+2020-04-03T12:13:37.214Z mq=79 out=3 inf=14629 sec=0.010 out/sec=300 inf/sec=1462900
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query80.n3 FROM ./queries/query80.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.032Z mq=80 out=0 inf=3423 sec=0.002 out/sec=0 inf/sec=1711500
+2020-04-03T12:13:37.217Z mq=80 out=0 inf=3413 sec=0.002 out/sec=0 inf/sec=1706500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query81.n3 FROM ./queries/query81.n3 SC=1
-reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.035Z mq=81 out=0 inf=3405 sec=0.002 out/sec=0 inf/sec=1702500
+reasoning 2 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.219Z mq=81 out=0 inf=3394 sec=0.002 out/sec=0 inf/sec=1697000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query82.n3 FROM ./queries/query82.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.038Z mq=82 out=0 inf=3406 sec=0.002 out/sec=0 inf/sec=1703000
+2020-04-03T12:13:37.222Z mq=82 out=0 inf=3396 sec=0.002 out/sec=0 inf/sec=1698000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query83.n3 FROM ./queries/query83.n3 SC=1
-reasoning 9 [msec cputime] 9 [msec walltime]
-2020-04-02T23:02:23.047Z mq=83 out=2 inf=10531 sec=0.009 out/sec=222 inf/sec=1170111
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:37.230Z mq=83 out=2 inf=10522 sec=0.007 out/sec=286 inf/sec=1503143
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query84.n3 FROM ./queries/query84.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.050Z mq=84 out=0 inf=3417 sec=0.002 out/sec=0 inf/sec=1708500
+2020-04-03T12:13:37.233Z mq=84 out=0 inf=3407 sec=0.002 out/sec=0 inf/sec=1703500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query85.n3 FROM ./queries/query85.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.053Z mq=85 out=0 inf=3472 sec=0.002 out/sec=0 inf/sec=1736000
+2020-04-03T12:13:37.236Z mq=85 out=0 inf=3462 sec=0.002 out/sec=0 inf/sec=1731000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query86.n3 FROM ./queries/query86.n3 SC=1
-reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:23.062Z mq=86 out=1 inf=8368 sec=0.008 out/sec=125 inf/sec=1046000
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.242Z mq=86 out=1 inf=8359 sec=0.006 out/sec=167 inf/sec=1393167
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query87.n3 FROM ./queries/query87.n3 SC=1
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:23.066Z mq=87 out=0 inf=3421 sec=0.004 out/sec=0 inf/sec=855250
+reasoning 3 [msec cputime] 3 [msec walltime]
+2020-04-03T12:13:37.246Z mq=87 out=0 inf=3411 sec=0.003 out/sec=0 inf/sec=1137000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query88.n3 FROM ./queries/query88.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:23.074Z mq=88 out=1 inf=8320 sec=0.007 out/sec=143 inf/sec=1188571
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:37.252Z mq=88 out=1 inf=8310 sec=0.005 out/sec=200 inf/sec=1662000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query89.n3 FROM ./queries/query89.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:23.082Z mq=89 out=1 inf=7956 sec=0.007 out/sec=143 inf/sec=1136571
+reasoning 6 [msec cputime] 5 [msec walltime]
+2020-04-03T12:13:37.258Z mq=89 out=1 inf=7946 sec=0.005 out/sec=200 inf/sec=1589200
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query90.n3 FROM ./queries/query90.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:23.090Z mq=90 out=1 inf=7953 sec=0.007 out/sec=143 inf/sec=1136143
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.265Z mq=90 out=1 inf=7943 sec=0.006 out/sec=167 inf/sec=1323833
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query91.n3 FROM ./queries/query91.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:23.094Z mq=91 out=0 inf=3380 sec=0.003 out/sec=0 inf/sec=1126667
+reasoning 2 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.267Z mq=91 out=0 inf=3370 sec=0.002 out/sec=0 inf/sec=1685000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query92.n3 FROM ./queries/query92.n3 SC=1
-reasoning 4 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:23.098Z mq=92 out=0 inf=3378 sec=0.003 out/sec=0 inf/sec=1126000
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.270Z mq=92 out=0 inf=3368 sec=0.002 out/sec=0 inf/sec=1684000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query93.n3 FROM ./queries/query93.n3 SC=1
-reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:23.105Z mq=93 out=1 inf=8399 sec=0.007 out/sec=143 inf/sec=1199857
+reasoning 8 [msec cputime] 7 [msec walltime]
+2020-04-03T12:13:37.278Z mq=93 out=1 inf=8389 sec=0.007 out/sec=143 inf/sec=1198429
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query94.n3 FROM ./queries/query94.n3 SC=1
 reasoning 8 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:23.114Z mq=94 out=2 inf=11966 sec=0.008 out/sec=250 inf/sec=1495750
+2020-04-03T12:13:37.286Z mq=94 out=2 inf=11956 sec=0.008 out/sec=250 inf/sec=1494500
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query95.n3 FROM ./queries/query95.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.116Z mq=95 out=0 inf=3436 sec=0.002 out/sec=0 inf/sec=1718000
+2020-04-03T12:13:37.289Z mq=95 out=0 inf=3426 sec=0.002 out/sec=0 inf/sec=1713000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query96.n3 FROM ./queries/query96.n3 SC=1
-reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:23.123Z mq=96 out=1 inf=7901 sec=0.006 out/sec=167 inf/sec=1316833
+reasoning 7 [msec cputime] 6 [msec walltime]
+2020-04-03T12:13:37.296Z mq=96 out=1 inf=7891 sec=0.006 out/sec=167 inf/sec=1315167
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query97.n3 FROM ./queries/query97.n3 SC=1
 reasoning 9 [msec cputime] 8 [msec walltime]
-2020-04-02T23:02:23.132Z mq=97 out=2 inf=11242 sec=0.008 out/sec=250 inf/sec=1405250
+2020-04-03T12:13:37.305Z mq=97 out=2 inf=11232 sec=0.008 out/sec=250 inf/sec=1404000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query98.n3 FROM ./queries/query98.n3 SC=1
-reasoning 13 [msec cputime] 13 [msec walltime]
-2020-04-02T23:02:23.146Z mq=98 out=5 inf=18630 sec=0.013 out/sec=385 inf/sec=1433077
+reasoning 14 [msec cputime] 14 [msec walltime]
+2020-04-03T12:13:37.319Z mq=98 out=5 inf=18620 sec=0.014 out/sec=357 inf/sec=1330000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query99.n3 FROM ./queries/query99.n3 SC=1
 reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:23.149Z mq=99 out=0 inf=3322 sec=0.002 out/sec=0 inf/sec=1661000
+2020-04-03T12:13:37.322Z mq=99 out=0 inf=3312 sec=0.002 out/sec=0 inf/sec=1656000
 
 GET http://josd.github.io/eye/reasoning/mq/queries/query100.n3 FROM ./queries/query100.n3 SC=1
-reasoning 3 [msec cputime] 3 [msec walltime]
-2020-04-02T23:02:23.152Z mq=100 out=0 inf=3388 sec=0.003 out/sec=0 inf/sec=1129333
+reasoning 3 [msec cputime] 2 [msec walltime]
+2020-04-03T12:13:37.325Z mq=100 out=0 inf=3378 sec=0.002 out/sec=0 inf/sec=1689000
 
-2020-04-02T23:02:23.152Z in=100100 out=117 ent=117 step=117 brake=100 inf=5606577 sec=4.731 inf/sec=1185072
+2020-04-03T12:13:37.325Z in=100100 out=117 ent=117 step=117 brake=100 inf=5605574 sec=4.904 inf/sec=1143062
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/notIn_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 88 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 89 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/components.n3 SC=2
-GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_14945_1
-Done: translated 2 triples in 0.2 ms (8382 triples/s)
+GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_7862_1
+Done: translated 2 triples in 0.2 ms (8097 triples/s)
 SC=2
 GET http://josd.github.io/eye/reasoning/n3c/notIn_query.n3 SC=1
-networking 10 [msec cputime] 1135 [msec walltime]
+networking 10 [msec cputime] 1113 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 SC=2
-reasoning 3 [msec cputime] 233 [msec walltime]
-2020-04-02T23:02:24.771Z in=7 out=2 ent=2 step=2 brake=1 inf=20552 sec=0.085 inf/sec=241788
+reasoning 3 [msec cputime] 189 [msec walltime]
+2020-04-03T12:13:38.848Z in=7 out=2 ent=2 step=2 brake=1 inf=20560 sec=0.086 inf/sec=239070
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 87 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 88 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/components.n3 SC=2
-GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_14967_1
-Done: translated 2 triples in 0.2 ms (8469 triples/s)
+GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_7884_1
+Done: translated 2 triples in 0.2 ms (8416 triples/s)
 SC=2
 GET http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3 SC=1
-networking 10 [msec cputime] 816 [msec walltime]
+networking 10 [msec cputime] 1163 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/subtasks.n3 SC=9
-reasoning 4 [msec cputime] 363 [msec walltime]
-2020-04-02T23:02:26.145Z in=14 out=1 ent=1 step=1 brake=1 inf=23344 sec=0.085 inf/sec=274635
+reasoning 4 [msec cputime] 362 [msec walltime]
+2020-04-03T12:13:40.569Z in=14 out=1 ent=1 step=1 brake=1 inf=23346 sec=0.086 inf/sec=271465
 
 eye --no-genid http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/notIn_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 88 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/components.n3 SC=2
-GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_14990_1
-Done: translated 2 triples in 0.2 ms (8150 triples/s)
+GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_7906_1
+Done: translated 2 triples in 0.4 ms (5563 triples/s)
 SC=2
 GET http://josd.github.io/eye/reasoning/n3c/notIn_query.n3 SC=1
-networking 10 [msec cputime] 610 [msec walltime]
+networking 11 [msec cputime] 622 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 SC=2
-reasoning 9 [msec cputime] 188 [msec walltime]
-2020-04-02T23:02:27.136Z in=7 out=2 ent=2 step=2 brake=1 inf=30749 sec=0.090 inf/sec=341656
+reasoning 8 [msec cputime] 201 [msec walltime]
+2020-04-03T12:13:41.589Z in=7 out=2 ent=2 step=2 brake=1 inf=30751 sec=0.090 inf/sec=341678
 
 eye --no-genid http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 89 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/components.n3 SC=2
-GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_15012_1
-Done: translated 2 triples in 0.2 ms (8363 triples/s)
+GET http://josd.github.io/eye/reasoning/n3c/tasks.n3 translating file:///tmp/swipl_eye_7928_1
+Done: translated 2 triples in 0.3 ms (7978 triples/s)
 SC=2
 GET http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3 SC=1
-networking 10 [msec cputime] 596 [msec walltime]
+networking 11 [msec cputime] 649 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3c/subtasks.n3 SC=9
-reasoning 12 [msec cputime] 197 [msec walltime]
-2020-04-02T23:02:28.124Z in=14 out=1 ent=1 step=1 brake=1 inf=36724 sec=0.093 inf/sec=394882
+reasoning 10 [msec cputime] 200 [msec walltime]
+2020-04-03T12:13:42.634Z in=14 out=1 ent=1 step=1 brake=1 inf=36726 sec=0.093 inf/sec=394903
 
 eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/n3p/simple.pl --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3p/simple.pl SC=8
-networking 2 [msec cputime] 355 [msec walltime]
-reasoning 3 [msec cputime] 2 [msec walltime]
-2020-04-02T23:02:28.682Z in=8 out=8 ent=0 step=0 brake=1 inf=12438 sec=0.076 inf/sec=163658
+networking 2 [msec cputime] 366 [msec walltime]
+reasoning 3 [msec cputime] 4 [msec walltime]
+2020-04-03T12:13:43.208Z in=8 out=8 ent=0 step=0 brake=1 inf=12440 sec=0.078 inf/sec=159487
 
 eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/n3p/extra.pl --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3p/extra.pl SC=7
-networking 2 [msec cputime] 413 [msec walltime]
+networking 2 [msec cputime] 429 [msec walltime]
 reasoning 1 [msec cputime] 1 [msec walltime]
-2020-04-02T23:02:29.288Z in=7 out=7 ent=0 step=0 brake=1 inf=10768 sec=0.073 inf/sec=147507
+2020-04-03T12:13:43.834Z in=7 out=7 ent=0 step=0 brake=1 inf=10769 sec=0.076 inf/sec=141697
 
 eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/n3p/literals.pl --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3p/literals.pl SC=10
-networking 2 [msec cputime] 359 [msec walltime]
-reasoning 2 [msec cputime] 1 [msec walltime]
-2020-04-02T23:02:29.838Z in=10 out=10 ent=0 step=0 brake=1 inf=11204 sec=0.074 inf/sec=151405
+networking 2 [msec cputime] 618 [msec walltime]
+reasoning 1 [msec cputime] 1 [msec walltime]
+2020-04-03T12:13:44.644Z in=10 out=10 ent=0 step=0 brake=1 inf=11206 sec=0.073 inf/sec=153507
 
 eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/n3p/sample.pl --pass-all
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/n3p/sample.pl SC=12
-networking 2 [msec cputime] 424 [msec walltime]
+networking 3 [msec cputime] 432 [msec walltime]
 reasoning 6 [msec cputime] 6 [msec walltime]
-2020-04-02T23:02:30.459Z in=12 out=12 ent=13 step=29 brake=2 inf=20036 sec=0.079 inf/sec=253620
+2020-04-03T12:13:45.277Z in=12 out=12 ent=13 step=29 brake=2 inf=20038 sec=0.079 inf/sec=253646
 
 eye --no-genid http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3 http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3 --query http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3 SC=13
 GET http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3 SC=5
 GET http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3 SC=1
-networking 38 [msec cputime] 1177 [msec walltime]
-reasoning 51 [msec cputime] 51 [msec walltime]
-2020-04-02T23:02:31.887Z in=19 out=1 ent=1 step=1 brake=2 inf=136404 sec=0.160 inf/sec=852525
+networking 37 [msec cputime] 1134 [msec walltime]
+reasoning 49 [msec cputime] 49 [msec walltime]
+2020-04-03T12:13:46.660Z in=19 out=1 ent=1 step=1 brake=2 inf=136408 sec=0.157 inf/sec=868841
 
 eye --no-genid --strict --no-numerals --turtle http://josd.github.io/eye/reasoning/numeral/numeral.n3 --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 88 [msec walltime]
-GET http://josd.github.io/eye/reasoning/numeral/numeral.n3 translating file:///tmp/swipl_eye_15097_0
-Done: translated 5 triples in 0.3 ms (18749 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 75 [msec cputime] 92 [msec walltime]
+GET http://josd.github.io/eye/reasoning/numeral/numeral.n3 translating file:///tmp/swipl_eye_8012_0
+Done: translated 5 triples in 0.3 ms (19622 triples/s)
 SC=5
-networking 4 [msec cputime] 370 [msec walltime]
+networking 4 [msec cputime] 385 [msec walltime]
 reasoning 7 [msec cputime] 7 [msec walltime]
-2020-04-02T23:02:32.468Z in=5 out=5 ent=5 step=5 brake=1 inf=22428 sec=0.084 inf/sec=267000
+2020-04-03T12:13:47.259Z in=5 out=5 ent=5 step=5 brake=1 inf=22430 sec=0.086 inf/sec=260814
 
 eye --no-genid http://josd.github.io/eye/reasoning/pi/pi.n3 --query http://josd.github.io/eye/reasoning/pi/pi-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/pi/pi.n3 SC=3
 GET http://josd.github.io/eye/reasoning/pi/pi-query.n3 SC=1
-networking 8 [msec cputime] 768 [msec walltime]
-reasoning 2065 [msec cputime] 2087 [msec walltime]
-2020-04-02T23:02:35.522Z in=4 out=1 ent=1 step=1 brake=1 inf=4497163 sec=2.144 inf/sec=2097557
+networking 8 [msec cputime] 801 [msec walltime]
+reasoning 2085 [msec cputime] 2107 [msec walltime]
+2020-04-03T12:13:50.368Z in=4 out=1 ent=1 step=1 brake=1 inf=4497165 sec=2.165 inf/sec=2077212
 
 eye --no-genid http://josd.github.io/eye/reasoning/pptbank/bankSW.n3 http://josd.github.io/eye/reasoning/pptbank/checking.n3 --query http://josd.github.io/eye/reasoning/pptbank/query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/pptbank/bankSW.n3 SC=3
 GET http://josd.github.io/eye/reasoning/pptbank/checking.n3 SC=1
 GET http://josd.github.io/eye/reasoning/pptbank/query.n3 SC=1
-networking 11 [msec cputime] 2535 [msec walltime]
+networking 11 [msec cputime] 1150 [msec walltime]
 GET http://josd.github.io/eye/reasoning/pptbank/acct3start.n3 SC=2
 GET http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3 SC=5
 GET http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3 SC=5
-reasoning 17 [msec cputime] 1145 [msec walltime]
-2020-04-02T23:02:39.461Z in=17 out=1 ent=2 step=4 brake=4 inf=46071 sec=0.100 inf/sec=460710
+reasoning 17 [msec cputime] 1168 [msec walltime]
+2020-04-03T12:13:52.937Z in=17 out=1 ent=2 step=4 brake=4 inf=46073 sec=0.099 inf/sec=465384
 
 eye --no-genid --nope palindrome.n3 palindrome-declarations.n3 preduction-plugin.n3 --query palindrome-preduction.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 88 [msec walltime]
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/palindrome.n3 SC=9
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/palindrome-declarations.n3 SC=5
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/preduction-plugin.n3 SC=9
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/palindrome-preduction.n3 SC=1
-networking 21 [msec cputime] 22 [msec walltime]
+networking 22 [msec cputime] 22 [msec walltime]
 reasoning 5 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:39.686Z in=24 out=6 ent=6 step=6 brake=1 inf=58956 sec=0.097 inf/sec=607794
+2020-04-03T12:13:53.166Z in=24 out=6 ent=6 step=6 brake=1 inf=58958 sec=0.100 inf/sec=589580
 
 eye --no-genid http://josd.github.io/eye/reasoning/preduction/palindrome.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 69 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/preduction/palindrome.n3 SC=9
 GET http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3 SC=1
-networking 10 [msec cputime] 749 [msec walltime]
-reasoning 100 [msec cputime] 100 [msec walltime]
-2020-04-02T23:02:40.724Z in=10 out=1 ent=1 step=1 brake=1 inf=239707 sec=0.179 inf/sec=1339145
+networking 10 [msec cputime] 745 [msec walltime]
+reasoning 105 [msec cputime] 106 [msec walltime]
+2020-04-03T12:13:54.209Z in=10 out=1 ent=1 step=1 brake=1 inf=239709 sec=0.185 inf/sec=1295724
 
 eye --no-genid http://josd.github.io/eye/reasoning/preduction/palindrome2.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome2-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/preduction/palindrome2.n3 SC=6
 GET http://josd.github.io/eye/reasoning/preduction/palindrome2-query.n3 SC=1
-networking 11 [msec cputime] 779 [msec walltime]
-reasoning 64 [msec cputime] 64 [msec walltime]
-2020-04-02T23:02:41.759Z in=7 out=1 ent=1 step=1 brake=1 inf=170511 sec=0.145 inf/sec=1175938
+networking 10 [msec cputime] 734 [msec walltime]
+reasoning 65 [msec cputime] 65 [msec walltime]
+2020-04-03T12:13:55.200Z in=7 out=1 ent=1 step=1 brake=1 inf=170513 sec=0.145 inf/sec=1175952
 
 eye --no-genid --nope food.n3 food-declarations.n3 preduction-plugin.n3 --query food-preduction.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 82 [msec walltime]
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/food.n3 SC=35
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/food-declarations.n3 SC=1
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/preduction-plugin.n3 SC=9
 GET file:///home/jdroo/github.com/josd/eye/reasoning/preduction/food-preduction.n3 SC=1
 networking 24 [msec cputime] 24 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 SC=4
-reasoning 20 [msec cputime] 375 [msec walltime]
-2020-04-02T23:02:42.348Z in=50 out=35 ent=35 step=35 brake=1 inf=97239 sec=0.114 inf/sec=852974
+reasoning 21 [msec cputime] 384 [msec walltime]
+2020-04-03T12:13:55.799Z in=50 out=35 ent=35 step=35 brake=1 inf=97241 sec=0.114 inf/sec=852991
 
 eye --no-genid http://josd.github.io/eye/reasoning/preduction/food-example.n3 http://josd.github.io/eye/reasoning/preduction/food.n3 http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 --query http://josd.github.io/eye/reasoning/preduction/food-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/preduction/food-example.n3 SC=5
 GET http://josd.github.io/eye/reasoning/preduction/food.n3 SC=35
 GET http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 SC=4
 GET http://josd.github.io/eye/reasoning/preduction/food-query.n3 SC=1
-networking 22 [msec cputime] 1338 [msec walltime]
-reasoning 29 [msec cputime] 29 [msec walltime]
-2020-04-02T23:02:43.907Z in=45 out=16 ent=91 step=338 brake=3 inf=94933 sec=0.121 inf/sec=784570
+networking 21 [msec cputime] 1352 [msec walltime]
+reasoning 30 [msec cputime] 34 [msec walltime]
+2020-04-03T12:13:57.376Z in=45 out=16 ent=91 step=338 brake=3 inf=94935 sec=0.121 inf/sec=784587
 
 eye --no-genid http://josd.github.io/eye/reasoning/preduction/food-example.n3 http://josd.github.io/eye/reasoning/preduction/food2.n3 --query http://josd.github.io/eye/reasoning/preduction/food-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/preduction/food-example.n3 SC=5
 GET http://josd.github.io/eye/reasoning/preduction/food2.n3 SC=35
 GET http://josd.github.io/eye/reasoning/preduction/food-query.n3 SC=1
-networking 22 [msec cputime] 762 [msec walltime]
-reasoning 21 [msec cputime] 21 [msec walltime]
-2020-04-02T23:02:44.883Z in=41 out=16 ent=27 step=115 brake=5 inf=85135 sec=0.114 inf/sec=746798
+networking 22 [msec cputime] 774 [msec walltime]
+reasoning 22 [msec cputime] 22 [msec walltime]
+2020-04-03T12:13:58.363Z in=41 out=16 ent=27 step=115 brake=5 inf=85138 sec=0.113 inf/sec=753434
+
+eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/queens/queens_program.pl --query http://josd.github.io/eye/reasoning/queens/queens_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/queens/queens_program.pl 
+GET http://josd.github.io/eye/reasoning/queens/queens_query.n3 SC=1
+networking 4 [msec cputime] 725 [msec walltime]
+reasoning 23 [msec cputime] 22 [msec walltime]
+2020-04-03T12:13:59.316Z in=1 out=92 ent=92 step=92 brake=1 inf=62144 sec=0.099 inf/sec=627717
+
+eye --no-genid --plugin http://josd.github.io/eye/reasoning/queens/queens_program.pl --query http://josd.github.io/eye/reasoning/queens/queens_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
+GET http://josd.github.io/eye/reasoning/queens/queens_program.pl 
+GET http://josd.github.io/eye/reasoning/queens/queens_query.n3 SC=1
+networking 4 [msec cputime] 415 [msec walltime]
+reasoning 4065 [msec cputime] 4098 [msec walltime]
+2020-04-03T12:14:04.021Z in=1 out=92 ent=92 step=92 brake=1 inf=9357525 sec=4.139 inf/sec=2260818
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/resto/resto.n3 --query http://josd.github.io/eye/reasoning/resto/restoG.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/resto/resto.n3 SC=9
 GET http://josd.github.io/eye/reasoning/resto/restoG.n3 SC=1
-networking 23 [msec cputime] 752 [msec walltime]
-reasoning 23 [msec cputime] 23 [msec walltime]
-2020-04-02T23:02:45.863Z in=10 out=4 ent=47 step=7 brake=1 inf=94779 sec=0.118 inf/sec=803212
+networking 23 [msec cputime] 789 [msec walltime]
+reasoning 24 [msec cputime] 26 [msec walltime]
+2020-04-03T12:14:05.133Z in=10 out=4 ent=47 step=7 brake=1 inf=94801 sec=0.120 inf/sec=790008
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/restpath/initial.n3 http://josd.github.io/eye/reasoning/restpath/path-9-3.n3 --query http://josd.github.io/eye/reasoning/restpath/goal.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 87 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/restpath/initial.n3 SC=1
 GET http://josd.github.io/eye/reasoning/restpath/path-9-3.n3 SC=9
 GET http://josd.github.io/eye/reasoning/restpath/goal.n3 SC=1
-networking 19 [msec cputime] 1121 [msec walltime]
-reasoning 36 [msec cputime] 36 [msec walltime]
-2020-04-02T23:02:47.223Z in=11 out=1 ent=209 step=218 brake=1 inf=109504 sec=0.127 inf/sec=862236
+networking 20 [msec cputime] 1190 [msec walltime]
+reasoning 38 [msec cputime] 37 [msec walltime]
+2020-04-03T12:14:06.560Z in=11 out=1 ent=209 step=218 brake=1 inf=109526 sec=0.129 inf/sec=849039
 
 eye --no-genid http://josd.github.io/eye/reasoning/rgb/redgraph001.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery001.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rgb/redgraph001.n3 SC=3
 GET http://josd.github.io/eye/reasoning/rgb/greenquery001.n3 SC=2
-networking 5 [msec cputime] 742 [msec walltime]
+networking 6 [msec cputime] 755 [msec walltime]
 reasoning 5 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:48.170Z in=5 out=2 ent=2 step=2 brake=1 inf=20240 sec=0.082 inf/sec=246829
+2020-04-03T12:14:07.521Z in=5 out=2 ent=2 step=2 brake=1 inf=20262 sec=0.083 inf/sec=244120
 
 eye --no-genid http://josd.github.io/eye/reasoning/rgb/redgraph002.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery002.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 69 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rgb/redgraph002.n3 SC=3
 GET http://josd.github.io/eye/reasoning/rgb/greenquery002.n3 SC=2
-networking 6 [msec cputime] 749 [msec walltime]
+networking 6 [msec cputime] 738 [msec walltime]
 reasoning 5 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:49.113Z in=5 out=2 ent=2 step=2 brake=1 inf=20221 sec=0.080 inf/sec=252763
+2020-04-03T12:14:08.453Z in=5 out=2 ent=2 step=2 brake=1 inf=20241 sec=0.080 inf/sec=253013
 
 eye --no-genid http://josd.github.io/eye/reasoning/rgb/redgraph003.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery003.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rgb/redgraph003.n3 SC=3
 GET http://josd.github.io/eye/reasoning/rgb/greenquery003.n3 SC=2
-networking 5 [msec cputime] 735 [msec walltime]
-reasoning 5 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:50.042Z in=5 out=2 ent=2 step=2 brake=1 inf=19329 sec=0.080 inf/sec=241613
+networking 6 [msec cputime] 748 [msec walltime]
+reasoning 4 [msec cputime] 4 [msec walltime]
+2020-04-03T12:14:09.397Z in=5 out=2 ent=2 step=2 brake=1 inf=19351 sec=0.080 inf/sec=241888
 
 eye --no-genid http://josd.github.io/eye/reasoning/rif/rifP.n3 --query http://josd.github.io/eye/reasoning/rif/rifQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rif/rifP.n3 SC=222
 GET http://josd.github.io/eye/reasoning/rif/rifQ.n3 SC=2
-networking 147 [msec cputime] 1110 [msec walltime]
-reasoning 656 [msec cputime] 656 [msec walltime]
-2020-04-02T23:02:52.008Z in=224 out=222 ent=443 step=1776 brake=4 inf=1860419 sec=0.874 inf/sec=2128626
+networking 149 [msec cputime] 1235 [msec walltime]
+reasoning 691 [msec cputime] 692 [msec walltime]
+2020-04-03T12:14:11.524Z in=224 out=222 ent=443 step=1776 brake=4 inf=1860421 sec=0.911 inf/sec=2042175
 
 eye --no-genid http://josd.github.io/eye/reasoning/rpo/food-example.n3 http://josd.github.io/eye/reasoning/rpo/food.n3 http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 --query http://josd.github.io/eye/reasoning/rpo/food-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rpo/food-example.n3 SC=5
 GET http://josd.github.io/eye/reasoning/rpo/food.n3 SC=35
 GET http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 SC=4
 GET http://josd.github.io/eye/reasoning/rpo/food-query.n3 SC=1
-networking 22 [msec cputime] 1954 [msec walltime]
+networking 22 [msec cputime] 1396 [msec walltime]
 reasoning 30 [msec cputime] 30 [msec walltime]
-2020-04-02T23:02:54.200Z in=45 out=16 ent=91 step=338 brake=3 inf=95576 sec=0.124 inf/sec=770774
+2020-04-03T12:14:13.160Z in=45 out=16 ent=91 step=338 brake=3 inf=95578 sec=0.124 inf/sec=770790
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/rs/randomsample-rule.n3 --query http://josd.github.io/eye/reasoning/rs/randomsample-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rs/randomsample-rule.n3 SC=1
 GET http://josd.github.io/eye/reasoning/rs/randomsample-query.n3 SC=1
-networking 8 [msec cputime] 1119 [msec walltime]
+networking 7 [msec cputime] 770 [msec walltime]
 GET http://josd.github.io/eye/reasoning/rs/graph-1000.n3 SC=1000
-reasoning 631 [msec cputime] 1182 [msec walltime]
-2020-04-02T23:02:56.702Z in=1002 out=1 ent=1 step=1 brake=2 inf=1560976 sec=0.710 inf/sec=2198558
+reasoning 651 [msec cputime] 1756 [msec walltime]
+2020-04-03T12:14:15.887Z in=1002 out=1 ent=1 step=1 brake=2 inf=1560978 sec=0.730 inf/sec=2138326
 
 eye --no-genid http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3 --query http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-query.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 85 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 87 [msec walltime]
 GET http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 SC=28
 GET http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3 SC=67
 GET http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-query.n3 SC=15
-networking 74 [msec cputime] 1180 [msec walltime]
+networking 75 [msec cputime] 1214 [msec walltime]
 reasoning 11 [msec cputime] 11 [msec walltime]
-2020-04-02T23:02:58.099Z in=110 out=1 ent=12 step=28 brake=2 inf=203155 sec=0.157 inf/sec=1293981
+2020-04-03T12:14:17.327Z in=110 out=1 ent=12 step=28 brake=2 inf=203157 sec=0.158 inf/sec=1285804
 
 eye --no-genid http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socratesF.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/socrates/socrates.n3 SC=3
 GET http://josd.github.io/eye/reasoning/socrates/socratesF.n3 SC=1
-networking 7 [msec cputime] 747 [msec walltime]
-reasoning 4 [msec cputime] 4 [msec walltime]
-2020-04-02T23:02:59.049Z in=4 out=2 ent=3 step=6 brake=2 inf=22503 sec=0.082 inf/sec=274427
+networking 6 [msec cputime] 762 [msec walltime]
+reasoning 5 [msec cputime] 4 [msec walltime]
+2020-04-03T12:14:18.295Z in=4 out=2 ent=3 step=6 brake=2 inf=22505 sec=0.083 inf/sec=271145
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/streason/streason-rules.n3 --turtle - --streaming-reasoning
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 74 [msec cputime] 91 [msec walltime]
 GET http://josd.github.io/eye/reasoning/streason/streason-rules.n3 SC=6
 GET - translating file:///dev/stdin
-Done: translated 10 triples in 0.2 ms (54415 triples/s)
+Done: translated 10 triples in 0.5 ms (21559 triples/s)
 SC=10
-2020-04-02T23:02:59.625Z in=16 out=101 ent=0 step=0 brake=0 inf=31614 sec=0.090 inf/sec=351267
+2020-04-03T12:14:18.901Z in=16 out=101 ent=0 step=0 brake=0 inf=31616 sec=0.089 inf/sec=355236
+
+eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/sudoku/sudoku_program.pl --query http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
+GET http://josd.github.io/eye/reasoning/sudoku/sudoku_program.pl 
+GET http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3 SC=1
+networking 519 [msec cputime] 1296 [msec walltime]
+reasoning 586 [msec cputime] 660 [msec walltime]
+2020-04-03T12:14:21.058Z in=1 out=4 ent=4 step=4 brake=1 inf=3617348 sec=1.177 inf/sec=3073363
+
+eye --no-genid --plugin http://josd.github.io/eye/reasoning/sudoku/sudoku_program.pl --query http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
+GET http://josd.github.io/eye/reasoning/sudoku/sudoku_program.pl 
+GET http://josd.github.io/eye/reasoning/sudoku/sudoku_query.n3 SC=1
+networking 537 [msec cputime] 976 [msec walltime]
+reasoning 709 [msec cputime] 786 [msec walltime]
+2020-04-03T12:14:23.012Z in=1 out=4 ent=4 step=4 brake=1 inf=3853000 sec=1.316 inf/sec=2927812
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query http://josd.github.io/eye/reasoning/swet/swetQ01.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 76 [msec cputime] 91 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA.n3 SC=100
 GET http://josd.github.io/eye/reasoning/swet/swetD.n3 SC=400
 GET http://josd.github.io/eye/reasoning/swet/swetQ01.n3 SC=1
-networking 82 [msec cputime] 1187 [msec walltime]
+networking 82 [msec cputime] 1285 [msec walltime]
 reasoning 19 [msec cputime] 18 [msec walltime]
-2020-04-02T23:03:01.030Z in=501 out=81 ent=81 step=81 brake=1 inf=221934 sec=0.173 inf/sec=1282855
+2020-04-03T12:14:24.539Z in=501 out=81 ent=81 step=81 brake=1 inf=221916 sec=0.177 inf/sec=1253763
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query http://josd.github.io/eye/reasoning/swet/swetQ11.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA.n3 SC=100
 GET http://josd.github.io/eye/reasoning/swet/swetD.n3 SC=400
 GET http://josd.github.io/eye/reasoning/swet/swetQ11.n3 SC=1
-networking 82 [msec cputime] 1154 [msec walltime]
+networking 85 [msec cputime] 866 [msec walltime]
 reasoning 15 [msec cputime] 15 [msec walltime]
-2020-04-02T23:03:02.389Z in=501 out=54 ent=54 step=54 brake=1 inf=217651 sec=0.167 inf/sec=1303299
+2020-04-03T12:14:25.611Z in=501 out=54 ent=54 step=54 brake=1 inf=217633 sec=0.170 inf/sec=1280194
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query http://josd.github.io/eye/reasoning/swet/swetQ21.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA.n3 SC=100
 GET http://josd.github.io/eye/reasoning/swet/swetD.n3 SC=400
 GET http://josd.github.io/eye/reasoning/swet/swetQ21.n3 SC=1
-networking 84 [msec cputime] 853 [msec walltime]
-reasoning 14 [msec cputime] 13 [msec walltime]
-2020-04-02T23:03:03.446Z in=501 out=46 ent=46 step=46 brake=1 inf=212731 sec=0.168 inf/sec=1266256
+networking 85 [msec cputime] 884 [msec walltime]
+reasoning 13 [msec cputime] 13 [msec walltime]
+2020-04-03T12:14:26.701Z in=501 out=46 ent=46 step=46 brake=1 inf=212713 sec=0.168 inf/sec=1266149
 
 eye --no-genid --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query http://josd.github.io/eye/reasoning/swet/swetQ31.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 70 [msec cputime] 82 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA.n3 SC=100
 GET http://josd.github.io/eye/reasoning/swet/swetD.n3 SC=400
 GET http://josd.github.io/eye/reasoning/swet/swetQ31.n3 SC=1
-networking 83 [msec cputime] 828 [msec walltime]
-reasoning 7 [msec cputime] 9 [msec walltime]
-2020-04-02T23:03:04.475Z in=501 out=19 ent=19 step=19 brake=1 inf=199193 sec=0.160 inf/sec=1244956
+networking 83 [msec cputime] 896 [msec walltime]
+reasoning 8 [msec cputime] 8 [msec walltime]
+2020-04-03T12:14:27.796Z in=501 out=19 ent=19 step=19 brake=1 inf=199175 sec=0.161 inf/sec=1237112
 
 eye --no-genid http://josd.github.io/eye/reasoning/swet/swetA.n3 --query http://josd.github.io/eye/reasoning/swet/swetQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA.n3 SC=100
 GET http://josd.github.io/eye/reasoning/swet/swetQ.n3 SC=3
-networking 49 [msec cputime] 619 [msec walltime]
+networking 49 [msec cputime] 610 [msec walltime]
 GET http://josd.github.io/eye/reasoning/swet/swetA11.n3 SC=54
 GET http://josd.github.io/eye/reasoning/swet/swetA01.n3 SC=81
 GET http://josd.github.io/eye/reasoning/swet/swetA21.n3 SC=46
 GET http://josd.github.io/eye/reasoning/swet/swetA31.n3 SC=19
-reasoning 229 [msec cputime] 1755 [msec walltime]
-2020-04-02T23:03:07.040Z in=303 out=3 ent=3 step=3 brake=1 inf=631052 sec=0.348 inf/sec=1813368
+reasoning 234 [msec cputime] 1752 [msec walltime]
+2020-04-03T12:14:30.349Z in=303 out=3 ent=3 step=3 brake=1 inf=631034 sec=0.353 inf/sec=1787632
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/tak/tak.n3 --query http://josd.github.io/eye/reasoning/tak/takQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 86 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 71 [msec cputime] 84 [msec walltime]
 GET http://josd.github.io/eye/reasoning/tak/tak.n3 SC=2
 GET http://josd.github.io/eye/reasoning/tak/takQ.n3 SC=1
-networking 8 [msec cputime] 1683 [msec walltime]
-reasoning 726 [msec cputime] 750 [msec walltime]
-2020-04-02T23:03:09.678Z in=3 out=1 ent=1 step=1 brake=1 inf=1359022 sec=0.807 inf/sec=1684042
+networking 8 [msec cputime] 748 [msec walltime]
+reasoning 762 [msec cputime] 787 [msec walltime]
+2020-04-03T12:14:32.088Z in=3 out=1 ent=1 step=1 brake=1 inf=1359004 sec=0.841 inf/sec=1615938
 
 eye --no-genid --turtle http://josd.github.io/eye/reasoning/tfcontext/data-001.n3 http://josd.github.io/eye/reasoning/tfcontext/rules-001.n3 --query http://josd.github.io/eye/reasoning/tfcontext/query-001.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 73 [msec cputime] 88 [msec walltime]
-GET http://josd.github.io/eye/reasoning/tfcontext/data-001.n3 translating file:///tmp/swipl_eye_15542_0
-Done: translated 7 triples in 0.3 ms (26293 triples/s)
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 73 [msec cputime] 90 [msec walltime]
+GET http://josd.github.io/eye/reasoning/tfcontext/data-001.n3 translating file:///tmp/swipl_eye_8514_0
+Done: translated 7 triples in 0.3 ms (25143 triples/s)
 SC=7
 GET http://josd.github.io/eye/reasoning/tfcontext/rules-001.n3 SC=1
 GET http://josd.github.io/eye/reasoning/tfcontext/query-001.n3 SC=1
-networking 11 [msec cputime] 1207 [msec walltime]
+networking 12 [msec cputime] 1127 [msec walltime]
 reasoning 37 [msec cputime] 37 [msec walltime]
-2020-04-02T23:03:11.130Z in=9 out=7 ent=21 step=42 brake=4 inf=89384 sec=0.121 inf/sec=738711
+2020-04-03T12:14:33.461Z in=9 out=7 ent=21 step=42 brake=4 inf=89386 sec=0.122 inf/sec=732672
 
 eye --no-genid http://josd.github.io/eye/reasoning/turing/turing.n3 --query http://josd.github.io/eye/reasoning/turing/turingQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/turing/turing.n3 SC=17
 GET http://josd.github.io/eye/reasoning/turing/turingQ.n3 SC=1
-networking 16 [msec cputime] 721 [msec walltime]
-reasoning 32 [msec cputime] 38 [msec walltime]
-2020-04-02T23:03:12.089Z in=18 out=1 ent=1 step=1 brake=1 inf=99596 sec=0.120 inf/sec=829967
+networking 15 [msec cputime] 790 [msec walltime]
+reasoning 32 [msec cputime] 32 [msec walltime]
+2020-04-03T12:14:34.483Z in=18 out=1 ent=1 step=1 brake=1 inf=99598 sec=0.119 inf/sec=836958
 
 eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/usm/usmP.n3 --query http://josd.github.io/eye/reasoning/usm/usmQ.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 72 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/usm/usmP.n3 SC=20
 GET http://josd.github.io/eye/reasoning/usm/usmQ.n3 SC=1
-networking 14 [msec cputime] 746 [msec walltime]
-reasoning 24 [msec cputime] 26 [msec walltime]
-2020-04-02T23:03:13.062Z in=21 out=2 ent=24 step=88 brake=5 inf=77407 sec=0.110 inf/sec=703700
+networking 14 [msec cputime] 815 [msec walltime]
+reasoning 24 [msec cputime] 24 [msec walltime]
+2020-04-03T12:14:35.522Z in=21 out=2 ent=24 step=88 brake=5 inf=77409 sec=0.110 inf/sec=703718
 
 eye --no-genid http://josd.github.io/eye/reasoning/utf8/utf8.n3 --pass
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 84 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 85 [msec walltime]
 GET http://josd.github.io/eye/reasoning/utf8/utf8.n3 SC=5
-networking 4 [msec cputime] 369 [msec walltime]
-reasoning 7 [msec cputime] 6 [msec walltime]
-2020-04-02T23:03:13.638Z in=5 out=5 ent=5 step=5 brake=1 inf=22398 sec=0.082 inf/sec=273146
+networking 4 [msec cputime] 375 [msec walltime]
+reasoning 7 [msec cputime] 7 [msec walltime]
+2020-04-03T12:14:36.106Z in=5 out=5 ent=5 step=5 brake=1 inf=22400 sec=0.083 inf/sec=269880
+
+eye --no-genid --nope --plugin http://josd.github.io/eye/reasoning/utm/utm_interpreter.pl --plugin http://josd.github.io/eye/reasoning/utm/utm_program.pl --query http://josd.github.io/eye/reasoning/utm/utm_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 70 [msec cputime] 83 [msec walltime]
+GET http://josd.github.io/eye/reasoning/utm/utm_interpreter.pl 
+GET http://josd.github.io/eye/reasoning/utm/utm_program.pl 
+GET http://josd.github.io/eye/reasoning/utm/utm_query.n3 SC=4
+networking 9 [msec cputime] 1128 [msec walltime]
+reasoning 1 [msec cputime] 1 [msec walltime]
+2020-04-03T12:14:37.434Z in=4 out=4 ent=4 step=4 brake=1 inf=18514 sec=0.080 inf/sec=231425
+
+eye --no-genid --plugin http://josd.github.io/eye/reasoning/utm/utm_interpreter.pl --plugin http://josd.github.io/eye/reasoning/utm/utm_program.pl --query http://josd.github.io/eye/reasoning/utm/utm_query.n3
+EYE v20.0323.1552 josd
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 69 [msec cputime] 82 [msec walltime]
+GET http://josd.github.io/eye/reasoning/utm/utm_interpreter.pl 
+GET http://josd.github.io/eye/reasoning/utm/utm_program.pl 
+GET http://josd.github.io/eye/reasoning/utm/utm_query.n3 SC=4
+networking 8 [msec cputime] 634 [msec walltime]
+reasoning 100 [msec cputime] 100 [msec walltime]
+2020-04-03T12:14:38.358Z in=4 out=4 ent=4 step=4 brake=1 inf=214581 sec=0.177 inf/sec=1212322
 
 eye --no-genid http://josd.github.io/eye/reasoning/witch/witch.n3 --query http://josd.github.io/eye/reasoning/witch/witch-goal.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
-starting 71 [msec cputime] 83 [msec walltime]
+SWI-Prolog version 8.1.26-39-g09dc680d6
+starting 72 [msec cputime] 86 [msec walltime]
 GET http://josd.github.io/eye/reasoning/witch/witch.n3 SC=7
 GET http://josd.github.io/eye/reasoning/witch/witch-goal.n3 SC=1
-networking 7 [msec cputime] 771 [msec walltime]
-reasoning 7 [msec cputime] 6 [msec walltime]
-2020-04-02T23:03:14.614Z in=8 out=1 ent=7 step=25 brake=5 inf=27238 sec=0.085 inf/sec=320447
+networking 7 [msec cputime] 758 [msec walltime]
+reasoning 6 [msec cputime] 6 [msec walltime]
+2020-04-03T12:14:39.326Z in=8 out=1 ent=7 step=25 brake=5 inf=27240 sec=0.085 inf/sec=320471
 
 eye --no-genid http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --proof http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3
 EYE v20.0323.1552 josd
-SWI-Prolog version 8.1.26-20-g423de833c
+SWI-Prolog version 8.1.26-39-g09dc680d6
 starting 70 [msec cputime] 83 [msec walltime]
 GET http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 SC=1
 GET http://josd.github.io/eye/reasoning/witch/witch-proof.n3 SC=94
 GET http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3 SC=1
-networking 36 [msec cputime] 1159 [msec walltime]
-reasoning 39 [msec cputime] 39 [msec walltime]
-2020-04-02T23:03:16.003Z in=96 out=1 ent=14 step=43 brake=3 inf=90592 sec=0.145 inf/sec=624772
+networking 37 [msec cputime] 1185 [msec walltime]
+reasoning 38 [msec cputime] 39 [msec walltime]
+2020-04-03T12:14:40.740Z in=96 out=1 ent=14 step=43 brake=3 inf=90596 sec=0.145 inf/sec=624800
 
