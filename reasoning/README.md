@@ -19,5 +19,5 @@ like a world wide welding machine transforming data into pragmatic proofs:
 * evolutionary algorithms (see ea)
 * quantum computation (see dqc)
 * logic puzzles (see 4color, dp, einstein, graph, hanoi, witch)
-* discrete mathematics (see 4eq, complex, equation4, fib, lldm, pi, tak)
+* mathematics (see 4eq, complex, equation4, fib, lldm, pi, tak)
 * etc...
