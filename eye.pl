@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0403.2208 josd').
+version_info('EYE v20.0411.2226 josd').
 
 license_info('MIT License
 
@@ -114,7 +114,7 @@ eye
 <data>
     <uri>                           N3 triples and rules
     --n3 <uri>                      N3 triples and rules
-    --plugin <uri>                  Prolog facts and rules
+    --prolog <uri>                  Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
@@ -331,13 +331,18 @@ argv([], []) :-
     !.
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
-    sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--plugin', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
+    sub_atom(Arg, 0, B, _, D),
+    argd(D, U),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--prolog', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
-argv([Arg|Argvs], [Arg|Argus]) :-
+argv([Arg|Argvs], [U|Argus]) :-
+    argd(Arg, U),
     argv(Argvs, Argus).
+
+argd('--plugin', '--prolog').
+argd(A, A).
 
 
 % ------------------------------
@@ -914,7 +919,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--plugin', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--prolog', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1052,7 +1057,7 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
-args(['--plugin', Argument|Args]) :-
+args(['--prolog', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     (   wcacher(Arg, File)
