@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0411.2226 josd').
+version_info('EYE v20.0423.1748 josd').
 
 license_info('MIT License
 
@@ -214,7 +214,7 @@ main :-
             ;   read_file_to_codes(File, Codes, [])
             ),
             string_codes(String, Codes),
-            split_string(String, "\s\t\r\n", "\s\t\r\n", List),
+            esplit_string(String, "\s\t\r\n", "\s\t\r\n", List),
             findall(Argvj,
                 (   member(Member, List),
                     atom_string(Argvj, Member)
@@ -5516,7 +5516,7 @@ djiti_assertz(A) :-
                     Z
                 )
             ;   escape_string(V, C),
-                split_string(U, V, "", W),
+                esplit_string(U, V, [], W),
                 findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, W),
                         atom_codes(A, B)
@@ -9779,7 +9779,11 @@ inv(true, false).
         A =.. [C, _, _]
     ;   true
     ),
-    clause(A, D),
+    (   A = exopred(P, S, O)
+    ->  Ax =.. [P, S, O]
+    ;   Ax = A
+    ),
+    clause(Ax, D),
     (   \+flag(nope),
         (   D = when(H, I)
         ->  conj_append(J, istep(Src, _, _, _), I),
@@ -9787,8 +9791,8 @@ inv(true, false).
         ;   conj_append(B, istep(Src, _, _, _), D)
         )
     ->  term_index(true, Pnd),
-        (   \+prfstep(':-'(A, B), true, Pnd, ':-'(A, B), _, forward, Src)
-        ->  assertz(prfstep(':-'(A, B), true, Pnd, ':-'(A, B), _, forward, Src))
+        (   \+prfstep(':-'(Ax, B), true, Pnd, ':-'(Ax, B), _, forward, Src)
+        ->  assertz(prfstep(':-'(Ax, B), true, Pnd, ':-'(Ax, B), _, forward, Src))
         ;   true
         )
     ;   D = B
@@ -9866,6 +9870,22 @@ escape_unicode([A, B|C], D) :-
     escape_unicode(C, G).
 escape_unicode([A|B], [A|C]) :-
     escape_unicode(B, C).
+
+esplit_string([], _, [], []) :-
+    !.
+esplit_string([], _, A, [A]) :-
+    !.
+esplit_string([A|B], C, [], D) :-
+    memberchk(A, C),
+    !,
+    esplit_string(B, C, [], D).
+esplit_string([A|B], C, D, [D|E]) :-
+    memberchk(A, C),
+    !,
+    esplit_string(B, C, [], E).
+esplit_string([A|B], C, D, E) :-
+    append(D, [A], F),
+    esplit_string(B, C, F, E).
 
 quant(A, some) :-
     var(A),
