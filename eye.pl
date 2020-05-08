@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0507.1852 josd').
+version_info('EYE v20.0508.2117 josd').
 
 license_info('MIT License
 
@@ -76,12 +76,12 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
-    --hmac-key <key>                HMAC key
+    --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
     --ignore-syntax-error           do not halt in case of syntax error
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --license                       show license info
-    --multi-query                   query answer loop
+    --multi-query                   go into query answer loop
     --n3p                           output all <data> as N3 P-code on stdout
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -96,12 +96,11 @@ eye
     --probe                         output speedtest info on stderr
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
-    --random-seed                   create random seed
+    --random-seed                   create random seed for e:random built-in
     --rule-histogram                output rule histogram info on stderr
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
     --streaming-reasoning           streaming reasoning on --turtle data
-    --strict                        strict mode
     --strings                       output log:outputString objects on stdout
     --tactic existing-path          Euler path using homomorphism
     --tactic limited-answer <count> give only a limited number of answers
@@ -112,8 +111,7 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
-    <uri>                           N3 triples and rules
-    --n3 <uri>                      N3 triples and rules
+    [--n3] <uri>                    N3 triples and rules
     --prolog <uri>                  Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
@@ -830,11 +828,6 @@ opts(['--streaming-reasoning'|Argus], Args) :-
     assertz(flag('streaming-reasoning')),
     retractall(flag('no-qnames')),
     assertz(flag('no-qnames')),
-    opts(Argus, Args).
-opts(['--strict'|Argus], Args) :-
-    !,
-    retractall(flag(strict)),
-    assertz(flag(strict)),
     opts(Argus, Args).
 opts(['--strings'|Argus], Args) :-
     !,
