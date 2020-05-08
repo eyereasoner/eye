@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0508.2117 josd').
+version_info('EYE v20.0508.2128 josd').
 
 license_info('MIT License
 
@@ -1195,11 +1195,7 @@ args(['--turtle', Argument|Args]) :-
                 halt(1)
             )
         )
-    ;   (   flag(strict)
-        ->  Format = '-f=n3p-rdiv'
-        ;   Format = '-f=n3p'
-        ),
-        catch(process_create(path(cturtle), [Format, Base, file(File)], [stdout(pipe(In)), stderr(std)]), Exc,
+    ;   catch(process_create(path(cturtle), ['-f=n3p', Base, file(File)], [stdout(pipe(In)), stderr(std)]), Exc,
             (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
                 flush_output(user_error),
                 flush_output,
@@ -2175,13 +2171,9 @@ literal(Atom, DtLang, L1, L3) :-
     ),
     atomic_list_concat(['\'', E, '\''], Atom).
 
-numericliteral(Number, [numeric(Type, NumB)|L2], L2) :-
+numericliteral(Number, [numeric(_, NumB)|L2], L2) :-
     numeral(NumB, NumC),
-    (   flag(strict),
-        Type = decimal
-    ->  rdiv_codes(Number, NumC)
-    ;   number_codes(Number, NumC)
-    ).
+    number_codes(Number, NumC).
 
 object(Node, Triples, L1, L2) :-
     expression(Node, Triples, L1, L2).
@@ -2269,11 +2261,7 @@ pathitem(Number, [], L1, L2) :-
     sub_atom(Atom, 1, _, 1, A),
     atom_codes(A, NumB),
     numeral(NumB, NumC),
-    (   flag(strict),
-        Type = '\'<http://www.w3.org/2001/XMLSchema#decimal>\''
-    ->  rdiv_codes(Number, NumC)
-    ;   number_codes(Number, NumC)
-    ),
+    number_codes(Number, NumC),
     !.
 pathitem(literal(Atom, DtLang), [], L1, L2) :-
     literal(Atom, DtLang, L1, L2),
@@ -3849,11 +3837,7 @@ wt0(X) :-
     ->  dtlit([U, V], X),
         dtlit([U, V], W),
         wt(W)
-    ;   (   flag(strict),
-            float(X)
-        ->  format('~16e', [X])
-        ;   write(X)
-        )
+    ;   write(X)
     ).
 wt0(X) :-
     atom(X),
