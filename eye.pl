@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0508.2157 josd').
+version_info('EYE v20.0509.2205 josd').
 
 license_info('MIT License
 
@@ -112,7 +112,6 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     [--n3] <uri>                    N3 triples and rules
-    --prolog <uri>                  Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
@@ -339,7 +338,7 @@ argv([Arg|Argvs], [U|Argus]) :-
     argd(Arg, U),
     argv(Argvs, Argus).
 
-argd('--plugin', '--prolog').
+argd('--plugin', '--prolog').   % DEPRECATED
 argd(A, A).
 
 
@@ -1050,6 +1049,7 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
+% DEPRECATED
 args(['--prolog', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
