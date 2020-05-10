@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0509.2205 josd').
+version_info('EYE v20.0510.2019 josd').
 
 license_info('MIT License
 
@@ -68,7 +68,6 @@ help_info('Usage: eye <options>* <data>* <query>*
 eye
     swipl -x eye.pvm --
 <options>
-    --carl                          use external carl parser
     --csv-separator <separator>     CSV separator such as , or ;
     --curl-http-header <field>      to pass HTTP header <field> to curl
     --debug                         output debug info on stderr
@@ -82,7 +81,6 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --license                       show license info
     --multi-query                   go into query answer loop
-    --n3p                           output all <data> as N3 P-code on stdout
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-genid                      no generated id in well-known genid URIs
@@ -338,7 +336,7 @@ argv([Arg|Argvs], [U|Argus]) :-
     argd(Arg, U),
     argv(Argvs, Argus).
 
-argd('--plugin', '--prolog').   % DEPRECATED
+argd('--plugin', '--prolog').
 argd(A, A).
 
 
@@ -660,6 +658,7 @@ gre(Argus) :-
 
 opts([], []) :-
     !.
+% DEPRECATED
 opts(['--carl'|Argus], Args) :-
     !,
     retractall(flag(carl)),
@@ -733,6 +732,7 @@ opts(['--multi-query'|Argus], Args) :-
     retractall(flag('multi-query')),
     assertz(flag('multi-query')),
     opts(Argus, Args).
+% DEPRECATED
 opts(['--n3p'|Argus], Args) :-
     !,
     retractall(flag(n3p)),
