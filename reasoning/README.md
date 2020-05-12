@@ -7,7 +7,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
   
 <img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="60%" height="60%" alt="PDB"/>  
 
-### Implementation
+### BRAnches of INtelligence - BRAIN
  
 * neural networks e.g. fcm, fgcm
 * bayesian networks e.g. ccd, nbbn, swet
