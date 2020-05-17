@@ -9,12 +9,48 @@ like a world wide welding machine transforming data into pragmatic proofs:
 
 ### BRAnches of INtelligence - BRAIN
  
-* neural networks e.g. fcm, fgcm
-* bayesian networks e.g. ccd, nbbn, swet
-* markovian networks e.g. mmln
-* workflow composers e.g. gps, map, resto, restpath
-* control systems e.g. cs
-* quantum computation e.g. dqc
-* logic puzzles e.g. 4color, dp, einstein, graph, hanoi, witch
-* mathematical computation e.g. dpe, equation4, fib, lldm, pi, tak
-* etc...
+* bayesian networks e.g.
+    [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
+    [nbbn](https://github.com/josd/eye/tree/master/reasoning/nbbn),
+    [swet](https://github.com/josd/eye/tree/master/reasoning/swet)
+* control systems e.g.
+    [cs](https://github.com/josd/eye/tree/master/reasoning/cs)
+* ershovian compilation e.g.
+    [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
+    [preduction](https://github.com/josd/eye/tree/master/reasoning/preduction)
+* evolutionary algorithms e.g.
+    [ea](https://github.com/josd/eye/tree/master/reasoning/ea)
+* logic puzzles e.g.
+    [4color](https://github.com/josd/eye/tree/master/reasoning/4color),
+    [dp](https://github.com/josd/eye/tree/master/reasoning/dp),
+    [einstein](https://github.com/josd/eye/tree/master/reasoning/einstein),
+    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
+    [hanoi](https://github.com/josd/eye/tree/master/reasoning/hanoi),
+    [queens](https://github.com/josd/eye/tree/master/reasoning/queens),
+    [sudoku](https://github.com/josd/eye/tree/master/reasoning/sudoku),
+    [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
+* markovian networks e.g.
+    [mmln](https://github.com/josd/eye/tree/master/reasoning/mmln)
+* mathematical computation e.g.
+    [4eq](https://github.com/josd/eye/tree/master/reasoning/4eq),
+    [complex](https://github.com/josd/eye/tree/master/reasoning/complex),
+    [dpe](https://github.com/josd/eye/tree/master/reasoning/dpe),
+    [equation4](https://github.com/josd/eye/tree/master/reasoning/equation4),
+    [fib](https://github.com/josd/eye/tree/master/reasoning/fib),
+    [lldm](https://github.com/josd/eye/tree/master/reasoning/lldm),
+    [pi](https://github.com/josd/eye/tree/master/reasoning/pi),
+    [tak](https://github.com/josd/eye/tree/master/reasoning/tak)
+* neural networks e.g.
+    [fcm](https://github.com/josd/eye/tree/master/reasoning/fcm),
+    [fgcm](https://github.com/josd/eye/tree/master/reasoning/fgcm)
+* quantum computation e.g.
+    [dqc](https://github.com/josd/eye/tree/master/reasoning/dqc)
+* turing machines e.g.
+    [turing](https://github.com/josd/eye/tree/master/reasoning/turing),
+    [usm](https://github.com/josd/eye/tree/master/reasoning/usm),
+    [utm](https://github.com/josd/eye/tree/master/reasoning/utm)
+* workflow composers e.g.
+    [gps](https://github.com/josd/eye/tree/master/reasoning/gps),
+    [map](https://github.com/josd/eye/tree/master/reasoning/map),
+    [resto](https://github.com/josd/eye/tree/master/reasoning/resto),
+    [restpath](https://github.com/josd/eye/tree/master/reasoning/restpath)
