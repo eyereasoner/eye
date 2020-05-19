@@ -7,8 +7,8 @@ like a world wide welding machine transforming data into pragmatic proofs:
   
 <img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="60%" height="60%" alt="PDB"/>  
 
-### BRAnches of INtelligence - BRAIN
- 
+### EYE Test Cases
+
 * bayesian networks e.g.
     [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
     [nbbn](https://github.com/josd/eye/tree/master/reasoning/nbbn),
