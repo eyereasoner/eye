@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0524.2220 josd').
+version_info('EYE v20.0525.2056 josd').
 
 license_info('MIT License
 
@@ -8969,6 +8969,16 @@ unify(A, B) :-
         unify(O, R)
     ),
     !.
+unify(A, B) :-
+    is_list(A),
+    !,
+    getlist(B, C),
+    C = A.
+unify(A, B) :-
+    is_list(B),
+    !,
+    getlist(A, C),
+    C = B.
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
