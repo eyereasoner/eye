@@ -1,0 +1,9 @@
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+
+{   ("exponentiation" ("e" 0) (0 "pi") (?A ?B)) e:derive true.
+    ("add" (?A ?B) (1 0) (?C ?D)) e:derive true.
+} => {
+    ("exponentiation" ("e" 0) (0 "pi") (?A ?B)) e:derive true.
+    ("add" (?A ?B) (1 0) (?C ?D)) e:derive true.
+}.
