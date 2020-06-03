@@ -1,0 +1,17 @@
+#Processed by EYE v20.0528.1036 josd
+#eye --nope example.n3 --pass
+
+@prefix : <-:>.
+
+<-:marriedTo> a <-:SymetricRelation>.
+<-:alice> <-:marriedTo> <-:bob>.
+<-:bob> <-:marriedTo> <-:alice>.
+<< <-:alice> <-:marriedTo> <-:bob> >> <-:since> "1999".
+<< <-:bob> <-:marriedTo> <-:alice> >> <-:since> "1999".
+<-:TEST> <-:PASS> 1 .
+<-:TEST> <-:PASS> 2 .
+<-:TEST> <-:PASS> 3 .
+
+#2020-06-03T21:17:16.320Z in=8 out=8 ent=5 step=12 brake=2 inf=19932 sec=0.082 inf/sec=243073
+#ENDS
+
