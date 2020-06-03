@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0528.1036 josd').
+version_info('EYE v20.0603.2122 josd').
 
 license_info('MIT License
 
@@ -2300,6 +2300,9 @@ pathitem(set(Distinct), Triples, ['(', '$'|L2], L4) :-
 pathitem(List, Triples, ['('|L2], L4) :-
     !,
     pathlist(List, Triples, L2, [')'|L4]).
+pathitem(triple(List), Triples, [lt_lt|L2], L4) :-
+    !,
+    pathlist(List, Triples, L2, [gt_gt|L4]).
 pathitem(Node, [] , ['{'|L2], L4):-
     nb_getval(fdepth, I),
     J is I+1,
@@ -2757,6 +2760,11 @@ token(0'_, In, C, bnode(Name)) :-
     ;   C = C0,
         Name = ''
     ).
+token(0'<, In, C, lt_lt) :-
+    peek_code(In, 0'<),
+    !,
+    get_code(In, _),
+    get_code(In, C).
 token(0'<, In, C, relative_uri(URI)) :-
     peek_code(In, C1),
     C1 \== 0'=,
@@ -2765,6 +2773,11 @@ token(0'<, In, C, relative_uri(URI)) :-
     iri_chars(C1, In, C, Codes),
     D = Codes,
     atom_codes(URI, D).
+token(0'>, In, C, gt_gt) :-
+    peek_code(In, 0'>),
+    !,
+    get_code(In, _),
+    get_code(In, C).
 token(0':, In, C, Token) :-
     !,
     get_code(In, C0),
@@ -4007,6 +4020,11 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
+wt1(triple(X)) :-
+    !,
+    write('<<'),
+    wl(X),
+    write(' >>').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
