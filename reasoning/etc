@@ -7,7 +7,7 @@ IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS"
 
 for dir in */
 do
-    pushd ${dir}
+    pushd "${dir}"
     ./test --no-genid |& tee -a ../etc.txt
     git diff -U0 . | grep -E -v "$IMATCH" >> ../etc.diff
     popd
