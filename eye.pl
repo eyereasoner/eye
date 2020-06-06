@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0603.2122 josd').
+version_info('EYE v20.0606.1810 josd').
 
 license_info('MIT License
 
@@ -2300,9 +2300,14 @@ pathitem(set(Distinct), Triples, ['(', '$'|L2], L4) :-
 pathitem(List, Triples, ['('|L2], L4) :-
     !,
     pathlist(List, Triples, L2, [')'|L4]).
-pathitem(triple(List), Triples, [lt_lt|L2], L4) :-
+pathitem(triple(S, P, O), Triples, [lt_lt|L2], L4) :-
     !,
-    pathlist(List, Triples, L2, [gt_gt|L4]).
+    pathlist(List, Triples, L2, [gt_gt|L4]),
+    (   List = [S, P, O]
+    ->  true
+    ;   nb_getval(line_number, Ln),
+        throw('invalid_n3*_triple'(List, after_line(Ln)))
+    ).
 pathitem(Node, [] , ['{'|L2], L4):-
     nb_getval(fdepth, I),
     J is I+1,
@@ -4020,11 +4025,6 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
-wt1(triple(X)) :-
-    !,
-    write('<<'),
-    wl(X),
-    write(' >>').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -4339,6 +4339,15 @@ wtn(exopred(P, S, O)) :-
         write(' '),
         wg(O)
     ).
+wtn(triple(S, P, O)) :-
+    !,
+    write('<< '),
+    wg(S),
+    write(' '),
+    wg(P),
+    write(' '),
+    wg(O),
+    write(' >>').
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),
