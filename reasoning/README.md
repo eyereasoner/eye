@@ -7,7 +7,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
   
 <img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="60%" height="60%" alt="PDB"/>  
 
-### Examples and Test Cases
+### Examples and Test Cases - ETC
 
 * bayesian networks e.g.
     [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
@@ -47,3 +47,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [map](https://github.com/josd/eye/tree/master/reasoning/map),
     [resto](https://github.com/josd/eye/tree/master/reasoning/resto),
     [restpath](https://github.com/josd/eye/tree/master/reasoning/restpath)
+
+### See also
+
+[Reasoning is grounded in First Order Logic - What is Logic?](http://eulersharp.sourceforge.net/2003/03swap/reasoning.html)
