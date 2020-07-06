@@ -50,4 +50,4 @@ like a world wide welding machine transforming data into pragmatic proofs:
 
 ### See also
 
-[Reasoning is grounded in First Order Logic - What is Logic?](http://eulersharp.sourceforge.net/2003/03swap/reasoning.html)
+[Computational Logic: Memories of the Past and Challenges for the Future](http://www.computational-logic.org/iccl/downloads/Robinson-CL2000.pdf)
