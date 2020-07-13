@@ -5,23 +5,23 @@
 @prefix seq: <http://josd.github.io/eye/reasoning/seq#>.
 
 {() seq:punctuate ()} <= true.
-{?A seq:punctuate ?L} <= {
-    ?L e:firstRest (?B ?C).
+{?A seq:punctuate ?B} <= {
+    ?B e:firstRest (?C ?D).
     (?A) func:reverse ?E.
     (?F ?G) list:append ?E.
     ?G seq:check true.
-    ?G seq:format ?B.
-    (?F) func:reverse ?D.
+    ?G seq:format ?C.
+    (?F) func:reverse ?H.
     ("!") e:derive true.
-    ?D seq:punctuate ?C.
+    ?H seq:punctuate ?D.
 }.
 
 {(?A) seq:check true} <= true.
-{?S seq:check true} <= {
-    ?S e:firstRest (?A ?T).
-    ?T e:firstRest (?B ?C).
-    (?B 1) math:sum ?A.
-    ?T seq:check true.
+{?A seq:check true} <= {
+    ?A e:firstRest (?B ?C).
+    ?C e:firstRest (?D ?E).
+    (?D 1) math:sum ?B.
+    ?C seq:check true.
 }.
 
 {(?A) seq:format (?A ", ")} <= true.
