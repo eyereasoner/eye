@@ -1,0 +1,31 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix seq: <http://josd.github.io/eye/reasoning/seq#>.
+
+{() seq:punctuate ()} <= true.
+{?A seq:punctuate ?L} <= {
+    ?L e:firstRest (?B ?C).
+    (?A) func:reverse ?E.
+    (?F ?G) list:append ?E.
+    ?G seq:check true.
+    ?G seq:format ?B.
+    (?F) func:reverse ?D.
+    ("!") e:derive true.
+    ?D seq:punctuate ?C.
+}.
+
+{(?A) seq:check true} <= true.
+{?S seq:check true} <= {
+    ?S e:firstRest (?A ?T).
+    ?T e:firstRest (?B ?C).
+    (?B 1) math:sum ?A.
+    ?T seq:check true.
+}.
+
+{(?A) seq:format (?A ",")} <= true.
+{?A seq:format (?C "-" ?B ",")} <= {
+    ?A e:firstRest (?B ?D).
+    ?D list:last ?C.
+}.

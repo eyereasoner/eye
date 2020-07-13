@@ -1,0 +1,12 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix seq: <http://josd.github.io/eye/reasoning/seq#>.
+
+{
+    (1 2 3 4 6 9 10 11 13) seq:punctuate ?A.
+    ?A list:append ?B.
+    (?C (",")) list:append ?B.
+    ?C string:concatenation ?D.
+} => {
+    (1 2 3 4 6 9 10 11 13) seq:answer ?D.
+}.
