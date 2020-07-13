@@ -1,5 +1,5 @@
 #Processed by EYE v20.0703.0848 josd
-#eye --no-genid http://josd.github.io/eye/reasoning/seq/seq_components.n3 --query http://josd.github.io/eye/reasoning/seq/seq_query.n3
+#eye --no-genid --wcache http://josd.github.io/eye/reasoning/seq . http://josd.github.io/eye/reasoning/seq/seq_components.n3 --query http://josd.github.io/eye/reasoning/seq/seq_query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -14,31 +14,31 @@
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
   r:gives {
-    (1 2 3 4 6 9 10 11 13) seq:answer "1-4,6,9-11,13".
+    (1 2 3 4 6 9 10 11 13) seq:answer "1-4, 6, 9-11, 13".
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    (1 2 3 4 6 9 10 11 13) seq:answer "1-4,6,9-11,13".
+    (1 2 3 4 6 9 10 11 13) seq:answer "1-4, 6, 9-11, 13".
   };
   r:evidence (
     <#lemma2>
-    [ a r:Fact; r:gives {((1 "-" 4 ",") (6 ",") (9 "-" 11 ",") (13 ",")) list:append (1 "-" 4 "," 6 "," 9 "-" 11 "," 13 ",")}]
-    [ a r:Fact; r:gives {((1 "-" 4 "," 6 "," 9 "-" 11 "," 13) (",")) list:append (1 "-" 4 "," 6 "," 9 "-" 11 "," 13 ",")}]
-    [ a r:Fact; r:gives {(1 "-" 4 "," 6 "," 9 "-" 11 "," 13) string:concatenation "1-4,6,9-11,13"}]
+    [ a r:Fact; r:gives {((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
+    [ a r:Fact; r:gives {((1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) (", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
+    [ a r:Fact; r:gives {(1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) string:concatenation "1-4, 6, 9-11, 13"}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ",") (6 ",") (9 "-" 11 ",") (13 ","))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 "," 6 "," 9 "-" 11 "," 13 ",")];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 "-" 4 "," 6 "," 9 "-" 11 "," 13)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo "1-4,6,9-11,13"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo "1-4, 6, 9-11, 13"];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
   r:gives {
-    (1 2 3 4 6 9 10 11 13) seq:punctuate ((1 "-" 4 ",") (6 ",") (9 "-" 11 ",") (13 ",")).
+    (1 2 3 4 6 9 10 11 13) seq:punctuate ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")).
   };
   r:evidence (
-    [ a r:Fact; r:gives {((1 "-" 4 ",") (6 ",") (9 "-" 11 ",") (13 ",")) e:firstRest ((1 "-" 4 ",") ((6 ",") (9 "-" 11 ",") (13 ",")))}]
+    [ a r:Fact; r:gives {((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")) e:firstRest ((1 "-" 4 ", ") ((6 ", ") (9 "-" 11 ", ") (13 ", ")))}]
     [ a r:Fact; r:gives {((1 2 3 4 6 9 10 11 13)) func:reverse (13 11 10 9 6 4 3 2 1)}]
     [ a r:Fact; r:gives {((13 11 10 9 6) (4 3 2 1)) list:append (13 11 10 9 6 4 3 2 1)}]
     <#lemma4>
@@ -47,9 +47,9 @@
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma6>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ",") (6 ",") (9 "-" 11 ",") (13 ","))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 ",")];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((6 ",") (9 "-" 11 ",") (13 ","))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", ")];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (13 11 10 9 6 4 3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (1 2 3 4 6 9 10 11 13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13 11 10 9 6)];
@@ -61,7 +61,7 @@
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate var:x_0.
      var:x_0 list:append var:x_1.
-     (var:x_2 (",")) list:append var:x_1.
+     (var:x_2 (", ")) list:append var:x_1.
      var:x_2 string:concatenation var:x_3} => {(1 2 3 4 6 9 10 11 13) seq:answer var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_query.n3>].
@@ -85,7 +85,7 @@
 
 <#lemma5> a r:Inference;
   r:gives {
-    (4 3 2 1) seq:format (1 "-" 4 ",").
+    (4 3 2 1) seq:format (1 "-" 4 ", ").
   };
   r:evidence (
     [ a r:Fact; r:gives {(4 3 2 1) e:firstRest (4 (3 2 1))}]
@@ -99,10 +99,10 @@
 
 <#lemma6> a r:Inference;
   r:gives {
-    (6 9 10 11 13) seq:punctuate ((6 ",") (9 "-" 11 ",") (13 ",")).
+    (6 9 10 11 13) seq:punctuate ((6 ", ") (9 "-" 11 ", ") (13 ", ")).
   };
   r:evidence (
-    [ a r:Fact; r:gives {((6 ",") (9 "-" 11 ",") (13 ",")) e:firstRest ((6 ",") ((9 "-" 11 ",") (13 ",")))}]
+    [ a r:Fact; r:gives {((6 ", ") (9 "-" 11 ", ") (13 ", ")) e:firstRest ((6 ", ") ((9 "-" 11 ", ") (13 ", ")))}]
     [ a r:Fact; r:gives {((6 9 10 11 13)) func:reverse (13 11 10 9 6)}]
     [ a r:Fact; r:gives {((13 11 10 9) (6)) list:append (13 11 10 9 6)}]
     <#lemma11>
@@ -111,9 +111,9 @@
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma13>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((6 ",") (9 "-" 11 ",") (13 ","))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (6 ",")];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((9 "-" 11 ",") (13 ","))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (6 ", ")];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (13 11 10 9 6)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (6 9 10 11 13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13 11 10 9)];
@@ -162,7 +162,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 seq:format (var:x_3 "-" var:x_1 ",")} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 seq:format (var:x_3 "-" var:x_1 ", ")} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      var:x_2 list:last var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
@@ -179,7 +179,7 @@
 
 <#lemma12> a r:Inference;
   r:gives {
-    (6) seq:format (6 ",").
+    (6) seq:format (6 ", ").
   };
   r:evidence (
     [ a r:Fact; r:gives true]
@@ -189,10 +189,10 @@
 
 <#lemma13> a r:Inference;
   r:gives {
-    (9 10 11 13) seq:punctuate ((9 "-" 11 ",") (13 ",")).
+    (9 10 11 13) seq:punctuate ((9 "-" 11 ", ") (13 ", ")).
   };
   r:evidence (
-    [ a r:Fact; r:gives {((9 "-" 11 ",") (13 ",")) e:firstRest ((9 "-" 11 ",") ((13 ",")))}]
+    [ a r:Fact; r:gives {((9 "-" 11 ", ") (13 ", ")) e:firstRest ((9 "-" 11 ", ") ((13 ", ")))}]
     [ a r:Fact; r:gives {((9 10 11 13)) func:reverse (13 11 10 9)}]
     [ a r:Fact; r:gives {((13) (11 10 9)) list:append (13 11 10 9)}]
     <#lemma17>
@@ -201,9 +201,9 @@
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma19>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((9 "-" 11 ",") (13 ","))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (9 "-" 11 ",")];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((13 ","))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (9 "-" 11 ", ")];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (13 11 10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (9 10 11 13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13)];
@@ -236,7 +236,7 @@
 
 <#lemma16> a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(var:x_0) seq:format (var:x_0 ",")} <= true.
+    @forSome var:x_0. {(var:x_0) seq:format (var:x_0 ", ")} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -259,7 +259,7 @@
 
 <#lemma18> a r:Inference;
   r:gives {
-    (11 10 9) seq:format (9 "-" 11 ",").
+    (11 10 9) seq:format (9 "-" 11 ", ").
   };
   r:evidence (
     [ a r:Fact; r:gives {(11 10 9) e:firstRest (11 (10 9))}]
@@ -273,10 +273,10 @@
 
 <#lemma19> a r:Inference;
   r:gives {
-    (13) seq:punctuate ((13 ",")).
+    (13) seq:punctuate ((13 ", ")).
   };
   r:evidence (
-    [ a r:Fact; r:gives {((13 ",")) e:firstRest ((13 ",") ())}]
+    [ a r:Fact; r:gives {((13 ", ")) e:firstRest ((13 ", ") ())}]
     [ a r:Fact; r:gives {((13)) func:reverse (13)}]
     [ a r:Fact; r:gives {(() (13)) list:append (13)}]
     <#lemma22>
@@ -285,8 +285,8 @@
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma24>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((13 ","))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (13 ",")];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((13 ", "))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (13 ", ")];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (13)];
@@ -334,7 +334,7 @@
 
 <#lemma23> a r:Inference;
   r:gives {
-    (13) seq:format (13 ",").
+    (13) seq:format (13 ", ").
   };
   r:evidence (
     [ a r:Fact; r:gives true]
@@ -367,6 +367,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-#2020-07-13T21:30:08.525Z in=7 out=1 ent=1 step=1 brake=1 inf=82377 sec=0.046 inf/sec=1790804
+#2020-07-13T22:27:47.718Z in=7 out=1 ent=1 step=1 brake=1 inf=82434 sec=0.046 inf/sec=1792043
 #ENDS
 
