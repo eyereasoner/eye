@@ -10,9 +10,9 @@
     (?A) func:reverse ?E.
     (?F ?G) list:append ?E.
     ?G seq:check true.
+    ("!") e:derive true.
     ?G seq:format ?C.
     (?F) func:reverse ?H.
-    ("!") e:derive true.
     ?H seq:punctuate ?D.
 }.
 
@@ -25,7 +25,7 @@
 }.
 
 {(?A) seq:format (?A ", ")} <= true.
-{?A seq:format (?C "-" ?B ", ")} <= {
-    ?A e:firstRest (?B ?D).
-    ?D list:last ?C.
+{?A seq:format (?B "-" ?C ", ")} <= {
+    ?A e:firstRest (?C ?D).
+    ?D list:last ?B.
 }.
