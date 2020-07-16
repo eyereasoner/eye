@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0703.0848 josd').
+version_info('EYE v20.0716.2304 josd').
 
 license_info('MIT License
 
@@ -2129,6 +2129,8 @@ document(Triples, L1, L2) :-
     statements_optional(Triples, L1, L2).
 
 dtlang(lang(Langcode), [atname(Name)|L2], L2) :-
+    Name \= 'is',
+    Name \= 'has',
     !,
     atomic_list_concat(['\'', Name, '\''], Langcode).
 dtlang(type(Datatype), [caret_caret|L2], L3) :-
