@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0716.2304 josd').
+version_info('EYE v20.0721.1253 josd').
 
 license_info('MIT License
 
@@ -2069,10 +2069,12 @@ barename_csl_tail([BareName|Tail], [','|L2], L4) :-
     barename_csl_tail(Tail, L3, L4).
 barename_csl_tail([], L1, L1).
 
+% DEPRECATED
 boolean(true, [atname('true')|L2], L2) :-
     !.
 boolean(true, [name('true')|L2], L2) :-
     !.
+% DEPRECATED
 boolean(false, [atname('false')|L2], L2) :-
     !.
 boolean(false, [name('false')|L2], L2) :-
@@ -2610,25 +2612,28 @@ verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', [], ['=', '>'|L2], L2) 
     !.
 verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', [], ['='|L2], L2) :-
     !.
-verb(':-', [], ['<', '='|L2], L2) :-
+verb(':-', [], [lt_eq|L2], L2) :-
     !.
+% DEPRECATED
 verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [atname(a)|L2], L2) :-
     !.
 verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [name(a)|L2], L2) :-
     !.
+% DEPRECATED
 verb(Node, Triples, [atname(has)|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
 verb(Node, Triples, [name(has)|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
+% DEPRECATED
 verb(isof(Node), Triples, [atname(is)|L2], L3) :-
     !,
     expression(Node, Triples, L2, [atname(of)|L3]).
 verb(isof(Node), Triples, [name(is)|L2], L3) :-
     !,
     expression(Node, Triples, L2, [name(of)|L3]).
-verb(isof(Node), Triples, [white_space_caret|L2], L3) :-
+verb(isof(Node), Triples, [lt_dash|L2], L3) :-
     !,
     expression(Node, Triples, L2, L3).
 verb(Node, Triples, L1, L2) :-
@@ -2704,11 +2709,7 @@ token(C0, In, C, Token) :-
     white_space(C0),
     !,
     get_code(In, C1),
-    (   C1 = 0'^
-    ->  Token = white_space_caret,
-        C = C0
-    ;   token(C1, In, C, Token)
-    ).
+    token(C1, In, C, Token).
 token(C0, In, C, Number) :-
     0'0 =< C0,
     C0 =< 0'9,
@@ -2772,9 +2773,22 @@ token(0'<, In, C, lt_lt) :-
     !,
     get_code(In, _),
     get_code(In, C).
+token(0'<, In, C, lt_eq) :-
+    peek_string(In, 2, D),
+    string_codes(D, [0'=, E]),
+    white_space(E),
+    !,
+    get_code(In, _),
+    get_code(In, C).
+token(0'<, In, C, lt_dash) :-
+    peek_string(In, 2, D),
+    string_codes(D, [0'-, E]),
+    white_space(E),
+    !,
+    get_code(In, _),
+    get_code(In, C).
 token(0'<, In, C, relative_uri(URI)) :-
     peek_code(In, C1),
-    C1 \== 0'=,
     !,
     get_code(In, C1),
     iri_chars(C1, In, C, Codes),
@@ -3165,6 +3179,9 @@ iri_chars(0'%, In, C, [0'%, C1, C2|T]) :-
     code_type(C2, xdigit(_)),
     get_code(In, C3),
     iri_chars(C3, In, C, T).
+iri_chars(0' , _, _, _) :-
+    !,
+    fail.
 iri_chars(-1, _, _, _) :-
     !,
     fail.
