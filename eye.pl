@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0721.1253 josd').
+version_info('EYE v20.0802.2241 josd').
 
 license_info('MIT License
 
@@ -2776,14 +2776,18 @@ token(0'<, In, C, lt_lt) :-
 token(0'<, In, C, lt_eq) :-
     peek_string(In, 2, D),
     string_codes(D, [0'=, E]),
-    white_space(E),
+    (   white_space(E)
+    ;   punctuation(E)
+    ),
     !,
     get_code(In, _),
     get_code(In, C).
 token(0'<, In, C, lt_dash) :-
     peek_string(In, 2, D),
     string_codes(D, [0'-, E]),
-    white_space(E),
+    (   white_space(E)
+    ;   punctuation(E, _)
+    ),
     !,
     get_code(In, _),
     get_code(In, C).
