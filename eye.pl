@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0802.2241 josd').
+version_info('EYE v20.0803.2102 josd').
 
 license_info('MIT License
 
@@ -110,11 +110,13 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     [--n3] <uri>                    N3 triples and rules
+    --pl <uri>                      Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
+    --pl <uri>                      Prolog query
     --query <n3-query>              output filtered with filter rules').
 
 :- dynamic(answer/3).    % answer(Predicate, Subject, Object)
@@ -326,19 +328,13 @@ argv([], []) :-
     !.
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
-    sub_atom(Arg, 0, B, _, D),
-    argd(D, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--prolog', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
+    sub_atom(Arg, 0, B, _, U),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--pl', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
-argv([Arg|Argvs], [U|Argus]) :-
-    argd(Arg, U),
+argv([Arg|Argvs], [Arg|Argus]) :-
     argv(Argvs, Argus).
-
-% DEPRECATED
-argd('--plugin', '--prolog').
-argd(A, A).
 
 
 % ------------------------------
@@ -912,7 +908,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--prolog', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--pl', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1050,8 +1046,7 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
-% DEPRECATED
-args(['--prolog', Argument|Args]) :-
+args(['--pl', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     (   wcacher(Arg, File)
@@ -2776,18 +2771,14 @@ token(0'<, In, C, lt_lt) :-
 token(0'<, In, C, lt_eq) :-
     peek_string(In, 2, D),
     string_codes(D, [0'=, E]),
-    (   white_space(E)
-    ;   punctuation(E)
-    ),
+    white_space(E),
     !,
     get_code(In, _),
     get_code(In, C).
 token(0'<, In, C, lt_dash) :-
     peek_string(In, 2, D),
     string_codes(D, [0'-, E]),
-    (   white_space(E)
-    ;   punctuation(E, _)
-    ),
+    white_space(E),
     !,
     get_code(In, _),
     get_code(In, C).
