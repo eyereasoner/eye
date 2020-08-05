@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0803.2102 josd').
+version_info('EYE v20.0805.2233 josd').
 
 license_info('MIT License
 
@@ -2771,14 +2771,18 @@ token(0'<, In, C, lt_lt) :-
 token(0'<, In, C, lt_eq) :-
     peek_string(In, 2, D),
     string_codes(D, [0'=, E]),
-    white_space(E),
+    (   white_space(E)
+    ;   punctuation(E, _)
+    ),
     !,
     get_code(In, _),
     get_code(In, C).
 token(0'<, In, C, lt_dash) :-
     peek_string(In, 2, D),
     string_codes(D, [0'-, E]),
-    white_space(E),
+    (   white_space(E)
+    ;   punctuation(E, _)
+    ),
     !,
     get_code(In, _),
     get_code(In, C).
@@ -3174,12 +3178,14 @@ iri_chars(0'%, In, C, [0'%, C1, C2|T]) :-
     code_type(C2, xdigit(_)),
     get_code(In, C3),
     iri_chars(C3, In, C, T).
-iri_chars(0' , _, _, _) :-
-    !,
-    fail.
 iri_chars(-1, _, _, _) :-
     !,
     fail.
+iri_chars(C0, In, C, T) :-
+    white_space(C0),
+    !,
+    get_code(In, C1),
+    iri_chars(C1, In, C, T).
 iri_chars(C0, In, C, D) :-
     \+non_iri_char(C0),
     (   current_prolog_flag(windows, true),
