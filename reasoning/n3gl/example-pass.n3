@@ -1,0 +1,18 @@
+#Processed by EYE v20.0805.2233 josd
+#eye --nope example.n3 --pass
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+
+:marriedTo a :SymetricRelation.
+:alice :marriedTo :bob.
+:bob :marriedTo :alice.
+{:alice :marriedTo :bob} :since "1999".
+{:bob :marriedTo :alice} :since "1999".
+:TEST :PASS 1 .
+:TEST :PASS 2 .
+:TEST :PASS 3 .
+
+#2020-08-10T13:22:29.996Z in=8 out=8 ent=5 step=12 brake=2 inf=21423 sec=0.031 inf/sec=691065
+#ENDS
+
