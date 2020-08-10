@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0805.2233 josd').
+version_info('EYE v20.0810.1331 josd').
 
 license_info('MIT License
 
@@ -4361,13 +4361,13 @@ wtn(exopred(P, S, O)) :-
     ).
 wtn(triple(S, P, O)) :-
     !,
-    write('<< '),
+    write('<<'),
     wg(S),
     write(' '),
     wg(P),
     write(' '),
     wg(O),
-    write(' >>').
+    write('>>').
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),
@@ -4741,7 +4741,7 @@ eam(Span) :-
             flush_output(user_error)
         ;   true
         ),
-        catch(call(Prem), Exc,    % just call(Prem) instead of call_residue_vars(Prem, [])
+        catch(ucall(Prem), Exc,    % just ucall(Prem) instead of call_residue_vars(Prem, [])
             (   Exc = error(existence_error(procedure, _), _)
             ->  fail
             ;   throw(Exc)
@@ -4787,7 +4787,7 @@ eam(Span) :-
         ->  makevars(Concd, Concdr, beta)
         ;   Concdr = Concd
         ),
-        \+catch(call(Concdr), _, fail),
+        \+catch(ucall(Concdr), _, fail),
         (   flag('rule-histogram')
         ->  lookup(RTC, tc, RuleL),
             catch(cnt(RTC), _, nb_setval(RTC, 0))
@@ -8984,6 +8984,31 @@ exopred(P, S, O) :-
     ),
     call(P, S, O).
 
+ucall(A) :-
+    (   A = (B, C)
+    ->  (   B = exopred(_, S, O),
+            (   nonvar(S),
+                S = exopred(_, _, _)
+            ;   nonvar(O),
+                O = exopred(_, _, _)
+            )
+        ->  unify(B, D),
+            call(D)
+        ;   call(B)
+        ),
+        ucall(C)
+    ;   (   A = exopred(_, S, O),
+            (   nonvar(S),
+                S = exopred(_, _, _)
+            ;   nonvar(O),
+                O = exopred(_, _, _)
+            )
+        ->  unify(A, D),
+            call(D)
+        ;   call(A)
+        )
+    ).
+
 unify(A, B) :-
     nonvar(A),
     A = exopred(P, S, O),
@@ -8996,6 +9021,9 @@ unify(A, B) :-
         ),
         B =.. [P, T, R],
         atom(P),
+        unify(S, T),
+        unify(O, R)
+    ;   B = exopred(P, T, R),
         unify(S, T),
         unify(O, R)
     ),
@@ -9012,6 +9040,9 @@ unify(A, B) :-
         ),
         A =.. [P, T, R],
         atom(P),
+        unify(S, T),
+        unify(O, R)
+    ;   A = exopred(P, T, R),
         unify(S, T),
         unify(O, R)
     ),
