@@ -1,13 +1,12 @@
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 
 {?p a :SymetricRelation. ?s ?p ?o} => {?o ?p ?s}.
 {?p a :SymetricRelation. {?s ?p ?o} ?p2 ?o2} => {{?o ?p ?s} ?p2 ?o2}.
 :marriedTo a :SymetricRelation.
 
-:alice :marriedTo :bob .
+:alice :marriedTo :bob.
 {:alice :marriedTo :bob} :since "1999".
 
 {:bob :marriedTo :alice} => {:TEST :PASS 1}.
 {{:bob :marriedTo :alice} :since "1999"} => {:TEST :PASS 2}.
-{?x :since "1999". ?x log:equalTo {:alice ?p :bob}} => {:TEST :PASS 3}.
+{{:alice ?p :bob} :since "1999"} => {:TEST :PASS 3}.

@@ -1,1 +1,21 @@
-# Mon Aug 10 15:48:46 CEST 2020
+# Wed Aug 12 01:33:23 CEST 2020
+-{ ?p a :SymetricRelation. ?s ?p ?o } => { ?o ?p ?s }.
+-{ ?p a :SymetricRelation. << ?s ?p ?o >> ?p2 ?o2 } => { << ?o ?p ?s >> ?p2 ?o2 }.
++{?p a :SymetricRelation. ?s ?p ?o} => {?o ?p ?s}.
++{?p a :SymetricRelation. <<?s ?p ?o>> ?p2 ?o2} => {<<?o ?p ?s>> ?p2 ?o2}.
+-:alice :marriedTo :bob .
+-<< :alice :marriedTo :bob >> :since "1999".
++:alice :marriedTo :bob.
++<<:alice :marriedTo :bob>> :since "1999".
+-{ :bob :marriedTo :alice } => { :TEST :PASS 1 }.
+-{<< :bob :marriedTo :alice >> :since "1999" } => { :TEST :PASS 2 }.
+-{<< :alice ?p :bob >> :since "1999" } => { :TEST :PASS 3 }.
++{:bob :marriedTo :alice} => {:TEST :PASS 1}.
++{<<:bob :marriedTo :alice>> :since "1999"} => {:TEST :PASS 2}.
++{<<:alice ?p :bob>> :since "1999"} => {:TEST :PASS 3}.
+-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+-:alice :marriedTo :bob .
++:alice :marriedTo :bob.
+-{?x :since "1999". ?x log:equalTo {:alice ?p :bob}} => {:TEST :PASS 3}.
++{{:alice ?p :bob} :since "1999"} => {:TEST :PASS 3}.
