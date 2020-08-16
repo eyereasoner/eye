@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0812.1747 josd').
+version_info('EYE v20.0816.2139 josd').
 
 license_info('MIT License
 
@@ -8984,16 +8984,6 @@ exopred(P, S, O) :-
     ),
     call(P, S, O).
 
-ucall(A) :-                         % @@ make this more general @@
-    A =.. [B, exopred(C, D, E), F],
-    pred(B),
-    (   var(C)
-    ->  pred(C)
-    ;   true
-    ),
-    G =.. [C, D, E],
-    H =.. [B, G, F],
-    call(H).
 ucall(A) :-
     (   A = (B, C)
     ->  vcall(B),
@@ -9002,15 +8992,35 @@ ucall(A) :-
     ).
 
 vcall(A) :-
-    (   A = exopred(_, S, O),
-        (   nonvar(S),
-            S = exopred(_, _, _)
-        ;   nonvar(O),
-            O = exopred(_, _, _)
-        )
-    ->  unify(A, D),
-        call(D)
-    ;   call(A)
+    (   (   A =.. [_, V, W]
+        ;   A = exopred(_, V, W)
+        ),
+        (   is_gl(V)
+        ;   is_gl(W)
+        )    
+    ->  unify(A, B)
+    ;   B = A
+    ),
+    (   B =.. [C, D, E],
+        pred(C),
+        (   is_gl(D)
+        ;   is_gl(E)
+        )    
+    ->  G =.. [C, H, I],
+        call(G),
+        unify(H, D),
+        unify(I, E)
+    ;   call(B)
+    ).
+
+is_gl(A) :-
+    nonvar(A),
+    \+is_list(A),
+    (   A = (_, _),
+        !
+    ;   A =.. [_, _, _],
+        !
+    ;   A = exopred(_, _, _)
     ).
 
 unify(A, B) :-
