@@ -1,5 +1,5 @@
 #Processed by Id
-        #    using base file:///home/jdroo/github.com/josd/eye/reasoning/glass/.run-1597275539.386173p10528
+        #    using base file:///home/jdroo/github.com/josd/eye/reasoning/glass/.run-1597609699.303632p6870
              @prefix : <http://example.org/try#> .
     @prefix log: <http://www.w3.org/2000/10/swap/log#> .
     @prefix n3: <http://www.w3.org/2004/06/rei#> .
@@ -23,52 +23,11 @@
                  a pr:Inference;
                  pr:binding  [
                      pr:boundTo  [
-                         n3:uri "http://example.org/try#a" ];
-                     pr:variable  [
-                         n3:nodeId "http://example.org/try#A" ] ],
-                         [
-                     pr:boundTo run:_g0;
-                     pr:variable  [
-                         n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ];
-                 pr:evidence  (
-                 [
-                         a pr:Fact;
-                         pr:gives {{
-                            :a     :b :c .
-                            
-                            }     log:equalTo {:a     :b :c .
-                            } .
-                        } ]
-                 [
-                         a pr:Extraction;
-                         pr:because run:_g3;
-                         pr:gives {{
-                            :a     :b :c .
-                            
-                            }     :p :o .
-                        } ] );
-                 pr:rule  [
-                     a pr:Extraction;
-                     pr:because run:_g1;
-                     pr:gives { @forAll :A,
-                                testQ:G .
-                    {
-                        testQ:G     :p :o;
-                             log:equalTo {:A     :b :c .
-                            } .
-                        
-                        }     => {:test1     a :PASS .
-                        } .
-                    } ] ],
-                     [
-                 a pr:Inference;
-                 pr:binding  [
-                     pr:boundTo  [
                          n3:uri "http://example.org/try#s" ];
                      pr:variable  [
                          n3:nodeId "http://example.org/try#S" ] ],
                          [
-                     pr:boundTo run:_g5;
+                     pr:boundTo run:_g0;
                      pr:variable  [
                          n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ];
                  pr:evidence  (
@@ -82,7 +41,7 @@
                         } ]
                  [
                          a pr:Extraction;
-                         pr:because run:_g4;
+                         pr:because run:_g3;
                          pr:gives {{
                             :r     :s :t .
                             
@@ -105,9 +64,50 @@
                  a pr:Inference;
                  pr:binding  [
                      pr:boundTo  [
-                         n3:uri "http://example.org/try#s" ];
+                         n3:uri "http://example.org/try#a" ];
                      pr:variable  [
-                         n3:nodeId "http://example.org/try#S" ] ],
+                         n3:nodeId "http://example.org/try#A" ] ],
+                         [
+                     pr:boundTo run:_g4;
+                     pr:variable  [
+                         n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ];
+                 pr:evidence  (
+                 [
+                         a pr:Fact;
+                         pr:gives {{
+                            :a     :b :c .
+                            
+                            }     log:equalTo {:a     :b :c .
+                            } .
+                        } ]
+                 [
+                         a pr:Extraction;
+                         pr:because run:_g5;
+                         pr:gives {{
+                            :a     :b :c .
+                            
+                            }     :p :o .
+                        } ] );
+                 pr:rule  [
+                     a pr:Extraction;
+                     pr:because run:_g1;
+                     pr:gives { @forAll :A,
+                                testQ:G .
+                    {
+                        testQ:G     :p :o;
+                             log:equalTo {:A     :b :c .
+                            } .
+                        
+                        }     => {:test1     a :PASS .
+                        } .
+                    } ] ],
+                     [
+                 a pr:Inference;
+                 pr:binding  [
+                     pr:boundTo  [
+                         n3:uri "http://example.org/try#e" ];
+                     pr:variable  [
+                         n3:nodeId "http://example.org/try#E" ] ],
                          [
                      pr:boundTo run:_g6;
                      pr:variable  [
@@ -125,7 +125,52 @@
                         } ]
                  [
                          a pr:Extraction;
-                         pr:because run:_g4;
+                         pr:because run:_g3;
+                         pr:gives {{
+                            :d     :e :f .
+                            :r     :s :t .
+                            
+                            }     :p :o .
+                        } ] );
+                 pr:rule  [
+                     a pr:Extraction;
+                     pr:because run:_g1;
+                     pr:gives { @forAll :E,
+                                testQ:G .
+                    {
+                        testQ:G     :p :o;
+                             log:equalTo {:d     :E :f .
+                            :r     :s :t .
+                            } .
+                        
+                        }     => {:test6     a :PASS .
+                        } .
+                    } ] ],
+                     [
+                 a pr:Inference;
+                 pr:binding  [
+                     pr:boundTo  [
+                         n3:uri "http://example.org/try#s" ];
+                     pr:variable  [
+                         n3:nodeId "http://example.org/try#S" ] ],
+                         [
+                     pr:boundTo run:_g7;
+                     pr:variable  [
+                         n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ];
+                 pr:evidence  (
+                 [
+                         a pr:Fact;
+                         pr:gives {{
+                            :d     :e :f .
+                            :r     :s :t .
+                            
+                            }     log:equalTo {:d     :e :f .
+                            :r     :s :t .
+                            } .
+                        } ]
+                 [
+                         a pr:Extraction;
+                         pr:because run:_g3;
                          pr:gives {{
                             :d     :e :f .
                             :r     :s :t .
@@ -154,7 +199,7 @@
                      pr:variable  [
                          n3:nodeId "http://example.org/try#C" ] ],
                          [
-                     pr:boundTo run:_g7;
+                     pr:boundTo run:_g8;
                      pr:variable  [
                          n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ],
                          [
@@ -173,7 +218,7 @@
                         } ]
                  [
                          a pr:Extraction;
-                         pr:because run:_g3;
+                         pr:because run:_g5;
                          pr:gives {{
                             :a     :b :c .
                             
@@ -192,51 +237,6 @@
                         
                         }     => {:test2     a :PASS .
                         } .
-                    } ] ],
-                     [
-                 a pr:Inference;
-                 pr:binding  [
-                     pr:boundTo  [
-                         n3:uri "http://example.org/try#e" ];
-                     pr:variable  [
-                         n3:nodeId "http://example.org/try#E" ] ],
-                         [
-                     pr:boundTo run:_g8;
-                     pr:variable  [
-                         n3:nodeId "http://josd.github.io/eye/reasoning/glass/testQ.n3#G" ] ];
-                 pr:evidence  (
-                 [
-                         a pr:Fact;
-                         pr:gives {{
-                            :d     :e :f .
-                            :r     :s :t .
-                            
-                            }     log:equalTo {:d     :e :f .
-                            :r     :s :t .
-                            } .
-                        } ]
-                 [
-                         a pr:Extraction;
-                         pr:because run:_g4;
-                         pr:gives {{
-                            :d     :e :f .
-                            :r     :s :t .
-                            
-                            }     :p :o .
-                        } ] );
-                 pr:rule  [
-                     a pr:Extraction;
-                     pr:because run:_g1;
-                     pr:gives { @forAll :E,
-                                testQ:G .
-                    {
-                        testQ:G     :p :o;
-                             log:equalTo {:d     :E :f .
-                            :r     :s :t .
-                            } .
-                        
-                        }     => {:test6     a :PASS .
-                        } .
                     } ] ];
              pr:gives {:test1     a :PASS .
             :test2     a :PASS .
@@ -252,7 +252,11 @@
     run:_g2     a pr:CommandLine;
          pr:args "['/home/jdroo/github.com/linkeddata/swap/cwm.py', 'http://josd.github.io/eye/reasoning/glass/test.n3', '--think', '--filter=http://josd.github.io/eye/reasoning/glass/testQ.n3', '--why']" .
     
-    run:_g3     a pr:Inference;
+    run:_g3     a pr:Parsing;
+         pr:because run:_g2;
+         pr:source <http://josd.github.io/eye/reasoning/glass/test.n3> .
+    
+    run:_g5     a pr:Inference;
          pr:binding  [
              pr:boundTo  [
                  n3:uri "http://example.org/try#b" ];
@@ -265,7 +269,7 @@
                 } ] );
          pr:rule  [
              a pr:Extraction;
-             pr:because run:_g4;
+             pr:because run:_g3;
              pr:gives { @forAll test:b .
             {
                 test:b     log:equalTo :b .
@@ -276,23 +280,19 @@
                     }     :p :o .
                 } .
             } ] .
-    
-    run:_g4     a pr:Parsing;
-         pr:because run:_g2;
-         pr:source <http://josd.github.io/eye/reasoning/glass/test.n3> .
     {
         :a     :b :c .
         
-        }     = run:_g0,
-                run:_g7 .
+        }     = run:_g4,
+                run:_g8 .
     {
         :r     :s :t .
         
-        }     = run:_g5 .
+        }     = run:_g0 .
     {
         :d     :e :f .
         :r     :s :t .
         
         }     = run:_g6,
-                run:_g8 .
+                run:_g7 .
     

@@ -1,16 +1,16 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/try#>.
 
-@forAll :A, :B, :C, :S, :E.
+@forAll :A, :B, :C, :E, :S.
 
-{?G :p :o. ?G log:equalTo {:A :b :c}} => {:test1 a :PASS}.
+{{:A :b :c} :p :o} => {:test1 a :PASS}.
 
-{?G :p :o. ?G log:equalTo {:a :B :C. :a :B :C}} => {:test2 a :PASS}.
-{?G :p :o. ?G log:equalTo {:a :B :C. :A :B :C}} => {:test3 a :PASS}.
+{{:a :B :C. :a :B :C} :p :o} => {:test2 a :PASS}.
+{{:a :B :C. :A :B :C} :p :o} => {:test3 a :PASS}.
 
-{?G :p :o. ?G log:equalTo {:r :S :t}} => {:test4 a :PASS}.
+{{:r :S :t} :p :o} => {:test4 a :PASS}.
 
-{?G :p :o. ?G log:equalTo {:d :e :f. :r :S :t}} => {:test5 a :PASS}.
-{?G :p :o. ?G log:equalTo {:d :E :f. :r :s :t}} => {:test6 a :PASS}.
-{?G :p :o. ?G log:equalTo {:d :e :f. :r :s :t. :d :E :f}} => {:test7 a :PASS}.
-{?G :p :o. {:d :e :f. :r :s :t. :d :E :f} log:equalTo ?G} => {:test8 a :PASS}.
+{{:d :e :f. :r :S :t} :p :o} => {:test5 a :PASS}.
+{{:d :E :f. :r :s :t} :p :o} => {:test6 a :PASS}.
+{{:d :e :f. :r :s :t. :d :E :f} :p :o} => {:test7 a :PASS}.
+{{:d :E :f. :r :S :t. :d :e :f} :p :o} => {:test8 a :PASS}.
