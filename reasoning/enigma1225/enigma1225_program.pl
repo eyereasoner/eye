@@ -2,7 +2,7 @@
 
 :- use_module(library(apply)).
 
-'<http://josd.github.io/eye/reasoning/enigma1225#solve>'(Size, Permutation, Board, Max) :-
+'<http://josd.github.io/eye/reasoning/enigma1225#solve>'(Size, [Permutation, Board, Max]) :-
     setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
     last(Totals, Max),
     square(Size, Board, Max, _, Permutation).

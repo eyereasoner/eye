@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0816.2139 josd').
+version_info('EYE v20.0820.2237 josd').
 
 license_info('MIT License
 
@@ -266,15 +266,6 @@ main :-
     (   memberchk('--turtle', Argus)
     ->  catch(process_create(path(cturtle), [], [stdin(null), stdout(null), stderr(null)]), _,
             (   format(user_error, '** ERROR ** EYE option --turtle requires cturtle which can be installed from http://github.com/melgi/cturtle/releases/ **~n', []),
-                flush_output(user_error),
-                halt(1)
-            )
-        )
-    ;   true
-    ),
-    (   memberchk('--carl', Argus)
-    ->  catch(process_create(path(carl), [], [stdin(null), stdout(null), stderr(null)]), _,
-            (   format(user_error, '** ERROR ** EYE option --carl requires carl which can be installed from http://github.com/melgi/carl/releases/ **~n', []),
                 flush_output(user_error),
                 halt(1)
             )
@@ -655,12 +646,6 @@ gre(Argus) :-
 
 opts([], []) :-
     !.
-% DEPRECATED
-opts(['--carl'|Argus], Args) :-
-    !,
-    retractall(flag(carl)),
-    assertz(flag(carl)),
-    opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
@@ -1002,10 +987,7 @@ args(['--n3', Arg|Args]) :-
     ->  portray_clause(scope(R))
     ;   true
     ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
+    n3_n3p(Arg, data),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -1124,10 +1106,7 @@ args(['--proof', Arg|Args]) :-
     ->  portray_clause(scope(R))
     ;   true
     ),
-    (   flag(carl)
-    ->  carl(Arg, data)
-    ;   n3_n3p(Arg, data)
-    ),
+    n3_n3p(Arg, data),
     (   got_pi
     ->  true
     ;   assertz(implies(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(LEMMA, '<http://www.w3.org/2000/10/swap/reason#Inference>'),
@@ -1143,10 +1122,7 @@ args(['--proof', Arg|Args]) :-
     args(Args).
 args(['--query', Arg|Args]) :-
     !,
-    (   flag(carl)
-    ->  carl(Arg, query)
-    ;   n3_n3p(Arg, query)
-    ),
+    n3_n3p(Arg, query),
     args(Args).
 args(['--turtle', Argument|Args]) :-
     !,
@@ -1336,182 +1312,6 @@ args(['--turtle', Argument|Args]) :-
     args(Args).
 args([Arg|Args]) :-
     args(['--n3', Arg|Args]).
-
-carl(Argument, Mode) :-
-    !,
-    absolute_uri(Argument, Arg),
-    (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error)
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  tmp_file(File),
-            assertz(tmpfile(File)),
-            curl_http_headers(Headers),
-            atomic_list_concat(['curl -s -L -H "Accept: text/n3" ', Headers, '"', Arg, '" -o ', File], Cmd),
-            catch(exec(Cmd, _), Exc,
-                (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-                    flush_output(user_error),
-                    (   retract(tmpfile(File))
-                    ->  delete_file(File)
-                    ;   true
-                    ),
-                    flush_output,
-                    halt(1)
-                )
-            )
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  parse_url(Arg, Parts),
-                memberchk(path(File), Parts)
-            ;   File = Arg
-            )
-        )
-    ),
-    atomic_list_concat(['-b=', Arg], Base),
-    catch(process_create(path(carl), [Base, file(File)], [stdout(pipe(In)), stderr(std)]), Exc,
-        (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-            flush_output(user_error),
-            flush_output,
-            halt(1)
-        )
-    ),
-    nb_setval(wn, 0),
-    nb_setval(rn, 0),
-    nb_setval(sc, 0),
-    nb_setval(tc, 0),
-    nb_setval(tp, 0),
-    nb_setval(tr, 0),
-    set_stream(In, encoding(utf8)),
-    atomic_list_concat(['<', Arg, '>'], Src),
-    nb_setval(current_scope, Src),
-    (   Mode = semantics
-    ->  carls(In, Src, List),
-        assertz(semantics(Src, List))
-    ;   repeat,
-        read_term(In, Rt, [variable_names(Vars)]),
-        (   Rt = end_of_file
-        ->  catch(read_line_to_codes(In, _), _, true)
-        ;   carltr(Rt, Vars, Tr, Src, Mode),
-            n3pin(Tr, In, File, Mode),
-            fail
-        ),
-        !
-    ),
-    (   File = '-'
-    ->  true
-    ;   close(In)
-    ),
-    (   retract(tmpfile(File))
-    ->  delete_file(File)
-    ;   true
-    ),
-    findall(SCnt,
-        (   retract(scount(SCnt))
-        ),
-        SCnts
-    ),
-    sum(SCnts, SC),
-    nb_getval(input_statements, IN),
-    Inp is SC+IN,
-    nb_setval(input_statements, Inp),
-    format(user_error, 'SC=~w~n', [SC]),
-    flush_output(user_error).
-
-carls(In, Src, List) :-
-    read_term(In, Rt, [variable_names(Vars)]),
-    (   Rt = end_of_file
-    ->  List = []
-    ;   carltr(Rt, Vars, Tr, Src, semantics),
-        (   Tr = scount(_)
-        ->  assertz(Tr),
-            List = Rest
-        ;   (   Tr \= ':-'(_),
-                Tr \= flag(_, _),
-                Tr \= scope(_),
-                Tr \= pfx(_, _),
-                Tr \= pred(_),
-                Tr \= cpred(_)
-            ->  List = [Tr|Rest]
-            ;   List = Rest
-            )
-        ),
-        carls(In, Src, Rest)
-    ).
-
-carltr(implies(X, Y, _), V, W, Src, query) :-
-    !,
-    (   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, T)
-    ->  (   is_list(T)
-        ->  U = T
-        ;   term_variables(X, U)
-        ),
-        copy_term_nat([U, V], [D, E]),
-        numbervars([D, E], 0, _),
-        findall(A,
-            (   member(B, D),
-                memberchk(C=B, E),
-                (   atom_concat('_', A, C)
-                ->  true
-                ;   A = C
-                )
-            ),
-            H
-        ),
-        nb_setval(csv_header, H)
-    ;   true
-    ),
-    (   \+flag('limited-answer', _),
-        flag(nope),
-        (   flag('no-distinct-output')
-        ;   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)
-        )
-    ->  W = query(X, Y)
-    ;   djiti_answer(answer(Y), A),
-        W = implies(X, A, Src)
-    ).
-carltr(':-'(Y, X), V, W, Src, query) :-
-    !,
-    (   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, T)
-    ->  (   is_list(T)
-        ->  U = T
-        ;   term_variables(X, U)
-        ),
-        copy_term_nat([U, V], [D, E]),
-        numbervars([D, E], 0, _),
-        findall(A,
-            (   member(B, D),
-                memberchk(C=B, E),
-                (   atom_concat('_', A, C)
-                ->  true
-                ;   A = C
-                )
-            ),
-            H
-        ),
-        nb_setval(csv_header, H)
-    ;   true
-    ),
-    (   (   \+flag('limited-answer', _)
-        ;   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _),
-            flag(strings)
-        ),
-        flag(nope)
-    ->  W = query(X, Y)
-    ;   djiti_answer(answer(Y), A),
-        W = implies(X, A, Src)
-    ).
-carltr(implies(X, Y, _), _, '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y), _, semantics) :-
-    !.
-carltr(pfx(X, Y), _, pfx(X, Y), _, _) :-
-    !,
-    sub_atom(X, 0, _, 1, A),
-    sub_atom(Y, 1, _, 1, B),
-    put_pfx(A, B).
-carltr(X, _, X, _, _).
 
 n3pin(Rt, In, File, Mode) :-
     (   Rt = ':-'(Rg)
@@ -5813,10 +5613,7 @@ djiti_assertz(A) :-
             flatten(H, I),
             atomic_list_concat(I, J),
             (   catch(exec(J, _), _, fail)
-            ->  (   flag(carl)
-                ->  carl(Tmp2, semantics)
-                ;   n3_n3p(Tmp2, semantics)
-                ),
+            ->  n3_n3p(Tmp2, semantics),
                 absolute_uri(Tmp2, Tmp),
                 atomic_list_concat(['<', Tmp, '>'], Res),
                 semantics(Res, L),
@@ -5933,10 +5730,7 @@ djiti_assertz(A) :-
                 sub_atom(X, _, 1, 0, '>'),
                 sub_atom(X, 1, _, 1, Z),
                 catch(
-                    (   flag(carl)
-                    ->  carl(Z, semantics)
-                    ;   n3_n3p(Z, semantics)
-                    ),
+                    n3_n3p(Z, semantics),
                     Exc,
                     (   format(user_error, '** ERROR ** ~w **~n', [Exc]),
                         flush_output(user_error),
