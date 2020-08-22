@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0820.2237 josd').
+version_info('EYE v20.0822.1221 josd').
 
 license_info('MIT License
 
@@ -1495,7 +1495,7 @@ n3_n3p(Argument, Mode) :-
     catch(
         (   repeat,
             tokens(In, Tokens),
-            document(Triples, Tokens, Rest),
+            phrase(document(Triples), Tokens, Rest),
             (   Rest = []
             ->  true
             ;   nb_getval(line_number, Ln),
@@ -1850,396 +1850,171 @@ tr_split([A|B], [A|C], D) :-
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
-barename(BareName, [name(BareName)|L2], L2).
+barename(BareName) -->
+    [name(BareName)].
 
-barename_csl([BareName|Tail], L1, L3) :-
-    barename(BareName, L1, L2),
+barename_csl([BareName|Tail]) -->
+    barename(BareName),
     !,
-    barename_csl_tail(Tail, L2, L3).
-barename_csl([], L1, L1).
+    barename_csl_tail(Tail).
+barename_csl([]) -->
+    [].
 
-barename_csl_tail([BareName|Tail], [','|L2], L4) :-
+barename_csl_tail([BareName|Tail]) -->
+    [','],
     !,
-    barename(BareName, L2, L3),
-    barename_csl_tail(Tail, L3, L4).
-barename_csl_tail([], L1, L1).
+    barename(BareName),
+    barename_csl_tail(Tail).
+barename_csl_tail([]) -->
+    [].
 
-% DEPRECATED
-boolean(true, [atname('true')|L2], L2) :-
+boolean(true) -->
+    [name('true')],
     !.
-boolean(true, [name('true')|L2], L2) :-
+boolean(false) -->
+    [name('false')],
     !.
-% DEPRECATED
-boolean(false, [atname('false')|L2], L2) :-
-    !.
-boolean(false, [name('false')|L2], L2) :-
-    !.
-boolean(Boolean, L1, L2) :-
-    literal(Atom, type(T), L1, L2),
-    T = '\'<http://www.w3.org/2001/XMLSchema#boolean>\'',
-    (   memberchk([Boolean, Atom], [[true, '\'true\''], [true, true], [true, '\'1\''], [false, '\'false\''], [false, false], [false, '\'0\'']])
-    ->  true
-    ;   (   flag('parse-only')
+boolean(Boolean) -->
+    literal(Atom, type(T)),
+    {   T = '\'<http://www.w3.org/2001/XMLSchema#boolean>\'',
+        (   memberchk([Boolean, Atom], [[true, '\'true\''], [true, true], [true, '\'1\''], [false, '\'false\''], [false, false], [false, '\'0\'']])
         ->  true
-        ;   nb_getval(line_number, Ln),
-            throw(invalid_boolean_literal(Atom, after_line(Ln)))
+        ;   (   flag('parse-only')
+            ->  true
+            ;   nb_getval(line_number, Ln),
+                throw(invalid_boolean_literal(Atom, after_line(Ln)))
+            )
         )
-    ).
+    }.
 
-declaration([atname(base)|L2], L3) :-
+declaration -->
+    [atname(base)],
     !,
-    explicituri(U, L2, L3),
-    base_uri(V),
-    resolve_uri(U, V, URI),
-    retractall(base_uri(_)),
-    assertz(base_uri(URI)).
-declaration([name(Name)|L2], L4) :-
-    downcase_atom(Name, 'base'),
+    explicituri(U),
+    {   base_uri(V),
+        resolve_uri(U, V, URI),
+        retractall(base_uri(_)),
+        assertz(base_uri(URI))
+    }.
+declaration -->
+    [name(Name)],
+    {   downcase_atom(Name, 'base')
+    },
     !,
-    explicituri(U, L2, L3),
-    base_uri(V),
-    resolve_uri(U, V, URI),
-    retractall(base_uri(_)),
-    assertz(base_uri(URI)),
-    withoutdot(L3, L4).
-declaration([atname(prefix)|L2], L4) :-
+    explicituri(U),
+    {   base_uri(V),
+        resolve_uri(U, V, URI),
+        retractall(base_uri(_)),
+        assertz(base_uri(URI))
+    },
+    withoutdot.
+declaration -->
+    [atname(prefix)],
     !,
-    prefix(Prefix, L2, L3),
-    explicituri(U, L3, L4),
-    base_uri(V),
-    resolve_uri(U, V, URI),
-    retractall(ns(Prefix, _)),
-    assertz(ns(Prefix, URI)),
-    put_pfx(Prefix, URI).
-declaration([name(Name)|L2], L5) :-
-    downcase_atom(Name, 'prefix'),
-    prefix(Prefix, L2, L3),
-    explicituri(U, L3, L4),
-    base_uri(V),
-    resolve_uri(U, V, URI),
-    retractall(ns(Prefix, _)),
-    assertz(ns(Prefix, URI)),
-    put_pfx(Prefix, URI),
-    withoutdot(L4, L5).
+    prefix(Prefix),
+    explicituri(U),
+    {   base_uri(V),
+        resolve_uri(U, V, URI),
+        retractall(ns(Prefix, _)),
+        assertz(ns(Prefix, URI)),
+        put_pfx(Prefix, URI)
+    }.
+declaration -->
+    [name(Name)],
+    {   downcase_atom(Name, 'prefix')
+    },
+    prefix(Prefix),
+    explicituri(U),
+    {   base_uri(V),
+        resolve_uri(U, V, URI),
+        retractall(ns(Prefix, _)),
+        assertz(ns(Prefix, URI)),
+        put_pfx(Prefix, URI)
+    },
+    withoutdot.
 
-document(Triples, L1, L2) :-
-    statements_optional(Triples, L1, L2).
+document(Triples) -->
+    statements_optional(Triples).
 
-dtlang(lang(Langcode), [atname(Name)|L2], L2) :-
-    Name \= 'is',
-    Name \= 'has',
+dtlang(lang(Langcode)) -->
+    [atname(Name)],
+    {   Name \= 'is',
+        Name \= 'has'
+    },
     !,
-    atomic_list_concat(['\'', Name, '\''], Langcode).
-dtlang(type(Datatype), [caret_caret|L2], L3) :-
+    {   atomic_list_concat(['\'', Name, '\''], Langcode)
+    }.
+dtlang(type(Datatype)) -->
+    [caret_caret],
     !,
-    uri(Datatype, L2, L3).
-dtlang(type('\'<http://www.w3.org/2001/XMLSchema#string>\''), L1, L1).
+    uri(Datatype).
+dtlang(type(T)) -->
+    {   T = '\'<http://www.w3.org/2001/XMLSchema#string>\''
+    },
+    [].
 
-existential([atname(forSome)|L2], L3) :-
+existential -->
+    [atname(forSome)],
     !,
-    symbol_csl(Symbols, L2, L3),
-    nb_getval(fdepth, D),
-    forall(
-        (   member(S, Symbols)
+    symbol_csl(Symbols),
+    {   nb_getval(fdepth, D),
+        forall(
+            (   member(S, Symbols)
+            ),
+            (   gensym('qe_', Q),
+                asserta(qevar(S, Q, D))
+            )
+        )
+    }.
+
+explicituri(ExplicitURI) -->
+    [relative_uri(ExplicitURI)].
+
+expression(Node, T) -->
+    pathitem(N1, T1),
+    pathtail(N1, Node, T2),
+    {   append(T1, T2, T)
+    }.
+
+formulacontent(Formula) -->
+    statementlist(List),
+    {   conj_list(Formula, List)
+    }.
+
+literal(Atom, DtLang) -->
+    string(Codes),
+    dtlang(DtLang),
+    {   escape_string(Codes, B),
+        escape_string(B, C),
+        atom_codes(A, C),
+        (   sub_atom(A, _, 1, _, '\'')
+        ->  escape_squote(C, D),
+            atom_codes(E, D)
+        ;   E = A
         ),
-        (   gensym('qe_', Q),
-            asserta(qevar(S, Q, D))
-        )
-    ).
+        atomic_list_concat(['\'', E, '\''], Atom)
+    }.
 
-explicituri(ExplicitURI, [relative_uri(ExplicitURI)|L2], L2).
+numericliteral(Number) -->
+    [numeric(_, NumB)],
+    {   numeral(NumB, NumC),
+        number_codes(Number, NumC)
+    }.
 
-expression(Node, T, L1, L3) :-
-    pathitem(N1, T1, L1, L2),
-    pathtail(N1, Node, T2, L2, L3),
-    append(T1, T2, T).
+object(Node, Triples) -->
+    expression(Node, Triples).
 
-formulacontent(Formula, L1, L2) :-
-    statementlist(L, L1, L2),
-    conj_list(Formula, L).
-
-literal(Atom, DtLang, L1, L3) :-
-    string(Codes, L1, L2),
-    dtlang(DtLang, L2, L3),
-    escape_string(Codes, B),
-    escape_string(B, C),
-    atom_codes(A, C),
-    (   sub_atom(A, _, 1, _, '\'')
-    ->  escape_squote(C, D),
-        atom_codes(E, D)
-    ;   E = A
-    ),
-    atomic_list_concat(['\'', E, '\''], Atom).
-
-numericliteral(Number, [numeric(_, NumB)|L2], L2) :-
-    numeral(NumB, NumC),
-    number_codes(Number, NumC).
-
-object(Node, Triples, L1, L2) :-
-    expression(Node, Triples, L1, L2).
-
-objecttail(Subject, Verb, [Triple|T], [','|L2], L4) :-
+objecttail(Subject, Verb, [Triple|T]) -->
+    [','],
     !,
-    object(Object, Triples, L2, L3),
-    objecttail(Subject, Verb, Tail, L3, L4),
-    append(Triples, Tail, T),
-    (   Verb = isof(V)
-    ->  (   atom(V),
-            \+sub_atom(V, 0, 1, _, '_')
-        ->  Triple =.. [V, Object, Subject]
-        ;   Triple = exopred(V, Object, Subject)
-        )
-    ;   (   atom(Verb),
-            \+sub_atom(Verb, 0, 1, _, '_')
-        ->  Triple =.. [Verb, Subject, Object]
-        ;   Triple = exopred(Verb, Subject, Object)
-        )
-    ).
-objecttail(_, _, [], L1, L1).
-
-pathitem(Name, [], L1, L2) :-
-    symbol(S, L1, L2),
-    !,
-    (   qevar(S, N, D),
-        \+quvar(S, _, _)
-    ->  (   D >= 1,
-            nb_getval(fdepth, FD),
-            FD >= D,
-            \+flag('pass-all-ground')
-        ->  atom_concat('_', N, Name),
-            nb_setval(smod, false)
-        ;   nb_getval(var_ns, Vns),
-            atomic_list_concat(['\'<', Vns, N, '>\''], Name)
-        )
-    ;   (   quvar(S, N, D)
-        ->  (   (   D = 1,
-                    nb_getval(fdepth, FD),
-                    FD >= 1
-                ;   flag('pass-all-ground')
-                )
-            ->  nb_getval(var_ns, Vns),
-                atomic_list_concat(['\'<', Vns, N, '>\''], Name)
-            ;   atom_concat('_', N, Name),
-                nb_setval(smod, false)
-            )
-        ;   Name = S
-        )
-    ),
-    (   quvar(S, _, _)
-    ->  nb_setval(smod, false)
-    ;   true
-    ).
-pathitem(VarID, [], [uvar(Var)|L2], L2) :-
-    !,
-    atom_codes(Var, VarCodes),
-    subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
-    atom_codes(VarAtom, [0'_|VarTidy]),
-    (   flag('pass-all-ground')
-    ->  nb_getval(var_ns, Vns),
-        atom_codes(VarFrag, VarTidy),
-        atomic_list_concat(['\'<', Vns, VarFrag, '>\''], VarID)
-    ;   VarID = VarAtom
-    ),
-    nb_setval(smod, false).
-pathitem(Number, [], L1, L2) :-
-    numericliteral(Number, L1, L2),
-    !.
-pathitem(Boolean, [], L1, L2) :-
-    boolean(Boolean, L1, L2),
-    !.
-pathitem(Atom, [], L1, L2) :-
-    literal(A, type(T), L1, L2),
-    T = '\'<http://eulersharp.sourceforge.net/2003/03swap/prolog#atom>\'',
-    !,
-    atom_codes(A, B),
-    escape_string(C, B),
-    atom_codes(Atom, C).
-pathitem(Number, [], L1, L2) :-
-    \+flag('parse-only'),
-    literal(Atom, type(Type), L1, L2),
-    memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
-    sub_atom(Atom, 1, _, 1, A),
-    atom_codes(A, NumB),
-    numeral(NumB, NumC),
-    number_codes(Number, NumC),
-    !.
-pathitem(literal(Atom, DtLang), [], L1, L2) :-
-    literal(Atom, DtLang, L1, L2),
-    !.
-pathitem(BNode, Triples, ['['|L2], L4) :-
-    !,
-    gensym('bn_', S),
-    (   (   nb_getval(fdepth, FD),
-            FD =\= 1
-        ;   flag('pass-all-ground')
-        )
-    ->  nb_getval(var_ns, Vns),
-        atomic_list_concat(['\'<', Vns, S, '>\''], BN)
-    ;   atom_concat('_', S, BN),
-        nb_setval(smod, false)
-    ),
-    propertylist(BN, T, L2, [']'|L4]),
-    (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
-        memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
-        del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
-        del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
-        del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
-    ->  BNode = [Head|Tail],
-        Triples = W
-    ;   BNode = BN,
-        Triples = T
-    ).
-pathitem(set(Distinct), Triples, ['(', '$'|L2], L4) :-
-    !,
-    pathlist(List, Triples, L2, ['$', ')'|L4]),
-    (   nb_getval(smod, true)
-    ->  sort(List, Distinct)
-    ;   distinct(List, Distinct)
-    ).
-pathitem(List, Triples, ['('|L2], L4) :-
-    !,
-    pathlist(List, Triples, L2, [')'|L4]).
-pathitem(triple(S, P, O), Triples, [lt_lt|L2], L4) :-
-    !,
-    pathlist(List, Triples, L2, [gt_gt|L4]),
-    (   List = [S, P, O]
-    ->  true
-    ;   nb_getval(line_number, Ln),
-        throw('invalid_n3*_triple'(List, after_line(Ln)))
-    ).
-pathitem(Node, [] , ['{'|L2], L4):-
-    nb_getval(fdepth, I),
-    J is I+1,
-    nb_setval(fdepth, J),
-    nb_setval(smod, true),
-    formulacontent(Node, L2, ['}'|L4]),
-    retractall(quvar(_, _, J)),
-    retractall(qevar(_, _, J)),
-    retractall(evar(_, _, J)),
-    nb_setval(fdepth, I),
-    nb_setval(smod, false).
-
-pathlist([Node|Rest], Triples, L1, L3) :-
-    expression(Node, T, L1, L2),
-    !,
-    pathlist(Rest, Tail, L2, L3),
-    append(T, Tail, Triples).
-pathlist([], [], L1, L1).
-
-pathtail(Node, PNode, [Triple|Triples], ['!'|L2], L4) :-
-    !,
-    pathitem(Item, Triples2, L2, L3),
-    prolog_verb(Item, Verb),
-    gensym('bn_', S),
-    (   (   nb_getval(fdepth, 0)
-        ;   flag('pass-all-ground')
-        )
-    ->  nb_getval(var_ns, Vns),
-        atomic_list_concat(['\'<', Vns, S, '>\''], BNode)
-    ;   atom_concat('_', S, BNode),
-        nb_setval(smod, false)
-    ),
-    (   Verb = isof(V)
-    ->  (   atom(V),
-            \+sub_atom(V, 0, 1, _, '_')
-        ->  Triple =.. [V, BNode, Node]
-        ;   Triple = exopred(V, BNode, Node)
-        )
-    ;   (   Verb = prolog:Pred
-        ->  (   BNode = true
-            ->  Triple =.. [Pred|Node]
-            ;   (   BNode = false
-                ->  T =.. [Pred|Node],
-                    Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)
-                    ->  T =.. [Pred|Node],
-                        Triple = is(BNode, T)
-                    ;   Triple =.. [Pred, Node, BNode]
-                    )
-                )
-            )
-        ;   (   atom(Verb),
-                \+sub_atom(Verb, 0, 1, _, '_')
-            ->  Triple =.. [Verb, Node, BNode]
-            ;   Triple = exopred(Verb, Node, BNode)
-            )
-        )
-    ),
-    pathtail(BNode, PNode, Tail, L3, L4),
-    append(Triples2, Tail, Triples).
-pathtail(Node, PNode, [Triple|Triples], ['^'|L2], L4) :-
-    !,
-    pathitem(Item, Triples2, L2, L3),
-    prolog_verb(Item, Verb),
-    gensym('bn_', S),
-    (   (   nb_getval(fdepth, 0)
-        ;   flag('pass-all-ground')
-        )
-    ->  nb_getval(var_ns, Vns),
-        atomic_list_concat(['\'<', Vns, S, '>\''], BNode)
-    ;   atom_concat('_', S, BNode),
-        nb_setval(smod, false)
-    ),
-    (   Verb = isof(V)
-    ->  (   atom(V),
-            \+sub_atom(V, 0, 1, _, '_')
-        ->  Triple =.. [V, Node, BNode]
-        ;   Triple = exopred(V, Node, BNode)
-        )
-    ;   (   Verb = prolog:Pred
-        ->  (   Node = true
-            ->  Triple =.. [Pred|BNode]
-            ;   (   Node = false
-                ->  T =.. [Pred|BNode],
-                    Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)
-                    ->  T =.. [Pred|BNode],
-                        Triple = is(Node, T)
-                    ;   Triple =.. [Pred, BNode, Node]
-                    )
-                )
-            )
-        ;   (   atom(Verb),
-                \+sub_atom(Verb, 0, 1, _, '_')
-            ->  Triple =.. [Verb, BNode, Node]
-            ;   Triple = exopred(Verb, BNode, Node)
-            )
-        )
-    ),
-    pathtail(BNode, PNode, Tail, L3, L4),
-    append(Triples2, Tail, Triples).
-pathtail(Node, Node, [], L1, L1).
-
-prefix(Prefix, [Prefix:''|L2], L2).
-
-propertylist(Subject, [Triple|Triples], L1, L5) :-
-    verb(Item, Triples1, L1, L2),
-    prolog_verb(Item, Verb),
-    !,
-    object(Object, Triples2, L2, L3),
-    objecttail(Subject, Verb, Triples3, L3, L4),
-    propertylisttail(Subject, Triples4, L4, L5),
-    append(Triples1, Triples2, Triples12),
-    append(Triples12, Triples3, Triples123),
-    append(Triples123, Triples4, Triples),
-    (   Verb = isof(V)
-    ->  (   atom(V),
-            \+sub_atom(V, 0, 1, _, '_')
-        ->  Triple =.. [V, Object, Subject]
-        ;   Triple = exopred(V, Object, Subject)
-        )
-    ;   (   Verb = prolog:Pred
-        ->  (   Object = true
-            ->  Triple =.. [Pred|Subject]
-            ;   (   Object = false
-                ->  T =.. [Pred|Subject],
-                    Triple = \+(T)
-                ;   (   prolog_sym(_, Pred, func)
-                    ->  T =.. [Pred|Subject],
-                        Triple = is(Object, T)
-                    ;   Triple =.. [Pred, Subject, Object]
-                    )
-                )
+    object(Object, Triples),
+    objecttail(Subject, Verb, Tail),
+    {   append(Triples, Tail, T),
+        (   Verb = isof(V)
+        ->  (   atom(V),
+                \+sub_atom(V, 0, 1, _, '_')
+            ->  Triple =.. [V, Object, Subject]
+            ;   Triple = exopred(V, Object, Subject)
             )
         ;   (   atom(Verb),
                 \+sub_atom(Verb, 0, 1, _, '_')
@@ -2247,198 +2022,518 @@ propertylist(Subject, [Triple|Triples], L1, L5) :-
             ;   Triple = exopred(Verb, Subject, Object)
             )
         )
-    ).
-propertylist(_, [], L1, L1).
+    }.
+objecttail(_, _, []) -->
+    [].
 
-propertylisttail(Subject, Triples, [';'|L2], L4) :-
+pathitem(Name, []) -->
+    symbol(S),
     !,
-    propertylisttailsemis(L2, L3),
-    propertylist(Subject, Triples, L3, L4).
-propertylisttail(_, [], L1, L1).
-
-propertylisttailsemis([';'|L2], L3) :-
-    !,
-    propertylisttailsemis(L2, L3).
-propertylisttailsemis(L1, L1).
-
-qname(URI, [NS:Name|L2], L2) :-
-    (   ns(NS, Base)
-    ->  atomic_list_concat([Base, Name], Name1),
-        (   sub_atom(Name1, _, 1, _, '\'')
-        ->  atom_codes(Name1, Codes1),
-            escape_squote(Codes1, Codes2),
-            atom_codes(Name2, Codes2)
-        ;   Name2 = Name1
+    {   (   qevar(S, N, D),
+            \+quvar(S, _, _)
+        ->  (   D >= 1,
+                nb_getval(fdepth, FD),
+                FD >= D,
+                \+flag('pass-all-ground')
+            ->  atom_concat('_', N, Name),
+                nb_setval(smod, false)
+            ;   nb_getval(var_ns, Vns),
+                atomic_list_concat(['\'<', Vns, N, '>\''], Name)
+            )
+        ;   (   quvar(S, N, D)
+            ->  (   (   D = 1,
+                        nb_getval(fdepth, FD),
+                        FD >= 1
+                    ;   flag('pass-all-ground')
+                    )
+                ->  nb_getval(var_ns, Vns),
+                    atomic_list_concat(['\'<', Vns, N, '>\''], Name)
+                ;   atom_concat('_', N, Name),
+                    nb_setval(smod, false)
+                )
+            ;   Name = S
+            )
         ),
-        atomic_list_concat(['\'<', Name2, '>\''], URI)
-    ;   nb_getval(line_number, Ln),
-        throw(no_prefix_directive(NS, after_line(Ln)))
-    ),
-    !.
-
-simpleStatement(Triples, L1, L3) :-
-    subject(Subject, Triples1, L1, L2),
-    (   Subject = (D1;D2)
-    ->  Triples = [(D1;D2)]
-    ;   propertylist(Subject, Triples2, L2, L3),
-        append(Triples1, Triples2, Triples)
-    ).
-
-statement([], L1, L2) :-
-    declaration(L1, L2),
-    !.
-statement([], L1, L2) :-
-    universal(L1, L2),
-    !.
-statement([], L1, L2) :-
-    existential(L1, L2),
-    !.
-statement(Statement, L1, L2) :-
-    simpleStatement(Statement, L1, L2).
-
-statementlist(Triples, L1, L3) :-
-    statement(Tr, L1, L2),
-    !,
-    statementtail(T, L2, L3),
-    append(Tr, T, Triples).
-statementlist([], L1, L1).
-
-statements_optional(Triples, L1, L4) :-
-    statement(Tr, L1, [dot(Ln)|L3]),
-    !,
-    nb_setval(line_number, Ln),
-    statements_optional(T, L3, L4),
-    append(Tr, T, Triples).
-statements_optional([], L1, L1).
-
-statementtail(T, [dot(Ln)|L2], L3) :-
-    !,
-    nb_setval(line_number, Ln),
-    statementlist(T, L2, L3).
-statementtail([], L1, L1).
-
-string(Codes, [literal(Codes)|L2], L2).
-
-subject(Node, Triples, L1, L2) :-
-    expression(Node, Triples, L1, L2).
-
-symbol(Name, L1, L2) :-
-    uri(Name, L1, L2),
-    !.
-symbol(Name, [name(N)|L2], L2) :-
-    !,
-    (   memberchk(N, [true, false])
-    ->  Name = N
-    ;   nb_getval(line_number, Ln),
-        throw(invalid_keyword(N, after_line(Ln)))
-    ).
-symbol(Name, [bnode(Label)|L2], L2) :-
-    nb_getval(fdepth, D),
-    (   D =:= 0
-    ->  N = Label
-    ;   atom_codes(Label, LabelCodes),
-        subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LabelCodes, LabelTidy),
-        atom_codes(N, LabelTidy)
-    ),
-    (   evar(N, S, D)
-    ->  true
-    ;   atom_concat(N, '_', M),
-        gensym(M, S),
-        assertz(evar(N, S, D))
-   ),
-    (   (   nb_getval(fdepth, FD),
-            FD =\= 1
-        ;   flag('pass-all-ground')
+        (   quvar(S, _, _)
+        ->  nb_setval(smod, false)
+        ;   true
         )
-    ->  nb_getval(var_ns, Vns),
+    }.
+pathitem(VarID, []) -->
+    [uvar(Var)],
+    !,
+    {   atom_codes(Var, VarCodes),
+        subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
+        atom_codes(VarAtom, [0'_|VarTidy]),
         (   flag('pass-all-ground')
-        ->  atomic_list_concat(['\'<', Vns, N, '>\''], Name)
-        ;   atomic_list_concat(['\'<', Vns, 'e_', S, '>\''], Name)
-        )
-    ;   atom_concat('_e_', S, Name),
-        nb_setval(smod, false)
-    ).
-
-symbol_csl([Symbol|Tail], L1, L3) :-
-    symbol(Symbol, L1, L2),
-    !,
-    symbol_csl_tail(Tail, L2, L3).
-symbol_csl([], L1, L1).
-
-symbol_csl_tail([Symbol|T], [','|L2], L4) :-
-    !,
-    symbol(Symbol, L2, L3),
-    symbol_csl_tail(T, L3, L4).
-symbol_csl_tail([], L1, L1).
-
-universal([atname(forAll)|L2], L3) :-
-    !,
-    symbol_csl(Symbols, L2, L3),
-    nb_getval(fdepth, D),
-    (   \+flag(traditional),
-        D > 0
-    ->  throw(not_supported_keyword('@forAll', at_formula_depth(D)))
-    ;   true
-    ),
-    forall(
-        (   member(S, Symbols)
+        ->  nb_getval(var_ns, Vns),
+            atom_codes(VarFrag, VarTidy),
+            atomic_list_concat(['\'<', Vns, VarFrag, '>\''], VarID)
+        ;   VarID = VarAtom
         ),
-        (   gensym('qu_', Q),
-            asserta(quvar(S, Q, D))
+        nb_setval(smod, false)
+    }.
+pathitem(Number, []) -->
+    numericliteral(Number),
+    !.
+pathitem(Boolean, []) -->
+    boolean(Boolean),
+    !.
+pathitem(Atom, []) -->
+    literal(A, type(T)),
+    {   T = '\'<http://eulersharp.sourceforge.net/2003/03swap/prolog#atom>\''
+    },
+    !,
+    {   atom_codes(A, B),
+        escape_string(C, B),
+        atom_codes(Atom, C)
+    }.
+pathitem(Number, []) -->
+    {   \+flag('parse-only')
+    },
+    literal(Atom, type(Type)),
+    {   memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
+        sub_atom(Atom, 1, _, 1, A),
+        atom_codes(A, NumB),
+        numeral(NumB, NumC),
+        number_codes(Number, NumC)
+    },
+    !.
+pathitem(literal(Atom, DtLang), []) -->
+    literal(Atom, DtLang),
+    !.
+pathitem(BNode, Triples) -->
+    ['['],
+    !,
+    {   gensym('bn_', S),
+        (   (   nb_getval(fdepth, FD),
+                FD =\= 1
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Vns),
+            atomic_list_concat(['\'<', Vns, S, '>\''], BN)
+        ;   atom_concat('_', S, BN),
+            nb_setval(smod, false)
         )
+    },
+    propertylist(BN, T),
+    {   (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
+            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
+            del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
+            del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
+            del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
+        ->  BNode = [Head|Tail],
+            Triples = W
+        ;   BNode = BN,
+            Triples = T
+        )
+    },
+    [']'].
+pathitem(set(Distinct), Triples) -->
+    ['(', '$'],
+    !,
+    pathlist(List, Triples),
+    {   (   nb_getval(smod, true)
+        ->  sort(List, Distinct)
+        ;   distinct(List, Distinct)
+        )
+    },
+    ['$', ')'].
+pathitem(List, Triples) -->
+    ['('],
+    !,
+    pathlist(List, Triples),
+    [')'].
+pathitem(triple(S, P, O), Triples) -->
+    [lt_lt],
+    !,
+    pathlist(List, Triples),
+    {   (   List = [S, P, O]
+        ->  true
+        ;   nb_getval(line_number, Ln),
+            throw('invalid_n3*_triple'(List, after_line(Ln)))
+        )
+    },
+    [gt_gt].
+pathitem(Node, []) -->
+    ['{'],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J),
+        nb_setval(smod, true)
+    },
+    formulacontent(Node),
+    {   retractall(quvar(_, _, J)),
+        retractall(qevar(_, _, J)),
+        retractall(evar(_, _, J)),
+        nb_setval(fdepth, I),
+        nb_setval(smod, false)
+    },
+    ['}'].
+
+pathlist([Node|Rest], Triples) -->
+    expression(Node, T),
+    !,
+    pathlist(Rest, Tail),
+    {   append(T, Tail, Triples)
+    }.
+pathlist([], []) -->
+    [].
+
+pathtail(Node, PNode, [Triple|Triples]) -->
+    ['!'],
+    !,
+    pathitem(Item, Triples2),
+    {   prolog_verb(Item, Verb),
+        gensym('bn_', S),
+        (   (   nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Vns),
+            atomic_list_concat(['\'<', Vns, S, '>\''], BNode)
+        ;   atom_concat('_', S, BNode),
+            nb_setval(smod, false)
+        ),
+        (   Verb = isof(V)
+        ->  (   atom(V),
+                \+sub_atom(V, 0, 1, _, '_')
+            ->  Triple =.. [V, BNode, Node]
+            ;   Triple = exopred(V, BNode, Node)
+            )
+        ;   (   Verb = prolog:Pred
+            ->  (   BNode = true
+                ->  Triple =.. [Pred|Node]
+                ;   (   BNode = false
+                    ->  T =.. [Pred|Node],
+                        Triple = \+(T)
+                    ;   (   prolog_sym(_, Pred, func)
+                        ->  T =.. [Pred|Node],
+                            Triple = is(BNode, T)
+                        ;   Triple =.. [Pred, Node, BNode]
+                        )
+                    )
+                )
+            ;   (   atom(Verb),
+                    \+sub_atom(Verb, 0, 1, _, '_')
+                ->  Triple =.. [Verb, Node, BNode]
+                ;   Triple = exopred(Verb, Node, BNode)
+                )
+            )
+        )
+    },
+    pathtail(BNode, PNode, Tail),
+    {   append(Triples2, Tail, Triples)
+    }.
+pathtail(Node, PNode, [Triple|Triples]) -->
+    ['^'],
+    !,
+    pathitem(Item, Triples2),
+    {   prolog_verb(Item, Verb),
+        gensym('bn_', S),
+        (   (   nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Vns),
+            atomic_list_concat(['\'<', Vns, S, '>\''], BNode)
+        ;   atom_concat('_', S, BNode),
+            nb_setval(smod, false)
+        ),
+        (   Verb = isof(V)
+        ->  (   atom(V),
+                \+sub_atom(V, 0, 1, _, '_')
+            ->  Triple =.. [V, Node, BNode]
+            ;   Triple = exopred(V, Node, BNode)
+            )
+        ;   (   Verb = prolog:Pred
+            ->  (   Node = true
+                ->  Triple =.. [Pred|BNode]
+                ;   (   Node = false
+                    ->  T =.. [Pred|BNode],
+                        Triple = \+(T)
+                    ;   (   prolog_sym(_, Pred, func)
+                        ->  T =.. [Pred|BNode],
+                            Triple = is(Node, T)
+                        ;   Triple =.. [Pred, BNode, Node]
+                        )
+                    )
+                )
+            ;   (   atom(Verb),
+                    \+sub_atom(Verb, 0, 1, _, '_')
+                ->  Triple =.. [Verb, BNode, Node]
+                ;   Triple = exopred(Verb, BNode, Node)
+                )
+            )
+        )
+    },
+    pathtail(BNode, PNode, Tail),
+    {   append(Triples2, Tail, Triples)
+    }.
+pathtail(Node, Node, []) -->
+    [].
+
+prefix(Prefix) -->
+    [Prefix:''].
+
+propertylist(Subject, [Triple|Triples]) -->
+    verb(Item, Triples1),
+    {   prolog_verb(Item, Verb)
+    },
+    !,
+    object(Object, Triples2),
+    objecttail(Subject, Verb, Triples3),
+    propertylisttail(Subject, Triples4),
+    {   append(Triples1, Triples2, Triples12),
+        append(Triples12, Triples3, Triples123),
+        append(Triples123, Triples4, Triples),
+        (   Verb = isof(V)
+        ->  (   atom(V),
+                \+sub_atom(V, 0, 1, _, '_')
+            ->  Triple =.. [V, Object, Subject]
+            ;   Triple = exopred(V, Object, Subject)
+            )
+        ;   (   Verb = prolog:Pred
+            ->  (   Object = true
+                ->  Triple =.. [Pred|Subject]
+                ;   (   Object = false
+                    ->  T =.. [Pred|Subject],
+                        Triple = \+(T)
+                    ;   (   prolog_sym(_, Pred, func)
+                        ->  T =.. [Pred|Subject],
+                            Triple = is(Object, T)
+                        ;   Triple =.. [Pred, Subject, Object]
+                        )
+                    )
+                )
+            ;   (   atom(Verb),
+                    \+sub_atom(Verb, 0, 1, _, '_')
+                ->  Triple =.. [Verb, Subject, Object]
+                ;   Triple = exopred(Verb, Subject, Object)
+                )
+            )
+        )
+    }.
+propertylist(_, []) -->
+    [].
+
+propertylisttail(Subject, Triples) -->
+    [';'],
+    !,
+    propertylisttailsemis,
+    propertylist(Subject, Triples).
+propertylisttail(_, []) -->
+    [].
+
+propertylisttailsemis -->
+    [';'],
+    !,
+    propertylisttailsemis.
+propertylisttailsemis -->
+    [].
+
+qname(URI) -->
+    [NS:Name],
+    {   (   ns(NS, Base)
+        ->  atomic_list_concat([Base, Name], Name1),
+            (   sub_atom(Name1, _, 1, _, '\'')
+            ->  atom_codes(Name1, Codes1),
+                escape_squote(Codes1, Codes2),
+                atom_codes(Name2, Codes2)
+            ;   Name2 = Name1
+            ),
+            atomic_list_concat(['\'<', Name2, '>\''], URI)
+        ;   nb_getval(line_number, Ln),
+            throw(no_prefix_directive(NS, after_line(Ln)))
+        )
+    },
+    !.
+
+simpleStatement(Triples) -->
+    subject(Subject, Triples1),
+    (   {   Subject = (D1;D2)
+        }
+    ->  {   Triples = [(D1;D2)]
+        }
+    ;   propertylist(Subject, Triples2),
+        {   append(Triples1, Triples2, Triples)
+        }
     ).
 
-uri(Name, L1, L2) :-
-    explicituri(U, L1, L2),
-    !,
-    base_uri(V),
-    resolve_uri(U, V, W),
-    (   sub_atom(W, _, 1, _, '\'')
-    ->  atom_codes(W, X),
-        escape_squote(X, Y),
-        atom_codes(Z, Y)
-    ;   Z = W
-    ),
-    atomic_list_concat(['\'<', Z, '>\''], Name).
-uri(Name, L1, L2) :-
-    qname(Name, L1, L2).
+statement([]) -->
+    declaration,
+    !.
+statement([]) -->
+    universal,
+    !.
+statement([]) -->
+    existential,
+    !.
+statement(Statement) -->
+    simpleStatement(Statement).
 
-verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', [], ['=', '>'|L2], L2) :-
-    !.
-verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', [], ['='|L2], L2) :-
-    !.
-verb(':-', [], [lt_eq|L2], L2) :-
-    !.
-% DEPRECATED
-verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [atname(a)|L2], L2) :-
-    !.
-verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', [], [name(a)|L2], L2) :-
-    !.
-% DEPRECATED
-verb(Node, Triples, [atname(has)|L2], L3) :-
+statementlist(Triples) -->
+    statement(Tr),
     !,
-    expression(Node, Triples, L2, L3).
-verb(Node, Triples, [name(has)|L2], L3) :-
-    !,
-    expression(Node, Triples, L2, L3).
-% DEPRECATED
-verb(isof(Node), Triples, [atname(is)|L2], L3) :-
-    !,
-    expression(Node, Triples, L2, [atname(of)|L3]).
-verb(isof(Node), Triples, [name(is)|L2], L3) :-
-    !,
-    expression(Node, Triples, L2, [name(of)|L3]).
-verb(isof(Node), Triples, [lt_dash|L2], L3) :-
-    !,
-    expression(Node, Triples, L2, L3).
-verb(Node, Triples, L1, L2) :-
-    expression(Node, Triples, L1, L2).
+    statementtail(T),
+    {   append(Tr, T, Triples)
+    }.
+statementlist([]) -->
+    [].
 
-withoutdot([dot(Ln)|L2], [dot(Ln)|L2]) :-
+statements_optional(Triples) -->
+    statement(Tr),
+    [dot(Ln)],
     !,
-    throw(unexpected_dot(after_line(Ln))).
-withoutdot(L1, [dot(Ln)|L1]) :-
-    nb_getval(line_number, Ln).
+    {   nb_setval(line_number, Ln)
+    },
+    statements_optional(T),
+    {   append(Tr, T, Triples)
+    }.
+statements_optional([]) -->
+    [].
+
+statementtail(T) -->
+    [dot(Ln)],
+    !,
+    {   nb_setval(line_number, Ln)
+    },
+    statementlist(T).
+statementtail([]) -->
+    [].
+
+string(Codes) -->
+    [literal(Codes)].
+
+subject(Node, Triples) -->
+    expression(Node, Triples).
+
+symbol(Name) -->
+    uri(Name),
+    !.
+symbol(Name) -->
+    [name(N)],
+    !,
+    {   (   memberchk(N, [true, false])
+        ->  Name = N
+        ;   nb_getval(line_number, Ln),
+            throw(invalid_keyword(N, after_line(Ln)))
+        )
+    }.
+symbol(Name) -->
+    [bnode(Label)],
+    {   nb_getval(fdepth, D),
+        (   D =:= 0
+        ->  N = Label
+        ;   atom_codes(Label, LabelCodes),
+            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LabelCodes, LabelTidy),
+            atom_codes(N, LabelTidy)
+        ),
+        (   evar(N, S, D)
+        ->  true
+        ;   atom_concat(N, '_', M),
+            gensym(M, S),
+            assertz(evar(N, S, D))
+        ),
+        (   (   nb_getval(fdepth, FD),
+                FD =\= 1
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Vns),
+            (   flag('pass-all-ground')
+            ->  atomic_list_concat(['\'<', Vns, N, '>\''], Name)
+            ;   atomic_list_concat(['\'<', Vns, 'e_', S, '>\''], Name)
+            )
+        ;   atom_concat('_e_', S, Name),
+            nb_setval(smod, false)
+        )
+    }.
+
+symbol_csl([Symbol|Tail]) -->
+    symbol(Symbol),
+    !,
+    symbol_csl_tail(Tail).
+symbol_csl([]) -->
+    [].
+
+symbol_csl_tail([Symbol|T]) -->
+    [','],
+    !,
+    symbol(Symbol),
+    symbol_csl_tail(T).
+symbol_csl_tail([]) -->
+    [].
+
+universal -->
+    [atname(forAll)],
+    !,
+    symbol_csl(Symbols),
+    {   nb_getval(fdepth, D),
+        (   \+flag(traditional),
+            D > 0
+        ->  throw(not_supported_keyword('@forAll', at_formula_depth(D)))
+        ;   true
+        ),
+        forall(
+            (   member(S, Symbols)
+            ),
+            (   gensym('qu_', Q),
+                asserta(quvar(S, Q, D))
+            )
+        )
+    }.
+
+uri(Name) -->
+    explicituri(U),
+    !,
+    {   base_uri(V),
+        resolve_uri(U, V, W),
+        (   sub_atom(W, _, 1, _, '\'')
+        ->  atom_codes(W, X),
+            escape_squote(X, Y),
+            atom_codes(Z, Y)
+        ;   Z = W
+        ),
+        atomic_list_concat(['\'<', Z, '>\''], Name)
+    }.
+uri(Name) -->
+    qname(Name).
+
+verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
+    ['=', '>'],
+    !.
+verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', []) -->
+    ['='],
+    !.
+verb(':-', []) -->
+    [lt_eq],
+    !.
+verb('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\'', []) -->
+    [name(a)],
+    !.
+verb(Node, Triples) -->
+    [name(has)],
+    !,
+    expression(Node, Triples).
+verb(isof(Node), Triples) -->
+    [name(is)],
+    !,
+    expression(Node, Triples),
+    [name(of)].
+verb(isof(Node), Triples) -->
+    [lt_dash],
+    !,
+    expression(Node, Triples).
+verb(Node, Triples) -->
+    expression(Node, Triples).
+
+withoutdot, [dot(Ln)] -->
+    [dot(Ln)],
+    !,
+    {   throw(unexpected_dot(after_line(Ln)))
+    }.
+withoutdot, [dot(Ln)] -->
+    [],
+    {   nb_getval(line_number, Ln)
+    }.
 
 %
 % N3 tokenizer
@@ -8791,7 +8886,7 @@ vcall(A) :-
         ),
         (   is_gl(V)
         ;   is_gl(W)
-        )    
+        )
     ->  unify(A, B)
     ;   B = A
     ),
@@ -8799,7 +8894,7 @@ vcall(A) :-
         pred(C),
         (   is_gl(D)
         ;   is_gl(E)
-        )    
+        )
     ->  G =.. [C, H, I],
         call(G),
         unify(H, D),
