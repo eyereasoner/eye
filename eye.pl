@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0822.1221 josd').
+version_info('EYE v20.0822.1924 josd').
 
 license_info('MIT License
 
@@ -73,6 +73,7 @@ eye
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
+    --debug-n3p                     output debug info about N3P code on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
@@ -199,27 +200,20 @@ main :-
     ->  true
     ;   Argvp = Argv
     ),
-    (   Argvp = ['-']    % DEPRECATED
-    ->  catch((read_line_to_codes(user_input, Ac), atom_codes(As, Ac)), _, As = ''),
-        (   As = ''
-        ->  Argvs = []
-        ;   atomic_list_concat(Argvs, ' ', As)
-        )
-    ;   (   Argvp = ['--source', File]
-        ->  (   File = '-'
-            ->  read_stream_to_codes(user_input, Codes)
-            ;   read_file_to_codes(File, Codes, [])
+    (   Argvp = ['--source', File]
+    ->  (   File = '-'
+        ->  read_stream_to_codes(user_input, Codes)
+        ;   read_file_to_codes(File, Codes, [])
+        ),
+        string_codes(String, Codes),
+        esplit_string(String, "\s\t\r\n", "\s\t\r\n", List),
+        findall(Argvj,
+            (   member(Member, List),
+                atom_string(Argvj, Member)
             ),
-            string_codes(String, Codes),
-            esplit_string(String, "\s\t\r\n", "\s\t\r\n", List),
-            findall(Argvj,
-                (   member(Member, List),
-                    atom_string(Argvj, Member)
-                ),
-                Argvs
-            )
-        ;   Argvs = Argvp
+            Argvs
         )
+    ;   Argvs = Argvp
     ),
     argv(Argvs, Argus),
     findall(Argij,
@@ -320,7 +314,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--no-skolem', '--pl', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--pl', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -362,7 +356,6 @@ gre(Argus) :-
     ),
     (   (   flag(strings)
         ;   flag(image, _)
-        ;   flag(n3p)
         )
     ->  true
     ;   version_info(Version),
@@ -383,8 +376,8 @@ gre(Argus) :-
         assertz(pfx('var:', '<http://josd.github.io/var#>'))
     ;   true
     ),
-    (   flag(n3p)
-    ->  format('flag(\'quantify\', \'~w\').~n', [Vns])
+    (   flag('debug-n3p')
+    ->  format(user_error, 'flag(\'quantify\', \'~w\').~n', [Vns])
     ;   true
     ),
     args(Args),
@@ -428,14 +421,13 @@ gre(Argus) :-
         throw(halt)
     ;   true
     ),
-    (   flag(n3p)
+    (   flag('debug-n3p')
     ->  (   SC =\= 0
-        ->  write(scount(SC)),
-            writeln('.')
+        ->  write(user_error, scount(SC)),
+            writeln(user_error, '.')
         ;   true
         ),
-        writeln('end_of_file.'),
-        throw(halt)
+        writeln(user_error, 'end_of_file.')
     ;   true
     ),
     (   \+implies(_, answer(_, _, _), _),
@@ -670,6 +662,11 @@ opts(['--debug-djiti'|Argus], Args) :-
     retractall(flag('debug-djiti')),
     assertz(flag('debug-djiti')),
     opts(Argus, Args).
+opts(['--debug-n3p'|Argus], Args) :-
+    !,
+    retractall(flag('debug-n3p')),
+    assertz(flag('debug-n3p')),
+    opts(Argus, Args).
 opts(['--debug-pvm'|Argus], Args) :-
     !,
     retractall(flag('debug-pvm')),
@@ -714,12 +711,6 @@ opts(['--multi-query'|Argus], Args) :-
     retractall(flag('multi-query')),
     assertz(flag('multi-query')),
     opts(Argus, Args).
-% DEPRECATED
-opts(['--n3p'|Argus], Args) :-
-    !,
-    retractall(flag(n3p)),
-    assertz(flag(n3p)),
-    opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-input')),
@@ -749,11 +740,6 @@ opts(['--no-qvars'|Argus], Args) :-
     !,
     retractall(flag('no-qvars')),
     assertz(flag('no-qvars')),
-    opts(Argus, Args).
-% DEPRECATED
-opts(['--no-skolem', Prefix|Argus], Args) :-
-    !,
-    assertz(flag('no-skolem', Prefix)),
     opts(Argus, Args).
 opts(['--nope'|Argus], Args) :-
     !,
@@ -983,8 +969,8 @@ args(['--n3', Arg|Args]) :-
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
+    (   flag('debug-n3p')
+    ->  portray_clause(user_error, scope(R))
     ;   true
     ),
     n3_n3p(Arg, data),
@@ -1005,8 +991,8 @@ args(['--pass'|Args]) :-
     ->  assertz(query(exopred(P, S, O), exopred(P, S, O)))
     ;   assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ),
-    (   flag(n3p)
-    ->  portray_clause(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
+    (   flag('debug-n3p')
+    ->  portray_clause(user_error, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ;   true
     ),
     args(Args).
@@ -1018,12 +1004,12 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    (   flag(n3p)
-    ->  portray_clause(implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+    (   flag('debug-n3p')
+    ->  portray_clause(user_error, implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(user_error, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(implies((':-'(C, A), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(user_error, implies((':-'(C, A), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
@@ -1102,8 +1088,8 @@ args(['--proof', Arg|Args]) :-
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag(n3p)
-    ->  portray_clause(scope(R))
+    (   flag('debug-n3p')
+    ->  portray_clause(user_error, scope(R))
     ;   true
     ),
     n3_n3p(Arg, data),
@@ -1319,8 +1305,8 @@ n3pin(Rt, In, File, Mode) :-
         ->  true
         ;   call(Rg)
         ),
-        (   flag(n3p)
-        ->  format('~q.~n', [Rt])
+        (   flag('debug-n3p')
+        ->  format(user_error, '~q.~n', [Rt])
         ;   true
         )
     ;   dynify(Rt),
@@ -1373,15 +1359,16 @@ n3pin(Rt, In, File, Mode) :-
                 ;   Pj = Ph
                 ),
                 functor(Ci, CPi, _),
-                (   flag(n3p)
-                ->  portray_clause(cpred(CPi)),
-                    portray_clause(':-'(Ci, Pi))
-                ;   (   \+cpred(CPi)
-                    ->  assertz(cpred(CPi))
-                    ;   true
-                    ),
-                    assertz(':-'(Ci, Pj))
-                )
+                (   flag('debug-n3p')
+                ->  portray_clause(user_error, cpred(CPi)),
+                    portray_clause(user_error, ':-'(Ci, Pi))
+                ;   true
+                ),
+                (   \+cpred(CPi)
+                ->  assertz(cpred(CPi))
+                ;   true
+                ),
+                assertz(':-'(Ci, Pj))
             )
         ;   (   Rt \= implies(_, _, _),
                 Rt \= scount(_),
@@ -1391,9 +1378,9 @@ n3pin(Rt, In, File, Mode) :-
             ;   (   Rt \= pred('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>'),
                     \+ (Rt = scope(_), Mode = query)
                 ->  djiti_assertz(Rt),
-                    (   flag(n3p),
+                    (   flag('debug-n3p'),
                         Rt \= scount(_)
-                    ->  format('~q.~n', [Rt])
+                    ->  format(user_error, '~q.~n', [Rt])
                     ;   true
                     ),
                     (   Rt \= flag(_, _),
@@ -1420,10 +1407,7 @@ n3pin(Rt, In, File, Mode) :-
 
 n3_n3p(Argument, Mode) :-
     absolute_uri(Argument, Arg),
-    (   flag('tmp-file', Tmp)    % DEPRECATED
-    ->  true
-    ;   tmp_file(Tmp)
-    ),
+    tmp_file(Tmp),
     (   flag('ignore-syntax-error')
     ->  Ise = 'IGNORED'
     ;   Ise = 'ERROR'
@@ -1438,10 +1422,7 @@ n3_n3p(Argument, Mode) :-
             ;   sub_atom(Arg, 0, 6, _, 'https:')
             )
         ->  File = Tmp,
-            (   flag('tmp-file', _)    % DEPRECATED
-            ->  true
-            ;   assertz(tmpfile(File))
-            ),
+            assertz(tmpfile(File)),
             curl_http_headers(Headers),
             atomic_list_concat(['curl -s -L -H "Accept: text/n3, text/turtle" ', Headers, '"', Arg, '" -o ', File], Cmd),
             catch(exec(Cmd, _), Exc1,
@@ -1535,12 +1516,12 @@ n3_n3p(Argument, Mode) :-
     ;   true
     ),
     (   call(Parsed)
-    ->  (   flag(n3p)
+    ->  (   flag('debug-n3p')
         ->  forall(
                 (   pfx(Pp, Pu),
                     \+wpfx(Pp)
                 ),
-                (   portray_clause(pfx(Pp, Pu)),
+                (   portray_clause(user_error, pfx(Pp, Pu)),
                     assertz(wpfx(Pp))
                 )
             )
@@ -1583,8 +1564,8 @@ n3_n3p(Argument, Mode) :-
                     ->  true
                     ;   djiti_assertz(Rt),
                         cnt(sc),
-                        (   flag(n3p)
-                        ->  portray_clause(Rt)
+                        (   flag('debug-n3p')
+                        ->  portray_clause(user_error, Rt)
                         ;   true
                         )
                     )
@@ -1601,12 +1582,13 @@ n3_n3p(Argument, Mode) :-
                     ;   (   Rt = ':-'(Ci, Px),
                             conjify(Px, Pi)
                         ->  (   Ci = true
-                            ->  (   flag(n3p)
-                                ->  portray_clause(':-'(Pi))
-                                ;   (   flag('parse-only')
-                                    ->  true
-                                    ;   call(Pi)
-                                    )
+                            ->  (   flag('debug-n3p')
+                                ->  portray_clause(user_error, ':-'(Pi))
+                                ;   true
+                                ),
+                                (   flag('parse-only')
+                                ->  true
+                                ;   call(Pi)
                                 )
                             ;   atomic_list_concat(['<', Arg, '>'], Si),
                                 copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Pi, Ci), Ri),
@@ -1628,20 +1610,21 @@ n3_n3p(Argument, Mode) :-
                                 ),
                                 cnt(sc),
                                 functor(Ci, CPi, _),
-                                (   flag(n3p)
-                                ->  portray_clause(cpred(CPi)),
-                                    portray_clause(':-'(Ci, Pi))
-                                ;   (   \+cpred(CPi)
-                                    ->  assertz(cpred(CPi))
-                                    ;   true
-                                    ),
-                                    assertz(':-'(Ci, Pj))
-                                )
+                                (   flag('debug-n3p')
+                                ->  portray_clause(user_error, cpred(CPi)),
+                                    portray_clause(user_error, ':-'(Ci, Pi))
+                                ;   true
+                                ),
+                                (   \+cpred(CPi)
+                                ->  assertz(cpred(CPi))
+                                ;   true
+                                ),
+                                assertz(':-'(Ci, Pj))
                             )
                         ;   djiti_assertz(Rt),
                             cnt(sc),
-                            (   flag(n3p)
-                            ->  portray_clause(Rt)
+                            (   flag('debug-n3p')
+                            ->  portray_clause(user_error, Rt)
                             ;   true
                             )
                         )
@@ -1677,29 +1660,6 @@ n3_n3p(Argument, Mode) :-
 
 tr_n3p([], _, _) :-
     !.
-% DEPRECATED
-tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, trules) :-
-    !,
-    conj_list(X, L),
-    (   last(L, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#true>\''(_, T))
-    ->  true
-    ;   T = 1.0
-    ),
-    tr_split(L, K, M),
-    conj_list(N, K),
-    write(implies(N, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>\''([Y|M], T), Src)),
-    writeln('.'),
-    tr_n3p(Z, Src, trules).
-% DEPRECATED
-tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, tquery) :-
-    !,
-    conj_list(X, U),
-    tr_split(U, K, M),
-    append(K, ['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>\''([Y|M], T)], J),
-    conj_list(N, J),
-    write(implies(N, answer('\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>\'', [Y|M], T), Src)),
-    writeln('.'),
-    tr_n3p(Z, Src, tquery).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query) :-
     !,
     (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, T)
@@ -1745,21 +1705,6 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
         writeln('.')
     ;   djiti_answer(answer(V), A),
         write(implies(X, A, Src)),
-        writeln('.')
-    ),
-    tr_n3p(Z, Src, query).
-% DEPRECATED
-tr_n3p([X|Z], Src, query) :-
-    !,
-    (   \+flag('limited-answer', _),
-        flag(nope),
-        (   flag('no-distinct-output')
-        ;   X = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, _)
-        )
-    ->  write(query(true, X)),
-        writeln('.')
-    ;   djiti_answer(answer(X), A),
-        write(implies(true, A, Src)),
         writeln('.')
     ),
     tr_n3p(Z, Src, query).
@@ -3855,9 +3800,7 @@ wt0(X) :-
             )
         ;   (   \+flag('no-qvars')
             ->  true
-            ;   (   flag('no-skolem', Prefix)   % DEPRECATED
-                ;   flag('quantify', Prefix)
-                ),
+            ;   flag('quantify', Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
             write('_:')
@@ -3872,9 +3815,7 @@ wt0(X) :-
     ),
     !.
 wt0(X) :-
-    (   flag('no-skolem', Prefix)   % DEPRECATED
-    ;   flag('quantify', Prefix)
-    ),
+    flag('quantify', Prefix),
     (   \+flag(traditional)
     ->  true
     ;   flag(nope)
@@ -4543,9 +4484,7 @@ wcf(A, _) :-
     write(B).
 wcf(A, _) :-
     atom(A),
-    (   flag('no-skolem', Prefix)   % DEPRECATED
-    ;   flag('quantify', Prefix)
-    ),
+    flag('quantify', Prefix),
     sub_atom(A, 1, _, _, Prefix),
     !,
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(B, ['quantify', Prefix, A]),
@@ -4852,7 +4791,6 @@ pstep(Rule) :-
     lookup(RTP, tp, RuleL),
     catch(cnt(RTP), _, nb_setval(RTP, 0)).
 
-% DEPRECATED
 hstep(A, B) :-
     (   nonvar(A),
         A = exopred(P, S, O)
@@ -4862,10 +4800,8 @@ hstep(A, B) :-
     ;   qstep(A, B)
     ).
 
-% DEPRECATED
 qstep(A, B) :-
     prfstep(A, B, _, _, _, _, _).
-% DEPRECATED
 qstep(A, true) :-
     (   nonvar(A)
     ->  (   A =.. [P, [S1, S2|S3], O]
@@ -5032,7 +4968,6 @@ djiti_assertz(A) :-
         B
     ).
 
-% DEPRECATED
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#closure>'(Sc, A) :-
     within_scope(Sc),
     hstep(A, _).
@@ -5052,15 +4987,6 @@ djiti_assertz(A) :-
     ;   \+catch(call(D), _, fail)
     ).
 
-% DEPRECATED
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#distinct>'(A, B) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   distinct(A, B)
-        )
-    ).
-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fail>'(A, B) :-
     within_scope(A),
     \+catch(call(B), _, fail).
@@ -5074,31 +5000,24 @@ djiti_assertz(A) :-
         istep('<>', C, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A, B), D)
     ).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [A, B, C|D]) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [A, B, C]) :-
     within_scope(Sc),
     nonvar(B),
     \+is_list(B),
-    (   D = [F]
-    ->  findall(A,    % DEPRECATED
-            B,
-            E,
-            F
-        )
-    ;   findall(A,
-            B,
-            E
-        )
+    findall(A,
+        B,
+        E
     ),
     (   flag(warn)
-    ->  copy_term_nat([A, B, E|D], [Ac, Bc, Ec|Dc]),
-        labelvars([Ac, Bc, Ec|Dc], 0, _),
-        (   fact('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [Ac, Bc, G|H]))
+    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
+        labelvars([Ac, Bc, Ec], 0, _),
+        (   fact('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [Ac, Bc, G]))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n', [[A, B, G|H], [A, B, E|D]]),
+            ->  format(user_error, '** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
                 flush_output(user_error)
             ;   true
             )
-        ;   assertz(fact('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [Ac, Bc, Ec|Dc])))
+        ;   assertz(fact('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [Ac, Bc, Ec])))
         )
     ;   true
     ),
@@ -5326,35 +5245,6 @@ djiti_assertz(A) :-
         )
     ).
 
-% DEPRECATED
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#reason>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), B) :-
-    when(
-        (   ground(A)
-        ),
-        (   sub_atom(A, 0, 4, _, 'eye '),
-            sub_atom(A, 4, _, 0, C),
-            (   current_prolog_flag(windows, true)
-            ->  A1 = ['cmd.exe', '/C']
-            ;   A1 = []
-            ),
-            (   current_prolog_flag(argv, Argv),
-                append(Argu, ['--'|_], Argv)
-            ->  append(Argu, ['--'], A2)
-            ;   A2 = ['eye']
-            ),
-            append([A1, A2, [C]], A4),
-            findall([G, ' '],
-                (   member(G, A4)
-                ),
-                H
-            ),
-            flatten(H, I),
-            atomic_list_concat(I, J),
-            exec(J, B)
-        )
-    ).
-
-% DEPRECATED
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#reverse>'(A, B) :-
     reverse(A, B).
 
@@ -5446,15 +5336,6 @@ djiti_assertz(A) :-
         )
     ).
 
-% DEPRECATED
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#sublist>'(A, B) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   sub_list(A, B)
-        )
-    ).
-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#subsequence>'(A, B) :-
     when(
         (   nonvar(A)
@@ -5484,15 +5365,6 @@ djiti_assertz(A) :-
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tripleList>'(A, [B, C, D]) :-
     A =.. [C, B, D].
-
-% DEPRECATED
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#true>'(_, A) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   A =:= 1.0
-        )
-    ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(X, Y) :-
     when(
@@ -5552,53 +5424,6 @@ djiti_assertz(A) :-
                 atom_codes(Y, V)
             ;   www_form_encode(X, Y)
             )
-        )
-    ).
-
-% DEPRECATED
-'<http://www.w3.org/2005/xpath-functions#resolve-uri>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    when(
-        (   ground([A, B])
-        ),
-        (   resolve_uri(A, B, C)
-        )
-    ).
-
-% DEPRECATED
-'<http://www.w3.org/2005/xpath-functions#substring>'([literal(A, _), B|C], literal(D, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    when(
-        (   ground([A, B, C])
-        ),
-        (   atom_codes(A, U),
-            (   C = []
-            ->  length(U, E),
-                F is E-B
-            ;   C = [F]
-            ),
-            sub_atom(A, B, F, _, D)
-        )
-    ).
-
-% DEPRECATED
-'<http://www.w3.org/2005/xpath-functions#substring-after>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    when(
-        (   ground([A, B])
-        ),
-        (   sub_atom(A, _, _, W, B),
-            sub_atom(A, _, W, 0, C)
-        )
-    ).
-
-% DEPRECATED
-'<http://www.w3.org/2005/xpath-functions#substring-before>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    when(
-        (   ground([A, B])
-        ),
-        (   sub_atom(A, W, _, _, B),
-            sub_atom(A, 0, W, _, C)
         )
     ).
 
@@ -8479,7 +8304,6 @@ djiti_assertz(A) :-
         )
     ).
 
-% DEPRECATED
 % Prolog built-ins
 
 prolog_sym(abolish, abolish, rel).
@@ -9969,7 +9793,7 @@ conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([lite
         '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
     !,
     D =.. [A|B].
-conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), !) :-    % DEPRECATED
+conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), !) :-
     !.
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.

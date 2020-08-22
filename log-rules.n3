@@ -135,6 +135,11 @@ e:clashesWith a rdf:Property;
     rdfs:domain rdfs:Literal;
     rdfs:range rdfs:Datatype.
 
+e:closure a rdf:Property, e:Builtin;
+	rdfs:comment "builtin to test the deductive closure; is within the subject scope of all asserted N3 formulae and their log:conclusion";
+	rdfs:domain rdf:List;
+	rdfs:range log:Formula.
+
 e:columns a rdf:Property;
     rdfs:comment "to list the webized relational database collumns";
     rdfs:domain rdfs:Class;
@@ -322,6 +327,11 @@ e:relabel a rdf:Property, e:Builtin;
     rdfs:comment "relabel subject with object in the output of the reasoning run";
     rdfs:domain rdfs:Resource;
     rdfs:range rdfs:Resource.
+
+e:reverse a rdf:Property, e:Builtin;
+    rdfs:comment "built-in to reverse the subject list into the object list";
+    rdfs:domain rdf:List;
+    rdfs:range rdf:List.
 
 e:rms a rdf:Property, e:Builtin;
     rdfs:comment "built-in to calculate the root mean square e.g. (55 66 72 87 56 77 73 69 74 56) e:rms 69.2105483289939";
