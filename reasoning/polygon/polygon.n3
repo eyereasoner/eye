@@ -1,0 +1,11 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix polygon: <http://josd.github.io/eye/reasoning/polygon#>.
+
+{(?POINT) polygon:area 0} <= true.
+{?POINTS polygon:area ?AREA} <= {
+    ?POINTS e:firstRest ((?X1 ?Y1) ?POINTS1).
+    ?POINTS1 e:firstRest ((?X2 ?Y2) ?POINTS2).
+    ?POINTS1 polygon:area ?AREA1.
+    ((((?X1 ?Y2)!math:product (?Y1 ?X2)!math:product)!math:difference 2)!math:quotient ?AREA1) math:sum ?AREA.
+}.
