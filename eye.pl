@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0825.2124 josd').
+version_info('EYE v20.0910.0008 josd').
 
 license_info('MIT License
 
@@ -2041,7 +2041,17 @@ pathitem(Number, []) -->
         sub_atom(Atom, 1, _, 1, A),
         atom_codes(A, NumB),
         numeral(NumB, NumC),
-        number_codes(Number, NumC)
+        atom_codes(NumA, NumC),
+        (   NumA = 'INF'
+        ->  Number = inf
+        ;   (   NumA = '-INF'
+            ->  Number = -inf
+            ;   (   NumA = 'NaN'
+                ->  Number = nan
+                ;   number_codes(Number, NumC)
+                )
+            )
+        )
     },
     !.
 pathitem(literal(Atom, DtLang), []) -->
@@ -9960,6 +9970,10 @@ getnumber(A, A) :-
 getnumber(A, epsilon) :-
     nonvar(A),
     A = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>',
+    !.
+getnumber(A, A) :-
+    nonvar(A),
+    memberchk(A, [inf, -inf, nan]),
     !.
 getnumber(literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), B) :-
     !,
