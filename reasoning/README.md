@@ -27,7 +27,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
 * markovian networks e.g.
     [mmln](https://github.com/josd/eye/tree/master/reasoning/mmln)
-* mathematical computation e.g.
+* computational mathematics e.g.
     [dpe](https://github.com/josd/eye/tree/master/reasoning/dpe),
     [equation4](https://github.com/josd/eye/tree/master/reasoning/equation4),
     [fib](https://github.com/josd/eye/tree/master/reasoning/fib),
