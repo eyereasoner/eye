@@ -33,6 +33,7 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [fib](https://github.com/josd/eye/tree/master/reasoning/fib),
     [lldm](https://github.com/josd/eye/tree/master/reasoning/lldm),
     [pi](https://github.com/josd/eye/tree/master/reasoning/pi),
+    [polygon](https://github.com/josd/eye/tree/master/reasoning/polygon),
     [tak](https://github.com/josd/eye/tree/master/reasoning/tak)
 * neural networks e.g.
     [fcm](https://github.com/josd/eye/tree/master/reasoning/fcm),
