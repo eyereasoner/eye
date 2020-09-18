@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0910.0008 josd').
+version_info('EYE v20.0918.2306 josd').
 
 license_info('MIT License
 
@@ -195,6 +195,13 @@ eye
 %
 
 main :-
+    current_prolog_flag(version_data, swi(SV, _, _, _)),
+    (   SV < 8
+    ->  format(user_error, '** ERROR ** EYE requires at least swipl version 8 **~n', []),
+        flush_output(user_error),
+        halt(1)
+    ;   true
+    ),
     current_prolog_flag(argv, Argv),
     (   append(_, ['--'|Argvp], Argv)
     ->  true
@@ -229,7 +236,7 @@ main :-
     ;   Run1 is random(2^62),
         atom_number(Run2, Run1),
         catch(sha_hash(Run2, Run3, [algorithm(sha1)]), _,
-            (   format(user_error, '** ERROR ** EYE requires swipl package clib which can be installed from http://www.swi-prolog.org/Download.html~n', []),
+            (   format(user_error, '** ERROR ** EYE requires swipl package clib which can be installed from http://www.swi-prolog.org/Download.html **~n', []),
                 flush_output(user_error),
                 halt(1)
             )
