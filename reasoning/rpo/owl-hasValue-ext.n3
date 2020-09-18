@@ -1,0 +1,5 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+# rule from Pierre-Antoine Champin
+{ ?c rdfs:subClassOf [ owl:onProperty [ rdfs:domain ?d ]; owl:hasValue [] ] } => { ?c rdfs:subClassOf ?d }.
