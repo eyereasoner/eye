@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0919.1315 josd').
+version_info('EYE v20.0919.1930 josd').
 
 license_info('MIT License
 
@@ -5755,14 +5755,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#difference>'([X, Y], Z) :-
-    when(
-        (   ground([X, Y])
-        ),
-        (   getnumber(X, U),
-            getnumber(Y, V),
-            Z is U-V
-        )
-    ).
+    '<http://www.w3.org/2000/10/swap/math#sum>'([Z, Y], X).
 
 '<http://www.w3.org/2000/10/swap/math#equalTo>'(X, Y) :-
     when(
@@ -5886,23 +5879,23 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/math#product>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   product(X, Y)
+        (   getnumber(Y, U),
+            (   split_var(X, Z, [V])
+            ->  product(Z, W),
+                (   W =\= 0
+                ->  V is U/W
+                ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#product>'(X, Y)))
+                )
+            ;   product(X, U)
+            )
+        ;   product(X, Y)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z) :-
-    when(
-        (   ground([X, Y])
-        ),
-        (   getnumber(X, U),
-            getnumber(Y, V),
-            (   V =\= 0
-            ->  Z is U/V
-            ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
-            )
-        )
-    ).
+    '<http://www.w3.org/2000/10/swap/math#product>'([Z, Y], X).
 
 '<http://www.w3.org/2000/10/swap/math#remainder>'([X, Y], Z) :-
     when(
@@ -5955,8 +5948,15 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/math#sum>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   sum(X, Y)
+        (   getnumber(Y, U),
+            (   split_var(X, Z, [V])
+            ->  sum(Z, W),
+                V is U-W
+            ;   sum(X, U)
+            )
+        ;   sum(X, Y)
         )
     ).
 
@@ -9021,6 +9021,14 @@ e_transpose([_|A], B, [C|D]) :-
 lists_fr([], [], []).
 lists_fr([[A|B]|C], [A|D], [B|E]) :-
     lists_fr(C, D, E).
+
+split_var([], [], []).
+split_var([A|B], C, [A|D]) :-
+    var(A),
+    !,
+    split_var(B, C, D).
+split_var([A|B], [A|C], D) :-
+    split_var(B, C, D).
 
 sum([], 0) :-
     !.
