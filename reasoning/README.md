@@ -1,13 +1,13 @@
 # EYE reasoning
 
-### Architecture and design
+### Architecture and Design
 
 The Semantic Web Databus and Proofbus from [Tim Berners-Lee](http://www.w3.org/People/Berners-Lee/) which is  
 like a world wide welding machine transforming data into pragmatic proofs:  
   
 <img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="60%" height="60%" alt="PDB"/>  
 
-### BRAnches of INtelligence - BRAIN
+### Distributed Intelligence
 
 * bayesian networks
     [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
