@@ -13,15 +13,8 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
     [nbbn](https://github.com/josd/eye/tree/master/reasoning/nbbn),
     [swet](https://github.com/josd/eye/tree/master/reasoning/swet)
-* computational logic
-    [4color](https://github.com/josd/eye/tree/master/reasoning/4color),
-    [dp](https://github.com/josd/eye/tree/master/reasoning/dp),
-    [einstein](https://github.com/josd/eye/tree/master/reasoning/einstein),
-    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
-    [hanoi](https://github.com/josd/eye/tree/master/reasoning/hanoi),
-    [queens](https://github.com/josd/eye/tree/master/reasoning/queens),
-    [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
 * computational mathematics
+    [complex](https://github.com/josd/eye/tree/master/reasoning/complex),
     [dpe](https://github.com/josd/eye/tree/master/reasoning/dpe),
     [equation4](https://github.com/josd/eye/tree/master/reasoning/equation4),
     [fib](https://github.com/josd/eye/tree/master/reasoning/fib),
@@ -34,6 +27,20 @@ like a world wide welding machine transforming data into pragmatic proofs:
 * ershovian compilation
     [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
     [preduction](https://github.com/josd/eye/tree/master/reasoning/preduction)
+* evolutionary algorithms
+    [ea](https://github.com/josd/eye/tree/master/reasoning/ea)
+* extensible imaging
+    [lldm](https://github.com/josd/eye/tree/master/reasoning/lldm)
+* logic puzzles
+    [4color](https://github.com/josd/eye/tree/master/reasoning/4color),
+    [dp](https://github.com/josd/eye/tree/master/reasoning/dp),
+    [einstein](https://github.com/josd/eye/tree/master/reasoning/einstein),
+    [enigma1225](https://github.com/josd/eye/tree/master/reasoning/enigma1225),
+    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
+    [hanoi](https://github.com/josd/eye/tree/master/reasoning/hanoi),
+    [queens](https://github.com/josd/eye/tree/master/reasoning/queens),
+    [sudoku](https://github.com/josd/eye/tree/master/reasoning/sudoku),
+    [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
 * markovian networks
     [mmln](https://github.com/josd/eye/tree/master/reasoning/mmln)
 * neural networks
