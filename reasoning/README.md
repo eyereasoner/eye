@@ -23,6 +23,13 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [tak](https://github.com/josd/eye/tree/master/reasoning/tak)
 * control systems
     [cs](https://github.com/josd/eye/tree/master/reasoning/cs)
+* description logic
+    [bmt](https://github.com/josd/eye/tree/master/reasoning/bmt),
+    [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
+    [gedcom](https://github.com/josd/eye/tree/master/reasoning/gedcom),
+    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
+    [h2o](https://github.com/josd/eye/tree/master/reasoning/h2o),
+    [rpo](https://github.com/josd/eye/tree/master/reasoning/rpo)
 * ershovian compilation
     [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
     [preduction](https://github.com/josd/eye/tree/master/reasoning/preduction)
@@ -30,14 +37,16 @@ like a world wide welding machine transforming data into pragmatic proofs:
     [ea](https://github.com/josd/eye/tree/master/reasoning/ea)
 * extensible imaging
     [lldm](https://github.com/josd/eye/tree/master/reasoning/lldm)
-* logic puzzles
+* logic programming
     [4color](https://github.com/josd/eye/tree/master/reasoning/4color),
     [dp](https://github.com/josd/eye/tree/master/reasoning/dp),
     [einstein](https://github.com/josd/eye/tree/master/reasoning/einstein),
     [enigma1225](https://github.com/josd/eye/tree/master/reasoning/enigma1225),
     [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
     [hanoi](https://github.com/josd/eye/tree/master/reasoning/hanoi),
+    [lee](https://github.com/josd/eye/tree/master/reasoning/lee),
     [queens](https://github.com/josd/eye/tree/master/reasoning/queens),
+    [socrates](https://github.com/josd/eye/tree/master/reasoning/socrates),
     [sudoku](https://github.com/josd/eye/tree/master/reasoning/sudoku),
     [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
 * markovian networks
