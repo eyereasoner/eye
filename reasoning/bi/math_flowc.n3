@@ -13,4 +13,11 @@
 {(1 1) math:quotient ?X} => {:test7 :result ?X}.
 {(4 ?X) math:quotient 10} => {:test8 :result ?X}.
 
-
+# tests from Pierre-Antoine Champin
+{ (20 20) math:sum ?x. (?x 2) math:sum ?y. } => { :ANSWER1 :IS ?y }.
+{ (?x 2) math:sum ?y. (20 20) math:sum ?x. } => { :ANSWER2 :IS ?y }.
+{ (20 20) math:sum ?x. (?x ?y) math:sum 42. } => { :ANSWER3 :IS ?y }.
+{ (?x ?y) math:sum 42. (20 20) math:sum ?x. } => { :ANSWER4 :IS ?y }.
+{ (20 20) math:sum ?x. (1 1) math:sum ?y. (?x ?y) math:sum ?z. } => { :ANSWER5 :IS ?z }.
+{ (20 20) math:sum ?x. (?x ?y) math:sum ?z. (1 1) math:sum ?y. } => { :ANSWER6 :IS ?z }.
+{ (?x ?y) math:sum ?z. (20 20) math:sum ?x. (1 1) math:sum ?y. } => { :ANSWER7 :IS ?z }.
