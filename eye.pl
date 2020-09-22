@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0922.0806 josd').
+version_info('EYE v20.0922.2212 josd').
 
 license_info('MIT License
 
@@ -5878,12 +5878,15 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/math#product>'(X, Y) :-
     split_var([Y|X], A, B),
-    reverse(B, C),
-    append(B, A, [_|D]),
-    append(C, A, [_|E]),
+    rotate(B, C),
+    rotate(C, D),
+    append(B, A, [_|E]),
+    append(C, A, [_|F]),
+    append(D, A, [_|G]),
     when(
-        (   ground(D)
-        ;   ground(E)
+        (   ground(E)
+        ;   ground(F)
+        ;   ground(G)
         ),
         (   getnumber(Y, U),
             (   split_var(X, Z, [V])
@@ -5951,12 +5954,15 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/math#sum>'(X, Y) :-
     split_var([Y|X], A, B),
-    reverse(B, C),
-    append(B, A, [_|D]),
-    append(C, A, [_|E]),
+    rotate(B, C),
+    rotate(C, D),
+    append(B, A, [_|E]),
+    append(C, A, [_|F]),
+    append(D, A, [_|G]),
     when(
-        (   ground(D)
-        ;   ground(E)
+        (   ground(E)
+        ;   ground(F)
+        ;   ground(G)
         ),
         (   getnumber(Y, U),
             (   split_var(X, Z, [V])
@@ -9029,6 +9035,10 @@ e_transpose([_|A], B, [C|D]) :-
 lists_fr([], [], []).
 lists_fr([[A|B]|C], [A|D], [B|E]) :-
     lists_fr(C, D, E).
+
+rotate([], []).
+rotate([A|B], C) :-
+    append(B, [A], C).
 
 split_var([], [], []).
 split_var([A|B], C, [A|D]) :-
