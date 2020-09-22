@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0919.1930 josd').
+version_info('EYE v20.0922.0806 josd').
 
 license_info('MIT License
 
@@ -5877,9 +5877,13 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#product>'(X, Y) :-
+    split_var([Y|X], A, B),
+    reverse(B, C),
+    append(B, A, [_|D]),
+    append(C, A, [_|E]),
     when(
-        (   ground(X)
-        ;   ground(Y)
+        (   ground(D)
+        ;   ground(E)
         ),
         (   getnumber(Y, U),
             (   split_var(X, Z, [V])
@@ -5946,9 +5950,13 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#sum>'(X, Y) :-
+    split_var([Y|X], A, B),
+    reverse(B, C),
+    append(B, A, [_|D]),
+    append(C, A, [_|E]),
     when(
-        (   ground(X)
-        ;   ground(Y)
+        (   ground(D)
+        ;   ground(E)
         ),
         (   getnumber(Y, U),
             (   split_var(X, Z, [V])
