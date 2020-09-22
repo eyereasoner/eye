@@ -1,4 +1,4 @@
-#Processed by EYE v20.0919.1930 josd
+#Processed by EYE v20.0922.0806 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/bi/math_flowc.n3 --pass
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -16,6 +16,13 @@
   r:component <#lemma6>;
   r:component <#lemma7>;
   r:component <#lemma8>;
+  r:component <#lemma9>;
+  r:component <#lemma10>;
+  r:component <#lemma11>;
+  r:component <#lemma12>;
+  r:component <#lemma13>;
+  r:component <#lemma14>;
+  r:component <#lemma15>;
   r:gives {
     :test1 :result 4 .
     :test2 :result 4 .
@@ -25,6 +32,13 @@
     :test6 :result -6 .
     :test7 :result 1 .
     :test8 :result 0.4 .
+    :ANSWER1 :IS 42 .
+    :ANSWER2 :IS 42 .
+    :ANSWER3 :IS 2 .
+    :ANSWER4 :IS 2 .
+    :ANSWER5 :IS 42 .
+    :ANSWER6 :IS 42 .
+    :ANSWER7 :IS 42 .
   }.
 
 <#lemma1> a r:Inference;
@@ -32,98 +46,182 @@
     :test1 :result 4 .
   };
   r:evidence (
-    <#lemma9>
+    <#lemma16>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 4];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma2> a r:Inference;
   r:gives {
     :test2 :result 4 .
   };
   r:evidence (
-    <#lemma11>
+    <#lemma18>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test2"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 4];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma3> a r:Inference;
   r:gives {
     :test3 :result 2 .
   };
   r:evidence (
-    <#lemma12>
+    <#lemma19>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma4> a r:Inference;
   r:gives {
     :test4 :result 1.25 .
   };
   r:evidence (
-    <#lemma13>
+    <#lemma20>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test4"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1.25];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma5> a r:Inference;
   r:gives {
     :test5 :result 0 .
   };
   r:evidence (
-    <#lemma14>
+    <#lemma21>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test5"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma6> a r:Inference;
   r:gives {
     :test6 :result -6 .
   };
   r:evidence (
-    <#lemma15>
+    <#lemma22>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test6"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -6];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma7> a r:Inference;
   r:gives {
     :test7 :result 1 .
   };
   r:evidence (
-    <#lemma16>
+    <#lemma23>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test7"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma8> a r:Inference;
   r:gives {
     :test8 :result 0.4 .
   };
   r:evidence (
-    <#lemma17>
+    <#lemma24>
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#result"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#test8"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.4];
-  r:rule <#lemma10>.
+  r:rule <#lemma17>.
 
 <#lemma9> a r:Inference;
+  r:gives {
+    :ANSWER1 :IS 42 .
+  };
+  r:evidence (
+    <#lemma25>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma17>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    :ANSWER2 :IS 42 .
+  };
+  r:evidence (
+    <#lemma26>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma17>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    :ANSWER3 :IS 2 .
+  };
+  r:evidence (
+    <#lemma27>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
+  r:rule <#lemma17>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    :ANSWER4 :IS 2 .
+  };
+  r:evidence (
+    <#lemma28>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
+  r:rule <#lemma17>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    :ANSWER5 :IS 42 .
+  };
+  r:evidence (
+    <#lemma29>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma17>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    :ANSWER6 :IS 42 .
+  };
+  r:evidence (
+    <#lemma30>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma17>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    :ANSWER7 :IS 42 .
+  };
+  r:evidence (
+    <#lemma31>
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#IS"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ANSWER7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma17>.
+
+<#lemma16> a r:Inference;
   r:gives {
     :test1 :result 4 .
   };
@@ -131,15 +229,15 @@
     [ a r:Fact; r:gives {(1 1 2) math:sum 4}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 4];
-  r:rule <#lemma18>.
+  r:rule <#lemma32>.
 
-<#lemma10> a r:Extraction;
+<#lemma17> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-<#lemma11> a r:Inference;
+<#lemma18> a r:Inference;
   r:gives {
     :test2 :result 4 .
   };
@@ -147,9 +245,9 @@
     [ a r:Fact; r:gives {(4 4 2) math:sum 10}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 4];
-  r:rule <#lemma19>.
+  r:rule <#lemma33>.
 
-<#lemma12> a r:Inference;
+<#lemma19> a r:Inference;
   r:gives {
     :test3 :result 2 .
   };
@@ -157,9 +255,9 @@
     [ a r:Fact; r:gives {(1 1 2) math:product 2}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
-  r:rule <#lemma20>.
+  r:rule <#lemma34>.
 
-<#lemma13> a r:Inference;
+<#lemma20> a r:Inference;
   r:gives {
     :test4 :result 1.25 .
   };
@@ -167,9 +265,9 @@
     [ a r:Fact; r:gives {(4 1.25 2) math:product 10}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1.25];
-  r:rule <#lemma21>.
+  r:rule <#lemma35>.
 
-<#lemma14> a r:Inference;
+<#lemma21> a r:Inference;
   r:gives {
     :test5 :result 0 .
   };
@@ -177,9 +275,9 @@
     [ a r:Fact; r:gives {(1 1) math:difference 0}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:rule <#lemma22>.
+  r:rule <#lemma36>.
 
-<#lemma15> a r:Inference;
+<#lemma22> a r:Inference;
   r:gives {
     :test6 :result -6 .
   };
@@ -187,9 +285,9 @@
     [ a r:Fact; r:gives {(4 -6) math:difference 10}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo -6];
-  r:rule <#lemma23>.
+  r:rule <#lemma37>.
 
-<#lemma16> a r:Inference;
+<#lemma23> a r:Inference;
   r:gives {
     :test7 :result 1 .
   };
@@ -197,9 +295,9 @@
     [ a r:Fact; r:gives {(1 1) math:quotient 1}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:rule <#lemma24>.
+  r:rule <#lemma38>.
 
-<#lemma17> a r:Inference;
+<#lemma24> a r:Inference;
   r:gives {
     :test8 :result 0.4 .
   };
@@ -207,56 +305,198 @@
     [ a r:Fact; r:gives {(4 0.4) math:quotient 10}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0.4];
-  r:rule <#lemma25>.
+  r:rule <#lemma39>.
 
-<#lemma18> a r:Extraction;
+<#lemma25> a r:Inference;
+  r:gives {
+    :ANSWER1 :IS 42 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 42];
+  r:rule <#lemma40>.
+
+<#lemma26> a r:Inference;
+  r:gives {
+    :ANSWER2 :IS 42 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 42];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:rule <#lemma41>.
+
+<#lemma27> a r:Inference;
+  r:gives {
+    :ANSWER3 :IS 2 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:rule <#lemma42>.
+
+<#lemma28> a r:Inference;
+  r:gives {
+    :ANSWER4 :IS 2 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:rule <#lemma43>.
+
+<#lemma29> a r:Inference;
+  r:gives {
+    :ANSWER5 :IS 42 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:rule <#lemma44>.
+
+<#lemma30> a r:Inference;
+  r:gives {
+    :ANSWER6 :IS 42 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:rule <#lemma45>.
+
+<#lemma31> a r:Inference;
+  r:gives {
+    :ANSWER7 :IS 42 .
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(40 2) math:sum 42}]
+    [ a r:Fact; r:gives {(20 20) math:sum 40}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 42];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:rule <#lemma46>.
+
+<#lemma32> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(1 1 2) math:sum var:x_0} => {:test1 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma19> a r:Extraction;
+<#lemma33> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(4 var:x_0 2) math:sum 10} => {:test2 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma20> a r:Extraction;
+<#lemma34> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(1 1 2) math:product var:x_0} => {:test3 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma21> a r:Extraction;
+<#lemma35> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(4 var:x_0 2) math:product 10} => {:test4 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma22> a r:Extraction;
+<#lemma36> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(1 1) math:difference var:x_0} => {:test5 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma23> a r:Extraction;
+<#lemma37> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(4 var:x_0) math:difference 10} => {:test6 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma24> a r:Extraction;
+<#lemma38> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(1 1) math:quotient var:x_0} => {:test7 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-<#lemma25> a r:Extraction;
+<#lemma39> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(4 var:x_0) math:quotient 10} => {:test8 :result var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
 
-#2020-09-19T22:47:42.865Z in=8 out=8 ent=16 step=32 brake=2 inf=42323 sec=0.035 inf/sec=1209229
+<#lemma40> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {(20 20) math:sum var:x_0.
+     (var:x_0 2) math:sum var:x_1} => {:ANSWER1 :IS var:x_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma41> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {(var:x_0 2) math:sum var:x_1.
+     (20 20) math:sum var:x_0} => {:ANSWER2 :IS var:x_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma42> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {(20 20) math:sum var:x_0.
+     (var:x_0 var:x_1) math:sum 42} => {:ANSWER3 :IS var:x_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma43> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {(var:x_0 var:x_1) math:sum 42 .
+     (20 20) math:sum var:x_0} => {:ANSWER4 :IS var:x_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma44> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {(20 20) math:sum var:x_0.
+     (1 1) math:sum var:x_1.
+     (var:x_0 var:x_1) math:sum var:x_2} => {:ANSWER5 :IS var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma45> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {(20 20) math:sum var:x_0.
+     (var:x_0 var:x_1) math:sum var:x_2.
+     (1 1) math:sum var:x_1} => {:ANSWER6 :IS var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+<#lemma46> a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {(var:x_0 var:x_1) math:sum var:x_2.
+     (20 20) math:sum var:x_0.
+     (1 1) math:sum var:x_1} => {:ANSWER7 :IS var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/math_flowc.n3>].
+
+#2020-09-22T21:46:18.544Z in=15 out=15 ent=30 step=60 brake=2 inf=79323 sec=0.031 inf/sec=2558806
 #ENDS
 
