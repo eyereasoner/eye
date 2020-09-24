@@ -175,12 +175,12 @@ splitter(L, [(K, AlphaK)|T], Acc, S) :-
     NewAlphaK is AlphaK - 1,
     splitter(L2, [(K, NewAlphaK)|T], [L1|Acc], S).
 
-rotate([H|T], L) :-
+list_rotate([H|T], L) :-
     append(T, [H], L).
 
 rep_perm(N, Type, Perm) :-
     splitter(N, Type, S),
-    maplist(rotate, S, R),
+    maplist(list_rotate, S, R),
     flatten(R, Perm).
 
 square(Size, M, Total, Frequencies, Permutation) :-
