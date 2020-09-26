@@ -1,0 +1,14 @@
+#!/bin/bash
+echo -n > test.txt
+echo "# $(date)" > test.diff
+IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|#DONE|in=|#ENDS"
+
+for dir in */
+do
+    pushd "${dir}"
+    ./test --no-genid |& tee -a ../test.txt
+    git diff -U0 . | grep -E -v "$IMATCH" >> ../test.diff
+    popd
+done
+
+eye test.diff --pass > /dev/null
