@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.0922.2212 josd').
+version_info('EYE v20.1001.1755 josd').
 
 license_info('MIT License
 
@@ -117,7 +117,6 @@ eye
 <query>
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
-    --pl <uri>                      Prolog query
     --query <n3-query>              output filtered with filter rules').
 
 :- dynamic(answer/3).    % answer(Predicate, Subject, Object)
