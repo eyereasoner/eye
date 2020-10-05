@@ -1,6 +1,6 @@
 # Euler Yet another proof Engine - EYE
 
-<img align="left" src="http://josd.github.io/images/eye.png" alt="EYE"/> EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
+![EYE](http://josd.github.io/images/eye.png) EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
 It performs controlled chaining and it supports Euler paths.  
 Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
 
@@ -19,7 +19,7 @@ and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed
 ### Architecture and design
 
 The __EYE stack__ comprises the following Software and Machines:  
-<img src="http://josd.github.io/images/EYE-stack.png" width="60%" height="60%" alt="EYE-stack"/>  
+![EYE-stack](http://josd.github.io/images/EYE-stack.png)
 
 This is what the basic __EAM (Euler Abstract Machine)__ does in a nutshell:
 1. Select rule P => C  
