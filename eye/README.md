@@ -1,41 +1,70 @@
-# Euler Yet another proof Engine - EYE
+# EYE reasoning
 
-### Overview
+### Architecture and Design
 
-EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a).  
-It performs controlled chaining and it supports Euler paths.  
-Via [N3](http://www.w3.org/TeamSubmission/n3/) it is interoperable with [Cwm](http://www.w3.org/2000/10/swap/doc/cwm).  
+The Semantic Web Databus and Proofbus from [Tim Berners-Lee](http://www.w3.org/People/Berners-Lee/) which is  
+like a world wide welding machine transforming data into pragmatic proofs:  
+  
+<img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="60%" height="60%" alt="PDB"/>  
 
-__Controlled chaining__ is backward chaining for rules using `<=` in [N3](http://www.w3.org/TeamSubmission/n3/)  
-and forward chaining for rules using `=>` in [N3](http://www.w3.org/TeamSubmission/n3/).  
-This can be seen at work in [EYE reasoning](http://github.com/josd/eye/tree/master/reasoning).  
+### Examples and Test Cases
 
-__Euler paths__ are roughly _"don't step in your own steps"_ which is inspired by  
-what [Leonhard Euler](http://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html).  
-EYE sees the rule `P => C` as `P & NOT(C) => C`.  
-
-EYE can be [installed manually](http://github.com/josd/eye/blob/master/INSTALL) on Linux, Windows and MacOSX.  
-EYE is also available in a [Docker container for command line use](http://hub.docker.com/r/bdevloed/eye/)  
-and in a [Docker container for HTTP client use](http://hub.docker.com/r/bdevloed/eyeserver/).  
-
-### Architecture and design
-
-The __EYE stack__ comprises the following Software and Machines:  
-
-This is what the basic __EAM (Euler Abstract Machine)__ does in a nutshell:
-1. Select rule P => C  
-2. Prove P & NOT(C) (backward chaining) and if it fails backtrack to 1.  
-3. If P & NOT(C) assert C (forward chaining) and remove brake  
-4. If C = answer(A) and tactic limited-answer stop, else backtrack to 2.  
-5. If brake or tactic linear-select stop, else start again at 1.  
+* bayesian networks
+    [ccd](https://github.com/josd/eye/tree/master/reasoning/ccd),
+    [nbbn](https://github.com/josd/eye/tree/master/reasoning/nbbn),
+    [swet](https://github.com/josd/eye/tree/master/reasoning/swet)
+* computational mathematics
+    [complex](https://github.com/josd/eye/tree/master/reasoning/complex),
+    [dpe](https://github.com/josd/eye/tree/master/reasoning/dpe),
+    [equation4](https://github.com/josd/eye/tree/master/reasoning/equation4),
+    [fib](https://github.com/josd/eye/tree/master/reasoning/fib),
+    [pi](https://github.com/josd/eye/tree/master/reasoning/pi),
+    [polygon](https://github.com/josd/eye/tree/master/reasoning/polygon),
+    [tak](https://github.com/josd/eye/tree/master/reasoning/tak)
+* control systems
+    [cs](https://github.com/josd/eye/tree/master/reasoning/cs)
+* description logic
+    [bmt](https://github.com/josd/eye/tree/master/reasoning/bmt),
+    [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
+    [gedcom](https://github.com/josd/eye/tree/master/reasoning/gedcom),
+    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
+    [h2o](https://github.com/josd/eye/tree/master/reasoning/h2o),
+    [rpo](https://github.com/josd/eye/tree/master/reasoning/rpo)
+* ershovian compilation
+    [dt](https://github.com/josd/eye/tree/master/reasoning/dt),
+    [preduction](https://github.com/josd/eye/tree/master/reasoning/preduction)
+* evolutionary algorithms
+    [ea](https://github.com/josd/eye/tree/master/reasoning/ea)
+* extensible imaging
+    [lldm](https://github.com/josd/eye/tree/master/reasoning/lldm)
+* logic programming
+    [4color](https://github.com/josd/eye/tree/master/reasoning/4color),
+    [dp](https://github.com/josd/eye/tree/master/reasoning/dp),
+    [einstein](https://github.com/josd/eye/tree/master/reasoning/einstein),
+    [enigma1225](https://github.com/josd/eye/tree/master/reasoning/enigma1225),
+    [graph](https://github.com/josd/eye/tree/master/reasoning/graph),
+    [hanoi](https://github.com/josd/eye/tree/master/reasoning/hanoi),
+    [lee](https://github.com/josd/eye/tree/master/reasoning/lee),
+    [queens](https://github.com/josd/eye/tree/master/reasoning/queens),
+    [socrates](https://github.com/josd/eye/tree/master/reasoning/socrates),
+    [sudoku](https://github.com/josd/eye/tree/master/reasoning/sudoku),
+    [witch](https://github.com/josd/eye/tree/master/reasoning/witch)
+* markovian networks
+    [mmln](https://github.com/josd/eye/tree/master/reasoning/mmln)
+* neural networks
+    [fcm](https://github.com/josd/eye/tree/master/reasoning/fcm),
+    [fgcm](https://github.com/josd/eye/tree/master/reasoning/fgcm)
+* quantum computation
+    [dqc](https://github.com/josd/eye/tree/master/reasoning/dqc)
+* turing machines
+    [turing](https://github.com/josd/eye/tree/master/reasoning/turing),
+    [usm](https://github.com/josd/eye/tree/master/reasoning/usm)
+* workflow composers
+    [gps](https://github.com/josd/eye/tree/master/reasoning/gps),
+    [map](https://github.com/josd/eye/tree/master/reasoning/map),
+    [resto](https://github.com/josd/eye/tree/master/reasoning/resto),
+    [restpath](https://github.com/josd/eye/tree/master/reasoning/restpath)
 
 ### See also
 
-EYE paper
-* [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner](http://josd.github.io/Papers/EYE.pdf)
-
-EYE tutorial
-* [Semantic Web Reasoning With EYE](http://n3.restdesc.org/)
-
-EYE talk
-* [EYE looking through N3 glasses](http://josd.github.io/Talks/2012/04swig/index.html)
+[Computational Logic: Memories of the Past and Challenges for the Future](http://www.computational-logic.org/iccl/downloads/Robinson-CL2000.pdf)
