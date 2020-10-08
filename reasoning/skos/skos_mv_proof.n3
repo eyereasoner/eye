@@ -1,5 +1,5 @@
 #Processed by EYE v20.1001.1755 josd
-#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3 --query http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-query.n3
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
@@ -71,7 +71,7 @@
   r:gives {
     @forAll var:x_0. {var:x_0 a validation:Pattern7CounterIntuitive} => {var:x_0 a validation:Pattern7CounterIntuitive}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-query.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-query.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
@@ -88,7 +88,7 @@
   r:gives {
     <http://purl.bioontology.org/ontology/SNOMEDCT/89369001> skos:exactMatch <http://purl.bioontology.org/ontology/ICD10/Q00.0>.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma6> a r:Inference;
   r:gives {
@@ -105,7 +105,7 @@
   r:gives {
     <http://purl.bioontology.org/ontology/ICD10/Q00> skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/203922009>.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma8> a r:Extraction;
   r:gives {
@@ -118,26 +118,26 @@
       var:x_2 skos:broaderTransitive var:x_3.
       var:x_3 skos:exactMatch var:x_0} e:graphCopy var:x_4} => {var:x_4 a validation:Pattern7CounterIntuitive}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3>].
 
 <#lemma9> a r:Extraction;
   r:gives {
     <http://purl.bioontology.org/ontology/SNOMEDCT/203922009> skos:broader <http://purl.bioontology.org/ontology/SNOMEDCT/89369001>.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 skos:broader var:x_1} => {var:x_0 skos:broaderTransitive var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3>].
 
 <#lemma11> a r:Extraction;
   r:gives {
     <http://purl.bioontology.org/ontology/ICD10/Q00.0> skos:broader <http://purl.bioontology.org/ontology/ICD10/Q00>.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
-#2020-10-08T14:09:46.788Z in=110 out=1 ent=12 step=28 brake=2 inf=209953 sec=0.056 inf/sec=3749161
+#2020-10-08T16:48:39.148Z in=110 out=1 ent=12 step=28 brake=2 inf=209864 sec=0.053 inf/sec=3959698
 #ENDS
 

@@ -1,5 +1,5 @@
 #Processed by EYE v20.1001.1755 josd
-#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome-query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/preduction/palindrome.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3
 
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <https://raw.githubusercontent.com/josd/eye/master/reasoning#>.
@@ -41,13 +41,13 @@
     @forAll var:x_0. {("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
      (var:x_0) :accept true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome-query.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3>].
 
 <#lemma4> a r:Extraction;
   r:gives {
     (:push) :initial true.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma5> a r:Inference;
   r:gives {
@@ -72,7 +72,7 @@
     @forAll var:x_0, var:x_1. {(var:x_1) :accept true} <= {(var:x_0) :initial true.
      (var:x_1 var:x_0 ()) :accept true}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma7> a r:Inference;
   r:gives {
@@ -110,13 +110,13 @@
      (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :delta true.
      (var:x_2 var:x_5 var:x_6) :accept true}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :push var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma11> a r:Inference;
   r:gives {
@@ -572,7 +572,7 @@
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :pop var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma42> a r:Inference;
   r:gives {
@@ -608,7 +608,7 @@
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:pop var:x_1 var:x_0 :pop var:x_2) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma45> a r:Inference;
   r:gives {
@@ -1056,14 +1056,14 @@
   r:gives {
     (:pop) :final true.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 <#lemma76> a r:Extraction;
   r:gives {
     @forAll var:x_0. {(() var:x_0 ()) :accept true} <= {(var:x_0) :final true}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
-#2020-10-08T14:09:32.601Z in=10 out=1 ent=1 step=1 brake=1 inf=223781 sec=0.061 inf/sec=3668541
+#2020-10-08T16:48:20.639Z in=10 out=1 ent=1 step=1 brake=1 inf=223674 sec=0.060 inf/sec=3727900
 #ENDS
 

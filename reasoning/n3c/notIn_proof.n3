@@ -1,5 +1,5 @@
 #Processed by EYE v20.1001.1755 josd
-#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/components.n3 --turtle https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/notIn_query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/notIn_query.n3
 
 @prefix n3: <https://www.w3.org/ns/n3#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -42,7 +42,7 @@
   r:gives {
     :task1 a :CompositeTask.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/tasks.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
@@ -65,13 +65,13 @@
     @forAll var:x_0. {var:x_0 a :CompositeTask.
      {var:x_0 a :DiscardedTask} n3:notIn <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3>} => {var:x_0 a :NotDiscardedTask}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/notIn_query.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/notIn_query.n3>].
 
 <#lemma6> a r:Extraction;
   r:gives {
     :task2 a :CompositeTask.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/tasks.n3>].
 
 <#lemma7> a r:Inference;
   r:gives {
@@ -94,8 +94,8 @@
     @forAll var:x_0, var:x_1, var:x_2. {var:x_2 n3:notIn var:x_0} <= {var:x_0 log:semantics var:x_1.
      var:x_1 log:notIncludes var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/components.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2020-10-08T14:09:24.408Z in=7 out=2 ent=2 step=2 brake=1 inf=30681 sec=0.039 inf/sec=786692
+#2020-10-08T16:48:09.901Z in=7 out=2 ent=2 step=2 brake=1 inf=30640 sec=0.036 inf/sec=851111
 #ENDS
 

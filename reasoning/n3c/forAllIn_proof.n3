@@ -1,5 +1,5 @@
 #Processed by EYE v20.1001.1755 josd
-#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/components.n3 --turtle https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/forAllIn_query.n3
+#eye --no-genid http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 
 @prefix n3: <https://www.w3.org/ns/n3#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -30,7 +30,7 @@
   r:gives {
     :task1 a :CompositeTask.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/tasks.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/tasks.n3>].
 
 <#lemma3> a r:Inference;
   r:gives {
@@ -83,15 +83,15 @@
     @forAll var:x_0, var:x_1. {var:x_0 a :CompositeTask.
      ({var:x_0 :subTask var:x_1} {var:x_1 a :Completed}) n3:forAllIn <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/subtasks.n3>} => {var:x_0 a :AllTasksCompleted}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/forAllIn_query.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3>].
 
 <#lemma5> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(var:x_2 var:x_3) n3:forAllIn var:x_0} <= {var:x_0 log:semantics var:x_1.
      ("forall" {var:x_1 log:includes var:x_2} {var:x_1 log:includes var:x_3}) e:derive true}.
   };
-  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/n3c/components.n3>].
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2020-10-08T14:09:25.060Z in=14 out=1 ent=1 step=1 brake=1 inf=36513 sec=0.039 inf/sec=936231
+#2020-10-08T16:48:10.851Z in=14 out=1 ent=1 step=1 brake=1 inf=36463 sec=0.040 inf/sec=911575
 #ENDS
 
