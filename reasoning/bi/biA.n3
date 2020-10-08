@@ -1,5 +1,5 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid --nope https://github.com/josd/eye/blob/master/reasoning/bi/biP.n3 --query https://github.com/josd/eye/blob/master/reasoning/bi/biQ.n3
+#eye --no-genid --nope https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/biP.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/biQ.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -36,7 +36,7 @@
 {{(8 5 6 7 9 4) e:min 4} => {:em2 :result true}} a :PASS.
 {{(1 3 6 6 7 2 3) e:multisetEqualTo (3 3 7 6 6 2 1)} => {:eme1 :result true}} a :PASS.
 {{(1 3 6 6 7 2 3) e:multisetNotEqualTo (3 3 7 6 2 1)} => {:emn1 :result true}} a :PASS.
-{{:a :b :d. ((<https://github.com/josd/eye/blob/master/reasoning/bi/biP.n3>) 1) e:optional {:g :h :i}} => {:eo1 :result true}} a :PASS.
+{{:a :b :d. ((<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/biP.n3>) 1) e:optional {:g :h :i}} => {:eo1 :result true}} a :PASS.
 {{((55 66 72 87 56 77 73 69 74 56) (1.66 1.78 1.87 1.92 1.66 1.89 1.86 1.79 1.8 1.66)) e:pcc 0.9569729506311461 . 0.9569729506311461 math:equalTo 0.9569729506311461} => {:ep1 :result true}} a :PASS.
 {{(55 66 72 87 56 77 73 69 74 56) e:rms 69.2105483289939 . 69.2105483289939 math:equalTo 69.2105483289939} => {:erm1 :result true}} a :PASS.
 {{((8 :d) (5 :a) (6 :b) (7 :a) (9 :d) (4 :d)) e:sort ((4 :d) (5 :a) (6 :b) (7 :a) (8 :d) (9 :d))} => {:es1 :result true}} a :PASS.
@@ -45,7 +45,7 @@
 {{"\"test\n" e:stringEscape "\\\"test\\n"} => {:ese1 :result true}} a :PASS.
 {{("a-b/c-d/e" "-/") e:stringSplit ("a" "b" "c" "d" "e")} => {:ess1 :result true}} a :PASS.
 {{(1 2 3 4 5) e:subsequence (1 2 4)} => {:esl1 :result true}} a :PASS.
-{{((<https://github.com/josd/eye/blob/master/reasoning/bi/biP.n3>) 1) e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}} a :PASS.
+{{((<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/biP.n3>) 1) e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}} a :PASS.
 {{() e:subsequence ()} => {:esl3 :result true}} a :PASS.
 {{((0 1) (2 3) (4 5)) e:transpose ((0 2 4) (1 3 5))} => {:et1 :result true}} a :PASS.
 {{:c e:whenGround {:a :b :d}. :a :b :c} => {:ewg1 :result true}} a :PASS.
@@ -63,11 +63,11 @@
 {{(true {:u :v :w} true true) log:conjunction {:u :v :w}} => {:logc3 :result true}} a :PASS.
 {{(:a :b) log:equalTo (:a :b)} => {:loge1 :result true}} a :PASS.
 {{{:a :b :c} log:equalTo {:a :b :c}} => {:logee1 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
 {{{:b :a :c. :e :d :f. :h :g :i. :k :j :l} log:includes {:k :j :l. :e :d :f}} => {:logi1 :result true}} a :PASS.
 {{{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:includes {:a :b :c}} => {:logis0 :result true}} a :PASS.
 {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
 {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
 {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
@@ -75,10 +75,10 @@
 {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}} a :PASS.
 {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
 {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
-{{<https://github.com/josd/eye/blob/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. <https://github.com/josd/eye/blob/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. {:a :b _:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
+{{<https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}. <https://raw.githubusercontent.com/josd/eye/master/reasoning/bi/abc.n3> log:semantics {:a :b :c}. {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
 {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
 {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
 {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.

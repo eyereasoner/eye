@@ -1,8 +1,8 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid https://github.com/josd/eye/blob/master/reasoning/image/year.n3 https://github.com/josd/eye/blob/master/reasoning/image/easter.n3 --no-genid --query https://github.com/josd/eye/blob/master/reasoning/image/query.n3
+#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/image/year.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/image/easter.n3 --no-genid --query https://raw.githubusercontent.com/josd/eye/master/reasoning/image/query.n3
 
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <https://github.com/josd/eye/blob/master/reasoning#>.
+@prefix : <https://raw.githubusercontent.com/josd/eye/master/reasoning#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
@@ -1408,7 +1408,7 @@
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 :easterFor var:x_1} => {var:x_0 :easterFor var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/image/query.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/image/query.n3>].
 
 <#lemma104> a r:Inference;
   r:gives {
@@ -9261,7 +9261,7 @@
      (var:x_31 31) math:remainder var:x_33.
      (var:x_33 1) math:sum var:x_34} => {(var:x_34 var:x_32) :easterFor var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/image/easter.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/image/easter.n3>].
 
 <#lemma206> a r:Inference;
   r:gives {
@@ -10567,14 +10567,14 @@
   r:gives {
     (1950 2050) :yearsOfInterest true.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/image/year.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/image/year.n3>].
 
 <#lemma307> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_2 a :Year} <= {(var:x_0 var:x_1) :yearsOfInterest true.
      ("between" var:x_0 var:x_1 var:x_2) e:derive true}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/image/year.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/image/year.n3>].
 
 #2020-10-01T14:25:54.882Z in=5 out=101 ent=202 step=404 brake=2 inf=1749544 sec=0.265 inf/sec=6602053
 #ENDS

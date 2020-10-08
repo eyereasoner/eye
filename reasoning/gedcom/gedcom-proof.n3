@@ -1,5 +1,5 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3 https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3 https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3 --query https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-filter.n3
+#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-filter.n3
 
 @prefix gc: <http://www.daml.org/2001/01/gedcom/gedcom#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -183,7 +183,7 @@
      var:x_2 gc:son var:x_3.
      var:x_3 gc:uncle var:x_0} => {var:x_0 :testRelationship var:x_3}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-filter.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-filter.n3>].
 
 <#lemma12> a r:Inference;
   r:gives {
@@ -315,14 +315,14 @@
   r:gives {
     :Maria gc:sex gc:Female.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma23> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
      var:x_1 gc:sex gc:Female} => {var:x_0 gc:mother var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma24> a r:Inference;
   r:gives {
@@ -341,14 +341,14 @@
   r:gives {
     :Rita gc:sex gc:Female.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma26> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
      var:x_0 gc:sex gc:Female} => {var:x_1 gc:daughter var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma27> a r:Inference;
   r:gives {
@@ -367,14 +367,14 @@
   r:gives {
     :Bart gc:sex gc:Male.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma29> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
      var:x_0 gc:sex gc:Male} => {var:x_1 gc:son var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma30> a r:Inference;
   r:gives {
@@ -393,7 +393,7 @@
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 gc:parent var:x_1.
      var:x_1 gc:brother var:x_2} => {var:x_0 gc:uncle var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma32> a r:Inference;
   r:gives {
@@ -412,7 +412,7 @@
   r:gives {
     :Greta gc:sex gc:Female.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma34> a r:Inference;
   r:gives {
@@ -431,7 +431,7 @@
   r:gives {
     :Tom gc:sex gc:Male.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma36> a r:Inference;
   r:gives {
@@ -523,38 +523,38 @@
   r:gives {
     :Jos gc:childIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma44> a r:Extraction;
   r:gives {
     :Maria gc:spouseIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma45> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 gc:childIn var:x_1.
      var:x_2 gc:spouseIn var:x_1} => {var:x_0 gc:parent var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma46> a r:Extraction;
   r:gives {
     :Rita gc:childIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma47> a r:Extraction;
   r:gives {
     :Bart gc:childIn :gd.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma48> a r:Extraction;
   r:gives {
     :Rita gc:spouseIn :gd.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma49> a r:Inference;
   r:gives {
@@ -573,32 +573,32 @@
   r:gives {
     :Jos gc:sex gc:Male.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma51> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 gc:sibling var:x_1.
      var:x_1 gc:sex gc:Male} => {var:x_0 gc:brother var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma52> a r:Extraction;
   r:gives {
     :Greta gc:childIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma53> a r:Extraction;
   r:gives {
     :Tom gc:childIn :sd.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma54> a r:Extraction;
   r:gives {
     :Greta gc:spouseIn :sd.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma55> a r:Inference;
   r:gives {
@@ -617,7 +617,7 @@
   r:gives {
     :Geert gc:childIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma57> a r:Inference;
   r:gives {
@@ -637,13 +637,13 @@
   r:gives {
     :Geert gc:sex gc:Male.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma59> a r:Extraction;
   r:gives {
     :Dirk gc:childIn :dp.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma60> a r:Inference;
   r:gives {
@@ -663,7 +663,7 @@
   r:gives {
     :Dirk gc:sex gc:Male.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma62> a r:Inference;
   r:gives {
@@ -695,7 +695,7 @@
   r:gives {
     gc:sibling a owl:SymmetricProperty.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma65> a r:Inference;
   r:gives {
@@ -716,7 +716,7 @@
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a owl:SymmetricProperty.
      var:x_1 var:x_0 var:x_2} => {var:x_2 var:x_0 var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma67> a r:Inference;
   r:gives {
@@ -757,7 +757,7 @@
      var:x_2 gc:childIn var:x_1.
      var:x_0 owl:differentFrom var:x_2} => {var:x_0 gc:sibling var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-relations.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-relations.n3>].
 
 <#lemma70> a r:Inference;
   r:gives {
@@ -848,7 +848,7 @@
   r:gives {
     :dp owl:distinctMembers (:Jos :Rita :Geert :Caroline :Dirk :Greta).
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/gedcom-facts.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/gedcom-facts.n3>].
 
 <#lemma76> a r:Inference;
   r:gives {
@@ -872,7 +872,7 @@
      var:x_2 rdf:rest var:x_4.
      var:x_5 list:in var:x_4} => {var:x_3 owl:differentFrom var:x_5}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma78> a r:Inference;
   r:gives {
@@ -952,7 +952,7 @@
      var:x_0 a rdf:List.
      var:x_2 ns1:subListOf var:x_1} => {var:x_2 ns1:subListOf var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma84> a r:Inference;
   r:gives {
@@ -1012,20 +1012,20 @@
   r:gives {
     @forAll var:x_0. {var:x_0 a rdf:List} => {var:x_0 ns1:subListOf var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma89> a r:Extraction;
   r:gives {
     owl:distinctMembers rdfs:range rdf:List.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma90> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 rdfs:range var:x_1.
      var:x_2 var:x_0 var:x_3} => {var:x_3 a var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma91> a r:Inference;
   r:gives {
@@ -1046,7 +1046,7 @@
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 owl:distinctMembers var:x_1.
      var:x_1 rdf:rest var:x_2} => {var:x_0 owl:distinctMembers var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/gedcom/rpo-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/gedcom/rpo-rules.n3>].
 
 <#lemma93> a r:Inference;
   r:gives {

@@ -3,9 +3,9 @@
 :- use_module(library(clpfd)).
 :- use_module(library(apply)).
 
-pfx('sudoku:', '<https://github.com/josd/eye/blob/master/reasoning/sudoku#>').
+pfx('sudoku:', '<https://raw.githubusercontent.com/josd/eye/master/reasoning/sudoku#>').
 
-'<https://github.com/josd/eye/blob/master/reasoning/sudoku#solve>'(Problem, Rows) :-
+'<https://raw.githubusercontent.com/josd/eye/master/reasoning/sudoku#solve>'(Problem, Rows) :-
     problem(Problem, Rows),
     append(Rows, Vs),
     Vs ins 1..9,

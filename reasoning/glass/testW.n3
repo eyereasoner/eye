@@ -5,7 +5,7 @@
     @prefix n3: <http://www.w3.org/2004/06/rei#> .
     @prefix pr: <http://www.w3.org/2000/10/swap/reason#> .
     @prefix run: <#> .
-    @prefix test: <https://github.com/josd/eye/blob/master/reasoning/glass/test.n3#> .
+    @prefix test: <https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/test.n3#> .
     
      @forSome run:_g0,
                 run:_g1,
@@ -177,17 +177,17 @@
     
     run:_g0     a pr:Parsing;
          pr:because run:_g1;
-         pr:source <https://github.com/josd/eye/blob/master/reasoning/glass/testQ.n3> .
+         pr:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/testQ.n3> .
     
     run:_g1     a pr:CommandLine;
-         pr:args "['/home/jdroo/github.com/linkeddata/swap/cwm.py', 'https://github.com/josd/eye/blob/master/reasoning/glass/test.n3', '--think', '--filter=https://github.com/josd/eye/blob/master/reasoning/glass/testQ.n3', '--why']" .
+         pr:args "['/home/jdroo/github.com/linkeddata/swap/cwm.py', 'https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/test.n3', '--think', '--filter=https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/testQ.n3', '--why']" .
     
     run:_g2     a pr:Inference;
          pr:binding  [
              pr:boundTo  [
                  n3:uri "http://example.org/try#b" ];
              pr:variable  [
-                 n3:nodeId "https://github.com/josd/eye/blob/master/reasoning/glass/test.n3#b" ] ];
+                 n3:nodeId "https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/test.n3#b" ] ];
          pr:evidence  (
          [
                  a pr:Fact;
@@ -209,5 +209,5 @@
     
     run:_g3     a pr:Parsing;
          pr:because run:_g1;
-         pr:source <https://github.com/josd/eye/blob/master/reasoning/glass/test.n3> .
+         pr:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/glass/test.n3> .
     

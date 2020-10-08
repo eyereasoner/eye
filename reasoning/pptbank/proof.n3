@@ -1,9 +1,9 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid https://github.com/josd/eye/blob/master/reasoning/pptbank/bankSW.n3 https://github.com/josd/eye/blob/master/reasoning/pptbank/checking.n3 --query https://github.com/josd/eye/blob/master/reasoning/pptbank/query.n3
+#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/bankSW.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/checking.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/query.n3
 
-@prefix my: <https://github.com/josd/eye/blob/master/reasoning/ppt-bank/acct3#>.
-@prefix ck: <https://github.com/josd/eye/blob/master/reasoning/ppt-bank/checking#>.
-@prefix bk: <https://github.com/josd/eye/blob/master/reasoning/ppt-bank/banking#>.
+@prefix my: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#>.
+@prefix ck: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/checking#>.
+@prefix bk: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/banking#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -25,7 +25,7 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://github.com/josd/eye/blob/master/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#account"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.0];
   r:rule <#lemma3>.
 
@@ -35,12 +35,12 @@
   };
   r:evidence (
     <#lemma4>
-    [ a r:Fact; r:gives {<https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3start.n3> log:semantics {my:account a ck:Account.
+    [ a r:Fact; r:gives {<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3start.n3> log:semantics {my:account a ck:Account.
      my:account ck:balance 10.0}}]
     [ a r:Fact; r:gives {{my:account a ck:Account.
      my:account ck:balance 10.0} log:includes {my:account ck:balance 10.0}}]
     <#lemma5>
-    [ a r:Fact; r:gives {((<https://github.com/josd/eye/blob/master/reasoning/pptbank/bankSW.n3> <https://github.com/josd/eye/blob/master/reasoning/pptbank/checking.n3>) 1) e:findall (_:sk_0 {(<https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check1.n3> <https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check2.n3>) list:member _:sk_1.
+    [ a r:Fact; r:gives {((<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/bankSW.n3> <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/checking.n3>) 1) e:findall (_:sk_0 {(<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check1.n3> <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check2.n3>) list:member _:sk_1.
      _:sk_1 log:semantics _:sk_2.
      _:sk_2 log:includes {_:sk_1 a ck:Check.
       _:sk_1 ck:amount _:sk_0.
@@ -48,13 +48,13 @@
     [ a r:Fact; r:gives {(5.0 3.0) math:sum 8.0}]
     [ a r:Fact; r:gives {(10.0 8.0) math:difference 2.0}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://github.com/josd/eye/blob/master/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3start.n3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3start.n3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo {my:account a ck:Account.
    my:account ck:balance 10.0}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 10.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (<https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check1.n3> <https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check2.n3>)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<https://github.com/josd/eye/blob/master/reasoning/pptbank/bankSW.n3> <https://github.com/josd/eye/blob/master/reasoning/pptbank/checking.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check1.n3> <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check2.n3>)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/bankSW.n3> <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/checking.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -67,19 +67,19 @@
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ck:balance var:x_1} => {var:x_0 ck:balance var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/pptbank/query.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/query.n3>].
 
 <#lemma4> a r:Extraction;
   r:gives {
-    my:account bk:statements (<https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3start.n3>).
+    my:account bk:statements (<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3start.n3>).
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/pptbank/bankSW.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/bankSW.n3>].
 
 <#lemma5> a r:Extraction;
   r:gives {
-    my:account bk:transactions (<https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check1.n3> <https://github.com/josd/eye/blob/master/reasoning/pptbank/acct3check2.n3>).
+    my:account bk:transactions (<https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check1.n3> <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/acct3check2.n3>).
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/pptbank/bankSW.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/bankSW.n3>].
 
 <#lemma6> a r:Extraction;
   r:gives {
@@ -95,7 +95,7 @@
      var:x_9 math:sum var:x_10.
      (var:x_3 var:x_10) math:difference var:x_11} => {var:x_0 ck:balance var:x_11}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/pptbank/checking.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/pptbank/checking.n3>].
 
 #2020-10-01T14:26:29.213Z in=17 out=1 ent=2 step=4 brake=4 inf=46350 sec=0.093 inf/sec=498387
 #ENDS

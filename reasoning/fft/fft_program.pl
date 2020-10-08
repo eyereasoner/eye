@@ -1,9 +1,9 @@
 % Fast Fourier Transform
 % Code from the book "Clause and Effect" Chapter 10
 
-pfx('fft:', '<https://github.com/josd/eye/blob/master/reasoning/fft#>').
+pfx('fft:', '<https://raw.githubusercontent.com/josd/eye/master/reasoning/fft#>').
 
-'<https://github.com/josd/eye/blob/master/reasoning/fft#transform>'(A, L) :-
+'<https://raw.githubusercontent.com/josd/eye/master/reasoning/fft#transform>'(A, L) :-
     eval(p(A, w^0), X0, 8),
     eval(p(A, w^1), X1, 8),
     eval(p(A, w^2), X2, 8),

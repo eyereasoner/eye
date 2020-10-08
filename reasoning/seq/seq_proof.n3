@@ -1,11 +1,11 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid --wcache https://github.com/josd/eye/blob/master/reasoning/seq . https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3 --query https://github.com/josd/eye/blob/master/reasoning/seq/seq_query.n3
+#eye --no-genid --wcache https://raw.githubusercontent.com/josd/eye/master/reasoning/seq . https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix seq: <https://github.com/josd/eye/blob/master/reasoning/seq#>.
+@prefix seq: <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
@@ -64,7 +64,7 @@
      (var:x_2 (", ")) list:append var:x_1.
      var:x_2 string:concatenation var:x_3} => {(1 2 3 4 6 9 10 11 13) seq:answer var:x_3}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_query.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_query.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
@@ -132,7 +132,7 @@
      (var:x_5) func:reverse var:x_7.
      var:x_7 seq:punctuate var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 <#lemma8> a r:Inference;
   r:gives {
@@ -158,14 +158,14 @@
      (var:x_3 1) math:sum var:x_1.
      var:x_2 seq:check true}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 seq:format (var:x_3 "-" var:x_1 ", ")} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      var:x_2 list:last var:x_3}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 <#lemma11> a r:Inference;
   r:gives {
@@ -232,13 +232,13 @@
   r:gives {
     @forSome var:x_0. {(var:x_0) seq:check true} <= true.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 <#lemma16> a r:Extraction;
   r:gives {
     @forSome var:x_0. {(var:x_0) seq:format (var:x_0 ", ")} <= true.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 <#lemma17> a r:Inference;
   r:gives {
@@ -365,7 +365,7 @@
   r:gives {
     {() seq:punctuate ()} <= true.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/seq/seq_components.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/seq/seq_components.n3>].
 
 #2020-10-01T14:26:52.635Z in=7 out=1 ent=1 step=1 brake=1 inf=80501 sec=0.062 inf/sec=1298403
 #ENDS

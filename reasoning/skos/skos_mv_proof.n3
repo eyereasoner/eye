@@ -1,5 +1,5 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-validation-rules.n3 --query https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-validation-query.n3
+#eye --no-genid https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3 https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3 --query https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-query.n3
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix skos: <http://www.w3.org/2004/02/skos/core#>.
@@ -71,7 +71,7 @@
   r:gives {
     @forAll var:x_0. {var:x_0 a validation:Pattern7CounterIntuitive} => {var:x_0 a validation:Pattern7CounterIntuitive}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-validation-query.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-query.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
@@ -88,7 +88,7 @@
   r:gives {
     <http://purl.bioontology.org/ontology/SNOMEDCT/89369001> skos:exactMatch <http://purl.bioontology.org/ontology/ICD10/Q00.0>.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma6> a r:Inference;
   r:gives {
@@ -105,7 +105,7 @@
   r:gives {
     <http://purl.bioontology.org/ontology/ICD10/Q00> skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/203922009>.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma8> a r:Extraction;
   r:gives {
@@ -118,25 +118,25 @@
       var:x_2 skos:broaderTransitive var:x_3.
       var:x_3 skos:exactMatch var:x_0} e:graphCopy var:x_4} => {var:x_4 a validation:Pattern7CounterIntuitive}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-validation-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3>].
 
 <#lemma9> a r:Extraction;
   r:gives {
     <http://purl.bioontology.org/ontology/SNOMEDCT/203922009> skos:broader <http://purl.bioontology.org/ontology/SNOMEDCT/89369001>.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 skos:broader var:x_1} => {var:x_0 skos:broaderTransitive var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-validation-rules.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-validation-rules.n3>].
 
 <#lemma11> a r:Extraction;
   r:gives {
     <http://purl.bioontology.org/ontology/ICD10/Q00.0> skos:broader <http://purl.bioontology.org/ontology/ICD10/Q00>.
   };
-  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
+  r:because [ a r:Parsing; r:source <https://raw.githubusercontent.com/josd/eye/master/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
 #2020-10-01T14:26:54.622Z in=110 out=1 ent=12 step=28 brake=2 inf=209914 sec=0.093 inf/sec=2257140
 #ENDS

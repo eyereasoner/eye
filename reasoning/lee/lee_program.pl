@@ -1,9 +1,9 @@
 % Lee routing for VLSI circuits
 % Code from the book "The Art of Prolog" Chapter 16
 
-pfx('lee:', '<https://github.com/josd/eye/blob/master/reasoning/lee#>').
+pfx('lee:', '<https://raw.githubusercontent.com/josd/eye/master/reasoning/lee#>').
 
-'<https://github.com/josd/eye/blob/master/reasoning/lee#route>'([Source, Destination, Obstacles], Path) :-
+'<https://raw.githubusercontent.com/josd/eye/master/reasoning/lee#route>'([Source, Destination, Obstacles], Path) :-
     waves(Destination, [[Source], []], Obstacles, Waves),
     path(Source, Destination, Waves, P),
     reverse(P, Path).

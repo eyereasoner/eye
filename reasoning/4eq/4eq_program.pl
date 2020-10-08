@@ -1,8 +1,8 @@
 :- use_module(library(clpr)).
 
-pfx(':', '<https://github.com/josd/eye/blob/master/reasoning/4eq#>').
+pfx(':', '<https://raw.githubusercontent.com/josd/eye/master/reasoning/4eq#>').
 
-'<https://github.com/josd/eye/blob/master/reasoning/4eq#solve>'([A, B], X) :-
+'<https://raw.githubusercontent.com/josd/eye/master/reasoning/4eq#solve>'([A, B], X) :-
     A = [[A11, A12, A13, A14],
          [A21, A22, A23, A24],
          [A31, A32, A33, A34],
