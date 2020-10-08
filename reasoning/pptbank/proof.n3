@@ -1,9 +1,9 @@
 #Processed by EYE v20.1001.1755 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/pptbank/bankSW.n3 http://josd.github.io/eye/reasoning/pptbank/checking.n3 --query http://josd.github.io/eye/reasoning/pptbank/query.n3
 
-@prefix my: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#>.
-@prefix ck: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/checking#>.
-@prefix bk: <https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/banking#>.
+@prefix my: <http://josd.github.io/eye/reasoning/ppt-bank/acct3#>.
+@prefix ck: <http://josd.github.io/eye/reasoning/ppt-bank/checking#>.
+@prefix bk: <http://josd.github.io/eye/reasoning/ppt-bank/banking#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -25,7 +25,7 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.0];
   r:rule <#lemma3>.
 
@@ -48,7 +48,7 @@
     [ a r:Fact; r:gives {(5.0 3.0) math:sum 8.0}]
     [ a r:Fact; r:gives {(10.0 8.0) math:difference 2.0}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "https://raw.githubusercontent.com/josd/eye/master/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/pptbank/acct3start.n3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo {my:account a ck:Account.
    my:account ck:balance 10.0}];
@@ -97,6 +97,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/checking.n3>].
 
-#2020-10-08T16:48:18.404Z in=17 out=1 ent=2 step=4 brake=4 inf=48604 sec=0.038 inf/sec=1279053
+#2020-10-08T16:54:17.103Z in=17 out=1 ent=2 step=4 brake=4 inf=46300 sec=0.042 inf/sec=1102381
 #ENDS
 
