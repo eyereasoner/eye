@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>EYE</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="http://josd.github.io/StyleSheets/base.css" type="text/css" />
+  <link rel="shortcut icon" href="http://josd.github.io/images/favicon.ico" type="image/vnd.microsoft.icon" />
+  <style type="text/css">a:hover {background:#ffa;}</style>
+</head>
+
+<body xml:lang="en" lang="en">
+
+<h1 id="euler-yet-another-proof-engine-eye">Euler Yet another proof Engine - EYE</h1>
+<p><img align="left" src="http://josd.github.io/images/eye.png" alt="EYE"/> EYE is a reasoning engine supporting the <a href="http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a">Semantic Web layers</a>.<br>It performs controlled chaining and it supports Euler paths.<br>Via <a href="http://www.w3.org/TeamSubmission/n3/">N3</a> it is interoperable with <a href="http://www.w3.org/2000/10/swap/doc/cwm">Cwm</a>.</p>
+<p><strong>Controlled chaining</strong> is backward chaining for rules using <code>&lt;=</code> in <a href="http://www.w3.org/TeamSubmission/n3/">N3</a><br>and forward chaining for rules using <code>=&gt;</code> in <a href="http://www.w3.org/TeamSubmission/n3/">N3</a>.<br>This can be seen at work in <a href="http://github.com/josd/eye/tree/master/reasoning">EYE reasoning</a>.</p>
+<p><strong>Euler paths</strong> are roughly <em>&quot;don&#39;t step in your own steps&quot;</em> which is inspired by<br>what <a href="http://en.wikipedia.org/wiki/Leonhard_Euler">Leonhard Euler</a> discovered in 1736 for the <a href="http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html">Königsberg Bridge Problem</a>.<br>EYE sees the rule <code>P =&gt; C</code> as <code>P &amp; NOT(C) =&gt; C</code>.</p>
+<p>EYE can be <a href="http://github.com/josd/eye/blob/master/INSTALL">installed manually</a> on Linux, Windows and MacOSX.<br>EYE is also available in a <a href="http://hub.docker.com/r/bdevloed/eye/">Docker container for command line use</a><br>and in a <a href="http://hub.docker.com/r/bdevloed/eyeserver/">Docker container for HTTP client use</a>.</p>
+<h3 id="architecture-and-design">Architecture and design</h3>
+<p>The <strong>EYE stack</strong> comprises the following Software and Machines:<br><img src="http://josd.github.io/images/EYE-stack.png" width="480" height="400" alt="EYE-stack"/></p>
+<p>This is what the basic <strong>EAM (Euler Abstract Machine)</strong> does in a nutshell:</p>
+<ol>
+<li>Select rule P =&gt; C  </li>
+<li>Prove P &amp; NOT(C) (backward chaining) and if it fails backtrack to 1.  </li>
+<li>If P &amp; NOT(C) assert C (forward chaining) and remove brake  </li>
+<li>If C = answer(A) and tactic limited-answer stop, else backtrack to 2.  </li>
+<li>If brake or tactic linear-select stop, else start again at 1.  </li>
+</ol>
+<h3 id="see-also">See also</h3>
+<p>EYE paper</p>
+<ul>
+<li><a href="http://josd.github.io/Papers/EYE.pdf">Drawing Conclusions from Linked Data on the Web: The EYE Reasoner</a></li>
+</ul>
+<p>EYE tutorial</p>
+<ul>
+<li><a href="http://n3.restdesc.org/">Semantic Web Reasoning With EYE</a></li>
+</ul>
+<p>EYE talk</p>
+<ul>
+<li><a href="http://josd.github.io/Talks/2012/04swig/index.html">EYE looking through N3 glasses</a></li>
+</ul>
+
+</body>
+</html>
