@@ -1,11 +1,11 @@
 % interpreter for Univeral Turing Machine
 
-pfx('utm:', '<http://josd.github.io/eye/reasoning/utm#>').
+pfx('utm:', '<https://github.com/josd/eye/blob/master/reasoning/utm#>').
 
-'<http://josd.github.io/eye/reasoning/utm#compute>'([], OutTape) :-
+'<https://github.com/josd/eye/blob/master/reasoning/utm#compute>'([], OutTape) :-
     start(I),
     find(I, [], #, [ ], OutTape).
-'<http://josd.github.io/eye/reasoning/utm#compute>'([Head|Tail], OutTape) :-
+'<https://github.com/josd/eye/blob/master/reasoning/utm#compute>'([Head|Tail], OutTape) :-
     start(I),
     find(I, [], Head, Tail, OutTape).
 

@@ -1,12 +1,12 @@
 #Processed by EYE v20.0922.2212 josd
-#eye --no-genid http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3 http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3 --query http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3
+#eye --no-genid https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3 https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-model.n3 --query https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix bbn: <http://eulersharp.sourceforge.net/2006/02swap/nbbn-plugin#>.
-@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix : <https://github.com/josd/eye/blob/master/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
@@ -34,7 +34,7 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-model.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo {:Resistance :outcomeOf :FloxacinTreatment}];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2003/03swap/log-rules#T"]];
@@ -46,11 +46,11 @@
   r:gives {
     @forAll var:x_0. {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional var:x_0} => {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-query.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1) e:call {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:firstRest ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})).
+    ((<https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-model.n3>) 1) e:call {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:firstRest ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})).
      ("if_then_else" {("nb_getval" "bnet" "done") e:derive true} true {() bbn:bnet true.
       ("nb_setval" "bnet" "done") e:derive true}) e:derive true.
      ({:Resistance :outcomeOf :FloxacinTreatment}) bbn:bvar true.
@@ -70,7 +70,7 @@
      ("nb_setval" "bnet" "done") e:derive true}) e:derive true.
     ({:Resistance :outcomeOf :FloxacinTreatment}) bbn:bvar true.
     (e:T) bbn:bval true.
-    ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) 0.21419642857142857) bbn:nb true} => {((<http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1) e:call {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:firstRest ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})).
+    ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) 0.21419642857142857) bbn:nb true} => {((<https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3> <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-model.n3>) 1) e:call {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:firstRest ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})).
      ("if_then_else" {("nb_getval" "bnet" "done") e:derive true} true {() bbn:bnet true.
       ("nb_setval" "bnet" "done") e:derive true}) e:derive true.
      ({:Resistance :outcomeOf :FloxacinTreatment}) bbn:bvar true.
@@ -86,13 +86,13 @@
       (var:x_3) bbn:bval true.
       ({var:x_2 e:boolean var:x_3} var:x_4 var:x_5) bbn:nb true}}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3>].
 
 <#lemma6> a r:Extraction;
   r:gives {
     (e:T) bbn:bval true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3>].
 
 <#lemma7> a r:Inference;
   r:gives {
@@ -132,7 +132,7 @@
       (var:x_9 var:x_3 var:x_10) bbn:nc true.
       ("1/(1+2**(_K-_I))" var:x_10 var:x_8) e:calculate var:x_7}) e:derive true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
+  r:because [ a r:Parsing; r:source <https://github.com/josd/eye/blob/master/reasoning/nbbn/nbbn-plugin.n3>].
 
 #2020-10-01T14:26:22.162Z in=19 out=1 ent=1 step=1 brake=2 inf=123529 sec=0.093 inf/sec=1328269
 #ENDS

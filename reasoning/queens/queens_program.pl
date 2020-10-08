@@ -1,9 +1,9 @@
 % N-Queens problem
 % Code from the book "The Craft of Prolog" Chapter 4
 
-pfx('queens:', '<http://josd.github.io/eye/reasoning/queens#>').
+pfx('queens:', '<https://github.com/josd/eye/blob/master/reasoning/queens#>').
 
-'<http://josd.github.io/eye/reasoning/queens#solve>'(N, Queens) :-
+'<https://github.com/josd/eye/blob/master/reasoning/queens#solve>'(N, Queens) :-
     length(Queens, N),
     board(Queens, Board, 0, N, _, _),
     queens(Board, 0, Queens).

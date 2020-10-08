@@ -1,6 +1,6 @@
 % Original code from https://rosettacode.org/wiki/Evolutionary_algorithm#Prolog
 
-'<http://josd.github.io/eye/reasoning/ea#solve>'(TargetAtom, true) :-
+'<https://github.com/josd/eye/blob/master/reasoning/ea#solve>'(TargetAtom, true) :-
     atom_codes(TargetAtom, Target),
     length(Target, Len),
     random_text(Len, Start),
