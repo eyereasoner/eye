@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.1001.1755 josd').
+version_info('EYE v20.1020.2137 josd').
 
 license_info('MIT License
 
@@ -5754,7 +5754,14 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#difference>'([X, Y], Z) :-
-    '<http://www.w3.org/2000/10/swap/math#sum>'([Z, Y], X).
+    when(
+        (   ground([X, Y])
+        ),
+        (   getnumber(X, U),
+            getnumber(Y, V),
+            Z is U-V
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/math#equalTo>'(X, Y) :-
     when(
@@ -5876,32 +5883,25 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#product>'(X, Y) :-
-    split_var([Y|X], A, B),
-    rotate(B, C),
-    rotate(C, D),
-    append(B, A, [_|E]),
-    append(C, A, [_|F]),
-    append(D, A, [_|G]),
     when(
-        (   ground(E)
-        ;   ground(F)
-        ;   ground(G)
+        (   ground(X)
         ),
-        (   getnumber(Y, U),
-            (   split_var(X, Z, [V])
-            ->  product(Z, W),
-                (   W =\= 0
-                ->  V is U/W
-                ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#product>'(X, Y)))
-                )
-            ;   product(X, U)
-            )
-        ;   product(X, Y)
+        (   product(X, Y)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z) :-
-    '<http://www.w3.org/2000/10/swap/math#product>'([Z, Y], X).
+    when(
+        (   ground([X, Y])
+        ),
+        (   getnumber(X, U),
+            getnumber(Y, V),
+            (   V =\= 0
+            ->  Z is U/V
+            ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
+            )
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/math#remainder>'([X, Y], Z) :-
     when(
@@ -5952,24 +5952,10 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#sum>'(X, Y) :-
-    split_var([Y|X], A, B),
-    rotate(B, C),
-    rotate(C, D),
-    append(B, A, [_|E]),
-    append(C, A, [_|F]),
-    append(D, A, [_|G]),
     when(
-        (   ground(E)
-        ;   ground(F)
-        ;   ground(G)
+        (   ground(X)
         ),
-        (   getnumber(Y, U),
-            (   split_var(X, Z, [V])
-            ->  sum(Z, W),
-                V is U-W
-            ;   sum(X, U)
-            )
-        ;   sum(X, Y)
+        (   sum(X, Y)
         )
     ).
 
@@ -9034,18 +9020,6 @@ e_transpose([_|A], B, [C|D]) :-
 lists_fr([], [], []).
 lists_fr([[A|B]|C], [A|D], [B|E]) :-
     lists_fr(C, D, E).
-
-rotate([], []).
-rotate([A|B], C) :-
-    append(B, [A], C).
-
-split_var([], [], []).
-split_var([A|B], C, [A|D]) :-
-    var(A),
-    !,
-    split_var(B, C, D).
-split_var([A|B], [A|C], D) :-
-    split_var(B, C, D).
 
 sum([], 0) :-
     !.
