@@ -14,11 +14,6 @@ popd
 rsync -azv /tmp/eye.zip .
 git commit -a -m "$1"
 git push
-git checkout gh-pages
-git pull
-git merge master -m republish
-git push
-git checkout master
 git tag -a $RELEASE -m "$1"
 git push origin $RELEASE
 popd
