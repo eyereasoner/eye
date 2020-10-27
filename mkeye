@@ -7,6 +7,7 @@ sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
 swipl -q -f eye.pl -g main -- --version 2>&1 | grep josd > VERSION
 sudo ./install.sh
 mkdir -p /tmp/eye
+rm /tmp/eye/*
 rsync -azv eye.pl eye.sh eye.cmd install.sh install.cmd INSTALL LICENSE RELEASE README VERSION /tmp/eye
 pushd /tmp
 zip -9ur eye.zip eye
