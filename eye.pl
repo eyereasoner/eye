@@ -40,7 +40,7 @@
 :- set_prolog_flag(encoding, utf8).
 :- endif.
 
-version_info('EYE v20.1023.2102 josd').
+version_info('EYE v20.1027.2134 josd').
 
 license_info('MIT License
 
@@ -111,7 +111,6 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     [--n3] <uri>                    N3 triples and rules
-    --pl <uri>                      Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
@@ -320,7 +319,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--pl', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3','--proof', '--quantify', '--query', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -885,7 +884,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--pl', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--help', '--n3', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1019,75 +1018,6 @@ args(['--pass-all'|Args]) :-
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
-    args(Args).
-args(['--pl', Argument|Args]) :-
-    !,
-    absolute_uri(Argument, Arg),
-    (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error)
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  tmp_file(File),
-            assertz(tmpfile(File)),
-            curl_http_headers(Headers),
-            atomic_list_concat(['curl -s -L -H "Accept: text/plain" ', Headers, '"', Arg, '" -o ', File], Cmd),
-            catch(exec(Cmd, _), Exc,
-                (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-                    flush_output(user_error),
-                    (   retract(tmpfile(File))
-                    ->  delete_file(File)
-                    ;   true
-                    ),
-                    flush_output,
-                    halt(1)
-                )
-            )
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  parse_url(Arg, Parts),
-                memberchk(path(File), Parts)
-            ;   File = Arg
-            )
-        )
-    ),
-    (   File = '-'
-    ->  In = user_input
-    ;   open(File, read, In, [encoding(utf8)])
-    ),
-    repeat,
-    read_term(In, Rt, []),
-    (   Rt = end_of_file
-    ->  catch(read_line_to_codes(In, _), _, true)
-    ;   n3pin(Rt, In, File, data),
-        fail
-    ),
-    !,
-    (   File = '-'
-    ->  true
-    ;   close(In)
-    ),
-    (   retract(tmpfile(File))
-    ->  delete_file(File)
-    ;   true
-    ),
-    findall(SCnt,
-        (   retract(scount(SCnt))
-        ),
-        SCnts
-    ),
-    sum(SCnts, SC),
-    nb_getval(input_statements, IN),
-    Inp is SC+IN,
-    nb_setval(input_statements, Inp),
-    (   SC =\= 0
-    ->  format(user_error, 'SC=~w~n', [SC])
-    ;   format(user_error, '~n', [])
-    ),
-    flush_output(user_error),
     args(Args).
 args(['--proof', Arg|Args]) :-
     !,
