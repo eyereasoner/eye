@@ -1,7 +1,7 @@
 :- initialization(main).
 
 main :-
-    area([[4,2],[6,2],[7,6],[4,6],[5,5],[5,3],[4,2]], Area),
+    area([[4,3],[6,2],[7,6],[4,6],[5,5],[5,3],[4,3]], Area),
     writeln(Area),
     halt.
 
