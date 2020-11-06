@@ -6,7 +6,7 @@ main :-
     srandom(11),
     solve('METHINKS IT IS LIKE A WEASEL'),
     halt.
-    
+
 solve(TargetAtom) :-
     atom_codes(TargetAtom, Target),
     length(Target, Len),
