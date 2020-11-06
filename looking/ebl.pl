@@ -21,28 +21,28 @@
 :- dynamic(made_of/2).
 
 main :-
-	ebl(cup(obj1), cup(_), Rule),
-	write(Rule), nl,
-	halt.
+    ebl(cup(obj1), cup(_), Rule),
+    writeln(Rule),
+    halt.
 
 % domain theory
 cup(X) :-
-	liftable(X),
-	holds_liquid(X).
+    liftable(X),
+    holds_liquid(X).
 
 holds_liquid(Z) :-
-	part(Z, W),
-	concave(W),
-	points_up(W).
+    part(Z, W),
+    concave(W),
+    points_up(W).
 
 liftable(Y) :-
-	light(Y),
-	part(Y, handle).
+    light(Y),
+    part(Y, handle).
 
 light(A):-
-	small(A).
+    small(A).
 light(A):-
-	made_of(A, feathers).
+    made_of(A, feathers).
 
 % training example
 cup(obj1).
@@ -71,28 +71,27 @@ operational(concave(_)).
 
 % explanation-based learning
 ebl(Goal, Gen_goal, (Gen_goal :- Premise)) :-
-	ebl(Goal, Gen_goal, _, Gen_proof),
-	extract_support(Gen_proof, Premise).
+    ebl(Goal, Gen_goal, _, Gen_proof),
+    extract_support(Gen_proof, Premise).
 
 ebl((A, B), (GenA, GenB), (AProof, BProof), (GenAProof, GenBProof)) :-
     !,
-	ebl(A, GenA, AProof, GenAProof),
-	ebl(B, GenB, BProof, GenBProof).
+    ebl(A, GenA, AProof, GenAProof),
+    ebl(B, GenB, BProof, GenBProof).
 ebl(A, GenA, A, GenA) :-
-	clause(A, true).
+    clause(A, true).
 ebl(A, GenA, (A :- Proof), (GenA :- GenProof)) :-
-	clause(GenA, GenB),
-	write(clause(GenA, GenB)), nl,
-	copy_term(GenA-GenB, A-B),
-	B \= true,
-	ebl(B, GenB, Proof, GenProof).
+    clause(GenA, GenB),
+    copy_term(GenA-GenB, A-B),
+    B \= true,
+    ebl(B, GenB, Proof, GenProof).
 
 extract_support(Proof, Proof) :-
-	operational(Proof).
+    operational(Proof).
 extract_support((A :- _), A) :-
-	operational(A).
+    operational(A).
 extract_support((AProof, BProof), (A, B)) :-
-	extract_support(AProof, A),
-	extract_support(BProof, B).
+    extract_support(AProof, A),
+    extract_support(BProof, B).
 extract_support((_ :- Proof), B) :-
-	extract_support(Proof, B).
+    extract_support(Proof, B).

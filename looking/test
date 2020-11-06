@@ -16,23 +16,23 @@ echo -n > test.txt
 for source in ./*
 
 do
-	case "$source" in
-		*.pl)
-			cmd="$TPL -q --ns "
-			;;
-		*)
-			continue
-	esac
+    case "$source" in
+        *.pl)
+            cmd="$TPL -q --ns "
+            ;;
+        *)
+            continue
+    esac
 
-	echo "Running $source ..." | tee -a test.txt
-	$cmd "$source" >$TMP
-	diff -a "${source%.*}.expected" $TMP
-	if [ $? -eq 0 ]
-	then
-		succeeded_count=$(expr $succeeded_count + 1)
-	else
-		failed_count=$(expr $failed_count + 1)
-	fi
+    echo "Running $source ..." | tee -a test.txt
+    $cmd "$source" >$TMP
+    diff -a "${source%.*}.expected" $TMP
+    if [ $? -eq 0 ]
+    then
+        succeeded_count=$(expr $succeeded_count + 1)
+    else
+        failed_count=$(expr $failed_count + 1)
+    fi
 done
 
 cat <<EOF | tee -a test.txt
