@@ -11,6 +11,8 @@ trap "rm -f $TMP" EXIT
 failed_count=0
 succeeded_count=0
 
+echo -n > test.txt
+
 for source in ./*
 
 do
@@ -22,7 +24,7 @@ do
 			continue
 	esac
 
-	echo "Running $source ..."
+	echo "Running $source ..." | tee -a test.txt
 	$cmd "$source" >$TMP
 	diff -a "${source%.*}.expected" $TMP
 	if [ $? -eq 0 ]
@@ -33,7 +35,7 @@ do
 	fi
 done
 
-cat <<EOF
+cat <<EOF | tee -a test.txt
 
 ============
 TEST SUMMARY
