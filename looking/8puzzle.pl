@@ -19,12 +19,12 @@ legal_move([A,B,0,D,E,X,G,H,I], up(X), [A,B,X,D,E,0,G,H,I]).
 legal_move([A,B,C,0,E,F,X,H,I], up(X), [A,B,C,X,E,F,0,H,I]).
 legal_move([A,B,C,D,0,F,G,X,I], up(X), [A,B,C,D,X,F,G,0,I]).
 legal_move([A,B,C,D,E,0,G,H,X], up(X), [A,B,C,D,E,X,G,H,0]).
-legal_move([0,X,C,D,E,F,G,H,I], up(X), [X,0,C,D,E,F,G,H,I]).
-legal_move([A,0,X,D,E,F,G,H,I], up(X), [A,X,0,D,E,F,G,H,I]).
-legal_move([A,B,C,0,X,F,G,H,I], up(X), [A,B,C,X,0,F,G,H,I]).
-legal_move([A,B,C,D,0,X,G,H,I], up(X), [A,B,C,D,X,0,G,H,I]).
-legal_move([A,B,C,D,E,F,0,X,I], up(X), [A,B,C,D,E,F,X,0,I]).
-legal_move([A,B,C,D,E,F,G,0,X], up(X), [A,B,C,D,E,F,G,X,0]).
+legal_move([0,X,C,D,E,F,G,H,I], left(X), [X,0,C,D,E,F,G,H,I]).
+legal_move([A,0,X,D,E,F,G,H,I], left(X), [A,X,0,D,E,F,G,H,I]).
+legal_move([A,B,C,0,X,F,G,H,I], left(X), [A,B,C,X,0,F,G,H,I]).
+legal_move([A,B,C,D,0,X,G,H,I], left(X), [A,B,C,D,X,0,G,H,I]).
+legal_move([A,B,C,D,E,F,0,X,I], left(X), [A,B,C,D,E,F,X,0,I]).
+legal_move([A,B,C,D,E,F,G,0,X], left(X), [A,B,C,D,E,F,G,X,0]).
 legal_move(S1, down(X), S2) :-
     legal_move(S2, up(X), S1).
 legal_move(S1, right(X), S2) :-
