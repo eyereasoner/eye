@@ -39,9 +39,9 @@ goal_stage(r1,[1,2,3|_]).
 goal_stage(r1c1,[1,2,3,4,_,_,7,_,_]).
 goal_stage(goal,[1,2,3,4,5,6,7,8,0]).
 
-% plan_all(G, S, L, GL): L passes from G through each stage in GL. 
+% plan_all(G, S, L, GL): L passes from G through each stage in GL.
 plan_all(_, _, [], []).
-plan_all(G1, S1, L, [G2|GL]) :- 
+plan_all(G1, S1, L, [G2|GL]) :-
    append(L1, L2, L),
    reach(G1, S1, L1, G2, S2),
    plan_all(G2, S2, L2, GL).
