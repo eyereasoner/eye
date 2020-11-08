@@ -16,7 +16,7 @@ unsat(N,DL) :-
 
 % copies(N,X,Y): Y is the result of making N copies of list X.
 copies(0,_,[]).
-copies(N,X,Y) :- 
+copies(N,X,Y) :-
     N > 0,
     N1 is N-1,
     copies(N1,X,L),
