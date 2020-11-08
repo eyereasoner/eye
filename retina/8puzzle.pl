@@ -1,4 +1,4 @@
-% See Chaper 9 of "Thinking as Computation" from H. Levesque
+% See Chaper 9 of "Thinking as Computation" from Hector J. Levesque
 
 :- initialization(main).
 
