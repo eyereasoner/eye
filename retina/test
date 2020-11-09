@@ -3,20 +3,21 @@
 # set -e
 
 TMP=tmp.out
+PROLOG=${1:-"tpl --ns"}
 
 trap "rm -f $TMP" EXIT
 
 failed_count=0
 succeeded_count=0
 
-echo -n > test.txt
+echo "Using $PROLOG" | tee test.txt
 
 for source in ./*
 
 do
     case "$source" in
         *.pl)
-            cmd="swipl"
+            cmd=$PROLOG
             ;;
         *)
             continue
