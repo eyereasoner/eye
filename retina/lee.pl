@@ -6,7 +6,7 @@
 main :-
     route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],Route),
     Route = [[1,1],[1,2],[2,2],[3,2],[4,2],[5,2],[5,3],[5,4],[5,5],[6,5],[7,5],[8,5],[9,5],[9,6],[9,7],[9,8]],
-    writeln(true),
+    write(true),
     halt.
 
 route(Source,Destination,Obstacles,Path) :-

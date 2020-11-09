@@ -3,7 +3,7 @@
 # set -e
 
 TMP=tmp.out
-PROLOG=${1:-"tpl --ns"}
+PROLOG=${1:-"tpl -q --ns"}
 
 trap "rm -f $TMP" EXIT
 
@@ -24,8 +24,8 @@ do
     esac
 
     echo "Running $source ..." | tee -a test.txt
-    $cmd "$source" >$TMP
-    echo true | diff -a - $TMP
+    $cmd "$source" > $TMP
+    echo -n true | diff -a - $TMP | tee -a test.txt
     if [ $? -eq 0 ]
     then
         succeeded_count=$(expr $succeeded_count + 1)

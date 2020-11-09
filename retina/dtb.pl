@@ -3,7 +3,7 @@
 main :-
     type(X,n10000),
     X = ind,
-    writeln(true),
+    write(true),
     halt.
 
 type(ind,n0).
