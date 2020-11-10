@@ -7,7 +7,8 @@ main :-
     Q = [on(X,Y),green(X),not(green(Y))],
     estunsat(2,DL,Q),
     Q = [on(_3,_4),green(_3),not(green(_4))],
-    write(true),
+    write('PASS'),
+    nl,
     halt.
 
 % Dclauses in DL are unsat,after making N copies of them.

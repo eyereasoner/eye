@@ -25,8 +25,8 @@ do
 
     echo "Running $source ..." | tee -a test.txt
     $cmd "$source" > $TMP
-    echo -n true | diff -a - $TMP >> test.txt
-    echo -n true | diff -a - $TMP
+    echo PASS | diff -a - $TMP >> test.txt
+    echo PASS | diff -a - $TMP
     if [ $? -eq 0 ]
     then
         succeeded_count=$(expr $succeeded_count + 1)

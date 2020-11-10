@@ -3,7 +3,8 @@
 main :-
     type(X,n10000),
     X = ind,
-    write(true),
+    write('PASS'),
+    nl,
     halt.
 
 type(ind,n0).
