@@ -6,7 +6,6 @@ main :-
     DL = [[on(a,b)],[on(b,c)],[green(a)],[not(green(c))]],
     Q = [on(X,Y),green(X),not(green(Y))],
     estunsat(2,DL,Q),
-    Q = [on(_3,_4),green(_3),not(green(_4))],
     write('PASS'),
     nl,
     halt.
