@@ -40,6 +40,11 @@ gps:FindPath a rdfs:Class;
     rdfs:subClassOf e:Tuple;
     e:tupleTypes (gps:Goal gps:Actions gps:Duration gps:Cost gps:Belief gps:Comfort gps:Limits).
 
+gps:ValidatePath a rdfs:Class;
+    rdfs:comment "class of gps validatepath arguments";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (gps:Goal gps:Actions gps:Duration gps:Cost gps:Belief gps:Comfort gps:Limits).
+
 gps:From a rdfs:Class;
     rdfs:comment "class of state transition origin states";
     rdfs:subClassOf log:Formula.
@@ -106,6 +111,11 @@ gps:findpath a rdf:Property, e:Component;
     rdfs:comment "a reference implementation can be found at http://josd.github.io/eye/reasoning/gps/gps-plugin.n3";
     rdfs:domain e:Scope;
     rdfs:range gps:FindPath.
+	
+gps:validatepath a rdf:Property, e:Component;
+    rdfs:comment "the EYE component predicate to validate a path in the state space from initial state to goal state";
+    rdfs:domain e:Scope;
+    rdfs:range gps:ValidatePath.	
 
 gps:path a rdf:Property;
     rdfs:comment "the path in the state space from initial state to goal state";
