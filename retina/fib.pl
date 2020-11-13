@@ -4,8 +4,7 @@ main :-
     fib(40,F),
     F =:= 165580141,
     write('PASS'),
-    nl,
-    halt.
+    nl.
 
 fib(A,B) :-
     fib(A,1,1,B).

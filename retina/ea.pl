@@ -5,8 +5,7 @@
 main :-
     solve('METHINKS IT IS LIKE A WEASEL'),
     write('PASS'),
-    nl,
-    halt.
+    nl.
     
 solve(TargetAtom) :-
     atom_codes(TargetAtom, Target),

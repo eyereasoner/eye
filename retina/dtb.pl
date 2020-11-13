@@ -4,8 +4,7 @@ main :-
     type(X,n10000),
     X = ind,
     write('PASS'),
-    nl,
-    halt.
+    nl.
 
 type(ind,n0).
 
