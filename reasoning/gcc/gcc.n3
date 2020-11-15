@@ -1,0 +1,56 @@
+# Gray Code Counter
+
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+
+(0 0) :and 0.
+(0 1) :and 0.
+(1 0) :and 0.
+(1 1) :and 1.
+
+(0 0) :or 0.
+(0 1) :or 1.
+(1 0) :or 1.
+(1 1) :or 1.
+
+0 :inv 1.
+1 :inv 0.
+
+{(?D 0 ?Q) :dff ?Q} <= true.
+{(?D 1 ?Q) :dff ?D} <= true.
+
+{(?A ?B) :neta ?Q} <= {
+    (?A ?B) :and ?T1.
+    ?A :inv ?NA.
+    ?B :inv ?NB.
+    (?NA ?NB) :and ?T2.
+    (?T1 ?T2) :or ?Q.
+}.
+
+{(?A ?B ?C) :netb (?Q1 ?Q2)} <= {
+    (?A ?C) :and ?T1.
+    ?C :inv ?NC.
+    (?B ?NC) :and ?T2.
+    ?A :inv ?NA.
+    (?NA ?C) :and ?T3.
+    (?T1 ?T2) :or ?Q1.
+    (?T2 ?T3) :or ?Q2.
+}.
+
+
+{(?C (?Qa ?Qb ?Qc)) :gcc (?Za ?Zb ?Zc)} <= {
+    (?Qa ?Qb ?Qc) :netb (?D1 ?D2).
+    (?Qa ?Qb) :neta ?D3.
+    (?D1 ?C ?Qa) :dff ?Za.
+    (?D2 ?C ?Qb) :dff ?Zb.
+    (?D3 ?C ?Qc) :dff ?Zc.
+}.
+
+
+{(() ?S) :testgcc ()} <= true.
+{(?Cc ?S) :testgcc ?Nc} <= {
+    ?Cc e:firstRest (?C ?Cs).
+    ?Nc e:firstRest (?N ?Ns).
+    (?C ?S) :gcc ?N.
+    (?Cs ?N) :testgcc ?Ns.
+}.
