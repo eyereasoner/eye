@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1115.0038 josd').
+version_info('EYE v20.1115.0059 josd').
 
 license_info('MIT License
 
@@ -9431,29 +9431,15 @@ tmp_file(A) :-
     ),
     tmp_file(C, A).
 
-:- if(current_predicate(operating_system_support:system/2)).
-exec(A, B) :-
-    (   system(A, B)
-    ->  true
-    ;   B = 1
-    ),
-    (   B =:= 0
-    ->  true
-    ;   throw(exec_error(A))
-    ).
-:- else.
 exec(A, B) :-
     shell(A, B),
     (   B =:= 0
     ->  true
     ;   throw(exec_error(A))
     ).
-:- endif.
 
-:- if(\+current_predicate(getcwd/1)).
 getcwd(A) :-
     working_directory(A, A).
-:- endif.
 
 %
 % Modified Base64 for XML identifiers
@@ -9465,16 +9451,8 @@ base64xml(A, B) :-
     subst([[[0'+], [0'_]], [[0'/], [0':]], [[0'=], []]], D, E),
     atom_codes(B, E).
 
-:- if(current_prolog_flag(dialect, swi)).
 term_index(A, B) :-
     term_hash(A, B).
-:- else.
-term_index(A, B) :-
-    (   ground(A)
-    ->  term_hash(A, B)
-    ;   true
-    ).
-:- endif.
 
 if_then_else(A, B, C) :-
     (   catch(call(A), _, fail)
@@ -10096,13 +10074,6 @@ hash_to_ascii([A|B], [C, D|L3], L4) :-
     code_type(D, xdigit(F)),
     hash_to_ascii(B, L3, L4).
 
-:- if(\+current_predicate(get_time/1)).
-get_time(A) :-
-    datime(B),
-    mktime(B, C),
-    A is C*1.0.
-:- endif.
-
 memotime(datime(A, B, C, D, E, F), G) :-
     (   mtime(datime(A, B, C, D, E, F), G)
     ->  true
@@ -10434,33 +10405,6 @@ absolute_uri(A, B) :-
         )
     ).
 
-:- if(current_predicate(uri_resolve/3)).
-resolve_uri(A, _, A) :-
-    uri_is_global(A),
-    !.
-resolve_uri('', A, A) :-
-    !.
-resolve_uri(A, B, C) :-
-    sub_atom(A, 0, 1, _, '?'),
-    (   sub_atom(B, I, 1, _, '?')
-    ->  true
-    ;   atom_length(B, I)
-    ),
-    sub_atom(B, 0, I, _, D),
-    atomic_list_concat([D, A], C),
-    !.
-resolve_uri(A, B, C) :-
-    sub_atom(A, 0, 1, _, '#'),
-    (   sub_atom(B, I, 1, _, '#')
-    ->  true
-    ;   atom_length(B, I)
-    ),
-    sub_atom(B, 0, I, _, D),
-    atomic_list_concat([D, A], C),
-    !.
-resolve_uri(A, B, C) :-
-    uri_resolve(A, B, C).
-:-else.
 resolve_uri(A, _, A) :-
     sub_atom(A, _, 1, _, ':'),
     !.
@@ -10528,7 +10472,6 @@ resolve_uri(A, B, C) :-
 resolve_uri(A, _, _) :-
     nb_getval(line_number, Ln),
     throw(unresolvable_relative_uri(A, after_line(Ln))).
-:- endif.
 
 so_uri('http://').
 so_uri('https://').
