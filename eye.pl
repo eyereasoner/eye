@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1115.1316 josd').
+version_info('EYE v20.1115.1419 josd').
 
 license_info('MIT License
 
@@ -2264,7 +2264,7 @@ symbol(Name) -->
     !.
 symbol(Name) -->
     [fvar(Nm)],
-    {   atom_concat('$',Nm,Name)
+    {   atomic_list_concat(['\'$',Nm,'\''],Name)
     },
     !.
 symbol(Name) -->
@@ -3798,10 +3798,6 @@ wt0(X) :-
         )
     ).
 
-wt1('$'(X)) :-
-    !,
-    write('$'),
-    write(X).
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
