@@ -1,9 +1,8 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/de/de.n3 http://josd.github.io/eye/reasoning/de/deA.n3 --query http://josd.github.io/eye/reasoning/de/deQ.n3
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -19,7 +18,7 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -29,12 +28,12 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 :saying :C} => {var:x_0 :saying :C}.
+    @forAll $x_0. {$x_0 :saying :C} => {$x_0 :saying :C}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/deQ.n3>].
 
@@ -45,12 +44,12 @@
   r:evidence (
     <#lemma6>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma7>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 :saying :A} => {var:x_0 :saying :C}.
+    @forAll $x_0. {$x_0 :saying :A} => {$x_0 :saying :C}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
@@ -61,12 +60,12 @@
   r:evidence (
     <#lemma8>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma9>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 :not_saying :B} => {var:x_0 :saying :A}.
+    @forAll $x_0. {$x_0 :not_saying :B} => {$x_0 :saying :A}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
@@ -78,10 +77,10 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 :not_saying :C} => {var:x_0 :not_saying :B}.
+    @forAll $x_0. {$x_0 :not_saying :C} => {$x_0 :not_saying :B}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
-#2020-10-23T20:16:00.512Z in=8 out=1 ent=6 step=18 brake=3 inf=26058 sec=0.039 inf/sec=668154
+#2020-11-15T00:23:57.319Z in=8 out=1 ent=6 step=18 brake=3 inf=25763 sec=0.033 inf/sec=780697
 #ENDS
 

@@ -5,22 +5,16 @@
 % See http://github.com/josd/eye
 %
 
-:- if(current_prolog_flag(dialect, swi)).
-:- if(current_prolog_flag(version_data, swi(6, _, _, _))).
-:- style_check(-atom).
-:- endif.
 :- initialization(set_prolog_flag(agc_margin, 10000000)).
-:- endif.
+:- initialization(set_stream(user_output, encoding(utf8))).
 
 :- use_module(library(lists)).
 :- use_module(library(gensym)).
 :- use_module(library(system)).
 :- use_module(library(terms)).
-:- use_module(library('url.pl')).
+:- use_module(library(url)).
 :- use_module(library(charsio)).
-
-:- if(current_prolog_flag(dialect, swi)).
-:- use_module(library(when), [when/2]).
+:- use_module(library(when)).
 :- use_module(library(qsave)).
 :- use_module(library(base64)).
 :- use_module(library(process)).
@@ -28,19 +22,8 @@
 :- use_module(library(uri)).
 :- use_module(library(pcre)).
 :- use_module(library(date)).
-:- endif.
 
-:- if(\+current_predicate(date_time_stamp/2)).
-:- load_foreign_files(['pl-tai'], [], install).
-:- endif.
-
-:- if(current_predicate(set_stream/2)).
-:- initialization(catch(set_stream(user_output, encoding(utf8)), _, true)).
-:- else.
-:- set_prolog_flag(encoding, utf8).
-:- endif.
-
-version_info('EYE v20.1027.2307 josd').
+version_info('EYE v20.1115.0038 josd').
 
 license_info('MIT License
 
@@ -118,7 +101,7 @@ eye
     --pass-all                      output deductive closure plus rules
     --query <n3-query>              output filtered with filter rules').
 
-:- dynamic(answer/3).    % answer(Predicate, Subject, Object)
+:- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(argi/1).
 :- dynamic(base_uri/1).
 :- dynamic(bcnd/2).
@@ -128,7 +111,7 @@ eye
 :- dynamic(bvar/1).
 :- dynamic(cpred/1).
 :- dynamic(evar/3).
-:- dynamic(exopred/3).    % exopred(Predicate, Subject, Object)
+:- dynamic(exopred/3).              % exopred(Predicate, Subject, Object)
 :- dynamic(fact/1).
 :- dynamic(flag/1).
 :- dynamic(flag/2).
@@ -140,20 +123,20 @@ eye
 :- dynamic(got_random/3).
 :- dynamic(got_sq/0).
 :- dynamic(got_unique/2).
-:- dynamic(got_wi/5).    % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
+:- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
 :- dynamic(graph/2).
 :- dynamic(hash_value/2).
-:- dynamic(implies/3).    % implies(Premise, Conclusion, Source)
+:- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
 :- dynamic(intern/1).
 :- dynamic(keep_skolem/1).
-:- dynamic(lemma/6).    % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
+:- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
 :- dynamic(ncllit/0).
 :- dynamic(ns/2).
 :- dynamic(pfx/2).
 :- dynamic(pred/1).
-:- dynamic(prfstep/7).    % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
+:- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
 :- dynamic(qevar/3).
 :- dynamic(query/2).
 :- dynamic(quvar/3).
@@ -374,13 +357,6 @@ gre(Argus) :-
         format('#eye~@~@~n~n', [w0(Argi), w1(Argus)]),
         flush_output
     ),
-    (   (   flag('no-qvars')
-        ;   flag('pass-all-ground')
-        )
-    ->  retractall(pfx('var:', _)),
-        assertz(pfx('var:', '<http://josd.github.io/var#>'))
-    ;   true
-    ),
     (   flag('debug-n3p')
     ->  format(user_error, 'flag(\'quantify\', \'~w\').~n', [Vns])
     ;   true
@@ -452,11 +428,7 @@ gre(Argus) :-
         ),
         (   \+flag(traditional)
         ->  true
-        ;   (   pfx('var:', _)
-            ->  true
-            ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
-            ),
-            (   pfx('n3:', _)
+        ;   (   pfx('n3:', _)
             ->  true
             ;   assertz(pfx('n3:', '<http://www.w3.org/2004/06/rei#>'))
             )
@@ -2301,6 +2273,9 @@ symbol(Name) -->
     uri(Name),
     !.
 symbol(Name) -->
+    [fvar(Name)],
+    !.
+symbol(Name) -->
     [name(N)],
     !,
     {   (   memberchk(N, [true, false])
@@ -2538,6 +2513,15 @@ token(0'?, In, C, uvar(Name)) :-
     ;   C = C0,
         nb_getval(line_number, Ln),
         throw(empty_quickvar_name(line(Ln)))
+    ).
+token(0'$, In, C, fvar(Name)) :-
+    !,
+    get_code(In, C0),
+    (   name(C0, In, C, Name)
+    ->  true
+    ;   C = C0,
+        nb_getval(line_number, Ln),
+        throw(empty_freevar_name(line(Ln)))
     ).
 token(0'_, In, C, bnode(Name)) :-
     peek_code(In, 0':),
@@ -3661,6 +3645,11 @@ wt0(X) :-
     ).
 wt0(X) :-
     atom(X),
+    atom_concat('$', _, X),
+    !,
+    write(X).
+wt0(X) :-
+    atom(X),
     atom_concat(some, Y, X),
     !,
     (   \+flag('no-qvars')
@@ -3677,7 +3666,7 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['<http://josd.github.io/var#some_', Y, '>'], Z),
+    ;   atomic_list_concat(['$some_', Y], Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -3699,14 +3688,14 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['<http://josd.github.io/var#all_', Y, '>'], Z),
+    ;   atomic_list_concat(['$all_', Y], Z),
         wt0(Z)
     ).
 wt0(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
-    atomic_list_concat(['<http://josd.github.io/var#x_', Y, '>'], Z),
+    atomic_list_concat(['$x_', Y], Z),
     wt0(Z).
 wt0(X) :-
     (   \+flag(traditional)
@@ -4269,11 +4258,8 @@ wv(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
-    write('[ '),
-    wp('<http://www.w3.org/2004/06/rei#uri>'),
-    write(' "http://josd.github.io/var#x_'),
-    write(Y),
-    write('"]').
+    write('$x_'),
+    write(Y).
 wv(X) :-
     atom(X),
     atom_concat(some, Y, X),
@@ -9841,7 +9827,7 @@ findvars(A, B, Z) :-
 
 findvar(A, alpha) :-
     !,
-    atom_concat('<http://josd.github.io/var#', _, A).
+    atom_concat('$', _, A).
 findvar(A, beta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat('_bn_', _, A)

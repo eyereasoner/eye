@@ -1,10 +1,9 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/restpath/initial.n3 http://josd.github.io/eye/reasoning/restpath/path-9-3.n3 --query http://josd.github.io/eye/reasoning/restpath/goal.n3
 
 @prefix ex: <http://example.org/#>.
 @prefix http: <http://www.w3.org/2011/http#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -38,14 +37,14 @@
     <#lemma4>
     <#lemma4>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_52"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_53"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_52"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_53"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -69,28 +68,28 @@
     <#lemma6>
     <#lemma6>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_46"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_47"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_46"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_47"]];
   r:rule <#lemma7>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel9 var:x_1.
-     var:x_2 ex:rel9 var:x_3.
-     var:x_4 ex:rel9 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel10 var:x_1.
-     var:x_2 ex:rel10 var:x_3.
-     var:x_4 ex:rel10 var:x_5.
-     var:x_0 ex:relGoal var:x_1}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel9 $x_1.
+     $x_2 ex:rel9 $x_3.
+     $x_4 ex:rel9 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel10 $x_1.
+     $x_2 ex:rel10 $x_3.
+     $x_4 ex:rel10 $x_5.
+     $x_0 ex:relGoal $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -109,27 +108,27 @@
     <#lemma8>
     <#lemma8>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_40"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_41"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_40"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_41"]];
   r:rule <#lemma9>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel8 var:x_1.
-     var:x_2 ex:rel8 var:x_3.
-     var:x_4 ex:rel8 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel9 var:x_1.
-     var:x_2 ex:rel9 var:x_3.
-     var:x_4 ex:rel9 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel8 $x_1.
+     $x_2 ex:rel8 $x_3.
+     $x_4 ex:rel8 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel9 $x_1.
+     $x_2 ex:rel9 $x_3.
+     $x_4 ex:rel9 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -148,27 +147,27 @@
     <#lemma10>
     <#lemma10>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_34"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_35"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_34"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_35"]];
   r:rule <#lemma11>.
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel7 var:x_1.
-     var:x_2 ex:rel7 var:x_3.
-     var:x_4 ex:rel7 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel8 var:x_1.
-     var:x_2 ex:rel8 var:x_3.
-     var:x_4 ex:rel8 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel7 $x_1.
+     $x_2 ex:rel7 $x_3.
+     $x_4 ex:rel7 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel8 $x_1.
+     $x_2 ex:rel8 $x_3.
+     $x_4 ex:rel8 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -187,27 +186,27 @@
     <#lemma12>
     <#lemma12>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
   r:rule <#lemma13>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel6 var:x_1.
-     var:x_2 ex:rel6 var:x_3.
-     var:x_4 ex:rel6 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel7 var:x_1.
-     var:x_2 ex:rel7 var:x_3.
-     var:x_4 ex:rel7 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel6 $x_1.
+     $x_2 ex:rel6 $x_3.
+     $x_4 ex:rel6 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel7 $x_1.
+     $x_2 ex:rel7 $x_3.
+     $x_4 ex:rel7 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -226,27 +225,27 @@
     <#lemma14>
     <#lemma14>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
   r:rule <#lemma15>.
 
 <#lemma13> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel5 var:x_1.
-     var:x_2 ex:rel5 var:x_3.
-     var:x_4 ex:rel5 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel6 var:x_1.
-     var:x_2 ex:rel6 var:x_3.
-     var:x_4 ex:rel6 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel5 $x_1.
+     $x_2 ex:rel5 $x_3.
+     $x_4 ex:rel5 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel6 $x_1.
+     $x_2 ex:rel6 $x_3.
+     $x_4 ex:rel6 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -265,27 +264,27 @@
     <#lemma16>
     <#lemma16>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
   r:rule <#lemma17>.
 
 <#lemma15> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel4 var:x_1.
-     var:x_2 ex:rel4 var:x_3.
-     var:x_4 ex:rel4 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel5 var:x_1.
-     var:x_2 ex:rel5 var:x_3.
-     var:x_4 ex:rel5 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel4 $x_1.
+     $x_2 ex:rel4 $x_3.
+     $x_4 ex:rel4 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel5 $x_1.
+     $x_2 ex:rel5 $x_3.
+     $x_4 ex:rel5 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -304,27 +303,27 @@
     <#lemma18>
     <#lemma18>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_5; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
   r:rule <#lemma19>.
 
 <#lemma17> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel3 var:x_1.
-     var:x_2 ex:rel3 var:x_3.
-     var:x_4 ex:rel3 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel4 var:x_1.
-     var:x_2 ex:rel4 var:x_3.
-     var:x_4 ex:rel4 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel3 $x_1.
+     $x_2 ex:rel3 $x_3.
+     $x_4 ex:rel3 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel4 $x_1.
+     $x_2 ex:rel4 $x_3.
+     $x_4 ex:rel4 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -341,27 +340,27 @@
   r:evidence (
     <#lemma20>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/x"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/restpath/y"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
   r:rule <#lemma21>.
 
 <#lemma19> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel2 var:x_1.
-     var:x_2 ex:rel2 var:x_3.
-     var:x_4 ex:rel2 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel3 var:x_1.
-     var:x_2 ex:rel3 var:x_3.
-     var:x_4 ex:rel3 var:x_5}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7. {$x_0 ex:rel2 $x_1.
+     $x_2 ex:rel2 $x_3.
+     $x_4 ex:rel2 $x_5} => {$x_6 http:methodName "GET".
+     $x_6 http:requestURI $x_0.
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_1.
+     $x_0 ex:rel3 $x_1.
+     $x_2 ex:rel3 $x_3.
+     $x_4 ex:rel3 $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -373,16 +372,16 @@
 
 <#lemma21> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_0 ex:rel1 var:x_1} => {var:x_2 http:methodName "GET".
-     var:x_2 http:requestURI var:x_0.
-     var:x_2 http:resp var:x_3.
-     var:x_3 http:body var:x_1.
-     var:x_0 ex:rel2 var:x_1.
-     var:x_4 ex:rel2 var:x_5.
-     var:x_6 ex:rel2 var:x_7}.
+    @forAll $x_0, $x_1. @forSome $x_2, $x_3, $x_4, $x_5, $x_6, $x_7. {$x_0 ex:rel1 $x_1} => {$x_2 http:methodName "GET".
+     $x_2 http:requestURI $x_0.
+     $x_2 http:resp $x_3.
+     $x_3 http:body $x_1.
+     $x_0 ex:rel2 $x_1.
+     $x_4 ex:rel2 $x_5.
+     $x_6 ex:rel2 $x_7}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
-#2020-10-23T20:17:08.821Z in=11 out=1 ent=209 step=218 brake=1 inf=229299 sec=0.051 inf/sec=4496059
+#2020-11-15T00:24:53.790Z in=11 out=1 ent=209 step=218 brake=1 inf=225512 sec=0.057 inf/sec=3956351
 #ENDS
 

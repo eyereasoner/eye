@@ -1,4 +1,4 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid --wcache http://josd.github.io/eye/reasoning/map . http://josd.github.io/eye/reasoning/map/gps-plugin.n3 http://josd.github.io/eye/reasoning/map/agent1-map.n3 --query http://josd.github.io/eye/reasoning/map/agent1-query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -8,7 +8,6 @@
 @prefix gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -24,13 +23,13 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:drive_gent_brugge)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0.99];
+  r:binding [ r:variable $x_0; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
+  r:binding [ r:variable $x_2; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable $x_3; r:boundTo 1500.0];
+  r:binding [ r:variable $x_4; r:boundTo 0.006];
+  r:binding [ r:variable $x_5; r:boundTo 0.96];
+  r:binding [ r:variable $x_6; r:boundTo 0.99];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -40,23 +39,23 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo {:i1 :location :Brugge}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:drive_gent_brugge)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0.99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 3600.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 5.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0.4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 1];
+  r:binding [ r:variable $x_0; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable $x_1; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable $x_2; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable $x_3; r:boundTo 1500.0];
+  r:binding [ r:variable $x_4; r:boundTo 0.006];
+  r:binding [ r:variable $x_5; r:boundTo 0.96];
+  r:binding [ r:variable $x_6; r:boundTo 0.99];
+  r:binding [ r:variable $x_7; r:boundTo 3600.0];
+  r:binding [ r:variable $x_8; r:boundTo 5.0];
+  r:binding [ r:variable $x_9; r:boundTo 0.2];
+  r:binding [ r:variable $x_10; r:boundTo 0.4];
+  r:binding [ r:variable $x_11; r:boundTo 1];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 gps:findpath ({var:x_1 :location :Brugge} var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (3600.0 5.0 0.2 0.4 1))} => {var:x_1 gps:path (var:x_2 var:x_3 var:x_4 var:x_5 var:x_6)}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6. {$x_0 gps:findpath ({$x_1 :location :Brugge} $x_2 $x_3 $x_4 $x_5 $x_6 (3600.0 5.0 0.2 0.4 1))} => {$x_1 gps:path ($x_2 $x_3 $x_4 $x_5 $x_6)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent1-query.n3>].
 
@@ -84,46 +83,46 @@
     [ a r:Fact; r:gives {{:i1 :location :Gent} e:becomes {:i1 :location :Brugge}}]
     <#lemma11>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo {:i1 :location :Gent}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo {:i1 :location :Brugge}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#drive_gent_brugge"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0.99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (:map-BE)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 3600.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo 0.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo 5.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo 1.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo 0.2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo 0.99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo 1.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo 0.4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo (:drive_gent_brugge)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo {:i1 :location :Brugge}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo (:drive_gent_brugge)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo 0.99];
+  r:binding [ r:variable $x_9; r:boundTo true];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
+  r:binding [ r:variable $x_1; r:boundTo {:i1 :location :Gent}];
+  r:binding [ r:variable $x_2; r:boundTo true];
+  r:binding [ r:variable $x_3; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#drive_gent_brugge"]];
+  r:binding [ r:variable $x_5; r:boundTo 1500.0];
+  r:binding [ r:variable $x_6; r:boundTo 0.006];
+  r:binding [ r:variable $x_7; r:boundTo 0.96];
+  r:binding [ r:variable $x_8; r:boundTo 0.99];
+  r:binding [ r:variable $x_10; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable $x_12; r:boundTo (:map-BE)];
+  r:binding [ r:variable $x_11; r:boundTo ()];
+  r:binding [ r:variable $x_13; r:boundTo 1];
+  r:binding [ r:variable $x_14; r:boundTo 1];
+  r:binding [ r:variable $x_16; r:boundTo 1500.0];
+  r:binding [ r:variable $x_15; r:boundTo 0.0];
+  r:binding [ r:variable $x_17; r:boundTo 3600.0];
+  r:binding [ r:variable $x_19; r:boundTo 0.006];
+  r:binding [ r:variable $x_18; r:boundTo 0.0];
+  r:binding [ r:variable $x_20; r:boundTo 5.0];
+  r:binding [ r:variable $x_22; r:boundTo 0.96];
+  r:binding [ r:variable $x_21; r:boundTo 1.0];
+  r:binding [ r:variable $x_23; r:boundTo 0.2];
+  r:binding [ r:variable $x_25; r:boundTo 0.99];
+  r:binding [ r:variable $x_24; r:boundTo 1.0];
+  r:binding [ r:variable $x_26; r:boundTo 0.4];
+  r:binding [ r:variable $x_28; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable $x_27; r:boundTo ()];
+  r:binding [ r:variable $x_29; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable $x_30; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable $x_31; r:boundTo 1500.0];
+  r:binding [ r:variable $x_32; r:boundTo 0.006];
+  r:binding [ r:variable $x_33; r:boundTo 0.96];
+  r:binding [ r:variable $x_34; r:boundTo 0.99];
   r:rule <#lemma12>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 gps:findpath (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))} <= {var:x_0 gps:findpaths (() var:x_1 () 0.0 0.0 1.0 1.0 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 (var:x_7 var:x_8 var:x_9 var:x_10 var:x_11))}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11. {$x_0 gps:findpath ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))} <= {$x_0 gps:findpaths (() $x_1 () 0.0 0.0 1.0 1.0 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/gps-plugin.n3>].
 
@@ -158,7 +157,7 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#i1"]];
   r:rule <#lemma14>.
 
 <#lemma10> a r:Inference;
@@ -169,10 +168,10 @@
     [ a r:Fact; r:gives {(:map-BE) e:firstRest (:map-BE ())}]
     <#lemma15>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (:map-BE)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
+  r:binding [ r:variable $x_0; r:boundTo (:map-BE)];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#map-BE"]];
+  r:binding [ r:variable $x_2; r:boundTo ()];
+  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma16>.
 
 <#lemma11> a r:Inference;
@@ -188,24 +187,24 @@
 
 <#lemma12> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {var:x_10 gps:findpaths (var:x_11 var:x_29 var:x_27 var:x_15 var:x_18 var:x_21 var:x_24 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} <= {{var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8)} <= var:x_9.
-     var:x_10 e:call var:x_1.
-     var:x_10 e:call var:x_9.
-     var:x_0 gps:description (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_8).
-     (var:x_11 (var:x_0)) list:append var:x_12.
-     var:x_12 gps:stagecount var:x_13.
-     var:x_13 math:notGreaterThan var:x_14.
-     (var:x_15 var:x_5) math:sum var:x_16.
-     var:x_16 math:notGreaterThan var:x_17.
-     (var:x_18 var:x_6) math:sum var:x_19.
-     var:x_19 math:notGreaterThan var:x_20.
-     (var:x_21 var:x_7) math:product var:x_22.
-     var:x_22 math:notLessThan var:x_23.
-     (var:x_24 var:x_8) math:product var:x_25.
-     var:x_25 math:notLessThan var:x_26.
-     (var:x_27 (var:x_4)) list:append var:x_28.
-     var:x_1 e:becomes var:x_3.
-     {var:x_10 gps:findpaths (var:x_12 var:x_29 var:x_28 var:x_16 var:x_19 var:x_22 var:x_25 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 (var:x_17 var:x_20 var:x_23 var:x_26 var:x_14))} e:finalize {var:x_3 e:becomes var:x_1}}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12, $x_13, $x_14, $x_15, $x_16, $x_17, $x_18, $x_19, $x_20, $x_21, $x_22, $x_23, $x_24, $x_25, $x_26, $x_27, $x_28, $x_29, $x_30, $x_31, $x_32, $x_33, $x_34. {$x_10 gps:findpaths ($x_11 $x_29 $x_27 $x_15 $x_18 $x_21 $x_24 $x_30 $x_31 $x_32 $x_33 $x_34 ($x_17 $x_20 $x_23 $x_26 $x_14))} <= {{$x_0 gps:description ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 $x_7 $x_8)} <= $x_9.
+     $x_10 e:call $x_1.
+     $x_10 e:call $x_9.
+     $x_0 gps:description ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 $x_7 $x_8).
+     ($x_11 ($x_0)) list:append $x_12.
+     $x_12 gps:stagecount $x_13.
+     $x_13 math:notGreaterThan $x_14.
+     ($x_15 $x_5) math:sum $x_16.
+     $x_16 math:notGreaterThan $x_17.
+     ($x_18 $x_6) math:sum $x_19.
+     $x_19 math:notGreaterThan $x_20.
+     ($x_21 $x_7) math:product $x_22.
+     $x_22 math:notLessThan $x_23.
+     ($x_24 $x_8) math:product $x_25.
+     $x_25 math:notLessThan $x_26.
+     ($x_27 ($x_4)) list:append $x_28.
+     $x_1 e:becomes $x_3.
+     {$x_10 gps:findpaths ($x_12 $x_29 $x_28 $x_16 $x_19 $x_22 $x_25 $x_30 $x_31 $x_32 $x_33 $x_34 ($x_17 $x_20 $x_23 $x_26 $x_14))} e:finalize {$x_3 e:becomes $x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/gps-plugin.n3>].
 
@@ -217,7 +216,7 @@
 
 <#lemma14> a r:Extraction;
   r:gives {
-    @forSome var:x_0. {:map-BE gps:description ({var:x_0 :location :Gent} true {var:x_0 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
+    @forSome $x_0. {:map-BE gps:description ({$x_0 :location :Gent} true {$x_0 :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/agent1-map.n3>].
 
@@ -232,8 +231,8 @@
 
 <#lemma16> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 gps:stagecount var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_2 gps:stagecount var:x_3}.
+    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 gps:stagecount $x_3} <= {$x_0 e:firstRest ($x_1 $x_2).
+     $x_2 gps:stagecount $x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/gps-plugin.n3>].
 
@@ -245,19 +244,19 @@
     <#lemma19>
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo {:i1 :location :Brugge}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:map-BE)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (:drive_gent_brugge)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1500.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0.006];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0.96];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0.99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 3600.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 5.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0.2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 1];
+  r:binding [ r:variable $x_0; r:boundTo ((<http://josd.github.io/eye/reasoning/map/gps-plugin.n3> <http://josd.github.io/eye/reasoning/map/agent1-map.n3>) 1)];
+  r:binding [ r:variable $x_1; r:boundTo {:i1 :location :Brugge}];
+  r:binding [ r:variable $x_2; r:boundTo (:map-BE)];
+  r:binding [ r:variable $x_3; r:boundTo (:drive_gent_brugge)];
+  r:binding [ r:variable $x_4; r:boundTo 1500.0];
+  r:binding [ r:variable $x_5; r:boundTo 0.006];
+  r:binding [ r:variable $x_6; r:boundTo 0.96];
+  r:binding [ r:variable $x_7; r:boundTo 0.99];
+  r:binding [ r:variable $x_8; r:boundTo 3600.0];
+  r:binding [ r:variable $x_9; r:boundTo 5.0];
+  r:binding [ r:variable $x_10; r:boundTo 0.2];
+  r:binding [ r:variable $x_11; r:boundTo 0.4];
+  r:binding [ r:variable $x_12; r:boundTo 1];
   r:rule <#lemma20>.
 
 <#lemma18> a r:Extraction;
@@ -277,11 +276,11 @@
 
 <#lemma20> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 gps:findpaths (var:x_2 var:x_1 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 var:x_3 var:x_4 var:x_5 var:x_6 var:x_7 (var:x_8 var:x_9 var:x_10 var:x_11 var:x_12))} <= {var:x_0 e:call var:x_1.
+    @forAll $x_0, $x_1. @forSome $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12. {$x_0 gps:findpaths ($x_2 $x_1 $x_3 $x_4 $x_5 $x_6 $x_7 $x_3 $x_4 $x_5 $x_6 $x_7 ($x_8 $x_9 $x_10 $x_11 $x_12))} <= {$x_0 e:call $x_1.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/map/gps-plugin.n3>].
 
-#2020-10-23T20:16:39.812Z in=10 out=1 ent=1 step=1 brake=2 inf=100152 sec=0.040 inf/sec=2503800
+#2020-11-15T00:24:28.975Z in=10 out=1 ent=1 step=1 brake=2 inf=94563 sec=0.044 inf/sec=2149159
 #ENDS
 

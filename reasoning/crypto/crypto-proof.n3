@@ -1,11 +1,10 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid --hmac-key k123 http://josd.github.io/eye/reasoning/crypto/cryptoP.n3 --pass
 
 @prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://eulersharp.sourceforge.net/2007/07test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -25,9 +24,9 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s1"]];
+  r:binding [ r:variable $x_2; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
   r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
@@ -37,9 +36,9 @@
   r:evidence (
     <#lemma6>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s2"]];
+  r:binding [ r:variable $x_2; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Inference;
@@ -49,9 +48,9 @@
   r:evidence (
     <#lemma7>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s3"]];
+  r:binding [ r:variable $x_2; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
   r:rule <#lemma5>.
 
 <#lemma4> a r:Inference;
@@ -61,12 +60,12 @@
   r:evidence (
     [ a r:Fact; r:gives {"blargh" crypto:sha "d1e670385f40ee942a059f949c761214872ac35f"}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
+  r:binding [ r:variable $x_0; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+    @forAll $x_0, $x_1, $x_2. {$x_1 $x_0 $x_2} => {$x_1 $x_0 $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -77,7 +76,7 @@
   r:evidence (
     [ a r:Fact; r:gives {"blargh" e:sha "0eZwOF9A7pQqBZ_UnHYSFIcqw18"}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
+  r:binding [ r:variable $x_0; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
   r:rule <#lemma9>.
 
 <#lemma7> a r:Inference;
@@ -87,27 +86,27 @@
   r:evidence (
     [ a r:Fact; r:gives {"blargh" e:hmac-sha "EEr3jEBcwoIChq__osXVA7IjOsk"}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
+  r:binding [ r:variable $x_0; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
   r:rule <#lemma10>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" crypto:sha var:x_0} => {:s1 :p var:x_0}.
+    @forAll $x_0. {"blargh" crypto:sha $x_0} => {:s1 :p $x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" e:sha var:x_0} => {:s2 :p var:x_0}.
+    @forAll $x_0. {"blargh" e:sha $x_0} => {:s2 :p $x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" e:hmac-sha var:x_0} => {:s3 :p var:x_0}.
+    @forAll $x_0. {"blargh" e:hmac-sha $x_0} => {:s3 :p $x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-#2020-10-23T20:15:56.418Z in=3 out=3 ent=6 step=12 brake=2 inf=26339 sec=0.031 inf/sec=849645
+#2020-11-15T00:23:53.206Z in=3 out=3 ent=6 step=12 brake=2 inf=25779 sec=0.033 inf/sec=781182
 #ENDS
 

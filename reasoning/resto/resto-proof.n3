@@ -1,4 +1,4 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/resto/resto.n3 --query http://josd.github.io/eye/reasoning/resto/restoG.n3
 
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
@@ -11,7 +11,6 @@
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>.
 @prefix meteo: <http://purl.org/ns/meteo#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -36,11 +35,11 @@
     <#lemma2>
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "12/12/12"];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable $x_2; r:boundTo "12/12/12"];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -60,27 +59,27 @@
     <#lemma4>
     <#lemma5>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://example.org/vocab#RestAppointment"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo "12/12/12"];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable $x_4; r:boundTo [ n3:uri "http://example.org/vocab#RestAppointment"]];
+  r:binding [ r:variable $x_5; r:boundTo "12/12/12"];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable $x_8; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable $x_9; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 resto:hasReservation var:x_1.
-     var:x_1 resto:onDate var:x_2.
-     var:x_1 resto:place var:x_3.
-     var:x_3 resto:isOutside var:x_4} => {var:x_0 resto:hasReservation var:x_1.
-     var:x_1 resto:onDate var:x_2.
-     var:x_1 resto:place var:x_3.
-     var:x_3 resto:isOutside var:x_4}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {$x_0 resto:hasReservation $x_1.
+     $x_1 resto:onDate $x_2.
+     $x_1 resto:place $x_3.
+     $x_3 resto:isOutside $x_4} => {$x_0 resto:hasReservation $x_1.
+     $x_1 resto:onDate $x_2.
+     $x_1 resto:place $x_3.
+     $x_3 resto:isOutside $x_4}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/restoG.n3>].
 
@@ -106,22 +105,22 @@
     <#lemma10>
     <#lemma5>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ n3:uri "http://example.org/vocab#RestAppointment"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo "<#myAppointments>"];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo "12/12/12"];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable $x_7; r:boundTo [ n3:uri "http://example.org/vocab#RestAppointment"]];
+  r:binding [ r:variable $x_8; r:boundTo "<#myAppointments>"];
+  r:binding [ r:variable $x_9; r:boundTo "12/12/12"];
+  r:binding [ r:variable $x_10; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable $x_11; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable $x_12; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable $x_13; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable $x_14; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable $x_15; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
   r:rule <#lemma11>.
 
 <#lemma5> a r:Extraction;
@@ -132,17 +131,17 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7, var:x_8, var:x_9. {var:x_0 resto:reservationList var:x_1.
-     var:x_2 resto:isOutside var:x_3.
-     var:x_4 resto:hasDate var:x_5} => {var:x_6 http:methodName "POST".
-     var:x_6 http:requestURI var:x_1.
-     var:x_6 http:body (var:x_5 var:x_3).
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_8.
-     var:x_0 resto:hasReservation var:x_8.
-     var:x_8 resto:onDate var:x_5.
-     var:x_8 resto:place var:x_9.
-     var:x_9 resto:isOutside var:x_3}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. @forSome $x_6, $x_7, $x_8, $x_9. {$x_0 resto:reservationList $x_1.
+     $x_2 resto:isOutside $x_3.
+     $x_4 resto:hasDate $x_5} => {$x_6 http:methodName "POST".
+     $x_6 http:requestURI $x_1.
+     $x_6 http:body ($x_5 $x_3).
+     $x_6 http:resp $x_7.
+     $x_7 http:body $x_8.
+     $x_0 resto:hasReservation $x_8.
+     $x_8 resto:onDate $x_5.
+     $x_8 resto:place $x_9.
+     $x_9 resto:isOutside $x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -159,12 +158,12 @@
   r:evidence (
     <#lemma12>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
   r:rule <#lemma13>.
 
 <#lemma8> a r:Inference;
@@ -180,13 +179,13 @@
     <#lemma7>
     <#lemma7>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
   r:rule <#lemma14>.
 
 <#lemma9> a r:Inference;
@@ -202,13 +201,13 @@
     <#lemma7>
     <#lemma7>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
   r:rule <#lemma15>.
 
 <#lemma10> a r:Extraction;
@@ -219,22 +218,22 @@
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. @forSome var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2.
-     var:x_0 meteo:pressure var:x_3.
-     var:x_0 meteo:temperature var:x_4.
-     var:x_3 meteo:millibar var:x_5.
-     var:x_4 meteo:celsius var:x_6.
-     var:x_7 resto:isOn var:x_8.
-     var:x_7 resto:hasDate var:x_9} => {var:x_10 http:methodName "POST".
-     var:x_10 http:requestURI var:x_8.
-     var:x_10 http:body (var:x_7 var:x_11 var:x_12).
-     var:x_10 http:resp var:x_13.
-     var:x_13 http:body var:x_7.
-     var:x_7 resto:isAt var:x_11.
-     var:x_11 a resto:Restaurant.
-     var:x_11 resto:reservationList var:x_14.
-     var:x_15 resto:isOutside var:x_12}.
+    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9. @forSome $x_10, $x_11, $x_12, $x_13, $x_14, $x_15. {$x_0 geo:lat $x_1.
+     $x_0 geo:long $x_2.
+     $x_0 meteo:pressure $x_3.
+     $x_0 meteo:temperature $x_4.
+     $x_3 meteo:millibar $x_5.
+     $x_4 meteo:celsius $x_6.
+     $x_7 resto:isOn $x_8.
+     $x_7 resto:hasDate $x_9} => {$x_10 http:methodName "POST".
+     $x_10 http:requestURI $x_8.
+     $x_10 http:body ($x_7 $x_11 $x_12).
+     $x_10 http:resp $x_13.
+     $x_13 http:body $x_7.
+     $x_7 resto:isAt $x_11.
+     $x_11 a resto:Restaurant.
+     $x_11 resto:reservationList $x_14.
+     $x_15 resto:isOutside $x_12}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -250,45 +249,45 @@
   r:evidence (
     <#lemma16>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/vocab#Areeb"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://example.org/vocab#Areeb"]];
+  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable $x_3; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma17>.
 
 <#lemma13> a r:Extraction;
   r:gives {
-    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 a con:Address} => {var:x_1 http:methodName "GET".
-     var:x_1 http:requestURI ("?location= " var:x_0).
-     var:x_1 http:resp var:x_2.
-     var:x_2 http:body var:x_3.
-     var:x_3 a geo:Point.
-     var:x_3 geo:lat var:x_4.
-     var:x_3 geo:long var:x_5}.
+    @forAll $x_0. @forSome $x_1, $x_2, $x_3, $x_4, $x_5. {$x_0 a con:Address} => {$x_1 http:methodName "GET".
+     $x_1 http:requestURI ("?location= " $x_0).
+     $x_1 http:resp $x_2.
+     $x_2 http:body $x_3.
+     $x_3 a geo:Point.
+     $x_3 geo:lat $x_4.
+     $x_3 geo:long $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
 <#lemma14> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2} => {var:x_3 http:methodName "GET".
-     var:x_3 http:requestURI ("CurrentPressure?lat=" var:x_1 "&long=" var:x_2).
-     var:x_3 http:resp var:x_4.
-     var:x_4 http:body var:x_5.
-     var:x_0 meteo:pressure var:x_6.
-     var:x_6 meteo:millibar var:x_5}.
+    @forAll $x_0, $x_1, $x_2. @forSome $x_3, $x_4, $x_5, $x_6. {$x_0 geo:lat $x_1.
+     $x_0 geo:long $x_2} => {$x_3 http:methodName "GET".
+     $x_3 http:requestURI ("CurrentPressure?lat=" $x_1 "&long=" $x_2).
+     $x_3 http:resp $x_4.
+     $x_4 http:body $x_5.
+     $x_0 meteo:pressure $x_6.
+     $x_6 meteo:millibar $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
 <#lemma15> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2} => {var:x_3 http:methodName "GET".
-     var:x_3 http:requestURI ("CurrentTemperature?lat=" var:x_1 "&long=" var:x_2).
-     var:x_3 http:resp var:x_4.
-     var:x_4 http:body var:x_5.
-     var:x_0 meteo:temperature var:x_6.
-     var:x_6 meteo:celsius var:x_5}.
+    @forAll $x_0, $x_1, $x_2. @forSome $x_3, $x_4, $x_5, $x_6. {$x_0 geo:lat $x_1.
+     $x_0 geo:long $x_2} => {$x_3 http:methodName "GET".
+     $x_3 http:requestURI ("CurrentTemperature?lat=" $x_1 "&long=" $x_2).
+     $x_3 http:resp $x_4.
+     $x_4 http:body $x_5.
+     $x_0 meteo:temperature $x_6.
+     $x_6 meteo:celsius $x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -300,15 +299,15 @@
 
 <#lemma17> a r:Extraction;
   r:gives {
-    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3. {var:x_0 a foaf:Person} => {var:x_1 http:methodName "GET".
-     var:x_1 http:requestURI (var:x_0).
-     var:x_1 http:resp var:x_2.
-     var:x_2 http:body var:x_3.
-     var:x_0 foaf:based_near var:x_3.
-     var:x_3 a con:Address}.
+    @forAll $x_0. @forSome $x_1, $x_2, $x_3. {$x_0 a foaf:Person} => {$x_1 http:methodName "GET".
+     $x_1 http:requestURI ($x_0).
+     $x_1 http:resp $x_2.
+     $x_2 http:body $x_3.
+     $x_0 foaf:based_near $x_3.
+     $x_3 a con:Address}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
-#2020-10-23T20:17:07.365Z in=10 out=4 ent=47 step=7 brake=1 inf=93991 sec=0.040 inf/sec=2349775
+#2020-11-15T00:24:51.998Z in=10 out=4 ent=47 step=7 brake=1 inf=90441 sec=0.040 inf/sec=2261025
 #ENDS
 

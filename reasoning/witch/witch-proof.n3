@@ -1,9 +1,8 @@
-#Processed by EYE v20.1020.2137 josd
+#Processed by EYE v20.1027.2307 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/witch/witch.n3 --query http://josd.github.io/eye/reasoning/witch/witch-goal.n3
 
 @prefix : <http://josd.github.io/eye/reasoning/witch#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
@@ -19,7 +18,7 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -30,12 +29,12 @@
     <#lemma4>
     <#lemma5>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :WITCH} => {var:x_0 a :WITCH}.
+    @forAll $x_0. {$x_0 a :WITCH} => {$x_0 a :WITCH}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch-goal.n3>].
 
@@ -46,7 +45,7 @@
   r:evidence (
     <#lemma7>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
@@ -57,8 +56,8 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :BURNS.
-     var:x_0 a :WOMAN} => {var:x_0 a :WITCH}.
+    @forAll $x_0. {$x_0 a :BURNS.
+     $x_0 a :WOMAN} => {$x_0 a :WITCH}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -69,12 +68,12 @@
   r:evidence (
     <#lemma9>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma10>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :ISMADEOFWOOD} => {var:x_0 a :BURNS}.
+    @forAll $x_0. {$x_0 a :ISMADEOFWOOD} => {$x_0 a :BURNS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -86,13 +85,13 @@
     <#lemma11>
     <#lemma12>
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#DUCK"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#DUCK"]];
+  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma13>.
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :FLOATS} => {var:x_0 a :ISMADEOFWOOD}.
+    @forAll $x_0. {$x_0 a :FLOATS} => {$x_0 a :ISMADEOFWOOD}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -110,11 +109,11 @@
 
 <#lemma13> a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 a :FLOATS.
-     var:x_0 :SAMEWEIGHT var:x_1} => {var:x_1 a :FLOATS}.
+    @forAll $x_0, $x_1. {$x_0 a :FLOATS.
+     $x_0 :SAMEWEIGHT $x_1} => {$x_1 a :FLOATS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
-#2020-10-23T20:17:38.432Z in=8 out=1 ent=7 step=25 brake=5 inf=28397 sec=0.033 inf/sec=860515
+#2020-11-15T00:25:15.961Z in=8 out=1 ent=7 step=25 brake=5 inf=28035 sec=0.037 inf/sec=757703
 #ENDS
 
