@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/rpo/food-example.n3 http://josd.github.io/eye/reasoning/rpo/food.n3 http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3 --query http://josd.github.io/eye/reasoning/rpo/food-query.n3
 
 @prefix food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#>.
@@ -6,7 +6,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -226,7 +226,7 @@
 
 <#lemma18> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 a $x_1} => {$x_0 a $x_1}.
+    @forAll $x_0,$x_1. {$x_0 a $x_1} => {$x_0 a $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-query.n3>].
 
@@ -405,7 +405,7 @@
 
 <#lemma35> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 rdfs:subClassOf $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 rdfs:subClassOf $x_1.
      $x_2 a $x_0} => {$x_2 a $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3>].
@@ -499,11 +499,11 @@
 
 <#lemma47> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 rdfs:subClassOf $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 rdfs:subClassOf $x_1.
      $x_1 rdfs:subClassOf $x_2} => {$x_0 rdfs:subClassOf $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/rdfs-subClassOf.n3>].
 
-#2020-11-15T00:56:51.721Z in=45 out=16 ent=91 step=338 brake=3 inf=117005 sec=0.049 inf/sec=2387857
+#2020-11-15T12:55:09.808Z in=45 out=16 ent=91 step=338 brake=3 inf=117015 sec=0.045 inf/sec=2600333
 #ENDS
 

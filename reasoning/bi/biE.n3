@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -15,7 +15,7 @@
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -1869,7 +1869,7 @@
 
 <#lemma99> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 => {$x_1 :result $x_2}.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 => {$x_1 :result $x_2}.
      $x_1 :result $x_2.
      $x_3 e:call $x_0} => {{$x_0 => {$x_1 :result $x_2}} a :PASS}.
   };
@@ -3854,7 +3854,7 @@
 
 <#lemma291> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 log:equalTo 3 .
+    @forAll $x_0,$x_1. {$x_0 log:equalTo 3 .
      ("sqrt(_width^2+_length^2)" $x_0 4) e:calculate $x_1.
      $x_1 math:equalTo 5.0} => {:ec2 :result true}.
   };
@@ -3882,7 +3882,7 @@
 
 <#lemma295> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm $x_0.
+    @forAll $x_0,$x_1. {("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm $x_0.
      ("date_time_stamp" $x_0 $x_1) e:derive true.
      $x_1 math:equalTo 0.0} => {:epdts1 :result true}.
   };
@@ -4166,7 +4166,7 @@
 
 <#lemma338> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {(:a $x_0) log:equalTo ($x_1 :b)} => {:loge1 :result true}.
+    @forAll $x_0,$x_1. {(:a $x_0) log:equalTo ($x_1 :b)} => {:loge1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4192,7 +4192,7 @@
 
 <#lemma342> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {{:b :a :c.
+    @forAll $x_0,$x_1. {{:b :a :c.
       :e :d :f.
       :h :g :i.
       :k :j :l} log:includes {:k :j :l.
@@ -4278,7 +4278,7 @@
 
 <#lemma355> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics $x_0.
+    @forAll $x_0,$x_1. {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics $x_0.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics $x_1.
      $x_0 log:notIncludes $x_1} => {:lognis4 :result true}.
   };
@@ -4467,6 +4467,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
-#2020-11-15T00:55:25.774Z in=129 out=96 ent=197 step=895 brake=6 inf=1133265 sec=0.156 inf/sec=7264519
+#2020-11-15T12:53:54.793Z in=129 out=96 ent=197 step=895 brake=6 inf=1133254 sec=0.155 inf/sec=7311316
 #ENDS
 

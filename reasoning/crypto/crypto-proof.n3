@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid --hmac-key k123 http://josd.github.io/eye/reasoning/crypto/cryptoP.n3 --pass
 
 @prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
@@ -7,7 +7,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -65,7 +65,7 @@
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_1 $x_0 $x_2} => {$x_1 $x_0 $x_2}.
+    @forAll $x_0,$x_1,$x_2. {$x_1 $x_0 $x_2} => {$x_1 $x_0 $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -107,6 +107,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-#2020-11-15T00:55:35.629Z in=3 out=3 ent=6 step=12 brake=2 inf=25779 sec=0.036 inf/sec=716083
+#2020-11-15T12:54:03.155Z in=3 out=3 ent=6 step=12 brake=2 inf=25789 sec=0.033 inf/sec=781485
 #ENDS
 

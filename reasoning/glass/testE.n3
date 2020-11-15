@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/glass/test.n3 --query http://josd.github.io/eye/reasoning/glass/testQ.n3
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -6,7 +6,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -126,14 +126,14 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {{:a $x_0 $x_1.
+    @forAll $x_0,$x_1. {{:a $x_0 $x_1.
       :a $x_0 $x_1} :p :o} => {:test2 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {{:a $x_0 $x_1.
+    @forAll $x_0,$x_1,$x_2. {{:a $x_0 $x_1.
       $x_2 $x_0 $x_1} :p :o} => {:test3 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
@@ -168,12 +168,12 @@
 
 <#lemma16> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {{:d $x_0 :f.
+    @forAll $x_0,$x_1. {{:d $x_0 :f.
       :r $x_1 :t.
       :d :e :f} :p :o} => {:test8 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-#2020-11-15T00:56:02.551Z in=11 out=8 ent=9 step=38 brake=2 inf=47152 sec=0.036 inf/sec=1309778
+#2020-11-15T12:54:27.416Z in=11 out=8 ent=9 step=38 brake=2 inf=47122 sec=0.036 inf/sec=1308944
 #ENDS
 

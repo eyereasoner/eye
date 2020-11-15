@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/gedcom/gedcom-facts.n3 http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3 http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3 --query http://josd.github.io/eye/reasoning/gedcom/gedcom-filter.n3
 
 @prefix gc: <http://www.daml.org/2001/01/gedcom/gedcom#>.
@@ -14,7 +14,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -177,7 +177,7 @@
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 gc:mother $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 gc:mother $x_1.
      $x_1 gc:daughter $x_2.
      $x_2 gc:son $x_3.
      $x_3 gc:uncle $x_0} => {$x_0 :testRelationship $x_3}.
@@ -318,7 +318,7 @@
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 gc:parent $x_1.
+    @forAll $x_0,$x_1. {$x_0 gc:parent $x_1.
      $x_1 gc:sex gc:Female} => {$x_0 gc:mother $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -344,7 +344,7 @@
 
 <#lemma26> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 gc:parent $x_1.
+    @forAll $x_0,$x_1. {$x_0 gc:parent $x_1.
      $x_0 gc:sex gc:Female} => {$x_1 gc:daughter $x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -370,7 +370,7 @@
 
 <#lemma29> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 gc:parent $x_1.
+    @forAll $x_0,$x_1. {$x_0 gc:parent $x_1.
      $x_0 gc:sex gc:Male} => {$x_1 gc:son $x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -389,7 +389,7 @@
 
 <#lemma31> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 gc:parent $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 gc:parent $x_1.
      $x_1 gc:brother $x_2} => {$x_0 gc:uncle $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -532,7 +532,7 @@
 
 <#lemma45> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 gc:childIn $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 gc:childIn $x_1.
      $x_2 gc:spouseIn $x_1} => {$x_0 gc:parent $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -576,7 +576,7 @@
 
 <#lemma51> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 gc:sibling $x_1.
+    @forAll $x_0,$x_1. {$x_0 gc:sibling $x_1.
      $x_1 gc:sex gc:Male} => {$x_0 gc:brother $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
@@ -712,7 +712,7 @@
 
 <#lemma66> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a owl:SymmetricProperty.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a owl:SymmetricProperty.
      $x_1 $x_0 $x_2} => {$x_2 $x_0 $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
@@ -752,7 +752,7 @@
 
 <#lemma69> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 gc:childIn $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 gc:childIn $x_1.
      $x_2 gc:childIn $x_1.
      $x_0 owl:differentFrom $x_2} => {$x_0 gc:sibling $x_2}.
   };
@@ -865,7 +865,7 @@
 
 <#lemma77> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. {$x_0 owl:distinctMembers $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_0 owl:distinctMembers $x_1.
      $x_2 ns1:subListOf $x_1.
      $x_2 rdf:first $x_3.
      $x_2 rdf:rest $x_4.
@@ -947,7 +947,7 @@
 
 <#lemma83> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 rdf:rest $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 rdf:rest $x_1.
      $x_0 a rdf:List.
      $x_2 ns1:subListOf $x_1} => {$x_2 ns1:subListOf $x_0}.
   };
@@ -1021,7 +1021,7 @@
 
 <#lemma90> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 rdfs:range $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 rdfs:range $x_1.
      $x_2 $x_0 $x_3} => {$x_3 a $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
@@ -1042,7 +1042,7 @@
 
 <#lemma92> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 owl:distinctMembers $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 owl:distinctMembers $x_1.
      $x_1 rdf:rest $x_2} => {$x_0 owl:distinctMembers $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
@@ -1135,6 +1135,6 @@
   r:binding [ r:variable $x_2; r:boundTo (:Dirk :Greta)];
   r:rule <#lemma92>.
 
-#2020-11-15T00:56:00.947Z in=185 out=6 ent=1591 step=18973 brake=12 inf=2412125 sec=0.184 inf/sec=13109375
+#2020-11-15T12:54:25.873Z in=185 out=6 ent=1591 step=18973 brake=12 inf=2412095 sec=0.180 inf/sec=13400528
 #ENDS
 

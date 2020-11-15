@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/lldm/lldmD.n3 http://josd.github.io/eye/reasoning/lldm/lldmP.n3 --query http://josd.github.io/eye/reasoning/lldm/lldmF.n3
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -11,7 +11,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     :meas47 a :LLDAlarm.
@@ -72,7 +72,7 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1. {$x_0 a :Measurement.
      $x_0 :dCm $x_1.
      $x_1 math:lessThan -1.25} => {$x_0 a :LLDAlarm}.
   };
@@ -108,7 +108,7 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :d53Cm $x_1.
      $x_0 :d64Cm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dCm $x_3}.
@@ -133,7 +133,7 @@
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :ssd53Cm2 $x_1.
      ($x_1 0.5) math:exponentiation $x_2} => {$x_0 :d53Cm $x_2}.
   };
@@ -157,7 +157,7 @@
 
 <#lemma13> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :ssd64Cm2 $x_1.
      ($x_1 0.5) math:exponentiation $x_2} => {$x_0 :d64Cm $x_2}.
   };
@@ -193,7 +193,7 @@
 
 <#lemma16> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :sdx53Cm2 $x_1.
      $x_0 :sdy53Cm2 $x_2.
      ($x_1 $x_2) math:sum $x_3} => {$x_0 :ssd53Cm2 $x_3}.
@@ -230,7 +230,7 @@
 
 <#lemma19> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :sdx64Cm2 $x_1.
      $x_0 :sdy64Cm2 $x_2.
      ($x_1 $x_2) math:sum $x_3} => {$x_0 :ssd64Cm2 $x_3}.
@@ -255,7 +255,7 @@
 
 <#lemma21> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :dx53Cm $x_1.
      ($x_1 2) math:exponentiation $x_2} => {$x_0 :sdx53Cm2 $x_2}.
   };
@@ -279,7 +279,7 @@
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :dy53Cm $x_1.
      ($x_1 2) math:exponentiation $x_2} => {$x_0 :sdy53Cm2 $x_2}.
   };
@@ -303,7 +303,7 @@
 
 <#lemma25> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :dx64Cm $x_1.
      ($x_1 2) math:exponentiation $x_2} => {$x_0 :sdx64Cm2 $x_2}.
   };
@@ -327,7 +327,7 @@
 
 <#lemma27> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :dy64Cm $x_1.
      ($x_1 2) math:exponentiation $x_2} => {$x_0 :sdy64Cm2 $x_2}.
   };
@@ -357,7 +357,7 @@
 
 <#lemma30> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p5xCm $x_1.
      $x_0 :p3xCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dx53Cm $x_3}.
@@ -388,7 +388,7 @@
 
 <#lemma33> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p5yCm $x_1.
      $x_0 :p3yCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dy53Cm $x_3}.
@@ -419,7 +419,7 @@
 
 <#lemma36> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p6xCm $x_1.
      $x_0 :p4xCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dx64Cm $x_3}.
@@ -450,7 +450,7 @@
 
 <#lemma39> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p6yCm $x_1.
      $x_0 :p4yCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dy64Cm $x_3}.
@@ -491,7 +491,7 @@
 
 <#lemma42> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :ddy13Cm $x_1.
      $x_0 :ddL13 $x_2.
      ($x_1 $x_2) math:quotient $x_3} => {$x_0 :p5xCm $x_3}.
@@ -522,7 +522,7 @@
 
 <#lemma45> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :pL1dx51Cm $x_1.
      $x_0 :p1yCm $x_2.
      ($x_1 $x_2) math:sum $x_3} => {$x_0 :p5yCm $x_3}.
@@ -547,7 +547,7 @@
 
 <#lemma47> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :ddy24Cm $x_1.
      $x_0 :ddL13 $x_2.
      ($x_1 $x_2) math:quotient $x_3} => {$x_0 :p6xCm $x_3}.
@@ -578,7 +578,7 @@
 
 <#lemma50> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :pL1dx62Cm $x_1.
      $x_0 :p2yCm $x_2.
      ($x_1 $x_2) math:sum $x_3} => {$x_0 :p6yCm $x_3}.
@@ -619,7 +619,7 @@
 
 <#lemma53> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :dd13Cm $x_1.
      $x_0 :dy13Cm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :ddy13Cm $x_3}.
@@ -658,7 +658,7 @@
 
 <#lemma56> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      $x_0 :cL3 $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :ddL13 $x_3}.
@@ -683,7 +683,7 @@
 
 <#lemma58> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      $x_0 :dx51Cm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL1dx51Cm $x_3}.
@@ -724,7 +724,7 @@
 
 <#lemma61> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :dd24Cm $x_1.
      $x_0 :dy24Cm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :ddy24Cm $x_3}.
@@ -749,7 +749,7 @@
 
 <#lemma63> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      $x_0 :dx62Cm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL1dx62Cm $x_3}.
@@ -790,7 +790,7 @@
 
 <#lemma66> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :pL1x1Cm $x_1.
      $x_0 :pL3x3Cm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dd13Cm $x_3}.
@@ -799,7 +799,7 @@
 
 <#lemma67> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p1yCm $x_1.
      $x_0 :p3yCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dy13Cm $x_3}.
@@ -840,7 +840,7 @@
 
 <#lemma70> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :dy12Cm $x_1.
      $x_0 :dx12Cm $x_2.
      ($x_1 $x_2) math:quotient $x_3} => {$x_0 :cL1 $x_3}.
@@ -863,7 +863,7 @@
 
 <#lemma72> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :dL3m $x_1.
      (0 $x_1) math:difference $x_2} => {$x_0 :cL3 $x_2}.
   };
@@ -877,7 +877,7 @@
 
 <#lemma74> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p5xCm $x_1.
      $x_0 :p1xCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dx51Cm $x_3}.
@@ -918,7 +918,7 @@
 
 <#lemma77> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :pL1x2Cm $x_1.
      $x_0 :pL3x4Cm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dd24Cm $x_3}.
@@ -927,7 +927,7 @@
 
 <#lemma78> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p2yCm $x_1.
      $x_0 :p4yCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dy24Cm $x_3}.
@@ -942,7 +942,7 @@
 
 <#lemma80> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p6xCm $x_1.
      $x_0 :p2xCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dx62Cm $x_3}.
@@ -951,7 +951,7 @@
 
 <#lemma81> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      $x_0 :p1xCm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL1x1Cm $x_3}.
@@ -960,7 +960,7 @@
 
 <#lemma82> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL3 $x_1.
      $x_0 :p3xCm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL3x3Cm $x_3}.
@@ -969,7 +969,7 @@
 
 <#lemma83> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p1yCm $x_1.
      $x_0 :p2yCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dy12Cm $x_3}.
@@ -978,7 +978,7 @@
 
 <#lemma84> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :p1xCm $x_1.
      $x_0 :p2xCm $x_2.
      ($x_1 $x_2) math:difference $x_3} => {$x_0 :dx12Cm $x_3}.
@@ -987,7 +987,7 @@
 
 <#lemma85> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      (1 $x_1) math:quotient $x_2} => {$x_0 :dL3m $x_2}.
   };
@@ -995,7 +995,7 @@
 
 <#lemma86> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL1 $x_1.
      $x_0 :p2xCm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL1x2Cm $x_3}.
@@ -1004,13 +1004,13 @@
 
 <#lemma87> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 a :Measurement.
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 a :Measurement.
      $x_0 :cL3 $x_1.
      $x_0 :p4xCm $x_2.
      ($x_1 $x_2) math:product $x_3} => {$x_0 :pL3x4Cm $x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
-#2020-11-15T00:56:15.360Z in=168 out=1 ent=39 step=124 brake=4 inf=231412 sec=0.062 inf/sec=3732452
+#2020-11-15T12:54:38.237Z in=168 out=1 ent=39 step=124 brake=4 inf=231402 sec=0.062 inf/sec=3732290
 #ENDS
 

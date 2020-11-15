@@ -1,11 +1,11 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/rgb/redgraph003.n3 --query http://josd.github.io/eye/reasoning/rgb/greenquery003.n3
 
 @prefix : <http://example.org/try#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:gives {
@@ -37,16 +37,16 @@
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forSome $x_0, $x_1. true => {{$x_0 :p $x_1} => {$x_0 :q $x_1}}.
+    @forSome $x_0,$x_1. true => {{$x_0 :p $x_1} => {$x_0 :q $x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forSome $x_0, $x_1. true => {{$x_0 :q $x_1} => {$x_0 :r $x_1}}.
+    @forSome $x_0,$x_1. true => {{$x_0 :q $x_1} => {$x_0 :r $x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
-#2020-11-15T00:56:48.634Z in=5 out=2 ent=2 step=2 brake=1 inf=18853 sec=0.032 inf/sec=589156
+#2020-11-15T12:55:07.364Z in=5 out=2 ent=2 step=2 brake=1 inf=18863 sec=0.035 inf/sec=538943
 #ENDS
 

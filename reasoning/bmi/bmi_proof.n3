@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3 http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3 http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3 http://josd.github.io/eye/reasoning/bmi/age_rules_backward.n3 --query http://josd.github.io/eye/reasoning/bmi/bmi_query.n3
 
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
@@ -26,7 +26,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -364,7 +364,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8. {$x_0 human:hasBodyMassIndex $x_1.
      $x_0 human:hasWeightStatus $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_1 quant:hasUnit units:kilogramPerMeterSquare.
@@ -822,7 +822,7 @@
 
 <#lemma40> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12, $x_13, $x_14, $x_15, $x_16. @forSome $x_17. {$x_0 physical:hasComplexity $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12,$x_13,$x_14,$x_15,$x_16. @forSome $x_17. {$x_0 physical:hasComplexity $x_1.
      $x_1 a humanbody:Body.
      $x_1 humanbody:hasLength $x_2.
      $x_1 humanbody:hasWeight $x_3.
@@ -856,7 +856,7 @@
 
 <#lemma41> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_2 math:lessThan 16} => {$x_0 human:hasWeightStatus $x_4.
@@ -963,7 +963,7 @@
 
 <#lemma55> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_2 math:notLessThan 18.5 .
@@ -1071,7 +1071,7 @@
 
 <#lemma69> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_2 math:notLessThan 16 .
@@ -1146,7 +1146,7 @@
 
 <#lemma75> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12, $x_13, $x_14. @forSome $x_15. {$x_0 human:weighs $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12,$x_13,$x_14. @forSome $x_15. {$x_0 human:weighs $x_1.
      $x_1 quant:hasUnit units:kilogram.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
@@ -1178,7 +1178,7 @@
 
 <#lemma76> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_2 math:notLessThan 45} => {$x_0 human:hasWeightStatus $x_4.
@@ -1252,7 +1252,7 @@
 
 <#lemma82> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. @forSome $x_4. {$x_0 human:hasBodyMassIndex $x_1.
      $x_1 quant:hasValue $x_2.
      $x_1 time:hasDateTime $x_3.
      $x_2 math:notLessThan 25 .
@@ -1271,7 +1271,7 @@
 
 <#lemma84> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7. {($x_0 $x_2) time:calculatingAge $x_7} <= {$x_0 organism:hasBirthDateTime $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7. {($x_0 $x_2) time:calculatingAge $x_7} <= {$x_0 organism:hasBirthDateTime $x_1.
      ($x_2 $x_1) math:difference $x_3.
      $x_3 math:greaterThan 0 .
      ($x_3 "P1M"^^xsd:duration) math:integerQuotient $x_4.
@@ -1341,6 +1341,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-#2020-11-15T00:55:28.168Z in=97 out=50 ent=100 step=48 brake=4 inf=400212 sec=0.087 inf/sec=4600138
+#2020-11-15T12:53:56.681Z in=97 out=50 ent=100 step=48 brake=4 inf=400203 sec=0.087 inf/sec=4600034
 #ENDS
 

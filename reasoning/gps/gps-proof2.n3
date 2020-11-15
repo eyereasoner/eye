@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/gps/gps-plugin.n3 http://josd.github.io/eye/reasoning/gps/gps-example2.n3 --query http://josd.github.io/eye/reasoning/gps/gps-query2.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -10,7 +10,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -217,7 +217,7 @@
 
 <#lemma12> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6. {$x_0 gps:findpath ({$x_1 :f :g} $x_2 $x_3 $x_4 $x_5 $x_6 (3600.0 50.0 0.2 0.4 2))} => {$x_1 gps:path ($x_2 $x_3 $x_4 $x_5 $x_6)}.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {$x_0 gps:findpath ({$x_1 :f :g} $x_2 $x_3 $x_4 $x_5 $x_6 (3600.0 50.0 0.2 0.4 2))} => {$x_1 gps:path ($x_2 $x_3 $x_4 $x_5 $x_6)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-query2.n3>].
 
@@ -477,7 +477,7 @@
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11. {$x_0 gps:findpath ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))} <= {$x_0 gps:findpaths (() $x_1 () 0.0 0.0 1.0 1.0 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))}.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11. {$x_0 gps:findpath ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))} <= {$x_0 gps:findpaths (() $x_1 () 0.0 0.0 1.0 1.0 $x_2 $x_3 $x_4 $x_5 $x_6 ($x_7 $x_8 $x_9 $x_10 $x_11))}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
 
@@ -1123,7 +1123,7 @@
 
 <#lemma39> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12, $x_13, $x_14, $x_15, $x_16, $x_17, $x_18, $x_19, $x_20, $x_21, $x_22, $x_23, $x_24, $x_25, $x_26, $x_27, $x_28, $x_29, $x_30, $x_31, $x_32, $x_33, $x_34. {$x_10 gps:findpaths ($x_11 $x_29 $x_27 $x_15 $x_18 $x_21 $x_24 $x_30 $x_31 $x_32 $x_33 $x_34 ($x_17 $x_20 $x_23 $x_26 $x_14))} <= {{$x_0 gps:description ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 $x_7 $x_8)} <= $x_9.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12,$x_13,$x_14,$x_15,$x_16,$x_17,$x_18,$x_19,$x_20,$x_21,$x_22,$x_23,$x_24,$x_25,$x_26,$x_27,$x_28,$x_29,$x_30,$x_31,$x_32,$x_33,$x_34. {$x_10 gps:findpaths ($x_11 $x_29 $x_27 $x_15 $x_18 $x_21 $x_24 $x_30 $x_31 $x_32 $x_33 $x_34 ($x_17 $x_20 $x_23 $x_26 $x_14))} <= {{$x_0 gps:description ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 $x_7 $x_8)} <= $x_9.
      $x_10 e:call $x_1.
      $x_10 e:call $x_9.
      $x_0 gps:description ($x_1 $x_2 $x_3 $x_4 $x_5 $x_6 $x_7 $x_8).
@@ -1387,7 +1387,7 @@
 
 <#lemma60> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 gps:stagecount $x_3} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 gps:stagecount $x_3} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_2 gps:stagecount $x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
@@ -1520,7 +1520,7 @@
 
 <#lemma63> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. @forSome $x_2. {:map1a gps:description ({$x_1 :a $x_2} true {$x_1 :c 5} :action2a 3.0 0.0 0.95 0.96)} <= {$x_0 e:fail {$x_1 :x :y}}.
+    @forAll $x_0,$x_1. @forSome $x_2. {:map1a gps:description ({$x_1 :a $x_2} true {$x_1 :c 5} :action2a 3.0 0.0 0.95 0.96)} <= {$x_0 e:fail {$x_1 :x :y}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example2.n3>].
 
@@ -1908,7 +1908,7 @@
 
 <#lemma71> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. @forSome $x_2. {:map1b gps:description ({$x_1 :a $x_2} true {$x_1 :c 5} :action2b 3.0 0.0 0.958 0.96)} <= {$x_0 e:fail {$x_1 :x :y}}.
+    @forAll $x_0,$x_1. @forSome $x_2. {:map1b gps:description ({$x_1 :a $x_2} true {$x_1 :c 5} :action2b 3.0 0.0 0.958 0.96)} <= {$x_0 e:fail {$x_1 :x :y}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example2.n3>].
 
@@ -2566,7 +2566,7 @@
 
 <#lemma103> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6. {$x_0 gps:stagecount $x_6} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {$x_0 gps:stagecount $x_6} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_2 e:firstRest ($x_3 $x_4).
      $x_1 log:notEqualTo $x_3.
      ("!") e:derive true.
@@ -3997,7 +3997,7 @@
 
 <#lemma162> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {:map1a gps:description ({$x_0 :x :y1} true {$x_0 :y :z1} :action11a 3.0 0.5 0.96 0.97)} <= {$x_0 :e $x_1}.
+    @forAll $x_0,$x_1. {:map1a gps:description ({$x_0 :x :y1} true {$x_0 :y :z1} :action11a 3.0 0.5 0.96 0.97)} <= {$x_0 :e $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-example2.n3>].
 
@@ -8860,7 +8860,7 @@
 
 <#lemma336> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. @forSome $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12. {$x_0 gps:findpaths ($x_2 $x_1 $x_3 $x_4 $x_5 $x_6 $x_7 $x_3 $x_4 $x_5 $x_6 $x_7 ($x_8 $x_9 $x_10 $x_11 $x_12))} <= {$x_0 e:call $x_1.
+    @forAll $x_0,$x_1. @forSome $x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12. {$x_0 gps:findpaths ($x_2 $x_1 $x_3 $x_4 $x_5 $x_6 $x_7 $x_3 $x_4 $x_5 $x_6 $x_7 ($x_8 $x_9 $x_10 $x_11 $x_12))} <= {$x_0 e:call $x_1.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gps/gps-plugin.n3>].
@@ -10149,6 +10149,6 @@
   r:binding [ r:variable $x_12; r:boundTo 2];
   r:rule <#lemma336>.
 
-#2020-11-15T00:56:05.695Z in=44 out=10 ent=10 step=10 brake=2 inf=2682385 sec=0.314 inf/sec=8542627
+#2020-11-15T12:54:30.100Z in=44 out=10 ent=10 step=10 brake=2 inf=2682355 sec=0.306 inf/sec=8765866
 #ENDS
 

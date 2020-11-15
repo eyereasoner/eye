@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/fgcm/fgcm-plugin.n3 http://josd.github.io/eye/reasoning/fcm/fl-rules.n3 http://josd.github.io/eye/reasoning/fgcm/patient.n3 http://josd.github.io/eye/reasoning/fgcm/fgcm-model.n3 --query http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -17,7 +17,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -295,7 +295,7 @@
 
 <#lemma20> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {($x_0 $x_1 false) fl:gpi $x_2} => {($x_0 $x_1 false) fl:gpi $x_2}.
+    @forAll $x_0,$x_1,$x_2. {($x_0 $x_1 false) fl:gpi $x_2} => {($x_0 $x_1 false) fl:gpi $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fgcm/fgcm-query.n3>].
 
@@ -688,7 +688,7 @@
 
 <#lemma39> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10. {($x_2 $x_4 $x_1) fl:gpi ($x_9 $x_10)} <= {$x_0 e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10. {($x_2 $x_4 $x_1) fl:gpi ($x_9 $x_10)} <= {$x_0 e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {() fgcm:expandClosureGmu true.
         () fgcm:expandClosureGsigma true.
         ($x_1) fgcm:handleUnknownVariables true.
         ($x_2 1) fgcm:iterate $x_3.
@@ -1500,6 +1500,6 @@
       1 log:equalTo $x_1} {1 log:equalTo 1 .
       1 log:equalTo 1}) e:derive true}}}].
 
-#2020-11-15T00:55:56.875Z in=253 out=18 ent=237 step=1917 brake=5 inf=1210747 sec=0.187 inf/sec=6474583
+#2020-11-15T12:54:22.594Z in=253 out=18 ent=237 step=1917 brake=5 inf=1210737 sec=0.192 inf/sec=6305922
 #ENDS
 

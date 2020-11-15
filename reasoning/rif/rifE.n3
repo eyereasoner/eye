@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/rif/rifP.n3 --query http://josd.github.io/eye/reasoning/rif/rifQ.n3
 
 @prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
@@ -9,7 +9,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -3576,7 +3576,7 @@
 
 <#lemma224> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 => {$x_1 :result $x_2}.
+    @forAll $x_0,$x_1,$x_2. {$x_0 => {$x_1 :result $x_2}.
      $x_1 :result $x_2.
      $x_0 e:labelvars $x_0} => {{$x_0 => {$x_1 :result $x_2}} a :PASS}.
   };
@@ -6888,6 +6888,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rif/rifP.n3>].
 
-#2020-11-15T00:56:49.787Z in=224 out=222 ent=443 step=1776 brake=4 inf=1863877 sec=0.214 inf/sec=8709706
+#2020-11-15T12:55:08.380Z in=224 out=222 ent=443 step=1776 brake=4 inf=1863887 sec=0.217 inf/sec=8589341
 #ENDS
 

@@ -1,11 +1,11 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/usm/usmP.n3 --query http://josd.github.io/eye/reasoning/usm/usmQ.n3
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     5 :state (_:sk_2 0).
@@ -48,7 +48,7 @@
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 :state ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2. {$x_0 :state ($x_1 $x_2).
      $x_0 :instruction (:halt)} => {$x_0 :state ($x_1 $x_2).
      $x_0 :instruction (:halt)}.
   };
@@ -76,7 +76,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 :state ($x_1 0).
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 :state ($x_1 0).
      $x_0 :instruction (:jpz 2 $x_2 $x_3)} => {$x_2 :state ($x_1 0)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
@@ -105,7 +105,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 :state ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 :state ($x_1 $x_2).
      $x_0 :instruction (:goto $x_3)} => {$x_3 :state ($x_1 $x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
@@ -146,7 +146,7 @@
 
 <#lemma14> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {$x_0 :state ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 :state ($x_1 $x_2).
      $x_0 :instruction (:inc 1 $x_3).
      $x_1 :inc $x_4} => {$x_3 :state ($x_4 $x_2)}.
   };
@@ -183,7 +183,7 @@
 
 <#lemma18> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {$x_0 :state ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 :state ($x_1 $x_2).
      $x_0 :instruction (:dec 2 $x_3).
      $x_4 :inc $x_2} => {$x_3 :state ($x_1 $x_4)}.
   };
@@ -203,7 +203,7 @@
 
 <#lemma20> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. @forSome $x_2. {$x_0 :inc $x_1} => {$x_1 :inc $x_2}.
+    @forAll $x_0,$x_1. @forSome $x_2. {$x_0 :inc $x_1} => {$x_1 :inc $x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -223,7 +223,7 @@
 
 <#lemma22> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. {$x_0 :state ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_0 :state ($x_1 $x_2).
      $x_3 :inc $x_2.
      $x_0 :instruction (:jpz 2 $x_4 $x_5)} => {$x_5 :state ($x_1 $x_2)}.
   };
@@ -440,6 +440,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
-#2020-11-15T00:57:09.609Z in=21 out=2 ent=24 step=88 brake=5 inf=86905 sec=0.043 inf/sec=2021047
+#2020-11-15T12:55:28.998Z in=21 out=2 ent=24 step=88 brake=5 inf=86875 sec=0.041 inf/sec=2118902
 #ENDS
 

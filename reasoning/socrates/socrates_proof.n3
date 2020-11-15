@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socratesF.n3
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -9,7 +9,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:gives {
@@ -47,7 +47,7 @@
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 a $x_1} => {$x_0 a $x_1}.
+    @forAll $x_0,$x_1. {$x_0 a $x_1} => {$x_0 a $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socratesF.n3>].
 
@@ -72,11 +72,11 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {$x_0 rdfs:subClassOf $x_1.
+    @forAll $x_0,$x_1,$x_2. {$x_0 rdfs:subClassOf $x_1.
      $x_2 a $x_0} => {$x_2 a $x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3>].
 
-#2020-11-15T00:56:55.906Z in=4 out=2 ent=3 step=6 brake=2 inf=22035 sec=0.034 inf/sec=648088
+#2020-11-15T12:55:13.518Z in=4 out=2 ent=3 step=6 brake=2 inf=22024 sec=0.032 inf/sec=688250
 #ENDS
 

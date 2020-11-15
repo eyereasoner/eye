@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/preduction/palindrome.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3
 
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
@@ -6,7 +6,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     "ingirumimusnocteetconsumimurigni" a :Palindrome.
@@ -68,7 +68,7 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {($x_1) :accept true} <= {($x_0) :initial true.
+    @forAll $x_0,$x_1. {($x_1) :accept true} <= {($x_0) :initial true.
      ($x_1 $x_0 ()) :accept true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
@@ -105,7 +105,7 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6. {($x_0 $x_3 $x_4) :accept true} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {($x_0 $x_3 $x_4) :accept true} <= {$x_0 e:firstRest ($x_1 $x_2).
      ($x_3 $x_1 $x_4 $x_5 $x_6) :delta true.
      ($x_2 $x_5 $x_6) :accept true}.
   };
@@ -113,7 +113,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {(:push $x_1 $x_2 :push $x_0) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
+    @forAll $x_0,$x_1,$x_2. {(:push $x_1 $x_2 :push $x_0) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -569,7 +569,7 @@
 
 <#lemma41> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {(:push $x_1 $x_2 :pop $x_0) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
+    @forAll $x_0,$x_1,$x_2. {(:push $x_1 $x_2 :pop $x_0) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -605,7 +605,7 @@
 
 <#lemma44> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2. {(:pop $x_1 $x_0 :pop $x_2) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
+    @forAll $x_0,$x_1,$x_2. {(:pop $x_1 $x_0 :pop $x_2) :delta true} <= {$x_0 e:firstRest ($x_1 $x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -1063,6 +1063,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
 
-#2020-11-15T00:56:35.093Z in=10 out=1 ent=1 step=1 brake=1 inf=216331 sec=0.060 inf/sec=3605517
+#2020-11-15T12:54:57.602Z in=10 out=1 ent=1 step=1 brake=1 inf=216321 sec=0.058 inf/sec=3729672
 #ENDS
 

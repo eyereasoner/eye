@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/preduction/palindrome2.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome2-query.n3
 
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
@@ -8,7 +8,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     "ingirumimusnocteetconsumimurigni" a :Palindrome.
@@ -82,7 +82,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_3 e:firstRest ($x_1 $x_4).
      ($x_2 :push $x_3) :palindrome true}.
   };
@@ -330,7 +330,7 @@
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_3 e:firstRest ($x_1 $x_4).
      ($x_2 :pop $x_3) :palindrome true}.
   };
@@ -354,7 +354,7 @@
 
 <#lemma25> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {($x_0 :pop $x_3) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :pop $x_3) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_3 e:firstRest ($x_1 $x_4).
      ($x_2 :pop $x_4) :palindrome true}.
   };
@@ -590,6 +590,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
-#2020-11-15T00:56:36.080Z in=7 out=1 ent=1 step=1 brake=1 inf=155117 sec=0.054 inf/sec=2872537
+#2020-11-15T12:54:58.407Z in=7 out=1 ent=1 step=1 brake=1 inf=155107 sec=0.049 inf/sec=3165449
 #ENDS
 

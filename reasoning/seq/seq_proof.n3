@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid --wcache http://josd.github.io/eye/reasoning/seq . http://josd.github.io/eye/reasoning/seq/seq_components.n3 --query http://josd.github.io/eye/reasoning/seq/seq_query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -10,7 +10,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     (1 2 3 4 6 9 10 11 13) seq:answer "1-4, 6, 9-11, 13".
@@ -58,7 +58,7 @@
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate $x_0.
+    @forAll $x_0,$x_1,$x_2,$x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate $x_0.
      $x_0 list:append $x_1.
      ($x_2 (", ")) list:append $x_1.
      $x_2 string:concatenation $x_3} => {(1 2 3 4 6 9 10 11 13) seq:answer $x_3}.
@@ -122,7 +122,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7. {$x_3 seq:punctuate $x_0} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7. {$x_3 seq:punctuate $x_0} <= {$x_0 e:firstRest ($x_1 $x_2).
      ($x_3) func:reverse $x_4.
      ($x_5 $x_6) list:append $x_4.
      $x_6 seq:check true.
@@ -152,7 +152,7 @@
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4. {$x_0 seq:check true} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 seq:check true} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_2 e:firstRest ($x_3 $x_4).
      ($x_3 1) math:sum $x_1.
      $x_2 seq:check true}.
@@ -161,7 +161,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {$x_0 seq:format ($x_3 "-" $x_1 ", ")} <= {$x_0 e:firstRest ($x_1 $x_2).
+    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 seq:format ($x_3 "-" $x_1 ", ")} <= {$x_0 e:firstRest ($x_1 $x_2).
      $x_2 list:last $x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
@@ -366,6 +366,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-#2020-11-15T00:56:53.558Z in=7 out=1 ent=1 step=1 brake=1 inf=77192 sec=0.035 inf/sec=2205486
+#2020-11-15T12:55:11.430Z in=7 out=1 ent=1 step=1 brake=1 inf=77182 sec=0.035 inf/sec=2205200
 #ENDS
 

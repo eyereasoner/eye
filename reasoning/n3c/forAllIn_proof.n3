@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/n3c/components.n3 --turtle http://josd.github.io/eye/reasoning/n3c/tasks.n3 --query http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3
 
 @prefix n3: <https://www.w3.org/ns/n3#>.
@@ -7,7 +7,7 @@
 @prefix : <http://example.org/test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     :task1 a :AllTasksCompleted.
@@ -79,18 +79,18 @@
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1. {$x_0 a :CompositeTask.
+    @forAll $x_0,$x_1. {$x_0 a :CompositeTask.
      ({$x_0 :subTask $x_1} {$x_1 a :Completed}) n3:forAllIn <http://josd.github.io/eye/reasoning/n3c/subtasks.n3>} => {$x_0 a :AllTasksCompleted}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/forAllIn_query.n3>].
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {($x_2 $x_3) n3:forAllIn $x_0} <= {$x_0 log:semantics $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3. {($x_2 $x_3) n3:forAllIn $x_0} <= {$x_0 log:semantics $x_1.
      ("forall" {$x_1 log:includes $x_2} {$x_1 log:includes $x_3}) e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2020-11-15T00:56:26.483Z in=14 out=1 ent=1 step=1 brake=1 inf=35792 sec=0.042 inf/sec=852190
+#2020-11-15T12:54:49.781Z in=14 out=1 ent=1 step=1 brake=1 inf=35782 sec=0.040 inf/sec=894550
 #ENDS
 

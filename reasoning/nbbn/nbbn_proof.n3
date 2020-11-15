@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3 http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3 --query http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -10,7 +10,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional 0.21419642857142857 .
@@ -78,7 +78,7 @@
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5. {$x_1 e:biconditional $x_5} <= {$x_0 e:call {$x_1 e:firstRest ({$x_2 e:boolean $x_3} $x_4).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_1 e:biconditional $x_5} <= {$x_0 e:call {$x_1 e:firstRest ({$x_2 e:boolean $x_3} $x_4).
       ("if_then_else" {("nb_getval" "bnet" "done") e:derive true} true {() bbn:bnet true.
        ("nb_setval" "bnet" "done") e:derive true}) e:derive true.
       ($x_2) bbn:bvar true.
@@ -122,7 +122,7 @@
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10. {($x_0 $x_3 $x_7) bbn:nb true} <= {("if_then_else" {($x_0 $x_1) bbn:bcnd $x_2.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10. {($x_0 $x_3 $x_7) bbn:nb true} <= {("if_then_else" {($x_0 $x_1) bbn:bcnd $x_2.
       ($x_1 $x_3 $x_4) bbn:nb true.
       $x_1 bbn:inverse $x_5.
       ($x_0 $x_5) bbn:bcnd $x_6.
@@ -133,6 +133,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
 
-#2020-11-15T00:56:28.175Z in=19 out=1 ent=1 step=1 brake=2 inf=121947 sec=0.051 inf/sec=2391118
+#2020-11-15T12:54:51.245Z in=19 out=1 ent=1 step=1 brake=2 inf=121937 sec=0.048 inf/sec=2540354
 #ENDS
 

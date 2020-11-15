@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid http://josd.github.io/eye/reasoning/pi/pi.n3 --query http://josd.github.io/eye/reasoning/pi/pi-query.n3
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -6,7 +6,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
     (1000 3.141592653839793) :pi true.
@@ -76,7 +76,7 @@
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3. {($x_0 $x_3) :pi true} <= {(1 $x_0 0 $x_1 1) :pi true.
+    @forAll $x_0,$x_1,$x_2,$x_3. {($x_0 $x_3) :pi true} <= {(1 $x_0 0 $x_1 1) :pi true.
      (4 $x_1) math:product $x_2.
      (3 $x_2) math:sum $x_3}.
   };
@@ -115,7 +115,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12. {($x_0 $x_1 $x_9 $x_12 $x_7) :pi true} <= {$x_0 math:notEqualTo $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12. {($x_0 $x_1 $x_9 $x_12 $x_7) :pi true} <= {$x_0 math:notEqualTo $x_1.
      ($x_0 1) math:sum $x_2.
      (2 $x_0) math:product $x_3.
      ($x_3 1) math:sum $x_4.
@@ -31049,10 +31049,10 @@
 
 <#lemma1006> a r:Extraction;
   r:gives {
-    @forSome $x_0, $x_1, $x_2. {($x_0 $x_0 $x_1 $x_1 $x_2) :pi true} <= true.
+    @forSome $x_0,$x_1,$x_2. {($x_0 $x_0 $x_1 $x_1 $x_2) :pi true} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pi/pi.n3>].
 
-#2020-11-15T00:56:29.540Z in=4 out=1 ent=1 step=1 brake=1 inf=3913549 sec=0.420 inf/sec=9317974
+#2020-11-15T12:54:52.539Z in=4 out=1 ent=1 step=1 brake=1 inf=3913539 sec=0.421 inf/sec=9295817
 #ENDS
 

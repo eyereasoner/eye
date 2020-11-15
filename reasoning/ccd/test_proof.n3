@@ -1,4 +1,4 @@
-#Processed by EYE v20.1115.0038 josd
+#Processed by EYE v20.1115.0059 josd
 #eye --no-genid --wcache http://josd.github.io/eye/reasoning/ccd . http://josd.github.io/eye/reasoning/ccd/test_data.n3 http://josd.github.io/eye/reasoning/ccd/train_model.n3 http://josd.github.io/eye/reasoning/ccd/background_rules.n3 http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3 --query http://josd.github.io/eye/reasoning/ccd/test_query.n3
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
@@ -10,7 +10,7 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
+[] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:component <#lemma3>;
@@ -241,7 +241,7 @@
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11. {$x_0 :output1 $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11. {$x_0 :output1 $x_1.
      $x_2 e:findall (($x_3 $x_4 $x_5 $x_6) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member $x_3.
       $x_0 $x_3 $x_4.
       ($x_3 $x_4) ccd:model (:output1 $x_5 $x_6)} $x_7).
@@ -591,7 +591,7 @@
 
 <#lemma21> a r:Extraction;
   r:gives {
-    @forAll $x_0, $x_1, $x_2, $x_3, $x_4, $x_5, $x_6, $x_7, $x_8, $x_9, $x_10, $x_11, $x_12, $x_13, $x_14, $x_15, $x_16, $x_17, $x_18, $x_19, $x_20, $x_21, $x_22, $x_23, $x_24, $x_25, $x_26, $x_27, $x_28, $x_29, $x_30, $x_31, $x_32, $x_33, $x_34, $x_35, $x_36, $x_37, $x_38, $x_39, $x_40, $x_41, $x_42, $x_43, $x_44, $x_45, $x_46, $x_47. {($x_6 $x_45 $x_46) ccd:transformer ($x_41 $x_47)} <= {$x_0 e:findall (($x_1 $x_2 $x_3 $x_4 $x_5) {$x_6 list:member ($x_2 $x_3 $x_4 $x_5).
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12,$x_13,$x_14,$x_15,$x_16,$x_17,$x_18,$x_19,$x_20,$x_21,$x_22,$x_23,$x_24,$x_25,$x_26,$x_27,$x_28,$x_29,$x_30,$x_31,$x_32,$x_33,$x_34,$x_35,$x_36,$x_37,$x_38,$x_39,$x_40,$x_41,$x_42,$x_43,$x_44,$x_45,$x_46,$x_47. {($x_6 $x_45 $x_46) ccd:transformer ($x_41 $x_47)} <= {$x_0 e:findall (($x_1 $x_2 $x_3 $x_4 $x_5) {$x_6 list:member ($x_2 $x_3 $x_4 $x_5).
       ("log(_J+0.5)-log(_K+0.5)" $x_4 $x_5) e:calculate $x_1} $x_7).
      $x_0 e:findall (($x_1 $x_8 $x_9 $x_10 $x_11) {$x_7 list:member ($x_1 $x_8 $x_9 $x_10 $x_11).
       $x_1 math:notLessThan 0} $x_12).
@@ -701,6 +701,6 @@
     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {2 math:greaterThan 0 .
      ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525}}}].
 
-#2020-11-15T00:55:34.924Z in=40 out=4 ent=7 step=20 brake=4 inf=321234 sec=0.064 inf/sec=5019281
+#2020-11-15T12:54:02.514Z in=40 out=4 ent=7 step=20 brake=4 inf=321244 sec=0.064 inf/sec=5019438
 #ENDS
 
