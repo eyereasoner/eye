@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# set -e
+
+TMP=tmp.out
+PROLOG=${1:-"tpl -g halt"}
+
+trap "rm -f $TMP" EXIT
+
+failed_count=0
+succeeded_count=0
+
+echo "Using $PROLOG" | tee test.txt
+
+for source in ./*
+
+do
+    case "$source" in
+        *.pl)
+            cmd=$PROLOG
+            ;;
+        *)
+            continue
+    esac
+
+    echo "Running $source ..." | tee -a test.txt
+    $cmd "$source" > $TMP
+    echo PASS | diff -a - $TMP >> test.txt
+    echo PASS | diff -a - $TMP
+    if [ $? -eq 0 ]
+    then
+        succeeded_count=$(expr $succeeded_count + 1)
+    else
+        failed_count=$(expr $failed_count + 1)
+    fi
+done
+
+cat <<EOF | tee -a test.txt
+
+============
+TEST SUMMARY
+============
+Failed: $failed_count
+Succeeded: $succeeded_count
+EOF
