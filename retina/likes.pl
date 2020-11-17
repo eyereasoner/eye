@@ -3,7 +3,7 @@
 main :-
     findall(likes(X,Y),likes(X,Y),Z),
     Z = [likes('Peter',sk('Peter')),likes('Bob',sk('Bob'))],
-    write('[] a "PASS".'),
+    write('[] = "PASS".'),
     nl,
     halt.
 

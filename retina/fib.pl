@@ -3,7 +3,7 @@
 main :-
     fib(40,F),
     F =:= 165580141,
-    write('[] a "PASS".'),
+    write('[] = "PASS".'),
     nl.
 
 fib(A,B) :-
