@@ -4,7 +4,7 @@
 
 main :-
     solve('METHINKS IT IS LIKE A WEASEL'),
-    write('PASS'),
+    write('[] a "PASS".'),
     nl.
     
 solve(TargetAtom) :-

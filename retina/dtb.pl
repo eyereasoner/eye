@@ -3,7 +3,7 @@
 main :-
     type(X,n10000),
     X = ind,
-    write('PASS'),
+    write('[] a "PASS".'),
     nl.
 
 type(ind,n0).

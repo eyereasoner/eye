@@ -23,7 +23,7 @@
 main :-
 	ebl(cup(obj1),cup(_),Rule),
 	Rule = (cup(A) :- (small(A),part(A,handle)),part(A,B),concave(B),points_up(B)),
-	write('PASS'),
+	write('[] a "PASS".'),
 	nl.
 
 % domain theory
