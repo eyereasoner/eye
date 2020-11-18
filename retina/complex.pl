@@ -6,8 +6,7 @@ main :-
     add([A,B],[1,0],[C,D]),
     [C,D] = [0.0,1.2246467991473532e-16],
     write('[] = "PASS".'),
-    nl,
-    halt.
+    nl.
 
 exponentiation([A,B],[C,D],[E,F]) :-
     polar([A,B],[R,T]),
