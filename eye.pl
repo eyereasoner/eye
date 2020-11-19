@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1119.2138 josd').
+version_info('EYE v20.1119.2357 josd').
 
 license_info('MIT License
 
@@ -1884,8 +1884,8 @@ pathitem(Name,[]) -->
     !,
     {   (   qevar(S,N,D),
             \+quvar(S,_,_)
-        ->  (   D >= 1,
-                nb_getval(fdepth,FD),
+        ->  (   nb_getval(fdepth,FD),
+                FD >= 1,
                 FD >= D,
                 \+flag('pass-all-ground')
             ->  atom_concat('_',N,Name),
@@ -3439,8 +3439,8 @@ wj(Cnt,A,true,C,Rule) :-        % wj(Count,Source,Premise,Conclusion,Rule)
         (   C = rule(PVars,EVars,Rule)
         ->  (   \+flag(traditional)
             ->  true
-            ;   wq(EVars,some),
-                wq(PVars,allv)
+            ;   wq(PVars,allv),
+                wq(EVars,some)
             ),
             wt(Rule)
         ;   labelvars([A,C],0,_,avar),

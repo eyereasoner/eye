@@ -1,4 +1,4 @@
-#Processed by EYE v20.1117.2027 josd
+#Processed by EYE v20.1119.2138 josd
 #eye --no-genid --tactic limited-answer 1 http://josd.github.io/eye/reasoning/resto/resto.n3 --query http://josd.github.io/eye/reasoning/resto/restoG.n3
 
 @prefix foaf: <http://xmlns.com/foaf/0.1/>.
@@ -131,7 +131,7 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forSome $x_6,$x_7,$x_8,$x_9. @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_0 resto:reservationList $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. @forSome $x_6,$x_7,$x_8,$x_9. {$x_0 resto:reservationList $x_1.
      $x_2 resto:isOutside $x_3.
      $x_4 resto:hasDate $x_5} => {$x_6 http:methodName "POST".
      $x_6 http:requestURI $x_1.
@@ -218,7 +218,7 @@
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forSome $x_10,$x_11,$x_12,$x_13,$x_14,$x_15. @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. {$x_0 geo:lat $x_1.
+    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. @forSome $x_10,$x_11,$x_12,$x_13,$x_14,$x_15. {$x_0 geo:lat $x_1.
      $x_0 geo:long $x_2.
      $x_0 meteo:pressure $x_3.
      $x_0 meteo:temperature $x_4.
@@ -257,7 +257,7 @@
 
 <#lemma13> a r:Extraction;
   r:gives {
-    @forSome $x_1,$x_2,$x_3,$x_4,$x_5. @forAll $x_0. {$x_0 a con:Address} => {$x_1 http:methodName "GET".
+    @forAll $x_0. @forSome $x_1,$x_2,$x_3,$x_4,$x_5. {$x_0 a con:Address} => {$x_1 http:methodName "GET".
      $x_1 http:requestURI ("?location= " $x_0).
      $x_1 http:resp $x_2.
      $x_2 http:body $x_3.
@@ -269,7 +269,7 @@
 
 <#lemma14> a r:Extraction;
   r:gives {
-    @forSome $x_3,$x_4,$x_5,$x_6. @forAll $x_0,$x_1,$x_2. {$x_0 geo:lat $x_1.
+    @forAll $x_0,$x_1,$x_2. @forSome $x_3,$x_4,$x_5,$x_6. {$x_0 geo:lat $x_1.
      $x_0 geo:long $x_2} => {$x_3 http:methodName "GET".
      $x_3 http:requestURI ("CurrentPressure?lat=" $x_1 "&long=" $x_2).
      $x_3 http:resp $x_4.
@@ -281,7 +281,7 @@
 
 <#lemma15> a r:Extraction;
   r:gives {
-    @forSome $x_3,$x_4,$x_5,$x_6. @forAll $x_0,$x_1,$x_2. {$x_0 geo:lat $x_1.
+    @forAll $x_0,$x_1,$x_2. @forSome $x_3,$x_4,$x_5,$x_6. {$x_0 geo:lat $x_1.
      $x_0 geo:long $x_2} => {$x_3 http:methodName "GET".
      $x_3 http:requestURI ("CurrentTemperature?lat=" $x_1 "&long=" $x_2).
      $x_3 http:resp $x_4.
@@ -299,7 +299,7 @@
 
 <#lemma17> a r:Extraction;
   r:gives {
-    @forSome $x_1,$x_2,$x_3. @forAll $x_0. {$x_0 a foaf:Person} => {$x_1 http:methodName "GET".
+    @forAll $x_0. @forSome $x_1,$x_2,$x_3. {$x_0 a foaf:Person} => {$x_1 http:methodName "GET".
      $x_1 http:requestURI ($x_0).
      $x_1 http:resp $x_2.
      $x_2 http:body $x_3.
@@ -308,6 +308,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
-#2020-11-19T21:28:31.658Z in=10 out=4 ent=47 step=7 brake=1 inf=90481 sec=0.078 inf/sec=1160013
+#2020-11-19T23:54:06.512Z in=10 out=4 ent=47 step=7 brake=1 inf=90501 sec=0.046 inf/sec=1967413
 #ENDS
 
