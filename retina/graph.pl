@@ -3,8 +3,7 @@
 main :-
     findall(Path,path(paris,nantes,Path),Paths),
     Paths = [[paris,orleans,blois,tours,lemans,angers,nantes],[paris,chartres,lemans,angers,nantes]],
-    write('[] = "PASS".'),
-    nl.
+    write('true.\n').
 
 oneway(paris,orleans).
 oneway(paris,chartres).

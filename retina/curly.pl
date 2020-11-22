@@ -11,5 +11,4 @@ main :-
     Item = {Author,_},
     Author = author:V,
     V = 'Philip K Dick',
-    write('[] = "PASS".'),
-    nl.
+    write('true.\n').

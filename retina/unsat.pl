@@ -7,8 +7,7 @@ main :-
     DL = [[on(a,b)],[on(b,c)],[green(a)],[not(green(c))]],
     Q = [on(X,Y),green(X),not(green(Y))],
     estunsat(2,DL,Q),
-    write('[] = "PASS".'),
-    nl.
+    write('true.\n').
 
 % Dclauses in DL are unsat,after making N copies of them.
 unsat(N,DL) :-

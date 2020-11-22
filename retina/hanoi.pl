@@ -4,8 +4,7 @@
 
 main :-
     hanoi(21),
-    write('[] = "PASS".'),
-    nl.
+    write('true.\n').
 
 move(0,_,_,_).
 move(N,A,B,C) :-
