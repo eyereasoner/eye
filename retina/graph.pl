@@ -17,10 +17,10 @@ oneway(lemans,angers).
 oneway(lemans,tours).
 oneway(angers,nantes).
 
-twoway(X,Y) :-
-    oneway(X,Y).
-twoway(X,Y) :-
-    oneway(Y,X).
+twoway(From,To) :-
+    oneway(From,To).
+twoway(From,To) :-
+    oneway(To,From).
 
 path(From,To,Path) :-
     find(From,To,[From],Back),
