@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1119.2357 josd').
+version_info('EYE v20.1123.2124 josd').
 
 license_info('MIT License
 
@@ -1884,8 +1884,8 @@ pathitem(Name,[]) -->
     !,
     {   (   qevar(S,N,D),
             \+quvar(S,_,_)
-        ->  (   nb_getval(fdepth,FD),
-                FD >= 1,
+        ->  (   D >= 1,
+                nb_getval(fdepth,FD),
                 FD >= D,
                 \+flag('pass-all-ground')
             ->  atom_concat('_',N,Name),
