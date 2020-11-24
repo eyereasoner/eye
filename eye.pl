@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1123.2124 josd').
+version_info('EYE v20.1124.2249 josd').
 
 license_info('MIT License
 
@@ -97,6 +97,7 @@ eye
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
+    --entail <rdf-graph>            output true if RDF graph is entailed
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
     --query <n3-query>              output filtered with filter rules').
@@ -320,6 +321,7 @@ gre(Argus) :-
     format(user_error,'starting ~w [msec cputime] ~w [msec walltime]~n',[T0,T1]),
     flush_output(user_error),
     nb_getval(var_ns,Vns),
+    nb_setval(entail_mode,false),
     nb_setval(exit_code,0),
     nb_setval(indentation,0),
     nb_setval(limit,-1),
@@ -856,7 +858,7 @@ opts(['--wcache',Argument,File|Argus],Args) :-
     assertz(wcache(Arg,File)),
     opts(Argus,Args).
 opts([Arg|_],_) :-
-    \+memberchk(Arg,['--help','--n3','--pass','--pass-all','--proof','--query','--turtle']),
+    \+memberchk(Arg,['--entail','--help','--n3','--pass','--pass-all','--proof','--query','--turtle']),
     sub_atom(Arg,0,2,_,'--'),
     !,
     throw(not_supported_option(Arg)).
@@ -941,6 +943,12 @@ curl_http_headers(Headers) :-
 
 args([]) :-
     !.
+args(['--entail',Arg|Args]) :-
+    !,
+    nb_setval(entail_mode,true),
+    n3_n3p(Arg,entail),
+    nb_setval(entail_mode,false),
+    args(Args).
 args(['--n3',Arg|Args]) :-
     !,
     absolute_uri(Arg,A),
@@ -1375,7 +1383,6 @@ n3_n3p(Argument,Mode) :-
     nb_setval(line_number,1),
     nb_setval(sc,0),
     nb_setval(semantics,[]),
-    nb_setval(smod,true),
     atomic_list_concat(['\'<',Arg,'>\''],Src),
     atomic_list_concat([Tmp,'_p'],Tmp_p),
     assertz(tmpfile(Tmp_p)),
@@ -1568,6 +1575,11 @@ n3_n3p(Argument,Mode) :-
 
 tr_n3p([],_,_) :-
     !.
+tr_n3p(X,_,entail) :-
+    !,
+    conj_list(Y,X),
+    write(query(Y,true)),
+    writeln('.').
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X,Y)|Z],Src,query) :-
     !,
     (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_,T)
@@ -1888,8 +1900,7 @@ pathitem(Name,[]) -->
                 nb_getval(fdepth,FD),
                 FD >= D,
                 \+flag('pass-all-ground')
-            ->  atom_concat('_',N,Name),
-                nb_setval(smod,false)
+            ->  atom_concat('_',N,Name)
             ;   nb_getval(var_ns,Vns),
                 atomic_list_concat(['\'<',Vns,N,'>\''],Name)
             )
@@ -1901,15 +1912,10 @@ pathitem(Name,[]) -->
                     )
                 ->  nb_getval(var_ns,Vns),
                     atomic_list_concat(['\'<',Vns,N,'>\''],Name)
-                ;   atom_concat('_',N,Name),
-                    nb_setval(smod,false)
+                ;   atom_concat('_',N,Name)
                 )
             ;   Name = S
             )
-        ),
-        (   quvar(S,_,_)
-        ->  nb_setval(smod,false)
-        ;   true
         )
     }.
 pathitem(VarID,[]) -->
@@ -1923,8 +1929,7 @@ pathitem(VarID,[]) -->
             atom_codes(VarFrag,VarTidy),
             atomic_list_concat(['\'<',Vns,VarFrag,'>\''],VarID)
         ;   VarID = VarAtom
-        ),
-        nb_setval(smod,false)
+        )
     }.
 pathitem(Number,[]) -->
     numericliteral(Number),
@@ -1969,14 +1974,14 @@ pathitem(BNode,Triples) -->
     ['['],
     !,
     {   gensym('bn_',S),
-        (   (   nb_getval(fdepth,FD),
+        (   (   nb_getval(entail_mode,false),
+                nb_getval(fdepth,FD),
                 FD =\= 1
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns,Vns),
             atomic_list_concat(['\'<',Vns,S,'>\''],BN)
-        ;   atom_concat('_',S,BN),
-            nb_setval(smod,false)
+        ;   atom_concat('_',S,BN)
         )
     },
     propertylist(BN,T),
@@ -2012,15 +2017,13 @@ pathitem(Node,[]) -->
     ['{'],
     {   nb_getval(fdepth,I),
         J is I+1,
-        nb_setval(fdepth,J),
-        nb_setval(smod,true)
+        nb_setval(fdepth,J)
     },
     formulacontent(Node),
     {   retractall(quvar(_,_,J)),
         retractall(qevar(_,_,J)),
         retractall(evar(_,_,J)),
-        nb_setval(fdepth,I),
-        nb_setval(smod,false)
+        nb_setval(fdepth,I)
     },
     ['}'].
 
@@ -2044,8 +2047,7 @@ pathtail(Node,PNode,[Triple|Triples]) -->
             )
         ->  nb_getval(var_ns,Vns),
             atomic_list_concat(['\'<',Vns,S,'>\''],BNode)
-        ;   atom_concat('_',S,BNode),
-            nb_setval(smod,false)
+        ;   atom_concat('_',S,BNode)
         ),
         (   Verb = isof(V)
         ->  (   atom(V),
@@ -2088,8 +2090,7 @@ pathtail(Node,PNode,[Triple|Triples]) -->
             )
         ->  nb_getval(var_ns,Vns),
             atomic_list_concat(['\'<',Vns,S,'>\''],BNode)
-        ;   atom_concat('_',S,BNode),
-            nb_setval(smod,false)
+        ;   atom_concat('_',S,BNode)
         ),
         (   Verb = isof(V)
         ->  (   atom(V),
@@ -2291,7 +2292,8 @@ symbol(Name) -->
             gensym(M,S),
             assertz(evar(N,S,D))
         ),
-        (   (   nb_getval(fdepth,FD),
+        (   (   nb_getval(entail_mode,false),
+                nb_getval(fdepth,FD),
                 FD =\= 1
             ;   flag('pass-all-ground')
             )
@@ -2300,8 +2302,7 @@ symbol(Name) -->
             ->  atomic_list_concat(['\'<',Vns,N,'>\''],Name)
             ;   atomic_list_concat(['\'<',Vns,'e_',S,'>\''],Name)
             )
-        ;   atom_concat('_e_',S,Name),
-            nb_setval(smod,false)
+        ;   atom_concat('_e_',S,Name)
         )
     }.
 
