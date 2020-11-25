@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1124.2249 josd').
+version_info('EYE v20.1125.1710 josd').
 
 license_info('MIT License
 
@@ -3701,8 +3701,12 @@ wt0(X) :-
     atom(X),
     sub_atom(X,1,I,_,Vns),
     J is I+1,
-    sub_atom(X,J,_,1,Y),
-    \+sub_atom(Y,0,3,_,'qe_'),
+    sub_atom(X,J,_,1,V),
+    (   sub_atom(V,0,3,_,'qe_')
+    ->  atom_concat(V,'_',W),
+        gensym(W,Y)
+    ;   Y = V
+    ),
     (   getlist(X,M)
     ->  wt(M)
     ;   (   rule_uvar(L),
