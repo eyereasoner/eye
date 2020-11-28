@@ -7,9 +7,10 @@
 
 main :-
     % assuming the negation of the query so that it can be discharged when the query succeeds
-    assertz(not_saying(sss,ccc)),
+    assertz(not_saying(sk_0,ccc)),
     saying(S,ccc),
-    S = sss,
+    S = sk_0,
+    retract(not_saying(sk_0,ccc)),
     write('true.'),
     nl.
 
