@@ -2,30 +2,31 @@
 
 :- initialization(main).
 
+:- dynamic(saying/2).
+:- dynamic(not_saying/2).
+
 main :-
-    saying(S,c),
-    S = anon,
+    % assuming the negation of the query so that it can be discharged when the query succeeds
+    assertz(not_saying(sss,ccc)),
+    saying(S,ccc),
+    S = sss,
     write('true.'),
     nl.
 
-% assuming the negation of the query so that it can be discharged when the query succeeds
-not_saying(anon,c).
+% saying ccc if saying aaa or saying bbb
+saying(S,ccc) :-
+    saying(S,aaa).
+saying(S,ccc) :-
+    saying(S,bbb).
+% saying aaa or saying bbb
+saying(S,bbb) :-
+    not_saying(S,aaa).
+saying(S,aaa) :-
+    not_saying(S,bbb).
 
-% saying A means saying C
-not_saying(S,a) :-
-    not_saying(S,c).
-% saying B means saying C
-not_saying(S,b) :-
-    not_saying(S,c).
-
-% saying A means saying C
-saying(S,c) :-
-    saying(S,a).
-% saying B means saying C
-saying(S,c) :-
-    saying(S,b).
-% saying A or saying B
-saying(S,b) :-
-    not_saying(S,a).
-saying(S,a) :-
-    not_saying(S,b).
+% not saying aaa if not saying ccc
+not_saying(S,aaa) :-
+    not_saying(S,ccc).
+% not saying bbb if not saying ccc
+not_saying(S,bbb) :-
+    not_saying(S,ccc).
