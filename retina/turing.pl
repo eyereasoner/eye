@@ -3,7 +3,8 @@
 main :-
     maplist(compute,[[1,0,1,0,0,1],[1,0,1,1,1,1],[1,1,1,1,1,1],[]],OutTapes),
     OutTapes = [[1,0,1,0,1,0,#],[1,1,0,0,0,0,#],[1,0,0,0,0,0,0,#],[1,#]],
-    write('true.\n').
+    write('true.'),
+    nl.
 
 % interpreter for Univeral Turing Machine
 

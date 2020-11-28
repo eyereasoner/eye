@@ -5,7 +5,8 @@
 main :-
     tak(34,13,8,A),
     A = 13,
-    write('true.\n').
+    write('true.'),
+    nl.
 
 tak(X,Y,Z,Z) :-
     X =< Y,

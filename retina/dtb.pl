@@ -3,7 +3,8 @@
 main :-
     type(X,n10000),
     X = ind,
-    write('true.\n').
+    write('true.'),
+    nl.
 
 type(ind,n0).
 

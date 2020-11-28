@@ -6,7 +6,8 @@
 main :-
     pi(100000,Pi),
     Pi =:= 3.1415926535897918,
-    write('true.\n').
+    write('true.'),
+    nl.
 
 pi(A,B) :-
     pi(1,A,0,C,1),

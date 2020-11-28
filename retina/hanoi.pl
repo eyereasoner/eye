@@ -4,7 +4,8 @@
 
 main :-
     hanoi(21),
-    write('true.\n').
+    write('true.'),
+    nl.
 
 move(0,_,_,_).
 move(N,A,B,C) :-

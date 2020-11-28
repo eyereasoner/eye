@@ -5,7 +5,8 @@ main :-
     add((A,B),(1,0),(C,D)),
     C < 2.220446049250313e-16,
     D < 2.220446049250313e-16,
-    write('true.\n').
+    write('true.'),
+    nl.
 
 exponentiation((A,B),(C,D),(E,F)) :-
     polar((A,B),(R,T)),

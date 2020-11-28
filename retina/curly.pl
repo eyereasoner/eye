@@ -11,4 +11,5 @@ main :-
     Item = {Author,_},
     Author = author:V,
     V = 'Philip K Dick',
-    write('true.\n').
+    write('true.'),
+    nl.

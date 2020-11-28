@@ -3,7 +3,8 @@
 main :-
     findall(likes(X,Y),likes(X,Y),Z),
     Z = [likes('Peter',sk('Peter')),likes('Bob',sk('Bob'))],
-    write('true.\n').
+    write('true.'),
+    nl.
 
 person('Peter').
 person('Bob').

@@ -3,7 +3,8 @@
 main :-
     colors(Places),
     Places = [p1-c4,p2-c3,p3-c2,p4-c1,p5-c1],
-    write('true.\n').
+    write('true.'),
+    nl.
 
 colors(Places) :-
     findall(Place-_,neighbours(Place,_),Places),

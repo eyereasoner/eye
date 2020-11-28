@@ -9,7 +9,8 @@
 main :-
     findall([N,Y],(equation(N,E,V),solve_equation(E,V,_=Z),Y is Z),L),
     L = [[1,2.0],[1,1.0],[2,1.5707963267948966],[2,-1.5707963267948966],[2,0.52359877559829893],[2,179.47640122440171],[3,3.0],[3,1.0]],
-    write('true.\n').
+    write('true.'),
+    nl.
 
 equation(1,x^2-3*x+2=0,x).
 equation(2,cos(x)*(1-2*sin(x))=0,x).
