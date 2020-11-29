@@ -1,3 +1,5 @@
+% See https://en.wikipedia.org/wiki/Complex_number
+
 :- initialization(main).
 
 main :-

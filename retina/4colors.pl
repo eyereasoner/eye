@@ -1,3 +1,5 @@
+% See https://en.wikipedia.org/wiki/Four_color_theorem
+
 :- initialization(main).
 
 main :-
