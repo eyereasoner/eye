@@ -1,3 +1,5 @@
+% Calculating the area of a polygon
+
 :- initialization(main).
 
 main :-

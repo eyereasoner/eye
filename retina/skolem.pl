@@ -1,3 +1,5 @@
+% Using Skolem function
+
 :- initialization(main).
 
 main :-
@@ -9,4 +11,5 @@ main :-
 person('Peter').
 person('Bob').
 
-likes(Person,sk(Person)) :- person(Person).
+likes(Person,sk(Person)) :-
+    person(Person).

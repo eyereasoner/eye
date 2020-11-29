@@ -1,3 +1,5 @@
+% Using curly braces
+
 :-initialization(main).
 
 main :-

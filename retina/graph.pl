@@ -1,3 +1,5 @@
+% Traversing graph paths
+
 :- initialization(main).
 
 main :-

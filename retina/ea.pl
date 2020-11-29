@@ -1,3 +1,4 @@
+% See https://en.wikipedia.org/wiki/Evolutionary_algorithm
 % Original code from https://rosettacode.org/wiki/Evolutionary_algorithm#Prolog
 
 :- initialization(main).

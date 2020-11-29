@@ -1,4 +1,4 @@
-% disjunction elimination test case using negation predicates
+% Disjunction elimination test case using negation predicates
 
 :- initialization(main).
 

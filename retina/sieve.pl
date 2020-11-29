@@ -1,3 +1,5 @@
+% See https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
+
 :- initialization(main).
 
 main :-

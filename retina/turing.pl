@@ -1,3 +1,5 @@
+% See https://en.wikipedia.org/wiki/Universal_Turing_machine
+
 :- initialization(main).
 
 main :-
