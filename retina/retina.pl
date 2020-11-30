@@ -15,16 +15,11 @@ test :-
     nl.
 test.
 
-label(0).
-
 retina :-
     (   (Prem -: Conc),
         call(Prem),
         \+call(Conc),
-        label(Current),
-        numbervars(Conc,Current,Next),
-        retractall(label(_)),
-        assertz(label(Next)),
+        labelvars(Conc),
         (   Conc = goal
         ->  true
         ;   astep(Conc),
@@ -36,6 +31,15 @@ retina :-
     ;   assertz(brake),
         retina
     ).
+
+labelvars(Term) :-
+    (   label(Current)
+    ->  true
+    ;   Current = 0
+    ),
+    numbervars(Term,Current,Next),
+    retractall(label(_)),
+    assertz(label(Next)).
 
 astep((A,B)) :-
     asserta(A),
