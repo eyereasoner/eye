@@ -56,5 +56,4 @@ not_r(X,Y),not_e(X,Y) -: not_re(X,Y).
 re(X,Y),not_r(X,Y) -: e(X,Y).
 
 % DP
-r(X,Y),r(X,Z),not_e(Y,Z) -: dom(U),r(Y,U),r(Z,U).
-%r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).
+r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).

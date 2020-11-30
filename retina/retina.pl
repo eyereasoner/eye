@@ -38,8 +38,8 @@ retina :-
     ).
 
 astep((A,B)) :-
-    assertz(A),
+    asserta(A),
     !,
     astep(B).
 astep(A) :-
-    assertz(A).
+    asserta(A).
