@@ -14,13 +14,13 @@
 main :-
     [retina],
     % assuming the negation of the query so that it can be discharged when the query succeeds
-    assertz(implies(re(b,U),not_re(c,U))),
-    assertz(implies(re(c,V),not_re(b,V))),
+    assertz(implies(re(b,X),not_re(c,X))),
+    assertz(implies(re(c,X),not_re(b,X))),
     % query
     assertz(implies((re(b,X),re(c,X)),goal)),
     retina,
-    retract(implies(re(b,U),not_re(c,U))),
-    retract(implies(re(c,V),not_re(b,V))),
+    retract(implies(re(b,X),not_re(c,X))),
+    retract(implies(re(c,X),not_re(b,X))),
     write('true.'),
     nl.
 
