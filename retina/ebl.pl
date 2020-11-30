@@ -6,6 +6,7 @@
 % experience,and organizes training data into a coherent structure.
 
 :- initialization(main).
+
 :- discontiguous(cup/1).
 
 :- dynamic(cup/1).

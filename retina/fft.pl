@@ -1,7 +1,6 @@
 % Fast Fourier Transform
 % Code from the book "Clause and Effect" Chapter 10
 
-%:- use_module(library(lists)).
 :- initialization(test).
 
 test :-

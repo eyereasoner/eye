@@ -1,10 +1,10 @@
 % Equation solver
 % Code from the book "The Art of Prolog" Chapter 23
 
+:- initialization(main).
+
 :- op(40,xfx,\).
 :- op(50,xfx,^).
-
-:- initialization(main).
 
 main :-
     findall([N,Y],(equation(N,E,V),solve_equation(E,V,_=Z),Y is Z),L),

@@ -1,14 +1,16 @@
 % Retina to support controlled chaining
 
-:- dynamic(implies/2).
+:- initialization(test).
+
+:- op(1150,xfx,'-:').
+
+:- dynamic('-:'/2).
 :- dynamic(brake/0).
 :- dynamic(label/1).
 :- dynamic(goal/0).
 
-:- initialization(test).
-
 test :-
-    \+ implies(_,_),
+    \+(_ -: _),
     write('true.'),
     nl.
 test.
@@ -16,7 +18,7 @@ test.
 label(0).
 
 retina :-
-    (   implies(Prem,Conc),
+    (   (Prem -: Conc),
         call(Prem),
         \+call(Conc),
         label(Current),

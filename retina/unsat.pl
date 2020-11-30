@@ -1,6 +1,5 @@
 % See Chaper 11 of "Thinking as Computation" from Hector J. Levesque
 
-:- use_module(library(lists)).
 :- initialization(main).
 
 main :-
