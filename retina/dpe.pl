@@ -35,7 +35,6 @@ re(a,c).
 % equality axioms
 implies(dom(X),e(X,X)).
 
-
 implies(e(X,Y),e(Y,X)).
 implies(not_e(Y,X),not_e(X,Y)).
 
