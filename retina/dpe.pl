@@ -1,9 +1,10 @@
 % Diamond Property Equality
-% original version at http://www.ii.uib.no/~bezem/GL/dpe.in
 % DP(r) => DP(re), i.e. the diamond property is preserved under reflexive closure
+% original version at http://www.ii.uib.no/~bezem/GL/dpe.in
 
 :- initialization(main).
 
+:- dynamic(dom/1).
 :- dynamic(e/2).
 :- dynamic(r/2).
 :- dynamic(re/2).
@@ -24,12 +25,15 @@ main :-
     write('true.'),
     nl.
 
+dom(a).
+dom(b).
+dom(c).
+
 re(a,b).
 re(a,c).
 
 % equality axioms
-implies(re(X,_),e(X,X)).
-implies(re(_,X),e(X,X)).
+implies(dom(X),e(X,X)).
 
 
 implies(e(X,Y),e(Y,X)).
@@ -51,4 +55,4 @@ implies((not_r(X,Y),not_e(X,Y)),not_re(X,Y)).
 implies((re(X,Y),not_r(X,Y)),e(X,Y)).
 
 % DP
-implies((r(X,Y),r(X,Z),not_e(Y,Z)),(r(Y,U),r(Z,U))).
+implies((r(X,Y),r(X,Z),not_e(Y,Z)),(dom(U),r(Y,U),r(Z,U))).
