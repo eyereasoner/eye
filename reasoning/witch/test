@@ -1,3 +1,3 @@
 #!/bin/bash
-eye "$@" http://josd.github.io/eye/reasoning/witch/witch.n3 --query http://josd.github.io/eye/reasoning/witch/witch-goal.n3 > witch-proof.n3
-eye "$@" http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --proof http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3 > floatingwoman-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/witch . http://josd.github.io/eye/reasoning/witch/witch.n3 --query http://josd.github.io/eye/reasoning/witch/witch-goal.n3 > witch-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/witch . http://josd.github.io/eye/reasoning/witch/floatingwoman.n3 --proof http://josd.github.io/eye/reasoning/witch/witch-proof.n3 --query http://josd.github.io/eye/reasoning/witch/floatingwoman-goal.n3 > floatingwoman-proof.n3
