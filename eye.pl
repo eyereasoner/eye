@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1125.1710 josd').
+version_info('EYE v20.1203.2013 josd').
 
 license_info('MIT License
 
@@ -259,8 +259,6 @@ main :-
     ->  assertz(prolog_file_type(pvm,qlf))
     ;   true
     ),
-    retractall(flag(traditional)),
-    assertz(flag(traditional)),
     (   Argv = ['--n3',_]
     ->  retractall(flag('parse-only')),
         assertz(flag('parse-only'))
@@ -427,13 +425,6 @@ gre(Argus) :-
     ;   (   pfx('r:',_)
         ->  true
         ;   assertz(pfx('r:','<http://www.w3.org/2000/10/swap/reason#>'))
-        ),
-        (   \+flag(traditional)
-        ->  true
-        ;   (   pfx('n3:',_)
-            ->  true
-            ;   assertz(pfx('n3:','<http://www.w3.org/2004/06/rei#>'))
-            )
         )
     ),
     (   flag('pass-only-new')
@@ -838,11 +829,6 @@ opts(['--tactic','linear-select'|Argus],Args) :-
 opts(['--tactic',Tactic|_],_) :-
     !,
     throw(not_supported_tactic(Tactic)).
-opts(['--traditional'|Argus],Args) :-
-    !,
-    retractall(flag(traditional)),
-    assertz(flag(traditional)),
-    opts(Argus,Args).
 opts(['--version'|_],_) :-
     !,
     throw(halt).
@@ -2264,11 +2250,6 @@ symbol(Name) -->
     uri(Name),
     !.
 symbol(Name) -->
-    [fvar(Nm)],
-    {   atomic_list_concat(['\'$',Nm,'\''],Name)
-    },
-    !.
-symbol(Name) -->
     [name(N)],
     !,
     {   (   memberchk(N,[true,false])
@@ -2326,11 +2307,6 @@ universal -->
     !,
     symbol_csl(Symbols),
     {   nb_getval(fdepth,D),
-        (   \+flag(traditional),
-            D > 0
-        ->  throw(not_supported_keyword('@forAll',at_formula_depth(D)))
-        ;   true
-        ),
         forall(
             (   member(S,Symbols)
             ),
@@ -2506,15 +2482,6 @@ token(0'?,In,C,uvar(Name)) :-
     ;   C = C0,
         nb_getval(line_number,Ln),
         throw(empty_quickvar_name(line(Ln)))
-    ).
-token(0'$,In,C,fvar(Name)) :-
-    !,
-    get_code(In,C0),
-    (   name(C0,In,C,Name)
-    ->  true
-    ;   C = C0,
-        nb_getval(line_number,Ln),
-        throw(empty_freevar_name(line(Ln)))
     ).
 token(0'_,In,C,bnode(Name)) :-
     peek_code(In,0':),
@@ -3252,10 +3219,7 @@ wh :-
             (   pfx(A,B),
                 \+wpfx(A)
             ),
-            (   (   \+flag(traditional)
-                ->  format('PREFIX ~w ~w~n',[A,B])
-                ;   format('@prefix ~w ~w.~n',[A,B])
-                ),
+            (   format('@prefix ~w ~w.~n',[A,B]),
                 assertz(wpfx(A)),
                 nb_setval(wpfx,true)
             )
@@ -3351,15 +3315,6 @@ w3 :-
                 djiti_answer(answer(C),answer(C1,C2,C3)),
                 nl,
                 indent,
-                getvars(C,D),
-                (   C = '<http://www.w3.org/2000/10/swap/log#implies>'(_,_)
-                ->  Q = allv
-                ;   Q = some
-                ),
-                (   \+flag(traditional)
-                ->  true
-                ;   wq(D,Q)
-                ),
                 wt(C),
                 ws(C),
                 write('.'),
@@ -3437,19 +3392,9 @@ wj(Cnt,A,true,C,Rule) :-        % wj(Count,Source,Premise,Conclusion,Rule)
         nl,
         indentation(2),
         indent,
-        (   C = rule(PVars,EVars,Rule)
-        ->  (   \+flag(traditional)
-            ->  true
-            ;   wq(PVars,allv),
-                wq(EVars,some)
-            ),
-            wt(Rule)
+        (   C = rule(_,_,Rule)
+        ->  wt(Rule)
         ;   labelvars([A,C],0,_,avar),
-            getvars(C,D),
-            (   \+flag(traditional)
-            ->  true
-            ;   wq(D,some)
-            ),
             wt(C)
         ),
         ws(C),
@@ -3488,13 +3433,6 @@ wj(Cnt,A,B,C,Rule) :-
     ;   write(' {'),
         nl,
         Rule = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem,Conc),
-        unifiable(Prem,B,Bs),
-        (   unifiable(Conc,C,Cs)
-        ->  true
-        ;   Cs = []
-        ),
-        append(Bs,Cs,Ds),
-        sort(Ds,Bindings),
         term_variables(Prem,PVars),
         term_variables(Conc,CVars),
         nb_getval(wn,W),
@@ -3507,17 +3445,8 @@ wj(Cnt,A,B,C,Rule) :-
             ),
             EVars
         ),
-        getvars(C,D),
-        (   C = '<http://www.w3.org/2000/10/swap/log#implies>'(_,_)
-        ->  Q = allv
-        ;   Q = some
-        ),
         indentation(2),
         indent,
-        (   \+flag(traditional)
-        ->  true
-        ;   wq(D,Q)
-        ),
         wt(C),
         ws(C),
         write('.'),
@@ -3539,10 +3468,6 @@ wj(Cnt,A,B,C,Rule) :-
     retractall(got_wi(_,_,_,_,_)),
     nl,
     indent,
-    (   \+flag(traditional)
-    ->  true
-    ;   wb(Bindings)
-    ),
     wp('<http://www.w3.org/2000/10/swap/reason#rule>'),
     write(' '),
     wi(A,true,rule(PVars,EVars,Rule),_),
@@ -3578,17 +3503,12 @@ wr(Y) :-
     ->  wt(Y)
     ;   write('{'),
         labelvars(Y,0,_,avar),
-        (   \+flag(traditional)
-        ->  (   (   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#calculate>'(_,_)
-                ;   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'(_,_)
-                )
-            ->  makevars(Y,X,zeta),
-                numbervars(X,0,_)
-            ;   X = Y
+        (   (   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#calculate>'(_,_)
+            ;   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'(_,_)
             )
-        ;   getvars(Y,Z),
-            wq(Z,some),
-            X = Y
+        ->  makevars(Y,X,zeta),
+            numbervars(X,0,_)
+        ;   X = Y
         ),
         wt(X),
         write('}')
@@ -3638,11 +3558,6 @@ wt0(X) :-
     ).
 wt0(X) :-
     atom(X),
-    atom_concat('$',_,X),
-    !,
-    write(X).
-wt0(X) :-
-    atom(X),
     atom_concat(some,Y,X),
     !,
     (   \+flag('no-qvars')
@@ -3659,7 +3574,8 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['$some_',Y],Z),
+    ;   nb_getval(var_ns,Vns),
+        atomic_list_concat(['<',Vns,'sk_',Y,'>'],Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -3681,20 +3597,18 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['$all_',Y],Z),
+    ;   nb_getval(var_ns,Vns),
+        atomic_list_concat(['<',Vns,'U_',Y,'>'],Z),
         wt0(Z)
     ).
 wt0(X) :-
     atom(X),
     atom_concat(avar,Y,X),
     !,
-    atomic_list_concat(['$x_',Y],Z),
+    nb_getval(var_ns,Vns),
+    atomic_list_concat(['<',Vns,'x_',Y,'>'],Z),
     wt0(Z).
 wt0(X) :-
-    (   \+flag(traditional)
-    ->  true
-    ;   flag(nope)
-    ),
     \+flag('pass-all-ground'),
     \+keep_skolem(X),
     nb_getval(var_ns,Vns),
@@ -3743,10 +3657,6 @@ wt0(X) :-
     !.
 wt0(X) :-
     flag('quantify',Prefix),
-    (   \+flag(traditional)
-    ->  true
-    ;   flag(nope)
-    ),
     atom(X),
     sub_atom(X,1,_,_,Prefix),
     !,
@@ -4229,29 +4139,18 @@ wq([X|Y],some) :-
     ;   true
     ).
 
-wb([]) :-
-    !.
-wb([X = Y|Z]) :-
-    wp('<http://www.w3.org/2000/10/swap/reason#binding>'),
-    write(' [ '),
-    wp('<http://www.w3.org/2000/10/swap/reason#variable>'),
-    write(' '),
-    wv(X),
-    write('; '),
-    wp('<http://www.w3.org/2000/10/swap/reason#boundTo>'),
-    write(' '),
-    wv(Y),
-    write('];'),
-    nl,
-    indent,
-    wb(Z).
-
 wv(X) :-
     atom(X),
     atom_concat(avar,Y,X),
     !,
-    write('$x_'),
-    write(Y).
+    write('[ '),
+    wp('<http://www.w3.org/2004/06/rei#uri>'),
+    write(' "'),
+    nb_getval(var_ns,Vns),
+    write(Vns),
+    write('x_'),
+    write(Y),
+    write('"]').
 wv(X) :-
     atom(X),
     atom_concat(some,Y,X),
@@ -5419,10 +5318,7 @@ djiti_assertz(A) :-
             ;   forall(
                     (   pfx(C,D)
                     ),
-                    (   (   \+flag(traditional)
-                        ->  format('PREFIX ~w ~w~n',[C,D])
-                        ;   format('@prefix ~w ~w.~n',[C,D])
-                        )
+                    (   format('@prefix ~w ~w.~n',[C,D])
                     )
                 ),
                 nl
@@ -9797,7 +9693,8 @@ findvars(A,B,Z) :-
 
 findvar(A,alpha) :-
     !,
-    atom_concat('$',_,A).
+    nb_getval(var_ns,Vns),
+    sub_atom(A,1,_,_,Vns).
 findvar(A,beta) :-
     (   sub_atom(A,_,19,_,'/.well-known/genid/')
     ;   atom_concat('_bn_',_,A)
