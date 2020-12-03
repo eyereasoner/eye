@@ -1,3 +1,3 @@
 #!/bin/bash
-eye "$@" http://josd.github.io/eye/reasoning/image/year.n3 http://josd.github.io/eye/reasoning/image/easter.n3 --image ype.pvm
-swipl -x ype.pvm -- "$@" --query http://josd.github.io/eye/reasoning/image/query.n3 > easter-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/image . http://josd.github.io/eye/reasoning/image/year.n3 http://josd.github.io/eye/reasoning/image/easter.n3 --image ype.pvm
+swipl -x ype.pvm -- "$@" --wcache http://josd.github.io/eye/reasoning/image . --query http://josd.github.io/eye/reasoning/image/query.n3 > easter-proof.n3

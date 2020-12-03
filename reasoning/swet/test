@@ -1,7 +1,7 @@
 #!/bin/bash
-eye "$@" --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ01.n3 > swetA01.n3
-eye "$@" --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ11.n3 > swetA11.n3
-eye "$@" --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ21.n3 > swetA21.n3
-eye "$@" --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ31.n3 > swetA31.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/swet . --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ01.n3 > swetA01.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/swet . --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ11.n3 > swetA11.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/swet . --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ21.n3 > swetA21.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/swet . --nope http://josd.github.io/eye/reasoning/swet/swetA.n3 http://josd.github.io/eye/reasoning/swet/swetD.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ31.n3 > swetA31.n3
 
-eye "$@" http://josd.github.io/eye/reasoning/swet/swetA.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ.n3 > swet_proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning/swet . http://josd.github.io/eye/reasoning/swet/swetA.n3 --query=http://josd.github.io/eye/reasoning/swet/swetQ.n3 > swet_proof.n3
