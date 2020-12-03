@@ -23,7 +23,6 @@
     <#lemma3>
     <#lemma4>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
   r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
@@ -34,7 +33,6 @@
     <#lemma6>
     <#lemma7>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -53,16 +51,12 @@
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task1 a :DiscardedTask}}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
-  r:binding [ r:variable $x_1; r:boundTo {:task1 a :CompositeTask.
-   :task2 a :CompositeTask}];
-  r:binding [ r:variable $x_2; r:boundTo {:task1 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 a :CompositeTask.
-     {$x_0 a :DiscardedTask} n3:notIn <http://josd.github.io/eye/reasoning/n3c/tasks.n3>} => {$x_0 a :NotDiscardedTask}.
+    {?x_0_1 a :CompositeTask.
+     {?x_0_1 a :DiscardedTask} n3:notIn <http://josd.github.io/eye/reasoning/n3c/tasks.n3>} => {?x_0_1 a :NotDiscardedTask}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/notIn_query.n3>].
 
@@ -82,19 +76,15 @@
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task2 a :DiscardedTask}}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
-  r:binding [ r:variable $x_1; r:boundTo {:task1 a :CompositeTask.
-   :task2 a :CompositeTask}];
-  r:binding [ r:variable $x_2; r:boundTo {:task2 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2. {$x_2 n3:notIn $x_0} <= {$x_0 log:semantics $x_1.
-     $x_1 log:notIncludes $x_2}.
+    {?x_2_2 n3:notIn ?x_0_2} <= {?x_0_2 log:semantics ?x_1_2.
+     ?x_1_2 log:notIncludes ?x_2_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 
-#2020-11-27T21:59:54.022Z in=7 out=2 ent=2 step=2 brake=1 inf=29826 sec=0.037 inf/sec=806108
+#2020-12-03T19:32:28.571Z in=7 out=2 ent=2 step=2 brake=1 inf=28087 sec=0.038 inf/sec=739132
 #ENDS
 

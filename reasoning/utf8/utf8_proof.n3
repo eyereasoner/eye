@@ -3,7 +3,6 @@
 
 @prefix : <http://josd.github.io/eye/reasoning/utf8/try#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -26,9 +25,6 @@
   r:evidence (
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#p"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#s"]];
-  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#béc"]];
   r:rule <#lemma7>.
 
 <#lemma2> a r:Inference;
@@ -38,9 +34,6 @@
   r:evidence (
     <#lemma8>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#p"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#s"]];
-  r:binding [ r:variable $x_2; r:boundTo "€"];
   r:rule <#lemma7>.
 
 <#lemma3> a r:Inference;
@@ -50,9 +43,6 @@
   r:evidence (
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#p"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#s"]];
-  r:binding [ r:variable $x_2; r:boundTo "𝟋"@en-US];
   r:rule <#lemma7>.
 
 <#lemma4> a r:Inference;
@@ -62,9 +52,6 @@
   r:evidence (
     <#lemma10>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#p"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#s"]];
-  r:binding [ r:variable $x_2; r:boundTo "Ø"];
   r:rule <#lemma7>.
 
 <#lemma5> a r:Inference;
@@ -74,9 +61,6 @@
   r:evidence (
     <#lemma11>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#p"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/utf8/try#s"]];
-  r:binding [ r:variable $x_2; r:boundTo "the “test” is ok"];
   r:rule <#lemma7>.
 
 <#lemma6> a r:Extraction;
@@ -87,7 +71,7 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2. {$x_1 $x_0 $x_2} => {$x_1 $x_0 $x_2}.
+    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -115,6 +99,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
 
-#2020-11-27T22:00:37.457Z in=5 out=5 ent=5 step=5 brake=1 inf=21497 sec=0.031 inf/sec=693452
+#2020-12-03T19:33:09.302Z in=5 out=5 ent=5 step=5 brake=1 inf=19062 sec=0.030 inf/sec=635400
 #ENDS
 

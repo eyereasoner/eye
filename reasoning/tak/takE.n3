@@ -5,7 +5,6 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -20,7 +19,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo 13];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -36,21 +34,11 @@
     <#lemma6>
     <#lemma7>
   );
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_0; r:boundTo 18];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 13];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 12];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 13];
-  r:binding [ r:variable $x_9; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {(18 13 8) :tak $x_0} => {(18 13 8) :tak $x_0}.
+    {(18 13 8) :tak ?x_0_1} => {(18 13 8) :tak ?x_0_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/takQ.n3>].
 
@@ -67,16 +55,6 @@
     <#lemma11>
     <#lemma12>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 13];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 12];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 13];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Inference;
@@ -92,16 +70,6 @@
     <#lemma15>
     <#lemma16>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 18];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 17];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma6> a r:Inference;
@@ -112,9 +80,6 @@
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma7> a r:Inference;
@@ -125,20 +90,17 @@
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. {($x_0 $x_2 $x_3) :tak $x_9} <= {("_X-1" $x_0) e:calculate $x_1.
-     ($x_1 $x_2 $x_3) :tak $x_4.
-     ("_Y-1" $x_2) e:calculate $x_5.
-     ($x_5 $x_3 $x_0) :tak $x_6.
-     ("_Z-1" $x_3) e:calculate $x_7.
-     ($x_7 $x_0 $x_2) :tak $x_8.
-     ($x_4 $x_6 $x_8) :tak $x_9}.
+    {(?x_0_2 ?x_2_2 ?x_3_2) :tak ?x_9_2} <= {("_X-1" ?x_0_2) e:calculate ?x_1_2.
+     (?x_1_2 ?x_2_2 ?x_3_2) :tak ?x_4_2.
+     ("_Y-1" ?x_2_2) e:calculate ?x_5_2.
+     (?x_5_2 ?x_3_2 ?x_0_2) :tak ?x_6_2.
+     ("_Z-1" ?x_3_2) e:calculate ?x_7_2.
+     (?x_7_2 ?x_0_2 ?x_2_2) :tak ?x_8_2.
+     (?x_4_2 ?x_6_2 ?x_8_2) :tak ?x_9_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/tak.n3>].
 
@@ -155,16 +117,6 @@
     <#lemma20>
     <#lemma7>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 13];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 12];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 13];
-  r:binding [ r:variable $x_9; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma10> a r:Inference;
@@ -180,16 +132,6 @@
     <#lemma23>
     <#lemma24>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 17];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 16];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma11> a r:Inference;
@@ -200,9 +142,6 @@
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma12> a r:Inference;
@@ -218,16 +157,6 @@
     <#lemma27>
     <#lemma28>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 13];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma13> a r:Inference;
@@ -243,16 +172,6 @@
     <#lemma31>
     <#lemma32>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 18];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 17];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma14> a r:Inference;
@@ -263,9 +182,6 @@
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma15> a r:Inference;
@@ -281,16 +197,6 @@
     <#lemma22>
     <#lemma33>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 12];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 11];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma16> a r:Inference;
@@ -301,14 +207,11 @@
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma17> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1. @forSome $x_2. {($x_0 $x_1 $x_2) :tak $x_2} <= {("=<" $x_0 $x_1) e:derive true.
+    {(?x_0_3 ?x_1_3 ?x_2_3) :tak ?x_2_3} <= {("=<" ?x_0_3 ?x_1_3) e:derive true.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/tak/tak.n3>].
@@ -326,16 +229,6 @@
     <#lemma36>
     <#lemma12>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 13];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 12];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 13];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma19> a r:Inference;
@@ -351,16 +244,6 @@
     <#lemma39>
     <#lemma16>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 16];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 15];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma20> a r:Inference;
@@ -371,9 +254,6 @@
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma21> a r:Inference;
@@ -389,16 +269,6 @@
     <#lemma42>
     <#lemma43>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 17];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 16];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma22> a r:Inference;
@@ -409,9 +279,6 @@
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma23> a r:Inference;
@@ -427,16 +294,6 @@
     <#lemma38>
     <#lemma44>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 12];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 11];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma24> a r:Inference;
@@ -447,9 +304,6 @@
     [ a r:Fact; r:gives {("=<" 11 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma25> a r:Inference;
@@ -465,16 +319,6 @@
     <#lemma47>
     <#lemma24>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma26> a r:Inference;
@@ -485,9 +329,6 @@
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma27> a r:Inference;
@@ -498,9 +339,6 @@
     [ a r:Fact; r:gives {("=<" 12 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma28> a r:Inference;
@@ -511,9 +349,6 @@
     [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma29> a r:Inference;
@@ -529,16 +364,6 @@
     <#lemma50>
     <#lemma51>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 18];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 17];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma30> a r:Inference;
@@ -549,9 +374,6 @@
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma31> a r:Inference;
@@ -567,16 +389,6 @@
     <#lemma41>
     <#lemma52>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma32> a r:Inference;
@@ -587,9 +399,6 @@
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma33> a r:Inference;
@@ -600,9 +409,6 @@
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma34> a r:Inference;
@@ -618,16 +424,6 @@
     <#lemma55>
     <#lemma56>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 13];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 12];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 13];
-  r:binding [ r:variable $x_9; r:boundTo 13];
   r:rule <#lemma8>.
 
 <#lemma35> a r:Inference;
@@ -643,16 +439,6 @@
     <#lemma59>
     <#lemma24>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 15];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 14];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma36> a r:Inference;
@@ -663,9 +449,6 @@
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma37> a r:Inference;
@@ -681,16 +464,6 @@
     <#lemma62>
     <#lemma32>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 16];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 15];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma38> a r:Inference;
@@ -701,9 +474,6 @@
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma39> a r:Inference;
@@ -719,16 +489,6 @@
     <#lemma58>
     <#lemma33>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 12];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 11];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma40> a r:Inference;
@@ -744,16 +504,6 @@
     <#lemma65>
     <#lemma66>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 17];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 16];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma41> a r:Inference;
@@ -764,9 +514,6 @@
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma42> a r:Inference;
@@ -782,16 +529,6 @@
     <#lemma61>
     <#lemma67>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma43> a r:Inference;
@@ -802,9 +539,6 @@
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma44> a r:Inference;
@@ -820,16 +554,6 @@
     <#lemma24>
     <#lemma70>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 12];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 11];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma45> a r:Inference;
@@ -845,16 +569,6 @@
     <#lemma73>
     <#lemma74>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma46> a r:Inference;
@@ -865,9 +579,6 @@
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma47> a r:Inference;
@@ -878,9 +589,6 @@
     [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma48> a r:Inference;
@@ -896,16 +604,6 @@
     <#lemma77>
     <#lemma78>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 18];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 17];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma49> a r:Inference;
@@ -916,9 +614,6 @@
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma50> a r:Inference;
@@ -934,16 +629,6 @@
     <#lemma64>
     <#lemma79>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma51> a r:Inference;
@@ -954,9 +639,6 @@
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma52> a r:Inference;
@@ -972,16 +654,6 @@
     <#lemma32>
     <#lemma32>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 11];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 10];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma53> a r:Inference;
@@ -992,9 +664,6 @@
     [ a r:Fact; r:gives {("=<" 13 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma54> a r:Inference;
@@ -1010,16 +679,6 @@
     <#lemma84>
     <#lemma16>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 14];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 13];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma55> a r:Inference;
@@ -1030,9 +689,6 @@
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma56> a r:Inference;
@@ -1043,9 +699,6 @@
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma57> a r:Inference;
@@ -1061,16 +714,6 @@
     <#lemma87>
     <#lemma43>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 15];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 14];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma58> a r:Inference;
@@ -1081,9 +724,6 @@
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma59> a r:Inference;
@@ -1099,16 +739,6 @@
     <#lemma83>
     <#lemma44>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 12];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 11];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma60> a r:Inference;
@@ -1124,16 +754,6 @@
     <#lemma90>
     <#lemma51>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 16];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 15];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma61> a r:Inference;
@@ -1144,9 +764,6 @@
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma62> a r:Inference;
@@ -1162,16 +779,6 @@
     <#lemma86>
     <#lemma52>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma63> a r:Inference;
@@ -1187,16 +794,6 @@
     <#lemma93>
     <#lemma94>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 17];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 16];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma64> a r:Inference;
@@ -1207,9 +804,6 @@
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma65> a r:Inference;
@@ -1225,16 +819,6 @@
     <#lemma89>
     <#lemma95>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma66> a r:Inference;
@@ -1245,9 +829,6 @@
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma67> a r:Inference;
@@ -1258,9 +839,6 @@
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma68> a r:Inference;
@@ -1276,16 +854,6 @@
     <#lemma98>
     <#lemma32>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 12];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 11];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma69> a r:Inference;
@@ -1296,9 +864,6 @@
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma70> a r:Inference;
@@ -1309,9 +874,6 @@
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma71> a r:Inference;
@@ -1327,16 +889,6 @@
     <#lemma101>
     <#lemma102>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma72> a r:Inference;
@@ -1347,9 +899,6 @@
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma73> a r:Inference;
@@ -1365,16 +914,6 @@
     <#lemma97>
     <#lemma67>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma74> a r:Inference;
@@ -1385,9 +924,6 @@
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma75> a r:Inference;
@@ -1398,9 +934,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 18];
   r:rule <#lemma17>.
 
 <#lemma76> a r:Inference;
@@ -1411,9 +944,6 @@
     [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma77> a r:Inference;
@@ -1429,16 +959,6 @@
     <#lemma92>
     <#lemma103>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 17];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma78> a r:Inference;
@@ -1454,16 +974,6 @@
     <#lemma105>
     <#lemma106>
   );
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_0; r:boundTo 18];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 18];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma79> a r:Inference;
@@ -1474,9 +984,6 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma80> a r:Inference;
@@ -1492,16 +999,6 @@
     <#lemma109>
     <#lemma110>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 11];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 10];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma81> a r:Inference;
@@ -1512,9 +1009,6 @@
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma82> a r:Inference;
@@ -1530,16 +1024,6 @@
     <#lemma113>
     <#lemma32>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 14];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 13];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma83> a r:Inference;
@@ -1550,9 +1034,6 @@
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma84> a r:Inference;
@@ -1568,16 +1049,6 @@
     <#lemma116>
     <#lemma117>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 12];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 11];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 12];
-  r:binding [ r:variable $x_9; r:boundTo 12];
   r:rule <#lemma8>.
 
 <#lemma85> a r:Inference;
@@ -1593,16 +1064,6 @@
     <#lemma120>
     <#lemma66>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 15];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 14];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma86> a r:Inference;
@@ -1613,9 +1074,6 @@
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma87> a r:Inference;
@@ -1631,16 +1089,6 @@
     <#lemma112>
     <#lemma67>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma88> a r:Inference;
@@ -1656,16 +1104,6 @@
     <#lemma123>
     <#lemma124>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 16];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 15];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma89> a r:Inference;
@@ -1676,9 +1114,6 @@
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma90> a r:Inference;
@@ -1694,16 +1129,6 @@
     <#lemma119>
     <#lemma79>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma91> a r:Inference;
@@ -1714,9 +1139,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 17];
   r:rule <#lemma17>.
 
 <#lemma92> a r:Inference;
@@ -1727,9 +1149,6 @@
     [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma93> a r:Inference;
@@ -1745,16 +1164,6 @@
     <#lemma122>
     <#lemma125>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 16];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma94> a r:Inference;
@@ -1770,16 +1179,6 @@
     <#lemma127>
     <#lemma103>
   );
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_0; r:boundTo 17];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 17];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma95> a r:Inference;
@@ -1795,16 +1194,6 @@
     <#lemma66>
     <#lemma109>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 10];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 9];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma96> a r:Inference;
@@ -1820,16 +1209,6 @@
     <#lemma110>
     <#lemma131>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 12];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 11];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma97> a r:Inference;
@@ -1840,9 +1219,6 @@
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma98> a r:Inference;
@@ -1853,9 +1229,6 @@
     [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma99> a r:Inference;
@@ -1866,9 +1239,6 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma100> a r:Inference;
@@ -1879,9 +1249,6 @@
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma101> a r:Inference;
@@ -1897,16 +1264,6 @@
     <#lemma130>
     <#lemma132>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma102> a r:Inference;
@@ -1922,16 +1279,6 @@
     <#lemma134>
     <#lemma135>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 10];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 13];
-  r:binding [ r:variable $x_7; r:boundTo 9];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma103> a r:Inference;
@@ -1942,9 +1289,6 @@
     [ a r:Fact; r:gives {("=<" 9 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma104> a r:Inference;
@@ -1955,9 +1299,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 18];
   r:rule <#lemma17>.
 
 <#lemma105> a r:Inference;
@@ -1968,9 +1309,6 @@
     [ a r:Fact; r:gives {("=<" 8 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma106> a r:Inference;
@@ -1981,9 +1319,6 @@
     [ a r:Fact; r:gives {("=<" 9 18) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 18];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma107> a r:Inference;
@@ -1994,9 +1329,6 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma108> a r:Inference;
@@ -2007,9 +1339,6 @@
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma109> a r:Inference;
@@ -2020,9 +1349,6 @@
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma110> a r:Inference;
@@ -2038,16 +1364,6 @@
     <#lemma108>
     <#lemma136>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma111> a r:Inference;
@@ -2063,16 +1379,6 @@
     <#lemma139>
     <#lemma51>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 14];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 13];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma112> a r:Inference;
@@ -2083,9 +1389,6 @@
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma113> a r:Inference;
@@ -2101,16 +1404,6 @@
     <#lemma142>
     <#lemma52>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma114> a r:Inference;
@@ -2121,9 +1414,6 @@
     [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma115> a r:Inference;
@@ -2139,16 +1429,6 @@
     <#lemma140>
     <#lemma43>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma116> a r:Inference;
@@ -2159,9 +1439,6 @@
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma117> a r:Inference;
@@ -2172,9 +1449,6 @@
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma118> a r:Inference;
@@ -2190,16 +1464,6 @@
     <#lemma145>
     <#lemma146>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 15];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 14];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma119> a r:Inference;
@@ -2210,9 +1474,6 @@
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma120> a r:Inference;
@@ -2228,16 +1489,6 @@
     <#lemma138>
     <#lemma95>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma121> a r:Inference;
@@ -2248,9 +1499,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 16];
   r:rule <#lemma17>.
 
 <#lemma122> a r:Inference;
@@ -2261,9 +1509,6 @@
     [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma123> a r:Inference;
@@ -2279,16 +1524,6 @@
     <#lemma144>
     <#lemma147>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 15];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma124> a r:Inference;
@@ -2304,16 +1539,6 @@
     <#lemma149>
     <#lemma125>
   );
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_0; r:boundTo 16];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 16];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma125> a r:Inference;
@@ -2324,9 +1549,6 @@
     [ a r:Fact; r:gives {("=<" 9 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma126> a r:Inference;
@@ -2337,9 +1559,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 17];
   r:rule <#lemma17>.
 
 <#lemma127> a r:Inference;
@@ -2350,9 +1569,6 @@
     [ a r:Fact; r:gives {("=<" 8 17) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 17];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma128> a r:Inference;
@@ -2363,9 +1579,6 @@
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma129> a r:Inference;
@@ -2376,9 +1589,6 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma130> a r:Inference;
@@ -2389,9 +1599,6 @@
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma131> a r:Inference;
@@ -2407,16 +1614,6 @@
     <#lemma152>
     <#lemma132>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 10];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 9];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma132> a r:Inference;
@@ -2427,9 +1624,6 @@
     [ a r:Fact; r:gives {("=<" 10 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma133> a r:Inference;
@@ -2440,9 +1634,6 @@
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma134> a r:Inference;
@@ -2453,9 +1644,6 @@
     [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma135> a r:Inference;
@@ -2466,9 +1654,6 @@
     [ a r:Fact; r:gives {("=<" 10 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma136> a r:Inference;
@@ -2479,9 +1664,6 @@
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma137> a r:Inference;
@@ -2497,16 +1679,6 @@
     <#lemma155>
     <#lemma156>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 14];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 13];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma138> a r:Inference;
@@ -2517,9 +1689,6 @@
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma139> a r:Inference;
@@ -2535,16 +1704,6 @@
     <#lemma159>
     <#lemma79>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma140> a r:Inference;
@@ -2560,16 +1719,6 @@
     <#lemma162>
     <#lemma163>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 11];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 10];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 11];
-  r:binding [ r:variable $x_9; r:boundTo 11];
   r:rule <#lemma8>.
 
 <#lemma141> a r:Inference;
@@ -2585,16 +1734,6 @@
     <#lemma157>
     <#lemma66>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma142> a r:Inference;
@@ -2605,9 +1744,6 @@
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma143> a r:Inference;
@@ -2618,9 +1754,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 15];
   r:rule <#lemma17>.
 
 <#lemma144> a r:Inference;
@@ -2631,9 +1764,6 @@
     [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma145> a r:Inference;
@@ -2649,16 +1779,6 @@
     <#lemma154>
     <#lemma164>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 14];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma146> a r:Inference;
@@ -2674,16 +1794,6 @@
     <#lemma166>
     <#lemma147>
   );
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_0; r:boundTo 15];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 15];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma147> a r:Inference;
@@ -2694,9 +1804,6 @@
     [ a r:Fact; r:gives {("=<" 9 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma148> a r:Inference;
@@ -2707,9 +1814,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 16];
   r:rule <#lemma17>.
 
 <#lemma149> a r:Inference;
@@ -2720,9 +1824,6 @@
     [ a r:Fact; r:gives {("=<" 8 16) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 16];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma150> a r:Inference;
@@ -2738,16 +1839,6 @@
     <#lemma136>
     <#lemma168>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 10];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 9];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma151> a r:Inference;
@@ -2758,9 +1849,6 @@
     [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma152> a r:Inference;
@@ -2771,9 +1859,6 @@
     [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma153> a r:Inference;
@@ -2784,9 +1869,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 14];
   r:rule <#lemma17>.
 
 <#lemma154> a r:Inference;
@@ -2797,9 +1879,6 @@
     [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma155> a r:Inference;
@@ -2815,16 +1894,6 @@
     <#lemma171>
     <#lemma28>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 13];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma156> a r:Inference;
@@ -2840,16 +1909,6 @@
     <#lemma174>
     <#lemma164>
   );
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_0; r:boundTo 14];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 14];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma157> a r:Inference;
@@ -2865,16 +1924,6 @@
     <#lemma177>
     <#lemma95>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma158> a r:Inference;
@@ -2890,16 +1939,6 @@
     <#lemma169>
     <#lemma172>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 13];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 12];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma159> a r:Inference;
@@ -2910,9 +1949,6 @@
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma160> a r:Inference;
@@ -2923,9 +1959,6 @@
     [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma161> a r:Inference;
@@ -2941,16 +1974,6 @@
     <#lemma175>
     <#lemma51>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 12];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 11];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma162> a r:Inference;
@@ -2961,9 +1984,6 @@
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma163> a r:Inference;
@@ -2974,9 +1994,6 @@
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma164> a r:Inference;
@@ -2987,9 +2004,6 @@
     [ a r:Fact; r:gives {("=<" 9 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma165> a r:Inference;
@@ -3000,9 +2014,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 15];
   r:rule <#lemma17>.
 
 <#lemma166> a r:Inference;
@@ -3013,9 +2024,6 @@
     [ a r:Fact; r:gives {("=<" 8 15) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 15];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma167> a r:Inference;
@@ -3026,9 +2034,6 @@
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma168> a r:Inference;
@@ -3039,9 +2044,6 @@
     [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma169> a r:Inference;
@@ -3057,16 +2059,6 @@
     <#lemma180>
     <#lemma70>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma170> a r:Inference;
@@ -3077,9 +2069,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma171> a r:Inference;
@@ -3090,9 +2079,6 @@
     [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma172> a r:Inference;
@@ -3108,16 +2094,6 @@
     <#lemma183>
     <#lemma28>
   );
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_0; r:boundTo 13];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 13];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma173> a r:Inference;
@@ -3128,9 +2104,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 14];
   r:rule <#lemma17>.
 
 <#lemma174> a r:Inference;
@@ -3141,9 +2114,6 @@
     [ a r:Fact; r:gives {("=<" 8 14) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 14];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma175> a r:Inference;
@@ -3159,16 +2129,6 @@
     <#lemma186>
     <#lemma187>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 10];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 9];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 10];
   r:rule <#lemma8>.
 
 <#lemma176> a r:Inference;
@@ -3184,16 +2144,6 @@
     <#lemma178>
     <#lemma181>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 12];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 11];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma177> a r:Inference;
@@ -3204,9 +2154,6 @@
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma178> a r:Inference;
@@ -3222,16 +2169,6 @@
     <#lemma190>
     <#lemma191>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma179> a r:Inference;
@@ -3242,9 +2179,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma180> a r:Inference;
@@ -3255,9 +2189,6 @@
     [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma181> a r:Inference;
@@ -3273,16 +2204,6 @@
     <#lemma194>
     <#lemma70>
   );
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_0; r:boundTo 12];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 12];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma182> a r:Inference;
@@ -3293,9 +2214,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 13];
   r:rule <#lemma17>.
 
 <#lemma183> a r:Inference;
@@ -3306,9 +2224,6 @@
     [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 13];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma184> a r:Inference;
@@ -3319,9 +2234,6 @@
     [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma185> a r:Inference;
@@ -3337,16 +2249,6 @@
     <#lemma188>
     <#lemma192>
   );
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 8];
-  r:binding [ r:variable $x_3; r:boundTo 11];
-  r:binding [ r:variable $x_5; r:boundTo 7];
-  r:binding [ r:variable $x_6; r:boundTo 9];
-  r:binding [ r:variable $x_7; r:boundTo 10];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma186> a r:Inference;
@@ -3357,9 +2259,6 @@
     [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma187> a r:Inference;
@@ -3370,9 +2269,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma188> a r:Inference;
@@ -3388,16 +2284,6 @@
     <#lemma197>
     <#lemma198>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 8];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 7];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma189> a r:Inference;
@@ -3408,9 +2294,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma190> a r:Inference;
@@ -3421,9 +2304,6 @@
     [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma191> a r:Inference;
@@ -3434,9 +2314,6 @@
     [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma192> a r:Inference;
@@ -3452,16 +2329,6 @@
     <#lemma201>
     <#lemma191>
   );
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_0; r:boundTo 11];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 11];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma193> a r:Inference;
@@ -3472,9 +2339,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 12];
   r:rule <#lemma17>.
 
 <#lemma194> a r:Inference;
@@ -3485,9 +2349,6 @@
     [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 12];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma195> a r:Inference;
@@ -3498,9 +2359,6 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 8];
   r:rule <#lemma17>.
 
 <#lemma196> a r:Inference;
@@ -3511,9 +2369,6 @@
     [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 8];
-  r:binding [ r:variable $x_2; r:boundTo 10];
   r:rule <#lemma17>.
 
 <#lemma197> a r:Inference;
@@ -3524,9 +2379,6 @@
     [ a r:Fact; r:gives {("=<" 7 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma198> a r:Inference;
@@ -3537,9 +2389,6 @@
     [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma199> a r:Inference;
@@ -3555,16 +2404,6 @@
     <#lemma198>
     <#lemma66>
   );
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_0; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_5; r:boundTo 8];
-  r:binding [ r:variable $x_6; r:boundTo 10];
-  r:binding [ r:variable $x_7; r:boundTo 8];
-  r:binding [ r:variable $x_8; r:boundTo 9];
-  r:binding [ r:variable $x_9; r:boundTo 9];
   r:rule <#lemma8>.
 
 <#lemma200> a r:Inference;
@@ -3575,9 +2414,6 @@
     [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 11];
   r:rule <#lemma17>.
 
 <#lemma201> a r:Inference;
@@ -3588,9 +2424,6 @@
     [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 8];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
 <#lemma202> a r:Inference;
@@ -3601,11 +2434,8 @@
     [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
-  r:binding [ r:variable $x_1; r:boundTo 9];
-  r:binding [ r:variable $x_2; r:boundTo 9];
   r:rule <#lemma17>.
 
-#2020-11-27T22:00:32.106Z in=3 out=1 ent=1 step=1 brake=1 inf=1209473 sec=0.161 inf/sec=7512255
+#2020-12-03T19:33:04.355Z in=3 out=1 ent=1 step=1 brake=1 inf=1112188 sec=0.157 inf/sec=7084000
 #ENDS
 

@@ -4,7 +4,6 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -19,7 +18,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -32,18 +30,11 @@
     <#lemma4>
     <#lemma5>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1 1 1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1 1 1 1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (0 0 1)];
-  r:binding [ r:variable $x_5; r:boundTo ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (0 0 0)];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc $x_0} => {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc $x_0}.
+    {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ?x_0_1} => {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ?x_0_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gccQ.n3>].
 
@@ -58,16 +49,6 @@
     <#lemma9>
     <#lemma10>
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma11>.
 
 <#lemma5> a r:Inference;
@@ -80,21 +61,14 @@
     <#lemma12>
     <#lemma13>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1 1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1 1 1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (0 1 1)];
-  r:binding [ r:variable $x_5; r:boundTo ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (0 0 1)];
   r:rule <#lemma6>.
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {($x_0 $x_6) :testgcc $x_3} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_3 e:firstRest ($x_4 $x_5).
-     ($x_1 $x_6) :gcc $x_4.
-     ($x_2 $x_4) :testgcc $x_5}.
+    {(?x_0_2 ?x_6_2) :testgcc ?x_3_2} <= {?x_0_2 e:firstRest (?x_1_2 ?x_2_2).
+     ?x_3_2 e:firstRest (?x_4_2 ?x_5_2).
+     (?x_1_2 ?x_6_2) :gcc ?x_4_2.
+     (?x_2_2 ?x_4_2) :testgcc ?x_5_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -111,16 +85,6 @@
     <#lemma18>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma8> a r:Inference;
@@ -134,13 +98,6 @@
     <#lemma20>
     <#lemma21>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
   r:rule <#lemma22>.
 
 <#lemma9> a r:Inference;
@@ -150,8 +107,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
   r:rule <#lemma23>.
 
 <#lemma10> a r:Inference;
@@ -161,17 +116,15 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
   r:rule <#lemma23>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. {($x_6 ($x_0 $x_1 $x_2)) :gcc ($x_7 $x_8 $x_9)} <= {($x_0 $x_1 $x_2) :netb ($x_3 $x_4).
-     ($x_0 $x_1) :neta $x_5.
-     ($x_3 $x_6 $x_0) :dff $x_7.
-     ($x_4 $x_6 $x_1) :dff $x_8.
-     ($x_5 $x_6 $x_2) :dff $x_9}.
+    {(?x_6_3 (?x_0_3 ?x_1_3 ?x_2_3)) :gcc (?x_7_3 ?x_8_3 ?x_9_3)} <= {(?x_0_3 ?x_1_3 ?x_2_3) :netb (?x_3_3 ?x_4_3).
+     (?x_0_3 ?x_1_3) :neta ?x_5_3.
+     (?x_3_3 ?x_6_3 ?x_0_3) :dff ?x_7_3.
+     (?x_4_3 ?x_6_3 ?x_1_3) :dff ?x_8_3.
+     (?x_5_3 ?x_6_3 ?x_2_3) :dff ?x_9_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -186,16 +139,6 @@
     <#lemma10>
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma11>.
 
 <#lemma13> a r:Inference;
@@ -208,13 +151,6 @@
     <#lemma26>
     <#lemma27>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1 1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (0 1 0)];
-  r:binding [ r:variable $x_5; r:boundTo ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (0 1 1)];
   r:rule <#lemma6>.
 
 <#lemma14> a r:Extraction;
@@ -249,13 +185,13 @@
 
 <#lemma19> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. {($x_0 $x_4 $x_1) :netb ($x_8 $x_9)} <= {($x_0 $x_1) :and $x_2.
-     $x_1 :inv $x_3.
-     ($x_4 $x_3) :and $x_5.
-     $x_0 :inv $x_6.
-     ($x_6 $x_1) :and $x_7.
-     ($x_2 $x_5) :or $x_8.
-     ($x_5 $x_7) :or $x_9}.
+    {(?x_0_4 ?x_4_4 ?x_1_4) :netb (?x_8_4 ?x_9_4)} <= {(?x_0_4 ?x_1_4) :and ?x_2_4.
+     ?x_1_4 :inv ?x_3_4.
+     (?x_4_4 ?x_3_4) :and ?x_5_4.
+     ?x_0_4 :inv ?x_6_4.
+     (?x_6_4 ?x_1_4) :and ?x_7_4.
+     (?x_2_4 ?x_5_4) :or ?x_8_4.
+     (?x_5_4 ?x_7_4) :or ?x_9_4}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -273,17 +209,17 @@
 
 <#lemma22> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {($x_0 $x_1) :neta $x_6} <= {($x_0 $x_1) :and $x_2.
-     $x_0 :inv $x_3.
-     $x_1 :inv $x_4.
-     ($x_3 $x_4) :and $x_5.
-     ($x_2 $x_5) :or $x_6}.
+    {(?x_0_5 ?x_1_5) :neta ?x_6_5} <= {(?x_0_5 ?x_1_5) :and ?x_2_5.
+     ?x_0_5 :inv ?x_3_5.
+     ?x_1_5 :inv ?x_4_5.
+     (?x_3_5 ?x_4_5) :and ?x_5_5.
+     (?x_2_5 ?x_5_5) :or ?x_6_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forSome $x_0,$x_1. {($x_0 1 $x_1) :dff $x_0} <= true.
+    {(?x_0_6 1 ?x_1_6) :dff ?x_0_6} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -300,16 +236,6 @@
     <#lemma18>
     <#lemma21>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma25> a r:Inference;
@@ -319,8 +245,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
   r:rule <#lemma23>.
 
 <#lemma26> a r:Inference;
@@ -334,16 +258,6 @@
     <#lemma25>
     <#lemma31>
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma11>.
 
 <#lemma27> a r:Inference;
@@ -356,13 +270,6 @@
     <#lemma32>
     <#lemma33>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (1 1 0)];
-  r:binding [ r:variable $x_5; r:boundTo ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (0 1 0)];
   r:rule <#lemma6>.
 
 <#lemma28> a r:Extraction;
@@ -384,16 +291,6 @@
     <#lemma18>
     <#lemma21>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma30> a r:Inference;
@@ -407,13 +304,6 @@
     <#lemma17>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 0];
   r:rule <#lemma22>.
 
 <#lemma31> a r:Inference;
@@ -423,8 +313,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
   r:rule <#lemma23>.
 
 <#lemma32> a r:Inference;
@@ -438,16 +326,6 @@
     <#lemma25>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma11>.
 
 <#lemma33> a r:Inference;
@@ -460,13 +338,6 @@
     <#lemma35>
     <#lemma36>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (1 1 1)];
-  r:binding [ r:variable $x_5; r:boundTo ((1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (1 1 0)];
   r:rule <#lemma6>.
 
 <#lemma34> a r:Inference;
@@ -482,16 +353,6 @@
     <#lemma21>
     <#lemma37>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 0];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma35> a r:Inference;
@@ -505,16 +366,6 @@
     <#lemma25>
     <#lemma10>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma11>.
 
 <#lemma36> a r:Inference;
@@ -527,13 +378,6 @@
     <#lemma40>
     <#lemma41>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (1 0 1)];
-  r:binding [ r:variable $x_5; r:boundTo ((1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (1 1 1)];
   r:rule <#lemma6>.
 
 <#lemma37> a r:Extraction;
@@ -555,16 +399,6 @@
     <#lemma21>
     <#lemma37>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma39> a r:Inference;
@@ -578,13 +412,6 @@
     <#lemma14>
     <#lemma37>
   );
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
   r:rule <#lemma22>.
 
 <#lemma40> a r:Inference;
@@ -598,16 +425,6 @@
     <#lemma31>
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 1];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 1];
   r:rule <#lemma11>.
 
 <#lemma41> a r:Inference;
@@ -620,13 +437,6 @@
     <#lemma43>
     <#lemma44>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1 1)];
-  r:binding [ r:variable $x_3; r:boundTo ((1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (1 0 0)];
-  r:binding [ r:variable $x_5; r:boundTo ((0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (1 0 1)];
   r:rule <#lemma6>.
 
 <#lemma42> a r:Inference;
@@ -642,16 +452,6 @@
     <#lemma37>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma43> a r:Inference;
@@ -665,16 +465,6 @@
     <#lemma9>
     <#lemma31>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 1];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma11>.
 
 <#lemma44> a r:Inference;
@@ -687,13 +477,6 @@
     <#lemma47>
     <#lemma48>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo (1)];
-  r:binding [ r:variable $x_3; r:boundTo ((0 0 0) (0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (0 0 0)];
-  r:binding [ r:variable $x_5; r:boundTo ((0 0 1))];
-  r:binding [ r:variable $x_6; r:boundTo (1 0 0)];
   r:rule <#lemma6>.
 
 <#lemma45> a r:Inference;
@@ -709,16 +492,6 @@
     <#lemma37>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 1];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma46> a r:Inference;
@@ -732,13 +505,6 @@
     <#lemma16>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 0];
   r:rule <#lemma22>.
 
 <#lemma47> a r:Inference;
@@ -752,16 +518,6 @@
     <#lemma9>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 1];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma11>.
 
 <#lemma48> a r:Inference;
@@ -774,13 +530,6 @@
     <#lemma4>
     <#lemma50>
   );
-  r:binding [ r:variable $x_0; r:boundTo (1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo ()];
-  r:binding [ r:variable $x_3; r:boundTo ((0 0 1))];
-  r:binding [ r:variable $x_4; r:boundTo (0 0 1)];
-  r:binding [ r:variable $x_5; r:boundTo ()];
-  r:binding [ r:variable $x_6; r:boundTo (0 0 0)];
   r:rule <#lemma6>.
 
 <#lemma49> a r:Inference;
@@ -796,16 +545,6 @@
     <#lemma18>
     <#lemma18>
   );
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 0];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 0];
-  r:binding [ r:variable $x_9; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma50> a r:Inference;
@@ -815,15 +554,14 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo (0 0 1)];
   r:rule <#lemma51>.
 
 <#lemma51> a r:Extraction;
   r:gives {
-    @forSome $x_0. {(() $x_0) :testgcc ()} <= true.
+    {(() ?x_0_7) :testgcc ()} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
-#2020-11-27T21:59:26.872Z in=18 out=1 ent=1 step=1 brake=1 inf=123084 sec=0.041 inf/sec=3002049
+#2020-12-03T19:32:03.866Z in=18 out=1 ent=1 step=1 brake=1 inf=89782 sec=0.037 inf/sec=2426541
 #ENDS
 

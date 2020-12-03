@@ -8,7 +8,6 @@
 @prefix bbn: <http://eulersharp.sourceforge.net/2006/02swap/nbbn-plugin#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -23,7 +22,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo 0.21419642857142857];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -33,17 +31,11 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((<http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://josd.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1)];
-  r:binding [ r:variable $x_1; r:boundTo ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})];
-  r:binding [ r:variable $x_2; r:boundTo {:Resistance :outcomeOf :FloxacinTreatment}];
-  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2003/03swap/log-rules#T"]];
-  r:binding [ r:variable $x_4; r:boundTo ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})];
-  r:binding [ r:variable $x_5; r:boundTo 0.21419642857142857];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional $x_0} => {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional $x_0}.
+    {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional ?x_0_1} => {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) e:biconditional ?x_0_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-query.n3>].
 
@@ -78,12 +70,12 @@
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_1 e:biconditional $x_5} <= {$x_0 e:call {$x_1 e:firstRest ({$x_2 e:boolean $x_3} $x_4).
+    {?x_1_3 e:biconditional ?x_5_3} <= {?x_0_3 e:call {?x_1_3 e:firstRest ({?x_2_3 e:boolean ?x_3_3} ?x_4_3).
       ("if_then_else" {("nb_getval" "bnet" "done") e:derive true} true {() bbn:bnet true.
        ("nb_setval" "bnet" "done") e:derive true}) e:derive true.
-      ($x_2) bbn:bvar true.
-      ($x_3) bbn:bval true.
-      ({$x_2 e:boolean $x_3} $x_4 $x_5) bbn:nb true}}.
+      (?x_2_3) bbn:bvar true.
+      (?x_3_3) bbn:bval true.
+      ({?x_2_3 e:boolean ?x_3_3} ?x_4_3 ?x_5_3) bbn:nb true}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
 
@@ -102,37 +94,26 @@
      ({{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) 0.8660714285714286) bbn:nb true.
      {{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:T} bbn:inverse {{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:F}.
      ({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} {{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:F}) bbn:bcnd 0.5 .
-     ("_F*_E+(1-_F)*_H" 0.8660714285714286 0.17 0.5) e:calculate 0.21419642857142857} true {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) _:sk_0) bbn:nc true.
-     {{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} bbn:inverse _:sk_1.
-     (_:sk_1 ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) _:sk_2) bbn:nc true.
-     ("1/(1+2**(_K-_I))" _:sk_2 _:sk_0) e:calculate 0.21419642857142857}) e:derive true}]
+     ("_F*_E+(1-_F)*_H" 0.8660714285714286 0.17 0.5) e:calculate 0.21419642857142857} true {({{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) ?V0) bbn:nc true.
+     {{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T} bbn:inverse ?V1.
+     (?V1 ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T}) ?V2) bbn:nc true.
+     ("1/(1+2**(_K-_I))" ?V2 ?V0) e:calculate 0.21419642857142857}) e:derive true}]
   );
-  r:binding [ r:variable $x_2; r:boundTo 0.17];
-  r:binding [ r:variable $x_0; r:boundTo {{:Resistance :outcomeOf :FloxacinTreatment} e:boolean e:T}];
-  r:binding [ r:variable $x_1; r:boundTo {{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:T}];
-  r:binding [ r:variable $x_3; r:boundTo ({{:InfectionTreated :outcomeOf :FloxacinTreatment} e:boolean e:T})];
-  r:binding [ r:variable $x_4; r:boundTo 0.8660714285714286];
-  r:binding [ r:variable $x_5; r:boundTo {{:EscherichiaColiInfection :treatedBy :FloxacinTreatment} e:boolean e:F}];
-  r:binding [ r:variable $x_6; r:boundTo 0.5];
-  r:binding [ r:variable $x_7; r:boundTo 0.21419642857142857];
-  r:binding [ r:variable $x_8; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_9; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_10; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10. {($x_0 $x_3 $x_7) bbn:nb true} <= {("if_then_else" {($x_0 $x_1) bbn:bcnd $x_2.
-      ($x_1 $x_3 $x_4) bbn:nb true.
-      $x_1 bbn:inverse $x_5.
-      ($x_0 $x_5) bbn:bcnd $x_6.
-      ("_F*_E+(1-_F)*_H" $x_4 $x_2 $x_6) e:calculate $x_7} true {($x_0 $x_3 $x_8) bbn:nc true.
-      $x_0 bbn:inverse $x_9.
-      ($x_9 $x_3 $x_10) bbn:nc true.
-      ("1/(1+2**(_K-_I))" $x_10 $x_8) e:calculate $x_7}) e:derive true}.
+    {(?x_0_4 ?x_3_4 ?x_7_4) bbn:nb true} <= {("if_then_else" {(?x_0_4 ?x_1_4) bbn:bcnd ?x_2_4.
+      (?x_1_4 ?x_3_4 ?x_4_4) bbn:nb true.
+      ?x_1_4 bbn:inverse ?x_5_4.
+      (?x_0_4 ?x_5_4) bbn:bcnd ?x_6_4.
+      ("_F*_E+(1-_F)*_H" ?x_4_4 ?x_2_4 ?x_6_4) e:calculate ?x_7_4} true {(?x_0_4 ?x_3_4 ?x_8_4) bbn:nc true.
+      ?x_0_4 bbn:inverse ?x_9_4.
+      (?x_9_4 ?x_3_4 ?x_10_4) bbn:nc true.
+      ("1/(1+2**(_K-_I))" ?x_10_4 ?x_8_4) e:calculate ?x_7_4}) e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/nbbn/nbbn-plugin.n3>].
 
-#2020-11-27T21:59:56.692Z in=19 out=1 ent=1 step=1 brake=2 inf=120454 sec=0.050 inf/sec=2409080
+#2020-12-03T19:32:31.272Z in=19 out=1 ent=1 step=1 brake=2 inf=118644 sec=0.049 inf/sec=2421306
 #ENDS
 

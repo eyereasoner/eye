@@ -3,7 +3,6 @@
 
 @prefix : <http://example.org/try#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -20,8 +19,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -31,22 +28,20 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forSome $x_0,$x_1. true => {{$x_0 :p $x_1} => {$x_0 :q $x_1}}.
+    true => {{_:x_0_5 :p _:x_1_5} => {_:x_0_5 :q _:x_1_5}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forSome $x_0,$x_1. true => {{$x_0 :q $x_1} => {$x_0 :r $x_1}}.
+    true => {{_:x_0_6 :q _:x_1_6} => {_:x_0_6 :r _:x_1_6}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
-#2020-11-27T22:00:15.458Z in=5 out=2 ent=2 step=2 brake=1 inf=18800 sec=0.032 inf/sec=587500
+#2020-12-03T19:32:48.804Z in=5 out=2 ent=2 step=2 brake=1 inf=17844 sec=0.036 inf/sec=495667
 #ENDS
 

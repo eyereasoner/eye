@@ -8,7 +8,6 @@
 @prefix seq: <http://josd.github.io/eye/reasoning/seq#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -26,10 +25,6 @@
     [ a r:Fact; r:gives {((1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) (", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
     [ a r:Fact; r:gives {(1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) string:concatenation "1-4, 6, 9-11, 13"}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_1; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")];
-  r:binding [ r:variable $x_2; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13)];
-  r:binding [ r:variable $x_3; r:boundTo "1-4, 6, 9-11, 13"];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -46,22 +41,14 @@
     [ a r:Fact; r:gives {((13 11 10 9 6)) func:reverse (6 9 10 11 13)}]
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_1; r:boundTo (1 "-" 4 ", ")];
-  r:binding [ r:variable $x_2; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_4; r:boundTo (13 11 10 9 6 4 3 2 1)];
-  r:binding [ r:variable $x_3; r:boundTo (1 2 3 4 6 9 10 11 13)];
-  r:binding [ r:variable $x_5; r:boundTo (13 11 10 9 6)];
-  r:binding [ r:variable $x_6; r:boundTo (4 3 2 1)];
-  r:binding [ r:variable $x_7; r:boundTo (6 9 10 11 13)];
   r:rule <#lemma7>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate $x_0.
-     $x_0 list:append $x_1.
-     ($x_2 (", ")) list:append $x_1.
-     $x_2 string:concatenation $x_3} => {(1 2 3 4 6 9 10 11 13) seq:answer $x_3}.
+    {(1 2 3 4 6 9 10 11 13) seq:punctuate ?x_0_1.
+     ?x_0_1 list:append ?x_1_1.
+     (?x_2_1 (", ")) list:append ?x_1_1.
+     ?x_2_1 string:concatenation ?x_3_1} => {(1 2 3 4 6 9 10 11 13) seq:answer ?x_3_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_query.n3>].
 
@@ -75,11 +62,6 @@
     [ a r:Fact; r:gives {(3 1) math:sum 4}]
     <#lemma8>
   );
-  r:binding [ r:variable $x_0; r:boundTo (4 3 2 1)];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo (3 2 1)];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo (2 1)];
   r:rule <#lemma9>.
 
 <#lemma5> a r:Inference;
@@ -90,10 +72,6 @@
     [ a r:Fact; r:gives {(4 3 2 1) e:firstRest (4 (3 2 1))}]
     [ a r:Fact; r:gives {(3 2 1) list:last 1}]
   );
-  r:binding [ r:variable $x_0; r:boundTo (4 3 2 1)];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo (3 2 1)];
-  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma6> a r:Inference;
@@ -110,26 +88,18 @@
     [ a r:Fact; r:gives {((13 11 10 9)) func:reverse (9 10 11 13)}]
     <#lemma13>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_1; r:boundTo (6 ", ")];
-  r:binding [ r:variable $x_2; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_4; r:boundTo (13 11 10 9 6)];
-  r:binding [ r:variable $x_3; r:boundTo (6 9 10 11 13)];
-  r:binding [ r:variable $x_5; r:boundTo (13 11 10 9)];
-  r:binding [ r:variable $x_6; r:boundTo (6)];
-  r:binding [ r:variable $x_7; r:boundTo (9 10 11 13)];
   r:rule <#lemma7>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7. {$x_3 seq:punctuate $x_0} <= {$x_0 e:firstRest ($x_1 $x_2).
-     ($x_3) func:reverse $x_4.
-     ($x_5 $x_6) list:append $x_4.
-     $x_6 seq:check true.
+    {?x_3_2 seq:punctuate ?x_0_2} <= {?x_0_2 e:firstRest (?x_1_2 ?x_2_2).
+     (?x_3_2) func:reverse ?x_4_2.
+     (?x_5_2 ?x_6_2) list:append ?x_4_2.
+     ?x_6_2 seq:check true.
      ("!") e:derive true.
-     $x_6 seq:format $x_1.
-     ($x_5) func:reverse $x_7.
-     $x_7 seq:punctuate $x_2}.
+     ?x_6_2 seq:format ?x_1_2.
+     (?x_5_2) func:reverse ?x_7_2.
+     ?x_7_2 seq:punctuate ?x_2_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -143,26 +113,21 @@
     [ a r:Fact; r:gives {(2 1) math:sum 3}]
     <#lemma14>
   );
-  r:binding [ r:variable $x_0; r:boundTo (3 2 1)];
-  r:binding [ r:variable $x_1; r:boundTo 3];
-  r:binding [ r:variable $x_2; r:boundTo (2 1)];
-  r:binding [ r:variable $x_3; r:boundTo 2];
-  r:binding [ r:variable $x_4; r:boundTo (1)];
   r:rule <#lemma9>.
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 seq:check true} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_2 e:firstRest ($x_3 $x_4).
-     ($x_3 1) math:sum $x_1.
-     $x_2 seq:check true}.
+    {?x_0_3 seq:check true} <= {?x_0_3 e:firstRest (?x_1_3 ?x_2_3).
+     ?x_2_3 e:firstRest (?x_3_3 ?x_4_3).
+     (?x_3_3 1) math:sum ?x_1_3.
+     ?x_2_3 seq:check true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 seq:format ($x_3 "-" $x_1 ", ")} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_2 list:last $x_3}.
+    {?x_0_4 seq:format (?x_3_4 "-" ?x_1_4 ", ")} <= {?x_0_4 e:firstRest (?x_1_4 ?x_2_4).
+     ?x_2_4 list:last ?x_3_4}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -173,7 +138,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 6];
   r:rule <#lemma15>.
 
 <#lemma12> a r:Inference;
@@ -183,7 +147,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 6];
   r:rule <#lemma16>.
 
 <#lemma13> a r:Inference;
@@ -200,14 +163,6 @@
     [ a r:Fact; r:gives {((13)) func:reverse (13)}]
     <#lemma19>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
-  r:binding [ r:variable $x_1; r:boundTo (9 "-" 11 ", ")];
-  r:binding [ r:variable $x_2; r:boundTo ((13 ", "))];
-  r:binding [ r:variable $x_4; r:boundTo (13 11 10 9)];
-  r:binding [ r:variable $x_3; r:boundTo (9 10 11 13)];
-  r:binding [ r:variable $x_5; r:boundTo (13)];
-  r:binding [ r:variable $x_6; r:boundTo (11 10 9)];
-  r:binding [ r:variable $x_7; r:boundTo (13)];
   r:rule <#lemma7>.
 
 <#lemma14> a r:Inference;
@@ -220,22 +175,17 @@
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     <#lemma20>
   );
-  r:binding [ r:variable $x_0; r:boundTo (2 1)];
-  r:binding [ r:variable $x_1; r:boundTo 2];
-  r:binding [ r:variable $x_2; r:boundTo (1)];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo ()];
   r:rule <#lemma9>.
 
 <#lemma15> a r:Extraction;
   r:gives {
-    @forSome $x_0. {($x_0) seq:check true} <= true.
+    {(?x_0_5) seq:check true} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
 <#lemma16> a r:Extraction;
   r:gives {
-    @forSome $x_0. {($x_0) seq:format ($x_0 ", ")} <= true.
+    {(?x_0_6) seq:format (?x_0_6 ", ")} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -249,11 +199,6 @@
     [ a r:Fact; r:gives {(10 1) math:sum 11}]
     <#lemma21>
   );
-  r:binding [ r:variable $x_0; r:boundTo (11 10 9)];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo (10 9)];
-  r:binding [ r:variable $x_3; r:boundTo 10];
-  r:binding [ r:variable $x_4; r:boundTo (9)];
   r:rule <#lemma9>.
 
 <#lemma18> a r:Inference;
@@ -264,10 +209,6 @@
     [ a r:Fact; r:gives {(11 10 9) e:firstRest (11 (10 9))}]
     [ a r:Fact; r:gives {(10 9) list:last 9}]
   );
-  r:binding [ r:variable $x_0; r:boundTo (11 10 9)];
-  r:binding [ r:variable $x_1; r:boundTo 11];
-  r:binding [ r:variable $x_2; r:boundTo (10 9)];
-  r:binding [ r:variable $x_3; r:boundTo 9];
   r:rule <#lemma10>.
 
 <#lemma19> a r:Inference;
@@ -284,14 +225,6 @@
     [ a r:Fact; r:gives {(()) func:reverse ()}]
     <#lemma24>
   );
-  r:binding [ r:variable $x_0; r:boundTo ((13 ", "))];
-  r:binding [ r:variable $x_1; r:boundTo (13 ", ")];
-  r:binding [ r:variable $x_2; r:boundTo ()];
-  r:binding [ r:variable $x_4; r:boundTo (13)];
-  r:binding [ r:variable $x_3; r:boundTo (13)];
-  r:binding [ r:variable $x_5; r:boundTo ()];
-  r:binding [ r:variable $x_6; r:boundTo (13)];
-  r:binding [ r:variable $x_7; r:boundTo ()];
   r:rule <#lemma7>.
 
 <#lemma20> a r:Inference;
@@ -301,7 +234,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
   r:rule <#lemma15>.
 
 <#lemma21> a r:Inference;
@@ -314,11 +246,6 @@
     [ a r:Fact; r:gives {(9 1) math:sum 10}]
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo (10 9)];
-  r:binding [ r:variable $x_1; r:boundTo 10];
-  r:binding [ r:variable $x_2; r:boundTo (9)];
-  r:binding [ r:variable $x_3; r:boundTo 9];
-  r:binding [ r:variable $x_4; r:boundTo ()];
   r:rule <#lemma9>.
 
 <#lemma22> a r:Inference;
@@ -328,7 +255,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 13];
   r:rule <#lemma15>.
 
 <#lemma23> a r:Inference;
@@ -338,7 +264,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 13];
   r:rule <#lemma16>.
 
 <#lemma24> a r:Inference;
@@ -357,7 +282,6 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo 9];
   r:rule <#lemma15>.
 
 <#lemma26> a r:Extraction;
@@ -366,6 +290,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-#2020-11-27T22:00:20.162Z in=7 out=1 ent=1 step=1 brake=1 inf=76960 sec=0.037 inf/sec=2080000
+#2020-12-03T19:32:53.309Z in=7 out=1 ent=1 step=1 brake=1 inf=62760 sec=0.035 inf/sec=1793143
 #ENDS
 

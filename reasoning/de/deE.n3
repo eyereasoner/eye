@@ -3,84 +3,79 @@
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :saying :C.
+    _:e_anon_1 :saying :C.
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :saying :C.
+    _:e_anon_1 :saying :C.
   };
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :saying :C.
+    _:e_anon_1 :saying :C.
   };
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 :saying :C} => {$x_0 :saying :C}.
+    {?x_0_1 :saying :C} => {?x_0_1 :saying :C}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/deQ.n3>].
 
 <#lemma4> a r:Inference;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :saying :A.
+    _:e_anon_1 :saying :A.
   };
   r:evidence (
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma7>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 :saying :A} => {$x_0 :saying :C}.
+    {?x_0_2 :saying :A} => {?x_0_2 :saying :C}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
 <#lemma6> a r:Inference;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :not_saying :B.
+    _:e_anon_1 :not_saying :B.
   };
   r:evidence (
     <#lemma8>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/#e_anon_1"]];
   r:rule <#lemma9>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 :not_saying :B} => {$x_0 :saying :A}.
+    {?x_0_3 :not_saying :B} => {?x_0_3 :saying :A}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
 <#lemma8> a r:Extraction;
   r:gives {
-    <http://josd.github.io/.well-known/genid/#e_anon_1> :not_saying :C.
+    _:e_anon_1 :not_saying :C.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/deA.n3>].
 
 <#lemma9> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 :not_saying :C} => {$x_0 :not_saying :B}.
+    {?x_0_4 :not_saying :C} => {?x_0_4 :not_saying :B}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/de/de.n3>].
 
-#2020-11-27T21:59:08.541Z in=8 out=1 ent=6 step=18 brake=3 inf=25621 sec=0.031 inf/sec=826484
+#2020-12-03T19:31:45.661Z in=8 out=1 ent=6 step=18 brake=3 inf=24815 sec=0.034 inf/sec=729853
 #ENDS
 

@@ -9,7 +9,6 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -30,10 +29,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo {<http://purl.bioontology.org/ontology/ICD10/Q00.0> skos:broaderTransitive <http://purl.bioontology.org/ontology/ICD10/Q00>.
-   <http://purl.bioontology.org/ontology/SNOMEDCT/203922009> skos:broaderTransitive <http://purl.bioontology.org/ontology/SNOMEDCT/89369001>.
-   <http://purl.bioontology.org/ontology/ICD10/Q00> skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/203922009>.
-   <http://purl.bioontology.org/ontology/SNOMEDCT/89369001> skos:exactMatch <http://purl.bioontology.org/ontology/ICD10/Q00.0>}];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -56,19 +51,11 @@
      <http://purl.bioontology.org/ontology/ICD10/Q00> skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/203922009>.
      <http://purl.bioontology.org/ontology/SNOMEDCT/89369001> skos:exactMatch <http://purl.bioontology.org/ontology/ICD10/Q00.0>}}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/SNOMEDCT/203922009"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/SNOMEDCT/89369001"]];
-  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/ICD10/Q00.0"]];
-  r:binding [ r:variable $x_3; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/ICD10/Q00"]];
-  r:binding [ r:variable $x_4; r:boundTo {<http://purl.bioontology.org/ontology/ICD10/Q00.0> skos:broaderTransitive <http://purl.bioontology.org/ontology/ICD10/Q00>.
-   <http://purl.bioontology.org/ontology/SNOMEDCT/203922009> skos:broaderTransitive <http://purl.bioontology.org/ontology/SNOMEDCT/89369001>.
-   <http://purl.bioontology.org/ontology/ICD10/Q00> skos:exactMatch <http://purl.bioontology.org/ontology/SNOMEDCT/203922009>.
-   <http://purl.bioontology.org/ontology/SNOMEDCT/89369001> skos:exactMatch <http://purl.bioontology.org/ontology/ICD10/Q00.0>}];
   r:rule <#lemma8>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {$x_0 a validation:Pattern7CounterIntuitive} => {$x_0 a validation:Pattern7CounterIntuitive}.
+    {?x_0_1 a validation:Pattern7CounterIntuitive} => {?x_0_1 a validation:Pattern7CounterIntuitive}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-query.n3>].
 
@@ -79,8 +66,6 @@
   r:evidence (
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/SNOMEDCT/203922009"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/SNOMEDCT/89369001"]];
   r:rule <#lemma10>.
 
 <#lemma5> a r:Extraction;
@@ -96,8 +81,6 @@
   r:evidence (
     <#lemma11>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/ICD10/Q00.0"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://purl.bioontology.org/ontology/ICD10/Q00"]];
   r:rule <#lemma10>.
 
 <#lemma7> a r:Extraction;
@@ -108,14 +91,14 @@
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 skos:broaderTransitive $x_1.
-     $x_1 skos:exactMatch $x_2.
-     $x_2 skos:broaderTransitive $x_3.
-     $x_3 skos:exactMatch $x_0.
-     {$x_0 skos:broaderTransitive $x_1.
-      $x_1 skos:exactMatch $x_2.
-      $x_2 skos:broaderTransitive $x_3.
-      $x_3 skos:exactMatch $x_0} e:graphCopy $x_4} => {$x_4 a validation:Pattern7CounterIntuitive}.
+    {?x_0_2 skos:broaderTransitive ?x_1_2.
+     ?x_1_2 skos:exactMatch ?x_2_2.
+     ?x_2_2 skos:broaderTransitive ?x_3_2.
+     ?x_3_2 skos:exactMatch ?x_0_2.
+     {?x_0_2 skos:broaderTransitive ?x_1_2.
+      ?x_1_2 skos:exactMatch ?x_2_2.
+      ?x_2_2 skos:broaderTransitive ?x_3_2.
+      ?x_3_2 skos:exactMatch ?x_0_2} e:graphCopy ?x_4_2} => {?x_4_2 a validation:Pattern7CounterIntuitive}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3>].
 
@@ -127,7 +110,7 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1. {$x_0 skos:broader $x_1} => {$x_0 skos:broaderTransitive $x_1}.
+    {?x_0_3 skos:broader ?x_1_3} => {?x_0_3 skos:broaderTransitive ?x_1_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-validation-rules.n3>].
 
@@ -137,6 +120,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/skos/skos-mapping-sample-snomed-icd10.n3>].
 
-#2020-11-27T22:00:21.845Z in=110 out=1 ent=12 step=28 brake=2 inf=207222 sec=0.057 inf/sec=3635474
+#2020-12-03T19:32:54.729Z in=110 out=1 ent=12 step=28 brake=2 inf=204532 sec=0.051 inf/sec=4010431
 #ENDS
 

@@ -7,7 +7,6 @@
 @prefix fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>.
 @prefix : <http://eulersharp.sourceforge.net/2006/02swap/med#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -24,8 +23,6 @@
   r:evidence (
     <#lemma3>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Joe"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#aspirinLowDose"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -35,8 +32,6 @@
   r:evidence (
     <#lemma5>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Joe"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#betaBlocker"]];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Inference;
@@ -52,19 +47,11 @@
      (:Joe _:sk_0) fl:mu _:sk_1.
      _:sk_1 math:notGreaterThan 0.01} (:ActivePepticUlcerDisease :AllergyForAspirin))}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#aspirinLowDose"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#AcuteMyocardialInfarction"]];
-  r:binding [ r:variable $x_3; r:boundTo 0.9];
-  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Joe"]];
-  r:binding [ r:variable $x_4; r:boundTo ((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1)];
-  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_6; r:boundTo (:ActivePepticUlcerDisease :AllergyForAspirin)];
-  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma8>.
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1. {$x_0 :isPrescribed $x_1} => {$x_0 :isPrescribed $x_1}.
+    {?x_0_1 :isPrescribed ?x_1_1} => {?x_0_1 :isPrescribed ?x_1_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medicF.n3>].
 
@@ -81,14 +68,6 @@
      (:Joe _:sk_2) fl:mu _:sk_3.
      _:sk_3 math:notGreaterThan 0.01} (:SevereAsthma :ChronicObstructivePumonaryDisease))}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#betaBlocker"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#AcuteMyocardialInfarction"]];
-  r:binding [ r:variable $x_3; r:boundTo 0.9];
-  r:binding [ r:variable $x_2; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Joe"]];
-  r:binding [ r:variable $x_4; r:boundTo ((<http://josd.github.io/eye/reasoning/medic/medic.n3>) 1)];
-  r:binding [ r:variable $x_5; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_6; r:boundTo (:SevereAsthma :ChronicObstructivePumonaryDisease)];
-  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
   r:rule <#lemma8>.
 
 <#lemma6> a r:Extraction;
@@ -105,13 +84,13 @@
 
 <#lemma8> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7. {$x_0 :prescribedFor $x_1.
-     ($x_2 $x_1) fl:mu $x_3.
-     $x_3 math:greaterThan 0.7 .
-     $x_4 e:findall ($x_5 {$x_0 :excludedFor $x_5} $x_6).
-     $x_4 e:findall ($x_5 {$x_0 :excludedFor $x_5.
-      ($x_2 $x_5) fl:mu $x_7.
-      $x_7 math:notGreaterThan 0.01} $x_6)} => {$x_2 :isPrescribed $x_0}.
+    {?x_0_2 :prescribedFor ?x_1_2.
+     (?x_2_2 ?x_1_2) fl:mu ?x_3_2.
+     ?x_3_2 math:greaterThan 0.7 .
+     ?x_4_2 e:findall (?x_5_2 {?x_0_2 :excludedFor ?x_5_2} ?x_6_2).
+     ?x_4_2 e:findall (?x_5_2 {?x_0_2 :excludedFor ?x_5_2.
+      (?x_2_2 ?x_5_2) fl:mu ?x_7_2.
+      ?x_7_2 math:notGreaterThan 0.01} ?x_6_2)} => {?x_2_2 :isPrescribed ?x_0_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
 
@@ -121,6 +100,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
 
-#2020-11-27T21:59:45.578Z in=18 out=2 ent=4 step=8 brake=4 inf=44230 sec=0.035 inf/sec=1263714
+#2020-12-03T19:32:20.865Z in=18 out=2 ent=4 step=8 brake=4 inf=41354 sec=0.038 inf/sec=1088263
 #ENDS
 

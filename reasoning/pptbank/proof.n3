@@ -9,7 +9,6 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -24,8 +23,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable $x_1; r:boundTo 2.0];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -47,24 +44,11 @@
     [ a r:Fact; r:gives {(5.0 3.0) math:sum 8.0}]
     [ a r:Fact; r:gives {(10.0 8.0) math:difference 2.0}]
   );
-  r:binding [ r:variable $x_0; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable $x_1; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/pptbank/acct3start.n3"]];
-  r:binding [ r:variable $x_2; r:boundTo {my:account a ck:Account.
-   my:account ck:balance 10.0}];
-  r:binding [ r:variable $x_3; r:boundTo 10.0];
-  r:binding [ r:variable $x_4; r:boundTo (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>)];
-  r:binding [ r:variable $x_5; r:boundTo ((<http://josd.github.io/eye/reasoning/pptbank/bankSW.n3> <http://josd.github.io/eye/reasoning/pptbank/checking.n3>) 1)];
-  r:binding [ r:variable $x_6; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_7; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_8; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_9; r:boundTo (5.0 3.0)];
-  r:binding [ r:variable $x_10; r:boundTo 8.0];
-  r:binding [ r:variable $x_11; r:boundTo 2.0];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1. {$x_0 ck:balance $x_1} => {$x_0 ck:balance $x_1}.
+    {?x_0_1 ck:balance ?x_1_1} => {?x_0_1 ck:balance ?x_1_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/query.n3>].
 
@@ -82,20 +66,20 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11. {$x_0 bk:statements ($x_1).
-     $x_1 log:semantics $x_2.
-     $x_2 log:includes {$x_0 ck:balance $x_3}.
-     $x_0 bk:transactions $x_4.
-     $x_5 e:findall ($x_6 {$x_4 list:member $x_7.
-      $x_7 log:semantics $x_8.
-      $x_8 log:includes {$x_7 a ck:Check.
-       $x_7 ck:amount $x_6.
-       $x_7 ck:account $x_0}} $x_9).
-     $x_9 math:sum $x_10.
-     ($x_3 $x_10) math:difference $x_11} => {$x_0 ck:balance $x_11}.
+    {?x_0_2 bk:statements (?x_1_2).
+     ?x_1_2 log:semantics ?x_2_2.
+     ?x_2_2 log:includes {?x_0_2 ck:balance ?x_3_2}.
+     ?x_0_2 bk:transactions ?x_4_2.
+     ?x_5_2 e:findall (?x_6_2 {?x_4_2 list:member ?x_7_2.
+      ?x_7_2 log:semantics ?x_8_2.
+      ?x_8_2 log:includes {?x_7_2 a ck:Check.
+       ?x_7_2 ck:amount ?x_6_2.
+       ?x_7_2 ck:account ?x_0_2}} ?x_9_2).
+     ?x_9_2 math:sum ?x_10_2.
+     (?x_3_2 ?x_10_2) math:difference ?x_11_2} => {?x_0_2 ck:balance ?x_11_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/checking.n3>].
 
-#2020-11-27T22:00:02.782Z in=17 out=1 ent=2 step=4 brake=4 inf=44754 sec=0.043 inf/sec=1040791
+#2020-12-03T19:32:36.922Z in=17 out=1 ent=2 step=4 brake=4 inf=42741 sec=0.045 inf/sec=949800
 #ENDS
 

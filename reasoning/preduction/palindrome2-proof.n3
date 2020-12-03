@@ -6,7 +6,6 @@
 @prefix p: <http://josd.github.io/eye/reasoning/preduction#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -22,7 +21,6 @@
     [ a r:Fact; r:gives {("atom_codes" "ingirumimusnocteetconsumimurigni" (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)) e:derive true}]
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -32,13 +30,12 @@
   r:evidence (
     <#lemma4>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {("atom_codes" "ingirumimusnocteetconsumimurigni" $x_0) e:derive true.
-     ($x_0) :palindrome true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
+    {("atom_codes" "ingirumimusnocteetconsumimurigni" ?x_0_1) e:derive true.
+     (?x_0_1) :palindrome true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2-query.n3>].
 
@@ -51,16 +48,11 @@
     [ a r:Fact; r:gives {(105) e:firstRest (105 ())}]
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (105)];
-  r:binding [ r:variable $x_4; r:boundTo ()];
   r:rule <#lemma7>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0. {($x_0) :palindrome true} <= {($x_0 :push ()) :palindrome true}.
+    {(?x_0_2) :palindrome true} <= {(?x_0_2 :push ()) :palindrome true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -73,18 +65,13 @@
     [ a r:Fact; r:gives {(110 105) e:firstRest (110 (105))}]
     <#lemma8>
   );
-  r:binding [ r:variable $x_0; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 110];
-  r:binding [ r:variable $x_2; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105)];
   r:rule <#lemma7>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_3 e:firstRest ($x_1 $x_4).
-     ($x_2 :push $x_3) :palindrome true}.
+    {(?x_0_3 :push ?x_4_3) :palindrome true} <= {?x_0_3 e:firstRest (?x_1_3 ?x_2_3).
+     ?x_3_3 e:firstRest (?x_1_3 ?x_4_3).
+     (?x_2_3 :push ?x_3_3) :palindrome true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -97,11 +84,6 @@
     [ a r:Fact; r:gives {(103 110 105) e:firstRest (103 (110 105))}]
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 103];
-  r:binding [ r:variable $x_2; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (110 105)];
   r:rule <#lemma7>.
 
 <#lemma9> a r:Inference;
@@ -113,11 +95,6 @@
     [ a r:Fact; r:gives {(105 103 110 105) e:firstRest (105 (103 110 105))}]
     <#lemma10>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma10> a r:Inference;
@@ -129,11 +106,6 @@
     [ a r:Fact; r:gives {(114 105 103 110 105) e:firstRest (114 (105 103 110 105))}]
     <#lemma11>
   );
-  r:binding [ r:variable $x_0; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 114];
-  r:binding [ r:variable $x_2; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma11> a r:Inference;
@@ -145,11 +117,6 @@
     [ a r:Fact; r:gives {(117 114 105 103 110 105) e:firstRest (117 (114 105 103 110 105))}]
     <#lemma12>
   );
-  r:binding [ r:variable $x_0; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 117];
-  r:binding [ r:variable $x_2; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma12> a r:Inference;
@@ -161,11 +128,6 @@
     [ a r:Fact; r:gives {(109 117 114 105 103 110 105) e:firstRest (109 (117 114 105 103 110 105))}]
     <#lemma13>
   );
-  r:binding [ r:variable $x_0; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 109];
-  r:binding [ r:variable $x_2; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma13> a r:Inference;
@@ -177,11 +139,6 @@
     [ a r:Fact; r:gives {(105 109 117 114 105 103 110 105) e:firstRest (105 (109 117 114 105 103 110 105))}]
     <#lemma14>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma14> a r:Inference;
@@ -193,11 +150,6 @@
     [ a r:Fact; r:gives {(109 105 109 117 114 105 103 110 105) e:firstRest (109 (105 109 117 114 105 103 110 105))}]
     <#lemma15>
   );
-  r:binding [ r:variable $x_0; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 109];
-  r:binding [ r:variable $x_2; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma15> a r:Inference;
@@ -209,11 +161,6 @@
     [ a r:Fact; r:gives {(117 109 105 109 117 114 105 103 110 105) e:firstRest (117 (109 105 109 117 114 105 103 110 105))}]
     <#lemma16>
   );
-  r:binding [ r:variable $x_0; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 117];
-  r:binding [ r:variable $x_2; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma16> a r:Inference;
@@ -225,11 +172,6 @@
     [ a r:Fact; r:gives {(115 117 109 105 109 117 114 105 103 110 105) e:firstRest (115 (117 109 105 109 117 114 105 103 110 105))}]
     <#lemma17>
   );
-  r:binding [ r:variable $x_0; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 115];
-  r:binding [ r:variable $x_2; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma17> a r:Inference;
@@ -241,11 +183,6 @@
     [ a r:Fact; r:gives {(110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (110 (115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma18>
   );
-  r:binding [ r:variable $x_0; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 110];
-  r:binding [ r:variable $x_2; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma18> a r:Inference;
@@ -257,11 +194,6 @@
     [ a r:Fact; r:gives {(111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (111 (110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma19>
   );
-  r:binding [ r:variable $x_0; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 111];
-  r:binding [ r:variable $x_2; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma19> a r:Inference;
@@ -273,11 +205,6 @@
     [ a r:Fact; r:gives {(99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (99 (111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma20>
   );
-  r:binding [ r:variable $x_0; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 99];
-  r:binding [ r:variable $x_2; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma20> a r:Inference;
@@ -289,11 +216,6 @@
     [ a r:Fact; r:gives {(116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (116 (99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma21>
   );
-  r:binding [ r:variable $x_0; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 116];
-  r:binding [ r:variable $x_2; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma7>.
 
 <#lemma21> a r:Inference;
@@ -305,11 +227,6 @@
     [ a r:Fact; r:gives {(101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (101 (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma22>
   );
-  r:binding [ r:variable $x_0; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 101];
-  r:binding [ r:variable $x_2; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma23>.
 
 <#lemma22> a r:Inference;
@@ -321,18 +238,13 @@
     [ a r:Fact; r:gives {(101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (101 (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma24>
   );
-  r:binding [ r:variable $x_0; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 101];
-  r:binding [ r:variable $x_2; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma23> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :push $x_4) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_3 e:firstRest ($x_1 $x_4).
-     ($x_2 :pop $x_3) :palindrome true}.
+    {(?x_0_4 :push ?x_4_4) :palindrome true} <= {?x_0_4 e:firstRest (?x_1_4 ?x_2_4).
+     ?x_3_4 e:firstRest (?x_1_4 ?x_4_4).
+     (?x_2_4 :pop ?x_3_4) :palindrome true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -345,18 +257,13 @@
     [ a r:Fact; r:gives {(116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (116 (99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma26>
   );
-  r:binding [ r:variable $x_0; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 116];
-  r:binding [ r:variable $x_2; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma25> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {($x_0 :pop $x_3) :palindrome true} <= {$x_0 e:firstRest ($x_1 $x_2).
-     $x_3 e:firstRest ($x_1 $x_4).
-     ($x_2 :pop $x_4) :palindrome true}.
+    {(?x_0_5 :pop ?x_3_5) :palindrome true} <= {?x_0_5 e:firstRest (?x_1_5 ?x_2_5).
+     ?x_3_5 e:firstRest (?x_1_5 ?x_4_5).
+     (?x_2_5 :pop ?x_4_5) :palindrome true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -369,11 +276,6 @@
     [ a r:Fact; r:gives {(99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (99 (111 110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma27>
   );
-  r:binding [ r:variable $x_0; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 99];
-  r:binding [ r:variable $x_2; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma27> a r:Inference;
@@ -385,11 +287,6 @@
     [ a r:Fact; r:gives {(111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (111 (110 115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma28>
   );
-  r:binding [ r:variable $x_0; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 111];
-  r:binding [ r:variable $x_2; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma28> a r:Inference;
@@ -401,11 +298,6 @@
     [ a r:Fact; r:gives {(110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (110 (115 117 109 105 109 117 114 105 103 110 105))}]
     <#lemma29>
   );
-  r:binding [ r:variable $x_0; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 110];
-  r:binding [ r:variable $x_2; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma29> a r:Inference;
@@ -417,11 +309,6 @@
     [ a r:Fact; r:gives {(115 117 109 105 109 117 114 105 103 110 105) e:firstRest (115 (117 109 105 109 117 114 105 103 110 105))}]
     <#lemma30>
   );
-  r:binding [ r:variable $x_0; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 115];
-  r:binding [ r:variable $x_2; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma30> a r:Inference;
@@ -433,11 +320,6 @@
     [ a r:Fact; r:gives {(117 109 105 109 117 114 105 103 110 105) e:firstRest (117 (109 105 109 117 114 105 103 110 105))}]
     <#lemma31>
   );
-  r:binding [ r:variable $x_0; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 117];
-  r:binding [ r:variable $x_2; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma31> a r:Inference;
@@ -449,11 +331,6 @@
     [ a r:Fact; r:gives {(109 105 109 117 114 105 103 110 105) e:firstRest (109 (105 109 117 114 105 103 110 105))}]
     <#lemma32>
   );
-  r:binding [ r:variable $x_0; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 109];
-  r:binding [ r:variable $x_2; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma32> a r:Inference;
@@ -465,11 +342,6 @@
     [ a r:Fact; r:gives {(105 109 117 114 105 103 110 105) e:firstRest (105 (109 117 114 105 103 110 105))}]
     <#lemma33>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (109 117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma33> a r:Inference;
@@ -481,11 +353,6 @@
     [ a r:Fact; r:gives {(109 117 114 105 103 110 105) e:firstRest (109 (117 114 105 103 110 105))}]
     <#lemma34>
   );
-  r:binding [ r:variable $x_0; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 109];
-  r:binding [ r:variable $x_2; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (117 114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma34> a r:Inference;
@@ -497,11 +364,6 @@
     [ a r:Fact; r:gives {(117 114 105 103 110 105) e:firstRest (117 (114 105 103 110 105))}]
     <#lemma35>
   );
-  r:binding [ r:variable $x_0; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 117];
-  r:binding [ r:variable $x_2; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (114 105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma35> a r:Inference;
@@ -513,11 +375,6 @@
     [ a r:Fact; r:gives {(114 105 103 110 105) e:firstRest (114 (105 103 110 105))}]
     <#lemma36>
   );
-  r:binding [ r:variable $x_0; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 114];
-  r:binding [ r:variable $x_2; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105 103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma36> a r:Inference;
@@ -529,11 +386,6 @@
     [ a r:Fact; r:gives {(105 103 110 105) e:firstRest (105 (103 110 105))}]
     <#lemma37>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo (103 110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (103 110 105)];
   r:rule <#lemma25>.
 
 <#lemma37> a r:Inference;
@@ -545,11 +397,6 @@
     [ a r:Fact; r:gives {(103 110 105) e:firstRest (103 (110 105))}]
     <#lemma38>
   );
-  r:binding [ r:variable $x_0; r:boundTo (103 110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 103];
-  r:binding [ r:variable $x_2; r:boundTo (110 105)];
-  r:binding [ r:variable $x_3; r:boundTo (103 110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (110 105)];
   r:rule <#lemma25>.
 
 <#lemma38> a r:Inference;
@@ -561,11 +408,6 @@
     [ a r:Fact; r:gives {(110 105) e:firstRest (110 (105))}]
     <#lemma39>
   );
-  r:binding [ r:variable $x_0; r:boundTo (110 105)];
-  r:binding [ r:variable $x_1; r:boundTo 110];
-  r:binding [ r:variable $x_2; r:boundTo (105)];
-  r:binding [ r:variable $x_3; r:boundTo (110 105)];
-  r:binding [ r:variable $x_4; r:boundTo (105)];
   r:rule <#lemma25>.
 
 <#lemma39> a r:Inference;
@@ -577,11 +419,6 @@
     [ a r:Fact; r:gives {(105) e:firstRest (105 ())}]
     <#lemma40>
   );
-  r:binding [ r:variable $x_0; r:boundTo (105)];
-  r:binding [ r:variable $x_1; r:boundTo 105];
-  r:binding [ r:variable $x_2; r:boundTo ()];
-  r:binding [ r:variable $x_3; r:boundTo (105)];
-  r:binding [ r:variable $x_4; r:boundTo ()];
   r:rule <#lemma25>.
 
 <#lemma40> a r:Extraction;
@@ -590,6 +427,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
-#2020-11-27T22:00:04.832Z in=7 out=1 ent=1 step=1 brake=1 inf=154892 sec=0.054 inf/sec=2868370
+#2020-12-03T19:32:38.986Z in=7 out=1 ent=1 step=1 brake=1 inf=109614 sec=0.041 inf/sec=2673512
 #ENDS
 

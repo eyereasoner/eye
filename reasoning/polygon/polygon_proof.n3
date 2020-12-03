@@ -5,7 +5,6 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix polygon: <http://josd.github.io/eye/reasoning/polygon#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -20,7 +19,6 @@
   r:evidence (
     <#lemma2>
   );
-  r:binding [ r:variable $x_0; r:boundTo 7];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -37,24 +35,11 @@
     [ a r:Fact; r:gives {(-4 2) math:quotient -2}]
     [ a r:Fact; r:gives {(-2 9) math:sum 7}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 6];
-  r:binding [ r:variable $x_5; r:boundTo 2];
-  r:binding [ r:variable $x_6; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_7; r:boundTo 9];
-  r:binding [ r:variable $x_8; r:boundTo 8];
-  r:binding [ r:variable $x_9; r:boundTo 12];
-  r:binding [ r:variable $x_10; r:boundTo -4];
-  r:binding [ r:variable $x_11; r:boundTo -2];
-  r:binding [ r:variable $x_12; r:boundTo 7];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    @forAll $x_0. {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area $x_0} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area $x_0}.
+    {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area ?x_0_1} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area ?x_0_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon_query.n3>].
 
@@ -72,31 +57,18 @@
     [ a r:Fact; r:gives {(22 2) math:quotient 11}]
     [ a r:Fact; r:gives {(11 -2) math:sum 9}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 6];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 7];
-  r:binding [ r:variable $x_5; r:boundTo 6];
-  r:binding [ r:variable $x_6; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_7; r:boundTo -2];
-  r:binding [ r:variable $x_8; r:boundTo 36];
-  r:binding [ r:variable $x_9; r:boundTo 14];
-  r:binding [ r:variable $x_10; r:boundTo 22];
-  r:binding [ r:variable $x_11; r:boundTo 11];
-  r:binding [ r:variable $x_12; r:boundTo 9];
   r:rule <#lemma5>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9,$x_10,$x_11,$x_12. {$x_0 polygon:area $x_12} <= {$x_0 e:firstRest (($x_1 $x_2) $x_3).
-     $x_3 e:firstRest (($x_4 $x_5) $x_6).
-     $x_3 polygon:area $x_7.
-     ($x_1 $x_5) math:product $x_8.
-     ($x_2 $x_4) math:product $x_9.
-     ($x_8 $x_9) math:difference $x_10.
-     ($x_10 2) math:quotient $x_11.
-     ($x_11 $x_7) math:sum $x_12}.
+    {?x_0_2 polygon:area ?x_12_2} <= {?x_0_2 e:firstRest ((?x_1_2 ?x_2_2) ?x_3_2).
+     ?x_3_2 e:firstRest ((?x_4_2 ?x_5_2) ?x_6_2).
+     ?x_3_2 polygon:area ?x_7_2.
+     (?x_1_2 ?x_5_2) math:product ?x_8_2.
+     (?x_2_2 ?x_4_2) math:product ?x_9_2.
+     (?x_8_2 ?x_9_2) math:difference ?x_10_2.
+     (?x_10_2 2) math:quotient ?x_11_2.
+     (?x_11_2 ?x_7_2) math:sum ?x_12_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon.n3>].
 
@@ -114,19 +86,6 @@
     [ a r:Fact; r:gives {(18 2) math:quotient 9}]
     [ a r:Fact; r:gives {(9 -11) math:sum -2}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 7];
-  r:binding [ r:variable $x_2; r:boundTo 6];
-  r:binding [ r:variable $x_3; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 4];
-  r:binding [ r:variable $x_5; r:boundTo 6];
-  r:binding [ r:variable $x_6; r:boundTo ((5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_7; r:boundTo -11];
-  r:binding [ r:variable $x_8; r:boundTo 42];
-  r:binding [ r:variable $x_9; r:boundTo 24];
-  r:binding [ r:variable $x_10; r:boundTo 18];
-  r:binding [ r:variable $x_11; r:boundTo 9];
-  r:binding [ r:variable $x_12; r:boundTo -2];
   r:rule <#lemma5>.
 
 <#lemma7> a r:Inference;
@@ -143,19 +102,6 @@
     [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
     [ a r:Fact; r:gives {(-5 -6) math:sum -11}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 6];
-  r:binding [ r:variable $x_3; r:boundTo ((5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 5];
-  r:binding [ r:variable $x_6; r:boundTo ((5 3) (4 2))];
-  r:binding [ r:variable $x_7; r:boundTo -6];
-  r:binding [ r:variable $x_8; r:boundTo 20];
-  r:binding [ r:variable $x_9; r:boundTo 30];
-  r:binding [ r:variable $x_10; r:boundTo -10];
-  r:binding [ r:variable $x_11; r:boundTo -5];
-  r:binding [ r:variable $x_12; r:boundTo -11];
   r:rule <#lemma5>.
 
 <#lemma8> a r:Inference;
@@ -172,19 +118,6 @@
     [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
     [ a r:Fact; r:gives {(-5 -1) math:sum -6}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((5 5) (5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 5];
-  r:binding [ r:variable $x_2; r:boundTo 5];
-  r:binding [ r:variable $x_3; r:boundTo ((5 3) (4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 3];
-  r:binding [ r:variable $x_6; r:boundTo ((4 2))];
-  r:binding [ r:variable $x_7; r:boundTo -1];
-  r:binding [ r:variable $x_8; r:boundTo 15];
-  r:binding [ r:variable $x_9; r:boundTo 25];
-  r:binding [ r:variable $x_10; r:boundTo -10];
-  r:binding [ r:variable $x_11; r:boundTo -5];
-  r:binding [ r:variable $x_12; r:boundTo -6];
   r:rule <#lemma5>.
 
 <#lemma9> a r:Inference;
@@ -201,19 +134,6 @@
     [ a r:Fact; r:gives {(-2 2) math:quotient -1}]
     [ a r:Fact; r:gives {(-1 0) math:sum -1}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((5 3) (4 2))];
-  r:binding [ r:variable $x_1; r:boundTo 5];
-  r:binding [ r:variable $x_2; r:boundTo 3];
-  r:binding [ r:variable $x_3; r:boundTo ((4 2))];
-  r:binding [ r:variable $x_4; r:boundTo 4];
-  r:binding [ r:variable $x_5; r:boundTo 2];
-  r:binding [ r:variable $x_6; r:boundTo ()];
-  r:binding [ r:variable $x_7; r:boundTo 0];
-  r:binding [ r:variable $x_8; r:boundTo 10];
-  r:binding [ r:variable $x_9; r:boundTo 12];
-  r:binding [ r:variable $x_10; r:boundTo -2];
-  r:binding [ r:variable $x_11; r:boundTo -1];
-  r:binding [ r:variable $x_12; r:boundTo -1];
   r:rule <#lemma5>.
 
 <#lemma10> a r:Inference;
@@ -223,15 +143,14 @@
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:binding [ r:variable $x_0; r:boundTo (4 2)];
   r:rule <#lemma11>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    @forSome $x_0. {($x_0) polygon:area 0} <= true.
+    {(?x_0_3) polygon:area 0} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon.n3>].
 
-#2020-11-27T21:59:59.986Z in=3 out=1 ent=1 step=1 brake=1 inf=58118 sec=0.036 inf/sec=1614389
+#2020-12-03T19:32:34.076Z in=3 out=1 ent=1 step=1 brake=1 inf=46068 sec=0.039 inf/sec=1181231
 #ENDS
 

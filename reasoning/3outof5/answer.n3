@@ -6,7 +6,6 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -34,13 +33,6 @@
     [ a r:Fact; r:gives {(1 0 1 1 0) math:sum 3}]
     [ a r:Fact; r:gives {3 math:notLessThan 3}]
   );
-  r:binding [ r:variable $x_0; r:boundTo ((<http://josd.github.io/eye/reasoning/3outof5/sample.n3>) 1)];
-  r:binding [ r:variable $x_1; r:boundTo 1];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 1];
-  r:binding [ r:variable $x_5; r:boundTo 0];
-  r:binding [ r:variable $x_6; r:boundTo 3];
   r:rule <#lemma6>.
 
 <#lemma2> a r:Inference;
@@ -93,23 +85,23 @@
 
 <#lemma6> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6. {$x_0 e:optional {:s :p1 true.
-      $x_1 log:equalTo 1}.
-     $x_0 e:optional {$x_1 log:equalTo 0}.
-     $x_0 e:optional {:s :p2 true.
-      $x_2 log:equalTo 1}.
-     $x_0 e:optional {$x_2 log:equalTo 0}.
-     $x_0 e:optional {:s :p3 true.
-      $x_3 log:equalTo 1}.
-     $x_0 e:optional {$x_3 log:equalTo 0}.
-     $x_0 e:optional {:s :p4 true.
-      $x_4 log:equalTo 1}.
-     $x_0 e:optional {$x_4 log:equalTo 0}.
-     $x_0 e:optional {:s :p5 true.
-      $x_5 log:equalTo 1}.
-     $x_0 e:optional {$x_5 log:equalTo 0}.
-     ($x_1 $x_2 $x_3 $x_4 $x_5) math:sum $x_6.
-     $x_6 math:notLessThan 3} => {:s a <http://josd.github.io/eye/reasoning#3outof5>}.
+    {?x_0_5 e:optional {:s :p1 true.
+      ?x_1_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_1_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p2 true.
+      ?x_2_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_2_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p3 true.
+      ?x_3_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_3_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p4 true.
+      ?x_4_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_4_5 log:equalTo 0}.
+     ?x_0_5 e:optional {:s :p5 true.
+      ?x_5_5 log:equalTo 1}.
+     ?x_0_5 e:optional {?x_5_5 log:equalTo 0}.
+     (?x_1_5 ?x_2_5 ?x_3_5 ?x_4_5 ?x_5_5) math:sum ?x_6_5.
+     ?x_6_5 math:notLessThan 3} => {:s a <http://josd.github.io/eye/reasoning#3outof5>}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/query.n3>].
 
@@ -131,6 +123,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/3outof5/sample.n3>].
 
-#2020-11-27T21:58:48.299Z in=6 out=1 ent=1 step=1 brake=2 inf=38504 sec=0.036 inf/sec=1069556
+#2020-12-03T19:31:25.967Z in=6 out=1 ent=1 step=1 brake=2 inf=37791 sec=0.035 inf/sec=1079743
 #ENDS
 

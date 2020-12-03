@@ -14,7 +14,6 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -36,27 +35,17 @@
     :all :got :dinner.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("thread_create" {:person1 :run (0.1 0.1)} <http://josd.github.io/.well-known/genid/#t_0> ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person2 :run (0.2 0.2)} <http://josd.github.io/.well-known/genid/#t_1> ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person3 :run (0.3 0.3)} <http://josd.github.io/.well-known/genid/#t_2> ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person4 :run (0.25 0.2)} <http://josd.github.io/.well-known/genid/#t_3> ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person5 :run (0.025 0.1)} <http://josd.github.io/.well-known/genid/#t_4> ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/#t_0> true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/#t_1> true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/#t_2> true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/#t_3> true) e:derive true}]
-    [ a r:Fact; r:gives {("thread_join" <http://josd.github.io/.well-known/genid/#t_4> true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person1 :run (0.1 0.1)} _:t_0 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person2 :run (0.2 0.2)} _:t_1 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person3 :run (0.3 0.3)} _:t_2 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person4 :run (0.25 0.2)} _:t_3 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {:person5 :run (0.025 0.1)} _:t_4 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" _:t_0 true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" _:t_1 true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" _:t_2 true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" _:t_3 true) e:derive true}]
+    [ a r:Fact; r:gives {("thread_join" _:t_4 true) e:derive true}]
   );
-  r:binding [ r:variable $x_0; r:boundTo <http://josd.github.io/.well-known/genid/#t_0>];
-  r:binding [ r:variable $x_1; r:boundTo <http://josd.github.io/.well-known/genid/#t_1>];
-  r:binding [ r:variable $x_2; r:boundTo <http://josd.github.io/.well-known/genid/#t_2>];
-  r:binding [ r:variable $x_3; r:boundTo <http://josd.github.io/.well-known/genid/#t_3>];
-  r:binding [ r:variable $x_4; r:boundTo <http://josd.github.io/.well-known/genid/#t_4>];
-  r:binding [ r:variable $x_5; r:boundTo true];
-  r:binding [ r:variable $x_6; r:boundTo true];
-  r:binding [ r:variable $x_7; r:boundTo true];
-  r:binding [ r:variable $x_8; r:boundTo true];
-  r:binding [ r:variable $x_9; r:boundTo true];
   r:rule <#lemma4>.
 
 <#lemma3> a r:Extraction;
@@ -67,19 +56,19 @@
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5,$x_6,$x_7,$x_8,$x_9. {("thread_create" {:person1 :run (0.1 0.1)} $x_0 ()) e:derive true.
-     ("thread_create" {:person2 :run (0.2 0.2)} $x_1 ()) e:derive true.
-     ("thread_create" {:person3 :run (0.3 0.3)} $x_2 ()) e:derive true.
-     ("thread_create" {:person4 :run (0.25 0.2)} $x_3 ()) e:derive true.
-     ("thread_create" {:person5 :run (0.025 0.1)} $x_4 ()) e:derive true.
-     ("thread_join" $x_0 $x_5) e:derive true.
-     ("thread_join" $x_1 $x_6) e:derive true.
-     ("thread_join" $x_2 $x_7) e:derive true.
-     ("thread_join" $x_3 $x_8) e:derive true.
-     ("thread_join" $x_4 $x_9) e:derive true} => {:all :got :dinner}.
+    {("thread_create" {:person1 :run (0.1 0.1)} ?x_0_2 ()) e:derive true.
+     ("thread_create" {:person2 :run (0.2 0.2)} ?x_1_2 ()) e:derive true.
+     ("thread_create" {:person3 :run (0.3 0.3)} ?x_2_2 ()) e:derive true.
+     ("thread_create" {:person4 :run (0.25 0.2)} ?x_3_2 ()) e:derive true.
+     ("thread_create" {:person5 :run (0.025 0.1)} ?x_4_2 ()) e:derive true.
+     ("thread_join" ?x_0_2 ?x_5_2) e:derive true.
+     ("thread_join" ?x_1_2 ?x_6_2) e:derive true.
+     ("thread_join" ?x_2_2 ?x_7_2) e:derive true.
+     ("thread_join" ?x_3_2 ?x_8_2) e:derive true.
+     ("thread_join" ?x_4_2 ?x_9_2) e:derive true} => {:all :got :dinner}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dp/dp.n3>].
 
-#2020-11-27T21:59:10.325Z in=10 out=1 ent=2 step=2 brake=1 inf=46658 sec=0.040 inf/sec=1166450
+#2020-12-03T19:31:47.387Z in=10 out=1 ent=2 step=2 brake=1 inf=46219 sec=0.040 inf/sec=1155475
 #ENDS
 

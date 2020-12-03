@@ -3,7 +3,6 @@
 
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof,r:Conjunction;
   r:component <#lemma1>;
@@ -21,9 +20,6 @@
     <#lemma2>
     <#lemma3>
   );
-  r:binding [ r:variable $x_0; r:boundTo 5];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_2; r:boundTo 0];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -34,10 +30,6 @@
     <#lemma5>
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_2; r:boundTo 5];
-  r:binding [ r:variable $x_3; r:boundTo 2];
   r:rule <#lemma7>.
 
 <#lemma3> a r:Extraction;
@@ -48,9 +40,9 @@
 
 <#lemma4> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2. {$x_0 :state ($x_1 $x_2).
-     $x_0 :instruction (:halt)} => {$x_0 :state ($x_1 $x_2).
-     $x_0 :instruction (:halt)}.
+    {?x_0_1 :state (?x_1_1 ?x_2_1).
+     ?x_0_1 :instruction (:halt)} => {?x_0_1 :state (?x_1_1 ?x_2_1).
+     ?x_0_1 :instruction (:halt)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmQ.n3>].
 
@@ -62,10 +54,6 @@
     <#lemma8>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 4];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma6> a r:Extraction;
@@ -76,8 +64,8 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 :state ($x_1 0).
-     $x_0 :instruction (:jpz 2 $x_2 $x_3)} => {$x_2 :state ($x_1 0)}.
+    {?x_0_2 :state (?x_1_2 0).
+     ?x_0_2 :instruction (:jpz 2 ?x_2_2 ?x_3_2)} => {?x_2_2 :state (?x_1_2 0)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -90,11 +78,6 @@
     <#lemma12>
     <#lemma13>
   );
-  r:binding [ r:variable $x_0; r:boundTo 3];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_2; r:boundTo 0];
-  r:binding [ r:variable $x_3; r:boundTo 4];
-  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma14>.
 
 <#lemma9> a r:Extraction;
@@ -105,8 +88,8 @@
 
 <#lemma10> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3. {$x_0 :state ($x_1 $x_2).
-     $x_0 :instruction (:goto $x_3)} => {$x_3 :state ($x_1 $x_2)}.
+    {?x_0_3 :state (?x_1_3 ?x_2_3).
+     ?x_0_3 :instruction (:goto ?x_3_3)} => {?x_3_3 :state (?x_1_3 ?x_2_3)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -119,11 +102,6 @@
     <#lemma16>
     <#lemma17>
   );
-  r:binding [ r:variable $x_0; r:boundTo 2];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo 0];
   r:rule <#lemma18>.
 
 <#lemma12> a r:Extraction;
@@ -139,16 +117,13 @@
   r:evidence (
     <#lemma19>
   );
-  r:binding [ r:variable $x_0; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
   r:rule <#lemma20>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 :state ($x_1 $x_2).
-     $x_0 :instruction (:inc 1 $x_3).
-     $x_1 :inc $x_4} => {$x_3 :state ($x_4 $x_2)}.
+    {?x_0_4 :state (?x_1_4 ?x_2_4).
+     ?x_0_4 :instruction (:inc 1 ?x_3_4).
+     ?x_1_4 :inc ?x_4_4} => {?x_3_4 :state (?x_4_4 ?x_2_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -161,12 +136,6 @@
     <#lemma17>
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 0];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma16> a r:Extraction;
@@ -183,9 +152,9 @@
 
 <#lemma18> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4. {$x_0 :state ($x_1 $x_2).
-     $x_0 :instruction (:dec 2 $x_3).
-     $x_4 :inc $x_2} => {$x_3 :state ($x_1 $x_4)}.
+    {?x_0_5 :state (?x_1_5 ?x_2_5).
+     ?x_0_5 :instruction (:dec 2 ?x_3_5).
+     ?x_4_5 :inc ?x_2_5} => {?x_3_5 :state (?x_1_5 ?x_4_5)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -196,14 +165,11 @@
   r:evidence (
     <#lemma23>
   );
-  r:binding [ r:variable $x_0; r:boundTo 4];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma20>.
 
 <#lemma20> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1. @forSome $x_2. {$x_0 :inc $x_1} => {$x_1 :inc $x_2}.
+    {?x_0_6 :inc ?x_1_6} => {?x_1_6 :inc _:x_2_6}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -215,17 +181,13 @@
     <#lemma24>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 4];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma22> a r:Extraction;
   r:gives {
-    @forAll $x_0,$x_1,$x_2,$x_3,$x_4,$x_5. {$x_0 :state ($x_1 $x_2).
-     $x_3 :inc $x_2.
-     $x_0 :instruction (:jpz 2 $x_4 $x_5)} => {$x_5 :state ($x_1 $x_2)}.
+    {?x_0_7 :state (?x_1_7 ?x_2_7).
+     ?x_3_7 :inc ?x_2_7.
+     ?x_0_7 :instruction (:jpz 2 ?x_4_7 ?x_5_7)} => {?x_5_7 :state (?x_1_7 ?x_2_7)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -236,9 +198,6 @@
   r:evidence (
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo 3];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma20>.
 
 <#lemma24> a r:Inference;
@@ -250,11 +209,6 @@
     <#lemma12>
     <#lemma19>
   );
-  r:binding [ r:variable $x_0; r:boundTo 3];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_2; r:boundTo 1];
-  r:binding [ r:variable $x_3; r:boundTo 4];
-  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma14>.
 
 <#lemma25> a r:Extraction;
@@ -272,11 +226,6 @@
     <#lemma16>
     <#lemma28>
   );
-  r:binding [ r:variable $x_0; r:boundTo 2];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo 1];
   r:rule <#lemma18>.
 
 <#lemma27> a r:Inference;
@@ -288,12 +237,6 @@
     <#lemma28>
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo 1];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma28> a r:Extraction;
@@ -310,10 +253,6 @@
     <#lemma30>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 4];
-  r:binding [ r:variable $x_1; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma30> a r:Inference;
@@ -325,11 +264,6 @@
     <#lemma12>
     <#lemma23>
   );
-  r:binding [ r:variable $x_0; r:boundTo 3];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 2];
-  r:binding [ r:variable $x_3; r:boundTo 4];
-  r:binding [ r:variable $x_4; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma14>.
 
 <#lemma31> a r:Inference;
@@ -341,11 +275,6 @@
     <#lemma16>
     <#lemma33>
   );
-  r:binding [ r:variable $x_0; r:boundTo 2];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 3];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo 2];
   r:rule <#lemma18>.
 
 <#lemma32> a r:Inference;
@@ -357,12 +286,6 @@
     <#lemma33>
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 3];
-  r:binding [ r:variable $x_3; r:boundTo 2];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma33> a r:Extraction;
@@ -379,10 +302,6 @@
     <#lemma35>
     <#lemma9>
   );
-  r:binding [ r:variable $x_0; r:boundTo 4];
-  r:binding [ r:variable $x_1; r:boundTo 4];
-  r:binding [ r:variable $x_2; r:boundTo 3];
-  r:binding [ r:variable $x_3; r:boundTo 1];
   r:rule <#lemma10>.
 
 <#lemma35> a r:Inference;
@@ -394,11 +313,6 @@
     <#lemma12>
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo 3];
-  r:binding [ r:variable $x_1; r:boundTo 3];
-  r:binding [ r:variable $x_2; r:boundTo 3];
-  r:binding [ r:variable $x_3; r:boundTo 4];
-  r:binding [ r:variable $x_4; r:boundTo 4];
   r:rule <#lemma14>.
 
 <#lemma36> a r:Inference;
@@ -410,11 +324,6 @@
     <#lemma16>
     <#lemma25>
   );
-  r:binding [ r:variable $x_0; r:boundTo 2];
-  r:binding [ r:variable $x_1; r:boundTo 3];
-  r:binding [ r:variable $x_2; r:boundTo 4];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo 3];
   r:rule <#lemma18>.
 
 <#lemma37> a r:Inference;
@@ -426,12 +335,6 @@
     <#lemma25>
     <#lemma6>
   );
-  r:binding [ r:variable $x_0; r:boundTo 1];
-  r:binding [ r:variable $x_1; r:boundTo 3];
-  r:binding [ r:variable $x_2; r:boundTo 4];
-  r:binding [ r:variable $x_3; r:boundTo 3];
-  r:binding [ r:variable $x_4; r:boundTo 5];
-  r:binding [ r:variable $x_5; r:boundTo 2];
   r:rule <#lemma22>.
 
 <#lemma38> a r:Extraction;
@@ -440,6 +343,6 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/usm/usmP.n3>].
 
-#2020-11-27T22:00:36.821Z in=21 out=2 ent=24 step=88 brake=5 inf=86372 sec=0.042 inf/sec=2056476
+#2020-12-03T19:33:08.745Z in=21 out=2 ent=24 step=88 brake=5 inf=76831 sec=0.039 inf/sec=1970026
 #ENDS
 
