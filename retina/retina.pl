@@ -5,9 +5,8 @@
 :- op(1150,xfx,'-:').
 
 :- dynamic('-:'/2).
-:- dynamic(brake/0).
-:- dynamic(label/1).
 :- dynamic(goal/0).
+:- dynamic(label/1).
 
 test :-
     \+(_ -: _),
@@ -16,19 +15,20 @@ test :-
 test.
 
 retina :-
-    (   (Prem -: Conc),
-        call(Prem),
-        \+call(Conc),
-        labelvars(Conc),
-        (   Conc = goal
-        ->  true
-        ;   astep(Conc),
-            retract(brake),
-            fail
-        )
-    ;   brake,
-        !
-    ;   assertz(brake),
+    (Prem -: Conc),
+    call(Prem),
+    \+call(Conc),
+    (   Conc = goal
+    ->  !
+    ;   labelvars(Conc),
+        astep(Conc),
+        retract(goal),
+        fail
+    ).
+retina :-
+    (   goal
+    ->  !
+    ;   assertz(goal),
         retina
     ).
 
@@ -42,7 +42,7 @@ labelvars(Term) :-
     assertz(label(Next)).
 
 astep((A,B)) :-
-    asserta(A),
+    assertz(A),
     !,
     astep(B).
 astep(A) :-
