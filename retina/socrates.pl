@@ -9,9 +9,7 @@
 main :-
     [retina],
     retina,
-    findall(type(Subject,Class),type(Subject,Class),All),
-    sort(All,AllSorted),
-    AllSorted = [type(socrates,man),type(socrates,mortal)],
+    type(socrates,mortal),
     write('true.'),
     nl.
 
