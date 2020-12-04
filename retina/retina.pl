@@ -2,20 +2,20 @@
 
 :- initialization(test).
 
-:- op(1150,xfx,'-:').
+:- op(1150,xfx,'=>').
 
-:- dynamic('-:'/2).
+:- dynamic('=>'/2).
 :- dynamic(goal/0).
 :- dynamic(label/1).
 
 test :-
-    \+(_ -: _),
+    \+(_ => _),
     write('true.'),
     nl.
 test.
 
 retina :-
-    (Prem -: Conc),
+    (Prem => Conc),
     call(Prem),
     \+call(Conc),
     (   Conc = goal

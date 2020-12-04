@@ -2,9 +2,14 @@
 
 :- initialization(main).
 
+:- op(1150,xfx,'=>').
+
+:- dynamic(path/2).
+
 main :-
-    findall(Path,path(paris,nantes,Path),Paths),
-    Paths = [[paris,orleans,blois,tours,lemans,angers,nantes],[paris,chartres,lemans,angers,nantes]],
+    [retina],
+    retina,
+    path(paris,nantes),
     write('true.'),
     nl.
 
@@ -19,19 +24,5 @@ oneway(lemans,angers).
 oneway(lemans,tours).
 oneway(angers,nantes).
 
-twoway(From,To) :-
-    oneway(From,To).
-twoway(From,To) :-
-    oneway(To,From).
-
-path(From,To,Path) :-
-    find(From,To,[From],Back),
-    reverse(Back,Path).
-
-find(From,To,Sofar,[To|Sofar]) :-
-    twoway(From,To).
-find(From,To,Sofar,Back) :-
-    twoway(From,Via),
-    Via \= To,
-    \+ member(Via,Sofar),
-    find(Via,To,[Via|Sofar],Back).
+oneway(A,B) => path(A,B).
+path(A,B),path(B,C) => path(A,C).
