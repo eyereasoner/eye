@@ -2,7 +2,7 @@
 
 :- initialization(test).
 
-:- op(1150,xfx,'-:').
+:- op(1150,xfx,'-:').   % logical implication
 
 :- dynamic('-:'/2).
 :- dynamic(goal/0).
