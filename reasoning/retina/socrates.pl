@@ -2,7 +2,7 @@
 
 :- initialization(main).
 
-:- op(1150,xfx,'-:').
+:- op(1150,xfx,'=>').
 
 :- dynamic(type/2).
 
@@ -16,4 +16,4 @@ main :-
 type(socrates,man).
 subclass_of(man,mortal).
 
-subclass_of(A,B),type(Subject,A) -: type(Subject,B).
+subclass_of(A,B),type(Subject,A) => type(Subject,B).

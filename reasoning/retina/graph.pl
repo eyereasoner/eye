@@ -2,7 +2,7 @@
 
 :- initialization(main).
 
-:- op(1150,xfx,'-:').
+:- op(1150,xfx,'=>').
 
 :- dynamic(path/2).
 
@@ -24,5 +24,5 @@ oneway(lemans,angers).
 oneway(lemans,tours).
 oneway(angers,nantes).
 
-oneway(A,B) -: path(A,B).
-path(A,B),path(B,C) -: path(A,C).
+oneway(A,B) => path(A,B).
+path(A,B),path(B,C) => path(A,C).

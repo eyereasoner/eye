@@ -2,32 +2,30 @@
 
 :- initialization(main).
 
+:- op(1150,xfx,'=>').
+
 :- dynamic(saying/2).
 :- dynamic(not_saying/2).
 
 main :-
+    [retina],
+    % query implies goal
+    assertz((saying(_,'C') => goal)),
     % assuming the negation of the query so that it can be discharged when the query succeeds
-    assertz(not_saying(sk_0,ccc)),
-    saying(S,ccc),
-    S = sk_0,
-    retract(not_saying(sk_0,ccc)),
+    assertz(not_saying(sk_0,'C')),
+    retina,
+    retract(not_saying(sk_0,'C')),
     write('true.'),
     nl.
 
-% saying ccc if saying aaa or saying bbb
-saying(S,ccc) :-
-    saying(S,aaa).
-saying(S,ccc) :-
-    saying(S,bbb).
-% saying aaa or saying bbb
-saying(S,bbb) :-
-    not_saying(S,aaa).
-saying(S,aaa) :-
-    not_saying(S,bbb).
+% saying A implies saying C
+saying(S,'A') => saying(S,'C').
+not_saying(S,'C') => not_saying(S,'A').
 
-% not saying aaa if not saying ccc
-not_saying(S,aaa) :-
-    not_saying(S,ccc).
-% not saying bbb if not saying ccc
-not_saying(S,bbb) :-
-    not_saying(S,ccc).
+% saying B implies saying C
+saying(S,'B') => saying(S,'C').
+not_saying(S,'C') => not_saying(S,'B').
+
+% saying A or saying B
+not_saying(S,'A') => saying(S,'B').
+not_saying(S,'B') => saying(S,'A').
