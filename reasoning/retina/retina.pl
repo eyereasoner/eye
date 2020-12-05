@@ -46,4 +46,4 @@ astep((A,B)) :-
     !,
     astep(B).
 astep(A) :-
-    asserta(A).
+    assertz(A).
