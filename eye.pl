@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1203.2013 josd').
+version_info('EYE v20.1205.2222 josd').
 
 license_info('MIT License
 
@@ -1995,7 +1995,7 @@ pathitem(triple(S,P,O),Triples) -->
     {   (   List = [S,P,O]
         ->  true
         ;   nb_getval(line_number,Ln),
-            throw('invalid_n3*_triple'(List,after_line(Ln)))
+            throw('invalid_n3_star_triple'(List,after_line(Ln)))
         )
     },
     [gt_gt].
@@ -2121,7 +2121,7 @@ propertylist(Subject,[Triple|Triples]) -->
     !,
     object(Object,Triples2),
     objecttail(Subject,Verb,Triples3),
-    propertylisttail(Subject,Triples4),
+    propertylisttail(Subject,Verb,Object,Triples4),
     {   append(Triples1,Triples2,Triples12),
         append(Triples12,Triples3,Triples123),
         append(Triples123,Triples4,Triples),
@@ -2155,12 +2155,17 @@ propertylist(Subject,[Triple|Triples]) -->
 propertylist(_,[]) -->
     [].
 
-propertylisttail(Subject,Triples) -->
+propertylisttail(Subject,Verb,Object,Triples) -->
+    [lb_pipe],
+    !,
+    propertylist(triple(Subject,Verb,Object),Triples),
+    [pipe_rb].
+propertylisttail(Subject,_,_,Triples) -->
     [';'],
     !,
     propertylisttailsemis,
     propertylist(Subject,Triples).
-propertylisttail(_,[]) -->
+propertylisttail(_,_,_,[]) -->
     [].
 
 propertylisttailsemis -->
@@ -2525,6 +2530,16 @@ token(0'<,In,C,relative_uri(URI)) :-
     atom_codes(URI,D).
 token(0'>,In,C,gt_gt) :-
     peek_code(In,0'>),
+    !,
+    get_code(In,_),
+    get_code(In,C).
+token(0'{,In,C,lb_pipe) :-
+    peek_code(In,0'|),
+    !,
+    get_code(In,_),
+    get_code(In,C).
+token(0'|,In,C,pipe_rb) :-
+    peek_code(In,0'}),
     !,
     get_code(In,_),
     get_code(In,C).
