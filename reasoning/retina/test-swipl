@@ -10,7 +10,7 @@ failed_count=0
 succeeded_count=0
 
 echo -n "% "
-tpl -v
+swipl --version
 echo ''
 
 for source in ./*
@@ -18,7 +18,7 @@ for source in ./*
 do
     case "$source" in
         *.pl)
-            cmd="tpl -q --ns"
+            cmd="swipl -g halt"
             ;;
         *)
             continue
