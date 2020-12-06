@@ -22,8 +22,6 @@ main :-
     assertz(re(b,X) -: not_re(c,X)),
     assertz(re(c,X) -: not_re(b,X)),
     retina,
-    retract(re(b,X) -: not_re(c,X)),
-    retract(re(c,X) -: not_re(b,X)),
     write('true.'),
     nl.
 

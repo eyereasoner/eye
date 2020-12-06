@@ -14,7 +14,6 @@ main :-
     % assuming the negation of the query so that it can be discharged when the query succeeds
     assertz(not_saying(sk_0,'C')),
     retina,
-    retract(not_saying(sk_0,'C')),
     write('true.'),
     nl.
 
