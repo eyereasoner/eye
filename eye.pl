@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1207.1300 josd').
+version_info('EYE v20.1207.1537 josd').
 
 license_info('MIT License
 
@@ -3256,7 +3256,7 @@ wh :-
             (   pfx(A,B),
                 \+wpfx(A)
             ),
-            (   format('@prefix ~w ~w.~n',[A,B]),
+            (   format('PREFIX ~w ~w~n',[A,B]),
                 assertz(wpfx(A)),
                 nb_setval(wpfx,true)
             )
@@ -5355,7 +5355,7 @@ djiti_assertz(A) :-
             ;   forall(
                     (   pfx(C,D)
                     ),
-                    (   format('@prefix ~w ~w.~n',[C,D])
+                    (   format('PREFIX ~w ~w~n',[C,D])
                     )
                 ),
                 nl
