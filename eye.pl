@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1205.2222 josd').
+version_info('EYE v20.1207.1300 josd').
 
 license_info('MIT License
 
@@ -78,6 +78,7 @@ eye
     --probe                         output speedtest info on stderr
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
+    --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
     --rule-histogram                output rule histogram info on stderr
     --source <file>                 read command line arguments from <file>
@@ -347,15 +348,21 @@ gre(Argus) :-
         )
     ->  true
     ;   version_info(Version),
-        format('#Processed by ~w~n',[Version]),
+        (   flag(quiet)
+        ->  true
+        ;   format('#Processed by ~w~n',[Version])
+        ),
         findall(Argij,
             (   argi(Argij)
             ),
             Argil
         ),
         append(Argil,Argi),
-        format('#eye~@~@~n~n',[w0(Argi),w1(Argus)]),
-        flush_output
+        (   flag(quiet)
+        ->  true
+        ;   format('#eye~@~@~n~n',[w0(Argi),w1(Argus)]),
+            flush_output
+        )
     ),
     (   flag('debug-n3p')
     ->  format(user_error,'flag(\'quantify\',\'~w\').~n',[Vns])
@@ -503,7 +510,9 @@ gre(Argus) :-
             nb_getval(output_statements,Oute),
             Outd is Oute-Outb,
             catch(Outs is round(Outd/Ti5*1000),_,Outs = ''),
-            (   flag(strings)
+            (   (   flag(strings)
+                ;   flag(quiet)
+                )
             ->  nl
             ;   format('#DONE ~3d [sec] mq=~w out=~d out/sec=~w~n~n',[Ti5,Cnt,Outd,Outs])
             ),
@@ -565,7 +574,9 @@ gre(Argus) :-
     ;   Inf = ''
     ),
     catch(Speed is round(Inf/Cpu*1000),_,Speed = ''),
-    (   flag(strings)
+    (   (   flag(strings)
+        ;   flag(quiet)
+        )
     ->  true
     ;   format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n',[Stamp,Inp,Outp,Ent,Step,Brake,Inf,Cpu,Speed])
     ),
@@ -743,6 +754,11 @@ opts(['--profile'|Argus],Args) :-
 opts(['--quantify',Prefix|Argus],Args) :-
     !,
     assertz(flag('quantify',Prefix)),
+    opts(Argus,Args).
+opts(['--quiet'|Argus],Args) :-
+    !,
+    retractall(flag(quiet)),
+    assertz(flag(quiet)),
     opts(Argus,Args).
 opts(['--random-seed'|Argus],Args) :-
     !,
@@ -1174,8 +1190,11 @@ args(['--turtle',Argument|Args]) :-
         nb_getval(input_statements,IN),
         Inp is SC+IN,
         nb_setval(input_statements,Inp),
-        format(user_error,'SC=~w~n',[SC]),
-        flush_output(user_error),
+        (   flag(quiet)
+        ->  true
+        ;   format(user_error,'SC=~w~n',[SC]),
+            flush_output(user_error)
+        ),
         (   flag('streaming-reasoning')
         ->  timestamp(Stamp),
             statistics(runtime,[Cpu,_]),
@@ -1191,7 +1210,10 @@ args(['--turtle',Argument|Args]) :-
             Brake is TR,
             statistics(inferences,Inf),
             catch(Speed is round(Inf/Cpu*1000),_,Speed = ''),
-            format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n',[Stamp,Inp,Outp,Ent,Step,Brake,Inf,Cpu,Speed]),
+            (   flag(quiet)
+            ->  true
+            ;   format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n',[Stamp,Inp,Outp,Ent,Step,Brake,Inf,Cpu,Speed])
+            ),
             format(user_error,'~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n',[Stamp,Inp,Outp,Ent,Step,Brake,Inf,Cpu,Speed]),
             flush_output(user_error)
         ;   true
