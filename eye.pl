@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1207.1537 josd').
+version_info('EYE v20.1207.2048 josd').
 
 license_info('MIT License
 
@@ -9643,6 +9643,13 @@ atomify(A,A).
 partconc(_,[],[]).
 partconc(_,['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A,B)],['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A,B)]) :-
     !.
+partconc(A,[B|C],[B|D]) :-
+    (   B = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_,_)
+    ;   B = '<http://www.w3.org/2000/10/swap/log#implies>'(_,_)
+    ;   B = ':-'(_,_)
+    ),
+    !,
+    partconc(A,C,D).
 partconc(A,[B|C],[B|D]) :-
     B = answer(E,_,_),
     (   E == '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'
