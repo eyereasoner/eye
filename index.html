@@ -37,10 +37,10 @@ and in a <a href="http://hub.docker.com/r/bdevloed/eyeserver/">Docker container 
 <img src="https://josd.github.io/images/EYE-stack.png" width="480" height="400" alt="EYE-stack"/></p>
 <p>This is what the basic <strong>EAM (Euler Abstract Machine)</strong> does in a nutshell:</p>
 <ol>
-<li>Select rule P =&gt; C</li>
-<li>Prove P &amp; NOT(C) (backward chaining) and if it fails backtrack to 1.</li>
-<li>If P &amp; NOT(C) assert C (forward chaining) and remove brake</li>
-<li>If C = answer(A) and tactic limited-answer stop, else backtrack to 2.</li>
+<li>Select rule <code>P =&gt; C</code></li>
+<li>Prove <code>P &amp; NOT(C)</code> (backward chaining) and if it fails backtrack to 1.</li>
+<li>If <code>P &amp; NOT(C)</code> assert <code>C</code> (forward chaining) and remove brake</li>
+<li>If <code>C = answer(A)</code> and tactic limited-answer stop, else backtrack to 2.</li>
 <li>If brake or tactic linear-select stop, else start again at 1.</li>
 </ol>
 
