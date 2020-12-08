@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1208.1718 josd').
+version_info('EYE v20.1208.1750 josd').
 
 license_info('MIT License
 
