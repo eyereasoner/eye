@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1207.2048 josd').
+version_info('EYE v20.1208.1718 josd').
 
 license_info('MIT License
 
@@ -4159,23 +4159,6 @@ wl([X|Y]) :-
     wg(X),
     wl(Y).
 
-wq([],_) :-
-    !.
-wq([X|Y],allv) :-
-    !,
-    write('@forAll '),
-    wt(X),
-    wk(Y),
-    write('. ').
-wq([X|Y],some) :-
-    (   \+flag('no-qvars')
-    ->  write('@forSome '),
-        wt(X),
-        wk(Y),
-        write('. ')
-    ;   true
-    ).
-
 wv(X) :-
     atom(X),
     atom_concat(avar,Y,X),
@@ -4723,6 +4706,21 @@ djiti_fact(implies(A,B,C),implies(A,B,C)) :-
             )
         )
     ),
+    !.
+djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A,B),F) :-
+    nonvar(B),
+    conj_list(B,D),
+    forall(
+        (   member(E,D)
+        ),
+        (   E =.. [P,_,_],
+            (   \+fpred(P)
+            ->  assertz(fpred(P))
+            ;   true
+            )
+        )
+    ),
+    makevars(implies(A,B,'<>'),F,beta),
     !.
 djiti_fact(A,A) :-
     ground(A),
