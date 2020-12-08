@@ -1,13 +1,9 @@
 #!/bin/bash
-echo -n > test.diff
-IMATCH="^diff|^index|^Binary|^--|^\+-|\+\+|^@@"
-
 for dir in */
 do
     pushd "${dir}"
     ./test --no-genid --quiet
-    git diff -U0 . | grep -E -v "$IMATCH" >> ../test.diff
     popd
 done
 
-eye test.diff --pass > /dev/null
+git diff | eye - --pass
