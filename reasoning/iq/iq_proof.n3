@@ -22,7 +22,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {?U_3 :p :o} => {?U_3 :pp {?U_3 :ppp :ooo}}.
     {?U_4 :p :o} => {{{?U_4 :p2 _:sk_5} => {?U_4 :p3 _:sk_5}} => {{?U_4 :p4 _:sk_5} => {?U_4 :p5 _:sk_5}}}.
     {:e :r :c} => {:e :s :d}.
-    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
+    {{:s :p2 ?U_6} => {:s :p3 ?U_6}} => {{:s :p4 ?U_6} => {:s :p5 ?U_6}}.
   }.
 
 <#lemma1> a r:Inference;
@@ -117,11 +117,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma10> a r:Inference;
   r:gives {
-    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
+    {{:s :p2 ?U_6} => {:s :p3 ?U_6}} => {{:s :p4 ?U_6} => {:s :p5 ?U_6}}.
   };
   r:evidence (
-    <#lemma17>
-    [ a r:Fact; r:gives {{{:s :p2 _:sk_0} => {:s :p3 _:sk_0}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+    [ a r:Fact; r:gives {{{:s :p2 ?U_6} => {:s :p3 ?U_6}} => {{:s :p4 ?U_6} => {:s :p5 ?U_6}}}]
+    [ a r:Fact; r:gives {{{:s :p2 _:sk_6} => {:s :p3 _:sk_6}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
 
@@ -133,8 +133,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma12> a r:Extraction;
   r:gives {
-    {?x_1_22 ?x_0_22 ?x_2_22.
-     ?x_0_22 <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>} => {?x_1_22 ?x_0_22 ?x_2_22}.
+    {?x_1_23 ?x_0_23 ?x_2_23.
+     ?x_0_23 <http://www.w3.org/2000/10/swap/log#notEqualTo> <http://www.w3.org/2000/10/swap/log#implies>} => {?x_1_23 ?x_0_23 ?x_2_23}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
 
@@ -151,12 +151,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma13>
   );
-  r:rule <#lemma18>.
+  r:rule <#lemma17>.
 
 <#lemma15> a r:Extraction;
   r:gives {
-    {?x_0_23 => ?x_1_23.
-     ?x_0_23 <http://www.w3.org/2000/10/swap/log#notEqualTo> true} => {?x_0_23 => ?x_1_23}.
+    {?x_0_24 => ?x_1_24.
+     ?x_0_24 <http://www.w3.org/2000/10/swap/log#notEqualTo> true} => {?x_0_24 => ?x_1_24}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass-all>].
 
@@ -167,32 +167,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {{:e :p :a} => {:e :q :b}}]
   );
-  r:rule <#lemma19>.
+  r:rule <#lemma18>.
 
-<#lemma17> a r:Inference;
-  r:gives {
-    {{:s :p2 ?U_0} => {:s :p3 ?U_0}} => {{:s :p4 ?U_0} => {:s :p5 ?U_0}}.
-  };
-  r:evidence (
-    <#lemma13>
-  );
-  r:rule <#lemma20>.
-
-<#lemma18> a r:Extraction;
+<#lemma17> a r:Extraction;
   r:gives {
     {?x_0_27 :p :o} => {?x_0_27 :pp {?x_0_27 :ppp :ooo}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
-<#lemma19> a r:Extraction;
+<#lemma18> a r:Extraction;
   r:gives {
     {{?x_0_28 :p :a} => {?x_0_28 :q :b}} => {{?x_0_28 :r :c} => {?x_0_28 :s :d}}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
-
-<#lemma20> a r:Extraction;
-  r:gives {
-    {?x_0_29 :p :o} => {{{?x_0_29 :p2 _:x_1_29} => {?x_0_29 :p3 _:x_1_29}} => {{?x_0_29 :p4 _:x_1_29} => {?x_0_29 :p5 _:x_1_29}}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
