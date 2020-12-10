@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1208.1753 josd').
+version_info('EYE v20.1210.2002 josd').
 
 license_info('MIT License
 
@@ -1723,6 +1723,14 @@ tr_split([A|B],[A|C],D) :-
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
+annotation(Triple,Triples) -->
+    [lb_pipe],
+    !,
+    propertylist(Triple,Triples),
+    [pipe_rb].
+annotation(_,[]) -->
+    [].
+
 barename(BareName) -->
     [name(BareName)].
 
@@ -1881,8 +1889,9 @@ objecttail(Subject,Verb,[Triple|T]) -->
     [','],
     !,
     object(Object,Triples),
+    annotation(triple(Subject,Verb,Object),Triples2),
     objecttail(Subject,Verb,Tail),
-    {   append(Triples,Tail,T),
+    {   append([Triples,Triples2,Tail],T),
         (   Verb = isof(V)
         ->  (   atom(V),
                 \+sub_atom(V,0,1,_,'_')
@@ -2142,11 +2151,10 @@ propertylist(Subject,[Triple|Triples]) -->
     },
     !,
     object(Object,Triples2),
-    objecttail(Subject,Verb,Triples3),
-    propertylisttail(Subject,Verb,Object,Triples4),
-    {   append(Triples1,Triples2,Triples12),
-        append(Triples12,Triples3,Triples123),
-        append(Triples123,Triples4,Triples),
+    annotation(triple(Subject,Verb,Object),Triples3),
+    objecttail(Subject,Verb,Triples4),
+    propertylisttail(Subject,Verb,Object,Triples5),
+    {   append([Triples1,Triples2,Triples3,Triples4,Triples5],Triples),
         (   Verb = isof(V)
         ->  (   atom(V),
                 \+sub_atom(V,0,1,_,'_')
@@ -2177,11 +2185,6 @@ propertylist(Subject,[Triple|Triples]) -->
 propertylist(_,[]) -->
     [].
 
-propertylisttail(Subject,Verb,Object,Triples) -->
-    [lb_pipe],
-    !,
-    propertylist(triple(Subject,Verb,Object),Triples),
-    [pipe_rb].
 propertylisttail(Subject,_,_,Triples) -->
     [';'],
     !,
