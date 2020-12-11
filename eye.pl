@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1210.2002 josd').
+version_info('EYE v20.1211.0035 josd').
 
 license_info('MIT License
 
@@ -1885,13 +1885,13 @@ numericliteral(Number) -->
 object(Node,Triples) -->
     expression(Node,Triples).
 
-objecttail(Subject,Verb,[Triple|T]) -->
+objecttail(Subject,Verb,[Triple|Triples]) -->
     [','],
     !,
-    object(Object,Triples),
+    object(Object,Triples1),
     annotation(triple(Subject,Verb,Object),Triples2),
-    objecttail(Subject,Verb,Tail),
-    {   append([Triples,Triples2,Tail],T),
+    objecttail(Subject,Verb,Triples3),
+    {   append([Triples1,Triples2,Triples3],Triples),
         (   Verb = isof(V)
         ->  (   atom(V),
                 \+sub_atom(V,0,1,_,'_')
@@ -2153,7 +2153,7 @@ propertylist(Subject,[Triple|Triples]) -->
     object(Object,Triples2),
     annotation(triple(Subject,Verb,Object),Triples3),
     objecttail(Subject,Verb,Triples4),
-    propertylisttail(Subject,Verb,Object,Triples5),
+    propertylisttail(Subject,Triples5),
     {   append([Triples1,Triples2,Triples3,Triples4,Triples5],Triples),
         (   Verb = isof(V)
         ->  (   atom(V),
@@ -2185,12 +2185,12 @@ propertylist(Subject,[Triple|Triples]) -->
 propertylist(_,[]) -->
     [].
 
-propertylisttail(Subject,_,_,Triples) -->
+propertylisttail(Subject,Triples) -->
     [';'],
     !,
     propertylisttailsemis,
     propertylist(Subject,Triples).
-propertylisttail(_,_,_,[]) -->
+propertylisttail(_,[]) -->
     [].
 
 propertylisttailsemis -->
