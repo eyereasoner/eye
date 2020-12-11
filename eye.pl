@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1211.0035 josd').
+version_info('EYE v20.1211.1403 josd').
 
 license_info('MIT License
 
@@ -99,6 +99,7 @@ eye
     --turtle <uri>                  Turtle triples
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
+    --not-entail <rdf-graph>        output true if RDF graph is not entailed
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
     --query <n3-query>              output filtered with filter rules').
@@ -860,7 +861,7 @@ opts(['--wcache',Argument,File|Argus],Args) :-
     assertz(wcache(Arg,File)),
     opts(Argus,Args).
 opts([Arg|_],_) :-
-    \+memberchk(Arg,['--entail','--help','--n3','--pass','--pass-all','--proof','--query','--turtle']),
+    \+memberchk(Arg,['--entail','--help','--n3','--not-entail','--pass','--pass-all','--proof','--query','--turtle']),
     sub_atom(Arg,0,2,_,'--'),
     !,
     throw(not_supported_option(Arg)).
@@ -949,6 +950,12 @@ args(['--entail',Arg|Args]) :-
     !,
     nb_setval(entail_mode,true),
     n3_n3p(Arg,entail),
+    nb_setval(entail_mode,false),
+    args(Args).
+args(['--not-entail',Arg|Args]) :-
+    !,
+    nb_setval(entail_mode,true),
+    n3_n3p(Arg,'not-entail'),
     nb_setval(entail_mode,false),
     args(Args).
 args(['--n3',Arg|Args]) :-
@@ -1587,6 +1594,11 @@ tr_n3p(X,_,entail) :-
     !,
     conj_list(Y,X),
     write(query(Y,true)),
+    writeln('.').
+tr_n3p(X,_,'not-entail') :-
+    !,
+    conj_list(Y,X),
+    write(query(\+Y,true)),
     writeln('.').
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X,Y)|Z],Src,query) :-
     !,
@@ -3278,8 +3290,12 @@ w3 :-
     flag(nope),
     !,
     (   query(Q,A),
-        catch(call(Q),_,fail),
-        (   \+ground(Q)
+        (   Q = \+(R)
+        ->  \+catch(call(R),_,fail)
+        ;   catch(call(Q),_,fail)
+        ),
+        (   \+ground(Q),
+            A \= true
         ->  conj_list(A,La),
             partconc(Q,La,Lp),
             Lp \= [],
