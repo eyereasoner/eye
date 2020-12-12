@@ -23,7 +23,7 @@
 :- use_module(library(pcre)).
 :- use_module(library(date)).
 
-version_info('EYE v20.1211.1403 josd').
+version_info('EYE v20.1212.2140 josd').
 
 license_info('MIT License
 
@@ -1426,10 +1426,13 @@ n3_n3p(Argument,Mode) :-
             ;   format(user_error,'** ~w ** ~w ** ~w~n',[Ise,Arg,Exc2])
             ),
             flush_output(user_error),
-            ignore(Parsed = fail)
+            (   Mode == 'not-entail'
+            ->  write(query(true,true)),
+                writeln('.')
+            ;   true
+            )
         )
     ),
-    ignore(Parsed = true),
     (   Mode = semantics
     ->  nb_getval(semantics,List),
         write(semantics(Src,List)),
@@ -1445,53 +1448,111 @@ n3_n3p(Argument,Mode) :-
     ->  delete_file(Tmp)
     ;   true
     ),
-    (   call(Parsed)
-    ->  (   flag('debug-n3p')
-        ->  forall(
-                (   pfx(Pp,Pu),
-                    \+wpfx(Pp)
-                ),
-                (   portray_clause(user_error,pfx(Pp,Pu)),
-                    assertz(wpfx(Pp))
-                )
+    (   flag('debug-n3p')
+    ->  forall(
+            (   pfx(Pp,Pu),
+                \+wpfx(Pp)
+            ),
+            (   portray_clause(user_error,pfx(Pp,Pu)),
+                assertz(wpfx(Pp))
             )
-        ;   true
-        ),
-        open(Tmp_p,read,Rs,[encoding(utf8)]),
-        (   Mode = semantics
-        ->  repeat,
-            read(Rs,Rt),
-            (   Rt = end_of_file
-            ->  true
-            ;   djiti_assertz(Rt),
-                (   Rt = semantics(_,L)
-                ->  length(L,N),
-                    nb_setval(sc,N)
-                ;   Rt \= semantics(_,[]),
-                    nb_setval(sc,1)
-                ),
-                fail
-            )
-        ;   repeat,
-            read(Rs,Rt),
-            (   Rt = end_of_file
-            ->  true
-            ;   dynify(Rt),
-                (   ground(Rt),
-                    Rt \= ':-'(_,_)
-                ->  (   predicate_property(Rt,dynamic)
-                    ->  true
-                    ;   close(Rs),
-                        (   retract(tmpfile(Tmp_p))
-                        ->  delete_file(Tmp_p)
-                        ;   true
-                        ),
-                        throw(builtin_redefinition(Rt))
+        )
+    ;   true
+    ),
+    open(Tmp_p,read,Rs,[encoding(utf8)]),
+    (   Mode = semantics
+    ->  repeat,
+        read(Rs,Rt),
+        (   Rt = end_of_file
+        ->  true
+        ;   djiti_assertz(Rt),
+            (   Rt = semantics(_,L)
+            ->  length(L,N),
+                nb_setval(sc,N)
+            ;   Rt \= semantics(_,[]),
+                nb_setval(sc,1)
+            ),
+            fail
+        )
+    ;   repeat,
+        read(Rs,Rt),
+        (   Rt = end_of_file
+        ->  true
+        ;   dynify(Rt),
+            (   ground(Rt),
+                Rt \= ':-'(_,_)
+            ->  (   predicate_property(Rt,dynamic)
+                ->  true
+                ;   close(Rs),
+                    (   retract(tmpfile(Tmp_p))
+                    ->  delete_file(Tmp_p)
+                    ;   true
                     ),
-                    (   Rt \= implies(_,_,_),
-                        \+flag('no-distinct-input'),
-                        call(Rt)
-                    ->  true
+                    throw(builtin_redefinition(Rt))
+                ),
+                (   Rt \= implies(_,_,_),
+                    \+flag('no-distinct-input'),
+                    call(Rt)
+                ->  true
+                ;   djiti_assertz(Rt),
+                    cnt(sc),
+                    (   flag('debug-n3p')
+                    ->  portray_clause(user_error,Rt)
+                    ;   true
+                    )
+                )
+            ;   (   Rt = prfstep(Ct,Pt,_,Qt,It,Mt,St)
+                ->  term_index(Pt,Pnd),
+                    (   nonvar(It)
+                    ->  copy_term_nat(It,Ic)
+                    ;   Ic = It
+                    ),
+                    (   \+prfstep(Ct,Pt,Pnd,Qt,Ic,Mt,St)
+                    ->  assertz(prfstep(Ct,Pt,Pnd,Qt,Ic,Mt,St))
+                    ;   true
+                    )
+                ;   (   Rt = ':-'(Ci,Px),
+                        conjify(Px,Pi)
+                    ->  (   Ci = true
+                        ->  (   flag('debug-n3p')
+                            ->  portray_clause(user_error,':-'(Pi))
+                            ;   true
+                            ),
+                            (   flag('parse-only')
+                            ->  true
+                            ;   call(Pi)
+                            )
+                        ;   atomic_list_concat(['<',Arg,'>'],Si),
+                            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Pi,Ci),Ri),
+                            (   flag(nope)
+                            ->  Ph = Pi
+                            ;   (   Pi = when(Ai,Bi)
+                                ->  conj_append(Bi,istep(Si,Pi,Ci,Ri),Bh),
+                                    Ph = when(Ai,Bh)
+                                ;   conj_append(Pi,istep(Si,Pi,Ci,Ri),Ph)
+                                )
+                            ),
+                            (   flag('rule-histogram')
+                            ->  (   Ph = when(Ak,Bk)
+                                ->  conj_append(Bk,pstep(Ri),Bj),
+                                    Pj = when(Ak,Bj)
+                                ;   conj_append(Ph,pstep(Ri),Pj)
+                                )
+                            ;   Pj = Ph
+                            ),
+                            cnt(sc),
+                            functor(Ci,CPi,_),
+                            (   flag('debug-n3p')
+                            ->  portray_clause(user_error,cpred(CPi)),
+                                portray_clause(user_error,':-'(Ci,Pi))
+                            ;   true
+                            ),
+                            (   \+cpred(CPi)
+                            ->  assertz(cpred(CPi))
+                            ;   true
+                            ),
+                            assertz(':-'(Ci,Pj))
+                        )
                     ;   djiti_assertz(Rt),
                         cnt(sc),
                         (   flag('debug-n3p')
@@ -1499,93 +1560,22 @@ n3_n3p(Argument,Mode) :-
                         ;   true
                         )
                     )
-                ;   (   Rt = prfstep(Ct,Pt,_,Qt,It,Mt,St)
-                    ->  term_index(Pt,Pnd),
-                        (   nonvar(It)
-                        ->  copy_term_nat(It,Ic)
-                        ;   Ic = It
-                        ),
-                        (   \+prfstep(Ct,Pt,Pnd,Qt,Ic,Mt,St)
-                        ->  assertz(prfstep(Ct,Pt,Pnd,Qt,Ic,Mt,St))
-                        ;   true
-                        )
-                    ;   (   Rt = ':-'(Ci,Px),
-                            conjify(Px,Pi)
-                        ->  (   Ci = true
-                            ->  (   flag('debug-n3p')
-                                ->  portray_clause(user_error,':-'(Pi))
-                                ;   true
-                                ),
-                                (   flag('parse-only')
-                                ->  true
-                                ;   call(Pi)
-                                )
-                            ;   atomic_list_concat(['<',Arg,'>'],Si),
-                                copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Pi,Ci),Ri),
-                                (   flag(nope)
-                                ->  Ph = Pi
-                                ;   (   Pi = when(Ai,Bi)
-                                    ->  conj_append(Bi,istep(Si,Pi,Ci,Ri),Bh),
-                                        Ph = when(Ai,Bh)
-                                    ;   conj_append(Pi,istep(Si,Pi,Ci,Ri),Ph)
-                                    )
-                                ),
-                                (   flag('rule-histogram')
-                                ->  (   Ph = when(Ak,Bk)
-                                    ->  conj_append(Bk,pstep(Ri),Bj),
-                                        Pj = when(Ak,Bj)
-                                    ;   conj_append(Ph,pstep(Ri),Pj)
-                                    )
-                                ;   Pj = Ph
-                                ),
-                                cnt(sc),
-                                functor(Ci,CPi,_),
-                                (   flag('debug-n3p')
-                                ->  portray_clause(user_error,cpred(CPi)),
-                                    portray_clause(user_error,':-'(Ci,Pi))
-                                ;   true
-                                ),
-                                (   \+cpred(CPi)
-                                ->  assertz(cpred(CPi))
-                                ;   true
-                                ),
-                                assertz(':-'(Ci,Pj))
-                            )
-                        ;   djiti_assertz(Rt),
-                            cnt(sc),
-                            (   flag('debug-n3p')
-                            ->  portray_clause(user_error,Rt)
-                            ;   true
-                            )
-                        )
-                    )
-                ),
-                fail
-            )
-        ),
-        close(Rs),
-        (   retract(tmpfile(Tmp_p))
-        ->  delete_file(Tmp_p)
-        ;   true
-        ),
-        nb_getval(sc,SC),
-        nb_getval(input_statements,IN),
-        Inp is SC+IN,
-        nb_setval(input_statements,Inp),
-        format(user_error,'SC=~w~n',[SC]),
-        flush_output(user_error)
-    ;   (   retract(tmpfile(Tmp_p))
-        ->  catch(delete_file(Tmp_p),_,true)
-        ;   true
-        ),
-        (   \+flag('ignore-syntax-error'),
-            \+flag('multi-query')
-        ->  nl,
-            flush_output,
-            halt(1)
-        ;   true
+                )
+            ),
+            fail
         )
     ),
+    close(Rs),
+    (   retract(tmpfile(Tmp_p))
+    ->  delete_file(Tmp_p)
+    ;   true
+    ),
+    nb_getval(sc,SC),
+    nb_getval(input_statements,IN),
+    Inp is SC+IN,
+    nb_setval(input_statements,Inp),
+    format(user_error,'SC=~w~n',[SC]),
+    flush_output(user_error),
     !.
 
 tr_n3p([],_,_) :-
