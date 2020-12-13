@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1213.2122 josd').
+version_info('EYE v20.1213.2145 josd').
 
 license_info('MIT License
 
@@ -1967,27 +1967,6 @@ pathitem(Atom,[]) -->
         escape_string(C,B),
         atom_codes(Atom,C)
     }.
-pathitem(Number,[]) -->
-    {   \+flag('parse-only')
-    },
-    literal(Atom,type(Type)),
-    {   memberchk(Type,['\'<http://www.w3.org/2001/XMLSchema#integer>\'','\'<http://www.w3.org/2001/XMLSchema#decimal>\'','\'<http://www.w3.org/2001/XMLSchema#double>\'']),
-        sub_atom(Atom,1,_,1,A),
-        atom_codes(A,NumB),
-        numeral(NumB,NumC),
-        atom_codes(NumA,NumC),
-        (   NumA = 'INF'
-        ->  Number = inf
-        ;   (   NumA = '-INF'
-            ->  Number = -inf
-            ;   (   NumA = 'NaN'
-                ->  Number = nan
-                ;   number_codes(Number,NumC)
-                )
-            )
-        )
-    },
-    !.
 pathitem(literal(Atom,DtLang),[]) -->
     literal(Atom,DtLang),
     !.

@@ -6,7 +6,7 @@ PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX re: <http://josd.github.io/eye/reasoning#>
 
-{   (?TEST ?ACTION)  re:outcome ?OUTCOME.
+{   ?TEST re:outcome ?OUTCOME.
 } <= {
     ?TEST a rdft:TestTurtlePositiveSyntax;
         mf:action ?ACTION.
@@ -17,7 +17,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
 }.
 
-{   (?TEST ?ACTION) re:outcome ?OUTCOME.
+{   ?TEST re:outcome ?OUTCOME.
 } <= {
     ?TEST a rdft:TestTurtleNegativeSyntax;
         mf:action ?ACTION.
@@ -28,7 +28,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
 }.
 
-{   (?TEST ?ACTION ?RESULT) re:outcome ?OUTCOME.
+{   ?TEST re:outcome ?OUTCOME.
 } <= {
     ?TEST a mf:PositiveEntailmentTest;
         mf:action ?ACTION;
@@ -41,7 +41,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
 }.
 
-{   (?TEST ?ACTION ?RESULT) re:outcome ?OUTCOME.
+{   ?TEST re:outcome ?OUTCOME.
 } <= {
     ?TEST a mf:NegativeEntailmentTest;
         mf:action ?ACTION;
