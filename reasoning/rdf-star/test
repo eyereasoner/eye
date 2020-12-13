@@ -1,0 +1,5 @@
+#!/bin/bash
+riot --out=n3 https://w3c.github.io/rdf-star/tests/turtle/syntax/manifest.ttl > manifest-turtle-syntax.n3
+riot --out=n3 https://w3c.github.io/rdf-star/tests/semantics/manifest.jsonld > manifest-semantics.n3
+eye --quiet --nope manifest-turtle-syntax.n3 manifest-semantics.n3 --query run-manifest.n3 > outcome.n3
+rm out.txt
