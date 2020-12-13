@@ -240,7 +240,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     {{(:f :g) rdf:first :f} => {:rdff1 :result true}} a :PASS.
     {{(:f :g) rdf:rest (:g)} => {:rdfr1 :result true}} a :PASS.
     {{("eul" "er") string:concatenation "euler"} => {:strc1 :result true}} a :PASS.
-    {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
+    {{("€" "Ø"@en-us) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
     {{("test " "is \"ok\"") string:concatenation "test is \"ok\""} => {:strc3 :result true}} a :PASS.
     {{"Rob Smith" string:contains "Smith"} => {:strcn1 :result true}} a :PASS.
     {{"Rob Smith"@en string:contains "Smith"@en} => {:strcn2 :result true}} a :PASS.
@@ -1266,10 +1266,10 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma84> a r:Inference;
   r:gives {
-    {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
+    {{("€" "Ø"@en-us) string:concatenation "€Ø"} => {:strc2 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}}]
+    [ a r:Fact; r:gives {{("€" "Ø"@en-us) string:concatenation "€Ø"} => {:strc2 :result true}}]
     <#lemma263>
     <#lemma264>
   );
@@ -3144,18 +3144,18 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     :strc2 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("€" "Ø"@en-US) string:concatenation "€Ø"}]
+    [ a r:Fact; r:gives {("€" "Ø"@en-us) string:concatenation "€Ø"}]
   );
   r:rule <#lemma373>.
 
 <#lemma264> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {("€" "Ø"@en-US) string:concatenation "€Ø"}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {("€" "Ø"@en-us) string:concatenation "€Ø"}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("€" "Ø"@en-US) string:concatenation "€Ø"}]
+    [ a r:Fact; r:gives {("€" "Ø"@en-us) string:concatenation "€Ø"}]
   );
-  r:rule [ a r:Fact; r:gives {{("€" "Ø"@en-US) string:concatenation "€Ø"} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {("€" "Ø"@en-US) string:concatenation "€Ø"}}}].
+  r:rule [ a r:Fact; r:gives {{("€" "Ø"@en-us) string:concatenation "€Ø"} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {("€" "Ø"@en-us) string:concatenation "€Ø"}}}].
 
 <#lemma265> a r:Inference;
   r:gives {
@@ -3926,7 +3926,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma373> a r:Extraction;
   r:gives {
-    {("€" "Ø"@en-US) string:concatenation "€Ø"} => {:strc2 :result true}.
+    {("€" "Ø"@en-us) string:concatenation "€Ø"} => {:strc2 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 

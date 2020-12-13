@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1213.1252 josd').
+version_info('EYE v20.1213.2122 josd').
 
 license_info('MIT License
 
@@ -1826,7 +1826,8 @@ dtlang(lang(Langcode)) -->
         Name \= 'has'
     },
     !,
-    {   atomic_list_concat(['\'',Name,'\''],Langcode)
+    {   downcase_atom(Name,N),
+        atomic_list_concat(['\'',N,'\''],Langcode)
     }.
 dtlang(type(Datatype)) -->
     [caret_caret],

@@ -396,7 +396,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {{("Family Guy") func:PlainLiteral-length 10} => {:PlainLiteral-length-1 :result true}} a :PASS.
     {{("Family Guy"@en) func:PlainLiteral-length 10} => {:PlainLiteral-length-2 :result true}} a :PASS.
     {{("Family Guy"@en "en") pred:matches-language-range true} => {:matches-language-range-1 :result true}} a :PASS.
-    {{("Family Guy"@en-US "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}} a :PASS.
+    {{("Family Guy"@en-us "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}} a :PASS.
     {{((:a :b :c :d)) pred:is-list true} => {:is-list-1 :result true}} a :PASS.
     {{((:a :b :c :d) :b) pred:list-contains true} => {:list-contains-1 :result true}} a :PASS.
     {{(:a :b :c :d) func:make-list (:a :b :c :d)} => {:make-list-1 :result true}} a :PASS.
@@ -2292,12 +2292,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma168> a r:Inference;
   r:gives {
-    {{("Family Guy"@en-US "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}} a :PASS.
+    {{("Family Guy"@en-us "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{("Family Guy"@en-US "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}}]
+    [ a r:Fact; r:gives {{("Family Guy"@en-us "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}}]
     <#lemma391>
-    [ a r:Fact; r:gives {{("Family Guy"@en-US "en-*") pred:matches-language-range true} e:labelvars {("Family Guy"@en-US "en-*") pred:matches-language-range true}}]
+    [ a r:Fact; r:gives {{("Family Guy"@en-us "en-*") pred:matches-language-range true} e:labelvars {("Family Guy"@en-us "en-*") pred:matches-language-range true}}]
   );
   r:rule <#lemma224>.
 
@@ -4411,7 +4411,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :matches-language-range-2 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("Family Guy"@en-US "en-*") pred:matches-language-range true}]
+    [ a r:Fact; r:gives {("Family Guy"@en-us "en-*") pred:matches-language-range true}]
   );
   r:rule <#lemma612>.
 
@@ -5896,7 +5896,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma612> a r:Extraction;
   r:gives {
-    {("Family Guy"@en-US "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}.
+    {("Family Guy"@en-us "en-*") pred:matches-language-range true} => {:matches-language-range-2 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rif/rifP.n3>].
 
