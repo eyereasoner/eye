@@ -22,8 +22,9 @@
 :- use_module(library(uri)).
 :- use_module(library(pcre)).
 :- use_module(library(date)).
+:- use_module(library(readutil)).
 
-version_info('EYE v20.1212.2140 josd').
+version_info('EYE v20.1213.1252 josd').
 
 license_info('MIT License
 
@@ -4852,6 +4853,14 @@ djiti_assertz(A) :-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fail>'(A,B) :-
     within_scope(A),
     \+catch(call(B),_,fail).
+
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fileString>'(literal(A,type('<http://www.w3.org/2001/XMLSchema#string>')),literal(B,type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    read_file_to_string(A,C,[]),
+    (   string_concat(D,"\n",C)
+    ->  true
+    ;   D = C
+    ),
+    atom_string(B,D).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A,B) :-
     call_cleanup(A,B),
