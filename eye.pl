@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1213.2145 josd').
+version_info('EYE v20.1214.2258 josd').
 
 license_info('MIT License
 
@@ -1427,7 +1427,7 @@ n3_n3p(Argument,Mode) :-
             ;   format(user_error,'** ~w ** ~w ** ~w~n',[Ise,Arg,Exc2])
             ),
             flush_output(user_error),
-            (   Mode == 'not-entail'
+            (   Mode == entail
             ->  write(query(true,true)),
                 writeln('.')
             ;   true
