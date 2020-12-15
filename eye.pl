@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1214.2259 josd').
+version_info('EYE v20.1215.1700 josd').
 
 license_info('MIT License
 
@@ -114,6 +114,7 @@ eye
 :- dynamic(bref/2).
 :- dynamic(bvar/1).
 :- dynamic(cpred/1).
+:- dynamic(data_fuse/0).
 :- dynamic(evar/3).
 :- dynamic(exopred/3).              % exopred(Predicate,Subject,Object)
 :- dynamic(fact/1).
@@ -1427,11 +1428,16 @@ n3_n3p(Argument,Mode) :-
             ;   format(user_error,'** ~w ** ~w ** ~w~n',[Ise,Arg,Exc2])
             ),
             flush_output(user_error),
-            (   Mode == entail
+            (   (   \+data_fuse,
+                    Mode == 'not-entail'
+                ;   data_fuse,
+                    Mode == entail
+                )
             ->  write(query(true,true)),
                 writeln('.')
             ;   true
-            )
+            ),
+            assertz(data_fuse)
         )
     ),
     (   Mode = semantics
