@@ -35,7 +35,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
         mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
-    ("eye --quiet --nope " ?ACT " --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
@@ -48,7 +48,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
         mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
-    ("eye --quiet --nope " ?ACT " --not-entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --not-entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
