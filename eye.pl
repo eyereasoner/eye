@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1215.1700 josd').
+version_info('EYE v20.1215.2201 josd').
 
 license_info('MIT License
 
@@ -1736,6 +1736,12 @@ annotation(Triple,Triples) -->
     [lb_pipe],
     !,
     propertylist(Triple,Triples),
+    {   (   Triples \= []
+        ->  true
+        ;   nb_getval(line_number,Ln),
+            throw('empty_triple_annotation'(after_line(Ln)))
+        )
+    },
     [pipe_rb].
 annotation(_,[]) -->
     [].
@@ -2012,7 +2018,8 @@ pathitem(triple(S,P,O),Triples) -->
     [lt_lt],
     !,
     pathlist(List,Triples),
-    {   (   List = [S,P,O]
+    {   (   List = [S,P,O],
+            Triples = []
         ->  true
         ;   nb_getval(line_number,Ln),
             throw('invalid_n3_star_triple'(List,after_line(Ln)))
