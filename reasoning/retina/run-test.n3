@@ -9,7 +9,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ("directory_files" "./" ?FILES) e:derive true.
     ("atomify" ?LIST ?FILES) e:derive true.
     ?LIST list:member ?TEST.
-    ?TEST string:endsWith "pl".
+    ?TEST string:endsWith ".pl".
     ?TEST log:notEqualTo "retina.pl".
     ("tpl -q --ns " ?TEST " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
