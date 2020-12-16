@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1215.2201 josd').
+version_info('EYE v20.1216.1756 josd').
 
 license_info('MIT License
 
@@ -62,7 +62,6 @@ eye
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
-    --ignore-syntax-error           do not halt in case of syntax error
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --license                       show license info
     --multi-query                   go into query answer loop
@@ -673,11 +672,6 @@ opts(['--ignore-inference-fuse'|Argus],Args) :-
     !,
     retractall(flag('ignore-inference-fuse')),
     assertz(flag('ignore-inference-fuse')),
-    opts(Argus,Args).
-opts(['--ignore-syntax-error'|Argus],Args) :-
-    !,
-    retractall(flag('ignore-syntax-error')),
-    assertz(flag('ignore-syntax-error')),
     opts(Argus,Args).
 opts(['--image',File|Argus],Args) :-
     !,
@@ -1341,10 +1335,6 @@ n3pin(Rt,In,File,Mode) :-
 n3_n3p(Argument,Mode) :-
     absolute_uri(Argument,Arg),
     tmp_file(Tmp),
-    (   flag('ignore-syntax-error')
-    ->  Ise = 'IGNORED'
-    ;   Ise = 'ERROR'
-    ),
     (   wcacher(Arg,File)
     ->  format(user_error,'GET ~w FROM ~w ',[Arg,File]),
         flush_output(user_error)
@@ -1424,8 +1414,8 @@ n3_n3p(Argument,Mode) :-
         ),
         Exc2,
         (   (   wcacher(Arg,File)
-            ->  format(user_error,'** ~w ** ~w FROM ~w ** ~w~n',[Ise,Arg,File,Exc2])
-            ;   format(user_error,'** ~w ** ~w ** ~w~n',[Ise,Arg,Exc2])
+            ->  format(user_error,'** ERROR ** ~w FROM ~w ** ~w~n',[Arg,File,Exc2])
+            ;   format(user_error,'** ERROR ** ~w ** ~w~n',[Arg,Exc2])
             ),
             flush_output(user_error),
             (   (   \+data_fuse,
@@ -9646,6 +9636,7 @@ atomify([A|B],[C|D]) :-
     atomify(A,C),
     atomify(B,D).
 atomify(literal(A,type('<http://www.w3.org/2001/XMLSchema#string>')),A) :-
+    atom(A),
     !.
 atomify(A,A).
 
