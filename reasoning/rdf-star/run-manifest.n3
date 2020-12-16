@@ -11,10 +11,10 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ?TEST a rdft:TestTurtlePositiveSyntax;
         mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
-    ("eye --quiet --nope " ?ACT " --not-entail https://w3c.github.io/rdf-star/tests/semantics/false 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
-    (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
+    (("0" re:PASSED) ("1" re:FAILED)) list:member (?OUT ?OUTCOME).
     ("exec" "rm out.txt" 0) e:derive true.
 }.
 
@@ -23,7 +23,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ?TEST a rdft:TestTurtleNegativeSyntax;
         mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
-    ("eye --quiet --nope " ?ACT " --entail https://w3c.github.io/rdf-star/tests/semantics/false 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
