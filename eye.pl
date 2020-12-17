@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1216.1756 josd').
+version_info('EYE v20.1217.1242 josd').
 
 license_info('MIT License
 
@@ -5835,6 +5835,14 @@ djiti_assertz(A) :-
     ),
     !.
 
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X,'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>') :-
+    when(
+        (   nonvar(X)
+        ),
+        (   X = [_]
+        )
+    ),
+    !.
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X,Y) :-
     when(
         (   nonvar(X)

@@ -675,8 +675,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :Jos owl:differentFrom :Rita.
   };
   r:evidence (
-    <#lemma75>
     <#lemma80>
+    <#lemma81>
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:first :Jos}]
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Rita list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
@@ -688,30 +688,32 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :Jos owl:differentFrom :Greta.
   };
   r:evidence (
-    <#lemma75>
     <#lemma80>
+    <#lemma81>
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:first :Jos}]
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
   );
   r:rule <#lemma77>.
 
-<#lemma75> a r:Extraction;
+<#lemma75> a r:Inference;
   r:gives {
-    :dp owl:distinctMembers (:Jos :Rita :Geert :Caroline :Dirk :Greta).
+    :dp owl:distinctMembers (:Rita :Geert :Caroline :Dirk :Greta).
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+  r:evidence (
+    <#lemma80>
+    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
+  );
+  r:rule <#lemma82>.
 
 <#lemma76> a r:Inference;
   r:gives {
-    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Jos :Rita :Geert :Caroline :Dirk :Greta).
+    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
   };
   r:evidence (
-    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
-    <#lemma81>
-    <#lemma82>
+    <#lemma83>
   );
-  r:rule <#lemma83>.
+  r:rule <#lemma84>.
 
 <#lemma77> a r:Extraction;
   r:gives {
@@ -728,8 +730,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :Geert owl:differentFrom :Greta.
   };
   r:evidence (
-    <#lemma84>
     <#lemma85>
+    <#lemma86>
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:first :Geert}]
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Caroline :Dirk :Greta)}]
@@ -741,193 +743,140 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :Dirk owl:differentFrom :Greta.
   };
   r:evidence (
-    <#lemma86>
     <#lemma87>
+    <#lemma88>
     [ a r:Fact; r:gives {(:Dirk :Greta) rdf:first :Dirk}]
     [ a r:Fact; r:gives {(:Dirk :Greta) rdf:rest (:Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Greta)}]
   );
   r:rule <#lemma77>.
 
-<#lemma80> a r:Inference;
+<#lemma80> a r:Extraction;
+  r:gives {
+    :dp owl:distinctMembers (:Jos :Rita :Geert :Caroline :Dirk :Greta).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+<#lemma81> a r:Inference;
   r:gives {
     (:Jos :Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Jos :Rita :Geert :Caroline :Dirk :Greta).
   };
   r:evidence (
-    <#lemma81>
-  );
-  r:rule <#lemma88>.
-
-<#lemma81> a r:Inference;
-  r:gives {
-    (:Jos :Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
-  };
-  r:evidence (
     <#lemma89>
-    <#lemma75>
   );
-  r:rule <#lemma90>.
+  r:rule <#lemma84>.
 
-<#lemma82> a r:Inference;
+<#lemma82> a r:Extraction;
   r:gives {
-    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma91>
-  );
-  r:rule <#lemma88>.
-
-<#lemma83> a r:Extraction;
-  r:gives {
-    {?x_0_11 rdf:rest ?x_1_11.
-     ?x_0_11 a rdf:List.
-     ?x_2_11 ns1:subListOf ?x_1_11} => {?x_2_11 ns1:subListOf ?x_0_11}.
+    {?x_0_11 owl:distinctMembers ?x_1_11.
+     ?x_1_11 rdf:rest ?x_2_11} => {?x_0_11 owl:distinctMembers ?x_2_11}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-<#lemma84> a r:Inference;
+<#lemma83> a r:Inference;
   r:gives {
-    :dp owl:distinctMembers (:Rita :Geert :Caroline :Dirk :Greta).
+    (:Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
   };
   r:evidence (
+    <#lemma90>
     <#lemma75>
-    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
   );
-  r:rule <#lemma92>.
+  r:rule <#lemma91>.
 
-<#lemma85> a r:Inference;
-  r:gives {
-    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
-    <#lemma91>
-    <#lemma93>
-  );
-  r:rule <#lemma83>.
-
-<#lemma86> a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma94>
-    [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
-  );
-  r:rule <#lemma92>.
-
-<#lemma87> a r:Inference;
-  r:gives {
-    (:Dirk :Greta) ns1:subListOf (:Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
-    <#lemma95>
-    <#lemma96>
-  );
-  r:rule <#lemma83>.
-
-<#lemma88> a r:Extraction;
+<#lemma84> a r:Extraction;
   r:gives {
     {?x_0_12 a rdf:List} => {?x_0_12 ns1:subListOf ?x_0_12}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-<#lemma89> a r:Extraction;
+<#lemma85> a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    <#lemma75>
+    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
+  );
+  r:rule <#lemma82>.
+
+<#lemma86> a r:Inference;
+  r:gives {
+    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    <#lemma92>
+  );
+  r:rule <#lemma84>.
+
+<#lemma87> a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Dirk :Greta).
+  };
+  r:evidence (
+    <#lemma93>
+    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
+  );
+  r:rule <#lemma82>.
+
+<#lemma88> a r:Inference;
+  r:gives {
+    (:Dirk :Greta) ns1:subListOf (:Dirk :Greta).
+  };
+  r:evidence (
+    <#lemma94>
+  );
+  r:rule <#lemma84>.
+
+<#lemma89> a r:Inference;
+  r:gives {
+    (:Jos :Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
+  };
+  r:evidence (
+    <#lemma90>
+    <#lemma80>
+  );
+  r:rule <#lemma91>.
+
+<#lemma90> a r:Extraction;
   r:gives {
     owl:distinctMembers rdfs:range rdf:List.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-<#lemma90> a r:Extraction;
+<#lemma91> a r:Extraction;
   r:gives {
     {?x_0_13 rdfs:range ?x_1_13.
      ?x_2_13 ?x_0_13 ?x_3_13} => {?x_3_13 a ?x_1_13}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-<#lemma91> a r:Inference;
-  r:gives {
-    (:Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
-  };
-  r:evidence (
-    <#lemma89>
-    <#lemma84>
-  );
-  r:rule <#lemma90>.
-
-<#lemma92> a r:Extraction;
-  r:gives {
-    {?x_0_14 owl:distinctMembers ?x_1_14.
-     ?x_1_14 rdf:rest ?x_2_14} => {?x_0_14 owl:distinctMembers ?x_2_14}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
-
-<#lemma93> a r:Inference;
-  r:gives {
-    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma97>
-  );
-  r:rule <#lemma88>.
-
-<#lemma94> a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma84>
-    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
-  );
-  r:rule <#lemma92>.
-
-<#lemma95> a r:Inference;
-  r:gives {
-    (:Caroline :Dirk :Greta) a rdf:List.
-  };
-  r:evidence (
-    <#lemma89>
-    <#lemma86>
-  );
-  r:rule <#lemma90>.
-
-<#lemma96> a r:Inference;
-  r:gives {
-    (:Dirk :Greta) ns1:subListOf (:Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma98>
-  );
-  r:rule <#lemma88>.
-
-<#lemma97> a r:Inference;
+<#lemma92> a r:Inference;
   r:gives {
     (:Geert :Caroline :Dirk :Greta) a rdf:List.
   };
   r:evidence (
-    <#lemma89>
-    <#lemma94>
+    <#lemma90>
+    <#lemma85>
   );
-  r:rule <#lemma90>.
+  r:rule <#lemma91>.
 
-<#lemma98> a r:Inference;
+<#lemma93> a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    <#lemma85>
+    [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
+  );
+  r:rule <#lemma82>.
+
+<#lemma94> a r:Inference;
   r:gives {
     (:Dirk :Greta) a rdf:List.
   };
   r:evidence (
-    <#lemma89>
-    <#lemma99>
+    <#lemma90>
+    <#lemma87>
   );
-  r:rule <#lemma90>.
-
-<#lemma99> a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Dirk :Greta).
-  };
-  r:evidence (
-    <#lemma86>
-    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
-  );
-  r:rule <#lemma92>.
+  r:rule <#lemma91>.
 
