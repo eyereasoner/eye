@@ -7,7 +7,6 @@
 :- dynamic('-:'/2).
 :- dynamic(goal/0).
 :- dynamic(label/1).
-:- dynamic(lus/1).
 
 retina :-
     (Prem -: Conc),
@@ -16,17 +15,14 @@ retina :-
     (   Conc = goal
     ->  !
     ;   labelvars(Conc),
-        % emulating logical update semantics
-        assertz(lus(Conc)),
+        astep(Conc),
         retract(goal),
         fail
     ).
 retina :-
     (   goal
     ->  !
-    ;   % emulating logical update semantics
-        forall(retract(lus(C)),astep(C)),
-        assertz(goal),
+    ;   assertz(goal),
         retina
     ).
 

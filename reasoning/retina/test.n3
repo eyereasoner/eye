@@ -11,7 +11,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ?LIST list:member ?TEST.
     ?TEST string:endsWith ".pl".
     ?TEST log:notEqualTo "retina.pl".
-    ("tpl -q --ns " ?TEST " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("swipl -g halt " ?TEST " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
