@@ -14,9 +14,6 @@
 :- dynamic(not_e/2).
 :- dynamic(not_r/2).
 :- dynamic(not_re/2).
-:- dynamic(goal/0).
-:- dynamic(label/1).
-:- dynamic(lus/1).
 
 test :-
     % query implies goal
@@ -24,6 +21,7 @@ test :-
     % assuming the negation of the query so that it can be discharged when the query succeeds
     assertz((re(b,X) -: not_re(c,X))),
     assertz((re(c,X) -: not_re(b,X))),
+    consult(retina),
     retina,
     write('true.'),
     nl.
@@ -58,42 +56,3 @@ re(X,Y),not_r(X,Y) -: e(X,Y).
 
 % DP
 r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).
-
-% retina to support forward chaining
-retina :-
-    (Prem -: Conc),
-    call(Prem),
-    \+call(Conc),
-    (   Conc = goal
-    ->  !
-    ;   labelvars(Conc),
-        assertz(lus(Conc)),
-        retract(goal),
-        fail
-    ).
-retina :-
-    (   goal
-    ->  !
-    ;   assertz(goal),
-        forall(retract(lus(Conc)),astep(Conc)),
-        retina
-    ).
-
-labelvars(Term) :-
-    (   label(Current)
-    ->  true
-    ;   Current = 0
-    ),
-    numbervars(Term,Current,Next),
-    retractall(label(_)),
-    assertz(label(Next)).
-
-astep((A,B)) :-
-    !,
-    astep(A),
-    astep(B).
-astep(A) :-
-    (   \+call(A)
-    ->  assertz(A)
-    ;   true
-    ).
