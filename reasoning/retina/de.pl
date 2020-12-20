@@ -32,7 +32,7 @@ not_saying(S,'C') -: not_saying(S,'B').
 not_saying(S,'A') -: saying(S,'B').
 not_saying(S,'B') -: saying(S,'A').
 
-% retina to support controlled chaining
+% retina to support forward chaining
 retina :-
     (Prem -: Conc),
     call(Prem),

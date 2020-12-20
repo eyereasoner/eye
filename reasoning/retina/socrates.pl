@@ -21,7 +21,7 @@ subclass_of(man,mortal).
 
 subclass_of(A,B),type(Subject,A) -: type(Subject,B).
 
-% retina to support controlled chaining
+% retina to support forward chaining
 retina :-
     (Prem -: Conc),
     call(Prem),

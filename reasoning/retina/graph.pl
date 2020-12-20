@@ -30,7 +30,7 @@ oneway(angers,nantes).
 oneway(A,B) -: path(A,B).
 path(A,B),path(B,C) -: path(A,C).
 
-% retina to support controlled chaining
+% retina to support forward chaining
 retina :-
     (Prem -: Conc),
     call(Prem),

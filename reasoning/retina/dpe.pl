@@ -59,7 +59,7 @@ re(X,Y),not_r(X,Y) -: e(X,Y).
 % DP
 r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).
 
-% retina to support controlled chaining
+% retina to support forward chaining
 retina :-
     (Prem -: Conc),
     call(Prem),
