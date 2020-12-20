@@ -8,6 +8,7 @@
 :- dynamic(type/2).
 :- dynamic(goal/0).
 :- dynamic(label/1).
+:- dynamic(lus/1).
 
 test :-
     retina,
@@ -28,7 +29,7 @@ retina :-
     (   Conc = goal
     ->  !
     ;   labelvars(Conc),
-        astep(Conc),
+        assertz(lus(Conc)),
         retract(goal),
         fail
     ).
@@ -36,6 +37,7 @@ retina :-
     (   goal
     ->  !
     ;   assertz(goal),
+        forall(retract(lus(Conc)),astep(Conc)),
         retina
     ).
 
