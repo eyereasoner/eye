@@ -34,11 +34,8 @@ dom(c).
 re(a,b).
 re(a,c).
 
-% DP
-r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).
-
 % equality axioms
-dom(X) -: e(X,X).
+%dom(X) -: e(X,X).
 
 e(X,Y) -: e(Y,X).
 not_e(Y,X) -: not_e(X,Y).
@@ -57,6 +54,9 @@ not_re(X,Y) -: not_r(X,Y).
 re(X,Y),not_e(X,Y) -: r(X,Y).
 not_r(X,Y),not_e(X,Y) -: not_re(X,Y).
 re(X,Y),not_r(X,Y) -: e(X,Y).
+
+% DP
+r(X,Y),r(X,Z) -: dom(U),r(Y,U),r(Z,U).
 
 % retina to support controlled chaining
 retina :-
@@ -92,6 +92,6 @@ astep((A,B)) :-
     astep(B).
 astep(A) :-
     (   \+call(A)
-    ->  asserta(A)
+    ->  assertz(A)
     ;   true
     ).

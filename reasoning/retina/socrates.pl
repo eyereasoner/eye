@@ -54,6 +54,6 @@ astep((A,B)) :-
     astep(B).
 astep(A) :-
     (   \+call(A)
-    ->  asserta(A)
+    ->  assertz(A)
     ;   true
     ).
