@@ -10,8 +10,7 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ("atomify" ?LIST ?FILES) e:derive true.
     ?LIST list:member ?TEST.
     ?TEST string:endsWith ".pl".
-    ?TEST log:notEqualTo "retina.pl".
-    ("swipl -g halt " ?TEST " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ("tpl -q --ns " ?TEST " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ("exec" ?CMD 0) e:derive true.
     "out.txt" e:fileString ?OUT.
     (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
