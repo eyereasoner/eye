@@ -11,8 +11,8 @@
 
 retina :-
     (Prem -: Conc),
-    call(Prem),
-    \+call(Conc),
+    Prem,
+    \+ Conc,
     (   Conc = goal
     ->  !
     ;   labelvars(Conc),
@@ -42,7 +42,7 @@ astep((A,B)) :-
     astep(A),
     astep(B).
 astep(A) :-
-    (   \+call(A)
+    (   \+ A
     ->  assertz(A)
     ;   true
     ).
