@@ -1,2 +1,7 @@
 #!/bin/bash
 eye --quiet --nope https://w3c.github.io/rdf-tests/turtle/manifest.ttl --query run-manifest.n3 | tee run-outcome.n3
+echo "==============="
+echo "TEST TURTLE-DEV"
+echo "==============="
+echo -n "FAILED: "; cat run-outcome.n3 | grep FAILED | wc -l
+echo -n "PASSED: "; cat run-outcome.n3 | grep PASSED | wc -l
