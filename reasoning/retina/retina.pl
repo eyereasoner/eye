@@ -1,6 +1,14 @@
-% ===================================================
-% retina to support controlled chaining -- Jos De Roo
-% ===================================================
+% --------------------------------------------------------------------------
+% Retina performs controlled chaining and Euler path detection -- Jos De Roo
+% --------------------------------------------------------------------------
+
+% Controlled chaining is backward chaining for rules using HEAD :- BODY and
+% forward chaining for rules using BODY -: HEAD.
+%
+% Euler paths are roughly "don't step in your own steps" which is inspired by
+% what Leonhard Euler discovered in 1736 for the Königsberg Bridge Problem.
+% Retina sees the rule BODY -: HEAD as HEAD & NOT(BODY) => HEAD.
+
 
 :- op(1150,xfx,-:).
 
