@@ -10,7 +10,7 @@
 :- dynamic(lus/1).
 
 retina :-
-    (Prem -: Conc),
+    Prem -: Conc,
     Prem,
     \+ Conc,
     (   Conc = goal
