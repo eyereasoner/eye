@@ -1,2 +1,7 @@
 #!/bin/bash
 riot --stream=Turtle https://w3c.github.io/rdf-star/tests/semantics/manifest.jsonld | eye --quiet --nope https://w3c.github.io/rdf-star/tests/turtle/syntax/manifest.ttl - --query run-manifest.n3 | tee run-outcome.n3
+echo "============="
+echo "TEST RDF-STAR"
+echo "============="
+echo -n "FAILED: "; cat run-outcome.n3 | grep FAILED | wc -l
+echo -n "PASSED: "; cat run-outcome.n3 | grep PASSED | wc -l
