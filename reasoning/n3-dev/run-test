@@ -1,2 +1,7 @@
 #!/bin/bash
 eye --quiet --nope https://w3c.github.io/N3/tests/N3Tests/manifest.ttl https://w3c.github.io/N3/tests/N3Tests/manifest-reasoner.ttl --query run-manifest.n3 | tee run-outcome.n3
+echo "==========="
+echo "TEST N3-DEV"
+echo "==========="
+echo -n "FAILED: "; cat run-outcome.n3 | grep FAILED | wc -l
+echo -n "PASSED: "; cat run-outcome.n3 | grep PASSED | wc -l
