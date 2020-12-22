@@ -1,6 +1,6 @@
-% --------------------------------------------------------------------------
-% Retina performs controlled chaining and Euler path detection -- Jos De Roo
-% --------------------------------------------------------------------------
+% ---------------------------------------------------------------------------
+% Retina performs controlled chaining with Euler path detection -- Jos De Roo
+% ---------------------------------------------------------------------------
 
 % Controlled chaining is backward chaining for rules like HEAD :- BODY and
 % forward chaining for rules like BODY -: HEAD with HEAD being a conjunction.
