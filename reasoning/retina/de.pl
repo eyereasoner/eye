@@ -2,6 +2,8 @@
 
 :- initialization(test).
 
+:- use_module(retina).
+
 :- op(1150,xfx,-:).
 
 :- dynamic((-:)/2).
@@ -13,7 +15,6 @@ test :-
     assertz((saying(_,'C') -: goal)),
     % assuming the negation of the query so that it can be discharged when the query succeeds
     assertz(not_saying(sk_0,'C')),
-    consult(retina),
     retina,
     write('true.'),
     nl.

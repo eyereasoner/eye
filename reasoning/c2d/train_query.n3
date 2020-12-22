@@ -1,12 +1,12 @@
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
+PREFIX c2d: <http://josd.github.io/eye/reasoning/c2d#>
 PREFIX : <http://josd.github.io/eye/reasoning#>
 
 {
-    (?IN ?IV) ccd:model (?ON ?C ?N).
+    (?IN ?IV) c2d:model (?ON ?C ?N).
 } <= {
-    (?IN ?IV) ccd:output ?ON.
+    (?IN ?IV) c2d:output ?ON.
     ?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 1} ?CL).
     ?SCOPE e:findall (1 {?CASE ?IN ?IV; ?ON 0} ?NL).
     ?CL math:sum ?C.

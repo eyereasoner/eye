@@ -2,6 +2,8 @@
 
 :- initialization(test).
 
+:- use_module(retina).
+
 :- op(1150,xfx,-:).
 
 :- dynamic((-:)/2).
@@ -10,7 +12,6 @@
 test :-
     % query implies goal
     assertz((path(paris,nantes) -: goal)),
-    consult(retina),
     retina,
     write('true.'),
     nl.

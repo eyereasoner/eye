@@ -10,7 +10,7 @@
 % Retina sees the rule BODY -: HEAD as HEAD & NOT(BODY) => HEAD.
 
 
-:- op(1150,xfx,-:).
+:- module(retina,[retina/0]).
 
 :- dynamic((-:)/2).
 :- dynamic(goal/0).
@@ -18,7 +18,7 @@
 :- dynamic(lus/1).
 
 retina :-
-    (Prem -: Conc),
+    -:(Prem,Conc),
     Prem,
     \+ Conc,
     (   Conc = goal

@@ -1,0 +1,6 @@
+#!/bin/bash
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/c2d/train_data.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/train_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/train_query.n3 > train_model.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/c2d/train_data.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/train_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/train_query.n3 > train_model_proof.n3
+
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/c2d/test_data.n3 http://josd.github.io/eye/reasoning/c2d/train_model.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/test_query.n3 > test_answer.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/c2d/test_data.n3 http://josd.github.io/eye/reasoning/c2d/train_model.n3 http://josd.github.io/eye/reasoning/c2d/background_rules.n3 http://josd.github.io/eye/reasoning/c2d/c2d_rules.n3 --query http://josd.github.io/eye/reasoning/c2d/test_query.n3 > test_proof.n3
