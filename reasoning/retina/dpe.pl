@@ -4,8 +4,6 @@
 
 :- initialization(test).
 
-:- use_module(retina).
-
 :- op(1150,xfx,-:).
 
 :- dynamic((-:)/2).
@@ -23,6 +21,7 @@ test :-
     % assuming the negation of the query so that it can be discharged when the query succeeds
     assertz((re(b,X) -: not_re(c,X))),
     assertz((re(c,X) -: not_re(b,X))),
+    consult(retina),
     retina,
     write('true.'),
     nl.
