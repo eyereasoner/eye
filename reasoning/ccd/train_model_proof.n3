@@ -1,0 +1,638 @@
+PREFIX : <http://josd.github.io/eye/reasoning#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof,r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:component <#lemma3>;
+  r:component <#lemma4>;
+  r:component <#lemma5>;
+  r:component <#lemma6>;
+  r:component <#lemma7>;
+  r:component <#lemma8>;
+  r:component <#lemma9>;
+  r:component <#lemma10>;
+  r:component <#lemma11>;
+  r:component <#lemma12>;
+  r:component <#lemma13>;
+  r:component <#lemma14>;
+  r:component <#lemma15>;
+  r:component <#lemma16>;
+  r:component <#lemma17>;
+  r:gives {
+    (:input1 "abc") ccd:model (:output1 2 3).
+    (:input1 "xyz") ccd:model (:output1 2 1).
+    (:input2 40) ccd:model (:output1 3 0).
+    (:input2 60) ccd:model (:output1 2 4).
+    (:input3 (0 1)) ccd:model (:output1 2 2).
+    (:input3 (2 3)) ccd:model (:output1 1 3).
+    (:input4 :v1) ccd:model (:output1 2 0).
+    (:input4 :v2) ccd:model (:output1 1 1).
+    (:input4 :v4) ccd:model (:output1 1 1).
+    (:input4 :v3) ccd:model (:output1 1 2).
+    (:input5 "b") ccd:model (:output1 2 0).
+    (:input5 "c") ccd:model (:output1 0 3).
+    (:input5 "a") ccd:model (:output1 1 1).
+    (:input10 ("abc" 40)) ccd:model (:output1 1 0).
+    (:input10 ("xyz" 60)) ccd:model (:output1 1 1).
+    (:input10 ("abc" 60)) ccd:model (:output1 1 2).
+    (:input10 ("xyz" 40)) ccd:model (:output1 1 0).
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    (:input1 "abc") ccd:model (:output1 2 3).
+  };
+  r:evidence (
+    <#lemma18>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_0 :input1 "abc".
+     _:sk_0 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_0 :input1 "abc".
+     _:sk_0 :output1 0} (1 1 1))}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    (:input1 "xyz") ccd:model (:output1 2 1).
+  };
+  r:evidence (
+    <#lemma20>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_1 :input1 "xyz".
+     _:sk_1 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_1 :input1 "xyz".
+     _:sk_1 :output1 0} (1))}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma3> a r:Inference;
+  r:gives {
+    (:input2 40) ccd:model (:output1 3 0).
+  };
+  r:evidence (
+    <#lemma21>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_2 :input2 40 .
+     _:sk_2 :output1 1} (1 1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_2 :input2 40 .
+     _:sk_2 :output1 0} ())}]
+    [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma4> a r:Inference;
+  r:gives {
+    (:input2 60) ccd:model (:output1 2 4).
+  };
+  r:evidence (
+    <#lemma22>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_3 :input2 60 .
+     _:sk_3 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_3 :input2 60 .
+     _:sk_3 :output1 0} (1 1 1 1))}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {(1 1 1 1) math:sum 4}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma5> a r:Inference;
+  r:gives {
+    (:input3 (0 1)) ccd:model (:output1 2 2).
+  };
+  r:evidence (
+    <#lemma23>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_4 :input3 (0 1).
+     _:sk_4 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_4 :input3 (0 1).
+     _:sk_4 :output1 0} (1 1))}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma6> a r:Inference;
+  r:gives {
+    (:input3 (2 3)) ccd:model (:output1 1 3).
+  };
+  r:evidence (
+    <#lemma24>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_5 :input3 (2 3).
+     _:sk_5 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_5 :input3 (2 3).
+     _:sk_5 :output1 0} (1 1 1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma7> a r:Inference;
+  r:gives {
+    (:input4 :v1) ccd:model (:output1 2 0).
+  };
+  r:evidence (
+    <#lemma25>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_6 :input4 :v1.
+     _:sk_6 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_6 :input4 :v1.
+     _:sk_6 :output1 0} ())}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma8> a r:Inference;
+  r:gives {
+    (:input4 :v2) ccd:model (:output1 1 1).
+  };
+  r:evidence (
+    <#lemma26>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_7 :input4 :v2.
+     _:sk_7 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_7 :input4 :v2.
+     _:sk_7 :output1 0} (1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma9> a r:Inference;
+  r:gives {
+    (:input4 :v4) ccd:model (:output1 1 1).
+  };
+  r:evidence (
+    <#lemma27>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_8 :input4 :v4.
+     _:sk_8 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_8 :input4 :v4.
+     _:sk_8 :output1 0} (1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma10> a r:Inference;
+  r:gives {
+    (:input4 :v3) ccd:model (:output1 1 2).
+  };
+  r:evidence (
+    <#lemma28>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_9 :input4 :v3.
+     _:sk_9 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_9 :input4 :v3.
+     _:sk_9 :output1 0} (1 1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma11> a r:Inference;
+  r:gives {
+    (:input5 "b") ccd:model (:output1 2 0).
+  };
+  r:evidence (
+    <#lemma29>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_10 :input5 "b".
+     _:sk_10 :output1 1} (1 1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_10 :input5 "b".
+     _:sk_10 :output1 0} ())}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma12> a r:Inference;
+  r:gives {
+    (:input5 "c") ccd:model (:output1 0 3).
+  };
+  r:evidence (
+    <#lemma30>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_11 :input5 "c".
+     _:sk_11 :output1 1} ())}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_11 :input5 "c".
+     _:sk_11 :output1 0} (1 1 1))}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+    [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma13> a r:Inference;
+  r:gives {
+    (:input5 "a") ccd:model (:output1 1 1).
+  };
+  r:evidence (
+    <#lemma31>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_12 :input5 "a".
+     _:sk_12 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_12 :input5 "a".
+     _:sk_12 :output1 0} (1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma14> a r:Inference;
+  r:gives {
+    (:input10 ("abc" 40)) ccd:model (:output1 1 0).
+  };
+  r:evidence (
+    <#lemma32>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_13 :input10 ("abc" 40).
+     _:sk_13 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_13 :input10 ("abc" 40).
+     _:sk_13 :output1 0} ())}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma15> a r:Inference;
+  r:gives {
+    (:input10 ("xyz" 60)) ccd:model (:output1 1 1).
+  };
+  r:evidence (
+    <#lemma33>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_14 :input10 ("xyz" 60).
+     _:sk_14 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_14 :input10 ("xyz" 60).
+     _:sk_14 :output1 0} (1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma16> a r:Inference;
+  r:gives {
+    (:input10 ("abc" 60)) ccd:model (:output1 1 2).
+  };
+  r:evidence (
+    <#lemma34>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_15 :input10 ("abc" 60).
+     _:sk_15 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_15 :input10 ("abc" 60).
+     _:sk_15 :output1 0} (1 1))}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {(1 1) math:sum 2}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma17> a r:Inference;
+  r:gives {
+    (:input10 ("xyz" 40)) ccd:model (:output1 1 0).
+  };
+  r:evidence (
+    <#lemma35>
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_16 :input10 ("xyz" 40).
+     _:sk_16 :output1 1} (1))}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1) e:findall (1 {_:sk_16 :input10 ("xyz" 40).
+     _:sk_16 :output1 0} ())}]
+    [ a r:Fact; r:gives {(1) math:sum 1}]
+    [ a r:Fact; r:gives {() math:sum 0}]
+  );
+  r:rule <#lemma19>.
+
+<#lemma18> a r:Inference;
+  r:gives {
+    (:input1 "abc") ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
+    <#lemma36>
+  );
+  r:rule <#lemma37>.
+
+<#lemma19> a r:Extraction;
+  r:gives {
+    {(?x_0_1 ?x_1_1) ccd:output ?x_2_1.
+     ?x_3_1 e:findall (1 {?x_4_1 ?x_0_1 ?x_1_1.
+      ?x_4_1 ?x_2_1 1} ?x_5_1).
+     ?x_3_1 e:findall (1 {?x_4_1 ?x_0_1 ?x_1_1.
+      ?x_4_1 ?x_2_1 0} ?x_6_1).
+     ?x_5_1 math:sum ?x_7_1.
+     ?x_6_1 math:sum ?x_8_1} => {(?x_0_1 ?x_1_1) ccd:model (?x_2_1 ?x_7_1 ?x_8_1)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_query.n3>].
+
+<#lemma20> a r:Inference;
+  r:gives {
+    (:input1 "xyz") ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
+    <#lemma38>
+  );
+  r:rule <#lemma37>.
+
+<#lemma21> a r:Inference;
+  r:gives {
+    (:input2 40) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
+    <#lemma39>
+  );
+  r:rule <#lemma37>.
+
+<#lemma22> a r:Inference;
+  r:gives {
+    (:input2 60) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
+    <#lemma40>
+  );
+  r:rule <#lemma37>.
+
+<#lemma23> a r:Inference;
+  r:gives {
+    (:input3 (0 1)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
+    <#lemma41>
+  );
+  r:rule <#lemma37>.
+
+<#lemma24> a r:Inference;
+  r:gives {
+    (:input3 (2 3)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
+    <#lemma42>
+  );
+  r:rule <#lemma37>.
+
+<#lemma25> a r:Inference;
+  r:gives {
+    (:input4 :v1) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+    <#lemma43>
+  );
+  r:rule <#lemma37>.
+
+<#lemma26> a r:Inference;
+  r:gives {
+    (:input4 :v2) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+    <#lemma44>
+  );
+  r:rule <#lemma37>.
+
+<#lemma27> a r:Inference;
+  r:gives {
+    (:input4 :v4) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+    <#lemma45>
+  );
+  r:rule <#lemma37>.
+
+<#lemma28> a r:Inference;
+  r:gives {
+    (:input4 :v3) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+    <#lemma46>
+  );
+  r:rule <#lemma37>.
+
+<#lemma29> a r:Inference;
+  r:gives {
+    (:input5 "b") ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+    <#lemma47>
+  );
+  r:rule <#lemma37>.
+
+<#lemma30> a r:Inference;
+  r:gives {
+    (:input5 "c") ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+    <#lemma48>
+  );
+  r:rule <#lemma37>.
+
+<#lemma31> a r:Inference;
+  r:gives {
+    (:input5 "a") ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+    <#lemma49>
+  );
+  r:rule <#lemma37>.
+
+<#lemma32> a r:Inference;
+  r:gives {
+    (:input10 ("abc" 40)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+    <#lemma50>
+  );
+  r:rule <#lemma37>.
+
+<#lemma33> a r:Inference;
+  r:gives {
+    (:input10 ("xyz" 60)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+    <#lemma51>
+  );
+  r:rule <#lemma37>.
+
+<#lemma34> a r:Inference;
+  r:gives {
+    (:input10 ("abc" 60)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+    <#lemma52>
+  );
+  r:rule <#lemma37>.
+
+<#lemma35> a r:Inference;
+  r:gives {
+    (:input10 ("xyz" 40)) ccd:output :output1.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+    <#lemma53>
+  );
+  r:rule <#lemma37>.
+
+<#lemma36> a r:Extraction;
+  r:gives {
+    _:bn_1 :input1 "abc".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma37> a r:Extraction;
+  r:gives {
+    {(:input1 :input2 :input3 :input4 :input5 :input10) list:member ?x_0_2.
+     ?x_1_2 ?x_0_2 ?x_2_2} => {(?x_0_2 ?x_2_2) ccd:output :output1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>].
+
+<#lemma38> a r:Extraction;
+  r:gives {
+    _:bn_4 :input1 "xyz".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma39> a r:Extraction;
+  r:gives {
+    _:bn_1 :input2 40 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma40> a r:Extraction;
+  r:gives {
+    _:bn_4 :input2 60 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma41> a r:Extraction;
+  r:gives {
+    _:bn_1 :input3 (0 1).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma42> a r:Extraction;
+  r:gives {
+    _:bn_2 :input3 (2 3).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma43> a r:Extraction;
+  r:gives {
+    _:bn_1 :input4 :v1.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma44> a r:Extraction;
+  r:gives {
+    _:bn_2 :input4 :v2.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma45> a r:Extraction;
+  r:gives {
+    _:bn_5 :input4 :v4.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma46> a r:Extraction;
+  r:gives {
+    _:bn_6 :input4 :v3.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma47> a r:Extraction;
+  r:gives {
+    _:bn_1 :input5 "b".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma48> a r:Extraction;
+  r:gives {
+    _:bn_2 :input5 "c".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma49> a r:Extraction;
+  r:gives {
+    _:bn_3 :input5 "a".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma50> a r:Inference;
+  r:gives {
+    _:bn_1 :input10 ("abc" 40).
+  };
+  r:evidence (
+    <#lemma36>
+    <#lemma39>
+  );
+  r:rule <#lemma54>.
+
+<#lemma51> a r:Inference;
+  r:gives {
+    _:bn_4 :input10 ("xyz" 60).
+  };
+  r:evidence (
+    <#lemma38>
+    <#lemma40>
+  );
+  r:rule <#lemma54>.
+
+<#lemma52> a r:Inference;
+  r:gives {
+    _:bn_5 :input10 ("abc" 60).
+  };
+  r:evidence (
+    <#lemma55>
+    <#lemma56>
+  );
+  r:rule <#lemma54>.
+
+<#lemma53> a r:Inference;
+  r:gives {
+    _:bn_8 :input10 ("xyz" 40).
+  };
+  r:evidence (
+    <#lemma57>
+    <#lemma58>
+  );
+  r:rule <#lemma54>.
+
+<#lemma54> a r:Extraction;
+  r:gives {
+    {?x_0_3 :input1 ?x_1_3.
+     ?x_0_3 :input2 ?x_2_3} => {?x_0_3 :input10 (?x_1_3 ?x_2_3)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/background_rules.n3>].
+
+<#lemma55> a r:Extraction;
+  r:gives {
+    _:bn_5 :input1 "abc".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma56> a r:Extraction;
+  r:gives {
+    _:bn_5 :input2 60 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma57> a r:Extraction;
+  r:gives {
+    _:bn_8 :input1 "xyz".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+<#lemma58> a r:Extraction;
+  r:gives {
+    _:bn_8 :input2 40 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
