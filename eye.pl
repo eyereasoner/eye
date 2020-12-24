@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1217.1242 josd').
+version_info('EYE v20.1224.1200 josd').
 
 license_info('MIT License
 
@@ -5075,6 +5075,9 @@ djiti_assertz(A) :-
     atom_codes(A,C),
     retractall(wpfx(_)).
 
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#primes>'(A,B) :-
+    primes(A,B).
+
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'([A],[B,C]) :-
     !,
     D =.. [A,B,C],
@@ -9126,6 +9129,32 @@ exponentiation([A,B],[C,D],[E,F]) :-
     polaire([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
+
+primes(Limit,Ps) :-
+    integers(2,Limit,Is),
+    sift(Is,Ps).
+
+integers(Low,High,[Low|Rest]) :-
+    Low =< High,
+    !,
+    M is Low+1,
+    integers(M,High,Rest).
+integers(_,_,[]).
+
+sift([],[]).
+sift([I|Is],[I|Ps]) :-
+    remove(I,Is,New),
+    sift(New,Ps).
+
+remove(_,[],[]) :- !.
+remove(P,[I|Is],Nis) :-
+    0 is I mod P,
+    !,
+    remove(P,Is,Nis).
+remove(P,[I|Is],[I|Nis]) :-
+    X is I mod P,
+    X \= 0,
+    remove(P,Is,Nis).
 
 avg(A,B) :-
     sum(A,As),

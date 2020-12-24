@@ -318,6 +318,11 @@ e:prefix a rdf:Property, e:Builtin;
     rdfs:domain rdfs:Resource;
     rdfs:range rdfs:Literal.
 
+e:primes a rdf:Property, e:Builtin;
+    rdfs:comment "built-in to calculate prime numbers e.g. 20 e:primes (2 3 5 7 11 13 17 19).";
+    rdfs:domain xsd:integer;
+    rdfs:range rdf:List.
+
 e:propertyChainExtension a rdf:Property, e:Builtin;
     rdfs:comment "built-in to support owl:propertyChainAxiom inferencing i.e. {?p owl:propertyChainAxiom ?x. ?x e:propertyChainExtension (?s ?o)} => {?s ?p ?o}";
     rdfs:domain rdf:List;
