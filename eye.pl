@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1224.1200 josd').
+version_info('EYE v20.1224.2323 josd').
 
 license_info('MIT License
 
@@ -9131,30 +9131,26 @@ exponentiation([A,B],[C,D],[E,F]) :-
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
 
 primes(Limit,Ps) :-
-    integers(2,Limit,Is),
-    sift(Is,Ps).
+    findall(I,
+        (   between(1,Limit,I),
+            prime(I)
+        ),
+        Ps
+    ).
 
-integers(Low,High,[Low|Rest]) :-
-    Low =< High,
-    !,
-    M is Low+1,
-    integers(M,High,Rest).
-integers(_,_,[]).
+prime(2).
+prime(3).
+prime(P) :-
+    P > 3,
+    P mod 2 =\= 0,
+    \+factor(P,3).  
 
-sift([],[]).
-sift([I|Is],[I|Ps]) :-
-    remove(I,Is,New),
-    sift(New,Ps).
-
-remove(_,[],[]) :- !.
-remove(P,[I|Is],Nis) :-
-    0 is I mod P,
-    !,
-    remove(P,Is,Nis).
-remove(P,[I|Is],[I|Nis]) :-
-    X is I mod P,
-    X \= 0,
-    remove(P,Is,Nis).
+factor(N,L) :-
+    N mod L =:= 0.
+factor(N,L) :-
+    L*L < N,
+    L2 is L+2,
+    factor(N,L2).
 
 avg(A,B) :-
     sum(A,As),
@@ -9810,7 +9806,7 @@ raw_type(A,'<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
     !.
 raw_type(A,'<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
     atom(A),
-    \+ atom_concat(some,_,A),
+    \+atom_concat(some,_,A),
     \+ (sub_atom(A,0,1,_,'<'),sub_atom(A,_,1,0,'>')),
     !.
 raw_type(literal(_,_),'<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
