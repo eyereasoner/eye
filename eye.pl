@@ -5076,7 +5076,12 @@ djiti_assertz(A) :-
     retractall(wpfx(_)).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#primes>'(A,B) :-
-    primes(A,B).
+    findall(I,
+        (   between(1,A,I),
+            prime(I)
+        ),
+        B
+    ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'([A],[B,C]) :-
     !,
@@ -9129,14 +9134,6 @@ exponentiation([A,B],[C,D],[E,F]) :-
     polaire([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
-
-primes(Limit,Ps) :-
-    findall(I,
-        (   between(1,Limit,I),
-            prime(I)
-        ),
-        Ps
-    ).
 
 prime(2).
 prime(3).
