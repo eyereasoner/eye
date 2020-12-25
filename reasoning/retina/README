@@ -1,0 +1,21 @@
+------
+Retina
+------
+
+Retina performs controlled chaining with Euler path detection.
+
+Controlled chaining is backward chaining for rules like HEAD :- BODY and
+forward chaining for rules like BODY -: HEAD with HEAD being a conjunction.
+
+Euler paths are roughly "don't step in your own steps" which is inspired by
+what Leonhard Euler discovered in 1736 for the Königsberg Bridge Problem.
+Retina sees the rule BODY -: HEAD as HEAD & NOT(BODY) => HEAD.
+
+The core inferencing is done in Prolog and https://github.com/infradig/trealla
+is an independent, compact, efficient Prolog interpreter written in plain-old C.
+
+The test examples in this directory can be extended to produce/consume N3 data.
+In their current form they all should produce 'true.'.
+
+Run all the tests via
+$ ./test
