@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v20.1224.2323 josd').
+version_info('EYE v20.1227.1157 josd').
 
 license_info('MIT License
 
