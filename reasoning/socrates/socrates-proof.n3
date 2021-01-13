@@ -1,9 +1,5 @@
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX : <http://example.org/socrates#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX q: <http://www.w3.org/2004/ql#>
-PREFIX ns1: <http://www.agfa.com/w3c/euler/socrates#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof,r:Conjunction;
@@ -40,7 +36,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 a ?x_1_1} => {?x_0_1 a ?x_1_1}.
+    {:Socrates a ?x_0_1} => {:Socrates a ?x_0_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates-query.n3>].
 
