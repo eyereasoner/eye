@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v21.0108.2234 josd').
+version_info('EYE v21.0119.1732 josd').
 
 license_info('MIT License
 
@@ -1895,7 +1895,12 @@ objecttail(Subject,Verb,[Triple|Triples]) -->
     [','],
     !,
     object(Object,Triples1),
-    annotation(triple(Subject,Verb,Object),Triples2),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object,Vrb,Subject)
+        ;   Trpl = triple(Subject,Verb,Object)
+        )
+    },
+    annotation(Trpl,Triples2),
     objecttail(Subject,Verb,Triples3),
     {   append([Triples1,Triples2,Triples3],Triples),
         (   Verb = isof(V)
@@ -2137,7 +2142,12 @@ propertylist(Subject,[Triple|Triples]) -->
     },
     !,
     object(Object,Triples2),
-    annotation(triple(Subject,Verb,Object),Triples3),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object,Vrb,Subject)
+        ;   Trpl = triple(Subject,Verb,Object)
+        )
+    },
+    annotation(Trpl,Triples3),
     objecttail(Subject,Verb,Triples4),
     propertylisttail(Subject,Triples5),
     {   append([Triples1,Triples2,Triples3,Triples4,Triples5],Triples),
