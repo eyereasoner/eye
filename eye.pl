@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v21.0119.1732 josd').
+version_info('EYE v21.0123.1233 josd').
 
 license_info('MIT License
 
@@ -10138,6 +10138,10 @@ labelvars(A,B,C,D) :-
 labelvars(A,B,B,_) :-
     atomic(A),
     !.
+labelvars('<http://www.w3.org/2000/10/swap/log#implies>'(A,B),C,C,_) :-
+    nonvar(A),
+    nonvar(B),
+    !.
 labelvars((A,B),C,D,Q) :-
     !,
     labelvars(A,C,E,Q),
@@ -10159,6 +10163,12 @@ labelvars(A,B,C,D,E,Q) :-
     labelvars(G,D,H,Q),
     labelvars(F,B,C,H,E,Q).
 
+relabel(A,A) :-
+    var(A),
+    !,
+    nb_getval(wn,W),
+    labelvars(A,W,N,allv),
+    nb_setval(wn,N).
 relabel([],[]) :-
     !.
 relabel([A|B],[C|D]) :-
