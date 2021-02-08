@@ -24,7 +24,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v21.0202.2156 josd').
+version_info('EYE v21.0208.2135 josd').
 
 license_info('MIT License
 
@@ -3278,15 +3278,7 @@ w3 :-
         ->  \+catch(call(R), _, fail)
         ;   catch(call(Q), _, fail)
         ),
-        (   \+ground(Q),
-            A \= true
-        ->  conj_list(A, La),
-            partconc(Q, La, Lp),
-            Lp \= [],
-            conj_list(Ap, Lp)
-        ;   Ap = A
-        ),
-        relabel(Ap, B),
+        relabel(A, B),
         indent,
         wt(B),
         ws(B),
@@ -4451,13 +4443,7 @@ eam(Span) :-
             throw(halt)
         ;   true
         ),
-        djiti_conc(Conc, Concdv),
-        (   \+ground(Prem)
-        ->  conj_list(Concdv, Lv),
-            partconc(Prem, Lv, Lw),
-            conj_list(Concd, Lw)
-        ;   Concd = Concdv
-        ),
+        djiti_conc(Conc, Concd),
         (   flag(tactic, 'existing-path')
         ->  makevars(Concd, Concdr, beta)
         ;   Concdr = Concd
@@ -10245,31 +10231,6 @@ atomify(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), A) :-
     atom(A),
     !.
 atomify(A, A).
-
-partconc(_, [], []).
-partconc(_, ['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, B)], ['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, B)]) :-
-    !.
-partconc(A, [B|C], [B|D]) :-
-    (   B = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)
-    ;   B = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-    ;   B = ':-'(_, _)
-    ),
-    !,
-    partconc(A, C, D).
-partconc(A, [B|C], [B|D]) :-
-    B = answer(E, _, _),
-    (   E == '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'
-    ;   E == '<http://www.w3.org/2000/10/swap/log#implies>'
-    ;   E == ':-'
-    ),
-    !,
-    partconc(A, C, D).
-partconc(A, [B|C], [B|D]) :-
-    commonvars(A, B, []),
-    !,
-    partconc(A, C, D).
-partconc(A, [_|C], D) :-
-    partconc(A, C, D).
 
 commonvars('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, _), B, C) :-
     !,
