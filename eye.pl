@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0214.1552 josd').
+version_info('EYE v21.0214.1602 josd').
 
 license_info('MIT License
 
@@ -1687,8 +1687,8 @@ tr_tr(A, B) :-
     atom(A),
     !,
     (   atom_concat('_', C, A),
-        (   atom_concat('bn_', _, C)
-        ;   atom_concat('e_', _, C)
+        (   sub_atom(C, 0, _, _, 'bn_')
+        ;   sub_atom(C, 0, _, _, 'e_')
         )
     ->  nb_getval(var_ns, Vns),
         atomic_list_concat(['\'<', Vns, C, '>\''], B)
@@ -4036,8 +4036,8 @@ wt2(X) :-
     X =.. [P, S, O],
     (   atom(P),
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
-        \+atom_concat(avar, _, P),
-        \+atom_concat(some, _, P)
+        \+sub_atom(P, 0, _, _, avar),
+        \+sub_atom(P, 0, _, _, some)
     ->  write('"'),
         writeq(X),
         write('"')
@@ -9342,7 +9342,7 @@ compound1(Term) :-
     functor(Term, _, N),
     N > 0,
     !.
-    
+
 %
 % Solving polynomial equations of degree 4
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
@@ -9692,7 +9692,7 @@ prime(3).
 prime(P) :-
     P > 3,
     P mod 2 =\= 0,
-    \+factor(P, 3).  
+    \+factor(P, 3).
 
 factor(N, L) :-
     N mod L =:= 0.
