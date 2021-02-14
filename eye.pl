@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0214.1622 josd').
+version_info('EYE v21.0214.1628 josd').
 
 license_info('MIT License
 
@@ -5235,7 +5235,7 @@ djiti_assertz(A) :-
                 length(Y, I),
                 I < 8
             ->  Z =.. [tuple, X|Y]
-            ;   Z =.. [tuple, X, Y]
+            ;   Z = tuple(X, Y)
             ),
             (   call(Z)
             ->  true
