@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0214.1628 josd').
+version_info('EYE v21.0214.1641 josd').
 
 license_info('MIT License
 
@@ -10845,12 +10845,12 @@ daytimeduration(A, B) :-
     number_codes(G, Minutes),
     H is D-(D//60)*60+AFrac,
     number_codes(H, Seconds),
-    append([C, [0'P], Days, [0'D, 0'T], Hours, [0'H], Minutes, [0'M], Seconds, [0'S]], B).
+    append([C, [0'P| Days], [0'D, 0'T| Hours], [0'H| Minutes], [0'M| Seconds], [0'S]], B).
 
 ncodes(A, B) :-
     number_codes(A, D),
     (   A < 10
-    ->  append([[0'0], D], B)
+    ->  B = [0'0| D]
     ;   B = D
     ).
 
@@ -10858,11 +10858,11 @@ ycodes(A, B) :-
     C is abs(A),
     number_codes(C, D),
     (   C < 10
-    ->  append([[0'0, 0'0, 0'0], D], E)
+    ->  E = [0'0, 0'0, 0'0| D]
     ;   (   C < 100
-        ->  append([[0'0, 0'0], D], E)
+        ->  E = [0'0, 0'0| D]
         ;   (   C < 1000
-            ->  append([[0'0], D], E)
+            ->  E = [0'0| D]
             ;   E = D
             )
         )
