@@ -5,7 +5,6 @@
 % See http://github.com/josd/eye
 %
 
-:- initialization(set_prolog_flag(agc_margin, 10000000)).
 :- initialization(set_stream(user_output, encoding(utf8))).
 
 :- use_module(library(lists)).
@@ -24,7 +23,7 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 
-version_info('EYE v21.0208.2135 josd').
+version_info('EYE v21.0214.1548 josd').
 
 license_info('MIT License
 
