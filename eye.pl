@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0214.1602 josd').
+version_info('EYE v21.0214.1622 josd').
 
 license_info('MIT License
 
@@ -486,8 +486,7 @@ gre(Argus) :-
                 (   answer(A1, A2, A3),
                     nonvar(A1)
                 ),
-                (   retract(answer(A1, A2, A3))
-                )
+                retract(answer(A1, A2, A3))
             ),
             retractall(implies(_, answer(_, _, _), _)),
             retractall(implies(_, (answer(_, _, _), _), _)),
@@ -600,8 +599,7 @@ gre(Argus) :-
         reverse(CntRs, CntRr),
         format(user_error, '>>> rule histogram TR=~w <<<~n', [TR]),
         forall(
-            (   member(RCnt, CntRr)
-            ),
+            member(RCnt, CntRr),
             (   (   last(RCnt, '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)),
                     conj_append(X, pstep(_), Z),
                     catch(clause(Y, Z), _, fail)
@@ -910,14 +908,10 @@ probe :-
     statistics(runtime, [_, _]),
     (   between(1, 100, _),
         forall(
-            (   pred(P)
-            ),
-            (   forall(
-                    (   call(P, _, _)
-                    ),
-                    (   true
-                    )
-                )
+            pred(P),
+            forall(
+                call(P, _, _),
+                true
             )
         ),
         fail
@@ -1127,8 +1121,7 @@ args(['--turtle', Argument|Args]) :-
                     (   Conc = (_, _),
                         conj_list(Conc, C)
                     ->  forall(
-                            (   member(Q, C)
-                            ),
+                            member(Q, C),
                             (   (   Q = exopred(X, Y, Z)
                                 ->  Qt =.. [X, Y, Z]
                                 ;   Qt = Q
@@ -1846,8 +1839,7 @@ existential -->
     symbol_csl(Symbols),
     {   nb_getval(fdepth, D),
         forall(
-            (   member(S, Symbols)
-            ),
+            member(S, Symbols),
             (   gensym('qe_', Q),
                 asserta(qevar(S, Q, D))
             )
@@ -2334,8 +2326,7 @@ universal -->
     symbol_csl(Symbols),
     {   nb_getval(fdepth, D),
         forall(
-            (   member(S, Symbols)
-            ),
+            member(S, Symbols),
             (   gensym('qu_', Q),
                 asserta(quvar(S, Q, D))
             )
@@ -4476,7 +4467,7 @@ eam(Span) :-
         findall([D, F],
             (   member([D, D], Lc),
                 unify(D, F),
-                catch(\+call(F), _, true)
+                catch(\+F, _, true)
             ),
             Ld
         ),
@@ -4686,8 +4677,7 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     nonvar(B),
     conj_list(B, D),
     forall(
-        (   member(E, D)
-        ),
+        member(E, D),
         (   E =.. [P, _, _],
             (   \+fpred(P)
             ->  assertz(fpred(P))
@@ -4700,8 +4690,7 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
     nonvar(B),
     conj_list(B, D),
     forall(
-        (   member(E, D)
-        ),
+        member(E, D),
         (   E =.. [P, _, _],
             (   \+fpred(P)
             ->  assertz(fpred(P))
@@ -4744,10 +4733,8 @@ djiti_assertz(A) :-
     unify(A, C),
     conj_list(C, D),
     forall(
-        (   member(E, D)
-        ),
-        (   retract(E)
-        )
+        member(E, D),
+        retract(E)
     ),
     nb_getval(wn, W),
     labelvars(B, W, N),
@@ -4755,10 +4742,8 @@ djiti_assertz(A) :-
     unify(B, F),
     conj_list(F, G),
     forall(
-        (   member(H, G)
-        ),
-        (   assertz(H)
-        )
+        member(H, G),
+        assertz(H)
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>'(['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#boolean>'(A, B)|C], D) :-
@@ -5373,10 +5358,8 @@ djiti_assertz(A) :-
             (   flag('no-qnames')
             ->  true
             ;   forall(
-                    (   pfx(C, D)
-                    ),
-                    (   format('PREFIX ~w ~w~n', [C, D])
-                    )
+                    pfx(C, D),
+                    format('PREFIX ~w ~w~n', [C, D])
                 ),
                 nl
             ),
@@ -11046,9 +11029,7 @@ fm(A) :-
 
 mf(A) :-
     forall(
-        (   catch(call(A), _, fail)
-        ),
-        (   format(user_error, '*** ~q~n', [A])
-        )
+        catch(A, _, fail),
+        format(user_error, '*** ~q~n', [A])
     ),
     flush_output(user_error).
