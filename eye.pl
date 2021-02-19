@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0214.1641 josd').
+version_info('EYE v21.0219.2020 josd').
 
 license_info('MIT License
 
@@ -5135,7 +5135,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   quicksort(A, B)
+        (   sort(A, B)
         )
     ).
 
