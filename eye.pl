@@ -24,7 +24,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0219.2020 josd').
+version_info('EYE v21.0222.2055 josd').
 
 license_info('MIT License
 
@@ -5317,6 +5317,14 @@ djiti_assertz(A) :-
         ),
         (   getlist(B, C),
             member(A, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#iterate>'(A, [B, C]) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   nth0(B, A, C)
         )
     ).
 
