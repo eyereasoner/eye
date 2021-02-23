@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0223.1311 josd').
+version_info('EYE v21.0223.2124 josd').
 
 license_info('MIT License
 
@@ -5296,7 +5296,12 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   getlist(A, C),
-            append(C, B)
+            (   member(D, C),
+                var(D),
+                var(B)
+            ->  true
+            ;   append(C, B)
+            )
         )
     ).
 
