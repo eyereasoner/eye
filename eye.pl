@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0226.2048 josd').
+version_info('EYE v21.0226.2146 josd').
 
 license_info('MIT License
 
@@ -5341,12 +5341,42 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#length>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   (   getlist(A, C)
+            ->  true
+            ;   conj_list(A, D),
+                (   ground(D)
+                ->  distinct(D, C)
+                ;   C = D
+                )
+            ),
+            length(C, B)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#member>'(A, B) :-
     when(
         (   nonvar(A)
         ),
         (   getlist(A, C),
             member(B, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   findall(I,
+                (   member(I, A),
+                    \+member(I, B)
+                ),
+                C
+            )
         )
     ).
 
