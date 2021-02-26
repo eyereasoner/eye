@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0226.1636 josd').
+version_info('EYE v21.0226.1852 josd').
 
 license_info('MIT License
 
@@ -5875,18 +5875,25 @@ djiti_assertz(A) :-
     ),
     !.
 
-'<http://www.w3.org/2000/10/swap/string#concatenation>'(X, literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#concatenation>'(X, Y) :-
     when(
         (   nonvar(X)
         ),
-        (   findall(S,
-                (   member(A, X),
-                    getcodes(A, S)
+        (   getlist(X, C),
+            (   member(D, C),
+                var(D),
+                var(Y)
+            ->  true
+            ;   findall(S,
+                    (   member(A, X),
+                        getcodes(A, S)
+                    ),
+                    Z
                 ),
-                Z
-            ),
-            flatten(Z, C),
-            atom_codes(Y, C)
+                flatten(Z, E),
+                atom_codes(F, E),
+                Y = literal(F, type('<http://www.w3.org/2001/XMLSchema#string>'))
+            )
         )
     ).
 
@@ -10455,6 +10462,7 @@ getcodes(literal(A, _), B) :-
     !,
     atom_codes(A, B).
 getcodes(A, B) :-
+    nonvar(A),
     with_output_to_chars(wg(A), B).
 
 preformat([], []) :-
