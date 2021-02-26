@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0223.2124 josd').
+version_info('EYE v21.0226.1636 josd').
 
 license_info('MIT License
 
@@ -5479,12 +5479,19 @@ djiti_assertz(A) :-
         (   nonvar(X),
             nonvar(Y)
         ),
-        (   copy_term_nat(X, U),
-            conj_list(U, A),
+        (   conj_list(X, A),
             conj_list(Y, B),
             includes(A, B)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    with_output_to_chars(wh, C1),
+    \+ (C1 = [], \+flag('no-qnames')),
+    with_output_to_chars(wt(A), C2),
+    append(C1, C2, C),
+    escape_string(C, D),
+    atom_codes(B, D).
 
 '<http://www.w3.org/2000/10/swap/log#rawType>'(A, B) :-
     nonvar(A),
