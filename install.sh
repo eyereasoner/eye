@@ -11,3 +11,4 @@ swipl -q -f ../src/eye.pl -g main -- --image eye.pvm
 popd
 mkdir -p /opt/eye/bin
 cp -a $SCRIPT_DIR/eye.sh /opt/eye/bin
+sudo ln -sf /opt/eye/bin/eye.sh /usr/local/bin/eye
