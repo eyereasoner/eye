@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0227.1330 josd').
+version_info('EYE v21.0227.1343 josd').
 
 license_info('MIT License
 
