@@ -22,7 +22,7 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 
-version_info('EYE v21.0226.2146 josd').
+version_info('EYE v21.0227.1330 josd').
 
 license_info('MIT License
 
@@ -5597,6 +5597,51 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/math#acos>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is acos(W)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#acosh>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is acosh(W)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#asin>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is asin(W)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#asinh>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is asinh(W)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#atan>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is atan(W)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/math#atan2>'([X, Y], Z) :-
     when(
         (   ground([X, Y])
@@ -5604,6 +5649,15 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             getnumber(Y, V),
             Z is atan(U/V)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#atanh>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   getnumber(Y, W),
+            X is atanh(W)
         )
     ).
 
