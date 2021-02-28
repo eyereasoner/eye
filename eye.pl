@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0228.0035 josd').
+version_info('EYE v21.0228.1130 josd').
 
 license_info('MIT License
 
@@ -940,7 +940,8 @@ n3_n3p(Argument, Mode) :-
             ->  true
             ;   sub_atom(Arg, 0, 6, _, 'https:')
             )
-        ->  http_open(Arg, In, [])
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8))
         ;   (   sub_atom(Arg, 0, 5, _, 'file:')
             ->  (   parse_url(Arg, Parts)
                 ->  memberchk(path(File), Parts)
