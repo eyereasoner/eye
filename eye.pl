@@ -21,8 +21,9 @@
 :- use_module(library(date)).
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
+:- use_module(library(http/http_open)).
 
-version_info('EYE v21.0227.1343 josd').
+version_info('EYE v21.0228.0035 josd').
 
 license_info('MIT License
 
@@ -51,7 +52,6 @@ eye
     swipl -x eye.pvm --
 <options>
     --csv-separator <separator>     CSV separator such as , or ;
-    --curl-http-header <field>      to pass HTTP header <field> to curl
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
@@ -62,7 +62,6 @@ eye
     --ignore-inference-fuse         do not halt in case of inference fuse
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --license                       show license info
-    --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-genid                      no generated id in well-known genid URIs
@@ -72,8 +71,6 @@ eye
     --nope                          no proof explanation
     --pass-all-ground               ground the rules and run --pass-all
     --pass-only-new                 output only new derived triples
-    --pass-turtle                   output the --turtle data
-    --probe                         output speedtest info on stderr
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -81,7 +78,6 @@ eye
     --rule-histogram                output rule histogram info on stderr
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
-    --streaming-reasoning           streaming reasoning on --turtle data
     --strings                       output log:outputString objects on stdout
     --tactic existing-path          Euler path using homomorphism
     --tactic limited-answer <count> give only a limited number of answers
@@ -94,7 +90,6 @@ eye
 <data>
     [--n3] <uri>                    N3 triples and rules
     --proof <uri>                   N3 proof lemmas
-    --turtle <uri>                  Turtle triples
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
     --not-entail <rdf-graph>        output true if RDF graph is not entailed
@@ -243,20 +238,6 @@ main :-
     ),
     format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
     flush_output(user_error),
-    catch(process_create(path(curl), ['--version'], [stdin(null), stdout(null), stderr(null)]), _,
-        (   format(user_error, '** ERROR ** EYE depends on curl which can be installed from http://curl.haxx.se/download.html **~n', []),
-            flush_output(user_error)
-        )
-    ),
-    (   memberchk('--turtle', Argus)
-    ->  catch(process_create(path(cturtle), [], [stdin(null), stdout(null), stderr(null)]), _,
-            (   format(user_error, '** ERROR ** EYE option --turtle requires cturtle which can be installed from http://github.com/melgi/cturtle/releases/ **~n', []),
-                flush_output(user_error),
-                halt(1)
-            )
-        )
-    ;   true
-    ),
     (   retract(prolog_file_type(qlf, qlf))
     ->  assertz(prolog_file_type(pvm, qlf))
     ;   true
@@ -303,7 +284,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--curl-http-header', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--tactic']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -339,8 +320,7 @@ gre(Argus) :-
     nb_setval(output_statements, 0),
     nb_setval(current_scope, '<>'),
     opts(Argus, Args),
-    (   \+flag('multi-query'),
-        Args = []
+    (   Args = []
     ->  opts(['--help'], _)
     ;   true
     ),
@@ -390,11 +370,8 @@ gre(Argus) :-
     nb_setval(scope, Scope),
     statistics(runtime, [_, T2]),
     statistics(walltime, [_, T3]),
-    (   flag('streaming-reasoning')
-    ->  true
-    ;   format(user_error, 'networking ~w [msec cputime] ~w [msec walltime]~n', [T2, T3]),
-        flush_output(user_error)
-    ),
+    format(user_error, 'networking ~w [msec cputime] ~w [msec walltime]~n', [T2, T3]),
+    flush_output(user_error),
     nb_getval(input_statements, SC),
     (   flag(image, File)
     ->  assertz(argi(Argus)),
@@ -423,7 +400,6 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag('multi-query'),
         \+flag(strings)
     ->  throw(halt)
     ;   true
@@ -447,106 +423,27 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
-    (   flag('multi-query')
-    ->  nb_setval(mq, 0),
-        repeat,
-        catch((read_line_to_codes(user_input, Fc), atom_codes(Fa, Fc)), _, Fa = end_of_file),
-        (   atomic_list_concat([Fi, Fo], ', ', Fa)
-        ->  open(Fo, write, Fos, [encoding(utf8)])
-        ;   Fi = Fa,
-            Fos = user_output
-        ),
-        (   Fi = end_of_file
-        ->  true
-        ;   statistics(walltime, [_, _]),
-            nb_getval(output_statements, Outb),
-            statistics(inferences, Infb),
-            catch(args(['--query', Fi]), Exc1,
-                (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
-                    flush_output(user_error),
-                    nb_setval(exit_code, 1)
-                )
-            ),
-            tell(Fos),
-            catch(eam(0), Exc2,
-                (   (   Exc2 = halt
-                    ->  true
-                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc2]),
-                        flush_output(user_error),
-                        nb_setval(exit_code, 1)
-                    )
-                )
-            ),
-            (   flag(strings)
-            ->  wst
-            ;   true
-            ),
-            forall(
-                (   answer(A1, A2, A3),
-                    nonvar(A1)
-                ),
-                retract(answer(A1, A2, A3))
-            ),
-            retractall(implies(_, answer(_, _, _), _)),
-            retractall(implies(_, (answer(_, _, _), _), _)),
-            retractall(query(_, _)),
-            retractall(prfstep(answer(_, _, _), _, _, _, _, _, _)),
-            retractall(lemma(_, _, _, _, _, _)),
-            retractall(got_wi(_, _, _, _, _)),
-            retractall(wpfx(_)),
-            retractall('<http://www.w3.org/2000/10/swap/log#outputString>'(_, _)),
-            retractall('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)),
-            nb_setval(csv_header, []),
-            cnt(mq),
-            nb_getval(mq, Cnt),
-            (   Cnt mod 10000 =:= 0
-            ->  garbage_collect_atoms
-            ;   true
-            ),
-            statistics(runtime, [_, Ti4]),
-            statistics(walltime, [_, Ti5]),
-            format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [Ti4, Ti5]),
-            flush_output(user_error),
-            nb_getval(output_statements, Oute),
-            Outd is Oute-Outb,
-            catch(Outs is round(Outd/Ti5*1000), _, Outs = ''),
-            (   (   flag(strings)
-                ;   flag(quiet)
-                )
-            ->  nl
-            ;   format('#DONE ~3d [sec] mq=~w out=~d out/sec=~w~n~n', [Ti5, Cnt, Outd, Outs])
-            ),
-            timestamp(Stmp),
-            statistics(inferences, Infe),
-            Infd is Infe-Infb,
-            catch(Infs is round(Infd/Ti5*1000), _, Infs = ''),
-            format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
-            flush_output(user_error),
-            told,
-            fail
-        )
-    ;   (   flag(profile)
-        ->  asserta(pce_profile:pce_show_profile :- fail),
-            profiler(_, cputime)
-        ;   true
-        ),
-        catch(eam(0), Exc3,
-            (   (   Exc3 = halt
-                ->  true
-                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                    flush_output(user_error),
-                    nb_setval(exit_code, 1)
-                )
+    (   flag(profile)
+    ->  asserta(pce_profile:pce_show_profile :- fail),
+        profiler(_, cputime)
+    ;   true
+    ),
+    catch(eam(0), Exc3,
+        (   (   Exc3 = halt
+            ->  true
+            ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                flush_output(user_error),
+                nb_setval(exit_code, 1)
             )
-        ),
-        (   flag(profile)
-        ->  profiler(_, false),
-            tell(user_error),
-            show_profile([]),
-            nl,
-            told
-        ;   true
         )
+    ),
+    (   flag(profile)
+    ->  profiler(_, false),
+        tell(user_error),
+        show_profile([]),
+        nl,
+        told
+    ;   true
     ),
     (   flag(strings)
     ->  wst
@@ -555,18 +452,12 @@ gre(Argus) :-
     nb_getval(tc, TC),
     nb_getval(tp, TP),
     flush_output(user_error),
-    statistics(runtime, [Cpu, T4]),
-    statistics(walltime, [_, T5]),
-    (   \+flag('multi-query')
-    ->  format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
-        flush_output(user_error)
-    ;   true
-    ),
     nb_getval(input_statements, Inp),
     nb_getval(output_statements, Outp),
     timestamp(Stamp),
     Ent is TC,
     Step is TP,
+    statistics(runtime, [Cpu, _]),
     nb_getval(tr, TR),
     Brake is TR,
     (   statistics(inferences, Inf)
@@ -623,10 +514,6 @@ opts(['--csv-separator', Separator|Argus], Args) :-
     retractall(flag('csv-separator')),
     assertz(flag('csv-separator', Separator)),
     opts(Argus, Args).
-opts(['--curl-http-header', Field|Argus], Args) :-
-    !,
-    assertz(flag('curl-http-header', Field)),
-    opts(Argus, Args).
 opts(['--debug'|Argus], Args) :-
     !,
     retractall(flag(debug)),
@@ -681,11 +568,6 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt).
-opts(['--multi-query'|Argus], Args) :-
-    !,
-    retractall(flag('multi-query')),
-    assertz(flag('multi-query')),
-    opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-input')),
@@ -731,15 +613,6 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
-opts(['--pass-turtle'|Argus], Args) :-
-    !,
-    retractall(flag('pass-turtle')),
-    assertz(flag('pass-turtle')),
-    opts(Argus, Args).
-opts(['--probe'|_], _) :-
-    !,
-    probe,
-    throw(halt).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
@@ -768,13 +641,6 @@ opts(['--statistics'|Argus], Args) :-
     !,
     retractall(flag(statistics)),
     assertz(flag(statistics)),
-    opts(Argus, Args).
-opts(['--streaming-reasoning'|Argus], Args) :-
-    !,
-    retractall(flag('streaming-reasoning')),
-    assertz(flag('streaming-reasoning')),
-    retractall(flag('no-qnames')),
-    assertz(flag('no-qnames')),
     opts(Argus, Args).
 opts(['--strings'|Argus], Args) :-
     !,
@@ -854,84 +720,12 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
 opts([Arg|Argus], [Arg|Args]) :-
     opts(Argus, Args).
-
-probe :-
-    tmp_file(File),
-    (   curl_http_headers(Headers),
-        atomic_list_concat(['curl -s -L -H "Accept: text/plain" ', Headers, 'http://www.agfa.com/w3c/temp/graph-100000.n3p -o ', File], Cmd),
-        catch(exec(Cmd, _), _, fail)
-    ->  statistics(walltime, [_, T1]),
-        S1 is 100000000/T1
-    ;   open(File, write, Out, [encoding(utf8)]),
-        tell(Out),
-        (   between(0, 99, I),
-            format('pred(\'<http://eulersharp.sourceforge.net/2007/07test/graph#i~d>\').~n', [I]),
-            fail
-        ;   true
-        ),
-        (   between(1, 100000, _),
-            S is random(10000),
-            P is random(100),
-            O is random(10000),
-            format('\'<http://eulersharp.sourceforge.net/2007/07test/graph#i~d>\'(\'<http://eulersharp.sourceforge.net/2007/07test/graph#i~d>\',
-                \'<http://eulersharp.sourceforge.net/2007/07test/graph#i~d>\').~n', [P, S, O]),
-            fail
-        ;   true
-        ),
-        told,
-        statistics(walltime, [_, _]),
-        S1 is 0
-    ),
-    open(File, read, In, [encoding(utf8)]),
-    repeat,
-    read_term(In, Rt, []),
-    (   Rt = end_of_file
-    ->  true
-    ;   (   Rt = ':-'(Rg)
-        ->  call(Rg)
-        ;   (   call(Rt)
-            ->  true
-            ;   djiti_assertz(Rt)
-            )
-        ),
-        fail
-    ),
-    statistics(walltime, [_, T2]),
-    S2 is 100000000/T2,
-    statistics(runtime, [_, _]),
-    (   between(1, 100, _),
-        forall(
-            pred(P),
-            forall(
-                call(P, _, _),
-                true
-            )
-        ),
-        fail
-    ;   true
-    ),
-    statistics(runtime, [_, T3]),
-    S3 is 10000000000/T3,
-    timestamp(Stamp),
-    format(user_error, '~w web-triples/sec=~0f file-triples/sec=~0f memory-triples/sec=~0f~n~n', [Stamp, S1, S2, S3]),
-    flush_output(user_error),
-    close(In),
-    delete_file(File).
-
-curl_http_headers(Headers) :-
-    findall(Header,
-        (   flag('curl-http-header', Field),
-            atomic_list_concat(['-H "', Field, '" '], Header)
-        ),
-        List
-    ),
-    atomic_list_concat(List, Headers).
 
 args([]) :-
     !.
@@ -1023,197 +817,6 @@ args(['--proof', Arg|Args]) :-
 args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
-    args(Args).
-args(['--turtle', Argument|Args]) :-
-    !,
-    absolute_uri(Argument, Arg),
-    (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error)
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  tmp_file(File),
-            assertz(tmpfile(File)),
-            curl_http_headers(Headers),
-            atomic_list_concat(['curl -s -L -H "Accept: text/turtle" ', Headers, '"', Arg, '" -o ', File], Cmd),
-            catch(exec(Cmd, _), Exc,
-                (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-                    flush_output(user_error),
-                    (   retract(tmpfile(File))
-                    ->  delete_file(File)
-                    ;   true
-                    ),
-                    flush_output,
-                    halt(1)
-                )
-            )
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  parse_url(Arg, Parts),
-                memberchk(path(File), Parts)
-            ;   File = Arg
-            )
-        )
-    ),
-    atomic_list_concat(['-b=', Arg], Base),
-    (   flag('pass-turtle')
-    ->  catch(process_create(path(cturtle), ['-f=nt', Base, file(File)], [stdout(std), stderr(std)]), Exc,
-            (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-                flush_output(user_error),
-                flush_output,
-                halt(1)
-            )
-        )
-    ;   catch(process_create(path(cturtle), ['-f=n3p', Base, file(File)], [stdout(pipe(In)), stderr(std)]), Exc,
-            (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
-                flush_output(user_error),
-                flush_output,
-                halt(1)
-            )
-        ),
-        nb_setval(wn, 0),
-        nb_setval(rn, 0),
-        nb_setval(sc, 0),
-        nb_setval(tc, 0),
-        nb_setval(tp, 0),
-        nb_setval(tr, 0),
-        nb_setval(rt, 0),
-        set_stream(In, encoding(utf8)),
-        repeat,
-        read_term(In, Rt, []),
-        (   Rt = end_of_file
-        ->  catch(read_line_to_codes(In, _), _, true)
-        ;   (   flag('streaming-reasoning')
-            ->  cnt(rt),
-                nb_getval(rt, Rtcnt),
-                (   Rtcnt mod 10000 =:= 0
-                ->  garbage_collect_atoms
-                ;   true
-                ),
-                (   Rt \= ':-'(_),
-                    Rt \= flag(_, _),
-                    Rt \= scope(_),
-                    Rt \= pfx(_, _),
-                    Rt \= pred(_),
-                    Rt \= cpred(_),
-                    Rt \= scount(_)
-                ->  Rt =.. [P, S, O],
-                    implies(Prem, Conc, _),
-                    (   (   Prem = exopred(P, S, O)
-                        ;   Prem = Rt
-                        )
-                    ->  true
-                    ;   (   Prem = (exopred(P, S, O), U)
-                        ;   Prem = (Rt, U)
-                        ),
-                        call(U)
-                    ),
-                    (   ground(Conc)
-                    ->  true
-                    ;   nb_getval(wn, W),
-                        labelvars(Conc, W, N, skolem),
-                        nb_setval(wn, N)
-                    ),
-                    (   Conc = (_, _),
-                        conj_list(Conc, C)
-                    ->  forall(
-                            member(Q, C),
-                            (   (   Q = exopred(X, Y, Z)
-                                ->  Qt =.. [X, Y, Z]
-                                ;   Qt = Q
-                                ),
-                                functor(Qt, F, _),
-                                (   pred(F)
-                                ->  true
-                                ;   assertz(pred(F))
-                                ),
-                                wt(Qt),
-                                writeln('.')
-                            )
-                        ),
-                        nb_getval(sc, I),
-                        length(C, J),
-                        K is I+J,
-                        nb_setval(sc, K)
-                    ;   (   Conc = exopred(X, Y, Z)
-                        ->  Qt =.. [X, Y, Z]
-                        ;   Qt = Conc
-                        ),
-                        functor(Qt, F, _),
-                        (   pred(F)
-                        ->  true
-                        ;   assertz(pred(F))
-                        ),
-                        wt(Qt),
-                        writeln('.'),
-                        cnt(sc)
-                    )
-                ;   (   Rt = pred(F)
-                    ->  (   pred(F)
-                        ->  true
-                        ;   assertz(pred(F))
-                        )
-                    ;   true
-                    ),
-                    (   Rt = scount(SCount)
-                    ->  assertz(scount(SCount))
-                    ;   true
-                    )
-                )
-            ;   n3pin(Rt, In, File, data)
-            ),
-            fail
-        ),
-        !,
-        (   File = '-'
-        ->  true
-        ;   close(In)
-        ),
-        (   retract(tmpfile(File))
-        ->  delete_file(File)
-        ;   true
-        ),
-        findall(SCnt,
-            (   retract(scount(SCnt))
-            ),
-            SCnts
-        ),
-        sum(SCnts, SC),
-        nb_getval(input_statements, IN),
-        Inp is SC+IN,
-        nb_setval(input_statements, Inp),
-        (   flag(quiet)
-        ->  true
-        ;   format(user_error, 'SC=~w~n', [SC]),
-            flush_output(user_error)
-        ),
-        (   flag('streaming-reasoning')
-        ->  timestamp(Stamp),
-            statistics(runtime, [Cpu, _]),
-            nb_getval(sc, Sc),
-            nb_getval(output_statements, Out),
-            Outp is Sc+Out,
-            nb_setval(output_statements, Outp),
-            nb_getval(tc, TC),
-            Ent is TC,
-            nb_getval(tp, TP),
-            Step is TP,
-            nb_getval(tr, TR),
-            Brake is TR,
-            statistics(inferences, Inf),
-            catch(Speed is round(Inf/Cpu*1000), _, Speed = ''),
-            (   flag(quiet)
-            ->  true
-            ;   format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
-            ),
-            format(user_error, '~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed]),
-            flush_output(user_error)
-        ;   true
-        )
-    ),
     args(Args).
 args([Arg|Args]) :-
     args(['--n3', Arg|Args]).
@@ -1329,40 +932,27 @@ n3_n3p(Argument, Mode) :-
     tmp_file(Tmp),
     (   wcacher(Arg, File)
     ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error)
+        flush_output(user_error),
+        open(File, read, In, [encoding(utf8)])
     ;   format(user_error, 'GET ~w ', [Arg]),
         flush_output(user_error),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
             ->  true
             ;   sub_atom(Arg, 0, 6, _, 'https:')
             )
-        ->  File = Tmp,
-            assertz(tmpfile(File)),
-            curl_http_headers(Headers),
-            atomic_list_concat(['curl -s -L -H "Accept: text/n3, text/turtle" ', Headers, '"', Arg, '" -o ', File], Cmd),
-            catch(exec(Cmd, _), Exc1,
-                (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc1]),
-                    flush_output(user_error),
-                    (   retract(tmpfile(File))
-                    ->  delete_file(File)
-                    ;   true
-                    ),
-                    flush_output,
-                    halt(1)
-                )
-            )
+        ->  http_open(Arg, In, [])
         ;   (   sub_atom(Arg, 0, 5, _, 'file:')
             ->  (   parse_url(Arg, Parts)
                 ->  memberchk(path(File), Parts)
                 ;   sub_atom(Arg, 7, _, 0, File)
                 )
             ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
             )
         )
-    ),
-    (   File = '-'
-    ->  In = user_input
-    ;   open(File, read, In, [encoding(utf8)])
     ),
     retractall(base_uri(_)),
     (   Arg = '-'
