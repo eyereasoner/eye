@@ -1,16 +1,14 @@
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX : <http://example.org/try#>
 
-@forAll :A, :B, :C, :E, :S.
+{{?A :b :c} :p :o} => {:test1 a :PASS}.
 
-{{:A :b :c} :p :o} => {:test1 a :PASS}.
+{{:a ?B ?C. :a ?B ?C} :p :o} => {:test2 a :PASS}.
+{{:a ?B ?C. ?A ?B ?C} :p :o} => {:test3 a :PASS}.
 
-{{:a :B :C. :a :B :C} :p :o} => {:test2 a :PASS}.
-{{:a :B :C. :A :B :C} :p :o} => {:test3 a :PASS}.
+{{:r ?S :t} :p :o} => {:test4 a :PASS}.
 
-{{:r :S :t} :p :o} => {:test4 a :PASS}.
-
-{{:d :e :f. :r :S :t} :p :o} => {:test5 a :PASS}.
-{{:d :E :f. :r :s :t} :p :o} => {:test6 a :PASS}.
-{{:d :e :f. :r :s :t. :d :E :f} :p :o} => {:test7 a :PASS}.
-{{:d :E :f. :r :S :t. :d :e :f} :p :o} => {:test8 a :PASS}.
+{{:d :e :f. :r ?S :t} :p :o} => {:test5 a :PASS}.
+{{:d ?E :f. :r :s :t} :p :o} => {:test6 a :PASS}.
+{{:d :e :f. :r :s :t. :d ?E :f} :p :o} => {:test7 a :PASS}.
+{{:d ?E :f. :r ?S :t. :d :e :f} :p :o} => {:test8 a :PASS}.
