@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0228.1130 josd').
+version_info('EYE v21.0305.2145 josd').
 
 license_info('MIT License
 
@@ -5123,17 +5123,7 @@ djiti_assertz(A) :-
     \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
-    when(
-        (   nonvar(X),
-            nonvar(Y)
-        ),
-        (   copy_term_nat(X, U),
-            labelvars(U, 0, _),
-            conj_list(U, A),
-            conj_list(Y, B),
-            \+includes(A, B)
-        )
-    ).
+    \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
     when(
