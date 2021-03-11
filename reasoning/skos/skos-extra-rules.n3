@@ -22,7 +22,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 # "2008-07-01: [rrs] RESOLVED: issue-73 is resolved by skos:exactMatch is disjoint with skos:broaderTransitive and skos:related -- http://www.w3.org/2008/07/01-swd-minutes.html#item05"
 # SKOS Specification considers skos:exactMatch, skos:broadMatch as disjoint, corresponding constraint check rule is contained in http://eulersharp.sourceforge.net/2003/03swap/skos-rules.
 
-{ ?x skos:exactMatch ?y. ?x skos:broaderTransitive ?y. } => @false.
+{ ?x skos:exactMatch ?y. ?x skos:broaderTransitive ?y. } => false.
 
 
 # Detect the cycle in the hierarchical relation.
@@ -32,4 +32,4 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 # see details in: http://www.w3.org/TR/skos-reference/#L2484
 # This rule is better use together with SKOS inference rule, e.g. http://eulersharp.sourceforge.net/2003/03swap/skos-rules
 
-{ ?x skos:broaderTransitive ?x. } => @false.
+{ ?x skos:broaderTransitive ?x. } => false.

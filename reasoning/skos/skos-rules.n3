@@ -82,26 +82,26 @@ PREFIX dce:  <http://purl.org/dc/elements/1.1/>
 #
 
 # skos:ConceptScheme, skos:Concept and skos:Collection are all disjoint.
-{ ?x a skos:ConceptScheme, skos:Concept } => @false.
-{ ?x a skos:Collection, skos:Concept } => @false.
-{ ?x a skos:Collection, skos:ConceptScheme } => @false.
+{ ?x a skos:ConceptScheme, skos:Concept } => false.
+{ ?x a skos:Collection, skos:Concept } => false.
+{ ?x a skos:Collection, skos:ConceptScheme } => false.
 
 # Hierarchical and associative relations are disjoint.
-{ ?x skos:related ?y. ?x skos:broaderTransitive ?y } => @false.
+{ ?x skos:related ?y. ?x skos:broaderTransitive ?y } => false.
 
 # Exact and hierarchical relations are disjoint.
-{ ?x skos:exactMatch ?y. ?x skos:broadMatch ?y } => @false.
+{ ?x skos:exactMatch ?y. ?x skos:broadMatch ?y } => false.
 
 # Exact and associative relations are disjoint.
-{ ?x skos:exactMatch ?y. ?x skos:relatedMatch ?y } => @false.
+{ ?x skos:exactMatch ?y. ?x skos:relatedMatch ?y } => false.
 
 # skos:memberList is a functional property.
-{ ?c skos:memberList ?L1, ?L2. ?L1 log:notEqualTo ?L2 } => @false.
+{ ?c skos:memberList ?L1, ?L2. ?L1 log:notEqualTo ?L2 } => false.
 
 # skos:prefLabel, skos:altLabel and skos:hiddenLabel are all disjoint.
-{ ?c skos:prefLabel ?l; skos:altLabel ?l } => @false.
-{ ?c skos:prefLabel ?l; skos:hiddenLabel ?l } => @false.
-{ ?c skos:altLabel ?l; skos:hiddenLabel ?l } => @false.
+{ ?c skos:prefLabel ?l; skos:altLabel ?l } => false.
+{ ?c skos:prefLabel ?l; skos:hiddenLabel ?l } => false.
+{ ?c skos:altLabel ?l; skos:hiddenLabel ?l } => false.
 
 # A resource has no more than one value of skos:prefLabel per language tag.
-{ ?c skos:prefLabel ?x, ?y. ?x log:notEqualTo ?y. (?x) func:lang-from-PlainLiteral ?lang. (?y) func:lang-from-PlainLiteral ?lang } => @false.
+{ ?c skos:prefLabel ?x, ?y. ?x log:notEqualTo ?y. (?x) func:lang-from-PlainLiteral ?lang. (?y) func:lang-from-PlainLiteral ?lang } => false.
