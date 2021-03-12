@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0305.2145 josd').
+version_info('EYE v21.0312.1751 josd').
 
 license_info('MIT License
 
@@ -5103,6 +5103,22 @@ djiti_assertz(A) :-
         (   conj_list(X, A),
             conj_list(Y, B),
             includes(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#map>'([A, B], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   getlist(A, D),
+            findall(E,
+                (   member(F, D),
+                    G =.. [B, F, E],
+                    G
+                ),
+                C
+            )
         )
     ).
 
