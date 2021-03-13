@@ -175,6 +175,11 @@ e:derive a rdf:Property, e:Builtin;
     rdfs:domain rdf:List;
     rdfs:range xsd:boolean.
 
+e:exec a rdf:Property, e:Builtin;
+    rdfs:comment "built-in to execute te subject command line string and return the object integer";
+    rdfs:domain xsd:string;
+    rdfs:range xsd:integer.
+
 e:fail a rdf:Property, e:Builtin;
     rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call fails";
     rdfs:domain e:Scope;

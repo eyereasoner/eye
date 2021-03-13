@@ -1,36 +1,98 @@
+PREFIX doap: <http://usefulinc.com/ns/doap#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX earl: <http://www.w3.org/ns/earl#>
+PREFIX dc:   <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdft: <http://www.w3.org/ns/rdftest#>
 PREFIX mf: <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#>
+PREFIX t: <https://w3c.github.io/N3/tests/test.n3#>
 PREFIX string: <http://www.w3.org/2000/10/swap/string#>
 PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX time: <http://www.w3.org/2000/10/swap/time#>
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX re: <http://josd.github.io/eye/reasoning#>
 
-{   ?TEST re:outcome ?OUTCOME.
+{   <https://josd.github.io/eye/reasoning/rdf-star/run-outcome.n3> foaf:primaryTopic <https://josd.github.io/eye/> ;
+        dc:issued ?DATE ;
+        foaf:maker <https://josd.github.io/> .
+
+    <https://josd.github.io/eye/> a doap:Project, earl:TestSubject, earl:Software ;
+        doap:name "EYE" ;
+        doap:homepage <https://josd.github.io/eye/> ;
+        doap:license <http://opensource.org/licenses/MIT> ;
+        doap:description "Euler Yet another proof Engine"@en ;
+        doap:programming-language "Prolog" ;
+        doap:implements <https://w3c.github.io/N3/spec/> ;
+        doap:category <http://dbpedia.org/resource/Resource_Description_Framework> ;
+        doap:download-page <http://sourceforge.net/projects/eulersharp/files/eulersharp/> ;
+        doap:developer <https://josd.github.io/> ;
+        doap:maintainer <https://josd.github.io/> ;
+        doap:documenter <https://josd.github.io/> ;
+        foaf:maker <https://josd.github.io/> ;
+        dc:title "EYE";
+        dc:description "Euler Yet another proof Engine"@en;
+        dc:creator <https://josd.github.io/> .
+
+    <https://josd.github.io/> a foaf:Person, earl:Assertor;
+        foaf:name "Jos De Roo";
+        foaf:title "Reseacher and developer";
+        foaf:homepage <https://josd.github.io/> .
+} <= {
+    "" time:localTime ?DATE.
+}.
+
+{   [ a earl:Assertion;
+        earl:assertedBy <https://josd.github.io/>;
+        earl:subject <https://josd.github.io/eye/>;
+        earl:test ?TEST;
+        earl:result [
+            a earl:TestResult;
+            earl:outcome ?OUTCOME;
+            dc:date ?DATE ];
+        earl:mode earl:automatic ] .
 } <= {
     ?TEST a rdft:TestTurtlePositiveSyntax;
         mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
     ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
-    ("exec" ?CMD 0) e:derive true.
+    ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
-    (("0" re:PASSED) ("1" re:FAILED)) list:member (?OUT ?OUTCOME).
-    ("exec" "rm out.txt" 0) e:derive true.
+    (("0" earl:passed) ("1" earl:failed)) list:member (?OUT ?OUTCOME).
+    "rm out.txt" e:exec 0.
+    "" time:localTime ?DATE.
 }.
 
-{   ?TEST re:outcome ?OUTCOME.
+{   [ a earl:Assertion;
+        earl:assertedBy <https://josd.github.io/>;
+        earl:subject <https://josd.github.io/eye/>;
+        earl:test ?TEST;
+        earl:result [
+            a earl:TestResult;
+            earl:outcome ?OUTCOME;
+            dc:date ?DATE ];
+        earl:mode earl:automatic ] .
 } <= {
     ?TEST a rdft:TestTurtleNegativeSyntax;
         mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
     ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
-    ("exec" ?CMD 0) e:derive true.
+    ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
-    (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
-    ("exec" "rm out.txt" 0) e:derive true.
+    (("1" earl:passed) ("0" earl:failed)) list:member (?OUT ?OUTCOME).
+    "rm out.txt" e:exec 0.
+    "" time:localTime ?DATE.
 }.
 
-{   ?TEST re:outcome ?OUTCOME.
+{   [ a earl:Assertion;
+        earl:assertedBy <https://josd.github.io/>;
+        earl:subject <https://josd.github.io/eye/>;
+        earl:test ?TEST;
+        earl:result [
+            a earl:TestResult;
+            earl:outcome ?OUTCOME;
+            dc:date ?DATE ];
+        earl:mode earl:automatic ] .
 } <= {
     ?TEST a mf:PositiveEntailmentTest;
         mf:action ?ACTION;
@@ -38,13 +100,22 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
     ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
-    ("exec" ?CMD 0) e:derive true.
+    ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
-    (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
-    ("exec" "rm out.txt" 0) e:derive true.
+    (("1" earl:passed) ("0" earl:failed)) list:member (?OUT ?OUTCOME).
+    "rm out.txt" e:exec 0.
+    "" time:localTime ?DATE.
 }.
 
-{   ?TEST re:outcome ?OUTCOME.
+{   [ a earl:Assertion;
+        earl:assertedBy <https://josd.github.io/>;
+        earl:subject <https://josd.github.io/eye/>;
+        earl:test ?TEST;
+        earl:result [
+            a earl:TestResult;
+            earl:outcome ?OUTCOME;
+            dc:date ?DATE ];
+        earl:mode earl:automatic ] .
 } <= {
     ?TEST a mf:NegativeEntailmentTest;
         mf:action ?ACTION;
@@ -52,8 +123,9 @@ PREFIX re: <http://josd.github.io/eye/reasoning#>
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
     ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --not-entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
-    ("exec" ?CMD 0) e:derive true.
+    ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
-    (("1" re:PASSED) ("0" re:FAILED)) list:member (?OUT ?OUTCOME).
-    ("exec" "rm out.txt" 0) e:derive true.
+    (("1" earl:passed) ("0" earl:failed)) list:member (?OUT ?OUTCOME).
+    "rm out.txt" e:exec 0.
+    "" time:localTime ?DATE.
 }.

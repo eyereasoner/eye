@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0312.1751 josd').
+version_info('EYE v21.0313.1434 josd').
 
 license_info('MIT License
 
@@ -4404,6 +4404,14 @@ djiti_assertz(A) :-
     ;   \+catch(call(D), _, fail)
     ).
 
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#exec>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   exec(A, B)
+        )
+    ).
+
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fail>'(A, B) :-
     within_scope(A),
     \+catch(call(B), _, fail).
@@ -5712,6 +5720,14 @@ djiti_assertz(A) :-
         (   ground(X)
         ),
         (   sub_atom(X, 8, 2, _, Y)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/time#localTime>'(literal(X, _), literal(Y, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    when(
+        (   ground(X)
+        ),
+        (   timestamp(Y)
         )
     ).
 
