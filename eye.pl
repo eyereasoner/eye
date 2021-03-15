@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0313.1434 josd').
+version_info('EYE v21.0315.0029 josd').
 
 license_info('MIT License
 
@@ -69,8 +69,6 @@ eye
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
     --nope                          no proof explanation
-    --pass-all-ground               ground the rules and run --pass-all
-    --pass-only-new                 output only new derived triples
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -95,6 +93,8 @@ eye
     --not-entail <rdf-graph>        output true if RDF graph is not entailed
     --pass                          output deductive closure
     --pass-all                      output deductive closure plus rules
+    --pass-all-ground               ground the rules and run --pass-all
+    --pass-only-new                 output only new derived triples
     --query <n3-query>              output filtered with filter rules').
 
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
