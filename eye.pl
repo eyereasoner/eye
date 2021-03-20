@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0315.2105 josd').
+version_info('EYE v21.0320.2307 josd').
 
 license_info('MIT License
 
@@ -1556,6 +1556,14 @@ pathitem(Atom, []) -->
         escape_string(C, B),
         atom_codes(Atom, C)
     }.
+pathitem(Number, [], L1, L2) :-
+    literal(Atom, type(Type), L1, L2),
+    memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#long>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
+    sub_atom(Atom, 1, _, 1, A),
+    atom_codes(A, NumB),
+    numeral(NumB, NumC),
+    number_codes(Number, NumC),
+    !.
 pathitem(literal(Atom, DtLang), []) -->
     literal(Atom, DtLang),
     !.
@@ -4889,6 +4897,28 @@ djiti_assertz(A) :-
     sha_hash(A, C, [algorithm(sha1)]),
     hash_to_ascii(C, D, []),
     atom_codes(B, D).
+
+'<http://www.w3.org/2000/10/swap/graph#difference>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   difference(A, M),
+            unify(M, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/graph#length>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   conj_list(A, D),
+            (   ground(D)
+            ->  distinct(D, C)
+            ;   C = D
+            ),
+            length(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/list#append>'(A, B) :-
     when(
