@@ -92,6 +92,29 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
+    ?TEST a t:TestN3Eval;
+        mf:action ?ACTION;
+        mf:result ?RESULT.
+    ?ACTION log:uri ?ACT.
+    ?RESULT log:uri ?RES.
+    ("eye --quiet --nope " ?ACT " --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
+    ?CMD e:exec 0.
+    "out.txt" e:fileString ?OUT.
+    (("1" earl:passed) ("0" earl:failed)) list:member (?OUT ?OUTCOME).
+    "rm out.txt" e:exec 0.
+    "" time:localTime ?DATE.
+}.
+
+{   [ a earl:Assertion;
+        earl:assertedBy <https://josd.github.io/>;
+        earl:subject <https://josd.github.io/eye/>;
+        earl:test ?TEST;
+        earl:result [
+            a earl:TestResult;
+            earl:outcome ?OUTCOME;
+            dc:date ?DATE ];
+        earl:mode earl:automatic ] .
+} <= {
     ?TEST a t:TestN3Reason;
         mf:action ?ACTION;
         mf:result ?RESULT.
