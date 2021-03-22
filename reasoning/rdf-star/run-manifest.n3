@@ -96,7 +96,7 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
         mf:action ?ACTION;
         mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
-    ?RESULT log:uri ?RES.
+    ?SCOPE e:optional {?RESULT log:uri ?RES}, {?ACT log:equalTo ?RES}.
     ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
@@ -119,7 +119,7 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
         mf:action ?ACTION;
         mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
-    ?RESULT log:uri ?RES.
+    ?SCOPE e:optional {?RESULT log:uri ?RES}, {?ACT log:equalTo ?RES}.
     ("eye --quiet --nope " ?ACT " https://josd.github.io/eye/reasoning/rpo/owl-sameAs.n3 https://josd.github.io/eye/reasoning/rpo/owl-sameAs-ext.n3 --not-entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
     ?CMD e:exec 0.
     "out.txt" e:fileString ?OUT.
