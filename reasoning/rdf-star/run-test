@@ -1,5 +1,5 @@
 #!/bin/bash
-riot --stream=Turtle https://w3c.github.io/rdf-star/tests/turtle/syntax/manifest.jsonld https://w3c.github.io/rdf-star/tests/semantics/manifest.jsonld | eye --quiet --nope - --query run-manifest.n3 | tee run-outcome.n3
+riot --stream=Turtle https://w3c.github.io/rdf-star/tests/turtle/syntax/manifest.jsonld https://w3c.github.io/rdf-star/tests/turtle/eval/manifest.jsonld https://w3c.github.io/rdf-star/tests/semantics/manifest.jsonld | eye --quiet --nope - --query run-manifest.n3 | tee run-outcome.n3
 echo "#=============" | tee -a run-outcome.n3
 echo "#TEST RDF-STAR" | tee -a run-outcome.n3
 echo "#=============" | tee -a run-outcome.n3
