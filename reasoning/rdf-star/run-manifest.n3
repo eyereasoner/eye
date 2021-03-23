@@ -15,6 +15,8 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
         dc:issued ?DATE;
         foaf:maker <https://josd.github.io/> .
 
+    <https://josd.github.io/eye/> doap:release [ doap:revision ?VERSION].
+
     <https://josd.github.io/eye/> a doap:Project, earl:TestSubject, earl:Software;
         doap:name "EYE";
         doap:homepage <https://josd.github.io/eye/index.html>;
@@ -38,6 +40,7 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
         foaf:homepage <https://josd.github.io/> .
 } <= {
     "" time:localTime ?DATE.
+    ("version_info" ?VERSION) e:derive true.
 }.
 
 {   [ a earl:Assertion;
