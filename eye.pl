@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0323.2200 josd').
+version_info('EYE v21.0324.1933 josd').
 
 license_info('MIT License
 
@@ -88,6 +88,7 @@ eye
 <data>
     [--n3] <uri>                    N3 triples and rules
     --proof <uri>                   N3 proof lemmas
+    --turtle <uri>                  Turtle triples
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
     --not-entail <rdf-graph>        output true if RDF graph is not entailed
@@ -95,6 +96,7 @@ eye
     --pass-all                      output deductive closure plus rules
     --pass-all-ground               ground the rules and run --pass-all
     --pass-only-new                 output only new derived triples
+    --pass-turtle                   output the --turtle data
     --query <n3-query>              output filtered with filter rules').
 
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
@@ -238,6 +240,15 @@ main :-
     ),
     format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
     flush_output(user_error),
+    (   memberchk('--turtle', Argus)
+    ->  catch(process_create(path(cturtle), [], [stdin(null), stdout(null), stderr(null)]), _,
+            (   format(user_error, '** ERROR ** EYE option --turtle requires cturtle which can be installed from http://github.com/melgi/cturtle/releases/ **~n', []),
+                flush_output(user_error),
+                halt(1)
+            )
+        )
+    ;   true
+    ),
     (   retract(prolog_file_type(qlf, qlf))
     ->  assertz(prolog_file_type(pvm, qlf))
     ;   true
@@ -613,6 +624,11 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
+opts(['--pass-turtle'|Argus], Args) :-
+    !,
+    retractall(flag('pass-turtle')),
+    assertz(flag('pass-turtle')),
+    opts(Argus, Args).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
@@ -720,7 +736,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -812,6 +828,89 @@ args(['--proof', Arg|Args]) :-
                 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(GRAPH, exopred(P, S, O))),
                 exopred(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/proof-lemma>')),
         assertz(got_pi)
+    ),
+    args(Args).
+args(['--turtle', Argument|Args]) :-
+    !,
+    absolute_uri(Argument, Arg),
+    (   wcacher(Arg, File)
+    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        flush_output(user_error)
+    ;   format(user_error, 'GET ~w ', [Arg]),
+        flush_output(user_error),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            tmp_file(File),
+            assertz(tmpfile(File)),
+            open(File, write, Out, [encoding(utf8)]),
+            copy_stream_data(In, Out),
+            close(In),
+            close(Out)
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  parse_url(Arg, Parts),
+                memberchk(path(File), Parts)
+            ;   File = Arg
+            )
+        )
+    ),
+    atomic_list_concat(['-b=', Arg], Base),
+    (   flag('pass-turtle')
+    ->  catch(process_create(path(cturtle), ['-f=nt', Base, file(File)], [stdout(std), stderr(std)]), Exc,
+            (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
+                flush_output(user_error),
+                flush_output,
+                halt(1)
+            )
+        )
+    ;   catch(process_create(path(cturtle), ['-f=n3p', Base, file(File)], [stdout(pipe(In2)), stderr(std)]), Exc,
+            (   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc]),
+                flush_output(user_error),
+                flush_output,
+                halt(1)
+            )
+        ),
+        nb_setval(wn, 0),
+        nb_setval(rn, 0),
+        nb_setval(sc, 0),
+        nb_setval(tc, 0),
+        nb_setval(tp, 0),
+        nb_setval(tr, 0),
+        nb_setval(rt, 0),
+        set_stream(In2, encoding(utf8)),
+        repeat,
+        read_term(In2, Rt, []),
+        (   Rt = end_of_file
+        ->  catch(read_line_to_codes(In2, _), _, true)
+        ;   n3pin(Rt, In2, File, data),
+            fail
+        ),
+        !,
+        (   File = '-'
+        ->  true
+        ;   close(In2)
+        ),
+        (   retract(tmpfile(File))
+        ->  delete_file(File)
+        ;   true
+        ),
+        findall(SCnt,
+            (   retract(scount(SCnt))
+            ),
+            SCnts
+        ),
+        sum(SCnts, SC),
+        nb_getval(input_statements, IN),
+        Inp is SC+IN,
+        nb_setval(input_statements, Inp),
+        (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'SC=~w~n', [SC]),
+            flush_output(user_error)
+        )
     ),
     args(Args).
 args(['--query', Arg|Args]) :-
