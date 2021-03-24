@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0324.2257 josd').
+version_info('EYE v21.0324.2335 josd').
 
 license_info('MIT License
 
@@ -451,6 +451,9 @@ gre(Argus) :-
     ),
     nb_getval(tc, TC),
     nb_getval(tp, TP),
+    statistics(runtime, [Cpu, T4]),
+    statistics(walltime, [_, T5]),
+    format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
     flush_output(user_error),
     nb_getval(input_statements, Inp),
     nb_getval(output_statements, Outp),
