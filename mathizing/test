@@ -1,0 +1,6 @@
+#!/bin/bash
+echo -n "" > answer.py
+for f in *.py
+do
+    python "$f" | tee -a answer.py
+done
