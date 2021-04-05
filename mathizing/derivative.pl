@@ -29,7 +29,7 @@ d(exp(U), X, exp(U)*DU) :-
 d(log(U), X, DU/U) :-
     !,
     d(U, X, DU).
-d(sqrt(pi)*erf(X)/2, X, exp(-X^2)) :-
+d(sqrt(pi)/2*erf(X), X, exp(-X^2)) :-
     !.
 d(X, X, 1) :-
     !.
