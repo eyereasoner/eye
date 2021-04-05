@@ -11,5 +11,5 @@ case(easter(Year, _, _)) :-
     between(2021, 2050, Year).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.

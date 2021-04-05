@@ -69,5 +69,5 @@ path(A, B, [Wave|Waves], [B|Path]) :-
 case(route([1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]], _)).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.

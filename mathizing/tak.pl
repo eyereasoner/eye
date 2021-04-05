@@ -17,5 +17,5 @@ tak(X, Y, Z, A) :-
 case(tak(34, 13, 8, _)).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.

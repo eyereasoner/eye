@@ -56,5 +56,5 @@ case(exponentiation([-1, 0], [0.5, 0], _)).
 case(exponentiation([e, 0], [0, pi], _)).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.

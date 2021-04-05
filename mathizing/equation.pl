@@ -444,5 +444,5 @@ case(solve_equation(cos(x)*(1-2*sin(x)) = 0, x, _)).
 case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0, x, _)).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.

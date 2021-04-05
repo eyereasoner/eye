@@ -18,5 +18,5 @@ case(fib(13, _)).
 case(fib(65, _)).
 
 test :-
-    forall(case(A), (A, writeln(A))),
+    findall(_, (case(A), A, writeln(A)), _),
     halt.
