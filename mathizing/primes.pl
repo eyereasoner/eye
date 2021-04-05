@@ -16,7 +16,13 @@ factor(N, L) :-
 
 % test cases
 case(prime(I)) :-
-    between(1900, 2050, I).
+    between(0, 100, I).
+case(prime(I)) :-
+    between(1000, 1100, I).
+case(prime(I)) :-
+    between(1000000, 1000100, I).
+case(prime(I)) :-
+    between(1000000000, 100000100, I).
 
 test :-
     case(A),
