@@ -5,7 +5,7 @@ prime(3).
 prime(P) :-
     P > 3,
     P mod 2 =\= 0,
-    \+factor(P, 3).  
+    \+factor(P, 3).
 
 factor(N, L) :-
     N mod L =:= 0.
@@ -19,5 +19,9 @@ case(prime(I)) :-
     between(1900, 2050, I).
 
 test :-
-    findall(_, (case(A), A, writeln(A)), _),
+    case(A),
+    A,
+    writeln(A),
+    fail.
+test :-
     halt.

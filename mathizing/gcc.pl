@@ -49,5 +49,9 @@ testgcc([C|Cs], S, [N|Ns]) :-
 case(testgcc([1, 1, 1, 1, 1, 1, 1, 1, 1], s(0, 0, 0), _)).
 
 test :-
-    findall(_, (case(A), A, writeln(A)), _),
+    case(A),
+    A,
+    writeln(A),
+    fail.
+test :-
     halt.

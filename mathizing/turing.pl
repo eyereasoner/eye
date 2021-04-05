@@ -44,5 +44,9 @@ case(compute([1, 1, 1, 1, 1, 1], _)).
 case(compute([], _)).
 
 test :-
-    findall(_, (case(A), A, writeln(A)), _),
+    case(A),
+    A,
+    writeln(A),
+    fail.
+test :-
     halt.

@@ -11,12 +11,16 @@ fib(A, B, C, D) :-
     F is B+C,
     fib(E, C, F, D).
 
-% cases
+% test cases
 case(fib(0, _)).
 case(fib(1, _)).
 case(fib(13, _)).
 case(fib(65, _)).
 
 test :-
-    findall(_, (case(A), A, writeln(A)), _),
+    case(A),
+    A,
+    writeln(A),
+    fail.
+test :-
     halt.

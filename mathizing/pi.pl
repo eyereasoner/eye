@@ -17,5 +17,9 @@ pi(A, B, C, D, E) :-
 case(pi(100000, _)).
 
 test :-
-    findall(_, (case(A), A, writeln(A)), _),
+    case(A),
+    A,
+    writeln(A),
+    fail.
+test :-
     halt.
