@@ -1,6 +1,6 @@
 #!/bin/bash
-echo -n "" > answer.py
-for f in *.py
+echo -n "" > test.txt
+for f in *.pl
 do
-    python "$f" | tee -a answer.py
+    tpl -g test "$f" | tee -a test.txt
 done
