@@ -16,7 +16,7 @@ factor(N, L) :-
 
 % test cases
 case(prime(I)) :-
-    between(2021, 2050, I).
+    between(1900, 2050, I).
 
 test :-
     findall(_, (case(A), A, writeln(A)), _),
