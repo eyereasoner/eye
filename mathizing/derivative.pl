@@ -1,5 +1,16 @@
 % See https://en.wikipedia.org/wiki/Derivative
 
+derivative(U, X, Y) :-
+    d(U, X, V),
+    s(V, W),
+    s(W, Y).
+
+integral(U, X, Y) :-
+    d(V, X, U),
+    s(V, W),
+    s(W, Y).
+
+% derivative
 d(U+V, X, DU+DV) :-
     !,
     d(U, X, DU),
@@ -35,13 +46,67 @@ d(X, X, 1) :-
     !.
 d(_, _, 0).
 
+% simplification
+s(A, A) :-
+    atom(A),
+    !.
+s(A, A) :-
+    number(A),
+    !.
+s(0+A, A) :-
+    !.
+s(A+0, A) :-
+    !.
+s(0-A, -A) :-
+    !.
+s(A-0, A) :-
+    !.
+s(0*_, 0) :-
+    !.
+s(_*0, 0) :-
+    !.
+s(1*A, A) :-
+    !.
+s(A*1, A) :-
+    !.
+s(0/A, 0) :-
+    A =\= 0,
+    !.
+s(_/0, 0) :-
+    throw(divide_by_zero).
+s(1/A, 1/A) :-
+    !.
+s(A/1, A) :-
+    !.
+s(0^_, 0) :-
+    !.
+s(_^0, 1) :-
+    !.
+s(1^_, 1) :-
+    !.
+s(A^1, A) :-
+    !.
+s(A, B) :-
+    A =.. [_, C, D],
+    number(C),
+    number(D),
+    !,
+    B is A.
+s(A, B) :-
+    A =.. [C, D, E],
+    !,
+    s(D, F),
+    s(E, G),
+    B =.. [C, F, G].
+s(A, A).
+
 % test cases
-case(d((x+1)*((x^2+2)*(x^3+3)), x, _)).
-case(d(((((((((x/x)/x)/x)/x)/x)/x)/x)/x)/x, x, _)).
-case(d(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _)).
-case(d(((((((((x*x)*x)*x)*x)*x)*x)*x)*x)*x, x, _)).
-case(d(_, x, 1*6*x^5)).
-case(d(_, x, exp(-x^2))).
+case(derivative((x+1)*((x^2+2)*(x^3+3)), x, _)).
+case(derivative(((((((((x/x)/x)/x)/x)/x)/x)/x)/x)/x, x, _)).
+case(derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _)).
+case(derivative(((((((((x*x)*x)*x)*x)*x)*x)*x)*x)*x, x, _)).
+case(integral(1*6*x^5, x, _)).
+case(integral(exp(-x^2), x, _)).
 
 test :-
     case(A),
