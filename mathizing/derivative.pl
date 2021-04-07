@@ -102,9 +102,9 @@ s(A, A).
 
 % test cases
 case(derivative((x+1)*((x^2+2)*(x^3+3)), x, _)).
-case(derivative(((((((((x/x)/x)/x)/x)/x)/x)/x)/x)/x, x, _)).
+case(derivative(x/x/x/x/x/x/x/x/x/x, x, _)).
 case(derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _)).
-case(derivative(((((((((x*x)*x)*x)*x)*x)*x)*x)*x)*x, x, _)).
+case(derivative(x*x*x*x*x*x*x*x*x*x, x, _)).
 case(integral(1*6*x^5, x, _)).
 case(integral(exp(-x^2), x, _)).
 
