@@ -1,0 +1,6 @@
+#!/bin/bash
+echo -n "" > test.txt
+for f in *.pl
+do
+    tpl -g test "$f" | tee -a test.txt
+done
