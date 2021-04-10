@@ -111,9 +111,11 @@ case(integral(1*6*x^5, x, _)).
 case(integral(1*sqrt(pi)/2*exp(-x^2), x, _)).
 
 test :-
+    writeln('# running derivative.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

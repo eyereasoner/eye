@@ -18,9 +18,11 @@ case(fibonacci(13, _)).
 case(fibonacci(65, _)).
 
 test :-
+    writeln('# running fibonacci.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

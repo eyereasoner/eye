@@ -17,9 +17,11 @@ tak(X, Y, Z, A) :-
 case(tak(34, 13, 8, _)).
 
 test :-
+    writeln('# running tak.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

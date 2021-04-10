@@ -25,9 +25,11 @@ case(prime(I)) :-
     between(1000000000, 100000100, I).
 
 test :-
+    writeln('# running primes.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

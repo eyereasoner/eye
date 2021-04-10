@@ -17,9 +17,11 @@ pi(A, B, C, D, E) :-
 case(pi(100000, _)).
 
 test :-
+    writeln('# running pi.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

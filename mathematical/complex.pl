@@ -56,9 +56,11 @@ case(exponentiation([-1, 0], [0.5, 0], _)).
 case(exponentiation([e, 0], [0, pi], _)).
 
 test :-
+    writeln('# running complex.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

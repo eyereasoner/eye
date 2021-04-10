@@ -49,9 +49,11 @@ testgcc([C|Cs], S, [N|Ns]) :-
 case(testgcc([1, 1, 1, 1, 1, 1, 1, 1, 1], s(0, 0, 0), _)).
 
 test :-
+    writeln('# running gcc.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

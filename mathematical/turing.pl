@@ -44,9 +44,11 @@ case(compute([1, 1, 1, 1, 1, 1], _)).
 case(compute([], _)).
 
 test :-
+    writeln('# running turing.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

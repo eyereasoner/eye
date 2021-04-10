@@ -4,3 +4,7 @@ for f in *.pl
 do
     tpl -g test "$f" | tee -a test.txt
 done
+for f in *.py
+do
+    python "$f" | tee -a test.txt
+done

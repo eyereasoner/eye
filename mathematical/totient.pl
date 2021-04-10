@@ -101,9 +101,11 @@ divi(N, _, M, N, M).
 case(totient(271828182845904, _)).
 
 test :-
+    writeln('# running totient.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.

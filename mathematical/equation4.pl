@@ -233,9 +233,11 @@ case(racines([[1, 0], [-10, 0], [35, 0], [-50, 0], [24, 0]], _)).
 case(racines([[1, 0], [-9, -5], [14, 33], [24, -44], [-26, 0]], _)).
 
 test :-
+    writeln('# running equation4.pl'),
     case(A),
     A,
     writeln(A),
     fail.
 test :-
+    nl,
     halt.
