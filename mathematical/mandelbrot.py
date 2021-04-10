@@ -1,5 +1,5 @@
 # Mandelbrot fractal
-# FB - 201003254
+# Original code from https://code.activestate.com/recipes/577111-mandelbrot-fractal-using-pil/
 
 from PIL import Image
 
