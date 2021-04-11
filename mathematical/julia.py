@@ -1,4 +1,4 @@
-# Julia fractal
+# See https://en.wikipedia.org/wiki/Julia_set
 # Original code from https://www.geeksforgeeks.org/julia-fractal-python/
 
 from PIL import Image

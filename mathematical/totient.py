@@ -1,4 +1,3 @@
-# Euler's totient function
 # See https://en.wikipedia.org/wiki/Euler%27s_totient_function
 
 from sympy import *

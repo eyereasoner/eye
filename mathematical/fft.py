@@ -1,4 +1,4 @@
-# Fast Fourier Transform
+# See https://en.wikipedia.org/wiki/Fast_Fourier_transform
 
 from sympy import *
 

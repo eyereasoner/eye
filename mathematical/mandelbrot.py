@@ -1,4 +1,4 @@
-# Mandelbrot fractal
+# See https://en.wikipedia.org/wiki/Mandelbrot_set
 # Original code from https://code.activestate.com/recipes/577111-mandelbrot-fractal-using-pil/
 
 from PIL import Image
