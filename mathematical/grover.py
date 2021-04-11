@@ -78,9 +78,6 @@ def alternating_bits_oracle(eng, qubits, output):
 
 
 if __name__ == "__main__":
-    print("# running grover.py")
     eng = MainEngine()  # use default compiler engine
-    # run Grover search to find a 7-bit solution
-    grover_7_alternating_bits_oracle = run_grover(eng, 7, alternating_bits_oracle)
-    print("grover_7_alternating_bits_oracle = %s" % (grover_7_alternating_bits_oracle))
+    print("run_grover(eng, 7, alternating_bits_oracle)) = %s" % (run_grover(eng, 7, alternating_bits_oracle)))
     print("")

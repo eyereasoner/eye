@@ -4,8 +4,6 @@
 from PIL import Image
 
 if __name__ == "__main__":
-    print("# running mandelbrot.py")
-
     # drawing area
     xa = -2.0
     xb = 1.0
@@ -32,5 +30,5 @@ if __name__ == "__main__":
             image.putpixel((x, y), (i % 4 * 64, i % 8 * 32, i % 16 * 16))
 
     image.save("mandelbrot.png")
-    print("# saving mandelbrot.png")
+    print("mandelbrot_image = mandelbrot.png")
     print("")

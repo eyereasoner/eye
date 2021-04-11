@@ -7,7 +7,6 @@ def fibonacci(n, c = {0:1, 1:1}):
     return c[n]
 
 if __name__ == "__main__":
-    print("# running fibonacci.py")
     for i in [0, 91, 283, 3674, 29821]:
-        print("fibonacci_%d = %d" % (i, fibonacci(i)))
+        print("fibonacci(%d) = %d" % (i, fibonacci(i)))
     print("")
