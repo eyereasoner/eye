@@ -9,6 +9,6 @@ if __name__ == "__main__":
         "list(GrayCode(4).generate_gray())"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")

@@ -11,6 +11,6 @@ if __name__ == "__main__":
         "E**(I*pi) + 1"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")

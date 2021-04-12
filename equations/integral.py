@@ -12,6 +12,6 @@ if __name__ == "__main__":
         "integrate(1/(1+x**2), (x, -oo, oo))"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")

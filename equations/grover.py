@@ -14,6 +14,6 @@ if __name__ == "__main__":
         "qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2))))"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")

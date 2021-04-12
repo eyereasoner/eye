@@ -14,6 +14,6 @@ if __name__ == "__main__":
         "solve_poly_system([x*y - 2*y, 2*y**2 - x**2], x, y)"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")

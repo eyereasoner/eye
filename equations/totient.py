@@ -10,6 +10,6 @@ if __name__ == "__main__":
         "totient(271828182845904)"
     ]
 
-    for lhs in cases:
-        print("%s = %s" % (lhs, eval(lhs)))
+    for c in cases:
+        print("%s = %s" % (c, eval(c)))
     print("")
