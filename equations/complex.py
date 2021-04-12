@@ -3,10 +3,11 @@
 from sympy import E
 from sympy import I
 from sympy import pi
+from sympy import sqrt
 
 if __name__ == "__main__":
     cases = [
-        "(-1)**0.5",
+        "sqrt(-1)",
         "E**(I*pi) + 1"
     ]
 
