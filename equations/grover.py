@@ -7,6 +7,10 @@ from sympy.physics.quantum.grover import superposition_basis
 from sympy.physics.quantum.grover import grover_iteration
 
 if __name__ == "__main__":
-    lhs = "qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2))))"
-    print("%s = %s" % (lhs, eval(lhs)))
+    cases = [
+        "qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2))))"
+    ]
+
+    for lhs in cases:
+        print("%s = %s" % (lhs, eval(lhs)))
     print("")

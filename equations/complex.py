@@ -1,8 +1,15 @@
 # See https://en.wikipedia.org/wiki/Complex_number
 
-from sympy import *
+from sympy import E
+from sympy import I
+from sympy import pi
 
 if __name__ == "__main__":
-    print("(-1)**0.5 = %s" % ((-1)**0.5))
-    print("E**(I*pi) + 1 = %s" % (E**(I*pi) + 1))
+    cases = [
+        "(-1)**0.5",
+        "E**(I*pi) + 1"
+    ]
+
+    for lhs in cases:
+        print("%s = %s" % (lhs, eval(lhs)))
     print("")
