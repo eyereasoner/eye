@@ -9,8 +9,7 @@ if __name__ == "__main__":
         "fibonacci(6)",
         "fibonacci(91)",
         "fibonacci(283)",
-        "fibonacci(3674)",
-        "fibonacci(29821)"
+        "fibonacci(3674)"
     ]
 
     for c in cases:
