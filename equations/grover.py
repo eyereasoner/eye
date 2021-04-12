@@ -8,6 +8,9 @@ from sympy.physics.quantum.grover import grover_iteration
 
 if __name__ == "__main__":
     cases = [
+        "qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(2))",
+        "qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(3))",
+        "qapply(grover_iteration(superposition_basis(2), OracleGate(2, lambda qubits: qubits == IntQubit(2))))",
         "qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2))))"
     ]
 
