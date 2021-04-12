@@ -1,4 +1,4 @@
-# See https://en.wikipedia.org/wiki/Polygon
+# See https://en.wikipedia.org/wiki/Prime_number
 
 from sympy import primerange
 from sympy import isprime
