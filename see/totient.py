@@ -11,5 +11,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")

@@ -1,12 +1,9 @@
 # See https://en.wikipedia.org/wiki/Limit_(mathematics)
 
-from sympy import Symbol
-from sympy import sin
-from sympy import limit
-from sympy import oo
+from sympy import sin, limit, oo
+from sympy.abc import x
 
 if __name__ == "__main__":
-    x = Symbol('x')
     cases = [
         "limit(sin(x)/x, x, oo)",
         "limit(1/x, x, 0)",
@@ -14,5 +11,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")

@@ -1,17 +1,14 @@
 # See https://en.wikipedia.org/wiki/Integral
 
-from sympy import Symbol
-from sympy import exp
-from sympy import integrate
-from sympy import oo
+from sympy import exp, integrate, oo
+from sympy.abc import x
 
 if __name__ == "__main__":
-    x = Symbol('x')
     cases = [
         "integrate(exp(-x**2), (x, -oo, oo))",
         "integrate(1/(1+x**2), (x, -oo, oo))"
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")

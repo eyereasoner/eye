@@ -1,7 +1,6 @@
 # See https://en.wikipedia.org/wiki/Pi
 
-from sympy import N
-from sympy import pi
+from sympy import N, pi
 
 if __name__ == "__main__":
     cases = [
@@ -11,5 +10,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")

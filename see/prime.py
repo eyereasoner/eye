@@ -1,8 +1,6 @@
 # See https://en.wikipedia.org/wiki/Prime_number
 
-from sympy import primerange
-from sympy import isprime
-from sympy import nextprime
+from sympy import primerange, isprime, nextprime
 
 if __name__ == "__main__":
     cases = [
@@ -13,5 +11,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")

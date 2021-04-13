@@ -2,9 +2,7 @@
 
 from sympy.physics.quantum.qapply import qapply
 from sympy.physics.quantum.qubit import IntQubit
-from sympy.physics.quantum.grover import OracleGate
-from sympy.physics.quantum.grover import superposition_basis
-from sympy.physics.quantum.grover import grover_iteration
+from sympy.physics.quantum.grover import OracleGate, superposition_basis, grover_iteration
 
 if __name__ == "__main__":
     cases = [
@@ -15,5 +13,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print("%s = %s" % (c, eval(c)))
+        print('[ :sympy-expression "%s"; :sympy-evaluation "%s"].' % (c, eval(c)))
     print("")
