@@ -1,0 +1,6 @@
+#!/bin/bash
+echo -n "" > result.n3
+for f in *.pl
+do
+    tpl -g test "$f" | tee -a result.n3
+done
