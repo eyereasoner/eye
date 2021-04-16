@@ -1,7 +1,7 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
 fibonacci(A, B) :-
-    fibonacci(A, 1, 1, B).
+    fibonacci(A, 0, 1, B).
 
 fibonacci(0, _, A, A).
 fibonacci(1, _, A, A).
@@ -14,8 +14,10 @@ fibonacci(A, B, C, D) :-
 % test cases
 case(fibonacci(0, _)).
 case(fibonacci(1, _)).
-case(fibonacci(13, _)).
-case(fibonacci(65, _)).
+case(fibonacci(6, _)).
+case(fibonacci(91, _)).
+case(fibonacci(283, _)).
+case(fibonacci(3674, _)).
 
 test :-
     case(A),
