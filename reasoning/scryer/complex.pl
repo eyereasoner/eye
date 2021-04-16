@@ -58,7 +58,7 @@ case(exponentiation([e, 0], [0, pi], _)).
 test :-
     case(A),
     A,
-    write('[ :scryer-predicate "'),
+    write('[ :scryer-statement "'),
     write(A),
     write('"].'),
     nl,

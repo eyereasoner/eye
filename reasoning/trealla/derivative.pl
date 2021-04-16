@@ -113,7 +113,7 @@ case(integral(1*sqrt(pi)/2*exp(-x^2), x, _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

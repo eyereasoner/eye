@@ -51,7 +51,7 @@ case(testgcc([1, 1, 1, 1, 1, 1, 1, 1, 1], s(0, 0, 0), _)).
 test :-
     case(A),
     A,
-    write('[ :scryer-predicate "'),
+    write('[ :scryer-statement "'),
     write(A),
     write('"].'),
     nl,

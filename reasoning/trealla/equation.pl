@@ -446,7 +446,7 @@ case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0, x, _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

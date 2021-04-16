@@ -19,7 +19,7 @@ case(tak(34, 13, 8, _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

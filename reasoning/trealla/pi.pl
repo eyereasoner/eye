@@ -19,7 +19,7 @@ case(pi(100000, _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

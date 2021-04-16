@@ -103,7 +103,7 @@ case(totient(271828182845904, _)).
 test :-
     case(A),
     A,
-    write('[ :scryer-predicate "'),
+    write('[ :scryer-statement "'),
     write(A),
     write('"].'),
     nl,

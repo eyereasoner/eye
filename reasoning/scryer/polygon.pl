@@ -11,7 +11,7 @@ case(area([[3, 2], [6, 2], [7, 6], [4, 6], [5, 5], [5, 3], [3, 2]], _)).
 test :-
     case(A),
     A,
-    write('[ :scryer-predicate "'),
+    write('[ :scryer-statement "'),
     write(A),
     write('"].'),
     nl,

@@ -235,7 +235,7 @@ case(racines([[1, 0], [-9, -5], [14, 33], [24, -44], [-26, 0]], _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

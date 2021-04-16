@@ -58,7 +58,7 @@ case(exponentiation([e, 0], [0, pi], _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,

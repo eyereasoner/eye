@@ -19,7 +19,7 @@ case(pi(100000, _)).
 test :-
     case(A),
     A,
-    write('[ :scryer-predicate "'),
+    write('[ :scryer-statement "'),
     write(A),
     write('"].'),
     nl,

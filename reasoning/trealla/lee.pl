@@ -71,7 +71,7 @@ case(route([1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]], _)).
 test :-
     case(A),
     A,
-    write('[ :trealla-predicate "'),
+    write('[ :trealla-statement "'),
     write(A),
     write('"].'),
     nl,
