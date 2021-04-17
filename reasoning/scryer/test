@@ -5,3 +5,4 @@ for f in *.pl
 do
     scryer-prolog -g test "$f" | tee -a result.n3
 done
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/scryer/result.n3 --pass > result-pass.n3

@@ -5,3 +5,4 @@ for f in *.py
 do
     python3 "$f" | tee -a result.n3
 done
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/sympy/result.n3 --pass > result-pass.n3
