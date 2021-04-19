@@ -1,8 +1,2 @@
 #!/bin/bash
-echo "PREFIX : <http://josd.github.io/eye/reasoning#>" | tee result.n3
-echo "" | tee -a result.n3
-for f in *.pl
-do
-    tpl -g test "$f" | tee -a result.n3
-done
 eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/trealla/result.n3 --pass > result-pass.n3
