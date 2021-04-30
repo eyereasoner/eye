@@ -2,6 +2,8 @@
 
 % interpreter for Univeral Turing Machine
 
+:- use_module(library(lists)).
+
 compute([], OutTape) :-
     start(I),
     find(I, [], #, [ ], OutTape).

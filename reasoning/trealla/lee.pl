@@ -1,6 +1,8 @@
 % Lee routing for VLSI circuits
 % Code from the book "The Art of Prolog" Chapter 16
 
+:- use_module(library(lists)).
+
 route(Source, Destination, Obstacles, Path) :-
     waves(Destination, [[Source], []], Obstacles, Waves),
     path(Source, Destination, Waves, P),

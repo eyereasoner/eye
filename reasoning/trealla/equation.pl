@@ -4,6 +4,8 @@
 :- op(40, xfx, \).
 :- op(50, xfx, ^).
 
+:- use_module(library(lists)).
+
 % solve_equation(Equation, Unknown, Solution) :-
 % Solution is a solution to the equation Equation
 % in the unknown Unknown.
