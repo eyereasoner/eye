@@ -6,4 +6,10 @@ function sqrt(x)
     t
 end
 
-println("[ :julia-statement \"sqrt(2) = ", sqrt(2), "\"].")
+cases = [
+    :(sqrt(2))
+]
+
+for case in cases
+    println("[ :julia-statement \"", case, " = ", eval(case), "\"].")
+end
