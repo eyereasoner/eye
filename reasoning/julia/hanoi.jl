@@ -13,10 +13,11 @@ function solve(n::Integer, from::Integer, to::Integer, via::Integer)
 end
  
 cases = [
-    :(cnt = 0; solve(4, 1, 2, 3))
-    :(cnt = 0; solve(24, 1, 2, 3))
+    :(solve(4, 1, 2, 3))
+    :(solve(24, 1, 2, 3))
 ]
 
 for case in cases
+    global cnt = 0
     println("[ :julia-statement \"\"\"", case, " = ", eval(case), "\"\"\"].")
 end
