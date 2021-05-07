@@ -1,5 +1,5 @@
 cases = [
-    :(exp(pi*im)+1)
+    :(exp(π * im) + 1)
 ]
 
 for case in cases
