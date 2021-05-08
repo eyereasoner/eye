@@ -1,3 +1,5 @@
+# See https://en.wikipedia.org/wiki/Fibonacci
+
 fibonacci(n) = ([1 1 ; 1 0] ^ n)[1, 2]
 
 cases = [

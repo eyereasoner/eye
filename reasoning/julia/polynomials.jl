@@ -1,3 +1,5 @@
+# See https://en.wikipedia.org/wiki/Polynomial
+
 using Polynomials
 
 cases = [

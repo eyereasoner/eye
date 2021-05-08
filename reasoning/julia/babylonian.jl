@@ -1,3 +1,5 @@
+# See https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Babylonian_method
+
 function sqrt(x)
     t = 1
     for i in 1:10

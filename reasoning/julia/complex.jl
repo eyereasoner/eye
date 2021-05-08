@@ -1,5 +1,8 @@
+# See https://en.wikipedia.org/wiki/Complex_number
+
 cases = [
-    :(exp(π * im) + 1)
+    :(sqrt(-1+0im)),
+    :(exp(π * im))
 ]
 
 for case in cases

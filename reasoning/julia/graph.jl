@@ -1,3 +1,5 @@
+# See https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)
+
 using Julog
 
 clauses = @julog [

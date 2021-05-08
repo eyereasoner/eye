@@ -1,6 +1,4 @@
-# Logic puzzle benchmark from https://github.com/SWI-Prolog/bench
-# Where does the zebra live?
-# Puzzle solution written by Claude Sammut.
+# See https://en.wikipedia.org/wiki/Zebra_Puzzle
 # Original code from https://github.com/ztangent/Julog.jl/benchmarks/zebra.jl
 
 using Julog
