@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0509.1819 josd').
+version_info('EYE v21.0510.2007 josd').
 
 license_info('MIT License
 
@@ -4289,7 +4289,10 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
     nonvar(B),
-    conj_list(B, D),
+    (   conj_list(B, D)
+    ->  true
+    ;   D = B
+    ),
     forall(
         member(E, D),
         (   E =.. [P, _, _],
