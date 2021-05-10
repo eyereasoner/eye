@@ -7,5 +7,5 @@ cases = [
 ]
 
 for case in cases
-    println("[ :julia-statement \"\"\"", case, " = ", eval(case), "\"\"\"].")
+    println("[ :julia-statement \"", case, " = ", eval(case), "\"].")
 end
