@@ -1,7 +1,2 @@
 #!/bin/bash
-echo "PREFIX : <http://josd.github.io/eye/reasoning#>" | tee result.n3
-echo "" | tee -a result.n3
-for f in *.jl
-do
-    julia "$f" | tee -a result.n3
-done
+julia test.jl | tee result.n3
