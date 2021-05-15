@@ -14,5 +14,5 @@ cases = [
 ]
 
 for case in cases
-    println("[ :julia-statement \"", case, " = ", eval(case), "\"].")
+    println("[ :case \"", case, " = ", eval(case), "\"].")
 end
