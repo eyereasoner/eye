@@ -3,6 +3,14 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [ :sympy-statement "sqrt(-1) = I"].
 [ :sympy-statement "E**(I*pi) + 1 = 0"].
 
+[ :sympy-statement "diff(cos(x), x) = -sin(x)"].
+[ :sympy-statement "diff(x**4, x, x, x) = 24*x"].
+[ :sympy-statement "diff(exp(x*y*z), x, y, y, z, z, z, z) = x**3*y**2*(x**3*y**3*z**3 + 14*x**2*y**2*z**2 + 52*x*y*z + 48)*exp(x*y*z)"].
+[ :sympy-statement "diff((x+1)*((x**2+2)*(x**3+3)), x) = 3*x**2*(x + 1)*(x**2 + 2) + 2*x*(x + 1)*(x**3 + 3) + (x**2 + 2)*(x**3 + 3)"].
+[ :sympy-statement "diff(x/x/x/x/x/x/x/x/x/x, x) = -8/x**9"].
+[ :sympy-statement "diff(log(log(log(log(log(log(log(log(log(log(x)))))))))), x) = 1/(x*log(x)*log(log(x))*log(log(log(x)))*log(log(log(log(x))))*log(log(log(log(log(x)))))*log(log(log(log(log(log(x))))))*log(log(log(log(log(log(log(x)))))))*log(log(log(log(log(log(log(log(x))))))))*log(log(log(log(log(log(log(log(log(x))))))))))"].
+[ :sympy-statement "diff(x*x*x*x*x*x*x*x*x*x, x) = 10*x**9"].
+
 [ :sympy-statement "fft([0, 1, 2, 3, 4, 5, 6, 7]) = [28, -4 - 4*sqrt(2)*I - 4*I, -4 - 4*I, -4 - 4*sqrt(2)*I + 4*I, -4, -4 - 4*I + 4*sqrt(2)*I, -4 + 4*I, -4 + 4*I + 4*sqrt(2)*I]"].
 [ :sympy-statement "fft([0, 1, 2, 3, 0, 1, 2, 3]) = [12, 0, -4 - 4*I, 0, -4, 0, -4 + 4*I, 0]"].
 [ :sympy-statement "fft([0, 1, 0, 1, 0, 1, 0, 1]) = [4, 0, 0, 0, -4, 0, 0, 0]"].
