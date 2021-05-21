@@ -1,4 +1,4 @@
-# See https://en.wikipedia.org/wiki/Integral
+# See https://en.wikipedia.org/wiki/Derivative
 
 from sympy import diff, cos, exp, log
 from sympy.abc import x, y, z
