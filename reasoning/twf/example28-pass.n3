@@ -1,0 +1,10 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.com/>
+
+:workflowA a :Workflow.
+:taskA a :Completed.
+:taskB a :Completed.
+:workflowA :includes :taskA.
+:workflowA :includes :taskB.
+:workflowA :completed (:taskA :taskB).
+

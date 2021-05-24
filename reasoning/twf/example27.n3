@@ -1,0 +1,13 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.com/>
+
+:taskA a :CompositeTask ;
+    :subtask :taskA1 ;
+    :subtask :taskA2 .
+:taskA1 a :Completed .
+:taskA2 a :Completed .
+
+{ ?task a :CompositeTask . 
+  ({ ?task :subtask ?subtask } { ?subtask a :Completed }) log:forAllIn _:x . 
+
+} => { ?task a :Completed } .
