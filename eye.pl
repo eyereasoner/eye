@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0510.2007 josd').
+version_info('EYE v21.0524.1151 josd').
 
 license_info('MIT License
 
@@ -5011,6 +5011,15 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
+    within_scope(Sc),
+    when(
+        (   nonvar(B)
+        ),
+        (   findall(A, B, C)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, B) :-
     when(
         (   nonvar(A)
@@ -5112,6 +5121,16 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y) :-
     unify(X, Y).
+
+'<http://www.w3.org/2000/10/swap/log#forAllIn>'([A, B], Sc) :-
+    within_scope(Sc),
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   forall(A, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
     implies(X, Z, _),
