@@ -12,7 +12,7 @@ expressions = [
     :(Symbolics.derivative(exp(x), x))
     :(Symbolics.derivative(log(x), x))
     :(Symbolics.jacobian([x + x*y, x^4 + y], [x, y]))
-    :(Symbolics.hessian([x^4 + z], [x, y, z]))
+    :(Symbolics.hessian(x^4 + z, [x, y, z]))
 ]
 
 for expr in expressions

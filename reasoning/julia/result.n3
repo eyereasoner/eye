@@ -14,7 +14,7 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "Symbolics.derivative(exp(x), x) = exp(x)".
 [] :julia-result "Symbolics.derivative(log(x), x) = x^-1".
 [] :julia-result "Symbolics.jacobian([x + x * y, x ^ 4 + y], [x, y]) = Num[1 + y x; 4(x^3) 1]".
-[] :julia-result "Symbolics.hessian([x ^ 4 + z], [x, y, z]) = Num[0 0 0; 0 0 0; 0 0 0]".
+[] :julia-result "Symbolics.hessian(x ^ 4 + z, [x, y, z]) = Num[12(x^2) 0 0; 0 0 0; 0 0 0]".
 
 [] :julia-result "fibonacci(0) = 0".
 [] :julia-result "fibonacci(1) = 1".
