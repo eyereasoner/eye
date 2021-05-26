@@ -3,7 +3,7 @@
 fibonacci(A, B) :-
     fibonacci(A, 0, 1, B).
 
-fibonacci(0, _, A, A).
+fibonacci(0, A, _, A).
 fibonacci(1, _, A, A).
 fibonacci(A, B, C, D) :-
     A > 1,
@@ -16,8 +16,8 @@ case(fibonacci(0, _)).
 case(fibonacci(1, _)).
 case(fibonacci(6, _)).
 case(fibonacci(91, _)).
-%case(fibonacci(283, _)).
-%case(fibonacci(3674, _)).
+case(fibonacci(283, _)).
+case(fibonacci(3674, _)).
 
 test :-
     case(A),
