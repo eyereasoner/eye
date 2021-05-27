@@ -27,15 +27,15 @@ sum([], [], 1) -->
     [1].
 sum([], [Y|Ys], Carry0) -->
     {   N0 is Y + Carry0,
-        N is N0 mod 10,
-        Carry is N0 // 10
+        N is N0 mod 1000,
+        Carry is N0 // 1000
     },
     [N],
     sum([], Ys, Carry).
 sum([X|Xs], [Y|Ys], Carry0) -->
     {   N0 is X + Y + Carry0,
-        N is N0 mod 10,
-        Carry is N0 // 10
+        N is N0 mod 1000,
+        Carry is N0 // 1000
     },
     [N],
     sum(Xs, Ys, Carry).
@@ -46,7 +46,7 @@ case(fibonacci(1, _)).
 case(fibonacci(6, _)).
 case(fibonacci(91, _)).
 case(fibonacci(283, _)).
-case(fibonacci(1136, _)).
+case(fibonacci(3674, _)).
 
 test :-
     case(A),
