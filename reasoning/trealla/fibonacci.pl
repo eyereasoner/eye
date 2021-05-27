@@ -21,29 +21,22 @@ sum(Xs0, Ys0, Ls) :-
     phrase(sum(Xs, Ys, 0), Ls0),
     reverse(Ls0, Ls).
 
-sum([], [], Carry) -->
-    (   { Carry > 0 } -> [Carry]
-    ;   []
-    ).
+sum([], [], 0) -->
+    [].
+sum([], [], 1) -->
+    [1].
 sum([], [Y|Ys], Carry0) -->
-    { N0 is Y + Carry0,
-      (  N0 > 9 ->  N is N0 - 10, Carry = 1
-      ;  N = N0, Carry = 0
-      ) },
+    {   N0 is Y + Carry0,
+        N is N0 mod 10,
+        Carry is N0 // 10
+    },
     [N],
     sum([], Ys, Carry).
-sum([X|Xs], [], Carry0) -->
-    { N0 is X + Carry0,
-      (  N0 > 9 ->  N is N0 - 10, Carry = 1
-      ;  N = N0, Carry = 0
-      ) },
-    [N],
-    sum(Xs, [], Carry).
 sum([X|Xs], [Y|Ys], Carry0) -->
-    { N0 is X + Y + Carry0,
-      (  N0 > 9 ->  N is N0 - 10, Carry = 1
-      ;  N = N0, Carry = 0
-      ) },
+    {   N0 is X + Y + Carry0,
+        N is N0 mod 10,
+        Carry is N0 // 10
+    },
     [N],
     sum(Xs, Ys, Carry).
 
