@@ -8,7 +8,7 @@ expressions = [
     :(fibonacci(6))
     :(fibonacci(91))
     :(fibonacci(big(283)))
-    :(fibonacci(big(3674)))
+    :(fibonacci(big(1136)))
 ]
 
 for expr in expressions
