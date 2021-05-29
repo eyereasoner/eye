@@ -2,16 +2,16 @@
 % Euler Yet another proof Engine mathematical Library -- Jos De Roo
 % -----------------------------------------------------------------
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
+'<http://josd.github.io/eye/eyel#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polaire([A, B], [R, T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#polynomial_roots>'(A, B) :-
+'<http://josd.github.io/eye/eyel#polynomial_roots>'(A, B) :-
     lz(A, C),
     racines(C, B).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#equation_solutions>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+'<http://josd.github.io/eye/eyel#equation_solutions>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
     term_to_atom(D, A),
     findall(E,
         (   solve_equation(D, B, B=F),
@@ -20,7 +20,7 @@
         C
     ).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#prime_totient>'(A, B) :-
+'<http://josd.github.io/eye/eyel#prime_totient>'(A, B) :-
     when(
         (   nonvar(A)
         ),
