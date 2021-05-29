@@ -2,7 +2,7 @@
 % Euler Yet another proof Engine mathematical Library -- Jos De Roo
 % -----------------------------------------------------------------
 
-'<http://josd.github.io/eyel#complex_exponentiation>'([A, B], [C, D], [E, F]) :-
+'<http://josd.github.io/eyel#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polaire([A, B], [R, T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
