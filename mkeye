@@ -3,6 +3,7 @@
 export RELEASE="v$(date -u +"%y.%m%d.%H%M")"
 pushd ~/github.com/josd/eye
 cat /opt/eye/src/eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl
+cp -a /opt/eye/src/eyel.pl eyel.pl
 sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
 swipl -q -f eye.pl -f eyel.pl -g main -- --version 2>&1 | grep josd > VERSION
 sudo ./install.sh

@@ -2,16 +2,16 @@
 % Euler Yet another proof Engine mathematical Library -- Jos De Roo
 % -----------------------------------------------------------------
 
-'<http://josd.github.io/eyel#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polaire([A, B], [R, T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
 
-'<http://josd.github.io/eyel#polynomial_roots>'(A, B) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#polynomial_roots>'(A, B) :-
     lz(A, C),
     racines(C, B).
 
-'<http://josd.github.io/eyel#equation_solver>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#equation_solutions>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
     term_to_atom(D, A),
     findall(E,
         (   solve_equation(D, B, B=F),
@@ -20,11 +20,11 @@
         C
     ).
 
-'<http://josd.github.io/eyel#euler_totient>'(A, B) :-
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#prime_totient>'(A, B) :-
     when(
         (   nonvar(A)
         ),
-        (   euler_totient(A, B)
+        (   totient(A, B)
         )
     ).
 
@@ -715,11 +715,11 @@ compound1(Term) :-
 % with the following formula:
 %   phi(m) = (p1-1)*p1**(m1-1)*(p2-1)*p2**(m2-1)*(p3-1)*p3**(m3-1)*...
 
-% euler_totient(N, Phi) :- Phi is the value of Euler's totient function
+% totient(N, Phi) :- Phi is the value of Euler's totient function
 % for the argument N.
 %   (integer, integer) (+, ?)
 
-euler_totient(N, Phi) :-
+totient(N, Phi) :-
     prime_factors_mult(N, L),
     to_phi(L, Phi).
 
