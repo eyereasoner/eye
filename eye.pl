@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0526.1011 josd').
+version_info('EYE v21.0529.1028 josd').
 
 license_info('MIT License
 
