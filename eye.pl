@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0530.2141 josd').
+version_info('EYE v21.0607.2335 josd').
 
 license_info('MIT License
 
@@ -3268,6 +3268,7 @@ wt0(X) :-
             ;   flag('quantify', Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
+            nb_getval(fdepth, 0),
             write('_:')
         ),
         write(Y),

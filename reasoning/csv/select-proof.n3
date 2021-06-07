@@ -1,3 +1,6 @@
+#Processed by EYE v21.0530.2141 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/csv/select-data.n3 --query http://josd.github.io/eye/reasoning/csv/select-query.n3
+
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX : <http://eulersharp.sourceforge.net/try#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
@@ -220,7 +223,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 <#lemma19> a r:Extraction;
   r:gives {
     {?x_1_1 ?x_0_1 ?x_2_1.
-     ?x_3_1 e:optional {?x_4_1 :b ?x_5_1}} => {_:x_6_1 e:csvTuple (?x_1_1 ?x_0_1 ?x_4_1 ?x_2_1 ?x_5_1)}.
+     ?x_3_1 e:optional {?x_4_1 :b ?x_5_1}} => {<http://josd.github.io/.well-known/genid/4YI6wKqMktgPY3jHq7pBipaePxk#x_6> e:csvTuple (?x_1_1 ?x_0_1 ?x_4_1 ?x_2_1 ?x_5_1)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-query.n3>].
 
@@ -319,4 +322,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :s :p17 "case 17"@en-us.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data.n3>].
+
+#2021-06-07T23:30:32.332Z in=18 out=17 ent=17 step=17 brake=2 inf=59942 sec=0.047 inf/sec=1275362
+#ENDS
 

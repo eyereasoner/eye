@@ -1,3 +1,6 @@
+#Processed by EYE v21.0530.2141 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/iq/iq.n3 --pass-all
+
 PREFIX : <http://example.org/test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
@@ -13,10 +16,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:component <#lemma9>;
   r:component <#lemma10>;
   r:gives {
-    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#e_x_2> :knows :Albert}.
     :s :p :o.
     :s :pp {:s :ppp :ooo}.
-    {?U_0 :knows :Albert} => {_:x_0_1 :knows :Kurt}.
+    {?U_0 :knows :Albert} => {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_0> :knows :Kurt}.
     {:e :p :a} => {:e :q :b}.
     {{?U_3 :p :a} => {?U_3 :q :b}} => {{?U_3 :r :c} => {?U_3 :s :d}}.
     {?U_1 :p :o} => {?U_1 :pp {?U_1 :ppp :ooo}}.
@@ -27,7 +30,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma1> a r:Inference;
   r:gives {
-    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#e_x_2> :knows :Albert}.
   };
   r:evidence (
     <#lemma11>
@@ -57,10 +60,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Inference;
   r:gives {
-    {?U_0 :knows :Albert} => {_:x_0_8 :knows :Kurt}.
+    {?U_0 :knows :Albert} => {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_0> :knows :Kurt}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{?U_0 :knows :Albert} => {_:x_0_9 :knows :Kurt}}]
+    [ a r:Fact; r:gives {{?U_0 :knows :Albert} => {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_0> :knows :Kurt}}]
     [ a r:Fact; r:gives {{_:sk_0 :knows :Albert} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
@@ -77,11 +80,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Inference;
   r:gives {
-    {{?_6244 :p :a} => {?_6244 :q :b}} => {{?_6244 :r :c} => {?_6244 :s :d}}.
+    {{?_5456 :p :a} => {?_5456 :q :b}} => {{?_5456 :r :c} => {?_5456 :s :d}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{?_6244 :p :a} => {?_6244 :q :b}} => {{?_6244 :r :c} => {?_6244 :s :d}}}]
-    [ a r:Fact; r:gives {{{?_6244 :p :a} => {?_6244 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+    [ a r:Fact; r:gives {{{?_5456 :p :a} => {?_5456 :q :b}} => {{?_5456 :r :c} => {?_5456 :s :d}}}]
+    [ a r:Fact; r:gives {{{?_5456 :p :a} => {?_5456 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
 
@@ -97,10 +100,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma8> a r:Inference;
   r:gives {
-    {?U_2 :p :o} => {{{?U_2 :p2 ?_6258} => {?U_2 :p3 ?_6258}} => {{?U_2 :p4 ?_6258} => {?U_2 :p5 ?_6258}}}.
+    {?U_2 :p :o} => {{{?U_2 :p2 ?_5470} => {?U_2 :p3 ?_5470}} => {{?U_2 :p4 ?_5470} => {?U_2 :p5 ?_5470}}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{?U_2 :p :o} => {{{?U_2 :p2 ?_6258} => {?U_2 :p3 ?_6258}} => {{?U_2 :p4 ?_6258} => {?U_2 :p5 ?_6258}}}}]
+    [ a r:Fact; r:gives {{?U_2 :p :o} => {{{?U_2 :p2 ?_5470} => {?U_2 :p3 ?_5470}} => {{?U_2 :p4 ?_5470} => {?U_2 :p5 ?_5470}}}}]
     [ a r:Fact; r:gives {{_:sk_2 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
@@ -117,17 +120,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma10> a r:Inference;
   r:gives {
-    {{:s :p2 ?_6246} => {:s :p3 ?_6246}} => {{:s :p4 ?_6246} => {:s :p5 ?_6246}}.
+    {{:s :p2 ?_5458} => {:s :p3 ?_5458}} => {{:s :p4 ?_5458} => {:s :p5 ?_5458}}.
   };
   r:evidence (
     <#lemma17>
-    [ a r:Fact; r:gives {{{:s :p2 ?_6246} => {:s :p3 ?_6246}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+    [ a r:Fact; r:gives {{{:s :p2 ?_5458} => {:s :p3 ?_5458}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    _:e_x_1 :says {_:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {<http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#e_x_2> :knows :Albert}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
@@ -171,7 +174,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma17> a r:Inference;
   r:gives {
-    {{:s :p2 ?_6246} => {:s :p3 ?_6246}} => {{:s :p4 ?_6246} => {:s :p5 ?_6246}}.
+    {{:s :p2 ?_5458} => {:s :p3 ?_5458}} => {{:s :p4 ?_5458} => {:s :p5 ?_5458}}.
   };
   r:evidence (
     <#lemma13>
@@ -192,7 +195,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma20> a r:Extraction;
   r:gives {
-    {?x_0_29 :p :o} => {{{?x_0_29 :p2 _:x_1_29} => {?x_0_29 :p3 _:x_1_29}} => {{?x_0_29 :p4 _:x_1_29} => {?x_0_29 :p5 _:x_1_29}}}.
+    {?x_0_29 :p :o} => {{{?x_0_29 :p2 <http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_1>} => {?x_0_29 :p3 <http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_1>}} => {{?x_0_29 :p4 <http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_1>} => {?x_0_29 :p5 <http://josd.github.io/.well-known/genid/kJ22akIJE6h8Pmm1oHVCHpvnLr4#x_1>}}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
+
+#2021-06-07T23:30:40.097Z in=7 out=10 ent=13 step=26 brake=2 inf=55417 sec=0.041 inf/sec=1351634
+#ENDS
 
