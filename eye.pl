@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0607.2335 josd').
+version_info('EYE v21.0608.1236 josd').
 
 license_info('MIT License
 
@@ -9053,11 +9053,7 @@ labelvars(A, B, C, D) :-
     var(A),
     !,
     atom_number(E, B),
-    (   D == skolem
-    ->  nb_getval(var_ns, Vns),
-        atomic_list_concat(['<', Vns, 'sk_', E, '>'], A)
-    ;   atomic_list_concat([D, E], A)     % failing when A is an attributed variable
-    ),
+    atomic_list_concat([D, E], A),      % failing when A is an attributed variable
     C is B+1.
 labelvars(A, B, B, _) :-
     atomic(A),
@@ -9245,7 +9241,8 @@ findvar(A, alpha) :-
     nb_getval(var_ns, Vns),
     sub_atom(A, 1, _, _, Vns).
 findvar(A, beta) :-
-    (   sub_atom(A, _, 19, _, '/.well-known/genid/')
+    (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
+        \+keep_skolem(A)
     ;   atom_concat('_bn_', _, A)
     ;   atom_concat('_e_', _, A)
     ;   atom_concat(some, _, A)
