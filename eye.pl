@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0608.1236 josd').
+version_info('EYE v21.0608.1647 josd').
 
 license_info('MIT License
 
@@ -2837,7 +2837,7 @@ w1([A|B]) :-
 wh :-
     (   keep_skolem(_)
     ->  nb_getval(var_ns, Vns),
-        put_pfx('var', Vns)
+        put_pfx('sk', Vns)
     ;   true
     ),
     (   flag('no-qnames')
@@ -3208,18 +3208,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground')
-    ->  (   rule_uvar(L),
-            (   ncllit
-            ->  (   memberchk(X, L)
-                ->  true
-                ;   retract(rule_uvar(L)),
-                    assertz(rule_uvar([X|L]))
-                )
-            ;   memberchk(X, L)
-            )
-        ->  write('?U_')
-        ;   write('_:sk_')
-        ),
+    ->  write('?U_'),
         write(Y)
     ;   nb_getval(var_ns, Vns),
         atomic_list_concat(['<', Vns, 'U_', Y, '>'], Z),
@@ -9248,11 +9237,6 @@ findvar(A, beta) :-
     ;   atom_concat(some, _, A)
     ),
     !.
-findvar(A, gamma) :-
-    !,
-    sub_atom(A, _, 19, _, '/.well-known/genid/'),
-    \+sub_atom(A, _, 4, _, '#bn_'),
-    \+sub_atom(A, _, 3, _, '#e_').
 findvar(A, delta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat(some, _, A)
