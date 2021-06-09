@@ -1,4 +1,4 @@
-#Processed by EYE v21.0608.1236 josd
+#Processed by EYE v21.0608.1647 josd
 #eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3 http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3 http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3 http://josd.github.io/eye/reasoning/bmi/age_rules_backward.n3 --query http://josd.github.io/eye/reasoning/bmi/bmi_query.n3
 
 PREFIX owl: <http://www.w3.org/2002/07/owl#>
@@ -680,12 +680,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      (?x_0_2 ?x_13_2) time:calculatingAge ?x_14_2.
      ?x_14_2 math:notLessThan 15 .
      (?x_5_2 2) math:exponentiation ?x_15_2.
-     (?x_8_2 ?x_15_2) math:quotient ?x_16_2} => {?x_0_2 human:hasBodyMassIndex <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17> quant:hasUnit units:kilogramPerMeterSquare.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17> quant:hasValue ?x_16_2.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17> time:hasDateTime ?x_13_2.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17> event:basedOn ?x_7_2.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_17> event:basedOn ?x_4_2}.
+     (?x_8_2 ?x_15_2) math:quotient ?x_16_2} => {?x_0_2 human:hasBodyMassIndex _:x_17_2.
+     _:x_17_2 quant:hasUnit units:kilogramPerMeterSquare.
+     _:x_17_2 quant:hasValue ?x_16_2.
+     _:x_17_2 time:hasDateTime ?x_13_2.
+     _:x_17_2 event:basedOn ?x_7_2.
+     _:x_17_2 event:basedOn ?x_4_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
@@ -694,10 +694,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {?x_0_3 human:hasBodyMassIndex ?x_1_3.
      ?x_1_3 quant:hasValue ?x_2_3.
      ?x_1_3 time:hasDateTime ?x_3_3.
-     ?x_2_3 math:lessThan 16} => {?x_0_3 human:hasWeightStatus <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> a humanbody:SeverelyUnderweight.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> time:hasDateTime ?x_3_3.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> event:basedOn ?x_1_3}.
+     ?x_2_3 math:lessThan 16} => {?x_0_3 human:hasWeightStatus _:x_4_3.
+     _:x_4_3 a humanbody:SeverelyUnderweight.
+     _:x_4_3 time:hasDateTime ?x_3_3.
+     _:x_4_3 event:basedOn ?x_1_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -794,10 +794,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ?x_1_4 quant:hasValue ?x_2_4.
      ?x_1_4 time:hasDateTime ?x_3_4.
      ?x_2_4 math:notLessThan 18.5 .
-     ?x_2_4 math:notGreaterThan 24.9} => {?x_0_4 human:hasWeightStatus <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> a humanbody:NormalWeight.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> time:hasDateTime ?x_3_4.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> event:basedOn ?x_1_4}.
+     ?x_2_4 math:notGreaterThan 24.9} => {?x_0_4 human:hasWeightStatus _:x_4_4.
+     _:x_4_4 a humanbody:NormalWeight.
+     _:x_4_4 time:hasDateTime ?x_3_4.
+     _:x_4_4 event:basedOn ?x_1_4}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -894,10 +894,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ?x_1_5 quant:hasValue ?x_2_5.
      ?x_1_5 time:hasDateTime ?x_3_5.
      ?x_2_5 math:notLessThan 16 .
-     ?x_2_5 math:notGreaterThan 18.4} => {?x_0_5 human:hasWeightStatus <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> a humanbody:Underweight.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> time:hasDateTime ?x_3_5.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> event:basedOn ?x_1_5}.
+     ?x_2_5 math:notGreaterThan 18.4} => {?x_0_5 human:hasWeightStatus _:x_4_5.
+     _:x_4_5 a humanbody:Underweight.
+     _:x_4_5 time:hasDateTime ?x_3_5.
+     _:x_4_5 event:basedOn ?x_1_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -978,12 +978,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      (?x_11_7 xsd:dateTime) log:dtlit ?x_12_7.
      (?x_0_7 ?x_12_7) time:calculatingAge ?x_13_7.
      ?x_13_7 math:notLessThan 15 .
-     ("_weightValue/_lengthValue**2" ?x_2_7 ?x_6_7) e:calculate ?x_14_7} => {?x_0_7 human:hasBodyMassIndex <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15> quant:hasUnit units:kilogramPerMeterSquare.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15> quant:hasValue ?x_14_7.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15> time:hasDateTime ?x_12_7.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15> event:basedOn ?x_1_7.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_15> event:basedOn ?x_5_7}.
+     ("_weightValue/_lengthValue**2" ?x_2_7 ?x_6_7) e:calculate ?x_14_7} => {?x_0_7 human:hasBodyMassIndex _:x_15_7.
+     _:x_15_7 quant:hasUnit units:kilogramPerMeterSquare.
+     _:x_15_7 quant:hasValue ?x_14_7.
+     _:x_15_7 time:hasDateTime ?x_12_7.
+     _:x_15_7 event:basedOn ?x_1_7.
+     _:x_15_7 event:basedOn ?x_5_7}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
@@ -992,10 +992,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {?x_0_8 human:hasBodyMassIndex ?x_1_8.
      ?x_1_8 quant:hasValue ?x_2_8.
      ?x_1_8 time:hasDateTime ?x_3_8.
-     ?x_2_8 math:notLessThan 45} => {?x_0_8 human:hasWeightStatus <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> a humanbody:SuperObese.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> time:hasDateTime ?x_3_8.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> event:basedOn ?x_1_8}.
+     ?x_2_8 math:notLessThan 45} => {?x_0_8 human:hasWeightStatus _:x_4_8.
+     _:x_4_8 a humanbody:SuperObese.
+     _:x_4_8 time:hasDateTime ?x_3_8.
+     _:x_4_8 event:basedOn ?x_1_8}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1059,10 +1059,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ?x_1_10 quant:hasValue ?x_2_10.
      ?x_1_10 time:hasDateTime ?x_3_10.
      ?x_2_10 math:notLessThan 25 .
-     ?x_2_10 math:notGreaterThan 29.9} => {?x_0_10 human:hasWeightStatus <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4>.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> a humanbody:Overweight.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> time:hasDateTime ?x_3_10.
-     <http://josd.github.io/.well-known/genid/TMgz5jP6WGGZl7f1XLfDtbBMiaI#x_4> event:basedOn ?x_1_10}.
+     ?x_2_10 math:notGreaterThan 29.9} => {?x_0_10 human:hasWeightStatus _:x_4_10.
+     _:x_4_10 a humanbody:Overweight.
+     _:x_4_10 time:hasDateTime ?x_3_10.
+     _:x_4_10 event:basedOn ?x_1_10}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1144,6 +1144,6 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-#2021-06-08T16:34:39.363Z in=97 out=50 ent=100 step=48 brake=4 inf=372757 sec=0.074 inf/sec=5037257
+#2021-06-09T22:16:41.894Z in=97 out=50 ent=100 step=48 brake=4 inf=374029 sec=0.076 inf/sec=4921434
 #ENDS
 

@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0608.1647 josd').
+version_info('EYE v21.0609.2221 josd').
 
 license_info('MIT License
 
@@ -2837,7 +2837,7 @@ w1([A|B]) :-
 wh :-
     (   keep_skolem(_)
     ->  nb_getval(var_ns, Vns),
-        put_pfx('sk', Vns)
+        put_pfx('skolem', Vns)
     ;   true
     ),
     (   flag('no-qnames')
@@ -3257,7 +3257,6 @@ wt0(X) :-
             ;   flag('quantify', Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
-            nb_getval(fdepth, 0),
             write('_:')
         ),
         write(Y),
@@ -4296,7 +4295,7 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
     !.
 djiti_fact(A, A) :-
     ground(A),
-    A =.. [P, _, _],
+    A =.. [P, S, O],
     A \= ':-'(_, _),
     (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
         P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
@@ -4307,6 +4306,28 @@ djiti_fact(A, A) :-
         \+pred(P)
     ->  assertz(pred(P))
     ;   true
+    ),
+    (   atomic(S)
+    ->  true
+    ;   findvars(S, SL, delta),
+        forall(
+            member(SM, SL),
+            (   \+keep_skolem(SM)
+            ->  assertz(keep_skolem(SM))
+            ;   true
+            )
+        )
+    ),
+    (   atomic(O)
+    ->  true
+    ;   findvars(O, OL, delta),
+        forall(
+            member(OM, OL),
+            (   \+keep_skolem(OM)
+            ->  assertz(keep_skolem(OM))
+            ;   true
+            )
+        )
     ),
     !.
 djiti_fact(A, A).

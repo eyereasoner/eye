@@ -1,4 +1,4 @@
-#Processed by EYE v21.0608.1236 josd
+#Processed by EYE v21.0608.1647 josd
 #eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
 
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
@@ -13,6 +13,7 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKisl0#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -201,8 +202,8 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     {{{:a :b :c} log:equalTo {:a :b :c}} => {:logee1 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
       {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
     {{{:b :a :c.
        :e :d :f.
        :h :g :i.
@@ -260,7 +261,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
     {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
     {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -307,18 +308,18 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
         ?U_14 e:findall (?U_15 {?U_10 med:excludedFor ?U_15.
          (?U_12 ?U_15) fl:mu ?U_17.
          ?U_17 math:notGreaterThan 0.01} ?U_16)} => {?U_12 med:isPrescribed ?U_10}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
-    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}} a :PASS.
     {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}} => {:lognis1 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}} => {:lognis3 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
+      {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
     {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
     {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
     {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.
@@ -996,12 +997,12 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma53> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
-     {:a :b _:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}}]
     <#lemma204>
     <#lemma205>
   );
@@ -1044,13 +1045,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98240 med:prescribedFor ?_98242 .
-        (?_98258 ?_98242) fl:mu ?_98254 .
-        ?_98254 math:greaterThan 0.7 .
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-         (?_98258 ?_98300) fl:mu ?_98362 .
-         ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}}.
+       {?_98242 med:prescribedFor ?_98244 .
+        (?_98260 ?_98244) fl:mu ?_98256 .
+        ?_98256 math:greaterThan 0.7 .
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+         (?_98260 ?_98302) fl:mu ?_98364 .
+         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1067,13 +1068,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98240 med:prescribedFor ?_98242 .
-        (?_98258 ?_98242) fl:mu ?_98254 .
-        ?_98254 math:greaterThan 0.7 .
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-         (?_98258 ?_98300) fl:mu ?_98362 .
-         ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
+       {?_98242 med:prescribedFor ?_98244 .
+        (?_98260 ?_98244) fl:mu ?_98256 .
+        ?_98256 math:greaterThan 0.7 .
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+         (?_98260 ?_98302) fl:mu ?_98364 .
+         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1092,13 +1093,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98240 med:prescribedFor ?_98242 .
-       (?_98258 ?_98242) fl:mu ?_98254 .
-       ?_98254 math:greaterThan 0.7 .
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-        (?_98258 ?_98300) fl:mu ?_98362 .
-        ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}}.
+      {?_98242 med:prescribedFor ?_98244 .
+       (?_98260 ?_98244) fl:mu ?_98256 .
+       ?_98256 math:greaterThan 0.7 .
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+        (?_98260 ?_98302) fl:mu ?_98364 .
+        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1115,13 +1116,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98240 med:prescribedFor ?_98242 .
-       (?_98258 ?_98242) fl:mu ?_98254 .
-       ?_98254 math:greaterThan 0.7 .
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-        (?_98258 ?_98300) fl:mu ?_98362 .
-        ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
+      {?_98242 med:prescribedFor ?_98244 .
+       (?_98260 ?_98244) fl:mu ?_98256 .
+       ?_98256 math:greaterThan 0.7 .
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+        (?_98260 ?_98302) fl:mu ?_98364 .
+        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
     <#lemma208>
     <#lemma209>
   );
@@ -1186,7 +1187,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma61> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}}]
@@ -1213,13 +1214,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98240 med:prescribedFor ?_98242 .
-        (?_98258 ?_98242) fl:mu ?_98254 .
-        ?_98254 math:greaterThan 0.7 .
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-         (?_98258 ?_98300) fl:mu ?_98362 .
-         ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}}.
+       {?_98242 med:prescribedFor ?_98244 .
+        (?_98260 ?_98244) fl:mu ?_98256 .
+        ?_98256 math:greaterThan 0.7 .
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+         (?_98260 ?_98302) fl:mu ?_98364 .
+         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1236,13 +1237,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98240 med:prescribedFor ?_98242 .
-        (?_98258 ?_98242) fl:mu ?_98254 .
-        ?_98254 math:greaterThan 0.7 .
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-        ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-         (?_98258 ?_98300) fl:mu ?_98362 .
-         ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
+       {?_98242 med:prescribedFor ?_98244 .
+        (?_98260 ?_98244) fl:mu ?_98256 .
+        ?_98256 math:greaterThan 0.7 .
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+         (?_98260 ?_98302) fl:mu ?_98364 .
+         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1261,13 +1262,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98240 med:prescribedFor ?_98242 .
-       (?_98258 ?_98242) fl:mu ?_98254 .
-       ?_98254 math:greaterThan 0.7 .
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-        (?_98258 ?_98300) fl:mu ?_98362 .
-        ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}}.
+      {?_98242 med:prescribedFor ?_98244 .
+       (?_98260 ?_98244) fl:mu ?_98256 .
+       ?_98256 math:greaterThan 0.7 .
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+        (?_98260 ?_98302) fl:mu ?_98364 .
+        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1284,13 +1285,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98240 med:prescribedFor ?_98242 .
-       (?_98258 ?_98242) fl:mu ?_98254 .
-       ?_98254 math:greaterThan 0.7 .
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300} ?_98318).
-       ?_98294 e:findall (?_98300 {?_98240 med:excludedFor ?_98300 .
-        (?_98258 ?_98300) fl:mu ?_98362 .
-        ?_98362 math:notGreaterThan 0.01} ?_98318)} => {?_98258 med:isPrescribed ?_98240}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
+      {?_98242 med:prescribedFor ?_98244 .
+       (?_98260 ?_98244) fl:mu ?_98256 .
+       ?_98256 math:greaterThan 0.7 .
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
+       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
+        (?_98260 ?_98302) fl:mu ?_98364 .
+        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
     <#lemma222>
     <#lemma223>
   );
@@ -1298,7 +1299,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma63> a r:Inference;
   r:gives {
-    {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}}]
@@ -1320,7 +1321,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma65> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}}]
@@ -1332,7 +1333,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 <#lemma66> a r:Inference;
   r:gives {
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}} => {:lognis1 :result true}} a :PASS.
+      {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
@@ -1344,12 +1345,12 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma67> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
-     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
     <#lemma232>
     <#lemma233>
   );
@@ -1357,12 +1358,12 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma68> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
-     {:a :b _:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}}]
     <#lemma234>
     <#lemma235>
   );
@@ -1370,14 +1371,14 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
 
 <#lemma69> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_8}.
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b _:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
     <#lemma236>
     <#lemma237>
   );
@@ -1909,7 +1910,7 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
   r:evidence (
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (_:sk_0 {:s :p _:sk_0} (:o1 :o2))}]
   );
-  r:rule [ a r:Fact; r:gives {{((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> {:s :p <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>} (:o1 :o2))} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> {:s :p <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>} (:o1 :o2))}}}].
+  r:rule [ a r:Fact; r:gives {{((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (_:x_0_306 {:s :p _:x_0_306} (:o1 :o2))} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (_:x_0_306 {:s :p _:x_0_306} (:o1 :o2))}}}].
 
 <#lemma117> a r:Inference;
   r:gives {
@@ -2828,23 +2829,23 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     :loges3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}]
   );
   r:rule <#lemma351>.
 
 <#lemma205> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_2>}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}}}].
 
 <#lemma206> a r:Inference;
   r:gives {
@@ -2905,13 +2906,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2928,13 +2929,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule <#lemma353>.
 
@@ -2956,13 +2957,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99260 med:prescribedFor ?_99262 .
-       (?_99278 ?_99262) fl:mu ?_99274 .
-       ?_99274 math:greaterThan 0.7 .
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320} ?_99338).
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320 .
-        (?_99278 ?_99320) fl:mu ?_99382 .
-        ?_99382 math:notGreaterThan 0.01} ?_99338)} => {?_99278 med:isPrescribed ?_99260}}.
+      {?_99262 med:prescribedFor ?_99264 .
+       (?_99280 ?_99264) fl:mu ?_99276 .
+       ?_99276 math:greaterThan 0.7 .
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
+        (?_99280 ?_99322) fl:mu ?_99384 .
+        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2979,13 +2980,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99260 med:prescribedFor ?_99262 .
-       (?_99278 ?_99262) fl:mu ?_99274 .
-       ?_99274 math:greaterThan 0.7 .
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320} ?_99338).
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320 .
-        (?_99278 ?_99320) fl:mu ?_99382 .
-        ?_99382 math:notGreaterThan 0.01} ?_99338)} => {?_99278 med:isPrescribed ?_99260}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
+      {?_99262 med:prescribedFor ?_99264 .
+       (?_99280 ?_99264) fl:mu ?_99276 .
+       ?_99276 math:greaterThan 0.7 .
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
+        (?_99280 ?_99322) fl:mu ?_99384 .
+        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3004,13 +3005,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3027,13 +3028,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -3051,13 +3052,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-      (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}}.
+     {_:x_0_359 med:prescribedFor _:x_1_359.
+      (_:x_2_359 _:x_1_359) fl:mu _:x_3_359.
+      _:x_3_359 math:greaterThan 0.7 .
+      _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359} _:x_6_359).
+      _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359.
+       (_:x_2_359 _:x_5_359) fl:mu _:x_7_359.
+       _:x_7_359 math:notGreaterThan 0.01} _:x_6_359)} => {_:x_2_359 med:isPrescribed _:x_0_359}}.
     {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3074,13 +3075,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-      (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
+     {_:x_0_359 med:prescribedFor _:x_1_359.
+      (_:x_2_359 _:x_1_359) fl:mu _:x_3_359.
+      _:x_3_359 math:greaterThan 0.7 .
+      _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359} _:x_6_359).
+      _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359.
+       (_:x_2_359 _:x_5_359) fl:mu _:x_7_359.
+       _:x_7_359 math:notGreaterThan 0.01} _:x_6_359)} => {_:x_2_359 med:isPrescribed _:x_0_359}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
       (med:Joe med:ActivePepticUlcerDisease) fl:mu 0.006 .
@@ -3096,13 +3097,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-        (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-        <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}}.
+      {_:x_0_359 med:prescribedFor _:x_1_359.
+       (_:x_2_359 _:x_1_359) fl:mu _:x_3_359.
+       _:x_3_359 math:greaterThan 0.7 .
+       _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359} _:x_6_359).
+       _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359.
+        (_:x_2_359 _:x_5_359) fl:mu _:x_7_359.
+        _:x_7_359 math:notGreaterThan 0.01} _:x_6_359)} => {_:x_2_359 med:isPrescribed _:x_0_359}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3119,13 +3120,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-        (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-        <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}}}].
+      {_:x_0_359 med:prescribedFor _:x_1_359.
+       (_:x_2_359 _:x_1_359) fl:mu _:x_3_359.
+       _:x_3_359 math:greaterThan 0.7 .
+       _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359} _:x_6_359).
+       _:x_4_359 e:findall (_:x_5_359 {_:x_0_359 med:excludedFor _:x_5_359.
+        (_:x_2_359 _:x_5_359) fl:mu _:x_7_359.
+        _:x_7_359 math:notGreaterThan 0.01} _:x_6_359)} => {_:x_2_359 med:isPrescribed _:x_0_359}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}}}].
 
 <#lemma210> a r:Inference;
   r:gives {
@@ -3227,18 +3228,18 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     :logned3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}]
   );
   r:rule <#lemma359>.
 
 <#lemma221> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_3>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}}}].
 
 <#lemma222> a r:Inference;
   r:gives {
@@ -3261,13 +3262,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3284,13 +3285,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule <#lemma360>.
 
@@ -3312,13 +3313,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99260 med:prescribedFor ?_99262 .
-       (?_99278 ?_99262) fl:mu ?_99274 .
-       ?_99274 math:greaterThan 0.7 .
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320} ?_99338).
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320 .
-        (?_99278 ?_99320) fl:mu ?_99382 .
-        ?_99382 math:notGreaterThan 0.01} ?_99338)} => {?_99278 med:isPrescribed ?_99260}}.
+      {?_99262 med:prescribedFor ?_99264 .
+       (?_99280 ?_99264) fl:mu ?_99276 .
+       ?_99276 math:greaterThan 0.7 .
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
+        (?_99280 ?_99322) fl:mu ?_99384 .
+        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3335,13 +3336,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99260 med:prescribedFor ?_99262 .
-       (?_99278 ?_99262) fl:mu ?_99274 .
-       ?_99274 math:greaterThan 0.7 .
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320} ?_99338).
-       ?_99314 e:findall (?_99320 {?_99260 med:excludedFor ?_99320 .
-        (?_99278 ?_99320) fl:mu ?_99382 .
-        ?_99382 math:notGreaterThan 0.01} ?_99338)} => {?_99278 med:isPrescribed ?_99260}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
+      {?_99262 med:prescribedFor ?_99264 .
+       (?_99280 ?_99264) fl:mu ?_99276 .
+       ?_99276 math:greaterThan 0.7 .
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
+       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
+        (?_99280 ?_99322) fl:mu ?_99384 .
+        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3360,13 +3361,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3383,13 +3384,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98228 med:prescribedFor ?_98230 .
-      (?_98246 ?_98230) fl:mu ?_98242 .
-      ?_98242 math:greaterThan 0.7 .
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288} ?_98306).
-      ?_98282 e:findall (?_98288 {?_98228 med:excludedFor ?_98288 .
-       (?_98246 ?_98288) fl:mu ?_98350 .
-       ?_98350 math:notGreaterThan 0.01} ?_98306)} => {?_98246 med:isPrescribed ?_98228}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98230 med:prescribedFor ?_98232 .
+      (?_98248 ?_98232) fl:mu ?_98244 .
+      ?_98244 math:greaterThan 0.7 .
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
+      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
+       (?_98248 ?_98290) fl:mu ?_98352 .
+       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -3407,13 +3408,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-      (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}}.
+     {_:x_0_372 med:prescribedFor _:x_1_372.
+      (_:x_2_372 _:x_1_372) fl:mu _:x_3_372.
+      _:x_3_372 math:greaterThan 0.7 .
+      _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372} _:x_6_372).
+      _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372.
+       (_:x_2_372 _:x_5_372) fl:mu _:x_7_372.
+       _:x_7_372 math:notGreaterThan 0.01} _:x_6_372)} => {_:x_2_372 med:isPrescribed _:x_0_372}}.
     {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3430,13 +3431,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-      (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-      <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
+     {_:x_0_372 med:prescribedFor _:x_1_372.
+      (_:x_2_372 _:x_1_372) fl:mu _:x_3_372.
+      _:x_3_372 math:greaterThan 0.7 .
+      _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372} _:x_6_372).
+      _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372.
+       (_:x_2_372 _:x_5_372) fl:mu _:x_7_372.
+       _:x_7_372 math:notGreaterThan 0.01} _:x_6_372)} => {_:x_2_372 med:isPrescribed _:x_0_372}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
       (med:Joe med:ActivePepticUlcerDisease) fl:mu 0.006 .
@@ -3452,13 +3453,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-        (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-        <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}}.
+      {_:x_0_372 med:prescribedFor _:x_1_372.
+       (_:x_2_372 _:x_1_372) fl:mu _:x_3_372.
+       _:x_3_372 math:greaterThan 0.7 .
+       _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372} _:x_6_372).
+       _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372.
+        (_:x_2_372 _:x_5_372) fl:mu _:x_7_372.
+        _:x_7_372 math:notGreaterThan 0.01} _:x_6_372)} => {_:x_2_372 med:isPrescribed _:x_0_372}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3475,31 +3476,31 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:prescribedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>.
-       (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_1>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3>.
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_3> math:greaterThan 0.7 .
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>).
-       <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_4> e:findall (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5> {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0> med:excludedFor <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>.
-        (<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_5>) fl:mu <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7>.
-        <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_7> math:notGreaterThan 0.01} <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_6>)} => {<http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_2> med:isPrescribed <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#x_0>}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}}}].
+      {_:x_0_372 med:prescribedFor _:x_1_372.
+       (_:x_2_372 _:x_1_372) fl:mu _:x_3_372.
+       _:x_3_372 math:greaterThan 0.7 .
+       _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372} _:x_6_372).
+       _:x_4_372 e:findall (_:x_5_372 {_:x_0_372 med:excludedFor _:x_5_372.
+        (_:x_2_372 _:x_5_372) fl:mu _:x_7_372.
+        _:x_7_372 math:notGreaterThan 0.01} _:x_6_372)} => {_:x_2_372 med:isPrescribed _:x_0_372}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}}}].
 
 <#lemma224> a r:Inference;
   r:gives {
     :lognid1 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}]
   );
   r:rule <#lemma361>.
 
 <#lemma225> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_4>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}}}].
 
 <#lemma226> a r:Inference;
   r:gives {
@@ -3524,18 +3525,18 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     :lognid3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}]
   );
   r:rule <#lemma363>.
 
 <#lemma229> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_5>}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}}}].
 
 <#lemma230> a r:Inference;
   r:gives {
@@ -3543,96 +3544,96 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_6}}]
   );
   r:rule <#lemma364>.
 
 <#lemma231> a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}}.
+     {:a :b :c} log:notIncludes {:a :b _:e_c_6}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_6}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_6>}}}}].
+    {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+     {:a :b :c} log:notIncludes {:a :b _:e_c_6}}}}].
 
 <#lemma232> a r:Inference;
   r:gives {
     :lognis2 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
   );
   r:rule <#lemma365>.
 
 <#lemma233> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}}}].
 
 <#lemma234> a r:Inference;
   r:gives {
     :lognis3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}]
   );
   r:rule <#lemma366>.
 
 <#lemma235> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-    {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_7>}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}}}].
 
 <#lemma236> a r:Inference;
   r:gives {
     :lognis4 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
   );
   r:rule <#lemma367>.
 
 <#lemma237> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}.
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>}.
+    {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b <http://josd.github.io/.well-known/genid/sAhC6_Kqz7uLYHOA6qRLvHnR:N4#e_c_8>} log:notIncludes {:a :b :c}}}}].
+     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}}}].
 
 <#lemma238> a r:Inference;
   r:gives {
@@ -4838,6 +4839,6 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
-#2021-06-08T16:34:39.182Z in=129 out=99 ent=200 step=895 brake=6 inf=1085500 sec=0.156 inf/sec=6958333
+#2021-06-09T22:16:41.711Z in=129 out=99 ent=200 step=895 brake=6 inf=1080484 sec=0.159 inf/sec=6795497
 #ENDS
 

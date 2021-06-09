@@ -1,4 +1,4 @@
-#Processed by EYE v21.0608.1236 josd
+#Processed by EYE v21.0608.1647 josd
 #eye --wcache http://josd.github.io/eye/reasoning .. --tactic limited-answer 1 http://josd.github.io/eye/reasoning/resto/resto.n3 --query http://josd.github.io/eye/reasoning/resto/restoG.n3
 
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -11,6 +11,7 @@ PREFIX dc: <http://purl.org/dc/terms/>
 PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>
 PREFIX meteo: <http://purl.org/ns/meteo#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/HY_LFV2mG4eGYRDqx4QGA_KAp3s#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -101,15 +102,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:gives {
     {?x_0_2 resto:reservationList ?x_1_2.
      ?x_2_2 resto:isOutside ?x_3_2.
-     ?x_4_2 resto:hasDate ?x_5_2} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> http:methodName "POST".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> http:requestURI ?x_1_2.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> http:body (?x_5_2 ?x_3_2).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_7>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_7> http:body <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_8>.
-     ?x_0_2 resto:hasReservation <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_8>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_8> resto:onDate ?x_5_2.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_8> resto:place <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_9>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_9> resto:isOutside ?x_3_2}.
+     ?x_4_2 resto:hasDate ?x_5_2} => {_:x_6_2 http:methodName "POST".
+     _:x_6_2 http:requestURI ?x_1_2.
+     _:x_6_2 http:body (?x_5_2 ?x_3_2).
+     _:x_6_2 http:resp _:x_7_2.
+     _:x_7_2 http:body _:x_8_2.
+     ?x_0_2 resto:hasReservation _:x_8_2.
+     _:x_8_2 resto:onDate ?x_5_2.
+     _:x_8_2 resto:place _:x_9_2.
+     _:x_9_2 resto:isOutside ?x_3_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -173,15 +174,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ?x_3_3 meteo:millibar ?x_5_3.
      ?x_4_3 meteo:celsius ?x_6_3.
      ?x_7_3 resto:isOn ?x_8_3.
-     ?x_7_3 resto:hasDate ?x_9_3} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_10> http:methodName "POST".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_10> http:requestURI ?x_8_3.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_10> http:body (?x_7_3 <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_11> <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_12>).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_10> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_13>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_13> http:body ?x_7_3.
-     ?x_7_3 resto:isAt <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_11>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_11> a resto:Restaurant.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_11> resto:reservationList <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_14>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_15> resto:isOutside <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_12>}.
+     ?x_7_3 resto:hasDate ?x_9_3} => {_:x_10_3 http:methodName "POST".
+     _:x_10_3 http:requestURI ?x_8_3.
+     _:x_10_3 http:body (?x_7_3 _:x_11_3 _:x_12_3).
+     _:x_10_3 http:resp _:x_13_3.
+     _:x_13_3 http:body ?x_7_3.
+     ?x_7_3 resto:isAt _:x_11_3.
+     _:x_11_3 a resto:Restaurant.
+     _:x_11_3 resto:reservationList _:x_14_3.
+     _:x_15_3 resto:isOutside _:x_12_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -201,37 +202,37 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma13> a r:Extraction;
   r:gives {
-    {?x_0_4 a con:Address} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:methodName "GET".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:requestURI ("?location= " ?x_0_4).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_2>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_2> http:body <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> a geo:Point.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> geo:lat <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_4>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> geo:long <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_5>}.
+    {?x_0_4 a con:Address} => {_:x_1_4 http:methodName "GET".
+     _:x_1_4 http:requestURI ("?location= " ?x_0_4).
+     _:x_1_4 http:resp _:x_2_4.
+     _:x_2_4 http:body _:x_3_4.
+     _:x_3_4 a geo:Point.
+     _:x_3_4 geo:lat _:x_4_4.
+     _:x_3_4 geo:long _:x_5_4}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
 <#lemma14> a r:Extraction;
   r:gives {
     {?x_0_5 geo:lat ?x_1_5.
-     ?x_0_5 geo:long ?x_2_5} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:methodName "GET".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:requestURI ("CurrentPressure?lat=" ?x_1_5 "&long=" ?x_2_5).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_4>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_4> http:body <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_5>.
-     ?x_0_5 meteo:pressure <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> meteo:millibar <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_5>}.
+     ?x_0_5 geo:long ?x_2_5} => {_:x_3_5 http:methodName "GET".
+     _:x_3_5 http:requestURI ("CurrentPressure?lat=" ?x_1_5 "&long=" ?x_2_5).
+     _:x_3_5 http:resp _:x_4_5.
+     _:x_4_5 http:body _:x_5_5.
+     ?x_0_5 meteo:pressure _:x_6_5.
+     _:x_6_5 meteo:millibar _:x_5_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
 <#lemma15> a r:Extraction;
   r:gives {
     {?x_0_6 geo:lat ?x_1_6.
-     ?x_0_6 geo:long ?x_2_6} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:methodName "GET".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:requestURI ("CurrentTemperature?lat=" ?x_1_6 "&long=" ?x_2_6).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_4>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_4> http:body <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_5>.
-     ?x_0_6 meteo:temperature <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_6> meteo:celsius <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_5>}.
+     ?x_0_6 geo:long ?x_2_6} => {_:x_3_6 http:methodName "GET".
+     _:x_3_6 http:requestURI ("CurrentTemperature?lat=" ?x_1_6 "&long=" ?x_2_6).
+     _:x_3_6 http:resp _:x_4_6.
+     _:x_4_6 http:body _:x_5_6.
+     ?x_0_6 meteo:temperature _:x_6_6.
+     _:x_6_6 meteo:celsius _:x_5_6}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -243,15 +244,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma17> a r:Extraction;
   r:gives {
-    {?x_0_7 a foaf:Person} => {<http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:methodName "GET".
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:requestURI (?x_0_7).
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_1> http:resp <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_2>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_2> http:body <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3>.
-     ?x_0_7 foaf:based_near <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3>.
-     <http://josd.github.io/.well-known/genid/IRXnr5Bmb2LrtnO0LysjESdtwEc#x_3> a con:Address}.
+    {?x_0_7 a foaf:Person} => {_:x_1_7 http:methodName "GET".
+     _:x_1_7 http:requestURI (?x_0_7).
+     _:x_1_7 http:resp _:x_2_7.
+     _:x_2_7 http:body _:x_3_7.
+     ?x_0_7 foaf:based_near _:x_3_7.
+     _:x_3_7 a con:Address}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/resto/resto.n3>].
 
-#2021-06-08T16:34:56.014Z in=10 out=4 ent=47 step=7 brake=1 inf=88201 sec=0.044 inf/sec=2004568
+#2021-06-09T22:16:58.075Z in=10 out=4 ent=47 step=7 brake=1 inf=88142 sec=0.050 inf/sec=1762840
 #ENDS
 
