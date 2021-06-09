@@ -1,4 +1,4 @@
-#Processed by EYE v21.0608.1647 josd
+#Processed by EYE v21.0609.2221 josd
 #eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
 
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
@@ -13,7 +13,7 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKisl0#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2D2A#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -1045,13 +1045,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98242 med:prescribedFor ?_98244 .
-        (?_98260 ?_98244) fl:mu ?_98256 .
-        ?_98256 math:greaterThan 0.7 .
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-         (?_98260 ?_98302) fl:mu ?_98364 .
-         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
+       {?_98236 med:prescribedFor ?_98238 .
+        (?_98254 ?_98238) fl:mu ?_98250 .
+        ?_98250 math:greaterThan 0.7 .
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+         (?_98254 ?_98296) fl:mu ?_98358 .
+         ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1068,13 +1068,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98242 med:prescribedFor ?_98244 .
-        (?_98260 ?_98244) fl:mu ?_98256 .
-        ?_98256 math:greaterThan 0.7 .
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-         (?_98260 ?_98302) fl:mu ?_98364 .
-         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
+       {?_98236 med:prescribedFor ?_98238 .
+        (?_98254 ?_98238) fl:mu ?_98250 .
+        ?_98250 math:greaterThan 0.7 .
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+         (?_98254 ?_98296) fl:mu ?_98358 .
+         ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1093,13 +1093,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98242 med:prescribedFor ?_98244 .
-       (?_98260 ?_98244) fl:mu ?_98256 .
-       ?_98256 math:greaterThan 0.7 .
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-        (?_98260 ?_98302) fl:mu ?_98364 .
-        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
+      {?_98236 med:prescribedFor ?_98238 .
+       (?_98254 ?_98238) fl:mu ?_98250 .
+       ?_98250 math:greaterThan 0.7 .
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+        (?_98254 ?_98296) fl:mu ?_98358 .
+        ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1116,13 +1116,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98242 med:prescribedFor ?_98244 .
-       (?_98260 ?_98244) fl:mu ?_98256 .
-       ?_98256 math:greaterThan 0.7 .
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-        (?_98260 ?_98302) fl:mu ?_98364 .
-        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
+      {?_98236 med:prescribedFor ?_98238 .
+       (?_98254 ?_98238) fl:mu ?_98250 .
+       ?_98250 math:greaterThan 0.7 .
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+        (?_98254 ?_98296) fl:mu ?_98358 .
+        ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
     <#lemma208>
     <#lemma209>
   );
@@ -1214,13 +1214,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98242 med:prescribedFor ?_98244 .
-        (?_98260 ?_98244) fl:mu ?_98256 .
-        ?_98256 math:greaterThan 0.7 .
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-         (?_98260 ?_98302) fl:mu ?_98364 .
-         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
+       {?_98236 med:prescribedFor ?_98238 .
+        (?_98254 ?_98238) fl:mu ?_98250 .
+        ?_98250 math:greaterThan 0.7 .
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+         (?_98254 ?_98296) fl:mu ?_98358 .
+         ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1237,13 +1237,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98242 med:prescribedFor ?_98244 .
-        (?_98260 ?_98244) fl:mu ?_98256 .
-        ?_98256 math:greaterThan 0.7 .
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-        ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-         (?_98260 ?_98302) fl:mu ?_98364 .
-         ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
+       {?_98236 med:prescribedFor ?_98238 .
+        (?_98254 ?_98238) fl:mu ?_98250 .
+        ?_98250 math:greaterThan 0.7 .
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+        ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+         (?_98254 ?_98296) fl:mu ?_98358 .
+         ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1262,13 +1262,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98242 med:prescribedFor ?_98244 .
-       (?_98260 ?_98244) fl:mu ?_98256 .
-       ?_98256 math:greaterThan 0.7 .
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-        (?_98260 ?_98302) fl:mu ?_98364 .
-        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}}.
+      {?_98236 med:prescribedFor ?_98238 .
+       (?_98254 ?_98238) fl:mu ?_98250 .
+       ?_98250 math:greaterThan 0.7 .
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+        (?_98254 ?_98296) fl:mu ?_98358 .
+        ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1285,13 +1285,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98242 med:prescribedFor ?_98244 .
-       (?_98260 ?_98244) fl:mu ?_98256 .
-       ?_98256 math:greaterThan 0.7 .
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302} ?_98320).
-       ?_98296 e:findall (?_98302 {?_98242 med:excludedFor ?_98302 .
-        (?_98260 ?_98302) fl:mu ?_98364 .
-        ?_98364 math:notGreaterThan 0.01} ?_98320)} => {?_98260 med:isPrescribed ?_98242}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
+      {?_98236 med:prescribedFor ?_98238 .
+       (?_98254 ?_98238) fl:mu ?_98250 .
+       ?_98250 math:greaterThan 0.7 .
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296} ?_98314).
+       ?_98290 e:findall (?_98296 {?_98236 med:excludedFor ?_98296 .
+        (?_98254 ?_98296) fl:mu ?_98358 .
+        ?_98358 math:notGreaterThan 0.01} ?_98314)} => {?_98254 med:isPrescribed ?_98236}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
     <#lemma222>
     <#lemma223>
   );
@@ -2906,13 +2906,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2929,13 +2929,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule <#lemma353>.
 
@@ -2957,13 +2957,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99262 med:prescribedFor ?_99264 .
-       (?_99280 ?_99264) fl:mu ?_99276 .
-       ?_99276 math:greaterThan 0.7 .
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
-        (?_99280 ?_99322) fl:mu ?_99384 .
-        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}}.
+      {?_99256 med:prescribedFor ?_99258 .
+       (?_99274 ?_99258) fl:mu ?_99270 .
+       ?_99270 math:greaterThan 0.7 .
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316} ?_99334).
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316 .
+        (?_99274 ?_99316) fl:mu ?_99378 .
+        ?_99378 math:notGreaterThan 0.01} ?_99334)} => {?_99274 med:isPrescribed ?_99256}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2980,13 +2980,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99262 med:prescribedFor ?_99264 .
-       (?_99280 ?_99264) fl:mu ?_99276 .
-       ?_99276 math:greaterThan 0.7 .
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
-        (?_99280 ?_99322) fl:mu ?_99384 .
-        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
+      {?_99256 med:prescribedFor ?_99258 .
+       (?_99274 ?_99258) fl:mu ?_99270 .
+       ?_99270 math:greaterThan 0.7 .
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316} ?_99334).
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316 .
+        (?_99274 ?_99316) fl:mu ?_99378 .
+        ?_99378 math:notGreaterThan 0.01} ?_99334)} => {?_99274 med:isPrescribed ?_99256}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3005,13 +3005,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3028,13 +3028,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -3262,13 +3262,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3285,13 +3285,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule <#lemma360>.
 
@@ -3313,13 +3313,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99262 med:prescribedFor ?_99264 .
-       (?_99280 ?_99264) fl:mu ?_99276 .
-       ?_99276 math:greaterThan 0.7 .
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
-        (?_99280 ?_99322) fl:mu ?_99384 .
-        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}}.
+      {?_99256 med:prescribedFor ?_99258 .
+       (?_99274 ?_99258) fl:mu ?_99270 .
+       ?_99270 math:greaterThan 0.7 .
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316} ?_99334).
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316 .
+        (?_99274 ?_99316) fl:mu ?_99378 .
+        ?_99378 math:notGreaterThan 0.01} ?_99334)} => {?_99274 med:isPrescribed ?_99256}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3336,13 +3336,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99262 med:prescribedFor ?_99264 .
-       (?_99280 ?_99264) fl:mu ?_99276 .
-       ?_99276 math:greaterThan 0.7 .
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322} ?_99340).
-       ?_99316 e:findall (?_99322 {?_99262 med:excludedFor ?_99322 .
-        (?_99280 ?_99322) fl:mu ?_99384 .
-        ?_99384 math:notGreaterThan 0.01} ?_99340)} => {?_99280 med:isPrescribed ?_99262}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
+      {?_99256 med:prescribedFor ?_99258 .
+       (?_99274 ?_99258) fl:mu ?_99270 .
+       ?_99270 math:greaterThan 0.7 .
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316} ?_99334).
+       ?_99310 e:findall (?_99316 {?_99256 med:excludedFor ?_99316 .
+        (?_99274 ?_99316) fl:mu ?_99378 .
+        ?_99378 math:notGreaterThan 0.01} ?_99334)} => {?_99274 med:isPrescribed ?_99256}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3361,13 +3361,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3384,13 +3384,13 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98230 med:prescribedFor ?_98232 .
-      (?_98248 ?_98232) fl:mu ?_98244 .
-      ?_98244 math:greaterThan 0.7 .
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290} ?_98308).
-      ?_98284 e:findall (?_98290 {?_98230 med:excludedFor ?_98290 .
-       (?_98248 ?_98290) fl:mu ?_98352 .
-       ?_98352 math:notGreaterThan 0.01} ?_98308)} => {?_98248 med:isPrescribed ?_98230}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98224 med:prescribedFor ?_98226 .
+      (?_98242 ?_98226) fl:mu ?_98238 .
+      ?_98238 math:greaterThan 0.7 .
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284} ?_98302).
+      ?_98278 e:findall (?_98284 {?_98224 med:excludedFor ?_98284 .
+       (?_98242 ?_98284) fl:mu ?_98346 .
+       ?_98346 math:notGreaterThan 0.01} ?_98302)} => {?_98242 med:isPrescribed ?_98224}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -4839,6 +4839,6 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/gnnxIzM_JlG:ZzXzDoo:BQKi
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
-#2021-06-09T22:16:41.711Z in=129 out=99 ent=200 step=895 brake=6 inf=1080484 sec=0.159 inf/sec=6795497
+#2021-06-09T22:22:53.145Z in=129 out=99 ent=200 step=895 brake=6 inf=1080483 sec=0.183 inf/sec=5904279
 #ENDS
 
