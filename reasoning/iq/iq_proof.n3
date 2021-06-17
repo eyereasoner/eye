@@ -3,7 +3,6 @@
 
 PREFIX : <http://example.org/test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4A_8#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -17,10 +16,10 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4
   r:component <#lemma9>;
   r:component <#lemma10>;
   r:gives {
-    _:e_x_1 :says {skolem:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {_:e_x_1 :knows :Albert}.
     :s :p :o.
     :s :pp {:s :ppp :ooo}.
-    {?U_0 :knows :Albert} => {_:x_0_1 :knows :Kurt}.
+    {?U_0 :knows :Albert} => {?U_0 :knows :Kurt}.
     {:e :p :a} => {:e :q :b}.
     {{?U_3 :p :a} => {?U_3 :q :b}} => {{?U_3 :r :c} => {?U_3 :s :d}}.
     {?U_1 :p :o} => {?U_1 :pp {?U_1 :ppp :ooo}}.
@@ -31,7 +30,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4
 
 <#lemma1> a r:Inference;
   r:gives {
-    _:e_x_1 :says {skolem:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {_:e_x_1 :knows :Albert}.
   };
   r:evidence (
     <#lemma11>
@@ -61,10 +60,10 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4
 
 <#lemma4> a r:Inference;
   r:gives {
-    {?U_0 :knows :Albert} => {_:x_0_8 :knows :Kurt}.
+    {?U_0 :knows :Albert} => {?U_0 :knows :Kurt}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{?U_0 :knows :Albert} => {_:x_0_9 :knows :Kurt}}]
+    [ a r:Fact; r:gives {{?U_0 :knows :Albert} => {?U_0 :knows :Kurt}}]
     [ a r:Fact; r:gives {{_:sk_0 :knows :Albert} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
@@ -131,7 +130,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4
 
 <#lemma11> a r:Extraction;
   r:gives {
-    _:e_x_1 :says {skolem:e_x_2 :knows :Albert}.
+    _:e_x_1 :says {_:e_x_1 :knows :Albert}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
@@ -200,6 +199,6 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/qa3Xtc9Cjec4eIClL5xZjjQ4
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
 
-#2021-06-09T22:23:03.665Z in=7 out=10 ent=13 step=26 brake=2 inf=55316 sec=0.039 inf/sec=1418359
+#2021-06-17T13:16:41.379Z in=7 out=10 ent=13 step=26 brake=2 inf=54933 sec=0.038 inf/sec=1445605
 #ENDS
 

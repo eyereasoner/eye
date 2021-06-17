@@ -1,0 +1,14 @@
+#Processed by EYE v21.0609.2221 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/bnodes/example6.n3 --pass-all
+
+PREFIX : <http://example.org/#>
+
+_:e_u_1 a :Unicorn.
+_:e_e_1 a :UnicornEater.
+{?U_0 a :Unicorn} => {{?U_3 a :UnicornEater} => {?U_0 :is :threatened}}.
+{?U_1 a :UnicornEater} => {_:x_0_2 :is :threatened}.
+_:sk_2 :is :threatened.
+
+#2021-06-17T13:16:32.276Z in=3 out=5 ent=10 step=25 brake=4 inf=23111 sec=0.033 inf/sec=700333
+#ENDS
+

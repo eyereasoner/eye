@@ -23,7 +23,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0609.2221 josd').
+version_info('EYE v21.0617.1321 josd').
 
 license_info('MIT License
 
@@ -77,7 +77,6 @@ eye
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
     --strings                       output log:outputString objects on stdout
-    --tactic existing-path          Euler path using homomorphism
     --tactic limited-answer <count> give only a limited number of answers
     --tactic limited-brake <count>  take only a limited number of brakes
     --tactic limited-step <count>   take only a limited number of steps
@@ -649,11 +648,6 @@ opts(['--strings'|Argus], Args) :-
     !,
     retractall(flag(strings)),
     assertz(flag(strings)),
-    opts(Argus, Args).
-opts(['--tactic', 'existing-path'|Argus], Args) :-
-    !,
-    retractall(flag(tactic, 'existing-path')),
-    assertz(flag(tactic, 'existing-path')),
     opts(Argus, Args).
 opts(['--tactic', 'limited-answer', Lim|Argus], Args) :-
     !,
@@ -1575,8 +1569,7 @@ pathitem(BNode, Triples) -->
     !,
     {   gensym('bn_', S),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, FD),
-                FD =\= 1
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Vns),
@@ -1879,7 +1872,7 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Label)],
-    {   nb_getval(fdepth, D),
+    {   D = 0, %nb_getval(fdepth, D),
         (   D =:= 0
         ->  N = Label
         ;   atom_codes(Label, LabelCodes),
@@ -4025,11 +4018,7 @@ eam(Span) :-
         ;   true
         ),
         djiti_conc(Conc, Concd),
-        (   flag(tactic, 'existing-path')
-        ->  makevars(Concd, Concdr, beta)
-        ;   Concdr = Concd
-        ),
-        \+catch(ucall(Concdr), _, fail),
+        \+catch(ucall(Concd), _, fail),
         (   flag('rule-histogram')
         ->  lookup(RTC, tc, RuleL),
             catch(cnt(RTC), _, nb_setval(RTC, 0))
@@ -4291,11 +4280,12 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
             )
         )
     ),
-    makevars(implies(A, B, '<>'), F, beta),
-    !.
+    !,
+    \+implies(A, B, '<>'),
+    makevars(implies(A, B, '<>'), F, beta).
 djiti_fact(A, A) :-
     ground(A),
-    A =.. [P, S, O],
+    A =.. [P, _, _],
     A \= ':-'(_, _),
     (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
         P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
@@ -4306,28 +4296,6 @@ djiti_fact(A, A) :-
         \+pred(P)
     ->  assertz(pred(P))
     ;   true
-    ),
-    (   atomic(S)
-    ->  true
-    ;   findvars(S, SL, delta),
-        forall(
-            member(SM, SL),
-            (   \+keep_skolem(SM)
-            ->  assertz(keep_skolem(SM))
-            ;   true
-            )
-        )
-    ),
-    (   atomic(O)
-    ->  true
-    ;   findvars(O, OL, delta),
-        forall(
-            member(OM, OL),
-            (   \+keep_skolem(OM)
-            ->  assertz(keep_skolem(OM))
-            ;   true
-            )
-        )
     ),
     !.
 djiti_fact(A, A).

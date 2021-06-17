@@ -13,7 +13,6 @@ PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2D2A#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -202,8 +201,8 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     {{{:a :b :c} log:equalTo {:a :b :c}} => {:logee1 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
       {:a :b :c} log:equalTo {:a :b :c}} => {:loges0 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}} => {:loges3 :result true}} a :PASS.
     {{{:b :a :c.
        :e :d :f.
        :h :g :i.
@@ -261,7 +260,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     {{:a log:notEqualTo :b} => {:logne1 :result true}} a :PASS.
     {{{:a :b :c} log:notEqualTo {:a :b :_c}} => {:logned1 :result true}} a :PASS.
     {{{:a :b :_c} log:notEqualTo {:a :b :c}} => {:logned2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}} => {:logned3 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -308,18 +307,18 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
         ?U_14 e:findall (?U_15 {?U_10 med:excludedFor ?U_15.
          (?U_12 ?U_15) fl:mu ?U_17.
          ?U_17 math:notGreaterThan 0.01} ?U_16)} => {?U_12 med:isPrescribed ?U_10}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
-    {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognid1 :result true}} a :PASS.
     {{{:a :b :_c} log:notIncludes {:a :b :c}} => {:lognid2 :result true}} a :PASS.
-    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_1}} => {:lognid3 :result true}} a :PASS.
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+      {:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognis1 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
     {{med:Fever log:uri "http://eulersharp.sourceforge.net/2006/02swap/med#Fever"} => {:logu1 :result true}} a :PASS.
     {{:betaBlocker log:uri "http://eulersharp.sourceforge.net/2007/07test#betaBlocker"} => {:logu2 :result true}} a :PASS.
     {{(1 1) math:difference 0} => {:mathd1 :result true}} a :PASS.
@@ -997,12 +996,12 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma53> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}} => {:loges3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}} => {:loges3 :result true}}]
     <#lemma204>
     <#lemma205>
   );
@@ -1187,10 +1186,10 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma61> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}} => {:logned3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}} => {:logned3 :result true}}]
     <#lemma220>
     <#lemma221>
   );
@@ -1299,10 +1298,10 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma63> a r:Inference;
   r:gives {
-    {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}} a :PASS.
+    {{{:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognid1 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognid1 :result true}}]
     <#lemma224>
     <#lemma225>
   );
@@ -1321,10 +1320,10 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma65> a r:Inference;
   r:gives {
-    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}} a :PASS.
+    {{{:a :b :_c} log:notIncludes {:a :b _:e_c_1}} => {:lognid3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}}]
+    [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_1}} => {:lognid3 :result true}}]
     <#lemma228>
     <#lemma229>
   );
@@ -1333,11 +1332,11 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 <#lemma66> a r:Inference;
   r:gives {
     {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}} a :PASS.
+      {:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognis1 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}}]
+     {:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognis1 :result true}}]
     <#lemma230>
     <#lemma231>
   );
@@ -1345,12 +1344,12 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma67> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis2 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis2 :result true}}]
     <#lemma232>
     <#lemma233>
   );
@@ -1358,12 +1357,12 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma68> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}} a :PASS.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+      {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}} => {:lognis3 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}}]
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}} => {:lognis3 :result true}}]
     <#lemma234>
     <#lemma235>
   );
@@ -1371,14 +1370,14 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma69> a r:Inference;
   r:gives {
-    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
       <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-      {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
+      {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis4 :result true}} a :PASS.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {:lognis4 :result true}}]
     <#lemma236>
     <#lemma237>
   );
@@ -2829,23 +2828,23 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     :loges3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}}]
   );
   r:rule <#lemma351>.
 
 <#lemma205> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-    {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notEqualTo {:a :b _:e_c_2}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+    {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notEqualTo {:a :b _:e_c_1}}}}].
 
 <#lemma206> a r:Inference;
   r:gives {
@@ -3228,18 +3227,18 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     :logned3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}}]
   );
   r:rule <#lemma359>.
 
 <#lemma221> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}}}}].
 
 <#lemma222> a r:Inference;
   r:gives {
@@ -3489,18 +3488,18 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     :lognid1 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}]
   );
   r:rule <#lemma361>.
 
 <#lemma225> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_4}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}}}].
 
 <#lemma226> a r:Inference;
   r:gives {
@@ -3525,18 +3524,18 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
     :lognid3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_1}}]
   );
   r:rule <#lemma363>.
 
 <#lemma229> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_1}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}]
+    [ a r:Fact; r:gives {{:a :b :_c} log:notIncludes {:a :b _:e_c_1}}]
   );
-  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}}}}].
+  r:rule [ a r:Fact; r:gives {{{:a :b :_c} log:notIncludes {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {{:a :b :_c} log:notIncludes {:a :b _:e_c_1}}}}].
 
 <#lemma230> a r:Inference;
   r:gives {
@@ -3544,96 +3543,96 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_6}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}]
   );
   r:rule <#lemma364>.
 
 <#lemma231> a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b _:e_c_6}}.
+     {:a :b :c} log:notIncludes {:a :b _:e_c_1}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_6}}]
+    [ a r:Fact; r:gives {{:a :b :c} log:notIncludes {:a :b _:e_c_1}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b :c} log:notIncludes {:a :b _:e_c_6}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b :c} log:notIncludes {:a :b _:e_c_6}}}}].
+    {:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
+     {:a :b :c} log:notIncludes {:a :b _:e_c_1}}}}].
 
 <#lemma232> a r:Inference;
   r:gives {
     :lognis2 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b :c}}]
   );
   r:rule <#lemma365>.
 
 <#lemma233> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-    {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+    {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}}}}].
 
 <#lemma234> a r:Inference;
   r:gives {
     :lognis3 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}}]
   );
   r:rule <#lemma366>.
 
 <#lemma235> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-    {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b _:e_c_7}}}}].
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+    {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b _:e_c_1}}}}].
 
 <#lemma236> a r:Inference;
   r:gives {
     :lognis4 :result true.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b :c}}]
   );
   r:rule <#lemma367>.
 
 <#lemma237> a r:Inference;
   r:gives {
-    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    ((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}.
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}}]
+    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}}]
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}}]
-    [ a r:Fact; r:gives {{:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}]
+    [ a r:Fact; r:gives {{:a :b _:e_c_2} log:notIncludes {:a :b :c}}]
   );
-  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+  r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
     <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-    {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b skolem:e_c_8}.
+    {:a :b _:e_c_2} log:notIncludes {:a :b :c}} => {((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:call {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics {:a :b _:e_c_2}.
      <http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics {:a :b :c}.
-     {:a :b skolem:e_c_8} log:notIncludes {:a :b :c}}}}].
+     {:a :b _:e_c_2} log:notIncludes {:a :b :c}}}}].
 
 <#lemma238> a r:Inference;
   r:gives {
@@ -4544,7 +4543,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 <#lemma351> a r:Extraction;
   r:gives {
     {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_461.
-     ?x_0_461 log:notEqualTo {:a :b _:e_c_2}} => {:loges3 :result true}.
+     ?x_0_461 log:notEqualTo {:a :b _:e_c_1}} => {:loges3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4598,7 +4597,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma359> a r:Extraction;
   r:gives {
-    {{:a :b :_c} log:notEqualTo {:a :b _:e_c_3}} => {:logned3 :result true}.
+    {{:a :b :_c} log:notEqualTo {:a :b _:e_c_1}} => {:logned3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4611,7 +4610,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma361> a r:Extraction;
   r:gives {
-    {{:a :b :c} log:notIncludes {:a :b _:e_c_4}} => {:lognid1 :result true}.
+    {{:a :b :c} log:notIncludes {:a :b _:e_c_1}} => {:lognid1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4623,14 +4622,14 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 
 <#lemma363> a r:Extraction;
   r:gives {
-    {{:a :b :_c} log:notIncludes {:a :b _:e_c_5}} => {:lognid3 :result true}.
+    {{:a :b :_c} log:notIncludes {:a :b _:e_c_1}} => {:lognid3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
 <#lemma364> a r:Extraction;
   r:gives {
     {<http://josd.github.io/eye/reasoning/bi/abc.n3> log:semantics ?x_0_474.
-     ?x_0_474 log:notIncludes {:a :b _:e_c_6}} => {:lognis1 :result true}.
+     ?x_0_474 log:notIncludes {:a :b _:e_c_1}} => {:lognis1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4644,7 +4643,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
 <#lemma366> a r:Extraction;
   r:gives {
     {<http://josd.github.io/eye/reasoning/bi/ab_c.n3> log:semantics ?x_0_476.
-     ?x_0_476 log:notIncludes {:a :b _:e_c_7}} => {:lognis3 :result true}.
+     ?x_0_476 log:notIncludes {:a :b _:e_c_1}} => {:lognis3 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
@@ -4839,6 +4838,6 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/eD4TqchY6dVh8RDpOdRhRLd2
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
 
-#2021-06-09T22:22:53.145Z in=129 out=99 ent=200 step=895 brake=6 inf=1080483 sec=0.183 inf/sec=5904279
+#2021-06-17T13:16:30.167Z in=129 out=99 ent=200 step=895 brake=6 inf=1079461 sec=0.151 inf/sec=7148748
 #ENDS
 
