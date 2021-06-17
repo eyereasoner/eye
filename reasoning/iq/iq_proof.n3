@@ -1,6 +1,3 @@
-#Processed by EYE v21.0617.1321 josd
-#eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/iq/iq.n3 --pass-all
-
 PREFIX : <http://example.org/test#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
@@ -80,11 +77,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Inference;
   r:gives {
-    {{?_5612 :p :a} => {?_5612 :q :b}} => {{?_5612 :r :c} => {?_5612 :s :d}}.
+    {{?_5624 :p :a} => {?_5624 :q :b}} => {{?_5624 :r :c} => {?_5624 :s :d}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{{?_5612 :p :a} => {?_5612 :q :b}} => {{?_5612 :r :c} => {?_5612 :s :d}}}]
-    [ a r:Fact; r:gives {{{?_5612 :p :a} => {?_5612 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+    [ a r:Fact; r:gives {{{?_5624 :p :a} => {?_5624 :q :b}} => {{?_5624 :r :c} => {?_5624 :s :d}}}]
+    [ a r:Fact; r:gives {{{?_5624 :p :a} => {?_5624 :q :b}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
 
@@ -100,10 +97,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma8> a r:Inference;
   r:gives {
-    {?U_2 :p :o} => {{{?U_2 :p2 ?_5626} => {?U_2 :p3 ?_5626}} => {{?U_2 :p4 ?_5626} => {?U_2 :p5 ?_5626}}}.
+    {?U_2 :p :o} => {{{?U_2 :p2 ?_5638} => {?U_2 :p3 ?_5638}} => {{?U_2 :p4 ?_5638} => {?U_2 :p5 ?_5638}}}.
   };
   r:evidence (
-    [ a r:Fact; r:gives {{?U_2 :p :o} => {{{?U_2 :p2 ?_5626} => {?U_2 :p3 ?_5626}} => {{?U_2 :p4 ?_5626} => {?U_2 :p5 ?_5626}}}}]
+    [ a r:Fact; r:gives {{?U_2 :p :o} => {{{?U_2 :p2 ?_5638} => {?U_2 :p3 ?_5638}} => {{?U_2 :p4 ?_5638} => {?U_2 :p5 ?_5638}}}}]
     [ a r:Fact; r:gives {{_:sk_2 :p :o} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
@@ -120,11 +117,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma10> a r:Inference;
   r:gives {
-    {{:s :p2 ?_5614} => {:s :p3 ?_5614}} => {{:s :p4 ?_5614} => {:s :p5 ?_5614}}.
+    {{:s :p2 ?_5626} => {:s :p3 ?_5626}} => {{:s :p4 ?_5626} => {:s :p5 ?_5626}}.
   };
   r:evidence (
     <#lemma17>
-    [ a r:Fact; r:gives {{{:s :p2 ?_5614} => {:s :p3 ?_5614}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
+    [ a r:Fact; r:gives {{{:s :p2 ?_5626} => {:s :p3 ?_5626}} <http://www.w3.org/2000/10/swap/log#notEqualTo> true}]
   );
   r:rule <#lemma15>.
 
@@ -174,7 +171,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma17> a r:Inference;
   r:gives {
-    {{:s :p2 ?_5614} => {:s :p3 ?_5614}} => {{:s :p4 ?_5614} => {:s :p5 ?_5614}}.
+    {{:s :p2 ?_5626} => {:s :p3 ?_5626}} => {{:s :p4 ?_5626} => {:s :p5 ?_5626}}.
   };
   r:evidence (
     <#lemma13>
@@ -198,7 +195,4 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     {?x_0_29 :p :o} => {{{?x_0_29 :p2 _:x_1_29} => {?x_0_29 :p3 _:x_1_29}} => {{?x_0_29 :p4 _:x_1_29} => {?x_0_29 :p5 _:x_1_29}}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/iq/iq.n3>].
-
-#2021-06-17T22:32:29.730Z in=7 out=10 ent=13 step=26 brake=2 inf=54907 sec=0.042 inf/sec=1307310
-#ENDS
 

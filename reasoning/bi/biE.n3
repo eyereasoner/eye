@@ -1,6 +1,3 @@
-#Processed by EYE v21.0617.1321 josd
-#eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/bi/biP.n3 --query http://josd.github.io/eye/reasoning/bi/biQ.n3
-
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX list: <http://www.w3.org/2000/10/swap/list#>
 PREFIX string: <http://www.w3.org/2000/10/swap/string#>
@@ -1044,13 +1041,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98672 med:prescribedFor ?_98674 .
-        (?_98690 ?_98674) fl:mu ?_98686 .
-        ?_98686 math:greaterThan 0.7 .
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-         (?_98690 ?_98732) fl:mu ?_98794 .
-         ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}.
+       {?_98684 med:prescribedFor ?_98686 .
+        (?_98702 ?_98686) fl:mu ?_98698 .
+        ?_98698 math:greaterThan 0.7 .
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+         (?_98702 ?_98744) fl:mu ?_98806 .
+         ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1067,13 +1064,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98672 med:prescribedFor ?_98674 .
-        (?_98690 ?_98674) fl:mu ?_98686 .
-        ?_98686 math:greaterThan 0.7 .
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-         (?_98690 ?_98732) fl:mu ?_98794 .
-         ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
+       {?_98684 med:prescribedFor ?_98686 .
+        (?_98702 ?_98686) fl:mu ?_98698 .
+        ?_98698 math:greaterThan 0.7 .
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+         (?_98702 ?_98744) fl:mu ?_98806 .
+         ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1092,13 +1089,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98672 med:prescribedFor ?_98674 .
-       (?_98690 ?_98674) fl:mu ?_98686 .
-       ?_98686 math:greaterThan 0.7 .
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-        (?_98690 ?_98732) fl:mu ?_98794 .
-        ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}.
+      {?_98684 med:prescribedFor ?_98686 .
+       (?_98702 ?_98686) fl:mu ?_98698 .
+       ?_98698 math:greaterThan 0.7 .
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+        (?_98702 ?_98744) fl:mu ?_98806 .
+        ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1115,13 +1112,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98672 med:prescribedFor ?_98674 .
-       (?_98690 ?_98674) fl:mu ?_98686 .
-       ?_98686 math:greaterThan 0.7 .
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-        (?_98690 ?_98732) fl:mu ?_98794 .
-        ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
+      {?_98684 med:prescribedFor ?_98686 .
+       (?_98702 ?_98686) fl:mu ?_98698 .
+       ?_98698 math:greaterThan 0.7 .
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+        (?_98702 ?_98744) fl:mu ?_98806 .
+        ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}}]
     <#lemma208>
     <#lemma209>
   );
@@ -1213,13 +1210,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98672 med:prescribedFor ?_98674 .
-        (?_98690 ?_98674) fl:mu ?_98686 .
-        ?_98686 math:greaterThan 0.7 .
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-         (?_98690 ?_98732) fl:mu ?_98794 .
-         ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}.
+       {?_98684 med:prescribedFor ?_98686 .
+        (?_98702 ?_98686) fl:mu ?_98698 .
+        ?_98698 math:greaterThan 0.7 .
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+         (?_98702 ?_98744) fl:mu ?_98806 .
+         ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}}.
       {(med:Ann med:Fever) fl:mu 0.8 .
        (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
        (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1236,13 +1233,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
        med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
        med:betaBlocker med:excludedFor med:SevereAsthma.
        med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-       {?_98672 med:prescribedFor ?_98674 .
-        (?_98690 ?_98674) fl:mu ?_98686 .
-        ?_98686 math:greaterThan 0.7 .
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-        ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-         (?_98690 ?_98732) fl:mu ?_98794 .
-         ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
+       {?_98684 med:prescribedFor ?_98686 .
+        (?_98702 ?_98686) fl:mu ?_98698 .
+        ?_98698 math:greaterThan 0.7 .
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+        ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+         (?_98702 ?_98744) fl:mu ?_98806 .
+         ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}} a :PASS.
   };
   r:evidence (
     [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -1261,13 +1258,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98672 med:prescribedFor ?_98674 .
-       (?_98690 ?_98674) fl:mu ?_98686 .
-       ?_98686 math:greaterThan 0.7 .
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-        (?_98690 ?_98732) fl:mu ?_98794 .
-        ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}.
+      {?_98684 med:prescribedFor ?_98686 .
+       (?_98702 ?_98686) fl:mu ?_98698 .
+       ?_98698 math:greaterThan 0.7 .
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+        (?_98702 ?_98744) fl:mu ?_98806 .
+        ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -1284,13 +1281,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_98672 med:prescribedFor ?_98674 .
-       (?_98690 ?_98674) fl:mu ?_98686 .
-       ?_98686 math:greaterThan 0.7 .
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
-       ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
-        (?_98690 ?_98732) fl:mu ?_98794 .
-        ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
+      {?_98684 med:prescribedFor ?_98686 .
+       (?_98702 ?_98686) fl:mu ?_98698 .
+       ?_98698 math:greaterThan 0.7 .
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744} ?_98762).
+       ?_98738 e:findall (?_98744 {?_98684 med:excludedFor ?_98744 .
+        (?_98702 ?_98744) fl:mu ?_98806 .
+        ?_98806 math:notGreaterThan 0.01} ?_98762)} => {?_98702 med:isPrescribed ?_98684}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}} => {:logni3 :result true}}]
     <#lemma222>
     <#lemma223>
   );
@@ -2905,13 +2902,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2928,13 +2925,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule <#lemma353>.
 
@@ -2956,13 +2953,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99692 med:prescribedFor ?_99694 .
-       (?_99710 ?_99694) fl:mu ?_99706 .
-       ?_99706 math:greaterThan 0.7 .
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752} ?_99770).
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752 .
-        (?_99710 ?_99752) fl:mu ?_99814 .
-        ?_99814 math:notGreaterThan 0.01} ?_99770)} => {?_99710 med:isPrescribed ?_99692}}.
+      {?_99704 med:prescribedFor ?_99706 .
+       (?_99722 ?_99706) fl:mu ?_99718 .
+       ?_99718 math:greaterThan 0.7 .
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764} ?_99782).
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764 .
+        (?_99722 ?_99764) fl:mu ?_99826 .
+        ?_99826 math:notGreaterThan 0.01} ?_99782)} => {?_99722 med:isPrescribed ?_99704}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -2979,13 +2976,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99692 med:prescribedFor ?_99694 .
-       (?_99710 ?_99694) fl:mu ?_99706 .
-       ?_99706 math:greaterThan 0.7 .
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752} ?_99770).
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752 .
-        (?_99710 ?_99752) fl:mu ?_99814 .
-        ?_99814 math:notGreaterThan 0.01} ?_99770)} => {?_99710 med:isPrescribed ?_99692}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
+      {?_99704 med:prescribedFor ?_99706 .
+       (?_99722 ?_99706) fl:mu ?_99718 .
+       ?_99718 math:greaterThan 0.7 .
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764} ?_99782).
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764 .
+        (?_99722 ?_99764) fl:mu ?_99826 .
+        ?_99826 math:notGreaterThan 0.01} ?_99782)} => {?_99722 med:isPrescribed ?_99704}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3004,13 +3001,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3027,13 +3024,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -3261,13 +3258,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3284,13 +3281,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule <#lemma360>.
 
@@ -3312,13 +3309,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99692 med:prescribedFor ?_99694 .
-       (?_99710 ?_99694) fl:mu ?_99706 .
-       ?_99706 math:greaterThan 0.7 .
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752} ?_99770).
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752 .
-        (?_99710 ?_99752) fl:mu ?_99814 .
-        ?_99814 math:notGreaterThan 0.01} ?_99770)} => {?_99710 med:isPrescribed ?_99692}}.
+      {?_99704 med:prescribedFor ?_99706 .
+       (?_99722 ?_99706) fl:mu ?_99718 .
+       ?_99718 math:greaterThan 0.7 .
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764} ?_99782).
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764 .
+        (?_99722 ?_99764) fl:mu ?_99826 .
+        ?_99826 math:notGreaterThan 0.01} ?_99782)} => {?_99722 med:isPrescribed ?_99704}}.
      {(med:Ann med:Fever) fl:mu 0.8 .
       (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
       (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3335,13 +3332,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
       med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
       med:betaBlocker med:excludedFor med:SevereAsthma.
       med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-      {?_99692 med:prescribedFor ?_99694 .
-       (?_99710 ?_99694) fl:mu ?_99706 .
-       ?_99706 math:greaterThan 0.7 .
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752} ?_99770).
-       ?_99746 e:findall (?_99752 {?_99692 med:excludedFor ?_99752 .
-        (?_99710 ?_99752) fl:mu ?_99814 .
-        ?_99814 math:notGreaterThan 0.01} ?_99770)} => {?_99710 med:isPrescribed ?_99692}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
+      {?_99704 med:prescribedFor ?_99706 .
+       (?_99722 ?_99706) fl:mu ?_99718 .
+       ?_99718 math:greaterThan 0.7 .
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764} ?_99782).
+       ?_99758 e:findall (?_99764 {?_99704 med:excludedFor ?_99764 .
+        (?_99722 ?_99764) fl:mu ?_99826 .
+        ?_99826 math:notGreaterThan 0.01} ?_99782)} => {?_99722 med:isPrescribed ?_99704}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}.
   };
   r:evidence (
     [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
@@ -3360,13 +3357,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}}}]
     [ a r:Fact; r:gives {{(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
      (med:Joe med:AcuteMyocardialInfarction) fl:mu 0.9 .
@@ -3383,13 +3380,13 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
      med:aspirinLowDose med:excludedFor med:AllergyForAspirin.
      med:betaBlocker med:excludedFor med:SevereAsthma.
      med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
-     {?_98660 med:prescribedFor ?_98662 .
-      (?_98678 ?_98662) fl:mu ?_98674 .
-      ?_98674 math:greaterThan 0.7 .
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720} ?_98738).
-      ?_98714 e:findall (?_98720 {?_98660 med:excludedFor ?_98720 .
-       (?_98678 ?_98720) fl:mu ?_98782 .
-       ?_98782 math:notGreaterThan 0.01} ?_98738)} => {?_98678 med:isPrescribed ?_98660}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
+     {?_98672 med:prescribedFor ?_98674 .
+      (?_98690 ?_98674) fl:mu ?_98686 .
+      ?_98686 math:greaterThan 0.7 .
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732} ?_98750).
+      ?_98726 e:findall (?_98732 {?_98672 med:excludedFor ?_98732 .
+       (?_98690 ?_98732) fl:mu ?_98794 .
+       ?_98794 math:notGreaterThan 0.01} ?_98750)} => {?_98690 med:isPrescribed ?_98672}} log:notIncludes {med:aspirinLowDose med:excludedFor med:SevereAsthma}}]
   );
   r:rule [ a r:Fact; r:gives {{<http://josd.github.io/eye/reasoning/bi/medic.n3> log:semantics {(med:Ann med:Fever) fl:mu 0.8 .
      (med:Ann med:AllergyForAspirin) fl:mu 0.001 .
@@ -4837,7 +4834,4 @@ PREFIX fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>
     {"2006-12-14"^^xsd:date time:year "2006"} => {:timey1 :result true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/bi/biP.n3>].
-
-#2021-06-17T22:32:18.431Z in=129 out=99 ent=200 step=931 brake=6 inf=1083791 sec=0.148 inf/sec=7322912
-#ENDS
 
