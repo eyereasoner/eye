@@ -11,7 +11,6 @@
 :- use_module(library(terms)).
 :- use_module(library(url)).
 :- use_module(library(charsio)).
-:- use_module(library(when)).
 :- use_module(library(qsave)).
 :- use_module(library(base64)).
 :- use_module(library(process)).
@@ -23,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0617.1321 josd').
+version_info('EYE v21.0617.2258 josd').
 
 license_info('MIT License
 
@@ -4089,6 +4088,7 @@ eam(Span) :-
         ),
         !
     ;   assertz(brake),
+        exogen,
         eam(Span)
     ).
 
@@ -8242,6 +8242,10 @@ fresh_pf(_, Pfx) :-
     gensym(ns, Pfn),
     fresh_pf(Pfn, Pfx).
 
+when(A, B) :-
+    A,
+    B.
+
 cnt(A) :-
     nb_getval(A, B),
     C is B+1,
@@ -8282,11 +8286,33 @@ within_scope([A, B]) :-
 
 exopred(P, S, O) :-
     (   var(P)
-    ->  pred(P)
+    ->  (   pred(P)
+        ;   cpred(P)
+        )
     ;   atom(P),
         current_predicate(P/2)
     ),
     call(P, S, O).
+
+exogen :-
+    forall(
+        (   clause(exopred(P, S, O), Body),
+            (   nonvar(S)
+            ;   nonvar(O)
+            )
+        ),
+        (   (   var(P)
+            ->  pred(P)
+            ;   atom(P),
+                current_predicate(P/2)
+            ),
+            Head =.. [P, S, O],
+            (   \+clause(Head, Body)
+            ->  assertz(Head :- Body)
+            ;   true
+            )
+        )
+    ).
 
 ucall(A) :-
     (   A = (B, C)

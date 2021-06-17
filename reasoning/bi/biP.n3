@@ -54,7 +54,7 @@ PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 {?SCOPE e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}.
 {() e:subsequence ()} => {:esl3 :result true}.
 {((0 1) (2 3) (4 5)) e:transpose ((0 2 4) (1 3 5))} => {:et1 :result true}.
-{_:c e:whenGround {:a :b :d}. :a :b _:c} => {:ewg1 :result true}.
+{:a :b _:c. _:c e:whenGround {:a :b :d}} => {:ewg1 :result true}.
 {"http://www.agfa.com/w3c/euler" e:wwwFormEncode "http%3a%2f%2fwww.agfa.com%2fw3c%2feuler"} => {:ew1 :result true}.
 {"Hello World!" e:wwwFormEncode "Hello+World%21"} => {:ew2 :result true}.
 
