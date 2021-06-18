@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0617.2258 josd').
+version_info('EYE v21.0618.1154 josd').
 
 license_info('MIT License
 
@@ -5321,7 +5321,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#equalTo>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5348,7 +5348,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#greaterThan>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5371,7 +5371,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#lessThan>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5410,7 +5410,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notEqualTo>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5420,7 +5420,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notGreaterThan>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5430,7 +5430,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notLessThan>'(X, Y) :-
-    when(
+    when2(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -8242,7 +8242,7 @@ fresh_pf(_, Pfx) :-
     gensym(ns, Pfn),
     fresh_pf(Pfn, Pfx).
 
-when(A, B) :-
+when2(A, B) :-
     A,
     B.
 
