@@ -1,0 +1,13 @@
+PREFIX : <http://example.org/test#>
+
+_:e_x_1 :says {_:e_x_1 :knows :Albert}.
+:s :p :o.
+:s :pp {:s :ppp :ooo}.
+{?U_0 :knows :Albert} => {?U_0 :knows :Kurt}.
+{:e :p :a} => {:e :q :b}.
+{{?U_3 :p :a} => {?U_3 :q :b}} => {{?U_3 :r :c} => {?U_3 :s :d}}.
+{?U_1 :p :o} => {?U_1 :pp {?U_1 :ppp :ooo}}.
+{?U_2 :p :o} => {{{?U_2 :p2 ?U_4} => {?U_2 :p3 ?U_4}} => {{?U_2 :p4 ?U_4} => {?U_2 :p5 ?U_4}}}.
+{:e :r :c} => {:e :s :d}.
+{{:s :p2 ?U_5} => {:s :p3 ?U_5}} => {{:s :p4 ?U_5} => {:s :p5 ?U_5}}.
+
