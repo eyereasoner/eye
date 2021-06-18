@@ -6,10 +6,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
-  r:component <#lemma2>;
   r:gives {
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
-    (1 _:sk_0 _:sk_1 _:sk_2) :moves ((_:sk_0 _:sk_1)).
   }.
 
 <#lemma1> a r:Inference;
@@ -17,80 +15,71 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
-    <#lemma3>
+    <#lemma2>
   );
-  r:rule <#lemma4>.
+  r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
-  r:gives {
-    (1 _:sk_0 _:sk_1 _:sk_2) :moves ((_:sk_0 _:sk_1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 _:sk_0 _:sk_1 _:sk_2) :moves ((_:sk_0 _:sk_1))}]
-  );
-  r:rule <#lemma4>.
-
-<#lemma3> a r:Inference;
   r:gives {
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
-    <#lemma5>
+    <#lemma4>
   );
-  r:rule <#lemma6>.
+  r:rule <#lemma5>.
 
-<#lemma4> a r:Extraction;
+<#lemma3> a r:Extraction;
   r:gives {
     {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-<#lemma5> a r:Inference;
+<#lemma4> a r:Inference;
   r:gives {
     (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
     [ a r:Fact; r:gives {3 math:greaterThan 1}]
     [ a r:Fact; r:gives {(3 1) math:difference 2}]
+    <#lemma6>
     <#lemma7>
-    <#lemma8>
     [ a r:Fact; r:gives {(((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right))}]
   );
-  r:rule <#lemma9>.
+  r:rule <#lemma8>.
 
-<#lemma6> a r:Extraction;
+<#lemma5> a r:Extraction;
   r:gives {
     {(3 :left :right :center) :moves ?x_0_2} => {3 :answer ?x_0_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
-<#lemma7> a r:Inference;
+<#lemma6> a r:Inference;
   r:gives {
     (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)).
   };
   r:evidence (
     [ a r:Fact; r:gives {2 math:greaterThan 1}]
     [ a r:Fact; r:gives {(2 1) math:difference 1}]
+    <#lemma9>
     <#lemma10>
-    <#lemma11>
     [ a r:Fact; r:gives {(((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center))}]
   );
-  r:rule <#lemma9>.
+  r:rule <#lemma8>.
 
-<#lemma8> a r:Inference;
+<#lemma7> a r:Inference;
   r:gives {
     (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
     [ a r:Fact; r:gives {2 math:greaterThan 1}]
     [ a r:Fact; r:gives {(2 1) math:difference 1}]
-    <#lemma12>
-    <#lemma10>
+    <#lemma11>
+    <#lemma9>
     [ a r:Fact; r:gives {(((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right))}]
   );
-  r:rule <#lemma9>.
+  r:rule <#lemma8>.
 
-<#lemma9> a r:Extraction;
+<#lemma8> a r:Extraction;
   r:gives {
     {(?x_0_3 ?x_2_3 ?x_4_3 ?x_3_3) :moves ?x_7_3} <= {?x_0_3 math:greaterThan 1 .
      (?x_0_3 1) math:difference ?x_1_3.
@@ -100,34 +89,34 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
-<#lemma10> a r:Inference;
+<#lemma9> a r:Inference;
   r:gives {
     (1 :left :right :center) :moves ((:left :right)).
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule <#lemma13>.
+  r:rule <#lemma12>.
 
-<#lemma11> a r:Inference;
+<#lemma10> a r:Inference;
   r:gives {
     (1 :right :center :left) :moves ((:right :center)).
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule <#lemma13>.
+  r:rule <#lemma12>.
 
-<#lemma12> a r:Inference;
+<#lemma11> a r:Inference;
   r:gives {
     (1 :center :left :right) :moves ((:center :left)).
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule <#lemma13>.
+  r:rule <#lemma12>.
 
-<#lemma13> a r:Extraction;
+<#lemma12> a r:Extraction;
   r:gives {
     {(1 ?x_0_4 ?x_1_4 ?x_2_4) :moves ((?x_0_4 ?x_1_4))} <= true.
   };

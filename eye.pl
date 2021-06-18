@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0618.1154 josd').
+version_info('EYE v21.0618.2033 josd').
 
 license_info('MIT License
 
@@ -5321,7 +5321,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#equalTo>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5348,7 +5348,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#greaterThan>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5371,7 +5371,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#lessThan>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5410,7 +5410,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notEqualTo>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5420,7 +5420,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notGreaterThan>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -5430,7 +5430,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/math#notLessThan>'(X, Y) :-
-    when2(
+    when(
         (   ground([X, Y])
         ),
         (   getnumber(X, U),
@@ -8242,10 +8242,6 @@ fresh_pf(_, Pfx) :-
     gensym(ns, Pfn),
     fresh_pf(Pfn, Pfx).
 
-when2(A, B) :-
-    A,
-    B.
-
 cnt(A) :-
     nb_getval(A, B),
     C is B+1,
@@ -8285,14 +8281,20 @@ within_scope([A, B]) :-
     nb_getval(scope, A).
 
 exopred(P, S, O) :-
-    (   var(P)
-    ->  (   pred(P)
-        ;   cpred(P)
-        )
-    ;   atom(P),
-        current_predicate(P/2)
-    ),
-    call(P, S, O).
+    !,
+    (   var(P),
+        var(S),
+        var(O)
+    ->  pred(P),
+        H =.. [P, S, O],
+        clause(H, true)
+    ;   (   var(P)
+        ->  pred(P)
+        ;   atom(P),
+            current_predicate(P/2)
+        ),
+        call(P, S, O)
+    ).
 
 exogen :-
     forall(

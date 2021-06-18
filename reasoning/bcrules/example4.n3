@@ -1,7 +1,7 @@
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX : <http://example.org/#>
 
-{:alice :canCountTo 1} <= true.
+:alice :canCountTo 1.
 { ?x :canCountTo ?s. } <= { ?s math:greaterThan 1. (?s 1) math:difference ?n.  ?x :canCountTo ?n. }.
 
 { :alice :canCountTo 10 } => { :TEST :PASS 1 }.
