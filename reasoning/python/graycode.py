@@ -10,5 +10,5 @@ if __name__ == "__main__":
     ]
 
     for c in cases:
-        print('[] :sympy-result "%s = %s".' % (c, eval(c)))
+        print('[] :python-result "%s = %s".' % (c, eval(c)))
     print("")

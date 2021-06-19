@@ -1,0 +1,78 @@
+PREFIX : <http://josd.github.io/eye/reasoning#>
+
+[] :python-result "sqrt(-1) = I".
+[] :python-result "sqrt(I) = sqrt(I)".
+[] :python-result "exp(I*pi) + 1 = 0".
+[] :python-result "log(I*x) = log(I*x)".
+[] :python-result "cos(I*x) = cosh(x)".
+[] :python-result "sin(I*x) = I*sinh(x)".
+
+[] :python-result "diff(cos(x), x) = -sin(x)".
+[] :python-result "diff(x**4, x, x, x) = 24*x".
+[] :python-result "diff(exp(x*y*z), x, y, y, z, z, z, z) = x**3*y**2*(x**3*y**3*z**3 + 14*x**2*y**2*z**2 + 52*x*y*z + 48)*exp(x*y*z)".
+[] :python-result "diff((x + 1)*((x**2 + 2)*(x**3 + 3)), x) = 3*x**2*(x + 1)*(x**2 + 2) + 2*x*(x + 1)*(x**3 + 3) + (x**2 + 2)*(x**3 + 3)".
+[] :python-result "diff(x/x/x/x/x/x/x/x/x/x, x) = -8/x**9".
+[] :python-result "diff(log(log(log(log(log(log(log(log(log(log(x)))))))))), x) = 1/(x*log(x)*log(log(x))*log(log(log(x)))*log(log(log(log(x))))*log(log(log(log(log(x)))))*log(log(log(log(log(log(x))))))*log(log(log(log(log(log(log(x)))))))*log(log(log(log(log(log(log(log(x))))))))*log(log(log(log(log(log(log(log(log(x))))))))))".
+[] :python-result "diff(x*x*x*x*x*x*x*x*x*x, x) = 10*x**9".
+[] :python-result "Matrix([x**3 + 5*y**4 - 9*z, exp(x*y*z)]).jacobian([x, y, z]) = Matrix([[3*x**2, 20*y**3, -9], [y*z*exp(x*y*z), x*z*exp(x*y*z), x*y*exp(x*y*z)]])".
+[] :python-result "hessian(x**3 + 5*y**4 - 9*z, [x, y, z]) = Matrix([[6*x, 0, 0], [0, 60*y**2, 0], [0, 0, 0]])".
+
+[] :python-result "solve(x**2 - 1, x) = [-1, 1]".
+[] :python-result "solve(x**2 + 1, x) = [-I, I]".
+[] :python-result "solve(x**2 - 3*x + 2, x) = [1, 2]".
+[] :python-result "solve(cos(x)*(1 - 2*sin(x)), x) = [pi/6, pi/2, 5*pi/6, 3*pi/2]".
+[] :python-result "solve(2**(2*x) - 5*2**(x + 1) + 16, x) = [1, 3]".
+[] :python-result "linsolve([3*x + 2*y - z - 1, 2*x - 2*y + 4*z + 2, - x + y/2 - z], x, y, z) = FiniteSet((1, -2, -2))".
+[] :python-result "nonlinsolve([x*y - 1, 4*x**2 + y**2 - 5], x, y) = FiniteSet((-1, -1), (-1/2, -2), (1/2, 2), (1, 1))".
+
+[] :python-result "fft([0, 1, 2, 3, 4, 5, 6, 7]) = [28, -4 - 4*sqrt(2)*I - 4*I, -4 - 4*I, -4 - 4*sqrt(2)*I + 4*I, -4, -4 - 4*I + 4*sqrt(2)*I, -4 + 4*I, -4 + 4*I + 4*sqrt(2)*I]".
+[] :python-result "fft([0, 1, 2, 3, 0, 1, 2, 3]) = [12, 0, -4 - 4*I, 0, -4, 0, -4 + 4*I, 0]".
+[] :python-result "fft([0, 1, 0, 1, 0, 1, 0, 1]) = [4, 0, 0, 0, -4, 0, 0, 0]".
+[] :python-result "fft([0, 0, 0, 0, 0, 0, 0, 0]) = [0, 0, 0, 0, 0, 0, 0, 0]".
+
+[] :python-result "fibonacci(0) = 0".
+[] :python-result "fibonacci(1) = 1".
+[] :python-result "fibonacci(6) = 8".
+[] :python-result "fibonacci(91) = 4660046610375530309".
+[] :python-result "fibonacci(283) = 62232491515607091882574410635924603070626544377175485625797".
+[] :python-result "fibonacci(3674) = 295872959797101479478634366815157108100573212705250690577871041398423606408217262643449728342664061812585639168722421830407677671667740585806703531229882783069925750619720511808616484846128237251921414441458265138672827487722512845223115526738192067144721087756159352711138340620702266509343657403678256247195010013499661223527119909308682062873140767135468966093474944529418214755911968500799987099146489838560114063096775586903976827512299123202488315139397181279903459556726060805948910609527571241968534269554079076649680403030083743420820438603816095671532163428933363322524736324029745871445486444623006627119156710782085648303485296149604974010598940800770684835758031137479033374229914629583184427269638360355586190323578625395157899987377625662075558684705457".
+
+[] :python-result "list(GrayCode(2).generate_gray()) = ['00', '01', '11', '10']".
+[] :python-result "list(GrayCode(3).generate_gray()) = ['000', '001', '011', '010', '110', '111', '101', '100']".
+[] :python-result "list(GrayCode(4).generate_gray()) = ['0000', '0001', '0011', '0010', '0110', '0111', '0101', '0100', '1100', '1101', '1111', '1110', '1010', '1011', '1001', '1000']".
+
+[] :python-result "qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(2)) = -|2>".
+[] :python-result "qapply(OracleGate(2, lambda qubits: qubits == IntQubit(2))*IntQubit(3)) = |3>".
+[] :python-result "qapply(grover_iteration(superposition_basis(2), OracleGate(2, lambda qubits: qubits == IntQubit(2)))) = |2>".
+[] :python-result "qapply(grover_iteration(superposition_basis(4), OracleGate(4, lambda qubits: qubits == IntQubit(2)))) = |0>/4 + |1>/4 + |2>/4 + |3>/4 + |4>/4 + |5>/4 + |6>/4 + |7>/4 + |8>/4 + |9>/4 + |10>/4 + |11>/4 + |12>/4 + |13>/4 + |14>/4 + |15>/4".
+
+[] :python-result "integrate(exp(-x**2), (x, -oo, oo)) = sqrt(pi)".
+[] :python-result "integrate(1/(1 + x**2), (x, -oo, oo)) = pi".
+
+[] :python-result "limit(sin(x)/x, x, oo) = 0".
+[] :python-result "limit(1/x, x, 0) = oo".
+[] :python-result "limit(1/x, x, 0, dir='-') = -oo".
+
+[] :python-result "Matrix([[1, 3], [-2, 3]])*Matrix([[0, 3], [0, 7]]) = Matrix([[0, 24], [0, 15]])".
+[] :python-result "Matrix([[1, 3], [-2, 3]])**2 = Matrix([[-5, 12], [-8, 3]])".
+[] :python-result "Matrix([[1, 3], [-2, 3]])**-1 = Matrix([[1/3, -1/3], [2/9, 1/9]])".
+[] :python-result "Matrix([[1, 0, 1], [2, -1, 3], [4, 3, 2]]).det() = -1".
+[] :python-result "Matrix([[3, -2,  4, -2], [5,  3, -3, -2], [5, -2,  2, -2], [5, -2, -3,  3]]).eigenvals() = {3: 1, -2: 1, 5: 2}".
+
+[] :python-result "Polygon((0, 0), (2, 0), (0, 1), (0, 0)).area = 1".
+[] :python-result "Polygon((3, 2), (6, 2), (7, 6), (4, 6), (5, 5), (5, 3), (3, 2)).area = 15/2".
+
+[] :python-result "solve(x - 2, x) = [2]".
+[] :python-result "solve(x**4 - 10*x**3 + 35*x**2 - 50*x + 24, x) = [1, 2, 3, 4]".
+[] :python-result "solve(x**4 + (-9 - 5*I)*x**3 + (14 + 33*I)*x**2 + (24 - 44*I)*x - 26, x) = [I, 1 + I, 3 + 2*I, 5 + I]".
+[] :python-result "solve_poly_system([x*y - 2*y, 2*y**2 - x**2], x, y) = [(0, 0), (2, -sqrt(2)), (2, sqrt(2))]".
+
+[] :python-result "list(primerange(0, 100)) = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]".
+[] :python-result "list(primerange(1000000, 1000100)) = [1000003, 1000033, 1000037, 1000039, 1000081, 1000099]".
+[] :python-result "isprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = True".
+[] :python-result "nextprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115058039".
+[] :python-result "totient(271) = 270".
+[] :python-result "totient(2718281) = 2718280".
+[] :python-result "totient(27182818284) = 8994800640".
+[] :python-result "totient(271828182845904) = 87459116512768".
+
