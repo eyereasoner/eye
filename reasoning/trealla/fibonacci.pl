@@ -19,8 +19,8 @@ case(fibonacci(0, _)).
 case(fibonacci(1, _)).
 case(fibonacci(6, _)).
 case(fibonacci(91, _)).
-%case(fibonacci(283, _)).
-%case(fibonacci(3674, _)).
+case(fibonacci(283, _)).
+case(fibonacci(3674, _)).
 
 test :-
     case(A),
