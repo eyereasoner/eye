@@ -1,0 +1,9 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <https://example.org/ns/example#>
+
+{ :will :hasName "will" } :label "formula1" .
+{ _:x :hasName "will" } :label "formula2" .
+
+{ ?f1 :label "formula1" .
+  ?f2 :label "formula2" .
+  ?f1 log:includes ?f2 } => { :test1 a :SUCCESS } .
