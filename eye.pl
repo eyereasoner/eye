@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0621.2307 josd').
+version_info('EYE v21.0622.1431 josd').
 
 license_info('MIT License
 
@@ -1870,23 +1870,15 @@ symbol(Name) -->
         )
     }.
 symbol(Name) -->
-    [bnode(Label)],
-    {   D = 0, %nb_getval(fdepth, D),
-        (   D =:= 0
-        ->  N = Label
-        ;   atom_codes(Label, LabelCodes),
-            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LabelCodes, LabelTidy),
-            atom_codes(N, LabelTidy)
-        ),
-        (   evar(N, S, D)
+    [bnode(N)],
+    {   (   evar(N, S, 0)
         ->  true
         ;   atom_concat(N, '_', M),
             gensym(M, S),
-            assertz(evar(N, S, D))
+            assertz(evar(N, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, FD),
-                FD =\= 1
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Vns),
