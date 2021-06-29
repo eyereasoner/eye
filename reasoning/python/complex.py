@@ -15,7 +15,8 @@ if __name__ == "__main__":
         "asin(I*x)",
         "N(sqrt(I))",
         "N(acos(2))",
-        "N(asin(2))"
+        "N(asin(2))",
+        "N(I**I, 136)"
     ]
 
     for c in cases:
