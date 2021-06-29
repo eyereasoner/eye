@@ -1,6 +1,6 @@
 # See https://en.wikipedia.org/wiki/Complex_number
 
-from sympy import sqrt, exp, log, I, pi, cos, sin, asin, N
+from sympy import sqrt, exp, log, I, pi, cos, sin, acos, asin, N
 from sympy.abc import x
 
 if __name__ == "__main__":
@@ -14,6 +14,7 @@ if __name__ == "__main__":
         "sin(I*x)",
         "asin(I*x)",
         "N(sqrt(I))",
+        "N(acos(2))",
         "N(asin(2))"
     ]
 
