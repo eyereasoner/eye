@@ -11,6 +11,7 @@ expressions = [
     :(totient(2718281))
     :(totient(27182818284))
     :(totient(271828182845904))
+    :(totient(2718281828459045235360287471352662497757247))
 ]
 
 for expr in expressions

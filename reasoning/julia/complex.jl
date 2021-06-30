@@ -4,6 +4,10 @@ expressions = [
     :(sqrt(-1+0im))
     :(exp(π * im) + 1)
     :(sin(im))
+    :(acos(2+0im))
+    :(asin(2+0im))
+    :(log(-1+0im))
+    :(log(-im))
 ]
 
 for expr in expressions

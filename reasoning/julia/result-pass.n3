@@ -6,46 +6,51 @@ _:bn_3 :julia-result "sqrt(62232491515607091882574410635924603070626544377175485
 _:bn_4 :julia-result "sqrt(-1 + 0im) = 0.0 + 1.0im".
 _:bn_5 :julia-result "exp(π * im) + 1 = 0.0 + 1.2246467991473532e-16im".
 _:bn_6 :julia-result "sin(im) = 0.0 + 1.1752011936438014im".
-_:bn_7 :julia-result "Symbolics.derivative(x + x ^ 2, x) = 1 + 2x".
-_:bn_8 :julia-result "Symbolics.derivative((x + 2 * x ^ 2 + 6 * x ^ 3) - 5 * x ^ 4, x) = 1 + 4x + 18(x^2) - (20(x^3))".
-_:bn_9 :julia-result "Symbolics.derivative(cos(x) * sin(x), x) = cos(x)^2 - (sin(x)^2)".
-_:bn_10 :julia-result "Symbolics.derivative(exp(x), x) = exp(x)".
-_:bn_11 :julia-result "Symbolics.derivative(log(x), x) = x^-1".
-_:bn_12 :julia-result "Symbolics.jacobian([x + x * y, x ^ 4 + y], [x, y]) = Num[1 + y x; 4(x^3) 1]".
-_:bn_13 :julia-result "Symbolics.hessian(x ^ 4 + z, [x, y, z]) = Num[12(x^2) 0 0; 0 0 0; 0 0 0]".
-_:bn_14 :julia-result "fibonacci(0) = 0".
-_:bn_15 :julia-result "fibonacci(1) = 1".
-_:bn_16 :julia-result "fibonacci(6) = 8".
-_:bn_17 :julia-result "fibonacci(91) = 4660046610375530309".
-_:bn_18 :julia-result "fibonacci(big(283)) = 62232491515607091882574410635924603070626544377175485625797".
-_:bn_19 :julia-result "fibonacci(big(3674)) = 295872959797101479478634366815157108100573212705250690577871041398423606408217262643449728342664061812585639168722421830407677671667740585806703531229882783069925750619720511808616484846128237251921414441458265138672827487722512845223115526738192067144721087756159352711138340620702266509343657403678256247195010013499661223527119909308682062873140767135468966093474944529418214755911968500799987099146489838560114063096775586903976827512299123202488315139397181279903459556726060805948910609527571241968534269554079076649680403030083743420820438603816095671532163428933363322524736324029745871445486444623006627119156710782085648303485296149604974010598940800770684835758031137479033374229914629583184427269638360355586190323578625395157899987377625662075558684705457".
-_:bn_23 :julia-result "hanoi(4, 1, 2, 3) = true".
-_:bn_24 :julia-result "hanoi(24, 1, 2, 3) = true".
-_:bn_25 :julia-result "inv([1 2 3; 4 1 6; 7 8 1]) = [-0.4519230769230769 0.2115384615384615 0.08653846153846156; 0.3653846153846154 -0.1923076923076923 0.057692307692307675; 0.24038461538461536 0.057692307692307696 -0.0673076923076923]".
-_:bn_26 :julia-result "det([1 2 3; 4 1 6; 7 8 1]) = 104.0".
-_:bn_27 :julia-result "eigvals([-4.0 -17.0; 2.0 2.0]) = ComplexF64[-1.0 - 5.0im, -1.0 + 5.0im]".
-_:bn_28 :julia-result "eigvecs([-4.0 -17.0; 2.0 2.0]) = ComplexF64[0.9459053029269173 - 0.0im 0.9459053029269173 + 0.0im; -0.16692446522239718 + 0.2782074420373286im -0.16692446522239718 - 0.2782074420373286im]".
-_:bn_29 :julia-result "factorize([1.5 2 -4; 3 -1 -6; -10 2.3 4]) = LU{Float64, Matrix{Float64}}([-10.0 2.3 4.0; -0.15000000000000002 2.345 -3.4; -0.30000000000000004 -0.1321961620469083 -5.249466950959488], [3, 3, 3], 0)".
-_:bn_30 :julia-result "factorize([1.5 2 -4; 2 -1 -3; -4 -3 5]) = BunchKaufman{Float64, Matrix{Float64}}([-1.642857142857143 0.14285714285714296 -0.8; 2.0 -2.8000000000000003 -0.6000000000000001; -4.0 -3.0 5.0], [1, 2, 3], 'U', true, false, 0)".
-_:bn_31 :julia-result "[1 0; 1 -2] \\ [32; -4] = [32.0, 18.0]".
-_:bn_32 :julia-result "[1 0; 1 -2] * [32.0, 18.0] = [32.0, -4.0]".
-_:bn_33 :julia-result "dot([1; 1], [2; 3]) = 5".
-_:bn_34 :julia-result "cross([0; 1; 0], [0; 0; 1]) = [1, 0, 0]".
-_:bn_35 :julia-result "UpperHessenberg([1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16]) = [1 2 3 4; 5 6 7 8; 0 10 11 12; 0 0 15 16]".
-_:bn_36 :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).U = [2.0 6.0 -8.0; 0.0 1.0 5.0; 0.0 0.0 3.0]".
-_:bn_37 :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).L = [2.0 0.0 0.0; 6.0 1.0 0.0; -8.0 5.0 3.0]".
-_:bn_38 :julia-result "roots(Polynomial([24 + 7im, -50, 35, -10, 1])) = ComplexF64[0.6352976779615936 + 0.4671733246057253im, 1.7445177980581146 - 1.1530902792250135im, 3.255482201941887 + 1.1530902792250155im, 4.364702322038397 - 0.46717332460572614im]".
-_:bn_39 :julia-result "roots(Polynomial([-26, 24 - 44im, 14 + 33im, -9 - 5im, 1])) = ComplexF64[2.3877599888475267e-16 + 0.9999999999999999im, 0.9999999999999997 + 0.9999999999999997im, 2.999999999999999 + 1.9999999999999998im, 5.0 + 0.9999999999999991im]".
-_:bn_40 :julia-result "primes(0, 100) = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]".
-_:bn_41 :julia-result "primes(1000000, 1000100) = [1000003, 1000033, 1000037, 1000039, 1000081, 1000099]".
-_:bn_42 :julia-result "isprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = true".
-_:bn_43 :julia-result "nextprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151".
-_:bn_44 :julia-result "totient(271) = 270".
-_:bn_45 :julia-result "totient(2718281) = 2718280".
-_:bn_46 :julia-result "totient(27182818284) = 8994800640".
-_:bn_47 :julia-result "totient(271828182845904) = 87459116512768".
-_:bn_20 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:22 =# @julog(path(X, angers)), clauses) = (true, Any[{X => lemans}, {X => chartres}, {X => paris}])".
-_:bn_21 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:23 =# @julog(path(angers, X)), clauses) = (true, Any[{X => nantes}])".
-_:bn_22 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:24 =# @julog(path(paris, nantes)), clauses) = (true, Any[{}])".
-_:bn_48 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/zebra.jl:45 =# @julog(query(Houses)), clauses) = (true, Any[{Houses => [house(yellow, norwegian, fox, water, kools), house(blue, ukrainian, horse, tea, chesterfields), house(red, english, snails, milk, winstons), house(ivory, spanish, dog, orange_juice, lucky_strikes), house(green, japanese, zebra, coffee, parliaments)]}])".
+_:bn_7 :julia-result "acos(2 + 0im) = 0.0 - 1.3169578969248166im".
+_:bn_8 :julia-result "asin(2 + 0im) = 1.5707963267948966 + 1.3169578969248166im".
+_:bn_9 :julia-result "log(-1 + 0im) = 0.0 + 3.141592653589793im".
+_:bn_10 :julia-result "log(-im) = 0.0 - 1.5707963267948966im".
+_:bn_11 :julia-result "Symbolics.derivative(x + x ^ 2, x) = 1 + 2x".
+_:bn_12 :julia-result "Symbolics.derivative((x + 2 * x ^ 2 + 6 * x ^ 3) - 5 * x ^ 4, x) = 1 + 4x + 18(x^2) - (20(x^3))".
+_:bn_13 :julia-result "Symbolics.derivative(cos(x) * sin(x), x) = cos(x)^2 - (sin(x)^2)".
+_:bn_14 :julia-result "Symbolics.derivative(exp(x), x) = exp(x)".
+_:bn_15 :julia-result "Symbolics.derivative(log(x), x) = x^-1".
+_:bn_16 :julia-result "Symbolics.jacobian([x + x * y, x ^ 4 + y], [x, y]) = Num[1 + y x; 4(x^3) 1]".
+_:bn_17 :julia-result "Symbolics.hessian(x ^ 4 + z, [x, y, z]) = Num[12(x^2) 0 0; 0 0 0; 0 0 0]".
+_:bn_18 :julia-result "fibonacci(0) = 0".
+_:bn_19 :julia-result "fibonacci(1) = 1".
+_:bn_20 :julia-result "fibonacci(6) = 8".
+_:bn_21 :julia-result "fibonacci(91) = 4660046610375530309".
+_:bn_22 :julia-result "fibonacci(big(283)) = 62232491515607091882574410635924603070626544377175485625797".
+_:bn_23 :julia-result "fibonacci(big(3674)) = 295872959797101479478634366815157108100573212705250690577871041398423606408217262643449728342664061812585639168722421830407677671667740585806703531229882783069925750619720511808616484846128237251921414441458265138672827487722512845223115526738192067144721087756159352711138340620702266509343657403678256247195010013499661223527119909308682062873140767135468966093474944529418214755911968500799987099146489838560114063096775586903976827512299123202488315139397181279903459556726060805948910609527571241968534269554079076649680403030083743420820438603816095671532163428933363322524736324029745871445486444623006627119156710782085648303485296149604974010598940800770684835758031137479033374229914629583184427269638360355586190323578625395157899987377625662075558684705457".
+_:bn_27 :julia-result "hanoi(4, 1, 2, 3) = true".
+_:bn_28 :julia-result "hanoi(24, 1, 2, 3) = true".
+_:bn_29 :julia-result "inv([1 2 3; 4 1 6; 7 8 1]) = [-0.4519230769230769 0.2115384615384615 0.08653846153846156; 0.3653846153846154 -0.1923076923076923 0.057692307692307675; 0.24038461538461536 0.057692307692307696 -0.0673076923076923]".
+_:bn_30 :julia-result "det([1 2 3; 4 1 6; 7 8 1]) = 104.0".
+_:bn_31 :julia-result "eigvals([-4.0 -17.0; 2.0 2.0]) = ComplexF64[-1.0 - 5.0im, -1.0 + 5.0im]".
+_:bn_32 :julia-result "eigvecs([-4.0 -17.0; 2.0 2.0]) = ComplexF64[0.9459053029269173 - 0.0im 0.9459053029269173 + 0.0im; -0.16692446522239718 + 0.2782074420373286im -0.16692446522239718 - 0.2782074420373286im]".
+_:bn_33 :julia-result "factorize([1.5 2 -4; 3 -1 -6; -10 2.3 4]) = LU{Float64, Matrix{Float64}}([-10.0 2.3 4.0; -0.15000000000000002 2.345 -3.4; -0.30000000000000004 -0.1321961620469083 -5.249466950959488], [3, 3, 3], 0)".
+_:bn_34 :julia-result "factorize([1.5 2 -4; 2 -1 -3; -4 -3 5]) = BunchKaufman{Float64, Matrix{Float64}}([-1.642857142857143 0.14285714285714296 -0.8; 2.0 -2.8000000000000003 -0.6000000000000001; -4.0 -3.0 5.0], [1, 2, 3], 'U', true, false, 0)".
+_:bn_35 :julia-result "[1 0; 1 -2] \\ [32; -4] = [32.0, 18.0]".
+_:bn_36 :julia-result "[1 0; 1 -2] * [32.0, 18.0] = [32.0, -4.0]".
+_:bn_37 :julia-result "dot([1; 1], [2; 3]) = 5".
+_:bn_38 :julia-result "cross([0; 1; 0], [0; 0; 1]) = [1, 0, 0]".
+_:bn_39 :julia-result "UpperHessenberg([1 2 3 4; 5 6 7 8; 9 10 11 12; 13 14 15 16]) = [1 2 3 4; 5 6 7 8; 0 10 11 12; 0 0 15 16]".
+_:bn_40 :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).U = [2.0 6.0 -8.0; 0.0 1.0 5.0; 0.0 0.0 3.0]".
+_:bn_41 :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).L = [2.0 0.0 0.0; 6.0 1.0 0.0; -8.0 5.0 3.0]".
+_:bn_42 :julia-result "roots(Polynomial([24 + 7im, -50, 35, -10, 1])) = ComplexF64[0.6352976779615936 + 0.4671733246057253im, 1.7445177980581146 - 1.1530902792250135im, 3.255482201941887 + 1.1530902792250155im, 4.364702322038397 - 0.46717332460572614im]".
+_:bn_43 :julia-result "roots(Polynomial([-26, 24 - 44im, 14 + 33im, -9 - 5im, 1])) = ComplexF64[2.3877599888475267e-16 + 0.9999999999999999im, 0.9999999999999997 + 0.9999999999999997im, 2.999999999999999 + 1.9999999999999998im, 5.0 + 0.9999999999999991im]".
+_:bn_44 :julia-result "primes(0, 100) = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]".
+_:bn_45 :julia-result "primes(1000000, 1000100) = [1000003, 1000033, 1000037, 1000039, 1000081, 1000099]".
+_:bn_46 :julia-result "isprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = true".
+_:bn_47 :julia-result "nextprime(6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151) = 6864797660130609714981900799081393217269435300143305409394463459185543183397656052122559640661454554977296311391480858037121987999716643812574028291115057151".
+_:bn_48 :julia-result "totient(271) = 270".
+_:bn_49 :julia-result "totient(2718281) = 2718280".
+_:bn_50 :julia-result "totient(27182818284) = 8994800640".
+_:bn_51 :julia-result "totient(271828182845904) = 87459116512768".
+_:bn_52 :julia-result "totient(2718281828459045235360287471352662497757247) = 1811056085631168661171087103167285546745856".
+_:bn_24 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:22 =# @julog(path(X, angers)), clauses) = (true, Any[{X => lemans}, {X => chartres}, {X => paris}])".
+_:bn_25 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:23 =# @julog(path(angers, X)), clauses) = (true, Any[{X => nantes}])".
+_:bn_26 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/graph.jl:24 =# @julog(path(paris, nantes)), clauses) = (true, Any[{}])".
+_:bn_53 :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/zebra.jl:45 =# @julog(query(Houses)), clauses) = (true, Any[{Houses => [house(yellow, norwegian, fox, water, kools), house(blue, ukrainian, horse, tea, chesterfields), house(red, english, snails, milk, winstons), house(ivory, spanish, dog, orange_juice, lucky_strikes), house(green, japanese, zebra, coffee, parliaments)]}])".
 

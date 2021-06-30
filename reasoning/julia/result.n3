@@ -7,6 +7,10 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "sqrt(-1 + 0im) = 0.0 + 1.0im".
 [] :julia-result "exp(π * im) + 1 = 0.0 + 1.2246467991473532e-16im".
 [] :julia-result "sin(im) = 0.0 + 1.1752011936438014im".
+[] :julia-result "acos(2 + 0im) = 0.0 - 1.3169578969248166im".
+[] :julia-result "asin(2 + 0im) = 1.5707963267948966 + 1.3169578969248166im".
+[] :julia-result "log(-1 + 0im) = 0.0 + 3.141592653589793im".
+[] :julia-result "log(-im) = 0.0 - 1.5707963267948966im".
 
 [] :julia-result "Symbolics.derivative(x + x ^ 2, x) = 1 + 2x".
 [] :julia-result "Symbolics.derivative((x + 2 * x ^ 2 + 6 * x ^ 3) - 5 * x ^ 4, x) = 1 + 4x + 18(x^2) - (20(x^3))".
@@ -54,5 +58,6 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "totient(2718281) = 2718280".
 [] :julia-result "totient(27182818284) = 8994800640".
 [] :julia-result "totient(271828182845904) = 87459116512768".
+[] :julia-result "totient(2718281828459045235360287471352662497757247) = 1811056085631168661171087103167285546745856".
 
 [ :julia-statement "resolve(#= /home/jdroo/github.com/josd/eye/reasoning/julia/zebra.jl:45 =# @julog(query(Houses)), clauses) = (true, Any[{Houses => [house(yellow, norwegian, fox, water, kools), house(blue, ukrainian, horse, tea, chesterfields), house(red, english, snails, milk, winstons), house(ivory, spanish, dog, orange_juice, lucky_strikes), house(green, japanese, zebra, coffee, parliaments)]}])"].
