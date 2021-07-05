@@ -1,0 +1,9 @@
+#!/bin/bash -e
+echo "PREFIX : <http://josd.github.io/eye/reasoning#>" | tee result.n3
+echo "" | tee -a result.n3
+
+for f in *.c
+do
+    gcc "$f" ; ./a.out | tee -a result.n3
+done
+rm a.out
