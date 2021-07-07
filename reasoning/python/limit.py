@@ -12,4 +12,3 @@ if __name__ == "__main__":
 
     for c in cases:
         print('[] :python-result "%s = %s".' % (c, eval(c)))
-    print("")
