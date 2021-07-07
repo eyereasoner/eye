@@ -17,4 +17,3 @@ expressions = [
 for expr in expressions
     println("[] :julia-result \"", escape_string(string(expr)), " = ", eval(expr), "\".")
 end
-println("")
