@@ -3,10 +3,9 @@ PREFIX list: <http://www.w3.org/2000/10/swap/list#>
 PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
 PREFIX math: <http://www.w3.org/2000/10/swap/math#>
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/DaKHaEQwzEPSDVQa6RktTCDJLUo#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/9HkpxfWo2QyoSSsYGlDwN4SY6ys#>
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
-PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -14,20 +13,20 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
   r:component <#lemma3>;
   r:component <#lemma4>;
   r:gives {
-    _:bn_1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
-    ns1:bn_2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
-    ns1:bn_3 :answer (:expected 1 :predicted 1 :belief 0.6851785979382504 :evidence ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))).
-    ns1:bn_4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
+    :case1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
+    :case2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
+    :case3 :answer (:expected 1 :predicted 1 :belief 0.6851785979382504 :evidence ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))).
+    :case4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    _:bn_1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
+    :case1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
   };
   r:evidence (
     <#lemma5>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_0.
-     _:bn_1 _:sk_0 _:sk_1.
+     :case1 _:sk_0 _:sk_1.
      (_:sk_0 _:sk_1) ccd:model (:output1 _:sk_2 _:sk_3)} ((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0)))}]
     <#lemma6>
     <#lemma7>
@@ -39,12 +38,12 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma2> a r:Inference;
   r:gives {
-    ns1:bn_2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
+    :case2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
   };
   r:evidence (
     <#lemma9>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_4 _:sk_5 _:sk_6 _:sk_7) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_4.
-     ns1:bn_2 _:sk_4 _:sk_5.
+     :case2 _:sk_4 _:sk_5.
      (_:sk_4 _:sk_5) ccd:model (:output1 _:sk_6 _:sk_7)} ((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2)))}]
     <#lemma10>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.13413886721237023 math:greaterThan 0.5 .
@@ -56,12 +55,12 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma3> a r:Inference;
   r:gives {
-    ns1:bn_3 :answer (:expected 1 :predicted 1 :belief 0.6851785979382504 :evidence ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))).
+    :case3 :answer (:expected 1 :predicted 1 :belief 0.6851785979382504 :evidence ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))).
   };
   r:evidence (
     <#lemma12>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_8 _:sk_9 _:sk_10 _:sk_11) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_8.
-     ns1:bn_3 _:sk_8 _:sk_9.
+     :case3 _:sk_8 _:sk_9.
      (_:sk_8 _:sk_9) ccd:model (:output1 _:sk_10 _:sk_11)} ((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0)))}]
     <#lemma13>
     <#lemma14>
@@ -73,12 +72,12 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma4> a r:Inference;
   r:gives {
-    ns1:bn_4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
+    :case4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
   };
   r:evidence (
     <#lemma15>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_12 _:sk_13 _:sk_14 _:sk_15) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_12.
-     ns1:bn_4 _:sk_12 _:sk_13.
+     :case4 _:sk_12 _:sk_13.
      (_:sk_12 _:sk_13) ccd:model (:output1 _:sk_14 _:sk_15)} ((:input3 (0 1) 2 2) (:input4 :v3 1 2)))}]
     <#lemma16>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.20741955744761525 math:greaterThan 0.5 .
@@ -90,7 +89,7 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma5> a r:Extraction;
   r:gives {
-    _:bn_1 :output1 1 .
+    :case1 :output1 1 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
 
@@ -159,7 +158,7 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma9> a r:Extraction;
   r:gives {
-    ns1:bn_2 :output1 0 .
+    :case2 :output1 0 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
 
@@ -212,7 +211,7 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma12> a r:Extraction;
   r:gives {
-    ns1:bn_3 :output1 1 .
+    :case3 :output1 1 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
 
@@ -265,7 +264,7 @@ PREFIX ns1: <http://josd.github.io/.well-known/genid/QfvU9xNBQ0i6:S3Jo4UtZuLKghM
 
 <#lemma15> a r:Extraction;
   r:gives {
-    ns1:bn_4 :output1 0 .
+    :case4 :output1 0 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
 
