@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0708.1553 josd').
+version_info('EYE v21.0708.2235 josd').
 
 license_info('MIT License
 
@@ -1558,8 +1558,7 @@ pathitem(BNode, Triples) -->
     !,
     {   gensym('bn_', S),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, FD),
-                FD =\= 1
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(skolem_ns, Sns),
@@ -1876,8 +1875,7 @@ symbol(Name) -->
             assertz(evar(N, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, FD),
-                FD =\= 1
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(skolem_ns, Sns),
