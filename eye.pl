@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0708.1534 josd').
+version_info('EYE v21.0708.1553 josd').
 
 license_info('MIT License
 
@@ -4048,7 +4048,7 @@ eam(Span) :-
             ;   Concs = (answer(_, _, _), _)
             )
         ->  cnt(answer_count)
-        ;   findvars(Concs, Vars, delta),
+        ;   findvars(Concs, Vars, gamma),
             forall(
                 member(Var, Vars),
                 (   \+keep_skolem(Var)
@@ -9257,6 +9257,9 @@ findvar(A, beta) :-
     ;   atom_concat('_e_', _, A)
     ;   atom_concat(some, _, A)
     ),
+    !.
+findvar(A, gamma) :-
+    sub_atom(A, _, 19, _, '/.well-known/genid/'),
     !.
 findvar(A, delta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
