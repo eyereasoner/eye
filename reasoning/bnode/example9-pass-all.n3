@@ -1,7 +1,8 @@
 PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 PREFIX : <https://example.org/ns/example#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/lqrMAzZaNK6wZ5HmpS6drnRzRwI#>
 
 {:will :hasName "will"} :label "formula1".
-{_:e_x_1 :hasName "will"} :label "formula2".
+{skolem:e_x_1 :hasName "will"} :label "formula2".
 {?U_0 :label "formula1". ?U_1 :label "formula2". ?U_0 log:includes ?U_1} => {:test1 a :SUCCESS}.
 

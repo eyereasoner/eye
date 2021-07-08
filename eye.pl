@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0706.1214 josd').
+version_info('EYE v21.0708.1245 josd').
 
 license_info('MIT License
 
@@ -1558,7 +1558,8 @@ pathitem(BNode, Triples) -->
     !,
     {   gensym('bn_', S),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
+                nb_getval(fdepth, FD),
+                FD =\= 1
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(skolem_ns, Sns),
@@ -1860,15 +1861,23 @@ symbol(Name) -->
         )
     }.
 symbol(Name) -->
-    [bnode(N)],
-    {   (   evar(N, S, 0)
+    [bnode(Label)],
+    {   nb_getval(fdepth, D),
+        (   D =:= 0
+        ->  N = Label
+        ;   atom_codes(Label, LabelCodes),
+            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LabelCodes, LabelTidy),
+            atom_codes(N, LabelTidy)
+        ),
+        (   evar(N, S, D)
         ->  true
         ;   atom_concat(N, '_', M),
             gensym(M, S),
-            assertz(evar(N, S, 0))
+            assertz(evar(N, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
+                nb_getval(fdepth, FD),
+                FD =\= 1
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(skolem_ns, Sns),
@@ -4035,6 +4044,14 @@ eam(Span) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
+        findvars(Prem, Vars, delta),
+        forall(
+            member(Var, Vars),
+            (   \+keep_skolem(Var)
+            ->  assertz(keep_skolem(Var))
+            ;   true
+            )
+        ),
         (   (   Concs = answer(_, _, _)
             ;   Concs = (answer(_, _, _), _)
             )
