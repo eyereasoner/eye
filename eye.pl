@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0708.1245 josd').
+version_info('EYE v21.0708.1534 josd').
 
 license_info('MIT License
 
@@ -4044,19 +4044,18 @@ eam(Span) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
-        findvars(Prem, Vars, delta),
-        forall(
-            member(Var, Vars),
-            (   \+keep_skolem(Var)
-            ->  assertz(keep_skolem(Var))
-            ;   true
-            )
-        ),
         (   (   Concs = answer(_, _, _)
             ;   Concs = (answer(_, _, _), _)
             )
         ->  cnt(answer_count)
-        ;   true
+        ;   findvars(Concs, Vars, delta),
+            forall(
+                member(Var, Vars),
+                (   \+keep_skolem(Var)
+                ->  assertz(keep_skolem(Var))
+                ;   true
+                )
+            )
         ),
         nb_getval(answer_count, AnswerCount),
         (   flag('limited-answer', AnswerLimit),
@@ -5159,10 +5158,7 @@ djiti_assertz(A) :-
         ),
         (   (   semantics(X, L)
             ->  conj_list(Y, L)
-            ;   nb_getval(skolem_ns, Sns),
-                mk_skolem_ns(Tns),
-                nb_setval(skolem_ns, Tns),
-                sub_atom(X, 0, 1, _, '<'),
+            ;   sub_atom(X, 0, 1, _, '<'),
                 sub_atom(X, _, 1, 0, '>'),
                 sub_atom(X, 1, _, 1, Z),
                 catch(
@@ -5174,8 +5170,7 @@ djiti_assertz(A) :-
                     )
                 ),
                 semantics(X, L),
-                conj_list(Y, L),
-                nb_setval(skolem_ns, Sns)
+                conj_list(Y, L)
             )
         )
     ).

@@ -1,7 +1,7 @@
 PREFIX food: <http://www.w3.org/2002/03owlt/miscellaneous/consistent002#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/tSrHNcKcfa84WteD9:vC56FJW3Y#>
+PREFIX skolem: <http://josd.github.io/.well-known/genid/o:hAaZk_9zG2zxOn2DuMJmdP3r0#>
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -24,7 +24,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/tSrHNcKcfa84WteD9:vC56FJ
     skolem:e_g_1 a food:Grape.
     skolem:e_cnd_1 a food:CheeseNutsDessert.
     skolem:e_pwlcs_1 a food:PastaWithLightCreamSauce.
-    skolem:e_ct_1 a food:ConsumableThing.
+    _:e_ct_1 a food:ConsumableThing.
     skolem:e_m_1 a food:Meal.
     skolem:e_g_1 a food:SweetFruit.
     skolem:e_pwlcs_1 a food:PastaWithWhiteSauce.
@@ -68,7 +68,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/tSrHNcKcfa84WteD9:vC56FJ
 
 <#lemma4> a r:Inference;
   r:gives {
-    skolem:e_ct_1 a food:ConsumableThing.
+    _:e_ct_1 a food:ConsumableThing.
   };
   r:evidence (
     <#lemma21>
@@ -209,7 +209,7 @@ PREFIX skolem: <http://josd.github.io/.well-known/genid/tSrHNcKcfa84WteD9:vC56FJ
 
 <#lemma21> a r:Extraction;
   r:gives {
-    skolem:e_ct_1 a food:ConsumableThing.
+    _:e_ct_1 a food:ConsumableThing.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rpo/food-example.n3>].
 
