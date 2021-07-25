@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "% Running TWO tests" | tee result.pl
+echo "" | tee -a result.pl
+for f in *.pl
+do 
+    if [ "$f" != "result.pl" ]
+    then
+        tpl -g test "$f" | tee -a result.pl
+        echo "" | tee -a result.pl
+    fi
+done
