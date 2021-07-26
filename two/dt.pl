@@ -30010,6 +30010,8 @@ case(type(_,n10)).
 case(type(_,n100)).
 case(type(_,n1000)).
 case(type(_,n10000)).
+case(type(_,i10000)).
+case(type(_,j10000)).
 
 test :-
     case(A),
