@@ -15,6 +15,8 @@ type(i,n10).
 type(i,n100).
 type(i,n1000).
 type(i,n10000).
+type(i,i10000).
+type(i,j10000).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
