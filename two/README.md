@@ -2,8 +2,9 @@
 
 ### Trealla Works it Out
 
-- This is about EYE TWO reasoning as "Trealla Works it Out".
-- Running examples and test cases with [Trealla Prolog](https://github.com/infradig/trealla).
+This is about EYE TWO reasoning as "Trealla Works it Out".  
+It uses [Trealla Prolog](https://github.com/infradig/trealla), a compact, efficient Prolog interpreter written in plain-old C.  
+Run the examples and test cases as in [test](https://github.com/josd/eye/blob/master/two/test).  
 
 ### Background
 
