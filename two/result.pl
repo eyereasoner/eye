@@ -10,11 +10,11 @@ derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x
 integral(1*6*x^5,x,x^6).
 integral(1*sqrt(pi)/2*exp(-x^2),x,erf(x)).
 
-type(i,n1).
-type(i,n10).
-type(i,n100).
-type(i,n1000).
-type(i,n10000).
+rdf_type(i,n1).
+rdf_type(i,n10).
+rdf_type(i,n100).
+rdf_type(i,n1000).
+rdf_type(i,n10000).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
