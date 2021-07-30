@@ -1,7 +1,7 @@
 % Socrates is a mortal
 
-namespace(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-namespace(rdfs,'http://www.w3.org/2000/01/rdf-schema#').
+nsp(rdf_,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+nsp(rdfs_,'http://www.w3.org/2000/01/rdf-schema#').
 
 rdf_type(socrates,man).
 rdfs_subClassOf(man,mortal).

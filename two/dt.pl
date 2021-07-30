@@ -1,7 +1,7 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
-namespace(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+nsp(rdf_,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
 
 rdf_type(i,n0).
 
