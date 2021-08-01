@@ -1,8 +1,8 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
+% type/2 comes from http://www.w3.org/1999/02/22-rdf-syntax-ns#type
 type(z,class(n0)).
-
 type(X,class(n1)) :- type(X,class(n0)).
 type(X,class(i1)) :- type(X,class(n0)).
 type(X,class(j1)) :- type(X,class(n0)).

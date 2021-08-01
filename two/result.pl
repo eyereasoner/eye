@@ -10,11 +10,11 @@ derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x
 integral(1*6*x^5,x,x^6).
 integral(1*sqrt(pi)/2*exp(-x^2),x,erf(x)).
 
-rdf_type(ind,n1).
-rdf_type(ind,n10).
-rdf_type(ind,n100).
-rdf_type(ind,n1000).
-rdf_type(ind,n10000).
+type(ind,n1).
+type(ind,n10).
+type(ind,n100).
+type(ind,n1000).
+type(ind,n10000).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
@@ -61,7 +61,7 @@ findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,_4^p(_3,_4),[0
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2]).
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(g(_3,_4),_6^(p(_3,_6),p(_6,_4)),[g(0,3),g(0,4)]).
 
-rdf_type(socrates,mortal).
+type(socrates,mortal).
 
 compute([1,0,1,0,0,1],[1,0,1,0,1,0,#]).
 compute([1,0,1,1,1,1],[1,1,0,0,0,0,#]).

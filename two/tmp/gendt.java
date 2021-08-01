@@ -13,8 +13,8 @@ public class gendt {
 			ps.println("% Deep taxonomy");
 			ps.println("% See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf");
 			ps.println("");
+			ps.println("% type/2 comes from http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
 			ps.println("type(z,class(n0)).");
-			ps.println("");
 			for (int i = 0; i < n; i++) {
 				ps.println("type(X,class(n" + (i+1) + ")) :- type(X,class(n" + i +")).");
 				ps.println("type(X,class(i" + (i+1) + ")) :- type(X,class(n" + i +")).");
