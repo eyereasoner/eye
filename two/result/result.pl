@@ -10,11 +10,11 @@ derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x
 integral(1*6*x^5,x,x^6).
 integral(1*sqrt(pi)/2*exp(-x^2),x,erf(x)).
 
-type(ind,n1).
-type(ind,n10).
-type(ind,n100).
-type(ind,n1000).
-type(ind,n10000).
+type(z,class(n1)).
+type(z,class(n10)).
+type(z,class(n100)).
+type(z,class(n1000)).
+type(z,class(n10000)).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
@@ -56,6 +56,8 @@ totient(271,270).
 totient(2718281,2718280).
 totient(27182818284,8994800640).
 totient(271828182845904,87459116512768).
+
+uncaught exception: error(existence_error(procedure,test),test/0)
 
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,_4^p(_3,_4),[0,1,2]).
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2]).
