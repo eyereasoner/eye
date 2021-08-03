@@ -1,9 +1,10 @@
 % Socrates is a mortal
 
-% subClassOf/2 comes from http://www.w3.org/2000/01/rdf-schema#subClassOf
+isDefinedBy(subClassOf/2,'http://www.w3.org/2000/01/rdf-schema#').
+isDefinedBy(type/2,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+
 subClassOf(man,mortal).
 
-% type/2 comes from http://www.w3.org/1999/02/22-rdf-syntax-ns#type
 type(socrates,man).
 type(S,B) :-
     subClassOf(A,B),
