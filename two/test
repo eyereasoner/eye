@@ -3,6 +3,6 @@ echo "% Running TWO tests" | tee ./result/result.pl
 echo "" | tee -a ./result/result.pl
 for f in *.pl
 do 
-    tpl -g test "$f" | tee -a ./result/result.pl
+    ${1:-tpl} -g test "$f" | tee -a ./result/result.pl
     echo "" | tee -a ./result/result.pl
 done

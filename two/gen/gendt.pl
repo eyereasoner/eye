@@ -9,9 +9,9 @@ main :-
     write(Out,'type(z,class(n0)).\n'),
     (   between(0,9999,I),
         J is I+1,
-        format(Out,"type(X,class(n~w)) :- type(X,class(n~w)).~n",[J,I]),
-        format(Out,"type(X,class(i~w)) :- type(X,class(n~w)).~n",[J,I]),
-        format(Out,"type(X,class(j~w)) :- type(X,class(n~w)).~n",[J,I]),
+        format(Out,"type(X,class(n~d)) :- type(X,class(n~d)).~n",[J,I]),
+        format(Out,"type(X,class(i~d)) :- type(X,class(n~d)).~n",[J,I]),
+        format(Out,"type(X,class(j~d)) :- type(X,class(n~d)).~n",[J,I]),
         fail
     ;   true
     ),
