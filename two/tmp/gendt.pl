@@ -1,5 +1,5 @@
-:- use_module(library(between)).
-:- use_module(library(format)).
+%:- use_module(library(between)).
+%:- use_module(library(format)).
 
 main :-
     open('dt.pl',write,Out),
@@ -10,12 +10,12 @@ main :-
     write(Out,'type(z,class(n0)).\n'),
     (   between(0,9999,I),
         J is I+1,
-        format(Out,"type(X,class(n~w)) :- type(X,class(n~w)).~n",[J,I]),
-        format(Out,"type(X,class(i~w)) :- type(X,class(n~w)).~n",[J,I]),
-        format(Out,"type(X,class(j~w)) :- type(X,class(n~w)).~n",[J,I]),
-        %legacy_format(Out,"type(X,class(n~w)) :- type(X,class(n~w)).~n",[J,I]),
-        %legacy_format(Out,"type(X,class(i~w)) :- type(X,class(n~w)).~n",[J,I]),
-        %legacy_format(Out,"type(X,class(j~w)) :- type(X,class(n~w)).~n",[J,I]),
+        %format(Out,"type(X,class(n~w)) :- type(X,class(n~w)).~n",[J,I]),
+        %format(Out,"type(X,class(i~w)) :- type(X,class(n~w)).~n",[J,I]),
+        %format(Out,"type(X,class(j~w)) :- type(X,class(n~w)).~n",[J,I]),
+        legacy_format(Out,"type(X,class(n~w)) :- type(X,class(n~w)).~n",[J,I]),
+        legacy_format(Out,"type(X,class(i~w)) :- type(X,class(n~w)).~n",[J,I]),
+        legacy_format(Out,"type(X,class(j~w)) :- type(X,class(n~w)).~n",[J,I]),
         fail
     ;   true
     ),
