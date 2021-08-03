@@ -1,5 +1,8 @@
 % Generating deep taxonomy
 
+:- use_module(library(between)).
+:- use_module(library(format)).
+
 main :-
     open('dt.pl',write,Out),
     write(Out,'% Deep taxonomy\n'),
