@@ -1,4 +1,4 @@
-:- use_module(library(format)).
+% Generating deep taxonomy
 
 main :-
     open('dt.pl',write,Out),
