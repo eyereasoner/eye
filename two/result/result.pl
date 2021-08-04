@@ -36,6 +36,8 @@ fibonacci(3674,29587295979710147947863436681515710810057321270525069057787104139
 
 testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),[s(0,0,1),s(0,1,1),s(0,1,0),s(1,1,0),s(1,1,1),s(1,0,1),s(1,0,0),s(0,0,0),s(0,0,1)]).
 
+findpath(location(i1,oostende),[drive_gent_brugge,drive_brugge_oostende],2400.0,0.01,0.94079999999999997,0.98999999999999999,[3600.0,5.0,0.2,0.4,1]).
+
 path(angers,nantes).
 path(paris,nantes).
 path(chartres,nantes).
