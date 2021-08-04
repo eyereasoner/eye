@@ -119,19 +119,18 @@ divi(N,F,M,R,K) :-
 divi(N,_,M,N,M).
 
 % test cases
-case(primerange(0,100,_)).
-case(primerange(1000000,1000100,_)).
-case(totient(271,_)).
-case(totient(2718281,_)).
-case(totient(27182818284,_)).
-case(totient(271828182845904,_)).
+case(primerange(0,100,_ANSWER)).
+case(primerange(1000000,1000100,_ANSWER)).
+case(totient(271,_ANSWER)).
+case(totient(2718281,_ANSWER)).
+case(totient(27182818284,_ANSWER)).
+case(totient(271828182845904,_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

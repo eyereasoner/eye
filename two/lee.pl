@@ -68,14 +68,13 @@ path(A,B,[Wave|Waves],[B|Path]) :-
     path(A,B1,Waves,Path).
 
 % test cases
-case(route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],_)).
+case(route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

@@ -52,15 +52,14 @@ divide(X,Y,Z) :-
     times(X,Yp,Z).
 
 % test cases
-case(exponentiation([-1,0],[0.5,0],_)).
-case(exponentiation([e,0],[0,pi],_)).
+case(exponentiation([-1,0],[0.5,0],_ANSWER)).
+case(exponentiation([e,0],[0,pi],_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

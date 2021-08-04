@@ -229,15 +229,14 @@ nulreel(0.0) :-
 nulreel(-0.0).
 
 % test cases
-case(racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_)).
-case(racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_)).
+case(racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER)).
+case(racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

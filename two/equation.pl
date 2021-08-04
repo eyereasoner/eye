@@ -441,16 +441,15 @@ compound1(Term) :-
     !.
 
 % test cases
-case(solve_equation(x^2-3*x+2 = 0,x,_)).
-case(solve_equation(cos(x)*(1-2*sin(x)) = 0,x,_)).
-case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0,x,_)).
+case(solve_equation(x^2-3*x+2 = 0,x,_ANSWER)).
+case(solve_equation(cos(x)*(1-2*sin(x)) = 0,x,_ANSWER)).
+case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0,x,_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

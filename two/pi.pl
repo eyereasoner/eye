@@ -14,14 +14,13 @@ pi(A,B,C,D,E) :-
     pi(F,B,L,D,M).
 
 % test cases
-case(pi(100000,_)).
+case(pi(100000,_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

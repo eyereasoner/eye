@@ -103,19 +103,18 @@ s(A,B) :-
 s(A,A).
 
 % test cases
-case(derivative((x+1)*((x^2+2)*(x^3+3)),x,_)).
-case(derivative(x/x/x/x/x/x/x/x/x/x,x,_)).
-case(derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,_)).
-case(derivative(x*x*x*x*x*x*x*x*x*x,x,_)).
-case(integral(1*6*x^5,x,_)).
-case(integral(1*sqrt(pi)/2*exp(-x^2),x,_)).
+case(derivative((x+1)*((x^2+2)*(x^3+3)),x,_ANSWER)).
+case(derivative(x/x/x/x/x/x/x/x/x/x,x,_ANSWER)).
+case(derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,_ANSWER)).
+case(derivative(x*x*x*x*x*x*x*x*x*x,x,_ANSWER)).
+case(integral(1*6*x^5,x,_ANSWER)).
+case(integral(1*sqrt(pi)/2*exp(-x^2),x,_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

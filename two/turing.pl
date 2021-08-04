@@ -40,17 +40,16 @@ t(1,1,0,l,1).
 t(1,#,1,s,halt).
 
 % test cases
-case(compute([1,0,1,0,0,1],_)).
-case(compute([1,0,1,1,1,1],_)).
-case(compute([1,1,1,1,1,1],_)).
+case(compute([1,0,1,0,0,1],_ANSWER)).
+case(compute([1,0,1,1,1,1],_ANSWER)).
+case(compute([1,1,1,1,1,1],_ANSWER)).
 case(compute([],_)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

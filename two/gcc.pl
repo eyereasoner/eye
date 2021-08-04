@@ -46,14 +46,13 @@ testgcc([C|Cs],S,[N|Ns]) :-
     testgcc(Cs,N,Ns).
 
 % test cases
-case(testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),_)).
+case(testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),_ANSWER)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

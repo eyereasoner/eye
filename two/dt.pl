@@ -30006,18 +30006,17 @@ type(X,class(i10000)) :- type(X,class(n9999)).
 type(X,class(j10000)) :- type(X,class(n9999)).
 
 % test cases
-case(type(_,class(n1))).
-case(type(_,class(n10))).
-case(type(_,class(n100))).
-case(type(_,class(n1000))).
-case(type(_,class(n10000))).
+case(type(_ELEMENT,class(n1))).
+case(type(_ELEMENT,class(n10))).
+case(type(_ELEMENT,class(n100))).
+case(type(_ELEMENT,class(n1000))).
+case(type(_ELEMENT,class(n10000))).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.

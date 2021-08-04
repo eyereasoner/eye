@@ -18,14 +18,13 @@ path(A,B) :-
     path(C,B).
 
 % test cases
-case(path(_,nantes)).
+case(path(_CITY,nantes)).
 
 test :-
     case(A),
     A,
     write(A),
-    write('.'),
-    nl,
+    write('.\n'),
     fail.
 test :-
     halt.
