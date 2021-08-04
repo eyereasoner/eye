@@ -1,4 +1,5 @@
 % Goal driven Parallel Sequences -- Jos De Roo
+% See background paper https://arxiv.org/pdf/2010.12027.pdf
 
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
