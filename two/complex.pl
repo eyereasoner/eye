@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
-exponentiation([A,B],[C,D],[E,F]) :-
+exp([A,B],[C,D],[E,F]) :-
     polar([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
@@ -52,8 +52,8 @@ divide(X,Y,Z) :-
     times(X,Yp,Z).
 
 % test cases
-case(exponentiation([-1,0],[0.5,0],_ANSWER)).
-case(exponentiation([e,0],[0,pi],_ANSWER)).
+case(exp([-1,0],[0.5,0],_ANSWER)).
+case(exp([e,0],[0,pi],_ANSWER)).
 
 test :-
     case(A),

@@ -1,7 +1,7 @@
 % Running TWO tests
 
-exponentiation([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
-exponentiation([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
+exp([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
+exp([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
 
 derivative((x+1)*((x^2+2)*(x^3+3)),x,(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2))).
 derivative(x/x/x/x/x/x/x/x/x/x,x,(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2).
