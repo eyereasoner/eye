@@ -80,7 +80,7 @@ description(map_be,location(S,brugge),true,location(S,oostende),drive_brugge_oos
 location(i1,gent).
 
 % test cases
-case(findpath(location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,4])).
+case(findpath(location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1])).
 
 test :-
     case(A),
