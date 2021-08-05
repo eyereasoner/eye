@@ -71,14 +71,16 @@ conj_list((A,B),[A|C]) :-
 :- dynamic(location/2).
 
 % map of Belgium
-description(map_be,location(S,brugge),true,location(S,oostende),drive_brugge_oostende,900.0,0.004,0.98,1.0).
 description(map_be,location(S,gent),true,location(S,brugge),drive_gent_brugge,1500.0,0.006,0.96,0.99).
+description(map_be,location(S,gent),true,location(S,kortrijk),drive_gent_kortrijk,1600.0,0.007,0.96,0.99).
+description(map_be,location(S,kortrijk),true,location(S,brugge),drive_kortrijk_brugge,1600.0,0.007,0.96,0.99).
+description(map_be,location(S,brugge),true,location(S,oostende),drive_brugge_oostende,900.0,0.004,0.98,1.0).
 
 % current state
 location(i1,gent).
 
 % test cases
-case(findpath(location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[3600.0,5.0,0.2,0.4,1])).
+case(findpath(location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,4])).
 
 test :-
     case(A),
