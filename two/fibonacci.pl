@@ -1,8 +1,5 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
-:- use_module(library(dcgs)).
-:- use_module(library(lists)).
-
 fibonacci(A,B) :-
     fibonacci(A,0,1,B).
 
