@@ -45,19 +45,12 @@ stagecount([_|D],B) :-
 % linear logic implication
 becomes(A,B) :-
     catch(A,_,fail),
-    conj_list(A,D),
-    forall(
-        member(E,D),
-        retract(E)
-    ),
-    conj_list(B,G),
-    forall(
-        member(H,G),
-        assertz(H)
-    ).
+    conj_list(A,C),
+    forall(member(D,C),retract(D)),
+    conj_list(B,E),
+    forall(member(F,E),assertz(F)).
 
-conj_list(true,[]) :-
-    !.
+conj_list(true,[]).
 conj_list(A,[A]) :-
     A \= (_,_),
     A \= false,
