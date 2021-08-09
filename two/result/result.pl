@@ -65,6 +65,37 @@ type(z,class(n100)).
 type(z,class(n1000)).
 type(z,class(n10000)).
 
+easter(2021,4,4).
+easter(2022,4,17).
+easter(2023,4,9).
+easter(2024,3,31).
+easter(2025,4,20).
+easter(2026,4,5).
+easter(2027,3,28).
+easter(2028,4,16).
+easter(2029,4,1).
+easter(2030,4,21).
+easter(2031,4,13).
+easter(2032,3,28).
+easter(2033,4,17).
+easter(2034,4,9).
+easter(2035,3,25).
+easter(2036,4,13).
+easter(2037,4,5).
+easter(2038,4,25).
+easter(2039,4,10).
+easter(2040,4,1).
+easter(2041,4,21).
+easter(2042,4,6).
+easter(2043,3,29).
+easter(2044,4,17).
+easter(2045,4,9).
+easter(2046,3,25).
+easter(2047,4,14).
+easter(2048,4,5).
+easter(2049,4,18).
+easter(2050,4,11).
+
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
 solve_equation(cos(x)*(1-2*sin(x))=0,x,x=acos(0)).
@@ -116,6 +147,8 @@ findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2])
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(g(_3,_4),_6^(p(_3,_6),p(_6,_4)),[g(0,3),g(0,4)]).
 
 type(socrates,mortal).
+
+tak(34,13,8,13).
 
 compute([1,0,1,0,0,1],[1,0,1,0,1,0,#]).
 compute([1,0,1,1,1,1],[1,1,0,0,0,0,#]).
