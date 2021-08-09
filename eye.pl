@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0708.2239 josd').
+version_info('EYE v21.0809.2141 josd').
 
 license_info('MIT License
 
@@ -71,6 +71,7 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
+    --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
@@ -613,6 +614,11 @@ opts(['--random-seed'|Argus], Args) :-
     !,
     N is random(2^120),
     nb_setval(random, N),
+    opts(Argus, Args).
+opts(['--restricted'|Argus], Args) :-
+    !,
+    retractall(flag(restricted)),
+    assertz(flag(restricted)),
     opts(Argus, Args).
 opts(['--rule-histogram'|Argus], Args) :-
     !,
@@ -4305,9 +4311,11 @@ djiti_assertz(A) :-
 %
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#avg>'(A, B) :-
+    \+flag(restricted),
     avg(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B) :-
+    \+flag(restricted),
     catch(call(A), _, fail),
     unify(A, C),
     conj_list(C, D),
@@ -4326,6 +4334,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>'(['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#boolean>'(A, B)|C], D) :-
+    \+flag(restricted),
     within_scope(_),
     (   nb_getval(bnet, done)
     ->  true
@@ -4337,6 +4346,7 @@ djiti_assertz(A) :-
     bcon(['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#boolean>'(A, B)], C, D).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#binaryEntropy>'(A, B) :-
+    \+flag(restricted),
     getnumber(A, C),
     (   C =:= 0.0
     ->  B is 0.0
@@ -4347,6 +4357,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#calculate>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
+    \+flag(restricted),
     findall(U,
         (   member(V, B),
             getnumber(V, U)
@@ -4357,6 +4368,7 @@ djiti_assertz(A) :-
     catch(C is D, _, fail).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#call>'(Sc, A) :-
+    \+flag(restricted),
     within_scope(Sc),
     nonvar(A),
     conjify(A, B),
@@ -4368,6 +4380,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#cartesianProduct>'(A, B) :-
+    \+flag(restricted),
     findall(C,
         (   cartesian(A, C)
         ),
@@ -4375,17 +4388,21 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#closure>'(Sc, A) :-
+    \+flag(restricted),
     within_scope(Sc),
     hstep(A, _).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#compoundTerm>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
+    \+flag(restricted),
     atomify(B, D),
     read_term_from_atom(A, C, [variables(D)]).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#cov>'(A, B) :-
+    \+flag(restricted),
     cov(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'(A, B) :-
+    \+flag(restricted),
     atomify(A, C),
     D =.. C,
     (   B = true
@@ -4394,6 +4411,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#exec>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4402,10 +4420,12 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fail>'(A, B) :-
+    \+flag(restricted),
     within_scope(A),
     \+catch(call(B), _, fail).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fileString>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     read_file_to_string(A, C, []),
     (   string_concat(D, "\n", C)
     ->  true
@@ -4414,6 +4434,7 @@ djiti_assertz(A) :-
     atom_string(B, D).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A, B) :-
+    \+flag(restricted),
     call_cleanup(A, B),
     (   flag(nope)
     ->  true
@@ -4423,6 +4444,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [A, B, C]) :-
+    \+flag(restricted),
     within_scope(Sc),
     nonvar(B),
     \+is_list(B),
@@ -4445,9 +4467,11 @@ djiti_assertz(A) :-
     ),
     E = C.
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#firstRest>'([A|B], [A, B]).
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#firstRest>'([A|B], [A, B]) :-
+    \+flag(restricted).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#format>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -4459,6 +4483,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphCopy>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4471,6 +4496,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphDifference>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4480,6 +4506,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphIntersection>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4489,6 +4516,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphList>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4509,6 +4537,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4518,15 +4547,18 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphPair>'((A, B), [A, B]).
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphPair>'((A, B), [A, B]) :-
+    \+flag(restricted).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#hmac-sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     flag('hmac-key', Key),
     hmac_sha(Key, A, C, [algorithm(sha1)]),
     atom_codes(D, C),
     base64xml(D, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#ignore>'(Sc, A) :-
+    \+flag(restricted),
     within_scope(Sc),
     nonvar(A),
     (   catch(call(A), _, fail)
@@ -4539,6 +4571,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#label>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4556,6 +4589,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#labelvars>'(A, B) :-
+    \+flag(restricted),
     copy_term_nat(A, C),
     labelvars(C, 0, _),
     term_index(C, D),
@@ -4569,6 +4603,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#length>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4585,9 +4620,11 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#match>'(_, B) :-
+    \+flag(restricted),
     \+ \+catch(call(B), _, fail).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#max>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4596,6 +4633,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#min>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4604,16 +4642,20 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetEqualTo>'(A, B) :-
+    \+flag(restricted),
     sort(0, @=<, A, C),
     sort(0, @=<, B, C).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetNotEqualTo>'(A, B) :-
+    \+flag(restricted),
     \+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetEqualTo>'(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#notLabel>'(A, B) :-
+    \+flag(restricted),
     \+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#label>'(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#numeral>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4622,6 +4664,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#optional>'(Sc, A) :-
+    \+flag(restricted),
     within_scope(Sc),
     nonvar(A),
     (   \+catch(call(A), _, fail)
@@ -4635,24 +4678,29 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#pcc>'([A, B], C) :-
+    \+flag(restricted),
     pcc([A, B], C).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#prefix>'(Sc, literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     within_scope(Sc),
     with_output_to_codes(wh, C),
     atom_codes(A, C),
     retractall(wpfx(_)).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'([A], [B, C]) :-
+    \+flag(restricted),
     !,
     D =.. [A, B, C],
     catch(call(D), _, fail).
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'([A|B], [C, D]) :-
+    \+flag(restricted),
     E =.. [A, C, F],
     catch(call(E), _, fail),
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#propertyChainExtension>'(B, [F, D]).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#random>'([A|B], C) :-
+    \+flag(restricted),
     term_index([A|B], I),
     (   B \= [],
         got_random([A|B], I, C)
@@ -4668,12 +4716,15 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#reverse>'(A, B) :-
+    \+flag(restricted),
     reverse(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#rms>'(A, B) :-
+    \+flag(restricted),
     rms(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#roc>'(St, [Sen, Asp]) :-
+    \+flag(restricted),
     getnumber(St, K),
     (   getnumber(Sen, S)
     ->  Asp is 1-(1-exp(-K*(S-1)))*(1+exp(K))/(1+exp(-K*(S-1)))/(1-exp(K))
@@ -4682,15 +4733,18 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     sha_hash(A, C, [algorithm(sha1)]),
     atom_codes(D, C),
     base64xml(D, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#sigmoid>'(A, B) :-
+    \+flag(restricted),
     getnumber(A, C),
     B is 1/(1+exp(-C)).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#skolem>'(X, Y) :-
+    \+flag(restricted),
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, X),
     (   \+keep_skolem(Y)
     ->  assertz(keep_skolem(Y))
@@ -4698,6 +4752,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#sort>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4706,9 +4761,11 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#std>'(A, B) :-
+    \+flag(restricted),
     std(A, B).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#stringEscape>'(literal(X, Y), literal(Z, Y)) :-
+    \+flag(restricted),
     when(
         (   ground(X)
         ),
@@ -4719,6 +4776,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#stringReverse>'(literal(X, Y), literal(Z, Y)) :-
+    \+flag(restricted),
     when(
         (   ground(X)
         ),
@@ -4730,6 +4788,7 @@ djiti_assertz(A) :-
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#stringSplit>'([literal(X, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))],
     Z) :-
+    \+flag(restricted),
     when(
         (   ground([X, Y])
         ),
@@ -4755,6 +4814,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#subsequence>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4763,6 +4823,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#trace>'(X, Y) :-
+    \+flag(restricted),
     tell(user_error),
     write('TRACE '),
     (   var(X)
@@ -4774,6 +4835,7 @@ djiti_assertz(A) :-
     told.
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transpose>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -4782,9 +4844,11 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tripleList>'(A, [B, C, D]) :-
+    \+flag(restricted),
     A =.. [C, B, D].
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(X, Y) :-
+    \+flag(restricted),
     when(
         (   nonvar(X)
         ;   ground(Y)
@@ -4810,12 +4874,14 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#unique>'(A, B) :-
+    \+flag(restricted),
     (   got_unique(A, B)
     ->  fail
     ;   assertz(got_unique(A, B))
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#whenGround>'(A, B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -4827,6 +4893,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#wwwFormEncode>'(X, literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground(X)
         ;   ground(Y)
@@ -4844,6 +4911,36 @@ djiti_assertz(A) :-
             )
         )
     ).
+
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   X = [Y|Z],
+            nonvar(Z)
+        )
+    ),
+    !.
+
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>') :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   X = [_]
+        )
+    ),
+    !.
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   X = [_|Y]
+        )
+    ),
+    !.
 
 '<http://www.w3.org/2000/10/swap/crypto#sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     sha_hash(A, C, [algorithm(sha1)]),
@@ -5538,33 +5635,6 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [Y|Z],
-            nonvar(Z)
-        )
-    ),
-    !.
-
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>') :-
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [_]
-        )
-    ),
-    !.
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [_|Y]
-        )
-    ),
-    !.
-
 '<http://www.w3.org/2000/10/swap/string#concatenation>'(X, Y) :-
     when(
         (   nonvar(X)
@@ -5753,6 +5823,7 @@ djiti_assertz(A) :-
 % 4.1.1.1 pred:literal-not-identical
 
 '<http://www.w3.org/2007/rif-builtin-predicate#literal-not-identical>'([literal(A, B), literal(C, B)], D) :-
+    \+flag(restricted),
     when(
         (   ground([A, B, C])
         ),
@@ -5765,6 +5836,7 @@ djiti_assertz(A) :-
 % 4.4.4 pred:iri-string
 
 '<http://www.w3.org/2007/rif-builtin-predicate#iri-string>'([A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ;   nonvar(B)
@@ -5788,6 +5860,7 @@ djiti_assertz(A) :-
 % 4.5.1 Numeric Functions
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-add>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5796,6 +5869,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-subtract>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5806,6 +5880,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-multiply>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5816,6 +5891,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-divide>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5829,6 +5905,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-integer-divide>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5842,6 +5919,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2007/rif-builtin-function#numeric-mod>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5857,6 +5935,7 @@ djiti_assertz(A) :-
 % 4.5.2.1 pred:numeric-equal
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-equal>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5872,6 +5951,7 @@ djiti_assertz(A) :-
 % 4.5.2.2 pred:numeric-less-than
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-less-than>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5887,6 +5967,7 @@ djiti_assertz(A) :-
 % 4.5.2.3 pred:numeric-greater-than
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-greater-than>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5902,6 +5983,7 @@ djiti_assertz(A) :-
 % 4.5.2.4 pred:numeric-not-equal
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-not-equal>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5917,6 +5999,7 @@ djiti_assertz(A) :-
 % 4.5.2.5 pred:numeric-less-than-or-equal
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-less-than-or-equal>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5932,6 +6015,7 @@ djiti_assertz(A) :-
 % 4.5.2.6 pred:numeric-greater-than-or-equal
 
 '<http://www.w3.org/2007/rif-builtin-predicate#numeric-greater-than-or-equal>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5947,6 +6031,7 @@ djiti_assertz(A) :-
 % 4.6.1.1 func:not
 
 '<http://www.w3.org/2007/rif-builtin-function#not>'([A], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -5962,6 +6047,7 @@ djiti_assertz(A) :-
 % 4.6.2.1 pred:boolean-equal
 
 '<http://www.w3.org/2007/rif-builtin-predicate#boolean-equal>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5975,6 +6061,7 @@ djiti_assertz(A) :-
 % 4.6.2.2 pred:boolean-less-than
 
 '<http://www.w3.org/2007/rif-builtin-predicate#boolean-less-than>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -5988,6 +6075,7 @@ djiti_assertz(A) :-
 % 4.6.2.3 pred:boolean-greater-than
 
 '<http://www.w3.org/2007/rif-builtin-predicate#boolean-greater-than>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6001,6 +6089,7 @@ djiti_assertz(A) :-
 % 4.7.1.1 func:compare @@partial implementation: no collation
 
 '<http://www.w3.org/2007/rif-builtin-function#compare>'([literal(A, B), literal(C, B)], D) :-
+    \+flag(restricted),
     !,
     (   A @< C
     ->  D = -1
@@ -6015,6 +6104,7 @@ djiti_assertz(A) :-
 % 4.7.1.2 func:concat
 
 '<http://www.w3.org/2007/rif-builtin-function#concat>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6032,6 +6122,7 @@ djiti_assertz(A) :-
 % 4.7.1.3 func:string-join
 
 '<http://www.w3.org/2007/rif-builtin-function#string-join>'([A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6053,6 +6144,7 @@ djiti_assertz(A) :-
 % 4.7.1.4 func:substring
 
 '<http://www.w3.org/2007/rif-builtin-function#substring>'([literal(A, _), B, C], literal(D, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     !,
     when(
         (   ground([A, B, C])
@@ -6072,6 +6164,7 @@ djiti_assertz(A) :-
         )
     ).
 '<http://www.w3.org/2007/rif-builtin-function#substring>'([literal(A, _), B], literal(D, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6094,6 +6187,7 @@ djiti_assertz(A) :-
 % 4.7.1.5 func:string-length
 
 '<http://www.w3.org/2007/rif-builtin-function#string-length>'([literal(A, _)], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6104,6 +6198,7 @@ djiti_assertz(A) :-
 % 4.7.1.6 func:upper-case
 
 '<http://www.w3.org/2007/rif-builtin-function#upper-case>'([literal(A, B)], literal(C, B)) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6114,6 +6209,7 @@ djiti_assertz(A) :-
 % 4.7.1.7 func:lower-case
 
 '<http://www.w3.org/2007/rif-builtin-function#lower-case>'([literal(A, B)], literal(C, B)) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6124,6 +6220,7 @@ djiti_assertz(A) :-
 % 4.7.1.8 func:encode-for-uri
 
 '<http://www.w3.org/2007/rif-builtin-function#encode-for-uri>'([literal(A, B)], literal(C, B)) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6133,8 +6230,8 @@ djiti_assertz(A) :-
 
 % 4.7.1.11 func:substring-before @@partial implementation: no collation
 
-'<http://www.w3.org/2007/rif-builtin-function#substring-before>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#substring-before>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6145,8 +6242,8 @@ djiti_assertz(A) :-
 
 % 4.7.1.12 func:substring-after @@partial implementation: no collation
 
-'<http://www.w3.org/2007/rif-builtin-function#substring-after>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#substring-after>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6158,6 +6255,7 @@ djiti_assertz(A) :-
 % 4.7.2.1 pred:contains @@partial implementation: no collation
 
 '<http://www.w3.org/2007/rif-builtin-predicate#contains>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6171,6 +6269,7 @@ djiti_assertz(A) :-
 % 4.7.2.2 pred:starts-with @@partial implementation: no collation
 
 '<http://www.w3.org/2007/rif-builtin-predicate#starts-with>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6183,6 +6282,7 @@ djiti_assertz(A) :-
 % 4.7.2.3 pred:ends-with @@partial implementation: no collation
 
 '<http://www.w3.org/2007/rif-builtin-predicate#ends-with>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6195,6 +6295,7 @@ djiti_assertz(A) :-
 % 4.7.2.4 pred:matches @@partial implementation: no flags
 
 '<http://www.w3.org/2007/rif-builtin-predicate#matches>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6207,6 +6308,7 @@ djiti_assertz(A) :-
 % 4.8.1.1 func:year-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#year-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6222,6 +6324,7 @@ djiti_assertz(A) :-
 % 4.8.1.2 func:month-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#month-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6237,6 +6340,7 @@ djiti_assertz(A) :-
 % 4.8.1.3 func:day-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#day-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6252,6 +6356,7 @@ djiti_assertz(A) :-
 % 4.8.1.4 func:hours-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#hours-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6267,6 +6372,7 @@ djiti_assertz(A) :-
 % 4.8.1.5 func:minutes-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#minutes-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6282,6 +6388,7 @@ djiti_assertz(A) :-
 % 4.8.1.6 func:seconds-from-dateTime
 
 '<http://www.w3.org/2007/rif-builtin-function#seconds-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6297,6 +6404,7 @@ djiti_assertz(A) :-
 % 4.8.1.7 func:year-from-date
 
 '<http://www.w3.org/2007/rif-builtin-function#year-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6312,6 +6420,7 @@ djiti_assertz(A) :-
 % 4.8.1.8 func:month-from-date
 
 '<http://www.w3.org/2007/rif-builtin-function#month-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6327,6 +6436,7 @@ djiti_assertz(A) :-
 % 4.8.1.9 func:day-from-date
 
 '<http://www.w3.org/2007/rif-builtin-function#day-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6342,6 +6452,7 @@ djiti_assertz(A) :-
 % 4.8.1.10 func:hours-from-time
 
 '<http://www.w3.org/2007/rif-builtin-function#hours-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6357,6 +6468,7 @@ djiti_assertz(A) :-
 % 4.8.1.11 func:minutes-from-time
 
 '<http://www.w3.org/2007/rif-builtin-function#minutes-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6372,6 +6484,7 @@ djiti_assertz(A) :-
 % 4.8.1.12 func:seconds-from-time
 
 '<http://www.w3.org/2007/rif-builtin-function#seconds-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6387,8 +6500,10 @@ djiti_assertz(A) :-
 % 4.8.1.13 func:years-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#years-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], 0) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#years-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6405,8 +6520,10 @@ djiti_assertz(A) :-
 % 4.8.1.14 func:months-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#months-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], 0) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#months-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6423,8 +6540,10 @@ djiti_assertz(A) :-
 % 4.8.1.15 func:days-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#days-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], _) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#days-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6441,8 +6560,10 @@ djiti_assertz(A) :-
 % 4.8.1.16 func:hours-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#hours-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], _) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#hours-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6459,8 +6580,10 @@ djiti_assertz(A) :-
 % 4.8.1.17 func:minutes-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#minutes-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], _) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#minutes-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6477,8 +6600,10 @@ djiti_assertz(A) :-
 % 4.8.1.18 func:seconds-from-duration
 
 '<http://www.w3.org/2007/rif-builtin-function#seconds-from-duration>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], _) :-
+    \+flag(restricted),
     !.
 '<http://www.w3.org/2007/rif-builtin-function#seconds-from-duration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], B) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6494,8 +6619,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.19 func:timezone-from-dateTime
 
-'<http://www.w3.org/2007/rif-builtin-function#timezone-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))],
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#timezone-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6513,8 +6638,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.20 func:timezone-from-date
 
-'<http://www.w3.org/2007/rif-builtin-function#timezone-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>'))],
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#timezone-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>'))], literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6532,8 +6657,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.21 func:timezone-from-time
 
-'<http://www.w3.org/2007/rif-builtin-function#timezone-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>'))],
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#timezone-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>'))], literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground(A)
         ),
@@ -6551,8 +6676,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.22 func:subtract-dateTimes
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dateTimes>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dateTimes>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6573,8 +6698,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.23 func:subtract-dates
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dates>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dates>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6595,8 +6720,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.24 func:subtract-times
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-times>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-times>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6617,8 +6742,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.25 func:add-yearMonthDurations
 
-'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6639,8 +6764,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.26 func:subtract-yearMonthDurations
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6661,8 +6786,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.27 func:multiply-yearMonthDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#multiply-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), B],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#multiply-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), B], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6682,8 +6807,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.28 func:divide-yearMonthDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#divide-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), B],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#divide-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), B], literal(C, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6703,8 +6828,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.29 func:divide-yearMonthDuration-by-yearMonthDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#divide-yearMonthDuration-by-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-function#divide-yearMonthDuration-by-yearMonthDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6722,8 +6847,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.30 func:add-dayTimeDurations
 
-'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6744,8 +6869,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.31 func:subtract-dayTimeDurations
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDurations>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6766,8 +6891,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.32 func:multiply-dayTimeDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#multiply-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), B],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#multiply-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), B], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6787,8 +6912,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.33 func:divide-dayTimeDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#divide-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), B],
-    literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#divide-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), B], literal(C, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6808,8 +6933,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.34 func:divide-dayTimeDuration-by-dayTimeDuration
 
-'<http://www.w3.org/2007/rif-builtin-function#divide-dayTimeDuration-by-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-function#divide-dayTimeDuration-by-dayTimeDuration>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6827,8 +6952,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.35 func:add-yearMonthDuration-to-dateTime
 
-'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDuration-to-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDuration-to-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6857,8 +6982,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.36 func:add-yearMonthDuration-to-date
 
-'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDuration-to-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-yearMonthDuration-to-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6884,8 +7009,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.37 func:add-dayTimeDuration-to-dateTime
 
-'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6912,8 +7037,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.38 func:add-dayTimeDuration-to-date
 
-'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6937,8 +7062,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.39 func:add-dayTimeDuration-to-time
 
-'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#time>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#add-dayTimeDuration-to-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#time>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6966,8 +7091,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.40 func:subtract-yearMonthDuration-from-dateTime
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDuration-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDuration-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -6996,8 +7121,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.41 func:subtract-yearMonthDuration-from-date
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDuration-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-yearMonthDuration-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7023,8 +7148,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.42 func:subtract-dayTimeDuration-from-dateTime
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7051,8 +7176,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.43 func:subtract-dayTimeDuration-from-date
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-date>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#date>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7076,8 +7201,8 @@ djiti_assertz(A) :-
 
 % 4.8.1.44 func:subtract-dayTimeDuration-from-time
 
-'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#time>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#subtract-dayTimeDuration-from-time>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#time>'))) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7105,8 +7230,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.1 pred:dateTime-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7123,8 +7248,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.2 pred:dateTime-less-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7141,8 +7266,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.3 pred:dateTime-greater-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7159,8 +7284,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.4 pred:date-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7177,8 +7302,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.5 pred:date-less-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7195,8 +7320,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.6 pred:date-greater-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7213,8 +7338,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.7 pred:time-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7231,8 +7356,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.8 pred:time-less-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7249,8 +7374,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.9 pred:time-greater-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7267,8 +7392,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.10 pred:duration-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#duration-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#duration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#duration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#duration-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#duration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#duration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7285,8 +7410,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.11 pred:dayTimeDuration-less-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7303,8 +7428,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.12 pred:dayTimeDuration-greater-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7321,8 +7446,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.13 pred:yearMonthDuration-less-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-less-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7339,8 +7464,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.14 pred:yearMonthDuration-greater-than
 
-'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-greater-than>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7357,8 +7482,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.15 pred:dateTime-not-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7375,8 +7500,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.16 pred:dateTime-less-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7393,8 +7518,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.17 pred:dateTime-greater-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dateTime-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7411,8 +7536,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.18 pred:date-not-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7429,8 +7554,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.19 pred:date-less-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7447,8 +7572,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.20 pred:date-greater-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#date-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#date-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#date>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#date>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7465,8 +7590,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.21 pred:time-not-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7483,8 +7608,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.22 pred:time-less-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7501,8 +7626,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.23 pred:time-greater-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#time-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#time-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#time>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#time>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7519,8 +7644,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.24 pred:duration-not-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#duration-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#duration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#duration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#duration-not-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#duration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#duration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7537,8 +7662,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.25 pred:dayTimeDuration-less-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7555,8 +7680,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.26 pred:dayTimeDuration-greater-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#dayTimeDuration-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#dayTimeDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7573,8 +7698,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.27 pred:yearMonthDuration-less-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-less-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7591,8 +7716,8 @@ djiti_assertz(A) :-
 
 % 4.8.2.28 pred:yearMonthDuration-greater-than-or-equal
 
-'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+'<http://www.w3.org/2007/rif-builtin-predicate#yearMonthDuration-greater-than-or-equal>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#yearMonthDuration>'))], C) :-
+    \+flag(restricted),
     when(
         (   ground([A, B])
         ),
@@ -7609,28 +7734,33 @@ djiti_assertz(A) :-
 
 % 4.10.1.1 func:PlainLiteral-from-string-lang
 
-'<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-from-string-lang>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))],
-    literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-from-string-lang>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     !.
-'<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-from-string-lang>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
-    literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(C))) :-
+'<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-from-string-lang>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(C))) :-
+    \+flag(restricted),
     downcase_atom(B, C).
 
 % 4.10.1.2 func:string-from-PlainLiteral
 
 '<http://www.w3.org/2007/rif-builtin-function#string-from-PlainLiteral>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     !.
-'<http://www.w3.org/2007/rif-builtin-function#string-from-PlainLiteral>'([literal(A, lang(_))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://www.w3.org/2007/rif-builtin-function#string-from-PlainLiteral>'([literal(A, lang(_))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted).
 
 % 4.10.1.3 func:lang-from-PlainLiteral
 
 '<http://www.w3.org/2007/rif-builtin-function#lang-from-PlainLiteral>'([literal(_, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal('', type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted),
     !.
-'<http://www.w3.org/2007/rif-builtin-function#lang-from-PlainLiteral>'([literal(_, lang(A))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))).
+'<http://www.w3.org/2007/rif-builtin-function#lang-from-PlainLiteral>'([literal(_, lang(A))], literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    \+flag(restricted).
 
 % 4.10.1.4 func:PlainLiteral-compare @@partial implementation: no collation
 
 '<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-compare>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))], D) :-
+    \+flag(restricted),
     !,
     (   A @< C
     ->  D = -1
@@ -7642,6 +7772,7 @@ djiti_assertz(A) :-
         )
     ).
 '<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-compare>'([literal(A, lang(B)), literal(C, lang(B))], D) :-
+    \+flag(restricted),
     (   A @< C
     ->  D = -1
     ;   (   A == C
@@ -7655,14 +7786,17 @@ djiti_assertz(A) :-
 % 4.10.1.5 func:PlainLiteral-length
 
 '<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-length>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    \+flag(restricted),
     !,
     sub_atom(A, 0, C, 0, _).
 '<http://www.w3.org/2007/rif-builtin-function#PlainLiteral-length>'([literal(A, lang(_))], C) :-
+    \+flag(restricted),
     sub_atom(A, 0, C, 0, _).
 
 % 4.10.2.1 pred:matches-language-range @@partial implementation: no false results
 
 '<http://www.w3.org/2007/rif-builtin-predicate#matches-language-range>'([literal(A, lang(B)), literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))], true) :-
+    \+flag(restricted),
     A \= '',
     atom_codes(C, U),
     regexp_wildcard(U, V),
@@ -7675,6 +7809,7 @@ djiti_assertz(A) :-
 % 4.11.3.1 pred:is-list
 
 '<http://www.w3.org/2007/rif-builtin-predicate#is-list>'([A], B) :-
+    \+flag(restricted),
     (   is_list(A)
     ->  B = true
     ;   B = false
@@ -7683,6 +7818,7 @@ djiti_assertz(A) :-
 % 4.11.3.2 pred:list-contains
 
 '<http://www.w3.org/2007/rif-builtin-predicate#list-contains>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -7694,11 +7830,13 @@ djiti_assertz(A) :-
 
 % 4.11.4.1 func:make-list
 
-'<http://www.w3.org/2007/rif-builtin-function#make-list>'(A, A).
+'<http://www.w3.org/2007/rif-builtin-function#make-list>'(A, A) :-
+    \+flag(restricted).
 
 % 4.11.4.2 func:count
 
 '<http://www.w3.org/2007/rif-builtin-function#count>'([A], B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -7709,6 +7847,7 @@ djiti_assertz(A) :-
 % 4.11.4.3 func:get
 
 '<http://www.w3.org/2007/rif-builtin-function#get>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A),
             ground(B)
@@ -7721,6 +7860,7 @@ djiti_assertz(A) :-
 % 4.11.4.4 func:sublist
 
 '<http://www.w3.org/2007/rif-builtin-function#sublist>'([A, B, C], D) :-
+    \+flag(restricted),
     !,
     when(
         (   nonvar(A),
@@ -7749,6 +7889,7 @@ djiti_assertz(A) :-
         )
     ).
 '<http://www.w3.org/2007/rif-builtin-function#sublist>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A),
             ground(B)
@@ -7768,11 +7909,13 @@ djiti_assertz(A) :-
 % 4.11.4.5 func:append
 
 '<http://www.w3.org/2007/rif-builtin-function#append>'([A|B], C) :-
+    \+flag(restricted),
     append(A, B, C).
 
 % 4.11.4.6 func:concatenate
 
 '<http://www.w3.org/2007/rif-builtin-function#concatenate>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -7783,6 +7926,7 @@ djiti_assertz(A) :-
 % 4.11.4.7 func:insert-before
 
 '<http://www.w3.org/2007/rif-builtin-function#insert-before>'([A, B, C], D) :-
+    \+flag(restricted),
     when(
         (   nonvar(A),
             ground([B, C])
@@ -7802,6 +7946,7 @@ djiti_assertz(A) :-
 % 4.11.4.8 func:remove
 
 '<http://www.w3.org/2007/rif-builtin-function#remove>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A),
             ground(B)
@@ -7821,11 +7966,13 @@ djiti_assertz(A) :-
 % 4.11.4.9 func:reverse
 
 '<http://www.w3.org/2007/rif-builtin-function#reverse>'([A], B) :-
+    \+flag(restricted),
     reverse(A, B).
 
 % 4.11.4.10 func:index-of
 
 '<http://www.w3.org/2007/rif-builtin-function#index-of>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   nonvar(A),
             ground(B)
@@ -7841,6 +7988,7 @@ djiti_assertz(A) :-
 % 4.11.4.11 func:union
 
 '<http://www.w3.org/2007/rif-builtin-function#union>'(A, B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -7852,6 +8000,7 @@ djiti_assertz(A) :-
 % 4.11.4.12 func:distinct-values
 
 '<http://www.w3.org/2007/rif-builtin-function#distinct-values>'([A], B) :-
+    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
@@ -7862,6 +8011,7 @@ djiti_assertz(A) :-
 % 4.11.4.13 func:intersect
 
 '<http://www.w3.org/2007/rif-builtin-function#intersect>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground(A),
             ground(B)
@@ -7878,6 +8028,7 @@ djiti_assertz(A) :-
 % 4.11.4.14 func:except
 
 '<http://www.w3.org/2007/rif-builtin-function#except>'([A, B], C) :-
+    \+flag(restricted),
     when(
         (   ground(A),
             ground(B)
