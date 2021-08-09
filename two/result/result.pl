@@ -1,5 +1,54 @@
 % Running TWO tests
 
+colors([p1-c4,p2-c3,p3-c2,p4-c1,p5-c1]).
+colors([p1-c3,p2-c4,p3-c2,p4-c1,p5-c1]).
+colors([p1-c4,p2-c2,p3-c3,p4-c1,p5-c1]).
+colors([p1-c2,p2-c4,p3-c3,p4-c1,p5-c1]).
+colors([p1-c3,p2-c2,p3-c4,p4-c1,p5-c1]).
+colors([p1-c2,p2-c3,p3-c4,p4-c1,p5-c1]).
+colors([p1-c4,p2-c1,p3-c3,p4-c2,p5-c1]).
+colors([p1-c3,p2-c1,p3-c4,p4-c2,p5-c1]).
+colors([p1-c4,p2-c1,p3-c2,p4-c3,p5-c1]).
+colors([p1-c2,p2-c1,p3-c4,p4-c3,p5-c1]).
+colors([p1-c3,p2-c1,p3-c2,p4-c4,p5-c1]).
+colors([p1-c2,p2-c1,p3-c3,p4-c4,p5-c1]).
+colors([p1-c4,p2-c2,p3-c3,p4-c1,p5-c2]).
+colors([p1-c3,p2-c2,p3-c4,p4-c1,p5-c2]).
+colors([p1-c4,p2-c3,p3-c1,p4-c2,p5-c2]).
+colors([p1-c3,p2-c4,p3-c1,p4-c2,p5-c2]).
+colors([p1-c4,p2-c1,p3-c3,p4-c2,p5-c2]).
+colors([p1-c1,p2-c4,p3-c3,p4-c2,p5-c2]).
+colors([p1-c3,p2-c1,p3-c4,p4-c2,p5-c2]).
+colors([p1-c1,p2-c3,p3-c4,p4-c2,p5-c2]).
+colors([p1-c4,p2-c2,p3-c1,p4-c3,p5-c2]).
+colors([p1-c1,p2-c2,p3-c4,p4-c3,p5-c2]).
+colors([p1-c3,p2-c2,p3-c1,p4-c4,p5-c2]).
+colors([p1-c1,p2-c2,p3-c3,p4-c4,p5-c2]).
+colors([p1-c4,p2-c3,p3-c2,p4-c1,p5-c3]).
+colors([p1-c2,p2-c3,p3-c4,p4-c1,p5-c3]).
+colors([p1-c4,p2-c3,p3-c1,p4-c2,p5-c3]).
+colors([p1-c1,p2-c3,p3-c4,p4-c2,p5-c3]).
+colors([p1-c4,p2-c2,p3-c1,p4-c3,p5-c3]).
+colors([p1-c2,p2-c4,p3-c1,p4-c3,p5-c3]).
+colors([p1-c4,p2-c1,p3-c2,p4-c3,p5-c3]).
+colors([p1-c1,p2-c4,p3-c2,p4-c3,p5-c3]).
+colors([p1-c2,p2-c1,p3-c4,p4-c3,p5-c3]).
+colors([p1-c1,p2-c2,p3-c4,p4-c3,p5-c3]).
+colors([p1-c2,p2-c3,p3-c1,p4-c4,p5-c3]).
+colors([p1-c1,p2-c3,p3-c2,p4-c4,p5-c3]).
+colors([p1-c3,p2-c4,p3-c2,p4-c1,p5-c4]).
+colors([p1-c2,p2-c4,p3-c3,p4-c1,p5-c4]).
+colors([p1-c3,p2-c4,p3-c1,p4-c2,p5-c4]).
+colors([p1-c1,p2-c4,p3-c3,p4-c2,p5-c4]).
+colors([p1-c2,p2-c4,p3-c1,p4-c3,p5-c4]).
+colors([p1-c1,p2-c4,p3-c2,p4-c3,p5-c4]).
+colors([p1-c3,p2-c2,p3-c1,p4-c4,p5-c4]).
+colors([p1-c2,p2-c3,p3-c1,p4-c4,p5-c4]).
+colors([p1-c3,p2-c1,p3-c2,p4-c4,p5-c4]).
+colors([p1-c1,p2-c3,p3-c2,p4-c4,p5-c4]).
+colors([p1-c2,p2-c1,p3-c3,p4-c4,p5-c4]).
+colors([p1-c1,p2-c2,p3-c3,p4-c4,p5-c4]).
+
 exp([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
 exp([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
 
@@ -43,6 +92,8 @@ path(angers,nantes).
 path(paris,nantes).
 path(chartres,nantes).
 path(lemans,nantes).
+
+move(14,left,centre,right).
 
 route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],[[1,1],[1,2],[2,2],[3,2],[4,2],[5,2],[5,3],[5,4],[5,5],[6,5],[7,5],[8,5],[9,5],[9,6],[9,7],[9,8]]).
 
