@@ -94,7 +94,7 @@ easter(2046,3,25).
 easter(2047,4,14).
 easter(2048,4,5).
 easter(2049,4,18).
-easter(2050,4,11).
+easter(2050,4,10).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
