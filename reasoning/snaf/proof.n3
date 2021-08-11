@@ -1,0 +1,63 @@
+#Processed by EYE v21.0811.1752 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/snaf/demo.n3 http://josd.github.io/eye/reasoning/snaf/rules.n3 --pass
+
+PREFIX : <http://example.org/>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+
+[] a r:Proof, r:Conjunction;
+  r:component <#lemma1>;
+  r:component <#lemma2>;
+  r:gives {
+    :Alice :loves :Bob.
+    :Alice :hates :Nobody.
+  }.
+
+<#lemma1> a r:Inference;
+  r:gives {
+    :Alice :loves :Bob.
+  };
+  r:evidence (
+    <#lemma3>
+  );
+  r:rule <#lemma4>.
+
+<#lemma2> a r:Inference;
+  r:gives {
+    :Alice :hates :Nobody.
+  };
+  r:evidence (
+    <#lemma5>
+  );
+  r:rule <#lemma4>.
+
+<#lemma3> a r:Extraction;
+  r:gives {
+    :Alice :loves :Bob.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/demo.n3>].
+
+<#lemma4> a r:Extraction;
+  r:gives {
+    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+<#lemma5> a r:Inference;
+  r:gives {
+    :Alice :hates :Nobody.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/snaf/demo.n3> <http://josd.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates _:sk_0}}]
+  );
+  r:rule <#lemma6>.
+
+<#lemma6> a r:Extraction;
+  r:gives {
+    {?x_0_2 log:notIncludes {:Alice :hates ?x_1_2}} => {:Alice :hates :Nobody}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/rules.n3>].
+
+#2021-08-11T22:01:40.758Z in=2 out=2 ent=3 step=7 brake=4 inf=22475 sec=0.032 inf/sec=702344
+#ENDS
+

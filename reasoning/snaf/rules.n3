@@ -1,0 +1,10 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/>
+
+{
+  ?SCOPE log:notIncludes { :Alice :hates ?x }.
+}
+=>
+{
+  :Alice :hates :Nobody.
+}.
