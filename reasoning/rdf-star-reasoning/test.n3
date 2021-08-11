@@ -1,0 +1,42 @@
+# RDF-star and reasoning
+# Examples from https://github.com/w3c/rdf-star/issues/200
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX owlstar: <http://example.org/owlstar#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX : <http://example.org/rdf-star-reasoning#>
+
+# Annotations of inverse props are copied over since "inverse" is a hard/simple logical relation
+{   <<?x ?p ?y>> ?s ?o.
+    ?p owl:inverseOf ?q.
+} => {
+    <<?y ?q ?x>> ?s ?o.
+}.
+
+# OWLstar interpretation "SomeValuesFrom" of transitive props is copied over.
+# Doesn't necessarily apply to (combinations of) other interpretations
+{   <<?x ?p ?y>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+    <<?y ?p ?z>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+    ?p a owl:TransitiveProperty.
+} => {
+    <<?x ?p ?z>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+}.
+
+# Multiplying probabilities of "fuzzy" statements
+{   <<?x ?p ?y>> :probability ?p1.
+    <<?y ?q ?z>> :probability ?p2.
+    ?r owl:propertyChainAxiom (?p ?q).
+    (?p1 ?p2) math:product ?p3.
+} => {
+    <<?x ?r ?z>> :probability ?p3.
+}.
+
+# test cases
+<<:x :p :y>> :s :o.
+:p owl:inverseOf :q.
+<<:x :p :y>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:y :p :z>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+:p a owl:TransitiveProperty.
+<<:x :p :y>> :probability 0.89.
+<<:y :q :z>> :probability 0.56.
+:r owl:propertyChainAxiom (:p :q).

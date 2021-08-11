@@ -1,0 +1,28 @@
+#Processed by EYE v21.0809.2141 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/rdf-star-reasoning/test.n3 --pass
+
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX owlstar: <http://example.org/owlstar#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX : <http://example.org/rdf-star-reasoning#>
+
+<<:x :p :y>> :s :o.
+<<:y :q :x>> :s :o.
+:p owl:inverseOf :q.
+<<:x :p :y>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:y :p :z>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:y :q :x>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:z :q :y>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:x :p :z>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+<<:z :q :x>> owlstar:hasInterpretation owlstar:SubClassOfSomeValuesFrom.
+:p a owl:TransitiveProperty.
+<<:x :p :y>> :probability 0.89 .
+<<:y :q :z>> :probability 0.56 .
+<<:y :q :x>> :probability 0.89 .
+<<:x :r :z>> :probability 0.49840000000000007 .
+<<:x :r :x>> :probability 0.7921 .
+:r owl:propertyChainAxiom (:p :q).
+
+#2021-08-11T10:50:04.001Z in=11 out=16 ent=8 step=23 brake=3 inf=36599 sec=0.035 inf/sec=1045686
+#ENDS
+
