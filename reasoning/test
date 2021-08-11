@@ -5,4 +5,4 @@ do
     ./test
     popd
 done
-git diff
+git diff -U0 . | grep -E -v "^diff|^index|^Binary|^--|^\+-|\+\+|^@@|#Processed by|well-known|#DONE|in=|#ENDS"
