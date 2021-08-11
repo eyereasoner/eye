@@ -3,3 +3,12 @@ Scoped Negation As Failure
 --------------------------
 
 Examples from Patrick Hochstenbach and testing log:includes and log:notIncludes with an e:Scope subject.
+
+For a short description of e:Scope see https://github.com/josd/eye/blob/master/log-rules.n3#L61
+
+[[
+e:Scope a rdfs:Class;
+    rdfs:comment "class of (context span) pairs where a context is a list of consulted URI's and a span is the deductive closure number";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Context e:Number).
+]]
