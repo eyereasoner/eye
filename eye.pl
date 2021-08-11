@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0809.2141 josd').
+version_info('EYE v21.0811.1752 josd').
 
 license_info('MIT License
 
@@ -5218,6 +5218,15 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
+    within_scope(X),
+    !,
+    when(
+        (   nonvar(Y)
+        ),
+        (   Y
+        )
+    ).
+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
     when(
         (   nonvar(X),
             nonvar(Y)
@@ -5245,6 +5254,7 @@ djiti_assertz(A) :-
     \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
+    ignore(within_scope(X)),
     \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-

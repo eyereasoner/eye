@@ -1,3 +1,6 @@
+#Processed by EYE v21.0809.2141 josd
+#eye --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/preduction/palindrome.n3 http://josd.github.io/eye/reasoning/preduction/palindrome-declarations.n3 http://josd.github.io/eye/reasoning/preduction/preduction-plugin.n3 --query http://josd.github.io/eye/reasoning/preduction/palindrome-preduction.n3
+
 PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
 PREFIX : <http://josd.github.io/eye/reasoning#>
 PREFIX p: <http://josd.github.io/eye/reasoning/preduction#>
@@ -9,4 +12,7 @@ PREFIX log: <http://www.w3.org/2000/10/swap/log#>
 {(?U_11 :push ?U_12) :palindrome true} <= {?U_11 e:firstRest (?U_13 ?U_14). (?U_14 :pop ?U_12) :palindrome true}.
 {(?U_15 :pop ?U_16) :palindrome true} <= {?U_15 e:firstRest (?U_17 ?U_18). ?U_16 e:firstRest (?U_17 ?U_19). (?U_18 :pop ?U_19) :palindrome true}.
 (() :pop ()) :palindrome true.
+
+#2021-08-11T17:43:52.787Z in=24 out=6 ent=6 step=6 brake=1 inf=57979 sec=0.039 inf/sec=1486641
+#ENDS
 
