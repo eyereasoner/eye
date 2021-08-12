@@ -53,15 +53,19 @@ e:Polynomial a rdfs:Class;
     rdfs:subClassOf rdf:List;
     e:listType e:ComplexNumber.
 
+e:Recursion a rdfs:Class;
+    rdfs:comment "class of recursion numbers";
+    rdfs:subClassOf e:Number.
+
 e:Roots a rdfs:Class;
     rdfs:comment "class of roots of polynomials";
     rdfs:subClassOf rdf:List;
     e:listType e:ComplexNumber.
 
 e:Scope a rdfs:Class;
-    rdfs:comment "class of (context span) pairs where a context is a list of consulted URI's and a span is the deductive closure number";
+    rdfs:comment "class of (context recursion) pairs where a context is a list of consulted URI's and a recursion is the deductive closure recursion number";
     rdfs:subClassOf e:Tuple;
-    e:tupleTypes (e:Context e:Number).
+    e:tupleTypes (e:Context e:Recursion).
 
 e:Tuple a rdfs:Class;
     rdfs:comment "class of n-tuples";
