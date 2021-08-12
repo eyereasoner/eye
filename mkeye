@@ -6,6 +6,9 @@ cat /opt/eye/src/eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl
 sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
 swipl -q -f eye.pl -g main -- --version 2>&1 | grep josd > VERSION
 sudo ./install.sh
+pushd reasoning
+./test
+popd
 mkdir -p /tmp/eye
 rsync -azv eye.pl eye.sh eye.cmd install.sh install.cmd INSTALL LICENSE RELEASE README VERSION /tmp/eye
 pushd /tmp
