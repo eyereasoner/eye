@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0816.2018 josd').
+version_info('EYE v21.0816.2107 josd').
 
 license_info('MIT License
 
@@ -209,8 +209,6 @@ main :-
     append(Argil, Argi),
     format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
     flush_output(user_error),
-    mk_skolem_ns(Sns),
-    nb_setval(skolem_ns, Sns),
     version_info(Version),
     format(user_error, '~w~n', [Version]),
     flush_output(user_error),
@@ -287,7 +285,6 @@ gre(Argus) :-
     statistics(walltime, [T1, _]),
     format(user_error, 'starting ~w [msec cputime] ~w [msec walltime]~n', [T0, T1]),
     flush_output(user_error),
-    nb_getval(skolem_ns, Sns),
     nb_setval(entail_mode, false),
     nb_setval(exit_code, 0),
     nb_setval(indentation, 0),
@@ -310,6 +307,8 @@ gre(Argus) :-
     ->  opts(['--help'], _)
     ;   true
     ),
+    mk_skolem_ns(Sns),
+    nb_setval(skolem_ns, Sns),
     (   (   flag(strings)
         ;   flag(image, _)
         )
@@ -628,6 +627,7 @@ opts(['--rule-histogram'|Argus], Args) :-
     opts(Argus, Args).
 opts(['--skolem-genid', Genid|Argus], Args) :-
     !,
+    retractall(flag('skolem-genid', _)),
     assertz(flag('skolem-genid', Genid)),
     opts(Argus, Args).
 opts(['--statistics'|Argus], Args) :-
