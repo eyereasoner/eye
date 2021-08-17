@@ -4,46 +4,48 @@
 
 :- use_module(library(lists)).
 
-compute([],OutTape) :-
-    start(I),
-    find(I,[],#,[ ],OutTape).
-compute([Head|Tail],OutTape) :-
-    start(I),
-    find(I,[],Head,Tail,OutTape).
+web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
-find(State,Left,Cell,Right,OutTape) :-
-    t(State,Cell,Write,Move,Next),
-    move(Move,Left,Write,Right,A,B,C),
-    continue(Next,A,B,C,OutTape).
+etc_compute([],OutTape) :-
+    etc_start(I),
+    etc_find(I,[],#,[],OutTape).
+etc_compute([Head|Tail],OutTape) :-
+    etc_start(I),
+    etc_find(I,[],Head,Tail,OutTape).
 
-continue(halt,Left,Cell,Right,OutTape) :-
+etc_find(State,Left,Cell,Right,OutTape) :-
+    etc_t(State,Cell,Write,Move,Next),
+    etc_move(Move,Left,Write,Right,A,B,C),
+    etc_continue(Next,A,B,C,OutTape).
+
+etc_continue(etc_halt,Left,Cell,Right,OutTape) :-
     reverse(Left,R),
     append(R,[Cell|Right],OutTape).
-continue(State,Left,Cell,Right,OutTape) :-
-    find(State,Left,Cell,Right,OutTape).
+etc_continue(State,Left,Cell,Right,OutTape) :-
+    etc_find(State,Left,Cell,Right,OutTape).
 
-move(l,[],Cell,Right,[],#,[Cell|Right]).
-move(l,[Head|Tail],Cell,Right,Tail,Head,[Cell|Right]).
-move(s,Left,Cell,Right,Left,Cell,Right).
-move(r,Left,Cell,[],[Cell|Left],#,[] ).
-move(r,Left,Cell,[Head|Tail],[Cell|Left],Head,Tail).
+etc_move(etc_l,[],Cell,Right,[],#,[Cell|Right]).
+etc_move(etc_l,[Head|Tail],Cell,Right,Tail,Head,[Cell|Right]).
+etc_move(etc_s,Left,Cell,Right,Left,Cell,Right).
+etc_move(etc_r,Left,Cell,[],[Cell|Left],#,[] ).
+etc_move(etc_r,Left,Cell,[Head|Tail],[Cell|Left],Head,Tail).
 
 % a Turing machine to add 1 to a binary number
 
-start(0).
+etc_start(0).
 
-t(0,0,0,r,0).
-t(0,1,1,r,0).
-t(0,#,#,l,1).
-t(1,0,1,s,halt).
-t(1,1,0,l,1).
-t(1,#,1,s,halt).
+etc_t(0,0,0,etc_r,0).
+etc_t(0,1,1,etc_r,0).
+etc_t(0,#,#,etc_l,1).
+etc_t(1,0,1,etc_s,etc_halt).
+etc_t(1,1,0,etc_l,1).
+etc_t(1,#,1,etc_s,etc_halt).
 
 % test cases
-case(compute([1,0,1,0,0,1],_ANSWER)).
-case(compute([1,0,1,1,1,1],_ANSWER)).
-case(compute([1,1,1,1,1,1],_ANSWER)).
-case(compute([],_)).
+case(etc_compute([1,0,1,0,0,1],_ANSWER)).
+case(etc_compute([1,0,1,1,1,1],_ANSWER)).
+case(etc_compute([1,1,1,1,1,1],_ANSWER)).
+case(etc_compute([],_)).
 
 test :-
     case(A),
