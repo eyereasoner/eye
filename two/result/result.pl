@@ -116,19 +116,19 @@ fibonacci(3674,29587295979710147947863436681515710810057321270525069057787104139
 
 testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),[s(0,0,1),s(0,1,1),s(0,1,0),s(1,1,0),s(1,1,1),s(1,0,1),s(1,0,0),s(0,0,0),s(0,0,1)]).
 
-findpath(location(i1,oostende),[drive_gent_brugge,drive_brugge_oostende],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]).
-findpath(location(i1,oostende),[drive_gent_kortrijk,drive_kortrijk_brugge,drive_brugge_oostende],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
+etc_findpath(etc_location(etc_i1,etc_oostende),[etc_drive_gent_brugge,etc_drive_brugge_oostende],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]).
+etc_findpath(etc_location(etc_i1,etc_oostende),[etc_drive_gent_kortrijk,etc_drive_kortrijk_brugge,etc_drive_brugge_oostende],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
 
-path(angers,nantes).
-path(paris,nantes).
-path(chartres,nantes).
-path(lemans,nantes).
+etc_path(etc_angers,etc_nantes).
+etc_path(etc_paris,etc_nantes).
+etc_path(etc_chartres,etc_nantes).
+etc_path(etc_lemans,etc_nantes).
 
 move(14,left,centre,right).
 
-route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],[[1,1],[1,2],[2,2],[3,2],[4,2],[5,2],[5,3],[5,4],[5,5],[6,5],[7,5],[8,5],[9,5],[9,6],[9,7],[9,8]]).
+etc_route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],[[1,1],[1,2],[2,2],[3,2],[4,2],[5,2],[5,3],[5,4],[5,5],[6,5],[7,5],[8,5],[9,5],[9,6],[9,7],[9,8]]).
 
-pi(100000,3.141592653589792).
+etc_pi(100000,3.141592653589792).
 
 area([[3,2],[6,2],[7,6],[4,6],[5,5],[5,3],[3,2]],7.5).
 
