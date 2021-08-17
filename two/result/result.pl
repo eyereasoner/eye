@@ -59,11 +59,11 @@ derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x
 integral(1*6*x^5,x,x^6).
 integral(1*sqrt(pi)/2*exp(-x^2),x,erf(x)).
 
-type(z,class(n1)).
-type(z,class(n10)).
-type(z,class(n100)).
-type(z,class(n1000)).
-type(z,class(n10000)).
+rdf-type(that-z,that-n1).
+rdf-type(that-z,that-n10).
+rdf-type(that-z,that-n100).
+rdf-type(that-z,that-n1000).
+rdf-type(that-z,that-n10000).
 
 easter(2021,4,4).
 easter(2022,4,17).
@@ -146,7 +146,7 @@ findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,_4^p(_3,_4),[0
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2]).
 findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(g(_3,_4),_6^(p(_3,_6),p(_6,_4)),[g(0,3),g(0,4)]).
 
-type(socrates,mortal).
+rdf-type(that-socrates,that-mortal).
 
 tak(34,13,8,13).
 
