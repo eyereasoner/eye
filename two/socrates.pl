@@ -1,17 +1,18 @@
 % Socrates is a mortal
 
-isDefinedBy(subClassOf/2,'http://www.w3.org/2000/01/rdf-schema#').
-isDefinedBy(type/2,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+namespace(rdfs,'http://www.w3.org/2000/01/rdf-schema#').
+namespace(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+namespace(that,'http://josd.github.io/eye/two/sample-ns#').
 
-subClassOf(man,mortal).
+rdfs-subClassOf(that-man,that-mortal).
 
-type(socrates,man).
-type(S,B) :-
-    subClassOf(A,B),
-    type(S,A).
+rdf-type(that-socrates,that-man).
+rdf-type(S,B) :-
+    rdfs-subClassOf(A,B),
+    rdf-type(S,A).
 
 % test cases
-case(type(socrates,mortal)).
+case(rdf-type(that-socrates,that-mortal)).
 
 test :-
     case(A),
