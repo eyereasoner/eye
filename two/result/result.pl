@@ -142,9 +142,9 @@ totient(2718281,2718280).
 totient(27182818284,8994800640).
 totient(271828182845904,87459116512768).
 
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,_4^p(_3,_4),[0,1,2]).
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2]).
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(g(_3,_4),_6^(p(_3,_6),p(_6,_4)),[g(0,3),g(0,4)]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,_4^etc_p(_3,_4),[0,1,2]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,etc_p(0,_3),[1,2]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(etc_g(_3,_4),_6^(etc_p(_3,_6),etc_p(_6,_4)),[etc_g(0,3),etc_g(0,4)]).
 
 rdf_type(etc_socrates,etc_mortal).
 
