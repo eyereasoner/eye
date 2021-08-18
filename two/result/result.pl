@@ -50,14 +50,14 @@ etc_colors([etc_p1-etc_c2,etc_p2-etc_c1,etc_p3-etc_c3,etc_p4-etc_c4,etc_p5-etc_c
 etc_colors([etc_p1-etc_c1,etc_p2-etc_c2,etc_p3-etc_c3,etc_p4-etc_c4,etc_p5-etc_c4]).
 
 etc_exp([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
-etc_exp([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
+etc_exp([e,0],[0,pi],[-1.0,1.2246467991473532e-16]).
 
-etc_derivative((x+1)*((x^2+2)*(x^3+3)),x,(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2))).
+etc_derivative((x+1)*((x^2+2)*(x^3+3)),x,(x^2+2)*(x^3+3)+(x+1)*(2*x*(x^3+3)+(x^2+2)*(3*x^2))).
 etc_derivative(x/x/x/x/x/x/x/x/x/x,x,(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2).
 etc_derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,1/x/log(x)/log(log(x))/log(log(log(x)))/log(log(log(log(x))))/log(log(log(log(log(x)))))/log(log(log(log(log(log(x))))))/log(log(log(log(log(log(log(x)))))))/log(log(log(log(log(log(log(log(x))))))))/log(log(log(log(log(log(log(log(log(x)))))))))).
-etc_derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x*x*x*x*x)*x+ x*x*x*x*x*x)*x+ x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x*x).
+etc_derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+x*x)*x+x*x*x)*x+x*x*x*x)*x+x*x*x*x*x)*x+x*x*x*x*x*x)*x+x*x*x*x*x*x*x)*x+x*x*x*x*x*x*x*x)*x+x*x*x*x*x*x*x*x*x).
 etc_integral(1*6*x^5,x,x^6).
-etc_integral(1*sqrt(pi)/2*exp(-(x^2)),x,erf(x)).
+etc_integral(1*sqrt(pi)/2*exp(-x^2),x,erf(x)).
 
 rdf_type(etc_z,etc_n1).
 rdf_type(etc_z,etc_n10).
@@ -101,7 +101,7 @@ solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
 solve_equation(cos(x)*(1-2*sin(x))=0,x,x=acos(0)).
 solve_equation(cos(x)*(1-2*sin(x))=0,x,x= -acos(0)).
 solve_equation(cos(x)*(1-2*sin(x))=0,x,x=asin((1-0)/2)).
-solve_equation(cos(x)*(1-2*sin(x))=0,x,x= 180-asin((1-0)/2)).
+solve_equation(cos(x)*(1-2*sin(x))=0,x,x=180-asin((1-0)/2)).
 solve_equation(2^(2*x)-5*2^(x+1)+16=0,x,x=log((- -10+sqrt(36))/(2*1))/log(2)).
 solve_equation(2^(2*x)-5*2^(x+1)+16=0,x,x=log((- -10-sqrt(36))/(2*1))/log(2)).
 
@@ -117,7 +117,7 @@ etc_fibonacci(3674,2958729597971014794786343668151571081005732127052506905778710
 etc_testgcc([1,1,1,1,1,1,1,1,1],etc_s(0,0,0),[etc_s(0,0,1),etc_s(0,1,1),etc_s(0,1,0),etc_s(1,1,0),etc_s(1,1,1),etc_s(1,0,1),etc_s(1,0,0),etc_s(0,0,0),etc_s(0,0,1)]).
 
 etc_findpath(etc_location(etc_i1,etc_oostende),[etc_drive_gent_brugge,etc_drive_brugge_oostende],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]).
-etc_findpath(etc_location(etc_i1,etc_oostende),[etc_drive_gent_kortrijk,etc_drive_kortrijk_brugge,etc_drive_brugge_oostende],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
+etc_findpath(etc_location(etc_i1,etc_oostende),[etc_drive_gent_kortrijk,etc_drive_kortrijk_brugge,etc_drive_brugge_oostende],4100.0,0.018000000000000002,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
 
 etc_path(etc_angers,etc_nantes).
 etc_path(etc_paris,etc_nantes).
@@ -132,8 +132,8 @@ etc_pi(100000,3.141592653589792).
 
 etc_area([[3,2],[6,2],[7,6],[4,6],[5,5],[5,3],[3,2]],7.5).
 
-racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],[[4.000000007450581,0.0],[2.999999992549419,0.0],[1.999999992549419,0.0],[1.000000007450581,0.0]]).
-racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],[[3.000000000000004,2.000000000000001],[5.000000000000005,0.9999999999999927],[-5.773159728050814e-15,1.000000000000003],[0.9999999999999962,1.000000000000004]]).
+racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],[[4.000000007450581,0.0],[2.9999999925494194,0.0],[1.9999999925494194,0.0],[1.0000000074505806,0.0]]).
+racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],[[3.0000000000000036,2.000000000000001],[5.000000000000005,0.9999999999999927],[-5.773159728050814e-15,1.0000000000000027],[0.9999999999999962,1.0000000000000036]]).
 
 primerange(0,100,[2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97]).
 primerange(1000000,1000100,[1000003,1000033,1000037,1000039,1000081,1000099]).
@@ -142,9 +142,9 @@ totient(2718281,2718280).
 totient(27182818284,8994800640).
 totient(271828182845904,87459116512768).
 
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,_4^etc_p(_3,_4),[0,1,2]).
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,etc_p(0,_3),[1,2]).
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(etc_g(_3,_4),_6^(etc_p(_3,_6),etc_p(_6,_4)),[etc_g(0,3),etc_g(0,4)]).
+findall(etc_p(_5052,_5054),etc_p(_5052,_5054),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_5052,_5054^etc_p(_5052,_5054),[0,1,2]).
+findall(etc_p(_5052,_5054),etc_p(_5052,_5054),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_5052,etc_p(0,_5052),[1,2]).
+findall(etc_p(_5052,_5054),etc_p(_5052,_5054),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(etc_g(_5052,_5054),_5078^(etc_p(_5052,_5078),etc_p(_5078,_5054)),[etc_g(0,3),etc_g(0,4)]).
 
 rdf_type(etc_socrates,etc_mortal).
 
