@@ -57,7 +57,7 @@ etc_derivative(x/x/x/x/x/x/x/x/x/x,x,(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x
 etc_derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,1/x/log(x)/log(log(x))/log(log(log(x)))/log(log(log(log(x))))/log(log(log(log(log(x)))))/log(log(log(log(log(log(x))))))/log(log(log(log(log(log(log(x)))))))/log(log(log(log(log(log(log(log(x))))))))/log(log(log(log(log(log(log(log(log(x)))))))))).
 etc_derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x*x*x*x*x)*x+ x*x*x*x*x*x)*x+ x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x*x).
 etc_integral(1*6*x^5,x,x^6).
-etc_integral(1*sqrt(pi)/2*exp(-(x^2)),x,erf(x)).
+etc_integral(1*sqrt(pi)/2*exp(- (x^2)),x,erf(x)).
 
 rdf_type(etc_z,etc_n1).
 rdf_type(etc_z,etc_n10).
@@ -123,9 +123,9 @@ etc_pi(100000,3.141592653589792).
 
 etc_area([[3,2],[6,2],[7,6],[4,6],[5,5],[5,3],[3,2]],7.5).
 
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,_4^etc_p(_3,_4),[0,1,2]).
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(_3,etc_p(0,_3),[1,2]).
-findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(0,1),etc_p(0,2),etc_p(1,3),etc_p(2,4)]),setof(etc_g(_3,_4),_6^(etc_p(_3,_6),etc_p(_6,_4)),[etc_g(0,3),etc_g(0,4)]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(etc_a,etc_b),etc_p(etc_a,etc_c),etc_p(etc_b,etc_d),etc_p(etc_c,etc_e)]),setof(_3,_4^etc_p(_3,_4),[etc_a,etc_b,etc_c]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(etc_a,etc_b),etc_p(etc_a,etc_c),etc_p(etc_b,etc_d),etc_p(etc_c,etc_e)]),setof(_3,etc_p(etc_a,_3),[etc_b,etc_c]).
+findall(etc_p(_3,_4),etc_p(_3,_4),[etc_p(etc_a,etc_b),etc_p(etc_a,etc_c),etc_p(etc_b,etc_d),etc_p(etc_c,etc_e)]),setof(etc_g(_3,_4),_6^(etc_p(_3,_6),etc_p(_6,_4)),[etc_g(etc_a,etc_d),etc_g(etc_a,etc_e)]).
 
 rdf_type(etc_socrates,etc_mortal).
 
