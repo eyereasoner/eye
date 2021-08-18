@@ -4,7 +4,7 @@
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 % find paths in the state space from initial state to goal state within limits
 etc_findpath(Goal,Path,Duration,Cost,Belief,Comfort,Limits) :-

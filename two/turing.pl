@@ -4,7 +4,7 @@
 
 :- use_module(library(lists)).
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_compute([],OutTape) :-
     etc_start(I),

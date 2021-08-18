@@ -1,7 +1,7 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_and(0,0,0).
 etc_and(0,1,0).

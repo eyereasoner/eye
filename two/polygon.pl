@@ -1,6 +1,6 @@
 % Calculating the area of a polygon
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_area([_],0).
 etc_area([[A,B],[C,D]|E],F) :-

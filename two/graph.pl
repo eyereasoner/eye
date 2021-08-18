@@ -1,6 +1,6 @@
 % Traversing graph paths
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_oneway(etc_paris,etc_orleans).
 etc_oneway(etc_paris,etc_chartres).

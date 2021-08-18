@@ -1,6 +1,6 @@
 % See original code at https://samples.jbpub.com/9780763772062/PrologLabBook09.pdf
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 % facts
 etc_p(0,1).

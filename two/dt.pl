@@ -1,8 +1,8 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
-web_nsp(rdf_,'http://www.w3.org/1999/02/22-rdf_syntax-ns#').
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(rdf_,'http://www.w3.org/1999/02/22-rdf_syntax-ns#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 rdf_type(etc_z,etc_n0).
 rdf_type(X,etc_n1) :- rdf_type(X,etc_n0).

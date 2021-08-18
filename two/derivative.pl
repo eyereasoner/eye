@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Derivative
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_derivative(U,X,Y) :-
     etc_d(U,X,V),

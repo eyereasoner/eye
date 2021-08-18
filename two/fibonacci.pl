@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_fibonacci(A,B) :-
     etc_fibonacci(A,0,1,B).

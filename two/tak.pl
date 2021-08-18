@@ -1,6 +1,6 @@
 % Takeuchi function
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_tak(X,Y,Z,Z) :-
     X =< Y,

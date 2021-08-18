@@ -1,7 +1,7 @@
 % Calculate pi using Nilakantha series
 % See http://www.wikihow.com/Calculate-Pi
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_pi(A,B) :-
     etc_pi(1,A,0,C,1),

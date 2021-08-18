@@ -2,7 +2,7 @@
 
 :- use_module(library(between)).
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_easter(Year,Month,Day) :-
     A is Year rem 19,

@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_exp([A,B],[C,D],[E,F]) :-
     etc_polar([A,B],[R,T]),

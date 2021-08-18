@@ -1,6 +1,6 @@
 % Towers of Hanoi
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_move(0,_,_,_) :-
     !.

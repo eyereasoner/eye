@@ -2,7 +2,7 @@
 
 :- use_module(library(lists)).
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_colors(Places) :-
     findall(Place-_,etc_neighbours(Place,_),Places),

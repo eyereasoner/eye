@@ -3,7 +3,7 @@
 
 :- use_module(library(lists)).
 
-web_nsp(etc_,'http://josd.github.io/eye/two/cases#').
+nsp(etc_,'http://josd.github.io/eye/two/cases#').
 
 etc_fft(A,L) :-
     etc_eval(etc_p(A,etc_w^0),X0,8),
