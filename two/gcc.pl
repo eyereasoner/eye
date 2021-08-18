@@ -1,59 +1,57 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-nsp(etc_,'http://josd.github.io/eye/two/cases#').
+and(0,0,0).
+and(0,1,0).
+and(1,0,0).
+and(1,1,1).
 
-etc_and(0,0,0).
-etc_and(0,1,0).
-etc_and(1,0,0).
-etc_and(1,1,1).
+or(0,0,0).
+or(0,1,1).
+or(1,0,1).
+or(1,1,1).
 
-etc_or(0,0,0).
-etc_or(0,1,1).
-etc_or(1,0,1).
-etc_or(1,1,1).
+inv(0,1).
+inv(1,0).
 
-etc_inv(0,1).
-etc_inv(1,0).
+dff(_,0,Q,Q).
+dff(D,1,_,D).
 
-etc_dff(_,0,Q,Q).
-etc_dff(D,1,_,D).
+neta(A,B,Q) :-
+    and(A,B,T1),
+    inv(A,NA),
+    inv(B,NB),
+    and(NA,NB,T2),
+    or(T1,T2,Q).
 
-etc_neta(A,B,Q) :-
-    etc_and(A,B,T1),
-    etc_inv(A,NA),
-    etc_inv(B,NB),
-    etc_and(NA,NB,T2),
-    etc_or(T1,T2,Q).
+netb(A,B,C,Q1,Q2) :-
+    and(A,C,T1),
+    inv(C,NC),
+    and(B,NC,T2),
+    inv(A,NA),
+    and(NA,C,T3),
+    or(T1,T2,Q1),
+    or(T2,T3,Q2).
 
-etc_netb(A,B,C,Q1,Q2) :-
-    etc_and(A,C,T1),
-    etc_inv(C,NC),
-    etc_and(B,NC,T2),
-    etc_inv(A,NA),
-    etc_and(NA,C,T3),
-    etc_or(T1,T2,Q1),
-    etc_or(T2,T3,Q2).
+gcc(C,s(Qa,Qb,Qc),s(Za,Zb,Zc)) :-
+    netb(Qa,Qb,Qc,D1,D2),
+    neta(Qa,Qb,D3),
+    dff(D1,C,Qa,Za),
+    dff(D2,C,Qb,Zb),
+    dff(D3,C,Qc,Zc).
 
-etc_gcc(C,etc_s(Qa,Qb,Qc),etc_s(Za,Zb,Zc)) :-
-    etc_netb(Qa,Qb,Qc,D1,D2),
-    etc_neta(Qa,Qb,D3),
-    etc_dff(D1,C,Qa,Za),
-    etc_dff(D2,C,Qb,Zb),
-    etc_dff(D3,C,Qc,Zc).
-
-etc_testgcc([],_,[]).
-etc_testgcc([C|Cs],S,[N|Ns]) :-
-    etc_gcc(C,S,N),
-    etc_testgcc(Cs,N,Ns).
+testgcc([],_,[]).
+testgcc([C|Cs],S,[N|Ns]) :-
+    gcc(C,S,N),
+    testgcc(Cs,N,Ns).
 
 % test cases
-case(etc_testgcc([1,1,1,1,1,1,1,1,1],etc_s(0,0,0),_ANSWER)).
+case(testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),_ANSWER)).
 
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-

@@ -2,9 +2,7 @@
 
 :- use_module(library(between)).
 
-nsp(etc_,'http://josd.github.io/eye/two/cases#').
-
-etc_easter(Year,Month,Day) :-
+easter(Year,Month,Day) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -16,13 +14,13 @@ etc_easter(Year,Month,Day) :-
 
 
 % test cases
-case(etc_easter(Year,_Month,_Day)) :-
+case(easter(Year,_Month,_Day)) :-
     between(2021,2050,Year).
 
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-

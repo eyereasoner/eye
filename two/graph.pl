@@ -1,31 +1,29 @@
 % Traversing graph paths
 
-nsp(etc_,'http://josd.github.io/eye/two/cases#').
+oneway(paris,orleans).
+oneway(paris,chartres).
+oneway(paris,amiens).
+oneway(orleans,blois).
+oneway(orleans,bourges).
+oneway(blois,tours).
+oneway(chartres,lemans).
+oneway(lemans,angers).
+oneway(lemans,tours).
+oneway(angers,nantes).
 
-etc_oneway(etc_paris,etc_orleans).
-etc_oneway(etc_paris,etc_chartres).
-etc_oneway(etc_paris,etc_amiens).
-etc_oneway(etc_orleans,etc_blois).
-etc_oneway(etc_orleans,etc_bourges).
-etc_oneway(etc_blois,etc_tours).
-etc_oneway(etc_chartres,etc_lemans).
-etc_oneway(etc_lemans,etc_angers).
-etc_oneway(etc_lemans,etc_tours).
-etc_oneway(etc_angers,etc_nantes).
-
-etc_path(A,B) :-
-    etc_oneway(A,B).
-etc_path(A,B) :-
-    etc_oneway(A,C),
-    etc_path(C,B).
+path(A,B) :-
+    oneway(A,B).
+path(A,B) :-
+    oneway(A,C),
+    path(C,B).
 
 % test cases
-case(etc_path(_CITY,etc_nantes)).
+case(path(_CITY,nantes)).
 
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-

@@ -2,33 +2,31 @@
 
 :- use_module(library(lists)).
 
-nsp(etc_,'http://josd.github.io/eye/two/cases#').
+colors(Places) :-
+    findall(Place-_,neighbours(Place,_),Places),
+    places(Places).
 
-etc_colors(Places) :-
-    findall(Place-_,etc_neighbours(Place,_),Places),
-    etc_places(Places).
-
-etc_places([]).
-etc_places([Place-Color|Tail]) :-
-    etc_places(Tail),
-    etc_neighbours(Place,Neighbours),
-    member(Color,[etc_c1,etc_c2,etc_c3,etc_c4]),
+places([]).
+places([Place-Color|Tail]) :-
+    places(Tail),
+    neighbours(Place,Neighbours),
+    member(Color,[c1,c2,c3,c4]),
     \+ (member(Neighbour-Color,Tail),member(Neighbour,Neighbours)).
 
 % test data
-etc_neighbours(etc_p1,[etc_p2,etc_p5,etc_p4,etc_p3]).
-etc_neighbours(etc_p2,[etc_p1,etc_p4,etc_p3]).
-etc_neighbours(etc_p3,[etc_p5,etc_p1,etc_p4,etc_p2]).
-etc_neighbours(etc_p4,[etc_p1,etc_p2,etc_p3]).
-etc_neighbours(etc_p5,[etc_p1,etc_p3]).
+neighbours(p1,[p2,p5,p4,p3]).
+neighbours(p2,[p1,p4,p3]).
+neighbours(p3,[p5,p1,p4,p2]).
+neighbours(p4,[p1,p2,p3]).
+neighbours(p5,[p1,p3]).
 
 % test cases
-case(etc_colors(_X)).
+case(colors(_X)).
 
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-

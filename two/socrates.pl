@@ -1,23 +1,24 @@
 % Socrates is a mortal
 
-nsp(rdfs_,'http://www.w3.org/2000/01/rdf_schema#').
-nsp(rdf_,'http://www.w3.org/1999/02/22-rdf_syntax-ns#').
-nsp(etc_,'http://josd.github.io/eye/two/cases#').
+context(subClassOf,'http://www.w3.org/2000/01/rdf-schema#subClassOf').
+context(type,'http://www.w3.org/1999/02/22-rdf-syntax-ns#type').
 
-rdfs_subClassOf(etc_man,etc_mortal).
+subClassOf(man,mortal).
 
-rdf_type(etc_socrates,etc_man).
-rdf_type(S,B) :-
-    rdfs_subClassOf(A,B),
-    rdf_type(S,A).
+type(socrates,man).
+type(S,B) :-
+    subClassOf(A,B),
+    type(S,A).
 
 % test cases
-case(rdf_type(etc_socrates,etc_mortal)).
+case(context(_PRED,_URI)).
+case(subClassOf(_SUBCLASS,_CLASS)).
+case(type(_IND,_CLASS)).
 
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-
