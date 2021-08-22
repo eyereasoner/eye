@@ -1,9 +1,9 @@
 % Socrates is a mortal
 
-man(socrates).
+human(socrates).
 
 mortal(S) :-
-    man(S).
+    human(S).
 
 % test cases
 case(mortal(_IND)).

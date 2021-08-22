@@ -6,13 +6,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:component <#lemma1>;
   r:component <#lemma2>;
   r:gives {
-    :Socrates a :Man.
+    :Socrates a :Human.
     :Socrates a :Mortal.
   }.
 
 <#lemma1> a r:Inference;
   r:gives {
-    :Socrates a :Man.
+    :Socrates a :Human.
   };
   r:evidence (
     <#lemma3>
@@ -30,7 +30,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma3> a r:Extraction;
   r:gives {
-    :Socrates a :Man.
+    :Socrates a :Human.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3>].
 
@@ -52,7 +52,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Extraction;
   r:gives {
-    :Man rdfs:subClassOf :Mortal.
+    :Human rdfs:subClassOf :Mortal.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3>].
 
