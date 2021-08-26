@@ -1,9 +1,0 @@
-#!/bin/bash
-echo "% Running eye/two tests with ${1:-tpl}" | tee ./result/result-${1:-tpl}.pl
-echo "" | tee -a ./result/result-${1:-tpl}.pl
-for f in *.pl
-do 
-    ${1:-tpl} -g test "$f" | tee -a ./result/result-${1:-tpl}.pl
-    echo "" | tee -a ./result/result-${1:-tpl}.pl
-done
-git diff
