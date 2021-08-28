@@ -1,4 +1,4 @@
-% Running Lateral tests with Trealla
+% Test results for EYE Lateral
 
 colors([p1-c4,p2-c3,p3-c2,p4-c1,p5-c1]).
 colors([p1-c3,p2-c4,p3-c2,p4-c1,p5-c1]).
