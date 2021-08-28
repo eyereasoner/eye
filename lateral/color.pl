@@ -21,7 +21,7 @@ neighbours(p4,[p1,p2,p3]).
 neighbours(p5,[p1,p3]).
 
 % test cases
-case(colors(_X)).
+case(once(colors(_X))).
 
 test :-
     case(A),
