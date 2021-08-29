@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 exp([A,B],[C,D],[E,F]) :-
     polar([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),

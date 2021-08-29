@@ -1,11 +1,13 @@
 % See https://en.wikipedia.org/wiki/Derivative
 
-derivative(U,X,Y) :-
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
+el(derivative([U,X],Y)) :-
     d(U,X,V),
     s(V,W),
     s(W,Y).
 
-integral(U,X,Y) :-
+el(integral([U,X],Y)) :-
     d(V,X,U),
     s(V,W),
     s(W,Y).
@@ -103,12 +105,12 @@ s(A,B) :-
 s(A,A).
 
 % test cases
-case(derivative((x+1)*((x^2+2)*(x^3+3)),x,_ANSWER)).
-case(derivative(x/x/x/x/x/x/x/x/x/x,x,_ANSWER)).
-case(derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,_ANSWER)).
-case(derivative(x*x*x*x*x*x*x*x*x*x,x,_ANSWER)).
-case(integral(1*6*x^5,x,_ANSWER)).
-case(integral(1*sqrt(pi)/2*exp(-x^2),x,_ANSWER)).
+case(el(derivative([(x+1)*((x^2+2)*(x^3+3)),x],_ANSWER))).
+case(el(derivative([x/x/x/x/x/x/x/x/x/x,x],_ANSWER))).
+case(el(derivative([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],_ANSWER))).
+case(el(derivative([x*x*x*x*x*x*x*x*x*x,x],_ANSWER))).
+case(el(integral([1*6*x^5,x],_ANSWER))).
+case(el(integral([1*sqrt(pi)/2*exp(-x^2),x],_ANSWER))).
 
 test :-
     case(A),

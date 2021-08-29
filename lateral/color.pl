@@ -2,6 +2,8 @@
 
 :- use_module(library(lists)).
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 colors(Places) :-
     findall(Place-_,neighbours(Place,_),Places),
     places(Places).

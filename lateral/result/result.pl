@@ -5,12 +5,12 @@ once(colors([p1-c4,p2-c3,p3-c2,p4-c1,p5-c1])).
 exp([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
 exp([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
 
-derivative((x+1)*((x^2+2)*(x^3+3)),x,(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2))).
-derivative(x/x/x/x/x/x/x/x/x/x,x,(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2).
-derivative(log(log(log(log(log(log(log(log(log(log(x)))))))))),x,1/x/log(x)/log(log(x))/log(log(log(x)))/log(log(log(log(x))))/log(log(log(log(log(x)))))/log(log(log(log(log(log(x))))))/log(log(log(log(log(log(log(x)))))))/log(log(log(log(log(log(log(log(x))))))))/log(log(log(log(log(log(log(log(log(x)))))))))).
-derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x*x*x*x*x)*x+ x*x*x*x*x*x)*x+ x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x*x).
-integral(1*6*x^5,x,x^6).
-integral(1*sqrt(pi)/2*exp(- (x^2)),x,erf(x)).
+el(derivative([(x+1)*((x^2+2)*(x^3+3)),x],(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2)))).
+el(derivative([x/x/x/x/x/x/x/x/x/x,x],(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2)).
+el(derivative([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],1/x/log(x)/log(log(x))/log(log(log(x)))/log(log(log(log(x))))/log(log(log(log(log(x)))))/log(log(log(log(log(log(x))))))/log(log(log(log(log(log(log(x)))))))/log(log(log(log(log(log(log(log(x))))))))/log(log(log(log(log(log(log(log(log(x))))))))))).
+el(derivative([x*x*x*x*x*x*x*x*x*x,x],((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x*x*x*x*x)*x+ x*x*x*x*x*x)*x+ x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x*x)).
+el(integral([1*6*x^5,x],x^6)).
+el(integral([1*sqrt(pi)/2*exp(- (x^2)),x],erf(x))).
 
 rdf(type(el(z),el(n1))).
 rdf(type(el(z),el(n10))).
@@ -78,8 +78,8 @@ glass(p([[d,_3,f],"rst"],o)).
 glass(p(["def","rst",[d,_3,f]],o)).
 glass(p([[d,_3,f],[r,_4,t],"def"],o)).
 
-gps(findpath(el(location(el(i1),el(oostende))),[el(drive_gent_brugge),el(drive_brugge_oostende)],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1])).
-gps(findpath(el(location(el(i1),el(oostende))),[el(drive_gent_kortrijk),el(drive_kortrijk_brugge),el(drive_brugge_oostende)],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1])).
+gps(findpath(el(location(el(i1),el(oostende))),[[el(drive_gent_brugge),el(drive_brugge_oostende)],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]])).
+gps(findpath(el(location(el(i1),el(oostende))),[[el(drive_gent_kortrijk),el(drive_kortrijk_brugge),el(drive_brugge_oostende)],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]])).
 
 path(angers,nantes).
 path(paris,nantes).
