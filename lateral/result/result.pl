@@ -134,7 +134,7 @@ wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 rdf(type(el(socrates),el(mortal))).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-tak(34,13,8,13).
+tak([34,13,8],13).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 el(compute([1,0,1,0,0,1],[1,0,1,0,1,0,#])).
