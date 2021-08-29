@@ -2,7 +2,9 @@
 
 :- use_module(library(between)).
 
-easter(Year,Month,Day) :-
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
+el(easter(Year,[Month,Day])) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -14,7 +16,7 @@ easter(Year,Month,Day) :-
 
 
 % test cases
-case(easter(Year,_Month,_Day)) :-
+case(el(easter(Year,[_Month,_Day]))) :-
     between(2021,2050,Year).
 
 test :-

@@ -1,24 +1,26 @@
 % Traversing graph paths
 
-oneway(paris,orleans).
-oneway(paris,chartres).
-oneway(paris,amiens).
-oneway(orleans,blois).
-oneway(orleans,bourges).
-oneway(blois,tours).
-oneway(chartres,lemans).
-oneway(lemans,angers).
-oneway(lemans,tours).
-oneway(angers,nantes).
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-path(A,B) :-
-    oneway(A,B).
-path(A,B) :-
-    oneway(A,C),
-    path(C,B).
+el(oneway(el(paris),el(orleans))).
+el(oneway(el(paris),el(chartres))).
+el(oneway(el(paris),el(amiens))).
+el(oneway(el(orleans),el(blois))).
+el(oneway(el(orleans),el(bourges))).
+el(oneway(el(blois),el(tours))).
+el(oneway(el(chartres),el(lemans))).
+el(oneway(el(lemans),el(angers))).
+el(oneway(el(lemans),el(tours))).
+el(oneway(el(angers),el(nantes))).
+
+el(path(A,B)) :-
+    el(oneway(A,B)).
+el(path(A,B)) :-
+    el(oneway(A,C)),
+    el(path(C,B)).
 
 % test cases
-case(path(_CITY,nantes)).
+case(el(path(_CITY,el(nantes)))).
 
 test :-
     case(A),

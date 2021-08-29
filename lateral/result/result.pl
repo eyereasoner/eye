@@ -18,36 +18,36 @@ rdf(type(el(z),el(n100))).
 rdf(type(el(z),el(n1000))).
 rdf(type(el(z),el(n10000))).
 
-easter(2021,4,4).
-easter(2022,4,17).
-easter(2023,4,9).
-easter(2024,3,31).
-easter(2025,4,20).
-easter(2026,4,5).
-easter(2027,3,28).
-easter(2028,4,16).
-easter(2029,4,1).
-easter(2030,4,21).
-easter(2031,4,13).
-easter(2032,3,28).
-easter(2033,4,17).
-easter(2034,4,9).
-easter(2035,3,25).
-easter(2036,4,13).
-easter(2037,4,5).
-easter(2038,4,25).
-easter(2039,4,10).
-easter(2040,4,1).
-easter(2041,4,21).
-easter(2042,4,6).
-easter(2043,3,29).
-easter(2044,4,17).
-easter(2045,4,9).
-easter(2046,3,25).
-easter(2047,4,14).
-easter(2048,4,5).
-easter(2049,4,18).
-easter(2050,4,10).
+el(easter(2021,[4,4])).
+el(easter(2022,[4,17])).
+el(easter(2023,[4,9])).
+el(easter(2024,[3,31])).
+el(easter(2025,[4,20])).
+el(easter(2026,[4,5])).
+el(easter(2027,[3,28])).
+el(easter(2028,[4,16])).
+el(easter(2029,[4,1])).
+el(easter(2030,[4,21])).
+el(easter(2031,[4,13])).
+el(easter(2032,[3,28])).
+el(easter(2033,[4,17])).
+el(easter(2034,[4,9])).
+el(easter(2035,[3,25])).
+el(easter(2036,[4,13])).
+el(easter(2037,[4,5])).
+el(easter(2038,[4,25])).
+el(easter(2039,[4,10])).
+el(easter(2040,[4,1])).
+el(easter(2041,[4,21])).
+el(easter(2042,[4,6])).
+el(easter(2043,[3,29])).
+el(easter(2044,[4,17])).
+el(easter(2045,[4,9])).
+el(easter(2046,[3,25])).
+el(easter(2047,[4,14])).
+el(easter(2048,[4,5])).
+el(easter(2049,[4,18])).
+el(easter(2050,[4,10])).
 
 solve_equation(x^2-3*x+2=0,x,x=(- -3+sqrt(1))/(2*1)).
 solve_equation(x^2-3*x+2=0,x,x=(- -3-sqrt(1))/(2*1)).
@@ -81,10 +81,10 @@ glass(p([[d,_3,f],[r,_4,t],"def"],o)).
 gps(findpath(el(location(el(i1),el(oostende))),[[el(drive_gent_brugge),el(drive_brugge_oostende)],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]])).
 gps(findpath(el(location(el(i1),el(oostende))),[[el(drive_gent_kortrijk),el(drive_kortrijk_brugge),el(drive_brugge_oostende)],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]])).
 
-path(angers,nantes).
-path(paris,nantes).
-path(chartres,nantes).
-path(lemans,nantes).
+el(path(el(angers),el(nantes))).
+el(path(el(paris),el(nantes))).
+el(path(el(chartres),el(nantes))).
+el(path(el(lemans),el(nantes))).
 
 move(14,left,centre,right).
 
