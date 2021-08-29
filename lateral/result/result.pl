@@ -124,11 +124,6 @@ totient(2718281,2718280).
 totient(27182818284,8994800640).
 totient(271828182845904,87459116512768).
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,_4^p(_3,_4),[0,1,2]).
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(_3,p(0,_3),[1,2]).
-findall(p(_3,_4),p(_3,_4),[p(0,1),p(0,2),p(1,3),p(2,4)]),setof(g(_3,_4),_6^(p(_3,_6),p(_6,_4)),[g(0,3),g(0,4)]).
-
 wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 rdf(type(el(socrates),el(mortal))).
