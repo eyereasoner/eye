@@ -3,7 +3,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-pi(A,B) :-
+el(pi(A,B)) :-
     pi(1,A,0,C,1),
     B is 3+4*C.
 
@@ -17,7 +17,7 @@ pi(A,B,C,D,E) :-
 
 % test cases
 case(wrapper(_NS,_P)).
-case(pi(100000,_ANSWER)).
+case(el(pi(100000,_ANSWER))).
 
 test :-
     case(A),
