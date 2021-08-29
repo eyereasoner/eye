@@ -8,7 +8,7 @@ wrapper(gps,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
 % find paths in the state space from initial state to goal state within limits
-findpath(Goal,Path,Duration,Cost,Belief,Comfort,Limits) :-
+gps(findpath(Goal,Path,Duration,Cost,Belief,Comfort,Limits)) :-
     findpaths([],Goal,[],0.0,0.0,1.0,1.0,Path,Duration,Cost,Belief,Comfort,Limits).
 
 findpaths(_Maps,Goal,Path,Duration,Cost,Belief,Comfort,Path,Duration,Cost,Belief,Comfort,_Limits) :-
@@ -76,7 +76,7 @@ gps(description(el(map_be),el(location(S,el(brugge))),true,el(location(S,el(oost
 el(location(el(i1),el(gent))).
 
 % test cases
-case(findpath(el(location(_SUBJECT,el(oostende))),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1])).
+case(gps(findpath(el(location(_SUBJECT,el(oostende))),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]))).
 
 test :-
     case(A),
