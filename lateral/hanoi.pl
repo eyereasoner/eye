@@ -2,16 +2,16 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-move(0,_,_,_) :-
+el(move(0,[_,_,_])) :-
     !.
-move(N,A,B,C) :-
+el(move(N,[A,B,C])) :-
     M is N-1,
-    move(M,A,C,B),
-    move(M,C,B,A).
+    el(move(M,[A,C,B])),
+    el(move(M,[C,B,A])).
 
 % test cases
 case(wrapper(_NS,_P)).
-case(move(14,'left','centre','right')).
+case(el(move(14,['left','centre','right']))).
 
 test :-
     case(A),

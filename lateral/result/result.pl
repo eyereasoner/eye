@@ -101,7 +101,7 @@ el(path(el(chartres),el(nantes))).
 el(path(el(lemans),el(nantes))).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-move(14,left,centre,right).
+el(move(14,[left,centre,right])).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],[[1,1],[1,2],[2,2],[3,2],[4,2],[5,2],[5,3],[5,4],[5,5],[6,5],[7,5],[8,5],[9,5],[9,6],[9,7],[9,8]]).
