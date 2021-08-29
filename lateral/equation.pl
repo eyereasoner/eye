@@ -8,32 +8,32 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-% solve_equation(Equation,Unknown,Solution) :-
+% el(solve_equation([Equation,Unknown],Solution)) :-
 % Solution is a solution to the equation Equation
 % in the unknown Unknown.
-solve_equation(A*B=0,X,Solution) :-
+el(solve_equation([A*B=0,X],Solution)) :-
     !,
     factorize(A*B,X,Factors\[]),
     remove_duplicates(Factors,Factors1),
     solve_factors(Factors1,X,Solution).
-solve_equation(Equation,X,Solution) :-
+el(solve_equation([Equation,X],Solution)) :-
     single_occurrence(X,Equation),
     !,
     position(X,Equation,[Side|Position]),
     maneuver_sides(Side,Equation,Equation1),
     isolate(Position,Equation1,Solution).
-solve_equation(Lhs=Rhs,X,Solution) :-
+el(solve_equation([Lhs=Rhs,X],Solution)) :-
     polynomial(Lhs,X),
     polynomial(Rhs,X),
     !,
     polynomial_normal_form(Lhs-Rhs,X,PolyForm),
     solve_polynomial_equation(PolyForm,X,Solution).
-solve_equation(Equation,X,Solution) :-
+el(solve_equation([Equation,X],Solution)) :-
     offenders(Equation,X,Offenders),
     multiple(Offenders),
     homogenize(Equation,X,Equation1,X1),
-    solve_equation(Equation1,X1,Solution1),
-    solve_equation(Solution1,X,Solution).
+    el(solve_equation([Equation1,X1],Solution1)),
+    el(solve_equation([Solution1,X],Solution)).
 
 % The factorization method
 %
@@ -53,7 +53,7 @@ factorize(_,_,Factors\Factors).
 % Solution is a solution of the equation Factor=0 in
 % the Unknown for some Factor in the list of Factors.
 solve_factors([Factor|_],X,Solution) :-
-    solve_equation(Factor=0,X,Solution).
+    el(solve_equation([Factor=0,X],Solution)).
 solve_factors([_|Factors],X,Solution) :-
     solve_factors(Factors,X,Solution).
 
@@ -444,9 +444,9 @@ compound1(Term) :-
 
 % test cases
 case(wrapper(_NS,_P)).
-case(solve_equation(x^2-3*x+2 = 0,x,_ANSWER)).
-case(solve_equation(cos(x)*(1-2*sin(x)) = 0,x,_ANSWER)).
-case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0,x,_ANSWER)).
+case(el(solve_equation([x^2-3*x+2 = 0,x],_ANSWER))).
+case(el(solve_equation([cos(x)*(1-2*sin(x)) = 0,x],_ANSWER))).
+case(el(solve_equation([2^(2*x)-5*2^(x+1)+16 = 0,x],_ANSWER))).
 
 test :-
     case(A),
