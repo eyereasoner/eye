@@ -5,7 +5,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-route(Source,Destination,Obstacles,Path) :-
+el(route([Source,Destination,Obstacles],Path)) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),
     path(Source,Destination,Waves,P),
     reverse(P,Path).
@@ -71,7 +71,7 @@ path(A,B,[Wave|Waves],[B|Path]) :-
 
 % test cases
 case(wrapper(_NS,_P)).
-case(route([1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]],_ANSWER)).
+case(el(route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER))).
 
 test :-
     case(A),
