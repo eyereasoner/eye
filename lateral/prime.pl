@@ -4,7 +4,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-primerange(A,B,L) :-
+el(primerange([A,B],L)) :-
     findall(I,(between(A,B,I),prime(I)),L).
 
 prime(2).
@@ -34,7 +34,7 @@ factor(N,L) :-
 % for the argument N.
 %   (integer,integer) (+,?)
 
-totient(N,Phi) :-
+el(totient(N,Phi)) :-
     prime_factors_mult(N,L),
     to_phi(L,Phi).
 
@@ -122,12 +122,12 @@ divi(N,_,M,N,M).
 
 % test cases
 case(wrapper(_NS,_P)).
-case(primerange(0,100,_ANSWER)).
-case(primerange(1000000,1000100,_ANSWER)).
-case(totient(271,_ANSWER)).
-case(totient(2718281,_ANSWER)).
-case(totient(27182818284,_ANSWER)).
-case(totient(271828182845904,_ANSWER)).
+case(el(primerange([0,100],_ANSWER))).
+case(el(primerange([1000000,1000100],_ANSWER))).
+case(el(totient(271,_ANSWER))).
+case(el(totient(2718281,_ANSWER))).
+case(el(totient(27182818284,_ANSWER))).
+case(el(totient(271828182845904,_ANSWER))).
 
 test :-
     case(A),
