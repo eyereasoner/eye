@@ -2,7 +2,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-fibonacci(A,B) :-
+el(fibonacci(A,B)) :-
     fibonacci(A,0,1,B).
 
 fibonacci(0,A,_,A).
@@ -15,12 +15,12 @@ fibonacci(A,B,C,D) :-
 
 % test cases
 case(wrapper(_NS,_P)).
-case(fibonacci(0,_ANSWER)).
-case(fibonacci(1,_ANSWER)).
-case(fibonacci(6,_ANSWER)).
-case(fibonacci(91,_ANSWER)).
-case(fibonacci(283,_ANSWER)).
-case(fibonacci(3674,_ANSWER)).
+case(el(fibonacci(0,_ANSWER))).
+case(el(fibonacci(1,_ANSWER))).
+case(el(fibonacci(6,_ANSWER))).
+case(el(fibonacci(91,_ANSWER))).
+case(el(fibonacci(283,_ANSWER))).
+case(el(fibonacci(3674,_ANSWER))).
 
 test :-
     case(A),
