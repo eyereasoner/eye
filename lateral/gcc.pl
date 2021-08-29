@@ -42,14 +42,14 @@ gcc(C,s(Qa,Qb,Qc),s(Za,Zb,Zc)) :-
     dff(D2,C,Qb,Zb),
     dff(D3,C,Qc,Zc).
 
-testgcc([],_,[]).
-testgcc([C|Cs],S,[N|Ns]) :-
+el(clockgcc([[],_],[])).
+el(clockgcc([[C|Cs],S],[N|Ns])) :-
     gcc(C,S,N),
-    testgcc(Cs,N,Ns).
+    el(clockgcc([Cs,N],Ns)).
 
 % test cases
 case(wrapper(_NS,_P)).
-case(testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),_ANSWER)).
+case(el(clockgcc([[1,1,1,1,1,1,1,1,1],s(0,0,0)],_ANSWER))).
 
 test :-
     case(A),
