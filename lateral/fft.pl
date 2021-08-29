@@ -5,7 +5,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-fft(A,L) :-
+el(fft(A,L)) :-
     eval(p(A,w^0),X0,8),
     eval(p(A,w^1),X1,8),
     eval(p(A,w^2),X2,8),
@@ -56,7 +56,7 @@ node(n(A1,N1),[n(A,N)|T]-[n(A1,N1),n(A,N)|T]) :-
 
 % test cases
 case(wrapper(_NS,_P)).
-case(fft([0,1,2,3,4,5,6,7],_ANSWER)).
+case(el(fft([0,1,2,3,4,5,6,7],_ANSWER))).
 
 test :-
     case(A),
