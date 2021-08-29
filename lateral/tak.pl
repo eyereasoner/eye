@@ -1,5 +1,7 @@
 % Takeuchi function
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 tak(X,Y,Z,Z) :-
     X =< Y,
     !.
@@ -14,6 +16,7 @@ tak(X,Y,Z,A) :-
     tak(A1,A2,A3,A).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(tak(34,13,8,_A)).
 
 test :-

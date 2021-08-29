@@ -24,6 +24,7 @@ el(neighbours(el(p4),[el(p1),el(p2),el(p3)])).
 el(neighbours(el(p5),[el(p1),el(p3)])).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(el(colors(_A,_B))).
 
 test :-

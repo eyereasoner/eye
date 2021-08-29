@@ -22,6 +22,7 @@ main :-
     ),
     write(Out,'\n'),
     write(Out,'% test cases\n'),
+    write(Out,'case(wrapper(_NS,_P)).\n'),
     write(Out,'case(rdf(type(_A,el(n1)))).\n'),
     write(Out,'case(rdf(type(_A,el(n10)))).\n'),
     write(Out,'case(rdf(type(_A,el(n100)))).\n'),

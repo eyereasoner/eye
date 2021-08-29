@@ -4,6 +4,8 @@
 
 :- use_module(library(lists)).
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 compute([],OutTape) :-
     start(I),
     find(I,[],#,[ ],OutTape).
@@ -40,6 +42,7 @@ t(1,1,0,l,1).
 t(1,#,1,s,halt).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(compute([1,0,1,0,0,1],_ANSWER)).
 case(compute([1,0,1,1,1,1],_ANSWER)).
 case(compute([1,1,1,1,1,1],_ANSWER)).

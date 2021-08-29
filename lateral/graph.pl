@@ -20,6 +20,7 @@ el(path(A,B)) :-
     el(path(C,B)).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(el(path(_CITY,el(nantes)))).
 
 test :-

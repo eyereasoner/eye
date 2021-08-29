@@ -16,6 +16,7 @@ el(easter(Year,[Month,Day])) :-
 
 
 % test cases
+case(wrapper(_NS,_P)).
 case(el(easter(Year,[_Month,_Day]))) :-
     between(2021,2050,Year).
 

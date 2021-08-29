@@ -1,6 +1,8 @@
 % Solving polynomial equations of degree 4
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 % Liste des racines d'un polynome
 racines(P,L) :-
     findall(Z,racine(P,Z),L).
@@ -229,6 +231,7 @@ nulreel(0.0) :-
 nulreel(-0.0).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER)).
 case(racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER)).
 

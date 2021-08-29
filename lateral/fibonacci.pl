@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 fibonacci(A,B) :-
     fibonacci(A,0,1,B).
 
@@ -12,6 +14,7 @@ fibonacci(A,B,C,D) :-
     fibonacci(E,C,F,D).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(fibonacci(0,_ANSWER)).
 case(fibonacci(1,_ANSWER)).
 case(fibonacci(6,_ANSWER)).

@@ -76,6 +76,7 @@ gps(description(el(map_be),[el(location(S,el(brugge))),true,el(location(S,el(oos
 el(location(el(i1),el(gent))).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(gps(findpath(el(location(_SUBJECT,el(oostende))),[_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]]))).
 
 test :-

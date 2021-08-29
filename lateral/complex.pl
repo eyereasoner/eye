@@ -54,6 +54,7 @@ divide(X,Y,Z) :-
     times(X,Yp,Z).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(el(exp([[-1,0],[0.5,0]],_ANSWER))).
 case(el(exp([[e,0],[0,pi]],_ANSWER))).
 

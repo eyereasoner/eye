@@ -30007,6 +30007,7 @@ rdf(type(X,el(i10000))) :- rdf(type(X,el(n9999))).
 rdf(type(X,el(j10000))) :- rdf(type(X,el(n9999))).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(rdf(type(_A,el(n1)))).
 case(rdf(type(_A,el(n10)))).
 case(rdf(type(_A,el(n100)))).

@@ -1,11 +1,14 @@
 % Socrates is a mortal
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 man(socrates).
 
 mortal(S) :-
     man(S).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(mortal(_IND)).
 
 test :-

@@ -3,6 +3,8 @@
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 p([[a,b,c]],o).
 p([[r,s,t]],o).
 p([[r,s,t],[d,e,f],[r,s,t]],o).
@@ -13,6 +15,7 @@ glass(p(A,B)) :-
     forall(member(E,C),member(E,A)).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(glass(p([[_A,b,c]],o))).
 case(glass(p([[a,B,C],[a,B,C]],o))).
 case(glass(p([[a,B,C],[_A,B,C]],o))).

@@ -1,6 +1,8 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 and(0,0,0).
 and(0,1,0).
 and(1,0,0).
@@ -46,6 +48,7 @@ testgcc([C|Cs],S,[N|Ns]) :-
     testgcc(Cs,N,Ns).
 
 % test cases
+case(wrapper(_NS,_P)).
 case(testgcc([1,1,1,1,1,1,1,1,1],s(0,0,0),_ANSWER)).
 
 test :-

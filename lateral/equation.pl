@@ -6,6 +6,8 @@
 
 :- use_module(library(lists)).
 
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
 % solve_equation(Equation,Unknown,Solution) :-
 % Solution is a solution to the equation Equation
 % in the unknown Unknown.
@@ -441,6 +443,7 @@ compound1(Term) :-
     !.
 
 % test cases
+case(wrapper(_NS,_P)).
 case(solve_equation(x^2-3*x+2 = 0,x,_ANSWER)).
 case(solve_equation(cos(x)*(1-2*sin(x)) = 0,x,_ANSWER)).
 case(solve_equation(2^(2*x)-5*2^(x+1)+16 = 0,x,_ANSWER)).
