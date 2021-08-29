@@ -136,8 +136,8 @@ wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 tak(34,13,8,13).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-compute([1,0,1,0,0,1],[1,0,1,0,1,0,#]).
-compute([1,0,1,1,1,1],[1,1,0,0,0,0,#]).
-compute([1,1,1,1,1,1],[1,0,0,0,0,0,0,#]).
-compute([],[1,#]).
+el(compute([1,0,1,0,0,1],[1,0,1,0,1,0,#])).
+el(compute([1,0,1,1,1,1],[1,1,0,0,0,0,#])).
+el(compute([1,1,1,1,1,1],[1,0,0,0,0,0,0,#])).
+el(compute([],[1,#])).
 

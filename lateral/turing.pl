@@ -6,10 +6,10 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-compute([],OutTape) :-
+el(compute([],OutTape)) :-
     start(I),
     find(I,[],#,[ ],OutTape).
-compute([Head|Tail],OutTape) :-
+el(compute([Head|Tail],OutTape)) :-
     start(I),
     find(I,[],Head,Tail,OutTape).
 
@@ -43,10 +43,10 @@ t(1,#,1,s,halt).
 
 % test cases
 case(wrapper(_NS,_P)).
-case(compute([1,0,1,0,0,1],_ANSWER)).
-case(compute([1,0,1,1,1,1],_ANSWER)).
-case(compute([1,1,1,1,1,1],_ANSWER)).
-case(compute([],_)).
+case(el(compute([1,0,1,0,0,1],_ANSWER))).
+case(el(compute([1,0,1,1,1,1],_ANSWER))).
+case(el(compute([1,1,1,1,1,1],_ANSWER))).
+case(el(compute([],_))).
 
 test :-
     case(A),
