@@ -78,8 +78,8 @@ glass(p([[d,_3,f],"rst"],o)).
 glass(p(["def","rst",[d,_3,f]],o)).
 glass(p([[d,_3,f],[r,_4,t],"def"],o)).
 
-findpath(location(i1,oostende),[drive_gent_brugge,drive_brugge_oostende],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]).
-findpath(location(i1,oostende),[drive_gent_kortrijk,drive_kortrijk_brugge,drive_brugge_oostende],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
+findpath(el(location(el(i1),el(oostende))),[el(drive_gent_brugge),el(drive_brugge_oostende)],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]).
+findpath(el(location(el(i1),el(oostende))),[el(drive_gent_kortrijk),el(drive_kortrijk_brugge),el(drive_brugge_oostende)],4100.0,0.018,0.903168,0.9801,[5000.0,5.0,0.2,0.4,1]).
 
 path(angers,nantes).
 path(paris,nantes).
