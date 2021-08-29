@@ -79,16 +79,6 @@ el(fibonacci(3674,29587295979710147947863436681515710810057321270525069057787104
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 el(clockgcc([[1,1,1,1,1,1,1,1,1],s(0,0,0)],[s(0,0,1),s(0,1,1),s(0,1,0),s(1,1,0),s(1,1,1),s(1,0,1),s(1,0,0),s(0,0,0),s(0,0,1)])).
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-glass(p([[_3,b,c]],o)).
-glass(p([[a,_3,_4],[a,_3,_4]],o)).
-glass(p([[a,_3,_4],[_5,_3,_4]],o)).
-glass(p([[r,_3,t]],o)).
-glass(p(["def",[r,_3,t]],o)).
-glass(p([[d,_3,f],"rst"],o)).
-glass(p(["def","rst",[d,_3,f]],o)).
-glass(p([[d,_3,f],[r,_4,t],"def"],o)).
-
 wrapper(gps,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 gps(findpath(el(location(el(i1),el(oostende))),[[el(drive_gent_brugge),el(drive_brugge_oostende)],2400.0,0.01,0.9408,0.99,[5000.0,5.0,0.2,0.4,1]])).
