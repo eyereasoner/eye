@@ -3,7 +3,7 @@ echo "% Test results for EYE Lateral" | tee ./result/result.pl
 echo "" | tee -a ./result/result.pl
 for f in *.pl
 do 
-    tpl -g test "$f" | tee -a ./result/result.pl
+    tpl --ffai -g test "$f" | tee -a ./result/result.pl
     echo "" | tee -a ./result/result.pl
 done
 git diff
