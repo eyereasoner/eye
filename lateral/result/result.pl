@@ -1,9 +1,9 @@
 % Test results for EYE Lateral
 
-once(colors([p1-c4,p2-c3,p3-c2,p4-c1,p5-c1])).
+el(colors(el(this),[el(p1)-el(c4),el(p2)-el(c3),el(p3)-el(c2),el(p4)-el(c1),el(p5)-el(c1)])).
 
-exp([-1,0],[0.5,0],[6.123233995736766e-17,1.0]).
-exp([e,0],[0,pi],[-1.0,1.224646799147353e-16]).
+el(exp([[-1,0],[0.5,0]],[6.123233995736766e-17,1.0])).
+el(exp([[e,0],[0,pi]],[-1.0,1.224646799147353e-16])).
 
 el(derivative([(x+1)*((x^2+2)*(x^3+3)),x],(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2)))).
 el(derivative([x/x/x/x/x/x/x/x/x/x,x],(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2)).

@@ -2,7 +2,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-exp([A,B],[C,D],[E,F]) :-
+el(exp([[A,B],[C,D]],[E,F])) :-
     polar([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
@@ -54,8 +54,8 @@ divide(X,Y,Z) :-
     times(X,Yp,Z).
 
 % test cases
-case(exp([-1,0],[0.5,0],_ANSWER)).
-case(exp([e,0],[0,pi],_ANSWER)).
+case(el(exp([[-1,0],[0.5,0]],_ANSWER))).
+case(el(exp([[e,0],[0,pi]],_ANSWER))).
 
 test :-
     case(A),

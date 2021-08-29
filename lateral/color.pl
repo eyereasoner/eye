@@ -4,26 +4,27 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-colors(Places) :-
-    findall(Place-_,neighbours(Place,_),Places),
+el(colors(el(this),Places)) :-
+    findall(Place-_,el(neighbours(Place,_)),Places),
     places(Places).
 
 places([]).
 places([Place-Color|Tail]) :-
     places(Tail),
-    neighbours(Place,Neighbours),
-    member(Color,[c1,c2,c3,c4]),
-    \+ (member(Neighbour-Color,Tail),member(Neighbour,Neighbours)).
+    el(neighbours(Place,Neighbours)),
+    member(Color,[el(c1),el(c2),el(c3),el(c4)]),
+    \+ (member(Neighbour-Color,Tail),member(Neighbour,Neighbours)),
+    !.
 
 % test data
-neighbours(p1,[p2,p5,p4,p3]).
-neighbours(p2,[p1,p4,p3]).
-neighbours(p3,[p5,p1,p4,p2]).
-neighbours(p4,[p1,p2,p3]).
-neighbours(p5,[p1,p3]).
+el(neighbours(el(p1),[el(p2),el(p5),el(p4),el(p3)])).
+el(neighbours(el(p2),[el(p1),el(p4),el(p3)])).
+el(neighbours(el(p3),[el(p5),el(p1),el(p4),el(p2)])).
+el(neighbours(el(p4),[el(p1),el(p2),el(p3)])).
+el(neighbours(el(p5),[el(p1),el(p3)])).
 
 % test cases
-case(once(colors(_X))).
+case(el(colors(_A,_B))).
 
 test :-
     case(A),
