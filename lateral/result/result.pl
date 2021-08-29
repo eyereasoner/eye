@@ -12,11 +12,11 @@ derivative(x*x*x*x*x*x*x*x*x*x,x,((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x
 integral(1*6*x^5,x,x^6).
 integral(1*sqrt(pi)/2*exp(- (x^2)),x,erf(x)).
 
-n1(z).
-n10(z).
-n100(z).
-n1000(z).
-n10000(z).
+rdf-type(el-z,el-n1).
+rdf-type(el-z,el-n10).
+rdf-type(el-z,el-n100).
+rdf-type(el-z,el-n1000).
+rdf-type(el-z,el-n10000).
 
 easter(2021,4,4).
 easter(2022,4,17).
