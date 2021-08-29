@@ -22,7 +22,23 @@ $ ./test
 </pre>
 and the results should be like in <a href="https://github.com/josd/eye/tree/master/lateral/result/result.pl">test results for EYE Lateral</a>.<p>
 
-<p>The transformation from and to <a href="https://w3c.github.io/N3/spec/">N3</a> should be obvious with wrapper/2.
+<p>The transformation from and to <a href="https://w3c.github.io/N3/spec/">N3</a> should be obvious
+e.g.
+<pre>
+wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+
+rdf(type(el(i1),el(c5))).
+</pre>
+
+becomes the following N3
+
+<pre>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX el: <https://josd.github.io/eye/lateral/ns#>
+
+el:i1 rdf:type el:c5.
+</pre>
 
 
 <h2 id="background">Background</h2>
