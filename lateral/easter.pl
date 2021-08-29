@@ -14,7 +14,6 @@ el(easter(Year,[Month,Day])) :-
     Month is F//31,
     Day is F rem 31+1.
 
-
 % test cases
 case(wrapper(_NS,_P)).
 case(el(easter(Year,[_Month,_Day]))) :-

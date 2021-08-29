@@ -61,7 +61,6 @@ conj_list(A,[A]) :-
 conj_list((A,B),[A|C]) :-
     conj_list(B,C).
 
-
 % test data
 :- dynamic(gps/1).
 :- dynamic(el/1).
