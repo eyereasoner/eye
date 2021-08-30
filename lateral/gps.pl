@@ -4,8 +4,8 @@
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
 
-wrapper(gps,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(gps/1,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 % find paths in the state space from initial state to goal state within limits
 gps(findpath(Goal,[Path,Duration,Cost,Belief,Comfort,Limits])) :-

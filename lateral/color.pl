@@ -2,7 +2,7 @@
 
 :- use_module(library(lists)).
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(colors('./color.pl',Places)) :-
     findall(Place-_,el(neighbours(Place,_)),Places),

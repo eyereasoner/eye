@@ -1,6 +1,6 @@
 % Traversing graph paths
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(oneway(el(paris),el(orleans))).
 el(oneway(el(paris),el(chartres))).

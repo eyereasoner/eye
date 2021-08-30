@@ -1,8 +1,8 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
-wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 rdf(type(el(z),el(n0))).
 rdf(type(X,el(n1))) :- rdf(type(X,el(n0))).

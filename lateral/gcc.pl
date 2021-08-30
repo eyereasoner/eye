@@ -1,7 +1,7 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 and(0,0,0).
 and(0,1,0).

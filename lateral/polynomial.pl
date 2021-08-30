@@ -1,7 +1,7 @@
 % Solving polynomial equations of degree 4
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 % Liste des racines d'un polynome
 el(racines(P,L)) :-

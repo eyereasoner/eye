@@ -1,7 +1,7 @@
 % Socrates is a mortal
 
-wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 rdf(type(el(socrates),el(human))).
 

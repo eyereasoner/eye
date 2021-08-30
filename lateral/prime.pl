@@ -2,7 +2,7 @@
 
 :- use_module(library(between)).
 
-wrapper(el,'https://josd.github.io/eye/lateral/ns#').
+wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(primerange([A,B],L)) :-
     findall(I,(between(A,B,I),prime(I)),L).
