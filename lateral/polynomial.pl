@@ -1,7 +1,7 @@
 % Solving polynomial equations of degree 4
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 % Liste des racines d'un polynome
 el(racines(P,L)) :-
@@ -231,7 +231,7 @@ nulreel(0.0) :-
 nulreel(-0.0).
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(racines([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER))).
 case(el(racines([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER))).
 

@@ -1,7 +1,7 @@
 % Calculate pi using Nilakantha series
 % See http://www.wikihow.com/Calculate-Pi
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(pi(A,B)) :-
     pi(1,A,0,C,1),
@@ -16,7 +16,7 @@ pi(A,B,C,D,E) :-
     pi(F,B,L,D,M).
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(pi(100000,_ANSWER))).
 
 test :-

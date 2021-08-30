@@ -1,6 +1,6 @@
 % Towers of Hanoi
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(move(0,[_,_,_])) :-
     !.
@@ -10,7 +10,7 @@ el(move(N,[A,B,C])) :-
     el(move(M,[C,B,A])).
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(move(14,['left','centre','right']))).
 
 test :-

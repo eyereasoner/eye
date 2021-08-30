@@ -2,7 +2,7 @@
 
 :- use_module(library(between)).
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(primerange([A,B],L)) :-
     findall(I,(between(A,B,I),prime(I)),L).
@@ -121,7 +121,7 @@ divi(N,F,M,R,K) :-
 divi(N,_,M,N,M).
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(primerange([0,100],_ANSWER))).
 case(el(primerange([1000000,1000100],_ANSWER))).
 case(el(totient(271,_ANSWER))).

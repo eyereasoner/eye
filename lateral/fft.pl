@@ -3,7 +3,7 @@
 
 :- use_module(library(lists)).
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(fft(A,L)) :-
     eval(p(A,w^0),X0,8),
@@ -55,7 +55,7 @@ node(n(A1,N1),[n(A,N)|T]-[n(A1,N1),n(A,N)|T]) :-
     A1 is A+1.
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(fft([0,1,2,3,4,5,6,7],_ANSWER))).
 
 test :-

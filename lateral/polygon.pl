@@ -1,6 +1,6 @@
 % Calculating the area of a polygon
 
-wrapper(el/1,'https://josd.github.io/eye/lateral/ns#').
+told(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(area([_],0)).
 el(area([[A,B],[C,D]|E],F)) :-
@@ -8,7 +8,7 @@ el(area([[A,B],[C,D]|E],F)) :-
     F is (A*D-B*C)/2+G.
 
 % test cases
-case(wrapper(_NS,_P)).
+case(told(_NS,_P)).
 case(el(area([[3,2],[6,2],[7,6],[4,6],[5,5],[5,3],[3,2]],_ANSWER))).
 
 test :-
