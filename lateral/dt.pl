@@ -1,8 +1,8 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
-told(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-told(el/1,'https://josd.github.io/eye/lateral/ns#').
+ld(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+ld(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 rdf(type(el(z),el(n0))).
 rdf(type(X,el(n1))) :- rdf(type(X,el(n0))).
@@ -30007,7 +30007,7 @@ rdf(type(X,el(i10000))) :- rdf(type(X,el(n9999))).
 rdf(type(X,el(j10000))) :- rdf(type(X,el(n9999))).
 
 % test cases
-case(told(_NS,_P)).
+case(ld(_NS,_P)).
 case(rdf(type(_A,el(n1)))).
 case(rdf(type(_A,el(n10)))).
 case(rdf(type(_A,el(n100)))).

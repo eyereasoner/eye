@@ -6,7 +6,7 @@
 
 :- use_module(library(lists)).
 
-told(el/1,'https://josd.github.io/eye/lateral/ns#').
+ld(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 % el(solve_equation([Equation,Unknown],Solution)) :-
 % Solution is a solution to the equation Equation
@@ -443,7 +443,7 @@ compound1(Term) :-
     !.
 
 % test cases
-case(told(_NS,_P)).
+case(ld(_NS,_P)).
 case(el(solve_equation([x^2-3*x+2 = 0,x],_ANSWER))).
 case(el(solve_equation([cos(x)*(1-2*sin(x)) = 0,x],_ANSWER))).
 case(el(solve_equation([2^(2*x)-5*2^(x+1)+16 = 0,x],_ANSWER))).

@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
-told(el/1,'https://josd.github.io/eye/lateral/ns#').
+ld(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(exp([[A,B],[C,D]],[E,F])) :-
     polar([A,B],[R,T]),
@@ -54,7 +54,7 @@ divide(X,Y,Z) :-
     times(X,Yp,Z).
 
 % test cases
-case(told(_NS,_P)).
+case(ld(_NS,_P)).
 case(el(exp([[-1,0],[0.5,0]],_ANSWER))).
 case(el(exp([[e,0],[0,pi]],_ANSWER))).
 
