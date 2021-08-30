@@ -30017,7 +30017,7 @@ case(rdf(type(_A,el(n10000)))).
 test :-
     case(A),
     A,
-    write(A),
+    writeq(A),
     write('.\n'),
     fail.
 test :-

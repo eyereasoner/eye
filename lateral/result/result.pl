@@ -1,7 +1,7 @@
 % Test results for EYE Lateral
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
-el(colors(el(this),[el(p1)-el(c4),el(p2)-el(c3),el(p3)-el(c2),el(p4)-el(c1),el(p5)-el(c1)])).
+el(colors('./color.pl',[el(p1)-el(c4),el(p2)-el(c3),el(p3)-el(c2),el(p4)-el(c1),el(p5)-el(c1)])).
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 el(exp([[-1,0],[0.5,0]],[6.123233995736766e-17,1.0])).
@@ -15,8 +15,8 @@ el(derivative([x*x*x*x*x*x*x*x*x*x,x],((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)
 el(integral([1*6*x^5,x],x^6)).
 el(integral([1*sqrt(pi)/2*exp(- (x^2)),x],erf(x))).
 
-wrapper(rdf,http://www.w3.org/1999/02/22-rdf-syntax-ns#).
-wrapper(el,https://josd.github.io/eye/lateral/ns#).
+wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 rdf(type(el(z),el(n1))).
 rdf(type(el(z),el(n10))).
 rdf(type(el(z),el(n100))).
@@ -113,6 +113,10 @@ el(totient(271,270)).
 el(totient(2718281,2718280)).
 el(totient(27182818284,8994800640)).
 el(totient(271828182845904,87459116512768)).
+
+el(set('./set.pl',[_4,_5^el(p(_4,_5)),[0,1,2]])).
+el(set('./set.pl',[_4,el(p(0,_4)),[1,2]])).
+el(set('./set.pl',[el(g(_4,_5)),_6^(el(p(_4,_6)),el(p(_6,_5))),[el(g(0,3)),el(g(0,4))]])).
 
 wrapper(rdf,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').

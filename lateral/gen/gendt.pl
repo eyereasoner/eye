@@ -32,7 +32,7 @@ main :-
     write(Out,'test :-\n'),
     write(Out,'    case(A),\n'),
     write(Out,'    A,\n'),
-    write(Out,'    write(A),\n'),
+    write(Out,'    writeq(A),\n'),
     write(Out,'    write(\'.\\n\'),\n'),
     write(Out,'    fail.\n'),
     write(Out,'test :-\n'),

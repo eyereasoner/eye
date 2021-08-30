@@ -4,7 +4,7 @@
 
 wrapper(el,'https://josd.github.io/eye/lateral/ns#').
 
-el(colors(el(this),Places)) :-
+el(colors('./color.pl',Places)) :-
     findall(Place-_,el(neighbours(Place,_)),Places),
     places(Places).
 
@@ -25,7 +25,7 @@ el(neighbours(el(p5),[el(p1),el(p3)])).
 
 % test cases
 case(wrapper(_NS,_P)).
-case(el(colors(_A,_B))).
+case(el(colors(_SCOPE,_PLACES))).
 
 test :-
     case(A),
