@@ -4,7 +4,7 @@
 
 :- use_module(library(lists)).
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(compute([],OutTape)) :-
     start(I),
@@ -42,7 +42,7 @@ t(1,1,0,l,1).
 t(1,#,1,s,halt).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(compute([1,0,1,0,0,1],_ANSWER))).
 case(el(compute([1,0,1,1,1,1],_ANSWER))).
 case(el(compute([1,1,1,1,1,1],_ANSWER))).

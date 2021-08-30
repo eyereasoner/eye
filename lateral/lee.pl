@@ -3,7 +3,7 @@
 
 :- use_module(library(lists)).
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(route([Source,Destination,Obstacles],Path)) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),
@@ -70,7 +70,7 @@ path(A,B,[Wave|Waves],[B|Path]) :-
     path(A,B1,Waves,Path).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER))).
 
 test :-

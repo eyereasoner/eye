@@ -1,6 +1,6 @@
 % Traversing graph paths
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(oneway(el(paris),el(orleans))).
 el(oneway(el(paris),el(chartres))).
@@ -20,7 +20,7 @@ el(path(A,B)) :-
     el(path(C,B)).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(path(_CITY,el(nantes)))).
 
 test :-

@@ -1,7 +1,7 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 and(0,0,0).
 and(0,1,0).
@@ -48,7 +48,7 @@ el(clockgcc([[C|Cs],S],[N|Ns])) :-
     el(clockgcc([Cs,N],Ns)).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(clockgcc([[1,1,1,1,1,1,1,1,1],s(0,0,0)],_ANSWER))).
 
 test :-

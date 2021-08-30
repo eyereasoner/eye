@@ -1,6 +1,6 @@
 % See original code at https://samples.jbpub.com/9780763772062/PrologLabBook09.pdf
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 % facts
 el(p(0,1)).

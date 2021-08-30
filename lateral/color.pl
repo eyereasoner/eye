@@ -2,7 +2,7 @@
 
 :- use_module(library(lists)).
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(colors('./color.pl',Places)) :-
     findall(Place-_,el(neighbours(Place,_)),Places),
@@ -24,7 +24,7 @@ el(neighbours(el(p4),[el(p1),el(p2),el(p3)])).
 el(neighbours(el(p5),[el(p1),el(p3)])).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(colors(_SCOPE,_PLACES))).
 
 test :-

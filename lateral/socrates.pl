@@ -1,7 +1,7 @@
 % Socrates is a mortal
 
-ld(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 rdf(type(el(socrates),el(human))).
 
@@ -9,7 +9,7 @@ rdf(type(S,el(mortal))) :-
     rdf(type(S,el(human))).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(rdf(type(_IND,el(mortal)))).
 
 test :-

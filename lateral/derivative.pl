@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Derivative
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(derivative([U,X],Y)) :-
     d(U,X,V),
@@ -105,7 +105,7 @@ s(A,B) :-
 s(A,A).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(derivative([(x+1)*((x^2+2)*(x^3+3)),x],_ANSWER))).
 case(el(derivative([x/x/x/x/x/x/x/x/x/x,x],_ANSWER))).
 case(el(derivative([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],_ANSWER))).

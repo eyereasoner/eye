@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
-ld(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
 
 el(fibonacci(A,B)) :-
     fibonacci(A,0,1,B).
@@ -14,7 +14,7 @@ fibonacci(A,B,C,D) :-
     fibonacci(E,C,F,D).
 
 % test cases
-case(ld(_NS,_P)).
+case(webize(_NS,_P)).
 case(el(fibonacci(0,_ANSWER))).
 case(el(fibonacci(1,_ANSWER))).
 case(el(fibonacci(6,_ANSWER))).
