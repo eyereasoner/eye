@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0830.2247 josd').
+version_info('EYE v21.0831.1140 josd').
 
 license_info('MIT License
 
@@ -73,7 +73,6 @@ eye
     --random-seed                   create random seed for e:random built-in
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
-    --skolem-genid <genid>          use <genid> in Skolem IRIs
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
     --strings                       output log:outputString objects on stdout
@@ -268,7 +267,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--tactic']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -624,11 +623,6 @@ opts(['--rule-histogram'|Argus], Args) :-
     !,
     retractall(flag('rule-histogram')),
     assertz(flag('rule-histogram')),
-    opts(Argus, Args).
-opts(['--skolem-genid', Genid|Argus], Args) :-
-    !,
-    retractall(flag('skolem-genid', _)),
-    assertz(flag('skolem-genid', Genid)),
     opts(Argus, Args).
 opts(['--statistics'|Argus], Args) :-
     !,
@@ -1872,18 +1866,11 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Label)],
-    {   nb_getval(fdepth, D),
-        (   D =:= 0
-        ->  N = Label
-        ;   atom_codes(Label, LabelCodes),
-            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LabelCodes, LabelTidy),
-            atom_codes(N, LabelTidy)
-        ),
-        (   evar(N, S, D)
+    {   (   evar(Label, S, 0)
         ->  true
-        ;   atom_concat(N, '_', M),
+        ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(N, S, D))
+            assertz(evar(Label, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -1891,7 +1878,7 @@ symbol(Name) -->
             )
         ->  nb_getval(skolem_ns, Sns),
             (   flag('pass-all-ground')
-            ->  atomic_list_concat(['\'<', Sns, N, '>\''], Name)
+            ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
             ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
             )
         ;   atom_concat('_e_', S, Name)
@@ -3237,8 +3224,7 @@ wt0(X) :-
                 )
             ;   memberchk(Y, L)
             )
-        ->  (   \+flag(nope),
-                sub_atom(Y, 0, 2, _, 'e_')
+        ->  (   sub_atom(Y, 0, 2, _, 'e_')
             ->  write('_:')
             ;   sub_atom(Y, 0, 2, _, Z),
                 memberchk(Z, ['x_', 't_']),
@@ -4057,31 +4043,7 @@ eam(Span) :-
             ;   Concs = (answer(_, _, _), _)
             )
         ->  cnt(answer_count)
-        ;   conj_list(Prem, PremL),
-            findall(Vx,
-                (   member(Px, PremL),
-                    Px =.. [_, Py, Pz],
-                    (   atom(Py),
-                        sub_atom(Py, _, 19, _, '/.well-known/genid/')
-                    ->  Vy = [Py]
-                    ;   Vy = []
-                    ),
-                    (   atom(Pz),
-                        sub_atom(Pz, _, 19, _, '/.well-known/genid/')
-                    ->  Vx = [Pz|Vy]
-                    ;   Vx = Vy
-                    )
-                ),
-                Vz
-            ),
-            flatten(Vz, Vars),
-            forall(
-                member(Var, Vars),
-                (   \+keep_skolem(Var)
-                ->  assertz(keep_skolem(Var))
-                ;   true
-                )
-            )
+        ;   true
         ),
         nb_getval(answer_count, AnswerCount),
         (   flag('limited-answer', AnswerLimit),
@@ -8422,14 +8384,11 @@ fresh_pf(_, Pfx) :-
     fresh_pf(Pfn, Pfx).
 
 mk_skolem_ns(Sns) :-
-    (   flag('skolem-genid', Genid)
-    ->  true
-    ;   A is random(2^62),
-        atom_number(B, A),
-        sha_hash(B, C, [algorithm(sha1)]),
-        atom_codes(D, C),
-        base64xml(D, Genid)
-    ),
+    A is random(2^62),
+    atom_number(B, A),
+    sha_hash(B, C, [algorithm(sha1)]),
+    atom_codes(D, C),
+    base64xml(D, Genid),
     atomic_list_concat(['http://josd.github.io/.well-known/genid/', Genid, '#'], Sns).
 
 cnt(A) :-

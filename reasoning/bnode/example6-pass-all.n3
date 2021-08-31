@@ -1,9 +1,8 @@
 PREFIX : <https://example.org/ns/example#>
-PREFIX skolem: <http://josd.github.io/.well-known/genid/XJ2VQfh6JXQPYDYqyRttHWT9ZUM#>
 
-skolem:e_u_1 a :Unicorn.
-skolem:e_e_1 a :UnicornEater.
+_:e_u_1 a :Unicorn.
+_:e_e_1 a :UnicornEater.
 {?U_0 a :Unicorn} => {{?U_2 a :UnicornEater} => {?U_0 :is :threatened}}.
-{?U_1 a :UnicornEater} => {skolem:e_u_1 :is :threatened}.
-skolem:e_u_1 :is :threatened.
+{?U_1 a :UnicornEater} => {_:e_u_1 :is :threatened}.
+_:e_u_1 :is :threatened.
 
