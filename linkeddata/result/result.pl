@@ -1,4 +1,4 @@
-% Test results for EYE linkeddata
+% Test results for EYE Linked Data
 
 webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 el(colors('./color.pl',[el(p1)-el(c4),el(p2)-el(c3),el(p3)-el(c2),el(p4)-el(c1),el(p5)-el(c1)])).
