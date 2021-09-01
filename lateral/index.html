@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>EYE Lateral</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" href="https://josd.github.io/StyleSheets/style.css" type="text/css" />
+  <link rel="shortcut icon" href="https://josd.github.io/images/favicon.ico" type="image/vnd.microsoft.icon" />
+  <style type="text/css">a:hover {background:#ffa;}</style>
+</head>
+
+<body xml:lang="en" lang="en">
+
+<h1 id="lateral">EYE Lateral</h1>
+
+<p><a href="https://github.com/josd/eye/tree/master/lateral">EYE Lateral</a> is targeting <a href="https://github.com/josd/eye/tree/master/reasoning">EYE Reasoning</a> using <a href="https://github.com/infradig/trealla">Trealla Prolog</a>.</p>
+
+<p>Run the examples and test cases via
+<pre>
+$ ./test
+</pre>
+to get <a href="https://github.com/josd/eye/tree/master/lateral/result/result.pl">test results</a>.<p>
+
+<p>Producing and consuming <a href="https://en.wikipedia.org/wiki/Linked_data">Linked Data</a> should be obvious e.g.
+<pre>
+webize(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
+webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+
+rdf(type(el(i1),el(c5))).
+</pre>
+
+is equivalent with the following <a href="https://www.w3.org/TR/turtle/">RDF 1.1 Turtle</a>
+
+<pre>
+PREFIX rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt;
+PREFIX el: &lt;https://josd.github.io/eye/lateral/ns#&gt;
+
+el:i1 rdf:type el:c5.
+</pre>
+
+<h2 id="background">Background</h2>
+
+<ul>
+<li>Invited paper of John Alan Robinson: <a href="https://archive.org/details/springer_10.1007-3-540-44957-4/page/n19/mode/2up">Computational Logic: Memories of the Past and Challenges for the Future</a></li>
+<li>Book of Markus Triska: <a href="https://www.metalevel.at/prolog">The Power of Prolog</a></li>
+</ul>
+
+</body>
+</html>
