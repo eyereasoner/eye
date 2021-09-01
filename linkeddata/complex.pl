@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 el(exp([[A,B],[C,D]],[E,F])) :-
     polar([A,B],[R,T]),

@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Derivative
 
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 el(derivative([U,X],Y)) :-
     d(U,X,V),

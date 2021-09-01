@@ -2,7 +2,7 @@
 
 :- use_module(library(between)).
 
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 el(easter(Year,[Month,Day])) :-
     A is Year rem 19,

@@ -6,7 +6,7 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 % el(solve_equation([Equation,Unknown],Solution)) :-
 % Solution is a solution to the equation Equation

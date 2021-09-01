@@ -1,7 +1,7 @@
 % Socrates is a mortal
 
 webize(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 rdf(type(el(socrates),el(human))).
 

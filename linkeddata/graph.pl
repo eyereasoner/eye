@@ -1,6 +1,6 @@
 % Traversing graph paths
 
-webize(el/1,'https://josd.github.io/eye/lateral/ns#').
+webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
 
 el(oneway(el(paris),el(orleans))).
 el(oneway(el(paris),el(chartres))).
