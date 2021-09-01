@@ -8,7 +8,12 @@ el(exp([[-1,0],[0.5,0]],[6.123233995736766e-17,1.0])).
 el(exp([[e,0],[0,pi]],[-1.0,1.224646799147353e-16])).
 
 webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+el(derivative([(x+1)*((x^2+2)*(x^3+3)),x],(x^2+2)*(x^3+3)+ (x+1)*(2*x*(x^3+3)+ (x^2+2)*(3*x^2)))).
+el(derivative([x/x/x/x/x/x/x/x/x/x,x],(((((((((x-x)/x^2*x-x/x)/x^2*x-x/x/x)/x^2*x-x/x/x/x)/x^2*x-x/x/x/x/x)/x^2*x-x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x)/x^2*x-x/x/x/x/x/x/x/x/x)/x^2)).
+el(derivative([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],1/x/log(x)/log(log(x))/log(log(log(x)))/log(log(log(log(x))))/log(log(log(log(log(x)))))/log(log(log(log(log(log(x))))))/log(log(log(log(log(log(log(x)))))))/log(log(log(log(log(log(log(log(x))))))))/log(log(log(log(log(log(log(log(log(x))))))))))).
+el(derivative([x*x*x*x*x*x*x*x*x*x,x],((((((((x+x)*x+ x*x)*x+ x*x*x)*x+ x*x*x*x)*x+ x*x*x*x*x)*x+ x*x*x*x*x*x)*x+ x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x)*x+ x*x*x*x*x*x*x*x*x)).
 el(integral([1*6*x^5,x],x^6)).
+el(integral([1*sqrt(pi)/2*exp(- (x^2)),x],erf(x))).
 
 webize(rdf/1,'http://www.w3.org/1999/02/22-rdf-syntax-ns#').
 webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
