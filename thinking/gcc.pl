@@ -1,7 +1,7 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
 and(0,0,0).
 and(0,1,0).
@@ -42,14 +42,14 @@ gcc(C,s(Qa,Qb,Qc),s(Za,Zb,Zc)) :-
     dff(D2,C,Qb,Zb),
     dff(D3,C,Qc,Zc).
 
-el(clockgcc([[],_],[])).
-el(clockgcc([[C|Cs],S],[N|Ns])) :-
+eye(clockgcc([[],_],[])).
+eye(clockgcc([[C|Cs],S],[N|Ns])) :-
     gcc(C,S,N),
-    el(clockgcc([Cs,N],Ns)).
+    eye(clockgcc([Cs,N],Ns)).
 
 % test cases
 case(webize(_NS,_P)).
-case(el(clockgcc([[1,1,1,1,1,1,1,1,1],s(0,0,0)],_ANSWER))).
+case(eye(clockgcc([[1,1,1,1,1,1,1,1,1],s(0,0,0)],_ANSWER))).
 
 test :-
     case(A),

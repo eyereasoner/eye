@@ -2,9 +2,9 @@
 
 :- use_module(library(between)).
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(easter(Year,[Month,Day])) :-
+eye(easter(Year,[Month,Day])) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -16,7 +16,7 @@ el(easter(Year,[Month,Day])) :-
 
 % test cases
 case(webize(_NS,_P)).
-case(el(easter(Year,[_Month,_Day]))) :-
+case(eye(easter(Year,[_Month,_Day]))) :-
     between(2021,2050,Year).
 
 test :-

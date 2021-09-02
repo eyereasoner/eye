@@ -1,8 +1,8 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(fibonacci(A,B)) :-
+eye(fibonacci(A,B)) :-
     fibonacci(A,0,1,B).
 
 fibonacci(0,A,_,A).
@@ -15,12 +15,12 @@ fibonacci(A,B,C,D) :-
 
 % test cases
 case(webize(_NS,_P)).
-case(el(fibonacci(0,_ANSWER))).
-case(el(fibonacci(1,_ANSWER))).
-case(el(fibonacci(6,_ANSWER))).
-case(el(fibonacci(91,_ANSWER))).
-case(el(fibonacci(283,_ANSWER))).
-case(el(fibonacci(3674,_ANSWER))).
+case(eye(fibonacci(0,_ANSWER))).
+case(eye(fibonacci(1,_ANSWER))).
+case(eye(fibonacci(6,_ANSWER))).
+case(eye(fibonacci(91,_ANSWER))).
+case(eye(fibonacci(283,_ANSWER))).
+case(eye(fibonacci(3674,_ANSWER))).
 
 test :-
     case(A),

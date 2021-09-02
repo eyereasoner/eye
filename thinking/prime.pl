@@ -2,9 +2,9 @@
 
 :- use_module(library(between)).
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(primerange([A,B],L)) :-
+eye(primerange([A,B],L)) :-
     findall(I,(between(A,B,I),prime(I)),L).
 
 prime(2).
@@ -34,7 +34,7 @@ factor(N,L) :-
 % for the argument N.
 %   (integer,integer) (+,?)
 
-el(totient(N,Phi)) :-
+eye(totient(N,Phi)) :-
     prime_factors_mult(N,L),
     to_phi(L,Phi).
 
@@ -122,12 +122,12 @@ divi(N,_,M,N,M).
 
 % test cases
 case(webize(_NS,_P)).
-case(el(primerange([0,100],_ANSWER))).
-case(el(primerange([1000000,1000100],_ANSWER))).
-case(el(totient(271,_ANSWER))).
-case(el(totient(2718281,_ANSWER))).
-case(el(totient(27182818284,_ANSWER))).
-case(el(totient(271828182845904,_ANSWER))).
+case(eye(primerange([0,100],_ANSWER))).
+case(eye(primerange([1000000,1000100],_ANSWER))).
+case(eye(totient(271,_ANSWER))).
+case(eye(totient(2718281,_ANSWER))).
+case(eye(totient(27182818284,_ANSWER))).
+case(eye(totient(271828182845904,_ANSWER))).
 
 test :-
     case(A),

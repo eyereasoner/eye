@@ -1,8 +1,8 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(exp([[A,B],[C,D]],[E,F])) :-
+eye(exp([[A,B],[C,D]],[E,F])) :-
     polar([A,B],[R,T]),
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
@@ -55,8 +55,8 @@ divide(X,Y,Z) :-
 
 % test cases
 case(webize(_NS,_P)).
-case(el(exp([[-1,0],[0.5,0]],_ANSWER))).
-case(el(exp([[e,0],[0,pi]],_ANSWER))).
+case(eye(exp([[-1,0],[0.5,0]],_ANSWER))).
+case(eye(exp([[e,0],[0,pi]],_ANSWER))).
 
 test :-
     case(A),

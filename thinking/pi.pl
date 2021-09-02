@@ -1,9 +1,9 @@
 % Calculate pi using Nilakantha series
 % See http://www.wikihow.com/Calculate-Pi
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(pi(A,B)) :-
+eye(pi(A,B)) :-
     pi(1,A,0,C,1),
     B is 3+4*C.
 
@@ -17,7 +17,7 @@ pi(A,B,C,D,E) :-
 
 % test cases
 case(webize(_NS,_P)).
-case(el(pi(100000,_ANSWER))).
+case(eye(pi(100000,_ANSWER))).
 
 test :-
     case(A),

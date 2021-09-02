@@ -4,12 +4,12 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(compute([],OutTape)) :-
+eye(compute([],OutTape)) :-
     start(I),
     find(I,[],#,[ ],OutTape).
-el(compute([Head|Tail],OutTape)) :-
+eye(compute([Head|Tail],OutTape)) :-
     start(I),
     find(I,[],Head,Tail,OutTape).
 
@@ -43,10 +43,10 @@ t(1,#,1,s,halt).
 
 % test cases
 case(webize(_NS,_P)).
-case(el(compute([1,0,1,0,0,1],_ANSWER))).
-case(el(compute([1,0,1,1,1,1],_ANSWER))).
-case(el(compute([1,1,1,1,1,1],_ANSWER))).
-case(el(compute([],_))).
+case(eye(compute([1,0,1,0,0,1],_ANSWER))).
+case(eye(compute([1,0,1,1,1,1],_ANSWER))).
+case(eye(compute([1,1,1,1,1,1],_ANSWER))).
+case(eye(compute([],_))).
 
 test :-
     case(A),

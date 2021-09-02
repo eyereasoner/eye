@@ -5,7 +5,7 @@
 :- use_module(library(iso_ext)).
 
 webize(gps/1,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
 % find paths in the state space from initial state to goal state within limits
 gps(findpath(Goal,[Path,Duration,Cost,Belief,Comfort,Limits])) :-
@@ -63,20 +63,20 @@ conj_list((A,B),[A|C]) :-
 
 % test data
 :- dynamic(gps/1).
-:- dynamic(el/1).
+:- dynamic(eye/1).
 
 % map of Belgium
-gps(description(el(map_be),[el(location(S,el(gent))),true,el(location(S,el(brugge))),el(drive_gent_brugge),1500.0,0.006,0.96,0.99])).
-gps(description(el(map_be),[el(location(S,el(gent))),true,el(location(S,el(kortrijk))),el(drive_gent_kortrijk),1600.0,0.007,0.96,0.99])).
-gps(description(el(map_be),[el(location(S,el(kortrijk))),true,el(location(S,el(brugge))),el(drive_kortrijk_brugge),1600.0,0.007,0.96,0.99])).
-gps(description(el(map_be),[el(location(S,el(brugge))),true,el(location(S,el(oostende))),el(drive_brugge_oostende),900.0,0.004,0.98,1.0])).
+gps(description(eye(map_be),[eye(location(S,eye(gent))),true,eye(location(S,eye(brugge))),eye(drive_gent_brugge),1500.0,0.006,0.96,0.99])).
+gps(description(eye(map_be),[eye(location(S,eye(gent))),true,eye(location(S,eye(kortrijk))),eye(drive_gent_kortrijk),1600.0,0.007,0.96,0.99])).
+gps(description(eye(map_be),[eye(location(S,eye(kortrijk))),true,eye(location(S,eye(brugge))),eye(drive_kortrijk_brugge),1600.0,0.007,0.96,0.99])).
+gps(description(eye(map_be),[eye(location(S,eye(brugge))),true,eye(location(S,eye(oostende))),eye(drive_brugge_oostende),900.0,0.004,0.98,1.0])).
 
 % current state
-el(location(el(i1),el(gent))).
+eye(location(eye(i1),eye(gent))).
 
 % test cases
 case(webize(_NS,_P)).
-case(gps(findpath(el(location(_SUBJECT,el(oostende))),[_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]]))).
+case(gps(findpath(eye(location(_SUBJECT,eye(oostende))),[_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]]))).
 
 test :-
     case(A),

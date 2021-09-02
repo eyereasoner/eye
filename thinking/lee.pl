@@ -3,9 +3,9 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/thinking/ns#').
+webize(eye/1,'https://josd.github.io/eye/thinking/ns#').
 
-el(route([Source,Destination,Obstacles],Path)) :-
+eye(route([Source,Destination,Obstacles],Path)) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),
     path(Source,Destination,Waves,P),
     reverse(P,Path).
@@ -71,7 +71,7 @@ path(A,B,[Wave|Waves],[B|Path]) :-
 
 % test cases
 case(webize(_NS,_P)).
-case(el(route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER))).
+case(eye(route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER))).
 
 test :-
     case(A),
