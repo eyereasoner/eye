@@ -1,6 +1,6 @@
 % Towers of Hanoi
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(move(0,[_,_,_])) :-
     !.

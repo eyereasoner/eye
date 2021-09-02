@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(fibonacci(A,B)) :-
     fibonacci(A,0,1,B).

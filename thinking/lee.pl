@@ -3,7 +3,7 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(route([Source,Destination,Obstacles],Path)) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),

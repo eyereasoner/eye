@@ -1,6 +1,6 @@
 % Calculating the area of a polygon
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(area([_],0)).
 el(area([[A,B],[C,D]|E],F)) :-

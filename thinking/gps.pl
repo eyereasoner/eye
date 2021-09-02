@@ -5,7 +5,7 @@
 :- use_module(library(iso_ext)).
 
 webize(gps/1,'http://josd.github.io/eye/reasoning/gps/gps-schema#').
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 % find paths in the state space from initial state to goal state within limits
 gps(findpath(Goal,[Path,Duration,Cost,Belief,Comfort,Limits])) :-

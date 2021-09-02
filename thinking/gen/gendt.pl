@@ -9,7 +9,7 @@ main :-
     write(Out,'% See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf\n'),
     write(Out,'\n'),
     write(Out,'webize(rdf/1,\'http://www.w3.org/1999/02/22-rdf-syntax-ns#\').\n'),
-    write(Out,'webize(el/1,\'https://josd.github.io/eye/linkeddata/ns#\').\n'),
+    write(Out,'webize(el/1,\'https://josd.github.io/eye/thinking/ns#\').\n'),
     write(Out,'\n'),
     write(Out,'rdf(type(el(z),el(n0))).\n'),
     (   between(0,9999,I),

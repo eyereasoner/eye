@@ -2,7 +2,7 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(colors('./color.pl',Places)) :-
     findall(Place-_,el(neighbours(Place,_)),Places),

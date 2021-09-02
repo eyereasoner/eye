@@ -1,7 +1,7 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 and(0,0,0).
 and(0,1,0).

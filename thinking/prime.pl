@@ -2,7 +2,7 @@
 
 :- use_module(library(between)).
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(primerange([A,B],L)) :-
     findall(I,(between(A,B,I),prime(I)),L).

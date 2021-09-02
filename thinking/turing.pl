@@ -4,7 +4,7 @@
 
 :- use_module(library(lists)).
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(compute([],OutTape)) :-
     start(I),

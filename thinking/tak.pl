@@ -1,6 +1,6 @@
 % Takeuchi function
 
-webize(el/1,'https://josd.github.io/eye/linkeddata/ns#').
+webize(el/1,'https://josd.github.io/eye/thinking/ns#').
 
 el(tak([X,Y,Z],Z)) :-
     X =< Y,
