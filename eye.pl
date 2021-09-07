@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0905.0842 josd').
+version_info('EYE v21.0907.0959 josd').
 
 license_info('MIT License
 
@@ -2910,7 +2910,7 @@ w3 :-
         ),
         wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
         (   nb_getval(empty_gives, true)
-        ->  write(' true.')
+        ->  write(' {}.')
         ;   write(' {'),
             indentation(2),
             (   prfstep(answer(B1, B2, B3), _, _, _, _, _, _),
@@ -2990,7 +2990,7 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     indent,
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
-    ->  write(' true;')
+    ->  write(' {};')
     ;   write(' {'),
         nl,
         indentation(2),
@@ -3032,7 +3032,7 @@ wj(Cnt, A, B, C, Rule) :-
     indent,
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
-    ->  write(' true;')
+    ->  write(' {};')
     ;   write(' {'),
         nl,
         Rule = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc),
@@ -3150,6 +3150,9 @@ wt0(fail) :-
 wt0([]) :-
     !,
     write('()').
+wt0('{}') :-
+    !,
+    write('{}').
 wt0(X) :-
     number(X),
     !,
@@ -4484,8 +4487,9 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   difference(A, M),
-            unify(M, B)
+        (   makevars(A, C, delta),
+            difference(C, D),
+            unify(D, B)
         )
     ).
 
@@ -4935,8 +4939,9 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   difference(A, M),
-            unify(M, B)
+        (   makevars(A, C, delta),
+            difference(C, D),
+            unify(D, B)
         )
     ).
 
@@ -9400,9 +9405,6 @@ findvar(A, beta) :-
     ;   atom_concat('_e_', _, A)
     ;   atom_concat(some, _, A)
     ),
-    !.
-findvar(A, gamma) :-
-    sub_atom(A, _, 19, _, '/.well-known/genid/'),
     !.
 findvar(A, delta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
