@@ -2,10 +2,12 @@
 % Mathematical library for complex numbers
 % ----------------------------------------
 
+% Inspired by http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
+
 '<http://josd.github.io/eye/math#complex_exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polaire([A, B], [R, T]),
-    E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
-    F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
+    E is R**C*exp(-D*T)*cos(D*log(R)+C*T),
+    F is R**C*exp(-D*T)*sin(D*log(R)+C*T).
 
 '<http://josd.github.io/eye/math#complex_asin>'([A, B], [C, D]) :-
     E is (sqrt((1+A)^2+B^2)-sqrt((1-A)^2+B^2))/2,
