@@ -7,6 +7,18 @@
     E is R^C*exp(-D*T)*cos(D*log(R)+C*T),
     F is R^C*exp(-D*T)*sin(D*log(R)+C*T).
 
+'<http://josd.github.io/eye/math#complex_asin>'([A, B], [C, D]) :-
+    E is (sqrt((1+A)^2+B^2)-sqrt((1-A)^2+B^2))/2,
+    F is (sqrt((1+A)^2+B^2)+sqrt((1-A)^2+B^2))/2,
+    C is asin(E),
+    D is log(F+sqrt(F^2-1)).
+
+'<http://josd.github.io/eye/math#complex_acos>'([A, B], [C, D]) :-
+    E is (sqrt((1+A)^2+B^2)-sqrt((1-A)^2+B^2))/2,
+    F is (sqrt((1+A)^2+B^2)+sqrt((1-A)^2+B^2))/2,
+    C is acos(E),
+    D is -log(F+sqrt(F^2-1)).
+
 polaire([X, Y], [R, Tp]) :-
     R is sqrt(X**2+Y**2),
     T is acos(abs(X)/R),
