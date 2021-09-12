@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0912.0040 josd').
+version_info('EYE v21.0912.1949 josd').
 
 license_info('MIT License
 
@@ -4437,10 +4437,7 @@ djiti_assertz(A) :-
     within_scope(Sc),
     nonvar(B),
     \+is_list(B),
-    findall(A,
-        B,
-        E
-    ),
+    catch(findall(A, B, E), _, E = []),
     (   flag(warn)
     ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
         labelvars([Ac, Bc, Ec], 0, _),
@@ -5079,7 +5076,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(B)
         ),
-        (   findall(A, B, C)
+        (   catch(findall(A, B, C), _, C = [])
         )
     ).
 
