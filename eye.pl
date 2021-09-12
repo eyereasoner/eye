@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0907.0959 josd').
+version_info('EYE v21.0912.0040 josd').
 
 license_info('MIT License
 
@@ -3227,7 +3227,9 @@ wt0(X) :-
                 )
             ;   memberchk(Y, L)
             )
-        ->  (   sub_atom(Y, 0, 2, _, 'e_')
+        ->  (   (   sub_atom(Y, 0, 2, _, 'e_')
+                ;   sub_atom(Y, 0, 3, _, 'bn_')
+                )
             ->  write('_:')
             ;   sub_atom(Y, 0, 2, _, Z),
                 memberchk(Z, ['x_', 't_']),
