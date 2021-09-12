@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0912.1951 josd').
+version_info('EYE v21.0912.2031 josd').
 
 license_info('MIT License
 
@@ -9402,6 +9402,7 @@ findvar(A, alpha) :-
 findvar(A, beta) :-
     (   atom_concat('_bn_', _, A)
     ;   atom_concat('_e_', _, A)
+    ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   atom_concat(some, _, A)
     ),
     !.
