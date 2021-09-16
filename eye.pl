@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0912.2042 josd').
+version_info('EYE v21.0916.1958 josd').
 
 license_info('MIT License
 
@@ -992,6 +992,7 @@ n3_n3p(Argument, Mode) :-
             ;   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc2])
             ),
             flush_output(user_error),
+            nb_setval(exit_code, 1),
             (   (   \+data_fuse,
                     Mode == 'not-entail'
                 ;   data_fuse,
