@@ -26,14 +26,14 @@ PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 {("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm ?U. ("date_time_stamp" ?U ?R) e:derive true. ?R math:equalTo 0.0} => {:epdts1 :result true}.
 {?SCOPE e:findall (?O {:s :p ?O} (:o1 :o2))} => {:ef1 :result true}.
 {("This is a ~w with number ~w and with an escaped linefeed \n" "test" 5) e:format "This is a test with number 5 and with an escaped linefeed \n"} => {:ef4 :result true}.
-{({:a :b :c. :d :e :f} {}) e:graphDifference {:a :b :c. :d :e :f}} => {:egd1 :result true}.
-{({} {:d :e :f}) e:graphDifference {}} => {:egd2 :result true}.
+{({:a :b :c. :d :e :f} true) e:graphDifference {:a :b :c. :d :e :f}} => {:egd1 :result true}.
+{(true {:d :e :f}) e:graphDifference true} => {:egd2 :result true}.
 {({:a :b :c. :d :e :f} {:d :e :f}) e:graphDifference {:a :b :c}} => {:egd3 :result true}.
 {({:a :b :c. :d :e :f. :g :h :i} {?d :e :f}) e:graphDifference {:a :b :c. :g :h :i}} => {:egd4 :result true}.
-{({:a :b :c} {:a :b :c. :u :v :w. :x :y :z}) e:graphDifference {}} => {:egd5 :result true}.
-{({}) e:graphIntersection {}} => {:egi1 :result true}.
-{({} {:d :e :f}) e:graphIntersection {}} => {:egi2 :result true}.
-{({:a :b :c. :d :e :f. :g :h :i} {}) e:graphIntersection {}} => {:egi3 :result true}.
+{({:a :b :c} {:a :b :c. :u :v :w. :x :y :z}) e:graphDifference true} => {:egd5 :result true}.
+{(true) e:graphIntersection true} => {:egi1 :result true}.
+{(true {:d :e :f}) e:graphIntersection true} => {:egi2 :result true}.
+{({:a :b :c. :d :e :f. :g :h :i} true) e:graphIntersection true} => {:egi3 :result true}.
 {({:a :b :c. :d :e :f} {:d :e :f}) e:graphIntersection {:d :e :f}} => {:egi4 :result true}.
 {({:a :b :c. :d :e :f. :g :h :i} {:g :h :i. ?d :e :f} {?d :e :f. :g :h :i}) e:graphIntersection {?d :e :f. :g :h :i}} => {:egi5 :result true}.
 {((8 :d) (5 :a) (6 :b) (7 :a) (9 :d) (4 :d)) e:length 6} => {:el1 :result true}.
@@ -67,9 +67,9 @@ PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
 {(:a :b :c) list:rest (:b :c)} => {:listr1 :result true}.
 
 ### unit tests for log: builtins
-{({}) log:conjunction {}} => {:logc1 :result true}.
-{({} {:u :v :w} {:x :y :z. :j :k :l}) log:conjunction {:u :v :w. :x :y :z. :j :k :l}} => {:logc2 :result true}.
-{({} {:u :v :w} {} {}) log:conjunction {:u :v :w}} => {:logc3 :result true}.
+{(true) log:conjunction true} => {:logc1 :result true}.
+{(true {:u :v :w} {:x :y :z. :j :k :l}) log:conjunction {:u :v :w. :x :y :z. :j :k :l}} => {:logc2 :result true}.
+{(true {:u :v :w} true true) log:conjunction {:u :v :w}} => {:logc3 :result true}.
 {(:a ?A) log:equalTo (?B :b)} => {:loge1 :result true}.
 {{:a :b :c} log:equalTo {:a :b :c}} => {:loge2 :result true}.
 {{:a :b :_c} log:equalTo {:a :b _:c}} => {:loge3 :result true}.
