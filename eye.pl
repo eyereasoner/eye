@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0920.2018 josd').
+version_info('EYE v21.0920.2142 josd').
 
 license_info('MIT License
 
@@ -1550,6 +1550,7 @@ pathitem(Atom, []) -->
     }.
 pathitem(Number, [], L1, L2) :-
     literal(Atom, type(Type), L1, L2),
+    nb_getval(fdepth, 0),
     memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#long>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
     sub_atom(Atom, 1, _, 1, A),
     atom_codes(A, NumB),
