@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0917.1123 josd').
+version_info('EYE v21.0920.2018 josd').
 
 license_info('MIT License
 
@@ -4317,7 +4317,17 @@ djiti_assertz(A) :-
     conj_list(F, G),
     forall(
         member(H, G),
-        assertz(H)
+        (   assertz(H),
+            (   flag('pass-only-new')
+            ->  indent,
+                wt(H),
+                ws(H),
+                write('.'),
+                nl,
+                cnt(output_statements)
+            ;   true
+            )
+        )
     ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>'(['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#boolean>'(A, B)|C], D) :-
