@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0920.2142 josd').
+version_info('EYE v21.0921.1204 josd').
 
 license_info('MIT License
 
@@ -129,6 +129,7 @@ eye
 :- dynamic(mtime/2).
 :- dynamic(ncllit/0).
 :- dynamic(ns/2).
+:- dynamic(pass_only_new/1).
 :- dynamic(pfx/2).
 :- dynamic(pred/1).
 :- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
@@ -395,10 +396,6 @@ gre(Argus) :-
         ;   assertz(pfx('r:', '<http://www.w3.org/2000/10/swap/reason#>'))
         )
     ),
-    (   flag('pass-only-new')
-    ->  wh
-    ;   true
-    ),
     nb_setval(tr, 0),
     nb_setval(tc, 0),
     nb_setval(tp, 0),
@@ -420,6 +417,22 @@ gre(Argus) :-
                 nb_setval(exit_code, 1)
             )
         )
+    ),
+    (   flag('pass-only-new')
+    ->  wh,
+        forall(
+            pass_only_new(Zn),
+            (   indent,
+                relabel(Zn, Zr),
+                wt(Zr),
+                ws(Zr),
+                write('.'),
+                nl,
+                cnt(output_statements)
+            )
+        ),
+        nl
+    ;   true
     ),
     (   flag(profile)
     ->  profiler(_, false),
@@ -2833,7 +2846,8 @@ wh :-
                 nb_setval(wpfx, true)
             )
         ),
-        (   nb_getval(wpfx, true)
+        (   \+flag('pass-only-new'),
+            nb_getval(wpfx, true)
         ->  nl
         ;   true
         )
@@ -4098,14 +4112,9 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ->  true
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
-                Dn \= answer(_, _, _)
-            ->  indent,
-                relabel(Dn, Dr),
-                wt(Dr),
-                ws(Dr),
-                write('.'),
-                nl,
-                cnt(output_statements)
+                Dn \= answer(_, _, _),
+                \+pass_only_new(Dn)
+            ->  assertz(pass_only_new(Dn))
             ;   true
             ),
             (   flag(nope)
@@ -4137,14 +4146,9 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ->  true
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
-                    Cn \= answer(_, _, _)
-                ->  indent,
-                    relabel(Cn, Cr),
-                    wt(Cr),
-                    ws(Cr),
-                    write('.'),
-                    nl,
-                    cnt(output_statements)
+                    Cn \= answer(_, _, _),
+                    \+pass_only_new(Cn)
+                ->  assertz(pass_only_new(Cn))
                 ;   true
                 ),
                 (   flag(nope)
@@ -4309,7 +4313,13 @@ djiti_assertz(A) :-
     conj_list(C, D),
     forall(
         member(E, D),
-        retract(E)
+        (   retract(E),
+            (   flag('pass-only-new'),
+                pass_only_new(E)
+            ->  retract(pass_only_new(E))
+            ;   true
+            )
+        )
     ),
     nb_getval(wn, W),
     labelvars(B, W, N),
@@ -4319,13 +4329,9 @@ djiti_assertz(A) :-
     forall(
         member(H, G),
         (   assertz(H),
-            (   flag('pass-only-new')
-            ->  indent,
-                wt(H),
-                ws(H),
-                write('.'),
-                nl,
-                cnt(output_statements)
+            (   flag('pass-only-new'),
+                \+pass_only_new(H)
+            ->  assertz(pass_only_new(H))
             ;   true
             )
         )
