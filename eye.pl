@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0921.1204 josd').
+version_info('EYE v21.0921.1655 josd').
 
 license_info('MIT License
 
@@ -85,6 +85,7 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     [--n3] <uri>                    N3 triples and rules
+    --blogic <uri>                  RDF surfaces
     --proof <uri>                   N3 proof lemmas
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
@@ -111,6 +112,7 @@ eye
 :- dynamic(flag/1).
 :- dynamic(flag/2).
 :- dynamic(fpred/1).
+:- dynamic(got_bi/0).
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
@@ -715,7 +717,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query']),
+    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -724,6 +726,26 @@ opts([Arg|Argus], [Arg|Args]) :-
 
 args([]) :-
     !.
+args(['--blogic', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag('debug-n3p')
+    ->  portray_clause(user_error, scope(R))
+    ;   true
+    ),
+    n3_n3p(Arg, data),
+    (   got_bi
+    ->  true
+    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G1),
+                conj_list(G1, L1),
+                append(L2, ['<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2)], L1),
+                conj_list(G3, L2)),
+                '<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), '<>')),
+        assertz(got_bi)
+    ),
+    args(Args).
 args(['--entail', Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
