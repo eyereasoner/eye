@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0921.1655 josd').
+version_info('EYE v21.0923.1203 josd').
 
 license_info('MIT License
 
@@ -740,7 +740,8 @@ args(['--blogic', Arg|Args]) :-
     ->  true
     ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G1),
                 conj_list(G1, L1),
-                append(L2, ['<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2)], L1),
+                select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
+                %append(L2, ['<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2)], L1),
                 conj_list(G3, L2)),
                 '<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), '<>')),
         assertz(got_bi)
