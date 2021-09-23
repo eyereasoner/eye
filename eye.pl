@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0923.1203 josd').
+version_info('EYE v21.0923.2040 josd').
 
 license_info('MIT License
 
@@ -741,9 +741,8 @@ args(['--blogic', Arg|Args]) :-
     ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G1),
                 conj_list(G1, L1),
                 select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
-                %append(L2, ['<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2)], L1),
-                conj_list(G3, L2)),
-                '<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), '<>')),
+                conj_list(G3, L2),
+                makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B, beta)), B, '<>')),
         assertz(got_bi)
     ),
     args(Args).
@@ -4282,7 +4281,7 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
         )
     ),
     !.
-djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
+djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), implies(A, B, '<>')) :-
     nonvar(B),
     (   conj_list(B, D)
     ->  true
@@ -4298,8 +4297,15 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), F) :-
         )
     ),
     !,
-    \+implies(A, B, '<>'),
-    makevars(implies(A, B, '<>'), F, beta).
+    findvars([A, B], V, beta),
+    forall(
+        member(U, V),
+        (   \+keep_skolem(U)
+        ->  assertz(keep_skolem(U))
+        ;   true
+        )
+    ).
+
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
