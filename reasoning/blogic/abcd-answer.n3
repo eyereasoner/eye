@@ -1,0 +1,10 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/sample#>
+
+:i a :A.
+:i a :B.
+() log:negativeSurface {:i a :C}.
+() log:negativeSurface {() log:negativeSurface {() log:negativeSurface {:i a :D}}}.
+(_:e_S_1) log:negativeSurface {_:e_S_1 a :A. () log:negativeSurface {_:e_S_1 a :B}. () log:negativeSurface {_:e_S_1 a :C}. () log:negativeSurface {_:e_S_1 a :D}}.
+() log:negativeSurface {:i a :D}.
+
