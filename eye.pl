@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0923.2040 josd').
+version_info('EYE v21.0924.2013 josd').
 
 license_info('MIT License
 
@@ -73,6 +73,7 @@ eye
     --random-seed                   create random seed for e:random built-in
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
+    --skolem-genid <genid>          use <genid> in Skolem IRIs
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
     --strings                       output log:outputString objects on stdout
@@ -270,7 +271,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--tactic']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -638,6 +639,11 @@ opts(['--rule-histogram'|Argus], Args) :-
     !,
     retractall(flag('rule-histogram')),
     assertz(flag('rule-histogram')),
+    opts(Argus, Args).
+opts(['--skolem-genid', Genid|Argus], Args) :-
+    !,
+    retractall(flag('skolem-genid', _)),
+    assertz(flag('skolem-genid', Genid)),
     opts(Argus, Args).
 opts(['--statistics'|Argus], Args) :-
     !,
@@ -8432,11 +8438,14 @@ fresh_pf(_, Pfx) :-
     fresh_pf(Pfn, Pfx).
 
 mk_skolem_ns(Sns) :-
-    A is random(2^62),
-    atom_number(B, A),
-    sha_hash(B, C, [algorithm(sha1)]),
-    atom_codes(D, C),
-    base64xml(D, Genid),
+    (   flag('skolem-genid', Genid)
+    ->  true
+    ;   A is random(2^62),
+        atom_number(B, A),
+        sha_hash(B, C, [algorithm(sha1)]),
+        atom_codes(D, C),
+        base64xml(D, Genid)
+    ),
     atomic_list_concat(['http://josd.github.io/.well-known/genid/', Genid, '#'], Sns).
 
 cnt(A) :-
