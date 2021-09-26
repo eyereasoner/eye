@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.0926.1301 josd').
+version_info('EYE v21.0926.2252 josd').
 
 license_info('MIT License
 
@@ -5368,8 +5368,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is acos(W)
+        (   getnumber(X, W),
+            Y is acos(W)
         )
     ).
 
@@ -5377,8 +5377,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is acosh(W)
+        (   getnumber(X, W),
+            Y is acosh(W)
         )
     ).
 
@@ -5386,8 +5386,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is asin(W)
+        (   getnumber(X, W),
+            Y is asin(W)
         )
     ).
 
@@ -5395,8 +5395,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is asinh(W)
+        (   getnumber(X, W),
+            Y is asinh(W)
         )
     ).
 
@@ -5404,8 +5404,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is atan(W)
+        (   getnumber(X, W),
+            Y is atan(W)
         )
     ).
 
@@ -5423,8 +5423,8 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (   getnumber(Y, W),
-            X is atanh(W)
+        (   getnumber(X, W),
+            Y is atanh(W)
         )
     ).
 

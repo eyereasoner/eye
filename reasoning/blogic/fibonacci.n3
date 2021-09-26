@@ -14,11 +14,13 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
         (0 _:A _:B) :fib _:A.
     }.
 }.
+
 (_:A _:B) log:negativeSurface {
     () log:negativeSurface {
         (1 _:A _:B) :fib _:B.
     }.
 }.
+
 (_:A _:B _:X _:Y) log:negativeSurface {
     () log:negativeSurface {
         (_:X _:A _:B) :fib _:Y.
@@ -30,13 +32,26 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 }.
 
 # queries
-(_:X1 _:X1 _:X3) log:querySurface {
-    1 :fibonacci _:X1.
-    2 :fibonacci _:X2.
-    3 :fibonacci _:X3.
+(_:X) log:querySurface {
+    1 :fibonacci _:X.
 }.
-(_:X1 _:X1 _:X3) log:querySurface {
-    91 :fibonacci _:X1.
-    283 :fibonacci _:X2.
-    3674 :fibonacci _:X3.
+
+(_:X) log:querySurface {
+    2 :fibonacci _:X.
+}.
+
+(_:X) log:querySurface {
+    3 :fibonacci _:X
+}.
+
+(_:X) log:querySurface {
+    91 :fibonacci _:X.
+}.
+
+(_:X) log:querySurface {
+    283 :fibonacci _:X.
+}.
+
+(_:X) log:querySurface {
+    3674 :fibonacci _:X.
 }.
