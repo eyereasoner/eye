@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1023.1345 josd').
+version_info('EYE v21.1028.1756 josd').
 
 license_info('MIT License
 
@@ -1141,6 +1141,15 @@ n3_n3p(Argument, Mode) :-
                     ;   true
                     )
                 ;   (   Rt = ':-'(Ci, Px),
+                        (   Px = true
+                        ->  functor(Ci, Cf, _),
+                            (   \+pred(Cf),
+                                \+cpred(Cf)
+                            ->  assertz(pred(Cf))
+                            ;   true
+                            )
+                        ;   true
+                        ),
                         conjify(Px, Pi)
                     ->  (   Ci = true
                         ->  (   flag('debug-n3p')
