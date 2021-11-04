@@ -30009,10 +30009,10 @@ clauses = @julog [
 ]
     
 cases = [
-    :(resolve(@julog(n10(_ELEMENT)), clauses)),
-    :(resolve(@julog(n100(_ELEMENT)), clauses)),
-    :(resolve(@julog(n1000(_ELEMENT)), clauses)),
-    :(resolve(@julog(n10000(_ELEMENT)), clauses)),
+    :(resolve(@julog(n10(ELEMENT)), clauses)),
+    :(resolve(@julog(n100(ELEMENT)), clauses)),
+    :(resolve(@julog(n1000(ELEMENT)), clauses)),
+    :(resolve(@julog(n10000(ELEMENT)), clauses)),
 ]
 
 for case in cases
