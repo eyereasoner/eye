@@ -1,4 +1,4 @@
 :- initialization((
-    logtalk_load('eye-registry'),
-    logtalk_load('eye-pack')
+    logtalk_load(eye_registry),
+    logtalk_load(eye_pack)
 )).

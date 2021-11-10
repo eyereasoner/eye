@@ -7,13 +7,13 @@
         comment is 'Pack registry for eye.'
     ]).
 
-    name('eye-registry').
+    name(eye).
 
     description('Pack registry for eye.').
 
     home('https://github.com/josd/eye').
 
-    clone('https://github.com/josd/eye').
+    clone('https://github.com/josd/eye.git').
 
     archive('https://github.com/josd/eye/blob/master/eye.zip?raw=true').
 

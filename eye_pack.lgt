@@ -7,7 +7,7 @@
         comment is 'Pack manifest for EYE'
     ]).
 
-    name('eye-pack').
+    name(eye).
 
     description('Euler Yet another proof Engine').
 
