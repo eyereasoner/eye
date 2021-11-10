@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1028.2142 josd').
+version_info('EYE v21.1110.1436 josd').
 
 license_info('MIT License
 
@@ -4328,14 +4328,6 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
         )
     ),
     !,
-    findvars([A, B], V, beta),
-    forall(
-        member(U, V),
-        (   \+keep_skolem(U)
-        ->  assertz(keep_skolem(U))
-        ;   true
-        )
-    ),
     makevars(implies(A, B, '<>'), C, zeta).
 
 djiti_fact(A, A) :-
@@ -5269,12 +5261,13 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
-    implies(X, Z, _),
-    (   commonvars(X, Z, [])
-    ->  labelvars(Z, 0, _, avar)
+    implies(U, V, _),
+    unify(U, X),
+    unify(V, Y),
+    (   commonvars(X, Y, [])
+    ->  labelvars(Y, 0, _, avar)
     ;   true
     ),
-    Y = Z,
     (   var(Y)
     ->  true
     ;   Y \= answer(_, _, _),
