@@ -1,5 +1,4 @@
 PREFIX : <http://example.org/test#>
 
-_:x a :Penguin.
-:bob :thinks {_:x a :Bird}.
-{:bob :thinks _:y}=>{{:bob :is :wise}=>_:y}.
+{_:x a :Penguin}=>{_:x a :Bird}.
+{_:y =>_:z}=>{_:y a :Premise. _:z a :Conclusion }.
