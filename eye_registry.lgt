@@ -15,6 +15,6 @@
 
     clone('https://github.com/josd/eye.git').
 
-    archive('https://github.com/josd/eye/blob/master/eye.zip?raw=true').
+    archive('https://github.com/josd/eye/blob/master/eye.zip').
 
 :- end_object.
