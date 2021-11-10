@@ -13,8 +13,8 @@
 
     home('https://github.com/josd/eye').
 
-    clone('https://github.com/josd/eye.git').
+    clone('https://github.com/josd/eye').
 
-    archive('https://github.com/josd/eye/eye.zip').
+    archive('https://github.com/josd/eye/blob/master/eye.zip?raw=true').
 
 :- end_object.
