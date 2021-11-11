@@ -21,7 +21,7 @@
         'https://github.com/josd/eye/archive/refs/tags/v21.1110.1436.zip',
         sha256 - 'd60e8db1c052c2d2181dcdaaa3681ca0eee26a15b242a372f45ff5ff22b1fd7c',
         [],
-        ['SWI-Prolog']
+        [swi]
     ).
 
 :- end_object.
