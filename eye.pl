@@ -9472,25 +9472,25 @@ findvar(A, alpha) :-
     nb_getval(skolem_ns, Sns),
     sub_atom(A, 1, _, _, Sns).
 findvar(A, beta) :-
-    (   atom_concat('_bn_', _, A)
-    ;   atom_concat('_e_', _, A)
+    (   sub_atom(A, 0, _, _, '_bn_')
+    ;   sub_atom(A, 0, _, _, '_e_')
     ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
-    ;   atom_concat(some, _, A)
+    ;   sub_atom(A, 0, _, _, some)
     ),
     !.
 findvar(A, delta) :-
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
-    ;   atom_concat(some, _, A)
+    ;   sub_atom(A, 0, _, _, some)
     ),
     !.
 findvar(A, epsilon) :-
     !,
     sub_atom(A, 0, 1, _, '_'),
-    \+atom_concat('_bn_', _, A),
-    \+atom_concat('_e_', _, A).
+    \+ sub_atom(A, 0, _, _, '_bn_'),
+    \+ sub_atom(A, 0, _, _, '_e_').
 findvar(A, zeta) :-
     !,
-    atom_concat(some, _, A).
+    sub_atom(A, 0, _, _, some).
 
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
@@ -9500,7 +9500,7 @@ raw_type(A, '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
     !.
 raw_type(A, '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
     atom(A),
-    \+atom_concat(some, _, A),
+    \+ sub_atom(A, 0, _, _, some),
     \+ (sub_atom(A, 0, 1, _, '<'), sub_atom(A, _, 1, 0, '>')),
     !.
 raw_type(literal(_, _), '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
