@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1111.1241 josd').
+version_info('EYE v21.1115.2205 josd').
 
 license_info('MIT License
 
@@ -1679,7 +1679,12 @@ pathitem(Node, []) -->
     {   retractall(quvar(_, _, J)),
         retractall(qevar(_, _, J)),
         retractall(evar(_, _, J)),
-        nb_setval(fdepth, I)
+        nb_setval(fdepth, I),
+        (   nb_getval(entail_mode, true)
+        ->  nb_getval(line_number, Ln),
+            throw(non_rdf_entailment(Node, after_line(Ln)))
+        ;   true
+        )
     },
     ['}'].
 
