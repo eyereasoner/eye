@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1115.2205 josd').
+version_info('EYE v21.1123.1419 josd').
 
 license_info('MIT License
 
@@ -4504,6 +4504,11 @@ djiti_assertz(A) :-
         copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A, B)), D),
         istep('<>', C, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A, B), D)
     ).
+
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#find>'(Sc, [A, B, C]) :-
+    \+flag(restricted),
+    within_scope(Sc),
+    setof(A, B, C).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [A, B, C]) :-
     \+flag(restricted),
