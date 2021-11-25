@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1124.2208 josd').
+version_info('EYE v21.1125.2043 josd').
 
 license_info('MIT License
 
@@ -4043,7 +4043,7 @@ eam(Span) :-
             flush_output(user_error)
         ;   true
         ),
-        catch(ucall(Prem), Exc,      % just ucall(Prem) instead of call_residue_vars(Prem, [])
+        catch(call_residue_vars(ucall(Prem), []), Exc,      % not just ucall(Prem) but call_residue_vars(ucall(Prem), [])
             (   Exc = error(existence_error(procedure, _), _)
             ->  fail
             ;   throw(Exc)
@@ -4093,7 +4093,7 @@ eam(Span) :-
         ),
         (   Concd \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(_, _)
         ->  nb_getval(wn, W),
-            labelvars(Prem-Concd, W, N),      % failing when Prem contains attributed variables
+            labelvars(Prem-Concd, W, N),        % failing when Prem contains attributed variables
             nb_setval(wn, N)
         ;   true
         ),
@@ -5324,7 +5324,7 @@ djiti_assertz(A) :-
     within_scope(X),
     !,
     when(
-        (   nonvar(Y)
+        (   ground(Y)
         ),
         (   \+catch(Y, _, fail)
         )

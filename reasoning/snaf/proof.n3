@@ -5,8 +5,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
   r:component <#lemma2>;
+  r:component <#lemma3>;
   r:gives {
     :Alice :loves :Bob.
+    :Bob a :Person.
     :Alice :hates :Nobody.
   }.
 
@@ -15,43 +17,60 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :Alice :loves :Bob.
   };
   r:evidence (
-    <#lemma3>
+    <#lemma4>
   );
-  r:rule <#lemma4>.
+  r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
+  r:gives {
+    :Bob a :Person.
+  };
+  r:evidence (
+    <#lemma6>
+  );
+  r:rule <#lemma5>.
+
+<#lemma3> a r:Inference;
   r:gives {
     :Alice :hates :Nobody.
   };
   r:evidence (
-    <#lemma5>
+    <#lemma7>
   );
-  r:rule <#lemma4>.
+  r:rule <#lemma5>.
 
-<#lemma3> a r:Extraction;
+<#lemma4> a r:Extraction;
   r:gives {
     :Alice :loves :Bob.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/demo.n3>].
 
-<#lemma4> a r:Extraction;
+<#lemma5> a r:Extraction;
   r:gives {
     {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-<#lemma5> a r:Inference;
+<#lemma6> a r:Extraction;
+  r:gives {
+    :Bob a :Person.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/demo.n3>].
+
+<#lemma7> a r:Inference;
   r:gives {
     :Alice :hates :Nobody.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/snaf/demo.n3> <http://josd.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates _:sk_0}}]
+    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/snaf/demo.n3> <http://josd.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates :Bob}}]
+    <#lemma6>
   );
-  r:rule <#lemma6>.
+  r:rule <#lemma8>.
 
-<#lemma6> a r:Extraction;
+<#lemma8> a r:Extraction;
   r:gives {
-    {?x_0_2 log:notIncludes {:Alice :hates ?x_1_2}} => {:Alice :hates :Nobody}.
+    {?x_0_2 log:notIncludes {:Alice :hates ?x_1_2}.
+     ?x_1_2 a :Person} => {:Alice :hates :Nobody}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/rules.n3>].
 
