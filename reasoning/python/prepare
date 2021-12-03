@@ -1,9 +1,0 @@
-#!/bin/bash
-echo -n "" | tee python-result.n3
-for f in *.py
-do
-    echo "# running $f" | tee -a python-result.n3
-    python3 "$f" | tee -a python-result.n3
-    echo "" | tee -a python-result.n3
-done
-git diff

@@ -1,9 +1,0 @@
-#!/bin/bash
-echo -n "" | tee julia-result.n3
-for f in *.jl
-do
-    echo "# running $f" | tee -a julia-result.n3
-    julia "$f" | tee -a julia-result.n3
-    echo "" | tee -a julia-result.n3
-done
-git diff
