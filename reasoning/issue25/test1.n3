@@ -1,0 +1,20 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/test#>
+
+:alice :name "alice".
+:bob :name "bob".
+:charlie :name "charlie".
+
+:alice :says { :bob a :NiceGuy }.
+
+@forAll :y.
+
+{ :alice :says ?x.
+  :y :name "charlie".
+  ?x log:notIncludes { :y a :NiceGuy }.
+} => { :test :pass 1 }.
+
+{ :alice :says ?x. 
+  ?x log:notIncludes { :y a :NiceGuy }.
+  :y :name "charlie".
+} => { :test :pass 2 }.

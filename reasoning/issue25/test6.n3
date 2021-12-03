@@ -1,0 +1,9 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/test#>
+
+:bob a :Person.
+:bob :father :ted.
+
+{?x a :Person}=>{?x :father _:y. _:y a :Man}.
+{?x :father ?y. ?x :father ?z. ?y log:notEqualTo ?z}=>{:here :I :am}.
+{?x :father ?y}=>{?y a :Man}.

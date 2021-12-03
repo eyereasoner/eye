@@ -1,0 +1,13 @@
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/test#>
+
+#G1
+:gang :contains :bob, :charlie.
+:alice :says { :bob :name "bob" }.
+{ 
+  :alice :says _:g.
+  _:g log:notIncludes { _:s _:p _:o }
+  :gang :contains _:s.
+} => {
+  :alice :ignores _:s.
+}.
