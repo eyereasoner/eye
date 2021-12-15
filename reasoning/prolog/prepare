@@ -1,0 +1,11 @@
+#!/bin/bash
+echo -n "" | tee ${1:-swipl}-result.n3
+for f in *.pl
+do
+    if [ "$f" != "retina.pl" ]
+    then
+        echo "# running $f" | tee -a ${1:-swipl}-result.n3
+        ${1:-swipl} "${@:2}" -g run,halt retina.pl "$f" | tee -a ${1:-swipl}-result.n3
+        echo "" | tee -a ${1:-swipl}-result.n3
+    fi
+done
