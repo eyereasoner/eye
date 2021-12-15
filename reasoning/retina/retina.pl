@@ -7,6 +7,7 @@
 
 :- op(1150,xfx,-:).
 
+:- dynamic(neg/1).
 :- dynamic(goal/0).
 :- dynamic(label/1).
 :- dynamic(answer/1).
@@ -72,7 +73,7 @@ run :-
     retina,
     forall(
         answer(A),
-        (   write('[] :prolog-answer """'),
+        (   write('[] :retina """'),
             writeq(A),
             write('""".'),
             nl
