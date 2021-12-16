@@ -1,9 +1,10 @@
-% --------------------------------
-% The Retina chainer -- Jos De Roo
-% --------------------------------
+% ------------------------
+% Heisenberg -- Jos De Roo
+% ------------------------
 
-% The Retina chainer performs backward chaining for rules like HEAD :- BODY and
+% Heisenberg performs backward chaining for Prolog rules like HEAD :- BODY and
 % forward chaining for rules like BODY -: HEAD with HEAD being a conjunction.
+% There is no principle to tell whether to use backward or forward chaining.
 
 :- op(1150,xfx,-:).
 
@@ -21,7 +22,19 @@ load_libraries :-
     use_module(library(lists)),
     use_module(library(terms)).
 
-retina :-
+run :-
+    heisenberg,
+    forall(
+        answer(A),
+        (   write('[] :heisenberg-conducted """'),
+            writeq(A),
+            write('""".'),
+            nl
+        )
+    ).
+
+% the heisenberg chainer
+heisenberg :-
     (Prem -: Conc),
     Prem,
     \+Conc,
@@ -43,13 +56,14 @@ retina :-
         retract(goal),
         fail
     ).
-retina :-
+heisenberg :-
     (   goal
     ->  true
     ;   assertz(goal),
-        retina
+        heisenberg
     ).
 
+% create witnesses
 labelvars(Term) :-
     (   retract(label(Current))
     ->  true
@@ -58,6 +72,7 @@ labelvars(Term) :-
     numbervars(Term,Current,Next),
     assertz(label(Next)).
 
+% assert new step
 astep((A,B)) :-
     astep(A),
     astep(B).
@@ -67,15 +82,4 @@ astep(A) :-
     (   \+A
     ->  assertz(A)
     ;   true
-    ).
-
-run :-
-    retina,
-    forall(
-        answer(A),
-        (   write('[] :retina """'),
-            writeq(A),
-            write('""".'),
-            nl
-        )
     ).
