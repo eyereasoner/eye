@@ -91,13 +91,13 @@ divide([A,B],C) :-
     multiply([A,D],C).
 
 % query implies goal
-exp([[-1,0],[0.5,0]],_ANSWER) -: goal.
-exp([[e,0],[0,pi]],_ANSWER) -: goal.
-log([[e,0],[-1,0]],_ANSWER) -: goal.
-log([[0,1],[0,1]],_ANSWER) -: goal.
-sin([1.570796326794897,1.316957896924817],_ANSWER) -: goal.
-cos([0,-1.316957896924817],_ANSWER) -: goal.
-tan([1.338972522294493,0.4023594781085251],_ANSWER) -: goal.
-asin([2,0],_ANSWER) -: goal.
-acos([2,0],_ANSWER) -: goal.
-atan([1,2],_ANSWER) -: goal.
+exp([[-1,0],[0.5,0]],_ANSWER) => goal.
+exp([[e,0],[0,pi]],_ANSWER) => goal.
+log([[e,0],[-1,0]],_ANSWER) => goal.
+log([[0,1],[0,1]],_ANSWER) => goal.
+sin([1.570796326794897,1.316957896924817],_ANSWER) => goal.
+cos([0,-1.316957896924817],_ANSWER) => goal.
+tan([1.338972522294493,0.4023594781085251],_ANSWER) => goal.
+asin([2,0],_ANSWER) => goal.
+acos([2,0],_ANSWER) => goal.
+atan([1,2],_ANSWER) => goal.

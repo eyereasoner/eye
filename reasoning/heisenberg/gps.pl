@@ -39,22 +39,6 @@ stagecount([C,E|_],B) :-
 stagecount([_|D],B) :-
     stagecount(D,B).
 
-% linear logic implication
-becomes(A,B) :-
-    catch(A,_,fail),
-    conj_list(A,C),
-    forall(member(D,C),retract(D)),
-    conj_list(B,E),
-    forall(member(F,E),assertz(F)).
-
-conj_list(true,[]).
-conj_list(A,[A]) :-
-    A \= (_,_),
-    A \= false,
-    !.
-conj_list((A,B),[A|C]) :-
-    conj_list(B,C).
-
 % test data
 :- dynamic(description/9).
 :- dynamic(location/2).
@@ -69,4 +53,4 @@ description(map_be,location(S,brugge),true,location(S,oostende),drive_brugge_oos
 location(i1,gent).
 
 % query implies goal
-findpath(map_be,[location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]]) -: goal.
+findpath(map_be,[location(_SUBJECT,oostende),_PATH,_DURATION,_COST,_BELIEF,_COMFORT,[5000.0,5.0,0.2,0.4,1]]) => goal.

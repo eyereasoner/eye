@@ -13,7 +13,7 @@ tak([X,Y,Z],A) :-
     tak([A1,A2,A3],A).
 
 % query implies goal
-tak([34,13,8],_A) -: goal.
+tak([34,13,8],_A) => goal.
 
 % a single answer is fine
 limited_answer(1).

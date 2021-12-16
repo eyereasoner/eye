@@ -117,9 +117,9 @@ divi(N,F,M,R,K) :-
 divi(N,_,M,N,M).
 
 % query implies goal
-primerange([0,100],_ANSWER) -: goal.
-primerange([1000000,1000100],_ANSWER) -: goal.
-totient(271,_ANSWER) -: goal.
-totient(2718281,_ANSWER) -: goal.
-totient(27182818284,_ANSWER) -: goal.
-totient(271828182845904,_ANSWER) -: goal.
+primerange([0,100],_ANSWER) => goal.
+primerange([1000000,1000100],_ANSWER) => goal.
+totient(271,_ANSWER) => goal.
+totient(2718281,_ANSWER) => goal.
+totient(27182818284,_ANSWER) => goal.
+totient(271828182845904,_ANSWER) => goal.

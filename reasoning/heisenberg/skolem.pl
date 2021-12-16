@@ -7,4 +7,4 @@ likes(P,skolem(P)) :-
     person(P).
 
 % query implies goal
-likes(_X,_Y) -: goal.
+likes(_X,_Y) => goal.

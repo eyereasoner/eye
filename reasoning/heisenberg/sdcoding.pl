@@ -92,7 +92,7 @@ bob([X,Y],3) :-
 % etc:sdcoding appearing an odd number of times
 :- dynamic(sdcoding/2).
 
-sdc(X,Y),(sdcoding(X,Y)->retract(sdcoding(X,Y));assertz(sdcoding(X,Y))) -: true.
+sdc(X,Y),(sdcoding(X,Y)->retract(sdcoding(X,Y));assertz(sdcoding(X,Y))) => true.
 
 % query implies goal
-sdcoding(_X,_Y) -: goal.
+sdcoding(_X,_Y) => goal.

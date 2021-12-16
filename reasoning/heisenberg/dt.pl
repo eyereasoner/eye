@@ -3005,7 +3005,7 @@ i1000(X) :- n999(X).
 j1000(X) :- n999(X).
 
 % query implies goal
-n1(_ELEMENT) -: goal.
-n10(_ELEMENT) -: goal.
-n100(_ELEMENT) -: goal.
-n1000(_ELEMENT) -: goal.
+n1(_ELEMENT) => goal.
+n10(_ELEMENT) => goal.
+n100(_ELEMENT) => goal.
+n1000(_ELEMENT) => goal.

@@ -3,10 +3,10 @@
 % ----------
 
 % Heisenberg performs backward chaining for Prolog rules like HEAD :- BODY and
-% forward chaining for rules like BODY -: HEAD with HEAD being a conjunction.
+% forward chaining for rules like PREM => CONC where CONC is a conjunction.
 % There is no principle to tell whether to use backward or forward chaining.
 
-:- op(1150,xfx,-:).
+:- op(1150,xfx,=>).
 
 :- dynamic(neg/1).
 :- dynamic(goal/0).
@@ -14,13 +14,10 @@
 :- dynamic(answer/1).
 :- dynamic(limited_answer/1).
 
-:- initialization(load_libraries).
-
-load_libraries :-
-    catch(use_module(library(between)),_,true),
-    catch(use_module(library(iso_ext)),_,true),
-    use_module(library(lists)),
-    use_module(library(terms)).
+:- use_module(library(between)).
+:- use_module(library(iso_ext)).
+:- use_module(library(lists)).
+:- use_module(library(terms)).
 
 run :-
     heisenberg,
@@ -35,7 +32,7 @@ run :-
 
 % the heisenberg chainer
 heisenberg :-
-    (Prem -: Conc),
+    (Prem => Conc),
     Prem,
     \+Conc,
     (   Conc = goal
@@ -83,3 +80,19 @@ astep(A) :-
     ->  assertz(A)
     ;   true
     ).
+
+% linear logic implication
+becomes(A,B) :-
+    catch(A,_,fail),
+    conj_list(A,C),
+    forall(member(D,C),retract(D)),
+    conj_list(B,E),
+    forall(member(F,E),assertz(F)).
+
+conj_list(true,[]).
+conj_list(A,[A]) :-
+    A \= (_,_),
+    A \= false,
+    !.
+conj_list((A,B),[A|C]) :-
+    conj_list(B,C).

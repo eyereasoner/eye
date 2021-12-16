@@ -14,4 +14,4 @@ pi(A,B,C,D,E) :-
     pi(F,B,L,D,M).
 
 % query implies goal
-pi(100000,_ANSWER) -: goal.
+pi(100000,_ANSWER) => goal.

@@ -6,4 +6,4 @@ human(X) :- man(X).
 mortal(X) :- human(X).
 
 % query implies goal
-mortal(_IND) -: goal.
+mortal(_IND) => goal.
