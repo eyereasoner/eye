@@ -1,6 +1,6 @@
-% ------------------------
-% Heisenberg -- Jos De Roo
-% ------------------------
+% ----------
+% Heisenberg
+% ----------
 
 % Heisenberg performs backward chaining for Prolog rules like HEAD :- BODY and
 % forward chaining for rules like BODY -: HEAD with HEAD being a conjunction.
