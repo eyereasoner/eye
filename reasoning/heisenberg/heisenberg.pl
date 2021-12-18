@@ -24,7 +24,7 @@ run :-
     heisenberg,
     forall(
         answer(A),
-        (   write('[] :heisenberg-conducted """'),
+        (   write('[] :heisenberg-conducted-inference """'),
             writeq(A),
             write('""".'),
             nl
