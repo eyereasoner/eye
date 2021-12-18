@@ -1,9 +1,10 @@
-% ----------
-% Heisenberg
-% ----------
+% --------------------------------------------
+% Heisenberg conducted inference -- Jos De Roo
+% --------------------------------------------
 
 % Heisenberg performs backward chaining for Prolog rules like HEAD :- BODY and
 % forward chaining for rules like PREM => CONC where CONC is a conjunction.
+% Both backward and forward chaining can make use of linear inference.
 % There is no principle to tell whether to use backward or forward chaining.
 
 :- op(1150,xfx,=>).
@@ -81,7 +82,7 @@ astep(A) :-
     ;   true
     ).
 
-% linear logic implication
+% linear inference
 becomes(A,B) :-
     catch(A,_,fail),
     conj_list(A,C),
