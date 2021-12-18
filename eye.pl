@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1217.1838 josd').
+version_info('EYE v21.1218.1852 josd').
 
 license_info('MIT License
 
@@ -305,6 +305,7 @@ gre(Argus) :-
     ),
     nb_setval(output_statements, 0),
     nb_setval(current_scope, '<>'),
+    nb_setval(wn, 0),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -402,7 +403,6 @@ gre(Argus) :-
     nb_setval(tr, 0),
     nb_setval(tc, 0),
     nb_setval(tp, 0),
-    nb_setval(wn, 0),
     nb_setval(rn, 0),
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
@@ -4389,7 +4389,7 @@ djiti_assertz(A) :-
     conj_list(F, G),
     forall(
         member(H, G),
-        (   assertz(H),
+        (   djiti_assertz(H),
             (   flag('pass-only-new'),
                 \+pass_only_new(H)
             ->  assertz(pass_only_new(H))
