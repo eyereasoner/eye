@@ -1,6 +1,6 @@
-% --------------------------------------------
-% Heisenberg conducted inference -- Jos De Roo
-% --------------------------------------------
+% ------------------------
+% Heisenberg -- Jos De Roo
+% ------------------------
 
 % Heisenberg performs backward chaining for Prolog rules like HEAD :- BODY and
 % forward chaining for rules like PREM => CONC where CONC is a conjunction.
@@ -24,7 +24,7 @@ run :-
     heisenberg,
     forall(
         answer(A),
-        (   write('[] :heisenberg-conducted-inference """'),
+        (   write('[] = """'),
             writeq(A),
             write('""".'),
             nl

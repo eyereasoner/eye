@@ -1,11 +1,11 @@
 #!/bin/bash
-echo -n "" | tee ${1:-scryer-prolog}-result.n3
+echo -n "" | tee result.n3
 for f in *.pl
 do
     if [ "$f" != "heisenberg.pl" ]
     then
-        echo "# running $f" | tee -a ${1:-scryer-prolog}-result.n3
-        ${1:-scryer-prolog} "${@:2}" -g run,halt heisenberg.pl "$f" | tee -a ${1:-scryer-prolog}-result.n3
-        echo "" | tee -a ${1:-scryer-prolog}-result.n3
+        echo "# running $f" | tee -a result.n3
+        tpl -g run,halt heisenberg.pl "$f" | tee -a result.n3
+        echo "" | tee -a result.n3
     fi
 done
