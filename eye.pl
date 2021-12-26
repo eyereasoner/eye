@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1226.2054 josd').
+version_info('EYE v21.1226.2106 josd').
 
 license_info('MIT License
 
@@ -4312,7 +4312,8 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     conj_list(B, D),
     forall(
         member(E, D),
-        (   E =.. [P, _, _],
+        (   unify(E, F),
+            F =.. [P, _, _],
             (   \+fpred(P)
             ->  assertz(fpred(P))
             ;   true
@@ -4328,7 +4329,8 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ),
     forall(
         member(E, D),
-        (   E =.. [P, _, _],
+        (   unify(E, F),
+            F =.. [P, _, _],
             (   \+fpred(P)
             ->  assertz(fpred(P))
             ;   true
