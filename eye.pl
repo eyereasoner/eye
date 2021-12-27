@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1226.2106 josd').
+version_info('EYE v21.1227.1119 josd').
 
 license_info('MIT License
 
@@ -1573,7 +1573,7 @@ pathitem(Name, []) -->
                 atomic_list_concat(['\'<', Sns, N, '>\''], Name)
             )
         ;   (   quvar(S, N, D)
-            ->  (   (   D = 1,
+            ->  (   (   D > 1,
                         nb_getval(fdepth, FD),
                         FD >= 1
                     ;   flag('pass-all-ground')
