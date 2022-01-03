@@ -67,6 +67,11 @@ e:Scope a rdfs:Class;
     rdfs:subClassOf e:Tuple;
     e:tupleTypes (e:Context e:Recursion).
 
+e:ScopeOrFormula a rdfs:Class;
+    rdfs:comment "e:Scope or log:Formula";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Context e:Recursion).
+
 e:Tuple a rdfs:Class;
     rdfs:comment "class of n-tuples";
     rdfs:subClassOf rdf:List.
@@ -125,8 +130,8 @@ e:calculate a rdf:Property, e:Builtin;
     rdfs:range e:Number.
 
 e:call a rdf:Property, e:Builtin;
-    rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call succeeds";
-    rdfs:domain e:Scope;
+    rdfs:comment "built-in to call the object formula within the subject scope or formula and to succeed when the call succeeds";
+    rdfs:domain e:ScopeOrFormula;
     rdfs:range log:Formula.
 
 e:cartesianProduct a rdf:Property, e:Builtin;
