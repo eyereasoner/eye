@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v21.1227.1119 josd').
+version_info('EYE v22.0103.1833 josd').
 
 license_info('MIT License
 
@@ -4434,6 +4434,77 @@ djiti_assertz(A) :-
     read_term_from_atom(A, D, [variables(W)]),
     catch(C is D, _, fail).
 
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#call>'(A, B) :-
+    \+flag(restricted),
+    nonvar(A),
+    A \= [_,_],
+    !,
+    when(
+        (   nonvar(B)
+        ),
+        (   reset_gensym,
+            tmp_file(Tmp1),
+            open(Tmp1, write, Ws1, [encoding(utf8)]),
+            tell(Ws1),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(C, D),
+                    format('PREFIX ~w ~w~n', [C, D])
+                ),
+                nl
+            ),
+            labelvars(A, 0, _),
+            wt(A),
+            write('.'),
+            nl,
+            told,
+            tmp_file(Tmp2),
+            open(Tmp2, write, Ws2, [encoding(utf8)]),
+            tell(Ws2),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(E, F),
+                    format('PREFIX ~w ~w~n', [E, F])
+                ),
+                nl
+            ),
+            labelvars(B, 0, _),
+            write('{'),
+            wt(B),
+            write('} => {'),
+            wt(B),
+            write('}.'),
+            nl,
+            told,
+            !,
+            (   current_prolog_flag(windows, true)
+            ->  A1 = ['cmd.exe', '/C']
+            ;   A1 = []
+            ),
+            (   current_prolog_flag(argv, Argv),
+                append(Argu, ['--'|_], Argv)
+            ->  append(Argu, ['--'], A2)
+            ;   A2 = ['eye']
+            ),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>/dev/null']], A4),
+            findall([G, ' '],
+                (   member(G, A4)
+                ),
+                H
+            ),
+            flatten(H, I),
+            atomic_list_concat(I, J),
+            (   catch(exec(J, _), _, fail)
+            ->  delete_file(Tmp1),
+                delete_file(Tmp2)
+            ;   delete_file(Tmp1),
+                delete_file(Tmp2),
+                fail
+            )
+        )
+    ).
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#call>'(Sc, A) :-
     \+flag(restricted),
     within_scope(Sc),
