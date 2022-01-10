@@ -16,5 +16,5 @@ oneway(angers,nantes).
 oneway(A,B) => path(A,B).
 path(A,B),path(B,C) => path(A,C).
 
-% query implies goal
+% query
 path(_CITY,nantes) => goal.

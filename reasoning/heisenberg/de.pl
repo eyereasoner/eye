@@ -14,7 +14,7 @@ neg(saying(S,"C")) => neg(saying(S,"B")).
 neg(saying(S,"A")) => saying(S,"B").
 neg(saying(S,"B")) => saying(S,"A").
 
-% query implies goal
+% query
 saying(_WHO,"C") => goal.
 
 % assuming the negation of the query so that it can be discharged when the query succeeds

@@ -13,5 +13,5 @@ pi(A,B,C,D,E) :-
     M is -E,
     pi(F,B,L,D,M).
 
-% query implies goal
-pi(100000,_ANSWER) => goal.
+% query
+query(pi(100000,_ANSWER)).

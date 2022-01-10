@@ -9,12 +9,12 @@ q(A,B) :-
     forall(member(D,A),member(D,C)),
     forall(member(E,C),member(E,A)).
 
-% query implies goal
-q([[_A,b,c]],o) => goal.
-q([[a,B,C],[a,B,C]],o) => goal.
-q([[a,B,C],[_A,B,C]],o) => goal.
-q([[r,_S,t]],o) => goal.
-q([[d,e,f],[r,_S,t]],o) => goal.
-q([[d,_E,f],[r,s,t]],o) => goal.
-q([[d,e,f],[r,s,t],[d,_E,f]],o) => goal.
-q([[d,_E,f],[r,_S,t],[d,e,f]],o) => goal.
+% query
+query(q([[_A,b,c]],o)).
+query(q([[a,B,C],[a,B,C]],o)).
+query(q([[a,B,C],[_A,B,C]],o)).
+query(q([[r,_S,t]],o)).
+query(q([[d,e,f],[r,_S,t]],o)).
+query(q([[d,_E,f],[r,s,t]],o)).
+query(q([[d,e,f],[r,s,t],[d,_E,f]],o)).
+query(q([[d,_E,f],[r,_S,t],[d,e,f]],o)).

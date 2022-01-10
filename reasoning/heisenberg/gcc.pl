@@ -45,5 +45,5 @@ or(1,1,1).
 inv(0,1).
 inv(1,0).
 
-% query implies goal
-gcc([[1,1,1,1,1,1,1,1,1],[0,0,0]],_ANSWER) => goal.
+% query
+query(gcc([[1,1,1,1,1,1,1,1,1],[0,0,0]],_ANSWER)).

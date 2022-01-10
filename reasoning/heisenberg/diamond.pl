@@ -35,7 +35,7 @@ re(X,Y),neg(r(X,Y)) => e(X,Y).
 % DP
 r(X,Y),r(X,Z) => dom(U),r(Y,U),r(Z,U).
 
-% query implies goal
+% query
 re(b,X),re(c,X) => goal.
 
 % assuming the negation of the query so that it can be discharged when the query succeeds

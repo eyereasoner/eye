@@ -94,5 +94,5 @@ bob([X,Y],3) :-
 
 sdc(X,Y),(sdcoding(X,Y)->retract(sdcoding(X,Y));assertz(sdcoding(X,Y))) => true.
 
-% query implies goal
+% query
 sdcoding(_X,_Y) => goal.

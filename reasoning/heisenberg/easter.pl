@@ -10,5 +10,6 @@ easter(Year,[Month,Day]) :-
     Month is F//31,
     Day is F rem 31+1.
 
-% query implies goal
-easter(Year,[_Month,_Day]) => goal :- between(2021,2050,Year).
+% query
+query(easter(Year,[_Month,_Day])) :-
+    between(2021,2050,Year).

@@ -7,5 +7,5 @@ move(N,[A,B,C]) :-
     move(M,[A,C,B]),
     move(M,[C,B,A]).
 
-% query implies goal
-move(14,[left,centre,right]) => goal.
+% query
+query(move(14,[left,centre,right])).

@@ -18,31 +18,31 @@ plastic_ratio(A,B) :-
     padovan(D,E),
     B is E/C.
 
-% query implies goal
-padovan(1,_ANSWER) => goal.
-padovan(2,_ANSWER) => goal.
-padovan(3,_ANSWER) => goal.
-padovan(4,_ANSWER) => goal.
-padovan(5,_ANSWER) => goal.
-padovan(6,_ANSWER) => goal.
-padovan(7,_ANSWER) => goal.
-padovan(8,_ANSWER) => goal.
-padovan(9,_ANSWER) => goal.
-padovan(10,_ANSWER) => goal.
-padovan(11,_ANSWER) => goal.
-padovan(12,_ANSWER) => goal.
-padovan(13,_ANSWER) => goal.
-padovan(14,_ANSWER) => goal.
-padovan(15,_ANSWER) => goal.
-padovan(16,_ANSWER) => goal.
-padovan(17,_ANSWER) => goal.
-padovan(18,_ANSWER) => goal.
-padovan(19,_ANSWER) => goal.
-padovan(20,_ANSWER) => goal.
-padovan(91,_ANSWER) => goal.
-padovan(283,_ANSWER) => goal.
-padovan(3674,_ANSWER) => goal.
-plastic_ratio(1,_ANSWER) => goal.
-plastic_ratio(10,_ANSWER) => goal.
-plastic_ratio(100,_ANSWER) => goal.
-plastic_ratio(1000,_ANSWER) => goal.
+% query
+query(padovan(1,_ANSWER)).
+query(padovan(2,_ANSWER)).
+query(padovan(3,_ANSWER)).
+query(padovan(4,_ANSWER)).
+query(padovan(5,_ANSWER)).
+query(padovan(6,_ANSWER)).
+query(padovan(7,_ANSWER)).
+query(padovan(8,_ANSWER)).
+query(padovan(9,_ANSWER)).
+query(padovan(10,_ANSWER)).
+query(padovan(11,_ANSWER)).
+query(padovan(12,_ANSWER)).
+query(padovan(13,_ANSWER)).
+query(padovan(14,_ANSWER)).
+query(padovan(15,_ANSWER)).
+query(padovan(16,_ANSWER)).
+query(padovan(17,_ANSWER)).
+query(padovan(18,_ANSWER)).
+query(padovan(19,_ANSWER)).
+query(padovan(20,_ANSWER)).
+query(padovan(91,_ANSWER)).
+query(padovan(283,_ANSWER)).
+query(padovan(3674,_ANSWER)).
+query(plastic_ratio(1,_ANSWER)).
+query(plastic_ratio(10,_ANSWER)).
+query(plastic_ratio(100,_ANSWER)).
+query(plastic_ratio(1000,_ANSWER)).

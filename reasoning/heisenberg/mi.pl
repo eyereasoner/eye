@@ -24,9 +24,9 @@ head_body_(prod(s(N),M,P),[prod(N,M,K),sum(K,M,P)|Rs],Rs).
 head_body_(sum(0,M,M),Rs,Rs).
 head_body_(sum(s(N),M,s(K)),[sum(N,M,K)|Rs],Rs).
 
-% query implies goal
-mi([mi([mi([mi([mi([factorial(s(s(s(s(s(s(0)))))),_X)])])])])]) => goal.
-mi([mi([mi([mi([mi([natnum(_X)])])])])]) => goal.
+% query
+query(mi([mi([mi([mi([mi([factorial(s(s(s(s(s(s(0)))))),_X)])])])])])).
+query(mi([mi([mi([mi([mi([natnum(_X)])])])])])).
 
 % 10 answers are fine
 limited_answer(10).

@@ -228,6 +228,6 @@ nulreel(0.0) :-
     !.
 nulreel(-0.0).
 
-% query implies goal
-roots([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER) => goal.
-roots([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER) => goal.
+% query
+query(roots([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER)).
+query(roots([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER)).

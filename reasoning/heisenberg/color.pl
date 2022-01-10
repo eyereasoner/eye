@@ -18,5 +18,5 @@ neighbours(p3,[p5,p1,p4,p2]).
 neighbours(p4,[p1,p2,p3]).
 neighbours(p5,[p1,p3]).
 
-% query implies goal
-colors(map1,_X) => goal.
+% query
+query(colors(map1,_X)).

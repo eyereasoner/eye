@@ -17,31 +17,31 @@ golden_ratio(A,B) :-
     fibonacci(D,E),
     B is E/C.
 
-% query implies goal
-fibonacci(1,_ANSWER) => goal.
-fibonacci(2,_ANSWER) => goal.
-fibonacci(3,_ANSWER) => goal.
-fibonacci(4,_ANSWER) => goal.
-fibonacci(5,_ANSWER) => goal.
-fibonacci(6,_ANSWER) => goal.
-fibonacci(7,_ANSWER) => goal.
-fibonacci(8,_ANSWER) => goal.
-fibonacci(9,_ANSWER) => goal.
-fibonacci(10,_ANSWER) => goal.
-fibonacci(11,_ANSWER) => goal.
-fibonacci(12,_ANSWER) => goal.
-fibonacci(13,_ANSWER) => goal.
-fibonacci(14,_ANSWER) => goal.
-fibonacci(15,_ANSWER) => goal.
-fibonacci(16,_ANSWER) => goal.
-fibonacci(17,_ANSWER) => goal.
-fibonacci(18,_ANSWER) => goal.
-fibonacci(19,_ANSWER) => goal.
-fibonacci(20,_ANSWER) => goal.
-fibonacci(91,_ANSWER) => goal.
-fibonacci(283,_ANSWER) => goal.
-fibonacci(3674,_ANSWER) => goal.
-golden_ratio(1,_ANSWER) => goal.
-golden_ratio(10,_ANSWER) => goal.
-golden_ratio(100,_ANSWER) => goal.
-golden_ratio(1000,_ANSWER) => goal.
+% query
+query(fibonacci(1,_ANSWER)).
+query(fibonacci(2,_ANSWER)).
+query(fibonacci(3,_ANSWER)).
+query(fibonacci(4,_ANSWER)).
+query(fibonacci(5,_ANSWER)).
+query(fibonacci(6,_ANSWER)).
+query(fibonacci(7,_ANSWER)).
+query(fibonacci(8,_ANSWER)).
+query(fibonacci(9,_ANSWER)).
+query(fibonacci(10,_ANSWER)).
+query(fibonacci(11,_ANSWER)).
+query(fibonacci(12,_ANSWER)).
+query(fibonacci(13,_ANSWER)).
+query(fibonacci(14,_ANSWER)).
+query(fibonacci(15,_ANSWER)).
+query(fibonacci(16,_ANSWER)).
+query(fibonacci(17,_ANSWER)).
+query(fibonacci(18,_ANSWER)).
+query(fibonacci(19,_ANSWER)).
+query(fibonacci(20,_ANSWER)).
+query(fibonacci(91,_ANSWER)).
+query(fibonacci(283,_ANSWER)).
+query(fibonacci(3674,_ANSWER)).
+query(golden_ratio(1,_ANSWER)).
+query(golden_ratio(10,_ANSWER)).
+query(golden_ratio(100,_ANSWER)).
+query(golden_ratio(1000,_ANSWER)).

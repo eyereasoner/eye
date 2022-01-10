@@ -64,5 +64,5 @@ path(A,B,[Wave|Waves],[B|Path]) :-
     !,
     path(A,B1,Waves,Path).
 
-% query implies goal
-route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER) => goal.
+% query
+query(route([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER)).

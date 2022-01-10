@@ -6,31 +6,29 @@
 % forward chaining for rules like PREM => CONC where CONC is a conjunction.
 % There is no principle to tell whether to use backward or forward chaining.
 
-:- op(1150,xfx,=>).
-
-:- dynamic(neg/1).
-:- dynamic(goal/0).
-:- dynamic(label/1).
-:- dynamic(answer/1).
-:- dynamic(limited_answer/1).
-
 :- use_module(library(between)).
 :- use_module(library(iso_ext)).
 :- use_module(library(lists)).
 :- use_module(library(terms)).
 
-run :-
-    heisenberg,
-    forall(
-        answer(A),
-        (   write('[] :heisenberg-conducted """'),
-            writeq(A),
-            write('""".'),
-            nl
-        )
-    ).
+:- op(1150,xfx,=>).
 
-% the heisenberg chainer
+:- dynamic((=>)/2).
+:- dynamic(neg/1).
+:- dynamic(goal/0).
+:- dynamic(label/1).
+:- dynamic(query/1).
+:- dynamic(answer/1).
+:- dynamic(limited_answer/1).
+
+% Heisenberg abstract machine
+%
+% 1. Select rule P => C
+% 2. Prove P & NOT(C) via top-down reasoning and if it fails backtrack to 1.
+% 3. If C = goal answer with P => goal and if limited_answer stop, else backtrack to 2.
+%    else assert step C as bottom-up reasoning, retract goal and backtrack to 2.
+% 4. If goal or linear_select stop, else assert goal and start again at 1.
+%
 heisenberg :-
     (Prem => Conc),
     Prem,
@@ -81,7 +79,7 @@ astep(A) :-
     ;   true
     ).
 
-% linear logic implication
+% linear implication
 becomes(A,B) :-
     catch(A,_,fail),
     conj_list(A,C),
@@ -96,3 +94,19 @@ conj_list(A,[A]) :-
     !.
 conj_list((A,B),[A|C]) :-
     conj_list(B,C).
+
+% run heisenberg
+run :-
+    forall(
+        query(Q),
+        assertz((Q => goal))
+    ),
+    heisenberg,
+    forall(
+        answer(A),
+        (   write('[] :heisenberg-answer """'),
+            writeq(A),
+            write('""".'),
+            nl
+        )
+    ).
