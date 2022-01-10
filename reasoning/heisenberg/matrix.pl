@@ -18,6 +18,8 @@
 % @license Artistic License 2.0
 % @copyright Fabrizio Riguzzi
 
+:- use_module(library(lists)).
+
 %% matrix_div_scal(+A,+V,-B) is det.
 % divide matrix A by scalar V
 %

@@ -80,7 +80,7 @@ astep(A) :-
     ).
 
 % linear implication
-becomes(A,B) :-
+linear_implication(A,B) :-
     catch(A,_,fail),
     conj_list(A,C),
     forall(member(D,C),retract(D)),

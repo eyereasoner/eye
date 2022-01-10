@@ -26,8 +26,8 @@ findpaths(Maps_s,Goal,Path_s,Duration_s,Cost_s,Belief_s,Comfort_s,Path,Duration,
     Comfort_t is Comfort_s*Comfort_n,
     Comfort_t >= MinComfort,
     append(Path_s,[Action],Path_t),
-    becomes(From,To),
-    call_cleanup(findpaths(Maps_t,Goal,Path_t,Duration_t,Cost_t,Belief_t,Comfort_t,Path,Duration,Cost,Belief,Comfort,Limits),becomes(To,From)).
+    linear_implication(From,To),
+    call_cleanup(findpaths(Maps_t,Goal,Path_t,Duration_t,Cost_t,Belief_t,Comfort_t,Path,Duration,Cost,Belief,Comfort,Limits),linear_implication(To,From)).
 
 % counting the number of stages (a stage is a sequence of steps in the same map)
 stagecount([],1).
