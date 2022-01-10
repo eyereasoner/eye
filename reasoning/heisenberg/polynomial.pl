@@ -6,7 +6,7 @@ roots(P,L) :-
     findall(Z,racine(P,Z),L).
 
 % Racine dun polynome
-racine([A,B],Z) :- write([A,B]),nl,
+racine([A,B],Z) :-
     est(Z,moins(div(B,A))).
 racine([A,B,C],Z) :-
     est(P,div(B,fois([2,0],A))),
