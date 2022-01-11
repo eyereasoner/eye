@@ -89,7 +89,7 @@ bob([X,Y],2) :-
 bob([X,Y],3) :-
     id(X,Y).
 
-% etc:sdcoding appearing an odd number of times
+% sdcoding appearing an odd number of times
 :- dynamic(sdcoding/2).
 
 sdc(X,Y),(sdcoding(X,Y)->retract(sdcoding(X,Y));assertz(sdcoding(X,Y))) => true.
