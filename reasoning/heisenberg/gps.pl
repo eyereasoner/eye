@@ -26,8 +26,8 @@ findpaths(Maps_s,Goal,Path_s,Duration_s,Cost_s,Belief_s,Comfort_s,Path,Duration,
     Comfort_t is Comfort_s*Comfort_n,
     Comfort_t >= MinComfort,
     append(Path_s,[Action],Path_t),
-    linear_implication(From,To),
-    call_cleanup(findpaths(Maps_t,Goal,Path_t,Duration_t,Cost_t,Belief_t,Comfort_t,Path,Duration,Cost,Belief,Comfort,Limits),linear_implication(To,From)).
+    becomes(From,To),
+    call_cleanup(findpaths(Maps_t,Goal,Path_t,Duration_t,Cost_t,Belief_t,Comfort_t,Path,Duration,Cost,Belief,Comfort,Limits),becomes(To,From)).
 
 % counting the number of stages (a stage is a sequence of steps in the same map)
 stagecount([],1).
@@ -38,6 +38,22 @@ stagecount([C,E|_],B) :-
     B is G+1.
 stagecount([_|D],B) :-
     stagecount(D,B).
+
+% linear implication
+becomes(A,B) :-
+    catch(A,_,fail),
+    conj_list(A,C),
+    forall(member(D,C),retract(D)),
+    conj_list(B,E),
+    forall(member(F,E),assertz(F)).
+
+conj_list(true,[]).
+conj_list(A,[A]) :-
+    A \= (_,_),
+    A \= false,
+    !.
+conj_list((A,B),[A|C]) :-
+    conj_list(B,C).
 
 % test data
 :- dynamic(description/9).
