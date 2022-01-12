@@ -1,5 +1,8 @@
 % Graph Literals to Augment Simple Statements
 
+:- use_module(library(iso_ext)).
+:- use_module(library(lists)).
+
 p([[a,b,c]],o).
 p([[r,s,t]],o).
 p([[r,s,t],[d,e,f],[r,s,t]],o).
