@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Prime_number
 
+:- use_module(library(between)).
+
 primerange([A,B],L) :-
     findall(I,(between(A,B,I),prime(I)),L).
 
