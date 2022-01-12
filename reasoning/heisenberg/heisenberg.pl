@@ -14,7 +14,6 @@
 :- op(1150,xfx,=>).
 
 :- dynamic((=>)/2).
-:- dynamic(neg/1).
 :- dynamic(goal/0).
 :- dynamic(label/1).
 :- dynamic(query/1).
