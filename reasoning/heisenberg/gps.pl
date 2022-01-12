@@ -1,6 +1,9 @@
 % Goal driven Parallel Sequences -- Jos De Roo
 % See background paper https://arxiv.org/pdf/2010.12027.pdf
 
+:- use_module(library(iso_ext)).
+:- use_module(library(lists)).
+
 % find paths in the state space from initial state to goal state within limits
 findpath(_SCOPE,Goal,Path,Duration,Cost,Belief,Comfort,Limits) :-
     findpaths([],Goal,[],0.0,0.0,1.0,1.0,Path,Duration,Cost,Belief,Comfort,Limits).
