@@ -6,9 +6,7 @@
 % forward chaining for rules like PREM => CONC where CONC is a conjunction.
 % There is no principle to tell whether to use backward or forward chaining.
 
-:- use_module(library(between)).
 :- use_module(library(iso_ext)).
-:- use_module(library(lists)).
 :- use_module(library(terms)).
 
 :- op(1150,xfx,=>).
