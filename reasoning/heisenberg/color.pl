@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Four_color_theorem
 
+:- use_module(library(lists)).
+
 colors(_Map,Places) :-
     findall([Place,_],neighbours(Place,_),Places),
     places(Places).

@@ -1,6 +1,9 @@
 % Solving Sudoku puzzles
 % Original code from https://www.ic.unicamp.br/~meidanis/courses/mc336/2009s2/prolog/problemas/p97.pl
 
+:- use_module(library(between)).
+:- use_module(library(lists)).
+
 %  P97 (**) Sudoku
 %
 %  Sudoku puzzles go like this:
