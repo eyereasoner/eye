@@ -199,13 +199,6 @@ e:finalize a rdf:Property, e:Builtin;
     rdfs:domain log:Formula;
     rdfs:range log:Formula.
 
-e:find a rdf:Property, e:Builtin;
-    rdfs:comment """built-in used as ?SCOPE e:find (?SELECT ?WHERE ?ANSWER).
-            within the subject ?SCOPE it unifies ?ANSWER with a list that contains all the instantiations of ?SELECT satisfying the ?WHERE clause
-            it binds the free variables in ?WHERE except those that occur in ?SELECT""";
-    rdfs:domain e:Scope;
-    rdfs:range rdf:List.
-
 e:findall a rdf:Property, e:Builtin;
     rdfs:comment """built-in used as ?SCOPE e:findall (?SELECT ?WHERE ?ANSWER).
             within the subject ?SCOPE it unifies ?ANSWER with a list that contains all the instantiations of ?SELECT satisfying the ?WHERE clause

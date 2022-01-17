@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0103.1833 josd').
+version_info('EYE v22.0117.1432 josd').
 
 license_info('MIT License
 
@@ -4581,15 +4581,6 @@ djiti_assertz(A) :-
         istep('<>', C, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>'(A, B), D)
     ).
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#find>'(Sc, [A, B, C]) :-
-    \+flag(restricted),
-    within_scope(Sc),
-    (   catch(setof(A, B, E), _, E = [])
-    ->  true
-    ;   E = []
-    ),
-    E = C.
-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [A, B, C]) :-
     \+flag(restricted),
     within_scope(Sc),
@@ -5231,28 +5222,21 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
-    term_variables(A, U),
-    term_variables(B, V),
-    vardiff(U, V, W),
-    when(
-        (   ground(W)
-        ),
-        (   \+is_list(B),
-            catch(findall(A, B, E), _, E = []),
-            (   flag(warn)
-            ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
-                labelvars([Ac, Bc, Ec], 0, _),
-                (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, G]))
-                ->  (   E \= G
-                    ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
-                        flush_output(user_error)
-                    ;   true
-                    )
-                ;   assertz(fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, Ec])))
-                )
+    nonvar(B),
+    \+is_list(B),
+    catch(findall(A, B, E), _, E = []),
+    (   flag(warn)
+    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
+        labelvars([Ac, Bc, Ec], 0, _),
+        (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, G]))
+        ->  (   E \= G
+            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+                flush_output(user_error)
             ;   true
             )
+        ;   assertz(fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, Ec])))
         )
+    ;   true
     ),
     E = C.
 
@@ -9618,20 +9602,6 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     sub_atom(A, 0, _, _, some).
-
-vardiff(_, [], []) :-
-    !.
-vardiff(A, [B|C], [B|D]) :-
-    \+varin(B, A),
-    !,
-    vardiff(A, C, D).
-vardiff(A, [_|C], D) :-
-    vardiff(A, C, D).
-
-varin(A, [B|_]) :-
-    A == B.
-varin(A, [_|B]) :-
-    varin(A, B).
 
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
