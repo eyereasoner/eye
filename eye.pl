@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0117.1432 josd').
+version_info('EYE v22.0124.1659 josd').
 
 license_info('MIT License
 
@@ -4399,6 +4399,11 @@ djiti_assertz(A) :-
             )
         )
     ).
+
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#before>'(A, B) :-
+    \+flag(restricted),
+    A,
+    B.
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#biconditional>'(['<http://eulersharp.sourceforge.net/2003/03swap/log-rules#boolean>'(A, B)|C], D) :-
     \+flag(restricted),
