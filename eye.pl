@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0125.1445 josd').
+version_info('EYE v22.0125.1823 josd').
 
 license_info('MIT License
 
@@ -8749,12 +8749,14 @@ unify(A, B) :-
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
-    A = '<http://www.w3.org/2000/10/swap/log#scope>'([Q|V], C),
+    A = '<http://www.w3.org/2000/10/swap/log#scope>'([Q|U], C),
     !,
+    sort(U, V),
     length(V, D),
     length(E, D),
     makevars([V,C], [F,G], V, E),
-    B = '<http://www.w3.org/2000/10/swap/log#scope>'([Q|F], G).
+    B = '<http://www.w3.org/2000/10/swap/log#scope>'([Q|F], I),
+    unify(I, G).
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
