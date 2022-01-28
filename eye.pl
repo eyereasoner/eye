@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0126.1149 josd').
+version_info('EYE v22.0128.1551 josd').
 
 license_info('MIT License
 
@@ -4082,7 +4082,10 @@ eam(Span) :-
         ;   true
         ),
         djiti_conc(Conc, Concd),
-        \+catch(ucall(Concd), _, fail),
+        (   Concd = ':-'(Head, Body)
+        ->  \+clause(Head, Body)
+        ;   \+catch(ucall(Concd), _, fail)
+        ),
         (   flag('rule-histogram')
         ->  lookup(RTC, tc, RuleL),
             catch(cnt(RTC), _, nb_setval(RTC, 0))
@@ -4094,7 +4097,8 @@ eam(Span) :-
             cnt(tc, Ci)
         ;   cnt(tc)
         ),
-        (   Concd \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(_, _)
+        (   Concd \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(_, _),
+            Concd \= ':-'(_, _)
         ->  nb_getval(wn, W),
             labelvars(Prem-Concd, W, N),        % failing when Prem contains attributed variables
             nb_setval(wn, N)
@@ -4294,6 +4298,9 @@ djiti_answer(answer(A), answer(A, void, void)) :-
     !.
 djiti_answer(A, A).
 
+djiti_conc(':-'(exopred(P, S, O), B), ':-'(A, B)) :-
+    !,
+    A =.. [P, S, O].
 djiti_conc(answer((A, B), void, void), (answer(A, void, void), D)) :-
     !,
     djiti_conc(answer(B, void, void), D).
