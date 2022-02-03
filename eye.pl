@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0128.1551 josd').
+version_info('EYE v22.0203.1955 josd').
 
 license_info('MIT License
 
@@ -5412,30 +5412,11 @@ djiti_assertz(A) :-
     C = B.
 
 '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(X, Y) :-
-    makevars([X, Y], [U, V], zeta),
-    \+unify(U, V).
+    \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
-    within_scope(X),
-    !,
-    when(
-        (   ground(Y)
-        ),
-        (   \+catch(Y, _, fail)
-        )
-    ).
-'<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
-    within_scope(_),
-    when(
-        (   nonvar(X),
-            ground(Y)
-        ),
-        (   makevars([X, Y], [U, V], zeta),
-            conj_list(U, A),
-            conj_list(V, B),
-            \+includes(A, B)
-        )
-    ).
+    ignore(within_scope(X)),
+    \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
     when(
