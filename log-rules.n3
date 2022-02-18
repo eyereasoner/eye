@@ -196,7 +196,7 @@ e:exec a rdf:Property, e:Builtin;
 
 e:fail a rdf:Property, e:Builtin;
     rdfs:comment "built-in to call the object formula within the subject scope and to succeed when the call fails";
-    rdfs:domain e:Scope;
+    rdfs:domain e:ScopeOrFormula;
     rdfs:range log:Formula.
 
 e:finalize a rdf:Property, e:Builtin;
@@ -208,7 +208,7 @@ e:findall a rdf:Property, e:Builtin;
     rdfs:comment """built-in used as ?SCOPE e:findall (?SELECT ?WHERE ?ANSWER).
             within the subject ?SCOPE it unifies ?ANSWER with a list that contains all the instantiations of ?SELECT satisfying the ?WHERE clause
             it is not binding the free variables in ?WHERE""";
-    rdfs:domain e:Scope;
+    rdfs:domain e:ScopeOrFormula;
     rdfs:range rdf:List.
 
 e:fileString a rdf:Property, e:Builtin;
