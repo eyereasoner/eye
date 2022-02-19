@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0218.2226 josd').
+version_info('EYE v22.0219.2334 josd').
 
 license_info('MIT License
 
@@ -1289,7 +1289,8 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
     tr_n3p(Z, Src, Mode).
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
-    write(':-'(Y, X)),
+    tr_tr(Y, U),
+    write(':-'(U, X)),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>\''(X, Y)|Z], Src, Mode) :-
