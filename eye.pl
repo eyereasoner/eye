@@ -6,9 +6,22 @@
 %
 
 :- use_module(library(lists)).
+:- use_module(library(gensym)).
+:- use_module(library(system)).
+:- use_module(library(terms)).
+:- use_module(library(url)).
+:- use_module(library(charsio)).
 :- use_module(library(qsave)).
+:- use_module(library(base64)).
+:- use_module(library(date)).
+:- use_module(library(prolog_jiti)).
+:- catch(use_module(library(process)), _, true).
+:- catch(use_module(library(sha)), _, true).
+:- catch(use_module(library(uri)), _, true).
+:- catch(use_module(library(pcre)), _, true).
+:- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0220.1400 josd').
+version_info('EYE v22.0224.2145 josd').
 
 license_info('MIT License
 
