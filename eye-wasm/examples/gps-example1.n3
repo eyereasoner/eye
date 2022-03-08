@@ -1,0 +1,11 @@
+PREFIX gps: <http://josd.github.io/eye/reasoning/gps/gps-schema#>
+PREFIX : <http://josd.github.io/eye/reasoning#>
+
+# current state
+:i1 :location :Gent.
+
+# map of Belgium
+{:map-BE gps:description ({?S :location :Gent} true {?S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)} <= true.
+{:map-BE gps:description ({?S :location :Gent} true {?S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)} <= true.
+{:map-BE gps:description ({?S :location :Kortrijk} true {?S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)} <= true.
+{:map-BE gps:description ({?S :location :Brugge} true {?S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)} <= true.
