@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0225.1720 josd').
+version_info('EYE v22.0314.2212 josd').
 
 license_info('MIT License
 
@@ -61,6 +61,7 @@ eye
     --ignore-inference-fuse         do not halt in case of inference fuse
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --license                       show license info
+    --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -301,7 +302,8 @@ gre(Argus) :-
     nb_setval(current_scope, '<>'),
     nb_setval(wn, 0),
     opts(Argus, Args),
-    (   Args = []
+    (   \+flag('multi-query'),
+        Args = []
     ->  opts(['--help'], _)
     ;   true
     ),
@@ -383,6 +385,7 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
+        \+flag('multi-query'),
         \+flag(strings)
     ->  throw(halt)
     ;   true
@@ -401,43 +404,122 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
-    (   flag(profile)
-    ->  asserta(pce_profile:pce_show_profile :- fail),
-        profiler(_, cputime)
-    ;   true
-    ),
-    catch(eam(0), Exc3,
-        (   (   Exc3 = halt
-            ->  true
-            ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                flush_output(user_error),
-                nb_setval(exit_code, 1)
-            )
+    (   flag('multi-query')
+    ->  nb_setval(mq, 0),
+        repeat,
+        catch((read_line_to_codes(user_input, Fc), atom_codes(Fa, Fc)), _, Fa = end_of_file),
+        (   atomic_list_concat([Fi, Fo], ', ', Fa)
+        ->  open(Fo, write, Fos, [encoding(utf8)])
+        ;   Fi = Fa,
+            Fos = user_output
+        ),
+        (   Fi = end_of_file
+        ->  true
+        ;   statistics(walltime, [_, _]),
+            nb_getval(output_statements, Outb),
+            statistics(inferences, Infb),
+            catch(args(['--query', Fi]), Exc1,
+                (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
+                    flush_output(user_error),
+                    nb_setval(exit_code, 1)
+                )
+            ),
+            tell(Fos),
+            catch(eam(0), Exc2,
+                (   (   Exc2 = halt
+                    ->  true
+                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc2]),
+                        flush_output(user_error),
+                        nb_setval(exit_code, 1)
+                    )
+                )
+            ),
+            (   flag(strings)
+            ->  wst
+            ;   true
+            ),
+            forall(
+                (   answer(A1, A2, A3),
+                    nonvar(A1)
+                ),
+                retract(answer(A1, A2, A3))
+            ),
+            retractall(implies(_, answer(_, _, _), _)),
+            retractall(implies(_, (answer(_, _, _), _), _)),
+            retractall(query(_, _)),
+            retractall(prfstep(answer(_, _, _), _, _, _, _, _, _)),
+            retractall(lemma(_, _, _, _, _, _)),
+            retractall(got_wi(_, _, _, _, _)),
+            retractall(wpfx(_)),
+            retractall('<http://www.w3.org/2000/10/swap/log#outputString>'(_, _)),
+            retractall('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)),
+            nb_setval(csv_header, []),
+            cnt(mq),
+            nb_getval(mq, Cnt),
+            (   Cnt mod 10000 =:= 0
+            ->  garbage_collect_atoms
+            ;   true
+            ),
+            statistics(runtime, [_, Ti4]),
+            statistics(walltime, [_, Ti5]),
+            format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [Ti4, Ti5]),
+            flush_output(user_error),
+            nb_getval(output_statements, Oute),
+            Outd is Oute-Outb,
+            catch(Outs is round(Outd/Ti5*1000), _, Outs = ''),
+            (   (   flag(strings)
+                ;   flag(quiet)
+                )
+            ->  nl
+            ;   format('#DONE ~3d [sec] mq=~w out=~d out/sec=~w~n~n', [Ti5, Cnt, Outd, Outs])
+            ),
+            timestamp(Stmp),
+            statistics(inferences, Infe),
+            Infd is Infe-Infb,
+            catch(Infs is round(Infd/Ti5*1000), _, Infs = ''),
+            format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
+            flush_output(user_error),
+            told,
+            fail
         )
-    ),
-    (   flag('pass-only-new')
-    ->  wh,
-        forall(
-            pass_only_new(Zn),
-            (   indent,
-                relabel(Zn, Zr),
-                wt(Zr),
-                ws(Zr),
-                write('.'),
-                nl,
-                cnt(output_statements)
+    ;   (   flag(profile)
+        ->  asserta(pce_profile:pce_show_profile :- fail),
+            profiler(_, cputime)
+        ;   true
+        ),
+        catch(eam(0), Exc3,
+            (   (   Exc3 = halt
+                ->  true
+                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                    flush_output(user_error),
+                    nb_setval(exit_code, 1)
+                )
             )
         ),
-        nl
-    ;   true
-    ),
-    (   flag(profile)
-    ->  profiler(_, false),
-        tell(user_error),
-        show_profile([]),
-        nl,
-        told
-    ;   true
+        (   flag('pass-only-new')
+        ->  wh,
+            forall(
+                pass_only_new(Zn),
+                (   indent,
+                    relabel(Zn, Zr),
+                    wt(Zr),
+                    ws(Zr),
+                    write('.'),
+                    nl,
+                    cnt(output_statements)
+                )
+            ),
+            nl
+        ;   true
+        ),
+        (   flag(profile)
+        ->  profiler(_, false),
+            tell(user_error),
+            show_profile([]),
+            nl,
+            told
+        ;   true
+        )
     ),
     (   flag(strings)
     ->  wst
@@ -447,8 +529,11 @@ gre(Argus) :-
     nb_getval(tp, TP),
     statistics(runtime, [_, T4]),
     statistics(walltime, [_, T5]),
-    format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
-    flush_output(user_error),
+    (   \+flag('multi-query')
+    ->  format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
+        flush_output(user_error)
+    ;   true
+    ),
     nb_getval(input_statements, Inp),
     nb_getval(output_statements, Outp),
     timestamp(Stamp),
@@ -565,6 +650,11 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt).
+opts(['--multi-query'|Argus], Args) :-
+    !,
+    retractall(flag('multi-query')),
+    assertz(flag('multi-query')),
+    opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-input')),
