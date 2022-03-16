@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0316.2136 josd').
+version_info('EYE v22.0316.2325 josd').
 
 license_info('MIT License
 
@@ -418,6 +418,15 @@ gre(Argus) :-
         ;   statistics(walltime, [_, _]),
             nb_getval(output_statements, Outb),
             statistics(inferences, Infb),
+            catch(eam(0), Exc0,
+                (   (   Exc0 = halt
+                    ->  true
+                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc0]),
+                        flush_output(user_error),
+                        nb_setval(exit_code, 1)
+                    )
+                )
+            ),
             catch(args(['--query', Fi]), Exc1,
                 (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
                     flush_output(user_error),
@@ -2990,6 +2999,7 @@ wh :-
             )
         ),
         (   \+flag('pass-only-new'),
+            \+flag('multi-query'),
             nb_getval(wpfx, true)
         ->  nl
         ;   true
@@ -4463,7 +4473,6 @@ djiti_assertz(A) :-
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B) :-
     \+flag(restricted),
-    within_scope(_),
     catch(call(A), _, fail),
     unify(A, C),
     conj_list(C, D),
