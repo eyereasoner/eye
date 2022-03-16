@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0316.1852 josd').
+version_info('EYE v22.0316.2136 josd').
 
 license_info('MIT License
 
@@ -4463,6 +4463,7 @@ djiti_assertz(A) :-
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B) :-
     \+flag(restricted),
+    within_scope(_),
     catch(call(A), _, fail),
     unify(A, C),
     conj_list(C, D),
