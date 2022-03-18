@@ -13,9 +13,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     :taskA a :CompositeTask.
     :taskA1 a :Completed.
     :taskA2 a :Completed.
+    :taskA a :Completed.
     :taskA :subtask :taskA1.
     :taskA :subtask :taskA2.
-    :taskA a :Completed.
   }.
 
 <#lemma1> a r:Inference;
@@ -47,7 +47,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Inference;
   r:gives {
-    :taskA :subtask :taskA1.
+    :taskA a :Completed.
   };
   r:evidence (
     <#lemma11>
@@ -56,7 +56,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma5> a r:Inference;
   r:gives {
-    :taskA :subtask :taskA2.
+    :taskA :subtask :taskA1.
   };
   r:evidence (
     <#lemma12>
@@ -65,7 +65,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Inference;
   r:gives {
-    :taskA a :Completed.
+    :taskA :subtask :taskA2.
   };
   r:evidence (
     <#lemma13>
@@ -96,19 +96,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example27.n3>].
 
-<#lemma11> a r:Extraction;
-  r:gives {
-    :taskA :subtask :taskA1.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example27.n3>].
-
-<#lemma12> a r:Extraction;
-  r:gives {
-    :taskA :subtask :taskA2.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example27.n3>].
-
-<#lemma13> a r:Inference;
+<#lemma11> a r:Inference;
   r:gives {
     :taskA a :Completed.
   };
@@ -117,6 +105,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {({:taskA :subtask _:sk_0} {_:sk_0 a :Completed}) log:forAllIn ((<http://josd.github.io/eye/reasoning/twf/example27.n3>) 1)}]
   );
   r:rule <#lemma14>.
+
+<#lemma12> a r:Extraction;
+  r:gives {
+    :taskA :subtask :taskA1.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example27.n3>].
+
+<#lemma13> a r:Extraction;
+  r:gives {
+    :taskA :subtask :taskA2.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example27.n3>].
 
 <#lemma14> a r:Extraction;
   r:gives {
