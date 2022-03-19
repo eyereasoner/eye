@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0319.1132 josd').
+version_info('EYE v22.0319.1653 josd').
 
 license_info('MIT License
 
@@ -418,15 +418,6 @@ gre(Argus) :-
         ;   statistics(walltime, [_, _]),
             nb_getval(output_statements, Outb),
             statistics(inferences, Infb),
-            catch(eam(0), Exc0,
-                (   (   Exc0 = halt
-                    ->  true
-                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc0]),
-                        flush_output(user_error),
-                        nb_setval(exit_code, 1)
-                    )
-                )
-            ),
             catch(args(['--query', Fi]), Exc1,
                 (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
                     flush_output(user_error),
@@ -2999,7 +2990,6 @@ wh :-
             )
         ),
         (   \+flag('pass-only-new'),
-            \+flag('multi-query'),
             nb_getval(wpfx, true)
         ->  nl
         ;   true
@@ -4130,6 +4120,12 @@ eam(Span) :-
         ;   true
         ),
         implies(Prem, Conc, Src),
+        (   Conc = answer(_, _, _),
+            \+flag('limited-answer', _),
+            \+got_bi
+        ->  within_scope(_)
+        ;   true
+        ),
         ignore(Prem = exopred(_, _, _)),
         (   flag(nope),
             \+flag('rule-histogram')
@@ -5658,6 +5654,36 @@ djiti_assertz(A) :-
         (   conj_list(X, A),
             conj_list(Y, B),
             includes(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#linearImplies>'(A, B) :-
+    catch(call(A), _, fail),
+    unify(A, C),
+    conj_list(C, D),
+    forall(
+        member(E, D),
+        (   retract(E),
+            (   flag('pass-only-new'),
+                pass_only_new(E)
+            ->  retract(pass_only_new(E))
+            ;   true
+            )
+        )
+    ),
+    nb_getval(wn, W),
+    labelvars(B, W, N),
+    nb_setval(wn, N),
+    unify(B, F),
+    conj_list(F, G),
+    forall(
+        member(H, G),
+        (   djiti_assertz(H),
+            (   flag('pass-only-new'),
+                \+pass_only_new(H)
+            ->  assertz(pass_only_new(H))
+            ;   true
+            )
         )
     ).
 
