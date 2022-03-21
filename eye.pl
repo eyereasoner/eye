@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0319.1653 josd').
+version_info('EYE v22.0321.2207 josd').
 
 license_info('MIT License
 
@@ -4120,12 +4120,6 @@ eam(Span) :-
         ;   true
         ),
         implies(Prem, Conc, Src),
-        (   Conc = answer(_, _, _),
-            \+flag('limited-answer', _),
-            \+got_bi
-        ->  within_scope(_)
-        ;   true
-        ),
         ignore(Prem = exopred(_, _, _)),
         (   flag(nope),
             \+flag('rule-histogram')
@@ -4474,7 +4468,9 @@ djiti_assertz(A) :-
     conj_list(C, D),
     forall(
         member(E, D),
-        (   retract(E),
+        (   retractall(E),
+            djiti_answer(answer(E), Z),
+            retractall(Z),
             (   flag('pass-only-new'),
                 pass_only_new(E)
             ->  retract(pass_only_new(E))
@@ -5657,35 +5653,8 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#linearImplies>'(A, B) :-
-    catch(call(A), _, fail),
-    unify(A, C),
-    conj_list(C, D),
-    forall(
-        member(E, D),
-        (   retract(E),
-            (   flag('pass-only-new'),
-                pass_only_new(E)
-            ->  retract(pass_only_new(E))
-            ;   true
-            )
-        )
-    ),
-    nb_getval(wn, W),
-    labelvars(B, W, N),
-    nb_setval(wn, N),
-    unify(B, F),
-    conj_list(F, G),
-    forall(
-        member(H, G),
-        (   djiti_assertz(H),
-            (   flag('pass-only-new'),
-                \+pass_only_new(H)
-            ->  assertz(pass_only_new(H))
-            ;   true
-            )
-        )
-    ).
+'<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     with_output_to_chars(wh, C1),
