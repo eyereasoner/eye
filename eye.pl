@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0321.2207 josd').
+version_info('EYE v22.0322.1016 josd').
 
 license_info('MIT License
 
@@ -5327,6 +5327,15 @@ djiti_assertz(A) :-
     !.
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, []) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   X = [_]
+        )
+    ),
+    !.
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>') :-
     \+flag(restricted),
     when(
         (   nonvar(X)
