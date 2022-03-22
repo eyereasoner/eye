@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0322.1016 josd').
+version_info('EYE v22.0322.1349 josd').
 
 license_info('MIT License
 
@@ -4468,7 +4468,7 @@ djiti_assertz(A) :-
     conj_list(C, D),
     forall(
         member(E, D),
-        (   retractall(E),
+        (   retract(E),
             djiti_answer(answer(E), Z),
             retractall(Z),
             (   flag('pass-only-new'),
