@@ -1,0 +1,67 @@
+
+.. list-table:: Proof
+   :widths: 2 70 20 20
+   :header-rows: 1
+
+   * - Step
+     - Formula
+     - Justification
+     - Bindings
+   * - 1
+     - ...
+     - parsing <socrates.n3>
+     - 
+   * - 2
+     - :Socrates a :Human .
+     - erasure from step 1
+     - 
+   * - 3
+     - ...
+     - parsing <socrates-query.n3>
+     - 
+   * - 4
+     - @forAll :x_0 . { soc:Socrates a :x_0 . } => {soc:Socrates a :x_0 . } .
+     - erasure from step 3
+     - 
+   * - 5
+     - :Socrates a :Human .
+     - rule from step 4 applied to steps (2,)
+     - {'x_0': u'<http://example.org/socrates#Human>'}
+   * - 6
+     - ...
+     - parsing <socrates.n3>
+     - 
+   * - 7
+     - :Human rdfs:subClassOf :Mortal .
+     - erasure from step 6
+     - 
+   * - 8
+     - ...
+     - parsing <socrates.n3>
+     - 
+   * - 9
+     - @forAll :x_0, :x_1, :x_2 . { :x_0 rdfs:subClassOf :x_1 . :x_2 a :x_0 . } => {:x_2 a :x_1 . } .
+     - erasure from step 8
+     - 
+   * - 10
+     - :Socrates a :Mortal .
+     - rule from step 9 applied to steps (7, 2)
+     - {'x_2': u'<http://example.org/socrates#Socrates>', 'x_0': u'<http://example.org/socrates#Human>', 'x_1': u'<http://example.org/socrates#Mortal>'}
+   * - 11
+     - :Socrates a :Mortal .
+     - rule from step 4 applied to steps (10,)
+     - {'x_0': u'<http://example.org/socrates#Mortal>'}
+   * - 12
+     - :Socrates a :Human, :Mortal .
+     - conjoining steps (5, 11)
+     - 
+
+
+Conclusion::
+
+  @prefix : <http://example.org/socrates#> .
+  
+  :Socrates     a :Human,
+  :Mortal .
+  
+  
