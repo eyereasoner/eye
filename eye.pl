@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0323.0915 josd').
+version_info('EYE v22.0329.1006 josd').
 
 license_info('MIT License
 
@@ -307,8 +307,16 @@ gre(Argus) :-
     ->  opts(['--help'], _)
     ;   true
     ),
-    mk_skolem_ns(Sns),
-    nb_setval(skolem_ns, Sns),
+    (   flag('skolem-genid', Genid)
+    ->  true
+    ;   A is random(2^62),
+        atom_number(B, A),
+        sha_hash(B, C, [algorithm(sha1)]),
+        atom_codes(D, C),
+        base64xml(D, Genid)
+    ),
+    atomic_list_concat(['http://josd.github.io/.well-known/genid/', Genid, '#'], Sns),
+    nb_setval(var_ns, Sns),
     (   (   flag(strings)
         ;   flag(image, _)
         )
@@ -329,6 +337,13 @@ gre(Argus) :-
         ;   format('#eye~@~@~n~n', [w0(Argi), w1(Argus)]),
             flush_output
         )
+    ),
+    (   (   flag('no-qvars')
+        ;   flag('pass-all-ground')
+        )
+    ->  retractall(pfx('var:', _)),
+        assertz(pfx('var:', '<http://josd.github.io/var#>'))
+    ;   true
     ),
     (   flag('debug-n3p')
     ->  format(user_error, 'flag(\'quantify\', \'~w\').~n', [Sns])
@@ -395,6 +410,14 @@ gre(Argus) :-
     ;   (   pfx('r:', _)
         ->  true
         ;   assertz(pfx('r:', '<http://www.w3.org/2000/10/swap/reason#>'))
+        ),
+        (   pfx('var:', _)
+        ->  true
+        ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
+        ),
+        (   pfx('n3:', _)
+        ->  true
+        ;   assertz(pfx('n3:', '<http://www.w3.org/2004/06/rei#>'))
         )
     ),
     nb_setval(tr, 0),
@@ -1416,7 +1439,7 @@ tr_tr(A, B) :-
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
         )
-    ->  nb_getval(skolem_ns, Sns),
+    ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
     ;   B = A
     ).
@@ -1654,7 +1677,7 @@ pathitem(Name, []) -->
                 FD >= D,
                 \+flag('pass-all-ground')
             ->  atom_concat('_', N, Name)
-            ;   nb_getval(skolem_ns, Sns),
+            ;   nb_getval(var_ns, Sns),
                 atomic_list_concat(['\'<', Sns, N, '>\''], Name)
             )
         ;   (   quvar(S, N, D)
@@ -1663,7 +1686,7 @@ pathitem(Name, []) -->
                         FD >= 1
                     ;   flag('pass-all-ground')
                     )
-                ->  nb_getval(skolem_ns, Sns),
+                ->  nb_getval(var_ns, Sns),
                     atomic_list_concat(['\'<', Sns, N, '>\''], Name)
                 ;   atom_concat('_', N, Name)
                 )
@@ -1678,7 +1701,7 @@ pathitem(VarID, []) -->
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
         atom_codes(VarAtom, [0'_|VarTidy]),
         (   flag('pass-all-ground')
-        ->  nb_getval(skolem_ns, Sns),
+        ->  nb_getval(var_ns, Sns),
             atom_codes(VarFrag, VarTidy),
             atomic_list_concat(['\'<', Sns, VarFrag, '>\''], VarID)
         ;   VarID = VarAtom
@@ -1719,7 +1742,7 @@ pathitem(BNode, Triples) -->
                 nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
-        ->  nb_getval(skolem_ns, Sns),
+        ->  nb_getval(var_ns, Sns),
             atomic_list_concat(['\'<', Sns, S, '>\''], BN)
         ;   atom_concat('_', S, BN)
         )
@@ -1791,7 +1814,7 @@ pathtail(Node, PNode, [Triple|Triples]) -->
         (   (   nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
-        ->  nb_getval(skolem_ns, Sns),
+        ->  nb_getval(var_ns, Sns),
             atomic_list_concat(['\'<', Sns, S, '>\''], BNode)
         ;   atom_concat('_', S, BNode)
         ),
@@ -1834,7 +1857,7 @@ pathtail(Node, PNode, [Triple|Triples]) -->
         (   (   nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
-        ->  nb_getval(skolem_ns, Sns),
+        ->  nb_getval(var_ns, Sns),
             atomic_list_concat(['\'<', Sns, S, '>\''], BNode)
         ;   atom_concat('_', S, BNode)
         ),
@@ -2034,7 +2057,7 @@ symbol(Name) -->
                 nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
-        ->  nb_getval(skolem_ns, Sns),
+        ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
             ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
@@ -2973,8 +2996,8 @@ w1([A|B]) :-
 
 wh :-
     (   keep_skolem(_)
-    ->  nb_getval(skolem_ns, Sns),
-        put_pfx('skolem', Sns)
+    ->  nb_getval(var_ns, Sns),
+        put_pfx('var', Sns)
     ;   true
     ),
     (   flag('no-qnames')
@@ -2984,7 +3007,7 @@ wh :-
             (   pfx(A, B),
                 \+wpfx(A)
             ),
-            (   format('PREFIX ~w ~w~n', [A, B]),
+            (   format('@prefix ~w ~w.~n',[A,B]),
                 assertz(wpfx(A)),
                 nb_setval(wpfx, true)
             )
@@ -3080,6 +3103,12 @@ w3 :-
                 djiti_answer(answer(C), answer(C1, C2, C3)),
                 nl,
                 indent,
+                getvars(C, D),
+                (   C = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ->  Q = allv
+                ;   Q = some
+                ),
+                wq(D, Q),
                 wt(C),
                 ws(C),
                 write('.'),
@@ -3157,9 +3186,13 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
         nl,
         indentation(2),
         indent,
-        (   C = rule(_, _, Rule)
-        ->  wt(Rule)
+        (   C = rule(PVars, EVars, Rule)
+        ->  wq(PVars, allv),
+            wq(EVars, some),
+            wt(Rule)
         ;   labelvars([A, C], 0, _, avar),
+            getvars(C, D),
+            wq(D, some),
             wt(C)
         ),
         ws(C),
@@ -3198,6 +3231,13 @@ wj(Cnt, A, B, C, Rule) :-
     ;   write(' {'),
         nl,
         Rule = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc),
+        unifiable(Prem, B, Bs),
+        (   unifiable(Conc, C, Cs)
+        ->  true
+        ;   Cs = []
+        ),
+        append(Bs, Cs, Ds),
+        sort(Ds, Bindings),
         term_variables(Prem, PVars),
         term_variables(Conc, CVars),
         nb_getval(wn, W),
@@ -3210,8 +3250,14 @@ wj(Cnt, A, B, C, Rule) :-
             ),
             EVars
         ),
+        getvars(C, D),
+        (   C = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+        ->  Q = allv
+        ;   Q = some
+        ),
         indentation(2),
         indent,
+        wq(D, Q),
         wt(C),
         ws(C),
         write('.'),
@@ -3233,6 +3279,7 @@ wj(Cnt, A, B, C, Rule) :-
     retractall(got_wi(_, _, _, _, _)),
     nl,
     indent,
+    wb(Bindings),
     wp('<http://www.w3.org/2000/10/swap/reason#rule>'),
     write(' '),
     wi(A, true, rule(PVars, EVars, Rule), _),
@@ -3268,13 +3315,9 @@ wr(Y) :-
     ->  wt(Y)
     ;   write('{'),
         labelvars(Y, 0, _, avar),
-        (   (   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#calculate>'(_, _)
-            ;   Y = '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'(_, _)
-            )
-        ->  makevars(Y, X, zeta),
-            numbervars(X, 0, _)
-        ;   X = Y
-        ),
+        getvars(Y, Z),
+        wq(Z, some),
+        X = Y,
         wt(X),
         write('}')
     ),
@@ -3339,8 +3382,7 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   nb_getval(skolem_ns, Sns),
-        atomic_list_concat(['<', Sns, 'sk_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://josd.github.io/var#some_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -3351,21 +3393,20 @@ wt0(X) :-
         \+flag('pass-all-ground')
     ->  write('?U_'),
         write(Y)
-    ;   nb_getval(skolem_ns, Sns),
-        atomic_list_concat(['<', Sns, 'U_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://josd.github.io/var#all_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
-    nb_getval(skolem_ns, Sns),
-    atomic_list_concat(['<', Sns, 'x_', Y, '>'], Z),
+    atomic_list_concat(['<http://josd.github.io/var#x_', Y, '>'], Z),
     wt0(Z).
 wt0(X) :-
+    flag(nope),
     \+flag('pass-all-ground'),
     \+keep_skolem(X),
-    nb_getval(skolem_ns, Sns),
+    nb_getval(var_ns, Sns),
     atom(X),
     sub_atom(X, 1, I, _, Sns),
     J is I+1,
@@ -3412,6 +3453,7 @@ wt0(X) :-
     !.
 wt0(X) :-
     flag('quantify', Prefix),
+    flag(nope),
     atom(X),
     sub_atom(X, 1, _, _, Prefix),
     !,
@@ -3877,16 +3919,47 @@ wl([X|Y]) :-
     wg(X),
     wl(Y).
 
+wq([],_) :-
+    !.
+wq([X|Y],allv) :-
+    !,
+    write('@forAll '),
+    wt(X),
+    wk(Y),
+    write('. ').
+wq([X|Y],some) :-
+    (   \+flag('no-qvars')
+    ->  write('@forSome '),
+        wt(X),
+        wk(Y),
+        write('. ')
+    ;   true
+    ).
+
+wb([]) :-
+    !.
+wb([X = Y|Z]) :-
+    wp('<http://www.w3.org/2000/10/swap/reason#binding>'),
+    write(' [ '),
+    wp('<http://www.w3.org/2000/10/swap/reason#variable>'),
+    write(' '),
+    wv(X),
+    write('; '),
+    wp('<http://www.w3.org/2000/10/swap/reason#boundTo>'),
+    write(' '),
+    wv(Y),
+    write('];'),
+    nl,
+    indent,
+    wb(Z).
+
 wv(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
     write('[ '),
     wp('<http://www.w3.org/2004/06/rei#uri>'),
-    write(' "'),
-    nb_getval(skolem_ns, Sns),
-    write(Sns),
-    write('x_'),
+    write(' "http://josd.github.io/var#x_'),
     write(Y),
     write('"]').
 wv(X) :-
@@ -3904,7 +3977,7 @@ wv(X) :-
     write('"]').
 wv(X) :-
     atom(X),
-    nb_getval(skolem_ns, Sns),
+    nb_getval(var_ns, Sns),
     sub_atom(X, 1, I, _, Sns),
     !,
     write('[ '),
@@ -4031,7 +4104,7 @@ wcf(literal(A, B), _) :-
     ).
 wcf(A, _) :-
     atom(A),
-    nb_getval(skolem_ns, Sns),
+    nb_getval(var_ns, Sns),
     sub_atom(A, 1, I, _, Sns),
     !,
     J is I+1,
@@ -4550,7 +4623,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('PREFIX ~w ~w~n', [C, D])
+                    format('@prefix ~w ~w.~n', [C, D])
                 ),
                 nl
             ),
@@ -4566,7 +4639,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('PREFIX ~w ~w~n', [E, F])
+                    format('@prefix ~w ~w.~n', [E, F])
                 ),
                 nl
             ),
@@ -4681,7 +4754,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('PREFIX ~w ~w~n', [C, D])
+                    format('@prefix ~w ~w.~n', [C, D])
                 ),
                 nl
             ),
@@ -4697,7 +4770,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('PREFIX ~w ~w~n', [E, F])
+                    format('@prefix ~w ~w.~n', [E, F])
                 ),
                 nl
             ),
@@ -4784,7 +4857,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('PREFIX ~w ~w~n', [C, D])
+                    format('@prefix ~w ~w.~n', [C, D])
                 ),
                 nl
             ),
@@ -4800,7 +4873,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('PREFIX ~w ~w~n', [E, F])
+                    format('@prefix ~w ~w.~n', [E, F])
                 ),
                 nl
             ),
@@ -5270,7 +5343,7 @@ djiti_assertz(A) :-
                 N is M+1,
                 nb_setval(tuple, N),
                 atom_number(A, N),
-                nb_getval(skolem_ns, Sns),
+                nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, 't_', A, '>'], X),
                 assertz(Z)
             )
@@ -5529,7 +5602,7 @@ djiti_assertz(A) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('PREFIX ~w ~w~n', [C, D])
+                    format('@prefix ~w ~w.~n', [C, D])
                 ),
                 nl
             ),
@@ -5716,7 +5789,7 @@ djiti_assertz(A) :-
         ),
         (   atomic(X),
             (   atom_concat(some, V, X)
-            ->  nb_getval(skolem_ns, Sns),
+            ->  nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, 'sk_', V, '>'], U)
             ;   U = X
             ),
@@ -8828,17 +8901,6 @@ fresh_pf(_, Pfx) :-
     gensym(ns, Pfn),
     fresh_pf(Pfn, Pfx).
 
-mk_skolem_ns(Sns) :-
-    (   flag('skolem-genid', Genid)
-    ->  true
-    ;   A is random(2^62),
-        atom_number(B, A),
-        sha_hash(B, C, [algorithm(sha1)]),
-        atom_codes(D, C),
-        base64xml(D, Genid)
-    ),
-    atomic_list_concat(['http://josd.github.io/.well-known/genid/', Genid, '#'], Sns).
-
 cnt(A) :-
     nb_getval(A, B),
     C is B+1,
@@ -9002,19 +9064,6 @@ unify(A, B) :-
     !,
     getlist(A, C),
     C = B.
-unify(A, B) :-
-    nonvar(A),
-    nonvar(B),
-    A = '<http://www.w3.org/2000/10/swap/log#scope>'([C|D], E),
-    !,
-    sort(D, F),
-    length(F, G),
-    length(H, G),
-    makevars([F,E], [I,J], F, H),
-    B = '<http://www.w3.org/2000/10/swap/log#scope>'([C|K], L),
-    sort(K, M),
-    makevars([M,L], [I,N], F, H),
-    unify(N, J).
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
@@ -9854,8 +9903,7 @@ findvars(A, B, Z) :-
 
 findvar(A, alpha) :-
     !,
-    nb_getval(skolem_ns, Sns),
-    sub_atom(A, 1, _, _, Sns).
+    atom_concat('<http://josd.github.io/var#', _, A).
 findvar(A, beta) :-
     (   sub_atom(A, 0, _, _, '_bn_')
     ;   sub_atom(A, 0, _, _, '_e_')

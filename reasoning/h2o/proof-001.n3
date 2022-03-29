@@ -1,7 +1,9 @@
-PREFIX t: <http://josd.github.io/eye/reasoning/tfcontext#>
-PREFIX h: <http://josd.github.io/eye/reasoning/h2o#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix t: <http://josd.github.io/eye/reasoning/tfcontext#>.
+@prefix h: <http://josd.github.io/eye/reasoning/h2o#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -27,6 +29,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)}]
     <#lemma5>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/h2o#traveler1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/tfcontext#Ghent-Belgium"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 51.0535];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 3.7304];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
@@ -49,9 +56,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Extraction;
   r:gives {
-    {?x_0_2 h:inOneOf ?x_1_2.
-     ?x_2_2 list:in ?x_1_2.
-     ?x_2_2 t:position-tensor (?x_3_2 ?x_4_2)} => {?x_0_2 h:location (?x_3_2 ?x_4_2)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 h:inOneOf var:x_1.
+     var:x_2 list:in var:x_1.
+     var:x_2 t:position-tensor (var:x_3 var:x_4)} => {var:x_0 h:location (var:x_3 var:x_4)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/rules-001.n3>].
 

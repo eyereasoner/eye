@@ -1,8 +1,9 @@
-PREFIX n3: <https://www.w3.org/ns/n3#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://example.org/test#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix n3: <https://www.w3.org/ns/n3#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://example.org/test#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -20,6 +21,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma3>
     <#lemma4>
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
   r:rule <#lemma5>.
 
 <#lemma2> a r:Inference;
@@ -30,6 +32,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma6>
     <#lemma7>
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -48,12 +51,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task1 a :DiscardedTask}}]
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_1"]; r:boundTo {:task1 a :CompositeTask.
+   :task2 a :CompositeTask}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_2"]; r:boundTo {:task1 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {?x_0_1 a :CompositeTask.
-     {?x_0_1 a :DiscardedTask} n3:notIn <http://josd.github.io/eye/reasoning/n3c/tasks.n3>} => {?x_0_1 a :NotDiscardedTask}.
+    @forAll var:x_0. {var:x_0 a :CompositeTask.
+     {var:x_0 a :DiscardedTask} n3:notIn <http://josd.github.io/eye/reasoning/n3c/tasks.n3>} => {var:x_0 a :NotDiscardedTask}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/notIn_query.n3>].
 
@@ -73,12 +80,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {{:task1 a :CompositeTask.
      :task2 a :CompositeTask} log:notIncludes {:task2 a :DiscardedTask}}]
   );
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/eye/reasoning/n3c/tasks.n3"]];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_1"]; r:boundTo {:task1 a :CompositeTask.
+   :task2 a :CompositeTask}];
+  r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://josd.github.io/var#x_2"]; r:boundTo {:task2 a :DiscardedTask}];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {?x_2_2 n3:notIn ?x_0_2} <= {?x_0_2 log:semantics ?x_1_2.
-     ?x_1_2 log:notIncludes ?x_2_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_2 n3:notIn var:x_0} <= {var:x_0 log:semantics var:x_1.
+     var:x_1 log:notIncludes var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/n3c/components.n3>].
 

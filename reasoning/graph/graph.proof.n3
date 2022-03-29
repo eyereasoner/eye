@@ -1,13 +1,15 @@
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX : <http://www.agfa.com/w3c/euler/graph.axiom#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX ns1: <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix : <http://www.agfa.com/w3c/euler/graph.axiom#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix ns1: <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -33,6 +35,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma5>
     <#lemma6>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
   r:rule <#lemma7>.
 
 <#lemma3> a r:Extraction;
@@ -55,6 +61,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#oneway"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
   r:rule <#lemma10>.
 
 <#lemma6> a r:Inference;
@@ -66,13 +76,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma11>
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
   r:rule <#lemma7>.
 
 <#lemma7> a r:Extraction;
   r:gives {
-    {?x_0_2 a owl:TransitiveProperty.
-     ?x_1_2 ?x_0_2 ?x_2_2.
-     ?x_3_2 ?x_0_2 ?x_1_2} => {?x_3_2 ?x_0_2 ?x_2_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a owl:TransitiveProperty.
+     var:x_1 var:x_0 var:x_2.
+     var:x_3 var:x_0 var:x_1} => {var:x_3 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/rpo-rules.n3>].
 
@@ -90,8 +104,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma10> a r:Extraction;
   r:gives {
-    {?x_0_3 rdfs:subPropertyOf ?x_1_3.
-     ?x_2_3 ?x_0_3 ?x_3_3} => {?x_2_3 ?x_1_3 ?x_3_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 rdfs:subPropertyOf var:x_1.
+     var:x_2 var:x_0 var:x_3} => {var:x_2 var:x_1 var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/graph/rpo-rules.n3>].
 
@@ -103,6 +117,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#oneway"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
   r:rule <#lemma10>.
 
 <#lemma12> a r:Inference;
@@ -114,6 +132,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma14>
     <#lemma15>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
   r:rule <#lemma7>.
 
 <#lemma13> a r:Extraction;
@@ -130,6 +152,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#oneway"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
   r:rule <#lemma10>.
 
 <#lemma15> a r:Inference;
@@ -140,6 +166,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     <#lemma17>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#oneway"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#path"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
   r:rule <#lemma10>.
 
 <#lemma16> a r:Extraction;

@@ -1,14 +1,16 @@
-PREFIX gc: <http://www.daml.org/2001/01/gedcom/gedcom#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX : <http://www.agfa.com/w3c/euler/gedcom-facts#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX ns1: <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix gc: <http://www.daml.org/2001/01/gedcom/gedcom#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix : <http://www.agfa.com/w3c/euler/gedcom-facts#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix ns1: <http://eulersharp.sourceforge.net/2003/03swap/rpo-rules#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -36,6 +38,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma9>
     <#lemma10>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
   r:rule <#lemma11>.
 
 <#lemma2> a r:Inference;
@@ -48,6 +54,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma13>
     <#lemma14>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
   r:rule <#lemma11>.
 
 <#lemma3> a r:Inference;
@@ -60,6 +70,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma9>
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
   r:rule <#lemma11>.
 
 <#lemma4> a r:Inference;
@@ -72,6 +86,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma9>
     <#lemma18>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
   r:rule <#lemma11>.
 
 <#lemma5> a r:Inference;
@@ -84,6 +102,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma13>
     <#lemma19>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
   r:rule <#lemma11>.
 
 <#lemma6> a r:Inference;
@@ -96,6 +118,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma13>
     <#lemma20>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
   r:rule <#lemma11>.
 
 <#lemma7> a r:Inference;
@@ -106,6 +132,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma21>
     <#lemma22>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma23>.
 
 <#lemma8> a r:Inference;
@@ -116,6 +144,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma24>
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma26>.
 
 <#lemma9> a r:Inference;
@@ -126,6 +156,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma27>
     <#lemma28>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:rule <#lemma29>.
 
 <#lemma10> a r:Inference;
@@ -136,14 +168,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma27>
     <#lemma30>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
   r:rule <#lemma31>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    {?x_0_1 gc:mother ?x_1_1.
-     ?x_1_1 gc:daughter ?x_2_1.
-     ?x_2_1 gc:son ?x_3_1.
-     ?x_3_1 gc:uncle ?x_0_1} => {?x_0_1 :testRelationship ?x_3_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 gc:mother var:x_1.
+     var:x_1 gc:daughter var:x_2.
+     var:x_2 gc:son var:x_3.
+     var:x_3 gc:uncle var:x_0} => {var:x_0 :testRelationship var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-filter.n3>].
 
@@ -155,6 +190,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma32>
     <#lemma33>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma26>.
 
 <#lemma13> a r:Inference;
@@ -165,6 +202,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma34>
     <#lemma35>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma29>.
 
 <#lemma14> a r:Inference;
@@ -175,6 +214,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma34>
     <#lemma36>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
   r:rule <#lemma31>.
 
 <#lemma15> a r:Inference;
@@ -185,6 +227,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma37>
     <#lemma22>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma23>.
 
 <#lemma16> a r:Inference;
@@ -195,6 +239,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma27>
     <#lemma38>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma31>.
 
 <#lemma17> a r:Inference;
@@ -205,6 +252,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma39>
     <#lemma22>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma23>.
 
 <#lemma18> a r:Inference;
@@ -215,6 +264,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma27>
     <#lemma40>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma31>.
 
 <#lemma19> a r:Inference;
@@ -225,6 +277,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma34>
     <#lemma41>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma31>.
 
 <#lemma20> a r:Inference;
@@ -235,6 +290,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma34>
     <#lemma42>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma31>.
 
 <#lemma21> a r:Inference;
@@ -245,6 +303,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma43>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma45>.
 
 <#lemma22> a r:Extraction;
@@ -255,8 +316,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma23> a r:Extraction;
   r:gives {
-    {?x_0_2 gc:parent ?x_1_2.
-     ?x_1_2 gc:sex gc:Female} => {?x_0_2 gc:mother ?x_1_2}.
+    @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
+     var:x_1 gc:sex gc:Female} => {var:x_0 gc:mother var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -268,6 +329,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma46>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma45>.
 
 <#lemma25> a r:Extraction;
@@ -278,8 +342,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma26> a r:Extraction;
   r:gives {
-    {?x_0_3 gc:parent ?x_1_3.
-     ?x_0_3 gc:sex gc:Female} => {?x_1_3 gc:daughter ?x_0_3}.
+    @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
+     var:x_0 gc:sex gc:Female} => {var:x_1 gc:daughter var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -291,6 +355,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma47>
     <#lemma48>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#gd"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:rule <#lemma45>.
 
 <#lemma28> a r:Extraction;
@@ -301,8 +368,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma29> a r:Extraction;
   r:gives {
-    {?x_0_4 gc:parent ?x_1_4.
-     ?x_0_4 gc:sex gc:Male} => {?x_1_4 gc:son ?x_0_4}.
+    @forAll var:x_0, var:x_1. {var:x_0 gc:parent var:x_1.
+     var:x_0 gc:sex gc:Male} => {var:x_1 gc:son var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -314,12 +381,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma49>
     <#lemma50>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
   r:rule <#lemma51>.
 
 <#lemma31> a r:Extraction;
   r:gives {
-    {?x_0_5 gc:parent ?x_1_5.
-     ?x_1_5 gc:brother ?x_2_5} => {?x_0_5 gc:uncle ?x_2_5}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 gc:parent var:x_1.
+     var:x_1 gc:brother var:x_2} => {var:x_0 gc:uncle var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -331,6 +400,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma52>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma45>.
 
 <#lemma33> a r:Extraction;
@@ -347,6 +419,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma53>
     <#lemma54>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#sd"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma45>.
 
 <#lemma35> a r:Extraction;
@@ -363,6 +438,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma55>
     <#lemma50>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
   r:rule <#lemma51>.
 
 <#lemma37> a r:Inference;
@@ -373,6 +450,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma56>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma45>.
 
 <#lemma38> a r:Inference;
@@ -383,6 +463,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma57>
     <#lemma58>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma51>.
 
 <#lemma39> a r:Inference;
@@ -393,6 +475,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma59>
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
   r:rule <#lemma45>.
 
 <#lemma40> a r:Inference;
@@ -403,6 +488,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma60>
     <#lemma61>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma51>.
 
 <#lemma41> a r:Inference;
@@ -413,6 +500,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma62>
     <#lemma58>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma51>.
 
 <#lemma42> a r:Inference;
@@ -423,6 +512,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma63>
     <#lemma61>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma51>.
 
 <#lemma43> a r:Extraction;
@@ -439,8 +530,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma45> a r:Extraction;
   r:gives {
-    {?x_0_6 gc:childIn ?x_1_6.
-     ?x_2_6 gc:spouseIn ?x_1_6} => {?x_0_6 gc:parent ?x_2_6}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 gc:childIn var:x_1.
+     var:x_2 gc:spouseIn var:x_1} => {var:x_0 gc:parent var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -470,6 +561,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma64>
     <#lemma65>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.daml.org/2001/01/gedcom/gedcom#sibling"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:rule <#lemma66>.
 
 <#lemma50> a r:Extraction;
@@ -480,8 +574,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma51> a r:Extraction;
   r:gives {
-    {?x_0_7 gc:sibling ?x_1_7.
-     ?x_1_7 gc:sex gc:Male} => {?x_0_7 gc:brother ?x_1_7}.
+    @forAll var:x_0, var:x_1. {var:x_0 gc:sibling var:x_1.
+     var:x_1 gc:sex gc:Male} => {var:x_0 gc:brother var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -511,6 +605,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma64>
     <#lemma67>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.daml.org/2001/01/gedcom/gedcom#sibling"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma66>.
 
 <#lemma56> a r:Extraction;
@@ -528,6 +625,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma56>
     <#lemma68>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma69>.
 
 <#lemma58> a r:Extraction;
@@ -551,6 +651,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma59>
     <#lemma70>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma69>.
 
 <#lemma61> a r:Extraction;
@@ -567,6 +670,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma64>
     <#lemma71>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.daml.org/2001/01/gedcom/gedcom#sibling"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma66>.
 
 <#lemma63> a r:Inference;
@@ -577,6 +683,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma64>
     <#lemma72>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.daml.org/2001/01/gedcom/gedcom#sibling"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma66>.
 
 <#lemma64> a r:Extraction;
@@ -594,12 +703,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma46>
     <#lemma73>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:rule <#lemma69>.
 
 <#lemma66> a r:Extraction;
   r:gives {
-    {?x_0_8 a owl:SymmetricProperty.
-     ?x_1_8 ?x_0_8 ?x_2_8} => {?x_2_8 ?x_0_8 ?x_1_8}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a owl:SymmetricProperty.
+     var:x_1 var:x_0 var:x_2} => {var:x_2 var:x_0 var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
@@ -612,6 +724,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma52>
     <#lemma74>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma69>.
 
 <#lemma68> a r:Inference;
@@ -625,13 +740,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Geert list:in (:Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:rule <#lemma77>.
 
 <#lemma69> a r:Extraction;
   r:gives {
-    {?x_0_9 gc:childIn ?x_1_9.
-     ?x_2_9 gc:childIn ?x_1_9.
-     ?x_0_9 owl:differentFrom ?x_2_9} => {?x_0_9 gc:sibling ?x_2_9}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 gc:childIn var:x_1.
+     var:x_2 gc:childIn var:x_1.
+     var:x_0 owl:differentFrom var:x_2} => {var:x_0 gc:sibling var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
 
@@ -646,6 +767,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Dirk list:in (:Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:rule <#lemma77>.
 
 <#lemma71> a r:Inference;
@@ -657,6 +784,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma52>
     <#lemma78>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma69>.
 
 <#lemma72> a r:Inference;
@@ -668,6 +798,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma52>
     <#lemma79>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma69>.
 
 <#lemma73> a r:Inference;
@@ -681,6 +814,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Rita list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:rule <#lemma77>.
 
 <#lemma74> a r:Inference;
@@ -694,6 +833,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma77>.
 
 <#lemma75> a r:Inference;
@@ -704,6 +849,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma80>
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma82>.
 
 <#lemma76> a r:Inference;
@@ -713,15 +861,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma83>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma84>.
 
 <#lemma77> a r:Extraction;
   r:gives {
-    {?x_0_10 owl:distinctMembers ?x_1_10.
-     ?x_2_10 ns1:subListOf ?x_1_10.
-     ?x_2_10 rdf:first ?x_3_10.
-     ?x_2_10 rdf:rest ?x_4_10.
-     ?x_5_10 list:in ?x_4_10} => {?x_3_10 owl:differentFrom ?x_5_10}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 owl:distinctMembers var:x_1.
+     var:x_2 ns1:subListOf var:x_1.
+     var:x_2 rdf:first var:x_3.
+     var:x_2 rdf:rest var:x_4.
+     var:x_5 list:in var:x_4} => {var:x_3 owl:differentFrom var:x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
@@ -736,6 +885,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma77>.
 
 <#lemma79> a r:Inference;
@@ -749,6 +904,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:Dirk :Greta) rdf:rest (:Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (:Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule <#lemma77>.
 
 <#lemma80> a r:Extraction;
@@ -764,12 +925,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma89>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma84>.
 
 <#lemma82> a r:Extraction;
   r:gives {
-    {?x_0_11 owl:distinctMembers ?x_1_11.
-     ?x_1_11 rdf:rest ?x_2_11} => {?x_0_11 owl:distinctMembers ?x_2_11}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 owl:distinctMembers var:x_1.
+     var:x_1 rdf:rest var:x_2} => {var:x_0 owl:distinctMembers var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
@@ -781,11 +943,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma90>
     <#lemma75>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma91>.
 
 <#lemma84> a r:Extraction;
   r:gives {
-    {?x_0_12 a rdf:List} => {?x_0_12 ns1:subListOf ?x_0_12}.
+    @forAll var:x_0. {var:x_0 a rdf:List} => {var:x_0 ns1:subListOf var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
@@ -797,6 +963,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma75>
     [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma82>.
 
 <#lemma86> a r:Inference;
@@ -806,6 +975,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma92>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma84>.
 
 <#lemma87> a r:Inference;
@@ -816,6 +986,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma93>
     [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
   r:rule <#lemma82>.
 
 <#lemma88> a r:Inference;
@@ -825,6 +998,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma94>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (:Dirk :Greta)];
   r:rule <#lemma84>.
 
 <#lemma89> a r:Inference;
@@ -835,6 +1009,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma90>
     <#lemma80>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma91>.
 
 <#lemma90> a r:Extraction;
@@ -845,8 +1023,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma91> a r:Extraction;
   r:gives {
-    {?x_0_13 rdfs:range ?x_1_13.
-     ?x_2_13 ?x_0_13 ?x_3_13} => {?x_3_13 a ?x_1_13}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 rdfs:range var:x_1.
+     var:x_2 var:x_0 var:x_3} => {var:x_3 a var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
@@ -858,6 +1036,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma90>
     <#lemma85>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
   r:rule <#lemma91>.
 
 <#lemma93> a r:Inference;
@@ -868,6 +1050,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma85>
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:Caroline :Dirk :Greta)];
   r:rule <#lemma82>.
 
 <#lemma94> a r:Inference;
@@ -878,5 +1063,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma90>
     <#lemma87>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (:Dirk :Greta)];
   r:rule <#lemma91>.
 

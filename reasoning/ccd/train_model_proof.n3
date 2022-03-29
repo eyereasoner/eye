@@ -1,9 +1,11 @@
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix ccd: <http://josd.github.io/eye/reasoning/ccd#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -56,6 +58,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "abc"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 3];
   r:rule <#lemma19>.
 
 <#lemma2> a r:Inference;
@@ -71,6 +82,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {(1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "xyz"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma3> a r:Inference;
@@ -86,6 +106,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
     [ a r:Fact; r:gives {() math:sum 0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 40];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma4> a r:Inference;
@@ -101,6 +130,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {(1 1 1 1) math:sum 4}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 60];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 4];
   r:rule <#lemma19>.
 
 <#lemma5> a r:Inference;
@@ -116,6 +154,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (0 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 2];
   r:rule <#lemma19>.
 
 <#lemma6> a r:Inference;
@@ -131,6 +178,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (2 3)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 3];
   r:rule <#lemma19>.
 
 <#lemma7> a r:Inference;
@@ -146,6 +202,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {() math:sum 0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma8> a r:Inference;
@@ -161,6 +226,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma9> a r:Inference;
@@ -176,6 +250,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma10> a r:Inference;
@@ -191,6 +274,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 2];
   r:rule <#lemma19>.
 
 <#lemma11> a r:Inference;
@@ -206,6 +298,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
     [ a r:Fact; r:gives {() math:sum 0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "b"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma12> a r:Inference;
@@ -221,6 +322,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {() math:sum 0}]
     [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "c"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 3];
   r:rule <#lemma19>.
 
 <#lemma13> a r:Inference;
@@ -236,6 +346,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "a"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma14> a r:Inference;
@@ -251,6 +370,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {() math:sum 0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ("abc" 40)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma15> a r:Inference;
@@ -266,6 +394,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ("xyz" 60)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:rule <#lemma19>.
 
 <#lemma16> a r:Inference;
@@ -281,6 +418,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ("abc" 60)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 2];
   r:rule <#lemma19>.
 
 <#lemma17> a r:Inference;
@@ -296,6 +442,15 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(1) math:sum 1}]
     [ a r:Fact; r:gives {() math:sum 0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#output1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ("xyz" 40)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/train_data.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:rule <#lemma19>.
 
 <#lemma18> a r:Inference;
@@ -306,17 +461,20 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
     <#lemma36>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "abc"];
   r:rule <#lemma37>.
 
 <#lemma19> a r:Extraction;
   r:gives {
-    {(?x_0_1 ?x_1_1) ccd:output ?x_2_1.
-     ?x_3_1 e:findall (1 {?x_4_1 ?x_0_1 ?x_1_1.
-      ?x_4_1 ?x_2_1 1} ?x_5_1).
-     ?x_3_1 e:findall (1 {?x_4_1 ?x_0_1 ?x_1_1.
-      ?x_4_1 ?x_2_1 0} ?x_6_1).
-     ?x_5_1 math:sum ?x_7_1.
-     ?x_6_1 math:sum ?x_8_1} => {(?x_0_1 ?x_1_1) ccd:model (?x_2_1 ?x_7_1 ?x_8_1)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {(var:x_0 var:x_1) ccd:output var:x_2.
+     var:x_3 e:findall (1 {var:x_4 var:x_0 var:x_1.
+      var:x_4 var:x_2 1} var:x_5).
+     var:x_3 e:findall (1 {var:x_4 var:x_0 var:x_1.
+      var:x_4 var:x_2 0} var:x_6).
+     var:x_5 math:sum var:x_7.
+     var:x_6 math:sum var:x_8} => {(var:x_0 var:x_1) ccd:model (var:x_2 var:x_7 var:x_8)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_query.n3>].
 
@@ -328,6 +486,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
     <#lemma38>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "xyz"];
   r:rule <#lemma37>.
 
 <#lemma21> a r:Inference;
@@ -338,6 +499,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
     <#lemma39>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 40];
   r:rule <#lemma37>.
 
 <#lemma22> a r:Inference;
@@ -348,6 +512,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
     <#lemma40>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 60];
   r:rule <#lemma37>.
 
 <#lemma23> a r:Inference;
@@ -358,6 +525,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
     <#lemma41>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (0 1)];
   r:rule <#lemma37>.
 
 <#lemma24> a r:Inference;
@@ -368,6 +538,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
     <#lemma42>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (2 3)];
   r:rule <#lemma37>.
 
 <#lemma25> a r:Inference;
@@ -378,6 +551,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
     <#lemma43>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v1"]];
   r:rule <#lemma37>.
 
 <#lemma26> a r:Inference;
@@ -388,6 +564,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v2"]];
   r:rule <#lemma37>.
 
 <#lemma27> a r:Inference;
@@ -398,6 +577,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
     <#lemma45>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v4"]];
   r:rule <#lemma37>.
 
 <#lemma28> a r:Inference;
@@ -408,6 +590,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
     <#lemma46>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#v3"]];
   r:rule <#lemma37>.
 
 <#lemma29> a r:Inference;
@@ -418,6 +603,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
     <#lemma47>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "b"];
   r:rule <#lemma37>.
 
 <#lemma30> a r:Inference;
@@ -428,6 +616,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
     <#lemma48>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "c"];
   r:rule <#lemma37>.
 
 <#lemma31> a r:Inference;
@@ -438,6 +629,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
     <#lemma49>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "a"];
   r:rule <#lemma37>.
 
 <#lemma32> a r:Inference;
@@ -448,6 +642,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
     <#lemma50>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ("abc" 40)];
   r:rule <#lemma37>.
 
 <#lemma33> a r:Inference;
@@ -458,6 +655,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ("xyz" 60)];
   r:rule <#lemma37>.
 
 <#lemma34> a r:Inference;
@@ -468,6 +668,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
     <#lemma52>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ("abc" 60)];
   r:rule <#lemma37>.
 
 <#lemma35> a r:Inference;
@@ -478,161 +681,176 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
     <#lemma53>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#input10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ("xyz" 40)];
   r:rule <#lemma37>.
 
 <#lemma36> a r:Extraction;
   r:gives {
-    _:bn_1 :input1 "abc".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input1 "abc".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma37> a r:Extraction;
   r:gives {
-    {(:input1 :input2 :input3 :input4 :input5 :input10) list:member ?x_0_2.
-     ?x_1_2 ?x_0_2 ?x_2_2} => {(?x_0_2 ?x_2_2) ccd:output :output1}.
+    @forAll var:x_0, var:x_1, var:x_2. {(:input1 :input2 :input3 :input4 :input5 :input10) list:member var:x_0.
+     var:x_1 var:x_0 var:x_2} => {(var:x_0 var:x_2) ccd:output :output1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>].
 
 <#lemma38> a r:Extraction;
   r:gives {
-    _:bn_4 :input1 "xyz".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4> :input1 "xyz".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma39> a r:Extraction;
   r:gives {
-    _:bn_1 :input2 40 .
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input2 40 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma40> a r:Extraction;
   r:gives {
-    _:bn_4 :input2 60 .
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4> :input2 60 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma41> a r:Extraction;
   r:gives {
-    _:bn_1 :input3 (0 1).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input3 (0 1).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma42> a r:Extraction;
   r:gives {
-    _:bn_2 :input3 (2 3).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2> :input3 (2 3).
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma43> a r:Extraction;
   r:gives {
-    _:bn_1 :input4 :v1.
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input4 :v1.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma44> a r:Extraction;
   r:gives {
-    _:bn_2 :input4 :v2.
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2> :input4 :v2.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma45> a r:Extraction;
   r:gives {
-    _:bn_5 :input4 :v4.
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5> :input4 :v4.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma46> a r:Extraction;
   r:gives {
-    _:bn_6 :input4 :v3.
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_6> :input4 :v3.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma47> a r:Extraction;
   r:gives {
-    _:bn_1 :input5 "b".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input5 "b".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma48> a r:Extraction;
   r:gives {
-    _:bn_2 :input5 "c".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_2> :input5 "c".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma49> a r:Extraction;
   r:gives {
-    _:bn_3 :input5 "a".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_3> :input5 "a".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma50> a r:Inference;
   r:gives {
-    _:bn_1 :input10 ("abc" 40).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1> :input10 ("abc" 40).
   };
   r:evidence (
     <#lemma36>
     <#lemma39>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "abc"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 40];
   r:rule <#lemma54>.
 
 <#lemma51> a r:Inference;
   r:gives {
-    _:bn_4 :input10 ("xyz" 60).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4> :input10 ("xyz" 60).
   };
   r:evidence (
     <#lemma38>
     <#lemma40>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "xyz"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 60];
   r:rule <#lemma54>.
 
 <#lemma52> a r:Inference;
   r:gives {
-    _:bn_5 :input10 ("abc" 60).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5> :input10 ("abc" 60).
   };
   r:evidence (
     <#lemma55>
     <#lemma56>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "abc"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 60];
   r:rule <#lemma54>.
 
 <#lemma53> a r:Inference;
   r:gives {
-    _:bn_8 :input10 ("xyz" 40).
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_8> :input10 ("xyz" 40).
   };
   r:evidence (
     <#lemma57>
     <#lemma58>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "xyz"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 40];
   r:rule <#lemma54>.
 
 <#lemma54> a r:Extraction;
   r:gives {
-    {?x_0_3 :input1 ?x_1_3.
-     ?x_0_3 :input2 ?x_2_3} => {?x_0_3 :input10 (?x_1_3 ?x_2_3)}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :input1 var:x_1.
+     var:x_0 :input2 var:x_2} => {var:x_0 :input10 (var:x_1 var:x_2)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/background_rules.n3>].
 
 <#lemma55> a r:Extraction;
   r:gives {
-    _:bn_5 :input1 "abc".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5> :input1 "abc".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma56> a r:Extraction;
   r:gives {
-    _:bn_5 :input2 60 .
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_5> :input2 60 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma57> a r:Extraction;
   r:gives {
-    _:bn_8 :input1 "xyz".
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_8> :input1 "xyz".
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 
 <#lemma58> a r:Extraction;
   r:gives {
-    _:bn_8 :input2 40 .
+    <http://josd.github.io/.well-known/genid/YajoolgsbZGlIzCl498E0ZhhiYY#bn_8> :input2 40 .
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
 

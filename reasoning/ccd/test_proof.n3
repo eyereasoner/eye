@@ -1,10 +1,12 @@
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX ccd: <http://josd.github.io/eye/reasoning/ccd#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix ccd: <http://josd.github.io/eye/reasoning/ccd#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -33,6 +35,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ("0") e:calculate 1 .
      ("1-_Q" 0.5150284139492985) e:calculate 0.5150284139492985}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.5150284139492985];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.5150284139492985];
   r:rule <#lemma8>.
 
 <#lemma2> a r:Inference;
@@ -50,6 +64,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ("_Q" 0.13413886721237023) e:calculate 0.8658611327876298}}]
     <#lemma11>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.13413886721237023];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.8658611327876298];
   r:rule <#lemma8>.
 
 <#lemma3> a r:Inference;
@@ -67,6 +93,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ("0") e:calculate 1 .
      ("1-_Q" 0.6851785979382504) e:calculate 0.6851785979382504}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.6851785979382504];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.6851785979382504];
   r:rule <#lemma8>.
 
 <#lemma4> a r:Inference;
@@ -84,6 +122,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
      ("_Q" 0.20741955744761525) e:calculate 0.7925804425523848}}]
     <#lemma17>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:input3 (0 1) 2 2) (:input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.20741955744761525];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.7925804425523848];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
@@ -120,6 +170,54 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:notGreaterThan 0 .
      ("1/(1+exp(_BETA))" 1.0) e:calculate 0.5150284139492985}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.6094379124341005 :input5 "b" 2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.5108256237659907 0.0 0.0 1.6094379124341005)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo 2.120263536200091];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.5150284139492985];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
   r:rule <#lemma21>.
 
 <#lemma7> a r:Inference;
@@ -141,17 +239,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {?x_0_2 :output1 ?x_1_2.
-     ?x_2_2 e:findall ((?x_3_2 ?x_4_2 ?x_5_2 ?x_6_2) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member ?x_3_2.
-      ?x_0_2 ?x_3_2 ?x_4_2.
-      (?x_3_2 ?x_4_2) ccd:model (:output1 ?x_5_2 ?x_6_2)} ?x_7_2).
-     (?x_7_2 4.0 1.0) ccd:transformer (?x_8_2 ?x_9_2).
-     ?x_2_2 e:optional {?x_9_2 math:greaterThan 0.5 .
-      ("1") e:calculate ?x_10_2.
-      ("_Q" ?x_9_2) e:calculate ?x_11_2}.
-     ?x_2_2 e:optional {?x_9_2 math:notGreaterThan 0.5 .
-      ("0") e:calculate ?x_10_2.
-      ("1-_Q" ?x_9_2) e:calculate ?x_11_2}} => {?x_0_2 :answer (:expected ?x_1_2 :predicted ?x_10_2 :belief ?x_11_2 :evidence ?x_8_2)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 :output1 var:x_1.
+     var:x_2 e:findall ((var:x_3 var:x_4 var:x_5 var:x_6) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member var:x_3.
+      var:x_0 var:x_3 var:x_4.
+      (var:x_3 var:x_4) ccd:model (:output1 var:x_5 var:x_6)} var:x_7).
+     (var:x_7 4.0 1.0) ccd:transformer (var:x_8 var:x_9).
+     var:x_2 e:optional {var:x_9 math:greaterThan 0.5 .
+      ("1") e:calculate var:x_10.
+      ("_Q" var:x_9) e:calculate var:x_11}.
+     var:x_2 e:optional {var:x_9 math:notGreaterThan 0.5 .
+      ("0") e:calculate var:x_10.
+      ("1-_Q" var:x_9) e:calculate var:x_11}} => {var:x_0 :answer (:expected var:x_1 :predicted var:x_10 :belief var:x_11 :evidence var:x_8)}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_query.n3>].
 
@@ -189,6 +287,54 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {5 math:notGreaterThan 0 .
      ("1/(1+exp(_BETA))" 1.0) e:calculate 0.13413886721237023}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (-0.5108256237659907 :input10 ("abc" 60) 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (-0.33647223662121295 -0.5877866649021191 -0.5108256237659907 0.0 -0.5108256237659907)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo -1.9459101490553135];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.13413886721237023];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
   r:rule <#lemma21>.
 
 <#lemma11> a r:Inference;
@@ -242,6 +388,54 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:notGreaterThan 0 .
      ("1/(1+exp(_BETA))" 1.0) e:calculate 0.6851785979382504}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input5 "a" 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (1.9459101490553135 :input2 40 3 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.5108256237659907 1.9459101490553135 0.0 1.0986122886681096)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo 3.555348061489414];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.6851785979382504];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
   r:rule <#lemma21>.
 
 <#lemma14> a r:Inference;
@@ -295,6 +489,54 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {2 math:notGreaterThan 0 .
      ("1/(1+exp(_BETA))" 1.0) e:calculate 0.20741955744761525}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input3 (0 1) 2 2) (:input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.0 -0.5108256237659907)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo -0.5108256237659907];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.20741955744761525];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
   r:rule <#lemma21>.
 
 <#lemma17> a r:Inference;
@@ -347,29 +589,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma21> a r:Extraction;
   r:gives {
-    {(?x_6_9 ?x_45_9 ?x_46_9) ccd:transformer (?x_41_9 ?x_47_9)} <= {?x_0_9 e:findall ((?x_1_9 ?x_2_9 ?x_3_9 ?x_4_9 ?x_5_9) {?x_6_9 list:member (?x_2_9 ?x_3_9 ?x_4_9 ?x_5_9).
-      ("log(_J+0.5)-log(_K+0.5)" ?x_4_9 ?x_5_9) e:calculate ?x_1_9} ?x_7_9).
-     ?x_0_9 e:findall ((?x_1_9 ?x_8_9 ?x_9_9 ?x_10_9 ?x_11_9) {?x_7_9 list:member (?x_1_9 ?x_8_9 ?x_9_9 ?x_10_9 ?x_11_9).
-      ?x_1_9 math:notLessThan 0} ?x_12_9).
-     ?x_12_9 e:sort ?x_13_9.
-     ?x_13_9 e:reverse ?x_14_9.
-     ?x_0_9 e:optional {((?x_15_9 ?x_16_9 ?x_17_9 ?x_18_9 ?x_19_9 ?x_20_9 ?x_21_9 ?x_22_9 ?x_23_9 ?x_24_9) ?x_25_9) list:append ?x_14_9.
-      ?x_26_9 log:equalTo (?x_15_9 ?x_16_9 ?x_17_9 ?x_18_9 ?x_19_9 ?x_20_9 ?x_21_9 ?x_22_9 ?x_23_9 ?x_24_9)}.
-     ?x_0_9 e:optional {?x_26_9 log:equalTo ?x_14_9}.
-     ?x_0_9 e:findall ((?x_1_9 ?x_8_9 ?x_9_9 ?x_10_9 ?x_11_9) {?x_7_9 list:member (?x_1_9 ?x_8_9 ?x_9_9 ?x_10_9 ?x_11_9).
-      ?x_1_9 math:lessThan 0} ?x_27_9).
-     ?x_27_9 e:sort ?x_28_9.
-     ?x_0_9 e:optional {((?x_29_9 ?x_30_9 ?x_31_9 ?x_32_9 ?x_33_9 ?x_34_9 ?x_35_9 ?x_36_9 ?x_37_9 ?x_38_9) ?x_39_9) list:append ?x_28_9.
-      ?x_40_9 log:equalTo (?x_29_9 ?x_30_9 ?x_31_9 ?x_32_9 ?x_33_9 ?x_34_9 ?x_35_9 ?x_36_9 ?x_37_9 ?x_38_9)}.
-     ?x_0_9 e:optional {?x_40_9 log:equalTo ?x_28_9}.
-     (?x_26_9 ?x_40_9) list:append ?x_41_9.
-     ?x_0_9 e:findall (?x_1_9 {?x_7_9 list:member (?x_1_9 ?x_8_9 ?x_9_9 ?x_10_9 ?x_11_9)} ?x_42_9).
-     ?x_42_9 math:sum ?x_43_9.
-     ?x_42_9 math:memberCount ?x_44_9.
-     ?x_0_9 e:optional {?x_44_9 math:greaterThan 0 .
-      ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" ?x_45_9 ?x_43_9 ?x_44_9 ?x_46_9) e:calculate ?x_47_9}.
-     ?x_0_9 e:optional {?x_44_9 math:notGreaterThan 0 .
-      ("1/(1+exp(_BETA))" ?x_46_9) e:calculate ?x_47_9}}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34, var:x_35, var:x_36, var:x_37, var:x_38, var:x_39, var:x_40, var:x_41, var:x_42, var:x_43, var:x_44, var:x_45, var:x_46, var:x_47. {(var:x_6 var:x_45 var:x_46) ccd:transformer (var:x_41 var:x_47)} <= {var:x_0 e:findall ((var:x_1 var:x_2 var:x_3 var:x_4 var:x_5) {var:x_6 list:member (var:x_2 var:x_3 var:x_4 var:x_5).
+      ("log(_J+0.5)-log(_K+0.5)" var:x_4 var:x_5) e:calculate var:x_1} var:x_7).
+     var:x_0 e:findall ((var:x_1 var:x_8 var:x_9 var:x_10 var:x_11) {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11).
+      var:x_1 math:notLessThan 0} var:x_12).
+     var:x_12 e:sort var:x_13.
+     var:x_13 e:reverse var:x_14.
+     var:x_0 e:optional {((var:x_15 var:x_16 var:x_17 var:x_18 var:x_19 var:x_20 var:x_21 var:x_22 var:x_23 var:x_24) var:x_25) list:append var:x_14.
+      var:x_26 log:equalTo (var:x_15 var:x_16 var:x_17 var:x_18 var:x_19 var:x_20 var:x_21 var:x_22 var:x_23 var:x_24)}.
+     var:x_0 e:optional {var:x_26 log:equalTo var:x_14}.
+     var:x_0 e:findall ((var:x_1 var:x_8 var:x_9 var:x_10 var:x_11) {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11).
+      var:x_1 math:lessThan 0} var:x_27).
+     var:x_27 e:sort var:x_28.
+     var:x_0 e:optional {((var:x_29 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 var:x_35 var:x_36 var:x_37 var:x_38) var:x_39) list:append var:x_28.
+      var:x_40 log:equalTo (var:x_29 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 var:x_35 var:x_36 var:x_37 var:x_38)}.
+     var:x_0 e:optional {var:x_40 log:equalTo var:x_28}.
+     (var:x_26 var:x_40) list:append var:x_41.
+     var:x_0 e:findall (var:x_1 {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11)} var:x_42).
+     var:x_42 math:sum var:x_43.
+     var:x_42 math:memberCount var:x_44.
+     var:x_0 e:optional {var:x_44 math:greaterThan 0 .
+      ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" var:x_45 var:x_43 var:x_44 var:x_46) e:calculate var:x_47}.
+     var:x_0 e:optional {var:x_44 math:notGreaterThan 0 .
+      ("1/(1+exp(_BETA))" var:x_46) e:calculate var:x_47}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>].
 

@@ -1,11 +1,13 @@
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX : <http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -21,6 +23,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma2>
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Extraction;
@@ -38,12 +41,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma5>
     [ a r:Fact; r:gives {-1.9082339805374957 math:lessThan -1.25}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -1.9082339805374957];
   r:rule <#lemma6>.
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 a :Measurement.
-     ?x_0_1 a :LLDAlarm} => {?x_0_1 a :LLDAlarm}.
+    @forAll var:x_0. {var:x_0 a :Measurement.
+     var:x_0 a :LLDAlarm} => {var:x_0 a :LLDAlarm}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmF.n3>].
 
@@ -57,13 +62,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma8>
     [ a r:Fact; r:gives {(21.548900464617255 23.45713444515475) math:difference -1.9082339805374957}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 21.548900464617255];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 23.45713444515475];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -1.9082339805374957];
   r:rule <#lemma9>.
 
 <#lemma6> a r:Extraction;
   r:gives {
-    {?x_0_2 a :Measurement.
-     ?x_0_2 :dCm ?x_1_2.
-     ?x_1_2 math:lessThan -1.25} => {?x_0_2 a :LLDAlarm}.
+    @forAll var:x_0, var:x_1. {var:x_0 a :Measurement.
+     var:x_0 :dCm var:x_1.
+     var:x_1 math:lessThan -1.25} => {var:x_0 a :LLDAlarm}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -76,6 +85,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma10>
     [ a r:Fact; r:gives {(464.35511123398175 0.5) math:exponentiation 21.548900464617255}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 464.35511123398175];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 21.548900464617255];
   r:rule <#lemma11>.
 
 <#lemma8> a r:Inference;
@@ -87,14 +99,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma12>
     [ a r:Fact; r:gives {(550.2371563780655 0.5) math:exponentiation 23.45713444515475}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 550.2371563780655];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 23.45713444515475];
   r:rule <#lemma13>.
 
 <#lemma9> a r:Extraction;
   r:gives {
-    {?x_0_3 a :Measurement.
-     ?x_0_3 :d53Cm ?x_1_3.
-     ?x_0_3 :d64Cm ?x_2_3.
-     (?x_1_3 ?x_2_3) math:difference ?x_3_3} => {?x_0_3 :dCm ?x_3_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :d53Cm var:x_1.
+     var:x_0 :d64Cm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dCm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -108,13 +123,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma15>
     [ a r:Fact; r:gives {(1.8274562043619251 462.52765502961984) math:sum 464.35511123398175}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1.8274562043619251];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 462.52765502961984];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 464.35511123398175];
   r:rule <#lemma16>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    {?x_0_4 a :Measurement.
-     ?x_0_4 :ssd53Cm2 ?x_1_4.
-     (?x_1_4 0.5) math:exponentiation ?x_2_4} => {?x_0_4 :d53Cm ?x_2_4}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :ssd53Cm2 var:x_1.
+     (var:x_1 0.5) math:exponentiation var:x_2} => {var:x_0 :d53Cm var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -128,13 +147,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma18>
     [ a r:Fact; r:gives {(2.1654425265642967 548.0717138515012) math:sum 550.2371563780655}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.1654425265642967];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 548.0717138515012];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 550.2371563780655];
   r:rule <#lemma19>.
 
 <#lemma13> a r:Extraction;
   r:gives {
-    {?x_0_5 a :Measurement.
-     ?x_0_5 :ssd64Cm2 ?x_1_5.
-     (?x_1_5 0.5) math:exponentiation ?x_2_5} => {?x_0_5 :d64Cm ?x_2_5}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :ssd64Cm2 var:x_1.
+     (var:x_1 0.5) math:exponentiation var:x_2} => {var:x_0 :d64Cm var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -147,6 +170,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma20>
     [ a r:Fact; r:gives {(-1.351834384960645 2) math:exponentiation 1.8274562043619251}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -1.351834384960645];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1.8274562043619251];
   r:rule <#lemma21>.
 
 <#lemma15> a r:Inference;
@@ -158,14 +184,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma22>
     [ a r:Fact; r:gives {(-21.506456124373905 2) math:exponentiation 462.52765502961984}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -21.506456124373905];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 462.52765502961984];
   r:rule <#lemma23>.
 
 <#lemma16> a r:Extraction;
   r:gives {
-    {?x_0_6 a :Measurement.
-     ?x_0_6 :sdx53Cm2 ?x_1_6.
-     ?x_0_6 :sdy53Cm2 ?x_2_6.
-     (?x_1_6 ?x_2_6) math:sum ?x_3_6} => {?x_0_6 :ssd53Cm2 ?x_3_6}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :sdx53Cm2 var:x_1.
+     var:x_0 :sdy53Cm2 var:x_2.
+     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :ssd53Cm2 var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -178,6 +207,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma24>
     [ a r:Fact; r:gives {(-1.4715442659207696 2) math:exponentiation 2.1654425265642967}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -1.4715442659207696];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2.1654425265642967];
   r:rule <#lemma25>.
 
 <#lemma18> a r:Inference;
@@ -189,14 +221,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma26>
     [ a r:Fact; r:gives {(-23.41093150328498 2) math:exponentiation 548.0717138515012}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -23.41093150328498];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 548.0717138515012];
   r:rule <#lemma27>.
 
 <#lemma19> a r:Extraction;
   r:gives {
-    {?x_0_7 a :Measurement.
-     ?x_0_7 :sdx64Cm2 ?x_1_7.
-     ?x_0_7 :sdy64Cm2 ?x_2_7.
-     (?x_1_7 ?x_2_7) math:sum ?x_3_7} => {?x_0_7 :ssd64Cm2 ?x_3_7}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :sdx64Cm2 var:x_1.
+     var:x_0 :sdy64Cm2 var:x_2.
+     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :ssd64Cm2 var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -210,13 +245,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma29>
     [ a r:Fact; r:gives {(2.248165615039355 3.6) math:difference -1.351834384960645}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.248165615039355];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 3.6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -1.351834384960645];
   r:rule <#lemma30>.
 
 <#lemma21> a r:Extraction;
   r:gives {
-    {?x_0_8 a :Measurement.
-     ?x_0_8 :dx53Cm ?x_1_8.
-     (?x_1_8 2) math:exponentiation ?x_2_8} => {?x_0_8 :sdx53Cm2 ?x_2_8}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :dx53Cm var:x_1.
+     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdx53Cm2 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -230,13 +269,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma32>
     [ a r:Fact; r:gives {(8.293543875626098 29.8) math:difference -21.506456124373905}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 8.293543875626098];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 29.8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -21.506456124373905];
   r:rule <#lemma33>.
 
 <#lemma23> a r:Extraction;
   r:gives {
-    {?x_0_9 a :Measurement.
-     ?x_0_9 :dy53Cm ?x_1_9.
-     (?x_1_9 2) math:exponentiation ?x_2_9} => {?x_0_9 :sdy53Cm2 ?x_2_9}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :dy53Cm var:x_1.
+     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdy53Cm2 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -250,13 +293,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma35>
     [ a r:Fact; r:gives {(53.22845573407923 54.7) math:difference -1.4715442659207696}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 53.22845573407923];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 54.7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -1.4715442659207696];
   r:rule <#lemma36>.
 
 <#lemma25> a r:Extraction;
   r:gives {
-    {?x_0_10 a :Measurement.
-     ?x_0_10 :dx64Cm ?x_1_10.
-     (?x_1_10 2) math:exponentiation ?x_2_10} => {?x_0_10 :sdx64Cm2 ?x_2_10}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :dx64Cm var:x_1.
+     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdx64Cm2 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -270,13 +317,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma38>
     [ a r:Fact; r:gives {(5.0890684967150195 28.5) math:difference -23.41093150328498}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5.0890684967150195];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 28.5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -23.41093150328498];
   r:rule <#lemma39>.
 
 <#lemma27> a r:Extraction;
   r:gives {
-    {?x_0_11 a :Measurement.
-     ?x_0_11 :dy64Cm ?x_1_11.
-     (?x_1_11 2) math:exponentiation ?x_2_11} => {?x_0_11 :sdy64Cm2 ?x_2_11}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :dy64Cm var:x_1.
+     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdy64Cm2 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -290,6 +341,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma41>
     [ a r:Fact; r:gives {(-35.90758441558442 -15.97194805194805) math:quotient 2.248165615039355}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -35.90758441558442];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -15.97194805194805];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 2.248165615039355];
   r:rule <#lemma42>.
 
 <#lemma29> a r:Extraction;
@@ -300,10 +355,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma30> a r:Extraction;
   r:gives {
-    {?x_0_12 a :Measurement.
-     ?x_0_12 :p5xCm ?x_1_12.
-     ?x_0_12 :p3xCm ?x_2_12.
-     (?x_1_12 ?x_2_12) math:difference ?x_3_12} => {?x_0_12 :dx53Cm ?x_3_12}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p5xCm var:x_1.
+     var:x_0 :p3xCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx53Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -317,6 +372,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma44>
     [ a r:Fact; r:gives {(0.4935438756260977 7.8) math:sum 8.293543875626098}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0.4935438756260977];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 7.8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 8.293543875626098];
   r:rule <#lemma45>.
 
 <#lemma32> a r:Extraction;
@@ -327,10 +386,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma33> a r:Extraction;
   r:gives {
-    {?x_0_13 a :Measurement.
-     ?x_0_13 :p5yCm ?x_1_13.
-     ?x_0_13 :p3yCm ?x_2_13.
-     (?x_1_13 ?x_2_13) math:difference ?x_3_13} => {?x_0_13 :dy53Cm ?x_3_13}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p5yCm var:x_1.
+     var:x_0 :p3yCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy53Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -344,6 +403,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma41>
     [ a r:Fact; r:gives {(-850.1621298701299 -15.97194805194805) math:quotient 53.22845573407923}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -850.1621298701299];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -15.97194805194805];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 53.22845573407923];
   r:rule <#lemma47>.
 
 <#lemma35> a r:Extraction;
@@ -354,10 +417,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma36> a r:Extraction;
   r:gives {
-    {?x_0_14 a :Measurement.
-     ?x_0_14 :p6xCm ?x_1_14.
-     ?x_0_14 :p4xCm ?x_2_14.
-     (?x_1_14 ?x_2_14) math:difference ?x_3_14} => {?x_0_14 :dx64Cm ?x_3_14}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p6xCm var:x_1.
+     var:x_0 :p4xCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx64Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -371,6 +434,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma49>
     [ a r:Fact; r:gives {(-0.5109315032849803 5.6) math:sum 5.0890684967150195}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.5109315032849803];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5.6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 5.0890684967150195];
   r:rule <#lemma50>.
 
 <#lemma38> a r:Extraction;
@@ -381,10 +448,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma39> a r:Extraction;
   r:gives {
-    {?x_0_15 a :Measurement.
-     ?x_0_15 :p6yCm ?x_1_15.
-     ?x_0_15 :p4yCm ?x_2_15.
-     (?x_1_15 ?x_2_15) math:difference ?x_3_15} => {?x_0_15 :dy64Cm ?x_3_15}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p6yCm var:x_1.
+     var:x_0 :p4yCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy64Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -398,6 +465,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma52>
     [ a r:Fact; r:gives {(-57.90758441558442 -22.0) math:difference -35.90758441558442}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -57.90758441558442];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -22.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -35.90758441558442];
   r:rule <#lemma53>.
 
 <#lemma41> a r:Inference;
@@ -410,14 +481,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma55>
     [ a r:Fact; r:gives {(-0.06285714285714286 15.909090909090908) math:difference -15.97194805194805}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 15.909090909090908];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -15.97194805194805];
   r:rule <#lemma56>.
 
 <#lemma42> a r:Extraction;
   r:gives {
-    {?x_0_16 a :Measurement.
-     ?x_0_16 :ddy13Cm ?x_1_16.
-     ?x_0_16 :ddL13 ?x_2_16.
-     (?x_1_16 ?x_2_16) math:quotient ?x_3_16} => {?x_0_16 :p5xCm ?x_3_16}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :ddy13Cm var:x_1.
+     var:x_0 :ddL13 var:x_2.
+     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :p5xCm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -431,6 +506,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma57>
     [ a r:Fact; r:gives {(-0.06285714285714286 -7.851834384960645) math:product 0.4935438756260977}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -7.851834384960645];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0.4935438756260977];
   r:rule <#lemma58>.
 
 <#lemma44> a r:Extraction;
@@ -441,10 +520,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma45> a r:Extraction;
   r:gives {
-    {?x_0_17 a :Measurement.
-     ?x_0_17 :pL1dx51Cm ?x_1_17.
-     ?x_0_17 :p1yCm ?x_2_17.
-     (?x_1_17 ?x_2_17) math:sum ?x_3_17} => {?x_0_17 :p5yCm ?x_3_17}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :pL1dx51Cm var:x_1.
+     var:x_0 :p1yCm var:x_2.
+     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :p5yCm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -458,14 +537,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma60>
     [ a r:Fact; r:gives {(-873.0621298701299 -22.9) math:difference -850.1621298701299}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -873.0621298701299];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -22.9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -850.1621298701299];
   r:rule <#lemma61>.
 
 <#lemma47> a r:Extraction;
   r:gives {
-    {?x_0_18 a :Measurement.
-     ?x_0_18 :ddy24Cm ?x_1_18.
-     ?x_0_18 :ddL13 ?x_2_18.
-     (?x_1_18 ?x_2_18) math:quotient ?x_3_18} => {?x_0_18 :p6xCm ?x_3_18}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :ddy24Cm var:x_1.
+     var:x_0 :ddL13 var:x_2.
+     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :p6xCm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -479,6 +562,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma62>
     [ a r:Fact; r:gives {(-0.06285714285714286 8.128455734079232) math:product -0.5109315032849803}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 8.128455734079232];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -0.5109315032849803];
   r:rule <#lemma63>.
 
 <#lemma49> a r:Extraction;
@@ -489,10 +576,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma50> a r:Extraction;
   r:gives {
-    {?x_0_19 a :Measurement.
-     ?x_0_19 :pL1dx62Cm ?x_1_19.
-     ?x_0_19 :p2yCm ?x_2_19.
-     (?x_1_19 ?x_2_19) math:sum ?x_3_19} => {?x_0_19 :p6yCm ?x_3_19}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :pL1dx62Cm var:x_1.
+     var:x_0 :p2yCm var:x_2.
+     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :p6yCm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -506,6 +593,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma65>
     [ a r:Fact; r:gives {(-0.6348571428571429 57.27272727272727) math:difference -57.90758441558442}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.6348571428571429];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 57.27272727272727];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -57.90758441558442];
   r:rule <#lemma66>.
 
 <#lemma52> a r:Inference;
@@ -518,14 +609,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma32>
     [ a r:Fact; r:gives {(7.8 29.8) math:difference -22.0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7.8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 29.8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -22.0];
   r:rule <#lemma67>.
 
 <#lemma53> a r:Extraction;
   r:gives {
-    {?x_0_20 a :Measurement.
-     ?x_0_20 :dd13Cm ?x_1_20.
-     ?x_0_20 :dy13Cm ?x_2_20.
-     (?x_1_20 ?x_2_20) math:difference ?x_3_20} => {?x_0_20 :ddy13Cm ?x_3_20}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :dd13Cm var:x_1.
+     var:x_0 :dy13Cm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddy13Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -539,6 +634,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma69>
     [ a r:Fact; r:gives {(2.2 -35.0) math:quotient -0.06285714285714286}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -35.0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -0.06285714285714286];
   r:rule <#lemma70>.
 
 <#lemma55> a r:Inference;
@@ -550,14 +649,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma71>
     [ a r:Fact; r:gives {(0 -15.909090909090908) math:difference 15.909090909090908}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -15.909090909090908];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 15.909090909090908];
   r:rule <#lemma72>.
 
 <#lemma56> a r:Extraction;
   r:gives {
-    {?x_0_21 a :Measurement.
-     ?x_0_21 :cL1 ?x_1_21.
-     ?x_0_21 :cL3 ?x_2_21.
-     (?x_1_21 ?x_2_21) math:difference ?x_3_21} => {?x_0_21 :ddL13 ?x_3_21}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     var:x_0 :cL3 var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddL13 var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -571,14 +673,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma73>
     [ a r:Fact; r:gives {(2.248165615039355 10.1) math:difference -7.851834384960645}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.248165615039355];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 10.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -7.851834384960645];
   r:rule <#lemma74>.
 
 <#lemma58> a r:Extraction;
   r:gives {
-    {?x_0_22 a :Measurement.
-     ?x_0_22 :cL1 ?x_1_22.
-     ?x_0_22 :dx51Cm ?x_2_22.
-     (?x_1_22 ?x_2_22) math:product ?x_3_22} => {?x_0_22 :pL1dx51Cm ?x_3_22}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     var:x_0 :dx51Cm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1dx51Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -592,6 +698,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma76>
     [ a r:Fact; r:gives {(-2.834857142857143 870.2272727272727) math:difference -873.0621298701299}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -2.834857142857143];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 870.2272727272727];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -873.0621298701299];
   r:rule <#lemma77>.
 
 <#lemma60> a r:Inference;
@@ -604,14 +714,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma38>
     [ a r:Fact; r:gives {(5.6 28.5) math:difference -22.9}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5.6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 28.5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -22.9];
   r:rule <#lemma78>.
 
 <#lemma61> a r:Extraction;
   r:gives {
-    {?x_0_23 a :Measurement.
-     ?x_0_23 :dd24Cm ?x_1_23.
-     ?x_0_23 :dy24Cm ?x_2_23.
-     (?x_1_23 ?x_2_23) math:difference ?x_3_23} => {?x_0_23 :ddy24Cm ?x_3_23}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :dd24Cm var:x_1.
+     var:x_0 :dy24Cm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddy24Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -625,14 +739,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma79>
     [ a r:Fact; r:gives {(53.22845573407923 45.1) math:difference 8.128455734079232}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 53.22845573407923];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 45.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 8.128455734079232];
   r:rule <#lemma80>.
 
 <#lemma63> a r:Extraction;
   r:gives {
-    {?x_0_24 a :Measurement.
-     ?x_0_24 :cL1 ?x_1_24.
-     ?x_0_24 :dx62Cm ?x_2_24.
-     (?x_1_24 ?x_2_24) math:product ?x_3_24} => {?x_0_24 :pL1dx62Cm ?x_3_24}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     var:x_0 :dx62Cm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1dx62Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -646,6 +764,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma73>
     [ a r:Fact; r:gives {(-0.06285714285714286 10.1) math:product -0.6348571428571429}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 10.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -0.6348571428571429];
   r:rule <#lemma81>.
 
 <#lemma65> a r:Inference;
@@ -658,23 +780,27 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma29>
     [ a r:Fact; r:gives {(15.909090909090908 3.6) math:product 57.27272727272727}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 15.909090909090908];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 3.6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 57.27272727272727];
   r:rule <#lemma82>.
 
 <#lemma66> a r:Extraction;
   r:gives {
-    {?x_0_25 a :Measurement.
-     ?x_0_25 :pL1x1Cm ?x_1_25.
-     ?x_0_25 :pL3x3Cm ?x_2_25.
-     (?x_1_25 ?x_2_25) math:difference ?x_3_25} => {?x_0_25 :dd13Cm ?x_3_25}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :pL1x1Cm var:x_1.
+     var:x_0 :pL3x3Cm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dd13Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma67> a r:Extraction;
   r:gives {
-    {?x_0_26 a :Measurement.
-     ?x_0_26 :p1yCm ?x_1_26.
-     ?x_0_26 :p3yCm ?x_2_26.
-     (?x_1_26 ?x_2_26) math:difference ?x_3_26} => {?x_0_26 :dy13Cm ?x_3_26}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p1yCm var:x_1.
+     var:x_0 :p3yCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy13Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -688,6 +814,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma49>
     [ a r:Fact; r:gives {(7.8 5.6) math:difference 2.2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7.8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5.6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 2.2];
   r:rule <#lemma83>.
 
 <#lemma69> a r:Inference;
@@ -700,14 +830,18 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma79>
     [ a r:Fact; r:gives {(10.1 45.1) math:difference -35.0}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 10.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 45.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -35.0];
   r:rule <#lemma84>.
 
 <#lemma70> a r:Extraction;
   r:gives {
-    {?x_0_27 a :Measurement.
-     ?x_0_27 :dy12Cm ?x_1_27.
-     ?x_0_27 :dx12Cm ?x_2_27.
-     (?x_1_27 ?x_2_27) math:quotient ?x_3_27} => {?x_0_27 :cL1 ?x_3_27}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :dy12Cm var:x_1.
+     var:x_0 :dx12Cm var:x_2.
+     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :cL1 var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -720,13 +854,16 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma54>
     [ a r:Fact; r:gives {(1 -0.06285714285714286) math:quotient -15.909090909090908}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo -15.909090909090908];
   r:rule <#lemma85>.
 
 <#lemma72> a r:Extraction;
   r:gives {
-    {?x_0_28 a :Measurement.
-     ?x_0_28 :dL3m ?x_1_28.
-     (0 ?x_1_28) math:difference ?x_2_28} => {?x_0_28 :cL3 ?x_2_28}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :dL3m var:x_1.
+     (0 var:x_1) math:difference var:x_2} => {var:x_0 :cL3 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -738,10 +875,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma74> a r:Extraction;
   r:gives {
-    {?x_0_29 a :Measurement.
-     ?x_0_29 :p5xCm ?x_1_29.
-     ?x_0_29 :p1xCm ?x_2_29.
-     (?x_1_29 ?x_2_29) math:difference ?x_3_29} => {?x_0_29 :dx51Cm ?x_3_29}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p5xCm var:x_1.
+     var:x_0 :p1xCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx51Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -755,6 +892,10 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma79>
     [ a r:Fact; r:gives {(-0.06285714285714286 45.1) math:product -2.834857142857143}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo -0.06285714285714286];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 45.1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo -2.834857142857143];
   r:rule <#lemma86>.
 
 <#lemma76> a r:Inference;
@@ -767,23 +908,27 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma35>
     [ a r:Fact; r:gives {(15.909090909090908 54.7) math:product 870.2272727272727}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/2002/10/medicad/op/lldmP#meas47"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 15.909090909090908];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 54.7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 870.2272727272727];
   r:rule <#lemma87>.
 
 <#lemma77> a r:Extraction;
   r:gives {
-    {?x_0_30 a :Measurement.
-     ?x_0_30 :pL1x2Cm ?x_1_30.
-     ?x_0_30 :pL3x4Cm ?x_2_30.
-     (?x_1_30 ?x_2_30) math:difference ?x_3_30} => {?x_0_30 :dd24Cm ?x_3_30}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :pL1x2Cm var:x_1.
+     var:x_0 :pL3x4Cm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dd24Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma78> a r:Extraction;
   r:gives {
-    {?x_0_31 a :Measurement.
-     ?x_0_31 :p2yCm ?x_1_31.
-     ?x_0_31 :p4yCm ?x_2_31.
-     (?x_1_31 ?x_2_31) math:difference ?x_3_31} => {?x_0_31 :dy24Cm ?x_3_31}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p2yCm var:x_1.
+     var:x_0 :p4yCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy24Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -795,72 +940,72 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma80> a r:Extraction;
   r:gives {
-    {?x_0_32 a :Measurement.
-     ?x_0_32 :p6xCm ?x_1_32.
-     ?x_0_32 :p2xCm ?x_2_32.
-     (?x_1_32 ?x_2_32) math:difference ?x_3_32} => {?x_0_32 :dx62Cm ?x_3_32}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p6xCm var:x_1.
+     var:x_0 :p2xCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx62Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma81> a r:Extraction;
   r:gives {
-    {?x_0_33 a :Measurement.
-     ?x_0_33 :cL1 ?x_1_33.
-     ?x_0_33 :p1xCm ?x_2_33.
-     (?x_1_33 ?x_2_33) math:product ?x_3_33} => {?x_0_33 :pL1x1Cm ?x_3_33}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     var:x_0 :p1xCm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1x1Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma82> a r:Extraction;
   r:gives {
-    {?x_0_34 a :Measurement.
-     ?x_0_34 :cL3 ?x_1_34.
-     ?x_0_34 :p3xCm ?x_2_34.
-     (?x_1_34 ?x_2_34) math:product ?x_3_34} => {?x_0_34 :pL3x3Cm ?x_3_34}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL3 var:x_1.
+     var:x_0 :p3xCm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL3x3Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma83> a r:Extraction;
   r:gives {
-    {?x_0_35 a :Measurement.
-     ?x_0_35 :p1yCm ?x_1_35.
-     ?x_0_35 :p2yCm ?x_2_35.
-     (?x_1_35 ?x_2_35) math:difference ?x_3_35} => {?x_0_35 :dy12Cm ?x_3_35}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p1yCm var:x_1.
+     var:x_0 :p2yCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy12Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma84> a r:Extraction;
   r:gives {
-    {?x_0_36 a :Measurement.
-     ?x_0_36 :p1xCm ?x_1_36.
-     ?x_0_36 :p2xCm ?x_2_36.
-     (?x_1_36 ?x_2_36) math:difference ?x_3_36} => {?x_0_36 :dx12Cm ?x_3_36}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :p1xCm var:x_1.
+     var:x_0 :p2xCm var:x_2.
+     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx12Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma85> a r:Extraction;
   r:gives {
-    {?x_0_37 a :Measurement.
-     ?x_0_37 :cL1 ?x_1_37.
-     (1 ?x_1_37) math:quotient ?x_2_37} => {?x_0_37 :dL3m ?x_2_37}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     (1 var:x_1) math:quotient var:x_2} => {var:x_0 :dL3m var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma86> a r:Extraction;
   r:gives {
-    {?x_0_38 a :Measurement.
-     ?x_0_38 :cL1 ?x_1_38.
-     ?x_0_38 :p2xCm ?x_2_38.
-     (?x_1_38 ?x_2_38) math:product ?x_3_38} => {?x_0_38 :pL1x2Cm ?x_3_38}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL1 var:x_1.
+     var:x_0 :p2xCm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1x2Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 <#lemma87> a r:Extraction;
   r:gives {
-    {?x_0_39 a :Measurement.
-     ?x_0_39 :cL3 ?x_1_39.
-     ?x_0_39 :p4xCm ?x_2_39.
-     (?x_1_39 ?x_2_39) math:product ?x_3_39} => {?x_0_39 :pL3x4Cm ?x_3_39}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
+     var:x_0 :cL3 var:x_1.
+     var:x_0 :p4xCm var:x_2.
+     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL3x4Cm var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lldm/lldmP.n3>].
 

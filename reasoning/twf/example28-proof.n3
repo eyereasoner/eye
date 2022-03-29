@@ -1,6 +1,8 @@
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX : <http://example.com/>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.com/>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -25,6 +27,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.com/Workflow"]];
   r:rule <#lemma8>.
 
 <#lemma2> a r:Inference;
@@ -34,6 +39,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/taskA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.com/Completed"]];
   r:rule <#lemma8>.
 
 <#lemma3> a r:Inference;
@@ -43,6 +51,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma10>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/taskB"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.com/Completed"]];
   r:rule <#lemma8>.
 
 <#lemma4> a r:Inference;
@@ -52,6 +63,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma11>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/includes"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.com/taskA"]];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Inference;
@@ -61,6 +75,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/includes"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.com/taskB"]];
   r:rule <#lemma8>.
 
 <#lemma6> a r:Inference;
@@ -70,6 +87,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/completed"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:taskA :taskB)];
   r:rule <#lemma8>.
 
 <#lemma7> a r:Extraction;
@@ -80,7 +100,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {?x_1_1 ?x_0_1 ?x_2_1} => {?x_1_1 ?x_0_1 ?x_2_1}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -117,13 +137,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(_:sk_0 {:workflowA :includes _:sk_0.
      _:sk_0 a :Completed} (:taskA :taskB)) log:collectAllIn ((<http://josd.github.io/eye/reasoning/twf/example28.n3>) 1)}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/twf/example28.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:taskA :taskB)];
   r:rule <#lemma14>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    {?x_0_2 a :Workflow.
-     (?x_1_2 {?x_0_2 :includes ?x_1_2.
-      ?x_1_2 a :Completed} ?x_2_2) log:collectAllIn ?x_3_2} => {?x_0_2 :completed ?x_2_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Workflow.
+     (var:x_1 {var:x_0 :includes var:x_1.
+      var:x_1 a :Completed} var:x_2) log:collectAllIn var:x_3} => {var:x_0 :completed var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
 

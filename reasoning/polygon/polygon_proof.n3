@@ -1,7 +1,9 @@
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX polygon: <http://josd.github.io/eye/reasoning/polygon#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix polygon: <http://josd.github.io/eye/reasoning/polygon#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -16,6 +18,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 7];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -32,11 +35,24 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(-4 2) math:quotient -2}]
     [ a r:Fact; r:gives {(-2 9) math:sum 7}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 7];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area ?x_0_1} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area ?x_0_1}.
+    @forAll var:x_0. {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon_query.n3>].
 
@@ -54,18 +70,31 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(22 2) math:quotient 11}]
     [ a r:Fact; r:gives {(11 -2) math:sum 9}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 36];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 14];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 22];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 9];
   r:rule <#lemma5>.
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {?x_0_2 polygon:area ?x_12_2} <= {?x_0_2 e:firstRest ((?x_1_2 ?x_2_2) ?x_3_2).
-     ?x_3_2 e:firstRest ((?x_4_2 ?x_5_2) ?x_6_2).
-     ?x_3_2 polygon:area ?x_7_2.
-     (?x_1_2 ?x_5_2) math:product ?x_8_2.
-     (?x_2_2 ?x_4_2) math:product ?x_9_2.
-     (?x_8_2 ?x_9_2) math:difference ?x_10_2.
-     (?x_10_2 2) math:quotient ?x_11_2.
-     (?x_11_2 ?x_7_2) math:sum ?x_12_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 polygon:area var:x_12} <= {var:x_0 e:firstRest ((var:x_1 var:x_2) var:x_3).
+     var:x_3 e:firstRest ((var:x_4 var:x_5) var:x_6).
+     var:x_3 polygon:area var:x_7.
+     (var:x_1 var:x_5) math:product var:x_8.
+     (var:x_2 var:x_4) math:product var:x_9.
+     (var:x_8 var:x_9) math:difference var:x_10.
+     (var:x_10 2) math:quotient var:x_11.
+     (var:x_11 var:x_7) math:sum var:x_12}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon.n3>].
 
@@ -83,6 +112,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(18 2) math:quotient 9}]
     [ a r:Fact; r:gives {(9 -11) math:sum -2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo -11];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 42];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 24];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 18];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -2];
   r:rule <#lemma5>.
 
 <#lemma7> a r:Inference;
@@ -99,6 +141,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
     [ a r:Fact; r:gives {(-5 -6) math:sum -11}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo -6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 20];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 30];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -11];
   r:rule <#lemma5>.
 
 <#lemma8> a r:Inference;
@@ -115,6 +170,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
     [ a r:Fact; r:gives {(-5 -1) math:sum -6}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((5 5) (5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo -1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 15];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 25];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -6];
   r:rule <#lemma5>.
 
 <#lemma9> a r:Inference;
@@ -131,6 +199,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(-2 2) math:quotient -1}]
     [ a r:Fact; r:gives {(-1 0) math:sum -1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((5 3) (4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((4 2))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 10];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 12];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -1];
   r:rule <#lemma5>.
 
 <#lemma10> a r:Inference;
@@ -140,11 +221,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives true]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (4 2)];
   r:rule <#lemma11>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    {(?x_0_3) polygon:area 0} <= true.
+    @forSome var:x_0. {(var:x_0) polygon:area 0} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon.n3>].
 

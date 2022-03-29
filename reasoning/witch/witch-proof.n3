@@ -1,5 +1,7 @@
-PREFIX : <http://josd.github.io/eye/reasoning/witch#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://josd.github.io/eye/reasoning/witch#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -14,6 +16,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -24,11 +27,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma4>
     <#lemma5>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {?x_0_1 a :WITCH} => {?x_0_1 a :WITCH}.
+    @forAll var:x_0. {var:x_0 a :WITCH} => {var:x_0 a :WITCH}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch-goal.n3>].
 
@@ -39,6 +43,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Extraction;
@@ -49,8 +54,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma6> a r:Extraction;
   r:gives {
-    {?x_0_2 a :BURNS.
-     ?x_0_2 a :WOMAN} => {?x_0_2 a :WITCH}.
+    @forAll var:x_0. {var:x_0 a :BURNS.
+     var:x_0 a :WOMAN} => {var:x_0 a :WITCH}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -61,11 +66,12 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma9>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma10>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {?x_0_3 a :ISMADEOFWOOD} => {?x_0_3 a :BURNS}.
+    @forAll var:x_0. {var:x_0 a :ISMADEOFWOOD} => {var:x_0 a :BURNS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -77,11 +83,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma11>
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#DUCK"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
   r:rule <#lemma13>.
 
 <#lemma10> a r:Extraction;
   r:gives {
-    {?x_0_4 a :FLOATS} => {?x_0_4 a :ISMADEOFWOOD}.
+    @forAll var:x_0. {var:x_0 a :FLOATS} => {var:x_0 a :ISMADEOFWOOD}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -99,8 +107,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma13> a r:Extraction;
   r:gives {
-    {?x_0_5 a :FLOATS.
-     ?x_0_5 :SAMEWEIGHT ?x_1_5} => {?x_1_5 a :FLOATS}.
+    @forAll var:x_0, var:x_1. {var:x_0 a :FLOATS.
+     var:x_0 :SAMEWEIGHT var:x_1} => {var:x_1 a :FLOATS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
 

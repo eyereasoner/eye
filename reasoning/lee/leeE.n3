@@ -1,8 +1,10 @@
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://josd.github.io/eye/reasoning#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -17,6 +19,7 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma2>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 1) (1 2) (2 2) (3 2) (4 2) (5 2) (5 3) (5 4) (5 5) (6 5) (7 5) (8 5) (9 5) (9 6) (9 7) (9 8))];
   r:rule <#lemma3>.
 
 <#lemma2> a r:Inference;
@@ -28,11 +31,17 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma5>
     [ a r:Fact; r:gives {((9 8) (9 7) (9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1)) e:reverse ((1 1) (1 2) (2 2) (3 2) (4 2) (5 2) (5 3) (5 4) (5 5) (6 5) (7 5) (8 5) (9 5) (9 6) (9 7) (9 8))}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (9 8)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo ((9 8) (9 7) (9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 1) (1 2) (2 2) (3 2) (4 2) (5 2) (5 3) (5 4) (5 5) (6 5) (7 5) (8 5) (9 5) (9 6) (9 7) (9 8))];
   r:rule <#lemma6>.
 
 <#lemma3> a r:Extraction;
   r:gives {
-    {((1 1) (9 8) (((2 3) (4 5)) ((6 6) (8 8)))) :route ?x_0_1} => {((1 1) (9 8) (((2 3) (4 5)) ((6 6) (8 8)))) :route ?x_0_1}.
+    @forAll var:x_0. {((1 1) (9 8) (((2 3) (4 5)) ((6 6) (8 8)))) :route var:x_0} => {((1 1) (9 8) (((2 3) (4 5)) ((6 6) (8 8)))) :route var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/leeQ.n3>].
 
@@ -48,6 +57,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 1) (1 0) (1 2) (2 1)) (((1 1)) ()))}]
     <#lemma7>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((2 1) (0 1) (1 2) (1 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 1) (1 0) (1 2) (2 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma5> a r:Inference;
@@ -62,13 +84,21 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma10>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((9 8) (9 7) (9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (9 8)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((9 7) (9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (9 7)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma6> a r:Extraction;
   r:gives {
-    {(?x_1_2 ?x_0_2 ?x_2_2) :route ?x_5_2} <= {(?x_0_2 ((?x_1_2) ()) ?x_2_2) :waves ?x_3_2.
-     (?x_1_2 ?x_0_2 ?x_3_2) :path ?x_4_2.
-     ?x_4_2 e:reverse ?x_5_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {(var:x_1 var:x_0 var:x_2) :route var:x_5} <= {(var:x_0 ((var:x_1) ()) var:x_2) :waves var:x_3.
+     (var:x_1 var:x_0 var:x_3) :path var:x_4.
+     var:x_4 e:reverse var:x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -84,16 +114,29 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma12>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 1) (1 0) (1 2) (2 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 2) (0 0) (2 0) (0 0) (2 2) (0 2) (1 3) (3 1) (2 2) (2 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma8> a r:Extraction;
   r:gives {
-    {(?x_11_3 ?x_0_3 ?x_7_3) :waves ?x_12_3} <= {?x_0_3 e:firstRest (?x_1_3 ?x_2_3).
-     ?x_2_3 e:firstRest (?x_3_3 ?x_4_3).
-     ?x_5_3 e:findall (?x_6_3 {(?x_6_3 ?x_1_3 ?x_3_3) :admissible ?x_7_3} ?x_8_3).
-     ?x_8_3 e:sort ?x_9_3.
-     ?x_10_3 e:firstRest (?x_9_3 ?x_0_3).
-     (?x_11_3 ?x_10_3 ?x_7_3) :waves ?x_12_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {(var:x_11 var:x_0 var:x_7) :waves var:x_12} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+     var:x_2 e:firstRest (var:x_3 var:x_4).
+     var:x_5 e:findall (var:x_6 {(var:x_6 var:x_1 var:x_3) :admissible var:x_7} var:x_8).
+     var:x_8 e:sort var:x_9.
+     var:x_10 e:firstRest (var:x_9 var:x_0).
+     (var:x_11 var:x_10 var:x_7) :waves var:x_12}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -104,6 +147,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 9];
   r:rule <#lemma14>.
 
 <#lemma10> a r:Inference;
@@ -118,16 +164,24 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma16>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((9 7) (9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (9 7)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (9 6)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma11> a r:Extraction;
   r:gives {
-    {(?x_7_4 ?x_4_4 ?x_0_4) :path ?x_3_4} <= {?x_0_4 e:firstRest (?x_1_4 ?x_2_4).
-     ?x_3_4 e:firstRest (?x_4_4 ?x_5_4).
-     ?x_1_4 list:member ?x_6_4.
-     ?x_4_4 :neighbor ?x_6_4.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {(var:x_7 var:x_4 var:x_0) :path var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+     var:x_3 e:firstRest (var:x_4 var:x_5).
+     var:x_1 list:member var:x_6.
+     var:x_4 :neighbor var:x_6.
      ("!") e:derive true.
-     (?x_7_4 ?x_6_4 ?x_2_4) :path ?x_5_4}.
+     (var:x_7 var:x_6 var:x_2) :path var:x_5}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -143,6 +197,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 3) (1 4) (3 0) (3 2) (4 1)) (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma17>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 1) (1 0) (1 2) (2 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 3) (0 3) (1 4) (3 0) (3 2) (4 1) (3 2) (3 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 3) (1 4) (3 0) (3 2) (4 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma13> a r:Inference;
@@ -153,11 +220,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {8 math:greaterThan 0}]
     [ a r:Fact; r:gives {(8 -1) math:sum 7}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
   r:rule <#lemma18>.
 
 <#lemma14> a r:Extraction;
   r:gives {
-    {(?x_2_5 ?x_0_5) :neighbor (?x_2_5 ?x_1_5)} <= {?x_0_5 :next_to ?x_1_5}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {(var:x_2 var:x_0) :neighbor (var:x_2 var:x_1)} <= {var:x_0 :next_to var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -168,6 +237,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma19>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 9];
   r:rule <#lemma14>.
 
 <#lemma16> a r:Inference;
@@ -182,6 +254,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma21>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((9 6) (9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (9 6)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (9 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma17> a r:Inference;
@@ -196,12 +276,25 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 4) (1 5) (4 0) (4 2) (5 1)) (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma22>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 3) (1 4) (3 0) (3 2) (4 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 4) (0 4) (1 5) (4 0) (4 2) (5 1) (4 2) (4 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 4) (1 5) (4 0) (4 2) (5 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma18> a r:Extraction;
   r:gives {
-    {?x_0_6 :next_to ?x_1_6} <= {?x_0_6 math:greaterThan 0 .
-     (?x_0_6 -1) math:sum ?x_1_6}.
+    @forAll var:x_0, var:x_1. {var:x_0 :next_to var:x_1} <= {var:x_0 math:greaterThan 0 .
+     (var:x_0 -1) math:sum var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -213,6 +306,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {7 math:greaterThan 0}]
     [ a r:Fact; r:gives {(7 -1) math:sum 6}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
   r:rule <#lemma18>.
 
 <#lemma20> a r:Inference;
@@ -222,6 +317,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma23>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 9];
   r:rule <#lemma14>.
 
 <#lemma21> a r:Inference;
@@ -236,6 +334,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma25>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((9 5) (8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (9 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (8 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma22> a r:Inference;
@@ -250,6 +356,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 5) (1 6) (5 0) (5 2) (6 1)) (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma26>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 4) (1 5) (4 0) (4 2) (5 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 3) (1 4) (3 0) (3 2) (4 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 5) (0 5) (1 6) (5 0) (5 2) (6 1) (5 2) (5 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 5) (1 6) (5 0) (5 2) (6 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma23> a r:Inference;
@@ -260,6 +379,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {6 math:greaterThan 0}]
     [ a r:Fact; r:gives {(6 -1) math:sum 5}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
   r:rule <#lemma18>.
 
 <#lemma24> a r:Inference;
@@ -269,6 +390,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma27>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma28>.
 
 <#lemma25> a r:Inference;
@@ -283,6 +407,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma30>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((8 5) (7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (8 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (7 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma26> a r:Inference;
@@ -297,6 +429,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma31>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 5) (1 6) (5 0) (5 2) (6 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 4) (1 5) (4 0) (4 2) (5 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 6) (2 6) (0 6) (1 7) (6 0) (6 2) (5 3) (7 1) (6 2) (6 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma27> a r:Inference;
@@ -307,11 +452,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {9 math:greaterThan 0}]
     [ a r:Fact; r:gives {(9 -1) math:sum 8}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 9];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 8];
   r:rule <#lemma18>.
 
 <#lemma28> a r:Extraction;
   r:gives {
-    {(?x_0_7 ?x_2_7) :neighbor (?x_1_7 ?x_2_7)} <= {?x_0_7 :next_to ?x_1_7}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {(var:x_0 var:x_2) :neighbor (var:x_1 var:x_2)} <= {var:x_0 :next_to var:x_1}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
@@ -322,6 +469,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma13>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 8];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma28>.
 
 <#lemma30> a r:Inference;
@@ -336,6 +486,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma33>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((7 5) (6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (7 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (6 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma31> a r:Inference;
@@ -350,6 +508,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma34>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 5) (1 6) (5 0) (5 2) (6 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 7) (2 7) (0 7) (1 8) (3 6) (2 7) (6 3) (5 4) (7 0) (7 2) (6 3) (8 1) (7 2) (7 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma32> a r:Inference;
@@ -359,6 +530,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma19>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 7];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma28>.
 
 <#lemma33> a r:Inference;
@@ -373,6 +547,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma36>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((6 5) (5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (6 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (5 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma34> a r:Inference;
@@ -387,6 +569,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma37>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 8) (2 8) (0 8) (1 9) (3 7) (2 8) (4 6) (3 7) (6 4) (5 5) (7 3) (6 4) (8 0) (8 2) (7 3) (9 1) (8 2) (8 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma35> a r:Inference;
@@ -396,6 +591,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma23>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 6];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma28>.
 
 <#lemma36> a r:Inference;
@@ -410,6 +608,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma39>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 5) (5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (5 5)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (5 4)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma37> a r:Inference;
@@ -424,6 +630,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma40>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 9) (2 9) (0 9) (1 10) (3 8) (2 9) (4 7) (3 8) (5 6) (4 7) (6 5) (5 6) (7 4) (6 5) (8 3) (7 4) (9 0) (9 2) (8 3) (10 1) (9 2) (9 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma38> a r:Inference;
@@ -433,6 +652,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma41>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma14>.
 
 <#lemma39> a r:Inference;
@@ -447,6 +669,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma43>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 4) (5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (5 4)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (5 3)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma40> a r:Inference;
@@ -461,6 +691,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma44>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 10) (2 10) (0 10) (1 11) (3 9) (2 10) (4 8) (3 9) (5 7) (4 8) (5 7) (7 5) (8 4) (7 5) (9 3) (8 4) (10 0) (10 2) (9 3) (11 1) (10 2) (10 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma41> a r:Inference;
@@ -471,6 +714,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {5 math:greaterThan 0}]
     [ a r:Fact; r:gives {(5 -1) math:sum 4}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
   r:rule <#lemma18>.
 
 <#lemma42> a r:Inference;
@@ -480,6 +725,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma45>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma14>.
 
 <#lemma43> a r:Inference;
@@ -494,6 +742,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma47>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 5) (1 6) (5 0) (5 2) (6 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 3) (5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (5 3)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (5 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma44> a r:Inference;
@@ -508,6 +764,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma48>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 11) (2 11) (0 11) (1 12) (3 10) (2 11) (4 9) (3 10) (5 8) (4 9) (5 8) (8 5) (9 4) (8 5) (10 3) (9 4) (11 0) (11 2) (10 3) (12 1) (11 2) (11 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma45> a r:Inference;
@@ -518,6 +787,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {4 math:greaterThan 0}]
     [ a r:Fact; r:gives {(4 -1) math:sum 3}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
   r:rule <#lemma18>.
 
 <#lemma46> a r:Inference;
@@ -527,6 +798,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma49>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 5];
   r:rule <#lemma14>.
 
 <#lemma47> a r:Inference;
@@ -541,6 +815,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma51>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 4) (1 5) (4 0) (4 2) (5 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((5 2) (4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (5 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (4 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma48> a r:Inference;
@@ -555,6 +837,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma52>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 12) (2 12) (0 12) (1 13) (3 11) (2 12) (4 10) (3 11) (5 9) (4 10) (5 9) (9 5) (10 4) (9 5) (11 3) (10 4) (12 0) (12 2) (11 3) (13 1) (12 2) (12 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma49> a r:Inference;
@@ -565,6 +860,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {3 math:greaterThan 0}]
     [ a r:Fact; r:gives {(3 -1) math:sum 2}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
   r:rule <#lemma18>.
 
 <#lemma50> a r:Inference;
@@ -574,6 +871,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma41>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 5];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
   r:rule <#lemma28>.
 
 <#lemma51> a r:Inference;
@@ -588,6 +888,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma54>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 3) (1 4) (3 0) (3 2) (4 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((4 2) (3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (4 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (3 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma52> a r:Inference;
@@ -602,6 +910,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma55>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 13) (2 13) (0 13) (1 14) (3 12) (2 13) (4 11) (3 12) (5 10) (4 11) (6 9) (5 10) (10 5) (9 6) (11 4) (10 5) (12 3) (11 4) (13 0) (13 2) (12 3) (14 1) (13 2) (13 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma53> a r:Inference;
@@ -611,6 +932,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma45>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 4];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
   r:rule <#lemma28>.
 
 <#lemma54> a r:Inference;
@@ -625,6 +949,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma57>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((3 2) (2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (3 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (2 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma55> a r:Inference;
@@ -639,6 +971,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma58>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 14) (2 14) (0 14) (1 15) (3 13) (2 14) (4 12) (3 13) (5 11) (4 12) (6 10) (5 11) (7 9) (6 10) (10 6) (9 7) (11 5) (10 6) (12 4) (11 5) (13 3) (12 4) (14 0) (14 2) (13 3) (15 1) (14 2) (14 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma56> a r:Inference;
@@ -648,6 +993,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma49>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 3];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
   r:rule <#lemma28>.
 
 <#lemma57> a r:Inference;
@@ -662,6 +1010,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma60>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 1) (1 0) (1 2) (2 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((2 2) (1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (2 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma58> a r:Inference;
@@ -676,6 +1032,19 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {(((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1)) ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()) e:firstRest (((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1)) (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ()))}]
     <#lemma61>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/lee/lee.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo ((0 15) (2 15) (0 15) (1 16) (3 14) (2 15) (4 13) (3 14) (5 12) (4 13) (6 11) (5 12) (7 10) (6 11) (8 9) (7 10) (10 7) (9 8) (11 6) (10 7) (12 5) (11 6) (13 4) (12 5) (14 3) (13 4) (15 0) (15 2) (14 3) (16 1) (15 2) (15 0))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo ((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo (((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1)) ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo (9 8)];
   r:rule <#lemma8>.
 
 <#lemma59> a r:Inference;
@@ -685,6 +1054,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma62>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 2];
   r:rule <#lemma28>.
 
 <#lemma60> a r:Inference;
@@ -699,6 +1071,14 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {("!") e:derive true}]
     <#lemma64>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 2) (1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1 2)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (1 1)];
   r:rule <#lemma11>.
 
 <#lemma61> a r:Inference;
@@ -710,6 +1090,11 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1)) list:member (9 8)}]
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1)) ((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo ((0 15) (1 16) (2 15) (3 14) (4 13) (5 12) (6 11) (7 10) (8 9) (9 8) (10 7) (11 6) (12 5) (13 4) (14 3) (15 0) (15 2) (16 1))];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (((0 14) (1 15) (2 14) (3 13) (4 12) (5 11) (6 10) (7 9) (9 7) (10 6) (11 5) (12 4) (13 3) (14 0) (14 2) (15 1)) ((0 13) (1 14) (2 13) (3 12) (4 11) (5 10) (6 9) (9 6) (10 5) (11 4) (12 3) (13 0) (13 2) (14 1)) ((0 12) (1 13) (2 12) (3 11) (4 10) (5 9) (9 5) (10 4) (11 3) (12 0) (12 2) (13 1)) ((0 11) (1 12) (2 11) (3 10) (4 9) (5 8) (8 5) (9 4) (10 3) (11 0) (11 2) (12 1)) ((0 10) (1 11) (2 10) (3 9) (4 8) (5 7) (7 5) (8 4) (9 3) (10 0) (10 2) (11 1)) ((0 9) (1 10) (2 9) (3 8) (4 7) (5 6) (6 5) (7 4) (8 3) (9 0) (9 2) (10 1)) ((0 8) (1 9) (2 8) (3 7) (4 6) (5 5) (6 4) (7 3) (8 0) (8 2) (9 1)) ((0 7) (1 8) (2 7) (3 6) (5 4) (6 3) (7 0) (7 2) (8 1)) ((0 6) (1 7) (2 6) (5 3) (6 0) (6 2) (7 1)) ((0 5) (1 6) (5 0) (5 2) (6 1)) ((0 4) (1 5) (4 0) (4 2) (5 1)) ((0 3) (1 4) (3 0) (3 2) (4 1)) ((0 0) (0 2) (1 3) (2 0) (2 2) (3 1)) ((0 1) (1 0) (1 2) (2 1)) ((1 1)) ())];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo (9 8)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (((2 3) (4 5)) ((6 6) (8 8)))];
   r:rule <#lemma65>.
 
 <#lemma62> a r:Inference;
@@ -720,6 +1105,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     [ a r:Fact; r:gives {2 math:greaterThan 0}]
     [ a r:Fact; r:gives {(2 -1) math:sum 1}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
   r:rule <#lemma18>.
 
 <#lemma63> a r:Inference;
@@ -729,6 +1116,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma62>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
   r:rule <#lemma14>.
 
 <#lemma64> a r:Inference;
@@ -738,19 +1128,21 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     [ a r:Fact; r:gives {("!") e:derive true}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (())];
   r:rule <#lemma66>.
 
 <#lemma65> a r:Extraction;
   r:gives {
-    {(?x_3_8 ?x_0_8 ?x_4_8) :waves ?x_2_8} <= {?x_0_8 e:firstRest (?x_1_8 ?x_2_8).
-     ?x_1_8 list:member ?x_3_8.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {(var:x_3 var:x_0 var:x_4) :waves var:x_2} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
+     var:x_1 list:member var:x_3.
      ("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 
 <#lemma66> a r:Extraction;
   r:gives {
-    {(?x_0_9 ?x_0_9 ?x_1_9) :path (?x_0_9)} <= {("!") e:derive true}.
+    @forSome var:x_0, var:x_1. {(var:x_0 var:x_0 var:x_1) :path (var:x_0)} <= {("!") e:derive true}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/lee/lee.n3>].
 

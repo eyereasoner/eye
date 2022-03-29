@@ -1,5 +1,7 @@
-PREFIX : <http://example.org/try#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix : <http://example.org/try#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -16,6 +18,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
   r:rule <#lemma4>.
 
 <#lemma2> a r:Inference;
@@ -25,6 +29,8 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
   r:evidence (
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule <#lemma5>.
 
 <#lemma3> a r:Extraction;
@@ -35,13 +41,13 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma4> a r:Extraction;
   r:gives {
-    {?x_0_1 :p :o} => {{?x_0_1 :p _:x_1_1} :u {?x_0_1 :q _:x_1_1}}.
+    @forAll var:x_0. @forSome var:x_1. {var:x_0 :p :o} => {{var:x_0 :p var:x_1} :u {var:x_0 :q var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery002.n3>].
 
 <#lemma5> a r:Extraction;
   r:gives {
-    {?x_0_2 :p :o} => {{?x_0_2 :q _:x_1_2} :u {?x_0_2 :r _:x_1_2}}.
+    @forAll var:x_0. @forSome var:x_1. {var:x_0 :p :o} => {{var:x_0 :q var:x_1} :u {var:x_0 :r var:x_1}}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery002.n3>].
 

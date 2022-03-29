@@ -1,9 +1,11 @@
-PREFIX func: <http://www.w3.org/2007/rif-builtin-function#>
-PREFIX pred: <http://www.w3.org/2007/rif-builtin-predicate#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>
-PREFIX : <http://eulersharp.sourceforge.net/2007/07test#>
-PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
+@prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
+@prefix pred: <http://www.w3.org/2007/rif-builtin-predicate#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://eulersharp.sourceforge.net/2007/07test#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 [] a r:Proof, r:Conjunction;
   r:component <#lemma1>;
@@ -462,6 +464,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma223>
     [ a r:Fact; r:gives {{("chat"@fr "chien"@fr) pred:literal-not-identical true} e:labelvars {("chat"@fr "chien"@fr) pred:literal-not-identical true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("chat"@fr "chien"@fr) pred:literal-not-identical true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#literal-not-identical-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma2> a r:Inference;
@@ -473,6 +478,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma225>
     [ a r:Fact; r:gives {{(:case "http://eulersharp.sourceforge.net/2007/07test#case") pred:iri-string true} e:labelvars {(:case "http://eulersharp.sourceforge.net/2007/07test#case") pred:iri-string true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(:case "http://eulersharp.sourceforge.net/2007/07test#case") pred:iri-string true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#iri-string-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma3> a r:Inference;
@@ -484,6 +492,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma226>
     [ a r:Fact; r:gives {{(1 1) func:numeric-add 2} e:labelvars {(1 1) func:numeric-add 2}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(1 1) func:numeric-add 2}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-add-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma4> a r:Inference;
@@ -495,6 +506,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma227>
     [ a r:Fact; r:gives {{(5 2) func:numeric-subtract 3} e:labelvars {(5 2) func:numeric-subtract 3}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(5 2) func:numeric-subtract 3}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-subtract-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma5> a r:Inference;
@@ -506,6 +520,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma228>
     [ a r:Fact; r:gives {{(5 2) func:numeric-multiply 10} e:labelvars {(5 2) func:numeric-multiply 10}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(5 2) func:numeric-multiply 10}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-multiply-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma6> a r:Inference;
@@ -517,6 +534,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma229>
     [ a r:Fact; r:gives {{(5 2) func:numeric-divide 2.5} e:labelvars {(5 2) func:numeric-divide 2.5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(5 2) func:numeric-divide 2.5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-divide-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma7> a r:Inference;
@@ -528,6 +548,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma230>
     [ a r:Fact; r:gives {{(5 2) func:numeric-integer-divide 2} e:labelvars {(5 2) func:numeric-integer-divide 2}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(5 2) func:numeric-integer-divide 2}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-integer-divide-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma8> a r:Inference;
@@ -539,6 +562,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma231>
     [ a r:Fact; r:gives {{(10 3) func:numeric-mod 1} e:labelvars {(10 3) func:numeric-mod 1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(10 3) func:numeric-mod 1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-mod-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma9> a r:Inference;
@@ -550,6 +576,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma232>
     [ a r:Fact; r:gives {{(6 -2) func:numeric-mod 0} e:labelvars {(6 -2) func:numeric-mod 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(6 -2) func:numeric-mod 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-mod-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma10> a r:Inference;
@@ -561,6 +590,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma233>
     [ a r:Fact; r:gives {{(4.5 1.2) func:numeric-mod 0.9000000000000004} e:labelvars {(4.5 1.2) func:numeric-mod 0.9000000000000004}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(4.5 1.2) func:numeric-mod 0.9000000000000004}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-mod-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma11> a r:Inference;
@@ -572,6 +604,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma234>
     [ a r:Fact; r:gives {{(123.0 6.0) func:numeric-mod 3.0} e:labelvars {(123.0 6.0) func:numeric-mod 3.0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(123.0 6.0) func:numeric-mod 3.0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-mod-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma12> a r:Inference;
@@ -583,6 +618,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma235>
     [ a r:Fact; r:gives {{(1 1.0) pred:numeric-equal true} e:labelvars {(1 1.0) pred:numeric-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(1 1.0) pred:numeric-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma13> a r:Inference;
@@ -594,6 +632,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma236>
     [ a r:Fact; r:gives {{(2.0 3) pred:numeric-less-than true} e:labelvars {(2.0 3) pred:numeric-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(2.0 3) pred:numeric-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma14> a r:Inference;
@@ -605,6 +646,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma237>
     [ a r:Fact; r:gives {{(1.0 0) pred:numeric-greater-than true} e:labelvars {(1.0 0) pred:numeric-greater-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(1.0 0) pred:numeric-greater-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma15> a r:Inference;
@@ -616,6 +660,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma238>
     [ a r:Fact; r:gives {{(1 1.01) pred:numeric-not-equal true} e:labelvars {(1 1.01) pred:numeric-not-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(1 1.01) pred:numeric-not-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-not-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma16> a r:Inference;
@@ -627,6 +674,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma239>
     [ a r:Fact; r:gives {{(3 5.0) pred:numeric-less-than-or-equal true} e:labelvars {(3 5.0) pred:numeric-less-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(3 5.0) pred:numeric-less-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma17> a r:Inference;
@@ -638,6 +688,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma240>
     [ a r:Fact; r:gives {{(1.0 1) pred:numeric-greater-than-or-equal true} e:labelvars {(1.0 1) pred:numeric-greater-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(1.0 1) pred:numeric-greater-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#numeric-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma18> a r:Inference;
@@ -649,6 +702,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma241>
     [ a r:Fact; r:gives {{(false) func:not true} e:labelvars {(false) func:not true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(false) func:not true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#not-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma19> a r:Inference;
@@ -660,6 +716,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma242>
     [ a r:Fact; r:gives {{(true) func:not false} e:labelvars {(true) func:not false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(true) func:not false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#not-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma20> a r:Inference;
@@ -671,6 +730,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma243>
     [ a r:Fact; r:gives {{(false false) pred:boolean-equal true} e:labelvars {(false false) pred:boolean-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(false false) pred:boolean-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#boolean-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma21> a r:Inference;
@@ -682,6 +744,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma244>
     [ a r:Fact; r:gives {{(false true) pred:boolean-less-than true} e:labelvars {(false true) pred:boolean-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(false true) pred:boolean-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#boolean-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma22> a r:Inference;
@@ -693,6 +758,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma245>
     [ a r:Fact; r:gives {{(true false) pred:boolean-greater-than true} e:labelvars {(true false) pred:boolean-greater-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(true false) pred:boolean-greater-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#boolean-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma23> a r:Inference;
@@ -704,6 +772,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma246>
     [ a r:Fact; r:gives {{("abc" "abc") func:compare 0} e:labelvars {("abc" "abc") func:compare 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("abc" "abc") func:compare 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#compare-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma24> a r:Inference;
@@ -715,6 +786,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma247>
     [ a r:Fact; r:gives {{("Straßen" "Straße") func:compare 1} e:labelvars {("Straßen" "Straße") func:compare 1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Straßen" "Straße") func:compare 1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#compare-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma25> a r:Inference;
@@ -726,6 +800,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma248>
     [ a r:Fact; r:gives {{("Ingratitude, " "thou " "marble-hearted" " fiend!") func:concat "Ingratitude, thou marble-hearted fiend!"} e:labelvars {("Ingratitude, " "thou " "marble-hearted" " fiend!") func:concat "Ingratitude, thou marble-hearted fiend!"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Ingratitude, " "thou " "marble-hearted" " fiend!") func:concat "Ingratitude, thou marble-hearted fiend!"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#concat-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma26> a r:Inference;
@@ -737,6 +814,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma249>
     [ a r:Fact; r:gives {{(("Now" "is" "the" "time" "...") " ") func:string-join "Now is the time ..."} e:labelvars {(("Now" "is" "the" "time" "...") " ") func:string-join "Now is the time ..."}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(("Now" "is" "the" "time" "...") " ") func:string-join "Now is the time ..."}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-join-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma27> a r:Inference;
@@ -748,6 +828,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma250>
     [ a r:Fact; r:gives {{(("Blow, " "blow, " "thou " "winter " "wind!") "") func:string-join "Blow, blow, thou winter wind!"} e:labelvars {(("Blow, " "blow, " "thou " "winter " "wind!") "") func:string-join "Blow, blow, thou winter wind!"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(("Blow, " "blow, " "thou " "winter " "wind!") "") func:string-join "Blow, blow, thou winter wind!"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-join-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma28> a r:Inference;
@@ -759,6 +842,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma251>
     [ a r:Fact; r:gives {{(() "separator") func:string-join ""} e:labelvars {(() "separator") func:string-join ""}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(() "separator") func:string-join ""}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-join-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma29> a r:Inference;
@@ -770,6 +856,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma252>
     [ a r:Fact; r:gives {{("motor car" 6) func:substring " car"} e:labelvars {("motor car" 6) func:substring " car"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("motor car" 6) func:substring " car"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma30> a r:Inference;
@@ -781,6 +870,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma253>
     [ a r:Fact; r:gives {{("metadata" 4 3) func:substring "ada"} e:labelvars {("metadata" 4 3) func:substring "ada"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("metadata" 4 3) func:substring "ada"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma31> a r:Inference;
@@ -792,6 +884,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma254>
     [ a r:Fact; r:gives {{("12345" 1.5 2.6) func:substring "234"} e:labelvars {("12345" 1.5 2.6) func:substring "234"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("12345" 1.5 2.6) func:substring "234"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma32> a r:Inference;
@@ -803,6 +898,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma255>
     [ a r:Fact; r:gives {{("12345" 0 3) func:substring "12"} e:labelvars {("12345" 0 3) func:substring "12"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("12345" 0 3) func:substring "12"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma33> a r:Inference;
@@ -814,6 +912,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma256>
     [ a r:Fact; r:gives {{("12345" 5 -3) func:substring ""} e:labelvars {("12345" 5 -3) func:substring ""}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("12345" 5 -3) func:substring ""}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma34> a r:Inference;
@@ -825,6 +926,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma257>
     [ a r:Fact; r:gives {{("12345" -3 5) func:substring "1"} e:labelvars {("12345" -3 5) func:substring "1"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("12345" -3 5) func:substring "1"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma35> a r:Inference;
@@ -836,6 +940,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma258>
     [ a r:Fact; r:gives {{("Harp not on that string, madam; that is past.") func:string-length 45} e:labelvars {("Harp not on that string, madam; that is past.") func:string-length 45}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Harp not on that string, madam; that is past.") func:string-length 45}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-length-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma36> a r:Inference;
@@ -847,6 +954,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma259>
     [ a r:Fact; r:gives {{(""@en) func:string-length 0} e:labelvars {(""@en) func:string-length 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(""@en) func:string-length 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-length-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma37> a r:Inference;
@@ -858,6 +968,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma260>
     [ a r:Fact; r:gives {{("abCd0") func:upper-case "ABCD0"} e:labelvars {("abCd0") func:upper-case "ABCD0"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("abCd0") func:upper-case "ABCD0"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#upper-case-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma38> a r:Inference;
@@ -869,6 +982,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma261>
     [ a r:Fact; r:gives {{("ABc!D") func:lower-case "abc!d"} e:labelvars {("ABc!D") func:lower-case "abc!d"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("ABc!D") func:lower-case "abc!d"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lower-case-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma39> a r:Inference;
@@ -880,6 +996,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma262>
     [ a r:Fact; r:gives {{("00/Weather/CA/Los%20Angeles#ocean") func:encode-for-uri "00%2fWeather%2fCA%2fLos%2520Angeles%23ocean"} e:labelvars {("00/Weather/CA/Los%20Angeles#ocean") func:encode-for-uri "00%2fWeather%2fCA%2fLos%2520Angeles%23ocean"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("00/Weather/CA/Los%20Angeles#ocean") func:encode-for-uri "00%2fWeather%2fCA%2fLos%2520Angeles%23ocean"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#encode-for-uri-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma40> a r:Inference;
@@ -891,6 +1010,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma263>
     [ a r:Fact; r:gives {{("~bébé") func:encode-for-uri "~b%c3%a9b%c3%a9"} e:labelvars {("~bébé") func:encode-for-uri "~b%c3%a9b%c3%a9"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("~bébé") func:encode-for-uri "~b%c3%a9b%c3%a9"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#encode-for-uri-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma41> a r:Inference;
@@ -902,6 +1024,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma264>
     [ a r:Fact; r:gives {{("100% organic") func:encode-for-uri "100%25%20organic"} e:labelvars {("100% organic") func:encode-for-uri "100%25%20organic"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("100% organic") func:encode-for-uri "100%25%20organic"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#encode-for-uri-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma42> a r:Inference;
@@ -913,6 +1038,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma265>
     [ a r:Fact; r:gives {{("tattoo" "attoo") func:substring-before "t"} e:labelvars {("tattoo" "attoo") func:substring-before "t"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "attoo") func:substring-before "t"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-before-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma43> a r:Inference;
@@ -924,6 +1052,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma266>
     [ a r:Fact; r:gives {{("tattoo" "tatto") func:substring-before ""} e:labelvars {("tattoo" "tatto") func:substring-before ""}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "tatto") func:substring-before ""}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-before-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma44> a r:Inference;
@@ -935,6 +1066,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma267>
     [ a r:Fact; r:gives {{("tattoo" "tat") func:substring-after "too"} e:labelvars {("tattoo" "tat") func:substring-after "too"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "tat") func:substring-after "too"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-after-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma45> a r:Inference;
@@ -946,6 +1080,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma268>
     [ a r:Fact; r:gives {{("tattoo" "tattoo") func:substring-after ""} e:labelvars {("tattoo" "tattoo") func:substring-after ""}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "tattoo") func:substring-after ""}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#substring-after-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma46> a r:Inference;
@@ -957,6 +1094,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma269>
     [ a r:Fact; r:gives {{("tattoo" "t") pred:contains true} e:labelvars {("tattoo" "t") pred:contains true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "t") pred:contains true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#contains-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma47> a r:Inference;
@@ -968,6 +1108,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma270>
     [ a r:Fact; r:gives {{("tattoo" "tat") pred:starts-with true} e:labelvars {("tattoo" "tat") pred:starts-with true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "tat") pred:starts-with true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#starts-with-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma48> a r:Inference;
@@ -979,6 +1122,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma271>
     [ a r:Fact; r:gives {{("tattoo" "tattoo") pred:ends-with true} e:labelvars {("tattoo" "tattoo") pred:ends-with true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("tattoo" "tattoo") pred:ends-with true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#ends-with-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma49> a r:Inference;
@@ -990,6 +1136,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma272>
     [ a r:Fact; r:gives {{("abracadabra" "bra") pred:matches true} e:labelvars {("abracadabra" "bra") pred:matches true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("abracadabra" "bra") pred:matches true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#matches-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma50> a r:Inference;
@@ -1001,6 +1150,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma273>
     [ a r:Fact; r:gives {{("abracadabra" "^a.*a$") pred:matches true} e:labelvars {("abracadabra" "^a.*a$") pred:matches true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("abracadabra" "^a.*a$") pred:matches true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#matches-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma51> a r:Inference;
@@ -1012,6 +1164,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma274>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:year-from-dateTime 1999} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:year-from-dateTime 1999}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:year-from-dateTime 1999}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#year-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma52> a r:Inference;
@@ -1023,6 +1178,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma275>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:month-from-dateTime 5} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:month-from-dateTime 5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:month-from-dateTime 5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#month-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma53> a r:Inference;
@@ -1034,6 +1192,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma276>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:day-from-dateTime 31} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:day-from-dateTime 31}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:day-from-dateTime 31}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#day-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma54> a r:Inference;
@@ -1045,6 +1206,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma277>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:hours-from-dateTime 13} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:hours-from-dateTime 13}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:hours-from-dateTime 13}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma55> a r:Inference;
@@ -1056,6 +1220,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma278>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:minutes-from-dateTime 20} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:minutes-from-dateTime 20}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:minutes-from-dateTime 20}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#minutes-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma56> a r:Inference;
@@ -1067,6 +1234,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma279>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:seconds-from-dateTime 0} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:seconds-from-dateTime 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:seconds-from-dateTime 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#seconds-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma57> a r:Inference;
@@ -1078,6 +1248,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma280>
     [ a r:Fact; r:gives {{("1999-05-31-05:00"^^xsd:date) func:year-from-date 1999} e:labelvars {("1999-05-31-05:00"^^xsd:date) func:year-from-date 1999}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31-05:00"^^xsd:date) func:year-from-date 1999}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#year-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma58> a r:Inference;
@@ -1089,6 +1262,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma281>
     [ a r:Fact; r:gives {{("1999-05-31-05:00"^^xsd:date) func:month-from-date 5} e:labelvars {("1999-05-31-05:00"^^xsd:date) func:month-from-date 5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31-05:00"^^xsd:date) func:month-from-date 5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#month-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma59> a r:Inference;
@@ -1100,6 +1276,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma282>
     [ a r:Fact; r:gives {{("1999-05-31-05:00"^^xsd:date) func:day-from-date 31} e:labelvars {("1999-05-31-05:00"^^xsd:date) func:day-from-date 31}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31-05:00"^^xsd:date) func:day-from-date 31}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#day-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma60> a r:Inference;
@@ -1111,6 +1290,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma283>
     [ a r:Fact; r:gives {{("13:20:00-05:00"^^xsd:time) func:hours-from-time 13} e:labelvars {("13:20:00-05:00"^^xsd:time) func:hours-from-time 13}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("13:20:00-05:00"^^xsd:time) func:hours-from-time 13}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma61> a r:Inference;
@@ -1122,6 +1304,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma284>
     [ a r:Fact; r:gives {{("13:20:00-05:00"^^xsd:time) func:minutes-from-time 20} e:labelvars {("13:20:00-05:00"^^xsd:time) func:minutes-from-time 20}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("13:20:00-05:00"^^xsd:time) func:minutes-from-time 20}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#minutes-from-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma62> a r:Inference;
@@ -1133,6 +1318,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma285>
     [ a r:Fact; r:gives {{("13:20:00-05:00"^^xsd:time) func:seconds-from-time 0} e:labelvars {("13:20:00-05:00"^^xsd:time) func:seconds-from-time 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("13:20:00-05:00"^^xsd:time) func:seconds-from-time 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#seconds-from-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma63> a r:Inference;
@@ -1144,6 +1332,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma286>
     [ a r:Fact; r:gives {{("P20Y15M"^^xsd:yearMonthDuration) func:years-from-duration 21} e:labelvars {("P20Y15M"^^xsd:yearMonthDuration) func:years-from-duration 21}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P20Y15M"^^xsd:yearMonthDuration) func:years-from-duration 21}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#years-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma64> a r:Inference;
@@ -1155,6 +1346,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma287>
     [ a r:Fact; r:gives {{("-P15M"^^xsd:yearMonthDuration) func:years-from-duration -1} e:labelvars {("-P15M"^^xsd:yearMonthDuration) func:years-from-duration -1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P15M"^^xsd:yearMonthDuration) func:years-from-duration -1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#years-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma65> a r:Inference;
@@ -1166,6 +1360,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma288>
     [ a r:Fact; r:gives {{("-P2DT15H"^^xsd:dayTimeDuration) func:years-from-duration 0} e:labelvars {("-P2DT15H"^^xsd:dayTimeDuration) func:years-from-duration 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P2DT15H"^^xsd:dayTimeDuration) func:years-from-duration 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#years-from-duration-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma66> a r:Inference;
@@ -1177,6 +1374,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma289>
     [ a r:Fact; r:gives {{("P20Y15M"^^xsd:yearMonthDuration) func:months-from-duration 3} e:labelvars {("P20Y15M"^^xsd:yearMonthDuration) func:months-from-duration 3}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P20Y15M"^^xsd:yearMonthDuration) func:months-from-duration 3}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#months-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma67> a r:Inference;
@@ -1188,6 +1388,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma290>
     [ a r:Fact; r:gives {{("-P20Y18M"^^xsd:yearMonthDuration) func:months-from-duration -6} e:labelvars {("-P20Y18M"^^xsd:yearMonthDuration) func:months-from-duration -6}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P20Y18M"^^xsd:yearMonthDuration) func:months-from-duration -6}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#months-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma68> a r:Inference;
@@ -1199,6 +1402,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma291>
     [ a r:Fact; r:gives {{("-P2DT15H0M0S"^^xsd:dayTimeDuration) func:months-from-duration 0} e:labelvars {("-P2DT15H0M0S"^^xsd:dayTimeDuration) func:months-from-duration 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P2DT15H0M0S"^^xsd:dayTimeDuration) func:months-from-duration 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#months-from-duration-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma69> a r:Inference;
@@ -1210,6 +1416,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma292>
     [ a r:Fact; r:gives {{("P3DT10H"^^xsd:dayTimeDuration) func:days-from-duration 3} e:labelvars {("P3DT10H"^^xsd:dayTimeDuration) func:days-from-duration 3}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT10H"^^xsd:dayTimeDuration) func:days-from-duration 3}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#days-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma70> a r:Inference;
@@ -1221,6 +1430,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma293>
     [ a r:Fact; r:gives {{("P3DT55H"^^xsd:dayTimeDuration) func:days-from-duration 5} e:labelvars {("P3DT55H"^^xsd:dayTimeDuration) func:days-from-duration 5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT55H"^^xsd:dayTimeDuration) func:days-from-duration 5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#days-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma71> a r:Inference;
@@ -1232,6 +1444,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma294>
     [ a r:Fact; r:gives {{("P3Y5M"^^xsd:yearMonthDuration) func:days-from-duration 0} e:labelvars {("P3Y5M"^^xsd:yearMonthDuration) func:days-from-duration 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3Y5M"^^xsd:yearMonthDuration) func:days-from-duration 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#days-from-duration-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma72> a r:Inference;
@@ -1243,6 +1458,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma295>
     [ a r:Fact; r:gives {{("P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration 10} e:labelvars {("P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration 10}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration 10}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma73> a r:Inference;
@@ -1254,6 +1472,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma296>
     [ a r:Fact; r:gives {{("P3DT12H32M12S"^^xsd:dayTimeDuration) func:hours-from-duration 12} e:labelvars {("P3DT12H32M12S"^^xsd:dayTimeDuration) func:hours-from-duration 12}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT12H32M12S"^^xsd:dayTimeDuration) func:hours-from-duration 12}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma74> a r:Inference;
@@ -1265,6 +1486,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma297>
     [ a r:Fact; r:gives {{("PT123H"^^xsd:dayTimeDuration) func:hours-from-duration 3} e:labelvars {("PT123H"^^xsd:dayTimeDuration) func:hours-from-duration 3}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("PT123H"^^xsd:dayTimeDuration) func:hours-from-duration 3}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-duration-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma75> a r:Inference;
@@ -1276,6 +1500,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma298>
     [ a r:Fact; r:gives {{("-P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration -10} e:labelvars {("-P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration -10}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P3DT10H"^^xsd:dayTimeDuration) func:hours-from-duration -10}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#hours-from-duration-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma76> a r:Inference;
@@ -1287,6 +1514,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma299>
     [ a r:Fact; r:gives {{("P3DT10H"^^xsd:dayTimeDuration) func:minutes-from-duration 0} e:labelvars {("P3DT10H"^^xsd:dayTimeDuration) func:minutes-from-duration 0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT10H"^^xsd:dayTimeDuration) func:minutes-from-duration 0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#minutes-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma77> a r:Inference;
@@ -1298,6 +1528,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma300>
     [ a r:Fact; r:gives {{("-P5DT12H30M"^^xsd:dayTimeDuration) func:minutes-from-duration -30} e:labelvars {("-P5DT12H30M"^^xsd:dayTimeDuration) func:minutes-from-duration -30}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-P5DT12H30M"^^xsd:dayTimeDuration) func:minutes-from-duration -30}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#minutes-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma78> a r:Inference;
@@ -1309,6 +1542,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma301>
     [ a r:Fact; r:gives {{("P3DT10H12.5S"^^xsd:dayTimeDuration) func:seconds-from-duration 12.5} e:labelvars {("P3DT10H12.5S"^^xsd:dayTimeDuration) func:seconds-from-duration 12.5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3DT10H12.5S"^^xsd:dayTimeDuration) func:seconds-from-duration 12.5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#seconds-from-duration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma79> a r:Inference;
@@ -1320,6 +1556,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma302>
     [ a r:Fact; r:gives {{("-PT256S"^^xsd:dayTimeDuration) func:seconds-from-duration -16.0} e:labelvars {("-PT256S"^^xsd:dayTimeDuration) func:seconds-from-duration -16.0}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("-PT256S"^^xsd:dayTimeDuration) func:seconds-from-duration -16.0}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#seconds-from-duration-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma80> a r:Inference;
@@ -1331,6 +1570,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma303>
     [ a r:Fact; r:gives {{("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:timezone-from-dateTime "-PT5H"^^xsd:dayTimeDuration} e:labelvars {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:timezone-from-dateTime "-PT5H"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31T13:20:00-05:00"^^xsd:dateTime) func:timezone-from-dateTime "-PT5H"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma81> a r:Inference;
@@ -1342,6 +1584,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma304>
     [ a r:Fact; r:gives {{("2000-06-12T13:20:00Z"^^xsd:dateTime) func:timezone-from-dateTime "PT0S"^^xsd:dayTimeDuration} e:labelvars {("2000-06-12T13:20:00Z"^^xsd:dateTime) func:timezone-from-dateTime "PT0S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-06-12T13:20:00Z"^^xsd:dateTime) func:timezone-from-dateTime "PT0S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-dateTime-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma82> a r:Inference;
@@ -1353,6 +1598,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma305>
     [ a r:Fact; r:gives {{("1999-05-31-05:00"^^xsd:date) func:timezone-from-date "-PT5H"^^xsd:dayTimeDuration} e:labelvars {("1999-05-31-05:00"^^xsd:date) func:timezone-from-date "-PT5H"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-05-31-05:00"^^xsd:date) func:timezone-from-date "-PT5H"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma83> a r:Inference;
@@ -1364,6 +1612,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma306>
     [ a r:Fact; r:gives {{("2000-06-12Z"^^xsd:date) func:timezone-from-date "PT0S"^^xsd:dayTimeDuration} e:labelvars {("2000-06-12Z"^^xsd:date) func:timezone-from-date "PT0S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-06-12Z"^^xsd:date) func:timezone-from-date "PT0S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-date-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma84> a r:Inference;
@@ -1375,6 +1626,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma307>
     [ a r:Fact; r:gives {{("13:20:00-05:00"^^xsd:time) func:timezone-from-time "-PT5H"^^xsd:dayTimeDuration} e:labelvars {("13:20:00-05:00"^^xsd:time) func:timezone-from-time "-PT5H"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("13:20:00-05:00"^^xsd:time) func:timezone-from-time "-PT5H"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma85> a r:Inference;
@@ -1386,6 +1640,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma308>
     [ a r:Fact; r:gives {{("13:20:00Z"^^xsd:time) func:timezone-from-time "PT0S"^^xsd:dayTimeDuration} e:labelvars {("13:20:00Z"^^xsd:time) func:timezone-from-time "PT0S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("13:20:00Z"^^xsd:time) func:timezone-from-time "PT0S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#timezone-from-time-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma86> a r:Inference;
@@ -1397,6 +1654,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma309>
     [ a r:Fact; r:gives {{("2000-10-30T06:12:00-05:00"^^xsd:dateTime "1999-11-28T09:00:00Z"^^xsd:dateTime) func:subtract-dateTimes "P337DT2H12M"^^xsd:dayTimeDuration} e:labelvars {("2000-10-30T06:12:00-05:00"^^xsd:dateTime "1999-11-28T09:00:00Z"^^xsd:dateTime) func:subtract-dateTimes "P337DT2H12M"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30T06:12:00-05:00"^^xsd:dateTime "1999-11-28T09:00:00Z"^^xsd:dateTime) func:subtract-dateTimes "P337DT2H12M"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dateTimes-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma87> a r:Inference;
@@ -1408,6 +1668,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma310>
     [ a r:Fact; r:gives {{("2000-10-30Z"^^xsd:date "1999-11-28Z"^^xsd:date) func:subtract-dates "P337D"^^xsd:dayTimeDuration} e:labelvars {("2000-10-30Z"^^xsd:date "1999-11-28Z"^^xsd:date) func:subtract-dates "P337D"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30Z"^^xsd:date "1999-11-28Z"^^xsd:date) func:subtract-dates "P337D"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dates-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma88> a r:Inference;
@@ -1419,6 +1682,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma311>
     [ a r:Fact; r:gives {{("11:12:00Z"^^xsd:time "04:00:00-05:00"^^xsd:time) func:subtract-times "PT2H12M"^^xsd:dayTimeDuration} e:labelvars {("11:12:00Z"^^xsd:time "04:00:00-05:00"^^xsd:time) func:subtract-times "PT2H12M"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("11:12:00Z"^^xsd:time "04:00:00-05:00"^^xsd:time) func:subtract-times "PT2H12M"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-times-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma89> a r:Inference;
@@ -1430,6 +1696,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma312>
     [ a r:Fact; r:gives {{("11:00:00-05:00"^^xsd:time "21:30:00+05:30"^^xsd:time) func:subtract-times "PT0S"^^xsd:dayTimeDuration} e:labelvars {("11:00:00-05:00"^^xsd:time "21:30:00+05:30"^^xsd:time) func:subtract-times "PT0S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("11:00:00-05:00"^^xsd:time "21:30:00+05:30"^^xsd:time) func:subtract-times "PT0S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-times-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma90> a r:Inference;
@@ -1441,6 +1710,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma313>
     [ a r:Fact; r:gives {{("17:00:00-06:00"^^xsd:time "08:00:00+09:00"^^xsd:time) func:subtract-times "P1D"^^xsd:dayTimeDuration} e:labelvars {("17:00:00-06:00"^^xsd:time "08:00:00+09:00"^^xsd:time) func:subtract-times "P1D"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("17:00:00-06:00"^^xsd:time "08:00:00+09:00"^^xsd:time) func:subtract-times "P1D"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-times-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma91> a r:Inference;
@@ -1452,6 +1724,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma314>
     [ a r:Fact; r:gives {{("24:00:00"^^xsd:time "23:59:59"^^xsd:time) func:subtract-times "-PT23H59M59S"^^xsd:dayTimeDuration} e:labelvars {("24:00:00"^^xsd:time "23:59:59"^^xsd:time) func:subtract-times "-PT23H59M59S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("24:00:00"^^xsd:time "23:59:59"^^xsd:time) func:subtract-times "-PT23H59M59S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-times-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma92> a r:Inference;
@@ -1463,6 +1738,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma315>
     [ a r:Fact; r:gives {{("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:add-yearMonthDurations "P6Y2M"^^xsd:yearMonthDuration} e:labelvars {("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:add-yearMonthDurations "P6Y2M"^^xsd:yearMonthDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:add-yearMonthDurations "P6Y2M"^^xsd:yearMonthDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-yearMonthDurations-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma93> a r:Inference;
@@ -1474,6 +1752,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma316>
     [ a r:Fact; r:gives {{("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:subtract-yearMonthDurations "-P4M"^^xsd:yearMonthDuration} e:labelvars {("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:subtract-yearMonthDurations "-P4M"^^xsd:yearMonthDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2Y11M"^^xsd:yearMonthDuration "P3Y3M"^^xsd:yearMonthDuration) func:subtract-yearMonthDurations "-P4M"^^xsd:yearMonthDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-yearMonthDurations-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma94> a r:Inference;
@@ -1485,6 +1766,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma317>
     [ a r:Fact; r:gives {{("P2Y11M"^^xsd:yearMonthDuration 2.3) func:multiply-yearMonthDuration "P6Y9M"^^xsd:yearMonthDuration} e:labelvars {("P2Y11M"^^xsd:yearMonthDuration 2.3) func:multiply-yearMonthDuration "P6Y9M"^^xsd:yearMonthDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2Y11M"^^xsd:yearMonthDuration 2.3) func:multiply-yearMonthDuration "P6Y9M"^^xsd:yearMonthDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#multiply-yearMonthDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma95> a r:Inference;
@@ -1496,6 +1780,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma318>
     [ a r:Fact; r:gives {{("P2Y11M"^^xsd:yearMonthDuration 1.5) func:divide-yearMonthDuration "P1Y11M"^^xsd:yearMonthDuration} e:labelvars {("P2Y11M"^^xsd:yearMonthDuration 1.5) func:divide-yearMonthDuration "P1Y11M"^^xsd:yearMonthDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2Y11M"^^xsd:yearMonthDuration 1.5) func:divide-yearMonthDuration "P1Y11M"^^xsd:yearMonthDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#divide-yearMonthDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma96> a r:Inference;
@@ -1507,6 +1794,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma319>
     [ a r:Fact; r:gives {{("P3Y4M"^^xsd:yearMonthDuration "-P1Y4M"^^xsd:yearMonthDuration) func:divide-yearMonthDuration-by-yearMonthDuration -2.5} e:labelvars {("P3Y4M"^^xsd:yearMonthDuration "-P1Y4M"^^xsd:yearMonthDuration) func:divide-yearMonthDuration-by-yearMonthDuration -2.5}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P3Y4M"^^xsd:yearMonthDuration "-P1Y4M"^^xsd:yearMonthDuration) func:divide-yearMonthDuration-by-yearMonthDuration -2.5}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#divide-yearMonthDuration-by-yearMonthDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma97> a r:Inference;
@@ -1518,6 +1808,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma320>
     [ a r:Fact; r:gives {{("P2DT12H5M"^^xsd:dayTimeDuration "P5DT12H"^^xsd:dayTimeDuration) func:add-dayTimeDurations "P8DT5M"^^xsd:dayTimeDuration} e:labelvars {("P2DT12H5M"^^xsd:dayTimeDuration "P5DT12H"^^xsd:dayTimeDuration) func:add-dayTimeDurations "P8DT5M"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2DT12H5M"^^xsd:dayTimeDuration "P5DT12H"^^xsd:dayTimeDuration) func:add-dayTimeDurations "P8DT5M"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-dayTimeDurations-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma98> a r:Inference;
@@ -1529,6 +1822,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma321>
     [ a r:Fact; r:gives {{("P2DT12H"^^xsd:dayTimeDuration "P1DT10H30M"^^xsd:dayTimeDuration) func:subtract-dayTimeDurations "P1DT1H30M"^^xsd:dayTimeDuration} e:labelvars {("P2DT12H"^^xsd:dayTimeDuration "P1DT10H30M"^^xsd:dayTimeDuration) func:subtract-dayTimeDurations "P1DT1H30M"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2DT12H"^^xsd:dayTimeDuration "P1DT10H30M"^^xsd:dayTimeDuration) func:subtract-dayTimeDurations "P1DT1H30M"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dayTimeDurations-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma99> a r:Inference;
@@ -1540,6 +1836,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma322>
     [ a r:Fact; r:gives {{("PT2H10M"^^xsd:dayTimeDuration 2.1) func:multiply-dayTimeDuration "PT4H33M"^^xsd:dayTimeDuration} e:labelvars {("PT2H10M"^^xsd:dayTimeDuration 2.1) func:multiply-dayTimeDuration "PT4H33M"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("PT2H10M"^^xsd:dayTimeDuration 2.1) func:multiply-dayTimeDuration "PT4H33M"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#multiply-dayTimeDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma100> a r:Inference;
@@ -1551,6 +1850,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma323>
     [ a r:Fact; r:gives {{("P1DT2H30M10.5S"^^xsd:dayTimeDuration 1.5) func:divide-dayTimeDuration "PT17H40M7S"^^xsd:dayTimeDuration} e:labelvars {("P1DT2H30M10.5S"^^xsd:dayTimeDuration 1.5) func:divide-dayTimeDuration "PT17H40M7S"^^xsd:dayTimeDuration}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1DT2H30M10.5S"^^xsd:dayTimeDuration 1.5) func:divide-dayTimeDuration "PT17H40M7S"^^xsd:dayTimeDuration}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#divide-dayTimeDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma101> a r:Inference;
@@ -1562,6 +1864,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma324>
     [ a r:Fact; r:gives {{("PT4H33M"^^xsd:dayTimeDuration "PT2H10M"^^xsd:dayTimeDuration) func:divide-dayTimeDuration-by-dayTimeDuration 2.1} e:labelvars {("PT4H33M"^^xsd:dayTimeDuration "PT2H10M"^^xsd:dayTimeDuration) func:divide-dayTimeDuration-by-dayTimeDuration 2.1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("PT4H33M"^^xsd:dayTimeDuration "PT2H10M"^^xsd:dayTimeDuration) func:divide-dayTimeDuration-by-dayTimeDuration 2.1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#divide-dayTimeDuration-by-dayTimeDuration-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma102> a r:Inference;
@@ -1573,6 +1878,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma325>
     [ a r:Fact; r:gives {{("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-dateTime "2001-12-30T11:12:00Z"^^xsd:dateTime} e:labelvars {("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-dateTime "2001-12-30T11:12:00Z"^^xsd:dateTime}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-dateTime "2001-12-30T11:12:00Z"^^xsd:dateTime}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-yearMonthDuration-to-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma103> a r:Inference;
@@ -1584,6 +1892,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma326>
     [ a r:Fact; r:gives {{("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-date "2001-12-30Z"^^xsd:date} e:labelvars {("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-date "2001-12-30Z"^^xsd:date}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:add-yearMonthDuration-to-date "2001-12-30Z"^^xsd:date}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-yearMonthDuration-to-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma104> a r:Inference;
@@ -1595,6 +1906,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma327>
     [ a r:Fact; r:gives {{("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-dateTime "2000-11-02T12:27:00Z"^^xsd:dateTime} e:labelvars {("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-dateTime "2000-11-02T12:27:00Z"^^xsd:dateTime}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-dateTime "2000-11-02T12:27:00Z"^^xsd:dateTime}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-dayTimeDuration-to-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma105> a r:Inference;
@@ -1606,6 +1920,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma328>
     [ a r:Fact; r:gives {{("2004-10-30Z"^^xsd:date "P2DT2H30M0S"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-date "2004-11-01Z"^^xsd:date} e:labelvars {("2004-10-30Z"^^xsd:date "P2DT2H30M0S"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-date "2004-11-01Z"^^xsd:date}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-10-30Z"^^xsd:date "P2DT2H30M0S"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-date "2004-11-01Z"^^xsd:date}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-dayTimeDuration-to-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma106> a r:Inference;
@@ -1617,6 +1934,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma329>
     [ a r:Fact; r:gives {{("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-time "12:27:00Z"^^xsd:time} e:labelvars {("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-time "12:27:00Z"^^xsd:time}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:add-dayTimeDuration-to-time "12:27:00Z"^^xsd:time}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#add-dayTimeDuration-to-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma107> a r:Inference;
@@ -1628,6 +1948,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma330>
     [ a r:Fact; r:gives {{("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-dateTime "1999-08-30T11:12:00Z"^^xsd:dateTime} e:labelvars {("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-dateTime "1999-08-30T11:12:00Z"^^xsd:dateTime}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30T11:12:00Z"^^xsd:dateTime "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-dateTime "1999-08-30T11:12:00Z"^^xsd:dateTime}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-yearMonthDuration-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma108> a r:Inference;
@@ -1639,6 +1962,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma331>
     [ a r:Fact; r:gives {{("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-date "1999-08-30Z"^^xsd:date} e:labelvars {("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-date "1999-08-30Z"^^xsd:date}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30Z"^^xsd:date "P1Y2M"^^xsd:yearMonthDuration) func:subtract-yearMonthDuration-from-date "1999-08-30Z"^^xsd:date}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-yearMonthDuration-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma109> a r:Inference;
@@ -1650,6 +1976,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma332>
     [ a r:Fact; r:gives {{("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-dateTime "2000-10-27T09:57:00Z"^^xsd:dateTime} e:labelvars {("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-dateTime "2000-10-27T09:57:00Z"^^xsd:dateTime}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30T11:12:00Z"^^xsd:dateTime "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-dateTime "2000-10-27T09:57:00Z"^^xsd:dateTime}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dayTimeDuration-from-dateTime-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma110> a r:Inference;
@@ -1661,6 +1990,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma333>
     [ a r:Fact; r:gives {{("2000-10-30Z"^^xsd:date "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-date "2000-10-26Z"^^xsd:date} e:labelvars {("2000-10-30Z"^^xsd:date "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-date "2000-10-26Z"^^xsd:date}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2000-10-30Z"^^xsd:date "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-date "2000-10-26Z"^^xsd:date}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dayTimeDuration-from-date-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma111> a r:Inference;
@@ -1672,6 +2004,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma334>
     [ a r:Fact; r:gives {{("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "09:57:00Z"^^xsd:time} e:labelvars {("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "09:57:00Z"^^xsd:time}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("11:12:00Z"^^xsd:time "P3DT1H15M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "09:57:00Z"^^xsd:time}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dayTimeDuration-from-time-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma112> a r:Inference;
@@ -1683,6 +2018,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma335>
     [ a r:Fact; r:gives {{("08:20:00-05:00"^^xsd:time "P23DT10H10M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "22:10:00-05:00"^^xsd:time} e:labelvars {("08:20:00-05:00"^^xsd:time "P23DT10H10M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "22:10:00-05:00"^^xsd:time}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:20:00-05:00"^^xsd:time "P23DT10H10M"^^xsd:dayTimeDuration) func:subtract-dayTimeDuration-from-time "22:10:00-05:00"^^xsd:time}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#subtract-dayTimeDuration-from-time-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma113> a r:Inference;
@@ -1694,6 +2032,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma336>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-equal true} e:labelvars {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma114> a r:Inference;
@@ -1705,6 +2046,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma337>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T23:00:00+06:00"^^xsd:dateTime) pred:dateTime-equal true} e:labelvars {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T23:00:00+06:00"^^xsd:dateTime) pred:dateTime-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T23:00:00+06:00"^^xsd:dateTime) pred:dateTime-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma115> a r:Inference;
@@ -1716,6 +2060,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma338>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T17:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false} e:labelvars {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T17:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T17:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma116> a r:Inference;
@@ -1727,6 +2074,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma339>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T12:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true} e:labelvars {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T12:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-05:00"^^xsd:dateTime "2002-04-02T12:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma117> a r:Inference;
@@ -1738,6 +2088,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma340>
     [ a r:Fact; r:gives {{("2002-04-02T23:00:00-04:00"^^xsd:dateTime "2002-04-03T02:00:00-01:00"^^xsd:dateTime) pred:dateTime-equal true} e:labelvars {("2002-04-02T23:00:00-04:00"^^xsd:dateTime "2002-04-03T02:00:00-01:00"^^xsd:dateTime) pred:dateTime-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T23:00:00-04:00"^^xsd:dateTime "2002-04-03T02:00:00-01:00"^^xsd:dateTime) pred:dateTime-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma118> a r:Inference;
@@ -1749,6 +2102,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma341>
     [ a r:Fact; r:gives {{("1999-12-31T24:00:00-05:00"^^xsd:dateTime "2000-01-01T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true} e:labelvars {("1999-12-31T24:00:00-05:00"^^xsd:dateTime "2000-01-01T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("1999-12-31T24:00:00-05:00"^^xsd:dateTime "2000-01-01T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma119> a r:Inference;
@@ -1760,6 +2116,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma342>
     [ a r:Fact; r:gives {{("2005-04-04T24:00:00-05:00"^^xsd:dateTime "2005-04-04T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false} e:labelvars {("2005-04-04T24:00:00-05:00"^^xsd:dateTime "2005-04-04T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2005-04-04T24:00:00-05:00"^^xsd:dateTime "2005-04-04T00:00:00-05:00"^^xsd:dateTime) pred:dateTime-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-equal-7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma120> a r:Inference;
@@ -1771,6 +2130,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma343>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than true} e:labelvars {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma121> a r:Inference;
@@ -1782,6 +2144,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma344>
     [ a r:Fact; r:gives {{("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than true} e:labelvars {("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma122> a r:Inference;
@@ -1793,6 +2158,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma345>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-equal false} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma123> a r:Inference;
@@ -1804,6 +2172,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma346>
     [ a r:Fact; r:gives {{("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-equal true} e:labelvars {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-equal-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma124> a r:Inference;
@@ -1815,6 +2186,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma347>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25-05:00"^^xsd:date) pred:date-less-than true} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25-05:00"^^xsd:date) pred:date-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25-05:00"^^xsd:date) pred:date-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma125> a r:Inference;
@@ -1826,6 +2200,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma348>
     [ a r:Fact; r:gives {{("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-less-than false} e:labelvars {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-less-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-less-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-less-than-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma126> a r:Inference;
@@ -1837,6 +2214,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma349>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than true} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma127> a r:Inference;
@@ -1848,6 +2228,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma350>
     [ a r:Fact; r:gives {{("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-greater-than false} e:labelvars {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-greater-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25-12:00"^^xsd:date "2004-12-26+12:00"^^xsd:date) pred:date-greater-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-greater-than-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma128> a r:Inference;
@@ -1859,6 +2242,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma351>
     [ a r:Fact; r:gives {{("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-equal false} e:labelvars {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma129> a r:Inference;
@@ -1870,6 +2256,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma352>
     [ a r:Fact; r:gives {{("21:30:00+10:30"^^xsd:time "06:00:00-05:00"^^xsd:time) pred:time-equal true} e:labelvars {("21:30:00+10:30"^^xsd:time "06:00:00-05:00"^^xsd:time) pred:time-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("21:30:00+10:30"^^xsd:time "06:00:00-05:00"^^xsd:time) pred:time-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-equal-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma130> a r:Inference;
@@ -1881,6 +2270,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma353>
     [ a r:Fact; r:gives {{("24:00:00+01:00"^^xsd:time "00:00:00+01:00"^^xsd:time) pred:time-equal true} e:labelvars {("24:00:00+01:00"^^xsd:time "00:00:00+01:00"^^xsd:time) pred:time-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("24:00:00+01:00"^^xsd:time "00:00:00+01:00"^^xsd:time) pred:time-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-equal-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma131> a r:Inference;
@@ -1892,6 +2284,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma354>
     [ a r:Fact; r:gives {{("12:00:00-05:00"^^xsd:time "23:00:00+06:00"^^xsd:time) pred:time-less-than false} e:labelvars {("12:00:00-05:00"^^xsd:time "23:00:00+06:00"^^xsd:time) pred:time-less-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("12:00:00-05:00"^^xsd:time "23:00:00+06:00"^^xsd:time) pred:time-less-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma132> a r:Inference;
@@ -1903,6 +2298,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma355>
     [ a r:Fact; r:gives {{("11:00:00-05:00"^^xsd:time "17:00:00Z"^^xsd:time) pred:time-less-than true} e:labelvars {("11:00:00-05:00"^^xsd:time "17:00:00Z"^^xsd:time) pred:time-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("11:00:00-05:00"^^xsd:time "17:00:00Z"^^xsd:time) pred:time-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-less-than-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma133> a r:Inference;
@@ -1914,6 +2312,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma356>
     [ a r:Fact; r:gives {{("23:59:59-05:00"^^xsd:time "24:00:00-05:00"^^xsd:time) pred:time-less-than false} e:labelvars {("23:59:59-05:00"^^xsd:time "24:00:00-05:00"^^xsd:time) pred:time-less-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("23:59:59-05:00"^^xsd:time "24:00:00-05:00"^^xsd:time) pred:time-less-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-less-than-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma134> a r:Inference;
@@ -1925,6 +2326,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma357>
     [ a r:Fact; r:gives {{("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than false} e:labelvars {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma135> a r:Inference;
@@ -1936,6 +2340,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma358>
     [ a r:Fact; r:gives {{("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-equal true} e:labelvars {("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#duration-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma136> a r:Inference;
@@ -1947,6 +2354,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma359>
     [ a r:Fact; r:gives {{("PT24H"^^xsd:duration "P1D"^^xsd:duration) pred:duration-equal true} e:labelvars {("PT24H"^^xsd:duration "P1D"^^xsd:duration) pred:duration-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("PT24H"^^xsd:duration "P1D"^^xsd:duration) pred:duration-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#duration-equal-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma137> a r:Inference;
@@ -1958,6 +2368,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma360>
     [ a r:Fact; r:gives {{("P1Y"^^xsd:duration "P365D"^^xsd:duration) pred:duration-equal false} e:labelvars {("P1Y"^^xsd:duration "P365D"^^xsd:duration) pred:duration-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y"^^xsd:duration "P365D"^^xsd:duration) pred:duration-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#duration-equal-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma138> a r:Inference;
@@ -1969,6 +2382,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma361>
     [ a r:Fact; r:gives {{("P2Y0M0DT0H0M0S"^^xsd:duration "P24M"^^xsd:duration) pred:duration-equal true} e:labelvars {("P2Y0M0DT0H0M0S"^^xsd:duration "P24M"^^xsd:duration) pred:duration-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P2Y0M0DT0H0M0S"^^xsd:duration "P24M"^^xsd:duration) pred:duration-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#duration-equal-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma139> a r:Inference;
@@ -1980,6 +2396,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma362>
     [ a r:Fact; r:gives {{("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than true} e:labelvars {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dayTimeDuration-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma140> a r:Inference;
@@ -1991,6 +2410,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma363>
     [ a r:Fact; r:gives {{("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than false} e:labelvars {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dayTimeDuration-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma141> a r:Inference;
@@ -2002,6 +2424,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma364>
     [ a r:Fact; r:gives {{("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than true} e:labelvars {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#yearMonthDuration-less-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma142> a r:Inference;
@@ -2013,6 +2438,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma365>
     [ a r:Fact; r:gives {{("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than false} e:labelvars {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#yearMonthDuration-greater-than-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma143> a r:Inference;
@@ -2024,6 +2452,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma366>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-not-equal false} e:labelvars {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-not-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-not-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-not-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma144> a r:Inference;
@@ -2035,6 +2466,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma367>
     [ a r:Fact; r:gives {{("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than-or-equal true} e:labelvars {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-less-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma145> a r:Inference;
@@ -2046,6 +2480,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma368>
     [ a r:Fact; r:gives {{("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than-or-equal true} e:labelvars {("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2010-04-02T12:00:00-01:00"^^xsd:dateTime "2010-04-02T17:00:00+04:00"^^xsd:dateTime) pred:dateTime-greater-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dateTime-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma146> a r:Inference;
@@ -2057,6 +2494,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma369>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-not-equal true} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-not-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-not-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-not-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma147> a r:Inference;
@@ -2068,6 +2508,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma370>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-less-than-or-equal false} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-less-than-or-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-less-than-or-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma148> a r:Inference;
@@ -2079,6 +2522,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma371>
     [ a r:Fact; r:gives {{("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than-or-equal true} e:labelvars {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("2004-12-25Z"^^xsd:date "2004-12-25+07:00"^^xsd:date) pred:date-greater-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#date-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma149> a r:Inference;
@@ -2090,6 +2536,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma372>
     [ a r:Fact; r:gives {{("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-not-equal true} e:labelvars {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-not-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-not-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-not-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma150> a r:Inference;
@@ -2101,6 +2550,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma373>
     [ a r:Fact; r:gives {{("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-less-than-or-equal true} e:labelvars {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-less-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-less-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma151> a r:Inference;
@@ -2112,6 +2564,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma374>
     [ a r:Fact; r:gives {{("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than-or-equal false} e:labelvars {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than-or-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("08:00:00+09:00"^^xsd:time "17:00:00-06:00"^^xsd:time) pred:time-greater-than-or-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#time-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma152> a r:Inference;
@@ -2123,6 +2578,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma375>
     [ a r:Fact; r:gives {{("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-not-equal false} e:labelvars {("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-not-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y"^^xsd:duration "P12M"^^xsd:duration) pred:duration-not-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#duration-not-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma153> a r:Inference;
@@ -2134,6 +2592,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma376>
     [ a r:Fact; r:gives {{("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than-or-equal true} e:labelvars {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-less-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dayTimeDuration-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma154> a r:Inference;
@@ -2145,6 +2606,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma377>
     [ a r:Fact; r:gives {{("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than-or-equal false} e:labelvars {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than-or-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1DT1M"^^xsd:dayTimeDuration "P3DT1H15M"^^xsd:dayTimeDuration) pred:dayTimeDuration-greater-than-or-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#dayTimeDuration-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma155> a r:Inference;
@@ -2156,6 +2620,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma378>
     [ a r:Fact; r:gives {{("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than-or-equal true} e:labelvars {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than-or-equal true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-less-than-or-equal true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#yearMonthDuration-less-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma156> a r:Inference;
@@ -2167,6 +2634,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma379>
     [ a r:Fact; r:gives {{("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than-or-equal false} e:labelvars {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than-or-equal false}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("P1Y1M"^^xsd:yearMonthDuration "P3Y"^^xsd:yearMonthDuration) pred:yearMonthDuration-greater-than-or-equal false}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#yearMonthDuration-greater-than-or-equal-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma157> a r:Inference;
@@ -2178,6 +2648,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma380>
     [ a r:Fact; r:gives {{("Family Guy") func:PlainLiteral-from-string-lang "Family Guy"} e:labelvars {("Family Guy") func:PlainLiteral-from-string-lang "Family Guy"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy") func:PlainLiteral-from-string-lang "Family Guy"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-from-string-lang-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma158> a r:Inference;
@@ -2189,6 +2662,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma381>
     [ a r:Fact; r:gives {{("Family Guy" "EN") func:PlainLiteral-from-string-lang "Family Guy"@en} e:labelvars {("Family Guy" "EN") func:PlainLiteral-from-string-lang "Family Guy"@en}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy" "EN") func:PlainLiteral-from-string-lang "Family Guy"@en}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-from-string-lang-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma159> a r:Inference;
@@ -2200,6 +2676,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma382>
     [ a r:Fact; r:gives {{("Family Guy") func:string-from-PlainLiteral "Family Guy"} e:labelvars {("Family Guy") func:string-from-PlainLiteral "Family Guy"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy") func:string-from-PlainLiteral "Family Guy"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-from-PlainLiteral-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma160> a r:Inference;
@@ -2211,6 +2690,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma383>
     [ a r:Fact; r:gives {{("Family Guy"@en) func:string-from-PlainLiteral "Family Guy"} e:labelvars {("Family Guy"@en) func:string-from-PlainLiteral "Family Guy"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en) func:string-from-PlainLiteral "Family Guy"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#string-from-PlainLiteral-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma161> a r:Inference;
@@ -2222,6 +2704,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma384>
     [ a r:Fact; r:gives {{("Family Guy") func:lang-from-PlainLiteral ""} e:labelvars {("Family Guy") func:lang-from-PlainLiteral ""}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy") func:lang-from-PlainLiteral ""}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lang-from-PlainLiteral-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma162> a r:Inference;
@@ -2233,6 +2718,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma385>
     [ a r:Fact; r:gives {{("Family Guy"@en) func:lang-from-PlainLiteral "en"} e:labelvars {("Family Guy"@en) func:lang-from-PlainLiteral "en"}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en) func:lang-from-PlainLiteral "en"}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#lang-from-PlainLiteral-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma163> a r:Inference;
@@ -2244,6 +2732,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma386>
     [ a r:Fact; r:gives {{("Family Guy" "Mother") func:PlainLiteral-compare -1} e:labelvars {("Family Guy" "Mother") func:PlainLiteral-compare -1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy" "Mother") func:PlainLiteral-compare -1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-compare-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma164> a r:Inference;
@@ -2255,6 +2746,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma387>
     [ a r:Fact; r:gives {{("Family Guy"@en "Brother"@en) func:PlainLiteral-compare 1} e:labelvars {("Family Guy"@en "Brother"@en) func:PlainLiteral-compare 1}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en "Brother"@en) func:PlainLiteral-compare 1}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-compare-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma165> a r:Inference;
@@ -2266,6 +2760,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma388>
     [ a r:Fact; r:gives {{("Family Guy") func:PlainLiteral-length 10} e:labelvars {("Family Guy") func:PlainLiteral-length 10}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy") func:PlainLiteral-length 10}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-length-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma166> a r:Inference;
@@ -2277,6 +2774,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma389>
     [ a r:Fact; r:gives {{("Family Guy"@en) func:PlainLiteral-length 10} e:labelvars {("Family Guy"@en) func:PlainLiteral-length 10}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en) func:PlainLiteral-length 10}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#PlainLiteral-length-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma167> a r:Inference;
@@ -2288,6 +2788,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma390>
     [ a r:Fact; r:gives {{("Family Guy"@en "en") pred:matches-language-range true} e:labelvars {("Family Guy"@en "en") pred:matches-language-range true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en "en") pred:matches-language-range true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#matches-language-range-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma168> a r:Inference;
@@ -2299,6 +2802,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma391>
     [ a r:Fact; r:gives {{("Family Guy"@en-us "en-*") pred:matches-language-range true} e:labelvars {("Family Guy"@en-us "en-*") pred:matches-language-range true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {("Family Guy"@en-us "en-*") pred:matches-language-range true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#matches-language-range-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma169> a r:Inference;
@@ -2310,6 +2816,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma392>
     [ a r:Fact; r:gives {{((:a :b :c :d)) pred:is-list true} e:labelvars {((:a :b :c :d)) pred:is-list true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((:a :b :c :d)) pred:is-list true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#is-list-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma170> a r:Inference;
@@ -2321,6 +2830,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma393>
     [ a r:Fact; r:gives {{((:a :b :c :d) :b) pred:list-contains true} e:labelvars {((:a :b :c :d) :b) pred:list-contains true}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((:a :b :c :d) :b) pred:list-contains true}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#list-contains-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma171> a r:Inference;
@@ -2332,6 +2844,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma394>
     [ a r:Fact; r:gives {{(:a :b :c :d) func:make-list (:a :b :c :d)} e:labelvars {(:a :b :c :d) func:make-list (:a :b :c :d)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(:a :b :c :d) func:make-list (:a :b :c :d)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#make-list-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma172> a r:Inference;
@@ -2343,6 +2858,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma395>
     [ a r:Fact; r:gives {{((:a :b :c :d)) func:count 4} e:labelvars {((:a :b :c :d)) func:count 4}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((:a :b :c :d)) func:count 4}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#count-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma173> a r:Inference;
@@ -2354,6 +2872,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma396>
     [ a r:Fact; r:gives {{((:a :b :c :d) 3) func:get :d} e:labelvars {((:a :b :c :d) 3) func:get :d}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((:a :b :c :d) 3) func:get :d}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#get-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma174> a r:Inference;
@@ -2365,6 +2886,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma397>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 0) func:sublist ()} e:labelvars {((0 1 2 3 4) 0 0) func:sublist ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 0) func:sublist ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma175> a r:Inference;
@@ -2376,6 +2900,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma398>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 1) func:sublist (0)} e:labelvars {((0 1 2 3 4) 0 1) func:sublist (0)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 1) func:sublist (0)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma176> a r:Inference;
@@ -2387,6 +2914,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma399>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 4) func:sublist (0 1 2 3)} e:labelvars {((0 1 2 3 4) 0 4) func:sublist (0 1 2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 4) func:sublist (0 1 2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma177> a r:Inference;
@@ -2398,6 +2928,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma400>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 5) func:sublist (0 1 2 3 4)} e:labelvars {((0 1 2 3 4) 0 5) func:sublist (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 5) func:sublist (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma178> a r:Inference;
@@ -2409,6 +2942,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma401>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 10) func:sublist (0 1 2 3 4)} e:labelvars {((0 1 2 3 4) 0 10) func:sublist (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 10) func:sublist (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma179> a r:Inference;
@@ -2420,6 +2956,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma402>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 -2) func:sublist (0 1 2)} e:labelvars {((0 1 2 3 4) 0 -2) func:sublist (0 1 2)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 -2) func:sublist (0 1 2)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma180> a r:Inference;
@@ -2431,6 +2970,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma403>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 2 4) func:sublist (2 3)} e:labelvars {((0 1 2 3 4) 2 4) func:sublist (2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 2 4) func:sublist (2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-7"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma181> a r:Inference;
@@ -2442,6 +2984,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma404>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 2 -2) func:sublist (2)} e:labelvars {((0 1 2 3 4) 2 -2) func:sublist (2)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 2 -2) func:sublist (2)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma182> a r:Inference;
@@ -2453,6 +2998,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma404>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0) func:sublist (0 1 2 3 4)} e:labelvars {((0 1 2 3 4) 0) func:sublist (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0) func:sublist (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-9"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma183> a r:Inference;
@@ -2464,6 +3012,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma405>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 3) func:sublist (3 4)} e:labelvars {((0 1 2 3 4) 3) func:sublist (3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 3) func:sublist (3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-10"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma184> a r:Inference;
@@ -2475,6 +3026,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma406>
     [ a r:Fact; r:gives {{((0 1 2 3 4) -2) func:sublist (3 4)} e:labelvars {((0 1 2 3 4) -2) func:sublist (3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) -2) func:sublist (3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#sublist-11"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma185> a r:Inference;
@@ -2486,6 +3040,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma407>
     [ a r:Fact; r:gives {{((0 1 2) 3) func:append (0 1 2 3)} e:labelvars {((0 1 2) 3) func:append (0 1 2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2) 3) func:append (0 1 2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#append-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma186> a r:Inference;
@@ -2497,6 +3054,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma408>
     [ a r:Fact; r:gives {{((0 1 2) 3 4) func:append (0 1 2 3 4)} e:labelvars {((0 1 2) 3 4) func:append (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2) 3 4) func:append (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#append-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma187> a r:Inference;
@@ -2508,6 +3068,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma409>
     [ a r:Fact; r:gives {{((1 1) (1) (1) ((1))) func:append (1 1 (1) (1) ((1)))} e:labelvars {((1 1) (1) (1) ((1))) func:append (1 1 (1) (1) ((1)))}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((1 1) (1) (1) ((1))) func:append (1 1 (1) (1) ((1)))}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#append-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma188> a r:Inference;
@@ -2519,6 +3082,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma410>
     [ a r:Fact; r:gives {{(() 1) func:append (1)} e:labelvars {(() 1) func:append (1)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(() 1) func:append (1)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#append-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma189> a r:Inference;
@@ -2530,6 +3096,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma411>
     [ a r:Fact; r:gives {{((0 1 2) (3 4 5)) func:concatenate (0 1 2 3 4 5)} e:labelvars {((0 1 2) (3 4 5)) func:concatenate (0 1 2 3 4 5)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2) (3 4 5)) func:concatenate (0 1 2 3 4 5)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#concatenate-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma190> a r:Inference;
@@ -2541,6 +3110,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma412>
     [ a r:Fact; r:gives {{((1 1) (1) (1)) func:concatenate (1 1 1 1)} e:labelvars {((1 1) (1) (1)) func:concatenate (1 1 1 1)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((1 1) (1) (1)) func:concatenate (1 1 1 1)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#concatenate-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma191> a r:Inference;
@@ -2552,6 +3124,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma413>
     [ a r:Fact; r:gives {{(()) func:concatenate ()} e:labelvars {(()) func:concatenate ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(()) func:concatenate ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#concatenate-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma192> a r:Inference;
@@ -2563,6 +3138,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma414>
     [ a r:Fact; r:gives {{(() (1) () (2) ((3))) func:concatenate (1 2 (3))} e:labelvars {(() (1) () (2) ((3))) func:concatenate (1 2 (3))}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(() (1) () (2) ((3))) func:concatenate (1 2 (3))}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#concatenate-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma193> a r:Inference;
@@ -2574,6 +3152,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma415>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0 99) func:insert-before (99 0 1 2 3 4)} e:labelvars {((0 1 2 3 4) 0 99) func:insert-before (99 0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0 99) func:insert-before (99 0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#insert-before-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma194> a r:Inference;
@@ -2585,6 +3166,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma416>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 1 99) func:insert-before (0 99 1 2 3 4)} e:labelvars {((0 1 2 3 4) 1 99) func:insert-before (0 99 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 1 99) func:insert-before (0 99 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#insert-before-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma195> a r:Inference;
@@ -2596,6 +3180,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma417>
     [ a r:Fact; r:gives {{((0 1 2 3 4) -1 99) func:insert-before (0 1 2 3 99 4)} e:labelvars {((0 1 2 3 4) -1 99) func:insert-before (0 1 2 3 99 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) -1 99) func:insert-before (0 1 2 3 99 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#insert-before-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma196> a r:Inference;
@@ -2607,6 +3194,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma418>
     [ a r:Fact; r:gives {{((0 1 2 3 4) -5 99) func:insert-before (99 0 1 2 3 4)} e:labelvars {((0 1 2 3 4) -5 99) func:insert-before (99 0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) -5 99) func:insert-before (99 0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#insert-before-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma197> a r:Inference;
@@ -2618,6 +3208,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma419>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 0) func:remove (1 2 3 4)} e:labelvars {((0 1 2 3 4) 0) func:remove (1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 0) func:remove (1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#remove-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma198> a r:Inference;
@@ -2629,6 +3222,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma420>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 1) func:remove (0 2 3 4)} e:labelvars {((0 1 2 3 4) 1) func:remove (0 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 1) func:remove (0 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#remove-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma199> a r:Inference;
@@ -2640,6 +3236,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma421>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 4) func:remove (0 1 2 3)} e:labelvars {((0 1 2 3 4) 4) func:remove (0 1 2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 4) func:remove (0 1 2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#remove-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma200> a r:Inference;
@@ -2651,6 +3250,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma422>
     [ a r:Fact; r:gives {{((0 1 2 3 4) -1) func:remove (0 1 2 3)} e:labelvars {((0 1 2 3 4) -1) func:remove (0 1 2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) -1) func:remove (0 1 2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#remove-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma201> a r:Inference;
@@ -2662,6 +3264,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma423>
     [ a r:Fact; r:gives {{((0 1 2 3 4) -5) func:remove (1 2 3 4)} e:labelvars {((0 1 2 3 4) -5) func:remove (1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) -5) func:remove (1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#remove-5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma202> a r:Inference;
@@ -2673,6 +3278,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma424>
     [ a r:Fact; r:gives {{((0 1 2 3 4)) func:reverse (4 3 2 1 0)} e:labelvars {((0 1 2 3 4)) func:reverse (4 3 2 1 0)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4)) func:reverse (4 3 2 1 0)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#reverse-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma203> a r:Inference;
@@ -2684,6 +3292,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma425>
     [ a r:Fact; r:gives {{((1)) func:reverse (1)} e:labelvars {((1)) func:reverse (1)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((1)) func:reverse (1)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#reverse-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma204> a r:Inference;
@@ -2695,6 +3306,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma426>
     [ a r:Fact; r:gives {{(()) func:reverse ()} e:labelvars {(()) func:reverse ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {(()) func:reverse ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#reverse-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma205> a r:Inference;
@@ -2706,6 +3320,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma427>
     [ a r:Fact; r:gives {{((0 1 2 3 4) 2) func:index-of (2)} e:labelvars {((0 1 2 3 4) 2) func:index-of (2)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) 2) func:index-of (2)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#index-of-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma206> a r:Inference;
@@ -2717,6 +3334,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma428>
     [ a r:Fact; r:gives {{((0 1 2 3 4 5 2 2) 2) func:index-of (2 6 7)} e:labelvars {((0 1 2 3 4 5 2 2) 2) func:index-of (2 6 7)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4 5 2 2) 2) func:index-of (2 6 7)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#index-of-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma207> a r:Inference;
@@ -2728,6 +3348,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma429>
     [ a r:Fact; r:gives {{((2 2 3 4 5 2 2) 2) func:index-of (0 1 5 6)} e:labelvars {((2 2 3 4 5 2 2) 2) func:index-of (0 1 5 6)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((2 2 3 4 5 2 2) 2) func:index-of (0 1 5 6)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#index-of-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma208> a r:Inference;
@@ -2739,6 +3362,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma430>
     [ a r:Fact; r:gives {{((2 2 3 4 5 2 2) 1) func:index-of ()} e:labelvars {((2 2 3 4 5 2 2) 1) func:index-of ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((2 2 3 4 5 2 2) 1) func:index-of ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#index-of-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma209> a r:Inference;
@@ -2750,6 +3376,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma431>
     [ a r:Fact; r:gives {{((0 1 2 4) (3 4 5 6)) func:union (0 1 2 4 3 5 6)} e:labelvars {((0 1 2 4) (3 4 5 6)) func:union (0 1 2 4 3 5 6)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 4) (3 4 5 6)) func:union (0 1 2 4 3 5 6)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#union-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma210> a r:Inference;
@@ -2761,6 +3390,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma432>
     [ a r:Fact; r:gives {{((0 1 2 3) (4)) func:union (0 1 2 3 4)} e:labelvars {((0 1 2 3) (4)) func:union (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3) (4)) func:union (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#union-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma211> a r:Inference;
@@ -2772,6 +3404,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma433>
     [ a r:Fact; r:gives {{((0 1 2 3) (3)) func:union (0 1 2 3)} e:labelvars {((0 1 2 3) (3)) func:union (0 1 2 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3) (3)) func:union (0 1 2 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#union-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma212> a r:Inference;
@@ -2783,6 +3418,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma434>
     [ a r:Fact; r:gives {{((0 2 1 0)) func:union (0 2 1)} e:labelvars {((0 2 1 0)) func:union (0 2 1)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 2 1 0)) func:union (0 2 1)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#union-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma213> a r:Inference;
@@ -2794,6 +3432,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma435>
     [ a r:Fact; r:gives {{((0 1 2 3 4)) func:distinct-values (0 1 2 3 4)} e:labelvars {((0 1 2 3 4)) func:distinct-values (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4)) func:distinct-values (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#distinct-values-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma214> a r:Inference;
@@ -2805,6 +3446,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma436>
     [ a r:Fact; r:gives {{((0 1 2 3 4 0 4)) func:distinct-values (0 1 2 3 4)} e:labelvars {((0 1 2 3 4 0 4)) func:distinct-values (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4 0 4)) func:distinct-values (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#distinct-values-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma215> a r:Inference;
@@ -2816,6 +3460,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma437>
     [ a r:Fact; r:gives {{((3 3 3)) func:distinct-values (3)} e:labelvars {((3 3 3)) func:distinct-values (3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((3 3 3)) func:distinct-values (3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#distinct-values-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma216> a r:Inference;
@@ -2827,6 +3474,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma438>
     [ a r:Fact; r:gives {{((0 1 2 3 4) (1 3)) func:intersect (1 3)} e:labelvars {((0 1 2 3 4) (1 3)) func:intersect (1 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) (1 3)) func:intersect (1 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#intersect-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma217> a r:Inference;
@@ -2838,6 +3488,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma439>
     [ a r:Fact; r:gives {{((0 1 2 3 4) (3 1)) func:intersect (1 3)} e:labelvars {((0 1 2 3 4) (3 1)) func:intersect (1 3)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) (3 1)) func:intersect (1 3)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#intersect-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma218> a r:Inference;
@@ -2849,6 +3502,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma440>
     [ a r:Fact; r:gives {{((0 1 2 3 4) ()) func:intersect ()} e:labelvars {((0 1 2 3 4) ()) func:intersect ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) ()) func:intersect ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#intersect-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma219> a r:Inference;
@@ -2860,6 +3516,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma441>
     [ a r:Fact; r:gives {{((0 1 2 3 4) (0 1 2 3 4 5 6)) func:intersect (0 1 2 3 4)} e:labelvars {((0 1 2 3 4) (0 1 2 3 4 5 6)) func:intersect (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) (0 1 2 3 4 5 6)) func:intersect (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#intersect-4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma220> a r:Inference;
@@ -2871,6 +3530,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma442>
     [ a r:Fact; r:gives {{((0 1 2 3 4) (1 3)) func:except (0 2 4)} e:labelvars {((0 1 2 3 4) (1 3)) func:except (0 2 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) (1 3)) func:except (0 2 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#except-1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma221> a r:Inference;
@@ -2882,6 +3544,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma443>
     [ a r:Fact; r:gives {{((0 1 2 3 4) ()) func:except (0 1 2 3 4)} e:labelvars {((0 1 2 3 4) ()) func:except (0 1 2 3 4)}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) ()) func:except (0 1 2 3 4)}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#except-2"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma222> a r:Inference;
@@ -2893,6 +3558,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
     <#lemma444>
     [ a r:Fact; r:gives {{((0 1 2 3 4) (0 1 2 3 4)) func:except ()} e:labelvars {((0 1 2 3 4) (0 1 2 3 4)) func:except ()}}]
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {((0 1 2 3 4) (0 1 2 3 4)) func:except ()}];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#except-3"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo true];
   r:rule <#lemma224>.
 
 <#lemma223> a r:Inference;
@@ -2906,9 +3574,9 @@ PREFIX r: <http://www.w3.org/2000/10/swap/reason#>
 
 <#lemma224> a r:Extraction;
   r:gives {
-    {?x_0_667 => {?x_1_667 :result ?x_2_667}.
-     ?x_1_667 :result ?x_2_667.
-     ?x_0_667 e:labelvars ?x_0_667} => {{?x_0_667 => {?x_1_667 :result ?x_2_667}} a :PASS}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 => {var:x_1 :result var:x_2}.
+     var:x_1 :result var:x_2.
+     var:x_0 e:labelvars var:x_0} => {{var:x_0 => {var:x_1 :result var:x_2}} a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rif/rifQ.n3>].
 
