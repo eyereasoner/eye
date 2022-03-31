@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0331.1259 josd').
+version_info('EYE v22.0331.1347 josd').
 
 license_info('MIT License
 
@@ -3803,10 +3803,6 @@ wt2(prolog:X) :-
     atomic_list_concat(['<http://eulersharp.sourceforge.net/2003/03swap/prolog#', Y, '>'], Z),
     wt0(Z).
 wt2(X) :-
-    findvars(X, E, eta),
-    wq(E, some),
-    findvars(X, U, mu),
-    wq(U, allv),
     X =.. [P, S, O],
     (   atom(P),
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
@@ -3882,6 +3878,10 @@ wg(X) :-
             )
         )
     ->  write('{'),
+        findvars(X, T, eta),
+        wq(T, some),
+        findvars(X, U, mu),
+        wq(U, allv),
         indentation(1),
         nb_getval(fdepth, D),
         E is D+1,
