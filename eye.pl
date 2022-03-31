@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0330.2211 josd').
+version_info('EYE v22.0331.1142 josd').
 
 license_info('MIT License
 
@@ -1439,6 +1439,7 @@ tr_tr(A, B) :-
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
         ;   sub_atom(C, 0, _, _, 'qe_')
+        ;   sub_atom(C, 0, _, _, 'qu_')
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
@@ -3411,12 +3412,7 @@ wt0(X) :-
     atom(X),
     sub_atom(X, 1, I, _, Sns),
     J is I+1,
-    sub_atom(X, J, _, 1, V),
-    (   sub_atom(V, 0, 3, _, 'qe_')
-    ->  atom_concat(V, '_', W),
-        gensym(W, Y)
-    ;   Y = V
-    ),
+    sub_atom(X, J, _, 1, Y),
     (   getlist(X, M)
     ->  wt(M)
     ;   (   rule_uvar(L),
