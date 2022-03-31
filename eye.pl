@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0331.1804 josd').
+version_info('EYE v22.0331.2055 josd').
 
 license_info('MIT License
 
@@ -3883,9 +3883,11 @@ wg(X) :-
             )
         )
     ->  write('{'),
-        findvars(X, T, eta),
+        conj_list(X, K),
+        maplist(=.., K, L),
+        shallowvars(L, T, eta),
         wq(T, some),
-        findvars(X, U, mu),
+        shallowvars(L, U, mu),
         wq(U, allv),
         indentation(1),
         nb_getval(fdepth, D),
@@ -9915,21 +9917,41 @@ findvars(A, B, Z) :-
     A =.. C,
     findvars(C, B, Z).
 
+shallowvars(A, B, Z) :-
+    atomic(A),
+    !,
+    (   atom(A),
+        findvar(A, Z)
+    ->  B = [A]
+    ;   B = []
+    ).
+shallowvars(A, [], _) :-
+    var(A),
+    !.
+shallowvars([], [], _) :-
+    !.
+shallowvars([A|B], C, Z) :-
+    shallowvars(A, D, Z),
+    shallowvars(B, E, Z),
+    append(D, E, C),
+    !.
+shallowvars(_, [], _).
+
 findvar(A, alpha) :-
     !,
     atom_concat('<http://josd.github.io/var#', _, A).
 findvar(A, beta) :-
+    !,
     (   sub_atom(A, 0, _, _, '_bn_')
     ;   sub_atom(A, 0, _, _, '_e_')
     ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   sub_atom(A, 0, _, _, some)
-    ),
-    !.
+    ).
 findvar(A, delta) :-
+    !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   sub_atom(A, 0, _, _, some)
-    ),
-    !.
+    ).
 findvar(A, epsilon) :-
     !,
     sub_atom(A, 0, 1, _, '_'),
@@ -9942,7 +9964,6 @@ findvar(A, mu) :-
     !,
     atom_concat('<http://josd.github.io/var#qu_', _, A).
 findvar(A, zeta) :-
-    !,
     sub_atom(A, 0, _, _, some).
 
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
