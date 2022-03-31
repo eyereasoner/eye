@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0331.1142 josd').
+version_info('EYE v22.0331.1259 josd').
 
 license_info('MIT License
 
@@ -1438,12 +1438,20 @@ tr_tr(A, B) :-
     (   atom_concat('_', C, A),
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
-        ;   sub_atom(C, 0, _, _, 'qe_')
-        ;   sub_atom(C, 0, _, _, 'qu_')
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
-    ;   B = A
+    ;   (   atom_concat('_', C, A),
+            (   sub_atom(C, 0, _, _, 'qe_')
+            ;   sub_atom(C, 0, _, _, 'qu_')
+            )
+        ->  atomic_list_concat(['\'<http://josd.github.io/var#', C, '>\''], B),
+            (   pfx('var:', _)
+            ->  true
+            ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
+            )
+        ;   B = A
+        )
     ).
 tr_tr(A, A) :-
     number(A),
@@ -3795,6 +3803,10 @@ wt2(prolog:X) :-
     atomic_list_concat(['<http://eulersharp.sourceforge.net/2003/03swap/prolog#', Y, '>'], Z),
     wt0(Z).
 wt2(X) :-
+    findvars(X, E, eta),
+    wq(E, some),
+    findvars(X, U, mu),
+    wq(U, allv),
     X =.. [P, S, O],
     (   atom(P),
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
@@ -9918,6 +9930,12 @@ findvar(A, epsilon) :-
     sub_atom(A, 0, 1, _, '_'),
     \+ sub_atom(A, 0, _, _, '_bn_'),
     \+ sub_atom(A, 0, _, _, '_e_').
+findvar(A, eta) :-
+    !,
+    atom_concat('<http://josd.github.io/var#qe_', _, A).
+findvar(A, mu) :-
+    !,
+    atom_concat('<http://josd.github.io/var#qu_', _, A).
 findvar(A, zeta) :-
     !,
     sub_atom(A, 0, _, _, some).
