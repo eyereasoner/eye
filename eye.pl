@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0331.1347 josd').
+version_info('EYE v22.0331.1804 josd').
 
 license_info('MIT License
 
@@ -1682,23 +1682,28 @@ pathitem(Name, []) -->
     !,
     {   (   qevar(S, N, D),
             \+quvar(S, _, _)
-        ->  (   D >= 1,
+        ->  (   D = 1,
                 nb_getval(fdepth, FD),
                 FD >= D,
                 \+flag('pass-all-ground')
             ->  atom_concat('_', N, Name)
-            ;   nb_getval(var_ns, Sns),
-                atomic_list_concat(['\'<', Sns, N, '>\''], Name)
+            ;   atomic_list_concat(['\'<http://josd.github.io/var#', N, '>\''], Name),
+                (   pfx('var:', _)
+                ->  true
+                ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
+                )
             )
         ;   (   quvar(S, N, D)
-            ->  (   (   D > 1,
-                        nb_getval(fdepth, FD),
-                        FD >= 1
-                    ;   flag('pass-all-ground')
+            ->  (   D = 0,
+                    nb_getval(fdepth, FD),
+                    FD >= D,
+                    \+flag('pass-all-ground')
+                ->  atom_concat('_', N, Name)
+                ;   atomic_list_concat(['\'<http://josd.github.io/var#', N, '>\''], Name),
+                    (   pfx('var:', _)
+                    ->  true
+                    ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
                     )
-                ->  nb_getval(var_ns, Sns),
-                    atomic_list_concat(['\'<', Sns, N, '>\''], Name)
-                ;   atom_concat('_', N, Name)
                 )
             ;   Name = S
             )
