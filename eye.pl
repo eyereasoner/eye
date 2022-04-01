@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0331.2055 josd').
+version_info('EYE v22.0401.1756 josd').
 
 license_info('MIT License
 
@@ -1406,7 +1406,10 @@ tr_n3p(['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>\''(X
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p([X|Z], Src, Mode) :-
-    tr_tr(X, Y),
+    (   X \= '\'<http://www.w3.org/2000/10/swap/reason#gives>\''(_, _)
+    ->  tr_tr(X, Y)
+    ;   Y = X
+    ),
     (   findvars(Y, U, epsilon),
         U = []
     ->  (   Y =.. [A, B, (C, D)]
@@ -1694,8 +1697,7 @@ pathitem(Name, []) -->
                 )
             )
         ;   (   quvar(S, N, D)
-            ->  (   D = 0,
-                    nb_getval(fdepth, FD),
+            ->  (   nb_getval(fdepth, FD),
                     FD >= D,
                     \+flag('pass-all-ground')
                 ->  atom_concat('_', N, Name)
