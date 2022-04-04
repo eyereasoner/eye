@@ -1,0 +1,8 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix : <http://example.org/socrates#>.
+
+:we :have <<:Socrates rdf:type :Human>>.
+:Human rdfs:subClassOf :Mortal.
+
+{?A rdfs:subClassOf ?B. :we :have <<?S rdf:type ?A>>} => {:we :have <<?S rdf:type ?B>>}.
