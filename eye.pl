@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0406.1028 josd').
+version_info('EYE v22.0406.2154 josd').
 
 license_info('MIT License
 
@@ -78,9 +78,10 @@ eye
     --source <file>                 read command line arguments from <file>
     --statistics                    output statistics info on stderr
     --strings                       output log:outputString objects on stdout
-    --tactic limited-answer <count> give only a limited number of answers
-    --tactic limited-brake <count>  take only a limited number of brakes
-    --tactic limited-step <count>   take only a limited number of steps
+    --tactic limited-answer <nr>    give only a limited number of answers
+    --tactic limited-brake <nr>     take only a limited number of brakes
+    --tactic limited-step <nr>      take only a limited number of steps
+    --tactic limited-witness <nr>   use only a limited number of witnesses
     --tactic linear-select          select each rule only once
     --version                       show version info
     --warn                          output warning info on stderr
@@ -806,6 +807,21 @@ opts(['--tactic', 'limited-step', Lim|Argus], Args) :-
     ),
     retractall(flag('limited-step', _)),
     assertz(flag('limited-step', Limit)),
+    opts(Argus, Args).
+opts(['--tactic', 'limited-witness', Lim|Argus], Args) :-
+    !,
+    (   number(Lim)
+    ->  Limit = Lim
+    ;   catch(atom_number(Lim, Limit), Exc,
+            (   format(user_error, '** ERROR ** limited-witness ** ~w~n', [Exc]),
+                flush_output(user_error),
+                flush_output,
+                halt(1)
+            )
+        )
+    ),
+    retractall(flag('limited-witness', _)),
+    assertz(flag('limited-witness', Limit)),
     opts(Argus, Args).
 opts(['--tactic', 'linear-select'|Argus], Args) :-
     !,
@@ -4248,6 +4264,16 @@ eam(Span) :-
         (   flag('limited-step', StepLim),
             nb_getval(tp, Step),
             Step > StepLim
+        ->  (   flag(strings)
+            ->  true
+            ;   w3
+            ),
+            throw(halt)
+        ;   true
+        ),
+        (   flag('limited-witness', WitnessLim),
+            nb_getval(wn, Witness),
+            Witness > WitnessLim
         ->  (   flag(strings)
             ->  true
             ;   w3
