@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0406.2154 josd').
+version_info('EYE v22.0408.2025 josd').
 
 license_info('MIT License
 
@@ -3064,7 +3064,9 @@ w3 :-
         ->  \+catch(call(R), _, fail)
         ;   catch(call(Q), _, fail)
         ),
-        numbervars(A, 0, _),
+        nb_getval(wn, W),
+        labelvars(A, W, N, some),
+        nb_setval(wn, N),
         relabel(A, B),
         indent,
         wt(B),
