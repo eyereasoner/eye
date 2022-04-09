@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0408.2025 josd').
+version_info('EYE v22.0409.1317 josd').
 
 license_info('MIT License
 
@@ -857,6 +857,8 @@ args([]) :-
     !.
 args(['--blogic', Arg|Args]) :-
     !,
+    retractall(flag(blogic)),
+    assertz(flag(blogic)),
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
@@ -2080,11 +2082,15 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Label)],
-    {   (   evar(Label, S, 0)
+    {   (   flag(blogic)
+        ->  D = 0
+        ;   nb_getval(fdepth, D)
+        ),
+        (   evar(Label, S, D)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, 0))
+            assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
