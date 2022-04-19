@@ -1,0 +1,14 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix ex: <http://www.example.org/terms#>.
+
+{   <http://josd.github.io/eye/reasoning/n3patch/patch.n3> log:semantics {
+        ?rename a solid:InsertDeletePatch;
+            solid:where ?where;
+            solid:inserts ?inserts;
+            solid:deletes ?deletes.
+    }.
+    ?scope e:call ?where.
+    ?deletes e:becomes ?inserts.
+} => true.
