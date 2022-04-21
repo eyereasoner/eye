@@ -25,7 +25,7 @@ For examples and test cases see <a href="https://josd.github.io/eye/reasoning/">
 
 Euler paths are roughly <em>&quot;don&#39;t step in your own steps&quot;</em> which is inspired by
 what <a href="https://en.wikipedia.org/wiki/Leonhard_Euler">Leonhard Euler</a> discovered in 1736 for the <a href="http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html">Königsberg Bridge Problem</a>.
-EYE sees the rule <code>P =&gt; C</code> as <code>P &amp; NOT(C) =&gt; C</code>.</p>
+EYE sees the rule <code>P =&gt; C</code> as <code>P &amp; &tilde;C =&gt; C</code>.</p>
 
 <h2 id="architecture-and-design">Architecture and design</h2>
 
@@ -34,8 +34,8 @@ EYE sees the rule <code>P =&gt; C</code> as <code>P &amp; NOT(C) =&gt; C</code>.
 <p>This is what the basic <strong>EAM (Euler Abstract Machine)</strong> does in a nutshell:
 <ol>
 <li>Select rule <code>P =&gt; C</code></li>
-<li>Prove <code>P &amp; NOT(C)</code> (backward chaining) and if it fails backtrack to 1.</li>
-<li>If <code>P &amp; NOT(C)</code> assert <code>C</code> (forward chaining) and remove brake</li>
+<li>Prove <code>P &amp; &tilde;C</code> (backward chaining) and if it fails backtrack to 1.</li>
+<li>If <code>P &amp; &tilde;C</code> assert <code>C</code> (forward chaining) and remove brake</li>
 <li>If <code>C = answer(A)</code> and tactic limited-answer stop, else backtrack to 2.</li>
 <li>If brake or tactic linear-select stop, else start again at 1.</li>
 </ol></p>
