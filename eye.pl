@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0421.1748 josd').
+version_info('EYE v22.0421.2258 josd').
 
 license_info('MIT License
 
@@ -4539,19 +4539,19 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ),
     !,
     makevars(implies(A, B, '<>'), C, zeta).
-djiti_fact(':-'(A, B), C) :-
+djiti_fact(':-'(A, B), ':-'(C, D)) :-
     !,
-    copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, A), E),
+    makevars((A, B), (C, E), eta),
+    copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(E, C), F),
     (   flag(nope)
-    ->  D = B
-    ;   retwist(B, A, F),
-        (   B = when(G, H)
-        ->  conj_append(H, istep(F, B, A, E), I),
-            D = when(G, I)
-        ;   conj_append(B, istep(F, B, A, E), D)
+    ->  D = E
+    ;   retwist(E, C, G),
+        (   E = when(H, I)
+        ->  conj_append(I, istep(G, E, C, F), J),
+            D = when(H, J)
+        ;   conj_append(E, istep(G, E, C, F), D)
         )
-    ),
-    makevars(':-'(A, D), C, eta).
+    ).
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],

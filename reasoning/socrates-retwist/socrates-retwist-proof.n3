@@ -53,6 +53,9 @@
     <#lemma6>
     <#lemma3>
   );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Human"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/socrates#Mortal"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/socrates#Socrates"]];
   r:rule <#lemma7>.
 
 <#lemma6> a r:Extraction;
@@ -63,8 +66,8 @@
 
 <#lemma7> a r:Extraction;
   r:gives {
-    {:Socrates a :Mortal} <= {:Human rdfs:subClassOf :Mortal.
-     :Socrates a :Human}.
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_2 a var:x_1} <= {var:x_0 rdfs:subClassOf var:x_1.
+     var:x_2 a var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3>].
 
