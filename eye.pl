@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0409.1317 josd').
+version_info('EYE v22.0421.0959 josd').
 
 license_info('MIT License
 
@@ -1462,17 +1462,7 @@ tr_tr(A, B) :-
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
-    ;   (   atom_concat('_', C, A),
-            (   sub_atom(C, 0, _, _, 'qe_')
-            ;   sub_atom(C, 0, _, _, 'qu_')
-            )
-        ->  atomic_list_concat(['\'<http://josd.github.io/var#', C, '>\''], B),
-            (   pfx('var:', _)
-            ->  true
-            ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
-            )
-        ;   B = A
-        )
+    ;   B = A
     ).
 tr_tr(A, A) :-
     number(A),
@@ -3907,12 +3897,6 @@ wg(X) :-
             )
         )
     ->  write('{'),
-        conj_list(X, K),
-        maplist(=.., K, L),
-        shallowvars(L, T, eta),
-        wq(T, some),
-        shallowvars(L, U, mu),
-        wq(U, allv),
         indentation(1),
         nb_getval(fdepth, D),
         E is D+1,
@@ -4554,11 +4538,12 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ),
     !,
     makevars(implies(A, B, '<>'), C, zeta).
-
+djiti_fact(':-'(A, B), C) :-
+    !,
+    makevars(':-'(A, B), C, eta).
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
-    A \= ':-'(_, _),
     (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
         P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
         P \= query,
@@ -4592,7 +4577,10 @@ djiti_assertz(A) :-
     conj_list(C, D),
     forall(
         member(E, D),
-        (   retract(E),
+        (   (   E = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)
+            ->  retract(implies(Prem, Conc, _))
+            ;   retract(E)
+            ),
             djiti_answer(answer(E), Z),
             retractall(Z),
             (   flag('pass-only-new'),
@@ -9991,14 +9979,11 @@ findvar(A, epsilon) :-
     sub_atom(A, 0, 1, _, '_'),
     \+ sub_atom(A, 0, _, _, '_bn_'),
     \+ sub_atom(A, 0, _, _, '_e_').
-findvar(A, eta) :-
-    !,
-    atom_concat('<http://josd.github.io/var#qe_', _, A).
-findvar(A, mu) :-
-    !,
-    atom_concat('<http://josd.github.io/var#qu_', _, A).
 findvar(A, zeta) :-
-    sub_atom(A, 0, _, _, some).
+    sub_atom(A, 0, _, _, some),
+    !.
+findvar(A, eta) :-
+    sub_atom(A, 0, _, _, allv).
 
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
