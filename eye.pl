@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0421.0959 josd').
+version_info('EYE v22.0421.1748 josd').
 
 license_info('MIT License
 
@@ -141,6 +141,7 @@ eye
 :- dynamic(qevar/3).
 :- dynamic(query/2).
 :- dynamic(quvar/3).
+:- dynamic(retwist/3).
 :- dynamic(rule_uvar/1).
 :- dynamic(scope/1).
 :- dynamic(scount/1).
@@ -4540,7 +4541,17 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     makevars(implies(A, B, '<>'), C, zeta).
 djiti_fact(':-'(A, B), C) :-
     !,
-    makevars(':-'(A, B), C, eta).
+    copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, A), E),
+    (   flag(nope)
+    ->  D = B
+    ;   retwist(B, A, F),
+        (   B = when(G, H)
+        ->  conj_append(H, istep(F, B, A, E), I),
+            D = when(G, I)
+        ;   conj_append(B, istep(F, B, A, E), D)
+        )
+    ),
+    makevars(':-'(A, D), C, eta).
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
@@ -4578,7 +4589,8 @@ djiti_assertz(A) :-
     forall(
         member(E, D),
         (   (   E = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)
-            ->  retract(implies(Prem, Conc, _))
+            ->  retract(implies(Prem, Conc, Src)),
+                assertz(retwist(Prem, Conc, Src))
             ;   retract(E)
             ),
             djiti_answer(answer(E), Z),
