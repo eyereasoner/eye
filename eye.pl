@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0421.2258 josd').
+version_info('EYE v22.0422.1205 josd').
 
 license_info('MIT License
 
@@ -4591,7 +4591,8 @@ djiti_assertz(A) :-
         (   (   E = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)
             ->  retract(implies(Prem, Conc, Src)),
                 assertz(retwist(Prem, Conc, Src))
-            ;   retract(E)
+            ;   E \= ':-'(Conc, true),
+                retract(E)
             ),
             djiti_answer(answer(E), Z),
             retractall(Z),
