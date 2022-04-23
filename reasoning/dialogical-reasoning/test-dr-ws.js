@@ -27,4 +27,4 @@ client.connect('ws://localhost:8080/');
 
 setTimeout((function() {
     return process.exit(0);
-}), 1000);
+}), 5000);
