@@ -22,7 +22,7 @@
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
 
-version_info('EYE v22.0422.1205 josd').
+version_info('EYE v22.0424.1245 josd').
 
 license_info('MIT License
 
@@ -4538,7 +4538,11 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
         )
     ),
     !,
-    makevars(implies(A, B, '<>'), C, zeta).
+    (   retwist(A, B, Z)
+    ->  true
+    ;   Z = '<>'
+    ),
+    makevars(implies(A, B, Z), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
     !,
     makevars((A, B), (C, E), eta),
@@ -4591,8 +4595,22 @@ djiti_assertz(A) :-
         (   (   E = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)
             ->  retract(implies(Prem, Conc, Src)),
                 assertz(retwist(Prem, Conc, Src))
-            ;   E \= ':-'(Conc, true),
-                retract(E)
+            ;   (   E = ':-'(Ci, Pi),
+                    Pi \= true
+                ->  (   flag(nope)
+                    ->  Ph = Pi
+                    ;   (   Pi = when(Ai, Bi)
+                        ->  conj_append(Bi, istep(Si, Pi, Ci, _), Bh),
+                            Ph = when(Ai, Bh)
+                        ;   conj_append(Pi, istep(Si, Pi, Ci, _), Ph)
+                        ),
+                        ':-'(Ci, Ph),
+                        assertz(retwist(Pi, Ci, Si))
+                    ),
+                    retract(':-'(Ci, Ph))
+                ;   E \= ':-'(_, true),
+                    retract(E)
+                )
             ),
             djiti_answer(answer(E), Z),
             retractall(Z),
