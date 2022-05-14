@@ -1,0 +1,25 @@
+# ---------------------
+# Generating test facts
+# ---------------------
+
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <http://josd.github.io/eye/reasoning#>.
+
+# graph generation
+{(?F ?N) :graphgen true} <= {
+    ("open" ?F "write" ?FD) e:derive true.
+    ("tell" ?FD) e:derive true.
+    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) e:derive true.
+    ("between" 1 ?N ?I) e:derive true.
+    ("format" ":i~d a :N0.~n" (?I)) e:derive true.
+    ("fail") e:derive true.
+}.
+{(?F ?N) :graphgen true} <= {
+    ("told") e:derive true.
+}.
+
+
+# immediate goal
+true <= {
+    ("test-facts.n3" 100000) :graphgen true.
+}.
