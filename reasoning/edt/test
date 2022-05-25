@@ -1,2 +1,2 @@
 #!/bin/bash
-swipl -x edtpe.pvm -- "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/edt/test-facts.n3 --query http://josd.github.io/eye/reasoning/edt/test-query.n3 > test-answer.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope --turtle http://josd.github.io/eye/reasoning/edt/test-facts.n3 --turtle http://josd.github.io/eye/reasoning/edt/test-dl.n3 http://josd.github.io/eye/reasoning/edt/test-rules.n3 --query http://josd.github.io/eye/reasoning/edt/test-query.n3 > test-answer.n3

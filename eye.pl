@@ -21,8 +21,9 @@
 :- use_module(library(readutil)).
 :- use_module(library(prolog_jiti)).
 :- use_module(library(http/http_open)).
+:- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0424.1245 josd').
+version_info('EYE v22.0525.1446 josd').
 
 license_info('MIT License
 
@@ -90,6 +91,7 @@ eye
     [--n3] <uri>                    N3 triples and rules
     --blogic <uri>                  RDF surfaces
     --proof <uri>                   N3 proof lemmas
+    --turtle <uri>                  Turtle triples
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
     --not-entail <rdf-graph>        output true if RDF graph is not entailed
@@ -268,7 +270,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -847,7 +849,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query']),
+    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -982,6 +984,65 @@ args(['--proof', Arg|Args]) :-
 args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
+    args(Args).
+args(['--turtle', Argument|Args]) :-
+    !,
+    absolute_uri(Argument, Arg),
+    (   wcacher(Arg, File)
+    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        flush_output(user_error),
+        open(File, read, In, [encoding(utf8)])
+    ;   format(user_error, 'GET ~w ', [Arg]),
+        flush_output(user_error),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8))
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    retractall(base_uri(_)),
+    (   Arg = '-'
+    ->  absolute_uri('', Abu),
+        assertz(base_uri(Abu))
+    ;   assertz(base_uri(Arg))
+    ),
+    retractall(ns(_, _)),
+    (   Arg = '-'
+    ->  D = '#'
+    ;   atomic_list_concat([Arg, '#'], D)
+    ),
+    assertz(ns('', D)),
+    nb_setval(sc, 0),
+    rdf_read_turtle(stream(In), Triples, []),
+    close(In),
+    forall(
+        member(rdf(S, P, O), Triples),
+        (   atomic_list_concat(['<', S, '>'], Subject),
+            atomic_list_concat(['<', P, '>'], Predicate),
+            atomic_list_concat(['<', O, '>'], Object),
+            Triple =.. [Predicate, Subject, Object],
+            djiti_assertz(Triple)
+        )
+    ),
+    length(Triples, SC),
+    nb_getval(input_statements, IN),
+    Inp is SC+IN,
+    nb_setval(input_statements, Inp),
+    format(user_error, 'SC=~w~n', [SC]),
+    flush_output(user_error),
     args(Args).
 args([Arg|Args]) :-
     args(['--n3', Arg|Args]).
