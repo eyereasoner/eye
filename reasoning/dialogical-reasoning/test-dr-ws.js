@@ -21,10 +21,7 @@ client.on('connect', function(connection) {
     connection.send("https://w3c.github.io/N3/files/state%20transitions/socrates/socrates-query1.n3");
     connection.send("https://w3c.github.io/N3/files/state%20transitions/socrates/socrates-query2.n3");
     connection.send("https://w3c.github.io/N3/files/state%20transitions/socrates/socrates-query1.n3");
+    connection.send("end_of_file");
 });
 
 client.connect('ws://localhost:8080/');
-
-setTimeout((function() {
-    return process.exit(0);
-}), 5000);
