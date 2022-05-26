@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0525.1446 josd').
+version_info('EYE v22.0526.0934 josd').
 
 license_info('MIT License
 
@@ -1030,9 +1030,9 @@ args(['--turtle', Argument|Args]) :-
     close(In),
     forall(
         member(rdf(S, P, O), Triples),
-        (   atomic_list_concat(['<', S, '>'], Subject),
-            atomic_list_concat(['<', P, '>'], Predicate),
-            atomic_list_concat(['<', O, '>'], Object),
+        (   ttl_n3p(S, Subject),
+            ttl_n3p(P, Predicate),
+            ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple)
         )
@@ -1546,6 +1546,19 @@ tr_split([A|B], C, D) :-
     tr_split(B, C, D).
 tr_split([A|B], [A|C], D) :-
     tr_split(B, C, D).
+
+ttl_n3p(literal(type(A, B)), literal(B, type(A))) :-
+    !.
+ttl_n3p(literal(lang(A, B)), literal(B, lang(A))) :-
+    !.
+ttl_n3p(literal(A), literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    !.
+ttl_n3p(node(A), B) :-
+    !,
+    nb_getval(var_ns, Sns),
+    atomic_list_concat(['<', Sns, 'node_', A, '>'], B).
+ttl_n3p(A, B) :-
+    atomic_list_concat(['<', A, '>'], B).
 
 %
 % N3 parser
