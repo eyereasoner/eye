@@ -23,11 +23,11 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0526.0934 josd').
+version_info('EYE v22.0608.1223 josd').
 
 license_info('MIT License
 
-Copyright (c) 2009 Jos De Roo
+Copyright (c) 2006-2022 Jos De Roo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
