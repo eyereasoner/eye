@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0609.1953 josd').
+version_info('EYE v22.0609.2014 josd').
 
 license_info('MIT License
 
