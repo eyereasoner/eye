@@ -10,7 +10,7 @@ pushd reasoning
 ./test
 popd
 mkdir -p /tmp/eye
-rsync -azv eye.pl eye.sh eye.cmd install.sh install.cmd INSTALL LICENSE RELEASE README VERSION /tmp/eye
+rsync -azv eye.pl eye.sh eye.sh.in eye.cmd install.sh install.cmd INSTALL LICENSE RELEASE README VERSION /tmp/eye
 pushd /tmp
 zip -9ur eye.zip eye
 popd
