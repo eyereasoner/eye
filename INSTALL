@@ -1,7 +1,7 @@
                                   EYE install
 
-For Linux
----------
+For Linux, MacOS and other Unix look-alikes
+-------------------------------------------
 
 Unzip eye.zip from http://sourceforge.net/projects/eulersharp/files/eulersharp/
 
@@ -9,14 +9,17 @@ Install SWI-Prolog from http://www.swi-prolog.org/Download.html
 Test the SWI-Prolog installation via command line swipl --version
 and it should return the installed version number.
 
-Run the installation script install.sh which will
-- copy the EYE source file eye.pl to /opt/eye/src/eye.pl
-- create the EYE image file at /opt/eye/lib/eye.pvm
-- copy the EYE launch script eye.sh to /opt/eye/bin/eye.sh
-- create a link from /opt/eye/bin/eye.sh to /usr/local/bin/eye
+Run the installation script ``install.sh [--prefix=Prefix]``.  The
+default prefix is /usr/local.  This will
+- create the EYE image file at ``$prefix/lib/eye.pvm``
+- create the EYE launch script eye ub ``$prefix/bin/eye``
 
-Test the EYE installation via command line eye --version
+Test the EYE installation via command line ``eye --version``
 and it should return the version which is in the file VERSION.
+
+For example, to install in your home directory run
+
+    ./install.sh --prefix=$HOME
 
 
 For Windows
@@ -34,24 +37,5 @@ Run the installation script install.cmd which will
 - copy the EYE launch script eye.cmd to C:\Program Files\eye\bin\eye.cmd
 
 Put C:\Program Files\eye\bin in the path environment variable.
-Test the EYE installation via command line eye --version
-and it should return the version which is in the file VERSION.
-
-
-For Mac
--------
-
-Unzip eye.zip from http://sourceforge.net/projects/eulersharp/files/eulersharp/
-
-Install SWI-Prolog from http://www.swi-prolog.org/Download.html
-Test the SWI-Prolog installation via command line swipl --version
-and it should return the installed version number.
-
-Run the installation script install.sh which will
-- copy the EYE source file eye.pl to /opt/eye/src/eye.pl
-- create the EYE image file at /opt/eye/lib/eye.pvm
-- copy the EYE launch script eye.sh to /opt/eye/bin/eye.sh
-- create a link from /opt/eye/bin/eye.sh to /usr/local/bin/eye
-
 Test the EYE installation via command line eye --version
 and it should return the version which is in the file VERSION.
