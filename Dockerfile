@@ -45,8 +45,8 @@ RUN chmod +x /usr/local/bin/cturtle && \
   mkdir eye && \
 	cd eye && \
 	curl -fsS -L -O "https://raw.githubusercontent.com/josd/eye/master/eye.zip" && \
-	unzip eye && ./eye/install.sh && \
-	cd / && \
-	rm -rf eye
+	unzip eye && \
+	curl -o ./eye/eye.sh.in https://raw.githubusercontent.com/josd/eye/master/eye.sh.in && \
+	./eye/install.sh
 
 ENTRYPOINT ["/ep"]
