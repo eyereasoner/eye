@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0610.1022 josd').
+version_info('EYE v22.0622.1428 josd').
 
 license_info('MIT License
 
@@ -68,6 +68,7 @@ eye
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
+    --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
@@ -706,6 +707,11 @@ opts(['--no-qvars'|Argus], Args) :-
     !,
     retractall(flag('no-qvars')),
     assertz(flag('no-qvars')),
+    opts(Argus, Args).
+opts(['--no-ucall'|Argus], Args) :-
+    !,
+    retractall(flag('no-ucall')),
+    assertz(flag('no-ucall')),
     opts(Argus, Args).
 opts(['--nope'|Argus], Args) :-
     !,
@@ -4303,10 +4309,18 @@ eam(Span) :-
             flush_output(user_error)
         ;   true
         ),
-        catch(call_residue_vars(ucall(Prem), []), Exc,      % not just ucall(Prem) but call_residue_vars(ucall(Prem), [])
-            (   Exc = error(existence_error(procedure, _), _)
-            ->  fail
-            ;   throw(Exc)
+        (   flag('no-ucall')
+        ->  catch(call_residue_vars(call(Prem), []), Exc,
+                (   Exc = error(existence_error(procedure, _), _)
+                ->  fail
+                ;   throw(Exc)
+                )
+            )
+        ;   catch(call_residue_vars(ucall(Prem), []), Exc,
+                (   Exc = error(existence_error(procedure, _), _)
+                ->  fail
+                ;   throw(Exc)
+                )
             )
         ),
         (   (   Conc = false
@@ -4351,7 +4365,10 @@ eam(Span) :-
         djiti_conc(Conc, Concd),
         (   Concd = ':-'(Head, Body)
         ->  \+clause(Head, Body)
-        ;   \+catch(ucall(Concd), _, fail)
+        ;   (   flag('no-ucall')
+            ->  \+catch(call(Concd), _, fail)
+            ;   \+catch(ucall(Concd), _, fail)
+            )
         ),
         (   flag('rule-histogram')
         ->  lookup(RTC, tc, RuleL),
