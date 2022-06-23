@@ -1,0 +1,12 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix : <http://example.org/socrates#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://josd.github.io/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+:Socrates a :Human.
+:Socrates a :Mortal.
+{:Socrates a ?U_0} => {:Socrates a ?U_0}.
+:Human rdfs:subClassOf :Mortal.
+{?U_1 rdfs:subClassOf ?U_2. ?U_3 a ?U_1} => {?U_3 a ?U_2}.
+
