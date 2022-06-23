@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0622.1937 josd').
+version_info('EYE v22.0623.1440 josd').
 
 license_info('MIT License
 
@@ -1566,9 +1566,11 @@ ttl_n3p(node(A), B) :-
 ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
-osb_equal(A, ['\'<http://www.w3.org/2002/07/owl#sameAs>\''(A, B)|C], B, D) :-
+osb_equal(A, B, C, D) :-
+    member('\'<http://www.w3.org/2002/07/owl#sameAs>\''(A, C), B),
     !,
-    osb_equal(C, B, D).
+    delete(B, '\'<http://www.w3.org/2002/07/owl#sameAs>\''(A, C), E),
+    osb_equal(E, C, D).
 osb_equal(A, B, A, B).
 
 osb_equal([], _, []).
