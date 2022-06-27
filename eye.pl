@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0623.1440 josd').
+version_info('EYE v22.0627.1819 josd').
 
 license_info('MIT License
 
@@ -1566,19 +1566,6 @@ ttl_n3p(node(A), B) :-
 ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
-osb_equal(A, B, C, D) :-
-    member('\'<http://www.w3.org/2002/07/owl#sameAs>\''(A, C), B),
-    !,
-    delete(B, '\'<http://www.w3.org/2002/07/owl#sameAs>\''(A, C), E),
-    osb_equal(E, C, D).
-osb_equal(A, B, A, B).
-
-osb_equal([], _, []).
-osb_equal([A|B], C, [D|E]) :-
-    A =.. [P,_,O],
-    D =.. [P,C,O],
-    osb_equal(B, C, E).
-
 %
 % N3 parser
 %
@@ -1853,6 +1840,14 @@ pathitem(Number, [], L1, L2) :-
 pathitem(literal(Atom, DtLang), []) -->
     literal(Atom, DtLang),
     !.
+pathitem(Subject, Triples) -->
+    ['[',name(id)],
+    !,
+    expression(Subject, T1),
+    propertylist(Subject, T2),
+    {   append(T1, T2, Triples)
+    },
+    [']'].
 pathitem(Node, Triples) -->
     ['['],
     !,
@@ -1872,12 +1867,11 @@ pathitem(Node, Triples) -->
             del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
             del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
             del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
-        ->  BNode = [Head|Tail],
-            Tr = W
-        ;   BNode = BN,
-            Tr = T
-        ),
-        osb_equal(BNode, Tr, Node, Triples)
+        ->  Node = [Head|Tail],
+            Triples = W
+        ;   Node = BN,
+            Triples = T
+        )
     },
     [']'].
 pathitem(List, Triples) -->
