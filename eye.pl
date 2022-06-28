@@ -23,7 +23,7 @@
 :- use_module(library(http/http_open)).
 :- use_module(library(semweb/rdf_turtle)).
 
-version_info('EYE v22.0627.1819 josd').
+version_info('EYE v22.0628.0950 josd').
 
 license_info('MIT License
 
@@ -1874,6 +1874,13 @@ pathitem(Node, Triples) -->
         )
     },
     [']'].
+pathitem(set(Distinct), Triples) -->
+    ['(', '$'],
+    !,
+    pathlist(List, Triples),
+    {   sort(List, Distinct)
+    },
+    ['$', ')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -3623,6 +3630,11 @@ wt0(X) :-
         )
     ).
 
+wt1(set(X)) :-
+    !,
+    write('($'),
+    wl(X),
+    write(' $)').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
