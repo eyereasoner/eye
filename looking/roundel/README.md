@@ -2,7 +2,7 @@
 
 ## Reasoning on Web scale
 
-[Roundel](https://github.com/josd/roundel) is expressed in [ISO Prolog](https://en.wikipedia.org/wiki/Prolog#ISO_Prolog)
+Roundel is expressed in [ISO Prolog](https://en.wikipedia.org/wiki/Prolog#ISO_Prolog)
 
 TERM            | Examples
 ----------------|---------

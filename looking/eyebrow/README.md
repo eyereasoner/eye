@@ -1,4 +1,4 @@
-# [eyebrow](https://github.com/josd/eyebrow)
+# eyebrow
 
 ## Reasoning in the browser
 
@@ -18,27 +18,27 @@ CLAUSE          | Examples
 FACT            | `LINK.`
 RULE            | `LINK :- GRAPH,`[`PROLOG`](http://tau-prolog.org/documentation#prolog)`.`
 
-Eyebrow is using [modules](https://github.com/josd/eyebrow/tree/master/modules) from [Tau Prolog](http://tau-prolog.org/).
+Eyebrow is using [modules](https://github.com/josd/eye/tree/master/looking/eyebrow/modules) from [Tau Prolog](http://tau-prolog.org/).
 
 
 ## Eyebrow examples
 
-- [Complex numbers](https://josd.github.io/eyebrow/examples/complex.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/complex.html))
-- [Easter date](https://josd.github.io/eyebrow/examples/easter.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/easter.html))
-- [Enigma 1225](https://josd.github.io/eyebrow/examples/enigma1225.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/enigma1225.html))
-- [Extended deep taxonomy](https://josd.github.io/eyebrow/examples/edt.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/edt.html))
-- [Fibonacci numbers](https://josd.github.io/eyebrow/examples/fibonacci.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/fibonacci.html))
-- [Four color case](https://josd.github.io/eyebrow/examples/fourcolor.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/fourcolor.html))
-- [Goal driven Parallel Sequences](https://josd.github.io/eyebrow/examples/gps.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/gps.html))
-- [Graph traversal](https://josd.github.io/eyebrow/examples/graph.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/graph.html))
-- [Hanoi towers](https://josd.github.io/eyebrow/examples/hanoi.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/hanoi.html))
-- [Lee routing](https://josd.github.io/eyebrow/examples/lee.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/lee.html))
-- [Meta-interpretation](https://josd.github.io/eyebrow/examples/mi.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/mi.html))
-- [Padovan numbers](https://josd.github.io/eyebrow/examples/padovan.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/padovan.html))
-- [Polynomial roots](https://josd.github.io/eyebrow/examples/polynomial.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/polynomial.html))
-- [Socrates is a mortal](https://josd.github.io/eyebrow/examples/socrates.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/socrates.html))
-- [Superdense coding](https://josd.github.io/eyebrow/examples/sdcoding.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/sdcoding.html))
-- [Turing machine](https://josd.github.io/eyebrow/examples/turing.html) ([view source](https://github.com/josd/eyebrow/blob/master/examples/turing.html))
+- [Complex numbers](https://josd.github.io/eye/looking/eyebrow/examples/complex.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/complex.html))
+- [Easter date](https://josd.github.io/eye/looking/eyebrow/examples/easter.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/easter.html))
+- [Enigma 1225](https://josd.github.io/eye/looking/eyebrow/examples/enigma1225.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/enigma1225.html))
+- [Extended deep taxonomy](https://josd.github.io/eye/looking/eyebrow/examples/edt.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/edt.html))
+- [Fibonacci numbers](https://josd.github.io/eye/looking/eyebrow/examples/fibonacci.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/fibonacci.html))
+- [Four color case](https://josd.github.io/eye/looking/eyebrow/examples/fourcolor.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/fourcolor.html))
+- [Goal driven Parallel Sequences](https://josd.github.io/eye/looking/eyebrow/examples/gps.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/gps.html))
+- [Graph traversal](https://josd.github.io/eye/looking/eyebrow/examples/graph.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/graph.html))
+- [Hanoi towers](https://josd.github.io/eye/looking/eyebrow/examples/hanoi.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/hanoi.html))
+- [Lee routing](https://josd.github.io/eye/looking/eyebrow/examples/lee.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/lee.html))
+- [Meta-interpretation](https://josd.github.io/eye/looking/eyebrow/examples/mi.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/mi.html))
+- [Padovan numbers](https://josd.github.io/eye/looking/eyebrow/examples/padovan.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/padovan.html))
+- [Polynomial roots](https://josd.github.io/eye/looking/eyebrow/examples/polynomial.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/polynomial.html))
+- [Socrates is a mortal](https://josd.github.io/eye/looking/eyebrow/examples/socrates.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/socrates.html))
+- [Superdense coding](https://josd.github.io/eye/looking/eyebrow/examples/sdcoding.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/sdcoding.html))
+- [Turing machine](https://josd.github.io/eye/looking/eyebrow/examples/turing.html) ([view source](https://github.com/josd/eye/blob/master/looking/eyebrow/examples/turing.html))
 
 
 ## Background
