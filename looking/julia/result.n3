@@ -1,4 +1,4 @@
-PREFIX : <http://josd.github.io/eye/reasoning#>
+@prefix : <http://josd.github.io/eye/ns#>.
 
 [] :julia-result "sqrt(2) = 1.414213562373095".
 [] :julia-result "sqrt(81) = 9.0".
@@ -9,16 +9,22 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "sin(im) = 0.0 + 1.1752011936438014im".
 [] :julia-result "acos(2 + 0im) = 0.0 - 1.3169578969248166im".
 [] :julia-result "asin(2 + 0im) = 1.5707963267948966 + 1.3169578969248166im".
+[] :julia-result "atan(1 + 2im) = 1.3389725222944935 + 0.40235947810852507im".
 [] :julia-result "log(-1 + 0im) = 0.0 + 3.141592653589793im".
 [] :julia-result "log(-im) = 0.0 - 1.5707963267948966im".
 
 [] :julia-result "Symbolics.derivative(x + x ^ 2, x) = 1 + 2x".
-[] :julia-result "Symbolics.derivative((x + 2 * x ^ 2 + 6 * x ^ 3) - 5 * x ^ 4, x) = 1 + 4x + 18(x^2) - (20(x^3))".
+[] :julia-result "Symbolics.derivative((x + 2 * x ^ 2 + 6 * x ^ 3) - 5 * x ^ 4, x) = 1 + 4x + 18(x^2) - 20(x^3)".
 [] :julia-result "Symbolics.derivative(cos(x) * sin(x), x) = cos(x)^2 - (sin(x)^2)".
 [] :julia-result "Symbolics.derivative(exp(x), x) = exp(x)".
 [] :julia-result "Symbolics.derivative(log(x), x) = x^-1".
 [] :julia-result "Symbolics.jacobian([x + x * y, x ^ 4 + y], [x, y]) = Num[1 + y x; 4(x^3) 1]".
 [] :julia-result "Symbolics.hessian(x ^ 4 + z, [x, y, z]) = Num[12(x^2) 0 0; 0 0 0; 0 0 0]".
+
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/dt.jl:30012 =# @julog(n10(_ELEMENT)), clauses) = (false, Any[])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/dt.jl:30013 =# @julog(n100(_ELEMENT)), clauses) = (false, Any[])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/dt.jl:30014 =# @julog(n1000(_ELEMENT)), clauses) = (false, Any[])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/dt.jl:30015 =# @julog(n10000(_ELEMENT)), clauses) = (false, Any[])"].
 
 [] :julia-result "fibonacci(0) = 0".
 [] :julia-result "fibonacci(1) = 1".
@@ -27,9 +33,9 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "fibonacci(big(283)) = 62232491515607091882574410635924603070626544377175485625797".
 [] :julia-result "fibonacci(big(3674)) = 295872959797101479478634366815157108100573212705250690577871041398423606408217262643449728342664061812585639168722421830407677671667740585806703531229882783069925750619720511808616484846128237251921414441458265138672827487722512845223115526738192067144721087756159352711138340620702266509343657403678256247195010013499661223527119909308682062873140767135468966093474944529418214755911968500799987099146489838560114063096775586903976827512299123202488315139397181279903459556726060805948910609527571241968534269554079076649680403030083743420820438603816095671532163428933363322524736324029745871445486444623006627119156710782085648303485296149604974010598940800770684835758031137479033374229914629583184427269638360355586190323578625395157899987377625662075558684705457".
 
-[ :julia-result "resolve(#= /home/jdroo/temp/julia/graph.jl:22 =# @julog(path(X, angers)), clauses) = (true, Any[{X => lemans}, {X => chartres}, {X => paris}])"].
-[ :julia-result "resolve(#= /home/jdroo/temp/julia/graph.jl:23 =# @julog(path(angers, X)), clauses) = (true, Any[{X => nantes}])"].
-[ :julia-result "resolve(#= /home/jdroo/temp/julia/graph.jl:24 =# @julog(path(paris, nantes)), clauses) = (true, Any[{}])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/graph.jl:22 =# @julog(path(X, angers)), clauses) = (true, Any[{X => lemans}, {X => chartres}, {X => paris}])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/graph.jl:23 =# @julog(path(angers, X)), clauses) = (true, Any[{X => nantes}])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/graph.jl:24 =# @julog(path(paris, nantes)), clauses) = (true, Any[{}])"].
 
 [] :julia-result "hanoi(4, 1, 2, 3) = true".
 [] :julia-result "hanoi(24, 1, 2, 3) = true".
@@ -48,6 +54,20 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).U = [2.0 6.0 -8.0; 0.0 1.0 5.0; 0.0 0.0 3.0]".
 [] :julia-result "(cholesky([4.0 12.0 -16.0; 12.0 37.0 -43.0; -16.0 -43.0 98.0])).L = [2.0 0.0 0.0; 6.0 1.0 0.0; -8.0 5.0 3.0]".
 
+[] :julia-result "padovan(1) = 1".
+[] :julia-result "padovan(2) = 1".
+[] :julia-result "padovan(3) = 1".
+[] :julia-result "padovan(4) = 2".
+[] :julia-result "padovan(5) = 2".
+[] :julia-result "padovan(6) = 3".
+[] :julia-result "padovan(7) = 4".
+[] :julia-result "padovan(8) = 5".
+[] :julia-result "padovan(9) = 7".
+[] :julia-result "padovan(10) = 9".
+[] :julia-result "padovan(91) = 70748973084".
+[] :julia-result "padovan(big(283)) = 19834325738278984504790864536272129".
+[] :julia-result "padovan(big(3674)) = 26178594930998300129122144750852069608549403205774929555079079707081575465552356148508452550483580612948221886219497991654772054359076809450166551553886580037212540081075958680409828886869538010195558848488217299128261230125392693494793565831379519817637833179199806547822062027975157112247040373170650000852653450124493609094492793737517355809497791251385318177510845806782564433990788816833563231575956567960805822051433568191271295650424612344171".
+
 [] :julia-result "roots(Polynomial([24 + 7im, -50, 35, -10, 1])) = ComplexF64[0.6352976779615936 + 0.4671733246057253im, 1.7445177980581146 - 1.1530902792250135im, 3.255482201941887 + 1.1530902792250155im, 4.364702322038397 - 0.46717332460572614im]".
 [] :julia-result "roots(Polynomial([-26, 24 - 44im, 14 + 33im, -9 - 5im, 1])) = ComplexF64[2.3877599888475267e-16 + 0.9999999999999999im, 0.9999999999999997 + 0.9999999999999997im, 2.999999999999999 + 1.9999999999999998im, 5.0 + 0.9999999999999991im]".
 
@@ -61,5 +81,5 @@ PREFIX : <http://josd.github.io/eye/reasoning#>
 [] :julia-result "totient(271828182845904) = 87459116512768".
 [] :julia-result "totient(2718281828459045235360287471352662497757247) = 1811056085631168661171087103167285546745856".
 
-[ :julia-result "resolve(#= /home/jdroo/temp/julia/zebra.jl:45 =# @julog(query(Houses)), clauses) = (true, Any[{Houses => [house(yellow, norwegian, fox, water, kools), house(blue, ukrainian, horse, tea, chesterfields), house(red, english, snails, milk, winstons), house(ivory, spanish, dog, orange_juice, lucky_strikes), house(green, japanese, zebra, coffee, parliaments)]}])"].
+[ :julia-result "resolve(#= /home/jdroo/github.com/josd/eye/looking/julia/zebra.jl:45 =# @julog(query(Houses)), clauses) = (true, Any[{Houses => [house(yellow, norwegian, fox, water, kools), house(blue, ukrainian, horse, tea, chesterfields), house(red, english, snails, milk, winstons), house(ivory, spanish, dog, orange_juice, lucky_strikes), house(green, japanese, zebra, coffee, parliaments)]}])"].
 

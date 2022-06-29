@@ -1,2 +1,9 @@
 #!/bin/bash
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/julia/result.n3 --pass > result-pass.n3
+echo "@prefix : <http://josd.github.io/eye/ns#>." | tee result.n3
+echo "" | tee -a result.n3
+
+for f in *.jl
+do
+    julia "$f" | tee -a result.n3
+    echo "" | tee -a result.n3
+done

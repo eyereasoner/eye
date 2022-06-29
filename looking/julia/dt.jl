@@ -30015,9 +30015,6 @@ cases = [
     :(resolve(@julog(n10000(_ELEMENT)), clauses)),
 ]
 
-@time for case in cases
-    println("[ :julia-result \"", case, " = ", eval(case), "\"].")
-end
-@time for case in cases
+for case in cases
     println("[ :julia-result \"", case, " = ", eval(case), "\"].")
 end

@@ -20,5 +20,5 @@ expressions = [
 ]
 
 for expr in expressions
-    println(escape_string(string(expr)), " = ", eval(expr))
+    println("[] :julia-result \"", escape_string(string(expr)), " = ", eval(expr), "\".")
 end
