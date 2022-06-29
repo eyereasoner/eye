@@ -2,7 +2,7 @@
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
 
 % Liste des racines dun polynome
-'https://josd.github.io/roundel#roots'(P,L) :-
+'https://josd.github.io/eye/ns#roots'(P,L) :-
     findall(Z,racine(P,Z),L).
 
 % Racine dun polynome
@@ -74,7 +74,7 @@ solutionLagrange(P,Q,R,Z) :-
     est(B,fois([2,0],P)),
     est(C,moins(carre(P),fois([4,0],R))),
     est(D,moins(carre(Q))),
-    'https://josd.github.io/roundel#roots'([A,B,C,D],[Y1,Y2,Y3]),
+    'https://josd.github.io/eye/ns#roots'([A,B,C,D],[Y1,Y2,Y3]),
     est(Y1p,racine(2,Y1)),
     est(Y2p,racine(2,Y2)),
     est(Y3p,racine(2,Y3)),
@@ -229,8 +229,8 @@ nulreel(0.0) :-
 nulreel(-0.0).
 
 % query
-query('https://josd.github.io/roundel#roots'([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER)).
-query('https://josd.github.io/roundel#roots'([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER)).
+query('https://josd.github.io/eye/ns#roots'([[1,0],[-10,0],[35,0],[-50,0],[24,0]],_ANSWER)).
+query('https://josd.github.io/eye/ns#roots'([[1,0],[-9,-5],[14,33],[24,-44],[-26,0]],_ANSWER)).
 
 run :-
     query(Q),

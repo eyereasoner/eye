@@ -414,14 +414,14 @@ puzzle(99,P) :-
          _,_,_,_,_,_,_,_,_, _,_,_,_,_,_,_,_,_, _,_,_,_,_,_,_,_,_].
 
 % sudoku
-'https://josd.github.io/roundel#sudoku'(Puzzle,Solution) :-
+'https://josd.github.io/eye/ns#sudoku'(Puzzle,Solution) :-
     copy_term(Puzzle,Solution),
     connect(Spots),
     init(Solution,Spots),
     solve(Spots).
 
 % query
-query('https://josd.github.io/roundel#sudoku'([8,_,_,4,_,5,_,_,_,6,_,4,_,_,_,_,_,1,_,_,_,_,1,_,_,_,2,_,3,7,2,_,_,_,_,_,_,_,_,_,5,1,_,_,9,_,_,_,_,_,4,_,3,_,9,_,2,_,_,8,1,_,7,7,_,_,_,_,_,_,_,_,_,_,1,_,_,2,_,_,_],_ANSWER)).
+query('https://josd.github.io/eye/ns#sudoku'([8,_,_,4,_,5,_,_,_,6,_,4,_,_,_,_,_,1,_,_,_,_,1,_,_,_,2,_,3,7,2,_,_,_,_,_,_,_,_,_,5,1,_,_,9,_,_,_,_,_,4,_,3,_,9,_,2,_,_,8,1,_,7,7,_,_,_,_,_,_,_,_,_,_,1,_,_,2,_,_,_],_ANSWER)).
 
 run :-
     query(Q),

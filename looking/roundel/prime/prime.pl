@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Prime_number
 
-'https://josd.github.io/roundel#primerange'([A,B],L) :-
+'https://josd.github.io/eye/ns#primerange'([A,B],L) :-
     findall(I,(between(A,B,I),prime(I)),L).
 
 prime(2).
@@ -30,7 +30,7 @@ factor(N,L) :-
 % for the argument N.
 %   (integer,integer) (+,?)
 
-'https://josd.github.io/roundel#totient'(N,Phi) :-
+'https://josd.github.io/eye/ns#totient'(N,Phi) :-
     prime_factors_mult(N,L),
     to_phi(L,Phi).
 
@@ -117,12 +117,12 @@ divi(N,F,M,R,K) :-
 divi(N,_,M,N,M).
 
 % query
-query('https://josd.github.io/roundel#primerange'([0,100],_ANSWER)).
-query('https://josd.github.io/roundel#primerange'([1000000,1000100],_ANSWER)).
-query('https://josd.github.io/roundel#totient'(271,_ANSWER)).
-query('https://josd.github.io/roundel#totient'(2718281,_ANSWER)).
-query('https://josd.github.io/roundel#totient'(27182818284,_ANSWER)).
-query('https://josd.github.io/roundel#totient'(271828182845904,_ANSWER)).
+query('https://josd.github.io/eye/ns#primerange'([0,100],_ANSWER)).
+query('https://josd.github.io/eye/ns#primerange'([1000000,1000100],_ANSWER)).
+query('https://josd.github.io/eye/ns#totient'(271,_ANSWER)).
+query('https://josd.github.io/eye/ns#totient'(2718281,_ANSWER)).
+query('https://josd.github.io/eye/ns#totient'(27182818284,_ANSWER)).
+query('https://josd.github.io/eye/ns#totient'(271828182845904,_ANSWER)).
 
 run :-
     query(Q),

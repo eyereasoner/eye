@@ -1,7 +1,7 @@
 % Lee routing for VLSI circuits
 % Code from the book "The Art of Prolog" Chapter 16
 
-'https://josd.github.io/roundel#route'([Source,Destination,Obstacles],Path) :-
+'https://josd.github.io/eye/ns#route'([Source,Destination,Obstacles],Path) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),
     path(Source,Destination,Waves,Path).
 
@@ -65,7 +65,7 @@ path(A,B,[Wave|Waves],[B|Path]) :-
     path(A,B1,Waves,Path).
 
 % query
-query('https://josd.github.io/roundel#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER)).
+query('https://josd.github.io/eye/ns#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER)).
 
 run :-
     query(Q),

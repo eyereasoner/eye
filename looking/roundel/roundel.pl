@@ -2,7 +2,7 @@
 % Roundel -- Jos De Roo
 % ---------------------
 %
-% See https://josd.github.io/roundel
+% See https://github.com/josd/eye/tree/master/looking/roundel#readme
 %
 
 :- use_module(library(lists)).
@@ -58,7 +58,7 @@ astep(A) :-
 %
 % built-ins
 %
-'https://josd.github.io/roundel#pso_triple'([P, S, O], Triple) :-
+'https://josd.github.io/eye/ns#pso_triple'([P, S, O], Triple) :-
     (   var(P)
     ->  pred(P)
     ;   true

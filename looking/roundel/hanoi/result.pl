@@ -1,1 +1,1 @@
-'https://josd.github.io/roundel#move'(14,[left,centre,right]).
+'https://josd.github.io/eye/ns#move'(14,[left,centre,right]).

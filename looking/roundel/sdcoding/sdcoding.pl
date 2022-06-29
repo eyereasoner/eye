@@ -19,7 +19,7 @@
 % exhibit an interference effect: an answer is produced from the junction if it
 % occurs in one or the other branch but not both.
 
-:- dynamic('https://josd.github.io/roundel#sdcoding'/2).
+:- dynamic('https://josd.github.io/eye/ns#sdcoding'/2).
 
 % |R) = |0, 0) + |1, 1)
 r(false,false).
@@ -86,23 +86,23 @@ bob([X,Y],3) :-
     id(X,Y).
 
 % superdense coding
-'https://josd.github.io/roundel#sdc'(N,M) :-
+'https://josd.github.io/eye/ns#sdc'(N,M) :-
     r(X,Y),
     alice(N,[X,B]),
     bob([B,Y],M),
-    (   'https://josd.github.io/roundel#sdcoding'(N,M)
-    ->  retract('https://josd.github.io/roundel#sdcoding'(N,M))
-    ;   assertz('https://josd.github.io/roundel#sdcoding'(N,M))
+    (   'https://josd.github.io/eye/ns#sdcoding'(N,M)
+    ->  retract('https://josd.github.io/eye/ns#sdcoding'(N,M))
+    ;   assertz('https://josd.github.io/eye/ns#sdcoding'(N,M))
     ).
 
 % superdense coding appearing an odd number of times
 reason :-
-    'https://josd.github.io/roundel#sdc'(_N,_M),
+    'https://josd.github.io/eye/ns#sdc'(_N,_M),
     fail;
     true.
 
 % query
-query('https://josd.github.io/roundel#sdcoding'(_N,_M)).
+query('https://josd.github.io/eye/ns#sdcoding'(_N,_M)).
 
 run :-
     reason,

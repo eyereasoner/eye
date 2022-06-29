@@ -1,6 +1,6 @@
 % See https://en.wikipedia.org/wiki/Four_color_theorem
 
-'https://josd.github.io/roundel#color'(_Map,Places) :-
+'https://josd.github.io/eye/ns#color'(_Map,Places) :-
     findall([Place,_],neighbours(Place,_),Places),
     places(Places).
 
@@ -43,7 +43,7 @@ neighbours(sweden,[finland,denmark]).
 neighbours(united_kingdom,[ireland,netherlands,belgium,france]).
 
 % query
-query('https://josd.github.io/roundel#color'(map1,_ANSWER)).
+query('https://josd.github.io/eye/ns#color'(map1,_ANSWER)).
 
 run :-
     query(Q),

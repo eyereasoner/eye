@@ -1,6 +1,6 @@
 % New Scientist puzzle Enigma 1225
 
-'https://josd.github.io/roundel#enigma1225'(Size, [Permutation, Board, Max]) :-
+'https://josd.github.io/eye/ns#enigma1225'(Size, [Permutation, Board, Max]) :-
     setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
     last(Totals, Max),
     square(Size, Board, Max, _, Permutation).
@@ -192,7 +192,7 @@ square(Size, M, Total, Frequencies, Permutation) :-
     total(Frequencies, Total).
 
 % query
-query('https://josd.github.io/roundel#enigma1225'(10,_ANSWER)).
+query('https://josd.github.io/eye/ns#enigma1225'(10,_ANSWER)).
 
 run :-
     query(Q),

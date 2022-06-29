@@ -2,7 +2,7 @@
 % See background paper https://arxiv.org/pdf/2010.12027.pdf
 
 % find paths in the state space from initial state to goal state within limits
-'https://josd.github.io/roundel#findpath'(_SCOPE,[Goal,Path,Duration,Cost,Belief,Comfort,Limits]) :-
+'https://josd.github.io/eye/ns#findpath'(_SCOPE,[Goal,Path,Duration,Cost,Belief,Comfort,Limits]) :-
     findpaths([],Goal,[],0.0,0.0,1.0,1.0,Path,Duration,Cost,Belief,Comfort,Limits).
 
 findpaths(_Maps,Goal,Path,Duration,Cost,Belief,Comfort,Path,Duration,Cost,Belief,Comfort,_Limits) :-
@@ -10,10 +10,10 @@ findpaths(_Maps,Goal,Path,Duration,Cost,Belief,Comfort,Path,Duration,Cost,Belief
     !.
 findpaths(Maps_s,Goal,Path_s,Duration_s,Cost_s,Belief_s,Comfort_s,Path,Duration,Cost,Belief,Comfort,Limits) :-
     Limits = [MaxDuration,MaxCost,MinBelief,MinComfort,MaxStagecount],
-    clause('https://josd.github.io/roundel#description'(Map,[From,Transition,To,Action,Duration_n,Cost_n,Belief_n,Comfort_n]),Where),
+    clause('https://josd.github.io/eye/ns#description'(Map,[From,Transition,To,Action,Duration_n,Cost_n,Belief_n,Comfort_n]),Where),
     From,
     Where,
-    'https://josd.github.io/roundel#description'(Map,[From,Transition,To,Action,Duration_n,Cost_n,Belief_n,Comfort_n]),
+    'https://josd.github.io/eye/ns#description'(Map,[From,Transition,To,Action,Duration_n,Cost_n,Belief_n,Comfort_n]),
     append(Maps_s,[Map],Maps_t),
     stagecount(Maps_t,Stagecount),
     Stagecount =< MaxStagecount,
@@ -56,15 +56,15 @@ conj_list((A,B),[A|C]) :-
     conj_list(B,C).
 
 % test data
-:- dynamic('https://josd.github.io/roundel#description'/2).
-:- dynamic('https://josd.github.io/roundel#location'/2).
+:- dynamic('https://josd.github.io/eye/ns#description'/2).
+:- dynamic('https://josd.github.io/eye/ns#location'/2).
 
 % partial map of Belgium
-'https://josd.github.io/roundel#description'(
+'https://josd.github.io/eye/ns#description'(
     'http://example.org/ns#map_be',
-    [   'https://josd.github.io/roundel#location'(S,'http://example.org/ns#gent'),
+    [   'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#gent'),
         true,
-        'https://josd.github.io/roundel#location'(S,'http://example.org/ns#brugge'),
+        'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#brugge'),
         'http://example.org/ns#drive_gent_brugge',
         1500.0,
         0.006,
@@ -72,11 +72,11 @@ conj_list((A,B),[A|C]) :-
         0.99
     ]
 ).
-'https://josd.github.io/roundel#description'(
+'https://josd.github.io/eye/ns#description'(
     'http://example.org/ns#map_be',
-    [   'https://josd.github.io/roundel#location'(S,'http://example.org/ns#gent'),
+    [   'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#gent'),
         true,
-        'https://josd.github.io/roundel#location'(S,'http://example.org/ns#kortrijk'),
+        'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#kortrijk'),
         'http://example.org/ns#drive_gent_kortrijk',
         1600.0,
         0.007,
@@ -84,11 +84,11 @@ conj_list((A,B),[A|C]) :-
         0.99
     ]
 ).
-'https://josd.github.io/roundel#description'(
+'https://josd.github.io/eye/ns#description'(
     'http://example.org/ns#map_be',
-    [   'https://josd.github.io/roundel#location'(S,'http://example.org/ns#kortrijk'),
+    [   'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#kortrijk'),
         true,
-        'https://josd.github.io/roundel#location'(S,'http://example.org/ns#brugge'),
+        'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#brugge'),
         'http://example.org/ns#drive_kortrijk_brugge',
         1600.0,
         0.007,
@@ -96,11 +96,11 @@ conj_list((A,B),[A|C]) :-
         0.99
     ]
 ).
-'https://josd.github.io/roundel#description'(
+'https://josd.github.io/eye/ns#description'(
     'http://example.org/ns#map_be',
-    [   'https://josd.github.io/roundel#location'(S,'http://example.org/ns#brugge'),
+    [   'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#brugge'),
         true,
-        'https://josd.github.io/roundel#location'(S,'http://example.org/ns#oostende'),
+        'https://josd.github.io/eye/ns#location'(S,'http://example.org/ns#oostende'),
         'http://example.org/ns#drive_brugge_oostende',
         900.0,
         0.004,
@@ -110,12 +110,12 @@ conj_list((A,B),[A|C]) :-
 ).
 
 % current state
-'https://josd.github.io/roundel#location'('http://example.org/ns#i1','http://example.org/ns#gent').
+'https://josd.github.io/eye/ns#location'('http://example.org/ns#i1','http://example.org/ns#gent').
 
 % query
-query('https://josd.github.io/roundel#findpath'(
+query('https://josd.github.io/eye/ns#findpath'(
     'http://example.org/ns#map_be',
-    [   'https://josd.github.io/roundel#location'(_SUBJECT,'http://example.org/ns#oostende'),
+    [   'https://josd.github.io/eye/ns#location'(_SUBJECT,'http://example.org/ns#oostende'),
         _PATH,
         _DURATION,
         _COST,

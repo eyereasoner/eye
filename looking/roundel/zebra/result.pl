@@ -1,1 +1,1 @@
-'https://josd.github.io/roundel#zebra'(norwegian,japanese).
+'https://josd.github.io/eye/ns#zebra'(norwegian,japanese).

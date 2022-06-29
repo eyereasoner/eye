@@ -2,7 +2,7 @@
 % Mathematical library for derivatives
 % ------------------------------------
 
-'http://josd.github.io/roundel#derivative'([A,B],C) :-
+'http://josd.github.io/eye/ns#derivative'([A,B],C) :-
     derivative(A,B,C).
 
 derivative(U,X,Y) :-
@@ -108,10 +108,10 @@ s(A,B) :-
 s(A,A).
 
 % query
-query('http://josd.github.io/roundel#derivative'([(x+1)*((x^2+2)*(x^3+3)),x],_ANSWER)).
-query('http://josd.github.io/roundel#derivative'([x/x/x/x/x/x/x/x/x/x,x],_ANSWER)).
-query('http://josd.github.io/roundel#derivative'([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],_ANSWER)).
-query('http://josd.github.io/roundel#derivative'([x*x*x*x*x*x*x*x*x*x,x],_ANSWER)).
+query('http://josd.github.io/eye/ns#derivative'([(x+1)*((x^2+2)*(x^3+3)),x],_ANSWER)).
+query('http://josd.github.io/eye/ns#derivative'([x/x/x/x/x/x/x/x/x/x,x],_ANSWER)).
+query('http://josd.github.io/eye/ns#derivative'([log(log(log(log(log(log(log(log(log(log(x)))))))))),x],_ANSWER)).
+query('http://josd.github.io/eye/ns#derivative'([x*x*x*x*x*x*x*x*x*x,x],_ANSWER)).
 
 run :-
     query(Q),

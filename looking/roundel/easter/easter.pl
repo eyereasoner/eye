@@ -1,6 +1,6 @@
 % calculate easter date
 
-'https://josd.github.io/roundel#easter'(Year,[Month,Day]) :-
+'https://josd.github.io/eye/ns#easter'(Year,[Month,Day]) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -11,7 +11,7 @@
     Day is F rem 31+1.
 
 % query
-query('https://josd.github.io/roundel#easter'(Year,[_Month,_Day])) :-
+query('https://josd.github.io/eye/ns#easter'(Year,[_Month,_Day])) :-
     between(2021,2050,Year).
 
 run :-

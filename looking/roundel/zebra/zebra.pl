@@ -13,8 +13,8 @@
 % Expected solution: if the problem is modelled correctly by this program then the only solution set should be:
 % WaterDrinker = norwegian, ZebraOwner = japanese.
 
-% 'https://josd.github.io/roundel#solve_zebra'/2 - The main predicate for solving the puzzle
-'https://josd.github.io/roundel#zebra'(WaterDrinker, ZebraOwner) :-
+% 'https://josd.github.io/eye/ns#solve_zebra'/2 - The main predicate for solving the puzzle
+'https://josd.github.io/eye/ns#zebra'(WaterDrinker, ZebraOwner) :-
     length(Houses, 5),                                                          % 1. There are five houses.
     member(house(red, english, _, _, _), Houses),                               % 2. The Englishman lives in the red house.
     member(house(_, spanish, dog, _, _), Houses),                               % 3. The Spaniard owns the dog.
@@ -42,7 +42,7 @@ nextto(X, Y, [_|Zs]) :-
     nextto(X, Y, Zs).
 
 % query
-query('https://josd.github.io/roundel#zebra'(_WaterDrinker, _ZebraOwner)).
+query('https://josd.github.io/eye/ns#zebra'(_WaterDrinker, _ZebraOwner)).
 
 run :-
     query(Q),
