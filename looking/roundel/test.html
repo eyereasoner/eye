@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<pre id="log"></pre>
+<script>
+    // @@ make sure that websocketd is installed
+    // @@ make sure that ./ws is running
+
+    // helper function: log message to screen
+    function log(msg) {
+        document.getElementById('log').textContent += msg + '\n';
+    }
+
+    // setup websocket with callbacks
+    var ws = new WebSocket('ws://localhost:8080/');
+    ws.onopen = function() {
+        ws.send("./test");
+    };
+    ws.onmessage = function(event) {
+        log(event.data);
+    };
+</script>

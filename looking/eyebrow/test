@@ -1,0 +1,8 @@
+#!/bin/bash
+echo -n "" | tee result.html
+for f in examples/*.html
+do
+    echo "<!-- running $f -->" | tee -a result.html
+    ./eyebrow ./$f | tee -a result.html
+    echo "" | tee -a result.html
+done

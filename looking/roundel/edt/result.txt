@@ -1,0 +1,27 @@
+$ time tpl -g "consult('edt.pl'),run,halt."
+'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'('http://example.org/ns#i100000','http://example.org/ns#N100000').
+
+real    0m1.768s
+user    0m1.706s
+sys     0m0.062s
+
+
+$ time swipl -g "consult('edt.pl'),run,halt."
+'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'('http://example.org/ns#i100000','http://example.org/ns#N100000').
+
+real    0m4.283s
+user    0m4.222s
+sys     0m0.061s
+
+
+$ time scryer-prolog -g "consult('edt.pl'),run,halt."
+'http://www.w3.org/1999/02/22-rdf-syntax-ns#type'('http://example.org/ns#i100000','http://example.org/ns#N100000').
+
+real    27m17.889s
+user    27m15.255s
+sys     0m2.601s
+
+
+$ time taupl -g "consult('edt.pl'),run,halt."
+^C
+would take about 13h20m

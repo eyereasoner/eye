@@ -1,0 +1,10 @@
+'https://josd.github.io/roundel#exp'([[-1,0],[0.5,0]],[6.123233995736766e-17,1.0]).
+'https://josd.github.io/roundel#exp'([[e,0],[0,pi]],[-1.0,1.224646799147353e-16]).
+'https://josd.github.io/roundel#log'([[e,0],[-1,0]],[0.0,3.141592653589793]).
+'https://josd.github.io/roundel#log'([[0,1],[0,1]],[1.0,0.0]).
+'https://josd.github.io/roundel#sin'([1.570796326794897,1.316957896924817],[2.0,-6.631275506809351e-16]).
+'https://josd.github.io/roundel#cos'([0,-1.316957896924817],[2.0,0.0]).
+'https://josd.github.io/roundel#tan'([1.338972522294493,0.4023594781085251],[1.000000000000001,1.999999999999998]).
+'https://josd.github.io/roundel#asin'([2,0],[1.570796326794897,1.316957896924817]).
+'https://josd.github.io/roundel#acos'([2,0],[0.0,-1.316957896924817]).
+'https://josd.github.io/roundel#atan'([1,2],[1.338972522294493,0.4023594781085251]).

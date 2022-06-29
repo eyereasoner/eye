@@ -1,0 +1,15 @@
+#!/bin/bash
+mkdir -p swipl-wasm
+mkdir -p swipl-wasm/home
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/swipl.home ./swipl-wasm
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/boot/build_home.pl ./swipl-wasm/home/swipl.rc
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/boot ./swipl-wasm/home
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/boot.prc ./swipl-wasm/home
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/library ./swipl-wasm/home
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/lynx/INDEX.pl ./swipl-wasm/home/library/lynx
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/clp/INDEX.pl ./swipl-wasm/home/library/clp
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/dcg/INDEX.pl ./swipl-wasm/home/library/dcg
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/unicode/INDEX.pl ./swipl-wasm/home/library/unicode
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/INDEX.pl ./swipl-wasm/home/library
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl.wasm ./swipl-wasm/home
+js-beautify ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl.js > ./swipl-wasm/home/swipl.js

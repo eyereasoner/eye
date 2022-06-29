@@ -1,0 +1,19 @@
+time tpl -g run,halt rules.pl facts.pl | tee result.pl
+
+real    0m17.536s
+user    0m17.487s
+sys     0m0.056s
+
+
+time scryer-prolog -g run,halt rules.pl facts.pl | tee result.pl
+
+real    71m8.232s
+user    71m4.125s
+sys     0m4.035s
+
+
+time taupl -g "consult('../roundel.pl'), consult('rules.pl'), consult('facts.pl'), run, halt." | tee result.pl
+
+real    783m36.252s
+user    862m24.340s
+sys     11m59.574s
