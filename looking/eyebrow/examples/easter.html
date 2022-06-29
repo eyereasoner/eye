@@ -11,7 +11,7 @@ var session = pl.create();
 var knows = `
 % calculate easter date
 
-'https://josd.github.io/eyebrow#easter'(Year, [Month,Day]) :-
+'https://josd.github.io/eye/ns#easter'(Year, [Month,Day]) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -24,9 +24,9 @@ var knows = `
 
 var query = `
 findall(
-    'https://josd.github.io/eyebrow#easter'(Year, [Month,Day]),
+    'https://josd.github.io/eye/ns#easter'(Year, [Month,Day]),
     (   between(2021, 2050, Year),
-        'https://josd.github.io/eyebrow#easter'(Year, [Month,Day])
+        'https://josd.github.io/eye/ns#easter'(Year, [Month,Day])
     ),
     Answer
 ).

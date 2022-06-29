@@ -15,7 +15,7 @@ var knows = `
 
 :- use_module(library(lists)).
 
-'https://josd.github.io/eyebrow#route'([Source,Destination,Obstacles], Path) :-
+'https://josd.github.io/eye/ns#route'([Source,Destination,Obstacles], Path) :-
     waves(Destination, [[Source],[]], Obstacles, Waves),
     path(Source, Destination, Waves, Path).
 
@@ -80,7 +80,7 @@ path(A, B, [Wave|Waves], [B|Path]) :-
 `;
 
 var query = `
-'https://josd.github.io/eyebrow#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]], Answer).
+'https://josd.github.io/eye/ns#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]], Answer).
 `;
 
 session.consult(knows, {

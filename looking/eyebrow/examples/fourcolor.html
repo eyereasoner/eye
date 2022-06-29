@@ -14,19 +14,19 @@ var knows = `
 
 :- use_module(library(lists)).
 
-'https://josd.github.io/eyebrow#colors'(_Map, Places) :-
-    findall([Place,_], 'https://josd.github.io/eyebrow#neighbours'(Place, _), Places),
+'https://josd.github.io/eye/ns#colors'(_Map, Places) :-
+    findall([Place,_], 'https://josd.github.io/eye/ns#neighbours'(Place, _), Places),
     places(Places).
 
 places([]).
 places([[Place,Color]|Tail]) :-
     places(Tail),
-    'https://josd.github.io/eyebrow#neighbours'(Place, Neighbours),
+    'https://josd.github.io/eye/ns#neighbours'(Place, Neighbours),
     member(Color, [red,green,blue,yellow]),
     \\+ (member([Neighbour,Color], Tail), member(Neighbour, Neighbours)).
 
 % test data
-'https://josd.github.io/eyebrow#neighbours'(
+'https://josd.github.io/eye/ns#neighbours'(
     'http://example.org/ns#place1',
     [   'http://example.org/ns#place2',
         'http://example.org/ns#place5',
@@ -34,14 +34,14 @@ places([[Place,Color]|Tail]) :-
         'http://example.org/ns#place3'
     ]
 ).
-'https://josd.github.io/eyebrow#neighbours'(
+'https://josd.github.io/eye/ns#neighbours'(
     'http://example.org/ns#place2',
     [   'http://example.org/ns#place1',
         'http://example.org/ns#place4',
         'http://example.org/ns#place3'
     ]
 ).
-'https://josd.github.io/eyebrow#neighbours'(
+'https://josd.github.io/eye/ns#neighbours'(
     'http://example.org/ns#place3',
     [   'http://example.org/ns#place5',
         'http://example.org/ns#place1',
@@ -49,14 +49,14 @@ places([[Place,Color]|Tail]) :-
         'http://example.org/ns#place2'
     ]
 ).
-'https://josd.github.io/eyebrow#neighbours'(
+'https://josd.github.io/eye/ns#neighbours'(
     'http://example.org/ns#place4',
     [   'http://example.org/ns#place1',
         'http://example.org/ns#place2',
         'http://example.org/ns#place3'
     ]
 ).
-'https://josd.github.io/eyebrow#neighbours'(
+'https://josd.github.io/eye/ns#neighbours'(
     'http://example.org/ns#place5',
     [   'http://example.org/ns#place1',
         'http://example.org/ns#place3'
@@ -65,7 +65,7 @@ places([[Place,Color]|Tail]) :-
 `;
 
 var query = `
-'https://josd.github.io/eyebrow#colors'(map1, Answer).
+'https://josd.github.io/eye/ns#colors'(map1, Answer).
 `;
 
 session.consult(knows, {

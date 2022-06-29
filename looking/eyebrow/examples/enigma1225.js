@@ -9,7 +9,7 @@ var knows = `
 
 :- use_module(library(lists)).
 
-'http://josd.github.io/eyebrow#enigma1225'(Size, [Permutation, Board, Max]) :-
+'http://josd.github.io/eye/ns#enigma1225'(Size, [Permutation, Board, Max]) :-
     setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
     last(Totals, Max),
     square(Size, Board, Max, _, Permutation).
@@ -214,7 +214,7 @@ square(Size, M, Total, Frequencies, Permutation) :-
 `;
 
 var query = `
-'http://josd.github.io/eyebrow#enigma1225'(10, Answer).
+'http://josd.github.io/eye/ns#enigma1225'(10, Answer).
 `;
 
 // Consult program, query goal, and show answers

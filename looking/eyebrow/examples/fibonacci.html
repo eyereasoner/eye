@@ -22,7 +22,7 @@ var knows = `
 
 :- use_module(library(js)).
 
-'https://josd.github.io/eyebrow#fibonacci'(A, B) :-
+'https://josd.github.io/eye/ns#fibonacci'(A, B) :-
     fibonacci(A, '0', '1', B).
 
 fibonacci('0', A, _, A) :-
@@ -34,25 +34,25 @@ fibonacci(A, B, C, D) :-
     apply(add, [B,C], F),
     fibonacci(E, C, F, D).
 
-'https://josd.github.io/eyebrow#golden_ratio'(A, B) :-
-    'https://josd.github.io/eyebrow#fibonacci'(A, C),
+'https://josd.github.io/eye/ns#golden_ratio'(A, B) :-
+    'https://josd.github.io/eye/ns#fibonacci'(A, C),
     apply(add, [A,'1'], D),
-    'https://josd.github.io/eyebrow#fibonacci'(D, E),
+    'https://josd.github.io/eye/ns#fibonacci'(D, E),
     apply(divide, [E,C], B).
 
 % test
-case('https://josd.github.io/eyebrow#fibonacci'('1', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('2', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('3', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('4', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('5', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('91', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('283', _ANSWER)).
-case('https://josd.github.io/eyebrow#fibonacci'('3674', _ANSWER)).
-case('https://josd.github.io/eyebrow#golden_ratio'('1', _ANSWER)).
-case('https://josd.github.io/eyebrow#golden_ratio'('10', _ANSWER)).
-case('https://josd.github.io/eyebrow#golden_ratio'('100', _ANSWER)).
-case('https://josd.github.io/eyebrow#golden_ratio'('1000', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('1', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('2', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('3', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('4', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('5', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('91', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('283', _ANSWER)).
+case('https://josd.github.io/eye/ns#fibonacci'('3674', _ANSWER)).
+case('https://josd.github.io/eye/ns#golden_ratio'('1', _ANSWER)).
+case('https://josd.github.io/eye/ns#golden_ratio'('10', _ANSWER)).
+case('https://josd.github.io/eye/ns#golden_ratio'('100', _ANSWER)).
+case('https://josd.github.io/eye/ns#golden_ratio'('1000', _ANSWER)).
 `;
 
 var query = `

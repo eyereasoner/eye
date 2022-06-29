@@ -11,28 +11,28 @@ var session = pl.create();
 var knows = `
 % Traversing graph paths
 
-:- dynamic('https://josd.github.io/eyebrow#path'/2).
+:- dynamic('https://josd.github.io/eye/ns#path'/2).
 
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#paris', 'http://example.org/ns#orleans').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#paris', 'http://example.org/ns#chartres').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#paris', 'http://example.org/ns#amiens').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#orleans', 'http://example.org/ns#blois').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#orleans', 'http://example.org/ns#bourges').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#blois', 'http://example.org/ns#tours').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#chartres', 'http://example.org/ns#lemans').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#lemans', 'http://example.org/ns#angers').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#lemans', 'http://example.org/ns#tours').
-'https://josd.github.io/eyebrow#oneway'('http://example.org/ns#angers', 'http://example.org/ns#nantes').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#paris', 'http://example.org/ns#orleans').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#paris', 'http://example.org/ns#chartres').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#paris', 'http://example.org/ns#amiens').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#orleans', 'http://example.org/ns#blois').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#orleans', 'http://example.org/ns#bourges').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#blois', 'http://example.org/ns#tours').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#chartres', 'http://example.org/ns#lemans').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#lemans', 'http://example.org/ns#angers').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#lemans', 'http://example.org/ns#tours').
+'https://josd.github.io/eye/ns#oneway'('http://example.org/ns#angers', 'http://example.org/ns#nantes').
 
 'http://www.w3.org/2000/10/swap/log#implies'(
-    'https://josd.github.io/eyebrow#oneway'(A, B),
-    'https://josd.github.io/eyebrow#path'(A, B)
+    'https://josd.github.io/eye/ns#oneway'(A, B),
+    'https://josd.github.io/eye/ns#path'(A, B)
 ).
 'http://www.w3.org/2000/10/swap/log#implies'(
-    (   'https://josd.github.io/eyebrow#path'(A, B),
-        'https://josd.github.io/eyebrow#path'(B, C)
+    (   'https://josd.github.io/eye/ns#path'(A, B),
+        'https://josd.github.io/eye/ns#path'(B, C)
     ),
-    'https://josd.github.io/eyebrow#path'(A, C)
+    'https://josd.github.io/eye/ns#path'(A, C)
 ).
 
 % forward chaining
@@ -78,8 +78,8 @@ astep(A) :-
 var query = `
 forward,
 findall(
-    'https://josd.github.io/eyebrow#path'(City, 'http://example.org/ns#nantes'),
-    'https://josd.github.io/eyebrow#path'(City, 'http://example.org/ns#nantes'),
+    'https://josd.github.io/eye/ns#path'(City, 'http://example.org/ns#nantes'),
+    'https://josd.github.io/eye/ns#path'(City, 'http://example.org/ns#nantes'),
     Answer
 ).
 `;

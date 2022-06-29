@@ -16,10 +16,10 @@ var knows = `
 
 % interpreter for Univeral Turing Machine
 
-'https://josd.github.io/eyebrow#compute'([], OutTape) :-
+'https://josd.github.io/eye/ns#compute'([], OutTape) :-
     start(_MACHINE, I),
     find(I, [], #, [], OutTape).
-'https://josd.github.io/eyebrow#compute'([Head|Tail], OutTape) :-
+'https://josd.github.io/eye/ns#compute'([Head|Tail], OutTape) :-
     start(_MACHINE, I),
     find(I, [], Head, Tail, OutTape).
 
@@ -52,10 +52,10 @@ t([1,1,0,l], 1).
 t([1,#,1,s], halt).
 
 % test
-case('https://josd.github.io/eyebrow#compute'([1,0,1,0,0,1], _ANSWER)).
-case('https://josd.github.io/eyebrow#compute'([1,0,1,1,1,1], _ANSWER)).
-case('https://josd.github.io/eyebrow#compute'([1,1,1,1,1,1], _ANSWER)).
-case('https://josd.github.io/eyebrow#compute'([], _ANSWER)).
+case('https://josd.github.io/eye/ns#compute'([1,0,1,0,0,1], _ANSWER)).
+case('https://josd.github.io/eye/ns#compute'([1,0,1,1,1,1], _ANSWER)).
+case('https://josd.github.io/eye/ns#compute'([1,1,1,1,1,1], _ANSWER)).
+case('https://josd.github.io/eye/ns#compute'([], _ANSWER)).
 `;
 
 var query = `
