@@ -4,10 +4,10 @@
 
 % interpreter for Univeral Turing Machine
 
-'https://idlabresearch.github.io/ns#compute'([],OutTape) :-
+'https://josd.github.io/eye/ns#compute'([],OutTape) :-
     start(_MACHINE,I),
     find(I,[],"#",[ ],OutTape).
-'https://idlabresearch.github.io/ns#compute'([Head|Tail],OutTape) :-
+'https://josd.github.io/eye/ns#compute'([Head|Tail],OutTape) :-
     start(_MACHINE,I),
     find(I,[],Head,Tail,OutTape).
 
@@ -45,7 +45,7 @@ t([1,1,0,l],1).
 t([1,"#",1,s],halt).
 
 % query
-'https://idlabresearch.github.io/ns#compute'([1,0,1,0,0,1],_ANSWER) => true.
-'https://idlabresearch.github.io/ns#compute'([1,0,1,1,1,1],_ANSWER) => true.
-'https://idlabresearch.github.io/ns#compute'([1,1,1,1,1,1],_ANSWER) => true.
-'https://idlabresearch.github.io/ns#compute'([],_ANSWER) => true.
+'https://josd.github.io/eye/ns#compute'([1,0,1,0,0,1],_ANSWER) => true.
+'https://josd.github.io/eye/ns#compute'([1,0,1,1,1,1],_ANSWER) => true.
+'https://josd.github.io/eye/ns#compute'([1,1,1,1,1,1],_ANSWER) => true.
+'https://josd.github.io/eye/ns#compute'([],_ANSWER) => true.

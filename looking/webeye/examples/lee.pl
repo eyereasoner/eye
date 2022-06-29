@@ -3,7 +3,7 @@
 
 :- use_module(library(lists)).
 
-'https://idlabresearch.github.io/ns#route'([Source,Destination,Obstacles],Path) :-
+'https://josd.github.io/eye/ns#route'([Source,Destination,Obstacles],Path) :-
     waves(Destination,[[Source],[]],Obstacles,Waves),
     path(Source,Destination,Waves,Path).
 
@@ -67,4 +67,4 @@ path(A,B,[Wave|Waves],[B|Path]) :-
     path(A,B1,Waves,Path).
 
 % query
-'https://idlabresearch.github.io/ns#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER) => true.
+'https://josd.github.io/eye/ns#route'([[1,1],[9,8],[[[2,3],[4,5]],[[6,6],[8,8]]]],_ANSWER) => true.

@@ -33,29 +33,10 @@ This forms a dialogue leading to necessary and sufficient answers, supported by 
 
 ## Installation and test
 
-### Tau Prolog
-
-Install [Node.js](https://nodejs.org/en/download/) and then
-
-```
-$ npm install tau-prolog
-$ ./test-tau
-```
-
-### Scryer Prolog
-
 Install [Rust](https://www.rust-lang.org/tools/install) and [Scryer Prolog](https://github.com/mthom/scryer-prolog#installing-scryer-prolog) and then
 
 ```
-$ ./test-scryer
-```
-
-### Trealla Prolog
-
-Install [Trealla Prolog](https://github.com/trealla-prolog/trealla#building) and then
-
-```
-$ ./test-trealla
+$ ./test
 ```
 
 ## Background

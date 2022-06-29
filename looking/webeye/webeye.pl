@@ -2,7 +2,7 @@
 % Webeye -- Jos De Roo
 % --------------------
 %
-% See https://idlabresearch.github.io/Webeye/
+% See https://josd.github.io/eye/Webeye/
 %
 
 :- use_module(library(lists)).
@@ -52,7 +52,7 @@ run(Options) :-
         (   member(proof_step,Options),
             \+proof_step((Prem => Conc))
         ->  assertz(proof_step((Prem => Conc))),
-            writeq('https://idlabresearch.github.io/ns#proof_step'(Rule,(Prem => Conc))),
+            writeq('https://josd.github.io/eye/ns#proof_step'(Rule,(Prem => Conc))),
             write('.\n')
         ;   true
         ),
@@ -99,7 +99,7 @@ astep(_,A) :-
 %
 % built-ins
 %
-'https://idlabresearch.github.io/ns#pso_triple'([P,S,O],Triple) :-
+'https://josd.github.io/eye/ns#pso_triple'([P,S,O],Triple) :-
     (   var(P)
     ->  pred(P)
     ;   true
