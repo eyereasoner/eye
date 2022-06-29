@@ -2,7 +2,7 @@
 % Webeye -- Jos De Roo
 % --------------------
 %
-% See https://josd.github.io/eye/Webeye/
+% See https://github.com/josd/eye/tree/master/looking/webeye#readme
 %
 
 :- use_module(library(lists)).
