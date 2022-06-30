@@ -7,7 +7,7 @@ Install the required Python packages via
 python3 -m pip install sympy
 ```
 
-Run all the tests via
+To test it run
 ```
 ./test
 ```

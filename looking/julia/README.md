@@ -7,7 +7,7 @@ Install the required Julia packages via
 julia -e 'using Pkg; Pkg.add("Polynomials"); Pkg.add("Primes"); Pkg.add("Symbolics"); Pkg.add("Julog")'
 ```
 
-Run the tests via
+To test it run
 ```
 ./test
 ```
