@@ -1,6 +1,4 @@
-# eyebrow
-
-## Reasoning in the browser
+# Reasoning in the browser
 
 Eyebrow is expressed in [ISO Prolog](https://en.wikipedia.org/wiki/Prolog#ISO_Prolog):
 

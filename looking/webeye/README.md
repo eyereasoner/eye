@@ -1,9 +1,7 @@
-# Webeye
+# Webized reasoning
 
 Webeye is doing webized reasoning via forward and backward chaining.
 It participates in dialogues leading to necessary and sufficient answers, supported by proof steps, so that action can take place.
-
-## Webized reasoning
 
 Webeye is using [ISO Prolog notation](https://en.wikipedia.org/wiki/Prolog#ISO_Prolog):
 

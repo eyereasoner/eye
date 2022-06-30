@@ -1,6 +1,4 @@
-# roundel
-
-## Reasoning on Web scale
+# Reasoning on Web scale
 
 Roundel is expressed in [ISO Prolog](https://en.wikipedia.org/wiki/Prolog#ISO_Prolog)
 
