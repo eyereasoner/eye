@@ -1,8 +1,8 @@
-# ------------------------------------------------------
-# Seeing With Another eye in Python - SWAP -- Jos De Roo
-# ------------------------------------------------------
+# -----------------------------------
+# Another eye in python -- Jos De Roo
+# -----------------------------------
 #
-# See https://github.com/josd/eye/blob/master/swap/README.md
+# See https://github.com/josd/eye/tree/master/looking/eye.py#readme
 #
 
 import copy, math, string, sys, time, urllib.request, urllib.error, urllib.parse
@@ -442,7 +442,6 @@ def run(args):
     why = False
     once = False
     debug = False
-    ts = time.time()
     for arg in args:
         if arg == '--why': why = True
         elif arg == '--once': once = True
@@ -467,8 +466,8 @@ def run(args):
         print(prove(g, rules, why, once, count))
     sys.stdout.flush()
     
-    sys.stderr.write('#ENDS %s [%s triples] [%s steps/%s sec]\n' %
-          (args[-1], triple, step[0], time.time()-ts))
+    sys.stderr.write('#ENDS %s [%s triples]\n' %
+          (args[-1], triple))
     sys.stderr.flush()
 
 def _test():

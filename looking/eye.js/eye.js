@@ -1,6 +1,8 @@
+// ---------------------------------------
 // Another eye in javascript -- Jos De Roo
+// ---------------------------------------
 //
-// Using plain javascript to express facts, rules, queries, proofs and engines.
+// See https://github.com/josd/eye/tree/master/looking/eye.js#readme
 //
 
 module.exports = {
