@@ -36,7 +36,7 @@ This forms a dialogue leading to necessary and sufficient answers, supported by 
 Install [Rust](https://www.rust-lang.org/tools/install) and [Scryer Prolog](https://github.com/mthom/scryer-prolog#installing-scryer-prolog) and then
 
 ```
-$ ./test
+./test
 ```
 
 ## Background
