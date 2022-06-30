@@ -1,0 +1,22 @@
+@prefix : <http://josd.github.io/eye/ns#>.
+
+:Frans :father :Jos.
+:Maria :mother :Jos.
+:Jos :father :Goedele.
+:Jos :father :Veerle.
+:Jos :father :Nele.
+:Jos :father :Karel.
+:Maaike :mother :Goedele.
+:Maaike :mother :Veerle.
+:Maaike :mother :Nele.
+:Maaike :mother :Karel.
+
+{?X :father ?Y} => {?X :parent ?Y}.
+{?X :mother ?Y} => {?X :parent ?Y}.
+{?Y :parent ?X} => {?X :childof ?Y}.
+{?X :parent ?Y} => {?X :ancestor ?Y}.
+{?X :ancestor ?Y. ?Y :ancestor ?Z} => {?X :ancestor ?Z}.
+{?Y :ancestor ?X} => {?X :descendant ?Y}.
+
+{:Frans :ancestor ?X} => [].
+{:Veerle :descendant ?X} => [].
