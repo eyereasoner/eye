@@ -1,6 +1,6 @@
 # eye-wasm
 
-### The EYE reasoner running on Node
+## The EYE reasoner running on Node
 
 To make it run
 ```
