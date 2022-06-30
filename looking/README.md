@@ -1,1 +1,1 @@
-# Looking through the eyes of others
+# Looking with different eyes
