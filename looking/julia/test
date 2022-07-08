@@ -1,9 +1,0 @@
-#!/bin/bash
-echo "@prefix : <http://josd.github.io/eye/ns#>." | tee result.n3
-echo "" | tee -a result.n3
-
-for f in *.jl
-do
-    julia "$f" | tee -a result.n3
-    echo "" | tee -a result.n3
-done
