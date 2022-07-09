@@ -1,0 +1,45 @@
+#!/bin/bash
+: '
+pushd ~/github.com/SWI-Prolog
+git clone https://github.com/SWI-Prolog/swipl-devel
+cd swipl-devel
+git submodule update --init
+sudo apt install \
+    build-essential cmake ninja-build pkg-config \
+    ncurses-dev libedit-dev \
+    libunwind-dev \
+    libgmp-dev \
+    libssl-dev \
+    unixodbc-dev \
+    zlib1g-dev libarchive-dev \
+    libossp-uuid-dev \
+    libxext-dev libice-dev libjpeg-dev libxinerama-dev libxft-dev \
+    libxpm-dev libxt-dev \
+    libdb-dev \
+    libpcre3-dev \
+    libyaml-dev \
+    openjdk-8-jdk junit \
+    texlive-latex-extra \
+    texlive-font-utils \
+    texlive-fonts-extra \
+    texlive-fonts-extra-doc \
+    texlive-fonts-recommended \
+    texlive-fonts-recommended-doc
+popd
+'
+export CTEST_OUTPUT_ON_FAILURE=y
+pushd ~/github.com/SWI-Prolog/swipl-devel
+git pull
+git submodule update
+mkdir -p build
+cd build
+cmake -G Ninja ..
+ninja
+# ctest -j 8
+sudo ninja install
+ei
+popd
+pushd ~/github.com/josd/eye/reasoning
+./test
+git diff
+popd

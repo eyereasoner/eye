@@ -1,4 +1,42 @@
 #!/bin/bash
+: '
+pushd ~
+git clone https://github.com/emscripten-core/emsdk.git
+cd emsdk
+./emsdk install latest
+./emsdk activate latest
+source ./emsdk_env.sh
+wget https://zlib.net/zlib-1.2.11.tar.gz -O "$HOME/zlib-1.2.11.tar.gz"
+tar -xf "$HOME/zlib-1.2.11.tar.gz" -C "$HOME"
+cd "$HOME/zlib-1.2.11"
+emconfigure ./configure
+emmake make
+popd
+'
+export CTEST_OUTPUT_ON_FAILURE=y
+pushd ~/github.com/SWI-Prolog/swipl-devel
+git pull
+git submodule update
+mkdir -p build.wasm
+cd build.wasm
+source ~/emsdk/emsdk_env.sh
+export EMSCRIPTEN=~/emsdk/upstream/emscripten/
+cmake -DCMAKE_TOOLCHAIN_FILE=$EMSCRIPTEN/cmake/Modules/Platform/Emscripten.cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_EXE_LINKER_FLAGS="${CMAKE_EXE_LINKER_FLAGS} -s ASSERTIONS=1 -s ALLOW_MEMORY_GROWTH=1" \
+  -DZLIB_LIBRARY=$HOME/zlib-1.2.11/libz.a \
+  -DZLIB_INCLUDE_DIR=$HOME/zlib-1.2.11 \
+  -DMULTI_THREADED=OFF \
+  -DUSE_SIGNALS=OFF \
+  -DUSE_GMP=OFF \
+  -DBUILD_SWIPL_LD=OFF \
+  -DSWIPL_PACKAGES=OFF \
+  -DINSTALL_DOCUMENTATION=OFF \
+  -DSWIPL_NATIVE_FRIEND=build \
+  -G Ninja ..
+ninja
+popd
+pushd ~/github.com/josd/eye/eyejs
 mkdir -p swipl-wasm
 mkdir -p swipl-wasm/home
 rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/swipl.home ./swipl-wasm
@@ -13,3 +51,9 @@ rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/unicode/I
 rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/home/library/INDEX.pl ./swipl-wasm/home/library
 rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl.wasm ./swipl-wasm/home
 js-beautify ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl.js > ./swipl-wasm/home/swipl.js
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl-web.wasm ./swipl-wasm/home/swipl-web.wasm
+rsync -azv ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl-web.data ./swipl-wasm/home/swipl-web.data
+js-beautify ~/github.com/SWI-Prolog/swipl-devel/build.wasm/src/swipl-web.js > ./swipl-wasm/home/swipl-web.js
+./test
+git diff
+popd
