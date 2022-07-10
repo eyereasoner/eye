@@ -2993,878 +2993,850 @@ var SWIPL = (() => {
                     "files": [{
                         "filename": "/src/wasm-preload/boot.prc",
                         "start": 0,
-                        "end": 106206
+                        "end": 106252
                     }, {
                         "filename": "/src/wasm-preload/library/predicate_options.pl",
-                        "start": 106206,
-                        "end": 137248
+                        "start": 106252,
+                        "end": 137294
                     }, {
                         "filename": "/src/wasm-preload/library/coinduction.pl",
-                        "start": 137248,
-                        "end": 143308
+                        "start": 137294,
+                        "end": 143354
                     }, {
                         "filename": "/src/wasm-preload/library/sort.pl",
-                        "start": 143308,
-                        "end": 147128
+                        "start": 143354,
+                        "end": 147174
                     }, {
                         "filename": "/src/wasm-preload/library/readutil.pl",
-                        "start": 147128,
-                        "end": 158217
+                        "start": 147174,
+                        "end": 158263
                     }, {
                         "filename": "/src/wasm-preload/library/portray_text.pl",
-                        "start": 158217,
-                        "end": 166959
+                        "start": 158263,
+                        "end": 167005
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_source.pl",
-                        "start": 166959,
-                        "end": 203723
+                        "start": 167005,
+                        "end": 203769
                     }, {
                         "filename": "/src/wasm-preload/library/settings.pl",
-                        "start": 203723,
-                        "end": 227687
+                        "start": 203769,
+                        "end": 227733
                     }, {
                         "filename": "/src/wasm-preload/library/obfuscate.pl",
-                        "start": 227687,
-                        "end": 231809
+                        "start": 227733,
+                        "end": 231855
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_breakpoints.pl",
-                        "start": 231809,
-                        "end": 246178
+                        "start": 231855,
+                        "end": 246224
                     }, {
                         "filename": "/src/wasm-preload/library/main.pl",
-                        "start": 246178,
-                        "end": 276742
+                        "start": 246224,
+                        "end": 276788
                     }, {
                         "filename": "/src/wasm-preload/library/fastrw.pl",
-                        "start": 276742,
-                        "end": 281131
+                        "start": 276788,
+                        "end": 281177
                     }, {
                         "filename": "/src/wasm-preload/library/varnumbers.pl",
-                        "start": 281131,
-                        "end": 288272
+                        "start": 281177,
+                        "end": 288318
                     }, {
                         "filename": "/src/wasm-preload/library/ctypes.pl",
-                        "start": 288272,
-                        "end": 293294
+                        "start": 288318,
+                        "end": 293340
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_codewalk.pl",
-                        "start": 293294,
-                        "end": 332756
+                        "start": 293340,
+                        "end": 332802
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_autoload.pl",
-                        "start": 332756,
-                        "end": 341305
+                        "start": 332802,
+                        "end": 341351
                     }, {
                         "filename": "/src/wasm-preload/library/quintus.pl",
-                        "start": 341305,
-                        "end": 354398
+                        "start": 341351,
+                        "end": 354444
                     }, {
                         "filename": "/src/wasm-preload/library/utf8.pl",
-                        "start": 354398,
-                        "end": 359003
+                        "start": 354444,
+                        "end": 359049
                     }, {
                         "filename": "/src/wasm-preload/library/check.pl",
-                        "start": 359003,
-                        "end": 392500
+                        "start": 359049,
+                        "end": 392546
                     }, {
                         "filename": "/src/wasm-preload/library/ordsets.pl",
-                        "start": 392500,
-                        "end": 409052
+                        "start": 392546,
+                        "end": 409098
                     }, {
                         "filename": "/src/wasm-preload/library/writef.pl",
-                        "start": 409052,
-                        "end": 418973
+                        "start": 409098,
+                        "end": 419019
                     }, {
                         "filename": "/src/wasm-preload/library/apply.pl",
-                        "start": 418973,
-                        "end": 432769
+                        "start": 419019,
+                        "end": 432815
                     }, {
                         "filename": "/src/wasm-preload/library/heaps.pl",
-                        "start": 432769,
-                        "end": 441046
+                        "start": 432815,
+                        "end": 441092
                     }, {
                         "filename": "/src/wasm-preload/library/ugraphs.pl",
-                        "start": 441046,
-                        "end": 461510
+                        "start": 441092,
+                        "end": 461556
                     }, {
                         "filename": "/src/wasm-preload/library/tty.pl",
-                        "start": 461510,
-                        "end": 470785
+                        "start": 461556,
+                        "end": 470831
                     }, {
                         "filename": "/src/wasm-preload/library/files.pl",
-                        "start": 470785,
-                        "end": 473542
+                        "start": 470831,
+                        "end": 473588
                     }, {
                         "filename": "/src/wasm-preload/library/optparse.pl",
-                        "start": 473542,
-                        "end": 511309
+                        "start": 473588,
+                        "end": 511355
                     }, {
                         "filename": "/src/wasm-preload/library/atom.pl",
-                        "start": 511309,
-                        "end": 516731
+                        "start": 511355,
+                        "end": 516777
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_deps.pl",
-                        "start": 516731,
-                        "end": 533914
+                        "start": 516777,
+                        "end": 533960
                     }, {
                         "filename": "/src/wasm-preload/library/gensym.pl",
-                        "start": 533914,
-                        "end": 537928
+                        "start": 533960,
+                        "end": 537974
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_install.pl",
-                        "start": 537928,
-                        "end": 543710
+                        "start": 537974,
+                        "end": 543756
                     }, {
                         "filename": "/src/wasm-preload/library/yall.pl",
-                        "start": 543710,
-                        "end": 563220
+                        "start": 543756,
+                        "end": 563266
                     }, {
                         "filename": "/src/wasm-preload/library/qsave.pl",
-                        "start": 563220,
-                        "end": 605177
+                        "start": 563266,
+                        "end": 605223
                     }, {
                         "filename": "/src/wasm-preload/library/occurs.pl",
-                        "start": 605177,
-                        "end": 612008
+                        "start": 605223,
+                        "end": 612054
                     }, {
                         "filename": "/src/wasm-preload/library/aggregate.pl",
-                        "start": 612008,
-                        "end": 636393
+                        "start": 612054,
+                        "end": 636439
                     }, {
                         "filename": "/src/wasm-preload/library/hotfix.pl",
-                        "start": 636393,
-                        "end": 644275
+                        "start": 636439,
+                        "end": 644321
                     }, {
                         "filename": "/src/wasm-preload/library/git.pl",
-                        "start": 644275,
-                        "end": 672274
+                        "start": 644321,
+                        "end": 672325
                     }, {
                         "filename": "/src/wasm-preload/library/debug.pl",
-                        "start": 672274,
-                        "end": 685678
+                        "start": 672325,
+                        "end": 685729
                     }, {
                         "filename": "/src/wasm-preload/library/nb_set.pl",
-                        "start": 685678,
-                        "end": 691344
+                        "start": 685729,
+                        "end": 691395
                     }, {
                         "filename": "/src/wasm-preload/library/dicts.pl",
-                        "start": 691344,
-                        "end": 702e3
+                        "start": 691395,
+                        "end": 702051
                     }, {
                         "filename": "/src/wasm-preload/library/zip.pl",
-                        "start": 702e3,
-                        "end": 709641
+                        "start": 702051,
+                        "end": 709692
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_clause.pl",
-                        "start": 709641,
-                        "end": 745613
+                        "start": 709692,
+                        "end": 745664
                     }, {
                         "filename": "/src/wasm-preload/library/persistency.pl",
-                        "start": 745613,
-                        "end": 767532
+                        "start": 745664,
+                        "end": 767583
                     }, {
                         "filename": "/src/wasm-preload/library/vm.pl",
-                        "start": 767532,
-                        "end": 775657
+                        "start": 767583,
+                        "end": 775708
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_pack.pl",
-                        "start": 775657,
-                        "end": 852529
+                        "start": 775708,
+                        "end": 853011
                     }, {
                         "filename": "/src/wasm-preload/library/shlib.pl",
-                        "start": 852529,
-                        "end": 872649
+                        "start": 853011,
+                        "end": 873580
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_code.pl",
-                        "start": 872649,
-                        "end": 884910
+                        "start": 873580,
+                        "end": 885841
                     }, {
                         "filename": "/src/wasm-preload/library/explain.pl",
-                        "start": 884910,
-                        "end": 899152
+                        "start": 885841,
+                        "end": 900083
                     }, {
                         "filename": "/src/wasm-preload/library/solution_sequences.pl",
-                        "start": 899152,
-                        "end": 911404
+                        "start": 900083,
+                        "end": 912335
                     }, {
                         "filename": "/src/wasm-preload/library/checkselect.pl",
-                        "start": 911404,
-                        "end": 914599
+                        "start": 912335,
+                        "end": 915530
                     }, {
                         "filename": "/src/wasm-preload/library/operators.pl",
-                        "start": 914599,
-                        "end": 919843
+                        "start": 915530,
+                        "end": 920774
                     }, {
                         "filename": "/src/wasm-preload/library/nb_rbtrees.pl",
-                        "start": 919843,
-                        "end": 927781
-                    }, {
-                        "filename": "/src/wasm-preload/library/prolog_xref.qlf",
-                        "start": 927781,
-                        "end": 963895
+                        "start": 920774,
+                        "end": 928712
                     }, {
                         "filename": "/src/wasm-preload/library/pprint.pl",
-                        "start": 963895,
-                        "end": 992119
+                        "start": 928712,
+                        "end": 956936
                     }, {
                         "filename": "/src/wasm-preload/library/arithmetic.pl",
-                        "start": 992119,
-                        "end": 1001205
+                        "start": 956936,
+                        "end": 966022
                     }, {
                         "filename": "/src/wasm-preload/library/www_browser.pl",
-                        "start": 1001205,
-                        "end": 1009505
+                        "start": 966022,
+                        "end": 974322
                     }, {
                         "filename": "/src/wasm-preload/library/ansi_term.pl",
-                        "start": 1009505,
-                        "end": 1028198
+                        "start": 974322,
+                        "end": 993015
                     }, {
                         "filename": "/src/wasm-preload/library/edit.pl",
-                        "start": 1028198,
-                        "end": 1047311
+                        "start": 993015,
+                        "end": 1012128
                     }, {
                         "filename": "/src/wasm-preload/library/iostream.pl",
-                        "start": 1047311,
-                        "end": 1056088
+                        "start": 1012128,
+                        "end": 1020905
                     }, {
                         "filename": "/src/wasm-preload/library/shell.pl",
-                        "start": 1056088,
-                        "end": 1066793
+                        "start": 1020905,
+                        "end": 1031610
                     }, {
                         "filename": "/src/wasm-preload/library/when.pl",
-                        "start": 1066793,
-                        "end": 1074550
+                        "start": 1031610,
+                        "end": 1039367
                     }, {
                         "filename": "/src/wasm-preload/library/pio.pl",
-                        "start": 1074550,
-                        "end": 1076477
+                        "start": 1039367,
+                        "end": 1041294
                     }, {
                         "filename": "/src/wasm-preload/library/quasi_quotations.pl",
-                        "start": 1076477,
-                        "end": 1087863
+                        "start": 1041294,
+                        "end": 1052680
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_xref.pl",
-                        "start": 1087863,
-                        "end": 1180060
+                        "start": 1052680,
+                        "end": 1144877
                     }, {
                         "filename": "/src/wasm-preload/library/check_installation.pl",
-                        "start": 1180060,
-                        "end": 1205319
+                        "start": 1144877,
+                        "end": 1170136
                     }, {
                         "filename": "/src/wasm-preload/library/base64.pl",
-                        "start": 1205319,
-                        "end": 1217772
+                        "start": 1170136,
+                        "end": 1182781
                     }, {
                         "filename": "/src/wasm-preload/library/error.pl",
-                        "start": 1217772,
-                        "end": 1233648
+                        "start": 1182781,
+                        "end": 1198657
                     }, {
                         "filename": "/src/wasm-preload/library/date.pl",
-                        "start": 1233648,
-                        "end": 1243100
-                    }, {
-                        "filename": "/src/wasm-preload/library/prolog_colour.qlf",
-                        "start": 1243100,
-                        "end": 1288242
+                        "start": 1198657,
+                        "end": 1208109
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_config.pl",
-                        "start": 1288242,
-                        "end": 1293050
+                        "start": 1208109,
+                        "end": 1212917
                     }, {
                         "filename": "/src/wasm-preload/library/increval.pl",
-                        "start": 1293050,
-                        "end": 1300328
+                        "start": 1212917,
+                        "end": 1220221
                     }, {
                         "filename": "/src/wasm-preload/library/codesio.pl",
-                        "start": 1300328,
-                        "end": 1306777
+                        "start": 1220221,
+                        "end": 1226670
                     }, {
                         "filename": "/src/wasm-preload/library/rbtrees.pl",
-                        "start": 1306777,
-                        "end": 1344174
+                        "start": 1226670,
+                        "end": 1264067
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_versions.pl",
-                        "start": 1344174,
-                        "end": 1351099
+                        "start": 1264067,
+                        "end": 1270992
                     }, {
                         "filename": "/src/wasm-preload/library/wfs.pl",
-                        "start": 1351099,
-                        "end": 1358020
+                        "start": 1270992,
+                        "end": 1277913
                     }, {
                         "filename": "/src/wasm-preload/library/listing.pl",
-                        "start": 1358020,
-                        "end": 1395817
+                        "start": 1277913,
+                        "end": 1315710
                     }, {
                         "filename": "/src/wasm-preload/library/broadcast.pl",
-                        "start": 1395817,
-                        "end": 1401172
+                        "start": 1315710,
+                        "end": 1321065
                     }, {
                         "filename": "/src/wasm-preload/library/random.pl",
-                        "start": 1401172,
-                        "end": 1414621
+                        "start": 1321065,
+                        "end": 1334514
                     }, {
                         "filename": "/src/wasm-preload/library/sandbox.pl",
-                        "start": 1414621,
-                        "end": 1457307
+                        "start": 1334514,
+                        "end": 1377200
                     }, {
                         "filename": "/src/wasm-preload/library/make.pl",
-                        "start": 1457307,
-                        "end": 1463927
+                        "start": 1377200,
+                        "end": 1383820
                     }, {
                         "filename": "/src/wasm-preload/library/oset.pl",
-                        "start": 1463927,
-                        "end": 1468620
+                        "start": 1383820,
+                        "end": 1388513
                     }, {
                         "filename": "/src/wasm-preload/library/modules.pl",
-                        "start": 1468620,
-                        "end": 1473469
+                        "start": 1388513,
+                        "end": 1393362
                     }, {
                         "filename": "/src/wasm-preload/library/intercept.pl",
-                        "start": 1473469,
-                        "end": 1482091
+                        "start": 1393362,
+                        "end": 1401984
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_colour.pl",
-                        "start": 1482091,
-                        "end": 1584879
+                        "start": 1401984,
+                        "end": 1504772
                     }, {
                         "filename": "/src/wasm-preload/library/strings.pl",
-                        "start": 1584879,
-                        "end": 1600427
+                        "start": 1504772,
+                        "end": 1520320
                     }, {
                         "filename": "/src/wasm-preload/library/hashtable.pl",
-                        "start": 1600427,
-                        "end": 1610751
+                        "start": 1520320,
+                        "end": 1530644
                     }, {
                         "filename": "/src/wasm-preload/library/url.pl",
-                        "start": 1610751,
-                        "end": 1638904
+                        "start": 1530644,
+                        "end": 1558797
                     }, {
                         "filename": "/src/wasm-preload/library/record.pl",
-                        "start": 1638904,
-                        "end": 1655512
+                        "start": 1558797,
+                        "end": 1575405
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_format.pl",
-                        "start": 1655512,
-                        "end": 1662375
+                        "start": 1575405,
+                        "end": 1582268
                     }, {
                         "filename": "/src/wasm-preload/library/qpforeign.pl",
-                        "start": 1662375,
-                        "end": 1684680
+                        "start": 1582268,
+                        "end": 1604573
                     }, {
                         "filename": "/src/wasm-preload/library/tabling.pl",
-                        "start": 1684680,
-                        "end": 1686480
+                        "start": 1604573,
+                        "end": 1606373
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_debug.pl",
-                        "start": 1686480,
-                        "end": 1695433
+                        "start": 1606373,
+                        "end": 1615326
                     }, {
                         "filename": "/src/wasm-preload/library/dif.pl",
-                        "start": 1695433,
-                        "end": 1708075
+                        "start": 1615326,
+                        "end": 1627968
                     }, {
                         "filename": "/src/wasm-preload/library/threadutil.pl",
-                        "start": 1708075,
-                        "end": 1723378
+                        "start": 1627968,
+                        "end": 1643271
                     }, {
                         "filename": "/src/wasm-preload/library/assoc.pl",
-                        "start": 1723378,
-                        "end": 1741705
+                        "start": 1643271,
+                        "end": 1661598
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_wrap.pl",
-                        "start": 1741705,
-                        "end": 1747109
+                        "start": 1661598,
+                        "end": 1667002
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_trace.pl",
-                        "start": 1747109,
-                        "end": 1754768
+                        "start": 1667002,
+                        "end": 1674661
                     }, {
                         "filename": "/src/wasm-preload/library/charsio.pl",
-                        "start": 1754768,
-                        "end": 1761404
+                        "start": 1674661,
+                        "end": 1681297
                     }, {
                         "filename": "/src/wasm-preload/library/pure_input.pl",
-                        "start": 1761404,
-                        "end": 1771276
+                        "start": 1681297,
+                        "end": 1691169
                     }, {
                         "filename": "/src/wasm-preload/library/base32.pl",
-                        "start": 1771276,
-                        "end": 1779569
+                        "start": 1691169,
+                        "end": 1699462
                     }, {
                         "filename": "/src/wasm-preload/library/apply_macros.pl",
-                        "start": 1779569,
-                        "end": 1794452
+                        "start": 1699462,
+                        "end": 1714345
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_jiti.pl",
-                        "start": 1794452,
-                        "end": 1799637
+                        "start": 1714345,
+                        "end": 1719530
                     }, {
                         "filename": "/src/wasm-preload/library/system.pl",
-                        "start": 1799637,
-                        "end": 1802945
+                        "start": 1719530,
+                        "end": 1722838
                     }, {
                         "filename": "/src/wasm-preload/library/thread.pl",
-                        "start": 1802945,
-                        "end": 1830475
+                        "start": 1722838,
+                        "end": 1750368
                     }, {
                         "filename": "/src/wasm-preload/library/csv.pl",
-                        "start": 1830475,
-                        "end": 1849392
+                        "start": 1750368,
+                        "end": 1769285
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_metainference.pl",
-                        "start": 1849392,
-                        "end": 1859206
+                        "start": 1769285,
+                        "end": 1779099
                     }, {
                         "filename": "/src/wasm-preload/library/dialect.pl",
-                        "start": 1859206,
-                        "end": 1863299
+                        "start": 1779099,
+                        "end": 1783192
                     }, {
                         "filename": "/src/wasm-preload/library/backcomp.pl",
-                        "start": 1863299,
-                        "end": 1883196
+                        "start": 1783192,
+                        "end": 1803089
                     }, {
                         "filename": "/src/wasm-preload/library/terms.pl",
-                        "start": 1883196,
-                        "end": 1897889
+                        "start": 1803089,
+                        "end": 1817782
                     }, {
                         "filename": "/src/wasm-preload/library/edinburgh.pl",
-                        "start": 1897889,
-                        "end": 1902394
-                    }, {
-                        "filename": "/src/wasm-preload/library/INDEX.pl",
-                        "start": 1902394,
-                        "end": 1946957
+                        "start": 1817782,
+                        "end": 1822287
                     }, {
                         "filename": "/src/wasm-preload/library/readln.pl",
-                        "start": 1946957,
-                        "end": 1955884
+                        "start": 1822287,
+                        "end": 1831214
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_stack.pl",
-                        "start": 1955884,
-                        "end": 1981659
+                        "start": 1831214,
+                        "end": 1856989
                     }, {
                         "filename": "/src/wasm-preload/library/tables.pl",
-                        "start": 1981659,
-                        "end": 1994270
+                        "start": 1856989,
+                        "end": 1869600
                     }, {
                         "filename": "/src/wasm-preload/library/statistics.pl",
-                        "start": 1994270,
-                        "end": 2018840
+                        "start": 1869600,
+                        "end": 1894170
                     }, {
                         "filename": "/src/wasm-preload/library/pairs.pl",
-                        "start": 2018840,
-                        "end": 2024704
+                        "start": 1894170,
+                        "end": 1900034
                     }, {
                         "filename": "/src/wasm-preload/library/.created",
-                        "start": 2024704,
-                        "end": 2024704
+                        "start": 1900034,
+                        "end": 1900034
                     }, {
                         "filename": "/src/wasm-preload/library/prolog_history.pl",
-                        "start": 2024704,
-                        "end": 2030569
+                        "start": 1900034,
+                        "end": 1905899
                     }, {
                         "filename": "/src/wasm-preload/library/lazy_lists.pl",
-                        "start": 2030569,
-                        "end": 2047069
+                        "start": 1905899,
+                        "end": 1922399
                     }, {
                         "filename": "/src/wasm-preload/library/checklast.pl",
-                        "start": 2047069,
-                        "end": 2050325
+                        "start": 1922399,
+                        "end": 1925655
                     }, {
                         "filename": "/src/wasm-preload/library/lists.pl",
-                        "start": 2050325,
-                        "end": 2074731
+                        "start": 1925655,
+                        "end": 1950061
                     }, {
                         "filename": "/src/wasm-preload/library/console_input.pl",
-                        "start": 2074731,
-                        "end": 2078418
+                        "start": 1950061,
+                        "end": 1953748
                     }, {
                         "filename": "/src/wasm-preload/library/thread_pool.pl",
-                        "start": 2078418,
-                        "end": 2095299
+                        "start": 1953748,
+                        "end": 1970629
                     }, {
                         "filename": "/src/wasm-preload/library/option.pl",
-                        "start": 2095299,
-                        "end": 2107913
+                        "start": 1970629,
+                        "end": 1983243
                     }, {
                         "filename": "/src/wasm-preload/library/iri_scheme/file.pl",
-                        "start": 2107913,
-                        "end": 2110738
+                        "start": 1983243,
+                        "end": 1986068
                     }, {
                         "filename": "/src/wasm-preload/library/iri_scheme/.created",
-                        "start": 2110738,
-                        "end": 2110738
+                        "start": 1986068,
+                        "end": 1986068
                     }, {
                         "filename": "/src/wasm-preload/library/theme/auto.pl",
-                        "start": 2110738,
-                        "end": 2112963
+                        "start": 1986068,
+                        "end": 1988293
                     }, {
                         "filename": "/src/wasm-preload/library/theme/dark.pl",
-                        "start": 2112963,
-                        "end": 2124867
+                        "start": 1988293,
+                        "end": 2000197
                     }, {
                         "filename": "/src/wasm-preload/library/theme/.created",
-                        "start": 2124867,
-                        "end": 2124867
+                        "start": 2000197,
+                        "end": 2000197
                     }, {
                         "filename": "/src/wasm-preload/library/lynx/html_text.pl",
-                        "start": 2124867,
-                        "end": 2149605
+                        "start": 2000197,
+                        "end": 2024935
                     }, {
                         "filename": "/src/wasm-preload/library/lynx/format.pl",
-                        "start": 2149605,
-                        "end": 2160396
+                        "start": 2024935,
+                        "end": 2035726
                     }, {
                         "filename": "/src/wasm-preload/library/lynx/html_style.pl",
-                        "start": 2160396,
-                        "end": 2164877
+                        "start": 2035726,
+                        "end": 2040207
                     }, {
                         "filename": "/src/wasm-preload/library/lynx/pldoc_style.pl",
-                        "start": 2164877,
-                        "end": 2168122
-                    }, {
-                        "filename": "/src/wasm-preload/library/lynx/INDEX.pl",
-                        "start": 2168122,
-                        "end": 2168646
+                        "start": 2040207,
+                        "end": 2043452
                     }, {
                         "filename": "/src/wasm-preload/library/lynx/.created",
-                        "start": 2168646,
-                        "end": 2168646
+                        "start": 2043452,
+                        "end": 2043452
                     }, {
                         "filename": "/src/wasm-preload/library/clp/clp_distinct.pl",
-                        "start": 2168646,
-                        "end": 2175244
+                        "start": 2043452,
+                        "end": 2050050
                     }, {
                         "filename": "/src/wasm-preload/library/clp/bounds.pl",
-                        "start": 2175244,
-                        "end": 2214553
+                        "start": 2050050,
+                        "end": 2089359
                     }, {
                         "filename": "/src/wasm-preload/library/clp/clpb.pl",
-                        "start": 2214553,
-                        "end": 2280605
+                        "start": 2089359,
+                        "end": 2155411
                     }, {
                         "filename": "/src/wasm-preload/library/clp/clp_events.pl",
-                        "start": 2280605,
-                        "end": 2283317
-                    }, {
-                        "filename": "/src/wasm-preload/library/clp/INDEX.pl",
-                        "start": 2283317,
-                        "end": 2284682
+                        "start": 2155411,
+                        "end": 2158123
                     }, {
                         "filename": "/src/wasm-preload/library/clp/.created",
-                        "start": 2284682,
-                        "end": 2284682
+                        "start": 2158123,
+                        "end": 2158123
                     }, {
                         "filename": "/src/wasm-preload/library/clp/clpfd.pl",
-                        "start": 2284682,
-                        "end": 2561536
+                        "start": 2158123,
+                        "end": 2434977
                     }, {
                         "filename": "/src/wasm-preload/library/dcg/high_order.pl",
-                        "start": 2561536,
-                        "end": 2569012
+                        "start": 2434977,
+                        "end": 2442453
                     }, {
                         "filename": "/src/wasm-preload/library/dcg/basics.pl",
-                        "start": 2569012,
-                        "end": 2579893
-                    }, {
-                        "filename": "/src/wasm-preload/library/dcg/INDEX.pl",
-                        "start": 2579893,
-                        "end": 2581207
+                        "start": 2442453,
+                        "end": 2453334
                     }, {
                         "filename": "/src/wasm-preload/library/dcg/.created",
-                        "start": 2581207,
-                        "end": 2581207
+                        "start": 2453334,
+                        "end": 2453334
                     }, {
                         "filename": "/src/wasm-preload/library/unicode/blocks.pl",
-                        "start": 2581207,
-                        "end": 2591448
-                    }, {
-                        "filename": "/src/wasm-preload/library/unicode/INDEX.pl",
-                        "start": 2591448,
-                        "end": 2591622
+                        "start": 2453334,
+                        "end": 2463575
                     }, {
                         "filename": "/src/wasm-preload/library/unicode/.created",
-                        "start": 2591622,
-                        "end": 2591622
+                        "start": 2463575,
+                        "end": 2463575
                     }, {
                         "filename": "/src/wasm-preload/library/unicode/unicode_data.pl",
-                        "start": 2591622,
-                        "end": 2597116
+                        "start": 2463575,
+                        "end": 2469069
                     }, {
                         "filename": "/src/wasm-preload/library/build/conan.pl",
-                        "start": 2597116,
-                        "end": 2604111
+                        "start": 2469069,
+                        "end": 2476064
                     }, {
                         "filename": "/src/wasm-preload/library/build/tools.pl",
-                        "start": 2604111,
-                        "end": 2630385
+                        "start": 2476064,
+                        "end": 2502338
                     }, {
                         "filename": "/src/wasm-preload/library/build/cmake.pl",
-                        "start": 2630385,
-                        "end": 2635242
+                        "start": 2502338,
+                        "end": 2507195
                     }, {
                         "filename": "/src/wasm-preload/library/build/make.pl",
-                        "start": 2635242,
-                        "end": 2641244
+                        "start": 2507195,
+                        "end": 2513197
                     }, {
                         "filename": "/src/wasm-preload/library/build/.created",
-                        "start": 2641244,
-                        "end": 2641244
+                        "start": 2513197,
+                        "end": 2513197
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/yap.pl",
-                        "start": 2641244,
-                        "end": 2648378
+                        "start": 2513197,
+                        "end": 2520331
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/bim.pl",
-                        "start": 2648378,
-                        "end": 2652659
+                        "start": 2520331,
+                        "end": 2524612
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4.pl",
-                        "start": 2652659,
-                        "end": 2660046
+                        "start": 2524612,
+                        "end": 2531999
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb.pl",
-                        "start": 2660046,
-                        "end": 2681289
+                        "start": 2531999,
+                        "end": 2553242
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/hprolog.pl",
-                        "start": 2681289,
-                        "end": 2689681
+                        "start": 2553242,
+                        "end": 2561634
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/ifprolog.pl",
-                        "start": 2689681,
-                        "end": 2726138
+                        "start": 2561634,
+                        "end": 2598091
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/commons.pl",
-                        "start": 2726138,
-                        "end": 2728698
+                        "start": 2598091,
+                        "end": 2600651
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus.pl",
-                        "start": 2728698,
-                        "end": 2745520
+                        "start": 2600651,
+                        "end": 2617473
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/.created",
-                        "start": 2745520,
-                        "end": 2745520
+                        "start": 2617473,
+                        "end": 2617473
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/swi/syspred_options.pl",
-                        "start": 2745520,
-                        "end": 2753387
+                        "start": 2617473,
+                        "end": 2625340
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/swi/.created",
-                        "start": 2753387,
-                        "end": 2753387
+                        "start": 2625340,
+                        "end": 2625340
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/source.pl",
-                        "start": 2753387,
-                        "end": 2763183
+                        "start": 2625340,
+                        "end": 2635136
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/curr_sym.pl",
-                        "start": 2763183,
-                        "end": 2765446
+                        "start": 2635136,
+                        "end": 2637399
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/storage.pl",
-                        "start": 2765446,
-                        "end": 2768016
+                        "start": 2637399,
+                        "end": 2639969
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/consult.pl",
-                        "start": 2768016,
-                        "end": 2769858
+                        "start": 2639969,
+                        "end": 2641811
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/ordsets.pl",
-                        "start": 2769858,
-                        "end": 2772080
+                        "start": 2641811,
+                        "end": 2644033
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/README.md",
-                        "start": 2772080,
-                        "end": 2772731
+                        "start": 2644033,
+                        "end": 2644684
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/gensym.pl",
-                        "start": 2772731,
-                        "end": 2774773
+                        "start": 2644684,
+                        "end": 2646726
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/gpp.pl",
-                        "start": 2774773,
-                        "end": 2779837
+                        "start": 2646726,
+                        "end": 2651790
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/machine.pl",
-                        "start": 2779837,
-                        "end": 2786879
+                        "start": 2651790,
+                        "end": 2658832
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/timed_call.pl",
-                        "start": 2786879,
-                        "end": 2792618
+                        "start": 2658832,
+                        "end": 2664571
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/string.pl",
-                        "start": 2792618,
-                        "end": 2795172
+                        "start": 2664571,
+                        "end": 2667125
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/standard.pl",
-                        "start": 2795172,
-                        "end": 2799977
+                        "start": 2667125,
+                        "end": 2671930
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/basics.pl",
-                        "start": 2799977,
-                        "end": 2807344
+                        "start": 2671930,
+                        "end": 2679297
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/intern.pl",
-                        "start": 2807344,
-                        "end": 2809266
+                        "start": 2679297,
+                        "end": 2681219
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/thread.pl",
-                        "start": 2809266,
-                        "end": 2811451
+                        "start": 2681219,
+                        "end": 2683404
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/.created",
-                        "start": 2811451,
-                        "end": 2811451
+                        "start": 2683404,
+                        "end": 2683404
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/error_handler.pl",
-                        "start": 2811451,
-                        "end": 2815648
+                        "start": 2683404,
+                        "end": 2687601
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/lists.pl",
-                        "start": 2815648,
-                        "end": 2817546
+                        "start": 2687601,
+                        "end": 2689499
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/xsb/setof.pl",
-                        "start": 2817546,
-                        "end": 2820085
+                        "start": 2689499,
+                        "end": 2692038
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/ordsets.pl",
-                        "start": 2820085,
-                        "end": 2822107
+                        "start": 2692038,
+                        "end": 2694060
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/timeout.pl",
-                        "start": 2822107,
-                        "end": 2823887
+                        "start": 2694060,
+                        "end": 2695840
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/file_systems.pl",
-                        "start": 2823887,
-                        "end": 2841370
+                        "start": 2695840,
+                        "end": 2713323
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/sets.pl",
-                        "start": 2841370,
-                        "end": 2844916
+                        "start": 2713323,
+                        "end": 2716869
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/aggregate.pl",
-                        "start": 2844916,
-                        "end": 2847336
+                        "start": 2716869,
+                        "end": 2719289
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/types.pl",
-                        "start": 2847336,
-                        "end": 2851629
+                        "start": 2719289,
+                        "end": 2723582
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/between.pl",
-                        "start": 2851629,
-                        "end": 2853758
+                        "start": 2723582,
+                        "end": 2725711
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/system.pl",
-                        "start": 2853758,
-                        "end": 2856671
+                        "start": 2725711,
+                        "end": 2728624
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/samsort.pl",
-                        "start": 2856671,
-                        "end": 2859633
+                        "start": 2728624,
+                        "end": 2731586
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/terms.pl",
-                        "start": 2859633,
-                        "end": 2862525
+                        "start": 2731586,
+                        "end": 2734478
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/.created",
-                        "start": 2862525,
-                        "end": 2862525
+                        "start": 2734478,
+                        "end": 2734478
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/lists.pl",
-                        "start": 2862525,
-                        "end": 2870517
+                        "start": 2734478,
+                        "end": 2742470
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/clpfd.pl",
-                        "start": 2870517,
-                        "end": 2873057
+                        "start": 2742470,
+                        "end": 2745010
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus4/sockets.pl",
-                        "start": 2873057,
-                        "end": 2879254
+                        "start": 2745010,
+                        "end": 2751207
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/eclipse/test_util_iso.pl",
-                        "start": 2879254,
-                        "end": 2889106
+                        "start": 2751207,
+                        "end": 2761059
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/eclipse/.created",
-                        "start": 2889106,
-                        "end": 2889106
+                        "start": 2761059,
+                        "end": 2761059
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/yap/README.TXT",
-                        "start": 2889106,
-                        "end": 2889457
+                        "start": 2761059,
+                        "end": 2761410
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/yap/.created",
-                        "start": 2889457,
-                        "end": 2889457
+                        "start": 2761410,
+                        "end": 2761410
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/ordsets.pl",
-                        "start": 2889457,
-                        "end": 2891411
+                        "start": 2761410,
+                        "end": 2763364
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/timeout.pl",
-                        "start": 2891411,
-                        "end": 2895162
+                        "start": 2763364,
+                        "end": 2767115
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/README.TXT",
-                        "start": 2895162,
-                        "end": 2895193
+                        "start": 2767115,
+                        "end": 2767146
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/swipl-lfr.pl",
-                        "start": 2895193,
-                        "end": 2899193
+                        "start": 2767146,
+                        "end": 2771146
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/block.pl",
-                        "start": 2899193,
-                        "end": 2909636
+                        "start": 2771146,
+                        "end": 2781589
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/arrays.pl",
-                        "start": 2909636,
-                        "end": 2913340
+                        "start": 2781589,
+                        "end": 2785293
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/system.pl",
-                        "start": 2913340,
-                        "end": 2919915
+                        "start": 2785293,
+                        "end": 2791868
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/terms.pl",
-                        "start": 2919915,
-                        "end": 2922154
+                        "start": 2791868,
+                        "end": 2794107
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/.created",
-                        "start": 2922154,
-                        "end": 2922154
+                        "start": 2794107,
+                        "end": 2794107
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/lists.pl",
-                        "start": 2922154,
-                        "end": 2926811
+                        "start": 2794107,
+                        "end": 2798764
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/sicstus/sockets.pl",
-                        "start": 2926811,
-                        "end": 2933030
+                        "start": 2798764,
+                        "end": 2804983
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/hprolog/format.pl",
-                        "start": 2933030,
-                        "end": 2934867
+                        "start": 2804983,
+                        "end": 2806820
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/hprolog/.created",
-                        "start": 2934867,
-                        "end": 2934867
+                        "start": 2806820,
+                        "end": 2806820
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/iso/iso_predicates.pl",
-                        "start": 2934867,
-                        "end": 2944557
+                        "start": 2806820,
+                        "end": 2816510
                     }, {
                         "filename": "/src/wasm-preload/library/dialect/iso/.created",
-                        "start": 2944557,
-                        "end": 2944557
+                        "start": 2816510,
+                        "end": 2816510
                     }],
-                    "remote_package_size": 2944557,
-                    "package_uuid": "4d020e98-a954-4f81-88fb-e76722af7d27"
+                    "remote_package_size": 2816510,
+                    "package_uuid": "c2b8b508-01a7-4220-88fe-69ca8bbc7857"
                 })
             })();
             if (Module["ENVIRONMENT_IS_PTHREAD"]) Module["preRun"] = [];
