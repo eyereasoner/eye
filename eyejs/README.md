@@ -1,4 +1,4 @@
-# The EYE reasoner for JavaScript
+# EYE in JavaScript
 
 To make it run
 ```
