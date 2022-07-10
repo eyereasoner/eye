@@ -1,4 +1,4 @@
-# The EYE reasoner running on Node
+# The EYE reasoner for JavaScript
 
 To make it run
 ```
