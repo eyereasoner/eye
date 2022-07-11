@@ -22,7 +22,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0711.1819 josd').
+version_info('EYE v22.0711.1846 josd').
 
 license_info('MIT License
 
@@ -5299,8 +5299,14 @@ djiti_assertz(A) :-
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetEqualTo>'(A, B) :-
     \+flag(restricted),
-    sort(0, @=<, A, C),
-    sort(0, @=<, B, C).
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   sort(0, @=<, A, C),
+            sort(0, @=<, B, C)
+        )
+    ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetNotEqualTo>'(A, B) :-
     \+flag(restricted),
@@ -5748,6 +5754,19 @@ djiti_assertz(A) :-
             C = [_|B]
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   sort(A, C),
+            sort(B, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#setNotEqualTo>'(A, B) :-
+    \+'<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
