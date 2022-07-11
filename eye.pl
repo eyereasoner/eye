@@ -22,7 +22,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0710.2111 josd').
+version_info('EYE v22.0711.1819 josd').
 
 license_info('MIT License
 
@@ -4317,7 +4317,7 @@ eam(Span) :-
         ;   true
         ),
         implies(Prem, Conc, Src),
-        ignore(Prem = exopred(_, _, _)),
+        ignore(Prem = true),
         (   flag(nope),
             \+flag('rule-histogram')
         ->  true
