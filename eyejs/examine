@@ -1,0 +1,19 @@
+#!/bin/bash -v
+{
+echo "## Succeeding to load 213000 facts"
+curl -sNL https://josd.github.io/eye/reasoning/dt/test-dl.n3 | head -n 213004 > /tmp/sample.n3
+eyejs --nope /tmp/sample.n3
+echo ""
+echo "## Failing to load 214000 facts"
+curl -sNL https://josd.github.io/eye/reasoning/dt/test-dl.n3 | head -n 214004 > /tmp/sample.n3
+eyejs --nope /tmp/sample.n3
+echo ""
+echo "## Succeeding to load 87000 rules"
+curl -sNL https://josd.github.io/eye/reasoning/dt/test-dt.n3 | head -n 87004 > /tmp/sample.n3
+eyejs --nope /tmp/sample.n3
+echo ""
+echo "## Failing to load 88000 rules"
+curl -sNL https://josd.github.io/eye/reasoning/dt/test-dt.n3 | head -n 88004 > /tmp/sample.n3
+eyejs --nope /tmp/sample.n3
+echo ""
+} |& tee examine.txt

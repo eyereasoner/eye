@@ -1,0 +1,56 @@
+## Succeeding to load 213000 facts
+eye --nope /tmp/sample.n3
+EYE v22.0712.1145 josd
+SWI-Prolog version 8.5.14-10-g158daf821
+starting 813 [msec cputime] 813 [msec walltime]
+#Processed by EYE v22.0712.1145 josd
+#eye --nope /tmp/sample.n3
+
+GET file:///tmp/sample.n3 SC=213000
+networking 33193 [msec cputime] 35902 [msec walltime]
+
+## Failing to load 214000 facts
+eye --nope /tmp/sample.n3
+EYE v22.0712.1145 josd
+SWI-Prolog version 8.5.14-10-g158daf821
+starting 1082 [msec cputime] 1082 [msec walltime]
+#Processed by EYE v22.0712.1145 josd
+#eye --nope /tmp/sample.n3
+
+GET file:///tmp/sample.n3 SC=207934
+networking 35285 [msec cputime] 37992 [msec walltime]
+
+## Succeeding to load 87000 rules
+eye --nope /tmp/sample.n3
+EYE v22.0712.1145 josd
+SWI-Prolog version 8.5.14-10-g158daf821
+starting 1115 [msec cputime] 1116 [msec walltime]
+#Processed by EYE v22.0712.1145 josd
+#eye --nope /tmp/sample.n3
+
+GET file:///tmp/sample.n3 SC=87000
+networking 25342 [msec cputime] 27160 [msec walltime]
+
+## Failing to load 88000 rules
+eye --nope /tmp/sample.n3
+EYE v22.0712.1145 josd
+SWI-Prolog version 8.5.14-10-g158daf821
+starting 985 [msec cputime] 986 [msec walltime]
+#Processed by EYE v22.0712.1145 josd
+#eye --nope /tmp/sample.n3
+
+GET file:///tmp/sample.n3 [FATAL ERROR: at Wed Jul 13 20:13:05 2022
+	Cannot report error: no memory]
+Aborted(native code called abort())
+exiting due to exception: RuntimeError: Aborted(native code called abort()),RuntimeError: Aborted(native code called abort())
+    at abort (/home/jdroo/github.com/josd/eye/eyejs/swipl-wasm/home/swipl.js:761:13)
+    at _abort (/home/jdroo/github.com/josd/eye/eyejs/swipl-wasm/home/swipl.js:4516:5)
+    at wasm://wasm/004a95ae:wasm-function[1004]:0x9f17f
+    at wasm://wasm/004a95ae:wasm-function[477]:0x3173a
+    at wasm://wasm/004a95ae:wasm-function[655]:0x435d6
+    at wasm://wasm/004a95ae:wasm-function[791]:0x80a03
+    at wasm://wasm/004a95ae:wasm-function[811]:0x8555f
+    at invoke_iiii (/home/jdroo/github.com/josd/eye/eyejs/swipl-wasm/home/swipl.js:5379:40)
+    at wasm://wasm/004a95ae:wasm-function[740]:0x5d971
+    at wasm://wasm/004a95ae:wasm-function[577]:0x3d507
+
