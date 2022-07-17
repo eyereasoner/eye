@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0712.1145 josd').
+version_info('EYE v22.0717.2213 josd').
 
 license_info('MIT License
 
@@ -46,13 +46,12 @@ SOFTWARE.').
 
 help_info('Usage: eye <options>* <data>* <query>*
 eye
-    swipl -x eye.pvm --
+    swipl -g main eye.pl --
 <options>
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
-    --debug-n3p                     output debug info about N3P code on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
@@ -67,6 +66,7 @@ eye
     --no-qvars                      no qvars in the output
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
+    --pcode <n3p-file>              output all <data> to <n3p-file>
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -88,6 +88,7 @@ eye
 <data>
     [--n3] <uri>                    N3 triples and rules
     --blogic <uri>                  RDF surfaces
+    --n3p <uri>                     N3P pcode
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
 <query>
@@ -268,7 +269,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--n3p', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -313,9 +314,6 @@ gre(Argus) :-
     ->  true
     ;   A is random(2^62),
         atom_number(Genid, A)
-        %sha_hash(B, C, [algorithm(sha1)]),
-        %atom_codes(D, B),
-        %base64xml(D, Genid)
     ),
     atomic_list_concat(['http://josd.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
@@ -347,8 +345,8 @@ gre(Argus) :-
         assertz(pfx('var:', '<http://josd.github.io/var#>'))
     ;   true
     ),
-    (   flag('debug-n3p')
-    ->  format(user_error, 'flag(\'quantify\', \'~w\').~n', [Sns])
+    (   flag('pcode', Out)
+    ->  format(Out, 'flag(\'quantify\', \'~w\').~n', [Sns])
     ;   true
     ),
     args(Args),
@@ -389,13 +387,14 @@ gre(Argus) :-
         throw(halt)
     ;   true
     ),
-    (   flag('debug-n3p')
+    (   flag('pcode', Out)
     ->  (   SC =\= 0
-        ->  write(user_error, scount(SC)),
-            writeln(user_error, '.')
+        ->  write(Out, scount(SC)),
+            writeln(Out, '.')
         ;   true
         ),
-        writeln(user_error, 'end_of_file.')
+        writeln(Out, 'end_of_file.'),
+        close(Out)
     ;   true
     ),
     (   \+implies(_, answer(_, _, _), _),
@@ -616,7 +615,7 @@ gre(Argus) :-
 
 opts([], []) :-
     !.
-opts(['--csv-separator', Separator|Argus], Args) :-
+opts(['--csv-separator',Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
     assertz(flag('csv-separator', Separator)),
@@ -636,11 +635,6 @@ opts(['--debug-djiti'|Argus], Args) :-
     retractall(flag('debug-djiti')),
     assertz(flag('debug-djiti')),
     opts(Argus, Args).
-opts(['--debug-n3p'|Argus], Args) :-
-    !,
-    retractall(flag('debug-n3p')),
-    assertz(flag('debug-n3p')),
-    opts(Argus, Args).
 opts(['--debug-pvm'|Argus], Args) :-
     !,
     retractall(flag('debug-pvm')),
@@ -654,7 +648,7 @@ opts(['--help'|_], _) :-
     format(user_error, '~w~n', [Help]),
     flush_output(user_error),
     throw(halt).
-opts(['--hmac-key', Key|Argus], Args) :-
+opts(['--hmac-key',Key|Argus], Args) :-
     !,
     retractall(flag('hmac-key', _)),
     assertz(flag('hmac-key', Key)),
@@ -664,7 +658,7 @@ opts(['--ignore-inference-fuse'|Argus], Args) :-
     retractall(flag('ignore-inference-fuse')),
     assertz(flag('ignore-inference-fuse')),
     opts(Argus, Args).
-opts(['--image', File|Argus], Args) :-
+opts(['--image',File|Argus], Args) :-
     !,
     retractall(flag(image, _)),
     assertz(flag(image, File)),
@@ -725,12 +719,18 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
+opts(['--pcode',File|Argus], Args) :-
+    !,
+    retractall(flag('pcode', _)),
+    open(File, write, Out, [encoding(utf8)]),
+    assertz(flag('pcode', Out)),
+    opts(Argus, Args).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
     assertz(flag(profile)),
     opts(Argus, Args).
-opts(['--quantify', Prefix|Argus], Args) :-
+opts(['--quantify',Prefix|Argus], Args) :-
     !,
     assertz(flag('quantify', Prefix)),
     opts(Argus, Args).
@@ -754,7 +754,7 @@ opts(['--rule-histogram'|Argus], Args) :-
     retractall(flag('rule-histogram')),
     assertz(flag('rule-histogram')),
     opts(Argus, Args).
-opts(['--skolem-genid', Genid|Argus], Args) :-
+opts(['--skolem-genid',Genid|Argus], Args) :-
     !,
     retractall(flag('skolem-genid', _)),
     assertz(flag('skolem-genid', Genid)),
@@ -769,7 +769,7 @@ opts(['--strings'|Argus], Args) :-
     retractall(flag(strings)),
     assertz(flag(strings)),
     opts(Argus, Args).
-opts(['--tactic', 'limited-answer', Lim|Argus], Args) :-
+opts(['--tactic','limited-answer',Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -784,7 +784,7 @@ opts(['--tactic', 'limited-answer', Lim|Argus], Args) :-
     retractall(flag('limited-answer', _)),
     assertz(flag('limited-answer', Limit)),
     opts(Argus, Args).
-opts(['--tactic', 'limited-brake', Lim|Argus], Args) :-
+opts(['--tactic','limited-brake',Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -799,7 +799,7 @@ opts(['--tactic', 'limited-brake', Lim|Argus], Args) :-
     retractall(flag('limited-brake', _)),
     assertz(flag('limited-brake', Limit)),
     opts(Argus, Args).
-opts(['--tactic', 'limited-step', Lim|Argus], Args) :-
+opts(['--tactic','limited-step',Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -814,7 +814,7 @@ opts(['--tactic', 'limited-step', Lim|Argus], Args) :-
     retractall(flag('limited-step', _)),
     assertz(flag('limited-step', Limit)),
     opts(Argus, Args).
-opts(['--tactic', 'limited-witness', Lim|Argus], Args) :-
+opts(['--tactic','limited-witness',Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -829,12 +829,12 @@ opts(['--tactic', 'limited-witness', Lim|Argus], Args) :-
     retractall(flag('limited-witness', _)),
     assertz(flag('limited-witness', Limit)),
     opts(Argus, Args).
-opts(['--tactic', 'linear-select'|Argus], Args) :-
+opts(['--tactic','linear-select'|Argus], Args) :-
     !,
     retractall(flag(tactic, 'linear-select')),
     assertz(flag(tactic, 'linear-select')),
     opts(Argus, Args).
-opts(['--tactic', Tactic|_], _) :-
+opts(['--tactic',Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
 opts(['--version'|_], _) :-
@@ -845,14 +845,14 @@ opts(['--warn'|Argus], Args) :-
     retractall(flag(warn)),
     assertz(flag(warn)),
     opts(Argus, Args).
-opts(['--wcache', Argument, File|Argus], Args) :-
+opts(['--wcache',Argument,File|Argus], Args) :-
     !,
     absolute_uri(Argument, Arg),
     retractall(wcache(Arg, _)),
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -861,15 +861,15 @@ opts([Arg|Argus], [Arg|Args]) :-
 
 args([]) :-
     !.
-args(['--blogic', Arg|Args]) :-
+args(['--blogic',Arg|Args]) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag('debug-n3p')
-    ->  portray_clause(user_error, scope(R))
+    (   flag('pcode', Out)
+    ->  portray_clause(Out, scope(R))
     ;   true
     ),
     n3_n3p(Arg, data),
@@ -899,31 +899,90 @@ args(['--blogic', Arg|Args]) :-
         assertz(got_bi)
     ),
     args(Args).
-args(['--entail', Arg|Args]) :-
+args(['--entail',Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--not-entail', Arg|Args]) :-
+args(['--not-entail',Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
     n3_n3p(Arg, 'not-entail'),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--n3', Arg|Args]) :-
+args(['--n3',Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag('debug-n3p')
-    ->  portray_clause(user_error, scope(R))
+    (   flag('pcode', Out)
+    ->  portray_clause(Out, scope(R))
     ;   true
     ),
     n3_n3p(Arg, data),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
+    args(Args).
+args(['--n3p',Argument|Args]) :-
+    !,
+    absolute_uri(Argument, Arg),
+    (   wcacher(Arg, File)
+    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        flush_output(user_error),
+        open(File, read, In, [encoding(utf8)])
+    ;   format(user_error, 'GET ~w ', [Arg]),
+        flush_output(user_error),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8))
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    repeat,
+    read_term(In, Rt, []),
+    (   Rt = end_of_file
+    ->  catch(read_term(In, _, []), _, true)
+    ;   n3pin(Rt, In, File, data),
+        fail
+    ),
+    !,
+    (   File = '-'
+    ->  true
+    ;   close(In)
+    ),
+    (   retract(tmpfile(File))
+    ->  delete_file(File)
+    ;   true
+    ),
+    findall(SCnt,
+        (   retract(scount(SCnt))
+        ),
+        SCnts
+    ),
+    sum(SCnts, SC),
+    nb_getval(input_statements, IN),
+    Inp is SC+IN,
+    nb_setval(input_statements, Inp),
+    (   SC =\= 0
+    ->  format(user_error, 'SC=~w~n', [SC])
+    ;   format(user_error, '~n', [])
+    ),
+    flush_output(user_error),
     args(Args).
 args(['--pass'|Args]) :-
     !,
@@ -938,8 +997,8 @@ args(['--pass'|Args]) :-
     ->  assertz(query(exopred(P, S, O), exopred(P, S, O)))
     ;   assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ),
-    (   flag('debug-n3p')
-    ->  portray_clause(user_error, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
+    (   flag('pcode', Out)
+    ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ;   true
     ),
     args(Args).
@@ -951,8 +1010,8 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    (   flag('debug-n3p')
-    ->  portray_clause(user_error, implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+    (   flag('pcode', Out)
+    ->  portray_clause(Out, implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(user_error, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
@@ -961,13 +1020,13 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
-args(['--proof', Arg|Args]) :-
+args(['--proof',Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag('debug-n3p')
-    ->  portray_clause(user_error, scope(R))
+    (   flag('pcode', Out)
+    ->  portray_clause(Out, scope(R))
     ;   true
     ),
     n3_n3p(Arg, data),
@@ -984,11 +1043,11 @@ args(['--proof', Arg|Args]) :-
         assertz(got_pi)
     ),
     args(Args).
-args(['--query', Arg|Args]) :-
+args(['--query',Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
     args(Args).
-args(['--turtle', Argument|Args]) :-
+args(['--turtle',Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     (   wcacher(Arg, File)
@@ -1056,8 +1115,8 @@ n3pin(Rt, In, File, Mode) :-
         ->  true
         ;   call(Rg)
         ),
-        (   flag('debug-n3p')
-        ->  format(user_error, '~q.~n', [Rt])
+        (   flag('pcode', Out)
+        ->  format(Out, '~q.~n', [Rt])
         ;   true
         )
     ;   dynify(Rt),
@@ -1110,9 +1169,9 @@ n3pin(Rt, In, File, Mode) :-
                 ;   Pj = Ph
                 ),
                 functor(Ci, CPi, _),
-                (   flag('debug-n3p')
-                ->  portray_clause(user_error, cpred(CPi)),
-                    portray_clause(user_error, ':-'(Ci, Pi))
+                (   flag('pcode', Out)
+                ->  portray_clause(Out, cpred(CPi)),
+                    portray_clause(Out, ':-'(Ci, Pi))
                 ;   true
                 ),
                 (   \+cpred(CPi)
@@ -1129,9 +1188,9 @@ n3pin(Rt, In, File, Mode) :-
             ;   (   Rt \= pred('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>'),
                     \+ (Rt = scope(_), Mode = query)
                 ->  djiti_assertz(Rt),
-                    (   flag('debug-n3p'),
+                    (   flag('pcode', Out),
                         Rt \= scount(_)
-                    ->  format(user_error, '~q.~n', [Rt])
+                    ->  format(Out, '~q.~n', [Rt])
                     ;   true
                     ),
                     (   Rt \= flag(_, _),
@@ -1267,12 +1326,12 @@ n3_n3p(Argument, Mode) :-
     ->  delete_file(Tmp)
     ;   true
     ),
-    (   flag('debug-n3p')
+    (   flag('pcode', Out)
     ->  forall(
             (   pfx(Pp, Pu),
                 \+wpfx(Pp)
             ),
-            (   portray_clause(user_error, pfx(Pp, Pu)),
+            (   portray_clause(Out, pfx(Pp, Pu)),
                 assertz(wpfx(Pp))
             )
         )
@@ -1315,8 +1374,8 @@ n3_n3p(Argument, Mode) :-
                 ->  true
                 ;   djiti_assertz(Rt),
                     cnt(sc),
-                    (   flag('debug-n3p')
-                    ->  portray_clause(user_error, Rt)
+                    (   flag('pcode', Out)
+                    ->  portray_clause(Out, Rt)
                     ;   true
                     )
                 )
@@ -1342,8 +1401,8 @@ n3_n3p(Argument, Mode) :-
                         ),
                         conjify(Px, Pi)
                     ->  (   Ci = true
-                        ->  (   flag('debug-n3p')
-                            ->  portray_clause(user_error, ':-'(Pi))
+                        ->  (   flag('pcode', Out)
+                            ->  portray_clause(Out, ':-'(Pi))
                             ;   true
                             ),
                             (   flag('parse-only')
@@ -1370,9 +1429,9 @@ n3_n3p(Argument, Mode) :-
                             ),
                             cnt(sc),
                             functor(Ci, CPi, _),
-                            (   flag('debug-n3p')
-                            ->  portray_clause(user_error, cpred(CPi)),
-                                portray_clause(user_error, ':-'(Ci, Pi))
+                            (   flag('pcode', Out)
+                            ->  portray_clause(Out, cpred(CPi)),
+                                portray_clause(Out, ':-'(Ci, Pi))
                             ;   true
                             ),
                             (   \+cpred(CPi)
@@ -1383,8 +1442,8 @@ n3_n3p(Argument, Mode) :-
                         )
                     ;   djiti_assertz(Rt),
                         cnt(sc),
-                        (   flag('debug-n3p')
-                        ->  portray_clause(user_error, Rt)
+                        (   flag('pcode', Out)
+                        ->  portray_clause(Out, Rt)
                         ;   true
                         )
                     )
