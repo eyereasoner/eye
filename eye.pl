@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0717.2213 josd').
+version_info('EYE v22.0718.0935 josd').
 
 license_info('MIT License
 
@@ -1096,7 +1096,11 @@ args(['--turtle',Argument|Args]) :-
             ttl_n3p(P, Predicate),
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
-            djiti_assertz(Triple)
+            djiti_assertz(Triple),
+            (   flag('pcode', Out)
+            ->  format(Out, '~q.~n', [Triple])
+            ;   true
+            )
         )
     ),
     length(Triples, SC),
