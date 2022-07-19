@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0718.0935 josd').
+version_info('EYE v22.0719.1137 josd').
 
 license_info('MIT License
 
@@ -1174,7 +1174,10 @@ n3pin(Rt, In, File, Mode) :-
                 ),
                 functor(Ci, CPi, _),
                 (   flag('pcode', Out)
-                ->  portray_clause(Out, cpred(CPi)),
+                ->  (   \+cpred(CPi)
+                    ->  portray_clause(Out, cpred(CPi))
+                    ;   true
+                    ),
                     portray_clause(Out, ':-'(Ci, Pi))
                 ;   true
                 ),
@@ -1434,7 +1437,10 @@ n3_n3p(Argument, Mode) :-
                             cnt(sc),
                             functor(Ci, CPi, _),
                             (   flag('pcode', Out)
-                            ->  portray_clause(Out, cpred(CPi)),
+                            ->  (   \+cpred(CPi)
+                                ->  portray_clause(Out, cpred(CPi))
+                                ;   true
+                                ),
                                 portray_clause(Out, ':-'(Ci, Pi))
                             ;   true
                             ),
