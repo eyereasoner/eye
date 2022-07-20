@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0719.1137 josd').
+version_info('EYE v22.0720.2135 josd').
 
 license_info('MIT License
 
@@ -10215,19 +10215,19 @@ findvar(A, eta) :-
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
     !.
-raw_type(A, '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     number(A),
     !.
-raw_type(A, '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     atom(A),
     \+ sub_atom(A, 0, _, _, some),
     \+ (sub_atom(A, 0, 1, _, '<'), sub_atom(A, _, 1, 0, '>')),
     !.
-raw_type(literal(_, _), '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
+raw_type(literal(_, _), '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     !.
-raw_type(rdiv(_, _), '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
+raw_type(rdiv(_, _), '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     !.
-raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<http://www.w3.org/2000/01/rdf-schema#Literal>') :-
+raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     !.
 raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
