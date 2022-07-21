@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0720.2135 josd').
+version_info('EYE v22.0721.2042 josd').
 
 license_info('MIT License
 
@@ -133,6 +133,7 @@ eye
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
+:- dynamic(n3s/2).
 :- dynamic(ncllit/0).
 :- dynamic(ns/2).
 :- dynamic(pass_only_new/1).
@@ -6005,12 +6006,17 @@ djiti_assertz(A) :-
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    with_output_to_chars(wh, C1),
-    \+ (C1 = [], \+flag('no-qnames')),
-    with_output_to_chars(wt(A), C2),
-    append(C1, C2, C),
-    escape_string(C, D),
-    atom_codes(B, D).
+    (   n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>')))
+    ->  true
+    ;   retractall(wpfx(_)),
+        with_output_to_chars(wh, C1),
+        \+ (C1 = [], \+flag('no-qnames')),
+        with_output_to_chars(wt(A), C2),
+        append(C1, C2, C),
+        escape_string(C, D),
+        atom_codes(B, D),
+        assertz(n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))))
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#rawType>'(A, B) :-
     nonvar(A),
