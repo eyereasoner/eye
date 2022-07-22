@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0721.2121 josd').
+version_info('EYE v22.0722.0847 josd').
 
 license_info('MIT License
 
@@ -6004,6 +6004,13 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/log#localN3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    term_variables(A, V),
+    labelvars([A, V], 0, _, avar),
+    with_output_to_chars((wq(V, allv), wt(A)), E),
+    escape_string(E, F),
+    atom_codes(B, F).
 
 '<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     (   n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>')))
