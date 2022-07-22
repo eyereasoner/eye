@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0722.0847 josd').
+version_info('EYE v22.0722.2355 josd').
 
 license_info('MIT License
 
@@ -6430,6 +6430,7 @@ djiti_assertz(A) :-
         (   nonvar(X)
         ),
         (   getlist(X, C),
+            labelvars(C, 0, _, avar),
             (   member(D, C),
                 var(D),
                 var(Y)
