@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0722.2355 josd').
+version_info('EYE v22.0725.1110 josd').
 
 license_info('MIT License
 
@@ -5814,6 +5814,16 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#removeDuplicates>'(A, B) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, C),
+            list_to_set(C, B)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#rest>'(A, B) :-
     when(
         (   nonvar(A)
@@ -5828,8 +5838,10 @@ djiti_assertz(A) :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   sort(A, C),
-            sort(B, C)
+        (   getlist(A, C),
+            getlist(B, D),
+            sort(C, E),
+            sort(D, E)
         )
     ).
 
@@ -6493,6 +6505,34 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/string#join>'([X,Y], Z) :-
+    when(
+        (   nonvar(X)
+        ),
+        (   getlist(X, C),
+            getcodes(Y, D),
+            labelvars(C, 0, _, avar),
+            (   member(E, C),
+                var(E),
+                var(Z)
+            ->  true
+            ;   findall([D,S],
+                    (   member(A, X),
+                        getcodes(A, S)
+                    ),
+                    U
+                ),
+                flatten(U, V),
+                (   V = []
+                ->  F = V
+                ;   append(D, F, V)
+                ),
+                atom_codes(G, F),
+                Z = literal(G, type('<http://www.w3.org/2001/XMLSchema#string>'))
+            )
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/string#lessThan>'(X, Y) :-
     when(
         (   ground([X, Y])
@@ -6537,16 +6577,16 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/string#notMatches>'(X, Y) :-
     \+'<http://www.w3.org/2000/10/swap/string#matches>'(X, Y).
 
-'<http://www.w3.org/2000/10/swap/string#replace>'([literal(X, _), literal(Search, _), literal(Replace, _)], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#replace>'([literal(X, _),literal(Search, _),literal(Replace, _)], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
-        (   ground([X, Search, Replace])
+        (   ground([X,Search,Replace])
         ),
-        (   atomic_list_concat(Split, Search, X),
-            atomic_list_concat(Split, Replace, Y)
+        (   re_replace(Search/g, Replace, X, W),
+            atom_string(Y, W)
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _), literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _),literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
         (   ground([X, Y])
         ),
@@ -6555,7 +6595,7 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#search>'([literal(X, _), literal(Y, _)], Z) :-
+'<http://www.w3.org/2000/10/swap/string#search>'([literal(X, _),literal(Y, _)], Z) :-
     when(
         (   ground([X, Y])
         ),
