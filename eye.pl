@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0725.1110 josd').
+version_info('EYE v22.0729.2037 josd').
 
 license_info('MIT License
 
@@ -6540,6 +6540,14 @@ djiti_assertz(A) :-
         (   getstring(X, U),
             getstring(Y, V),
             U @< V
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/string#length>'(literal(A, _), B) :-
+    when(
+        (   ground(A)
+        ),
+        (   sub_atom(A, 0, B, 0, _)
         )
     ).
 
