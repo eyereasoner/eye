@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0729.2037 josd').
+version_info('EYE v22.0801.1043 josd').
 
 license_info('MIT License
 
@@ -5321,7 +5321,7 @@ djiti_assertz(A) :-
     ->  true
     ;   copy_term_nat(A, B),
         nb_getval(wn, W),
-        labelvars(B, W, N),
+        labelvars(B, W, N, avar),
         nb_setval(wn, N),
         assertz(got_labelvars(C, D, B))
     ).
@@ -10050,7 +10050,8 @@ labelvars(A, B, C, D) :-
 labelvars(A, B, B, _) :-
     atomic(A),
     !.
-labelvars('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C, C, _) :-
+labelvars('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C, C, D) :-
+    D \= avar,
     nonvar(A),
     nonvar(B),
     !.
