@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0803.1340 josd').
+version_info('EYE v22.0804.2304 josd').
 
 license_info('MIT License
 
@@ -10282,6 +10282,7 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     atom(A),
     \+ sub_atom(A, 0, _, _, some),
+    \+ sub_atom(A, 0, _, _, avar),
     \+ (sub_atom(A, 0, 1, _, '<'), sub_atom(A, _, 1, 0, '>')),
     !.
 raw_type(literal(_, _), '<http://www.w3.org/2000/10/swap/log#Literal>') :-
