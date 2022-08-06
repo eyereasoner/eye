@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0804.2304 josd').
+version_info('EYE v22.0806.0946 josd').
 
 license_info('MIT License
 
@@ -179,6 +179,10 @@ eye
 % Main goal
 %
 
+main(Argv) :-
+    set_prolog_flag(argv, Argv),
+    main.
+
 main :-
     current_prolog_flag(version_data, swi(SV, _, _, _)),
     (   SV < 8
@@ -306,11 +310,11 @@ gre(Argus) :-
     nb_setval(current_scope, '<>'),
     nb_setval(wn, 0),
     opts(Argus, Args),
-    (   \+flag('multi-query'),
-        Args = []
-    ->  opts(['--help'], _)
-    ;   true
-    ),
+    %(   \+flag('multi-query'),
+    %    Args = []
+    %->  opts(['--help'], _)
+    %;   true
+    %),
     (   flag('skolem-genid', Genid)
     ->  true
     ;   A is random(2^62),

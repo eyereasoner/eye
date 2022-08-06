@@ -24,4 +24,4 @@ client.on('connect', function(connection) {
     connection.send("end_of_file");
 });
 
-client.connect('ws://localhost:8080/');
+client.connect('ws://localhost:8000/');
