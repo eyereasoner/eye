@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0806.0946 josd').
+version_info('EYE v22.0806.2130 josd').
 
 license_info('MIT License
 
@@ -310,11 +310,11 @@ gre(Argus) :-
     nb_setval(current_scope, '<>'),
     nb_setval(wn, 0),
     opts(Argus, Args),
-    %(   \+flag('multi-query'),
-    %    Args = []
-    %->  opts(['--help'], _)
-    %;   true
-    %),
+    (   \+flag('multi-query'),
+        Args = []
+    ->  opts(['--help'], _)
+    ;   true
+    ),
     (   flag('skolem-genid', Genid)
     ->  true
     ;   A is random(2^62),
