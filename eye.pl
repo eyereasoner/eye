@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0806.2130 josd').
+version_info('EYE v22.0807.1905 josd').
 
 license_info('MIT License
 
@@ -181,14 +181,27 @@ eye
 
 main(Argv) :-
     set_prolog_flag(argv, Argv),
-    main.
+    catch(run, Exc,
+        (   Exc = halt(_)
+        ->  true
+        ;   throw(Exc)
+        )
+    ).
 
 main :-
+    catch(run, Exc,
+        (   Exc = halt(EC)
+        ->  halt(EC)
+        ;   throw(Exc)
+        )
+    ).
+
+run :-
     current_prolog_flag(version_data, swi(SV, _, _, _)),
     (   SV < 8
     ->  format(user_error, '** ERROR ** EYE requires at least swipl version 8 **~n', []),
         flush_output(user_error),
-        halt(1)
+        throw(halt(1))
     ;   true
     ),
     catch(set_stream(user_output, encoding(utf8)), _, true),
@@ -267,7 +280,7 @@ main :-
     ),
     nb_getval(exit_code, EC),
     flush_output,
-    halt(EC).
+    throw(halt(EC)).
 
 argv([], []) :-
     !.
@@ -782,7 +795,7 @@ opts(['--tactic','limited-answer',Lim|Argus], Args) :-
             (   format(user_error, '** ERROR ** limited-answer ** ~w~n', [Exc]),
                 flush_output(user_error),
                 flush_output,
-                halt(1)
+                throw(halt(1))
             )
         )
     ),
@@ -797,7 +810,7 @@ opts(['--tactic','limited-brake',Lim|Argus], Args) :-
             (   format(user_error, '** ERROR ** limited-brake ** ~w~n', [Exc]),
                 flush_output(user_error),
                 flush_output,
-                halt(1)
+                throw(halt(1))
             )
         )
     ),
@@ -812,7 +825,7 @@ opts(['--tactic','limited-step',Lim|Argus], Args) :-
             (   format(user_error, '** ERROR ** limited-step ** ~w~n', [Exc]),
                 flush_output(user_error),
                 flush_output,
-                halt(1)
+                throw(halt(1))
             )
         )
     ),
@@ -827,7 +840,7 @@ opts(['--tactic','limited-witness',Lim|Argus], Args) :-
             (   format(user_error, '** ERROR ** limited-witness ** ~w~n', [Exc]),
                 flush_output(user_error),
                 flush_output,
-                halt(1)
+                throw(halt(1))
             )
         )
     ),
