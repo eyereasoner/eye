@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0807.1905 josd').
+version_info('EYE v22.0809.1553 josd').
 
 license_info('MIT License
 
@@ -6096,7 +6096,10 @@ djiti_assertz(A) :-
             (   atom_concat(some, V, X)
             ->  nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, 'sk_', V, '>'], U)
-            ;   U = X
+            ;   (   atom_concat(avar, V, X)
+                ->  atomic_list_concat(['<http://josd.github.io/var#x_', V, '>'], U)
+                ;   U = X
+                )
             ),
             sub_atom(U, 1, _, 1, Z),
             atomic_list_concat(['<', Z, '>'], U),
