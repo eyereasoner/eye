@@ -2,7 +2,7 @@
 @prefix : <http://example.org/socrates#>.
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 
-:Socrates a :Human {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates.n3> |}.
-:Human rdfs:subClassOf :Mortal.
+:Socrates a :Human {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
+:Human rdfs:subClassOf :Mortal {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
 
-{?A rdfs:subClassOf ?B. ?S a ?A} => {?S a ?B}.
+{?A rdfs:subClassOf ?B. ?S a ?A} => {?S a ?B} {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
