@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0814.1007 josd').
+version_info('EYE v22.0814.1030 josd').
 
 license_info('MIT License
 
@@ -174,6 +174,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
+:- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
 
 %
 % Main goal

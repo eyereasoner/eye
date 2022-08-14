@@ -47,4 +47,19 @@ skolem:lemma4 a r:Extraction;
   r:gives {
     h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium).
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/hypothesis-001.n3>].
+
+skolem:lemma5 a r:Extraction;
+  r:gives {
+    t:Ghent-Belgium t:position-tensor (51.0535 3.7304).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/data-001.n3>].
+
+skolem:lemma6 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 h:inOneOf var:x_1.
+     var:x_2 list:in var:x_1.
+     var:x_2 t:position-tensor (var:x_3 var:x_4)} => {var:x_0 h:location (var:x_3 var:x_4)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/h2o/rules-001.n3>].
+

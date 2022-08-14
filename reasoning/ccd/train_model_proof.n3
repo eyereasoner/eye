@@ -691,4 +691,167 @@ skolem:lemma36 a r:Extraction;
   r:gives {
     skolem:bn_1 :input1 "abc".
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma37 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {(:input1 :input2 :input3 :input4 :input5 :input10) list:member var:x_0.
+     var:x_1 var:x_0 var:x_2} => {(var:x_0 var:x_2) ccd:output :output1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_rules.n3>].
+
+skolem:lemma38 a r:Extraction;
+  r:gives {
+    skolem:bn_4 :input1 "xyz".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma39 a r:Extraction;
+  r:gives {
+    skolem:bn_1 :input2 40 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma40 a r:Extraction;
+  r:gives {
+    skolem:bn_4 :input2 60 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma41 a r:Extraction;
+  r:gives {
+    skolem:bn_1 :input3 (0 1).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma42 a r:Extraction;
+  r:gives {
+    skolem:bn_2 :input3 (2 3).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma43 a r:Extraction;
+  r:gives {
+    skolem:bn_1 :input4 :v1.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma44 a r:Extraction;
+  r:gives {
+    skolem:bn_2 :input4 :v2.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma45 a r:Extraction;
+  r:gives {
+    skolem:bn_5 :input4 :v4.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma46 a r:Extraction;
+  r:gives {
+    skolem:bn_6 :input4 :v3.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma47 a r:Extraction;
+  r:gives {
+    skolem:bn_1 :input5 "b".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma48 a r:Extraction;
+  r:gives {
+    skolem:bn_2 :input5 "c".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma49 a r:Extraction;
+  r:gives {
+    skolem:bn_3 :input5 "a".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma50 a r:Inference;
+  r:gives {
+    skolem:bn_1 :input10 ("abc" 40).
+  };
+  r:evidence (
+    skolem:lemma36
+    skolem:lemma39
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#bn_1"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "abc"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 40];
+  r:rule skolem:lemma54.
+
+skolem:lemma51 a r:Inference;
+  r:gives {
+    skolem:bn_4 :input10 ("xyz" 60).
+  };
+  r:evidence (
+    skolem:lemma38
+    skolem:lemma40
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#bn_4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "xyz"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 60];
+  r:rule skolem:lemma54.
+
+skolem:lemma52 a r:Inference;
+  r:gives {
+    skolem:bn_5 :input10 ("abc" 60).
+  };
+  r:evidence (
+    skolem:lemma55
+    skolem:lemma56
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#bn_5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "abc"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 60];
+  r:rule skolem:lemma54.
+
+skolem:lemma53 a r:Inference;
+  r:gives {
+    skolem:bn_8 :input10 ("xyz" 40).
+  };
+  r:evidence (
+    skolem:lemma57
+    skolem:lemma58
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#bn_8"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo "xyz"];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 40];
+  r:rule skolem:lemma54.
+
+skolem:lemma54 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :input1 var:x_1.
+     var:x_0 :input2 var:x_2} => {var:x_0 :input10 (var:x_1 var:x_2)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/background_rules.n3>].
+
+skolem:lemma55 a r:Extraction;
+  r:gives {
+    skolem:bn_5 :input1 "abc".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma56 a r:Extraction;
+  r:gives {
+    skolem:bn_5 :input2 60 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma57 a r:Extraction;
+  r:gives {
+    skolem:bn_8 :input1 "xyz".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+
+skolem:lemma58 a r:Extraction;
+  r:gives {
+    skolem:bn_8 :input2 40 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/train_data.n3>].
+

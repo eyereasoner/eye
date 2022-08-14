@@ -94,4 +94,29 @@ skolem:lemma6 a r:Extraction;
   r:gives {
     :aspirinLowDose :prescribedFor :AcuteMyocardialInfarction.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+
+skolem:lemma7 a r:Extraction;
+  r:gives {
+    (:Joe :AcuteMyocardialInfarction) fl:mu 0.9 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_0 :prescribedFor var:x_1.
+     (var:x_2 var:x_1) fl:mu var:x_3.
+     var:x_3 math:greaterThan 0.7 .
+     var:x_4 e:findall (var:x_5 {var:x_0 :excludedFor var:x_5} var:x_6).
+     var:x_4 e:findall (var:x_5 {var:x_0 :excludedFor var:x_5.
+      (var:x_2 var:x_5) fl:mu var:x_7.
+      var:x_7 math:notGreaterThan 0.01} var:x_6)} => {var:x_2 :isPrescribed var:x_0}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    :betaBlocker :prescribedFor :AcuteMyocardialInfarction.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/medic/medic.n3>].
+

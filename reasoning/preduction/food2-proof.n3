@@ -224,4 +224,199 @@ skolem:lemma17 a r:Extraction;
   r:gives {
     skolem:e_g_1 a food:Grape.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-example.n3>].
+
+skolem:lemma18 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. {var:x_0 a var:x_1} => {var:x_0 a var:x_1}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-query.n3>].
+
+skolem:lemma19 a r:Extraction;
+  r:gives {
+    skolem:e_cnd_1 a food:CheeseNutsDessert.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-example.n3>].
+
+skolem:lemma20 a r:Extraction;
+  r:gives {
+    skolem:e_pwlcs_1 a food:PastaWithLightCreamSauce.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-example.n3>].
+
+skolem:lemma21 a r:Extraction;
+  r:gives {
+    skolem:e_ct_1 a food:ConsumableThing.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-example.n3>].
+
+skolem:lemma22 a r:Extraction;
+  r:gives {
+    skolem:e_m_1 a food:Meal.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food-example.n3>].
+
+skolem:lemma23 a r:Inference;
+  r:gives {
+    skolem:e_g_1 a food:SweetFruit.
+  };
+  r:evidence (
+    skolem:lemma17
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_g_1"]];
+  r:rule skolem:lemma34.
+
+skolem:lemma24 a r:Inference;
+  r:gives {
+    skolem:e_pwlcs_1 a food:PastaWithWhiteSauce.
+  };
+  r:evidence (
+    skolem:lemma20
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_pwlcs_1"]];
+  r:rule skolem:lemma35.
+
+skolem:lemma25 a r:Inference;
+  r:gives {
+    skolem:e_m_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    skolem:lemma22
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_m_1"]];
+  r:rule skolem:lemma36.
+
+skolem:lemma26 a r:Inference;
+  r:gives {
+    skolem:e_g_1 a food:EdibleThing.
+  };
+  r:evidence (
+    skolem:lemma23
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_g_1"]];
+  r:rule skolem:lemma37.
+
+skolem:lemma27 a r:Inference;
+  r:gives {
+    skolem:e_cnd_1 a food:Dessert.
+  };
+  r:evidence (
+    skolem:lemma19
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_cnd_1"]];
+  r:rule skolem:lemma38.
+
+skolem:lemma28 a r:Inference;
+  r:gives {
+    skolem:e_g_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    skolem:lemma26
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_g_1"]];
+  r:rule skolem:lemma39.
+
+skolem:lemma29 a r:Inference;
+  r:gives {
+    skolem:e_pwlcs_1 a food:Pasta.
+  };
+  r:evidence (
+    skolem:lemma24
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_pwlcs_1"]];
+  r:rule skolem:lemma40.
+
+skolem:lemma30 a r:Inference;
+  r:gives {
+    skolem:e_cnd_1 a food:EdibleThing.
+  };
+  r:evidence (
+    skolem:lemma27
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_cnd_1"]];
+  r:rule skolem:lemma41.
+
+skolem:lemma31 a r:Inference;
+  r:gives {
+    skolem:e_cnd_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    skolem:lemma30
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_cnd_1"]];
+  r:rule skolem:lemma39.
+
+skolem:lemma32 a r:Inference;
+  r:gives {
+    skolem:e_pwlcs_1 a food:EdibleThing.
+  };
+  r:evidence (
+    skolem:lemma29
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_pwlcs_1"]];
+  r:rule skolem:lemma42.
+
+skolem:lemma33 a r:Inference;
+  r:gives {
+    skolem:e_pwlcs_1 a food:ConsumableThing.
+  };
+  r:evidence (
+    skolem:lemma32
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#e_pwlcs_1"]];
+  r:rule skolem:lemma39.
+
+skolem:lemma34 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:Grape} => {var:x_0 a food:SweetFruit}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma35 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:PastaWithLightCreamSauce} => {var:x_0 a food:PastaWithWhiteSauce}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma36 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:Meal} => {var:x_0 a food:ConsumableThing}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma37 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:SweetFruit} => {var:x_0 a food:EdibleThing}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma38 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:CheeseNutsDessert} => {var:x_0 a food:Dessert}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma39 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:EdibleThing} => {var:x_0 a food:ConsumableThing}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma40 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:PastaWithWhiteSauce} => {var:x_0 a food:Pasta}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma41 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:Dessert} => {var:x_0 a food:EdibleThing}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+
+skolem:lemma42 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {var:x_0 a food:Pasta} => {var:x_0 a food:EdibleThing}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/food2.n3>].
+

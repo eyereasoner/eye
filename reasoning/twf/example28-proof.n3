@@ -97,4 +97,58 @@ skolem:lemma7 a r:Extraction;
   r:gives {
     :workflowA a :Workflow.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    :taskA a :Completed.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+
+skolem:lemma10 a r:Extraction;
+  r:gives {
+    :taskB a :Completed.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+
+skolem:lemma11 a r:Extraction;
+  r:gives {
+    :workflowA :includes :taskA.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+
+skolem:lemma12 a r:Extraction;
+  r:gives {
+    :workflowA :includes :taskB.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+
+skolem:lemma13 a r:Inference;
+  r:gives {
+    :workflowA :completed (:taskA :taskB).
+  };
+  r:evidence (
+    skolem:lemma7
+    [ a r:Fact; r:gives {(_:sk_0 {:workflowA :includes _:sk_0.
+     _:sk_0 a :Completed} (:taskA :taskB)) log:collectAllIn ((<http://josd.github.io/eye/reasoning/twf/example28.n3>) 1)}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/workflowA"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((<http://josd.github.io/eye/reasoning/twf/example28.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (:taskA :taskB)];
+  r:rule skolem:lemma14.
+
+skolem:lemma14 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Workflow.
+     (var:x_1 {var:x_0 :includes var:x_1.
+      var:x_1 a :Completed} var:x_2) log:collectAllIn var:x_3} => {var:x_0 :completed var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/twf/example28.n3>].
+

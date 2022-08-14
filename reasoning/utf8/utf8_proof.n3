@@ -82,4 +82,35 @@ skolem:lemma6 a r:Extraction;
   r:gives {
     :s :p <http://example.org/test#béc>.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
+
+skolem:lemma7 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+  };
+  r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    :s :p "€".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    :s :p "𝟋"@en-us.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
+
+skolem:lemma10 a r:Extraction;
+  r:gives {
+    :s :p "Ø".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
+
+skolem:lemma11 a r:Extraction;
+  r:gives {
+    :s :p "the “test” is ok".
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/utf8/utf8.n3>].
+

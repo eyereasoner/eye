@@ -109,4 +109,76 @@ skolem:lemma7 a r:Extraction;
   r:gives {
     :input2 :measurement2 true.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    :disturbance1 :measurement3 35766 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {:input1 :measurement10 var:x_0.
+     :input2 :measurement2 true.
+     :disturbance1 :measurement3 var:x_1.
+     (var:x_0 19.6) math:product var:x_2.
+     (10 var:x_3) math:exponentiation var:x_1.
+     (var:x_2 var:x_3) math:difference var:x_4} => {:actuator1 :control1 var:x_4}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/rules-001.n3>].
+
+skolem:lemma10 a r:Extraction;
+  r:gives {
+    :input3 :measurement3 56967 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma11 a r:Extraction;
+  r:gives {
+    :state3 :observation3 22 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma12 a r:Extraction;
+  r:gives {
+    :output2 :measurement4 24 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma13 a r:Extraction;
+  r:gives {
+    :output2 :target2 29 .
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma14 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {:input3 :measurement3 var:x_0.
+     :state3 :observation3 var:x_1.
+     :output2 :measurement4 var:x_2.
+     :output2 :target2 var:x_3.
+     (var:x_3 var:x_2) math:difference var:x_4.
+     (var:x_1 var:x_2) math:difference var:x_5.
+     (5.8 var:x_4) math:product var:x_6.
+     (7.3 var:x_4) math:quotient var:x_7.
+     (var:x_7 var:x_5) math:product var:x_8.
+     (var:x_6 var:x_8) math:sum var:x_9} => {:actuator2 :control1 var:x_9}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/rules-001.n3>].
+
+skolem:lemma15 a r:Extraction;
+  r:gives {
+    :input1 :measurement1 (6 11).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/data-001.n3>].
+
+skolem:lemma16 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 :measurement10 var:x_4} <= {var:x_0 :measurement1 (var:x_1 var:x_2).
+     var:x_1 math:lessThan var:x_2.
+     (var:x_2 var:x_1) math:difference var:x_3.
+     (var:x_3 0.5) math:exponentiation var:x_4}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cs/rules-001.n3>].
+

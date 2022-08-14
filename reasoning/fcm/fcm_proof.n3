@@ -873,4 +873,19 @@ skolem:lemma25 a r:Extraction;
   r:gives {
     :NonNormalIntraocularPressure owl:complementOf :NormalIntraocularPressure.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/example002P.n3>].
+
+skolem:lemma26 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 owl:complementOf var:x_1.
+     (var:x_2 var:x_1) fl:pi var:x_3.
+     (1.0 var:x_3) math:difference var:x_4} => {(var:x_2 var:x_0) fl:pi var:x_4}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3>].
+
+skolem:lemma27 a r:Extraction;
+  r:gives {
+    :NonIncreasedIntraocularPressure owl:complementOf :IncreasedIntraocularPressure.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/example002P.n3>].
+

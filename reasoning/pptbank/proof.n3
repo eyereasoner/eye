@@ -71,4 +71,27 @@ skolem:lemma4 a r:Extraction;
   r:gives {
     my:account bk:statements (<http://josd.github.io/eye/reasoning/pptbank/acct3start.n3>).
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/bankSW.n3>].
+
+skolem:lemma5 a r:Extraction;
+  r:gives {
+    my:account bk:transactions (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>).
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/bankSW.n3>].
+
+skolem:lemma6 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 bk:statements (var:x_1).
+     var:x_1 log:semantics var:x_2.
+     var:x_2 log:includes {var:x_0 ck:balance var:x_3}.
+     var:x_0 bk:transactions var:x_4.
+     var:x_5 e:findall (var:x_6 {var:x_4 list:member var:x_7.
+      var:x_7 log:semantics var:x_8.
+      var:x_8 log:includes {var:x_7 a ck:Check.
+       var:x_7 ck:amount var:x_6.
+       var:x_7 ck:account var:x_0}} var:x_9).
+     var:x_9 math:sum var:x_10.
+     (var:x_3 var:x_10) math:difference var:x_11} => {var:x_0 ck:balance var:x_11}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/checking.n3>].
+

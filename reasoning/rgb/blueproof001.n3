@@ -38,4 +38,17 @@ skolem:lemma3 a r:Extraction;
   r:gives {
     :s :p :o.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/redgraph001.n3>].
+
+skolem:lemma4 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. @forSome var:x_1. {var:x_0 :p :o} => {{var:x_0 :p var:x_1} => {var:x_0 :q var:x_1}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery001.n3>].
+
+skolem:lemma5 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. @forSome var:x_1. {var:x_0 :p :o} => {{var:x_0 :q var:x_1} => {var:x_0 :r var:x_1}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rgb/greenquery001.n3>].
+

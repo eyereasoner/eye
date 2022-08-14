@@ -110,4 +110,38 @@ skolem:lemma6 a r:Extraction;
   r:gives {
     :s :p101 (:a :b :c).
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data-extra.n3>].
+
+skolem:lemma7 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6. {var:x_1 var:x_0 var:x_2.
+     var:x_3 e:optional {var:x_4 :b var:x_5}} => {var:x_6 e:csvTuple (var:x_1 var:x_0 var:x_4 var:x_2 var:x_5)}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-query.n3>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    :s :p102 {:d :e :f}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data-extra.n3>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    :s :p103 {:g :h :i.
+     :j :k :l}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data-extra.n3>].
+
+skolem:lemma10 a r:Extraction;
+  r:gives {
+    :s :p104 {:m :n :o.
+     (:p :q :r) :s :t}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data-extra.n3>].
+
+skolem:lemma11 a r:Extraction;
+  r:gives {
+    :s :p105 {(:u :v) :w {:x :y :z}}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/csv/select-data-extra.n3>].
+

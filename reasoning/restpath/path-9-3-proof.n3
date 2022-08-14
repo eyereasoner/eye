@@ -367,4 +367,17 @@ skolem:lemma20 a r:Extraction;
   r:gives {
     <http://josd.github.io/eye/reasoning/restpath/x> ex:rel1 <http://josd.github.io/eye/reasoning/restpath/y>.
   };
-  r:because [ a r:Parsing; r:source 
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/initial.n3>].
+
+skolem:lemma21 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_0 ex:rel1 var:x_1} => {var:x_2 http:methodName "GET".
+     var:x_2 http:requestURI var:x_0.
+     var:x_2 http:resp var:x_3.
+     var:x_3 http:body var:x_1.
+     var:x_0 ex:rel2 var:x_1.
+     var:x_4 ex:rel2 var:x_5.
+     var:x_6 ex:rel2 var:x_7}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/restpath/path-9-3.n3>].
+
