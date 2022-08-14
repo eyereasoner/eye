@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0814.1030 josd').
+version_info('EYE v22.0814.1056 josd').
 
 license_info('MIT License
 
@@ -3432,10 +3432,15 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write('; '),
     wp('<http://www.w3.org/2000/10/swap/reason#source>'),
     write(' '),
-    (   C =.. [P, S, O],
+    (   C = rule(_, _, Rl),
+        Rl =.. [P, S, O],
         '<http://www.w3.org/ns/solid/terms#source>'(triple(S, P, O), Src)
     ->  wt(Src)
-    ;   wt(A)
+    ;   (   C =.. [P, S, O],
+            '<http://www.w3.org/ns/solid/terms#source>'(triple(S, P, O), Src)
+        ->  wt(Src)
+        ;   wt(A)
+        )
     ),
     write('].'),
     indentation(-2).
