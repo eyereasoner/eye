@@ -2,17 +2,18 @@
 @prefix : <http://example.org/try#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
-  r:component <#lemma2>;
-  r:component <#lemma3>;
-  r:component <#lemma4>;
-  r:component <#lemma5>;
-  r:component <#lemma6>;
-  r:component <#lemma7>;
-  r:component <#lemma8>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:component skolem:lemma2;
+  r:component skolem:lemma3;
+  r:component skolem:lemma4;
+  r:component skolem:lemma5;
+  r:component skolem:lemma6;
+  r:component skolem:lemma7;
+  r:component skolem:lemma8;
   r:gives {
     :test1 a :PASS.
     :test2 a :PASS.
@@ -24,7 +25,7 @@
     :test8 a :PASS.
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     :test1 a :PASS.
   };
@@ -32,9 +33,9 @@
     [ a r:Fact; r:gives {{:a :b :c} :p :o}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#a"]];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     :test2 a :PASS.
   };
@@ -44,9 +45,9 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#b"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#c"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma3> a r:Inference;
+skolem:lemma3 a r:Inference;
   r:gives {
     :test3 a :PASS.
   };
@@ -57,9 +58,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#b"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#c"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/try#a"]];
-  r:rule <#lemma11>.
+  r:rule skolem:lemma11.
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     :test4 a :PASS.
   };
@@ -67,9 +68,9 @@
     [ a r:Fact; r:gives {{:r :s :t} :p :o}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
-  r:rule <#lemma12>.
+  r:rule skolem:lemma12.
 
-<#lemma5> a r:Inference;
+skolem:lemma5 a r:Inference;
   r:gives {
     :test5 a :PASS.
   };
@@ -78,9 +79,9 @@
      :r :s :t} :p :o}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
-  r:rule <#lemma13>.
+  r:rule skolem:lemma13.
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     :test6 a :PASS.
   };
@@ -89,9 +90,9 @@
      :r :s :t} :p :o}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
-  r:rule <#lemma14>.
+  r:rule skolem:lemma14.
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     :test7 a :PASS.
   };
@@ -101,9 +102,9 @@
      :d :e :f} :p :o}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
-  r:rule <#lemma15>.
+  r:rule skolem:lemma15.
 
-<#lemma8> a r:Inference;
+skolem:lemma8 a r:Inference;
   r:gives {
     :test8 a :PASS.
   };
@@ -114,49 +115,49 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
-  r:rule <#lemma16>.
+  r:rule skolem:lemma16.
 
-<#lemma9> a r:Extraction;
+skolem:lemma9 a r:Extraction;
   r:gives {
     @forAll var:x_0. {{var:x_0 :b :c} :p :o} => {:test1 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma10> a r:Extraction;
+skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {{:a var:x_0 var:x_1.
       :a var:x_0 var:x_1} :p :o} => {:test2 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma11> a r:Extraction;
+skolem:lemma11 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {{:a var:x_0 var:x_1.
       var:x_2 var:x_0 var:x_1} :p :o} => {:test3 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma12> a r:Extraction;
+skolem:lemma12 a r:Extraction;
   r:gives {
     @forAll var:x_0. {{:r var:x_0 :t} :p :o} => {:test4 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma13> a r:Extraction;
+skolem:lemma13 a r:Extraction;
   r:gives {
     @forAll var:x_0. {{:d :e :f.
       :r var:x_0 :t} :p :o} => {:test5 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma14> a r:Extraction;
+skolem:lemma14 a r:Extraction;
   r:gives {
     @forAll var:x_0. {{:d var:x_0 :f.
       :r :s :t} :p :o} => {:test6 a :PASS}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma15> a r:Extraction;
+skolem:lemma15 a r:Extraction;
   r:gives {
     @forAll var:x_0. {{:d :e :f.
       :r :s :t.
@@ -164,7 +165,7 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/glass/testQ.n3>].
 
-<#lemma16> a r:Extraction;
+skolem:lemma16 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {{:d var:x_0 :f.
       :r var:x_1 :t.

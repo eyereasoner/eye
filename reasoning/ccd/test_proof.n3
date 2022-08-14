@@ -6,13 +6,14 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
-  r:component <#lemma2>;
-  r:component <#lemma3>;
-  r:component <#lemma4>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:component skolem:lemma2;
+  r:component skolem:lemma3;
+  r:component skolem:lemma4;
   r:gives {
     :case1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
     :case2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
@@ -20,17 +21,17 @@
     :case4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     :case1 :answer (:expected 1 :predicted 1 :belief 0.5150284139492985 :evidence ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))).
   };
   r:evidence (
-    <#lemma5>
+    skolem:lemma5
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_0.
      :case1 _:sk_0 _:sk_1.
      (_:sk_0 _:sk_1) ccd:model (:output1 _:sk_2 _:sk_3)} ((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0)))}]
-    <#lemma6>
-    <#lemma7>
+    skolem:lemma6
+    skolem:lemma7
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.5150284139492985 math:notGreaterThan 0.5 .
      ("0") e:calculate 1 .
      ("1-_Q" 0.5150284139492985) e:calculate 0.5150284139492985}}]
@@ -47,22 +48,22 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.5150284139492985];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.5150284139492985];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     :case2 :answer (:expected 0 :predicted 0 :belief 0.8658611327876298 :evidence ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))).
   };
   r:evidence (
-    <#lemma9>
+    skolem:lemma9
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_4 _:sk_5 _:sk_6 _:sk_7) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_4.
      :case2 _:sk_4 _:sk_5.
      (_:sk_4 _:sk_5) ccd:model (:output1 _:sk_6 _:sk_7)} ((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2)))}]
-    <#lemma10>
+    skolem:lemma10
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.13413886721237023 math:greaterThan 0.5 .
      ("1") e:calculate 0 .
      ("_Q" 0.13413886721237023) e:calculate 0.8658611327876298}}]
-    <#lemma11>
+    skolem:lemma11
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case2"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
@@ -76,19 +77,19 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.13413886721237023];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.8658611327876298];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma3> a r:Inference;
+skolem:lemma3 a r:Inference;
   r:gives {
     :case3 :answer (:expected 1 :predicted 1 :belief 0.6851785979382504 :evidence ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))).
   };
   r:evidence (
-    <#lemma12>
+    skolem:lemma12
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_8 _:sk_9 _:sk_10 _:sk_11) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_8.
      :case3 _:sk_8 _:sk_9.
      (_:sk_8 _:sk_9) ccd:model (:output1 _:sk_10 _:sk_11)} ((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0)))}]
-    <#lemma13>
-    <#lemma14>
+    skolem:lemma13
+    skolem:lemma14
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.6851785979382504 math:notGreaterThan 0.5 .
      ("0") e:calculate 1 .
      ("1-_Q" 0.6851785979382504) e:calculate 0.6851785979382504}}]
@@ -105,22 +106,22 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.6851785979382504];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.6851785979382504];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     :case4 :answer (:expected 0 :predicted 0 :belief 0.7925804425523848 :evidence ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))).
   };
   r:evidence (
-    <#lemma15>
+    skolem:lemma15
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_12 _:sk_13 _:sk_14 _:sk_15) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member _:sk_12.
      :case4 _:sk_12 _:sk_13.
      (_:sk_12 _:sk_13) ccd:model (:output1 _:sk_14 _:sk_15)} ((:input3 (0 1) 2 2) (:input4 :v3 1 2)))}]
-    <#lemma16>
+    skolem:lemma16
     [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.20741955744761525 math:greaterThan 0.5 .
      ("1") e:calculate 0 .
      ("_Q" 0.20741955744761525) e:calculate 0.7925804425523848}}]
-    <#lemma17>
+    skolem:lemma17
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#case4"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
@@ -134,568 +135,10 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0.20741955744761525];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 0.7925804425523848];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma5> a r:Extraction;
+skolem:lemma5 a r:Extraction;
   r:gives {
     :case1 :output1 1 .
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
-
-<#lemma6> a r:Inference;
-  r:gives {
-    (((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0)) 4.0 1.0) ccd:transformer (((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) 0.5150284139492985).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3 _:sk_4) {((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0)) list:member (_:sk_1 _:sk_2 _:sk_3 _:sk_4).
-     ("log(_J+0.5)-log(_K+0.5)" _:sk_3 _:sk_4) e:calculate _:sk_0} ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:notLessThan 0} ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)))}]
-    [ a r:Fact; r:gives {((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)) e:sort ((0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.6094379124341005 :input5 "b" 2 0))}]
-    [ a r:Fact; r:gives {((0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.6094379124341005 :input5 "b" 2 0)) e:reverse ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18) _:sk_19) list:append ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)).
-     ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) log:equalTo (_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18)}}]
-    <#lemma18>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:lessThan 0} ())}]
-    [ a r:Fact; r:gives {() e:sort ()}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29) _:sk_30) list:append ().
-     () log:equalTo (_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29)}}]
-    <#lemma19>
-    [ a r:Fact; r:gives {(((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) ()) list:append ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall (_:sk_0 {((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8)} (0.5108256237659907 0.0 0.0 1.6094379124341005))}]
-    [ a r:Fact; r:gives {(0.5108256237659907 0.0 0.0 1.6094379124341005) math:sum 2.120263536200091}]
-    [ a r:Fact; r:gives {(0.5108256237659907 0.0 0.0 1.6094379124341005) math:memberCount 4}]
-    <#lemma20>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:notGreaterThan 0 .
-     ("1/(1+exp(_BETA))" 1.0) e:calculate 0.5150284139492985}}]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "xyz" 2 1) (:input3 (0 1) 2 2) (:input4 :v4 1 1) (:input5 "b" 2 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (1.6094379124341005 :input5 "b" 2 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (0.0 :input4 :v4 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.6094379124341005 :input5 "b" 2 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.5108256237659907 0.0 0.0 1.6094379124341005)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo 2.120263536200091];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.5150284139492985];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
-  r:rule <#lemma21>.
-
-<#lemma7> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.5150284139492985 math:greaterThan 0.5 .
-     ("1") e:calculate 1 .
-     ("_Q" 0.5150284139492985) e:calculate 0.5150284139492985}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {0.5150284139492985 math:greaterThan 0.5}]
-    [ a r:Fact; r:gives {("1") e:calculate 1}]
-    [ a r:Fact; r:gives {("_Q" 0.5150284139492985) e:calculate 0.5150284139492985}]
-  );
-  r:rule [ a r:Fact; r:gives {{0.5150284139492985 math:greaterThan 0.5 .
-    ("1") e:calculate 1 .
-    ("_Q" 0.5150284139492985) e:calculate 0.5150284139492985} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.5150284139492985 math:greaterThan 0.5 .
-     ("1") e:calculate 1 .
-     ("_Q" 0.5150284139492985) e:calculate 0.5150284139492985}}}].
-
-<#lemma8> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11. {var:x_0 :output1 var:x_1.
-     var:x_2 e:findall ((var:x_3 var:x_4 var:x_5 var:x_6) {(:input1 :input2 :input3 :input4 :input5 :input10) list:member var:x_3.
-      var:x_0 var:x_3 var:x_4.
-      (var:x_3 var:x_4) ccd:model (:output1 var:x_5 var:x_6)} var:x_7).
-     (var:x_7 4.0 1.0) ccd:transformer (var:x_8 var:x_9).
-     var:x_2 e:optional {var:x_9 math:greaterThan 0.5 .
-      ("1") e:calculate var:x_10.
-      ("_Q" var:x_9) e:calculate var:x_11}.
-     var:x_2 e:optional {var:x_9 math:notGreaterThan 0.5 .
-      ("0") e:calculate var:x_10.
-      ("1-_Q" var:x_9) e:calculate var:x_11}} => {var:x_0 :answer (:expected var:x_1 :predicted var:x_10 :belief var:x_11 :evidence var:x_8)}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_query.n3>].
-
-<#lemma9> a r:Extraction;
-  r:gives {
-    :case2 :output1 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
-
-<#lemma10> a r:Inference;
-  r:gives {
-    (((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2)) 4.0 1.0) ccd:transformer (((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) 0.13413886721237023).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3 _:sk_4) {((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2)) list:member (_:sk_1 _:sk_2 _:sk_3 _:sk_4).
-     ("log(_J+0.5)-log(_K+0.5)" _:sk_3 _:sk_4) e:calculate _:sk_0} ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2)))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:notLessThan 0} ((0.0 :input5 "a" 1 1)))}]
-    [ a r:Fact; r:gives {((0.0 :input5 "a" 1 1)) e:sort ((0.0 :input5 "a" 1 1))}]
-    [ a r:Fact; r:gives {((0.0 :input5 "a" 1 1)) e:reverse ((0.0 :input5 "a" 1 1))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18) _:sk_19) list:append ((0.0 :input5 "a" 1 1)).
-     ((0.0 :input5 "a" 1 1)) log:equalTo (_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18)}}]
-    <#lemma22>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:lessThan 0} ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (-0.5108256237659907 :input10 ("abc" 60) 1 2)))}]
-    [ a r:Fact; r:gives {((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (-0.5108256237659907 :input10 ("abc" 60) 1 2)) e:sort ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29) _:sk_30) list:append ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)).
-     ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) log:equalTo (_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29)}}]
-    <#lemma23>
-    [ a r:Fact; r:gives {(((0.0 :input5 "a" 1 1)) ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))) list:append ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall (_:sk_0 {((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8)} (-0.33647223662121295 -0.5877866649021191 -0.5108256237659907 0.0 -0.5108256237659907))}]
-    [ a r:Fact; r:gives {(-0.33647223662121295 -0.5877866649021191 -0.5108256237659907 0.0 -0.5108256237659907) math:sum -1.9459101490553135}]
-    [ a r:Fact; r:gives {(-0.33647223662121295 -0.5877866649021191 -0.5108256237659907 0.0 -0.5108256237659907) math:memberCount 5}]
-    <#lemma24>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {5 math:notGreaterThan 0 .
-     ("1/(1+exp(_BETA))" 1.0) e:calculate 0.13413886721237023}}]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "abc" 2 3) (:input2 60 2 4) (:input4 :v3 1 2) (:input5 "a" 1 1) (:input10 ("abc" 60) 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (0.0 :input5 "a" 1 1) (-0.5108256237659907 :input10 ("abc" 60) 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ((-0.33647223662121295 :input1 "abc" 2 3) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input4 :v3 1 2) (-0.5108256237659907 :input10 ("abc" 60) 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((0.0 :input5 "a" 1 1) (-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (-0.33647223662121295 -0.5877866649021191 -0.5108256237659907 0.0 -0.5108256237659907)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo -1.9459101490553135];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 5];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.13413886721237023];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
-  r:rule <#lemma21>.
-
-<#lemma11> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.13413886721237023 math:notGreaterThan 0.5 .
-     ("0") e:calculate 0 .
-     ("1-_Q" 0.13413886721237023) e:calculate 0.8658611327876298}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {0.13413886721237023 math:notGreaterThan 0.5}]
-    [ a r:Fact; r:gives {("0") e:calculate 0}]
-    [ a r:Fact; r:gives {("1-_Q" 0.13413886721237023) e:calculate 0.8658611327876298}]
-  );
-  r:rule [ a r:Fact; r:gives {{0.13413886721237023 math:notGreaterThan 0.5 .
-    ("0") e:calculate 0 .
-    ("1-_Q" 0.13413886721237023) e:calculate 0.8658611327876298} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.13413886721237023 math:notGreaterThan 0.5 .
-     ("0") e:calculate 0 .
-     ("1-_Q" 0.13413886721237023) e:calculate 0.8658611327876298}}}].
-
-<#lemma12> a r:Extraction;
-  r:gives {
-    :case3 :output1 1 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
-
-<#lemma13> a r:Inference;
-  r:gives {
-    (((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0)) 4.0 1.0) ccd:transformer (((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) 0.6851785979382504).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3 _:sk_4) {((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0)) list:member (_:sk_1 _:sk_2 _:sk_3 _:sk_4).
-     ("log(_J+0.5)-log(_K+0.5)" _:sk_3 _:sk_4) e:calculate _:sk_0} ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:notLessThan 0} ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)))}]
-    [ a r:Fact; r:gives {((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)) e:sort ((0.0 :input5 "a" 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (1.9459101490553135 :input2 40 3 0))}]
-    [ a r:Fact; r:gives {((0.0 :input5 "a" 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (1.9459101490553135 :input2 40 3 0)) e:reverse ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18) _:sk_19) list:append ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)).
-     ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) log:equalTo (_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18)}}]
-    <#lemma25>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:lessThan 0} ())}]
-    [ a r:Fact; r:gives {() e:sort ()}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29) _:sk_30) list:append ().
-     () log:equalTo (_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29)}}]
-    <#lemma19>
-    [ a r:Fact; r:gives {(((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) ()) list:append ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall (_:sk_0 {((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8)} (0.5108256237659907 1.9459101490553135 0.0 1.0986122886681096))}]
-    [ a r:Fact; r:gives {(0.5108256237659907 1.9459101490553135 0.0 1.0986122886681096) math:sum 3.555348061489414}]
-    [ a r:Fact; r:gives {(0.5108256237659907 1.9459101490553135 0.0 1.0986122886681096) math:memberCount 4}]
-    <#lemma26>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:notGreaterThan 0 .
-     ("1/(1+exp(_BETA))" 1.0) e:calculate 0.6851785979382504}}]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input1 "xyz" 2 1) (:input2 40 3 0) (:input5 "a" 1 1) (:input10 ("xyz" 40) 1 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.5108256237659907 :input1 "xyz" 2 1) (1.9459101490553135 :input2 40 3 0) (0.0 :input5 "a" 1 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input5 "a" 1 1) (0.5108256237659907 :input1 "xyz" 2 1) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (1.9459101490553135 :input2 40 3 0))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.5108256237659907 1.9459101490553135 0.0 1.0986122886681096)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo 3.555348061489414];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.6851785979382504];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
-  r:rule <#lemma21>.
-
-<#lemma14> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.6851785979382504 math:greaterThan 0.5 .
-     ("1") e:calculate 1 .
-     ("_Q" 0.6851785979382504) e:calculate 0.6851785979382504}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {0.6851785979382504 math:greaterThan 0.5}]
-    [ a r:Fact; r:gives {("1") e:calculate 1}]
-    [ a r:Fact; r:gives {("_Q" 0.6851785979382504) e:calculate 0.6851785979382504}]
-  );
-  r:rule [ a r:Fact; r:gives {{0.6851785979382504 math:greaterThan 0.5 .
-    ("1") e:calculate 1 .
-    ("_Q" 0.6851785979382504) e:calculate 0.6851785979382504} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.6851785979382504 math:greaterThan 0.5 .
-     ("1") e:calculate 1 .
-     ("_Q" 0.6851785979382504) e:calculate 0.6851785979382504}}}].
-
-<#lemma15> a r:Extraction;
-  r:gives {
-    :case4 :output1 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/test_data.n3>].
-
-<#lemma16> a r:Inference;
-  r:gives {
-    (((:input3 (0 1) 2 2) (:input4 :v3 1 2)) 4.0 1.0) ccd:transformer (((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2)) 0.20741955744761525).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_1 _:sk_2 _:sk_3 _:sk_4) {((:input3 (0 1) 2 2) (:input4 :v3 1 2)) list:member (_:sk_1 _:sk_2 _:sk_3 _:sk_4).
-     ("log(_J+0.5)-log(_K+0.5)" _:sk_3 _:sk_4) e:calculate _:sk_0} ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2)))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:notLessThan 0} ((0.0 :input3 (0 1) 2 2)))}]
-    [ a r:Fact; r:gives {((0.0 :input3 (0 1) 2 2)) e:sort ((0.0 :input3 (0 1) 2 2))}]
-    [ a r:Fact; r:gives {((0.0 :input3 (0 1) 2 2)) e:reverse ((0.0 :input3 (0 1) 2 2))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18) _:sk_19) list:append ((0.0 :input3 (0 1) 2 2)).
-     ((0.0 :input3 (0 1) 2 2)) log:equalTo (_:sk_9 _:sk_10 _:sk_11 _:sk_12 _:sk_13 _:sk_14 _:sk_15 _:sk_16 _:sk_17 _:sk_18)}}]
-    <#lemma27>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall ((_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8) {((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8).
-     _:sk_0 math:lessThan 0} ((-0.5108256237659907 :input4 :v3 1 2)))}]
-    [ a r:Fact; r:gives {((-0.5108256237659907 :input4 :v3 1 2)) e:sort ((-0.5108256237659907 :input4 :v3 1 2))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29) _:sk_30) list:append ((-0.5108256237659907 :input4 :v3 1 2)).
-     ((-0.5108256237659907 :input4 :v3 1 2)) log:equalTo (_:sk_20 _:sk_21 _:sk_22 _:sk_23 _:sk_24 _:sk_25 _:sk_26 _:sk_27 _:sk_28 _:sk_29)}}]
-    <#lemma28>
-    [ a r:Fact; r:gives {(((0.0 :input3 (0 1) 2 2)) ((-0.5108256237659907 :input4 :v3 1 2))) list:append ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))}]
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:findall (_:sk_0 {((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2)) list:member (_:sk_0 _:sk_5 _:sk_6 _:sk_7 _:sk_8)} (0.0 -0.5108256237659907))}]
-    [ a r:Fact; r:gives {(0.0 -0.5108256237659907) math:sum -0.5108256237659907}]
-    [ a r:Fact; r:gives {(0.0 -0.5108256237659907) math:memberCount 2}]
-    <#lemma29>
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {2 math:notGreaterThan 0 .
-     ("1/(1+exp(_BETA))" 1.0) e:calculate 0.20741955744761525}}]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:input3 (0 1) 2 2) (:input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_13"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_14"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_18"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_19"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_20"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_22"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_23"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_24"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_25"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_26"]; r:boundTo ((0.0 :input3 (0 1) 2 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_27"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_28"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_29"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_30"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_31"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_32"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_33"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_34"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_35"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_26"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_36"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_27"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_37"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_38"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_39"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_30"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_40"]; r:boundTo ((-0.5108256237659907 :input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_41"]; r:boundTo ((0.0 :input3 (0 1) 2 2) (-0.5108256237659907 :input4 :v3 1 2))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_42"]; r:boundTo (0.0 -0.5108256237659907)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_43"]; r:boundTo -0.5108256237659907];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_44"]; r:boundTo 2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_47"]; r:boundTo 0.20741955744761525];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_45"]; r:boundTo 4.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_46"]; r:boundTo 1.0];
-  r:rule <#lemma21>.
-
-<#lemma17> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.20741955744761525 math:notGreaterThan 0.5 .
-     ("0") e:calculate 0 .
-     ("1-_Q" 0.20741955744761525) e:calculate 0.7925804425523848}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {0.20741955744761525 math:notGreaterThan 0.5}]
-    [ a r:Fact; r:gives {("0") e:calculate 0}]
-    [ a r:Fact; r:gives {("1-_Q" 0.20741955744761525) e:calculate 0.7925804425523848}]
-  );
-  r:rule [ a r:Fact; r:gives {{0.20741955744761525 math:notGreaterThan 0.5 .
-    ("0") e:calculate 0 .
-    ("1-_Q" 0.20741955744761525) e:calculate 0.7925804425523848} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {0.20741955744761525 math:notGreaterThan 0.5 .
-     ("0") e:calculate 0 .
-     ("1-_Q" 0.20741955744761525) e:calculate 0.7925804425523848}}}].
-
-<#lemma18> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) log:equalTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) log:equalTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) log:equalTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2)) log:equalTo ((1.6094379124341005 :input5 "b" 2 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input4 :v4 1 1) (0.0 :input3 (0 1) 2 2))}}}].
-
-<#lemma19> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {() log:equalTo ()}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {() log:equalTo ()}]
-  );
-  r:rule [ a r:Fact; r:gives {{() log:equalTo ()} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {() log:equalTo ()}}}].
-
-<#lemma20> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 2.120263536200091 4 1.0) e:calculate 0.5150284139492985}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {4 math:greaterThan 0}]
-    [ a r:Fact; r:gives {("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 2.120263536200091 4 1.0) e:calculate 0.5150284139492985}]
-  );
-  r:rule [ a r:Fact; r:gives {{4 math:greaterThan 0 .
-    ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 2.120263536200091 4 1.0) e:calculate 0.5150284139492985} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 2.120263536200091 4 1.0) e:calculate 0.5150284139492985}}}].
-
-<#lemma21> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34, var:x_35, var:x_36, var:x_37, var:x_38, var:x_39, var:x_40, var:x_41, var:x_42, var:x_43, var:x_44, var:x_45, var:x_46, var:x_47. {(var:x_6 var:x_45 var:x_46) ccd:transformer (var:x_41 var:x_47)} <= {var:x_0 e:findall ((var:x_1 var:x_2 var:x_3 var:x_4 var:x_5) {var:x_6 list:member (var:x_2 var:x_3 var:x_4 var:x_5).
-      ("log(_J+0.5)-log(_K+0.5)" var:x_4 var:x_5) e:calculate var:x_1} var:x_7).
-     var:x_0 e:findall ((var:x_1 var:x_8 var:x_9 var:x_10 var:x_11) {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11).
-      var:x_1 math:notLessThan 0} var:x_12).
-     var:x_12 e:sort var:x_13.
-     var:x_13 e:reverse var:x_14.
-     var:x_0 e:optional {((var:x_15 var:x_16 var:x_17 var:x_18 var:x_19 var:x_20 var:x_21 var:x_22 var:x_23 var:x_24) var:x_25) list:append var:x_14.
-      var:x_26 log:equalTo (var:x_15 var:x_16 var:x_17 var:x_18 var:x_19 var:x_20 var:x_21 var:x_22 var:x_23 var:x_24)}.
-     var:x_0 e:optional {var:x_26 log:equalTo var:x_14}.
-     var:x_0 e:findall ((var:x_1 var:x_8 var:x_9 var:x_10 var:x_11) {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11).
-      var:x_1 math:lessThan 0} var:x_27).
-     var:x_27 e:sort var:x_28.
-     var:x_0 e:optional {((var:x_29 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 var:x_35 var:x_36 var:x_37 var:x_38) var:x_39) list:append var:x_28.
-      var:x_40 log:equalTo (var:x_29 var:x_30 var:x_31 var:x_32 var:x_33 var:x_34 var:x_35 var:x_36 var:x_37 var:x_38)}.
-     var:x_0 e:optional {var:x_40 log:equalTo var:x_28}.
-     (var:x_26 var:x_40) list:append var:x_41.
-     var:x_0 e:findall (var:x_1 {var:x_7 list:member (var:x_1 var:x_8 var:x_9 var:x_10 var:x_11)} var:x_42).
-     var:x_42 math:sum var:x_43.
-     var:x_42 math:memberCount var:x_44.
-     var:x_0 e:optional {var:x_44 math:greaterThan 0 .
-      ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" var:x_45 var:x_43 var:x_44 var:x_46) e:calculate var:x_47}.
-     var:x_0 e:optional {var:x_44 math:notGreaterThan 0 .
-      ("1/(1+exp(_BETA))" var:x_46) e:calculate var:x_47}}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>].
-
-<#lemma22> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((0.0 :input5 "a" 1 1)) log:equalTo ((0.0 :input5 "a" 1 1))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((0.0 :input5 "a" 1 1)) log:equalTo ((0.0 :input5 "a" 1 1))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((0.0 :input5 "a" 1 1)) log:equalTo ((0.0 :input5 "a" 1 1))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((0.0 :input5 "a" 1 1)) log:equalTo ((0.0 :input5 "a" 1 1))}}}].
-
-<#lemma23> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) log:equalTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) log:equalTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) log:equalTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3)) log:equalTo ((-0.5877866649021191 :input2 60 2 4) (-0.5108256237659907 :input10 ("abc" 60) 1 2) (-0.5108256237659907 :input4 :v3 1 2) (-0.33647223662121295 :input1 "abc" 2 3))}}}].
-
-<#lemma24> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {5 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -1.9459101490553135 5 1.0) e:calculate 0.13413886721237023}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {5 math:greaterThan 0}]
-    [ a r:Fact; r:gives {("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -1.9459101490553135 5 1.0) e:calculate 0.13413886721237023}]
-  );
-  r:rule [ a r:Fact; r:gives {{5 math:greaterThan 0 .
-    ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -1.9459101490553135 5 1.0) e:calculate 0.13413886721237023} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {5 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -1.9459101490553135 5 1.0) e:calculate 0.13413886721237023}}}].
-
-<#lemma25> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) log:equalTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) log:equalTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) log:equalTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1)) log:equalTo ((1.9459101490553135 :input2 40 3 0) (1.0986122886681096 :input10 ("xyz" 40) 1 0) (0.5108256237659907 :input1 "xyz" 2 1) (0.0 :input5 "a" 1 1))}}}].
-
-<#lemma26> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 3.555348061489414 4 1.0) e:calculate 0.6851785979382504}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {4 math:greaterThan 0}]
-    [ a r:Fact; r:gives {("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 3.555348061489414 4 1.0) e:calculate 0.6851785979382504}]
-  );
-  r:rule [ a r:Fact; r:gives {{4 math:greaterThan 0 .
-    ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 3.555348061489414 4 1.0) e:calculate 0.6851785979382504} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {4 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 3.555348061489414 4 1.0) e:calculate 0.6851785979382504}}}].
-
-<#lemma27> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((0.0 :input3 (0 1) 2 2)) log:equalTo ((0.0 :input3 (0 1) 2 2))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((0.0 :input3 (0 1) 2 2)) log:equalTo ((0.0 :input3 (0 1) 2 2))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((0.0 :input3 (0 1) 2 2)) log:equalTo ((0.0 :input3 (0 1) 2 2))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((0.0 :input3 (0 1) 2 2)) log:equalTo ((0.0 :input3 (0 1) 2 2))}}}].
-
-<#lemma28> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((-0.5108256237659907 :input4 :v3 1 2)) log:equalTo ((-0.5108256237659907 :input4 :v3 1 2))}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {((-0.5108256237659907 :input4 :v3 1 2)) log:equalTo ((-0.5108256237659907 :input4 :v3 1 2))}]
-  );
-  r:rule [ a r:Fact; r:gives {{((-0.5108256237659907 :input4 :v3 1 2)) log:equalTo ((-0.5108256237659907 :input4 :v3 1 2))} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {((-0.5108256237659907 :input4 :v3 1 2)) log:equalTo ((-0.5108256237659907 :input4 :v3 1 2))}}}].
-
-<#lemma29> a r:Inference;
-  r:gives {
-    ((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {2 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525}.
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {2 math:greaterThan 0}]
-    [ a r:Fact; r:gives {("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525}]
-  );
-  r:rule [ a r:Fact; r:gives {{2 math:greaterThan 0 .
-    ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525} => {((<http://josd.github.io/eye/reasoning/ccd/test_data.n3> <http://josd.github.io/eye/reasoning/ccd/train_model.n3> <http://josd.github.io/eye/reasoning/ccd/background_rules.n3> <http://josd.github.io/eye/reasoning/ccd/ccd_rules.n3>) 1) e:optional {2 math:greaterThan 0 .
-     ("1/(1+exp(-_ALPHA*_M/(_N+_ALPHA)+_BETA))" 4.0 -0.5108256237659907 2 1.0) e:calculate 0.20741955744761525}}}].
-
+  r:because [ a r:Parsing; r:source 

@@ -20,7 +20,7 @@
 :- catch(use_module(library(http/http_open)), _, true).
 :- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0809.1553 josd').
+version_info('EYE v22.0814.1007 josd').
 
 license_info('MIT License
 
@@ -433,6 +433,12 @@ gre(Argus) :-
         (   pfx('var:', _)
         ->  true
         ;   assertz(pfx('var:', '<http://josd.github.io/var#>'))
+        ),
+        (   pfx('skolem:', _)
+        ->  true
+        ;   nb_getval(var_ns, Sns),
+            atomic_list_concat(['<', Sns, '>'], B),
+            assertz(pfx('skolem:', B))
         ),
         (   pfx('n3:', _)
         ->  true
@@ -3275,7 +3281,10 @@ w3 :-
         !,
         nb_setval(empty_gives, false),
         indent,
-        write('[] '),
+        nb_getval(var_ns, Sns),
+        atomic_list_concat(['<', Sns, 'proof', '>'], Sk),
+        wp(Sk),
+        write(' '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
         write(' '),
         wp('<http://www.w3.org/2000/10/swap/reason#Proof>'),
@@ -3371,17 +3380,18 @@ wi(A, B, C, Rule) :-
         nb_getval(lemma_count, Cnt),
         assertz(lemma(Cnt, A, B, C, Ind, Rule))
     ),
-    write('<#lemma'),
-    write(Cnt),
-    write('>').
+    nb_getval(var_ns, Sns),
+    atomic_list_concat(['<', Sns, 'lemma', Cnt, '>'], Sk),
+    wp(Sk).
 
 wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rule)
     var(Rule),
     C \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
     !,
-    write('<#lemma'),
-    write(Cnt),
-    write('> '),
+    nb_getval(var_ns, Sns),
+    atomic_list_concat(['<', Sns, 'lemma', Cnt, '>'], Sk),
+    wp(Sk),
+    write(' '),
     wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
     write(' '),
     wp('<http://www.w3.org/2000/10/swap/reason#Extraction>'),
@@ -3421,13 +3431,18 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write('; '),
     wp('<http://www.w3.org/2000/10/swap/reason#source>'),
     write(' '),
-    wt(A),
+    (   C =.. [P, S, O],
+        '<http://www.w3.org/ns/solid/terms#source>'(triple(S, P, O), Src)
+    ->  wt(Src)
+    ;   wt(A)
+    ),
     write('].'),
     indentation(-2).
 wj(Cnt, A, B, C, Rule) :-
-    write('<#lemma'),
-    write(Cnt),
-    write('> '),
+    nb_getval(var_ns, Sns),
+    atomic_list_concat(['<', Sns, 'lemma', Cnt, '>'], Sk),
+    wp(Sk),
+    write(' '),
     wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
     write(' '),
     wp('<http://www.w3.org/2000/10/swap/reason#Inference>'),

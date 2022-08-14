@@ -12,17 +12,18 @@
 @prefix : <http://www.agfa.com/w3c/euler/case001#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
-  r:component <#lemma2>;
-  r:component <#lemma3>;
-  r:component <#lemma4>;
-  r:component <#lemma5>;
-  r:component <#lemma6>;
-  r:component <#lemma7>;
-  r:component <#lemma8>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:component skolem:lemma2;
+  r:component skolem:lemma3;
+  r:component skolem:lemma4;
+  r:component skolem:lemma5;
+  r:component skolem:lemma6;
+  r:component skolem:lemma7;
+  r:component skolem:lemma8;
   r:gives {
     (:Ann :ChildAge) fl:pi 0.4167000000000005 .
     (:Ann :AdultAge) fl:pi 0.5832999999999995 .
@@ -34,108 +35,108 @@
     (:Ann :NonIncreasedIntraocularPressure) fl:pi 0.4237311686556693 .
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     (:Ann :ChildAge) fl:pi 0.4167000000000005 .
   };
   r:evidence (
-    <#lemma9>
+    skolem:lemma9
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.4167000000000005];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#ChildAge"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     (:Ann :AdultAge) fl:pi 0.5832999999999995 .
   };
   r:evidence (
-    <#lemma11>
+    skolem:lemma11
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.5832999999999995];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#AdultAge"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma3> a r:Inference;
+skolem:lemma3 a r:Inference;
   r:gives {
     (:Ann owl:Thing) fl:pi 1.0 .
   };
   r:evidence (
-    <#lemma12>
+    skolem:lemma12
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1.0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#Thing"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     (:Ann owl:Nothing) fl:pi 0.0 .
   };
   r:evidence (
-    <#lemma13>
+    skolem:lemma13
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#Nothing"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma5> a r:Inference;
+skolem:lemma5 a r:Inference;
   r:gives {
     (:Ann :NormalIntraocularPressure) fl:pi 0.42055693693538665 .
   };
   r:evidence (
-    <#lemma14>
+    skolem:lemma14
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.42055693693538665];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#NormalIntraocularPressure"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     (:Ann :IncreasedIntraocularPressure) fl:pi 0.5762688313443307 .
   };
   r:evidence (
-    <#lemma15>
+    skolem:lemma15
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.5762688313443307];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#IncreasedIntraocularPressure"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     (:Ann :NonNormalIntraocularPressure) fl:pi 0.5794430630646134 .
   };
   r:evidence (
-    <#lemma16>
+    skolem:lemma16
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.5794430630646134];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#NonNormalIntraocularPressure"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma8> a r:Inference;
+skolem:lemma8 a r:Inference;
   r:gives {
     (:Ann :NonIncreasedIntraocularPressure) fl:pi 0.4237311686556693 .
   };
   r:evidence (
-    <#lemma17>
+    skolem:lemma17
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0.4237311686556693];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#NonIncreasedIntraocularPressure"]];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma9> a r:Inference;
+skolem:lemma9 a r:Inference;
   r:gives {
     (:Ann :ChildAge) fl:pi 0.4167000000000005 .
   };
   r:evidence (
-    <#lemma18>
+    skolem:lemma18
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -155,20 +156,20 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.4167000000000005];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 0.4167000000000005];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma10> a r:Extraction;
+skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(var:x_0 var:x_1) fl:pi var:x_2} => {(var:x_0 var:x_1) fl:pi var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/example003Q.n3>].
 
-<#lemma11> a r:Inference;
+skolem:lemma11 a r:Inference;
   r:gives {
     (:Ann :AdultAge) fl:pi 0.5832999999999995 .
   };
   r:evidence (
-    <#lemma20>
+    skolem:lemma20
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -188,14 +189,14 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.5832999999999995];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 0.5832999999999995];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma12> a r:Inference;
+skolem:lemma12 a r:Inference;
   r:gives {
     (:Ann owl:Thing) fl:pi 1.0 .
   };
   r:evidence (
-    <#lemma21>
+    skolem:lemma21
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -215,14 +216,14 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 1.0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 1.0];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma13> a r:Inference;
+skolem:lemma13 a r:Inference;
   r:gives {
     (:Ann owl:Nothing) fl:pi 0.0 .
   };
   r:evidence (
-    <#lemma22>
+    skolem:lemma22
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -242,14 +243,14 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 0.0];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma14> a r:Inference;
+skolem:lemma14 a r:Inference;
   r:gives {
     (:Ann :NormalIntraocularPressure) fl:pi 0.42055693693538665 .
   };
   r:evidence (
-    <#lemma23>
+    skolem:lemma23
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -269,14 +270,14 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.42055693693538665];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 0.42055693693538665];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma15> a r:Inference;
+skolem:lemma15 a r:Inference;
   r:gives {
     (:Ann :IncreasedIntraocularPressure) fl:pi 0.5762688313443307 .
   };
   r:evidence (
-    <#lemma24>
+    skolem:lemma24
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
@@ -296,15 +297,15 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_15"]; r:boundTo 0.5762688313443307];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_17"]; r:boundTo 0.5762688313443307];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma16> a r:Inference;
+skolem:lemma16 a r:Inference;
   r:gives {
     (:Ann :NonNormalIntraocularPressure) fl:pi 0.5794430630646134 .
   };
   r:evidence (
-    <#lemma25>
-    <#lemma14>
+    skolem:lemma25
+    skolem:lemma14
     [ a r:Fact; r:gives {(1.0 0.42055693693538665) math:difference 0.5794430630646134}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#NonNormalIntraocularPressure"]];
@@ -312,15 +313,15 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0.42055693693538665];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0.5794430630646134];
-  r:rule <#lemma26>.
+  r:rule skolem:lemma26.
 
-<#lemma17> a r:Inference;
+skolem:lemma17 a r:Inference;
   r:gives {
     (:Ann :NonIncreasedIntraocularPressure) fl:pi 0.4237311686556693 .
   };
   r:evidence (
-    <#lemma27>
-    <#lemma15>
+    skolem:lemma27
+    skolem:lemma15
     [ a r:Fact; r:gives {(1.0 0.5762688313443307) math:difference 0.4237311686556693}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#NonIncreasedIntraocularPressure"]];
@@ -328,9 +329,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0.5762688313443307];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/case001#Ann"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0.4237311686556693];
-  r:rule <#lemma26>.
+  r:rule skolem:lemma26.
 
-<#lemma18> a r:Inference;
+skolem:lemma18 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -416,7 +417,7 @@
      :Ann fcm:pi (:ChildAge 0.4167000000000005).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann :ChildAge) fl:pi var:x_12}} {0.4167000000000005 log:equalTo var:x_12} {0.4167000000000005 log:equalTo 0.4167000000000005}) e:derive true}}}].
 
-<#lemma19> a r:Extraction;
+skolem:lemma19 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17. {(var:x_13 var:x_14) fl:pi var:x_17} <= {var:x_0 e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(var:x_1 var:x_2) fl:mu var:x_3} {("if_then_else" {(var:x_1) fcm:fm true} true {("assertz" {(var:x_1) fcm:fm true}) e:derive true}) e:derive true.
          ("assertz" {var:x_1 fcm:pi (var:x_2 var:x_3)}) e:derive true}) e:derive true.
@@ -438,7 +439,7 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3>].
 
-<#lemma20> a r:Inference;
+skolem:lemma20 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -524,7 +525,7 @@
      :Ann fcm:pi (:AdultAge 0.5832999999999995).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann :AdultAge) fl:pi var:x_12}} {0.5832999999999995 log:equalTo var:x_12} {0.5832999999999995 log:equalTo 0.5832999999999995}) e:derive true}}}].
 
-<#lemma21> a r:Inference;
+skolem:lemma21 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -610,7 +611,7 @@
      :Ann fcm:pi (owl:Thing 1.0).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann owl:Thing) fl:pi var:x_12}} {1.0 log:equalTo var:x_12} {1.0 log:equalTo 1.0}) e:derive true}}}].
 
-<#lemma22> a r:Inference;
+skolem:lemma22 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -696,7 +697,7 @@
      :Ann fcm:pi (owl:Nothing 0.0).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann owl:Nothing) fl:pi var:x_12}} {0.0 log:equalTo var:x_12} {0.0 log:equalTo 0.0}) e:derive true}}}].
 
-<#lemma23> a r:Inference;
+skolem:lemma23 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -782,7 +783,7 @@
      :Ann fcm:pi (:NormalIntraocularPressure 0.42055693693538665).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann :NormalIntraocularPressure) fl:pi var:x_12}} {0.42055693693538665 log:equalTo var:x_12} {0.42055693693538665 log:equalTo 0.42055693693538665}) e:derive true}}}].
 
-<#lemma24> a r:Inference;
+skolem:lemma24 a r:Inference;
   r:gives {
     ((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:call {("if_then_else" {("nb_getval" "fnet" "done") e:derive true} true {(";" {("forall" {(_:sk_0 _:sk_1) fl:mu _:sk_2} {("if_then_else" {(_:sk_0) fcm:fm true} true {("assertz" {(_:sk_0) fcm:fm true}) e:derive true}) e:derive true.
         ("assertz" {_:sk_0 fcm:pi (_:sk_1 _:sk_2)}) e:derive true}) e:derive true.
@@ -868,23 +869,8 @@
      :Ann fcm:pi (:IncreasedIntraocularPressure 0.5762688313443307).
      ("if_then_else" {((<http://josd.github.io/eye/reasoning/fcm/fcm-plugin.n3> <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3> <http://josd.github.io/eye/reasoning/fcm/example001P.n3> <http://josd.github.io/eye/reasoning/fcm/example002P.n3>) 1) e:closure {(:Ann :IncreasedIntraocularPressure) fl:pi var:x_12}} {0.5762688313443307 log:equalTo var:x_12} {0.5762688313443307 log:equalTo 0.5762688313443307}) e:derive true}}}].
 
-<#lemma25> a r:Extraction;
+skolem:lemma25 a r:Extraction;
   r:gives {
     :NonNormalIntraocularPressure owl:complementOf :NormalIntraocularPressure.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/example002P.n3>].
-
-<#lemma26> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 owl:complementOf var:x_1.
-     (var:x_2 var:x_1) fl:pi var:x_3.
-     (1.0 var:x_3) math:difference var:x_4} => {(var:x_2 var:x_0) fl:pi var:x_4}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/fl-rules.n3>].
-
-<#lemma27> a r:Extraction;
-  r:gives {
-    :NonIncreasedIntraocularPressure owl:complementOf :IncreasedIntraocularPressure.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/fcm/example002P.n3>].
-
+  r:because [ a r:Parsing; r:source 

@@ -2,33 +2,34 @@
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
   r:gives {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
   };
   r:evidence (
-    <#lemma2>
+    skolem:lemma2
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:rule <#lemma3>.
+  r:rule skolem:lemma3.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
   };
   r:evidence (
     [ a r:Fact; r:gives {(1 1 1 1 1 1 1 1 1) e:firstRest (1 (1 1 1 1 1 1 1 1))}]
     [ a r:Fact; r:gives {((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((0 0 1) ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma4>
-    <#lemma5>
+    skolem:lemma4
+    skolem:lemma5
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1 1 1 1 1 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
@@ -37,24 +38,24 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (0 0 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (0 0 0)];
-  r:rule <#lemma6>.
+  r:rule skolem:lemma6.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0. {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0} => {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gccQ.n3>].
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     (1 (0 0 0)) :gcc (0 0 1).
   };
   r:evidence (
-    <#lemma7>
-    <#lemma8>
-    <#lemma9>
-    <#lemma9>
-    <#lemma10>
+    skolem:lemma7
+    skolem:lemma8
+    skolem:lemma9
+    skolem:lemma9
+    skolem:lemma10
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
@@ -66,17 +67,17 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma11>.
+  r:rule skolem:lemma11.
 
-<#lemma5> a r:Inference;
+skolem:lemma5 a r:Inference;
   r:gives {
     ((1 1 1 1 1 1 1 1) (0 0 1)) :testgcc ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
   };
   r:evidence (
     [ a r:Fact; r:gives {(1 1 1 1 1 1 1 1) e:firstRest (1 (1 1 1 1 1 1 1))}]
     [ a r:Fact; r:gives {((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((0 1 1) ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma12>
-    <#lemma13>
+    skolem:lemma12
+    skolem:lemma13
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1 1 1 1 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
@@ -85,9 +86,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (0 1 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (0 0 1)];
-  r:rule <#lemma6>.
+  r:rule skolem:lemma6.
 
-<#lemma6> a r:Extraction;
+skolem:lemma6 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {(var:x_0 var:x_6) :testgcc var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      var:x_3 e:firstRest (var:x_4 var:x_5).
@@ -96,18 +97,18 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     (0 0 0) :netb (0 0).
   };
   r:evidence (
-    <#lemma14>
-    <#lemma15>
-    <#lemma16>
-    <#lemma15>
-    <#lemma17>
-    <#lemma18>
-    <#lemma18>
+    skolem:lemma14
+    skolem:lemma15
+    skolem:lemma16
+    skolem:lemma15
+    skolem:lemma17
+    skolem:lemma18
+    skolem:lemma18
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
@@ -119,18 +120,18 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma19>.
+  r:rule skolem:lemma19.
 
-<#lemma8> a r:Inference;
+skolem:lemma8 a r:Inference;
   r:gives {
     (0 0) :neta 1 .
   };
   r:evidence (
-    <#lemma14>
-    <#lemma15>
-    <#lemma15>
-    <#lemma20>
-    <#lemma21>
+    skolem:lemma14
+    skolem:lemma15
+    skolem:lemma15
+    skolem:lemma20
+    skolem:lemma21
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
@@ -139,9 +140,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:rule <#lemma22>.
+  r:rule skolem:lemma22.
 
-<#lemma9> a r:Inference;
+skolem:lemma9 a r:Inference;
   r:gives {
     (0 1 0) :dff 0 .
   };
@@ -150,9 +151,9 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:rule <#lemma23>.
+  r:rule skolem:lemma23.
 
-<#lemma10> a r:Inference;
+skolem:lemma10 a r:Inference;
   r:gives {
     (1 1 0) :dff 1 .
   };
@@ -161,9 +162,9 @@
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:rule <#lemma23>.
+  r:rule skolem:lemma23.
 
-<#lemma11> a r:Extraction;
+skolem:lemma11 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_6 (var:x_0 var:x_1 var:x_2)) :gcc (var:x_7 var:x_8 var:x_9)} <= {(var:x_0 var:x_1 var:x_2) :netb (var:x_3 var:x_4).
      (var:x_0 var:x_1) :neta var:x_5.
@@ -173,16 +174,16 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
 
-<#lemma12> a r:Inference;
+skolem:lemma12 a r:Inference;
   r:gives {
     (1 (0 0 1)) :gcc (0 1 1).
   };
   r:evidence (
-    <#lemma24>
-    <#lemma8>
-    <#lemma9>
-    <#lemma10>
-    <#lemma25>
+    skolem:lemma24
+    skolem:lemma8
+    skolem:lemma9
+    skolem:lemma10
+    skolem:lemma25
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
@@ -194,17 +195,17 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma11>.
+  r:rule skolem:lemma11.
 
-<#lemma13> a r:Inference;
+skolem:lemma13 a r:Inference;
   r:gives {
     ((1 1 1 1 1 1 1) (0 1 1)) :testgcc ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
   };
   r:evidence (
     [ a r:Fact; r:gives {(1 1 1 1 1 1 1) e:firstRest (1 (1 1 1 1 1 1))}]
     [ a r:Fact; r:gives {((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((0 1 0) ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma26>
-    <#lemma27>
+    skolem:lemma26
+    skolem:lemma27
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1 1 1 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
@@ -213,612 +214,10 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (0 1 0)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (0 1 1)];
-  r:rule <#lemma6>.
+  r:rule skolem:lemma6.
 
-<#lemma14> a r:Extraction;
+skolem:lemma14 a r:Extraction;
   r:gives {
     (0 0) :and 0 .
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma15> a r:Extraction;
-  r:gives {
-    0 :inv 1 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma16> a r:Extraction;
-  r:gives {
-    (0 1) :and 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma17> a r:Extraction;
-  r:gives {
-    (1 0) :and 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma18> a r:Extraction;
-  r:gives {
-    (0 0) :or 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma19> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_0 var:x_4 var:x_1) :netb (var:x_8 var:x_9)} <= {(var:x_0 var:x_1) :and var:x_2.
-     var:x_1 :inv var:x_3.
-     (var:x_4 var:x_3) :and var:x_5.
-     var:x_0 :inv var:x_6.
-     (var:x_6 var:x_1) :and var:x_7.
-     (var:x_2 var:x_5) :or var:x_8.
-     (var:x_5 var:x_7) :or var:x_9}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma20> a r:Extraction;
-  r:gives {
-    (1 1) :and 1 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma21> a r:Extraction;
-  r:gives {
-    (0 1) :or 1 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma22> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {(var:x_0 var:x_1) :neta var:x_6} <= {(var:x_0 var:x_1) :and var:x_2.
-     var:x_0 :inv var:x_3.
-     var:x_1 :inv var:x_4.
-     (var:x_3 var:x_4) :and var:x_5.
-     (var:x_2 var:x_5) :or var:x_6}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma23> a r:Extraction;
-  r:gives {
-    @forSome var:x_0, var:x_1. {(var:x_0 1 var:x_1) :dff var:x_0} <= true.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma24> a r:Inference;
-  r:gives {
-    (0 0 1) :netb (0 1).
-  };
-  r:evidence (
-    <#lemma16>
-    <#lemma28>
-    <#lemma14>
-    <#lemma15>
-    <#lemma20>
-    <#lemma18>
-    <#lemma21>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma19>.
-
-<#lemma25> a r:Inference;
-  r:gives {
-    (1 1 1) :dff 1 .
-  };
-  r:evidence (
-    [ a r:Fact; r:gives true]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:rule <#lemma23>.
-
-<#lemma26> a r:Inference;
-  r:gives {
-    (1 (0 1 1)) :gcc (0 1 0).
-  };
-  r:evidence (
-    <#lemma29>
-    <#lemma30>
-    <#lemma9>
-    <#lemma25>
-    <#lemma31>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma11>.
-
-<#lemma27> a r:Inference;
-  r:gives {
-    ((1 1 1 1 1 1) (0 1 0)) :testgcc ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 1 1 1 1 1) e:firstRest (1 (1 1 1 1 1))}]
-    [ a r:Fact; r:gives {((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((1 1 0) ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma32>
-    <#lemma33>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 1 1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1 1 0)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (0 1 0)];
-  r:rule <#lemma6>.
-
-<#lemma28> a r:Extraction;
-  r:gives {
-    1 :inv 0 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma29> a r:Inference;
-  r:gives {
-    (0 1 1) :netb (0 1).
-  };
-  r:evidence (
-    <#lemma16>
-    <#lemma28>
-    <#lemma17>
-    <#lemma15>
-    <#lemma20>
-    <#lemma18>
-    <#lemma21>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma19>.
-
-<#lemma30> a r:Inference;
-  r:gives {
-    (0 1) :neta 0 .
-  };
-  r:evidence (
-    <#lemma16>
-    <#lemma15>
-    <#lemma28>
-    <#lemma17>
-    <#lemma18>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:rule <#lemma22>.
-
-<#lemma31> a r:Inference;
-  r:gives {
-    (0 1 1) :dff 0 .
-  };
-  r:evidence (
-    [ a r:Fact; r:gives true]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:rule <#lemma23>.
-
-<#lemma32> a r:Inference;
-  r:gives {
-    (1 (0 1 0)) :gcc (1 1 0).
-  };
-  r:evidence (
-    <#lemma34>
-    <#lemma30>
-    <#lemma10>
-    <#lemma25>
-    <#lemma9>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma11>.
-
-<#lemma33> a r:Inference;
-  r:gives {
-    ((1 1 1 1 1) (1 1 0)) :testgcc ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 1 1 1 1) e:firstRest (1 (1 1 1 1))}]
-    [ a r:Fact; r:gives {((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((1 1 1) ((1 0 1) (1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma35>
-    <#lemma36>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 0)];
-  r:rule <#lemma6>.
-
-<#lemma34> a r:Inference;
-  r:gives {
-    (0 1 0) :netb (1 1).
-  };
-  r:evidence (
-    <#lemma14>
-    <#lemma15>
-    <#lemma20>
-    <#lemma15>
-    <#lemma17>
-    <#lemma21>
-    <#lemma37>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma19>.
-
-<#lemma35> a r:Inference;
-  r:gives {
-    (1 (1 1 0)) :gcc (1 1 1).
-  };
-  r:evidence (
-    <#lemma38>
-    <#lemma39>
-    <#lemma25>
-    <#lemma25>
-    <#lemma10>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma11>.
-
-<#lemma36> a r:Inference;
-  r:gives {
-    ((1 1 1 1) (1 1 1)) :testgcc ((1 0 1) (1 0 0) (0 0 0) (0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 1 1 1) e:firstRest (1 (1 1 1))}]
-    [ a r:Fact; r:gives {((1 0 1) (1 0 0) (0 0 0) (0 0 1)) e:firstRest ((1 0 1) ((1 0 0) (0 0 0) (0 0 1)))}]
-    <#lemma40>
-    <#lemma41>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 0 1) (1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1 0 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 1 1)];
-  r:rule <#lemma6>.
-
-<#lemma37> a r:Extraction;
-  r:gives {
-    (1 0) :or 1 .
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
-<#lemma38> a r:Inference;
-  r:gives {
-    (1 1 0) :netb (1 1).
-  };
-  r:evidence (
-    <#lemma17>
-    <#lemma15>
-    <#lemma20>
-    <#lemma28>
-    <#lemma14>
-    <#lemma21>
-    <#lemma37>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma19>.
-
-<#lemma39> a r:Inference;
-  r:gives {
-    (1 1) :neta 1 .
-  };
-  r:evidence (
-    <#lemma20>
-    <#lemma28>
-    <#lemma28>
-    <#lemma14>
-    <#lemma37>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:rule <#lemma22>.
-
-<#lemma40> a r:Inference;
-  r:gives {
-    (1 (1 1 1)) :gcc (1 0 1).
-  };
-  r:evidence (
-    <#lemma42>
-    <#lemma39>
-    <#lemma25>
-    <#lemma31>
-    <#lemma25>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 1];
-  r:rule <#lemma11>.
-
-<#lemma41> a r:Inference;
-  r:gives {
-    ((1 1 1) (1 0 1)) :testgcc ((1 0 0) (0 0 0) (0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 1 1) e:firstRest (1 (1 1))}]
-    [ a r:Fact; r:gives {((1 0 0) (0 0 0) (0 0 1)) e:firstRest ((1 0 0) ((0 0 0) (0 0 1)))}]
-    <#lemma43>
-    <#lemma44>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((1 0 0) (0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1 0 0)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 0 1)];
-  r:rule <#lemma6>.
-
-<#lemma42> a r:Inference;
-  r:gives {
-    (1 1 1) :netb (1 0).
-  };
-  r:evidence (
-    <#lemma20>
-    <#lemma28>
-    <#lemma17>
-    <#lemma28>
-    <#lemma16>
-    <#lemma37>
-    <#lemma18>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma19>.
-
-<#lemma43> a r:Inference;
-  r:gives {
-    (1 (1 0 1)) :gcc (1 0 0).
-  };
-  r:evidence (
-    <#lemma45>
-    <#lemma46>
-    <#lemma25>
-    <#lemma9>
-    <#lemma31>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma11>.
-
-<#lemma44> a r:Inference;
-  r:gives {
-    ((1 1) (1 0 0)) :testgcc ((0 0 0) (0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1 1) e:firstRest (1 (1))}]
-    [ a r:Fact; r:gives {((0 0 0) (0 0 1)) e:firstRest ((0 0 0) ((0 0 1)))}]
-    <#lemma47>
-    <#lemma48>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 0 0) (0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (0 0 0)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (1 0 0)];
-  r:rule <#lemma6>.
-
-<#lemma45> a r:Inference;
-  r:gives {
-    (1 0 1) :netb (1 0).
-  };
-  r:evidence (
-    <#lemma20>
-    <#lemma28>
-    <#lemma14>
-    <#lemma28>
-    <#lemma16>
-    <#lemma37>
-    <#lemma18>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma19>.
-
-<#lemma46> a r:Inference;
-  r:gives {
-    (1 0) :neta 0 .
-  };
-  r:evidence (
-    <#lemma17>
-    <#lemma28>
-    <#lemma15>
-    <#lemma16>
-    <#lemma18>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:rule <#lemma22>.
-
-<#lemma47> a r:Inference;
-  r:gives {
-    (1 (1 0 0)) :gcc (0 0 0).
-  };
-  r:evidence (
-    <#lemma49>
-    <#lemma46>
-    <#lemma31>
-    <#lemma9>
-    <#lemma9>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma11>.
-
-<#lemma48> a r:Inference;
-  r:gives {
-    ((1) (0 0 0)) :testgcc ((0 0 1)).
-  };
-  r:evidence (
-    [ a r:Fact; r:gives {(1) e:firstRest (1 ())}]
-    [ a r:Fact; r:gives {((0 0 1)) e:firstRest ((0 0 1) ())}]
-    <#lemma4>
-    <#lemma50>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo ((0 0 1))];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (0 0 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (0 0 0)];
-  r:rule <#lemma6>.
-
-<#lemma49> a r:Inference;
-  r:gives {
-    (1 0 0) :netb (0 0).
-  };
-  r:evidence (
-    <#lemma17>
-    <#lemma15>
-    <#lemma16>
-    <#lemma28>
-    <#lemma14>
-    <#lemma18>
-    <#lemma18>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo 0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo 0];
-  r:rule <#lemma19>.
-
-<#lemma50> a r:Inference;
-  r:gives {
-    (() (0 0 1)) :testgcc ().
-  };
-  r:evidence (
-    [ a r:Fact; r:gives true]
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (0 0 1)];
-  r:rule <#lemma51>.
-
-<#lemma51> a r:Extraction;
-  r:gives {
-    @forSome var:x_0. {(() var:x_0) :testgcc ()} <= true.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/gcc/gcc.n3>].
-
+  r:because [ a r:Parsing; r:source 

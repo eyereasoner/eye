@@ -4,10 +4,11 @@
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
   r:gives {
     {:i3847 :i0 :i6173.
      :i1228 :i13 :i5928.
@@ -36,7 +37,7 @@
      :i7343 :i9 :i2985} a :Result.
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     {:i3847 :i0 :i6173.
      :i1228 :i13 :i5928.
@@ -65,7 +66,7 @@
      :i7343 :i9 :i2985} a :Result.
   };
   r:evidence (
-    <#lemma2>
+    skolem:lemma2
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo {:i3847 :i0 :i6173.
    :i1228 :i13 :i5928.
@@ -92,9 +93,9 @@
    :i5325 :i88 :i5230.
    :i7109 :i97 :i889.
    :i7343 :i9 :i2985}];
-  r:rule <#lemma3>.
+  r:rule skolem:lemma3.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     (<http://josd.github.io/eye/reasoning/rs/graph-1000.n3> 25) :randomsample {:i3847 :i0 :i6173.
      :i1228 :i13 :i5928.
@@ -3187,15 +3188,15 @@
    :i5325 :i88 :i5230.
    :i7109 :i97 :i889.
    :i7343 :i9 :i2985}];
-  r:rule <#lemma4>.
+  r:rule skolem:lemma4.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0. {(<http://josd.github.io/eye/reasoning/rs/graph-1000.n3> 25) :randomsample var:x_0} => {var:x_0 a :Result}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/rs/randomsample-query.n3>].
 
-<#lemma4> a r:Extraction;
+skolem:lemma4 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10. {(var:x_0 var:x_6) :randomsample var:x_10} <= {var:x_0 log:semantics var:x_1.
      var:x_1 e:graphList var:x_2.

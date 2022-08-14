@@ -3,55 +3,56 @@
 @prefix : <http://eulersharp.sourceforge.net/2007/07test#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
-  r:component <#lemma2>;
-  r:component <#lemma3>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:component skolem:lemma2;
+  r:component skolem:lemma3;
   r:gives {
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
   };
   r:evidence (
-    <#lemma4>
+    skolem:lemma4
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
   };
   r:evidence (
-    <#lemma6>
+    skolem:lemma6
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s2"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma3> a r:Inference;
+skolem:lemma3 a r:Inference;
   r:gives {
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
   };
   r:evidence (
-    <#lemma7>
+    skolem:lemma7
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
   };
@@ -59,15 +60,15 @@
     [ a r:Fact; r:gives {"blargh" crypto:sha "d1e670385f40ee942a059f949c761214872ac35f"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma5> a r:Extraction;
+skolem:lemma5 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
   };
@@ -75,9 +76,9 @@
     [ a r:Fact; r:gives {"blargh" e:sha "0eZwOF9A7pQqBZ_UnHYSFIcqw18"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
   };
@@ -85,21 +86,21 @@
     [ a r:Fact; r:gives {"blargh" e:hmac-sha "EEr3jEBcwoIChq__osXVA7IjOsk"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma8> a r:Extraction;
+skolem:lemma8 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" crypto:sha var:x_0} => {:s1 :p var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-<#lemma9> a r:Extraction;
+skolem:lemma9 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" e:sha var:x_0} => {:s2 :p var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-<#lemma10> a r:Extraction;
+skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" e:hmac-sha var:x_0} => {:s3 :p var:x_0}.
   };

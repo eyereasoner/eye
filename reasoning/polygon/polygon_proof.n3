@@ -3,32 +3,33 @@
 @prefix polygon: <http://josd.github.io/eye/reasoning/polygon#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
   r:gives {
     ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
   };
   r:evidence (
-    <#lemma2>
+    skolem:lemma2
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 7];
-  r:rule <#lemma3>.
+  r:rule skolem:lemma3.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 2) ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)))}]
     [ a r:Fact; r:gives {((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2)))}]
-    <#lemma4>
+    skolem:lemma4
     [ a r:Fact; r:gives {(4 2) math:product 8}]
     [ a r:Fact; r:gives {(2 6) math:product 12}]
     [ a r:Fact; r:gives {(8 12) math:difference -4}]
@@ -48,22 +49,22 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -2];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 7];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0. {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon_query.n3>].
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 9 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2)))}]
     [ a r:Fact; r:gives {((7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2)))}]
-    <#lemma6>
+    skolem:lemma6
     [ a r:Fact; r:gives {(6 6) math:product 36}]
     [ a r:Fact; r:gives {(2 7) math:product 14}]
     [ a r:Fact; r:gives {(36 14) math:difference 22}]
@@ -83,9 +84,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 22];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo 9];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma5> a r:Extraction;
+skolem:lemma5 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 polygon:area var:x_12} <= {var:x_0 e:firstRest ((var:x_1 var:x_2) var:x_3).
      var:x_3 e:firstRest ((var:x_4 var:x_5) var:x_6).
@@ -98,14 +99,14 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/polygon/polygon.n3>].
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     ((7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area -2 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2)))}]
     [ a r:Fact; r:gives {((4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 6) ((5 5) (5 3) (4 2)))}]
-    <#lemma7>
+    skolem:lemma7
     [ a r:Fact; r:gives {(7 6) math:product 42}]
     [ a r:Fact; r:gives {(6 4) math:product 24}]
     [ a r:Fact; r:gives {(42 24) math:difference 18}]
@@ -125,16 +126,16 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 18];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -2];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     ((4 6) (5 5) (5 3) (4 2)) polygon:area -11 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 6) ((5 5) (5 3) (4 2)))}]
     [ a r:Fact; r:gives {((5 5) (5 3) (4 2)) e:firstRest ((5 5) ((5 3) (4 2)))}]
-    <#lemma8>
+    skolem:lemma8
     [ a r:Fact; r:gives {(4 5) math:product 20}]
     [ a r:Fact; r:gives {(6 5) math:product 30}]
     [ a r:Fact; r:gives {(20 30) math:difference -10}]
@@ -154,16 +155,16 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -10];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -5];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -11];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma8> a r:Inference;
+skolem:lemma8 a r:Inference;
   r:gives {
     ((5 5) (5 3) (4 2)) polygon:area -6 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((5 5) (5 3) (4 2)) e:firstRest ((5 5) ((5 3) (4 2)))}]
     [ a r:Fact; r:gives {((5 3) (4 2)) e:firstRest ((5 3) ((4 2)))}]
-    <#lemma9>
+    skolem:lemma9
     [ a r:Fact; r:gives {(5 3) math:product 15}]
     [ a r:Fact; r:gives {(5 5) math:product 25}]
     [ a r:Fact; r:gives {(15 25) math:difference -10}]
@@ -183,16 +184,16 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -10];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -5];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -6];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma9> a r:Inference;
+skolem:lemma9 a r:Inference;
   r:gives {
     ((5 3) (4 2)) polygon:area -1 .
   };
   r:evidence (
     [ a r:Fact; r:gives {((5 3) (4 2)) e:firstRest ((5 3) ((4 2)))}]
     [ a r:Fact; r:gives {((4 2)) e:firstRest ((4 2) ())}]
-    <#lemma10>
+    skolem:lemma10
     [ a r:Fact; r:gives {(5 2) math:product 10}]
     [ a r:Fact; r:gives {(3 4) math:product 12}]
     [ a r:Fact; r:gives {(10 12) math:difference -2}]
@@ -212,9 +213,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo -2];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo -1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_12"]; r:boundTo -1];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma10> a r:Inference;
+skolem:lemma10 a r:Inference;
   r:gives {
     ((4 2)) polygon:area 0 .
   };
@@ -222,9 +223,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (4 2)];
-  r:rule <#lemma11>.
+  r:rule skolem:lemma11.
 
-<#lemma11> a r:Extraction;
+skolem:lemma11 a r:Extraction;
   r:gives {
     @forSome var:x_0. {(var:x_0) polygon:area 0} <= true.
   };

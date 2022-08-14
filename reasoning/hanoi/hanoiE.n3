@@ -4,51 +4,52 @@
 @prefix : <http://josd.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
   r:gives {
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
-    <#lemma2>
+    skolem:lemma2
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#answer"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right))];
-  r:rule <#lemma3>.
+  r:rule skolem:lemma3.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     3 :answer ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
-    <#lemma4>
+    skolem:lemma4
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right))];
-  r:rule <#lemma5>.
+  r:rule skolem:lemma5.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     (3 :left :right :center) :moves ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
     [ a r:Fact; r:gives {3 math:greaterThan 1}]
     [ a r:Fact; r:gives {(3 1) math:difference 2}]
-    <#lemma6>
-    <#lemma7>
+    skolem:lemma6
+    skolem:lemma7
     [ a r:Fact; r:gives {(((:left :right) (:left :center) (:right :center)) ((:left :right)) ((:center :left) (:center :right) (:left :right))) list:append ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right))}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 3];
@@ -59,23 +60,23 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:center :left) (:center :right) (:left :right))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:left :right) (:left :center) (:right :center) (:left :right) (:center :left) (:center :right) (:left :right))];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma5> a r:Extraction;
+skolem:lemma5 a r:Extraction;
   r:gives {
     @forAll var:x_0. {(3 :left :right :center) :moves var:x_0} => {3 :answer var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     (2 :left :center :right) :moves ((:left :right) (:left :center) (:right :center)).
   };
   r:evidence (
     [ a r:Fact; r:gives {2 math:greaterThan 1}]
     [ a r:Fact; r:gives {(2 1) math:difference 1}]
-    <#lemma9>
-    <#lemma10>
+    skolem:lemma9
+    skolem:lemma10
     [ a r:Fact; r:gives {(((:left :right)) ((:left :center)) ((:right :center))) list:append ((:left :right) (:left :center) (:right :center))}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
@@ -86,17 +87,17 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:right :center))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:left :right) (:left :center) (:right :center))];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma7> a r:Inference;
+skolem:lemma7 a r:Inference;
   r:gives {
     (2 :center :right :left) :moves ((:center :left) (:center :right) (:left :right)).
   };
   r:evidence (
     [ a r:Fact; r:gives {2 math:greaterThan 1}]
     [ a r:Fact; r:gives {(2 1) math:difference 1}]
-    <#lemma11>
-    <#lemma9>
+    skolem:lemma11
+    skolem:lemma9
     [ a r:Fact; r:gives {(((:center :left)) ((:center :right)) ((:left :right))) list:append ((:center :left) (:center :right) (:left :right))}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 2];
@@ -107,9 +108,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ((:left :right))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ((:center :left) (:center :right) (:left :right))];
-  r:rule <#lemma8>.
+  r:rule skolem:lemma8.
 
-<#lemma8> a r:Extraction;
+skolem:lemma8 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {(var:x_0 var:x_2 var:x_4 var:x_3) :moves var:x_7} <= {var:x_0 math:greaterThan 1 .
      (var:x_0 1) math:difference var:x_1.
@@ -119,7 +120,7 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
-<#lemma9> a r:Inference;
+skolem:lemma9 a r:Inference;
   r:gives {
     (1 :left :right :center) :moves ((:left :right)).
   };
@@ -129,9 +130,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
-  r:rule <#lemma12>.
+  r:rule skolem:lemma12.
 
-<#lemma10> a r:Inference;
+skolem:lemma10 a r:Inference;
   r:gives {
     (1 :right :center :left) :moves ((:right :center)).
   };
@@ -141,9 +142,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
-  r:rule <#lemma12>.
+  r:rule skolem:lemma12.
 
-<#lemma11> a r:Inference;
+skolem:lemma11 a r:Inference;
   r:gives {
     (1 :center :left :right) :moves ((:center :left)).
   };
@@ -153,9 +154,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#center"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#left"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#right"]];
-  r:rule <#lemma12>.
+  r:rule skolem:lemma12.
 
-<#lemma12> a r:Extraction;
+skolem:lemma12 a r:Extraction;
   r:gives {
     @forSome var:x_0, var:x_1, var:x_2. {(1 var:x_0 var:x_1 var:x_2) :moves ((var:x_0 var:x_1))} <= true.
   };

@@ -6,20 +6,21 @@
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
   r:gives {
     (1 2 3 4 6 9 10 11 13) seq:answer "1-4, 6, 9-11, 13".
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     (1 2 3 4 6 9 10 11 13) seq:answer "1-4, 6, 9-11, 13".
   };
   r:evidence (
-    <#lemma2>
+    skolem:lemma2
     [ a r:Fact; r:gives {((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
     [ a r:Fact; r:gives {((1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) (", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
     [ a r:Fact; r:gives {(1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) string:concatenation "1-4, 6, 9-11, 13"}]
@@ -28,9 +29,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo "1-4, 6, 9-11, 13"];
-  r:rule <#lemma3>.
+  r:rule skolem:lemma3.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     (1 2 3 4 6 9 10 11 13) seq:punctuate ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")).
   };
@@ -38,11 +39,11 @@
     [ a r:Fact; r:gives {((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", ")) e:firstRest ((1 "-" 4 ", ") ((6 ", ") (9 "-" 11 ", ") (13 ", ")))}]
     [ a r:Fact; r:gives {((1 2 3 4 6 9 10 11 13)) func:reverse (13 11 10 9 6 4 3 2 1)}]
     [ a r:Fact; r:gives {((13 11 10 9 6) (4 3 2 1)) list:append (13 11 10 9 6 4 3 2 1)}]
-    <#lemma4>
+    skolem:lemma4
     [ a r:Fact; r:gives {("!") e:derive true}]
-    <#lemma5>
+    skolem:lemma5
     [ a r:Fact; r:gives {((13 11 10 9 6)) func:reverse (6 9 10 11 13)}]
-    <#lemma6>
+    skolem:lemma6
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", ")];
@@ -52,9 +53,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13 11 10 9 6)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (4 3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (6 9 10 11 13)];
-  r:rule <#lemma7>.
+  r:rule skolem:lemma7.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate var:x_0.
      var:x_0 list:append var:x_1.
@@ -63,7 +64,7 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_query.n3>].
 
-<#lemma4> a r:Inference;
+skolem:lemma4 a r:Inference;
   r:gives {
     (4 3 2 1) seq:check true.
   };
@@ -71,16 +72,16 @@
     [ a r:Fact; r:gives {(4 3 2 1) e:firstRest (4 (3 2 1))}]
     [ a r:Fact; r:gives {(3 2 1) e:firstRest (3 (2 1))}]
     [ a r:Fact; r:gives {(3 1) math:sum 4}]
-    <#lemma8>
+    skolem:lemma8
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (4 3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (2 1)];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma5> a r:Inference;
+skolem:lemma5 a r:Inference;
   r:gives {
     (4 3 2 1) seq:format (1 "-" 4 ", ").
   };
@@ -92,9 +93,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 4];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma6> a r:Inference;
+skolem:lemma6 a r:Inference;
   r:gives {
     (6 9 10 11 13) seq:punctuate ((6 ", ") (9 "-" 11 ", ") (13 ", ")).
   };
@@ -102,11 +103,11 @@
     [ a r:Fact; r:gives {((6 ", ") (9 "-" 11 ", ") (13 ", ")) e:firstRest ((6 ", ") ((9 "-" 11 ", ") (13 ", ")))}]
     [ a r:Fact; r:gives {((6 9 10 11 13)) func:reverse (13 11 10 9 6)}]
     [ a r:Fact; r:gives {((13 11 10 9) (6)) list:append (13 11 10 9 6)}]
-    <#lemma11>
+    skolem:lemma11
     [ a r:Fact; r:gives {("!") e:derive true}]
-    <#lemma12>
+    skolem:lemma12
     [ a r:Fact; r:gives {((13 11 10 9)) func:reverse (9 10 11 13)}]
-    <#lemma13>
+    skolem:lemma13
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (6 ", ")];
@@ -116,9 +117,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13 11 10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (6)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (9 10 11 13)];
-  r:rule <#lemma7>.
+  r:rule skolem:lemma7.
 
-<#lemma7> a r:Extraction;
+skolem:lemma7 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_3 seq:punctuate var:x_0} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      (var:x_3) func:reverse var:x_4.
@@ -131,7 +132,7 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-<#lemma8> a r:Inference;
+skolem:lemma8 a r:Inference;
   r:gives {
     (3 2 1) seq:check true.
   };
@@ -139,16 +140,16 @@
     [ a r:Fact; r:gives {(3 2 1) e:firstRest (3 (2 1))}]
     [ a r:Fact; r:gives {(2 1) e:firstRest (2 (1))}]
     [ a r:Fact; r:gives {(2 1) math:sum 3}]
-    <#lemma14>
+    skolem:lemma14
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (3 2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 3];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 2];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (1)];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma9> a r:Extraction;
+skolem:lemma9 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 seq:check true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      var:x_2 e:firstRest (var:x_3 var:x_4).
@@ -157,14 +158,14 @@
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-<#lemma10> a r:Extraction;
+skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 seq:format (var:x_3 "-" var:x_1 ", ")} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
      var:x_2 list:last var:x_3}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-<#lemma11> a r:Inference;
+skolem:lemma11 a r:Inference;
   r:gives {
     (6) seq:check true.
   };
@@ -172,9 +173,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 6];
-  r:rule <#lemma15>.
+  r:rule skolem:lemma15.
 
-<#lemma12> a r:Inference;
+skolem:lemma12 a r:Inference;
   r:gives {
     (6) seq:format (6 ", ").
   };
@@ -182,9 +183,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 6];
-  r:rule <#lemma16>.
+  r:rule skolem:lemma16.
 
-<#lemma13> a r:Inference;
+skolem:lemma13 a r:Inference;
   r:gives {
     (9 10 11 13) seq:punctuate ((9 "-" 11 ", ") (13 ", ")).
   };
@@ -192,11 +193,11 @@
     [ a r:Fact; r:gives {((9 "-" 11 ", ") (13 ", ")) e:firstRest ((9 "-" 11 ", ") ((13 ", ")))}]
     [ a r:Fact; r:gives {((9 10 11 13)) func:reverse (13 11 10 9)}]
     [ a r:Fact; r:gives {((13) (11 10 9)) list:append (13 11 10 9)}]
-    <#lemma17>
+    skolem:lemma17
     [ a r:Fact; r:gives {("!") e:derive true}]
-    <#lemma18>
+    skolem:lemma18
     [ a r:Fact; r:gives {((13)) func:reverse (13)}]
-    <#lemma19>
+    skolem:lemma19
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (9 "-" 11 ", ")];
@@ -206,9 +207,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo (13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (11 10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo (13)];
-  r:rule <#lemma7>.
+  r:rule skolem:lemma7.
 
-<#lemma14> a r:Inference;
+skolem:lemma14 a r:Inference;
   r:gives {
     (2 1) seq:check true.
   };
@@ -216,28 +217,28 @@
     [ a r:Fact; r:gives {(2 1) e:firstRest (2 (1))}]
     [ a r:Fact; r:gives {(1) e:firstRest (1 ())}]
     [ a r:Fact; r:gives {(1 1) math:sum 2}]
-    <#lemma20>
+    skolem:lemma20
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (2 1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (1)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 1];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo ()];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma15> a r:Extraction;
+skolem:lemma15 a r:Extraction;
   r:gives {
     @forSome var:x_0. {(var:x_0) seq:check true} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-<#lemma16> a r:Extraction;
+skolem:lemma16 a r:Extraction;
   r:gives {
     @forSome var:x_0. {(var:x_0) seq:format (var:x_0 ", ")} <= true.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/seq/seq_components.n3>].
 
-<#lemma17> a r:Inference;
+skolem:lemma17 a r:Inference;
   r:gives {
     (11 10 9) seq:check true.
   };
@@ -245,16 +246,16 @@
     [ a r:Fact; r:gives {(11 10 9) e:firstRest (11 (10 9))}]
     [ a r:Fact; r:gives {(10 9) e:firstRest (10 (9))}]
     [ a r:Fact; r:gives {(10 1) math:sum 11}]
-    <#lemma21>
+    skolem:lemma21
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (11 10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (9)];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma18> a r:Inference;
+skolem:lemma18 a r:Inference;
   r:gives {
     (11 10 9) seq:format (9 "-" 11 ", ").
   };
@@ -266,9 +267,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 9];
-  r:rule <#lemma10>.
+  r:rule skolem:lemma10.
 
-<#lemma19> a r:Inference;
+skolem:lemma19 a r:Inference;
   r:gives {
     (13) seq:punctuate ((13 ", ")).
   };
@@ -276,11 +277,11 @@
     [ a r:Fact; r:gives {((13 ", ")) e:firstRest ((13 ", ") ())}]
     [ a r:Fact; r:gives {((13)) func:reverse (13)}]
     [ a r:Fact; r:gives {(() (13)) list:append (13)}]
-    <#lemma22>
+    skolem:lemma22
     [ a r:Fact; r:gives {("!") e:derive true}]
-    <#lemma23>
+    skolem:lemma23
     [ a r:Fact; r:gives {(()) func:reverse ()}]
-    <#lemma24>
+    skolem:lemma24
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((13 ", "))];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (13 ", ")];
@@ -290,9 +291,9 @@
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ()];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (13)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo ()];
-  r:rule <#lemma7>.
+  r:rule skolem:lemma7.
 
-<#lemma20> a r:Inference;
+skolem:lemma20 a r:Inference;
   r:gives {
     (1) seq:check true.
   };
@@ -300,9 +301,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 1];
-  r:rule <#lemma15>.
+  r:rule skolem:lemma15.
 
-<#lemma21> a r:Inference;
+skolem:lemma21 a r:Inference;
   r:gives {
     (10 9) seq:check true.
   };
@@ -310,16 +311,16 @@
     [ a r:Fact; r:gives {(10 9) e:firstRest (10 (9))}]
     [ a r:Fact; r:gives {(9) e:firstRest (9 ())}]
     [ a r:Fact; r:gives {(9 1) math:sum 10}]
-    <#lemma25>
+    skolem:lemma25
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (10 9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (9)];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo ()];
-  r:rule <#lemma9>.
+  r:rule skolem:lemma9.
 
-<#lemma22> a r:Inference;
+skolem:lemma22 a r:Inference;
   r:gives {
     (13) seq:check true.
   };
@@ -327,9 +328,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 13];
-  r:rule <#lemma15>.
+  r:rule skolem:lemma15.
 
-<#lemma23> a r:Inference;
+skolem:lemma23 a r:Inference;
   r:gives {
     (13) seq:format (13 ", ").
   };
@@ -337,18 +338,18 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 13];
-  r:rule <#lemma16>.
+  r:rule skolem:lemma16.
 
-<#lemma24> a r:Inference;
+skolem:lemma24 a r:Inference;
   r:gives {
     () seq:punctuate ().
   };
   r:evidence (
     [ a r:Fact; r:gives true]
   );
-  r:rule <#lemma26>.
+  r:rule skolem:lemma26.
 
-<#lemma25> a r:Inference;
+skolem:lemma25 a r:Inference;
   r:gives {
     (9) seq:check true.
   };
@@ -356,9 +357,9 @@
     [ a r:Fact; r:gives true]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo 9];
-  r:rule <#lemma15>.
+  r:rule skolem:lemma15.
 
-<#lemma26> a r:Extraction;
+skolem:lemma26 a r:Extraction;
   r:gives {
     {() seq:punctuate ()} <= true.
   };

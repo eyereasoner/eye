@@ -3,71 +3,39 @@
 @prefix : <http://example.org/socrates#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://josd.github.io/var#>.
+@prefix skolem: <http://josd.github.io/.well-known/genid/9olqmF1PJqnII8vlJqP0YKzaavo#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
-[] a r:Proof, r:Conjunction;
-  r:component <#lemma1>;
-  r:component <#lemma2>;
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:component skolem:lemma2;
   r:gives {
     :Socrates a :Human.
     :Socrates a :Mortal.
   }.
 
-<#lemma1> a r:Inference;
+skolem:lemma1 a r:Inference;
   r:gives {
     :Socrates a :Human.
   };
   r:evidence (
-    <#lemma3>
+    skolem:lemma3
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Human"]];
-  r:rule <#lemma4>.
+  r:rule skolem:lemma4.
 
-<#lemma2> a r:Inference;
+skolem:lemma2 a r:Inference;
   r:gives {
     :Socrates a :Mortal.
   };
   r:evidence (
-    <#lemma5>
+    skolem:lemma5
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Mortal"]];
-  r:rule <#lemma4>.
+  r:rule skolem:lemma4.
 
-<#lemma3> a r:Extraction;
+skolem:lemma3 a r:Extraction;
   r:gives {
     :Socrates a :Human.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates-metachain-b2f/socrates.n3>].
-
-<#lemma4> a r:Extraction;
-  r:gives {
-    @forAll var:x_0. {:Socrates a var:x_0} => {:Socrates a var:x_0}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates-metachain-b2f/socrates-query.n3>].
-
-<#lemma5> a r:Inference;
-  r:gives {
-    :Socrates a :Mortal.
-  };
-  r:evidence (
-    <#lemma6>
-    <#lemma3>
-  );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Human"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/socrates#Mortal"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/socrates#Socrates"]];
-  r:rule <#lemma7>.
-
-<#lemma6> a r:Extraction;
-  r:gives {
-    :Human rdfs:subClassOf :Mortal.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates-metachain-b2f/socrates.n3>].
-
-<#lemma7> a r:Extraction;
-  r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 rdfs:subClassOf var:x_1.
-     var:x_2 a var:x_0} => {var:x_2 a var:x_1}.
-  };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/socrates-metachain-b2f/socrates.n3>].
-
+  r:because [ a r:Parsing; r:source 
