@@ -15,12 +15,12 @@
 :- use_module(library(base64)).
 :- use_module(library(date)).
 :- use_module(library(prolog_jiti)).
-:- catch(use_module(library(sha)), _, true).
+:- use_module(library(sha)).
+:- use_module(library(semweb/turtle)).
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
-:- catch(use_module(library(semweb/rdf_turtle)), _, true).
 
-version_info('EYE v22.0814.1056 josd').
+version_info('EYE v22.0825.0924 josd').
 
 license_info('MIT License
 
