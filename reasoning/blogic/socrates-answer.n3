@@ -1,8 +1,10 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/sample#>.
 
-:Socrates a :Man.
 :Socrates a :Human.
+<<:Socrates rdf:type :Human>> log:fromBlogic <http://josd.github.io/eye/reasoning/blogic/socrates.n3>.
 :Socrates a :Mortal.
+<<:Socrates rdf:type :Mortal>> log:fromBlogic <http://josd.github.io/eye/reasoning/blogic/socrates.n3>.
 
