@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0825.0924 josd').
+version_info('EYE v22.0827.1120 josd').
 
 license_info('MIT License
 
@@ -5883,6 +5883,14 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/list#setNotEqualTo>'(A, B) :-
     \+'<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/list#unique>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   sort(A, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
