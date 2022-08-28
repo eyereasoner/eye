@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0828.0945 josd').
+version_info('EYE v22.0828.2256 josd').
 
 license_info('MIT License
 
@@ -893,6 +893,11 @@ args(['--blogic',Arg|Args]) :-
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
+    (   flag(nope)
+    ->  true
+    ;   assertz(flag(nope)),
+        assertz(implies(true, answer('<http://www.w3.org/2000/10/swap/log#scope>', '<http://www.w3.org/2000/10/swap/log#justification>', R), '<>'))
+    ),
     (   flag('intermediate', Out)
     ->  portray_clause(Out, scope(R))
     ;   true
