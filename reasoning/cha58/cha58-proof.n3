@@ -67,7 +67,7 @@ skolem:lemma6 a r:Extraction;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    <<:johnD <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Person>> :from :Pod1.
+    <<:johnD a foaf:Person>> :from :Pod1.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cha58/cha58-data.n3>].
 
@@ -80,7 +80,7 @@ skolem:lemma8 a r:Extraction;
 skolem:lemma9 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 a foaf:Person.
-     <<var:x_0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Person>> :from var:x_1.
+     <<var:x_0 a foaf:Person>> :from var:x_1.
      var:x_1 :usingOnly foaf:Person} => {var:x_0 a schema:Person}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/cha58/cha58-rules.n3>].

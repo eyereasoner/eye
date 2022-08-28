@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0827.1120 josd').
+version_info('EYE v22.0828.0945 josd').
 
 license_info('MIT License
 
@@ -4059,7 +4059,7 @@ wtn(triple(S, P, O)) :-
     write('<<'),
     wg(S),
     write(' '),
-    wg(P),
+    wp(P),
     write(' '),
     wg(O),
     write('>>').
@@ -5843,7 +5843,7 @@ djiti_assertz(A) :-
         ),
         (   findall(I,
                 (   member(I, A),
-                    \+member(I, B)
+                    I \= B
                 ),
                 C
             )
