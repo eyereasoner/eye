@@ -1,4 +1,3 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/sample#>.
@@ -11,11 +10,11 @@
     _:A rdfs:subClassOf _:B.
     _:S a _:A.
     () log:negativeSurface {
-        _:S a _:B {| log:from <#rule1> |}.
+        _:S a _:B.
     }.
 } {| log:name <#rule1> |}.
 
 # query
 (_:S _:C _:P _:O) log:querySurface {
-    _:S a _:C {| _:P _:O |}.
+    _:S a _:C.
 }.
