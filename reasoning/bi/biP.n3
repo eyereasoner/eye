@@ -75,6 +75,7 @@
 {{:a :b :_c} log:equalTo {:a :b _:c}} => {:loge3 :result true}.
 {<abc.n3> log:semantics ?X. ?X log:equalTo {:a :b :c}} => {:loges0 :result true}.
 {<ab_c.n3> log:semantics ?X. ?X log:equalTo {:a :b _:c}} => {:loges3 :result true}.
+{($ "a" "b" "c" "c" "a" $) log:equalTo ($ "c" "b" "b" "a" "c" $)} => {:loget1 :result true}.
 {{:b :a :c. :e :d :f. :h :g :i. :k :j :l} log:includes {:k :j :l. ?X :d ?Z}} => {:logi1 :result true}.
 {<medic.n3> log:semantics ?F. ?F log:includes {med:aspirinHighDose med:excludedFor med:AllergyForAspirin}} => {:logi3 :result true}.
 {{:a :b :c} log:includes {:a :b :c}} => {:logid0 :result true}.
