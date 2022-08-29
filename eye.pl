@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0828.2256 josd').
+version_info('EYE v22.0829.2019 josd').
 
 license_info('MIT License
 
@@ -425,7 +425,9 @@ gre(Argus) :-
     ->  throw(halt)
     ;   true
     ),
-    (   flag(nope)
+    (   (   flag(nope)
+        ;   flag(blogic)
+        )
     ->  true
     ;   (   pfx('r:', _)
         ->  true
@@ -895,8 +897,9 @@ args(['--blogic',Arg|Args]) :-
     assertz(scope(R)),
     (   flag(nope)
     ->  true
-    ;   assertz(flag(nope)),
-        assertz(implies(true, answer('<http://www.w3.org/2000/10/swap/log#scope>', '<http://www.w3.org/2000/10/swap/log#justification>', R), '<>'))
+    ;   nb_getval(var_ns, Sns),
+        atomic_list_concat(['<', Sns, 'justification', '>'], Sk),
+        assertz(implies(true, answer('<http://www.w3.org/2000/10/swap/log#scope>', Sk, R), '<>'))
     ),
     (   flag('intermediate', Out)
     ->  portray_clause(Out, scope(R))
@@ -3245,7 +3248,9 @@ w3 :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
-    flag(nope),
+    (   flag(nope)
+    ;   flag(blogic)
+    ),
     !,
     (   query(Q, A),
         (   Q = \+(R)
@@ -3638,7 +3643,9 @@ wt0(X) :-
     atomic_list_concat(['<http://josd.github.io/var#x_', Y, '>'], Z),
     wt0(Z).
 wt0(X) :-
-    flag(nope),
+    (   flag(nope)
+    ;   flag(blogic)
+    ),
     \+flag('pass-all-ground'),
     \+keep_skolem(X),
     nb_getval(var_ns, Sns),
