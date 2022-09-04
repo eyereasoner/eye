@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0831.2119 josd').
+version_info('EYE v22.0904.1357 josd').
 
 license_info('MIT License
 
@@ -108,6 +108,7 @@ eye
 :- dynamic(brake/0).
 :- dynamic(bref/2).
 :- dynamic(bvar/1).
+:- dynamic(cc/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
 :- dynamic(evar/3).
@@ -4490,9 +4491,15 @@ eam(Span) :-
         djiti_conc(Conc, Concd),
         (   Concd = ':-'(Head, Body)
         ->  \+clause(Head, Body)
-        ;   (   flag('no-ucall')
-            ->  \+catch(call(Concd), _, fail)
-            ;   \+catch(ucall(Concd), _, fail)
+        ;   (   Concd = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+            ->  copy_term_nat(Concd, Concc),
+                labelvars(Concc, 0, _, avar),
+                \+cc(Concc),
+                assertz(cc(Concc))
+            ;   (   flag('no-ucall')
+                ->  \+catch(call(Concd), _, fail)
+                ;   \+catch(ucall(Concd), _, fail)
+                )
             )
         ),
         (   flag('rule-histogram')
@@ -4523,7 +4530,10 @@ eam(Span) :-
         findall([D, F],
             (   member([D, D], Lc),
                 unify(D, F),
-                catch(\+F, _, true)
+                (   F = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ->  true
+                ;   catch(\+F, _, true)
+                )
             ),
             Ld
         ),
@@ -4582,7 +4592,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ->  assertz(pred(P))
         ;   true
         ),
-        (   catch(call(Dn), _, fail)
+        (   Dn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
+            catch(call(Dn), _, fail)
         ->  true
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
@@ -4616,7 +4627,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ->  assertz(pred(P))
             ;   true
             ),
-            (   catch(call(Cn), _, fail)
+            (   Cn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
+                catch(call(Cn), _, fail)
             ->  true
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
