@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0906.1309 josd').
+version_info('EYE v22.0906.2214 josd').
 
 license_info('MIT License
 
@@ -5729,20 +5729,20 @@ djiti_assertz(A) :-
     ),
     !.
 
+'<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    md5_hash(A, B, []).
+
 '<http://www.w3.org/2000/10/swap/crypto#sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     sha_hash(A, C, [algorithm(sha1)]),
-    hash_to_ascii(C, D, []),
-    atom_codes(B, D).
+    hash_atom(C, B).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha256>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     sha_hash(A, C, [algorithm(sha256)]),
-    hash_to_ascii(C, D, []),
-    atom_codes(B, D).
+    hash_atom(C, B).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha512>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     sha_hash(A, C, [algorithm(sha512)]),
-    hash_to_ascii(C, D, []),
-    atom_codes(B, D).
+    hash_atom(C, B).
 
 '<http://www.w3.org/2000/10/swap/graph#difference>'(A, B) :-
     when(
@@ -6527,6 +6527,18 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/string#capitalize>'(literal(X, Z), literal(Y, Z)) :-
+    when(
+        (   ground(X)
+        ),
+        (   sub_atom(X, 0, 1, _, A),
+            upcase_atom(A, B),
+            sub_atom(X, 1, _, 0, C),
+            downcase_atom(C, D),
+            atom_concat(B, D, Y)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/string#concatenation>'(X, Y) :-
     when(
         (   nonvar(X)
@@ -6568,6 +6580,18 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/string#containsRoughly>'(literal(X, Z), literal(Y, Z)) :-
+    when(
+        (   ground([X, Y])
+        ),
+        (   downcase_atom(X, R),
+            downcase_atom(Y, S),
+            normalize_space(atom(U), R),
+            normalize_space(atom(V), S),
+            sub_atom(U, _, _, _, V)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/string#endsWith>'(literal(X, _), literal(Y, _)) :-
     when(
         (   ground([X, Y])
@@ -6582,6 +6606,18 @@ djiti_assertz(A) :-
         ),
         (   downcase_atom(X, U),
             downcase_atom(Y, U)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/string#format>'([literal(A, _)|B], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   ground([A, B])
+        ),
+        (   atom_codes(A, D),
+            subst([[[0'%, 0's], [0'~, 0'w]]], D, E),
+            preformat(B, F),
+            format_to_chars(E, F, G),
+            atom_codes(C, G)
         )
     ).
 
@@ -6641,6 +6677,14 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/string#lowerCase>'(literal(X, Z), literal(Y, Z)) :-
+    when(
+        (   ground(X)
+        ),
+        (   downcase_atom(X, Y)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/string#matches>'(literal(X, _), literal(Y, _)) :-
     when(
         (   ground([X, Y])
@@ -6684,12 +6728,38 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/string#replaceAll>'([literal(X, _),SearchList,ReplaceList], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   ground([X,SearchList,ReplaceList])
+        ),
+        (   preformat(SearchList, SearchList2),
+            preformat(ReplaceList, ReplaceList2),
+            replace(SearchList2, ReplaceList2, X, Z),
+            atom_string(Y, Z)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _),literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
         (   ground([X, Y])
         ),
         (   regex(Y, X, [W|_]),
             atom_string(Z, W)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/string#scrapeAll>'([literal(X, _),literal(Y, _)], Z) :-
+    when(
+        (   ground([X, Y])
+        ),
+        (   re_split(Y, X, L), fm(L),
+            findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                (   member(M, L),
+                    atom_string(A, M)
+                ),
+                K
+            ),
+            odd(K, Z)
         )
     ).
 
@@ -6712,6 +6782,53 @@ djiti_assertz(A) :-
         (   ground([X, Y])
         ),
         (   sub_atom(X, 0, _, _, Y)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/string#substring>'([literal(A, _), B, C], literal(D, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    !,
+    when(
+        (   ground([A, B, C])
+        ),
+        (   getint(B, I),
+            getint(C, J),
+            (   I < 1
+            ->  G is 0,
+                H is J+I-1
+            ;   G is I-1,
+                H is J
+            ),
+            (   H < 0
+            ->  D = ''
+            ;   sub_atom(A, G, H, _, D)
+            )
+        )
+    ).
+'<http://www.w3.org/2000/10/swap/string#substring>'([literal(A, _), B], literal(D, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   ground([A, B])
+        ),
+        (   getint(B, I),
+            sub_atom(A, 0, E, 0, _),
+            J is E-I+1,
+            (   I < 1
+            ->  G is 0,
+                H is J+I-1
+            ;   G is I-1,
+                H is J
+            ),
+            (   H < 0
+            ->  D = []
+            ;   sub_atom(A, G, H, _, D)
+            )
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/string#upperCase>'(literal(X, Z), literal(Y, Z)) :-
+    when(
+        (   ground(X)
+        ),
+        (   upcase_atom(X, Y)
         )
     ).
 
@@ -9657,6 +9774,16 @@ subst(A, B, C) :-
     subst(A, F, G).
 subst(A, [B|C], [B|D]) :-
     subst(A, C, D).
+
+replace([], [], X, X).
+replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
+    re_replace(Search/g, Replace, X, Z),
+    replace(SearchRest, ReplaceRest, Z, Y).
+
+odd([], []).
+odd([_], []).
+odd([_,A|B], [A|C]) :-
+    odd(B, C).
 
 quicksort([], []).
 quicksort([A|B], C) :-
