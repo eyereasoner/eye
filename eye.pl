@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0904.1357 josd').
+version_info('EYE v22.0906.1139 josd').
 
 license_info('MIT License
 
@@ -5731,6 +5731,16 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/crypto#sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     sha_hash(A, C, [algorithm(sha1)]),
+    hash_to_ascii(C, D, []),
+    atom_codes(B, D).
+
+'<http://www.w3.org/2000/10/swap/crypto#sha256>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    sha_hash(A, C, [algorithm(sha256)]),
+    hash_to_ascii(C, D, []),
+    atom_codes(B, D).
+
+'<http://www.w3.org/2000/10/swap/crypto#sha512>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    sha_hash(A, C, [algorithm(sha512)]),
     hash_to_ascii(C, D, []),
     atom_codes(B, D).
 
