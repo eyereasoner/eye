@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0906.1139 josd').
+version_info('EYE v22.0906.1309 josd').
 
 license_info('MIT License
 
@@ -5858,6 +5858,14 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#memberAt>'([A, B], C) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   nth0(B, A, C)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
     when(
         (   nonvar(A),
@@ -5872,8 +5880,21 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#removeAt>'([A, B], C) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   nth0(B, A, D),
+            findall(I,
+                (   member(I, A),
+                    I \= D
+                ),
+                C
+            )
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#removeDuplicates>'(A, B) :-
-    \+flag(restricted),
     when(
         (   nonvar(A)
         ),
