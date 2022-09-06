@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0906.2214 josd').
+version_info('EYE v22.0906.2239 josd').
 
 license_info('MIT License
 
@@ -6692,6 +6692,9 @@ djiti_assertz(A) :-
         (   regex(Y, X, _)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/string#notContainsRoughly>'(X, Y) :-
+    \+'<http://www.w3.org/2000/10/swap/string#containsRoughly>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/string#notEqualIgnoringCase>'(X, Y) :-
     \+'<http://www.w3.org/2000/10/swap/string#equalIgnoringCase>'(X, Y).
