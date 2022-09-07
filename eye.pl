@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0906.2239 josd').
+version_info('EYE v22.0907.1158 josd').
 
 license_info('MIT License
 
@@ -5935,6 +5935,15 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/log#bound>'(X, Y) :-
+    (   nonvar(X)
+    ->  Y = true
+    ;   Y = false
+    ).
+
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
     nonvar(B),
@@ -6101,9 +6110,6 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
-
 '<http://www.w3.org/2000/10/swap/log#localN3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     term_variables(A, V),
     labelvars([A, V], 0, _, avar),
@@ -6124,17 +6130,28 @@ djiti_assertz(A) :-
         assertz(n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))))
     ).
 
-'<http://www.w3.org/2000/10/swap/log#rawType>'(A, B) :-
-    nonvar(A),
-    raw_type(A, C),
-    C = B.
-
 '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(X, Y) :-
     \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
     ignore(within_scope(X)),
     \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
+
+'<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   sub_atom(A, 1, _, 1, C),
+            sub_atom(C, N, 1, _, '#'),
+            sub_atom(C, 0, N, _, D),
+            atomic_list_concat(['<', D, '>'], B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#rawType>'(A, B) :-
+    nonvar(A),
+    raw_type(A, C),
+    C = B.
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
     when(
@@ -6157,6 +6174,13 @@ djiti_assertz(A) :-
                 conj_list(Y, L)
             )
         )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#skolem>'(X, Y) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, X),
+    (   \+keep_skolem(Y)
+    ->  assertz(keep_skolem(Y))
+    ;   true
     ).
 
 '<http://www.w3.org/2000/10/swap/log#uri>'(X, Y) :-
