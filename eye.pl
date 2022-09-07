@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0907.1158 josd').
+version_info('EYE v22.0907.1831 josd').
 
 license_info('MIT License
 
@@ -1326,7 +1326,12 @@ n3_n3p(Argument, Mode) :-
             Tokens = []
         ),
         Exc2,
-        (   (   wcacher(Arg, File)
+        (   (   Mode = semantics
+            ->  told,
+                throw(Exc2)
+            ;   true
+            ),
+            (   wcacher(Arg, File)
             ->  format(user_error, '** ERROR ** ~w FROM ~w ** ~w~n', [Arg, File, Exc2])
             ;   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc2])
             ),
@@ -6029,6 +6034,10 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#content>'(A, B) :-
+    '<http://www.w3.org/2000/10/swap/log#semantics>'(A, C),
+    '<http://www.w3.org/2000/10/swap/log#n3String>'(C, B).
+
 '<http://www.w3.org/2000/10/swap/log#dtlit>'([A, B], C) :-
     when(
         (   ground(A)
@@ -6137,6 +6146,18 @@ djiti_assertz(A) :-
     ignore(within_scope(X)),
     \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
 
+'<http://www.w3.org/2000/10/swap/log#parsedAsN3>'(literal(A, _), B) :-
+    atom_codes(A, C),
+    escape_string(D, C),
+    atom_codes(E, D),
+    tmp_file(Tmp),
+    open(Tmp, write, Ws, [encoding(utf8)]),
+    tell(Ws),
+    writef(E, []),
+    told,
+    atomic_list_concat(['<file://', Tmp, '>'], F),
+    '<http://www.w3.org/2000/10/swap/log#semantics>'(F, B).
+
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
         (   nonvar(A)
@@ -6169,6 +6190,26 @@ djiti_assertz(A) :-
                         flush_output(user_error),
                         fail
                     )
+                ),
+                semantics(X, L),
+                conj_list(Y, L)
+            )
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#semanticsOrError>'(X, Y) :-
+    when(
+        (   nonvar(X)
+        ),
+        (   (   semantics(X, L)
+            ->  conj_list(Y, L)
+            ;   sub_atom(X, 0, 1, _, '<'),
+                sub_atom(X, _, 1, 0, '>'),
+                sub_atom(X, 1, _, 1, Z),
+                catch(
+                    n3_n3p(Z, semantics),
+                    Exc,
+                    assertz(semantics(X, [literal(Exc, type('<http://www.w3.org/2001/XMLSchema#string>'))]))
                 ),
                 semantics(X, L),
                 conj_list(Y, L)
@@ -6779,7 +6820,7 @@ djiti_assertz(A) :-
     when(
         (   ground([X, Y])
         ),
-        (   re_split(Y, X, L), fm(L),
+        (   re_split(Y, X, L),
             findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 (   member(M, L),
                     atom_string(A, M)
