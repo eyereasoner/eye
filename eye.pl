@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0907.1831 josd').
+version_info('EYE v22.0907.2209 josd').
 
 license_info('MIT License
 
@@ -126,6 +126,7 @@ eye
 :- dynamic(got_sq/0).
 :- dynamic(got_unique/2).
 :- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
+:- dynamic(got_uuid/1).
 :- dynamic(graph/2).
 :- dynamic(hash_value/2).
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
@@ -6119,12 +6120,24 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#langlit>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(B))).
+
 '<http://www.w3.org/2000/10/swap/log#localN3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     term_variables(A, V),
     labelvars([A, V], 0, _, avar),
     with_output_to_chars((wq(V, allv), wt(A)), E),
     escape_string(E, F),
     atom_codes(B, F).
+
+'<http://www.w3.org/2000/10/swap/log#localName>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   sub_atom(A, 1, _, 1, C),
+            sub_atom_last(C, _, 1, N, '/'),
+            sub_atom(C, _, N, 0, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     (   n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>')))
@@ -6137,6 +6150,17 @@ djiti_assertz(A) :-
         escape_string(C, D),
         atom_codes(B, D),
         assertz(n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))))
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#namespace>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   sub_atom(A, 1, _, 1, C),
+            sub_atom_last(C, N, 1, _, '/'),
+            M is N+1,
+            sub_atom(C, 0, M, _, B)
+        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(X, Y) :-
@@ -6245,6 +6269,19 @@ djiti_assertz(A) :-
         ;   nonvar(Y),
             Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
             atomic_list_concat(['<', Z, '>'], X)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#uuid>'(X, literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   ground(X)
+        ),
+        (   '<http://www.w3.org/2000/10/swap/log#uri>'(X, literal(U, type('<http://www.w3.org/2001/XMLSchema#string>'))),
+            (   \+got_uuid(U)
+            ->  uuid(Y, [uri(U)]),
+                assertz(got_uuid(U))
+            ;   true
+            )
         )
     ).
 
