@@ -20,7 +20,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0907.2209 josd').
+version_info('EYE v22.0907.2251 josd').
 
 license_info('MIT License
 
@@ -6118,6 +6118,13 @@ djiti_assertz(A) :-
             conj_list(Y, B),
             includes(A, B)
         )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
+    '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
+    (   nonvar(B)
+    ->  '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphIntersection>'([B,C], B)
+    ;   B = C
     ).
 
 '<http://www.w3.org/2000/10/swap/log#langlit>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(B))).
