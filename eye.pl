@@ -15,12 +15,11 @@
 :- use_module(library(base64)).
 :- use_module(library(date)).
 :- use_module(library(prolog_jiti)).
-:- catch(use_module(library(sha)), _, true).
-:- catch(use_module(library(semweb/turtle)), _, true).
-:- catch(use_module(library(pcre)), _, true).
+:- use_module(library(sha)).
+:- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0907.2251 josd').
+version_info('EYE v22.0908.2207 josd').
 
 license_info('MIT License
 
@@ -6835,8 +6834,15 @@ djiti_assertz(A) :-
     when(
         (   ground([X,Search,Replace])
         ),
-        (   re_replace(Search/g, Replace, X, W),
-            atom_string(Y, W)
+        (   (   regex(Search, X, [S|_])
+            ->  atom_codes(X, XC),
+                string_codes(S, SC),
+                atom_codes(Replace, RC),
+                subst([[[0'$,0'1],SC]], RC, TC),
+                subst([[SC,TC]], XC, YC),
+                atom_codes(Y, YC)
+            ;   Y = X
+            )
         )
     ).
 
@@ -6853,7 +6859,7 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _),literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
-        (   ground([X, Y])
+        (   ground([X,Y])
         ),
         (   regex(Y, X, [W|_]),
             atom_string(Z, W)
@@ -6862,16 +6868,10 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/string#scrapeAll>'([literal(X, _),literal(Y, _)], Z) :-
     when(
-        (   ground([X, Y])
+        (   ground([X,Y])
         ),
-        (   re_split(Y, X, L),
-            findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                (   member(M, L),
-                    atom_string(A, M)
-                ),
-                K
-            ),
-            odd(K, Z)
+        (   scrape(X, Y, V),
+            preformat(Z, V)
         )
     ).
 
@@ -9889,8 +9889,25 @@ subst(A, [B|C], [B|D]) :-
 
 replace([], [], X, X).
 replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
-    re_replace(Search/g, Replace, X, Z),
+    (   regex(Search, X, [S|_])
+    ->  atom_codes(X, XC),
+        string_codes(S, SC),
+        atom_codes(Replace, RC),
+        subst([[[0'$,0'1],SC]], RC, TC),
+        subst([[SC,TC]], XC, ZC),
+        atom_codes(Z, ZC)
+    ;   Z = X
+    ),
     replace(SearchRest, ReplaceRest, Z, Y).
+
+scrape(X, Y, [V|Z]) :-
+    regex(Y, X, [W|_]),
+    !,
+    atom_string(V, W),
+    sub_atom(X, _, _, I, V),
+    sub_atom(X, _, I, 0, U),
+    scrape(U, Y, Z).
+scrape(_, _, []).
 
 odd([], []).
 odd([_], []).
@@ -11295,27 +11312,8 @@ timestamp(Stamp) :-
 % Regular expressions
 %
 
-regex(Pattern, String, List) :-
-    catch(regex1(Pattern, String, List), _, regex2(Pattern, String, List)).
-
-% Regular expressions using pcre library
-regex1(Pattern, String, List) :-
-    atom_codes(Pattern, PatternC),
-    escape_string(PatC, PatternC),
-    atom_codes(Pat, PatC),
-    atom_codes(String, StringC),
-    escape_string(StrC, StringC),
-    atom_codes(Str, StrC),
-    re_matchsub(Pat, Str, Dict, []),
-    findall(Value,
-        (   get_dict(Key, Dict, Value),
-            Key \== 0
-        ),
-        List
-    ).
-
 % Regular Expressions inspired by http://www.cs.sfu.ca/~cameron/Teaching/384/99-3/regexp-plg.html
-regex2(RE_esc_atom, Input_esc_atom, Output_esc_atoms) :-
+regex(RE_esc_atom, Input_esc_atom, Output_esc_atoms) :-
     atom_codes(RE_esc_atom, RE_esc),
     atom_codes(Input_esc_atom, Input_esc),
     escape_string(RE, RE_esc),
