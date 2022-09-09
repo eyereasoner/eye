@@ -1,0 +1,461 @@
+@prefix : <urn:example:>.
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+
+"hello world" <urn:example:md5> "5eb63bbbe01eeed093cb22bb8f5acdc3".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+
+"hello world" <urn:example:sha256> "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+
+"hello world" <urn:example:sha512> "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+
+"hello world" <urn:example:sha> "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+({<urn:example:A> <urn:example:B> <urn:example:C>. <urn:example:D> <urn:example:E> <urn:example:F>} {<urn:example:A> <urn:example:B> <urn:example:C>}) <urn:example:difference> {<urn:example:D> <urn:example:E> <urn:example:F>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+
+{<urn:example:A> <urn:example:B> <urn:example:C>. <urn:example:A0> <urn:example:B0> (<urn:example:C1> <urn:example:C2>). {<urn:example:D> <urn:example:E> <urn:example:F>} => {<urn:example:G> <urn:example:H> <urn:example:I>}} <urn:example:length> 3 .
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+((1) ("cat") (2 3)) <urn:example:append> (1 "cat" 2 3).
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+(1 2 3) <urn:example:first> 1 .
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+"cat" <urn:example:in> (1 "cat" 2 3).
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+("Huey" "Dewey" "Louie") <urn:example:iterate> (0 "Huey").
+"Dewey" <urn:example:hasIndex> 1 .
+("Huey" "Dewey" "Louie") <urn:example:iterate> (1 "Dewey").
+("Huey" "Dewey" "Louie") <urn:example:iterate> (2 "Louie").
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+(1 2 3) <urn:example:last> 3 .
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+("Huey" "Dewey" "Louie") <urn:example:memberAt> "Dewey".
+<urn:example:test1> <urn:example:is> <urn:example:success>.
+<urn:example:test2> <urn:example:is> <urn:example:success>.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+("Huey" "Dewey" "Louie") <urn:example:member> "Huey".
+("Huey" "Dewey" "Louie") <urn:example:member> "Dewey".
+("Huey" "Dewey" "Louie") <urn:example:member> "Louie".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+("Huey" "Dewey" "Louie") <urn:example:removeAt> ("Huey" "Louie").
+("Huey" "Dewey" "Louie") <urn:example:hasRemovedItem> _:sk_0.
+<urn:example:test1> <urn:example:is> <urn:example:success>.
+<urn:example:test2> <urn:example:is> <urn:example:success>.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+("Huey" "Dewey" "Dewey" "Louie") <urn:example:remove> ("Huey" "Louie").
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+("Huey" "Dewey" "Louie" "Dewey") <urn:example:unique> ("Dewey" "Huey" "Louie").
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:pers001> <urn:example:givenName> "Alex".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+42 <urn:example:bound> true.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+<urn:example:Result1> <urn:example:collectAllIn> ("Huey" "Dewey" "Louie").
+<urn:example:Result2> <urn:example:collectAllIn> (("Huey") ("Dewey") ("Louie")).
+<urn:example:Result3> <urn:example:collectAllIn> ("Huey" "Dewey").
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:conclusion> {<urn:example:Socrates> a <urn:example:Human>. <urn:example:Socrates> a <urn:example:Mortal>. <urn:example:Human> rdfs:subClassOf <urn:example:Mortal>. {?U_0 rdfs:subClassOf ?U_1. ?U_2 a ?U_0} => {?U_2 a ?U_1}}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:conjunction> {<urn:example:Socrates> a <urn:example:Human>. <urn:example:Socrates> a <urn:example:Mortal>}.
+<urn:example:test> <urn:example:is> true.
+
+
+<urn:example:Result> <urn:example:content> "@prefix : <urn:example:>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n@prefix ns1: <http://example.org/socrates#>.\n@prefix solid: <http://www.w3.org/ns/solid/terms#>.\nns1:Socrates a ns1:Human. <<ns1:Socrates a ns1:Human>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. ns1:Human rdfs:subClassOf ns1:Mortal. <<ns1:Human rdfs:subClassOf ns1:Mortal>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. {?_602 rdfs:subClassOf ?_604 . ?_608 a ?_602} => {?_608 a ?_604}. <<{?_602 rdfs:subClassOf ?_604 . ?_608 a ?_602} => {?_608 a ?_604}>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+("1971-05-05" xsd:date) <urn:example:dtlit> "1971-05-05"^^xsd:date.
+"R2D2"^^<urn:example:myType> <urn:example:hasType> <urn:example:myType>.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Socrates> a <urn:example:Mortal>.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:includes> {<urn:example:Socrates> a <urn:example:Human>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:inferences> {<urn:example:Socrates> a <urn:example:Human>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+("Selemat pagi" "id") <urn:example:langlit> "Selemat pagi"@id.
+"Selemat pagi"@id <urn:example:hasLanguage> "id".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<http://example.org/MyName> <urn:example:localName> "MyName".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<http://example.org/MyName> <urn:example:namespace> "http://example.org/".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:notIncludes> {_:sk_0 a <urn:example:Mortal>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+<urn:example:Result> <urn:example:is> "hello world!\n".
+_:sk_0 log:outputString "hello world!\n".
+_:sk_1 log:outputString "This <urn:example:is> true .\n".
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:parsedAsN3> {<urn:example:Socrates> a <urn:example:Human>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<http://example.org/data#Test> <urn:example:racine> <http://example.org/data>.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+"Hello world" <urn:example:rawType> log:Literal.
+42 <urn:example:rawType> log:Literal.
+<http://www.w3c.org> <urn:example:rawType> log:Other.
+{<urn:example:Socrates> a <urn:example:Human>} <urn:example:rawType> log:Formula.
+(42 43) <urn:example:rawType> rdf:List.
+($ "A" "B" "C" $) <urn:example:rawType> log:Set.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:semantics> {<urn:example:Socrates> a <urn:example:Human>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:semanticsOrError> {<https://raw.githubusercontent.com/phochste/Notation3-By-Example/main/log/semanticsOrError.data#Socrates> a <https://raw.githubusercontent.com/phochste/Notation3-By-Example/main/log/semanticsOrError.data#Human>}.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix var: <http://josd.github.io/.well-known/genid/905066247074330446#>.
+
+<urn:example:Result> <urn:example:skolem> var:t_0.
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+<urn:example:Result> <urn:example:uri> "https://www.w3.org".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+<urn:example:Result> <urn:example:uuid> "7f8d644e-3026-11ed-8a71-00155d68aa8a".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+<urn:example:Let> <urn:example:absoluteValue> 2 .
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:capitalize> "Hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("hello" " " "world") <urn:example:concatenation> "hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hellO World" <urn:example:containsIgnoringCase> "WORLD".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:contains> "world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"a hello    WORLD string" <urn:example:containsRoughly> "hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:endsWith> "world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:equalIgnoringCase> "HeLLO WORLD".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("%s/%s are %s" "result" "s" "ok") <urn:example:format> "result/s are ok".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"Mozart" <urn:example:greaterThan> "Bach".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+(("hello" "world") " ") <urn:example:join> "hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:length> 11 .
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"Bach" <urn:example:lessThan> "Mozart".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"HELLO WORLD" <urn:example:lowerCase> "hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:matches> "he(l)+o world".
+"hello world" <urn:example:matches> ".* world".
+"hello world" <urn:example:matches> "h[ae]llo world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"a hello    WORLD string" <urn:example:notContainsRoughly> "hallo world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:notEqualIgnoringCase> "HaLLO WORLD".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"Bach" <urn:example:notGreaterThan> "Mozart".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"Mozart" <urn:example:notLessThan> "Bach".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello wereld" <urn:example:notMatches> "he(l)+o world".
+"hello wereld" <urn:example:notMatches> ".* world".
+"hello wereld" <urn:example:notMatches> "h[ae]llo world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end" ("[Tt]o be" "nobler") ("2B" "NOBLER")) <urn:example:replaceAll> "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end".
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("hello world" "l" "x") <urn:example:replace> "hello world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end" "([Tt]o be)") <urn:example:scrapeAll> ("To be" "to be").
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+("hello world" "(w.*)") <urn:example:scrape> "world".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:startsWith> "hello".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:substring> "ell".
+<urn:example:test> <urn:example:is> true.
+
+@prefix : <urn:example:>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+"hello world" <urn:example:upperCase> "HELLO WORLD".
+<urn:example:test> <urn:example:is> true.
+
