@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0908.2207 josd').
+version_info('EYE v22.0909.1349 josd').
 
 license_info('MIT License
 
@@ -6151,6 +6151,7 @@ djiti_assertz(A) :-
     ;   retractall(wpfx(_)),
         with_output_to_chars(wh, C1),
         \+ (C1 = [], \+flag('no-qnames')),
+        numbervars(A),
         with_output_to_chars(wt(A), C2),
         append(C1, C2, C),
         escape_string(C, D),
@@ -9953,17 +9954,16 @@ subst(A, B, C) :-
 subst(A, [B|C], [B|D]) :-
     subst(A, C, D).
 
-replace([], [], X, X).
+replace([], [], X, X) :-
+    !.
 replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
-    (   regex(Search, X, [S|_])
-    ->  atom_codes(X, XC),
-        string_codes(S, SC),
-        atom_codes(Replace, RC),
-        subst([[[0'$,0'1],SC]], RC, TC),
-        subst([[SC,TC]], XC, ZC),
-        atom_codes(Z, ZC)
-    ;   Z = X
-    ),
+    atomic_list_concat(['(', Search, ')'], Scap),
+    scrape(X, Scap, Scrape),
+    atom_codes(Replace, RC),
+    srlist(Scrape, RC, Subst),
+    atom_codes(X, XC),
+    subst(Subst, XC, ZC),
+    atom_codes(Z, ZC),
     replace(SearchRest, ReplaceRest, Z, Y).
 
 scrape(X, Y, [V|Z]) :-
@@ -9975,10 +9975,10 @@ scrape(X, Y, [V|Z]) :-
     scrape(U, Y, Z).
 scrape(_, _, []).
 
-odd([], []).
-odd([_], []).
-odd([_,A|B], [A|C]) :-
-    odd(B, C).
+srlist([], _, []).
+srlist([A|B], C, [[E,C]|D]) :-
+    string_codes(A, E),
+    srlist(B, C, D).
 
 quicksort([], []).
 quicksort([A|B], C) :-
