@@ -116,10 +116,19 @@
 @prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
+<urn:example:Alice> <urn:example:sibling> <urn:example:Bob>.
+<urn:example:Bob> <urn:example:sibling> <urn:example:Charly>.
+<urn:example:Hans> <urn:example:sibling> <urn:example:Mary>.
+<urn:example:Mary> <urn:example:sibling> <urn:example:Agnes>.
+<urn:example:Alice> <urn:example:sibling> <urn:example:Charly>.
+<urn:example:Hans> <urn:example:sibling> <urn:example:Agnes>.
 
 @prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
+<urn:example:Alice> <urn:example:friend> <urn:example:Bob>.
+<urn:example:Bob> <urn:example:friend> <urn:example:Charly>.
+<urn:example:Alice> <urn:example:likes> <urn:example:Bob>.
 
 @prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -151,7 +160,7 @@
 <urn:example:test> <urn:example:is> true.
 
 
-<urn:example:Result> <urn:example:content> "@prefix : <urn:example:>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n@prefix ns1: <http://example.org/socrates#>.\n@prefix solid: <http://www.w3.org/ns/solid/terms#>.\nns1:Socrates a ns1:Human. <<ns1:Socrates a ns1:Human>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. ns1:Human rdfs:subClassOf ns1:Mortal. <<ns1:Human rdfs:subClassOf ns1:Mortal>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. {?_602 rdfs:subClassOf ?_604 . ?_608 a ?_602} => {?_608 a ?_604}. <<{?_602 rdfs:subClassOf ?_604 . ?_608 a ?_602} => {?_608 a ?_604}>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>".
+<urn:example:Result> <urn:example:content> "@prefix : <urn:example:>.\n@prefix log: <http://www.w3.org/2000/10/swap/log#>.\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.\n@prefix ns1: <http://example.org/socrates#>.\n@prefix solid: <http://www.w3.org/ns/solid/terms#>.\nns1:Socrates a ns1:Human. <<ns1:Socrates a ns1:Human>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. ns1:Human rdfs:subClassOf ns1:Mortal. <<ns1:Human rdfs:subClassOf ns1:Mortal>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>. {?_614 rdfs:subClassOf ?_616 . ?_620 a ?_614} => {?_620 a ?_616}. <<{?_614 rdfs:subClassOf ?_616 . ?_620 a ?_614} => {?_620 a ?_616}>> solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3>".
 <urn:example:test> <urn:example:is> true.
 
 @prefix : <urn:example:>.
@@ -259,9 +268,6 @@ _:sk_1 log:outputString "This <urn:example:is> true .\n".
 <urn:example:test> <urn:example:is> true.
 
 @prefix : <urn:example:>.
-
-
-@prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 <urn:example:Result> <urn:example:semantics> {<urn:example:Socrates> a <urn:example:Human>}.
@@ -276,7 +282,7 @@ _:sk_1 log:outputString "This <urn:example:is> true .\n".
 @prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
-@prefix var: <http://josd.github.io/.well-known/genid/905066247074330446#>.
+@prefix var: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
 
 <urn:example:Result> <urn:example:skolem> var:t_0.
 <urn:example:test> <urn:example:is> true.
@@ -291,7 +297,7 @@ _:sk_1 log:outputString "This <urn:example:is> true .\n".
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 
-<urn:example:Result> <urn:example:uuid> "7f8d644e-3026-11ed-8a71-00155d68aa8a".
+<urn:example:Result> <urn:example:uuid> "97401df8-3043-11ed-815d-00155d68aa8a".
 <urn:example:test> <urn:example:is> true.
 
 @prefix : <urn:example:>.
@@ -421,7 +427,8 @@ _:sk_1 log:outputString "This <urn:example:is> true .\n".
 @prefix : <urn:example:>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 
-("To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end" ("[Tt]o be" "nobler") ("2B" "NOBLER")) <urn:example:replaceAll> "To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end".
+("To be, or not to be, that is the question:\nWhether 'tis nobler in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end" ("[Tt]o be" "nobler") ("2B" "NOBLER")) <urn:example:replaceAll> "2B, or not 2B, that is the question:\nWhether 'tis NOBLER in the mind to suffer\nThe slings and arrows of outrageous fortune,\nOr to take arms against a sea of troubles\nAnd by opposing end them. To die—to sleep,\nNo more; and by a sleep to say we end".
+<urn:example:test> <urn:example:is> true.
 
 @prefix : <urn:example:>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
