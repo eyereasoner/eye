@@ -6648,7 +6648,7 @@ djiti_assertz(A) :-
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
-            F is 10**V,
+            F is 10**floor(V),
             Z is round(round(U*F))/F
         )
     ).
