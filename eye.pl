@@ -6642,6 +6642,17 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/math#roundedTo>'([X, Y], Z) :-
+    when(
+        (   ground([X, Y])
+        ),
+        (   getnumber(X, U),
+            getnumber(Y, V),
+            F is 10**V,
+            Z is round(round(U*F))/F
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/math#sin>'(X, Y) :-
     when(
         (   ground(X)
