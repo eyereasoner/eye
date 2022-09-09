@@ -6365,6 +6365,16 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/math#ceiling>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (
+            getnumber(X, U),
+            Y is ceiling(U)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/math#cos>'(X, Y) :-
     when(
         (   ground(X)
@@ -6441,6 +6451,16 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/math#floor>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (
+            getnumber(X, U),
+            Y is floor(U)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/math#greaterThan>'(X, Y) :-
     when(
         (   ground([X, Y])
@@ -6474,6 +6494,31 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/math#logarithm>'([X, Y], Z) :-
+    when(
+        (   ground([X, Y])
+        ;   ground([X, Z])
+        ),
+        (   getnumber(X, U),
+            (   getnumber(Y, V),
+                V =\= 0,
+                U =\= 0,
+                Z is log(U)/log(V),
+                !
+            ;   getnumber(Z, W),
+                Y is U**(1/W)
+            )
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#max>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   max_list(X, Y)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/math#memberCount>'(X, Y) :-
     when(
         (   nonvar(X)
@@ -6487,6 +6532,14 @@ djiti_assertz(A) :-
                 )
             ),
             length(Z, Y)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#min>'(X, Y) :-
+    when(
+        (   ground(X)
+        ),
+        (   min_list(X, Y)
         )
     ).
 
@@ -6551,6 +6604,19 @@ djiti_assertz(A) :-
             ->  Z is U/V
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
             )
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/math#radians>'(X, Y) :-
+    when(
+        (   ground(X)
+        ;   ground(Y)
+        ),
+        (   getnumber(X, U),
+            Y is U*pi/180,
+            !
+        ;   getnumber(Y, W),
+            X is W*180/pi
         )
     ).
 
