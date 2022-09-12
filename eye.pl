@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0912.1019 josd').
+version_info('EYE v22.0912.1153 josd').
 
 license_info('MIT License
 
@@ -922,6 +922,7 @@ args(['--blogic',Arg|Args]) :-
                 ->  assertz(C2)
                 ;   true
                 )), true, '<>')),
+        assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G5), G5), false, '<>')),
         assertz(got_bi)
     ),
     args(Args).
