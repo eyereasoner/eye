@@ -3,26 +3,26 @@
 @prefix : <http://example.org/ns#>.
 
 (_:X _:Y) log:negativeSurface {
-    () log:negativeSurface {
+    () log:querySurface {
         _:X :fibonacci _:Y.
     }.
     (_:X 0 1) :fib _:Y.
 }.
 
 (_:A _:B) log:negativeSurface {
-    () log:negativeSurface {
+    () log:querySurface {
         (0 _:A _:B) :fib _:A.
     }.
 }.
 
 (_:A _:B) log:negativeSurface {
-    () log:negativeSurface {
+    () log:querySurface {
         (1 _:A _:B) :fib _:B.
     }.
 }.
 
 (_:A _:B _:X _:Y) log:negativeSurface {
-    () log:negativeSurface {
+    () log:querySurface {
         (_:X _:A _:B) :fib _:Y.
     }.
     _:X math:greaterThan 1.

@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0909.2055 josd').
+version_info('EYE v22.0912.1019 josd').
 
 license_info('MIT License
 
@@ -903,17 +903,17 @@ args(['--blogic',Arg|Args]) :-
     ->  true
     ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G1),
                 conj_list(G1, L1),
-                (   L1 = ['<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2)|L2]
-                ->  conj_list(G3, L2),
+                (   select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
+                    conj_list(G3, L2),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta)
+                ;   select('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, G2), L1, L2),
+                    conj_list(G3, L2),
                     makevars(':-'(G2, G3), C1, beta),
                     (   \+C1
                     ->  assertz(C1)
                     ;   true
                     ),
                     B1 = true
-                ;   select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
-                    conj_list(G3, L2),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta)
                 )), B1, '<>')),
         assertz(implies(('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, G4),
                 djiti_answer(answer(G4), AG4),
