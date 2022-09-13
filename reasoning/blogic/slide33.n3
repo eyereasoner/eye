@@ -13,10 +13,10 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-() log:negativeSurface {
-    :xxx :bbb :yyy.
+(_:y) log:negativeSurface {
+    :xxx :bbb _:y.
     () log:negativeSurface {
-        :yyy a :ccc.
+        _:y a :ccc.
     }.
 }.
 
@@ -32,8 +32,8 @@
                 _:y a _:c.
             }.
         }.
-        (_:x _:y) log:negativeSurface {
-            () log:negativeSurface {
+        (_:x) log:negativeSurface {
+            (_:y) log:negativeSurface {
                 _:x _:b _:y.
                 () log:negativeSurface {
                     _:y a _:c.
