@@ -1,0 +1,28 @@
+# -----------------------
+# Basic Monadic Benchmark
+# -----------------------
+#
+# tested with input of 10^n triples generated with http://josd.github.io/bmb/graphgen.n3
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://eulersharp.sourceforge.net/2007/07test/graph#>.
+
+(_:R _:D0 _:D1 _:D2 _:D3 _:D4 _:D5 _:D6 _:D7 _:D8 _:D9) log:negativeSurface {
+    () log:querySurface {
+        _:R :cycle (_:D0 _:D1 _:D2 _:D3 _:D4 _:D5 _:D6 _:D7 _:D8 _:D9).
+    }.
+    _:D0 _:R _:D1.
+    _:D1 _:R _:D2.
+    _:D2 _:R _:D3.
+    _:D3 _:R _:D4.
+    _:D4 _:R _:D5.
+    _:D5 _:R _:D6.
+    _:D6 _:R _:D7.
+    _:D7 _:R _:D8.
+    _:D8 _:R _:D9.
+    _:D9 _:R _:D0.
+}.
+
+(_:R _:C) log:querySurface {
+    _:R :cycle _:C.
+}.

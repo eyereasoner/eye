@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0915.1300 josd').
+version_info('EYE v22.0915.1852 josd').
 
 license_info('MIT License
 
@@ -1077,6 +1077,12 @@ args(['--query',Arg|Args]) :-
 args(['--turtle',Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   flag('intermediate', Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
     (   wcacher(Arg, File)
     ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
         flush_output(user_error),
@@ -1127,6 +1133,10 @@ args(['--turtle',Argument|Args]) :-
             (   flag('intermediate', Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
+            ),
+            (   flag(nope)
+            ->  true
+            ;   assertz(prfstep(Triple, true, _, Triple, _, forward, R))
             )
         )
     ),
