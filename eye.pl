@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0912.1153 josd').
+version_info('EYE v22.0915.1300 josd').
 
 license_info('MIT License
 
@@ -6036,6 +6036,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#content>'(A, B) :-
+    \+flag(restricted),
     '<http://www.w3.org/2000/10/swap/log#semantics>'(A, C),
     '<http://www.w3.org/2000/10/swap/log#n3String>'(C, B).
 
@@ -6207,6 +6208,7 @@ djiti_assertz(A) :-
     C = B.
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
+    \+flag(restricted),
     when(
         (   nonvar(X)
         ),
@@ -6230,6 +6232,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#semanticsOrError>'(X, Y) :-
+    \+flag(restricted),
     when(
         (   nonvar(X)
         ),
