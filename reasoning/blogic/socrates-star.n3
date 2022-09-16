@@ -10,10 +10,10 @@
     _:A rdfs:subClassOf _:B.
     _:S a _:A.
     () log:negativeSurface {
-        _:S a _:B {| log:codex :codex1 |}.
+        _:S a _:B {| log:source <>; log:codex :codex1 |}.
         () log:neutralSurface {
             _:S a :BuddhistLikePerson {| :says <https://josd.github.io/card.ttl#me> |}.
-        } {| log:codex :codex1 |}.
+        } {| log:source <>; log:codex :codex1 |}.
     }.
 } {| log:name :codex1 |}.
 
@@ -26,6 +26,7 @@
     _:B log:neutralSurface _:N.
 }.
 
-(_:B _:N) log:querySurface {
-    _:B log:codex _:N.
+(_:B _:S _:N) log:querySurface {
+    _:B log:source _:S;
+        log:codex _:N.
 }.
