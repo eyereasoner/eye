@@ -1,0 +1,40 @@
+# Peano arithmetic
+# See https://en.wikipedia.org/wiki/Peano_axioms
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# add
+(_:A) log:negativeSurface {
+    () log:querySurface {
+        (_:A 0) :add _:A.
+    }.
+}.
+
+(_:A _:B _:C) log:negativeSurface {
+    () log:querySurface {
+        (_:A (:s _:B)) :add (:s _:C).
+    }.
+    (_:A _:B) :add _:C.
+}.
+
+# multiply
+(_:A) log:negativeSurface {
+    () log:querySurface {
+        (_:A 0) :multiply 0.
+    }.
+}.
+
+(_:A _:B _:C _:D) log:negativeSurface {
+    () log:querySurface {
+        (_:A (:s _:B)) :multiply _:C.
+    }.
+    (_:A _:B) :multiply _:D.
+    (_:A _:D) :add _:C.
+}.
+
+# query
+(_:A _:B) log:querySurface {
+    ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
+    (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
+}.
