@@ -1,4 +1,4 @@
 #!/bin/bash
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socrates-query.n3 > socrates-answer.n3
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socrates-query.n3 > socrates-proof.n3
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope --proof http://josd.github.io/eye/reasoning/socrates/socrates-proof.n3 --pass-only-new > socrates-lemma.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socrates-query.n3 --output socrates-answer.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. http://josd.github.io/eye/reasoning/socrates/socrates.n3 --query http://josd.github.io/eye/reasoning/socrates/socrates-query.n3 --output socrates-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope --proof http://josd.github.io/eye/reasoning/socrates/socrates-proof.n3 --pass-only-new --output socrates-lemma.n3

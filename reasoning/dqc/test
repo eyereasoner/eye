@@ -1,6 +1,6 @@
 #!/bin/bash
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-output --nope http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 > sdcoding-a.n3
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-output http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 > sdcoding-a-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-output --nope http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 --output sdcoding-a.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-output http://josd.github.io/eye/reasoning/dqc/sdcoding.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-q.n3 --output sdcoding-a-proof.n3
 
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-input --nope http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 > sdcoding-answer.n3
-eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-input http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 > sdcoding-proof.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-input --nope http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 --output sdcoding-answer.n3
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --no-distinct-input http://josd.github.io/eye/reasoning/dqc/sdcoding-a.n3 --query http://josd.github.io/eye/reasoning/dqc/sdcoding-query.n3 --output sdcoding-proof.n3

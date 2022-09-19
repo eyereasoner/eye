@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0918.1525 josd').
+version_info('EYE v22.0919.1746 josd').
 
 license_info('MIT License
 
@@ -66,6 +66,7 @@ eye
     --no-qvars                      no qvars in the output
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
+    --output <file>                 output reasoner output to <file>
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -273,14 +274,22 @@ run :-
     (   flag('debug-pvm')
     ->  tell(user_error),
         ignore(vm_list(_)),
-        told
+        told,
+        (   flag('output', Output)
+        ->  tell(Output)
+        ;   true
+        )
     ;   true
     ),
     (   flag('debug-djiti')
     ->  tell(user_error),
         jiti_list,
         nl,
-        told
+        told,
+        (   flag('output', Output)
+        ->  tell(Output)
+        ;   true
+        )
     ;   true
     ),
     nb_getval(exit_code, EC),
@@ -292,7 +301,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--n3p', '--proof', '--quantify', '--query', '--skolem-genid', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -464,8 +473,12 @@ gre(Argus) :-
         (   atomic_list_concat([Fi, Fo], ', ', Fa)
         ->  open(Fo, write, Fos, [encoding(utf8)])
         ;   Fi = Fa,
-            Fos = user_output
+            (   flag('output', Output)
+            ->  Fos = Output
+            ;   Fos = user_output
+            )
         ),
+        tell(Fos),
         (   Fi = end_of_file
         ->  true
         ;   statistics(walltime, [_, _]),
@@ -477,7 +490,6 @@ gre(Argus) :-
                     nb_setval(exit_code, 1)
                 )
             ),
-            tell(Fos),
             catch(eam(0), Exc2,
                 (   (   Exc2 = halt
                     ->  true
@@ -532,9 +544,9 @@ gre(Argus) :-
             catch(Infs is round(Infd/Ti5*1000), _, Infs = ''),
             format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
             flush_output(user_error),
-            told,
             fail
-        )
+        ),
+        told
     ;   (   flag(profile)
         ->  asserta(pce_profile:pce_show_profile :- fail),
             profiler(_, cputime)
@@ -570,7 +582,11 @@ gre(Argus) :-
             tell(user_error),
             show_profile([]),
             nl,
-            told
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            )
         ;   true
         )
     ),
@@ -737,6 +753,13 @@ opts(['--nope'|Argus], Args) :-
     !,
     retractall(flag(nope)),
     assertz(flag(nope)),
+    opts(Argus, Args).
+opts(['--output',File|Argus], Args) :-
+    !,
+    retractall(flag('output', _)),
+    open(File, write, Out, [encoding(utf8)]),
+    tell(Out),
+    assertz(flag('output', Out)),
     opts(Argus, Args).
 opts(['--pass-all-ground'|Argus], Args) :-
     !,
@@ -1342,6 +1365,10 @@ n3_n3p(Argument, Mode) :-
         Exc2,
         (   (   Mode = semantics
             ->  told,
+                (   flag('output', Output)
+                ->  tell(Output)
+                ;   true
+                ),
                 throw(Exc2)
             ;   true
             ),
@@ -1370,6 +1397,10 @@ n3_n3p(Argument, Mode) :-
     ;   true
     ),
     told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ),
     (   File = '-'
     ->  true
     ;   close(In)
@@ -4948,6 +4979,10 @@ djiti_assertz(A) :-
             write('.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp2),
             open(Tmp2, write, Ws2, [encoding(utf8)]),
             tell(Ws2),
@@ -4967,6 +5002,10 @@ djiti_assertz(A) :-
             write('}.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp3),
             !,
             (   current_prolog_flag(windows, true)
@@ -5079,6 +5118,10 @@ djiti_assertz(A) :-
             write('.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp2),
             open(Tmp2, write, Ws2, [encoding(utf8)]),
             tell(Ws2),
@@ -5098,6 +5141,10 @@ djiti_assertz(A) :-
             write('}.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp3),
             !,
             (   current_prolog_flag(windows, true)
@@ -5182,6 +5229,10 @@ djiti_assertz(A) :-
             write('.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp2),
             open(Tmp2, write, Ws2, [encoding(utf8)]),
             tell(Ws2),
@@ -5200,6 +5251,10 @@ djiti_assertz(A) :-
             write('}.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp3),
             !,
             (   current_prolog_flag(windows, true)
@@ -5629,7 +5684,11 @@ djiti_assertz(A) :-
     ;   writeq(Y)
     ),
     nl,
-    told.
+    told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transpose>'(A, B) :-
     \+flag(restricted),
@@ -6004,6 +6063,10 @@ djiti_assertz(A) :-
             write('.'),
             nl,
             told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
             tmp_file(Tmp2),
             !,
             (   current_prolog_flag(windows, true)
@@ -6201,6 +6264,10 @@ djiti_assertz(A) :-
     tell(Ws),
     writef(E, []),
     told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ),
     atomic_list_concat(['<file://', Tmp, '>'], F),
     '<http://www.w3.org/2000/10/swap/log#semantics>'(F, B).
 
