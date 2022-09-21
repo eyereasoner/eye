@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0919.1746 josd').
+version_info('EYE v22.0921.2107 josd').
 
 license_info('MIT License
 
@@ -927,23 +927,23 @@ args(['--blogic',Arg|Args]) :-
     n3_n3p(Arg, data),
     (   got_bi
     ->  true
-    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G1),
+    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(V1, G1),
                 conj_list(G1, L1),
                 (   select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
                     conj_list(G3, L2),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta)
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
                 ;   select('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, G2), L1, L2),
                     conj_list(G3, L2),
-                    makevars(':-'(G2, G3), C1, beta),
+                    makevars(':-'(G2, G3), C1, beta(V1)),
                     (   \+C1
                     ->  assertz(C1)
                     ;   true
                     ),
                     B1 = true
                 )), B1, '<>')),
-        assertz(implies(('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, G4),
+        assertz(implies(('<http://www.w3.org/2000/10/swap/log#querySurface>'(V4, G4),
                 djiti_answer(answer(G4), AG4),
-                makevars(implies(G4, AG4, '<>'), C2, beta),
+                makevars(implies(G4, AG4, '<>'), C2, beta(V4)),
                 (   \+C2
                 ->  assertz(C2)
                 ;   true
@@ -10694,6 +10694,12 @@ getvars(A, B) :-
     findvars(A, C, alpha),
     distinct(C, B).
 
+makevars(A, B, beta(C)) :-
+    !,
+    distinct(C, D),
+    length(D, E),
+    length(F, E),
+    makevars(A, B, D, F).
 makevars(A, B, Z) :-
     findvars(A, C, Z),
     distinct(C, D),
