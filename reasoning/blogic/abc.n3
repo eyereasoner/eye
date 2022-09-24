@@ -3,21 +3,21 @@
 
 :i a :A.
 
-() log:negativeSurface {
+() log:onNegativeSurface {
     :i a :C.
 }.
 
-(_:S) log:negativeSurface {
+(_:S) log:onNegativeSurface {
     _:S a :A.
-    () log:negativeSurface {
+    () log:onNegativeSurface {
         _:S a :B.
     }.
-    () log:negativeSurface {
+    () log:onNegativeSurface {
         _:S a :C.
     }.
 }.
 
 # query
-(_:S _:C) log:querySurface {
+(_:S _:C) log:onQuerySurface {
     _:S a _:C.
 }.

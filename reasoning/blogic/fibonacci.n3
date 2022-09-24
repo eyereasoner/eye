@@ -2,27 +2,27 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-(_:X _:Y) log:negativeSurface {
-    () log:querySurface {
+(_:X _:Y) log:onNegativeSurface {
+    () log:onQuerySurface {
         _:X :fibonacci _:Y.
     }.
     (_:X 0 1) :fib _:Y.
 }.
 
-(_:A _:B) log:negativeSurface {
-    () log:querySurface {
+(_:A _:B) log:onNegativeSurface {
+    () log:onQuerySurface {
         (0 _:A _:B) :fib _:A.
     }.
 }.
 
-(_:A _:B) log:negativeSurface {
-    () log:querySurface {
+(_:A _:B) log:onNegativeSurface {
+    () log:onQuerySurface {
         (1 _:A _:B) :fib _:B.
     }.
 }.
 
-(_:A _:B _:C _:D _:X _:Y) log:negativeSurface {
-    () log:querySurface {
+(_:A _:B _:C _:D _:X _:Y) log:onNegativeSurface {
+    () log:onQuerySurface {
         (_:X _:A _:B) :fib _:Y.
     }.
     _:X math:greaterThan 1.
@@ -32,26 +32,26 @@
 }.
 
 # queries
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     1 :fibonacci _:X.
 }.
 
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     2 :fibonacci _:X.
 }.
 
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     3 :fibonacci _:X
 }.
 
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     91 :fibonacci _:X.
 }.
 
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     283 :fibonacci _:X.
 }.
 
-(_:X) log:querySurface {
+(_:X) log:onQuerySurface {
     3674 :fibonacci _:X.
 }.

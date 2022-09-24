@@ -4,12 +4,12 @@
 :currentWeather a :NormalWeather.
 :obs1 :ascribed :Rain.
 
-() log:negativeSurface {
+() log:onNegativeSurface {
     :currentWeather a :NormalWeather.
-    () log:negativeSurface {
-        (_:S) log:negativeSurface {
+    () log:onNegativeSurface {
+        (_:S) log:onNegativeSurface {
             _:S :ascribed :Rain.
-            () log:negativeSurface {
+            () log:onNegativeSurface {
                 _:S :ascribed :WetGrass.
             }.
         }.
@@ -17,6 +17,6 @@
 }.
 
 # query
-(_:S _:O) log:querySurface {
+(_:S _:O) log:onQuerySurface {
     _:S :ascribed _:O.
 }.

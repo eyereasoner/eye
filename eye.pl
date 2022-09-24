@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0921.2107 josd').
+version_info('EYE v22.0924.1501 josd').
 
 license_info('MIT License
 
@@ -177,9 +177,9 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#negativeSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#neutralSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#querySurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 
 %
 % Main goal
@@ -927,12 +927,12 @@ args(['--blogic',Arg|Args]) :-
     n3_n3p(Arg, data),
     (   got_bi
     ->  true
-    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(V1, G1),
+    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V1, G1),
                 conj_list(G1, L1),
-                (   select('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G2), L1, L2),
+                (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
                     conj_list(G3, L2),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
-                ;   select('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, G2), L1, L2),
+                ;   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, G2), L1, L2),
                     conj_list(G3, L2),
                     makevars(':-'(G2, G3), C1, beta(V1)),
                     (   \+C1
@@ -941,14 +941,14 @@ args(['--blogic',Arg|Args]) :-
                     ),
                     B1 = true
                 )), B1, '<>')),
-        assertz(implies(('<http://www.w3.org/2000/10/swap/log#querySurface>'(V4, G4),
+        assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V4, G4),
                 djiti_answer(answer(G4), AG4),
                 makevars(implies(G4, AG4, '<>'), C2, beta(V4)),
                 (   \+C2
                 ->  assertz(C2)
                 ;   true
                 )), true, '<>')),
-        assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, G5), G5), false, '<>')),
+        assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G5), G5), false, '<>')),
         assertz(got_bi)
     ),
     args(Args).
@@ -10633,13 +10633,13 @@ dynify(answer(A, _, _)) :-
     ->  true
     ;   dynamic(A/2)
     ).
-dynify('<http://www.w3.org/2000/10/swap/log#negativeSurface>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#neutralSurface>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#querySurface>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
     !,
     dynify(A).
 dynify(A) :-
