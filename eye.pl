@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0927.0845 josd').
+version_info('EYE v22.0927.1834 josd').
 
 license_info('MIT License
 
@@ -174,13 +174,14 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
+:- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
 
 %
 % Main goal
@@ -4636,10 +4637,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
     (   Cn = (Dn, En)
     ->  functor(Dn, P, N),
         (   \+pred(P),
-            P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
-            P \= '<http://www.w3.org/2000/10/swap/log#implies>',
-            P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>',
             P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
+            P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
+            P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>',
+            P \= '<http://www.w3.org/2000/10/swap/log#implies>',
+            P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
             N = 2
         ->  assertz(pred(P))
         ;   true
@@ -4671,10 +4673,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ->  true
         ;   functor(Cn, P, N),
             (   \+pred(P),
-                P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
-                P \= '<http://www.w3.org/2000/10/swap/log#implies>',
-                P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>',
                 P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
+                P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
+                P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>',
+                P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
+                P \= '<http://www.w3.org/2000/10/swap/log#implies>',
                 N = 2
             ->  assertz(pred(P))
             ;   true
@@ -4783,6 +4786,7 @@ djiti_fact(answer(P, S, O), answer(P, S, O)) :-
     atomic(P),
     !,
     (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
+        P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
         \+pred(P)
     ->  assertz(pred(P))
     ;   true
@@ -4839,8 +4843,9 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
-    (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
-        P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
+    (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
+        P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
+        P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
         P \= query,
         P \= pfx,
         P \= flag,
@@ -6024,6 +6029,15 @@ djiti_assertz(A) :-
     ;   Y = false
     ).
 
+'<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B) :-
+    call_cleanup(A, B),
+    (   flag(nope)
+    ->  true
+    ;   conj_append(A, B, C),
+        copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
+        istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
+    ).
+
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
     nonvar(B),
@@ -6340,6 +6354,9 @@ djiti_assertz(A) :-
     ->  assertz(keep_skolem(Y))
     ;   true
     ).
+
+'<http://www.w3.org/2000/10/swap/log#trace>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#trace>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/log#uri>'(X, Y) :-
     when(
