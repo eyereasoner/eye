@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.0927.1834 josd').
+version_info('EYE v22.0929.2000 josd').
 
 license_info('MIT License
 
@@ -47,6 +47,7 @@ help_info('Usage: eye <options>* <data>* <query>*
 eye
     swipl -g main eye.pl --
 <options>
+    --blogic                        support RDF surfaces
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
@@ -87,7 +88,6 @@ eye
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
     [--n3] <uri>                    N3 triples and rules
-    --blogic <uri>                  RDF surfaces
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
     --turtle <uri>                  Turtle triples
@@ -117,7 +117,6 @@ eye
 :- dynamic(flag/1).
 :- dynamic(flag/2).
 :- dynamic(fpred/1).
-:- dynamic(got_bi/0).
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
@@ -178,7 +177,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
@@ -662,6 +660,34 @@ gre(Argus) :-
 
 opts([], []) :-
     !.
+opts(['--blogic'|Argus], Args) :-
+    !,
+    retractall(flag(blogic)),
+    assertz(flag(blogic)),
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G5), G5, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V1, G1),
+                    conj_list(G1, L1),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
+                        conj_list(G3, L2),
+                        makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
+                    ;   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, G2), L1, L2),
+                        conj_list(G3, L2),
+                        makevars(':-'(G2, G3), C1, beta(V1)),
+                        (   \+C1
+                        ->  assertz(C1)
+                        ;   true
+                        ),
+                        B1 = true
+                    )), B1, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V4, G4),
+                    djiti_answer(answer(G4), AG4),
+                    makevars(implies(G4, AG4, '<>'), C2, beta(V4)),
+                    (   \+C2
+                    ->  assertz(C2)
+                    ;   true
+                    )), true, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G5), G5), false, '<>')),
+    opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
@@ -906,7 +932,7 @@ opts(['--wcache',Argument,File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--blogic', '--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -915,46 +941,6 @@ opts([Arg|Argus], [Arg|Args]) :-
 
 args([]) :-
     !.
-args(['--blogic',Arg|Args]) :-
-    !,
-    retractall(flag(blogic)),
-    assertz(flag(blogic)),
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag('intermediate', Out)
-    ->  portray_clause(Out, scope(R))
-    ;   true
-    ),
-    n3_n3p(Arg, data),
-    (   got_bi
-    ->  true
-    ;   assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V1, G1),
-                        conj_list(G1, L1),
-                        (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
-                            conj_list(G3, L2),
-                            makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
-                        ;   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, G2), L1, L2),
-                            conj_list(G3, L2),
-                            makevars(':-'(G2, G3), C1, beta(V1)),
-                            (   \+C1
-                            ->  assertz(C1)
-                            ;   true
-                            ),
-                            B1 = true
-                        )), B1, '<>')),
-        assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V4, G4),
-                        djiti_answer(answer(G4), AG4),
-                        makevars(implies(G4, AG4, '<>'), C2, beta(V4)),
-                        (   \+C2
-                        ->  assertz(C2)
-                        ;   true
-                        )), true, '<>')),
-        assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G5), G5), false, '<>')),
-        assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G5), G5, '<>')),
-        assertz(got_bi)
-    ),
-    args(Args).
 args(['--entail',Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
@@ -10656,9 +10642,6 @@ dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
     !,
     dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
