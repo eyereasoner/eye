@@ -664,7 +664,7 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G5), G5, '<>')),
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V1, G1),
                     conj_list(G1, L1),
                     (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
