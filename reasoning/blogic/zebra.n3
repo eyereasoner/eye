@@ -1,0 +1,64 @@
+# Einstein Riddle
+# See https://en.wikipedia.org/wiki/Zebra_Puzzle
+#
+# The situation:
+# - There are 5 houses in five different colors.
+# - In each house lives a person with a different nationality.
+# - These five owners drink a certain type of beverage, smoke a certain brand of cigar and keep a certain pet.
+# - No owners have the same pet, smoke the same brand of cigar or drink the same beverage.
+#
+# The question is:
+#   Who owns the fish?
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+(_:L _:A1 _:A2 _:A3 _:A4 _:A5 _:A6 _:A7 _:A8 _:A9 _:A10 _:A11 _:A12 _:A13 _:A14 _:A15 _:A16 _:A17 _:A18 _:A19 _:A20
+ _:A21 _:A22 _:A23 _:A24 _:A25 _:A26 _:A27 _:A28 _:A29 _:A30 _:A31 _:A32 _:A33 _:A34 _:A35 _:A36 _:A37 _:A38 _:A39 _:A40
+ _:A41 _:A42 _:A43 _:A44 _:A45 _:A46 _:A47 _:A48 _:A49 _:A50 _:A51 _:A52 _:A53 _:A54 _:A55 _:A56 _:A57 _:A58 _:A59 _:A60
+ _:A61 _:A62 _:A63 _:A64 _:A65 _:A66 _:A67 _:A68 _:A69 _:A70) log:onNegativeSurface {
+    _:L log:equalTo ((_:A1 :norwegian _:A2 _:A3 _:A4) (:blue _:A5 _:A6 _:A7 _:A8) (_:A9 _:A10 _:A11 :milk _:A12) _:A13 _:A14);
+    :pair ((_:A15 _:A16 _:A17 _:A18 :blends) (_:A19 _:A20 :cats _:A21 _:A22));
+    :pair ((_:A23 _:A24 :horse _:A25 _:A26) (_:A27 _:A28 _:A29 _:A30 :dunhill));
+    :sublist ((:green _:A31 _:A32 :coffee _:A33) (:white _:A34 _:A35 _:A36 _:A37));
+    :pair ((_:A38 _:A39 _:A40 _:A41 :blends) (_:A42 _:A43 _:A44 :water _:A45));
+    list:member (:red :brit _:A46 _:A47 _:A48);
+    list:member (_:A49 :swede :dogs _:A50 _:A51);
+    list:member (_:A52 :dane _:A53 :tea _:A54);
+    list:member (_:A55 _:A56 :birds _:A57 :pallmall);
+    list:member (:yellow _:A58 _:A59 _:A60 :dunhill);
+    list:member (_:A61 _:A62 _:A63 :beer :bluemasters);
+    list:member (_:A64 :german _:A65 _:A66 :prince);
+    list:member (_:A67 _:A68 :fish _:A69 _:A70).
+    () log:onNegativeSurface {
+        _:A68 :owns :fish.
+    }.
+}.
+
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onQuerySurface {
+        _:A :pair (_:B _:C).
+    }.
+    _:A :sublist (_:B _:C).
+}.
+
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onQuerySurface {
+        _:A :pair (_:B _:C).
+    }.
+    _:A :sublist (_:C _:B).
+}.
+
+(_:A _:B _:C _:D _:E) log:onNegativeSurface {
+    () log:onQuerySurface {
+        _:A :sublist _:B.
+    }.
+    (_:C _:D) list:append _:A.
+    (_:E _:B) list:append _:C.
+}.
+
+# query
+(_:WHO) log:onQuerySurface {
+    _:WHO :owns :fish.
+}.
