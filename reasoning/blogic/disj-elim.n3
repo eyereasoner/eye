@@ -1,0 +1,39 @@
+# Disjunction elimination
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# saying A means saying C
+(_:S) log:onNegativeSurface {
+    () log:onPositiveSurface {
+        _:S :saying :A.
+    }.
+    () log:onNegativeSurface {
+        _:S :saying :C.
+    }.
+}.
+
+# saying B means saying C
+(_:S) log:onNegativeSurface {
+    () log:onPositiveSurface {
+        _:S :saying :B.
+    }.
+    () log:onNegativeSurface {
+        _:S :saying :C.
+    }.
+}.
+
+# saying A or saying B
+(_:S) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:S :saying :A.
+    }.
+    () log:onNegativeSurface {
+        _:S :saying :B.
+    }.
+}.
+
+# not saying C leads to an inconsistency so saying C
+() log:onNegativeSurface {
+    _:S :saying :C.
+}.
