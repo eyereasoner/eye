@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1002.2146 josd').
+version_info('EYE v22.1003.1521 josd').
 
 license_info('MIT License
 
@@ -9768,7 +9768,6 @@ within_scope([A, B]) :-
     nb_getval(scope, A).
 
 exopred(P, S, O) :-
-    !,
     (   var(P),
         var(S),
         var(O)
