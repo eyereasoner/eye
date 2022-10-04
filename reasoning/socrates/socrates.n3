@@ -1,8 +1,8 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix : <http://example.org/socrates#>.
-@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 
-:Socrates a :Human {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
-:Human rdfs:subClassOf :Mortal {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
+:Socrates a :Human {| r:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
+:Human rdfs:subClassOf :Mortal {| r:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
 
-{?A rdfs:subClassOf ?B. ?S a ?A} => {?S a ?B} {| solid:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.
+{?A rdfs:subClassOf ?B. ?S a ?A} => {?S a ?B} {| r:source <http://josd.github.io/eye/reasoning/socrates/socrates-data.n3> |}.

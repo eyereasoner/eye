@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1004.1311 josd').
+version_info('EYE v22.1004.2157 josd').
 
 license_info('MIT License
 
@@ -179,7 +179,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/ns/solid/terms#source>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
 % Main goal
@@ -3491,10 +3491,10 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     (   C = rule(_, _, Rl),
         Rl =.. [P, S, O],
-        '<http://www.w3.org/ns/solid/terms#source>'(triple(S, P, O), Src)
+        '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
     ->  wt(Src)
     ;   (   C =.. [P, S, O],
-            '<http://www.w3.org/ns/solid/terms#source>'(triple(S, P, O), Src)
+            '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
         ->  wt(Src)
         ;   wt(A)
         )
