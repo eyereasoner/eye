@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1003.1521 josd').
+version_info('EYE v22.1004.1311 josd').
 
 license_info('MIT License
 
@@ -671,10 +671,12 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(G3, L2),
                         makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
                     ;   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2), L1, L2),
-                        conj_list(G3, L2),
+                        dsplit(L2, L3, L4),
+                        conj_list(G3, L3),
+                        conj_list(G4, L4),
                         makevars('<http://www.w3.org/2000/10/swap/log#implies>'(
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2),
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G3)), B1, beta(V1))
+                                    ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2), G3),
+                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G4)), B1, beta(V1))
                     ;   select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(V2, G2), L1, L2),
                         conj_list(G3, L2),
                         makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3,
@@ -10108,6 +10110,13 @@ split(A, [B|C], [B|D], E) :-
     split(A, C, D, E).
 split(A, [B|C], D, [B|E]) :-
     split(A, C, D, E).
+
+dsplit([], [], []).
+dsplit([A|B], [A|C], D):-
+    dsplit(B, C, D).
+dsplit([A|B], C, [A|D]):-
+    predicate_property(A, dynamic),
+    dsplit(B, C, D).
 
 last_tail([], []) :-
     !.
