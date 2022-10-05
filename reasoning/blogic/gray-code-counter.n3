@@ -78,10 +78,10 @@
     () log:onQuerySurface {
         (_:Cc _:S) :testgcc _:Nc.
     }.
-    ((_:C) _:Cs) list:append _:Cc.
+    _:Cc list:firstRest (_:C _:Cs).
+    _:Nc list:firstRest (_:N _:Ns).
     (_:C _:S) :gcc _:N.
     (_:Cs _:N) :testgcc _:Ns.
-    ((_:N) _:Ns) list:append _:Nc.
 }.
 
 (_:Q) log:onQuerySurface {

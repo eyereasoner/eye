@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1004.2157 josd').
+version_info('EYE v22.1005.1958 josd').
 
 license_info('MIT License
 
@@ -257,13 +257,13 @@ run :-
     ;   true
     ),
     catch(gre(Argus), Exc,
-        (   Exc = halt
+        (   Exc = halt(0)
         ->  true
         ;   (   flag('parse-only')
             ->  true
             ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
                 flush_output(user_error),
-                nb_setval(exit_code, 1)
+                nb_setval(exit_code, 3)
             )
         )
     ),
@@ -416,7 +416,7 @@ gre(Argus) :-
         ->  qsave_program(File)
         ;   save_program(File)
         ),
-        throw(halt)
+        throw(halt(0))
     ;   true
     ),
     (   flag('intermediate', Out)
@@ -435,7 +435,7 @@ gre(Argus) :-
         \+flag('pass-only-new'),
         \+flag('multi-query'),
         \+flag(strings)
-    ->  throw(halt)
+    ->  throw(halt(0))
     ;   true
     ),
     (   flag(nope)
@@ -487,15 +487,18 @@ gre(Argus) :-
             catch(args(['--query', Fi]), Exc1,
                 (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
                     flush_output(user_error),
-                    nb_setval(exit_code, 1)
+                    nb_setval(exit_code, 3)
                 )
             ),
             catch(eam(0), Exc2,
-                (   (   Exc2 = halt
+                (   (   Exc2 = halt(0)
                     ->  true
                     ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc2]),
                         flush_output(user_error),
-                        nb_setval(exit_code, 1)
+                        (   Exc2 = inference_fuse(_)
+                        ->  nb_setval(exit_code, 2)
+                        ;   nb_setval(exit_code, 3)
+                        )
                     )
                 )
             ),
@@ -553,11 +556,14 @@ gre(Argus) :-
         ;   true
         ),
         catch(eam(0), Exc3,
-            (   (   Exc3 = halt
+            (   (   Exc3 = halt(0)
                 ->  true
                 ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
                     flush_output(user_error),
-                    nb_setval(exit_code, 1)
+                    (   Exc3 = inference_fuse(_)
+                    ->  nb_setval(exit_code, 2)
+                    ;   nb_setval(exit_code, 3)
+                    )
                 )
             )
         ),
@@ -737,7 +743,7 @@ opts(['--help'|_], _) :-
     help_info(Help),
     format(user_error, '~w~n', [Help]),
     flush_output(user_error),
-    throw(halt).
+    throw(halt(0)).
 opts(['--hmac-key',Key|Argus], Args) :-
     !,
     retractall(flag('hmac-key', _)),
@@ -758,7 +764,7 @@ opts(['--license'|_], _) :-
     license_info(License),
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
-    throw(halt).
+    throw(halt(0)).
 opts(['--multi-query'|Argus], Args) :-
     !,
     retractall(flag('multi-query')),
@@ -936,7 +942,7 @@ opts(['--tactic',Tactic|_], _) :-
     throw(not_supported_tactic(Tactic)).
 opts(['--version'|_], _) :-
     !,
-    throw(halt).
+    throw(halt(0)).
 opts(['--warn'|Argus], Args) :-
     !,
     retractall(flag(warn)),
@@ -4471,7 +4477,7 @@ eam(Span) :-
             ->  true
             ;   w3
             ),
-            throw(halt)
+            throw(halt(3))
         ;   true
         ),
         (   flag(debug)
@@ -4531,7 +4537,7 @@ eam(Span) :-
             ->  true
             ;   w3
             ),
-            throw(halt)
+            throw(halt(3))
         ;   true
         ),
         (   flag('limited-witness', WitnessLim),
@@ -4541,7 +4547,7 @@ eam(Span) :-
             ->  true
             ;   w3
             ),
-            throw(halt)
+            throw(halt(3))
         ;   true
         ),
         djiti_conc(Conc, Concd),
@@ -5688,7 +5694,9 @@ djiti_assertz(A) :-
     \+flag(restricted),
     tell(user_error),
     write('TRACE '),
-    (   var(X)
+    (   (   var(X)
+        ;   findvar(X, beta)
+        )
     ->  copy_term_nat(Y, Z),
         wg(Z)
     ;   writeq(Y)
@@ -5878,6 +5886,8 @@ djiti_assertz(A) :-
             nonvar(D)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/list#firstRest>'([A|B], [A, B]).
 
 '<http://www.w3.org/2000/10/swap/list#in>'(A, B) :-
     when(

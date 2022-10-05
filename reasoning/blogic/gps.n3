@@ -76,8 +76,8 @@
     () log:onQuerySurface {
         _:A gps:stagecount _:B.
     }.
-    ((_:C) _:D) list:append _:A.
-    ((_:E) _:F) list:append _:D.
+    _:A list:firstRest (_:C _:D).
+    _:D list:firstRest (_:E _:F).
     _:C log:notEqualTo _:E.
     _:D gps:stagecount _:G.
     (_:G 1) math:sum _:B.
@@ -87,7 +87,7 @@
     () log:onQuerySurface {
         _:A gps:stagecount _:B.
     }.
-    ((_:C) _:D) list:append _:A.
+    _:A list:firstRest (_:C _:D).
     _:D gps:stagecount _:B.
 }.
 
