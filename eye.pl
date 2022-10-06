@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1005.1958 josd').
+version_info('EYE v22.1006.0942 josd').
 
 license_info('MIT License
 
@@ -6315,6 +6315,10 @@ djiti_assertz(A) :-
     nonvar(A),
     raw_type(A, C),
     C = B.
+
+'<http://www.w3.org/2000/10/swap/log#repeat>'(A, B) :-
+    C is A-1,
+    between(0, C, B).
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
     \+flag(restricted),
