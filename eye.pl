@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1006.0942 josd').
+version_info('EYE v22.1006.1358 josd').
 
 license_info('MIT License
 
@@ -59,6 +59,7 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
+    --max-inferences <nr>           halt after maximum number of inferences
     --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -79,9 +80,6 @@ eye
     --statistics                    output statistics info on stderr
     --strings                       output log:outputString objects on stdout
     --tactic limited-answer <nr>    give only a limited number of answers
-    --tactic limited-brake <nr>     take only a limited number of brakes
-    --tactic limited-step <nr>      take only a limited number of steps
-    --tactic limited-witness <nr>   use only a limited number of witnesses
     --tactic linear-select          select each rule only once
     --version                       show version info
     --warn                          output warning info on stderr
@@ -301,7 +299,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -765,6 +763,21 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt(0)).
+opts(['--max-inferences',Lim|Argus], Args) :-
+    !,
+    (   number(Lim)
+    ->  Limit = Lim
+    ;   catch(atom_number(Lim, Limit), Exc,
+            (   format(user_error, '** ERROR ** max-inferences ** ~w~n', [Exc]),
+                flush_output(user_error),
+                flush_output,
+                throw(halt(1))
+            )
+        )
+    ),
+    retractall(flag('max-inferences', _)),
+    assertz(flag('max-inferences', Limit)),
+    opts(Argus, Args).
 opts(['--multi-query'|Argus], Args) :-
     !,
     retractall(flag('multi-query')),
@@ -886,51 +899,6 @@ opts(['--tactic','limited-answer',Lim|Argus], Args) :-
     ),
     retractall(flag('limited-answer', _)),
     assertz(flag('limited-answer', Limit)),
-    opts(Argus, Args).
-opts(['--tactic','limited-brake',Lim|Argus], Args) :-
-    !,
-    (   number(Lim)
-    ->  Limit = Lim
-    ;   catch(atom_number(Lim, Limit), Exc,
-            (   format(user_error, '** ERROR ** limited-brake ** ~w~n', [Exc]),
-                flush_output(user_error),
-                flush_output,
-                throw(halt(1))
-            )
-        )
-    ),
-    retractall(flag('limited-brake', _)),
-    assertz(flag('limited-brake', Limit)),
-    opts(Argus, Args).
-opts(['--tactic','limited-step',Lim|Argus], Args) :-
-    !,
-    (   number(Lim)
-    ->  Limit = Lim
-    ;   catch(atom_number(Lim, Limit), Exc,
-            (   format(user_error, '** ERROR ** limited-step ** ~w~n', [Exc]),
-                flush_output(user_error),
-                flush_output,
-                throw(halt(1))
-            )
-        )
-    ),
-    retractall(flag('limited-step', _)),
-    assertz(flag('limited-step', Limit)),
-    opts(Argus, Args).
-opts(['--tactic','limited-witness',Lim|Argus], Args) :-
-    !,
-    (   number(Lim)
-    ->  Limit = Lim
-    ;   catch(atom_number(Lim, Limit), Exc,
-            (   format(user_error, '** ERROR ** limited-witness ** ~w~n', [Exc]),
-                flush_output(user_error),
-                flush_output,
-                throw(halt(1))
-            )
-        )
-    ),
-    retractall(flag('limited-witness', _)),
-    assertz(flag('limited-witness', Limit)),
     opts(Argus, Args).
 opts(['--tactic','linear-select'|Argus], Args) :-
     !,
@@ -4470,19 +4438,15 @@ indentation(C) :-
 
 eam(Span) :-
     (   cnt(tr),
-        (   flag('limited-brake', BrakeLim),
-            nb_getval(tr, TR),
-            TR >= BrakeLim
-        ->  (   flag(strings)
-            ->  true
-            ;   w3
-            ),
-            throw(halt(3))
-        ;   true
-        ),
         (   flag(debug)
         ->  format(user_error, 'eam/1 entering span ~w~n', [Span]),
             flush_output(user_error)
+        ;   true
+        ),
+        (   flag('max-inferences', MaxInf),
+            statistics(inferences, Inf),
+            Inf > MaxInf
+        ->  throw(max_inferences_exceeded(MaxInf))
         ;   true
         ),
         implies(Prem, Conc, Src),
@@ -4530,26 +4494,6 @@ eam(Span) :-
         ;   true
         ),
         cnt(tp),
-        (   flag('limited-step', StepLim),
-            nb_getval(tp, Step),
-            Step > StepLim
-        ->  (   flag(strings)
-            ->  true
-            ;   w3
-            ),
-            throw(halt(3))
-        ;   true
-        ),
-        (   flag('limited-witness', WitnessLim),
-            nb_getval(wn, Witness),
-            Witness > WitnessLim
-        ->  (   flag(strings)
-            ->  true
-            ;   w3
-            ),
-            throw(halt(3))
-        ;   true
-        ),
         djiti_conc(Conc, Concd),
         (   Concd = ':-'(Head, Body)
         ->  \+clause(Head, Body)
