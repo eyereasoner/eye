@@ -3,8 +3,9 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-# green or yellow
+# every farming field is green or yellow
 (_:S) log:onNegativeSurface {
+    _:S a :FarmingField.
     () log:onNegativeSurface {
         _:S a :GreenColored.
     }.
@@ -21,7 +22,8 @@
     }.
 }.
 
-# grass is not mixed colored 
+# grass is a farming field and not mixed colored
+:grass a :FarmingField.
 () log:onNegativeSurface {
     :grass a :MixedColored.
 }.
