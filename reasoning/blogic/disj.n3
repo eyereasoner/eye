@@ -1,0 +1,32 @@
+# Disjunction example
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# green or yellow
+(_:S) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:S a :GreenColored.
+    }.
+    () log:onNegativeSurface {
+        _:S a :YellowColored.
+    }.
+}.
+
+# if yellow then mixed colored
+(_:S) log:onNegativeSurface {
+    _:S a :YellowColored.
+    () log:onNegativeSurface {
+        _:S a :MixedColored.
+    }.
+}.
+
+# grass is not mixed colored 
+() log:onNegativeSurface {
+    :grass a :MixedColored.
+}.
+
+# query
+(_:A _:B) log:onQuerySurface {
+    _:A a _:B.
+}.
