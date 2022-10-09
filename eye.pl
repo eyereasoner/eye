@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1006.1358 josd').
+version_info('EYE v22.1009.2334 josd').
 
 license_info('MIT License
 
@@ -3737,8 +3737,7 @@ wt0(X) :-
             ),
             pfx(E, D),
             K is J-1,
-            sub_atom(X, _, K, 1, F),
-            regex('^[A-Z_a-z][\\\\-0-9A-Z_a-z]*$', F, _)
+            sub_atom(X, _, K, 1, F)
         ->  atom_concat(E, F, W),
             assertz(wtcache(X, W))
         ;   (   \+flag(strings),
@@ -4559,7 +4558,7 @@ eam(Span) :-
         ->  (   flag(strings)
             ->  true
             ;   w3
-        )
+            )
         ;   retract(brake),
             fail
         )
@@ -9761,6 +9760,8 @@ exogen :-
             )
         )
     ).
+exogen :-
+    \+flag('multi-query').
 
 ucall(A) :-
     (   A = (B, C)
