@@ -1,0 +1,46 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+:beatle a :Car.
+:beatle :is :old.
+
+# all cars are green or blue
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
+    () log:onNegativeSurface {
+        _:A :is :green.
+    }.
+    () log:onNegativeSurface {
+        _:A :is :blue.
+    }.
+}.
+
+# green old things are nice
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
+    _:A :is :old.
+    () log:onNegativeSurface {
+        _:A :is :nice.
+    }.
+}.
+
+# blue old things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :blue.
+    _:A :is :old.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# ask if beatle is nice or beautiful
+() log:onAskSurface {
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            :beatle :is :nice.
+        }.
+        () log:onNegativeSurface {
+            :beatle :is :beautiful.
+        }.
+    }.
+}.

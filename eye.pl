@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1012.0017 josd').
+version_info('EYE v22.1012.1400 josd').
 
 license_info('MIT License
 
@@ -708,11 +708,18 @@ opts(['--blogic'|Argus], Args) :-
                         assertz(C2)
                     ;   true
                     )), true, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'(V5, G5),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], G5),
                     G5 \= true,
-                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V5, G5))
+                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G5)),
+                    conj_list(G5, L5),
+                    dsplit(L5, L6, L7),
+                    conj_list(G6, L6),
+                    conj_list(G7, L7),
+                    G8 = ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],
+                            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G6)), G7),
+                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G8))
                     ), true, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G6), G6), false, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G9), G9), false, '<>')),
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
