@@ -3,11 +3,11 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
+:bob a :Person.
+
 # saying A means saying C
 (_:S) log:onNegativeSurface {
-    #() log:onPositiveSurface {
-        _:S :saying :A.
-    #}.
+    _:S :saying :A.
     () log:onNegativeSurface {
         _:S :saying :C.
     }.
@@ -15,9 +15,7 @@
 
 # saying B means saying C
 (_:S) log:onNegativeSurface {
-    #() log:onPositiveSurface {
-        _:S :saying :B.
-    #}.
+    _:S :saying :B.
     () log:onNegativeSurface {
         _:S :saying :C.
     }.
@@ -25,6 +23,7 @@
 
 # saying A or saying B
 (_:S) log:onNegativeSurface {
+    _:S a :Person.
     () log:onNegativeSurface {
         _:S :saying :A.
     }.
@@ -33,7 +32,7 @@
     }.
 }.
 
-# not saying C leads to an inconsistency so saying C
-() log:onNegativeSurface {
-    _:S :saying :C.
+# ask
+() log:onAskSurface {
+    :bob :saying :C.
 }.

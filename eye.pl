@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1009.2334 josd').
+version_info('EYE v22.1012.0017 josd').
 
 license_info('MIT License
 
@@ -173,6 +173,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onAskSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
@@ -707,7 +708,11 @@ opts(['--blogic'|Argus], Args) :-
                         assertz(C2)
                     ;   true
                     )), true, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G5), G5), false, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'(V5, G5),
+                    G5 \= true,
+                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V5, G5))
+                    ), true, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G6), G6), false, '<>')),
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
@@ -4478,10 +4483,18 @@ eam(Span) :-
             ;   Conc = answer(false, void, void)
             )
         ->  with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false))),
-            (   flag('ignore-inference-fuse')
-            ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
-                fail
-            ;   throw(inference_fuse(PN3))
+            (   '<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, Ask),
+                Ask \= true
+            ->  wh,
+                wt(Ask),
+                writeln('.'),
+                nl,
+                throw(halt(0))
+            ;   (   flag('ignore-inference-fuse')
+                ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
+                    fail
+                ;   throw(inference_fuse(PN3))
+                )
             )
         ;   true
         ),
@@ -10620,6 +10633,9 @@ dynify(answer(A, _, _)) :-
     ->  true
     ;   dynamic(A/2)
     ).
+dynify('<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, A)) :-
+    !,
+    dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).
