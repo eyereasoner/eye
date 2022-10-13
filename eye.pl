@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1012.1400 josd').
+version_info('EYE v22.1013.0848 josd').
 
 license_info('MIT License
 
@@ -710,7 +710,6 @@ opts(['--blogic'|Argus], Args) :-
                     )), true, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], G5),
                     G5 \= true,
-                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G5)),
                     conj_list(G5, L5),
                     dsplit(L5, L6, L7),
                     conj_list(G6, L6),
@@ -3280,6 +3279,13 @@ wh :-
 
 w3 :-
     wh,
+    (   '<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, _)
+    ->  wt('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], false)),
+        writeln('.'),
+        nl,
+        throw(halt(0))
+    ;   true
+    ),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -4493,7 +4499,7 @@ eam(Span) :-
             (   '<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, Ask),
                 Ask \= true
             ->  wh,
-                wt(Ask),
+                wt('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], true)),
                 writeln('.'),
                 nl,
                 throw(halt(0))
