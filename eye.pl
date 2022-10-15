@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1014.2155 josd').
+version_info('EYE v22.1015.1421 josd').
 
 license_info('MIT License
 
@@ -4818,6 +4818,8 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
+djiti_fact('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), ':-'('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), true)) :-
+    !.
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
