@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1015.1421 josd').
+version_info('EYE v22.1016.2138 josd').
 
 license_info('MIT License
 
@@ -679,13 +679,22 @@ opts(['--blogic'|Argus], Args) :-
                         dsplit(L2, L3, L4),
                         conj_list(G3, L3),
                         conj_list(G4, L4),
-                        makevars('<http://www.w3.org/2000/10/swap/log#implies>'(
-                                    ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2), G3),
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G4)), B1, beta(V1))
+                        (   G2 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, AG2)
+                        ->  BG2 = AG2
+                        ;   BG2 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2)
+                        ),
+                        (   G4 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, AG4)
+                        ->  BG4 = AG4
+                        ;   BG4 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G4)
+                        ),
+                        makevars('<http://www.w3.org/2000/10/swap/log#implies>'((BG2, G3), BG4), B1, beta(V1))
                     ;   select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(V2, G2), L1, L2),
                         conj_list(G3, L2),
-                        makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3,
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2)), B1, beta(V1))
+                        (   G2 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, AG2)
+                        ->  BG2 = AG2
+                        ;   BG2 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2)
+                        ),
+                        makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, BG2), B1, beta(V1))
                     ;   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, G2), L1, L2),
                         conj_list(G3, L2),
                         makevars(':-'(G2, G3), C1, beta(V1)),
