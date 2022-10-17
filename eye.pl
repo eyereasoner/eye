@@ -11686,12 +11686,12 @@ regexp_wildcard([A|B], [A|C]) :-
     regexp_wildcard(B, C).
 
 fm(A) :-
-    format(user_error, '*** ~q~n', [A]),
+    format(user_error, '~n*** ~q~n', [A]),
     flush_output(user_error).
 
 mf(A) :-
     forall(
         catch(A, _, fail),
-        format(user_error, '*** ~q~n', [A])
+        format(user_error, '~n*** ~q~n', [A])
     ),
     flush_output(user_error).
