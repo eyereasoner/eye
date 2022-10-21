@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1021.1055 josd').
+version_info('EYE v22.1021.1922 josd').
 
 license_info('MIT License
 
@@ -483,7 +483,11 @@ gre(Argus) :-
         ;   statistics(walltime, [_, _]),
             nb_getval(output_statements, Outb),
             statistics(inferences, Infb),
-            catch(args(['--query', Fi]), Exc1,
+            (   flag(blogic)
+            ->  Amq = ['--n3', Fi]
+            ;   Amq = ['--query', Fi]
+            ),
+            catch(args(Amq), Exc1,
                 (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
                     flush_output(user_error),
                     nb_setval(exit_code, 3)
@@ -514,6 +518,9 @@ gre(Argus) :-
             retractall(implies(_, answer(_, _, _), _)),
             retractall(implies(_, (answer(_, _, _), _), _)),
             retractall(query(_, _)),
+            retractall('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)),
+            retractall(cc(_)),
+            retractall(brake),
             retractall(prfstep(answer(_, _, _), _, _, _, _, _, _)),
             retractall(lemma(_, _, _, _, _, _)),
             retractall(got_wi(_, _, _, _, _)),

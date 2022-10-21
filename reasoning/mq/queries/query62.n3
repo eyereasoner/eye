@@ -1,3 +1,9 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://josd.github.io/eye/reasoning#>.
 
-{?S :i9307 ?A. ?A :i9307 ?B. ?B :i9307 ?C. ?C :i9307 ?O} => {?S :j ?O}.
+(_:S _:A _:B _:C _:O) log:onQuerySurface {
+    _:S :i9307 _:A.
+    _:A :i9307 _:B.
+    _:B :i9307 _:C.
+    _:C :i9307 _:O.
+}.

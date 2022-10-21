@@ -28,10 +28,16 @@
     ("atomic_list_concat" (?A ?I ".n3") ?F) e:derive true.
     ("open" ?F "write" ?FD) e:derive true.
     ("tell" ?FD) e:derive true.
+    ("format" "@prefix log: <http://www.w3.org/2000/10/swap/log#>.~n" ()) e:derive true.
     ("format" "@prefix : <http://josd.github.io/eye/reasoning#>.~n~n" ()) e:derive true.
     (?R) e:random ?Q.
     ("round(_Q/(_R+1)*_D)" ?Q ?R ?D) e:calculate ?P.
-    ("format" "{?S :i~d ?A. ?A :i~d ?B. ?B :i~d ?C. ?C :i~d ?O} => {?S :j ?O}.~n" (?P ?P ?P ?P)) e:derive true.
+    ("format" "(_:S _:A _:B _:C _:O) log:onQuerySurface {~n" ()) e:derive true.
+    ("format" "    _:S :i~d _:A.~n" (?P)) e:derive true.
+    ("format" "    _:A :i~d _:B.~n" (?P)) e:derive true.
+    ("format" "    _:B :i~d _:C.~n" (?P)) e:derive true.
+    ("format" "    _:C :i~d _:O.~n" (?P)) e:derive true.
+    ("format" "}.~n" ()) e:derive true.
     ("told") e:derive true.
     ("fail") e:derive true.
 }.
