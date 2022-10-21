@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1019.1350 josd').
+version_info('EYE v22.1021.1055 josd').
 
 license_info('MIT License
 
@@ -4827,8 +4827,6 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
-djiti_fact('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B), ':-'('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B), true)) :-
-    !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), ':-'('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), true)) :-
     !.
 djiti_fact(A, A) :-
@@ -6265,16 +6263,6 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
     ignore(within_scope(X)),
     \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
-
-'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y) :-
-    nonvar(Y),
-    conj_list(Y, A),
-    length(A, C),
-    C > 1,
-    select(B, A, D),
-    conj_list(E, D),
-    \+catch(call(E), _, fail),
-    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, B).
 
 '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y) :-
     nonvar(Y),
@@ -9858,6 +9846,17 @@ is_gl(A) :-
     ;   A = exopred(_, _, _)
     ).
 
+unify(A, true) :-
+    nonvar(A),
+    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Y),
+    conj_list(Y, C),
+    length(C, D),
+    D > 1,
+    select(E, C, _),
+    (   E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, F)
+    ->  call(F)
+    ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, E)
+    ).
 unify(A, B) :-
     nonvar(A),
     A = exopred(P, S, O),
