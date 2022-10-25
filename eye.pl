@@ -679,7 +679,12 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V1, G1),
                     conj_list(G1, L1),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2), L1, L2),
+                        conj_list(C2, L2),
+                        conj_list(G2, M2),
+                        select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, C2), M2, _),
+                        B1 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, C2)
+                    ;   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G2), L1, L2),
                         conj_list(G3, L2),
                         makevars('<http://www.w3.org/2000/10/swap/log#implies>'(G3, G2), B1, beta(V1))
                     ;   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G2), L1, L2),
@@ -695,11 +700,6 @@ opts(['--blogic'|Argus], Args) :-
                         ;   BG4 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, G4)
                         ),
                         makevars('<http://www.w3.org/2000/10/swap/log#implies>'((BG2, G3), BG4), B1, beta(V1))
-                    ;   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V22, G22), L1, L22),
-                        conj_list(C22, L22),
-                        conj_list(G22, M22),
-                        select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V22, C22), M22, _),
-                        B1 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V22, C22)
                     ;   select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(V2, G2), L1, L2),
                         conj_list(G3, L2),
                         (   G2 = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V2, AG2)
