@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1024.2248 josd').
+version_info('EYE v22.1025.2014 josd').
 
 license_info('MIT License
 
@@ -2565,11 +2565,7 @@ token(0'<, In, C, lt_eq) :-
     get_code(In, _),
     get_code(In, C).
 token(0'<, In, C, lt_dash) :-
-    peek_string(In, 2, D),
-    string_codes(D, [0'-, E]),
-    (   white_space(E)
-    ;   punctuation(E, _)
-    ),
+    peek_code(In, 0'-),
     !,
     get_code(In, _),
     get_code(In, C).
