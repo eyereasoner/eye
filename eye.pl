@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1025.2014 josd').
+version_info('EYE v22.1027.1409 josd').
 
 license_info('MIT License
 
@@ -5850,6 +5850,12 @@ djiti_assertz(A) :-
             length(C, B)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/graph#list>'(A, B) :-
+    conj_list(A, B).
+
+'<http://www.w3.org/2000/10/swap/graph#member>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/list#append>'(A, B) :-
     when(
