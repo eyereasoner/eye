@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1027.1409 josd').
+version_info('EYE v22.1028.1121 josd').
 
 license_info('MIT License
 
@@ -726,7 +726,8 @@ opts(['--blogic'|Argus], Args) :-
                     labelvars(C2C, 0, _, avar),
                     (   \+cc(C2C)
                     ->  assertz(cc(C2C)),
-                        assertz(C2)
+                        assertz(C2),
+                        retractall(brake)
                     ;   true
                     )), true, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], G5),
