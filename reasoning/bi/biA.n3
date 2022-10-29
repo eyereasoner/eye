@@ -18,7 +18,9 @@
 {{("atom_codes" "HOME" (72 79 77 69)) e:derive true} => {:epac1 :result true}} a :PASS.
 {{("date(1970, 1, 1, 0, 0, 0.0, 0, 'UTC', -)") e:compoundTerm "date(1970,1,1,0,0,0.0,0,'UTC',-)". ("date_time_stamp" "date(1970,1,1,0,0,0.0,0,'UTC',-)" 0.0) e:derive true. 0.0 math:equalTo 0.0} => {:epdts1 :result true}} a :PASS.
 {{((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:findall (_:sk_1 {:s :p _:sk_1} (:o1 :o2))} => {:ef1 :result true}} a :PASS.
-{{("This is a ~w with number ~w and with an escaped linefeed \n" "test" 5) e:format "This is a test with number 5 and with an escaped linefeed \n"} => {:ef4 :result true}} a :PASS.
+{{("""This is a ~w with number ~w and with an escaped linefeed 
+""" "test" 5) e:format """This is a test with number 5 and with an escaped linefeed 
+"""} => {:ef4 :result true}} a :PASS.
 {{({:a :b :c. :d :e :f} true) e:graphDifference {:a :b :c. :d :e :f}} => {:egd1 :result true}} a :PASS.
 {{(true {:d :e :f}) e:graphDifference true} => {:egd2 :result true}} a :PASS.
 {{({:a :b :c. :d :e :f} {:d :e :f}) e:graphDifference {:a :b :c}} => {:egd3 :result true}} a :PASS.
@@ -40,7 +42,8 @@
 {{((8 :d) (5 :a) (6 :b) (7 :a) (9 :d) (4 :d)) e:sort ((4 :d) (5 :a) (6 :b) (7 :a) (8 :d) (9 :d))} => {:es1 :result true}} a :PASS.
 {{(9 3 8 3 5 7 7 9 9 2) e:sort (2 3 5 7 8 9)} => {:es2 :result true}} a :PASS.
 {{(55 66 72 87 56 77 73 69 74 56) e:std 10.426994879744703 . 10.426994879744703 math:equalTo 10.426994879744703} => {:est1 :result true}} a :PASS.
-{{"\"test\n" e:stringEscape "\\\"test\\n"} => {:ese1 :result true}} a :PASS.
+{{""""test
+""" e:stringEscape """\"test\n"""} => {:ese1 :result true}} a :PASS.
 {{("a-b/c-d/e" "-/") e:stringSplit ("a" "b" "c" "d" "e")} => {:ess1 :result true}} a :PASS.
 {{(1 2 3 4 5) e:subsequence (1 2 4)} => {:esl1 :result true}} a :PASS.
 {{((<http://josd.github.io/eye/reasoning/bi/biP.n3>) 1) e:fail {(1 2 3 4 5) e:subsequence (4 2 1)}} => {:esl2 :result true}} a :PASS.

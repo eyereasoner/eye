@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1028.1121 josd').
+version_info('EYE v22.1029.2028 josd').
 
 license_info('MIT License
 
@@ -3874,15 +3874,29 @@ wt2(literal(X, lang(Y))) :-
     write(Y).
 wt2(literal(X, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     !,
-    write('"'),
-    (   current_prolog_flag(windows, true)
-    ->  atom_codes(X, U),
-        escape_unicode(U, V),
-        atom_codes(Z, V)
-    ;   Z = X
-    ),
-    write(Z),
-    write('"').
+    (   sub_atom(X, _, 2, _, '\\n')
+    ->  write('"""'),
+        atom_codes(X, C),
+        escape_string(D, C),
+        atom_codes(Y, D),
+        (   current_prolog_flag(windows, true)
+        ->  atom_codes(Y, U),
+            escape_unicode(U, V),
+            atom_codes(Z, V)
+        ;   Z = Y
+        ),
+        write(Z),
+        write('"""')
+    ;   write('"'),
+        (   current_prolog_flag(windows, true)
+        ->  atom_codes(X, U),
+            escape_unicode(U, V),
+            atom_codes(Z, V)
+        ;   Z = X
+        ),
+        write(Z),
+        write('"')
+    ).
 wt2(literal(X, type(Y))) :-
     !,
     write('"'),
