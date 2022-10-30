@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1030.0944 josd').
+version_info('EYE v22.1030.1927 josd').
 
 license_info('MIT License
 
@@ -6293,11 +6293,6 @@ djiti_assertz(A) :-
     ignore(within_scope(X)),
     \+'<http://www.w3.org/2000/10/swap/log#includes>'(X, Y).
 
-'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y) :-
-    nonvar(Y),
-    labelvars(X, 0, _),
-    call(Y).
-
 '<http://www.w3.org/2000/10/swap/log#parsedAsN3>'(literal(A, _), B) :-
     atom_codes(A, C),
     escape_string(D, C),
@@ -9875,6 +9870,12 @@ is_gl(A) :-
     ;   A = exopred(_, _, _)
     ).
 
+unify(A, true) :-
+    nonvar(A),
+    A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
+    nonvar(Y),
+    labelvars(X, 0, _),
+    call(Y).
 unify(A, true) :-
     nonvar(A),
     A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Y),
