@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1102.1304 josd').
+version_info('EYE v22.1102.2034 josd').
 
 license_info('MIT License
 
@@ -720,7 +720,7 @@ opts(['--blogic'|Argus], Args) :-
                         B1 = true
                     ;   \+select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L1, _),
                         \+select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L1, _),
-                        makevars(':-'('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G1), true), B1, beta(V1))
+                        makevars(':-'('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G1), true), B1, beta(V1))
                     )), B1, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V4, G4),
                     djiti_answer(answer(G4), AG4),
@@ -9879,17 +9879,21 @@ unify(A, true) :-
     nonvar(Y),
     labelvars(X, 0, _),
     call(Y).
-unify(A, true) :-
+unify(A, B) :-
     nonvar(A),
-    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Y),
+    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
     conj_list(Y, C),
     length(C, D),
     D > 1,
-    dsplit(C, E, _),
-    (   E = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, F)]
-    ->  call(F)
-    ;   conj_list(F, E),
-        '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, F)
+    select(E, C, F),
+    (   call(E)
+    ->  conj_list(H, F),
+        B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
+    ;   (   E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
+        ->  call(I)
+        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, E)
+        ),
+        B = true
     ).
 unify(A, B) :-
     nonvar(A),
