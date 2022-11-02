@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1102.2034 josd').
+version_info('EYE v22.1102.2045 josd').
 
 license_info('MIT License
 
@@ -9885,13 +9885,14 @@ unify(A, B) :-
     conj_list(Y, C),
     length(C, D),
     D > 1,
-    select(E, C, F),
-    (   call(E)
+    dsplit(C, E, F),
+    conj_list(G, E),
+    (   call(G)
     ->  conj_list(H, F),
         B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
-    ;   (   E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
+    ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
         ->  call(I)
-        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, E)
+        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G)
         ),
         B = true
     ).
