@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1103.2037 josd').
+version_info('EYE v22.1103.2056 josd').
 
 license_info('MIT License
 
@@ -9885,7 +9885,7 @@ unify(A, B) :-
     conj_list(Y, C),
     length(C, D),
     D > 1,
-    dsplit(C, E, F),
+    ndsplit(C, E, F),
     E \= [],
     F \= [],
     conj_list(G, F),
@@ -10170,6 +10170,12 @@ dsplit([A|B], [A|C], D):-
 dsplit([A|B], C, [A|D]):-
     predicate_property(A, dynamic),
     dsplit(B, C, D).
+
+ndsplit([], [], []).
+ndsplit([A|B], [A|C], D):-
+    ndsplit(B, C, D).
+ndsplit([A|B], C, [A|D]):-
+    ndsplit(B, C, D).
 
 last_tail([], []) :-
     !.
