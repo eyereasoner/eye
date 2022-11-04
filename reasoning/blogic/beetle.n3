@@ -1,7 +1,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-:beatle a :Car.
+:beetle a :Car.
 
 # all cars are green or blue
 (_:A) log:onNegativeSurface {
@@ -30,14 +30,7 @@
     }.
 }.
 
-# ask if beatle is car or beautiful
-() log:onAskSurface {
-    () log:onNegativeSurface {
-        () log:onNegativeSurface {
-            :beatle a :Car.
-        }.
-        () log:onNegativeSurface {
-            :beatle :is :beautiful.
-        }.
-    }.
+# query
+(_:S) log:onQuerySurface {
+    _:S :is :beautiful.
 }.
