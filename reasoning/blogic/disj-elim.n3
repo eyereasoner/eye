@@ -32,7 +32,8 @@
     }.
 }.
 
-# ask
-() log:onQuerySurface {
-    :bob :saying :C.
+# query
+(_:S _:O) log:onQuerySurface {
+    _:S a :Person.
+    _:S :saying _:O.
 }.
