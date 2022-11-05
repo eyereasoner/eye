@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1105.1944 josd').
+version_info('EYE v22.1105.2210 josd').
 
 license_info('MIT License
 
@@ -175,6 +175,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -10753,6 +10754,9 @@ dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A)) :-
+    !,
+    dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
     !,
     dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
