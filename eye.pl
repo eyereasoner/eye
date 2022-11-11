@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1105.2210 josd').
+version_info('EYE v22.1111.1734 josd').
 
 license_info('MIT License
 
@@ -63,6 +63,7 @@ eye
     --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
+    --no-erase                      no erase functionality for blogic
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
@@ -853,6 +854,11 @@ opts(['--no-distinct-output'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-output')),
     assertz(flag('no-distinct-output')),
+    opts(Argus, Args).
+opts(['--no-erase'|Argus], Args) :-
+    !,
+    retractall(flag('no-erase')),
+    assertz(flag('no-erase')),
     opts(Argus, Args).
 opts(['--no-numerals'|Argus], Args) :-
     !,
@@ -9904,12 +9910,14 @@ is_gl(A) :-
     ).
 
 unify(A, true) :-
+    \+flag('no-erase'),
     nonvar(A),
     A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
     nonvar(Y),
     labelvars(X, 0, _),
     call(Y).
 unify(A, B) :-
+    \+flag('no-erase'),
     nonvar(A),
     A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
     conj_list(Y, C),
