@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1111.1734 josd').
+version_info('EYE v22.1121.1405 josd').
 
 license_info('MIT License
 
@@ -725,10 +725,10 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     findall(M,
-                            (   member(M, L),
-                                M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                            ),
-                            J
+                        (   member(M, L),
+                            M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ),
+                        J
                     ),
                     conj_list(C, J),
                     length(L, N),
@@ -4869,6 +4869,10 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
+djiti_fact('<http://www.w3.org/2000/10/swap/log#dcg>'(_, literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))), B) :-
+    !,
+    read_term_from_atom(A, C, []),
+    dcg_translate_rule(C, B).
 djiti_fact('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), ':-'('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), true)) :-
     !.
 djiti_fact(A, A) :-
@@ -6347,6 +6351,15 @@ djiti_assertz(A) :-
     ),
     atomic_list_concat(['<file://', Tmp, '>'], F),
     '<http://www.w3.org/2000/10/swap/log#semantics>'(F, B).
+
+'<http://www.w3.org/2000/10/swap/log#phrase>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
+    read_term_from_atom(A, D, [variables(B)]),
+    findall(E,
+        (   member(literal(E, type('<http://www.w3.org/2001/XMLSchema#string>')), C)
+        ),
+        F
+    ),
+    phrase(D, F, []).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(

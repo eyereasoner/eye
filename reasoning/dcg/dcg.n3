@@ -1,0 +1,15 @@
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org#>.
+
+[] log:dcg
+    "sentence(s(NP, VP)) --> noun_phrase(NP), verb_phrase(VP)",
+    "noun_phrase(np(D, N)) --> det(D), noun(N)",
+    "verb_phrase(vp(V, NP)) --> verb(V), noun_phrase(NP)",
+    "det(d(the)) --> [the]",
+    "det(d(a)) --> [a]",
+    "noun(n(cat)) --> [cat]",
+    "noun(n(bat)) --> [bat]",
+    "verb(v(eats)) --> [eats]".
+
+{("sentence(S)" ?S) log:phrase ("the" "cat" "eats" "a" "bat")} => {:parseTree :is ?S}.
