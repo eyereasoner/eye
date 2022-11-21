@@ -1,0 +1,14 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org#>.
+
+[] log:dcg
+    "sentence('<http://example.org#s>'(NP, VP)) --> noun_phrase(NP), verb_phrase(VP)",
+    "noun_phrase(triple(D, '<http://example.org#np>', N)) --> det(D), noun(N)",
+    "verb_phrase(triple(V, '<http://example.org#vp>', NP)) --> verb(V), noun_phrase(NP)",
+    "det('<http://example.org#the>') --> [the]",
+    "det('<http://example.org#a>') --> [a]",
+    "noun('<http://example.org#cat>') --> [cat]",
+    "noun('<http://example.org#bat>') --> [bat]",
+    "verb('<http://example.org#eats>') --> [eats]".
+
+{("sentence(S)" ?S) log:phrase ("the" "cat" "eats" "a" "bat")} => {:parseTree :is ?S}.
