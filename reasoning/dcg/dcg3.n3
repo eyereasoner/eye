@@ -12,3 +12,7 @@
     "verb(triple('<http://example.org#eats>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Verb>')) --> [eats]".
 
 {("sentence(S)" ?S) log:phrase ("the" "cat" "eats" "a" "bat")} => {:parseTree :is ?S}.
+
+{:parseTree :is <<?S ?P ?O>>} => {[] a :ParseTree; :node ?P; :left ?S; :right ?O}.
+{?A :left <<?S ?P ?O>>} => {[] :parent ?A; :node ?P; :left ?S; :right ?O}.
+{?A :right <<?S ?P ?O>>} => {[] :parent ?A; :node ?P; :left ?S; :right ?O}.
