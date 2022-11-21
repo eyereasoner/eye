@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1121.1405 josd').
+version_info('EYE v22.1121.2131 josd').
 
 license_info('MIT License
 
@@ -2075,17 +2075,12 @@ pathitem(List, Triples) -->
     !,
     pathlist(List, Triples),
     [')'].
-pathitem(triple(S, P, O), Triples) -->
+pathitem(triple(S, P, O), []) -->
     [lt_lt],
     !,
-    pathlist(List, Triples),
-    {   (   List = [S, P, O],
-            Triples = []
-        ->  true
-        ;   nb_getval(line_number, Ln),
-            throw('invalid_n3_star_triple'(List, after_line(Ln)))
-        )
-    },
+    subject(S, []),
+    verb(P, []),
+    object(O, []),
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
