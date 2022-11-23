@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1123.1357 josd').
+version_info('EYE v22.1123.2147 josd').
 
 license_info('MIT License
 
@@ -4844,8 +4844,8 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     forall(
         member(E, D),
         (   unify(E, F),
-            F =.. [P, _, _],
-            (   \+fpred(P)
+            (   F =.. [P, _, _],
+                \+fpred(P)
             ->  assertz(fpred(P))
             ;   true
             )
