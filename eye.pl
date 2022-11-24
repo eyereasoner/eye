@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1123.2147 josd').
+version_info('EYE v22.1124.2218 josd').
 
 license_info('MIT License
 
@@ -1693,13 +1693,8 @@ tr_n3p([X|Z], Src, Mode) :-
     ),
     (   findvars(Y, U, epsilon),
         U = []
-    ->  (   Y =.. [A, B, (C, D)]
-        ->  format('~w(~w, (~w', [A, B, C]),
-            wcn(D),
-            format(')).~n')
-        ;   write(Y),
-            writeln('.')
-        ),
+    ->  write(Y),
+        writeln('.'),
         (   flag(nope)
         ->  true
         ;   write(prfstep(Y, true, _, Y, _, forward, Src)),
@@ -4483,13 +4478,6 @@ wcf(A, _) :-
     with_output_to(atom(B), wg(A)),
     write(B).
 
-wcn((A, B)) :-
-    !,
-    format(', ~w', [A]),
-    wcn(B).
-wcn(A) :-
-    format(', ~w', [A]).
-
 indent:-
     nb_getval(indentation, A),
     tab(A).
@@ -6084,25 +6072,8 @@ djiti_assertz(A) :-
         istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
     ).
 
-'<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
-    within_scope(Sc),
-    nonvar(B),
-    \+is_list(B),
-    catch(findall(A, B, E), _, E = []),
-    (   flag(warn)
-    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
-        labelvars([Ac, Bc, Ec], 0, _),
-        (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, G]))
-        ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
-                flush_output(user_error)
-            ;   true
-            )
-        ;   assertz(fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Sc, [Ac, Bc, Ec])))
-        )
-    ;   true
-    ),
-    E = C.
+'<http://www.w3.org/2000/10/swap/log#collectAllIn>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(B, A).
 
 '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, B) :-
     when(
@@ -9929,7 +9900,7 @@ unify(A, true) :-
     A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
     nonvar(Y),
     labelvars(X, 0, _),
-    call(Y).
+    catch(call(Y), _, fail).
 unify(A, B) :-
     \+flag('no-erase'),
     nonvar(A),
@@ -9941,11 +9912,11 @@ unify(A, B) :-
     E \= [],
     F \= [],
     conj_list(G, F),
-    (   call(G)
+    (   catch(call(G), _, fail)
     ->  conj_list(H, E),
         B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
     ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
-        ->  call(I)
+        ->  catch(call(I), _, fail)
         ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G)
         ),
         B = true
