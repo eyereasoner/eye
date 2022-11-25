@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1124.2218 josd').
+version_info('EYE v22.1125.0941 josd').
 
 license_info('MIT License
 
@@ -761,7 +761,7 @@ opts(['--blogic'|Argus], Args) :-
                     )), true, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onOutputSurface>'(_, H), L, K)
+                    (   select('<http://www.w3.org/2000/10/swap/log#onConstructSurface>'(_, H), L, K)
                     ->  conj_list(I, K)
                     ;   I = G,
                         H = G
