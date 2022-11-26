@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1125.0941 josd').
+version_info('EYE v22.1126.0121 josd').
 
 license_info('MIT License
 
@@ -5984,6 +5984,12 @@ djiti_assertz(A) :-
         (   nth0(B, A, C)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/list#multisetEqualTo>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetEqualTo>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/list#multisetNotEqualTo>'(A, B) :-
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetNotEqualTo>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
     when(
