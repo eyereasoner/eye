@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1126.0121 josd').
+version_info('EYE v22.1128.2238 josd').
 
 license_info('MIT License
 
@@ -738,9 +738,9 @@ opts(['--blogic'|Argus], Args) :-
                     makevars([C,L], [D,E], beta(V)),
                     call(D),
                     implies(_, H, _),
-                    findall(F,
+                    findall(H,
                         (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, S), E),
-                            implies(S, F, _)
+                            implies(S, H, _)
                         ),
                         Q
                     ),
