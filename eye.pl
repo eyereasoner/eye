@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1128.2238 josd').
+version_info('EYE v22.1129.1036 josd').
 
 license_info('MIT License
 
@@ -740,7 +740,7 @@ opts(['--blogic'|Argus], Args) :-
                     implies(_, H, _),
                     findall(H,
                         (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, S), E),
-                            implies(S, H, _)
+                            imply(S, H, _)
                         ),
                         Q
                     ),
@@ -9995,6 +9995,12 @@ unify(A, B) :-
     unify(S, T),
     unify(O, R).
 unify(A, A).
+
+imply(A, B, _) :-
+    implies(A, B, _).
+imply(A, B, _) :-
+    implies(A, C, _),
+    imply(C, B, _).
 
 conj_list(true, []) :-
     !.
