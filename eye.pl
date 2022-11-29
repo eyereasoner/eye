@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1129.1401 josd').
+version_info('EYE v22.1129.2355 josd').
 
 license_info('MIT License
 
@@ -107,6 +107,7 @@ eye
 :- dynamic(brake/0).
 :- dynamic(bref/2).
 :- dynamic(bvar/1).
+:- dynamic(case/2).
 :- dynamic(cc/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
@@ -724,6 +725,21 @@ opts(['--blogic'|Argus], Args) :-
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
+                    findall(M,
+                        (   member(M, K),
+                            M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ),
+                        J
+                    ),
+                    conj_list(C, J),
+                    length(K, N),
+                    length(J, I),
+                    N > I,
+                    makevars(case(C, H), B, beta(V))
+                    ), B, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
                     findall(M,
                         (   member(M, L),
                             M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
@@ -744,7 +760,8 @@ opts(['--blogic'|Argus], Args) :-
                         ),
                         Q
                     ),
-                    length(Q, I),
+                    length(Q, R),
+                    R >= I,
                     sort(Q, [H])
                     ), H, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -4864,6 +4881,9 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#dcg>'(_, literal(A, type('<http:
     dcg_translate_rule(C, B).
 djiti_fact('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), ':-'('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, B), true)) :-
     !.
+djiti_fact(case(A, B), C) :-
+    !,
+    makevars(case(A, B), C, zeta).
 djiti_fact(A, A) :-
     ground(A),
     A =.. [P, _, _],
@@ -9997,7 +10017,9 @@ unify(A, B) :-
 unify(A, A).
 
 imply(A, B, C) :-
-    implies(A, D, _),
+    (   implies(A, D, _)
+    ;   case(A, D)
+    ),
     \+ member(D, C),
     (   B = D
     ;   imply(D, B, [A|C])
