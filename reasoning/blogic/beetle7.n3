@@ -24,6 +24,7 @@
         _:A :is :pretty.
     }.
 }.
+
 # pretty things are beautiful
 (_:A) log:onNegativeSurface {
     _:A :is :pretty.
@@ -32,11 +33,12 @@
     }.
 }.
 
-# nice things are beautiful
+# cars are not pretty or not nice
 (_:A) log:onNegativeSurface {
-    _:A :is :nice.
-    () log:onNegativeSurface {
-        _:A :is :beautiful.
+    _:A a :Car.
+    () log:onPositiveSurface {
+        _:A :is :pretty.
+        _:A :is :nice.
     }.
 }.
 
@@ -50,5 +52,5 @@
 
 # query
 (_:S) log:onQuerySurface {
-    _:S :is :beautiful.
+    :beetle :is _:S.
 }.
