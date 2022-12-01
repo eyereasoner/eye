@@ -1,9 +1,24 @@
-# Disjunction elimination
-
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
+# bob is a person
 :bob a :Person.
+
+# bob is not saying A
+() log:onNegativeSurface {
+    :bob :saying :A.
+}.
+
+# saying A or saying B
+(_:S) log:onNegativeSurface {
+    _:S a :Person.
+    () log:onNegativeSurface {
+        _:S :saying :A.
+    }.
+    () log:onNegativeSurface {
+        _:S :saying :B.
+    }.
+}.
 
 # saying A means saying C
 (_:S) log:onNegativeSurface {
@@ -18,17 +33,6 @@
     _:S :saying :B.
     () log:onNegativeSurface {
         _:S :saying :C.
-    }.
-}.
-
-# saying A or saying B
-(_:S) log:onNegativeSurface {
-    _:S a :Person.
-    () log:onNegativeSurface {
-        _:S :saying :A.
-    }.
-    () log:onNegativeSurface {
-        _:S :saying :B.
     }.
 }.
 

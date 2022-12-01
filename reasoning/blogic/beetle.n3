@@ -1,7 +1,13 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
+# beetle is a car
 :beetle a :Car.
+
+# beetle is not green
+() log:onNegativeSurface {
+    :beetle :is :green.
+}.
 
 # all cars are green or blue
 (_:A) log:onNegativeSurface {

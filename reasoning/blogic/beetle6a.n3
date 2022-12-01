@@ -4,12 +4,12 @@
 # beetle is a car
 :beetle a :Car.
 
-# beetle is not green
+# beetle is not blue
 () log:onNegativeSurface {
-    :beetle :is :green.
+    :beetle :is :blue.
 }.
 
-# all cars are red or green or blue
+# all cars are green or blue
 (_:A) log:onNegativeSurface {
     _:A a :Car.
     () log:onNegativeSurface {
@@ -20,21 +20,28 @@
     }.
 }.
 
-# green things are beautiful or nice
+# green things are nice or pretty
 (_:A) log:onNegativeSurface {
     _:A :is :green.
     () log:onNegativeSurface {
-        _:A :is :beautiful.
+        _:A :is :nice.
     }.
     () log:onNegativeSurface {
-        _:A :is :nice.
+        _:A :is :pretty.
+    }.
+}.
+# pretty things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :pretty.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
     }.
 }.
 
-# nice things are beautiful
+# cars are not beautiful
 (_:A) log:onNegativeSurface {
-    _:A :is :nice.
-    () log:onNegativeSurface {
+    _:A a :Car.
+    () log:onPositiveSurface {
         _:A :is :beautiful.
     }.
 }.
@@ -49,5 +56,5 @@
 
 # query
 (_:S) log:onQuerySurface {
-    _:S :is :beautiful.
+    _:S :is :nice.
 }.
