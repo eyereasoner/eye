@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1201.1601 josd').
+version_info('EYE v22.1203.1224 josd').
 
 license_info('MIT License
 
@@ -11473,10 +11473,7 @@ absolute_uri(A, B) :-
         atom_codes(D, E),
         subst([[[0x20], [0'%, 0'2, 0'0]]], E, F),
         atom_codes(G, F),
-        (   current_prolog_flag(windows, true)
-        ->  atomic_list_concat(['file:///', G], B)
-        ;   atomic_list_concat(['file://', G], B)
-        )
+        atomic_list_concat(['file://', G], B)
     ).
 
 resolve_uri(A, _, A) :-
