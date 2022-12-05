@@ -26,7 +26,7 @@
     () log:onQuerySurface {
         (_:State _:Left _:Cell _:Right) :find _:OutTape.
     }.
-    (_:State _:Cell _:Write _:Move) :t _:Next.
+    (_:State _:Cell _:Write _:Move) :tape _:Next.
     (_:Move _:Left _:Write _:Right _:A _:B _:C) :move true.
     (_:Next _:A _:B _:C) :continue _:OutTape.
 }.
@@ -49,14 +49,14 @@
 
 (_:Cell _:Right _:L) log:onNegativeSurface {
     () log:onQuerySurface {
-        (:l () _:Cell _:Right () "#" _:L) :move true.
+        (:left () _:Cell _:Right () "#" _:L) :move true.
     }.
     _:L list:firstRest (_:Cell _:Right).
 }.
 
 (_:List _:Cell _:Right _:Tail _:Head _:L) log:onNegativeSurface {
     () log:onQuerySurface {
-        (:l _:List _:Cell _:Right _:Tail _:Head _:L) :move true.
+        (:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true.
     }.
     _:List list:firstRest (_:Head _:Tail).
     _:L list:firstRest (_:Cell _:Right).
@@ -64,20 +64,20 @@
 
 (_:Left _:Cell _:Right) log:onNegativeSurface {
     () log:onQuerySurface {
-        (:s _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true.
+        (:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true.
     }.
 }.
 
 (_:Left _:Cell _:L) log:onNegativeSurface {
     () log:onQuerySurface {
-        (:r _:Left _:Cell () _:L "#" ()) :move true.
+        (:right _:Left _:Cell () _:L "#" ()) :move true.
     }.
     _:L list:firstRest (_:Cell _:Left).
 }.
 
 (_:Left _:Cell _:List _:L _:Head _:Tail) log:onNegativeSurface {
     () log:onQuerySurface {
-        (:r _:Left _:Cell _:List _:L _:Head _:Tail) :move true.
+        (:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true.
     }.
     _:List list:firstRest (_:Head _:Tail).
     _:L list:firstRest (_:Cell _:Left).
@@ -101,12 +101,12 @@
 # a Turing machine to add 1 to a binary number
 :add1 :start 0.
 
-(0 0 0 :r) :t 0.
-(0 1 1 :r) :t 0.
-(0 "#" "#" :l) :t 1.
-(1 0 1 :s) :t :halt.
-(1 1 0 :l) :t 1.
-(1 "#" 1 :s) :t :halt.
+(0 0 0 :right) :tape 0.
+(0 1 1 :right) :tape 0.
+(0 "#" "#" :left) :tape 1.
+(1 0 1 :stop) :tape :halt.
+(1 1 0 :left) :tape 1.
+(1 "#" 1 :stop) :tape :halt.
 
 # query
 (_:A) log:onQuerySurface {
