@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1206.1851 josd').
+version_info('EYE v22.1206.2212 josd').
 
 license_info('MIT License
 
@@ -119,6 +119,7 @@ eye
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
+:- dynamic(got_models/0).
 :- dynamic(got_pi/0).
 :- dynamic(got_random/3).
 :- dynamic(got_sq/0).
@@ -679,30 +680,29 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    assertz(implies((implies(C1, C, _),
-                    conj_list(C1, L1),
+    assertz(implies((implies(D, C, _),
+                    conj_list(D, K),
                     conj_list(C, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
                     \+member(answer(_, _, _), L),
-                    model(R, L2),
-                    findall(
-                        M,
-                        (   member(M, L1),
-                            member(M, L2)
+                    model(R, J),
+                    findall(M,
+                        (   member(M, K),
+                            member(M, J)
                         ),
                         Q
                     ),
-                    unify(L1, Q),
+                    unify(K, Q),
                     (   L = [model([case(P, A)], B)]
                     ->  \+member(case(P, _), R),
-                        append(R, [case(P, A)], R2),
-                        append(L2, B, L3)
-                    ;   R2 = R,
-                        append(L2, L, L3)
+                        append(R, [case(P, A)], T),
+                        append(J, B, I)
+                    ;   T = R,
+                        append(J, L, I)
                     ),
-                    sort(L3, L4),
-                    L4 \= L2
-                    ), (modelo(R, L2), model(R2, L4)), '<>')),
+                    sort(I, H),
+                    H \= J
+                    ), (modelo(R, J), model(T, H)), '<>')),
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     makevars(G, H, beta(V)),
@@ -4671,30 +4671,31 @@ eam(Span) :-
             Span < Limit,
             eam(S)
         ;   \+flag('multi-query'),
-            retract(flag(blogic)),
+            \+got_models,
             forall(
-                modelo(Mdln, Mdl),
-                retract(model(Mdln, Mdl))
+                modelo(Mn, Ml),
+                retract(model(Mn, Ml))
             ),
-            findall(Mdl,
-                (   model(_, Mdl)
+            findall(Ml,
+                (   model(_, Ml)
                 ),
-                Mdll
+                Mq
             ),
-            Mdll = [Mdlh|Mdlt],
-            findall(Mdle,
-                (   member(Mdle, Mdlh),
+            Mq = [Mh|Mt],
+            findall(Me,
+                (   member(Me, Mh),
                     forall(
-                        member(Mdlm, Mdlt),
-                        member(Mdle, Mdlm)
+                        member(Mm, Mt),
+                        member(Me, Mm)
                     ),
-                    (   \+Mdle
-                    ->  djiti_assertz(Mdle)
+                    (   \+Me
+                    ->  djiti_assertz(Me)
                     ;   true
                     )
                 ),
                 _
             ),
+            assertz(got_models),
             eam(Span)
         ;   (   flag(strings)
             ->  true
