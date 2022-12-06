@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1203.1224 josd').
+version_info('EYE v22.1206.1851 josd').
 
 license_info('MIT License
 
@@ -132,6 +132,8 @@ eye
 :- dynamic(intern/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
+:- dynamic(model/2).
+:- dynamic(modelo/2).
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
@@ -677,6 +679,30 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
+    assertz(implies((implies(C1, C, _),
+                    conj_list(C1, L1),
+                    conj_list(C, L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
+                    \+member(answer(_, _, _), L),
+                    model(R, L2),
+                    findall(
+                        M,
+                        (   member(M, L1),
+                            member(M, L2)
+                        ),
+                        Q
+                    ),
+                    unify(L1, Q),
+                    (   L = [model([case(P, A)], B)]
+                    ->  \+member(case(P, _), R),
+                        append(R, [case(P, A)], R2),
+                        append(L2, B, L3)
+                    ;   R2 = R,
+                        append(L2, L, L3)
+                    ),
+                    sort(L3, L4),
+                    L4 \= L2
+                    ), (modelo(R, L2), model(R2, L4)), '<>')),
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     makevars(G, H, beta(V)),
@@ -734,6 +760,23 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(R, E), B, beta(V))
+                    ), B, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
+                    findall(M,
+                        (   member(M, K),
+                            M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ),
+                        J
+                    ),
+                    conj_list(C, J),
+                    length(K, N),
+                    length(J, I),
+                    N > I,
+                    conj_list(H, Q),
+                    sort(Q, A),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(C, model([case(C, H)], A)), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -4627,6 +4670,32 @@ eam(Span) :-
             nb_getval(limit, Limit),
             Span < Limit,
             eam(S)
+        ;   \+flag('multi-query'),
+            retract(flag(blogic)),
+            forall(
+                modelo(Mdln, Mdl),
+                retract(model(Mdln, Mdl))
+            ),
+            findall(Mdl,
+                (   model(_, Mdl)
+                ),
+                Mdll
+            ),
+            Mdll = [Mdlh|Mdlt],
+            findall(Mdle,
+                (   member(Mdle, Mdlh),
+                    forall(
+                        member(Mdlm, Mdlt),
+                        member(Mdle, Mdlm)
+                    ),
+                    (   \+Mdle
+                    ->  djiti_assertz(Mdle)
+                    ;   true
+                    )
+                ),
+                _
+            ),
+            eam(Span)
         ;   (   flag(strings)
             ->  true
             ;   w3
