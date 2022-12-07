@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1207.1454 josd').
+version_info('EYE v22.1207.2316 josd').
 
 license_info('MIT License
 
@@ -134,8 +134,8 @@ eye
 :- dynamic(intern/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
-:- dynamic(model/2).
-:- dynamic(modelo/2).
+:- dynamic(model/3).
+:- dynamic(modelo/3).
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
@@ -686,7 +686,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(C, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
                     \+member(answer(_, _, _), L),
-                    model(R, J),
+                    model(Z, R, J),
                     findall(M,
                         (   member(M, K),
                             (   member(M, J)
@@ -698,7 +698,7 @@ opts(['--blogic'|Argus], Args) :-
                         Q
                     ),
                     unify(K, Q),
-                    (   L = [model([case(P, A)], B)]
+                    (   L = [model(Z, [case(P, A)], B)]
                     ->  \+member(case(P, _), R),
                         append(R, [case(P, A)], T),
                         append(J, B, I)
@@ -707,7 +707,7 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     sort(I, H),
                     H \= J
-                    ), (modelo(R, J), model(T, H)), '<>')),
+                    ), (modelo(Z, R, J), model(Z, T, H)), '<>')),
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     makevars(G, H, beta(V)),
@@ -724,7 +724,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     conj_list(C, K),
-                    dom(V, C, P),
+                    domain(V, C, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, H), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -752,7 +752,7 @@ opts(['--blogic'|Argus], Args) :-
                     ->  D = A
                     ;   D = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H)
                     ),
-                    dom(V, R, P),
+                    domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, D), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -766,7 +766,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(R, M),
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
-                    dom(V, R, P),
+                    domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -784,8 +784,12 @@ opts(['--blogic'|Argus], Args) :-
                     N > I,
                     conj_list(H, Q),
                     sort(Q, A),
-                    dom(V, C, P),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model([case(C, H)], A)), B, beta(V))
+                    domain(V, C, P),
+                    (   C = true
+                    ->  F = domain(P)
+                    ;   F = domain(true)
+                    ),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(F, [case(C, H)], A)), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -4687,31 +4691,35 @@ eam(Span) :-
         ;   \+flag('multi-query'),
             \+got_models,
             forall(
-                modelo(Mn, Ml),
-                retract(model(Mn, Ml))
+                modelo(Mz, Mn, Ml),
+                retract(model(Mz, Mn, Ml))
             ),
             (   flag('debug-models')
-            ->  mf(model(_, _))
+            ->  mf(model(_, _, _))
             ;   true
             ),
-            findall(Ml,
-                (   model(_, Ml)
-                ),
-                Mq
-            ),
-            Mq = [Mh|Mt],
-            findall(Me,
-                (   member(Me, Mh),
-                    forall(
-                        member(Mm, Mt),
-                        member(Me, Mm)
+            (   model(Mx, _, _),
+                findall(My,
+                    (   model(Mx, _, My)
                     ),
-                    (   \+Me
-                    ->  djiti_assertz(Me)
-                    ;   true
-                    )
+                    Mq
                 ),
-                _
+                Mq = [Mh|Mt],
+                findall(Me,
+                    (   member(Me, Mh),
+                        forall(
+                            member(Mm, Mt),
+                            member(Me, Mm)
+                        ),
+                        (   \+Me
+                        ->  djiti_assertz(Me)
+                        ;   true
+                        )
+                    ),
+                    _
+                ),
+                fail
+            ;   true
             ),
             assertz(got_models),
             eam(Span)
@@ -9898,7 +9906,7 @@ within_scope([A, B]) :-
     ),
     nb_getval(scope, A).
 
-dom(A, true, B) :-
+domain(A, true, B) :-
     !,
     findall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(C, _),
         (   member(C, A)
@@ -9906,7 +9914,7 @@ dom(A, true, B) :-
         D
     ),
     conj_list(B, D).
-dom(_, B, B).
+domain(_, B, B).
 
 exopred(P, S, O) :-
     (   var(P),
@@ -10931,8 +10939,9 @@ makevars([A|B], [C|D], E, F) :-
     !.
 makevars(A, B, E, F) :-
     A =.. C,
-    makevars(C, D, E, F),
-    B =.. D.
+    makevars(C, [Dh|Dt], E, F),
+    nonvar(Dh),
+    B =.. [Dh|Dt].
 
 findvars(A, B, Z) :-
     atomic(A),
