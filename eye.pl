@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1206.2212 josd').
+version_info('EYE v22.1207.1227 josd').
 
 license_info('MIT License
 
@@ -52,6 +52,7 @@ eye
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
+    --debug-models                  output debug info about models on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
@@ -688,7 +689,11 @@ opts(['--blogic'|Argus], Args) :-
                     model(R, J),
                     findall(M,
                         (   member(M, K),
-                            member(M, J)
+                            (   member(M, J)
+                            ;   M =.. [U, _, _],
+                                pred(U),
+                                call(M)
+                            )
                         ),
                         Q
                     ),
@@ -827,6 +832,11 @@ opts(['--debug-djiti'|Argus], Args) :-
     !,
     retractall(flag('debug-djiti')),
     assertz(flag('debug-djiti')),
+    opts(Argus, Args).
+opts(['--debug-models'|Argus], Args) :-
+    !,
+    retractall(flag('debug-models')),
+    assertz(flag('debug-models')),
     opts(Argus, Args).
 opts(['--debug-pvm'|Argus], Args) :-
     !,
@@ -4675,6 +4685,10 @@ eam(Span) :-
             forall(
                 modelo(Mn, Ml),
                 retract(model(Mn, Ml))
+            ),
+            (   flag('debug-models')
+            ->  mf(model(_, _))
+            ;   true
             ),
             findall(Ml,
                 (   model(_, Ml)
