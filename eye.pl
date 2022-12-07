@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1207.1227 josd').
+version_info('EYE v22.1207.1454 josd').
 
 license_info('MIT License
 
@@ -724,7 +724,8 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     conj_list(C, K),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(C, H), B, beta(V))
+                    dom(V, C, P),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, H), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -751,7 +752,8 @@ opts(['--blogic'|Argus], Args) :-
                     ->  D = A
                     ;   D = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H)
                     ),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(R, D), B, beta(V))
+                    dom(V, R, P),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, D), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -764,7 +766,8 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(R, M),
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(R, E), B, beta(V))
+                    dom(V, R, P),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -781,7 +784,8 @@ opts(['--blogic'|Argus], Args) :-
                     N > I,
                     conj_list(H, Q),
                     sort(Q, A),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(C, model([case(C, H)], A)), B, beta(V))
+                    dom(V, C, P),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model([case(C, H)], A)), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -9893,6 +9897,16 @@ within_scope([A, B]) :-
         span(B)
     ),
     nb_getval(scope, A).
+
+dom(A, true, B) :-
+    !,
+    findall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(C, _),
+        (   member(C, A)
+        ),
+        D
+    ),
+    conj_list(B, D).
+dom(_, B, B).
 
 exopred(P, S, O) :-
     (   var(P),
