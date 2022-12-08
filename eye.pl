@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1207.2316 josd').
+version_info('EYE v22.1208.2103 josd').
 
 license_info('MIT License
 
@@ -698,7 +698,7 @@ opts(['--blogic'|Argus], Args) :-
                         Q
                     ),
                     unify(K, Q),
-                    (   L = [model(Z, [case(P, A)], B)]
+                    (   L = [model(_, [case(P, A)], B)]
                     ->  \+member(case(P, _), R),
                         append(R, [case(P, A)], T),
                         append(J, B, I)
@@ -785,11 +785,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, Q),
                     sort(Q, A),
                     domain(V, C, P),
-                    (   C = true
-                    ->  F = domain(P)
-                    ;   F = domain(true)
-                    ),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(F, [case(C, H)], A)), B, beta(V))
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(domain(P), [case(C, H)], A)), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
