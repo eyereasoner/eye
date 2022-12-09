@@ -1,5 +1,2 @@
 #!/bin/bash
-export NODE_PATH=$(npm root --quiet -g)
-./dr-ws.sh | sed 's/.*| //' &
-node test-dr-ws.js > test-dr-ws-result.n3
-pkill websocketd
+eye "$@" --wcache http://josd.github.io/eye/reasoning .. --nope http://josd.github.io/eye/reasoning/dialogical-reasoning/test-dr-ws-result.n3 --pass --output test-dr-ws-result-pass.n3

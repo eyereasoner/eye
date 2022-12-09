@@ -1,0 +1,5 @@
+#!/bin/bash
+export NODE_PATH=$(npm root --quiet -g)
+./dr-ws.sh | sed 's/.*| //' &
+node test-dr-ws.js > test-dr-ws-result.n3
+pkill websocketd
