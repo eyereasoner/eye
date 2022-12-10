@@ -10,10 +10,16 @@ skolem:proof a r:Proof, r:Conjunction;
   r:component skolem:lemma1;
   r:component skolem:lemma2;
   r:component skolem:lemma3;
+  r:component skolem:lemma4;
+  r:component skolem:lemma5;
+  r:component skolem:lemma6;
   r:gives {
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
+    :s4 :p "ef15c9bd4c7836612b1567f4c8396726".
+    :s5 :p "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd".
+    :s6 :p "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1".
   }.
 
 skolem:lemma1 a r:Inference;
@@ -21,38 +27,74 @@ skolem:lemma1 a r:Inference;
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
   };
   r:evidence (
-    skolem:lemma4
+    skolem:lemma7
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s1"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
-  r:rule skolem:lemma5.
+  r:rule skolem:lemma8.
 
 skolem:lemma2 a r:Inference;
   r:gives {
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
   };
   r:evidence (
-    skolem:lemma6
+    skolem:lemma9
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s2"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
-  r:rule skolem:lemma5.
+  r:rule skolem:lemma8.
 
 skolem:lemma3 a r:Inference;
   r:gives {
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
   };
   r:evidence (
-    skolem:lemma7
+    skolem:lemma10
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s3"]];
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
-  r:rule skolem:lemma5.
+  r:rule skolem:lemma8.
 
 skolem:lemma4 a r:Inference;
+  r:gives {
+    :s4 :p "ef15c9bd4c7836612b1567f4c8396726".
+  };
+  r:evidence (
+    skolem:lemma11
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s4"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "ef15c9bd4c7836612b1567f4c8396726"];
+  r:rule skolem:lemma8.
+
+skolem:lemma5 a r:Inference;
+  r:gives {
+    :s5 :p "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd".
+  };
+  r:evidence (
+    skolem:lemma12
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s5"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd"];
+  r:rule skolem:lemma8.
+
+skolem:lemma6 a r:Inference;
+  r:gives {
+    :s6 :p "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1".
+  };
+  r:evidence (
+    skolem:lemma13
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#p"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eulersharp.sourceforge.net/2007/07test#s6"]];
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1"];
+  r:rule skolem:lemma8.
+
+skolem:lemma7 a r:Inference;
   r:gives {
     :s1 :p "d1e670385f40ee942a059f949c761214872ac35f".
   };
@@ -60,15 +102,15 @@ skolem:lemma4 a r:Inference;
     [ a r:Fact; r:gives {"blargh" crypto:sha "d1e670385f40ee942a059f949c761214872ac35f"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "d1e670385f40ee942a059f949c761214872ac35f"];
-  r:rule skolem:lemma8.
+  r:rule skolem:lemma14.
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma8 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
-skolem:lemma6 a r:Inference;
+skolem:lemma9 a r:Inference;
   r:gives {
     :s2 :p "0eZwOF9A7pQqBZ_UnHYSFIcqw18".
   };
@@ -76,9 +118,9 @@ skolem:lemma6 a r:Inference;
     [ a r:Fact; r:gives {"blargh" e:sha "0eZwOF9A7pQqBZ_UnHYSFIcqw18"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "0eZwOF9A7pQqBZ_UnHYSFIcqw18"];
-  r:rule skolem:lemma9.
+  r:rule skolem:lemma15.
 
-skolem:lemma7 a r:Inference;
+skolem:lemma10 a r:Inference;
   r:gives {
     :s3 :p "EEr3jEBcwoIChq__osXVA7IjOsk".
   };
@@ -86,23 +128,71 @@ skolem:lemma7 a r:Inference;
     [ a r:Fact; r:gives {"blargh" e:hmac-sha "EEr3jEBcwoIChq__osXVA7IjOsk"}]
   );
   r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "EEr3jEBcwoIChq__osXVA7IjOsk"];
-  r:rule skolem:lemma10.
+  r:rule skolem:lemma16.
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma11 a r:Inference;
+  r:gives {
+    :s4 :p "ef15c9bd4c7836612b1567f4c8396726".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"blargh" crypto:md5 "ef15c9bd4c7836612b1567f4c8396726"}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "ef15c9bd4c7836612b1567f4c8396726"];
+  r:rule skolem:lemma17.
+
+skolem:lemma12 a r:Inference;
+  r:gives {
+    :s5 :p "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"blargh" crypto:sha256 "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd"}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "0ac33512d18e20d5fa1fab32eb8bbbf0cdc7cb60f87e963f5792df15df8b02cd"];
+  r:rule skolem:lemma18.
+
+skolem:lemma13 a r:Inference;
+  r:gives {
+    :s6 :p "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1".
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {"blargh" crypto:sha512 "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1"}]
+  );
+  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo "4a59e80b6a5bfb4c8d8a592086a290b347c5d2b62418abe878cfa8037063ca268edeadd184bc3d54bf683584f294caf7a3109c90458b45f93d25587618070fa1"];
+  r:rule skolem:lemma19.
+
+skolem:lemma14 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" crypto:sha var:x_0} => {:s1 :p var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma15 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" e:sha var:x_0} => {:s2 :p var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
-skolem:lemma10 a r:Extraction;
+skolem:lemma16 a r:Extraction;
   r:gives {
     @forAll var:x_0. {"blargh" e:hmac-sha var:x_0} => {:s3 :p var:x_0}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
+
+skolem:lemma17 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {"blargh" crypto:md5 var:x_0} => {:s4 :p var:x_0}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
+
+skolem:lemma18 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {"blargh" crypto:sha256 var:x_0} => {:s5 :p var:x_0}.
+  };
+  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
+
+skolem:lemma19 a r:Extraction;
+  r:gives {
+    @forAll var:x_0. {"blargh" crypto:sha512 var:x_0} => {:s6 :p var:x_0}.
   };
   r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
