@@ -5928,19 +5928,40 @@ djiti_assertz(A) :-
     !.
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    md5_hash(A, B, []).
+    when(
+        (   nonvar(A)
+        ),
+        (
+            md5_hash(A, B, [])
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    sha_hash(A, C, [algorithm(sha1)]),
-    hash_atom(C, B).
+    when(
+        (   nonvar(A)
+        ),
+        (   sha_hash(A, C, [algorithm(sha1)]),
+            hash_atom(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha256>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    sha_hash(A, C, [algorithm(sha256)]),
-    hash_atom(C, B).
+    when(
+        (   nonvar(A)
+        ),
+        (   sha_hash(A, C, [algorithm(sha256)]),
+            hash_atom(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha512>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    sha_hash(A, C, [algorithm(sha512)]),
-    hash_atom(C, B).
+    when( 
+        (   nonvar(A)
+        ),
+        (   sha_hash(A, C, [algorithm(sha512)]),
+            hash_atom(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/graph#difference>'(A, B) :-
     when(

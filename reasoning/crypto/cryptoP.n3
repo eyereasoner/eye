@@ -5,3 +5,12 @@
 {"blargh" crypto:sha ?X} => {:s1 :p ?X}.
 {"blargh" e:sha ?X} => {:s2 :p ?X}.
 {"blargh" e:hmac-sha ?X} => {:s3 :p ?X}.
+{"blargh" crypto:md5 ?X} => {:s4 :p ?X}.
+{"blargh" crypto:sha256 ?X} => {:s5 :p ?X}.
+{"blargh" crypto:sha512 ?X} => {:s6 :p ?X}.
+
+# Most general query (should be ignored)
+{?X crypto:sha ?Y} => {:this :is :hidden}.
+{?X crypto:md5 ?Y} => {:this :is :hidden}.
+{?X crypto:sha256 ?Y} => {:this :is :hidden}.
+{?X crypto:sha512 ?Y} => {:this :is :hidden}.
