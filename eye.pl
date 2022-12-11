@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1211.2148 josd').
+version_info('EYE v22.1211.2244 josd').
 
 license_info('MIT License
 
@@ -6326,6 +6326,17 @@ djiti_assertz(A) :-
             nonvar(B)
         ),
         (   forall(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'([A, B, C], Sc) :-
+    within_scope(Sc),
+    when(
+        (   nonvar(A),
+            nonvar(B),
+            nonvar(C)
+        ),
+        (   if_then_else(A, B, C)
         )
     ).
 
