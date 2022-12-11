@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1210.1903 josd').
+version_info('EYE v22.1211.2038 josd').
 
 license_info('MIT License
 
@@ -52,6 +52,7 @@ eye
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
+    --debug-implies                 output debug info about implies on stderr
     --debug-models                  output debug info about models on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
@@ -273,6 +274,14 @@ run :-
     ),
     (   flag(statistics)
     ->  statistics
+    ;   true
+    ),
+    (   flag('debug-implies')
+    ->  mf(implies(_, _, _))
+    ;   true
+    ),
+    (   flag('debug-models')
+    ->  mf(model(_, _, _))
     ;   true
     ),
     (   flag('debug-pvm')
@@ -852,6 +861,11 @@ opts(['--debug-djiti'|Argus], Args) :-
     !,
     retractall(flag('debug-djiti')),
     assertz(flag('debug-djiti')),
+    opts(Argus, Args).
+opts(['--debug-implies'|Argus], Args) :-
+    !,
+    retractall(flag('debug-implies')),
+    assertz(flag('debug-implies')),
     opts(Argus, Args).
 opts(['--debug-models'|Argus], Args) :-
     !,
@@ -4706,10 +4720,6 @@ eam(Span) :-
                 modelo(Mz, Mn, Ml),
                 retract(model(Mz, Mn, Ml))
             ),
-            (   flag('debug-models')
-            ->  mf(model(_, _, _))
-            ;   true
-            ),
             (   model(Mx, _, _),
                 findall(My,
                     (   model(Mx, _, My)
@@ -5964,7 +5974,7 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/crypto#sha512>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
-    when( 
+    when(
         (   nonvar(A)
         ),
         (   sha_hash(A, C, [algorithm(sha512)]),
