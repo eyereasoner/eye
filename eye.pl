@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1211.2038 josd').
+version_info('EYE v22.1211.2148 josd').
 
 license_info('MIT License
 
@@ -10658,7 +10658,7 @@ if_then_else(A, B, C) :-
 
 soft_cut(A, B, C) :-
     (   catch(call(A), _, fail)
-    *->  catch(call(B), _, fail)
+    *-> catch(call(B), _, fail)
     ;   catch(call(C), _, fail)
     ).
 
@@ -11914,6 +11914,6 @@ fm(A) :-
 mf(A) :-
     forall(
         catch(A, _, fail),
-        format(user_error, '~n*** ~q~n', [A])
+        portray_clause(user_error, A)
     ),
     flush_output(user_error).
