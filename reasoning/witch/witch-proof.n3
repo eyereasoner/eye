@@ -1,7 +1,7 @@
-@prefix : <http://josd.github.io/eye/reasoning/witch#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning/witch#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -17,7 +17,7 @@ skolem:lemma1 a r:Inference;
   r:evidence (
     skolem:lemma2
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#GIRL"]];
   r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
@@ -28,14 +28,14 @@ skolem:lemma2 a r:Inference;
     skolem:lemma4
     skolem:lemma5
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#GIRL"]];
   r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a :WITCH} => {var:x_0 a :WITCH}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch-goal.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch-goal.n3>].
 
 skolem:lemma4 a r:Inference;
   r:gives {
@@ -44,21 +44,21 @@ skolem:lemma4 a r:Inference;
   r:evidence (
     skolem:lemma7
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#GIRL"]];
   r:rule skolem:lemma8.
 
 skolem:lemma5 a r:Extraction;
   r:gives {
     :GIRL a :WOMAN.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma6 a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a :BURNS.
      var:x_0 a :WOMAN} => {var:x_0 a :WITCH}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma7 a r:Inference;
   r:gives {
@@ -67,14 +67,14 @@ skolem:lemma7 a r:Inference;
   r:evidence (
     skolem:lemma9
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#GIRL"]];
   r:rule skolem:lemma10.
 
 skolem:lemma8 a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a :ISMADEOFWOOD} => {var:x_0 a :BURNS}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma9 a r:Inference;
   r:gives {
@@ -84,32 +84,32 @@ skolem:lemma9 a r:Inference;
     skolem:lemma11
     skolem:lemma12
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#DUCK"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/witch#GIRL"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#DUCK"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/witch#GIRL"]];
   r:rule skolem:lemma13.
 
 skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0. {var:x_0 a :FLOATS} => {var:x_0 a :ISMADEOFWOOD}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma11 a r:Extraction;
   r:gives {
     :DUCK a :FLOATS.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma12 a r:Extraction;
   r:gives {
     :DUCK :SAMEWEIGHT :GIRL.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
 skolem:lemma13 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 a :FLOATS.
      var:x_0 :SAMEWEIGHT var:x_1} => {var:x_1 a :FLOATS}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/witch/witch.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 

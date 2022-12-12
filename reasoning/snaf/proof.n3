@@ -1,8 +1,8 @@
 @prefix : <http://example.org/>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -22,9 +22,9 @@ skolem:lemma1 a r:Inference;
   r:evidence (
     skolem:lemma4
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/loves"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Alice"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/loves"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Alice"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
   r:rule skolem:lemma5.
 
 skolem:lemma2 a r:Inference;
@@ -34,9 +34,9 @@ skolem:lemma2 a r:Inference;
   r:evidence (
     skolem:lemma6
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Person"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Person"]];
   r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Inference;
@@ -46,16 +46,16 @@ skolem:lemma3 a r:Inference;
   r:evidence (
     skolem:lemma7
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/hates"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Alice"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Nobody"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/hates"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Alice"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/Nobody"]];
   r:rule skolem:lemma5.
 
 skolem:lemma4 a r:Extraction;
   r:gives {
     :Alice :loves :Bob.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/demo.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
 
 skolem:lemma5 a r:Extraction;
   r:gives {
@@ -67,18 +67,18 @@ skolem:lemma6 a r:Extraction;
   r:gives {
     :Bob a :Person.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/demo.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
 
 skolem:lemma7 a r:Inference;
   r:gives {
     :Alice :hates :Nobody.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/snaf/demo.n3> <http://josd.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates :Bob}}]
+    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates :Bob}}]
     skolem:lemma6
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo ((<http://josd.github.io/eye/reasoning/snaf/demo.n3> <http://josd.github.io/eye/reasoning/snaf/rules.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
   r:rule skolem:lemma8.
 
 skolem:lemma8 a r:Extraction;
@@ -86,5 +86,5 @@ skolem:lemma8 a r:Extraction;
     @forAll var:x_0, var:x_1. {var:x_0 log:notIncludes {:Alice :hates var:x_1}.
      var:x_1 a :Person} => {:Alice :hates :Nobody}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/snaf/rules.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>].
 

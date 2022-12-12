@@ -1,13 +1,13 @@
-@prefix my: <http://josd.github.io/eye/reasoning/ppt-bank/acct3#>.
-@prefix ck: <http://josd.github.io/eye/reasoning/ppt-bank/checking#>.
-@prefix bk: <http://josd.github.io/eye/reasoning/ppt-bank/banking#>.
+@prefix my: <http://eyereasoner.github.io/eye/reasoning/ppt-bank/acct3#>.
+@prefix ck: <http://eyereasoner.github.io/eye/reasoning/ppt-bank/checking#>.
+@prefix bk: <http://eyereasoner.github.io/eye/reasoning/ppt-bank/banking#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -23,8 +23,8 @@ skolem:lemma1 a r:Inference;
   r:evidence (
     skolem:lemma2
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 2.0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 2.0];
   r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
@@ -33,12 +33,12 @@ skolem:lemma2 a r:Inference;
   };
   r:evidence (
     skolem:lemma4
-    [ a r:Fact; r:gives {<http://josd.github.io/eye/reasoning/pptbank/acct3start.n3> log:semantics {my:account a ck:Account.
+    [ a r:Fact; r:gives {<http://eyereasoner.github.io/eye/reasoning/pptbank/acct3start.n3> log:semantics {my:account a ck:Account.
      my:account ck:balance 10.0}}]
     [ a r:Fact; r:gives {{my:account a ck:Account.
      my:account ck:balance 10.0} log:includes {my:account ck:balance 10.0}}]
     skolem:lemma5
-    [ a r:Fact; r:gives {((<http://josd.github.io/eye/reasoning/pptbank/bankSW.n3> <http://josd.github.io/eye/reasoning/pptbank/checking.n3>) 1) e:findall (_:sk_0 {(<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>) list:member _:sk_1.
+    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/pptbank/bankSW.n3> <http://eyereasoner.github.io/eye/reasoning/pptbank/checking.n3>) 1) e:findall (_:sk_0 {(<http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check2.n3>) list:member _:sk_1.
      _:sk_1 log:semantics _:sk_2.
      _:sk_2 log:includes {_:sk_1 a ck:Check.
       _:sk_1 ck:amount _:sk_0.
@@ -46,38 +46,38 @@ skolem:lemma2 a r:Inference;
     [ a r:Fact; r:gives {(5.0 3.0) math:sum 8.0}]
     [ a r:Fact; r:gives {(10.0 8.0) math:difference 2.0}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/ppt-bank/acct3#account"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/pptbank/acct3start.n3"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo {my:account a ck:Account.
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/ppt-bank/acct3#account"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/pptbank/acct3start.n3"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo {my:account a ck:Account.
    my:account ck:balance 10.0}];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo 10.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo ((<http://josd.github.io/eye/reasoning/pptbank/bankSW.n3> <http://josd.github.io/eye/reasoning/pptbank/checking.n3>) 1)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo (5.0 3.0)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_10"]; r:boundTo 8.0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_11"]; r:boundTo 2.0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 10.0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (<http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check2.n3>)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/pptbank/bankSW.n3> <http://eyereasoner.github.io/eye/reasoning/pptbank/checking.n3>) 1)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo (5.0 3.0)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo 8.0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo 2.0];
   r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 ck:balance var:x_1} => {var:x_0 ck:balance var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/query.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pptbank/query.n3>].
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    my:account bk:statements (<http://josd.github.io/eye/reasoning/pptbank/acct3start.n3>).
+    my:account bk:statements (<http://eyereasoner.github.io/eye/reasoning/pptbank/acct3start.n3>).
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/bankSW.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pptbank/bankSW.n3>].
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    my:account bk:transactions (<http://josd.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://josd.github.io/eye/reasoning/pptbank/acct3check2.n3>).
+    my:account bk:transactions (<http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check1.n3> <http://eyereasoner.github.io/eye/reasoning/pptbank/acct3check2.n3>).
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/bankSW.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pptbank/bankSW.n3>].
 
 skolem:lemma6 a r:Extraction;
   r:gives {
@@ -93,5 +93,5 @@ skolem:lemma6 a r:Extraction;
      var:x_9 math:sum var:x_10.
      (var:x_3 var:x_10) math:difference var:x_11} => {var:x_0 ck:balance var:x_11}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/pptbank/checking.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pptbank/checking.n3>].
 

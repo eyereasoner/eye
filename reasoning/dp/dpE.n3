@@ -1,18 +1,18 @@
-# <http://josd.github.io/eye/reasoning#person5> thinking for 0.025 seconds
-# <http://josd.github.io/eye/reasoning#person1> thinking for 0.1 seconds
-# <http://josd.github.io/eye/reasoning#person5> eating for 0.1 seconds
-# <http://josd.github.io/eye/reasoning#person2> thinking for 0.2 seconds
-# <http://josd.github.io/eye/reasoning#person1> eating for 0.1 seconds
-# <http://josd.github.io/eye/reasoning#person4> thinking for 0.25 seconds
-# <http://josd.github.io/eye/reasoning#person3> thinking for 0.3 seconds
-# <http://josd.github.io/eye/reasoning#person2> eating for 0.2 seconds
-# <http://josd.github.io/eye/reasoning#person4> eating for 0.2 seconds
-# <http://josd.github.io/eye/reasoning#person3> eating for 0.3 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person5> thinking for 0.025 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person1> thinking for 0.1 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person5> eating for 0.1 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person2> thinking for 0.2 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person1> eating for 0.1 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person4> thinking for 0.25 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person3> thinking for 0.3 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person2> eating for 0.2 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person4> eating for 0.2 seconds
+# <http://eyereasoner.github.io/eye/reasoning#person3> eating for 0.3 seconds
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -46,23 +46,23 @@ skolem:lemma2 a r:Inference;
     [ a r:Fact; r:gives {("thread_join" skolem:t_3 true) e:derive true}]
     [ a r:Fact; r:gives {("thread_join" skolem:t_4 true) e:derive true}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo skolem:t_0];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo skolem:t_1];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo skolem:t_2];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo skolem:t_3];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo skolem:t_4];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_7"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_8"]; r:boundTo true];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_9"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo skolem:t_0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo skolem:t_1];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo skolem:t_2];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo skolem:t_3];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo skolem:t_4];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo true];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo true];
   r:rule skolem:lemma4.
 
 skolem:lemma3 a r:Extraction;
   r:gives {
     {:all :got :dinner} => {:all :got :dinner}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dp/dpQ.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dp/dpQ.n3>].
 
 skolem:lemma4 a r:Extraction;
   r:gives {
@@ -77,5 +77,5 @@ skolem:lemma4 a r:Extraction;
      ("thread_join" var:x_3 var:x_8) e:derive true.
      ("thread_join" var:x_4 var:x_9) e:derive true} => {:all :got :dinner}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dp/dp.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dp/dp.n3>].
 

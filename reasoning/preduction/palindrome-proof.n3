@@ -1,8 +1,8 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <http://josd.github.io/eye/reasoning#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -19,7 +19,7 @@ skolem:lemma1 a r:Inference;
     [ a r:Fact; r:gives {("atom_codes" "ingirumimusnocteetconsumimurigni" (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)) e:derive true}]
     skolem:lemma2
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
@@ -30,8 +30,8 @@ skolem:lemma2 a r:Inference;
     skolem:lemma4
     skolem:lemma5
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Extraction;
@@ -39,13 +39,13 @@ skolem:lemma3 a r:Extraction;
     @forAll var:x_0. {("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
      (var:x_0) :accept true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome-query.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome-query.n3>].
 
 skolem:lemma4 a r:Extraction;
   r:gives {
     (:push) :initial true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma5 a r:Inference;
   r:gives {
@@ -56,13 +56,13 @@ skolem:lemma5 a r:Inference;
     skolem:lemma7
     skolem:lemma8
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105)];
   r:rule skolem:lemma9.
 
 skolem:lemma6 a r:Extraction;
@@ -70,7 +70,7 @@ skolem:lemma6 a r:Extraction;
     @forAll var:x_0, var:x_1. {(var:x_1) :accept true} <= {(var:x_0) :initial true.
      (var:x_1 var:x_0 ()) :accept true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma7 a r:Inference;
   r:gives {
@@ -79,9 +79,9 @@ skolem:lemma7 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105) e:firstRest (105 ())}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ()];
   r:rule skolem:lemma10.
 
 skolem:lemma8 a r:Inference;
@@ -93,13 +93,13 @@ skolem:lemma8 a r:Inference;
     skolem:lemma11
     skolem:lemma12
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma9 a r:Extraction;
@@ -108,13 +108,13 @@ skolem:lemma9 a r:Extraction;
      (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :delta true.
      (var:x_2 var:x_5 var:x_6) :accept true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma10 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :push var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma11 a r:Inference;
   r:gives {
@@ -123,9 +123,9 @@ skolem:lemma11 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(110 105) e:firstRest (110 (105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105)];
   r:rule skolem:lemma10.
 
 skolem:lemma12 a r:Inference;
@@ -137,13 +137,13 @@ skolem:lemma12 a r:Inference;
     skolem:lemma13
     skolem:lemma14
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 103];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 103];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma13 a r:Inference;
@@ -153,9 +153,9 @@ skolem:lemma13 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(103 110 105) e:firstRest (103 (110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 103];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 103];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma14 a r:Inference;
@@ -167,13 +167,13 @@ skolem:lemma14 a r:Inference;
     skolem:lemma15
     skolem:lemma16
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma15 a r:Inference;
@@ -183,9 +183,9 @@ skolem:lemma15 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105 103 110 105) e:firstRest (105 (103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma16 a r:Inference;
@@ -197,13 +197,13 @@ skolem:lemma16 a r:Inference;
     skolem:lemma17
     skolem:lemma18
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 114];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 114];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma17 a r:Inference;
@@ -213,9 +213,9 @@ skolem:lemma17 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(114 105 103 110 105) e:firstRest (114 (105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 114];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 114];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma18 a r:Inference;
@@ -227,13 +227,13 @@ skolem:lemma18 a r:Inference;
     skolem:lemma19
     skolem:lemma20
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma19 a r:Inference;
@@ -243,9 +243,9 @@ skolem:lemma19 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(117 114 105 103 110 105) e:firstRest (117 (114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma20 a r:Inference;
@@ -257,13 +257,13 @@ skolem:lemma20 a r:Inference;
     skolem:lemma21
     skolem:lemma22
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma21 a r:Inference;
@@ -273,9 +273,9 @@ skolem:lemma21 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(109 117 114 105 103 110 105) e:firstRest (109 (117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma22 a r:Inference;
@@ -287,13 +287,13 @@ skolem:lemma22 a r:Inference;
     skolem:lemma23
     skolem:lemma24
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma23 a r:Inference;
@@ -303,9 +303,9 @@ skolem:lemma23 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105 109 117 114 105 103 110 105) e:firstRest (105 (109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma24 a r:Inference;
@@ -317,13 +317,13 @@ skolem:lemma24 a r:Inference;
     skolem:lemma25
     skolem:lemma26
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma25 a r:Inference;
@@ -333,9 +333,9 @@ skolem:lemma25 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(109 105 109 117 114 105 103 110 105) e:firstRest (109 (105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma26 a r:Inference;
@@ -347,13 +347,13 @@ skolem:lemma26 a r:Inference;
     skolem:lemma27
     skolem:lemma28
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma27 a r:Inference;
@@ -363,9 +363,9 @@ skolem:lemma27 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(117 109 105 109 117 114 105 103 110 105) e:firstRest (117 (109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma28 a r:Inference;
@@ -377,13 +377,13 @@ skolem:lemma28 a r:Inference;
     skolem:lemma29
     skolem:lemma30
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 115];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 115];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma29 a r:Inference;
@@ -393,9 +393,9 @@ skolem:lemma29 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(115 117 109 105 109 117 114 105 103 110 105) e:firstRest (115 (117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 115];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 115];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma30 a r:Inference;
@@ -407,13 +407,13 @@ skolem:lemma30 a r:Inference;
     skolem:lemma31
     skolem:lemma32
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma31 a r:Inference;
@@ -423,9 +423,9 @@ skolem:lemma31 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (110 (115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma32 a r:Inference;
@@ -437,13 +437,13 @@ skolem:lemma32 a r:Inference;
     skolem:lemma33
     skolem:lemma34
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 111];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 111];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma33 a r:Inference;
@@ -453,9 +453,9 @@ skolem:lemma33 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (111 (110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 111];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 111];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma34 a r:Inference;
@@ -467,13 +467,13 @@ skolem:lemma34 a r:Inference;
     skolem:lemma35
     skolem:lemma36
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 99];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma35 a r:Inference;
@@ -483,9 +483,9 @@ skolem:lemma35 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (99 (111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 99];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma36 a r:Inference;
@@ -497,13 +497,13 @@ skolem:lemma36 a r:Inference;
     skolem:lemma37
     skolem:lemma38
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 116];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 116];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma37 a r:Inference;
@@ -513,9 +513,9 @@ skolem:lemma37 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (116 (99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 116];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 116];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma10.
 
 skolem:lemma38 a r:Inference;
@@ -527,13 +527,13 @@ skolem:lemma38 a r:Inference;
     skolem:lemma39
     skolem:lemma40
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 101];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#push"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 101];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#push"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma39 a r:Inference;
@@ -543,9 +543,9 @@ skolem:lemma39 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (101 (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 101];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 101];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma41.
 
 skolem:lemma40 a r:Inference;
@@ -557,20 +557,20 @@ skolem:lemma40 a r:Inference;
     skolem:lemma42
     skolem:lemma43
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 101];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 101];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma41 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :pop var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma42 a r:Inference;
   r:gives {
@@ -579,9 +579,9 @@ skolem:lemma42 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (101 (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 101];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 101];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma43 a r:Inference;
@@ -593,20 +593,20 @@ skolem:lemma43 a r:Inference;
     skolem:lemma45
     skolem:lemma46
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 116];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 116];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma44 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2. {(:pop var:x_1 var:x_0 :pop var:x_2) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma45 a r:Inference;
   r:gives {
@@ -615,9 +615,9 @@ skolem:lemma45 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(116 99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (116 (99 111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 116];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 116];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma46 a r:Inference;
@@ -629,13 +629,13 @@ skolem:lemma46 a r:Inference;
     skolem:lemma47
     skolem:lemma48
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 99];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma47 a r:Inference;
@@ -645,9 +645,9 @@ skolem:lemma47 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(99 111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (99 (111 110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 99];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 99];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma48 a r:Inference;
@@ -659,13 +659,13 @@ skolem:lemma48 a r:Inference;
     skolem:lemma49
     skolem:lemma50
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 111];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 111];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma49 a r:Inference;
@@ -675,9 +675,9 @@ skolem:lemma49 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(111 110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (111 (110 115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 111];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (111 110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 111];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma50 a r:Inference;
@@ -689,13 +689,13 @@ skolem:lemma50 a r:Inference;
     skolem:lemma51
     skolem:lemma52
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma51 a r:Inference;
@@ -705,9 +705,9 @@ skolem:lemma51 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(110 115 117 109 105 109 117 114 105 103 110 105) e:firstRest (110 (115 117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma52 a r:Inference;
@@ -719,13 +719,13 @@ skolem:lemma52 a r:Inference;
     skolem:lemma53
     skolem:lemma54
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 115];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 115];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma53 a r:Inference;
@@ -735,9 +735,9 @@ skolem:lemma53 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(115 117 109 105 109 117 114 105 103 110 105) e:firstRest (115 (117 109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 115];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (115 117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 115];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma54 a r:Inference;
@@ -749,13 +749,13 @@ skolem:lemma54 a r:Inference;
     skolem:lemma55
     skolem:lemma56
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma55 a r:Inference;
@@ -765,9 +765,9 @@ skolem:lemma55 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(117 109 105 109 117 114 105 103 110 105) e:firstRest (117 (109 105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma56 a r:Inference;
@@ -779,13 +779,13 @@ skolem:lemma56 a r:Inference;
     skolem:lemma57
     skolem:lemma58
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma57 a r:Inference;
@@ -795,9 +795,9 @@ skolem:lemma57 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(109 105 109 117 114 105 103 110 105) e:firstRest (109 (105 109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma58 a r:Inference;
@@ -809,13 +809,13 @@ skolem:lemma58 a r:Inference;
     skolem:lemma59
     skolem:lemma60
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (109 117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma59 a r:Inference;
@@ -825,9 +825,9 @@ skolem:lemma59 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105 109 117 114 105 103 110 105) e:firstRest (105 (109 117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (109 117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma60 a r:Inference;
@@ -839,13 +839,13 @@ skolem:lemma60 a r:Inference;
     skolem:lemma61
     skolem:lemma62
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (117 114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma61 a r:Inference;
@@ -855,9 +855,9 @@ skolem:lemma61 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(109 117 114 105 103 110 105) e:firstRest (109 (117 114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 109];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (109 117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 109];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (117 114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma62 a r:Inference;
@@ -869,13 +869,13 @@ skolem:lemma62 a r:Inference;
     skolem:lemma63
     skolem:lemma64
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (114 105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma63 a r:Inference;
@@ -885,9 +885,9 @@ skolem:lemma63 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(117 114 105 103 110 105) e:firstRest (117 (114 105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 117];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (117 114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 117];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (114 105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma64 a r:Inference;
@@ -899,13 +899,13 @@ skolem:lemma64 a r:Inference;
     skolem:lemma65
     skolem:lemma66
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 114];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 114];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105 103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma65 a r:Inference;
@@ -915,9 +915,9 @@ skolem:lemma65 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(114 105 103 110 105) e:firstRest (114 (105 103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 114];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (114 105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 114];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105 103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma66 a r:Inference;
@@ -929,13 +929,13 @@ skolem:lemma66 a r:Inference;
     skolem:lemma67
     skolem:lemma68
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (103 110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma67 a r:Inference;
@@ -945,9 +945,9 @@ skolem:lemma67 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105 103 110 105) e:firstRest (105 (103 110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105 103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (103 110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma68 a r:Inference;
@@ -959,13 +959,13 @@ skolem:lemma68 a r:Inference;
     skolem:lemma69
     skolem:lemma70
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 103];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 103];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (110 105)];
   r:rule skolem:lemma9.
 
 skolem:lemma69 a r:Inference;
@@ -975,9 +975,9 @@ skolem:lemma69 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(103 110 105) e:firstRest (103 (110 105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (103 110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 103];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (103 110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 103];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (110 105)];
   r:rule skolem:lemma44.
 
 skolem:lemma70 a r:Inference;
@@ -989,13 +989,13 @@ skolem:lemma70 a r:Inference;
     skolem:lemma71
     skolem:lemma72
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (105)];
   r:rule skolem:lemma9.
 
 skolem:lemma71 a r:Inference;
@@ -1005,9 +1005,9 @@ skolem:lemma71 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(110 105) e:firstRest (110 (105))}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (110 105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 110];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (110 105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 110];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (105)];
   r:rule skolem:lemma44.
 
 skolem:lemma72 a r:Inference;
@@ -1019,13 +1019,13 @@ skolem:lemma72 a r:Inference;
     skolem:lemma73
     skolem:lemma74
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_4"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_5"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_6"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo ()];
   r:rule skolem:lemma9.
 
 skolem:lemma73 a r:Inference;
@@ -1035,9 +1035,9 @@ skolem:lemma73 a r:Inference;
   r:evidence (
     [ a r:Fact; r:gives {(105) e:firstRest (105 ())}]
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo (105)];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo 105];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo ()];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (105)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 105];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ()];
   r:rule skolem:lemma44.
 
 skolem:lemma74 a r:Inference;
@@ -1047,18 +1047,18 @@ skolem:lemma74 a r:Inference;
   r:evidence (
     skolem:lemma75
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning#pop"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning#pop"]];
   r:rule skolem:lemma76.
 
 skolem:lemma75 a r:Extraction;
   r:gives {
     (:pop) :final true.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma76 a r:Extraction;
   r:gives {
     @forAll var:x_0. {(() var:x_0 ()) :accept true} <= {(var:x_0) :final true}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/preduction/palindrome.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 

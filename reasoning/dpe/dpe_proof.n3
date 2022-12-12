@@ -1,7 +1,7 @@
-@prefix : <http://josd.github.io/eye/reasoning/dpe/dpe#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning/dpe/dpe#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://josd.github.io/var#>.
-@prefix skolem: <http://josd.github.io/.well-known/genid/3917894951695475063#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -20,7 +20,7 @@ skolem:lemma1 a r:Inference;
     skolem:lemma2
     skolem:lemma3
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule skolem:lemma4.
 
 skolem:lemma2 a r:Inference;
@@ -30,8 +30,8 @@ skolem:lemma2 a r:Inference;
   r:evidence (
     skolem:lemma5
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Inference;
@@ -41,8 +41,8 @@ skolem:lemma3 a r:Inference;
   r:evidence (
     skolem:lemma5
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule skolem:lemma6.
 
 skolem:lemma4 a r:Extraction;
@@ -51,7 +51,7 @@ skolem:lemma4 a r:Extraction;
      :c :re var:x_0} => {:b :re var:x_0.
      :c :re var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_query.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_query.n3>].
 
 skolem:lemma5 a r:Inference;
   r:gives {
@@ -62,17 +62,17 @@ skolem:lemma5 a r:Inference;
     skolem:lemma7
     skolem:lemma8
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
   r:rule skolem:lemma9.
 
 skolem:lemma6 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 :r var:x_1} => {var:x_0 :re var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma7 a r:Inference;
   r:gives {
@@ -82,8 +82,8 @@ skolem:lemma7 a r:Inference;
     skolem:lemma10
     skolem:lemma11
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule skolem:lemma12.
 
 skolem:lemma8 a r:Inference;
@@ -94,8 +94,8 @@ skolem:lemma8 a r:Inference;
     skolem:lemma13
     skolem:lemma14
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule skolem:lemma12.
 
 skolem:lemma9 a r:Extraction;
@@ -104,13 +104,13 @@ skolem:lemma9 a r:Extraction;
      var:x_0 :r var:x_2} => {var:x_1 :r var:x_3.
      var:x_2 :r var:x_3}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma10 a r:Extraction;
   r:gives {
     :a :re :b.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma11 a r:Inference;
   r:gives {
@@ -119,8 +119,8 @@ skolem:lemma11 a r:Inference;
   r:evidence (
     skolem:lemma15
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule skolem:lemma16.
 
 skolem:lemma12 a r:Extraction;
@@ -128,13 +128,13 @@ skolem:lemma12 a r:Extraction;
     @forAll var:x_0, var:x_1. {var:x_0 :re var:x_1.
      var:x_0 :not_e var:x_1} => {var:x_0 :r var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma13 a r:Extraction;
   r:gives {
     :a :re :c.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma14 a r:Inference;
   r:gives {
@@ -143,8 +143,8 @@ skolem:lemma14 a r:Inference;
   r:evidence (
     skolem:lemma17
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule skolem:lemma16.
 
 skolem:lemma15 a r:Inference;
@@ -155,16 +155,16 @@ skolem:lemma15 a r:Inference;
     skolem:lemma18
     skolem:lemma13
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule skolem:lemma19.
 
 skolem:lemma16 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 :not_e var:x_1} => {var:x_1 :not_e var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma17 a r:Inference;
   r:gives {
@@ -174,9 +174,9 @@ skolem:lemma17 a r:Inference;
     skolem:lemma20
     skolem:lemma10
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_2"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
   r:rule skolem:lemma19.
 
 skolem:lemma18 a r:Inference;
@@ -186,7 +186,7 @@ skolem:lemma18 a r:Inference;
   r:evidence (
     skolem:lemma21
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule skolem:lemma22.
 
 skolem:lemma19 a r:Extraction;
@@ -194,7 +194,7 @@ skolem:lemma19 a r:Extraction;
     @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :not_re var:x_1.
      var:x_2 :re var:x_1} => {var:x_0 :not_e var:x_2}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma20 a r:Inference;
   r:gives {
@@ -203,7 +203,7 @@ skolem:lemma20 a r:Inference;
   r:evidence (
     skolem:lemma23
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule skolem:lemma24.
 
 skolem:lemma21 a r:Inference;
@@ -213,15 +213,15 @@ skolem:lemma21 a r:Inference;
   r:evidence (
     skolem:lemma25
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule skolem:lemma26.
 
 skolem:lemma22 a r:Extraction;
   r:gives {
     @forAll var:x_0. {:c :re var:x_0} => {:b :not_re var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
 
 skolem:lemma23 a r:Inference;
   r:gives {
@@ -230,15 +230,15 @@ skolem:lemma23 a r:Inference;
   r:evidence (
     skolem:lemma27
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule skolem:lemma26.
 
 skolem:lemma24 a r:Extraction;
   r:gives {
     @forAll var:x_0. {:b :re var:x_0} => {:c :not_re var:x_0}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_assumption.n3>].
 
 skolem:lemma25 a r:Inference;
   r:gives {
@@ -247,15 +247,15 @@ skolem:lemma25 a r:Inference;
   r:evidence (
     skolem:lemma13
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#c"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#c"]];
   r:rule skolem:lemma28.
 
 skolem:lemma26 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 :e var:x_1} => {var:x_0 :re var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
 skolem:lemma27 a r:Inference;
   r:gives {
@@ -264,13 +264,13 @@ skolem:lemma27 a r:Inference;
   r:evidence (
     skolem:lemma10
   );
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_0"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#a"]];
-  r:binding [ r:variable [ n3:uri "http://josd.github.io/var#x_1"]; r:boundTo [ n3:uri "http://josd.github.io/eye/reasoning/dpe/dpe#b"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#a"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/dpe/dpe#b"]];
   r:rule skolem:lemma28.
 
 skolem:lemma28 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1. {var:x_0 :re var:x_1} => {var:x_1 :e var:x_1}.
   };
-  r:because [ a r:Parsing; r:source <http://josd.github.io/eye/reasoning/dpe/dpe_theory.n3>].
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dpe/dpe_theory.n3>].
 
