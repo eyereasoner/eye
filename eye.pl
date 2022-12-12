@@ -2,7 +2,7 @@
 % Euler Yet another proof Engine -- Jos De Roo
 % --------------------------------------------
 %
-% See http://github.com/josd/eye
+% See http://github.com/eyereasoner/eye
 %
 
 :- use_module(library(lists)).
