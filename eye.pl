@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1211.2244 josd').
+version_info('EYE v22.1212.2153 josd').
 
 license_info('MIT License
 
@@ -6329,6 +6329,95 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, B) :-
+    \+flag(restricted),
+    nonvar(B),
+    B \= [_,_],
+    !,
+    when(
+        (   nonvar(A)
+        ),
+        (   reset_gensym,
+            tmp_file(Tmp1),
+            open(Tmp1, write, Ws1, [encoding(utf8)]),
+            tell(Ws1),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(C, D),
+                    format('@prefix ~w ~w.~n', [C, D])
+                ),
+                nl
+            ),
+            labelvars(B, 0, _),
+            wt(B),
+            write('.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp2),
+            open(Tmp2, write, Ws2, [encoding(utf8)]),
+            tell(Ws2),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(E, F),
+                    format('@prefix ~w ~w.~n', [E, F])
+                ),
+                nl
+            ),
+            write('{'),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
+            write('} => {'),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
+            write('}.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp3),
+            !,
+            (   current_prolog_flag(windows, true)
+            ->  A1 = ['cmd.exe', '/C']
+            ;   A1 = []
+            ),
+            (   current_prolog_flag(argv, Argv),
+                append(Argu, ['--'|_], Argv)
+            ->  append(Argu, ['--'], A2)
+            ;   A2 = ['eye']
+            ),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            findall([G, ' '],
+                (   member(G, A4)
+                ),
+                H
+            ),
+            flatten(H, I),
+            atomic_list_concat(I, J),
+            (   catch(exec(J, _), _, fail)
+            ->  n3_n3p(Tmp3, semantics),
+                absolute_uri(Tmp3, Tmp),
+                atomic_list_concat(['<', Tmp, '>'], Res),
+                semantics(Res, L),
+                conj_list(K, L),
+                labelvars(K, 0, _),
+                A = M,
+                K = '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(M, _),
+                delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3)
+            ;   delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3),
+                fail
+            )
+        )
+    ).
 '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'([A, B, C], Sc) :-
     within_scope(Sc),
     when(
