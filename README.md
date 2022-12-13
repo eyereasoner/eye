@@ -82,6 +82,7 @@ $ eye --nope --quiet --pass socrates.n3 2> /dev/null
 
 - Notation3 Editor http://ppr.cs.dal.ca:3002/n3/editor/
 - Semantic Web Reasoning With N3 https://n3.restdesc.org/rules/executing-rules/
+- Eyebrow https://github.com/eyereasoner/eyebrow
 
 ## References
 
