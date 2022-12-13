@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1213.0041 josd').
+version_info('EYE v22.1213.0917 josd').
 
 license_info('MIT License
 
@@ -5154,7 +5154,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5293,7 +5293,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5403,7 +5403,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6244,7 +6244,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--pass-all', '>', Tmp2]], A4),
+            append([A1, A2, ['--nope', '--blogic', Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6391,7 +6391,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
