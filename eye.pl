@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1213.0917 josd').
+version_info('EYE v22.1214.0105 josd').
 
 license_info('MIT License
 
@@ -6244,7 +6244,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', '--blogic', Tmp1, '--pass-all', '>', Tmp2]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
