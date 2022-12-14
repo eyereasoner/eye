@@ -11,7 +11,7 @@ RDF Surfaces provides the capabilities to:
 - Expressing disjunctions as antecedent and consequent in logical implications.
 - Explicit scoping of logical quantifiers.
 - Contradiction checks in data and rules (blowing a *fuse* when logical contradictions are found).
-- Foward and backward chaining.
+- Forward and backward chaining.
 - Filtering and templating of output results.
 
 In order to run a RDF Surfaces script the EYE reasoner needs to be started with the `--blogic` command line option:
