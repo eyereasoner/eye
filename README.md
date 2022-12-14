@@ -78,6 +78,7 @@ $ eye --nope --quiet --pass socrates.n3 2> /dev/null
 - [Eye command line arguments and flags](https://github.com/eyereasoner/eye/tree/master/documentation/command_line.md)
 - [EYE reasoning examples](https://github.com/eyereasoner/eye/tree/master/reasoning)
 - [Notation3 by example](https://github.com/eyereasoner/Notation3-By-Example)
+- [RDF Surfaces aka BLOGIC](https://github.com/eyereasoner/eye/tree/master/documentation/blogic.md)
 
 ## Online versions of EYE
 
