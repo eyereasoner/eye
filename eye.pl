@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1214.0107 josd').
+version_info('EYE v22.1214.1302 josd').
 
 license_info('MIT License
 
@@ -5154,7 +5154,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5293,7 +5297,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5403,7 +5411,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6244,7 +6256,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--pass-all', '>', Tmp2]], A4),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6391,7 +6407,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', '--blogic', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
