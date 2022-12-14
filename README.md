@@ -73,8 +73,9 @@ $ eye --nope --quiet --pass socrates.n3 2> /dev/null
 :Human rdfs:subClassOf :Mortal.
 ```
 
-## Example scripts
+## Tutorial and example scripts
 
+- [Eye command line arguments and flags](https://github.com/eyereasoner/eye/tree/master/documentation/command_line.md)
 - [EYE reasoning examples](https://github.com/eyereasoner/eye/tree/master/reasoning)
 - [Notation3 by example](https://github.com/eyereasoner/Notation3-By-Example)
 
