@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1214.1302 josd').
+version_info('EYE v22.1216.1750 josd').
 
 license_info('MIT License
 
@@ -237,21 +237,22 @@ run :-
         Argil
     ),
     append(Argil, Argi),
-    format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
-    flush_output(user_error),
-    version_info(Version),
-    format(user_error, '~w~n', [Version]),
-    flush_output(user_error),
-    (   current_prolog_flag(version_git, PVersion)
+    (   member('--quiet', Argus)
     ->  true
-    ;   current_prolog_flag(version_data, swi(Major, Minor, Patch, Options)),
-        (   memberchk(tag(Tag), Options)
-        ->  atomic_list_concat([Major, '.', Minor, '.', Patch, '-', Tag], PVersion)
-        ;   atomic_list_concat([Major, '.', Minor, '.', Patch], PVersion)
-        )
+    ;   format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
+        version_info(Version),
+        format(user_error, '~w~n', [Version]),
+        (   current_prolog_flag(version_git, PVersion)
+        ->  true
+        ;   current_prolog_flag(version_data, swi(Major, Minor, Patch, Options)),
+            (   memberchk(tag(Tag), Options)
+            ->  atomic_list_concat([Major, '.', Minor, '.', Patch, '-', Tag], PVersion)
+            ;   atomic_list_concat([Major, '.', Minor, '.', Patch], PVersion)
+            )
+        ),
+        format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
+        flush_output(user_error)
     ),
-    format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
-    flush_output(user_error),
     (   retract(prolog_file_type(qlf, qlf))
     ->  assertz(prolog_file_type(pvm, qlf))
     ;   true
@@ -329,8 +330,11 @@ argv([Arg|Argvs], [Arg|Argus]) :-
 gre(Argus) :-
     statistics(runtime, [T0, _]),
     statistics(walltime, [T1, _]),
-    format(user_error, 'starting ~w [msec cputime] ~w [msec walltime]~n', [T0, T1]),
-    flush_output(user_error),
+    (   member('--quiet', Argus)
+    ->  true
+    ;   format(user_error, 'starting ~w [msec cputime] ~w [msec walltime]~n', [T0, T1]),
+        flush_output(user_error)
+    ),
     nb_setval(entail_mode, false),
     nb_setval(exit_code, 0),
     nb_setval(indentation, 0),
@@ -390,7 +394,7 @@ gre(Argus) :-
         assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
     ;   true
     ),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  format(Out, 'flag(\'quantify\', \'~w\').~n', [Sns])
     ;   true
     ),
@@ -415,8 +419,11 @@ gre(Argus) :-
     nb_setval(scope, Scope),
     statistics(runtime, [_, T2]),
     statistics(walltime, [_, T3]),
-    format(user_error, 'networking ~w [msec cputime] ~w [msec walltime]~n', [T2, T3]),
-    flush_output(user_error),
+    (   flag(quiet)
+    ->  true
+    ;   format(user_error, 'networking ~w [msec cputime] ~w [msec walltime]~n', [T2, T3]),
+        flush_output(user_error)
+    ),
     nb_getval(input_statements, SC),
     (   flag(image, File)
     ->  assertz(argi(Argus)),
@@ -432,7 +439,7 @@ gre(Argus) :-
         throw(halt(0))
     ;   true
     ),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  (   SC =\= 0
         ->  write(Out, scount(SC)),
             writeln(Out, '.')
@@ -550,8 +557,11 @@ gre(Argus) :-
             ),
             statistics(runtime, [_, Ti4]),
             statistics(walltime, [_, Ti5]),
-            format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [Ti4, Ti5]),
-            flush_output(user_error),
+            (   flag(quiet)
+            ->  true
+            ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [Ti4, Ti5]),
+                flush_output(user_error)
+            ),
             nb_getval(output_statements, Oute),
             Outd is Oute-Outb,
             catch(Outs is round(Outd/Ti5*1000), _, Outs = ''),
@@ -565,8 +575,11 @@ gre(Argus) :-
             statistics(inferences, Infe),
             Infd is Infe-Infb,
             catch(Infs is round(Infd/Ti5*1000), _, Infs = ''),
-            format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
-            flush_output(user_error),
+            (   flag(quiet)
+            ->  true
+            ;   format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
+                flush_output(user_error)
+            ),
             fail
         ),
         told
@@ -625,8 +638,11 @@ gre(Argus) :-
     statistics(runtime, [_, T4]),
     statistics(walltime, [_, T5]),
     (   \+flag('multi-query')
-    ->  format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
-        flush_output(user_error)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
+            flush_output(user_error)
+        )
     ;   true
     ),
     nb_getval(input_statements, Inp),
@@ -648,8 +664,11 @@ gre(Argus) :-
     ->  true
     ;   format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
     ),
-    format(user_error, '~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed]),
-    flush_output(user_error),
+    (   flag(quiet)
+    ->  true
+    ;   format(user_error, '~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed]),
+        flush_output(user_error)
+    ),
     (   flag('rule-histogram')
     ->  findall([RTC, RTP, R],
             (   tabl(ETP, tp, Rule),
@@ -985,9 +1004,9 @@ opts(['--pass-only-new'|Argus], Args) :-
     opts(Argus, Args).
 opts(['--intermediate',File|Argus], Args) :-
     !,
-    retractall(flag('intermediate', _)),
+    retractall(flag(intermediate, _)),
     open(File, write, Out, [encoding(utf8)]),
-    assertz(flag('intermediate', Out)),
+    assertz(flag(intermediate, Out)),
     opts(Argus, Args).
 opts(['--profile'|Argus], Args) :-
     !,
@@ -1097,7 +1116,7 @@ args(['--n3',Arg|Args]) :-
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  portray_clause(Out, scope(R))
     ;   true
     ),
@@ -1110,11 +1129,17 @@ args(['--n3p',Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error),
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+            flush_output(user_error)
+        ),
         open(File, read, In, [encoding(utf8)])
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w ', [Arg]),
+            flush_output(user_error)
+        ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
             ->  true
             ;   sub_atom(Arg, 0, 6, _, 'https:')
@@ -1159,11 +1184,14 @@ args(['--n3p',Argument|Args]) :-
     nb_getval(input_statements, IN),
     Inp is SC+IN,
     nb_setval(input_statements, Inp),
-    (   SC =\= 0
-    ->  format(user_error, 'SC=~w~n', [SC])
-    ;   format(user_error, '~n', [])
+    (   flag(quiet)
+    ->  true
+    ;   (   SC =\= 0
+        ->  format(user_error, 'SC=~w~n', [SC])
+        ;   format(user_error, '~n', [])
+        ),
+        flush_output(user_error)
     ),
-    flush_output(user_error),
     args(Args).
 args(['--pass'|Args]) :-
     !,
@@ -1178,7 +1206,7 @@ args(['--pass'|Args]) :-
     ->  assertz(query(exopred(P, S, O), exopred(P, S, O)))
     ;   assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ;   true
     ),
@@ -1191,12 +1219,12 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  portray_clause(Out, implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(user_error, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(user_error, implies((':-'(C, A), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(Out, implies((':-'(C, A), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
@@ -1206,7 +1234,7 @@ args(['--proof',Arg|Args]) :-
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
     assertz(scope(R)),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  portray_clause(Out, scope(R))
     ;   true
     ),
@@ -1233,16 +1261,22 @@ args(['--turtle',Argument|Args]) :-
     absolute_uri(Argument, Arg),
     atomic_list_concat(['<', Arg, '>'], R),
     assertz(scope(R)),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  portray_clause(Out, scope(R))
     ;   true
     ),
     (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error),
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+            flush_output(user_error)
+        ),
         open(File, read, In, [encoding(utf8)])
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w ', [Arg]),
+            flush_output(user_error)
+        ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
             ->  true
             ;   sub_atom(Arg, 0, 6, _, 'https:')
@@ -1284,7 +1318,7 @@ args(['--turtle',Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   flag('intermediate', Out)
+            (   flag(intermediate, Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
             ),
@@ -1298,8 +1332,11 @@ args(['--turtle',Argument|Args]) :-
     nb_getval(input_statements, IN),
     Inp is SC+IN,
     nb_setval(input_statements, Inp),
-    format(user_error, 'SC=~w~n', [SC]),
-    flush_output(user_error),
+    (   flag(quiet)
+    ->  true
+    ;   format(user_error, 'SC=~w~n', [SC]),
+        flush_output(user_error)
+    ),
     args(Args).
 args([Arg|Args]) :-
     args(['--n3', Arg|Args]).
@@ -1310,7 +1347,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  true
         ;   call(Rg)
         ),
-        (   flag('intermediate', Out)
+        (   flag(intermediate, Out)
         ->  format(Out, '~q.~n', [Rt])
         ;   true
         )
@@ -1364,7 +1401,7 @@ n3pin(Rt, In, File, Mode) :-
                 ;   Pj = Ph
                 ),
                 functor(Ci, CPi, _),
-                (   flag('intermediate', Out)
+                (   flag(intermediate, Out)
                 ->  (   \+cpred(CPi)
                     ->  portray_clause(Out, cpred(CPi))
                     ;   true
@@ -1386,7 +1423,7 @@ n3pin(Rt, In, File, Mode) :-
             ;   (   Rt \= pred('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>'),
                     \+ (Rt = scope(_), Mode = query)
                 ->  djiti_assertz(Rt),
-                    (   flag('intermediate', Out),
+                    (   flag(intermediate, Out),
                         Rt \= scount(_)
                     ->  format(Out, '~q.~n', [Rt])
                     ;   true
@@ -1417,11 +1454,17 @@ n3_n3p(Argument, Mode) :-
     absolute_uri(Argument, Arg),
     tmp_file(Tmp),
     (   wcacher(Arg, File)
-    ->  format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-        flush_output(user_error),
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+            flush_output(user_error)
+        ),
         open(File, read, In, [encoding(utf8)])
-    ;   format(user_error, 'GET ~w ', [Arg]),
-        flush_output(user_error),
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w ', [Arg]),
+            flush_output(user_error)
+        ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
             ->  true
             ;   sub_atom(Arg, 0, 6, _, 'https:')
@@ -1537,7 +1580,7 @@ n3_n3p(Argument, Mode) :-
     ->  delete_file(Tmp)
     ;   true
     ),
-    (   flag('intermediate', Out)
+    (   flag(intermediate, Out)
     ->  forall(
             (   pfx(Pp, Pu),
                 \+wpfx(Pp)
@@ -1585,7 +1628,7 @@ n3_n3p(Argument, Mode) :-
                 ->  true
                 ;   djiti_assertz(Rt),
                     cnt(sc),
-                    (   flag('intermediate', Out)
+                    (   flag(intermediate, Out)
                     ->  portray_clause(Out, Rt)
                     ;   true
                     )
@@ -1612,7 +1655,7 @@ n3_n3p(Argument, Mode) :-
                         ),
                         conjify(Px, Pi)
                     ->  (   Ci = true
-                        ->  (   flag('intermediate', Out)
+                        ->  (   flag(intermediate, Out)
                             ->  portray_clause(Out, ':-'(Pi))
                             ;   true
                             ),
@@ -1640,7 +1683,7 @@ n3_n3p(Argument, Mode) :-
                             ),
                             cnt(sc),
                             functor(Ci, CPi, _),
-                            (   flag('intermediate', Out)
+                            (   flag(intermediate, Out)
                             ->  (   \+cpred(CPi)
                                 ->  portray_clause(Out, cpred(CPi))
                                 ;   true
@@ -1656,7 +1699,7 @@ n3_n3p(Argument, Mode) :-
                         )
                     ;   djiti_assertz(Rt),
                         cnt(sc),
-                        (   flag('intermediate', Out)
+                        (   flag(intermediate, Out)
                         ->  portray_clause(Out, Rt)
                         ;   true
                         )
@@ -1675,8 +1718,11 @@ n3_n3p(Argument, Mode) :-
     nb_getval(input_statements, IN),
     Inp is SC+IN,
     nb_setval(input_statements, Inp),
-    format(user_error, 'SC=~w~n', [SC]),
-    flush_output(user_error),
+    (   flag(quiet)
+    ->  true
+    ;   format(user_error, 'SC=~w~n', [SC]),
+        flush_output(user_error)
+    ),
     !.
 
 tr_n3p([], _, _) :-
