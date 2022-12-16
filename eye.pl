@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1216.1750 josd').
+version_info('EYE v22.1216.2120 josd').
 
 license_info('MIT License
 
@@ -6050,6 +6050,15 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/graph#intersection>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   intersect(A, C),
+            unify(C, B)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/graph#length>'(A, B) :-
     when(
         (   nonvar(A)
@@ -6068,6 +6077,15 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/graph#member>'(A, B) :-
     '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/graph#union>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   conjoin(A, C),
+            unify(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/list#append>'(A, B) :-
     when(
@@ -10385,7 +10403,8 @@ intersect([X|Y], Z) :-
     conj_list(I, V),
     intersect(U, V, W),
     distinct(W, J),
-    conj_list(Z, J).
+    conj_list(Z, J),
+    !.
 
 intersect([], _, []) :-
     !.
