@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1216.2120 josd').
+version_info('EYE v22.1217.1505 josd').
 
 license_info('MIT License
 
@@ -709,6 +709,8 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
+    retractall(flag(nope)),
+    assertz(flag(nope)),
     assertz(implies((implies(D, C, _),
                     conj_list(D, K),
                     conj_list(C, L),
