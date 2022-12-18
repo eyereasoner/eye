@@ -17,7 +17,7 @@ RDF Surfaces provides the capabilities to:
 In order to run a RDF Surfaces script the EYE reasoner needs to be started with the `--blogic` command line option:
 
 ```
-eye --nope --quiet --blogic socrates.n3s
+eye --quiet --blogic socrates.n3s
 ```
 
 Note that for running RDF Surfaces scripts no *query* arguments need to be provided to the EYE reasoner. All queries are defined in the RDF surfaces language itself.
