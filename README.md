@@ -44,34 +44,13 @@ to the output:
 
 ```
 $ eye --nope --quiet --pass socrates.n3
-eye --nope --quiet --pass socrates-data.n3
-EYE v22.1213.0917 josd
-SWI-Prolog version 8.4.1
-starting 84 [msec cputime] 133 [msec walltime]
-GET file:///Users/patrickhochstenbach/github.com/eyereasoner/eye/reasoning/socrates/socrates-data.n3 SC=3
-networking 2 [msec cputime] 3 [msec walltime]
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix : <http://example.org/socrates#>.
 
 :Socrates a :Human.
 :Socrates a :Mortal.
 :Human rdfs:subClassOf :Mortal.
-
-reasoning 1 [msec cputime] 0 [msec walltime]
-2022-12-13T18:44:33.008Z in=3 out=3 ent=1 step=3 brake=3 inf=19868 sec=0.087 inf/sec=228368
 ``` 
-
-Or, run the command without all verbose messages on the standard error by ignoring these:
-
-```
-$ eye --nope --quiet --pass socrates.n3 2> /dev/null
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix : <http://example.org/socrates#>.
-
-:Socrates a :Human.
-:Socrates a :Mortal.
-:Human rdfs:subClassOf :Mortal.
-```
 
 ## Tutorial and example scripts
 

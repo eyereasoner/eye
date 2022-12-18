@@ -70,7 +70,7 @@ eye mydata.n3 http://somewhere.org/remote.n3 --query filter1.n3 --query filter2.
 These are the most important options that can be provided in every EYE reasoner run:
 
 - `--nope`: skip outputing the proof explanation in the output
-- `--quiet`: make the EYE reasoner less verbose
+- `--quiet`: make the EYE reasoner not verbose
 - `--restricted`: run the EYE reasoner in restricted more only allowing core built-ins without side-effects (without network/file access)
 - `--strings`: allow the `log:outputString` to output objects on the stdout
 - `--intermediate`: output all data and rules as N3P prolog to the standard output
