@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1219.2214 josd').
+version_info('EYE v22.1220.1055 josd').
 
 license_info('MIT License
 
@@ -11158,6 +11158,11 @@ getvars(A, B) :-
 makevars(A, B, beta(C)) :-
     !,
     distinct(C, D),
+    findvars(D, G, beta),
+    (   D \= G
+    ->  throw(invalid_graffiti(D, in(A)))
+    ;   true
+    ),
     length(D, E),
     length(F, E),
     makevars(A, B, D, F).
