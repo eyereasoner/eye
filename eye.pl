@@ -6590,8 +6590,16 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   sub_atom(A, 1, _, 1, C),
-            sub_atom_last(C, _, 1, N, '/'),
-            sub_atom(C, _, N, 0, B)
+            (
+                sub_atom_last(C, _, 1, N, '#') ->
+                sub_atom(C, _, N, 0, B)
+                ;
+                sub_atom_last(C, _, 1, N, '/') ->
+                sub_atom(C, _, N, 0, B)
+                ;
+                sub_atom_last(C, _, 1, N, ':') ->
+                sub_atom(C, _, N, 0, B)
+            )
         )
     ).
 
@@ -6614,9 +6622,19 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   sub_atom(A, 1, _, 1, C),
-            sub_atom_last(C, N, 1, _, '/'),
-            M is N+1,
-            sub_atom(C, 0, M, _, B)
+            (
+                sub_atom_last(C, N, 1, _, '#') ->
+                M is N+1,
+                sub_atom(C, 0, M, _, B)
+                ;
+                sub_atom_last(C, N, 1, _, '/') ->
+                M is N+1,
+                sub_atom(C, 0, M, _, B)
+                ;
+                sub_atom_last(C, N, 1, _, ':') ->
+                M is N+1,
+                sub_atom(C, 0, M, _, B)
+            )
         )
     ).
 
