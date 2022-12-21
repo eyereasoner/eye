@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1220.1055 josd').
+version_info('EYE v22.1221.1351 josd').
 
 license_info('MIT License
 
@@ -1215,18 +1215,18 @@ args(['--pass'|Args]) :-
     args(Args).
 args(['--pass-all'|Args]) :-
     !,
-    assertz(implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+    assertz(implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
-    ->  portray_clause(Out, implies((exopred(P, S, O), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+    ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies((':-'(C, A), '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(A, true)),
+        portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
@@ -6639,7 +6639,12 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#notEqualTo>'(X, Y) :-
-    \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y).
+    when(
+        (   ground([X, Y])
+        ),
+        (   \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
     ignore(within_scope(X)),
