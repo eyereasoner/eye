@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1221.1351 josd').
+version_info('EYE v22.1221.2050 josd').
 
 license_info('MIT License
 
@@ -279,10 +279,6 @@ run :-
     ),
     (   flag('debug-implies')
     ->  mf(implies(_, _, _))
-    ;   true
-    ),
-    (   flag('debug-models')
-    ->  mf(model(_, _, _))
     ;   true
     ),
     (   flag('debug-pvm')
@@ -4767,6 +4763,10 @@ eam(Span) :-
             forall(
                 modelo(Mz, Mn, Ml),
                 retract(model(Mz, Mn, Ml))
+            ),
+            (   flag('debug-models')
+            ->  mf(model(_, _, _))
+            ;   true
             ),
             (   model(Mx, _, _),
                 findall(My,
@@ -12129,6 +12129,8 @@ fm(A) :-
 mf(A) :-
     forall(
         catch(A, _, fail),
-        portray_clause(user_error, A)
+        (   portray_clause(user_error, A),
+            write(user_error, '\n')
+        )
     ),
     flush_output(user_error).
