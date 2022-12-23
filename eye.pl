@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1221.2050 josd').
+version_info('EYE v22.1223.1452 josd').
 
 license_info('MIT License
 
@@ -2220,6 +2220,24 @@ pathitem(Node, []) -->
         )
     },
     ['}'].
+pathitem(graph(Node), []) -->
+    [lt_lb],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J)
+    },
+    formulacontent(Node),
+    {   retractall(quvar(_, _, J)),
+        retractall(qevar(_, _, J)),
+        retractall(evar(_, _, J)),
+        nb_setval(fdepth, I),
+        (   nb_getval(entail_mode, true)
+        ->  nb_getval(line_number, Ln),
+            throw(non_rdf_entailment(Node, after_line(Ln)))
+        ;   true
+        )
+    },
+    [rb_gt].
 
 pathlist([Node|Rest], Triples) -->
     expression(Node, T),
@@ -2719,6 +2737,11 @@ token(0'<, In, C, lt_dash) :-
     !,
     get_code(In, _),
     get_code(In, C).
+token(0'<, In, C, lt_lb) :-
+    peek_code(In, 0'{),
+    !,
+    get_code(In, _),
+    get_code(In, C).
 token(0'<, In, C, relative_uri(URI)) :-
     peek_code(In, C1),
     !,
@@ -2738,6 +2761,11 @@ token(0'{, In, C, lb_pipe) :-
     get_code(In, C).
 token(0'|, In, C, pipe_rb) :-
     peek_code(In, 0'}),
+    !,
+    get_code(In, _),
+    get_code(In, C).
+token(0'}, In, C, rb_gt) :-
+    peek_code(In, 0'>),
     !,
     get_code(In, _),
     get_code(In, C).
@@ -3952,6 +3980,11 @@ wt1('$VAR'(X)) :-
     !,
     write('?V'),
     write(X).
+wt1(graph(X)) :-
+    !,
+    write('<'),
+    wg(X),
+    write('>').
 wt1(X) :-
     X =.. [B|C],
     (   atom(B),
