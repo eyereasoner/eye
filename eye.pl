@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1224.0044 josd').
+version_info('EYE v22.1225.1557 josd').
 
 license_info('MIT License
 
@@ -2490,15 +2490,11 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Label)],
-    {   (   flag(blogic)
-        ->  D = 0
-        ;   nb_getval(fdepth, D)
-        ),
-        (   evar(Label, S, D)
+    {   (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, D))
+            assertz(evar(Label, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
