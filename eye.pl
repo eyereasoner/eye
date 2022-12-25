@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1225.1557 josd').
+version_info('EYE v22.1225.2216 josd').
 
 license_info('MIT License
 
@@ -342,6 +342,7 @@ gre(Argus) :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
+    nb_setval(mconc, false),
     (   input_statements(Ist)
     ->  nb_setval(input_statements, Ist)
     ;   nb_setval(input_statements, 0)
@@ -2342,13 +2343,21 @@ prefix(Prefix) -->
 
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb)
+    {   prolog_verb(Item, Verb),
+        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
+        ->  nb_setval(mconc, true)
+        ;   true
+        )
     },
     !,
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
         ->  Trpl = triple(Object, Vrb, Subject)
         ;   Trpl = triple(Subject, Verb, Object)
+        ),
+        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
+        ->  nb_setval(mconc, false)
+        ;   true
         )
     },
     annotation(Trpl, Triples3),
@@ -2489,8 +2498,12 @@ symbol(Name) -->
         )
     }.
 symbol(Name) -->
-    [bnode(Label)],
-    {   (   evar(Label, S, 0)
+    [bnode(Lb)],
+    {   (   nb_getval(mconc, true)
+        ->  atom_concat(Lb, '_c', Label)
+        ;   Label = Lb
+        ),
+        (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
