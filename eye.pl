@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v23.0104.1432 josd').
+version_info('EYE v23.0104.1439 josd').
 
 license_info('MIT License
 
