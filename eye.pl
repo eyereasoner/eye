@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v22.1226.2224 josd').
+version_info('EYE v23.0104.0019 josd').
 
 license_info('MIT License
 
@@ -1126,6 +1126,8 @@ args(['--n3',Arg|Args]) :-
     args(Args).
 args(['--n3p',Argument|Args]) :-
     !,
+    retractall(flag(n3p)),
+    assertz(flag(n3p)),
     absolute_uri(Argument, Arg),
     (   wcacher(Arg, File)
     ->  (   flag(quiet)
@@ -3481,6 +3483,21 @@ wh :-
         )
     ).
 
+w3 :-
+    flag(blogic),
+    flag(n3p),
+    (   answer(B1, B2, B3),
+        relabel([B1, B2, B3], [C1, C2, C3]),
+        djiti_answer(answer(C), answer(C1, C2, C3)),
+        indent,
+        writeq(C),
+        ws(C),
+        write('.'),
+        nl,
+        cnt(output_statements),
+        fail
+    ;   nl
+    ).
 w3 :-
     wh,
     nb_setval(fdepth, 0),
@@ -11294,6 +11311,7 @@ findvar(A, beta) :-
     ;   sub_atom(A, 0, _, _, '_e_')
     ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   sub_atom(A, 0, _, _, some)
+    ;   sub_atom(A, 0, _, _, '_:')
     ).
 findvar(A, delta) :-
     !,
