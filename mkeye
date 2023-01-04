@@ -1,10 +1,10 @@
 #!/bin/bash
 ((!$#)) && echo Missing release message! && exit 1
-export RELEASE="$(date -u +"%y.%m%d.%H%M")"
+export RELEASE="v$(date -u +"%y.%m%d.%H%M")"
 pushd ~/github.com/eyereasoner/eye
-cat eye.pl | sed -e "s/EYE.*josd/EYE v$RELEASE josd/" > eye.pl.tmp
+cat eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl.tmp
 mv eye.pl.tmp eye.pl
-sed -i '3 i\['"v$RELEASE"'] '"$1"'' RELEASE
+sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
 swipl -q -f eye.pl -g main -- --version 2>&1 | grep josd > VERSION
 sudo ./install.sh
 ./test
