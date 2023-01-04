@@ -17,7 +17,7 @@ popd
 cp -a /tmp/eye.zip .
 git commit -a -m "$1"
 git push
-git tag -a $RELEASE -m "$1"
+git tag -a -m "$1" $RELEASE
 git push origin $RELEASE
 popd
 rm /tmp/eye.zip
