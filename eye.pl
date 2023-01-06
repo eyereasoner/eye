@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v23.0106.2233 josd').
+version_info('EYE v23.0106.2253 josd').
 
 license_info('MIT License
 
@@ -6715,7 +6715,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   pfx(B, A)
+        (   pfx(C, A),
+            sub_atom(C, 0, _, 1, B)
         )
     ).
 
