@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v23.0106.2253 josd').
+version_info('EYE v23.0106.2349 josd').
 
 license_info('MIT License
 
@@ -6714,6 +6714,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#prefix>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
         (   nonvar(A)
+        ;   nonvar(B)
         ),
         (   pfx(C, A),
             sub_atom(C, 0, _, 1, B)
