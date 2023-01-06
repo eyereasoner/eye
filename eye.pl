@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v23.0105.1853 josd').
+version_info('EYE v23.0106.2233 josd').
 
 license_info('MIT License
 
@@ -6437,6 +6437,16 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/log#hasPrefix>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   pfx(_, A)
+        ->  B = true
+        ;   B = false
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, B) :-
     \+flag(restricted),
     nonvar(B),
@@ -6700,6 +6710,14 @@ djiti_assertz(A) :-
         F
     ),
     phrase(D, F, []).
+
+'<http://www.w3.org/2000/10/swap/log#prefix>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   pfx(B, A)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
