@@ -1,6 +1,10 @@
 #!/bin/bash
-# check release message
-((!$#)) && echo Missing release message! && exit 1
+# check the command line
+if [ $# -lt 2 ] ; then
+  echo "Missing release options and release message";
+  echo "usage: $(basename $0) [-Mmp] \"release message\""
+  exit 1
+fi
 
 # the following is adapted from https://gist.github.com/codezninja/c227d9c65b09d2be2d99abbfcfa8774a
 while getopts ":Mmp" Option
@@ -14,8 +18,8 @@ done
 
 # if a flag is missing, show usage message
 if [ $OPTIND -eq 1 ]; then
-  echo "No options were passed";
-  echo "usage: $(basename $0) [-Mmp] major.minor.patch"
+  echo "No release options were passed: -M for major, -m for minor and -p for patch";
+  echo "usage: $(basename $0) [-Mmp] \"release message\""
   exit 1
 fi
 
