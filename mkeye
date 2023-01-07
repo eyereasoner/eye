@@ -7,12 +7,13 @@ if [ $# -lt 2 ] ; then
 fi
 
 # the following is adapted from https://gist.github.com/codezninja/c227d9c65b09d2be2d99abbfcfa8774a
-while getopts ":Mmp" Option
+while getopts "Mmp" Option
 do
   case $Option in
     M ) major=true;;
     m ) minor=true;;
     p ) patch=true;;
+    * ) exit 1;;
   esac
 done
 
