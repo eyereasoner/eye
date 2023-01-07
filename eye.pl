@@ -19,11 +19,11 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v23.107.1359 josd').
+version_info('EYE v2.0.1 josd').
 
 license_info('MIT License
 
-Copyright (c) 2006-2022 Jos De Roo
+Copyright (c) 2006-2023 Jos De Roo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,24 +1,77 @@
 #!/bin/bash
+# check release message
 ((!$#)) && echo Missing release message! && exit 1
-export RELEASE="v$(date -u '+%y.%-m%d.%-H%M')"
+
+# the following is adapted from https://gist.github.com/codezninja/c227d9c65b09d2be2d99abbfcfa8774a
+while getopts ":Mmp" Option
+do
+  case $Option in
+    M ) major=true;;
+    m ) minor=true;;
+    p ) patch=true;;
+  esac
+done
+
+# if a flag is missing, show usage message
+if [ $OPTIND -eq 1 ]; then
+  echo "No options were passed";
+  echo "usage: $(basename $0) [-Mmp] major.minor.patch"
+  exit 1
+fi
+
+shift $(($OPTIND - 1))
+
+version=$(cat VERSION)
+
+# build array from version string
+a=( ${version//./ } )
+
+# increment version numbers as requested
+if [ ! -z $major ]; then
+  ((a[0]++))
+  a[1]=0
+  a[2]=0
+fi
+
+if [ ! -z $minor ]; then
+  ((a[1]++))
+  a[2]=0
+fi
+
+if [ ! -z $patch ]; then
+  ((a[2]++))
+fi
+
+echo "${a[0]}.${a[1]}.${a[2]}" > VERSION
+
+export RELEASE="v$(cat VERSION)"
+
+# update version in eye.pl and add release line in RELEASE
 pushd ~/github.com/eyereasoner/eye
 cat eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl.tmp
 mv eye.pl.tmp eye.pl
 sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
-swipl -q -f eye.pl -g main -- --version 2>&1 | grep josd > VERSION
+
+# install eye, run the tests and do git diff
 sudo ./install.sh
 ./test
 git diff
+
+# create the distribution zip for https://sourceforge.net/projects/eulersharp/files/eulersharp/
 mkdir -p /tmp/eye
 cp -a eye.pl eye.sh eye.sh.in eye.cmd install.sh install.cmd INSTALL LICENSE RELEASE README VERSION /tmp/eye
 pushd /tmp
 zip -9ur eye.zip eye
 popd
 cp -a /tmp/eye.zip .
+
+# git commands
 git commit -a -m "$1"
 git push
 git tag -a -m "$1" $RELEASE
 git push origin $RELEASE
 popd
+
+# cleanup temporary files
 rm /tmp/eye.zip
 rm -fr /tmp/eye
