@@ -1,6 +1,6 @@
 #!/bin/bash
 ((!$#)) && echo Missing release message! && exit 1
-export RELEASE="v$(date '+%y.%-m%d.%-H%M')"
+export RELEASE="v$(date -u '+%y.%-m%d.%-H%M')"
 pushd ~/github.com/eyereasoner/eye
 cat eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl.tmp
 mv eye.pl.tmp eye.pl
