@@ -1,18 +1,13 @@
 # Skolem machine example from https://skolemmachines.org/reports/SkolemMachines.pdf
 
-# true => domain(X), p(X).
-# p(X) => q(X) | r(X) | domain(Y), s(X,Y).
-# domain(X) => u(X).
-# u(X), q(X) => false.
-# r(X) => goal.
-# s(X,Y) => goal.
-
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
+# true => domain(X), p(X).
 _:X :domain true.
 _:X :p true.
 
+# p(X) => q(X) | r(X) | domain(Y), s(X,Y).
 (_:X _:Y) log:onNegativeSurface {
     _:X :p true.
     () log:onNegativeSurface {
@@ -27,6 +22,7 @@ _:X :p true.
     }.
 }.
 
+# domain(X) => u(X).
 (_:X) log:onNegativeSurface {
     _:X :domain true.
     () log:onNegativeSurface {
@@ -34,11 +30,13 @@ _:X :p true.
     }.
 }.
 
+# u(X), q(X) => false.
 (_:X) log:onNegativeSurface {
     _:X :u true.
     _:X :q true.
 }.
 
+# r(X) => goal.
 (_:X) log:onNegativeSurface {
     _:X :r true.
     () log:onNegativeSurface {
@@ -46,6 +44,7 @@ _:X :p true.
     }.
 }.
 
+# s(X,Y) => goal.
 (_:X _:Y) log:onNegativeSurface {
     _:X :s _:Y.
     () log:onNegativeSurface {
