@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.0.1 josd').
+version_info('EYE v2.1.0 josd').
 
 license_info('MIT License
 
@@ -828,6 +828,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, Q),
                     sort(Q, A),
                     domain(V, C, P),
+                    P \= true,
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(domain(P), [case(C, H)], A)), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -4789,6 +4790,16 @@ eam(Span) :-
             forall(
                 modelo(Mz, Mn, Ml),
                 retract(model(Mz, Mn, Ml))
+            ),
+            forall(
+                model(Mz, Mn, Ml),
+                (   model(Mz, Mn, Mk),
+                    length(Ml, Ll),
+                    length(Mk, Lk),
+                    Lk > Ll
+                ->  retract(model(Mz, Mn, Ml))
+                ;   true
+                )
             ),
             (   flag('debug-models')
             ->  mf(model(_, _, _))

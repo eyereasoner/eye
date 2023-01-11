@@ -1,0 +1,59 @@
+# Skolem machine example from https://skolemmachines.org/reports/SkolemMachines.pdf
+
+# true => domain(X), p(X).
+# p(X) => q(X) | r(X) | domain(Y), s(X,Y).
+# domain(X) => u(X).
+# u(X), q(X) => false.
+# r(X) => goal.
+# s(X,Y) => goal.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+_:X :domain true.
+_:X :p true.
+
+(_:X _:Y) log:onNegativeSurface {
+    _:X :p true.
+    () log:onNegativeSurface {
+        _:X :q true.
+    }.
+    () log:onNegativeSurface {
+        _:X :r true.
+    }.
+    () log:onNegativeSurface {
+        _:Y :domain true.
+        _:X :s _:Y.
+    }.
+}.
+
+(_:X) log:onNegativeSurface {
+    _:X :domain true.
+    () log:onNegativeSurface {
+        _:X :u true.
+    }.
+}.
+
+(_:X) log:onNegativeSurface {
+    _:X :u true.
+    _:X :q true.
+}.
+
+(_:X) log:onNegativeSurface {
+    _:X :r true.
+    () log:onNegativeSurface {
+        true :goal true.
+    }.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    _:X :s _:Y.
+    () log:onNegativeSurface {
+        true :goal true.
+    }.
+}.
+
+# query
+() log:onQuerySurface {
+    true :goal true.
+}.
