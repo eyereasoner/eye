@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.1.0 josd').
+version_info('EYE v2.1.1 josd').
 
 license_info('MIT License
 
@@ -4796,7 +4796,11 @@ eam(Span) :-
                 (   model(Mz, Mn, Mk),
                     length(Ml, Ll),
                     length(Mk, Lk),
-                    Lk > Ll
+                    Lk > Ll,
+                    forall(
+                        member(El, Ml),
+                        member(El, Mk)
+                    )
                 ->  retract(model(Mz, Mn, Ml))
                 ;   true
                 )
