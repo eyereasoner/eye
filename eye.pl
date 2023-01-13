@@ -19,7 +19,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.1.1 josd').
+version_info('EYE v2.2.0 josd').
 
 license_info('MIT License
 
@@ -66,6 +66,7 @@ eye
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-erase                      no erase functionality for blogic
+    --no-models                     no model generation for blogic
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
@@ -708,7 +709,8 @@ opts(['--blogic'|Argus], Args) :-
     assertz(flag(blogic)),
     retractall(flag(nope)),
     assertz(flag(nope)),
-    assertz(implies((implies(D, C, _),
+    assertz(implies((\+flag('no-models'),
+                    implies(D, C, _),
                     conj_list(D, K),
                     conj_list(C, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
@@ -812,7 +814,8 @@ opts(['--blogic'|Argus], Args) :-
                     domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
                     ), B, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+    assertz(implies((\+flag('no-models'),
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     findall(M,
@@ -959,6 +962,11 @@ opts(['--no-erase'|Argus], Args) :-
     !,
     retractall(flag('no-erase')),
     assertz(flag('no-erase')),
+    opts(Argus, Args).
+opts(['--no-models'|Argus], Args) :-
+    !,
+    retractall(flag('no-models')),
+    assertz(flag('no-models')),
     opts(Argus, Args).
 opts(['--no-numerals'|Argus], Args) :-
     !,
@@ -4785,7 +4793,8 @@ eam(Span) :-
             nb_getval(limit, Limit),
             Span < Limit,
             eam(S)
-        ;   \+flag('multi-query'),
+        ;   \+flag('no-models'),
+            \+flag('multi-query'),
             \+got_models,
             forall(
                 modelo(Mz, Mn, Ml),
