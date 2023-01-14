@@ -16,10 +16,11 @@
 :- use_module(library(date)).
 :- use_module(library(prolog_jiti)).
 :- use_module(library(sha)).
+:- use_module(library(dif)).
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.2.0 josd').
+version_info('EYE v2.3.0 josd').
 
 license_info('MIT License
 

@@ -6,6 +6,9 @@ if [ $# -lt 2 ] ; then
   exit 1
 fi
 
+# change working directory
+pushd ~/github.com/eyereasoner/eye
+
 # the following is adapted from https://gist.github.com/codezninja/c227d9c65b09d2be2d99abbfcfa8774a
 while getopts "Mmp" Option
 do
@@ -52,7 +55,6 @@ echo "${a[0]}.${a[1]}.${a[2]}" > VERSION
 export RELEASE="v$(cat VERSION)"
 
 # update version in eye.pl and add release line in RELEASE
-pushd ~/github.com/eyereasoner/eye
 cat eye.pl | sed -e "s/EYE.*josd/EYE $RELEASE josd/" > eye.pl.tmp
 mv eye.pl.tmp eye.pl
 sed -i '3 i\['"$RELEASE"'] '"$1"'' RELEASE
@@ -75,8 +77,8 @@ git commit -a -m "$1"
 git push
 git tag -a -m "$1" $RELEASE
 git push origin $RELEASE
-popd
 
 # cleanup temporary files
 rm /tmp/eye.zip
 rm -fr /tmp/eye
+popd
