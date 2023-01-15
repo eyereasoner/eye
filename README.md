@@ -82,7 +82,7 @@ Verborgh, R. , De Roo, J. : Drawing Conclusions from Linked Data on the Web: The
 
 MIT License
 
-Copyright 2006-2022 Jos De Roo
+Copyright 2006-2023 Jos De Roo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
