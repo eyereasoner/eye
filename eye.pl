@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.1 josd').
+version_info('EYE v2.3.2 josd').
 
 license_info('MIT License
 
@@ -4013,7 +4013,8 @@ wt2((X, Y)) :-
         ws(X),
         write('.'),
         (   (   flag(strings)
-            ;   flag(nope)
+            ;   flag(nope),
+                \+flag(blogic)
             )
         ->  write(' ')
         ;   nl,
