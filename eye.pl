@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.0 josd').
+version_info('EYE v2.3.1 josd').
 
 license_info('MIT License
 
@@ -5925,14 +5925,11 @@ djiti_assertz(A) :-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#trace>'(X, Y) :-
     \+flag(restricted),
     tell(user_error),
-    write('TRACE '),
-    (   (   var(X)
-        ;   findvar(X, beta)
-        )
-    ->  copy_term_nat(Y, Z),
-        wg(Z)
-    ;   writeq(Y)
-    ),
+    copy_term_nat(X, U),
+    wg(U),
+    write(' TRACE '),
+    copy_term_nat(Y, V),
+    wg(V),
     nl,
     told,
     (   flag('output', Output)
