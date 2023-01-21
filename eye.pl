@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.3 josd').
+version_info('EYE v2.3.4 josd').
 
 license_info('MIT License
 
@@ -6457,6 +6457,14 @@ djiti_assertz(A) :-
             nonvar(B)
         ),
         (   forall(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#graffiti>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   term_variables(A, B)
         )
     ).
 
