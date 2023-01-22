@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.5 josd').
+version_info('EYE v2.3.6 josd').
 
 license_info('MIT License
 
@@ -834,6 +834,21 @@ opts(['--blogic'|Argus], Args) :-
                     domain(V, C, P),
                     P \= true,
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(domain(P), [case(C, H)], A)), B, beta(V))
+                    ), B, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    select(J, L, K),
+                    J \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _),
+                    conj_list(H, K),
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
+                        ),
+                        D
+                    ),
+                    length(D, E),
+                    E > 1,
+                    C = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(J, C), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -10347,21 +10362,6 @@ unify(A, true) :-
     nonvar(Y),
     labelvars(X, 0, _),
     catch(call(Y), _, fail).
-unify(A, B) :-
-    \+flag('no-erase'),
-    nonvar(A),
-    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
-    conj_list(Y, C),
-    findall(1,
-        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), C)
-        ),
-        D
-    ),
-    length(D, E),
-    E > 1,
-    B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X,
-            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],
-                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], Y))).
 unify(A, B) :-
     \+flag('no-erase'),
     nonvar(A),
