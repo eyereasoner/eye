@@ -49,7 +49,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {(18 13 8) :tak var:x_0} => {(18 13 8) :tak var:x_0}.
+    @forAll var:x_0. {
+        (18 13 8) :tak var:x_0.
+    } => {
+        (18 13 8) :tak var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/tak/takQ.n3>].
 
@@ -131,13 +135,17 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_0 var:x_2 var:x_3) :tak var:x_9} <= {("_X-1" var:x_0) e:calculate var:x_1.
-     (var:x_1 var:x_2 var:x_3) :tak var:x_4.
-     ("_Y-1" var:x_2) e:calculate var:x_5.
-     (var:x_5 var:x_3 var:x_0) :tak var:x_6.
-     ("_Z-1" var:x_3) e:calculate var:x_7.
-     (var:x_7 var:x_0 var:x_2) :tak var:x_8.
-     (var:x_4 var:x_6 var:x_8) :tak var:x_9}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
+        (var:x_0 var:x_2 var:x_3) :tak var:x_9.
+    } <= {
+        ("_X-1" var:x_0) e:calculate var:x_1.
+        (var:x_1 var:x_2 var:x_3) :tak var:x_4.
+        ("_Y-1" var:x_2) e:calculate var:x_5.
+        (var:x_5 var:x_3 var:x_0) :tak var:x_6.
+        ("_Z-1" var:x_3) e:calculate var:x_7.
+        (var:x_7 var:x_0 var:x_2) :tak var:x_8.
+        (var:x_4 var:x_6 var:x_8) :tak var:x_9.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/tak/tak.n3>].
 
@@ -307,8 +315,12 @@ skolem:lemma16 a r:Inference;
 
 skolem:lemma17 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. @forSome var:x_2. {(var:x_0 var:x_1 var:x_2) :tak var:x_2} <= {("=<" var:x_0 var:x_1) e:derive true.
-     ("!") e:derive true}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {
+        (var:x_0 var:x_1 var:x_2) :tak var:x_2.
+    } <= {
+        ("=<" var:x_0 var:x_1) e:derive true.
+        ("!") e:derive true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/tak/tak.n3>].
 

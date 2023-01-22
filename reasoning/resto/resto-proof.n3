@@ -72,13 +72,17 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 resto:hasReservation var:x_1.
-     var:x_1 resto:onDate var:x_2.
-     var:x_1 resto:place var:x_3.
-     var:x_3 resto:isOutside var:x_4} => {var:x_0 resto:hasReservation var:x_1.
-     var:x_1 resto:onDate var:x_2.
-     var:x_1 resto:place var:x_3.
-     var:x_3 resto:isOutside var:x_4}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 resto:hasReservation var:x_1.
+        var:x_1 resto:onDate var:x_2.
+        var:x_1 resto:place var:x_3.
+        var:x_3 resto:isOutside var:x_4.
+    } => {
+        var:x_0 resto:hasReservation var:x_1.
+        var:x_1 resto:onDate var:x_2.
+        var:x_1 resto:place var:x_3.
+        var:x_3 resto:isOutside var:x_4.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/restoG.n3>].
 
@@ -130,17 +134,21 @@ skolem:lemma5 a r:Extraction;
 
 skolem:lemma6 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7, var:x_8, var:x_9. {var:x_0 resto:reservationList var:x_1.
-     var:x_2 resto:isOutside var:x_3.
-     var:x_4 resto:hasDate var:x_5} => {var:x_6 http:methodName "POST".
-     var:x_6 http:requestURI var:x_1.
-     var:x_6 http:body (var:x_5 var:x_3).
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_8.
-     var:x_0 resto:hasReservation var:x_8.
-     var:x_8 resto:onDate var:x_5.
-     var:x_8 resto:place var:x_9.
-     var:x_9 resto:isOutside var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7, var:x_8, var:x_9. {
+        var:x_0 resto:reservationList var:x_1.
+        var:x_2 resto:isOutside var:x_3.
+        var:x_4 resto:hasDate var:x_5.
+    } => {
+        var:x_6 http:methodName "POST".
+        var:x_6 http:requestURI var:x_1.
+        var:x_6 http:body (var:x_5 var:x_3).
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_8.
+        var:x_0 resto:hasReservation var:x_8.
+        var:x_8 resto:onDate var:x_5.
+        var:x_8 resto:place var:x_9.
+        var:x_9 resto:isOutside var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -217,22 +225,26 @@ skolem:lemma10 a r:Extraction;
 
 skolem:lemma11 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. @forSome var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2.
-     var:x_0 meteo:pressure var:x_3.
-     var:x_0 meteo:temperature var:x_4.
-     var:x_3 meteo:millibar var:x_5.
-     var:x_4 meteo:celsius var:x_6.
-     var:x_7 resto:isOn var:x_8.
-     var:x_7 resto:hasDate var:x_9} => {var:x_10 http:methodName "POST".
-     var:x_10 http:requestURI var:x_8.
-     var:x_10 http:body (var:x_7 var:x_11 var:x_12).
-     var:x_10 http:resp var:x_13.
-     var:x_13 http:body var:x_7.
-     var:x_7 resto:isAt var:x_11.
-     var:x_11 a resto:Restaurant.
-     var:x_11 resto:reservationList var:x_14.
-     var:x_15 resto:isOutside var:x_12}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. @forSome var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15. {
+        var:x_0 geo:lat var:x_1.
+        var:x_0 geo:long var:x_2.
+        var:x_0 meteo:pressure var:x_3.
+        var:x_0 meteo:temperature var:x_4.
+        var:x_3 meteo:millibar var:x_5.
+        var:x_4 meteo:celsius var:x_6.
+        var:x_7 resto:isOn var:x_8.
+        var:x_7 resto:hasDate var:x_9.
+    } => {
+        var:x_10 http:methodName "POST".
+        var:x_10 http:requestURI var:x_8.
+        var:x_10 http:body (var:x_7 var:x_11 var:x_12).
+        var:x_10 http:resp var:x_13.
+        var:x_13 http:body var:x_7.
+        var:x_7 resto:isAt var:x_11.
+        var:x_11 a resto:Restaurant.
+        var:x_11 resto:reservationList var:x_14.
+        var:x_15 resto:isOutside var:x_12.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -256,37 +268,49 @@ skolem:lemma12 a r:Inference;
 
 skolem:lemma13 a r:Extraction;
   r:gives {
-    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 a con:Address} => {var:x_1 http:methodName "GET".
-     var:x_1 http:requestURI ("?location= " var:x_0).
-     var:x_1 http:resp var:x_2.
-     var:x_2 http:body var:x_3.
-     var:x_3 a geo:Point.
-     var:x_3 geo:lat var:x_4.
-     var:x_3 geo:long var:x_5}.
+    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        var:x_0 a con:Address.
+    } => {
+        var:x_1 http:methodName "GET".
+        var:x_1 http:requestURI ("?location= " var:x_0).
+        var:x_1 http:resp var:x_2.
+        var:x_2 http:body var:x_3.
+        var:x_3 a geo:Point.
+        var:x_3 geo:lat var:x_4.
+        var:x_3 geo:long var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 
 skolem:lemma14 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2} => {var:x_3 http:methodName "GET".
-     var:x_3 http:requestURI ("CurrentPressure?lat=" var:x_1 "&long=" var:x_2).
-     var:x_3 http:resp var:x_4.
-     var:x_4 http:body var:x_5.
-     var:x_0 meteo:pressure var:x_6.
-     var:x_6 meteo:millibar var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {
+        var:x_0 geo:lat var:x_1.
+        var:x_0 geo:long var:x_2.
+    } => {
+        var:x_3 http:methodName "GET".
+        var:x_3 http:requestURI ("CurrentPressure?lat=" var:x_1 "&long=" var:x_2).
+        var:x_3 http:resp var:x_4.
+        var:x_4 http:body var:x_5.
+        var:x_0 meteo:pressure var:x_6.
+        var:x_6 meteo:millibar var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 
 skolem:lemma15 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {var:x_0 geo:lat var:x_1.
-     var:x_0 geo:long var:x_2} => {var:x_3 http:methodName "GET".
-     var:x_3 http:requestURI ("CurrentTemperature?lat=" var:x_1 "&long=" var:x_2).
-     var:x_3 http:resp var:x_4.
-     var:x_4 http:body var:x_5.
-     var:x_0 meteo:temperature var:x_6.
-     var:x_6 meteo:celsius var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3, var:x_4, var:x_5, var:x_6. {
+        var:x_0 geo:lat var:x_1.
+        var:x_0 geo:long var:x_2.
+    } => {
+        var:x_3 http:methodName "GET".
+        var:x_3 http:requestURI ("CurrentTemperature?lat=" var:x_1 "&long=" var:x_2).
+        var:x_3 http:resp var:x_4.
+        var:x_4 http:body var:x_5.
+        var:x_0 meteo:temperature var:x_6.
+        var:x_6 meteo:celsius var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 
@@ -298,12 +322,16 @@ skolem:lemma16 a r:Extraction;
 
 skolem:lemma17 a r:Extraction;
   r:gives {
-    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3. {var:x_0 a foaf:Person} => {var:x_1 http:methodName "GET".
-     var:x_1 http:requestURI (var:x_0).
-     var:x_1 http:resp var:x_2.
-     var:x_2 http:body var:x_3.
-     var:x_0 foaf:based_near var:x_3.
-     var:x_3 a con:Address}.
+    @forAll var:x_0. @forSome var:x_1, var:x_2, var:x_3. {
+        var:x_0 a foaf:Person.
+    } => {
+        var:x_1 http:methodName "GET".
+        var:x_1 http:requestURI (var:x_0).
+        var:x_1 http:resp var:x_2.
+        var:x_2 http:body var:x_3.
+        var:x_0 foaf:based_near var:x_3.
+        var:x_3 a con:Address.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/resto/resto.n3>].
 

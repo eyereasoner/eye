@@ -36,8 +36,12 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
-     (var:x_0) :palindrome true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
+    @forAll var:x_0. {
+        ("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
+        (var:x_0) :palindrome true.
+    } => {
+        "ingirumimusnocteetconsumimurigni" a :Palindrome.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome2-query.n3>].
 
@@ -59,7 +63,11 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {(var:x_0) :palindrome true} <= {(var:x_0 :push ()) :palindrome true}.
+    @forAll var:x_0. {
+        (var:x_0) :palindrome true.
+    } <= {
+        (var:x_0 :push ()) :palindrome true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -81,9 +89,13 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 :push var:x_4) :palindrome true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4).
-     (var:x_2 :push var:x_3) :palindrome true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        (var:x_0 :push var:x_4) :palindrome true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+        (var:x_2 :push var:x_3) :palindrome true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -329,9 +341,13 @@ skolem:lemma22 a r:Inference;
 
 skolem:lemma23 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 :push var:x_4) :palindrome true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4).
-     (var:x_2 :pop var:x_3) :palindrome true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        (var:x_0 :push var:x_4) :palindrome true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+        (var:x_2 :pop var:x_3) :palindrome true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome2.n3>].
 
@@ -353,9 +369,13 @@ skolem:lemma24 a r:Inference;
 
 skolem:lemma25 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_0 :pop var:x_3) :palindrome true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4).
-     (var:x_2 :pop var:x_4) :palindrome true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        (var:x_0 :pop var:x_3) :palindrome true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+        (var:x_2 :pop var:x_4) :palindrome true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome2.n3>].
 

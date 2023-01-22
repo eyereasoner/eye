@@ -41,7 +41,11 @@ skolem:lemma3 a r:Extraction;
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {:Socrates a var:x_0} => {:Socrates a var:x_0}.
+    @forAll var:x_0. {
+        :Socrates a var:x_0.
+    } => {
+        :Socrates a var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/socrates/socrates-query.n3>].
 
@@ -66,8 +70,12 @@ skolem:lemma6 a r:Extraction;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 rdfs:subClassOf var:x_1.
-     var:x_2 a var:x_0} => {var:x_2 a var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 rdfs:subClassOf var:x_1.
+        var:x_2 a var:x_0.
+    } => {
+        var:x_2 a var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/socrates/socrates-data.n3>].
 

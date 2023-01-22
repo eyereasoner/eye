@@ -59,7 +59,11 @@ skolem:lemma4 a r:Extraction;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_1 var:x_0 var:x_2.
+    } => {
+        var:x_1 var:x_0 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -74,7 +78,9 @@ skolem:lemma7 a r:Inference;
     :Alice :hates :Nobody.
   };
   r:evidence (
-    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {:Alice :hates :Bob}}]
+    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {
+        :Alice :hates :Bob.
+    }}]
     skolem:lemma6
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1)];
@@ -83,8 +89,14 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 log:notIncludes {:Alice :hates var:x_1}.
-     var:x_1 a :Person} => {:Alice :hates :Nobody}.
+    @forAll var:x_0, var:x_1. {
+        var:x_0 log:notIncludes {
+            :Alice :hates var:x_1.
+        }.
+        var:x_1 a :Person.
+    } => {
+        :Alice :hates :Nobody.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>].
 

@@ -35,11 +35,21 @@ skolem:lemma2 a r:Inference;
     :all :got :dinner.
   };
   r:evidence (
-    [ a r:Fact; r:gives {("thread_create" {:person1 :run (0.1 0.1)} skolem:t_0 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person2 :run (0.2 0.2)} skolem:t_1 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person3 :run (0.3 0.3)} skolem:t_2 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person4 :run (0.25 0.2)} skolem:t_3 ()) e:derive true}]
-    [ a r:Fact; r:gives {("thread_create" {:person5 :run (0.025 0.1)} skolem:t_4 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {
+        :person1 :run (0.1 0.1).
+    } skolem:t_0 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {
+        :person2 :run (0.2 0.2).
+    } skolem:t_1 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {
+        :person3 :run (0.3 0.3).
+    } skolem:t_2 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {
+        :person4 :run (0.25 0.2).
+    } skolem:t_3 ()) e:derive true}]
+    [ a r:Fact; r:gives {("thread_create" {
+        :person5 :run (0.025 0.1).
+    } skolem:t_4 ()) e:derive true}]
     [ a r:Fact; r:gives {("thread_join" skolem:t_0 true) e:derive true}]
     [ a r:Fact; r:gives {("thread_join" skolem:t_1 true) e:derive true}]
     [ a r:Fact; r:gives {("thread_join" skolem:t_2 true) e:derive true}]
@@ -60,22 +70,40 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    {:all :got :dinner} => {:all :got :dinner}.
+    {
+        :all :got :dinner.
+    } => {
+        :all :got :dinner.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dp/dpQ.n3>].
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {("thread_create" {:person1 :run (0.1 0.1)} var:x_0 ()) e:derive true.
-     ("thread_create" {:person2 :run (0.2 0.2)} var:x_1 ()) e:derive true.
-     ("thread_create" {:person3 :run (0.3 0.3)} var:x_2 ()) e:derive true.
-     ("thread_create" {:person4 :run (0.25 0.2)} var:x_3 ()) e:derive true.
-     ("thread_create" {:person5 :run (0.025 0.1)} var:x_4 ()) e:derive true.
-     ("thread_join" var:x_0 var:x_5) e:derive true.
-     ("thread_join" var:x_1 var:x_6) e:derive true.
-     ("thread_join" var:x_2 var:x_7) e:derive true.
-     ("thread_join" var:x_3 var:x_8) e:derive true.
-     ("thread_join" var:x_4 var:x_9) e:derive true} => {:all :got :dinner}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
+        ("thread_create" {
+            :person1 :run (0.1 0.1).
+        } var:x_0 ()) e:derive true.
+        ("thread_create" {
+            :person2 :run (0.2 0.2).
+        } var:x_1 ()) e:derive true.
+        ("thread_create" {
+            :person3 :run (0.3 0.3).
+        } var:x_2 ()) e:derive true.
+        ("thread_create" {
+            :person4 :run (0.25 0.2).
+        } var:x_3 ()) e:derive true.
+        ("thread_create" {
+            :person5 :run (0.025 0.1).
+        } var:x_4 ()) e:derive true.
+        ("thread_join" var:x_0 var:x_5) e:derive true.
+        ("thread_join" var:x_1 var:x_6) e:derive true.
+        ("thread_join" var:x_2 var:x_7) e:derive true.
+        ("thread_join" var:x_3 var:x_8) e:derive true.
+        ("thread_join" var:x_4 var:x_9) e:derive true.
+    } => {
+        :all :got :dinner.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/dp/dp.n3>].
 

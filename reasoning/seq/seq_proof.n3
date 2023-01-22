@@ -57,10 +57,14 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(1 2 3 4 6 9 10 11 13) seq:punctuate var:x_0.
-     var:x_0 list:append var:x_1.
-     (var:x_2 (", ")) list:append var:x_1.
-     var:x_2 string:concatenation var:x_3} => {(1 2 3 4 6 9 10 11 13) seq:answer var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        (1 2 3 4 6 9 10 11 13) seq:punctuate var:x_0.
+        var:x_0 list:append var:x_1.
+        (var:x_2 (", ")) list:append var:x_1.
+        var:x_2 string:concatenation var:x_3.
+    } => {
+        (1 2 3 4 6 9 10 11 13) seq:answer var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_query.n3>].
 
@@ -121,14 +125,18 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_3 seq:punctuate var:x_0} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     (var:x_3) func:reverse var:x_4.
-     (var:x_5 var:x_6) list:append var:x_4.
-     var:x_6 seq:check true.
-     ("!") e:derive true.
-     var:x_6 seq:format var:x_1.
-     (var:x_5) func:reverse var:x_7.
-     var:x_7 seq:punctuate var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_3 seq:punctuate var:x_0.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        (var:x_3) func:reverse var:x_4.
+        (var:x_5 var:x_6) list:append var:x_4.
+        var:x_6 seq:check true.
+        ("!") e:derive true.
+        var:x_6 seq:format var:x_1.
+        (var:x_5) func:reverse var:x_7.
+        var:x_7 seq:punctuate var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -151,17 +159,25 @@ skolem:lemma8 a r:Inference;
 
 skolem:lemma9 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 seq:check true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_2 e:firstRest (var:x_3 var:x_4).
-     (var:x_3 1) math:sum var:x_1.
-     var:x_2 seq:check true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 seq:check true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_2 e:firstRest (var:x_3 var:x_4).
+        (var:x_3 1) math:sum var:x_1.
+        var:x_2 seq:check true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 seq:format (var:x_3 "-" var:x_1 ", ")} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_2 list:last var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 seq:format (var:x_3 "-" var:x_1 ", ").
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_2 list:last var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -228,13 +244,17 @@ skolem:lemma14 a r:Inference;
 
 skolem:lemma15 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(var:x_0) seq:check true} <= true.
+    @forSome var:x_0. {
+        (var:x_0) seq:check true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 
 skolem:lemma16 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(var:x_0) seq:format (var:x_0 ", ")} <= true.
+    @forSome var:x_0. {
+        (var:x_0) seq:format (var:x_0 ", ").
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 
@@ -361,7 +381,9 @@ skolem:lemma25 a r:Inference;
 
 skolem:lemma26 a r:Extraction;
   r:gives {
-    {() seq:punctuate ()} <= true.
+    {
+        () seq:punctuate ().
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
 

@@ -106,7 +106,11 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_1 var:x_0 var:x_2.
+    } => {
+        var:x_1 var:x_0 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -162,37 +166,61 @@ skolem:lemma13 a r:Inference;
 
 skolem:lemma14 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" crypto:sha var:x_0} => {:s1 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" crypto:sha var:x_0.
+    } => {
+        :s1 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 skolem:lemma15 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" e:sha var:x_0} => {:s2 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" e:sha var:x_0.
+    } => {
+        :s2 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 skolem:lemma16 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" e:hmac-sha var:x_0} => {:s3 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" e:hmac-sha var:x_0.
+    } => {
+        :s3 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 skolem:lemma17 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" crypto:md5 var:x_0} => {:s4 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" crypto:md5 var:x_0.
+    } => {
+        :s4 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 skolem:lemma18 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" crypto:sha256 var:x_0} => {:s5 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" crypto:sha256 var:x_0.
+    } => {
+        :s5 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 
 skolem:lemma19 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {"blargh" crypto:sha512 var:x_0} => {:s6 :p var:x_0}.
+    @forAll var:x_0. {
+        "blargh" crypto:sha512 var:x_0.
+    } => {
+        :s6 :p var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/crypto/cryptoP.n3>].
 

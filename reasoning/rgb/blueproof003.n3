@@ -8,13 +8,25 @@ skolem:proof a r:Proof, r:Conjunction;
   r:component skolem:lemma1;
   r:component skolem:lemma2;
   r:gives {
-    {?U_0 :p ?U_1} => {?U_0 :q ?U_1}.
-    {?U_2 :q ?U_3} => {?U_2 :r ?U_3}.
+    {
+        ?U_0 :p ?U_1.
+    } => {
+        ?U_0 :q ?U_1.
+    }.
+    {
+        ?U_2 :q ?U_3.
+    } => {
+        ?U_2 :r ?U_3.
+    }.
   }.
 
 skolem:lemma1 a r:Inference;
   r:gives {
-    {?U_0 :p ?U_1} => {?U_0 :q ?U_1}.
+    {
+        ?U_0 :p ?U_1.
+    } => {
+        ?U_0 :q ?U_1.
+    }.
   };
   r:evidence (
     [ a r:Fact; r:gives true]
@@ -25,7 +37,11 @@ skolem:lemma1 a r:Inference;
 
 skolem:lemma2 a r:Inference;
   r:gives {
-    {?U_2 :q ?U_3} => {?U_2 :r ?U_3}.
+    {
+        ?U_2 :q ?U_3.
+    } => {
+        ?U_2 :r ?U_3.
+    }.
   };
   r:evidence (
     [ a r:Fact; r:gives true]
@@ -36,13 +52,25 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1. true => {{var:x_0 :p var:x_1} => {var:x_0 :q var:x_1}}.
+    @forSome var:x_0, var:x_1. true => {
+        {
+            var:x_0 :p var:x_1.
+        } => {
+            var:x_0 :q var:x_1.
+        }.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rgb/greenquery003.n3>].
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1. true => {{var:x_0 :q var:x_1} => {var:x_0 :r var:x_1}}.
+    @forSome var:x_0, var:x_1. true => {
+        {
+            var:x_0 :q var:x_1.
+        } => {
+            var:x_0 :r var:x_1.
+        }.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rgb/greenquery003.n3>].
 

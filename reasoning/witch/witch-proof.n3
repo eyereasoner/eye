@@ -33,7 +33,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :WITCH} => {var:x_0 a :WITCH}.
+    @forAll var:x_0. {
+        var:x_0 a :WITCH.
+    } => {
+        var:x_0 a :WITCH.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch-goal.n3>].
 
@@ -55,8 +59,12 @@ skolem:lemma5 a r:Extraction;
 
 skolem:lemma6 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :BURNS.
-     var:x_0 a :WOMAN} => {var:x_0 a :WITCH}.
+    @forAll var:x_0. {
+        var:x_0 a :BURNS.
+        var:x_0 a :WOMAN.
+    } => {
+        var:x_0 a :WITCH.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -72,7 +80,11 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :ISMADEOFWOOD} => {var:x_0 a :BURNS}.
+    @forAll var:x_0. {
+        var:x_0 a :ISMADEOFWOOD.
+    } => {
+        var:x_0 a :BURNS.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -90,7 +102,11 @@ skolem:lemma9 a r:Inference;
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :FLOATS} => {var:x_0 a :ISMADEOFWOOD}.
+    @forAll var:x_0. {
+        var:x_0 a :FLOATS.
+    } => {
+        var:x_0 a :ISMADEOFWOOD.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 
@@ -108,8 +124,12 @@ skolem:lemma12 a r:Extraction;
 
 skolem:lemma13 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 a :FLOATS.
-     var:x_0 :SAMEWEIGHT var:x_1} => {var:x_1 a :FLOATS}.
+    @forAll var:x_0, var:x_1. {
+        var:x_0 a :FLOATS.
+        var:x_0 :SAMEWEIGHT var:x_1.
+    } => {
+        var:x_1 a :FLOATS.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/witch/witch.n3>].
 

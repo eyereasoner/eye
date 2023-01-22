@@ -37,7 +37,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_1 var:x_0 var:x_2.
+    } => {
+        var:x_1 var:x_0 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -64,7 +68,11 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {(3 :left :right :center) :moves var:x_0} => {3 :answer var:x_0}.
+    @forAll var:x_0. {
+        (3 :left :right :center) :moves var:x_0.
+    } => {
+        3 :answer var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
@@ -112,11 +120,15 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {(var:x_0 var:x_2 var:x_4 var:x_3) :moves var:x_7} <= {var:x_0 math:greaterThan 1 .
-     (var:x_0 1) math:difference var:x_1.
-     (var:x_1 var:x_2 var:x_3 var:x_4) :moves var:x_5.
-     (var:x_1 var:x_3 var:x_4 var:x_2) :moves var:x_6.
-     (var:x_5 ((var:x_2 var:x_4)) var:x_6) list:append var:x_7}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        (var:x_0 var:x_2 var:x_4 var:x_3) :moves var:x_7.
+    } <= {
+        var:x_0 math:greaterThan 1 .
+        (var:x_0 1) math:difference var:x_1.
+        (var:x_1 var:x_2 var:x_3 var:x_4) :moves var:x_5.
+        (var:x_1 var:x_3 var:x_4 var:x_2) :moves var:x_6.
+        (var:x_5 ((var:x_2 var:x_4)) var:x_6) list:append var:x_7.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/hanoi/hanoi.n3>].
 
@@ -158,7 +170,9 @@ skolem:lemma11 a r:Inference;
 
 skolem:lemma12 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1, var:x_2. {(1 var:x_0 var:x_1 var:x_2) :moves ((var:x_0 var:x_1))} <= true.
+    @forSome var:x_0, var:x_1, var:x_2. {
+        (1 var:x_0 var:x_1 var:x_2) :moves ((var:x_0 var:x_1)).
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/hanoi/hanoi.n3>].
 

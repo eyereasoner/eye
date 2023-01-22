@@ -101,7 +101,11 @@ skolem:lemma7 a r:Extraction;
 
 skolem:lemma8 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_1 var:x_0 var:x_2} => {var:x_1 var:x_0 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_1 var:x_0 var:x_2.
+    } => {
+        var:x_1 var:x_0 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
 
@@ -135,7 +139,11 @@ skolem:lemma13 a r:Inference;
   };
   r:evidence (
     skolem:lemma7
-    [ a r:Fact; r:gives {({:taskA :subtask _:sk_0} {_:sk_0 a :Completed}) log:forAllIn ((<http://eyereasoner.github.io/eye/reasoning/twf/example27.n3>) 1)}]
+    [ a r:Fact; r:gives {({
+        :taskA :subtask _:sk_0.
+    } {
+        _:sk_0 a :Completed.
+    }) log:forAllIn ((<http://eyereasoner.github.io/eye/reasoning/twf/example27.n3>) 1)}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.com/taskA"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/twf/example27.n3>) 1)];
@@ -144,8 +152,16 @@ skolem:lemma13 a r:Inference;
 
 skolem:lemma14 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :CompositeTask.
-     ({var:x_0 :subtask var:x_1} {var:x_1 a :Completed}) log:forAllIn var:x_2} => {var:x_0 a :Completed}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :CompositeTask.
+        ({
+            var:x_0 :subtask var:x_1.
+        } {
+            var:x_1 a :Completed.
+        }) log:forAllIn var:x_2.
+    } => {
+        var:x_0 a :Completed.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/twf/example27.n3>].
 

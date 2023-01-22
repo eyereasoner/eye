@@ -42,7 +42,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0} => {((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0}.
+    @forAll var:x_0. {
+        ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0.
+    } => {
+        ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gccQ.n3>].
 
@@ -90,10 +94,14 @@ skolem:lemma5 a r:Inference;
 
 skolem:lemma6 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {(var:x_0 var:x_6) :testgcc var:x_3} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_4 var:x_5).
-     (var:x_1 var:x_6) :gcc var:x_4.
-     (var:x_2 var:x_4) :testgcc var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
+        (var:x_0 var:x_6) :testgcc var:x_3.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_4 var:x_5).
+        (var:x_1 var:x_6) :gcc var:x_4.
+        (var:x_2 var:x_4) :testgcc var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -166,11 +174,15 @@ skolem:lemma10 a r:Inference;
 
 skolem:lemma11 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_6 (var:x_0 var:x_1 var:x_2)) :gcc (var:x_7 var:x_8 var:x_9)} <= {(var:x_0 var:x_1 var:x_2) :netb (var:x_3 var:x_4).
-     (var:x_0 var:x_1) :neta var:x_5.
-     (var:x_3 var:x_6 var:x_0) :dff var:x_7.
-     (var:x_4 var:x_6 var:x_1) :dff var:x_8.
-     (var:x_5 var:x_6 var:x_2) :dff var:x_9}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
+        (var:x_6 (var:x_0 var:x_1 var:x_2)) :gcc (var:x_7 var:x_8 var:x_9).
+    } <= {
+        (var:x_0 var:x_1 var:x_2) :netb (var:x_3 var:x_4).
+        (var:x_0 var:x_1) :neta var:x_5.
+        (var:x_3 var:x_6 var:x_0) :dff var:x_7.
+        (var:x_4 var:x_6 var:x_1) :dff var:x_8.
+        (var:x_5 var:x_6 var:x_2) :dff var:x_9.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -248,13 +260,17 @@ skolem:lemma18 a r:Extraction;
 
 skolem:lemma19 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {(var:x_0 var:x_4 var:x_1) :netb (var:x_8 var:x_9)} <= {(var:x_0 var:x_1) :and var:x_2.
-     var:x_1 :inv var:x_3.
-     (var:x_4 var:x_3) :and var:x_5.
-     var:x_0 :inv var:x_6.
-     (var:x_6 var:x_1) :and var:x_7.
-     (var:x_2 var:x_5) :or var:x_8.
-     (var:x_5 var:x_7) :or var:x_9}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
+        (var:x_0 var:x_4 var:x_1) :netb (var:x_8 var:x_9).
+    } <= {
+        (var:x_0 var:x_1) :and var:x_2.
+        var:x_1 :inv var:x_3.
+        (var:x_4 var:x_3) :and var:x_5.
+        var:x_0 :inv var:x_6.
+        (var:x_6 var:x_1) :and var:x_7.
+        (var:x_2 var:x_5) :or var:x_8.
+        (var:x_5 var:x_7) :or var:x_9.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -272,17 +288,23 @@ skolem:lemma21 a r:Extraction;
 
 skolem:lemma22 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {(var:x_0 var:x_1) :neta var:x_6} <= {(var:x_0 var:x_1) :and var:x_2.
-     var:x_0 :inv var:x_3.
-     var:x_1 :inv var:x_4.
-     (var:x_3 var:x_4) :and var:x_5.
-     (var:x_2 var:x_5) :or var:x_6}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
+        (var:x_0 var:x_1) :neta var:x_6.
+    } <= {
+        (var:x_0 var:x_1) :and var:x_2.
+        var:x_0 :inv var:x_3.
+        var:x_1 :inv var:x_4.
+        (var:x_3 var:x_4) :and var:x_5.
+        (var:x_2 var:x_5) :or var:x_6.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 
 skolem:lemma23 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1. {(var:x_0 1 var:x_1) :dff var:x_0} <= true.
+    @forSome var:x_0, var:x_1. {
+        (var:x_0 1 var:x_1) :dff var:x_0.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 
@@ -819,7 +841,9 @@ skolem:lemma50 a r:Inference;
 
 skolem:lemma51 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(() var:x_0) :testgcc ()} <= true.
+    @forSome var:x_0. {
+        (() var:x_0) :testgcc ().
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gcc/gcc.n3>].
 

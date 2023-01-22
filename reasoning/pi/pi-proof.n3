@@ -38,7 +38,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {(1000 var:x_0) :pi true} => {(1000 var:x_0) :pi true}.
+    @forAll var:x_0. {
+        (1000 var:x_0) :pi true.
+    } => {
+        (1000 var:x_0) :pi true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pi/pi-query.n3>].
 
@@ -75,9 +79,13 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {(var:x_0 var:x_3) :pi true} <= {(1 var:x_0 0 var:x_1 1) :pi true.
-     (4 var:x_1) math:product var:x_2.
-     (3 var:x_2) math:sum var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        (var:x_0 var:x_3) :pi true.
+    } <= {
+        (1 var:x_0 0 var:x_1 1) :pi true.
+        (4 var:x_1) math:product var:x_2.
+        (3 var:x_2) math:sum var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pi/pi.n3>].
 
@@ -114,16 +122,20 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {(var:x_0 var:x_1 var:x_9 var:x_12 var:x_7) :pi true} <= {var:x_0 math:notEqualTo var:x_1.
-     (var:x_0 1) math:sum var:x_2.
-     (2 var:x_0) math:product var:x_3.
-     (var:x_3 1) math:sum var:x_4.
-     (var:x_3 2) math:sum var:x_5.
-     (var:x_3 var:x_4 var:x_5) math:product var:x_6.
-     (var:x_7 var:x_6) math:quotient var:x_8.
-     (var:x_9 var:x_8) math:sum var:x_10.
-     var:x_7 math:negation var:x_11.
-     (var:x_2 var:x_1 var:x_10 var:x_12 var:x_11) :pi true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {
+        (var:x_0 var:x_1 var:x_9 var:x_12 var:x_7) :pi true.
+    } <= {
+        var:x_0 math:notEqualTo var:x_1.
+        (var:x_0 1) math:sum var:x_2.
+        (2 var:x_0) math:product var:x_3.
+        (var:x_3 1) math:sum var:x_4.
+        (var:x_3 2) math:sum var:x_5.
+        (var:x_3 var:x_4 var:x_5) math:product var:x_6.
+        (var:x_7 var:x_6) math:quotient var:x_8.
+        (var:x_9 var:x_8) math:sum var:x_10.
+        var:x_7 math:negation var:x_11.
+        (var:x_2 var:x_1 var:x_10 var:x_12 var:x_11) :pi true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pi/pi.n3>].
 
@@ -31048,7 +31060,9 @@ skolem:lemma1005 a r:Inference;
 
 skolem:lemma1006 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1, var:x_2. {(var:x_0 var:x_0 var:x_1 var:x_1 var:x_2) :pi true} <= true.
+    @forSome var:x_0, var:x_1, var:x_2. {
+        (var:x_0 var:x_0 var:x_1 var:x_1 var:x_2) :pi true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/pi/pi.n3>].
 

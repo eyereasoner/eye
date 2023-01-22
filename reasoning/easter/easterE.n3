@@ -484,7 +484,11 @@ skolem:lemma31 a r:Inference;
 
 skolem:lemma32 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 :easterFor var:x_1} => {var:x_0 :easterFor var:x_1}.
+    @forAll var:x_0, var:x_1. {
+        var:x_0 :easterFor var:x_1.
+    } => {
+        var:x_0 :easterFor var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/easter/easterF.n3>].
 
@@ -2758,41 +2762,45 @@ skolem:lemma62 a r:Extraction;
 
 skolem:lemma63 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {var:x_0 a :Year.
-     (var:x_0 19) math:remainder var:x_1.
-     (var:x_0 100) math:integerQuotient var:x_2.
-     (var:x_0 100) math:remainder var:x_3.
-     (var:x_2 4) math:integerQuotient var:x_4.
-     (var:x_2 4) math:remainder var:x_5.
-     (var:x_2 8) math:sum var:x_6.
-     (var:x_6 25) math:integerQuotient var:x_7.
-     (var:x_2 var:x_7) math:difference var:x_8.
-     (var:x_8 1) math:sum var:x_9.
-     (var:x_9 3) math:integerQuotient var:x_10.
-     (19 var:x_1) math:product var:x_11.
-     (var:x_11 var:x_2) math:sum var:x_12.
-     (var:x_12 var:x_4) math:difference var:x_13.
-     (var:x_13 var:x_10) math:difference var:x_14.
-     (var:x_14 15) math:sum var:x_15.
-     (var:x_15 30) math:remainder var:x_16.
-     (var:x_3 4) math:integerQuotient var:x_17.
-     (var:x_3 4) math:remainder var:x_18.
-     (2 var:x_5) math:product var:x_19.
-     (2 var:x_17) math:product var:x_20.
-     var:x_16 math:negation var:x_21.
-     var:x_18 math:negation var:x_22.
-     (32 var:x_19 var:x_20 var:x_21 var:x_22) math:sum var:x_23.
-     (var:x_23 7) math:remainder var:x_24.
-     (11 var:x_16) math:product var:x_25.
-     (22 var:x_24) math:product var:x_26.
-     (var:x_1 var:x_25 var:x_26) math:sum var:x_27.
-     (var:x_27 451) math:integerQuotient var:x_28.
-     (7 var:x_28) math:product var:x_29.
-     var:x_29 math:negation var:x_30.
-     (var:x_16 var:x_24 var:x_30 114) math:sum var:x_31.
-     (var:x_31 31) math:integerQuotient var:x_32.
-     (var:x_31 31) math:remainder var:x_33.
-     (var:x_33 1) math:sum var:x_34} => {(var:x_34 var:x_32) :easterFor var:x_0}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19, var:x_20, var:x_21, var:x_22, var:x_23, var:x_24, var:x_25, var:x_26, var:x_27, var:x_28, var:x_29, var:x_30, var:x_31, var:x_32, var:x_33, var:x_34. {
+        var:x_0 a :Year.
+        (var:x_0 19) math:remainder var:x_1.
+        (var:x_0 100) math:integerQuotient var:x_2.
+        (var:x_0 100) math:remainder var:x_3.
+        (var:x_2 4) math:integerQuotient var:x_4.
+        (var:x_2 4) math:remainder var:x_5.
+        (var:x_2 8) math:sum var:x_6.
+        (var:x_6 25) math:integerQuotient var:x_7.
+        (var:x_2 var:x_7) math:difference var:x_8.
+        (var:x_8 1) math:sum var:x_9.
+        (var:x_9 3) math:integerQuotient var:x_10.
+        (19 var:x_1) math:product var:x_11.
+        (var:x_11 var:x_2) math:sum var:x_12.
+        (var:x_12 var:x_4) math:difference var:x_13.
+        (var:x_13 var:x_10) math:difference var:x_14.
+        (var:x_14 15) math:sum var:x_15.
+        (var:x_15 30) math:remainder var:x_16.
+        (var:x_3 4) math:integerQuotient var:x_17.
+        (var:x_3 4) math:remainder var:x_18.
+        (2 var:x_5) math:product var:x_19.
+        (2 var:x_17) math:product var:x_20.
+        var:x_16 math:negation var:x_21.
+        var:x_18 math:negation var:x_22.
+        (32 var:x_19 var:x_20 var:x_21 var:x_22) math:sum var:x_23.
+        (var:x_23 7) math:remainder var:x_24.
+        (11 var:x_16) math:product var:x_25.
+        (22 var:x_24) math:product var:x_26.
+        (var:x_1 var:x_25 var:x_26) math:sum var:x_27.
+        (var:x_27 451) math:integerQuotient var:x_28.
+        (7 var:x_28) math:product var:x_29.
+        var:x_29 math:negation var:x_30.
+        (var:x_16 var:x_24 var:x_30 114) math:sum var:x_31.
+        (var:x_31 31) math:integerQuotient var:x_32.
+        (var:x_31 31) math:remainder var:x_33.
+        (var:x_33 1) math:sum var:x_34.
+    } => {
+        (var:x_34 var:x_32) :easterFor var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/easter/easterP.n3>].
 

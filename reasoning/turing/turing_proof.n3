@@ -39,7 +39,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {((1 1 1) var:x_0) :turing true} => {((1 1 1) var:x_0) :turing true}.
+    @forAll var:x_0. {
+        ((1 1 1) var:x_0) :turing true.
+    } => {
+        ((1 1 1) var:x_0) :turing true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turingQ.n3>].
 
@@ -99,9 +103,13 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(var:x_1 var:x_4) :turing true} <= {(:q0 () var:x_0 var:x_1 var:x_2) :perform true.
-     (var:x_0 var:x_3) :reverse true.
-     (var:x_3 var:x_2 var:x_4) :append true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        (var:x_1 var:x_4) :turing true.
+    } <= {
+        (:q0 () var:x_0 var:x_1 var:x_2) :perform true.
+        (var:x_0 var:x_3) :reverse true.
+        (var:x_3 var:x_2 var:x_4) :append true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
@@ -166,11 +174,15 @@ skolem:lemma11 a r:Inference;
 
 skolem:lemma12 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {(var:x_3 var:x_8 var:x_11 var:x_0 var:x_12) :perform true} <= {(var:x_0 var:x_1 var:x_2) :symbol true.
-     (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :rule true.
-     var:x_7 e:firstRest (var:x_5 var:x_2).
-     (var:x_6 var:x_8 var:x_9 var:x_7 var:x_10) :action true.
-     (var:x_4 var:x_9 var:x_11 var:x_10 var:x_12) :perform true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {
+        (var:x_3 var:x_8 var:x_11 var:x_0 var:x_12) :perform true.
+    } <= {
+        (var:x_0 var:x_1 var:x_2) :symbol true.
+        (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :rule true.
+        var:x_7 e:firstRest (var:x_5 var:x_2).
+        (var:x_6 var:x_8 var:x_9 var:x_7 var:x_10) :action true.
+        (var:x_4 var:x_9 var:x_11 var:x_10 var:x_12) :perform true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
@@ -193,7 +205,11 @@ skolem:lemma13 a r:Inference;
 
 skolem:lemma14 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {(var:x_0 var:x_1) :reverse true} <= {(var:x_0 () var:x_1) :reverse true}.
+    @forAll var:x_0, var:x_1. {
+        (var:x_0 var:x_1) :reverse true.
+    } <= {
+        (var:x_0 () var:x_1) :reverse true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
@@ -216,22 +232,34 @@ skolem:lemma15 a r:Inference;
 
 skolem:lemma16 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {(var:x_0 var:x_5 var:x_3) :append true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4).
-     (var:x_2 var:x_5 var:x_4) :append true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        (var:x_0 var:x_5 var:x_3) :append true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+        (var:x_2 var:x_5 var:x_4) :append true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma17 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {(var:x_0 var:x_1 var:x_2) :symbol true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        (var:x_0 var:x_1 var:x_2) :symbol true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma18 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {(:right var:x_2 var:x_0 var:x_3 var:x_4) :action true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        (:right var:x_2 var:x_0 var:x_3 var:x_4) :action true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
@@ -307,9 +335,13 @@ skolem:lemma22 a r:Inference;
 
 skolem:lemma23 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {(var:x_0 var:x_4 var:x_5) :reverse true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     var:x_3 e:firstRest (var:x_1 var:x_4).
-     (var:x_2 var:x_3 var:x_5) :reverse true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        (var:x_0 var:x_4 var:x_5) :reverse true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        var:x_3 e:firstRest (var:x_1 var:x_4).
+        (var:x_2 var:x_3 var:x_5) :reverse true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
@@ -459,31 +491,41 @@ skolem:lemma34 a r:Inference;
 
 skolem:lemma35 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(() var:x_0 var:x_0) :append true} <= true.
+    @forSome var:x_0. {
+        (() var:x_0 var:x_0) :append true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma36 a r:Extraction;
   r:gives {
-    {(() :b ()) :symbol true} <= true.
+    {
+        (() :b ()) :symbol true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma37 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1. {(:stay var:x_0 var:x_0 var:x_1 var:x_1) :action true} <= true.
+    @forSome var:x_0, var:x_1. {
+        (:stay var:x_0 var:x_0 var:x_1 var:x_1) :action true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma38 a r:Extraction;
   r:gives {
-    @forSome var:x_0, var:x_1. {(:qf var:x_0 var:x_0 var:x_1 var:x_1) :perform true} <= true.
+    @forSome var:x_0, var:x_1. {
+        (:qf var:x_0 var:x_0 var:x_1 var:x_1) :perform true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
 skolem:lemma39 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(() var:x_0 var:x_0) :reverse true} <= true.
+    @forSome var:x_0. {
+        (() var:x_0 var:x_0) :reverse true.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 

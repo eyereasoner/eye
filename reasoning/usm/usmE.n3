@@ -47,9 +47,13 @@ skolem:lemma3 a r:Extraction;
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 :state (var:x_1 var:x_2).
-     var:x_0 :instruction (:halt)} => {var:x_0 :state (var:x_1 var:x_2).
-     var:x_0 :instruction (:halt)}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_0 :instruction (:halt).
+    } => {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_0 :instruction (:halt).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmQ.n3>].
 
@@ -75,8 +79,12 @@ skolem:lemma6 a r:Extraction;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 :state (var:x_1 0).
-     var:x_0 :instruction (:jpz 2 var:x_2 var:x_3)} => {var:x_2 :state (var:x_1 0)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 :state (var:x_1 0).
+        var:x_0 :instruction (:jpz 2 var:x_2 var:x_3).
+    } => {
+        var:x_2 :state (var:x_1 0).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -104,8 +112,12 @@ skolem:lemma9 a r:Extraction;
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 :state (var:x_1 var:x_2).
-     var:x_0 :instruction (:goto var:x_3)} => {var:x_3 :state (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_0 :instruction (:goto var:x_3).
+    } => {
+        var:x_3 :state (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -145,9 +157,13 @@ skolem:lemma13 a r:Inference;
 
 skolem:lemma14 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 :state (var:x_1 var:x_2).
-     var:x_0 :instruction (:inc 1 var:x_3).
-     var:x_1 :inc var:x_4} => {var:x_3 :state (var:x_4 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_0 :instruction (:inc 1 var:x_3).
+        var:x_1 :inc var:x_4.
+    } => {
+        var:x_3 :state (var:x_4 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -182,9 +198,13 @@ skolem:lemma17 a r:Extraction;
 
 skolem:lemma18 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {var:x_0 :state (var:x_1 var:x_2).
-     var:x_0 :instruction (:dec 2 var:x_3).
-     var:x_4 :inc var:x_2} => {var:x_3 :state (var:x_1 var:x_4)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_0 :instruction (:dec 2 var:x_3).
+        var:x_4 :inc var:x_2.
+    } => {
+        var:x_3 :state (var:x_1 var:x_4).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -202,7 +222,11 @@ skolem:lemma19 a r:Inference;
 
 skolem:lemma20 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. @forSome var:x_2. {var:x_0 :inc var:x_1} => {var:x_1 :inc var:x_2}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2. {
+        var:x_0 :inc var:x_1.
+    } => {
+        var:x_1 :inc var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 
@@ -222,9 +246,13 @@ skolem:lemma21 a r:Inference;
 
 skolem:lemma22 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {var:x_0 :state (var:x_1 var:x_2).
-     var:x_3 :inc var:x_2.
-     var:x_0 :instruction (:jpz 2 var:x_4 var:x_5)} => {var:x_5 :state (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        var:x_0 :state (var:x_1 var:x_2).
+        var:x_3 :inc var:x_2.
+        var:x_0 :instruction (:jpz 2 var:x_4 var:x_5).
+    } => {
+        var:x_5 :state (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/usm/usmP.n3>].
 

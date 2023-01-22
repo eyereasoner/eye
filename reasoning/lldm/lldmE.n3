@@ -48,8 +48,12 @@ skolem:lemma3 a r:Inference;
 
 skolem:lemma4 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {var:x_0 a :Measurement.
-     var:x_0 a :LLDAlarm} => {var:x_0 a :LLDAlarm}.
+    @forAll var:x_0. {
+        var:x_0 a :Measurement.
+        var:x_0 a :LLDAlarm.
+    } => {
+        var:x_0 a :LLDAlarm.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmF.n3>].
 
@@ -71,9 +75,13 @@ skolem:lemma5 a r:Inference;
 
 skolem:lemma6 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {var:x_0 a :Measurement.
-     var:x_0 :dCm var:x_1.
-     var:x_1 math:lessThan -1.25} => {var:x_0 a :LLDAlarm}.
+    @forAll var:x_0, var:x_1. {
+        var:x_0 a :Measurement.
+        var:x_0 :dCm var:x_1.
+        var:x_1 math:lessThan -1.25.
+    } => {
+        var:x_0 a :LLDAlarm.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -107,10 +115,14 @@ skolem:lemma8 a r:Inference;
 
 skolem:lemma9 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :d53Cm var:x_1.
-     var:x_0 :d64Cm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dCm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :d53Cm var:x_1.
+        var:x_0 :d64Cm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dCm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -132,9 +144,13 @@ skolem:lemma10 a r:Inference;
 
 skolem:lemma11 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :ssd53Cm2 var:x_1.
-     (var:x_1 0.5) math:exponentiation var:x_2} => {var:x_0 :d53Cm var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :ssd53Cm2 var:x_1.
+        (var:x_1 0.5) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :d53Cm var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -156,9 +172,13 @@ skolem:lemma12 a r:Inference;
 
 skolem:lemma13 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :ssd64Cm2 var:x_1.
-     (var:x_1 0.5) math:exponentiation var:x_2} => {var:x_0 :d64Cm var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :ssd64Cm2 var:x_1.
+        (var:x_1 0.5) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :d64Cm var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -192,10 +212,14 @@ skolem:lemma15 a r:Inference;
 
 skolem:lemma16 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :sdx53Cm2 var:x_1.
-     var:x_0 :sdy53Cm2 var:x_2.
-     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :ssd53Cm2 var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :sdx53Cm2 var:x_1.
+        var:x_0 :sdy53Cm2 var:x_2.
+        (var:x_1 var:x_2) math:sum var:x_3.
+    } => {
+        var:x_0 :ssd53Cm2 var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -229,10 +253,14 @@ skolem:lemma18 a r:Inference;
 
 skolem:lemma19 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :sdx64Cm2 var:x_1.
-     var:x_0 :sdy64Cm2 var:x_2.
-     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :ssd64Cm2 var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :sdx64Cm2 var:x_1.
+        var:x_0 :sdy64Cm2 var:x_2.
+        (var:x_1 var:x_2) math:sum var:x_3.
+    } => {
+        var:x_0 :ssd64Cm2 var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -254,9 +282,13 @@ skolem:lemma20 a r:Inference;
 
 skolem:lemma21 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :dx53Cm var:x_1.
-     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdx53Cm2 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :dx53Cm var:x_1.
+        (var:x_1 2) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :sdx53Cm2 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -278,9 +310,13 @@ skolem:lemma22 a r:Inference;
 
 skolem:lemma23 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :dy53Cm var:x_1.
-     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdy53Cm2 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :dy53Cm var:x_1.
+        (var:x_1 2) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :sdy53Cm2 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -302,9 +338,13 @@ skolem:lemma24 a r:Inference;
 
 skolem:lemma25 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :dx64Cm var:x_1.
-     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdx64Cm2 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :dx64Cm var:x_1.
+        (var:x_1 2) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :sdx64Cm2 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -326,9 +366,13 @@ skolem:lemma26 a r:Inference;
 
 skolem:lemma27 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :dy64Cm var:x_1.
-     (var:x_1 2) math:exponentiation var:x_2} => {var:x_0 :sdy64Cm2 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :dy64Cm var:x_1.
+        (var:x_1 2) math:exponentiation var:x_2.
+    } => {
+        var:x_0 :sdy64Cm2 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -356,10 +400,14 @@ skolem:lemma29 a r:Extraction;
 
 skolem:lemma30 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p5xCm var:x_1.
-     var:x_0 :p3xCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx53Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p5xCm var:x_1.
+        var:x_0 :p3xCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dx53Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -387,10 +435,14 @@ skolem:lemma32 a r:Extraction;
 
 skolem:lemma33 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p5yCm var:x_1.
-     var:x_0 :p3yCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy53Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p5yCm var:x_1.
+        var:x_0 :p3yCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dy53Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -418,10 +470,14 @@ skolem:lemma35 a r:Extraction;
 
 skolem:lemma36 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p6xCm var:x_1.
-     var:x_0 :p4xCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx64Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p6xCm var:x_1.
+        var:x_0 :p4xCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dx64Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -449,10 +505,14 @@ skolem:lemma38 a r:Extraction;
 
 skolem:lemma39 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p6yCm var:x_1.
-     var:x_0 :p4yCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy64Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p6yCm var:x_1.
+        var:x_0 :p4yCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dy64Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -490,10 +550,14 @@ skolem:lemma41 a r:Inference;
 
 skolem:lemma42 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :ddy13Cm var:x_1.
-     var:x_0 :ddL13 var:x_2.
-     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :p5xCm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :ddy13Cm var:x_1.
+        var:x_0 :ddL13 var:x_2.
+        (var:x_1 var:x_2) math:quotient var:x_3.
+    } => {
+        var:x_0 :p5xCm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -521,10 +585,14 @@ skolem:lemma44 a r:Extraction;
 
 skolem:lemma45 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :pL1dx51Cm var:x_1.
-     var:x_0 :p1yCm var:x_2.
-     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :p5yCm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :pL1dx51Cm var:x_1.
+        var:x_0 :p1yCm var:x_2.
+        (var:x_1 var:x_2) math:sum var:x_3.
+    } => {
+        var:x_0 :p5yCm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -546,10 +614,14 @@ skolem:lemma46 a r:Inference;
 
 skolem:lemma47 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :ddy24Cm var:x_1.
-     var:x_0 :ddL13 var:x_2.
-     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :p6xCm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :ddy24Cm var:x_1.
+        var:x_0 :ddL13 var:x_2.
+        (var:x_1 var:x_2) math:quotient var:x_3.
+    } => {
+        var:x_0 :p6xCm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -577,10 +649,14 @@ skolem:lemma49 a r:Extraction;
 
 skolem:lemma50 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :pL1dx62Cm var:x_1.
-     var:x_0 :p2yCm var:x_2.
-     (var:x_1 var:x_2) math:sum var:x_3} => {var:x_0 :p6yCm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :pL1dx62Cm var:x_1.
+        var:x_0 :p2yCm var:x_2.
+        (var:x_1 var:x_2) math:sum var:x_3.
+    } => {
+        var:x_0 :p6yCm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -618,10 +694,14 @@ skolem:lemma52 a r:Inference;
 
 skolem:lemma53 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :dd13Cm var:x_1.
-     var:x_0 :dy13Cm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddy13Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :dd13Cm var:x_1.
+        var:x_0 :dy13Cm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :ddy13Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -657,10 +737,14 @@ skolem:lemma55 a r:Inference;
 
 skolem:lemma56 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     var:x_0 :cL3 var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddL13 var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        var:x_0 :cL3 var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :ddL13 var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -682,10 +766,14 @@ skolem:lemma57 a r:Inference;
 
 skolem:lemma58 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     var:x_0 :dx51Cm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1dx51Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        var:x_0 :dx51Cm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL1dx51Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -723,10 +811,14 @@ skolem:lemma60 a r:Inference;
 
 skolem:lemma61 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :dd24Cm var:x_1.
-     var:x_0 :dy24Cm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :ddy24Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :dd24Cm var:x_1.
+        var:x_0 :dy24Cm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :ddy24Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -748,10 +840,14 @@ skolem:lemma62 a r:Inference;
 
 skolem:lemma63 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     var:x_0 :dx62Cm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1dx62Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        var:x_0 :dx62Cm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL1dx62Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -789,19 +885,27 @@ skolem:lemma65 a r:Inference;
 
 skolem:lemma66 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :pL1x1Cm var:x_1.
-     var:x_0 :pL3x3Cm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dd13Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :pL1x1Cm var:x_1.
+        var:x_0 :pL3x3Cm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dd13Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma67 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p1yCm var:x_1.
-     var:x_0 :p3yCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy13Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p1yCm var:x_1.
+        var:x_0 :p3yCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dy13Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -839,10 +943,14 @@ skolem:lemma69 a r:Inference;
 
 skolem:lemma70 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :dy12Cm var:x_1.
-     var:x_0 :dx12Cm var:x_2.
-     (var:x_1 var:x_2) math:quotient var:x_3} => {var:x_0 :cL1 var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :dy12Cm var:x_1.
+        var:x_0 :dx12Cm var:x_2.
+        (var:x_1 var:x_2) math:quotient var:x_3.
+    } => {
+        var:x_0 :cL1 var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -862,9 +970,13 @@ skolem:lemma71 a r:Inference;
 
 skolem:lemma72 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :dL3m var:x_1.
-     (0 var:x_1) math:difference var:x_2} => {var:x_0 :cL3 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :dL3m var:x_1.
+        (0 var:x_1) math:difference var:x_2.
+    } => {
+        var:x_0 :cL3 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -876,10 +988,14 @@ skolem:lemma73 a r:Extraction;
 
 skolem:lemma74 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p5xCm var:x_1.
-     var:x_0 :p1xCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx51Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p5xCm var:x_1.
+        var:x_0 :p1xCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dx51Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -917,19 +1033,27 @@ skolem:lemma76 a r:Inference;
 
 skolem:lemma77 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :pL1x2Cm var:x_1.
-     var:x_0 :pL3x4Cm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dd24Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :pL1x2Cm var:x_1.
+        var:x_0 :pL3x4Cm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dd24Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma78 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p2yCm var:x_1.
-     var:x_0 :p4yCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy24Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p2yCm var:x_1.
+        var:x_0 :p4yCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dy24Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
@@ -941,72 +1065,104 @@ skolem:lemma79 a r:Extraction;
 
 skolem:lemma80 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p6xCm var:x_1.
-     var:x_0 :p2xCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx62Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p6xCm var:x_1.
+        var:x_0 :p2xCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dx62Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma81 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     var:x_0 :p1xCm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1x1Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        var:x_0 :p1xCm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL1x1Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma82 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL3 var:x_1.
-     var:x_0 :p3xCm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL3x3Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL3 var:x_1.
+        var:x_0 :p3xCm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL3x3Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma83 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p1yCm var:x_1.
-     var:x_0 :p2yCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dy12Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p1yCm var:x_1.
+        var:x_0 :p2yCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dy12Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma84 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :p1xCm var:x_1.
-     var:x_0 :p2xCm var:x_2.
-     (var:x_1 var:x_2) math:difference var:x_3} => {var:x_0 :dx12Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :p1xCm var:x_1.
+        var:x_0 :p2xCm var:x_2.
+        (var:x_1 var:x_2) math:difference var:x_3.
+    } => {
+        var:x_0 :dx12Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma85 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     (1 var:x_1) math:quotient var:x_2} => {var:x_0 :dL3m var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        (1 var:x_1) math:quotient var:x_2.
+    } => {
+        var:x_0 :dL3m var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma86 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL1 var:x_1.
-     var:x_0 :p2xCm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL1x2Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL1 var:x_1.
+        var:x_0 :p2xCm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL1x2Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 
 skolem:lemma87 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a :Measurement.
-     var:x_0 :cL3 var:x_1.
-     var:x_0 :p4xCm var:x_2.
-     (var:x_1 var:x_2) math:product var:x_3} => {var:x_0 :pL3x4Cm var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a :Measurement.
+        var:x_0 :cL3 var:x_1.
+        var:x_0 :p4xCm var:x_2.
+        (var:x_1 var:x_2) math:product var:x_3.
+    } => {
+        var:x_0 :pL3x4Cm var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/lldm/lldmP.n3>].
 

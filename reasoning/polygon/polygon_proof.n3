@@ -53,7 +53,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0} => {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0}.
+    @forAll var:x_0. {
+        ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0.
+    } => {
+        ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/polygon/polygon_query.n3>].
 
@@ -88,14 +92,18 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {var:x_0 polygon:area var:x_12} <= {var:x_0 e:firstRest ((var:x_1 var:x_2) var:x_3).
-     var:x_3 e:firstRest ((var:x_4 var:x_5) var:x_6).
-     var:x_3 polygon:area var:x_7.
-     (var:x_1 var:x_5) math:product var:x_8.
-     (var:x_2 var:x_4) math:product var:x_9.
-     (var:x_8 var:x_9) math:difference var:x_10.
-     (var:x_10 2) math:quotient var:x_11.
-     (var:x_11 var:x_7) math:sum var:x_12}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {
+        var:x_0 polygon:area var:x_12.
+    } <= {
+        var:x_0 e:firstRest ((var:x_1 var:x_2) var:x_3).
+        var:x_3 e:firstRest ((var:x_4 var:x_5) var:x_6).
+        var:x_3 polygon:area var:x_7.
+        (var:x_1 var:x_5) math:product var:x_8.
+        (var:x_2 var:x_4) math:product var:x_9.
+        (var:x_8 var:x_9) math:difference var:x_10.
+        (var:x_10 2) math:quotient var:x_11.
+        (var:x_11 var:x_7) math:sum var:x_12.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/polygon/polygon.n3>].
 
@@ -227,7 +235,9 @@ skolem:lemma10 a r:Inference;
 
 skolem:lemma11 a r:Extraction;
   r:gives {
-    @forSome var:x_0. {(var:x_0) polygon:area 0} <= true.
+    @forSome var:x_0. {
+        (var:x_0) polygon:area 0.
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/polygon/polygon.n3>].
 

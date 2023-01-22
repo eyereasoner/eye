@@ -36,8 +36,12 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
-     (var:x_0) :accept true} => {"ingirumimusnocteetconsumimurigni" a :Palindrome}.
+    @forAll var:x_0. {
+        ("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) e:derive true.
+        (var:x_0) :accept true.
+    } => {
+        "ingirumimusnocteetconsumimurigni" a :Palindrome.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome-query.n3>].
 
@@ -67,8 +71,12 @@ skolem:lemma5 a r:Inference;
 
 skolem:lemma6 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. {(var:x_1) :accept true} <= {(var:x_0) :initial true.
-     (var:x_1 var:x_0 ()) :accept true}.
+    @forAll var:x_0, var:x_1. {
+        (var:x_1) :accept true.
+    } <= {
+        (var:x_0) :initial true.
+        (var:x_1 var:x_0 ()) :accept true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -104,15 +112,23 @@ skolem:lemma8 a r:Inference;
 
 skolem:lemma9 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {(var:x_0 var:x_3 var:x_4) :accept true} <= {var:x_0 e:firstRest (var:x_1 var:x_2).
-     (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :delta true.
-     (var:x_2 var:x_5 var:x_6) :accept true}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
+        (var:x_0 var:x_3 var:x_4) :accept true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+        (var:x_3 var:x_1 var:x_4 var:x_5 var:x_6) :delta true.
+        (var:x_2 var:x_5 var:x_6) :accept true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :push var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        (:push var:x_1 var:x_2 :push var:x_0) :delta true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -568,7 +584,11 @@ skolem:lemma40 a r:Inference;
 
 skolem:lemma41 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {(:push var:x_1 var:x_2 :pop var:x_0) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        (:push var:x_1 var:x_2 :pop var:x_0) :delta true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -604,7 +624,11 @@ skolem:lemma43 a r:Inference;
 
 skolem:lemma44 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {(:pop var:x_1 var:x_0 :pop var:x_2) :delta true} <= {var:x_0 e:firstRest (var:x_1 var:x_2)}.
+    @forAll var:x_0, var:x_1, var:x_2. {
+        (:pop var:x_1 var:x_0 :pop var:x_2) :delta true.
+    } <= {
+        var:x_0 e:firstRest (var:x_1 var:x_2).
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 
@@ -1058,7 +1082,11 @@ skolem:lemma75 a r:Extraction;
 
 skolem:lemma76 a r:Extraction;
   r:gives {
-    @forAll var:x_0. {(() var:x_0 ()) :accept true} <= {(var:x_0) :final true}.
+    @forAll var:x_0. {
+        (() var:x_0 ()) :accept true.
+    } <= {
+        (var:x_0) :final true.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/preduction/palindrome.n3>].
 

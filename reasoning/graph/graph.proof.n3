@@ -44,7 +44,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    {:paris :path :nantes} => {:paris :path :nantes}.
+    {
+        :paris :path :nantes.
+    } => {
+        :paris :path :nantes.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/graph/graph.filter.n3>].
 
@@ -85,9 +89,13 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 a owl:TransitiveProperty.
-     var:x_1 var:x_0 var:x_2.
-     var:x_3 var:x_0 var:x_1} => {var:x_3 var:x_0 var:x_2}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 a owl:TransitiveProperty.
+        var:x_1 var:x_0 var:x_2.
+        var:x_3 var:x_0 var:x_1.
+    } => {
+        var:x_3 var:x_0 var:x_2.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/graph/rpo-rules.n3>].
 
@@ -105,8 +113,12 @@ skolem:lemma9 a r:Extraction;
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {var:x_0 rdfs:subPropertyOf var:x_1.
-     var:x_2 var:x_0 var:x_3} => {var:x_2 var:x_1 var:x_3}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+        var:x_0 rdfs:subPropertyOf var:x_1.
+        var:x_2 var:x_0 var:x_3.
+    } => {
+        var:x_2 var:x_1 var:x_3.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/graph/rpo-rules.n3>].
 

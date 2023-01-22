@@ -17,17 +17,33 @@
 :beautiful :is :beautiful.
 (_:e_A_1) :is :beautiful.
 log:onNegativeSurface :is :beautiful.
-{_:e_A_1 :is :green.
- () log:onNegativeSurface {_:e_A_1 :is :beautiful}} :is :beautiful.
-{() log:onNegativeSurface {_:e_A_1 :is :green}.
- () log:onNegativeSurface {_:e_A_1 :is :beautiful}} :is :beautiful.
+{
+    _:e_A_1 :is :green.
+    () log:onNegativeSurface {
+        _:e_A_1 :is :beautiful.
+    }.
+} :is :beautiful.
+{
+    () log:onNegativeSurface {
+        _:e_A_1 :is :green.
+    }.
+    () log:onNegativeSurface {
+        _:e_A_1 :is :beautiful.
+    }.
+} :is :beautiful.
 (_:e_S_1 _:e_P_1 _:e_O_1) :is :beautiful.
-{_:e_S_1 _:e_P_1 _:e_O_1.
- () log:onNegativeSurface {_:e_S_1 a rdfs:Resource.
-  _:e_P_1 a rdfs:Resource.
-  _:e_O_1 a rdfs:Resource}} :is :beautiful.
+{
+    _:e_S_1 _:e_P_1 _:e_O_1.
+    () log:onNegativeSurface {
+        _:e_S_1 a rdfs:Resource.
+        _:e_P_1 a rdfs:Resource.
+        _:e_O_1 a rdfs:Resource.
+    }.
+} :is :beautiful.
 (_:e_S_1 _:e_O_1) :is :beautiful.
 log:onQuerySurface :is :beautiful.
-{_:e_S_1 :is _:e_O_1} :is :beautiful.
+{
+    _:e_S_1 :is _:e_O_1.
+} :is :beautiful.
 rdfs:Resource :is :beautiful.
 

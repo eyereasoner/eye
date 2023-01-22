@@ -363,27 +363,31 @@ skolem:lemma9 a r:Extraction;
 
 skolem:lemma10 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_0 human:hasWeightStatus var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_1 quant:hasUnit units:kilogramPerMeterSquare.
-     var:x_1 quant:hasValue var:x_4.
-     var:x_1 event:basedOn var:x_5.
-     var:x_1 event:basedOn var:x_6.
-     var:x_5 quant:hasUnit units:kilogram.
-     var:x_6 quant:hasUnit units:meter.
-     var:x_2 a var:x_7.
-     var:x_2 time:hasDateTime var:x_8.
-     var:x_2 event:basedOn var:x_1} => {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_0 human:hasWeightStatus var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_1 quant:hasUnit units:kilogramPerMeterSquare.
-     var:x_1 quant:hasValue var:x_4.
-     var:x_1 event:basedOn var:x_5.
-     var:x_1 event:basedOn var:x_6.
-     var:x_2 a var:x_7.
-     var:x_2 time:hasDateTime var:x_8.
-     var:x_2 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_0 human:hasWeightStatus var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_1 quant:hasUnit units:kilogramPerMeterSquare.
+        var:x_1 quant:hasValue var:x_4.
+        var:x_1 event:basedOn var:x_5.
+        var:x_1 event:basedOn var:x_6.
+        var:x_5 quant:hasUnit units:kilogram.
+        var:x_6 quant:hasUnit units:meter.
+        var:x_2 a var:x_7.
+        var:x_2 time:hasDateTime var:x_8.
+        var:x_2 event:basedOn var:x_1.
+    } => {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_0 human:hasWeightStatus var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_1 quant:hasUnit units:kilogramPerMeterSquare.
+        var:x_1 quant:hasValue var:x_4.
+        var:x_1 event:basedOn var:x_5.
+        var:x_1 event:basedOn var:x_6.
+        var:x_2 a var:x_7.
+        var:x_2 time:hasDateTime var:x_8.
+        var:x_2 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_query.n3>].
 
@@ -578,11 +582,13 @@ skolem:lemma19 a r:Inference;
     skolem:lemma71
     skolem:lemma72
     skolem:lemma73
-    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult1 human:hasLength i:lengthMeasurement1.
-     i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
-     i:lengthMeasurement1 quant:convertedTo _:sk_6.
-     _:sk_6 quant:hasUnit units:meter.
-     _:sk_6 quant:hasValue 1.9}}]
+    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+        i:adult1 human:hasLength i:lengthMeasurement1.
+        i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
+        i:lengthMeasurement1 quant:convertedTo _:sk_6.
+        _:sk_6 quant:hasUnit units:meter.
+        _:sk_6 quant:hasValue 1.9.
+    }}]
     [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime) math:difference 0}]
     [ a r:Fact; r:gives {0 math:notGreaterThan "P0M"^^xsd:duration}]
     [ a r:Fact; r:gives {0 math:notLessThan "-P0M"^^xsd:duration}]
@@ -658,11 +664,13 @@ skolem:lemma23 a r:Inference;
     skolem:lemma78
     skolem:lemma79
     skolem:lemma80
-    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult2 human:hasLength i:lengthMeasurement2.
-     i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
-     i:lengthMeasurement2 quant:convertedTo _:sk_8.
-     _:sk_8 quant:hasUnit units:meter.
-     _:sk_8 quant:hasValue 2.05}}]
+    [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+        i:adult2 human:hasLength i:lengthMeasurement2.
+        i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
+        i:lengthMeasurement2 quant:convertedTo _:sk_8.
+        _:sk_8 quant:hasUnit units:meter.
+        _:sk_8 quant:hasValue 2.05.
+    }}]
     [ a r:Fact; r:gives {("2010-02-25T00:00:00+01:00"^^xsd:dateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime) math:difference 0}]
     [ a r:Fact; r:gives {0 math:notGreaterThan "P0M"^^xsd:duration}]
     [ a r:Fact; r:gives {0 math:notLessThan "-P0M"^^xsd:duration}]
@@ -821,47 +829,55 @@ skolem:lemma39 a r:Inference;
 
 skolem:lemma40 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16. @forSome var:x_17. {var:x_0 physical:hasComplexity var:x_1.
-     var:x_1 a humanbody:Body.
-     var:x_1 humanbody:hasLength var:x_2.
-     var:x_1 humanbody:hasWeight var:x_3.
-     var:x_2 a humanbody:Length.
-     var:x_2 quant:hasMeasurement var:x_4.
-     var:x_4 quant:hasUnit units:meter.
-     var:x_4 quant:hasValue var:x_5.
-     var:x_4 time:hasDateTime var:x_6.
-     var:x_3 a humanbody:Weight.
-     var:x_3 quant:hasMeasurement var:x_7.
-     var:x_7 quant:hasUnit units:kilogram.
-     var:x_7 quant:hasValue var:x_8.
-     var:x_7 time:hasDateTime var:x_9.
-     (var:x_9 var:x_6) math:difference var:x_10.
-     var:x_10 math:notGreaterThan "P10Y"^^xsd:duration.
-     var:x_10 math:notLessThan "-P7D"^^xsd:duration.
-     (var:x_9 var:x_6) e:max var:x_11.
-     (var:x_12 xsd:dateTime) log:dtlit var:x_11.
-     (var:x_12 xsd:dateTime) log:dtlit var:x_13.
-     (var:x_0 var:x_13) time:calculatingAge var:x_14.
-     var:x_14 math:notLessThan 15 .
-     (var:x_5 2) math:exponentiation var:x_15.
-     (var:x_8 var:x_15) math:quotient var:x_16} => {var:x_0 human:hasBodyMassIndex var:x_17.
-     var:x_17 quant:hasUnit units:kilogramPerMeterSquare.
-     var:x_17 quant:hasValue var:x_16.
-     var:x_17 time:hasDateTime var:x_13.
-     var:x_17 event:basedOn var:x_7.
-     var:x_17 event:basedOn var:x_4}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16. @forSome var:x_17. {
+        var:x_0 physical:hasComplexity var:x_1.
+        var:x_1 a humanbody:Body.
+        var:x_1 humanbody:hasLength var:x_2.
+        var:x_1 humanbody:hasWeight var:x_3.
+        var:x_2 a humanbody:Length.
+        var:x_2 quant:hasMeasurement var:x_4.
+        var:x_4 quant:hasUnit units:meter.
+        var:x_4 quant:hasValue var:x_5.
+        var:x_4 time:hasDateTime var:x_6.
+        var:x_3 a humanbody:Weight.
+        var:x_3 quant:hasMeasurement var:x_7.
+        var:x_7 quant:hasUnit units:kilogram.
+        var:x_7 quant:hasValue var:x_8.
+        var:x_7 time:hasDateTime var:x_9.
+        (var:x_9 var:x_6) math:difference var:x_10.
+        var:x_10 math:notGreaterThan "P10Y"^^xsd:duration.
+        var:x_10 math:notLessThan "-P7D"^^xsd:duration.
+        (var:x_9 var:x_6) e:max var:x_11.
+        (var:x_12 xsd:dateTime) log:dtlit var:x_11.
+        (var:x_12 xsd:dateTime) log:dtlit var:x_13.
+        (var:x_0 var:x_13) time:calculatingAge var:x_14.
+        var:x_14 math:notLessThan 15 .
+        (var:x_5 2) math:exponentiation var:x_15.
+        (var:x_8 var:x_15) math:quotient var:x_16.
+    } => {
+        var:x_0 human:hasBodyMassIndex var:x_17.
+        var:x_17 quant:hasUnit units:kilogramPerMeterSquare.
+        var:x_17 quant:hasValue var:x_16.
+        var:x_17 time:hasDateTime var:x_13.
+        var:x_17 event:basedOn var:x_7.
+        var:x_17 event:basedOn var:x_4.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
 skolem:lemma41 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_2 math:lessThan 16} => {var:x_0 human:hasWeightStatus var:x_4.
-     var:x_4 a humanbody:SeverelyUnderweight.
-     var:x_4 time:hasDateTime var:x_3.
-     var:x_4 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_2 math:lessThan 16.
+    } => {
+        var:x_0 human:hasWeightStatus var:x_4.
+        var:x_4 a humanbody:SeverelyUnderweight.
+        var:x_4 time:hasDateTime var:x_3.
+        var:x_4 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -962,14 +978,18 @@ skolem:lemma54 a r:Inference;
 
 skolem:lemma55 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_2 math:notLessThan 18.5 .
-     var:x_2 math:notGreaterThan 24.9} => {var:x_0 human:hasWeightStatus var:x_4.
-     var:x_4 a humanbody:NormalWeight.
-     var:x_4 time:hasDateTime var:x_3.
-     var:x_4 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_2 math:notLessThan 18.5 .
+        var:x_2 math:notGreaterThan 24.9.
+    } => {
+        var:x_0 human:hasWeightStatus var:x_4.
+        var:x_4 a humanbody:NormalWeight.
+        var:x_4 time:hasDateTime var:x_3.
+        var:x_4 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1070,14 +1090,18 @@ skolem:lemma68 a r:Inference;
 
 skolem:lemma69 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_2 math:notLessThan 16 .
-     var:x_2 math:notGreaterThan 18.4} => {var:x_0 human:hasWeightStatus var:x_4.
-     var:x_4 a humanbody:Underweight.
-     var:x_4 time:hasDateTime var:x_3.
-     var:x_4 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_2 math:notLessThan 16 .
+        var:x_2 math:notGreaterThan 18.4.
+    } => {
+        var:x_0 human:hasWeightStatus var:x_4.
+        var:x_4 a humanbody:Underweight.
+        var:x_4 time:hasDateTime var:x_3.
+        var:x_4 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1101,10 +1125,12 @@ skolem:lemma72 a r:Extraction;
 
 skolem:lemma73 a r:Inference;
   r:gives {
-    ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult1 human:hasLength i:lengthMeasurement1.
-     i:lengthMeasurement1 quant:hasUnit units:meter.
-     i:lengthMeasurement1 quant:hasValue 1.9 .
-     i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime}.
+    ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+        i:adult1 human:hasLength i:lengthMeasurement1.
+        i:lengthMeasurement1 quant:hasUnit units:meter.
+        i:lengthMeasurement1 quant:hasValue 1.9 .
+        i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
+    }.
   };
   r:evidence (
     skolem:lemma87
@@ -1112,13 +1138,21 @@ skolem:lemma73 a r:Inference;
     skolem:lemma88
     skolem:lemma89
   );
-  r:rule [ a r:Fact; r:gives {{i:adult1 human:hasLength i:lengthMeasurement1.
-    i:lengthMeasurement1 quant:hasUnit units:meter.
-    i:lengthMeasurement1 quant:hasValue 1.9 .
-    i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime} => {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult1 human:hasLength i:lengthMeasurement1.
-     i:lengthMeasurement1 quant:hasUnit units:meter.
-     i:lengthMeasurement1 quant:hasValue 1.9 .
-     i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime}}}].
+  r:rule [ a r:Fact; r:gives {
+      {
+          i:adult1 human:hasLength i:lengthMeasurement1.
+          i:lengthMeasurement1 quant:hasUnit units:meter.
+          i:lengthMeasurement1 quant:hasValue 1.9 .
+          i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
+      } => {
+          ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+              i:adult1 human:hasLength i:lengthMeasurement1.
+              i:lengthMeasurement1 quant:hasUnit units:meter.
+              i:lengthMeasurement1 quant:hasValue 1.9 .
+              i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
+          }.
+      }.
+  }].
 
 skolem:lemma74 a r:Inference;
   r:gives {
@@ -1145,45 +1179,57 @@ skolem:lemma74 a r:Inference;
 
 skolem:lemma75 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14. @forSome var:x_15. {var:x_0 human:weighs var:x_1.
-     var:x_1 quant:hasUnit units:kilogram.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_4 e:optional {var:x_0 human:hasLength var:x_5.
-      var:x_5 quant:hasUnit units:meter.
-      var:x_5 quant:hasValue var:x_6.
-      var:x_5 time:hasDateTime var:x_7}.
-     var:x_4 e:optional {var:x_0 human:hasLength var:x_5.
-      var:x_5 time:hasDateTime var:x_7.
-      var:x_5 quant:convertedTo var:x_8.
-      var:x_8 quant:hasUnit units:meter.
-      var:x_8 quant:hasValue var:x_6}.
-     (var:x_3 var:x_7) math:difference var:x_9.
-     var:x_9 math:notGreaterThan "P0M"^^xsd:duration.
-     var:x_9 math:notLessThan "-P0M"^^xsd:duration.
-     (var:x_3 var:x_7) e:max var:x_10.
-     (var:x_11 xsd:dateTime) log:dtlit var:x_10.
-     (var:x_11 xsd:dateTime) log:dtlit var:x_12.
-     (var:x_0 var:x_12) time:calculatingAge var:x_13.
-     var:x_13 math:notLessThan 15 .
-     ("_weightValue/_lengthValue**2" var:x_2 var:x_6) e:calculate var:x_14} => {var:x_0 human:hasBodyMassIndex var:x_15.
-     var:x_15 quant:hasUnit units:kilogramPerMeterSquare.
-     var:x_15 quant:hasValue var:x_14.
-     var:x_15 time:hasDateTime var:x_12.
-     var:x_15 event:basedOn var:x_1.
-     var:x_15 event:basedOn var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14. @forSome var:x_15. {
+        var:x_0 human:weighs var:x_1.
+        var:x_1 quant:hasUnit units:kilogram.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_4 e:optional {
+            var:x_0 human:hasLength var:x_5.
+            var:x_5 quant:hasUnit units:meter.
+            var:x_5 quant:hasValue var:x_6.
+            var:x_5 time:hasDateTime var:x_7.
+        }.
+        var:x_4 e:optional {
+            var:x_0 human:hasLength var:x_5.
+            var:x_5 time:hasDateTime var:x_7.
+            var:x_5 quant:convertedTo var:x_8.
+            var:x_8 quant:hasUnit units:meter.
+            var:x_8 quant:hasValue var:x_6.
+        }.
+        (var:x_3 var:x_7) math:difference var:x_9.
+        var:x_9 math:notGreaterThan "P0M"^^xsd:duration.
+        var:x_9 math:notLessThan "-P0M"^^xsd:duration.
+        (var:x_3 var:x_7) e:max var:x_10.
+        (var:x_11 xsd:dateTime) log:dtlit var:x_10.
+        (var:x_11 xsd:dateTime) log:dtlit var:x_12.
+        (var:x_0 var:x_12) time:calculatingAge var:x_13.
+        var:x_13 math:notLessThan 15 .
+        ("_weightValue/_lengthValue**2" var:x_2 var:x_6) e:calculate var:x_14.
+    } => {
+        var:x_0 human:hasBodyMassIndex var:x_15.
+        var:x_15 quant:hasUnit units:kilogramPerMeterSquare.
+        var:x_15 quant:hasValue var:x_14.
+        var:x_15 time:hasDateTime var:x_12.
+        var:x_15 event:basedOn var:x_1.
+        var:x_15 event:basedOn var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
 skolem:lemma76 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_2 math:notLessThan 45} => {var:x_0 human:hasWeightStatus var:x_4.
-     var:x_4 a humanbody:SuperObese.
-     var:x_4 time:hasDateTime var:x_3.
-     var:x_4 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_2 math:notLessThan 45.
+    } => {
+        var:x_0 human:hasWeightStatus var:x_4.
+        var:x_4 a humanbody:SuperObese.
+        var:x_4 time:hasDateTime var:x_3.
+        var:x_4 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1207,10 +1253,12 @@ skolem:lemma79 a r:Extraction;
 
 skolem:lemma80 a r:Inference;
   r:gives {
-    ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult2 human:hasLength i:lengthMeasurement2.
-     i:lengthMeasurement2 quant:hasUnit units:meter.
-     i:lengthMeasurement2 quant:hasValue 2.05 .
-     i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime}.
+    ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+        i:adult2 human:hasLength i:lengthMeasurement2.
+        i:lengthMeasurement2 quant:hasUnit units:meter.
+        i:lengthMeasurement2 quant:hasValue 2.05 .
+        i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
+    }.
   };
   r:evidence (
     skolem:lemma91
@@ -1218,13 +1266,21 @@ skolem:lemma80 a r:Inference;
     skolem:lemma92
     skolem:lemma93
   );
-  r:rule [ a r:Fact; r:gives {{i:adult2 human:hasLength i:lengthMeasurement2.
-    i:lengthMeasurement2 quant:hasUnit units:meter.
-    i:lengthMeasurement2 quant:hasValue 2.05 .
-    i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime} => {((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {i:adult2 human:hasLength i:lengthMeasurement2.
-     i:lengthMeasurement2 quant:hasUnit units:meter.
-     i:lengthMeasurement2 quant:hasValue 2.05 .
-     i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime}}}].
+  r:rule [ a r:Fact; r:gives {
+      {
+          i:adult2 human:hasLength i:lengthMeasurement2.
+          i:lengthMeasurement2 quant:hasUnit units:meter.
+          i:lengthMeasurement2 quant:hasValue 2.05 .
+          i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
+      } => {
+          ((<http://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+              i:adult2 human:hasLength i:lengthMeasurement2.
+              i:lengthMeasurement2 quant:hasUnit units:meter.
+              i:lengthMeasurement2 quant:hasValue 2.05 .
+              i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
+          }.
+      }.
+  }].
 
 skolem:lemma81 a r:Inference;
   r:gives {
@@ -1251,14 +1307,18 @@ skolem:lemma81 a r:Inference;
 
 skolem:lemma82 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {var:x_0 human:hasBodyMassIndex var:x_1.
-     var:x_1 quant:hasValue var:x_2.
-     var:x_1 time:hasDateTime var:x_3.
-     var:x_2 math:notLessThan 25 .
-     var:x_2 math:notGreaterThan 29.9} => {var:x_0 human:hasWeightStatus var:x_4.
-     var:x_4 a humanbody:Overweight.
-     var:x_4 time:hasDateTime var:x_3.
-     var:x_4 event:basedOn var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
+        var:x_0 human:hasBodyMassIndex var:x_1.
+        var:x_1 quant:hasValue var:x_2.
+        var:x_1 time:hasDateTime var:x_3.
+        var:x_2 math:notLessThan 25 .
+        var:x_2 math:notGreaterThan 29.9.
+    } => {
+        var:x_0 human:hasWeightStatus var:x_4.
+        var:x_4 a humanbody:Overweight.
+        var:x_4 time:hasDateTime var:x_3.
+        var:x_4 event:basedOn var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
@@ -1270,13 +1330,17 @@ skolem:lemma83 a r:Extraction;
 
 skolem:lemma84 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {(var:x_0 var:x_2) time:calculatingAge var:x_7} <= {var:x_0 organism:hasBirthDateTime var:x_1.
-     (var:x_2 var:x_1) math:difference var:x_3.
-     var:x_3 math:greaterThan 0 .
-     (var:x_3 "P1M"^^xsd:duration) math:integerQuotient var:x_4.
-     (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_4.
-     (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_6.
-     (var:x_6) func:years-from-duration var:x_7}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        (var:x_0 var:x_2) time:calculatingAge var:x_7.
+    } <= {
+        var:x_0 organism:hasBirthDateTime var:x_1.
+        (var:x_2 var:x_1) math:difference var:x_3.
+        var:x_3 math:greaterThan 0 .
+        (var:x_3 "P1M"^^xsd:duration) math:integerQuotient var:x_4.
+        (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_4.
+        (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_6.
+        (var:x_6) func:years-from-duration var:x_7.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>].
 

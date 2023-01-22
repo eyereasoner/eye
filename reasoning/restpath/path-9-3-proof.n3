@@ -48,7 +48,11 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
   r:gives {
-    {<http://eyereasoner.github.io/eye/reasoning/restpath/x> ex:relGoal <http://eyereasoner.github.io/eye/reasoning/restpath/y>} => {<http://eyereasoner.github.io/eye/reasoning/restpath/x> ex:relGoal <http://eyereasoner.github.io/eye/reasoning/restpath/y>}.
+    {
+        <http://eyereasoner.github.io/eye/reasoning/restpath/x> ex:relGoal <http://eyereasoner.github.io/eye/reasoning/restpath/y>.
+    } => {
+        <http://eyereasoner.github.io/eye/reasoning/restpath/x> ex:relGoal <http://eyereasoner.github.io/eye/reasoning/restpath/y>.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/goal.n3>].
 
@@ -79,16 +83,20 @@ skolem:lemma4 a r:Inference;
 
 skolem:lemma5 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel9 var:x_1.
-     var:x_2 ex:rel9 var:x_3.
-     var:x_4 ex:rel9 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel10 var:x_1.
-     var:x_2 ex:rel10 var:x_3.
-     var:x_4 ex:rel10 var:x_5.
-     var:x_0 ex:relGoal var:x_1}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel9 var:x_1.
+        var:x_2 ex:rel9 var:x_3.
+        var:x_4 ex:rel9 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel10 var:x_1.
+        var:x_2 ex:rel10 var:x_3.
+        var:x_4 ex:rel10 var:x_5.
+        var:x_0 ex:relGoal var:x_1.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -119,15 +127,19 @@ skolem:lemma6 a r:Inference;
 
 skolem:lemma7 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel8 var:x_1.
-     var:x_2 ex:rel8 var:x_3.
-     var:x_4 ex:rel8 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel9 var:x_1.
-     var:x_2 ex:rel9 var:x_3.
-     var:x_4 ex:rel9 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel8 var:x_1.
+        var:x_2 ex:rel8 var:x_3.
+        var:x_4 ex:rel8 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel9 var:x_1.
+        var:x_2 ex:rel9 var:x_3.
+        var:x_4 ex:rel9 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -158,15 +170,19 @@ skolem:lemma8 a r:Inference;
 
 skolem:lemma9 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel7 var:x_1.
-     var:x_2 ex:rel7 var:x_3.
-     var:x_4 ex:rel7 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel8 var:x_1.
-     var:x_2 ex:rel8 var:x_3.
-     var:x_4 ex:rel8 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel7 var:x_1.
+        var:x_2 ex:rel7 var:x_3.
+        var:x_4 ex:rel7 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel8 var:x_1.
+        var:x_2 ex:rel8 var:x_3.
+        var:x_4 ex:rel8 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -197,15 +213,19 @@ skolem:lemma10 a r:Inference;
 
 skolem:lemma11 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel6 var:x_1.
-     var:x_2 ex:rel6 var:x_3.
-     var:x_4 ex:rel6 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel7 var:x_1.
-     var:x_2 ex:rel7 var:x_3.
-     var:x_4 ex:rel7 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel6 var:x_1.
+        var:x_2 ex:rel6 var:x_3.
+        var:x_4 ex:rel6 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel7 var:x_1.
+        var:x_2 ex:rel7 var:x_3.
+        var:x_4 ex:rel7 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -236,15 +256,19 @@ skolem:lemma12 a r:Inference;
 
 skolem:lemma13 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel5 var:x_1.
-     var:x_2 ex:rel5 var:x_3.
-     var:x_4 ex:rel5 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel6 var:x_1.
-     var:x_2 ex:rel6 var:x_3.
-     var:x_4 ex:rel6 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel5 var:x_1.
+        var:x_2 ex:rel5 var:x_3.
+        var:x_4 ex:rel5 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel6 var:x_1.
+        var:x_2 ex:rel6 var:x_3.
+        var:x_4 ex:rel6 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -275,15 +299,19 @@ skolem:lemma14 a r:Inference;
 
 skolem:lemma15 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel4 var:x_1.
-     var:x_2 ex:rel4 var:x_3.
-     var:x_4 ex:rel4 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel5 var:x_1.
-     var:x_2 ex:rel5 var:x_3.
-     var:x_4 ex:rel5 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel4 var:x_1.
+        var:x_2 ex:rel4 var:x_3.
+        var:x_4 ex:rel4 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel5 var:x_1.
+        var:x_2 ex:rel5 var:x_3.
+        var:x_4 ex:rel5 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -314,15 +342,19 @@ skolem:lemma16 a r:Inference;
 
 skolem:lemma17 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel3 var:x_1.
-     var:x_2 ex:rel3 var:x_3.
-     var:x_4 ex:rel3 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel4 var:x_1.
-     var:x_2 ex:rel4 var:x_3.
-     var:x_4 ex:rel4 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel3 var:x_1.
+        var:x_2 ex:rel3 var:x_3.
+        var:x_4 ex:rel3 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel4 var:x_1.
+        var:x_2 ex:rel4 var:x_3.
+        var:x_4 ex:rel4 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -351,15 +383,19 @@ skolem:lemma18 a r:Inference;
 
 skolem:lemma19 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {var:x_0 ex:rel2 var:x_1.
-     var:x_2 ex:rel2 var:x_3.
-     var:x_4 ex:rel2 var:x_5} => {var:x_6 http:methodName "GET".
-     var:x_6 http:requestURI var:x_0.
-     var:x_6 http:resp var:x_7.
-     var:x_7 http:body var:x_1.
-     var:x_0 ex:rel3 var:x_1.
-     var:x_2 ex:rel3 var:x_3.
-     var:x_4 ex:rel3 var:x_5}.
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+        var:x_0 ex:rel2 var:x_1.
+        var:x_2 ex:rel2 var:x_3.
+        var:x_4 ex:rel2 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 ex:rel3 var:x_1.
+        var:x_2 ex:rel3 var:x_3.
+        var:x_4 ex:rel3 var:x_5.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
@@ -371,13 +407,17 @@ skolem:lemma20 a r:Extraction;
 
 skolem:lemma21 a r:Extraction;
   r:gives {
-    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {var:x_0 ex:rel1 var:x_1} => {var:x_2 http:methodName "GET".
-     var:x_2 http:requestURI var:x_0.
-     var:x_2 http:resp var:x_3.
-     var:x_3 http:body var:x_1.
-     var:x_0 ex:rel2 var:x_1.
-     var:x_4 ex:rel2 var:x_5.
-     var:x_6 ex:rel2 var:x_7}.
+    @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 ex:rel1 var:x_1.
+    } => {
+        var:x_2 http:methodName "GET".
+        var:x_2 http:requestURI var:x_0.
+        var:x_2 http:resp var:x_3.
+        var:x_3 http:body var:x_1.
+        var:x_0 ex:rel2 var:x_1.
+        var:x_4 ex:rel2 var:x_5.
+        var:x_6 ex:rel2 var:x_7.
+    }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/restpath/path-9-3.n3>].
 
