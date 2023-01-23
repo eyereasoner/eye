@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.6 josd').
+version_info('EYE v2.3.7 josd').
 
 license_info('MIT License
 
@@ -4306,6 +4306,7 @@ wt2(X) :-
     (   atom(P),
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
         \+sub_atom(P, 0, _, _, avar),
+        \+sub_atom(P, 0, _, _, allv),
         \+sub_atom(P, 0, _, _, some)
     ->  write('"'),
         writeq(X),
