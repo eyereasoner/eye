@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.7 josd').
+version_info('EYE v2.3.8 josd').
 
 license_info('MIT License
 
@@ -712,6 +712,10 @@ opts(['--blogic'|Argus], Args) :-
     assertz(flag(nope)),
     assertz(implies((\+flag('no-models'),
                     implies(D, C, _),
+                    (   nonvar(C)
+                    ->  \+call(C)
+                    ;   true
+                    ),
                     conj_list(D, K),
                     conj_list(C, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
@@ -4732,7 +4736,17 @@ eam(Span) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false))),
+        ->  conj_list(Prem, Lst),
+            (   select(makevars(_, _, _), Lst, Lst2)
+            ->  true
+            ;   Lst2 = Lst
+            ),
+            (   select(call(Call), Lst2, Lst3)
+            ->  Lst4 = [Call|Lst3]
+            ;   Lst4 = Lst2
+            ),
+            conj_list(Prem2, Lst4),
+            with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false))),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
                 fail
