@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.8 josd').
+version_info('EYE v2.3.9 josd').
 
 license_info('MIT License
 
@@ -712,10 +712,6 @@ opts(['--blogic'|Argus], Args) :-
     assertz(flag(nope)),
     assertz(implies((\+flag('no-models'),
                     implies(D, C, _),
-                    (   nonvar(C)
-                    ->  \+call(C)
-                    ;   true
-                    ),
                     conj_list(D, K),
                     conj_list(C, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
@@ -732,6 +728,10 @@ opts(['--blogic'|Argus], Args) :-
                         Q
                     ),
                     unify(K, Q),
+                    (   conj_list(O, L)
+                    ->  \+call(O)
+                    ;   true
+                    ),
                     (   L = [model(_, [case(P, A)], B)]
                     ->  \+member(case(P, _), R),
                         append(R, [case(P, A)], T),
