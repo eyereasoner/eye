@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.9 josd').
+version_info('EYE v2.3.10 josd').
 
 license_info('MIT License
 
@@ -3976,6 +3976,7 @@ wt0(X) :-
         ;   (   \+flag(strings),
                 atom(X),
                 \+ (sub_atom(X, 0, 1, _, '<'), sub_atom(X, _, 1, 0, '>')),
+                \+sub_atom(X, 0, 2, _, '_:'),
                 X \= true,
                 X \= false
             ->  W = literal(X, type('<http://www.w3.org/2001/XMLSchema#string>'))
@@ -4746,7 +4747,11 @@ eam(Span) :-
             ;   Lst4 = Lst2
             ),
             conj_list(Prem2, Lst4),
-            with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false))),
+            (   flag(blogic),
+                flag(n3p)
+            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
                 fail
