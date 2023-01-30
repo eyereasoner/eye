@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.3.10 josd').
+version_info('EYE v2.4.0 josd').
 
 license_info('MIT License
 
@@ -66,7 +66,6 @@ eye
     --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
-    --no-erase                      no erase functionality for blogic
     --no-models                     no model generation for blogic
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
@@ -165,6 +164,7 @@ eye
 :- dynamic(tuple/6).
 :- dynamic(tuple/7).
 :- dynamic(tuple/8).
+:- dynamic(unify/2).
 :- dynamic(wcache/2).
 :- dynamic(wpfx/1).
 :- dynamic(wtcache/2).
@@ -883,6 +883,41 @@ opts(['--blogic'|Argus], Args) :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')),
+    asserta((unify(A, true) :-
+                    nonvar(A),
+                    A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
+                    nonvar(Y),
+                    labelvars(X, 0, _),
+                    catch(call(Y), _, fail))),
+    asserta((unify(A, B) :-
+                    nonvar(A),
+                    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
+                    conj_list(Y, C),
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), C)
+                        ),
+                        D
+                    ),
+                    length(D, U),
+                    length(C, V),
+                    (   U > 1
+                    ->  true
+                    ;   U = 1,
+                        V > 1
+                    ),
+                    ndsplit(C, E, F),
+                    E \= [],
+                    F \= [],
+                    conj_list(G, F),
+                    (   catch(call(G), _, fail),
+                        conj_list(H, E),
+                        B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
+                    ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
+                        ->  catch(call(I), _, fail)
+                        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G)
+                        ),
+                        B = true
+                    ))),
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
@@ -977,11 +1012,6 @@ opts(['--no-distinct-output'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-output')),
     assertz(flag('no-distinct-output')),
-    opts(Argus, Args).
-opts(['--no-erase'|Argus], Args) :-
-    !,
-    retractall(flag('no-erase')),
-    assertz(flag('no-erase')),
     opts(Argus, Args).
 opts(['--no-models'|Argus], Args) :-
     !,
@@ -10375,33 +10405,6 @@ is_gl(A) :-
     ;   A = exopred(_, _, _)
     ).
 
-unify(A, true) :-
-    \+flag('no-erase'),
-    nonvar(A),
-    A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
-    nonvar(Y),
-    labelvars(X, 0, _),
-    catch(call(Y), _, fail).
-unify(A, B) :-
-    \+flag('no-erase'),
-    nonvar(A),
-    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
-    conj_list(Y, C),
-    length(C, D),
-    D > 1,
-    ndsplit(C, E, F),
-    E \= [],
-    F \= [],
-    conj_list(G, F),
-    (   catch(call(G), _, fail)
-    ->  conj_list(H, E),
-        B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
-    ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
-        ->  catch(call(I), _, fail)
-        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G)
-        ),
-        B = true
-    ).
 unify(A, B) :-
     nonvar(A),
     A = exopred(P, S, O),
