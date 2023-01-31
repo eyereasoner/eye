@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.4.0 josd').
+version_info('EYE v2.5.0 josd').
 
 license_info('MIT License
 
@@ -742,8 +742,10 @@ opts(['--blogic'|Argus], Args) :-
                     sort(I, H),
                     H \= J
                     ), (modelo(Z, R, J), model(Z, T, H)), '<>')),
-    assertz(implies((implies(D, C, _),
-                    implies('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, D), C, _),
+    assertz(implies((implies('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, D), C, _),
+                    D \= implies(_, _, _),
+                    D \= (implies(_, _, _), _),
+                    implies(D, C, _),
                     labelvars(C, 0, _, some),
                     findvars(C, V, beta),
                     domain(V, true, P),
@@ -783,7 +785,11 @@ opts(['--blogic'|Argus], Args) :-
                     ->  E = F
                     ;   E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, T)
                     ),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'((D, R), E), B, beta(V))
+                    (   R = true
+                    ->  P = D
+                    ;   P = (D, R)
+                    ),
+                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
                     ), B, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
