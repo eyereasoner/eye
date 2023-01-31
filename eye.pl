@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.5.0 josd').
+version_info('EYE v2.6.0 josd').
 
 license_info('MIT License
 
@@ -6729,6 +6729,18 @@ djiti_assertz(A) :-
     (   nonvar(B)
     ->  '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphIntersection>'([B,C], B)
     ;   B = C
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#isBlank>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   findvars(A, C, beta),
+            (   C \= []
+            ->  B = true
+            ;   B = false
+            )
+        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#langlit>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(B))).
