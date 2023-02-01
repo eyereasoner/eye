@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.6.0 josd').
+version_info('EYE v2.6.1 josd').
 
 license_info('MIT License
 
@@ -6731,18 +6731,6 @@ djiti_assertz(A) :-
     ;   B = C
     ).
 
-'<http://www.w3.org/2000/10/swap/log#isBlank>'(A, B) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   findvars(A, C, beta),
-            (   C \= []
-            ->  B = true
-            ;   B = false
-            )
-        )
-    ).
-
 '<http://www.w3.org/2000/10/swap/log#langlit>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(B))).
 
 '<http://www.w3.org/2000/10/swap/log#localN3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
@@ -11446,6 +11434,22 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
     B \= ':',
     C >= 2,
+    !.
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#BlankNode>') :-
+    nb_getval(var_ns, B),
+    sub_atom(A, 1, _, _, B),
+    sub_atom(A, _, 4, _, '#bn_'),
+    !.
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#LabeledBlankNode>') :-
+    nb_getval(var_ns, B),
+    sub_atom(A, 1, _, _, B),
+    sub_atom(A, _, 5, _, '#e_b_'),
+    !.
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#SkolemIRI>') :-
+    sub_atom(A, _, 19, _, '/.well-known/genid/'),
+    !.
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
+    sub_atom(A, 1, _, _, 'http://eyereasoner.github.io/var#qe_'),
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
 
