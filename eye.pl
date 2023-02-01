@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.6.2 josd').
+version_info('EYE v2.6.3 josd').
 
 license_info('MIT License
 
@@ -6852,7 +6852,6 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#rawType>'(A, B) :-
-    nonvar(A),
     raw_type(A, C),
     C = B.
 
@@ -11408,6 +11407,9 @@ findvar(A, zeta) :-
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
 
+raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
+    var(A),
+    !.
 raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
     is_list(A),
     !.
@@ -11443,7 +11445,7 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#UnlabeledBlankNode>') :-
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#LabeledBlankNode>') :-
     nb_getval(var_ns, B),
     sub_atom(A, 1, _, _, B),
-    sub_atom(A, _, 5, _, '#e_b_'),
+    sub_atom(A, _, 3, _, '#e_'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#SkolemIRI>') :-
     sub_atom(A, _, 19, _, '/.well-known/genid/'),
