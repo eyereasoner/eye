@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.7.1 josd').
+version_info('EYE v2.7.2 josd').
 
 license_info('MIT License
 
@@ -11509,36 +11509,42 @@ makevars(A, B, beta(C)) :-
     ->  throw(invalid_graffiti(D, in(A)))
     ;   true
     ),
-    length(D, E),
-    length(F, E),
-    makevars(A, B, D, F).
+    findall([X,_],
+        (   member(X, D)
+        ),
+        F
+    ),
+    makevar(A, B, F).
 makevars(A, B, Z) :-
     findvars(A, C, Z),
     distinct(C, D),
-    length(D, E),
-    length(F, E),
-    makevars(A, B, D, F).
+    findall([X,_],
+        (   member(X, D)
+        ),
+        F
+    ),
+    makevar(A, B, F).
 
-makevars(A, B, C, D) :-
+makevar(A, B, D) :-
     atomic(A),
     !,
     (   atom(A),
-        nth0(E, C, A)
-    ->  nth0(E, D, B)
+        member([A,B], D)
+    ->  true
     ;   B = A
     ).
-makevars(A, A, _, _) :-
+makevar(A, A, _) :-
     var(A),
     !.
-makevars([], [], _, _) :-
+makevar([], [], _) :-
     !.
-makevars([A|B], [C|D], E, F) :-
-    makevars(A, C, E, F),
-    makevars(B, D, E, F),
+makevar([A|B], [C|D], F) :-
+    makevar(A, C, F),
+    makevar(B, D, F),
     !.
-makevars(A, B, E, F) :-
+makevar(A, B, F) :-
     A =.. C,
-    makevars(C, [Dh|Dt], E, F),
+    makevar(C, [Dh|Dt], F),
     nonvar(Dh),
     B =.. [Dh|Dt].
 
