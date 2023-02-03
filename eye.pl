@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.7.0 josd').
+version_info('EYE v2.7.1 josd').
 
 license_info('MIT License
 
@@ -6212,7 +6212,14 @@ djiti_assertz(A) :-
     conj_list(A, B).
 
 '<http://www.w3.org/2000/10/swap/graph#member>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphMember>'(A, B).
+    when(
+        (   nonvar(A)
+        ),
+        (   conj_list(A, C),
+            member(D, C),
+            unify(D, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/graph#union>'(A, B) :-
     when(
@@ -6325,10 +6332,17 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/list#multisetEqualTo>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetEqualTo>'(A, B).
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   sort(0, @=<, A, C),
+            sort(0, @=<, B, C)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/list#multisetNotEqualTo>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#multisetNotEqualTo>'(A, B).
+    \+'<http://www.w3.org/2000/10/swap/list#multisetEqualTo>'(A, B).
 
 '<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
     when(
@@ -6400,7 +6414,56 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#becomes>'(A, B).
+    catch(call(A), _, fail),
+    A \= B,
+    unify(A, C),
+    conj_list(C, D),
+    forall(
+        member(E, D),
+        (   (   E = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)
+            ->  retract(implies(Prem, Conc, Src)),
+                assertz(retwist(Prem, Conc, Src))
+            ;   (   E = ':-'(Ci, Pi),
+                    Pi \= true
+                ->  (   flag(nope)
+                    ->  Ph = Pi
+                    ;   (   Pi = when(Ai, Bi)
+                        ->  conj_append(Bi, istep(Si, Pi, Ci, _), Bh),
+                            Ph = when(Ai, Bh)
+                        ;   conj_append(Pi, istep(Si, Pi, Ci, _), Ph)
+                        ),
+                        ':-'(Ci, Ph),
+                        assertz(retwist(Pi, Ci, Si))
+                    ),
+                    retract(':-'(Ci, Ph))
+                ;   E \= ':-'(_, true),
+                    retract(E)
+                )
+            ),
+            djiti_answer(answer(E), Z),
+            retractall(Z),
+            (   flag('pass-only-new'),
+                pass_only_new(E)
+            ->  retract(pass_only_new(E))
+            ;   true
+            )
+        )
+    ),
+    nb_getval(wn, W),
+    labelvars(B, W, N),
+    nb_setval(wn, N),
+    unify(B, F),
+    conj_list(F, G),
+    forall(
+        member(H, G),
+        (   djiti_assertz(H),
+            (   flag('pass-only-new'),
+                \+pass_only_new(H)
+            ->  assertz(pass_only_new(H))
+            ;   true
+            )
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#bound>'(X, Y) :-
     (   nonvar(X)
@@ -6417,8 +6480,118 @@ djiti_assertz(A) :-
         istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
     ).
 
-'<http://www.w3.org/2000/10/swap/log#collectAllIn>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(B, A).
+'<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, A) :-
+    \+flag(restricted),
+    nonvar(A),
+    A \= [_,_],
+    !,
+    when(
+        (   nonvar(B)
+        ),
+        (   reset_gensym,
+            tmp_file(Tmp1),
+            open(Tmp1, write, Ws1, [encoding(utf8)]),
+            tell(Ws1),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(C, D),
+                    format('@prefix ~w ~w.~n', [C, D])
+                ),
+                nl
+            ),
+            labelvars(A, 0, _),
+            wt(A),
+            write('.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp2),
+            open(Tmp2, write, Ws2, [encoding(utf8)]),
+            tell(Ws2),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(E, F),
+                    format('@prefix ~w ~w.~n', [E, F])
+                ),
+                nl
+            ),
+            write('{'),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
+            write('} => {'),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
+            write('}.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp3),
+            !,
+            (   current_prolog_flag(windows, true)
+            ->  A1 = ['cmd.exe', '/C']
+            ;   A1 = []
+            ),
+            (   current_prolog_flag(argv, Argv),
+                append(Argu, ['--'|_], Argv)
+            ->  append(Argu, ['--'], A2)
+            ;   A2 = ['eye']
+            ),
+            (   flag(blogic)
+            ->  A3 = ['--blogic']
+            ;   A3 = ['']
+            ),
+            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            findall([G, ' '],
+                (   member(G, A4)
+                ),
+                H
+            ),
+            flatten(H, I),
+            atomic_list_concat(I, J),
+            (   catch(exec(J, _), _, fail)
+            ->  n3_n3p(Tmp3, semantics),
+                absolute_uri(Tmp3, Tmp),
+                atomic_list_concat(['<', Tmp, '>'], Res),
+                semantics(Res, L),
+                conj_list(K, L),
+                labelvars(K, 0, _),
+                B = [_, _, M],
+                K = '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([_, _, M], _),
+                delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3)
+            ;   delete_file(Tmp1),
+                delete_file(Tmp2),
+                delete_file(Tmp3),
+                fail
+            )
+        )
+    ).
+'<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
+    within_scope(Sc),
+    nonvar(B),
+    \+is_list(B),
+    catch(findall(A, B, E), _, E = []),
+    (   flag(warn)
+    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
+        labelvars([Ac, Bc, Ec], 0, _),
+        (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, G], Sc))
+        ->  (   E \= G
+            ->  format(user_error, '** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+                flush_output(user_error)
+            ;   true
+            )
+        ;   assertz(fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, Ec], Sc)))
+        )
+    ;   true
+    ),
+    E = C.
 
 '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, B) :-
     when(
@@ -6724,7 +6897,8 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
     (   nonvar(B)
-    ->  '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#graphIntersection>'([B,C], B)
+    ->  intersect([B,C], M),
+        unify(M, B)
     ;   B = C
     ).
 
@@ -6901,15 +7075,48 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#skolem>'(X, Y) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, X),
-    (   \+keep_skolem(Y)
-    ->  assertz(keep_skolem(Y))
+'<http://www.w3.org/2000/10/swap/log#skolem>'(Y, X) :-
+    when(
+        (   nonvar(X)
+        ;   ground(Y)
+        ),
+        (   (   is_list(Y),
+                length(Y, I),
+                I < 8
+            ->  Z =.. [tuple, X|Y]
+            ;   Z = tuple(X, Y)
+            ),
+            (   call(Z)
+            ->  true
+            ;   var(X),
+                nb_getval(tuple, M),
+                N is M+1,
+                nb_setval(tuple, N),
+                atom_number(A, N),
+                nb_getval(var_ns, Sns),
+                atomic_list_concat(['<', Sns, 't_', A, '>'], X),
+                assertz(Z)
+            )
+        )
+    ),
+    (   \+keep_skolem(X)
+    ->  assertz(keep_skolem(X))
     ;   true
     ).
 
-'<http://www.w3.org/2000/10/swap/log#trace>'(A, B) :-
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#trace>'(A, B).
+'<http://www.w3.org/2000/10/swap/log#trace>'(X, Y) :-
+    tell(user_error),
+    copy_term_nat(X, U),
+    wg(U),
+    write(' TRACE '),
+    copy_term_nat(Y, V),
+    wg(V),
+    nl,
+    told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#uri>'(X, Y) :-
     when(
