@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.7.5 josd').
+version_info('EYE v2.8.0 josd').
 
 license_info('MIT License
 
@@ -54,7 +54,6 @@ eye
     --debug-cnt                     output debug info about counters on stderr
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
-    --debug-models                  output debug info about models on stderr
     --debug-pvm                     output debug info about PVM code on stderr
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
@@ -66,7 +65,6 @@ eye
     --multi-query                   go into query answer loop
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
-    --no-models                     no model generation for blogic
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
@@ -122,7 +120,6 @@ eye
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
-:- dynamic(got_models/0).
 :- dynamic(got_pi/0).
 :- dynamic(got_random/3).
 :- dynamic(got_sq/0).
@@ -136,8 +133,6 @@ eye
 :- dynamic(intern/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
-:- dynamic(model/3).
-:- dynamic(modelo/3).
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
@@ -834,59 +829,6 @@ opts(['--blogic'|Argus], Args) :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')),
-    % model generation
-    assertz(implies((\+flag('no-models'),
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
-                    findall(M,
-                        (   member(M, K),
-                            M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                        ),
-                        J
-                    ),
-                    conj_list(C, J),
-                    length(K, N),
-                    length(J, I),
-                    N > I,
-                    conj_list(H, Q),
-                    sort(Q, A),
-                    domain(V, C, P),
-                    P \= true,
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, model(domain(P), [case(C, H)], A)), B, beta(V))
-                    ), B, '<>')),
-    assertz(implies((\+flag('no-models'),
-                    implies(D, C, _),
-                    conj_list(D, K),
-                    conj_list(C, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
-                    \+member(answer(_, _, _), L),
-                    model(Z, R, J),
-                    findall(M,
-                        (   member(M, K),
-                            (   member(M, J)
-                            ;   M =.. [U, _, _],
-                                pred(U),
-                                call(M)
-                            )
-                        ),
-                        Q
-                    ),
-                    unify(K, Q),
-                    (   conj_list(O, L)
-                    ->  \+call(O)
-                    ;   true
-                    ),
-                    (   L = [model(_, [case(P, A)], B)]
-                    ->  \+member(case(P, _), R),
-                        append(R, [case(P, A)], T),
-                        append(J, B, I)
-                    ;   T = R,
-                        append(J, L, I)
-                    ),
-                    sort(I, H),
-                    H \= J
-                    ), (modelo(Z, R, J), model(Z, T, H)), '<>')),
     % extended unifier
     asserta((unify(A, true) :-
                     nonvar(A),
@@ -948,11 +890,6 @@ opts(['--debug-implies'|Argus], Args) :-
     !,
     retractall(flag('debug-implies')),
     assertz(flag('debug-implies')),
-    opts(Argus, Args).
-opts(['--debug-models'|Argus], Args) :-
-    !,
-    retractall(flag('debug-models')),
-    assertz(flag('debug-models')),
     opts(Argus, Args).
 opts(['--debug-pvm'|Argus], Args) :-
     !,
@@ -1017,11 +954,6 @@ opts(['--no-distinct-output'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-output')),
     assertz(flag('no-distinct-output')),
-    opts(Argus, Args).
-opts(['--no-models'|Argus], Args) :-
-    !,
-    retractall(flag('no-models')),
-    assertz(flag('no-models')),
     opts(Argus, Args).
 opts(['--no-numerals'|Argus], Args) :-
     !,
@@ -4882,56 +4814,6 @@ eam(Span) :-
             nb_getval(limit, Limit),
             Span < Limit,
             eam(S)
-        ;   \+flag('no-models'),
-            \+flag('multi-query'),
-            \+got_models,
-            forall(
-                modelo(Mz, Mn, Ml),
-                retract(model(Mz, Mn, Ml))
-            ),
-            forall(
-                model(Mz, Mn, Ml),
-                (   model(Mz, Mn, Mk),
-                    length(Ml, Ll),
-                    length(Mk, Lk),
-                    Lk > Ll,
-                    forall(
-                        member(El, Ml),
-                        member(El, Mk)
-                    )
-                ->  retract(model(Mz, Mn, Ml))
-                ;   true
-                )
-            ),
-            (   flag('debug-models')
-            ->  mf(model(_, _, _))
-            ;   true
-            ),
-            (   model(Mx, _, _),
-                findall(My,
-                    (   model(Mx, _, My)
-                    ),
-                    Mq
-                ),
-                Mq = [Mh|Mt],
-                findall(Me,
-                    (   member(Me, Mh),
-                        forall(
-                            member(Mm, Mt),
-                            member(Me, Mm)
-                        ),
-                        (   \+Me
-                        ->  djiti_assertz(Me)
-                        ;   true
-                        )
-                    ),
-                    _
-                ),
-                fail
-            ;   true
-            ),
-            assertz(got_models),
-            eam(Span)
         ;   (   flag(strings)
             ->  true
             ;   w3

@@ -4,6 +4,16 @@
 # beetle is a car
 :beetle a :Car.
 
+# beetle is not pretty
+() log:onNegativeSurface {
+    :beetle :is :pretty.
+}.
+
+# beetle is not blue
+() log:onNegativeSurface {
+    :beetle :is :blue.
+}.
+
 # all cars are green or blue
 (_:A) log:onNegativeSurface {
     _:A a :Car.
@@ -25,6 +35,7 @@
         _:A :is :pretty.
     }.
 }.
+
 # pretty things are beautiful
 (_:A) log:onNegativeSurface {
     _:A :is :pretty.
