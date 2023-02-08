@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.8.0 josd').
+version_info('EYE v2.8.1 josd').
 
 license_info('MIT License
 
@@ -762,9 +762,7 @@ opts(['--blogic'|Argus], Args) :-
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onConstructSurface>'(_, _), L),
-                    dsplit(L, M, J),
-                    J \= [],
-                    conj_list(R, M),
+                    select(R, L, J),
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     domain(V, R, P),
@@ -852,12 +850,9 @@ opts(['--blogic'|Argus], Args) :-
                     ;   U = 1,
                         V > 1
                     ),
-                    ndsplit(C, E, F),
-                    E \= [],
-                    F \= [],
+                    select(H, C, F),
                     conj_list(G, F),
                     (   catch(call(G), _, fail),
-                        conj_list(H, E),
                         B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
                     ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
                         ->  catch(call(I), _, fail)
@@ -10764,19 +10759,6 @@ split(A, [B|C], [B|D], E) :-
     split(A, C, D, E).
 split(A, [B|C], D, [B|E]) :-
     split(A, C, D, E).
-
-dsplit([], [], []).
-dsplit([A|B], [A|C], D):-
-    dsplit(B, C, D).
-dsplit([A|B], C, [A|D]):-
-    predicate_property(A, dynamic),
-    dsplit(B, C, D).
-
-ndsplit([], [], []).
-ndsplit([A|B], [A|C], D):-
-    ndsplit(B, C, D).
-ndsplit([A|B], C, [A|D]):-
-    ndsplit(B, C, D).
 
 last_tail([], []) :-
     !.
