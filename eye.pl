@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.8.2 josd').
+version_info('EYE v2.9.0 josd').
 
 license_info('MIT License
 
@@ -176,6 +176,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onAskSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
@@ -810,6 +811,15 @@ opts(['--blogic'|Argus], Args) :-
                     ;   true
                     )), true, '<>')),
     % queries
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], G),
+                    G \= true,
+                    conj_list(G, L),
+                    select(J, L, K),
+                    conj_list(H, K),
+                    T = ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],
+                            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], J)), H),
+                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T))
+                    ), true, '<>')),
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onConstructSurface>'(_, H), L, K)
@@ -3481,6 +3491,10 @@ w3 :-
     ).
 w3 :-
     wh,
+    (   '<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], _)
+    ->  throw(halt(0))
+    ;   true
+    ),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -4732,10 +4746,18 @@ eam(Span) :-
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
-            (   flag('ignore-inference-fuse')
-            ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
-                fail
-            ;   throw(inference_fuse(PN3))
+            (   '<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, Ask),
+                Ask \= true
+            ->  wh,
+                wt(Ask),
+                writeln('.'),
+                nl,
+                throw(halt(0))
+            ;   (   flag('ignore-inference-fuse')
+                ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
+                    fail
+                ;   throw(inference_fuse(PN3))
+                )
             )
         ;   true
         ),
@@ -11321,6 +11343,9 @@ dynify(answer(A, _, _)) :-
     ->  true
     ;   dynamic(A/2)
     ).
+dynify('<http://www.w3.org/2000/10/swap/log#onAskSurface>'(_, A)) :-
+    !,
+    dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).

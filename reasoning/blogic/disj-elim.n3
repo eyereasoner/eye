@@ -4,11 +4,6 @@
 # bob is a person
 :bob a :Person.
 
-# bob not saying B
-() log:onNegativeSurface {
-    :bob :saying :B.
-}.
-
 # saying A or saying B
 (_:S) log:onNegativeSurface {
     _:S a :Person.
@@ -37,7 +32,6 @@
 }.
 
 # query
-(_:S _:O) log:onQuerySurface {
-    _:S a :Person.
-    _:S :saying _:O.
+() log:onAskSurface {
+    :bob :saying :C.
 }.

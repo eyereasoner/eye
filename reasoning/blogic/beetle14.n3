@@ -1,34 +1,19 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-# beetle is a car
-:beetle a :Car.
-
-# all cars are green or blue
-(_:A) log:onNegativeSurface {
-    _:A a :Car.
+# herbie is green or blue
+() log:onNegativeSurface {
     () log:onNegativeSurface {
-        _:A :is :green.
+        :herbie :is :green.
     }.
     () log:onNegativeSurface {
-        _:A :is :blue.
+        :herbie :is :blue.
     }.
 }.
 
-# green things are beautiful or nice
+# green things are beautiful
 (_:A) log:onNegativeSurface {
     _:A :is :green.
-    () log:onNegativeSurface {
-        _:A :is :beautiful.
-    }.
-    () log:onNegativeSurface {
-        _:A :is :nice.
-    }.
-}.
-
-# nice things are beautiful
-(_:A) log:onNegativeSurface {
-    _:A :is :nice.
     () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
@@ -44,5 +29,5 @@
 
 # query
 () log:onAskSurface {
-    :beetle :is :beautiful.
+    :herbie :is :beautiful.
 }.

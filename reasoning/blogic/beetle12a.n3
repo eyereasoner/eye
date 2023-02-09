@@ -15,28 +15,30 @@
     }.
 }.
 
-# green things are beautiful or nice
+# green things are nice or pretty
 (_:A) log:onNegativeSurface {
     _:A :is :green.
     () log:onNegativeSurface {
-        _:A :is :beautiful.
-    }.
-    () log:onNegativeSurface {
         _:A :is :nice.
     }.
-}.
-
-# nice things are beautiful
-(_:A) log:onNegativeSurface {
-    _:A :is :nice.
     () log:onNegativeSurface {
-        _:A :is :beautiful.
+        _:A :is :pretty.
     }.
 }.
 
-# blue things are beautiful
+# nice or pretty or blue things are beautiful
 (_:A) log:onNegativeSurface {
-    _:A :is :blue.
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            _:A :is :nice.
+        }.
+        () log:onNegativeSurface {
+            _:A :is :pretty.
+        }.
+        () log:onNegativeSurface {
+            _:A :is :blue.
+        }.
+    }.
     () log:onNegativeSurface {
         _:A :is :beautiful.
     }.

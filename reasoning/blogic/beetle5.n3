@@ -4,16 +4,6 @@
 # beetle is a car
 :beetle a :Car.
 
-# beetle is not pretty
-() log:onNegativeSurface {
-    :beetle :is :pretty.
-}.
-
-# beetle is not blue
-() log:onNegativeSurface {
-    :beetle :is :blue.
-}.
-
 # all cars are green or blue
 (_:A) log:onNegativeSurface {
     _:A a :Car.
@@ -61,6 +51,6 @@
 }.
 
 # query
-(_:S) log:onQuerySurface {
-    _:S :is :beautiful.
+() log:onAskSurface {
+    :beetle :is :beautiful.
 }.
