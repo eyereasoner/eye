@@ -6,13 +6,13 @@
 
 # add
 (_:A) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         (_:A 0) :add _:A.
     }.
 }.
 
 (_:A _:B _:C) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         (_:A (:s _:B)) :add (:s _:C).
     }.
     (_:A _:B) :add _:C.
@@ -20,13 +20,13 @@
 
 # multiply
 (_:A) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         (_:A 0) :multiply 0.
     }.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         (_:A (:s _:B)) :multiply _:C.
     }.
     (_:A _:B) :multiply _:D.

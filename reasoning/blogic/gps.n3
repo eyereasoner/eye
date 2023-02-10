@@ -15,7 +15,7 @@
 
 # find paths in the state space from initial state to goal state within limits
 (_:SCOPE _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort)).
     }.
@@ -24,7 +24,7 @@
 }.
 
 (_:SCOPE _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)).
     }.
     _:SCOPE gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
@@ -32,7 +32,7 @@
 }.
 
 (_:SCOPE _:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:SCOPE gps:findpaths (_:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)).
     }.
@@ -43,7 +43,7 @@
  _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount
  _:From _:Transition _:To _:Action _:Duration_n _:Cost_n _:Belief_n _:Comfort_n _:Map _:Maps_t _:Stagecount
  _:Duration_t _:Cost_t _:Belief_t _:Comfort_t _:Path_t) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:SCOPE gps:findpaths (_:Maps_s _:Goal _:Path_s _:Duration_s _:Cost_s _:Belief_s _:Comfort_s _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)).
     }.
@@ -67,13 +67,13 @@
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
 () log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         () gps:stagecount 1.
     }.
 }.
 
 (_:A _:B _:C _:D _:E _:F _:G) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:A gps:stagecount _:B.
     }.
     _:A list:firstRest (_:C _:D).
@@ -84,7 +84,7 @@
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         _:A gps:stagecount _:B.
     }.
     _:A list:firstRest (_:C _:D).
@@ -96,28 +96,28 @@
 
 # map of Belgium
 (_:S _:L) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         :map-BE gps:description ({_:S :location :Gent} true {_:S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99).
     }.
     _:S :location _:L.
 }.
 
 (_:S _:L) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         :map-BE gps:description ({_:S :location :Gent} true {_:S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99).
     }.
     _:S :location _:L.
 }.
 
 (_:S _:L) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         :map-BE gps:description ({_:S :location :Kortrijk} true {_:S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99).
     }.
     _:S :location _:L.
 }.
 
 (_:S _:L) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:onConstructSurface {
         :map-BE gps:description ({_:S :location :Brugge} true {_:S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0).
     }.
     _:S :location _:L.

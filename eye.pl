@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.9.0 josd').
+version_info('EYE v2.10.0 josd').
 
 license_info('MIT License
 
@@ -800,7 +800,7 @@ opts(['--blogic'|Argus], Args) :-
     % backward rules
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K),
+                    select('<http://www.w3.org/2000/10/swap/log#onConstructSurface>'(_, H), L, K),
                     conj_list(R, K),
                     makevars(':-'(H, R), C, beta(V)),
                     copy_term_nat(C, CC),
