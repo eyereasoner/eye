@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.10.2 josd').
+version_info('EYE v2.10.3 josd').
 
 license_info('MIT License
 
@@ -706,14 +706,14 @@ opts(['--blogic'|Argus], Args) :-
     assertz(flag(blogic)),
     retractall(flag(nope)),
     assertz(flag(nope)),
-    % positive surfaces
+    % positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     makevars(G, H, beta(V)),
                     call(H)
                     ), false, '<>')),
-    % negative surfaces
+    % negative surface resolve positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
@@ -723,6 +723,7 @@ opts(['--blogic'|Argus], Args) :-
                     append(K, D, E),
                     conj_list(F, E)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, F), '<>')),
+    % negative surface even level erasure
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
@@ -730,6 +731,16 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, M),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), M, _)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
+    % negative surface redundancy removal
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    list_to_set(L, M),
+                    conj_list(H, M),
+                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
+                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
+                    ;   true
+                    )), true, '<>')),
+    % adjust graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     findvars(G, U, beta),
                     findall(M,
@@ -740,7 +751,7 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     W \= V
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, G), '<>')),
-    % forward rules
+    % forward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
@@ -748,6 +759,7 @@ opts(['--blogic'|Argus], Args) :-
                     domain(V, C, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, H), B, beta(V))
                     ), B, '<>')),
+    % forward rule with contrapositives
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
@@ -767,6 +779,7 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(D, E), B, beta(V))
                     ), B, '<>')),
+    % forward rule with positive premis negative conclusion
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -779,6 +792,7 @@ opts(['--blogic'|Argus], Args) :-
                     domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
                     ), B, '<>')),
+    % forward rule with mixed premis and negative conclusion
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select(J, L, K),
@@ -798,6 +812,7 @@ opts(['--blogic'|Argus], Args) :-
                     C = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(J, C), B, beta(V))
                     ), B, '<>')),
+    % premis resolution
     assertz(implies((implies('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, D), C, _),
                     D \= implies(_, _, _),
                     D \= (implies(_, _, _), _),
@@ -807,7 +822,7 @@ opts(['--blogic'|Argus], Args) :-
                     domain(V, true, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, C), B, beta(V))
                     ), B, '<>')),
-    % backward rules
+    % backward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
@@ -822,7 +837,7 @@ opts(['--blogic'|Argus], Args) :-
                         assertz(C)
                     ;   true
                     )), true, '<>')),
-    % queries
+    % ask surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onAskSurface>'([], G),
                     G \= true,
                     conj_list(G, L),
@@ -830,8 +845,11 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, K),
                     T = ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],
                             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], J)), H),
-                    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T))
-                    ), true, '<>')),
+                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T)
+                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T))
+                    ;   true
+                    )), true, '<>')),
+    % query surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
@@ -851,24 +869,6 @@ opts(['--blogic'|Argus], Args) :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')),
-    % warn for multiple models
-    assertz(implies((flag(warn),
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
-                    findall(M,
-                        (   member(M, K),
-                            M \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                        ),
-                        J
-                    ),
-                    conj_list(C, J),
-                    length(K, N),
-                    length(J, I),
-                    N > I,
-                    makevars('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), B, beta(V)),
-                    format(user_error, '** WARNING ** multiple models ~w~n', B)
-                    ), true, '<>')),
     % extended unifier
     asserta((unify(A, true) :-
                     nonvar(A),
