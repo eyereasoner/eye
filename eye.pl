@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.10.3 josd').
+version_info('EYE v2.11.0 josd').
 
 license_info('MIT License
 
@@ -736,6 +736,28 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     list_to_set(L, M),
                     conj_list(H, M),
+                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
+                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
+                    ;   true
+                    )), true, '<>')),
+    % non-unit resolution
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
+                        ),
+                        D
+                    ),
+                    length(D, E),
+                    E < 4,
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, F),
+                    conj_list(F, K),
+                    length(K, 2),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), K, [P]),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, P), L, M),
+                    conj_list(H, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|M]),
                     (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
                     ;   true
