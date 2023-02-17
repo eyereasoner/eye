@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.12.0 josd').
+version_info('EYE v2.12.1 josd').
 
 license_info('MIT License
 
@@ -746,16 +746,20 @@ opts(['--blogic'|Argus], Args) :-
                     \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
                     length(L, E),
                     E < 4,
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, F),
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     conj_list(F, K),
                     length(K, 2),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), K, [P]),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, P), L, M),
-                        conj_list(H, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|M])
-                    ;   select(C, L, M),
-                        conj_list(H, [P|M])
+                    \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), K), atomic(I)),
+                    makevars(K, J, beta(W)),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, P), L,
+                            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), M),
+                        conj_list(H, M)
+                    ;   select(C, L, P, M),
+                        conj_list(H, M)
                     ),
-                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
+                    (   ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
+                        \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
                     ;   true
                     )), true, '<>')),
