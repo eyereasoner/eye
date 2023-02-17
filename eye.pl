@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.12.1 josd').
+version_info('EYE v2.12.2 josd').
 
 license_info('MIT License
 
@@ -7507,7 +7507,7 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/string#concatenation>'(X, Y) :-
     when(
-        (   nonvar(X)
+        (   ground(X)
         ),
         (   getlist(X, C),
             labelvars(C, 0, _, avar),
