@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.12.2 josd').
+version_info('EYE v2.13.0 josd').
 
 license_info('MIT License
 
@@ -761,6 +761,25 @@ opts(['--blogic'|Argus], Args) :-
                     (   ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
                         \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
+                    ;   true
+                    )), true, '<>')),
+    % rewrite negative surface disjunction
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
+                    conj_list(H, M),
+                    length(M, I),
+                    I > 1,
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), M)
+                        ),
+                        D
+                    ),
+                    length(D, I),
+                    member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A), M),
+                    conj_list(B, [A|K]),
+                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, B)
+                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, B))
                     ;   true
                     )), true, '<>')),
     % adjust graffiti
