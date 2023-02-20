@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.13.1 josd').
+version_info('EYE v2.13.2 josd').
 
 license_info('MIT License
 
@@ -715,8 +715,6 @@ opts(['--blogic'|Argus], Args) :-
     % resolve positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
                     select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'([], H), L, K),
                     conj_list(H, D),
                     append(K, D, E),
@@ -885,12 +883,6 @@ opts(['--blogic'|Argus], Args) :-
                     ;   true
                     )), true, '<>')),
     % extended unifier
-    asserta((unify(A, true) :-
-                    nonvar(A),
-                    A = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, Y),
-                    nonvar(Y),
-                    labelvars(X, 0, _),
-                    catch(call(Y), _, fail))),
     asserta((unify(A, B) :-
                     nonvar(A),
                     A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
