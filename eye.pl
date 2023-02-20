@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.13.0 josd').
+version_info('EYE v2.13.1 josd').
 
 license_info('MIT License
 
@@ -4599,7 +4599,8 @@ wst :-
         ;   fail
         )
     ;   true
-    ).
+    ),
+    nl.
 
 wct([], []) :-
     !.
