@@ -1,5 +1,5 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://eyereasoner.github.io/var#>.
@@ -27,11 +27,11 @@ skolem:lemma2 a r:Inference;
     (18 13 8) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma4
-    [ a r:Fact; r:gives {("_Y-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma5
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma6
     skolem:lemma7
   );
@@ -62,11 +62,11 @@ skolem:lemma4 a r:Inference;
     (17 13 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma9
-    [ a r:Fact; r:gives {("_Y-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma10
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma11
     skolem:lemma12
   );
@@ -87,11 +87,11 @@ skolem:lemma5 a r:Inference;
     (12 8 18) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma13
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma14
-    [ a r:Fact; r:gives {("_Z-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma15
     skolem:lemma16
   );
@@ -112,8 +112,8 @@ skolem:lemma6 a r:Inference;
     (7 18 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -125,8 +125,8 @@ skolem:lemma7 a r:Inference;
     (9 12 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -138,11 +138,11 @@ skolem:lemma8 a r:Extraction;
     @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
         (var:x_0 var:x_2 var:x_3) :tak var:x_9.
     } <= {
-        ("_X-1" var:x_0) e:calculate var:x_1.
+        (var:x_0 1) math:difference var:x_1.
         (var:x_1 var:x_2 var:x_3) :tak var:x_4.
-        ("_Y-1" var:x_2) e:calculate var:x_5.
+        (var:x_2 1) math:difference var:x_5.
         (var:x_5 var:x_3 var:x_0) :tak var:x_6.
-        ("_Z-1" var:x_3) e:calculate var:x_7.
+        (var:x_3 1) math:difference var:x_7.
         (var:x_7 var:x_0 var:x_2) :tak var:x_8.
         (var:x_4 var:x_6 var:x_8) :tak var:x_9.
     }.
@@ -154,11 +154,11 @@ skolem:lemma9 a r:Inference;
     (16 13 8) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma18
-    [ a r:Fact; r:gives {("_Y-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma19
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma20
     skolem:lemma7
   );
@@ -179,11 +179,11 @@ skolem:lemma10 a r:Inference;
     (12 8 17) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma21
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma22
-    [ a r:Fact; r:gives {("_Z-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma23
     skolem:lemma24
   );
@@ -204,8 +204,8 @@ skolem:lemma11 a r:Inference;
     (7 17 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -217,11 +217,11 @@ skolem:lemma12 a r:Inference;
     (13 9 13) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma25
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma26
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma27
     skolem:lemma28
   );
@@ -242,11 +242,11 @@ skolem:lemma13 a r:Inference;
     (11 8 18) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma29
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma30
-    [ a r:Fact; r:gives {("_Z-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma31
     skolem:lemma32
   );
@@ -267,8 +267,8 @@ skolem:lemma14 a r:Inference;
     (7 18 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -280,11 +280,11 @@ skolem:lemma15 a r:Inference;
     (17 12 8) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma23
-    [ a r:Fact; r:gives {("_Y-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma21
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma22
     skolem:lemma33
   );
@@ -305,8 +305,8 @@ skolem:lemma16 a r:Inference;
     (9 12 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -318,8 +318,8 @@ skolem:lemma17 a r:Extraction;
     @forAll var:x_0, var:x_1. @forSome var:x_2. {
         (var:x_0 var:x_1 var:x_2) :tak var:x_2.
     } <= {
-        ("=<" var:x_0 var:x_1) e:derive true.
-        ("!") e:derive true.
+        var:x_0 math:notGreaterThan var:x_1.
+        ("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true.
     }.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/tak/tak.n3>].
@@ -329,11 +329,11 @@ skolem:lemma18 a r:Inference;
     (15 13 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma34
-    [ a r:Fact; r:gives {("_Y-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma35
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma36
     skolem:lemma12
   );
@@ -354,11 +354,11 @@ skolem:lemma19 a r:Inference;
     (12 8 16) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma37
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma38
-    [ a r:Fact; r:gives {("_Z-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma39
     skolem:lemma16
   );
@@ -379,8 +379,8 @@ skolem:lemma20 a r:Inference;
     (7 16 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -392,11 +392,11 @@ skolem:lemma21 a r:Inference;
     (11 8 17) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma40
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma41
-    [ a r:Fact; r:gives {("_Z-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma42
     skolem:lemma43
   );
@@ -417,8 +417,8 @@ skolem:lemma22 a r:Inference;
     (7 17 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -430,11 +430,11 @@ skolem:lemma23 a r:Inference;
     (16 12 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma39
-    [ a r:Fact; r:gives {("_Y-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma37
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma38
     skolem:lemma44
   );
@@ -455,8 +455,8 @@ skolem:lemma24 a r:Inference;
     (11 12 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 11 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {11 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -468,11 +468,11 @@ skolem:lemma25 a r:Inference;
     (12 9 13) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma45
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma46
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma47
     skolem:lemma24
   );
@@ -493,8 +493,8 @@ skolem:lemma26 a r:Inference;
     (8 13 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -506,8 +506,8 @@ skolem:lemma27 a r:Inference;
     (12 13 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 12 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {12 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 12];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -519,8 +519,8 @@ skolem:lemma28 a r:Inference;
     (9 13 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -532,11 +532,11 @@ skolem:lemma29 a r:Inference;
     (10 8 18) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma48
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma49
-    [ a r:Fact; r:gives {("_Z-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma50
     skolem:lemma51
   );
@@ -557,8 +557,8 @@ skolem:lemma30 a r:Inference;
     (7 18 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -570,11 +570,11 @@ skolem:lemma31 a r:Inference;
     (17 11 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma42
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma40
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma41
     skolem:lemma52
   );
@@ -595,8 +595,8 @@ skolem:lemma32 a r:Inference;
     (10 11 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -608,8 +608,8 @@ skolem:lemma33 a r:Inference;
     (9 11 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -621,11 +621,11 @@ skolem:lemma34 a r:Inference;
     (14 13 8) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma53
-    [ a r:Fact; r:gives {("_Y-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma54
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma55
     skolem:lemma56
   );
@@ -646,11 +646,11 @@ skolem:lemma35 a r:Inference;
     (12 8 15) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma57
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma58
-    [ a r:Fact; r:gives {("_Z-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma59
     skolem:lemma24
   );
@@ -671,8 +671,8 @@ skolem:lemma36 a r:Inference;
     (7 15 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -684,11 +684,11 @@ skolem:lemma37 a r:Inference;
     (11 8 16) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma60
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma61
-    [ a r:Fact; r:gives {("_Z-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma62
     skolem:lemma32
   );
@@ -709,8 +709,8 @@ skolem:lemma38 a r:Inference;
     (7 16 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -722,11 +722,11 @@ skolem:lemma39 a r:Inference;
     (15 12 8) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma59
-    [ a r:Fact; r:gives {("_Y-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma57
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma58
     skolem:lemma33
   );
@@ -747,11 +747,11 @@ skolem:lemma40 a r:Inference;
     (10 8 17) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma63
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma64
-    [ a r:Fact; r:gives {("_Z-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma65
     skolem:lemma66
   );
@@ -772,8 +772,8 @@ skolem:lemma41 a r:Inference;
     (7 17 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -785,11 +785,11 @@ skolem:lemma42 a r:Inference;
     (16 11 8) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma62
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma60
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma61
     skolem:lemma67
   );
@@ -810,8 +810,8 @@ skolem:lemma43 a r:Inference;
     (9 11 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -823,11 +823,11 @@ skolem:lemma44 a r:Inference;
     (12 9 12) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma68
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma69
-    [ a r:Fact; r:gives {("_Z-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma24
     skolem:lemma70
   );
@@ -848,11 +848,11 @@ skolem:lemma45 a r:Inference;
     (11 9 13) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma71
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma72
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma73
     skolem:lemma74
   );
@@ -873,8 +873,8 @@ skolem:lemma46 a r:Inference;
     (8 13 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -886,8 +886,8 @@ skolem:lemma47 a r:Inference;
     (12 12 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {12 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 12];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -899,11 +899,11 @@ skolem:lemma48 a r:Inference;
     (9 8 18) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma75
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma76
-    [ a r:Fact; r:gives {("_Z-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma77
     skolem:lemma78
   );
@@ -924,8 +924,8 @@ skolem:lemma49 a r:Inference;
     (7 18 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -937,11 +937,11 @@ skolem:lemma50 a r:Inference;
     (17 10 8) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma65
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma63
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma64
     skolem:lemma79
   );
@@ -962,8 +962,8 @@ skolem:lemma51 a r:Inference;
     (9 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -975,11 +975,11 @@ skolem:lemma52 a r:Inference;
     (11 9 11) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma80
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma81
-    [ a r:Fact; r:gives {("_Z-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma32
     skolem:lemma32
   );
@@ -1000,8 +1000,8 @@ skolem:lemma53 a r:Inference;
     (13 13 8) :tak 8 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 13 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {13 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 13];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -1013,11 +1013,11 @@ skolem:lemma54 a r:Inference;
     (12 8 14) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma82
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma83
-    [ a r:Fact; r:gives {("_Z-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma84
     skolem:lemma16
   );
@@ -1038,8 +1038,8 @@ skolem:lemma55 a r:Inference;
     (7 14 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -1051,8 +1051,8 @@ skolem:lemma56 a r:Inference;
     (8 12 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -1064,11 +1064,11 @@ skolem:lemma57 a r:Inference;
     (11 8 15) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma85
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma86
-    [ a r:Fact; r:gives {("_Z-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma87
     skolem:lemma43
   );
@@ -1089,8 +1089,8 @@ skolem:lemma58 a r:Inference;
     (7 15 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -1102,11 +1102,11 @@ skolem:lemma59 a r:Inference;
     (14 12 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma84
-    [ a r:Fact; r:gives {("_Y-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma82
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma83
     skolem:lemma44
   );
@@ -1127,11 +1127,11 @@ skolem:lemma60 a r:Inference;
     (10 8 16) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma88
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma89
-    [ a r:Fact; r:gives {("_Z-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma90
     skolem:lemma51
   );
@@ -1152,8 +1152,8 @@ skolem:lemma61 a r:Inference;
     (7 16 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -1165,11 +1165,11 @@ skolem:lemma62 a r:Inference;
     (15 11 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma87
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma85
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma86
     skolem:lemma52
   );
@@ -1190,11 +1190,11 @@ skolem:lemma63 a r:Inference;
     (9 8 17) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma91
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma92
-    [ a r:Fact; r:gives {("_Z-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma93
     skolem:lemma94
   );
@@ -1215,8 +1215,8 @@ skolem:lemma64 a r:Inference;
     (7 17 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -1228,11 +1228,11 @@ skolem:lemma65 a r:Inference;
     (16 10 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma90
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma88
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma89
     skolem:lemma95
   );
@@ -1253,8 +1253,8 @@ skolem:lemma66 a r:Inference;
     (9 10 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -1266,8 +1266,8 @@ skolem:lemma67 a r:Inference;
     (9 10 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -1279,11 +1279,11 @@ skolem:lemma68 a r:Inference;
     (11 9 12) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma96
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma97
-    [ a r:Fact; r:gives {("_Z-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma98
     skolem:lemma32
   );
@@ -1304,8 +1304,8 @@ skolem:lemma69 a r:Inference;
     (8 12 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -1317,8 +1317,8 @@ skolem:lemma70 a r:Inference;
     (9 12 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -1330,11 +1330,11 @@ skolem:lemma71 a r:Inference;
     (10 9 13) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma99
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma100
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma101
     skolem:lemma102
   );
@@ -1355,8 +1355,8 @@ skolem:lemma72 a r:Inference;
     (8 13 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -1368,11 +1368,11 @@ skolem:lemma73 a r:Inference;
     (12 11 9) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma98
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma96
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma97
     skolem:lemma67
   );
@@ -1393,8 +1393,8 @@ skolem:lemma74 a r:Inference;
     (10 11 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -1406,8 +1406,8 @@ skolem:lemma75 a r:Inference;
     (8 8 18) :tak 18 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -1419,8 +1419,8 @@ skolem:lemma76 a r:Inference;
     (7 18 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -1432,11 +1432,11 @@ skolem:lemma77 a r:Inference;
     (17 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma93
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma91
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma92
     skolem:lemma103
   );
@@ -1457,11 +1457,11 @@ skolem:lemma78 a r:Inference;
     (18 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 18) e:calculate 17}]
+    [ a r:Fact; r:gives {(18 1) math:difference 17}]
     skolem:lemma94
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma104
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma105
     skolem:lemma106
   );
@@ -1482,8 +1482,8 @@ skolem:lemma79 a r:Inference;
     (9 9 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -1495,11 +1495,11 @@ skolem:lemma80 a r:Inference;
     (10 9 11) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma107
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma108
-    [ a r:Fact; r:gives {("_Z-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma109
     skolem:lemma110
   );
@@ -1520,8 +1520,8 @@ skolem:lemma81 a r:Inference;
     (8 11 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -1533,11 +1533,11 @@ skolem:lemma82 a r:Inference;
     (11 8 14) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma111
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma112
-    [ a r:Fact; r:gives {("_Z-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma113
     skolem:lemma32
   );
@@ -1558,8 +1558,8 @@ skolem:lemma83 a r:Inference;
     (7 14 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -1571,11 +1571,11 @@ skolem:lemma84 a r:Inference;
     (13 12 8) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma114
-    [ a r:Fact; r:gives {("_Y-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma115
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma116
     skolem:lemma117
   );
@@ -1596,11 +1596,11 @@ skolem:lemma85 a r:Inference;
     (10 8 15) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma118
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma119
-    [ a r:Fact; r:gives {("_Z-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma120
     skolem:lemma66
   );
@@ -1621,8 +1621,8 @@ skolem:lemma86 a r:Inference;
     (7 15 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -1634,11 +1634,11 @@ skolem:lemma87 a r:Inference;
     (14 11 8) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma113
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma111
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma112
     skolem:lemma67
   );
@@ -1659,11 +1659,11 @@ skolem:lemma88 a r:Inference;
     (9 8 16) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma121
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma122
-    [ a r:Fact; r:gives {("_Z-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma123
     skolem:lemma124
   );
@@ -1684,8 +1684,8 @@ skolem:lemma89 a r:Inference;
     (7 16 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -1697,11 +1697,11 @@ skolem:lemma90 a r:Inference;
     (15 10 8) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma120
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma118
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma119
     skolem:lemma79
   );
@@ -1722,8 +1722,8 @@ skolem:lemma91 a r:Inference;
     (8 8 17) :tak 17 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -1735,8 +1735,8 @@ skolem:lemma92 a r:Inference;
     (7 17 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -1748,11 +1748,11 @@ skolem:lemma93 a r:Inference;
     (16 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma123
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma121
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma122
     skolem:lemma125
   );
@@ -1773,11 +1773,11 @@ skolem:lemma94 a r:Inference;
     (17 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 17) e:calculate 16}]
+    [ a r:Fact; r:gives {(17 1) math:difference 16}]
     skolem:lemma124
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma126
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma127
     skolem:lemma103
   );
@@ -1798,11 +1798,11 @@ skolem:lemma95 a r:Inference;
     (10 9 10) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma79
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma128
-    [ a r:Fact; r:gives {("_Z-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma66
     skolem:lemma109
   );
@@ -1823,11 +1823,11 @@ skolem:lemma96 a r:Inference;
     (10 9 12) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma129
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma130
-    [ a r:Fact; r:gives {("_Z-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma110
     skolem:lemma131
   );
@@ -1848,8 +1848,8 @@ skolem:lemma97 a r:Inference;
     (8 12 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -1861,8 +1861,8 @@ skolem:lemma98 a r:Inference;
     (11 11 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {11 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -1874,8 +1874,8 @@ skolem:lemma99 a r:Inference;
     (9 9 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -1887,8 +1887,8 @@ skolem:lemma100 a r:Inference;
     (8 13 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -1900,11 +1900,11 @@ skolem:lemma101 a r:Inference;
     (12 10 9) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma110
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma129
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma130
     skolem:lemma132
   );
@@ -1925,11 +1925,11 @@ skolem:lemma102 a r:Inference;
     (13 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma131
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma133
-    [ a r:Fact; r:gives {("_Z-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma134
     skolem:lemma135
   );
@@ -1950,8 +1950,8 @@ skolem:lemma103 a r:Inference;
     (9 17 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -1963,8 +1963,8 @@ skolem:lemma104 a r:Inference;
     (8 9 18) :tak 18 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -1976,8 +1976,8 @@ skolem:lemma105 a r:Inference;
     (8 18 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -1989,8 +1989,8 @@ skolem:lemma106 a r:Inference;
     (9 18 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 18) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 18}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 18];
@@ -2002,8 +2002,8 @@ skolem:lemma107 a r:Inference;
     (9 9 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -2015,8 +2015,8 @@ skolem:lemma108 a r:Inference;
     (8 11 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -2028,8 +2028,8 @@ skolem:lemma109 a r:Inference;
     (10 10 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -2041,11 +2041,11 @@ skolem:lemma110 a r:Inference;
     (11 10 9) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma109
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma107
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma108
     skolem:lemma136
   );
@@ -2066,11 +2066,11 @@ skolem:lemma111 a r:Inference;
     (10 8 14) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma137
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma138
-    [ a r:Fact; r:gives {("_Z-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma139
     skolem:lemma51
   );
@@ -2091,8 +2091,8 @@ skolem:lemma112 a r:Inference;
     (7 14 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -2104,11 +2104,11 @@ skolem:lemma113 a r:Inference;
     (13 11 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma140
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma141
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma142
     skolem:lemma52
   );
@@ -2129,8 +2129,8 @@ skolem:lemma114 a r:Inference;
     (12 12 8) :tak 8 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 12 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {12 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 12];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -2142,11 +2142,11 @@ skolem:lemma115 a r:Inference;
     (11 8 13) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma141
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma142
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma140
     skolem:lemma43
   );
@@ -2167,8 +2167,8 @@ skolem:lemma116 a r:Inference;
     (7 13 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -2180,8 +2180,8 @@ skolem:lemma117 a r:Inference;
     (8 11 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -2193,11 +2193,11 @@ skolem:lemma118 a r:Inference;
     (9 8 15) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma143
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma144
-    [ a r:Fact; r:gives {("_Z-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma145
     skolem:lemma146
   );
@@ -2218,8 +2218,8 @@ skolem:lemma119 a r:Inference;
     (7 15 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -2231,11 +2231,11 @@ skolem:lemma120 a r:Inference;
     (14 10 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma139
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma137
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma138
     skolem:lemma95
   );
@@ -2256,8 +2256,8 @@ skolem:lemma121 a r:Inference;
     (8 8 16) :tak 16 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -2269,8 +2269,8 @@ skolem:lemma122 a r:Inference;
     (7 16 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -2282,11 +2282,11 @@ skolem:lemma123 a r:Inference;
     (15 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma145
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma143
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma144
     skolem:lemma147
   );
@@ -2307,11 +2307,11 @@ skolem:lemma124 a r:Inference;
     (16 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 16) e:calculate 15}]
+    [ a r:Fact; r:gives {(16 1) math:difference 15}]
     skolem:lemma146
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma148
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma149
     skolem:lemma125
   );
@@ -2332,8 +2332,8 @@ skolem:lemma125 a r:Inference;
     (9 16 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -2345,8 +2345,8 @@ skolem:lemma126 a r:Inference;
     (8 9 17) :tak 17 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -2358,8 +2358,8 @@ skolem:lemma127 a r:Inference;
     (8 17 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 17) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 17}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 17];
@@ -2371,8 +2371,8 @@ skolem:lemma128 a r:Inference;
     (8 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -2384,8 +2384,8 @@ skolem:lemma129 a r:Inference;
     (9 9 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -2397,8 +2397,8 @@ skolem:lemma130 a r:Inference;
     (8 12 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -2410,11 +2410,11 @@ skolem:lemma131 a r:Inference;
     (12 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma150
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma151
-    [ a r:Fact; r:gives {("_Z-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma152
     skolem:lemma132
   );
@@ -2435,8 +2435,8 @@ skolem:lemma132 a r:Inference;
     (10 12 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -2448,8 +2448,8 @@ skolem:lemma133 a r:Inference;
     (9 10 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -2461,8 +2461,8 @@ skolem:lemma134 a r:Inference;
     (9 13 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -2474,8 +2474,8 @@ skolem:lemma135 a r:Inference;
     (10 13 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -2487,8 +2487,8 @@ skolem:lemma136 a r:Inference;
     (9 11 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -2500,11 +2500,11 @@ skolem:lemma137 a r:Inference;
     (9 8 14) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma153
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma154
-    [ a r:Fact; r:gives {("_Z-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma155
     skolem:lemma156
   );
@@ -2525,8 +2525,8 @@ skolem:lemma138 a r:Inference;
     (7 14 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -2538,11 +2538,11 @@ skolem:lemma139 a r:Inference;
     (13 10 8) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma157
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma158
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma159
     skolem:lemma79
   );
@@ -2563,11 +2563,11 @@ skolem:lemma140 a r:Inference;
     (12 11 8) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma160
-    [ a r:Fact; r:gives {("_Y-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma161
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma162
     skolem:lemma163
   );
@@ -2588,11 +2588,11 @@ skolem:lemma141 a r:Inference;
     (10 8 13) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma158
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma159
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma157
     skolem:lemma66
   );
@@ -2613,8 +2613,8 @@ skolem:lemma142 a r:Inference;
     (7 13 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -2626,8 +2626,8 @@ skolem:lemma143 a r:Inference;
     (8 8 15) :tak 15 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -2639,8 +2639,8 @@ skolem:lemma144 a r:Inference;
     (7 15 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -2652,11 +2652,11 @@ skolem:lemma145 a r:Inference;
     (14 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma155
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma153
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma154
     skolem:lemma164
   );
@@ -2677,11 +2677,11 @@ skolem:lemma146 a r:Inference;
     (15 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 15) e:calculate 14}]
+    [ a r:Fact; r:gives {(15 1) math:difference 14}]
     skolem:lemma156
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma165
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma166
     skolem:lemma147
   );
@@ -2702,8 +2702,8 @@ skolem:lemma147 a r:Inference;
     (9 15 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -2715,8 +2715,8 @@ skolem:lemma148 a r:Inference;
     (8 9 16) :tak 16 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -2728,8 +2728,8 @@ skolem:lemma149 a r:Inference;
     (8 16 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 16) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 16}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 16];
@@ -2741,11 +2741,11 @@ skolem:lemma150 a r:Inference;
     (11 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma167
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma67
-    [ a r:Fact; r:gives {("_Z-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma136
     skolem:lemma168
   );
@@ -2766,8 +2766,8 @@ skolem:lemma151 a r:Inference;
     (9 10 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -2779,8 +2779,8 @@ skolem:lemma152 a r:Inference;
     (9 12 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -2792,8 +2792,8 @@ skolem:lemma153 a r:Inference;
     (8 8 14) :tak 14 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -2805,8 +2805,8 @@ skolem:lemma154 a r:Inference;
     (7 14 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -2818,11 +2818,11 @@ skolem:lemma155 a r:Inference;
     (13 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma169
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma170
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma171
     skolem:lemma28
   );
@@ -2843,11 +2843,11 @@ skolem:lemma156 a r:Inference;
     (14 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 14) e:calculate 13}]
+    [ a r:Fact; r:gives {(14 1) math:difference 13}]
     skolem:lemma172
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma173
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma174
     skolem:lemma164
   );
@@ -2868,11 +2868,11 @@ skolem:lemma157 a r:Inference;
     (12 10 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma175
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma176
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma177
     skolem:lemma95
   );
@@ -2893,11 +2893,11 @@ skolem:lemma158 a r:Inference;
     (9 8 13) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma170
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma171
-    [ a r:Fact; r:gives {("_Z-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma169
     skolem:lemma172
   );
@@ -2918,8 +2918,8 @@ skolem:lemma159 a r:Inference;
     (7 13 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -2931,8 +2931,8 @@ skolem:lemma160 a r:Inference;
     (11 11 8) :tak 8 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 11 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {11 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 11];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -2944,11 +2944,11 @@ skolem:lemma161 a r:Inference;
     (10 8 12) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma176
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma177
-    [ a r:Fact; r:gives {("_Z-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma175
     skolem:lemma51
   );
@@ -2969,8 +2969,8 @@ skolem:lemma162 a r:Inference;
     (7 12 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -2982,8 +2982,8 @@ skolem:lemma163 a r:Inference;
     (8 10 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -2995,8 +2995,8 @@ skolem:lemma164 a r:Inference;
     (9 14 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -3008,8 +3008,8 @@ skolem:lemma165 a r:Inference;
     (8 9 15) :tak 15 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3021,8 +3021,8 @@ skolem:lemma166 a r:Inference;
     (8 15 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 15) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 15}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 15];
@@ -3034,8 +3034,8 @@ skolem:lemma167 a r:Inference;
     (10 10 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -3047,8 +3047,8 @@ skolem:lemma168 a r:Inference;
     (10 11 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -3060,11 +3060,11 @@ skolem:lemma169 a r:Inference;
     (12 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma178
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma179
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma180
     skolem:lemma70
   );
@@ -3085,8 +3085,8 @@ skolem:lemma170 a r:Inference;
     (8 8 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -3098,8 +3098,8 @@ skolem:lemma171 a r:Inference;
     (7 13 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -3111,11 +3111,11 @@ skolem:lemma172 a r:Inference;
     (13 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 13) e:calculate 12}]
+    [ a r:Fact; r:gives {(13 1) math:difference 12}]
     skolem:lemma181
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma182
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma183
     skolem:lemma28
   );
@@ -3136,8 +3136,8 @@ skolem:lemma173 a r:Inference;
     (8 9 14) :tak 14 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3149,8 +3149,8 @@ skolem:lemma174 a r:Inference;
     (8 14 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 14) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 14}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 14];
@@ -3162,11 +3162,11 @@ skolem:lemma175 a r:Inference;
     (11 10 8) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma184
-    [ a r:Fact; r:gives {("_Y-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma185
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma186
     skolem:lemma187
   );
@@ -3187,11 +3187,11 @@ skolem:lemma176 a r:Inference;
     (9 8 12) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma179
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma180
-    [ a r:Fact; r:gives {("_Z-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma178
     skolem:lemma181
   );
@@ -3212,8 +3212,8 @@ skolem:lemma177 a r:Inference;
     (7 12 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -3225,11 +3225,11 @@ skolem:lemma178 a r:Inference;
     (11 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma188
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma189
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma190
     skolem:lemma191
   );
@@ -3250,8 +3250,8 @@ skolem:lemma179 a r:Inference;
     (8 8 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -3263,8 +3263,8 @@ skolem:lemma180 a r:Inference;
     (7 12 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -3276,11 +3276,11 @@ skolem:lemma181 a r:Inference;
     (12 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 12) e:calculate 11}]
+    [ a r:Fact; r:gives {(12 1) math:difference 11}]
     skolem:lemma192
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma193
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma194
     skolem:lemma70
   );
@@ -3301,8 +3301,8 @@ skolem:lemma182 a r:Inference;
     (8 9 13) :tak 13 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3314,8 +3314,8 @@ skolem:lemma183 a r:Inference;
     (8 13 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 13) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 13}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 13];
@@ -3327,8 +3327,8 @@ skolem:lemma184 a r:Inference;
     (10 10 8) :tak 8 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 10 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {10 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 10];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -3340,11 +3340,11 @@ skolem:lemma185 a r:Inference;
     (9 8 11) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma189
-    [ a r:Fact; r:gives {("_Y-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma190
-    [ a r:Fact; r:gives {("_Z-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma188
     skolem:lemma192
   );
@@ -3365,8 +3365,8 @@ skolem:lemma186 a r:Inference;
     (7 11 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -3378,8 +3378,8 @@ skolem:lemma187 a r:Inference;
     (8 9 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3391,11 +3391,11 @@ skolem:lemma188 a r:Inference;
     (10 9 8) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma195
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma196
-    [ a r:Fact; r:gives {("_Z-1" 8) e:calculate 7}]
+    [ a r:Fact; r:gives {(8 1) math:difference 7}]
     skolem:lemma197
     skolem:lemma198
   );
@@ -3416,8 +3416,8 @@ skolem:lemma189 a r:Inference;
     (8 8 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -3429,8 +3429,8 @@ skolem:lemma190 a r:Inference;
     (7 11 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -3442,8 +3442,8 @@ skolem:lemma191 a r:Inference;
     (9 11 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -3455,11 +3455,11 @@ skolem:lemma192 a r:Inference;
     (11 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 11) e:calculate 10}]
+    [ a r:Fact; r:gives {(11 1) math:difference 10}]
     skolem:lemma199
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma200
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma201
     skolem:lemma191
   );
@@ -3480,8 +3480,8 @@ skolem:lemma193 a r:Inference;
     (8 9 12) :tak 12 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3493,8 +3493,8 @@ skolem:lemma194 a r:Inference;
     (8 12 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 12) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 12}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 12];
@@ -3506,8 +3506,8 @@ skolem:lemma195 a r:Inference;
     (9 9 8) :tak 8 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3519,8 +3519,8 @@ skolem:lemma196 a r:Inference;
     (8 8 10) :tak 10 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 8) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 8}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 8];
@@ -3532,8 +3532,8 @@ skolem:lemma197 a r:Inference;
     (7 10 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 7 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {7 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 7];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -3545,8 +3545,8 @@ skolem:lemma198 a r:Inference;
     (8 10 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 10) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 10}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
@@ -3558,11 +3558,11 @@ skolem:lemma199 a r:Inference;
     (10 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("_X-1" 10) e:calculate 9}]
+    [ a r:Fact; r:gives {(10 1) math:difference 9}]
     skolem:lemma202
-    [ a r:Fact; r:gives {("_Y-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma187
-    [ a r:Fact; r:gives {("_Z-1" 9) e:calculate 8}]
+    [ a r:Fact; r:gives {(9 1) math:difference 8}]
     skolem:lemma198
     skolem:lemma66
   );
@@ -3583,8 +3583,8 @@ skolem:lemma200 a r:Inference;
     (8 9 11) :tak 11 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];
@@ -3596,8 +3596,8 @@ skolem:lemma201 a r:Inference;
     (8 11 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 8 11) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {8 math:notGreaterThan 11}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 8];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
@@ -3609,8 +3609,8 @@ skolem:lemma202 a r:Inference;
     (9 9 9) :tak 9 .
   };
   r:evidence (
-    [ a r:Fact; r:gives {("=<" 9 9) e:derive true}]
-    [ a r:Fact; r:gives {("!") e:derive true}]
+    [ a r:Fact; r:gives {9 math:notGreaterThan 9}]
+    [ a r:Fact; r:gives {("!") <http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive> true}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 9];

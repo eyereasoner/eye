@@ -1,0 +1,216 @@
+@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+  r:component skolem:lemma1;
+  r:gives {
+    :s a :3outof5.
+  }.
+
+skolem:lemma1 a r:Inference;
+  r:gives {
+    :s a :3outof5.
+  };
+  r:evidence (
+    skolem:lemma2
+    [ a r:Fact; r:gives {true log:callWithOptional {
+        1 log:equalTo 0.
+    }}]
+    [ a r:Fact; r:gives {true log:callWithOptional {
+        :s :p2 true.
+        0 log:equalTo 1.
+    }}]
+    skolem:lemma3
+    skolem:lemma4
+    [ a r:Fact; r:gives {true log:callWithOptional {
+        1 log:equalTo 0.
+    }}]
+    skolem:lemma5
+    [ a r:Fact; r:gives {true log:callWithOptional {
+        1 log:equalTo 0.
+    }}]
+    [ a r:Fact; r:gives {true log:callWithOptional {
+        :s :p5 true.
+        0 log:equalTo 1.
+    }}]
+    skolem:lemma3
+    [ a r:Fact; r:gives {(1 0 1 1 0) math:sum 3}]
+    [ a r:Fact; r:gives {3 math:notLessThan 3}]
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 0];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo 3];
+  r:rule skolem:lemma6.
+
+skolem:lemma2 a r:Inference;
+  r:gives {
+    true log:callWithOptional {
+        :s :p1 true.
+        1 log:equalTo 1.
+    }.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+    skolem:lemma7
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {
+      {
+          (true {
+              :s :p1 true.
+              1 log:equalTo 1.
+          }) <http://eulersharp.sourceforge.net/2003/03swap/prolog#conjunction> true.
+      } => {
+          true log:callWithOptional {
+              :s :p1 true.
+              1 log:equalTo 1.
+          }.
+      }.
+  }].
+
+skolem:lemma3 a r:Inference;
+  r:gives {
+    true log:callWithOptional {
+        0 log:equalTo 0.
+    }.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+    [ a r:Fact; r:gives {0 log:equalTo 0}]
+  );
+  r:rule [ a r:Fact; r:gives {
+      {
+          (true {
+              0 log:equalTo 0.
+          }) <http://eulersharp.sourceforge.net/2003/03swap/prolog#conjunction> true.
+      } => {
+          true log:callWithOptional {
+              0 log:equalTo 0.
+          }.
+      }.
+  }].
+
+skolem:lemma4 a r:Inference;
+  r:gives {
+    true log:callWithOptional {
+        :s :p3 true.
+        1 log:equalTo 1.
+    }.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+    skolem:lemma8
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {
+      {
+          (true {
+              :s :p3 true.
+              1 log:equalTo 1.
+          }) <http://eulersharp.sourceforge.net/2003/03swap/prolog#conjunction> true.
+      } => {
+          true log:callWithOptional {
+              :s :p3 true.
+              1 log:equalTo 1.
+          }.
+      }.
+  }].
+
+skolem:lemma5 a r:Inference;
+  r:gives {
+    true log:callWithOptional {
+        :s :p4 true.
+        1 log:equalTo 1.
+    }.
+  };
+  r:evidence (
+    [ a r:Fact; r:gives true]
+    skolem:lemma9
+    [ a r:Fact; r:gives {1 log:equalTo 1}]
+  );
+  r:rule [ a r:Fact; r:gives {
+      {
+          (true {
+              :s :p4 true.
+              1 log:equalTo 1.
+          }) <http://eulersharp.sourceforge.net/2003/03swap/prolog#conjunction> true.
+      } => {
+          true log:callWithOptional {
+              :s :p4 true.
+              1 log:equalTo 1.
+          }.
+      }.
+  }].
+
+skolem:lemma6 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        true log:callWithOptional {
+            :s :p1 true.
+            var:x_0 log:equalTo 1.
+        }.
+        true log:callWithOptional {
+            var:x_0 log:equalTo 0.
+        }.
+        true log:callWithOptional {
+            :s :p2 true.
+            var:x_1 log:equalTo 1.
+        }.
+        true log:callWithOptional {
+            var:x_1 log:equalTo 0.
+        }.
+        true log:callWithOptional {
+            :s :p3 true.
+            var:x_2 log:equalTo 1.
+        }.
+        true log:callWithOptional {
+            var:x_2 log:equalTo 0.
+        }.
+        true log:callWithOptional {
+            :s :p4 true.
+            var:x_3 log:equalTo 1.
+        }.
+        true log:callWithOptional {
+            var:x_3 log:equalTo 0.
+        }.
+        true log:callWithOptional {
+            :s :p5 true.
+            var:x_4 log:equalTo 1.
+        }.
+        true log:callWithOptional {
+            var:x_4 log:equalTo 0.
+        }.
+        (var:x_0 var:x_1 var:x_2 var:x_3 var:x_4) math:sum var:x_5.
+        var:x_5 math:notLessThan 3.
+    } => {
+        :s a :3outof5.
+    }.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/3outof5/query.n3>].
+
+skolem:lemma7 a r:Extraction;
+  r:gives {
+    :s :p1 true.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/3outof5/sample.n3>].
+
+skolem:lemma8 a r:Extraction;
+  r:gives {
+    :s :p3 true.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/3outof5/sample.n3>].
+
+skolem:lemma9 a r:Extraction;
+  r:gives {
+    :s :p4 true.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/3outof5/sample.n3>].
+

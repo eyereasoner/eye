@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v2.13.2 josd').
+version_info('EYE v3.0.0 josd').
 
 license_info('MIT License
 
@@ -728,15 +728,6 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, M),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), M, _)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
-    % factor literals
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    list_to_set(L, M),
-                    conj_list(H, M),
-                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
-                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
-                    ;   true
-                    )), true, '<>')),
     % non-unit resolution
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
@@ -761,7 +752,16 @@ opts(['--blogic'|Argus], Args) :-
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
                     ;   true
                     )), true, '<>')),
-    % rewrite negative surface disjunction
+    % negative surface factoring
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    list_to_set(L, M),
+                    conj_list(H, M),
+                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
+                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
+                    ;   true
+                    )), true, '<>')),
+    % negative surface disjunction
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
@@ -795,31 +795,11 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
-                    conj_list(C, K),
-                    domain(V, C, P),
+                    conj_list(R, K),
+                    domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, H), B, beta(V))
                     ), B, '<>')),
-    % forward rule with contrapositives
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
-                    K \= [],
-                    forall(
-                        member(M, K),
-                        predicate_property(M, dynamic)
-                    ),
-                    conj_list(T, K),
-                    (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, A)
-                    ->  D = A
-                    ;   D = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H)
-                    ),
-                    (   T = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F)
-                    ->  E = F
-                    ;   E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, T)
-                    ),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(D, E), B, beta(V))
-                    ), B, '<>')),
-    % forward rule with positive premis and negative conclusion
+    % forward rule contrapositive
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -830,26 +810,6 @@ opts(['--blogic'|Argus], Args) :-
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     domain(V, R, P),
                     makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
-                    ), B, '<>')),
-    % forward rule with mixed premis and negative conclusion
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    select(J, L, K),
-                    J \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _),
-                    forall(
-                        member(M, K),
-                        predicate_property(M, dynamic)
-                    ),
-                    conj_list(H, K),
-                    findall(1,
-                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
-                        ),
-                        D
-                    ),
-                    length(D, E),
-                    E > 1,
-                    C = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(J, C), B, beta(V))
                     ), B, '<>')),
     % backward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -882,33 +842,6 @@ opts(['--blogic'|Argus], Args) :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')),
-    % extended unifier
-    asserta((unify(A, B) :-
-                    nonvar(A),
-                    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y),
-                    conj_list(Y, C),
-                    findall(1,
-                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), C)
-                        ),
-                        D
-                    ),
-                    length(D, U),
-                    length(C, V),
-                    (   U > 1
-                    ->  true
-                    ;   U = 1,
-                        V > 1
-                    ),
-                    select(H, C, F),
-                    conj_list(G, F),
-                    (   catch(call(G), _, fail),
-                        B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H)
-                    ;   (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
-                        ->  catch(call(I), _, fail)
-                        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, G)
-                        ),
-                        B = true
-                    ))),
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
@@ -6334,11 +6267,19 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/list#setNotEqualTo>'(A, B) :-
     \+'<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B).
 
-'<http://www.w3.org/2000/10/swap/list#unique>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/list#sort>'(A, B) :-
     when(
         (   nonvar(A)
         ),
         (   sort(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#unique>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   list_to_set(A, B)
         )
     ).
 
@@ -6407,6 +6348,19 @@ djiti_assertz(A) :-
     ;   conj_append(A, B, C),
         copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
         istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B) :-
+    call(A),
+    (   \+catch(call(B), _, fail)
+    ->  true
+    ;   catch(call(B), _, fail),
+        (   flag(nope)
+        ->  true
+        ;   conj_append(A, B, C),
+            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B)), D),
+            istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B), D)
+        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, A) :-
@@ -11383,6 +11337,8 @@ conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([lite
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), !) :-
     !.
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
+    !.
+conjify('<http://www.w3.org/2000/10/swap/log#callWithCut>'(A, _), (A, !)) :-
     !.
 conjify(A, A).
 
