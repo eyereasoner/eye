@@ -1,0 +1,396 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix event: <http://eulersharp.sourceforge.net/2003/03swap/event#> .
+@prefix time: <http://eulersharp.sourceforge.net/2003/03swap/time#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+@prefix logic: <logic#> .
+@prefix allen: <allen#> .
+
+
+## RELATIONS ##
+allen:relation a owl:ObjectProperty ;
+    rdfs:subPropertyOf logic:relation ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+
+allen:precedes a owl:ObjectProperty ;
+    skos:definition """Linking an earlier event to a later event began after the end of the earlier one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:precededBy ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:precededBy a owl:ObjectProperty ;
+    skos:definition """Linking a later event to an earlier event ended after the beginning of the later one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:precedes ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:meets a owl:ObjectProperty ;
+    skos:definition """Linking an earlier event to a later event beginning at the end of the earlier one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:metBy ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:metBy a owl:ObjectProperty ;
+    skos:definition """Linking a later event to an earlier event ending at the beginning of the later one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:meets ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:overlaps a owl:ObjectProperty ;
+    skos:definition """Linking an earlier beginning event to a later beginning event, and the first one finishing during the second one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:overlappedBy ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:overlappedBy a owl:ObjectProperty ;
+    skos:definition """Linking a later beginning event to an earlier beginning event, and the second one finishing during the first one""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:overlaps ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:starts a owl:ObjectProperty ;
+    skos:definition """Linking an earlier ending event to a later ending event started at the same time""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:startedBy ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:startedBy a owl:ObjectProperty ;
+    skos:definition """Linking a later ending event to an earlier ending event started at the same time""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:starts ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:during a owl:ObjectProperty ;
+    skos:definition """Linking an event beginning later and ending earlier to an event beginning earlier and ending later""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:contains ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:contains a owl:ObjectProperty ;
+    skos:definition """Linking an event beginning earlier and ending later to an event beginning later and ending earlier""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:during ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:finishes a owl:ObjectProperty ;
+    skos:definition """Linking a later beginning event to an earlier beginning event finished at the same time""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:finishedBy ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:finishedBy a owl:ObjectProperty ;
+    skos:definition """Linking an earlier beginning event to a later beginning event finished at the same time""" ;
+	rdfs:subPropertyOf allen:relation ;
+    owl:inverseOf allen:finishes ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+allen:equals a owl:ObjectProperty, owl:SymmetricProperty ;
+    skos:definition """Linking 2 events happening on the same interval""" ;
+    owl:inverseOf allen:equals ;
+	rdfs:subPropertyOf allen:relation ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+
+# TIME DEFINITIONS
+time:endsSameAsBeginningOf
+	a owl:ObjectProperty, owl:TransitiveProperty;
+#	rdfs:isDefinedBy <http://eulersharp.sourceforge.net/2003/03swap/time#>;
+	skos:definition """Linking an ending event to another event beginning at the same moment."""@en;
+	skos:note """Further formalized in an N3 rule by calculation in http://eulersharp.sourceforge.net/2003/03swap/eventTime_rules.n3, enabling reasoning with date/time values."""@en;
+	rdfs:subPropertyOf time:timeRelatedTo;
+	owl:inverseOf time:beginsSameAsEndOf;
+	rdfs:domain event:Event;
+	rdfs:range event:Event.
+
+time:beginsSameAsEndOf
+	a owl:ObjectProperty, owl:TransitiveProperty;
+#	rdfs:isDefinedBy <http://eulersharp.sourceforge.net/2003/03swap/time#>;
+	skos:definition """Linking a beginning event to another event ending at the same moment."""@en;
+	skos:note """Further formalized in an N3 rule by calculation in http://eulersharp.sourceforge.net/2003/03swap/eventTime_rules.n3, enabling reasoning with date/time values."""@en;
+	rdfs:subPropertyOf time:timeRelatedTo;
+	owl:inverseOf time:endsSameAsBeginningOf;
+	rdfs:domain event:Event;
+	rdfs:range event:Event.
+
+# BEGINS SAME AS END OF/ENDS SAME AS BEGINNING OF
+
+{
+    ?event1 time:begins ?beginning1 .
+    ?event2 time:ends ?end2 .
+    ?beginning1 math:equalTo ?end2 .
+} =>
+{
+    ?event1 time:beginsSameAsEndOf ?event2 .
+    ?event2 time:endsSameAsBeginningOf ?event1 .
+} .
+
+## FORMULAS ##
+# X precedes Y
+{   
+    ?event1 time:ends ?end1 .
+	?event2 time:begins ?beginning2 .
+	?end1 math:lessThan ?beginning2 .
+
+} => 
+{   
+    (?a ?b) logic:possible (allen:precedes) .
+    (?b ?a) logic:possible (allen:precededBy) .
+} .
+
+# X meets Y
+{   
+    ?a time:endsSameAsBeginningOf ?b .
+} => 
+{   
+    (?a ?b) logic:possible (allen:meets) .
+    (?b ?a) logic:possible (allen:metBy) .
+} .
+
+# X starts Y
+{   
+    ?a time:hasSameBeginningAs ?b ;
+        time:endsBefore ?b .
+} => 
+{   
+    (?a ?b) logic:possible (allen:starts) .
+    (?b ?a) logic:possible (allen:startedBy) .
+} .
+
+# X finishes Y
+{   
+    ?a time:beginsAfter ?b ;
+        time:hasSameEndAs ?b .
+} => 
+{
+    (?a ?b) logic:possible (allen:finishes) .
+    (?b ?a) logic:possible (allen:finishedBy) .
+} .
+
+# X during Y
+{   
+    ?a time:beginsAfter ?b ;
+        time:endsBefore ?b .
+} => 
+{
+    (?a ?b) logic:possible (allen:during) .
+    (?b ?a) logic:possible (allen:contains) .
+} .
+
+# X overlaps Y
+{   
+    # ?a time:beginsBefore ?b ;
+    #     time:endsAfterBeginningOf ?b ;
+    #     time:endsBefore ?b .
+
+    #?a time:overlaps ?b .
+    ?b time:begins ?beginning2 .
+    ?a time:ends ?end1 .
+    ?a time:beginsBefore ?b ;
+        time:endsBefore ?b .
+    ?end1 math:greaterThan ?beginning2 .
+} => 
+{
+    (?a ?b) logic:possible (allen:overlaps) .
+    (?b ?a) logic:possible (allen:overlappedBy) .
+} .
+
+# X equals Y
+{   
+    ?a time:hasSameBeginningAs ?b ;
+        time:hasSameEndAs ?b .
+} => 
+{   
+    (?a ?b) logic:possible (allen:equals) .
+    (?b ?a) logic:possible (allen:equals) .
+} .
+
+
+
+## COMPOSITION TABLE ##
+
+(allen:precedes allen:precedes)     logic:composition (allen:precedes) .
+(allen:precedes allen:meets)        logic:composition (allen:precedes) .
+(allen:precedes allen:overlaps)     logic:composition (allen:precedes) .
+(allen:precedes allen:finishedBy)   logic:composition (allen:precedes) .
+(allen:precedes allen:contains)     logic:composition (allen:precedes) .
+(allen:precedes allen:startedBy)    logic:composition (allen:precedes) .
+(allen:precedes allen:equals)       logic:composition (allen:precedes) .
+(allen:precedes allen:starts)       logic:composition (allen:precedes) .
+(allen:precedes allen:during)       logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:precedes allen:finishes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:precedes allen:overlappedBy) logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:precedes allen:metBy)        logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:precedes allen:precededBy)   logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:finishes allen:during allen:equals allen:contains allen:finishedBy allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+
+(allen:meets allen:precedes)     logic:composition (allen:precedes) .
+(allen:meets allen:meets)        logic:composition (allen:precedes) .
+(allen:meets allen:overlaps)     logic:composition (allen:precedes) .
+(allen:meets allen:finishedBy)   logic:composition (allen:precedes) .
+(allen:meets allen:contains)     logic:composition (allen:precedes) .
+(allen:meets allen:startedBy)    logic:composition (allen:meets) .
+(allen:meets allen:equals)       logic:composition (allen:meets) .
+(allen:meets allen:starts)       logic:composition (allen:meets) .
+(allen:meets allen:during)       logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:meets allen:finishes)     logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:meets allen:overlappedBy) logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:meets allen:metBy)        logic:composition (allen:finishedBy allen:equals allen:finishes) .
+(allen:meets allen:precededBy)   logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+
+(allen:overlaps allen:precedes)     logic:composition (allen:precedes) .
+(allen:overlaps allen:meets)        logic:composition (allen:precedes) .
+(allen:overlaps allen:overlaps)     logic:composition (allen:precedes allen:meets allen:overlaps) .
+(allen:overlaps allen:finishedBy)   logic:composition (allen:precedes allen:meets allen:overlaps) .
+(allen:overlaps allen:contains)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:overlaps allen:startedBy)    logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:overlaps allen:equals)       logic:composition (allen:overlaps) .
+(allen:overlaps allen:starts)       logic:composition (allen:overlaps) .
+(allen:overlaps allen:during)       logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:overlaps allen:finishes)     logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:overlaps allen:overlappedBy) logic:composition (allen:overlaps allen:finishedBy allen:contains allen:starts allen:equals allen:startedBy allen:during allen:finishes allen:overlappedBy) .
+(allen:overlaps allen:metBy)        logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:overlaps allen:precededBy)   logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+
+(allen:finishedBy allen:precedes)     logic:composition (allen:precedes) .
+(allen:finishedBy allen:meets)        logic:composition (allen:meets) .
+(allen:finishedBy allen:overlaps)     logic:composition (allen:overlaps) .
+(allen:finishedBy allen:finishedBy)   logic:composition (allen:finishedBy) .
+(allen:finishedBy allen:contains)     logic:composition (allen:contains) .
+(allen:finishedBy allen:startedBy)    logic:composition (allen:contains) .
+(allen:finishedBy allen:equals)       logic:composition (allen:finishedBy) .
+(allen:finishedBy allen:starts)       logic:composition (allen:overlaps) .
+(allen:finishedBy allen:during)       logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:finishedBy allen:finishes)     logic:composition (allen:finishedBy allen:equals allen:finishes) .
+(allen:finishedBy allen:overlappedBy) logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:finishedBy allen:metBy)        logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:finishedBy allen:precededBy)   logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+
+(allen:contains allen:precedes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:contains allen:meets)        logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:contains allen:overlaps)     logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:contains allen:finishedBy)   logic:composition (allen:contains) .
+(allen:contains allen:contains)     logic:composition (allen:contains) .
+(allen:contains allen:startedBy)    logic:composition (allen:contains) .
+(allen:contains allen:equals)       logic:composition (allen:contains) .
+(allen:contains allen:starts)       logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:contains allen:during)       logic:composition (allen:overlaps allen:finishedBy allen:contains allen:starts allen:equals allen:startedBy allen:during allen:finishes allen:overlappedBy) .
+(allen:contains allen:finishes)     logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:contains allen:overlappedBy) logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:contains allen:metBy)        logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:contains allen:precededBy)   logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+
+(allen:startedBy allen:precedes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:startedBy allen:meets)        logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:startedBy allen:overlaps)     logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:startedBy allen:finishedBy)   logic:composition (allen:contains) .
+(allen:startedBy allen:contains)     logic:composition (allen:contains) .
+(allen:startedBy allen:startedBy)    logic:composition (allen:startedBy) .
+(allen:startedBy allen:equals)       logic:composition (allen:startedBy) .
+(allen:startedBy allen:starts)       logic:composition (allen:starts allen:equals allen:startedBy) .
+(allen:startedBy allen:during)       logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:startedBy allen:finishes)     logic:composition (allen:overlappedBy) .
+(allen:startedBy allen:overlappedBy) logic:composition (allen:overlappedBy) .
+(allen:startedBy allen:metBy)        logic:composition (allen:metBy) .
+(allen:startedBy allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:equals allen:precedes)     logic:composition (allen:precedes) .
+(allen:equals allen:meets)        logic:composition (allen:meets) .
+(allen:equals allen:overlaps)     logic:composition (allen:overlaps) .
+(allen:equals allen:finishedBy)   logic:composition (allen:finishedBy) .
+(allen:equals allen:contains)     logic:composition (allen:contains) .
+(allen:equals allen:startedBy)    logic:composition (allen:startedBy) .
+(allen:equals allen:equals)       logic:composition (allen:equals) .
+(allen:equals allen:starts)       logic:composition (allen:starts) .
+(allen:equals allen:during)       logic:composition (allen:during) .
+(allen:equals allen:finishes)     logic:composition (allen:finishes) .
+(allen:equals allen:overlappedBy) logic:composition (allen:overlappedBy) .
+(allen:equals allen:metBy)        logic:composition (allen:metBy) .
+(allen:equals allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:starts allen:precedes)     logic:composition (allen:precedes) .
+(allen:starts allen:meets)        logic:composition (allen:precedes) .
+(allen:starts allen:overlaps)     logic:composition (allen:precedes allen:meets allen:overlaps) .
+(allen:starts allen:finishedBy)   logic:composition (allen:precedes allen:meets allen:overlaps) .
+(allen:starts allen:contains)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:starts allen:startedBy)    logic:composition (allen:starts allen:equals allen:startedBy) .
+(allen:starts allen:equals)       logic:composition (allen:starts) .
+(allen:starts allen:starts)       logic:composition (allen:starts) .
+(allen:starts allen:during)       logic:composition (allen:during) .
+(allen:starts allen:finishes)     logic:composition (allen:during) .
+(allen:starts allen:overlappedBy) logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:starts allen:metBy)        logic:composition (allen:metBy) .
+(allen:starts allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:during allen:precedes)     logic:composition (allen:precedes) .
+(allen:during allen:meets)        logic:composition (allen:precedes) .
+(allen:during allen:overlaps)     logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:during allen:finishedBy)   logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:during) .
+(allen:during allen:contains)     logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:finishes allen:during allen:equals allen:contains allen:finishedBy allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:during allen:startedBy)    logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:during allen:equals)       logic:composition (allen:during) .
+(allen:during allen:starts)       logic:composition (allen:during) .
+(allen:during allen:during)       logic:composition (allen:during) .
+(allen:during allen:finishes)     logic:composition (allen:during) .
+(allen:during allen:overlappedBy) logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:during allen:metBy)        logic:composition (allen:precededBy) .
+(allen:during allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:finishes allen:precedes)     logic:composition (allen:precedes) .
+(allen:finishes allen:meets)        logic:composition (allen:meets) .
+(allen:finishes allen:overlaps)     logic:composition (allen:overlaps allen:starts allen:during) .
+(allen:finishes allen:finishedBy)   logic:composition (allen:finishedBy allen:equals allen:finishes) .
+(allen:finishes allen:contains)     logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:finishes allen:startedBy)    logic:composition (allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:finishes allen:equals)       logic:composition (allen:finishes) .
+(allen:finishes allen:starts)       logic:composition (allen:during) .
+(allen:finishes allen:during)       logic:composition (allen:during) .
+(allen:finishes allen:finishes)     logic:composition (allen:finishes) .
+(allen:finishes allen:overlappedBy) logic:composition (allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:finishes allen:metBy)        logic:composition (allen:precededBy) .
+(allen:finishes allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:overlappedBy allen:precedes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:overlappedBy allen:meets)        logic:composition (allen:overlaps allen:finishedBy allen:contains) .
+(allen:overlappedBy allen:overlaps)     logic:composition (allen:overlaps allen:finishedBy allen:contains allen:starts allen:equals allen:startedBy allen:during allen:finishes allen:overlappedBy) .
+(allen:overlappedBy allen:finishedBy)   logic:composition (allen:contains allen:startedBy allen:overlappedBy) .
+(allen:overlappedBy allen:contains)     logic:composition (allen:contains allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:overlappedBy allen:startedBy)    logic:composition (allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:overlappedBy allen:equals)       logic:composition (allen:overlappedBy) .
+(allen:overlappedBy allen:starts)       logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:overlappedBy allen:during)       logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:overlappedBy allen:finishes)     logic:composition (allen:overlappedBy) .
+(allen:overlappedBy allen:overlappedBy) logic:composition (allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:overlappedBy allen:metBy)        logic:composition (allen:precededBy) .
+(allen:overlappedBy allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:metBy allen:precedes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:finishedBy allen:contains) .
+(allen:metBy allen:meets)        logic:composition (allen:starts allen:equals allen:startedBy) .
+(allen:metBy allen:overlaps)     logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:metBy allen:finishedBy)   logic:composition (allen:metBy) .
+(allen:metBy allen:contains)     logic:composition (allen:precededBy) .
+(allen:metBy allen:startedBy)    logic:composition (allen:precededBy) .
+(allen:metBy allen:equals)       logic:composition (allen:metBy) .
+(allen:metBy allen:starts)       logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:metBy allen:during)       logic:composition (allen:during allen:finishes allen:overlappedBy) .
+(allen:metBy allen:finishes)     logic:composition (allen:precededBy) .
+(allen:metBy allen:overlappedBy) logic:composition (allen:precededBy) .
+(allen:metBy allen:metBy)        logic:composition (allen:precededBy) .
+(allen:metBy allen:precededBy)   logic:composition (allen:precededBy) .
+
+(allen:precededBy allen:precedes)     logic:composition (allen:precedes allen:meets allen:overlaps allen:starts allen:finishes allen:during allen:equals allen:contains allen:finishedBy allen:startedBy allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:precededBy allen:meets)        logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:precededBy allen:overlaps)     logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:precededBy allen:finishedBy)   logic:composition (allen:precededBy) .
+(allen:precededBy allen:contains)     logic:composition (allen:precededBy) .
+(allen:precededBy allen:startedBy)    logic:composition (allen:precededBy) .
+(allen:precededBy allen:equals)       logic:composition (allen:precededBy) .
+(allen:precededBy allen:starts)       logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:precededBy allen:during)       logic:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy) .
+(allen:precededBy allen:finishes)     logic:composition (allen:precededBy) .
+(allen:precededBy allen:overlappedBy) logic:composition (allen:precededBy) .
+(allen:precededBy allen:metBy)        logic:composition (allen:precededBy) .
+(allen:precededBy allen:precededBy)   logic:composition (allen:precededBy) .

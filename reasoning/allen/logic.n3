@@ -1,0 +1,110 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix event: <http://eulersharp.sourceforge.net/2003/03swap/event#> .
+
+@prefix logic: <logic#> .
+
+logic:relation a owl:ObjectProperty ;
+    rdfs:domain event:Event ;
+    rdfs:range event:Event .
+
+logic:composition a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain rdf:List ;
+    rdfs:range rdf:List .
+
+logic:possible a owl:ObjectProperty ;
+    rdfs:domain rdf:List ;
+    rdfs:range rdf:List .
+
+logic:strongest a owl:ObjectProperty, owl:FunctionalProperty ;
+    rdfs:domain rdf:List ;
+    rdfs:range rdf:List .
+
+
+## Symmetries
+
+{	
+    (?A ?B) logic:possible ?C .
+} =>
+{	
+    (?A ?B) logic:possibleWithSymmetry ?C .
+} .
+
+{	
+    (?A ?B) logic:possible ?R .
+	?SCOPE e:findall (
+		?MI
+		{	?R list:member ?M .
+			?M owl:inverseOf ?MI .
+		}
+		?F
+	) .
+} =>
+{	
+    (?B ?A) logic:possibleWithSymmetry ?F .
+} .
+
+
+## Composition
+
+# composition based inference
+
+{	
+    (?A ?B) logic:possibleWithSymmetry ?C .
+} =>
+{	
+    (?A ?B) logic:possibleWithComposition ?C .
+}.
+
+{	
+    (?A ?B) logic:possibleWithSymmetry ?R1 .
+	(?B ?C) logic:possibleWithSymmetry ?R2 .
+    ?A log:notEqualTo ?C .
+	?SCOPE e:findall (
+		?X
+		{	?R1 list:member ?M1 .
+			?R2 list:member ?M2 .
+			(?M1 ?M2) logic:composition ?X .
+		}
+		?F
+	).
+	?F list:append ?L .
+	?L e:distinct ?D .
+} =>
+{	
+    (?A ?C) logic:possibleWithComposition ?D .
+}.
+
+# derive the strongest implied relation between ?A and ?B by examining all possible chains of inference between ?A and ?B,
+# and taking the intersection of all the resulting compositions of chained relations
+
+{	
+    (?A ?B) logic:possibleWithComposition ?Q.
+	?SCOPE e:findall (
+		1
+		{	(?A ?B) logic:possibleWithComposition ?X.
+		}
+		?FOOTPRINT
+	).
+	?SCOPE e:findall (
+		?I
+		{	?Q list:member ?I.
+			?SCOPE e:findall (
+				1
+				{	(?A ?B) logic:possibleWithComposition ?X.
+					?X list:member ?I.
+				}
+				?FOOTPRINT
+			).
+		}
+		?F
+	).
+	?F e:sort ?S.
+} =>
+{	
+    (?A ?B) logic:strongest ?S.
+}.

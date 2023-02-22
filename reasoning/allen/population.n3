@@ -1,0 +1,44 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time: <http://eulersharp.sourceforge.net/2003/03swap/time#> .
+@prefix event: <http://eulersharp.sourceforge.net/2003/03swap/event#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+
+@prefix logic: <logic#> .
+@prefix token: <token#> .
+
+token:interval1 a event:Event ;
+    time:begins "2013-03-28T12:00:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T13:00:00+01:00"^^xsd:dateTime .
+
+token:interval2 a event:Event ; # equals i1
+    time:begins "2013-03-28T12:00:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T13:00:00+01:00"^^xsd:dateTime .
+
+token:interval3 a event:Event ; # meets i1 and i2
+    time:begins "2013-03-28T13:00:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T14:00:00+01:00"^^xsd:dateTime .
+
+token:interval4 a event:Event ; # starts i3
+    time:begins "2013-03-28T13:00:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T13:30:00+01:00"^^xsd:dateTime .
+
+token:interval5 a event:Event ; # during i3, overlaps i4
+    time:begins "2013-03-28T13:15:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T13:45:00+01:00"^^xsd:dateTime .
+
+token:interval6 a event:Event ; # finishes i3
+    time:begins "2013-03-28T13:30:00+01:00"^^xsd:dateTime ;
+    time:ends "2013-03-28T14:00:00+01:00"^^xsd:dateTime .
+
+
+#token:interval7 a event:Event .
+#token:interval8 a event:Event .
+#token:interval9 a event:Event .
+
+#(token:interval3 token:interval7) logic:possible (allen:startedBy) .
+
+#(token:interval7 token:interval8) logic:possible (allen:finishedBy) .
+#(token:interval8 token:interval9) logic:possible (allen:overlaps) .
+# interval7 should overlap interval9
+

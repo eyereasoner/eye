@@ -1,0 +1,70 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix allen: <allen#>.
+@prefix : <try#>.
+
+# sample data
+
+(:JohnWasInTheRoom :ITouchedTheLightSwitch) allen:possible (allen:precedes allen:meets allen:metBy allen:precededBy).
+(:ITouchedTheLightSwitch :TheLightWasOn) allen:possible (allen:meets allen:overlaps).
+
+
+# composition according to table 4a in http://www.thomasalspaugh.org/pub/fnd/allen.html
+
+(allen:precedes allen:meets)  allen:composition (allen:precedes).
+(allen:precedes allen:overlaps)  allen:composition (allen:precedes).
+(allen:meets allen:meets)  allen:composition (allen:precedes).
+(allen:meets allen:overlaps)  allen:composition (allen:precedes).
+(allen:metBy allen:meets)  allen:composition (allen:starts allen:equals allen:startedBy).
+(allen:metBy allen:overlaps)  allen:composition (allen:during allen:finishes allen:overlappedBy).
+(allen:precededBy allen:meets)  allen:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy).
+(allen:precededBy allen:overlaps)  allen:composition (allen:during allen:finishes allen:overlappedBy allen:metBy allen:precededBy).
+# ...
+
+
+# composition based inference
+
+{	(?A ?B) allen:possible ?R1.
+	(?B ?C) allen:possible ?R2.
+	?SCOPE e:findall (
+		?X
+		{	?R1 list:member ?M1.
+			?R2 list:member ?M2.
+			(?M1 ?M2)  allen:composition ?X.
+		}
+		?F
+	).
+	?F list:append ?L.
+	?L e:distinct ?D.
+} =>
+{	(?A ?C) allen:possible ?D.
+}.
+
+# derive the strongest implied relation between ?A and ?B by examining all possible chains of inference between ?A and ?B,
+# and taking the intersection of all the resulting compositions of chained relations
+
+{	(?A ?B) allen:possible ?Q.
+	?SCOPE e:findall (
+		1
+		{	(?A ?B) allen:possible ?X.
+		}
+		?FOOTPRINT
+	).
+	?SCOPE e:findall (
+		?I
+		{	?Q list:member ?I.
+			?SCOPE e:findall (
+				1
+				{	(?A ?B) allen:possible ?X.
+					?X list:member ?I.
+				}
+				?FOOTPRINT
+			).
+		}
+		?F
+	).
+	?F e:sort ?S.
+} =>
+{	(?A ?B) allen:strongest ?S.
+}.
+

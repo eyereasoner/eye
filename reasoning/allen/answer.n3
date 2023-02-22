@@ -1,0 +1,47 @@
+#Processed by EYE v3.0.0 josd
+#eye --nope token.n3 logic.n3 population.n3 allen.n3 eventTime_rules.n3 --query query.n3 --output answer.n3
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix token: <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/allen/token#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix event: <http://eulersharp.sourceforge.net/2003/03swap/event#>.
+@prefix logic: <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/allen/logic#>.
+@prefix time: <http://eulersharp.sourceforge.net/2003/03swap/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix allen: <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/allen/allen#>.
+@prefix dce: <http://purl.org/dc/elements/1.1/>.
+
+(_:sk_0 _:sk_1) logic:strongest (allen:precedes).
+(_:sk_1 _:sk_0) logic:strongest (allen:precededBy).
+(token:interval1 token:interval3) logic:strongest (allen:meets).
+(token:interval3 token:interval1) logic:strongest (allen:metBy).
+(token:interval2 token:interval3) logic:strongest (allen:meets).
+(token:interval3 token:interval2) logic:strongest (allen:metBy).
+(token:interval1 token:interval4) logic:strongest (allen:meets).
+(token:interval4 token:interval1) logic:strongest (allen:metBy).
+(token:interval2 token:interval4) logic:strongest (allen:meets).
+(token:interval4 token:interval2) logic:strongest (allen:metBy).
+(token:interval4 token:interval6) logic:strongest (allen:meets).
+(token:interval6 token:interval4) logic:strongest (allen:metBy).
+(token:interval4 token:interval3) logic:strongest (allen:starts).
+(token:interval3 token:interval4) logic:strongest (allen:startedBy).
+(token:interval6 token:interval3) logic:strongest (allen:finishes).
+(token:interval3 token:interval6) logic:strongest (allen:finishedBy).
+(token:interval5 token:interval3) logic:strongest (allen:during).
+(token:interval3 token:interval5) logic:strongest (allen:contains).
+(token:interval4 token:interval5) logic:strongest (allen:overlaps).
+(token:interval5 token:interval4) logic:strongest (allen:overlappedBy).
+(token:interval5 token:interval6) logic:strongest (allen:overlaps).
+(token:interval6 token:interval5) logic:strongest (allen:overlappedBy).
+(token:interval1 token:interval2) logic:strongest (allen:equals).
+(token:interval2 token:interval1) logic:strongest (allen:equals).
+
+#2023-02-22T11:25:54.772Z in=346 out=24 ent=244 step=995 brake=6 inf=1082541 sec=0.136 inf/sec=7959860
+#ENDS
+

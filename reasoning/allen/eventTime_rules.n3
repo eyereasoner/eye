@@ -1,0 +1,180 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix dce: <http://purl.org/dc/elements/1.1/>.
+@prefix skos: <http://www.w3.org/2004/02/skos/core#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix time: <http://eulersharp.sourceforge.net/2003/03swap/time#>.
+
+<http://eulersharp.sourceforge.net/2003/03swap/eventTime_rules>
+	dce:title """Event time rules"""@en;
+	dce:creator """Hans Cools"""@en;
+	dce:contributor """Jos De Roo, Kristof Depraetere, Romain Endelin"""@en;
+	dce:publisher """Agfa Healthcare/Belgium"""@en;
+	dce:description """Rules to describe how 2 events relate in time."""@en;
+	skos:note """Using epsilon precision, math:equalTo, log:notEqualTo, and 'past broadening time scope': the longer ago something happened, the broader the time description. E.g. a disease of 20 years ago will not be referred to as on a specific day or even in a month, but in a year."""@en;
+	rdfs:seeAlso
+		<http://eulersharp.sourceforge.net/2006/02swap/rif-plugin.yap>,
+		<http://eulersharp.sourceforge.net/2007/07test/rifP.n3>,
+		<http://eulersharp.sourceforge.net/2003/03swap/prolog>,
+		<http://eulersharp.sourceforge.net/2007/07test/biP.n3>.
+
+
+# INTEGRITY CONSTRAINT
+
+#{?event time:begins ?beginning; time:ends ?end. ?beginning math:notLessThan ?end} => false.
+
+
+# BEGINS BEFORE/BEGINS AFTER
+
+{	?event1 time:begins ?beginning1.
+	?event2 time:begins ?beginning2.
+	?beginning1 math:lessThan ?beginning2.
+} =>
+{	?event1 time:beginsBefore ?event2.
+	?event2 time:beginsAfter ?event1.
+}.
+
+
+# ENDS BEFORE/ENDS AFTER
+
+{	?event1 time:ends ?end1.
+	?event2 time:ends ?end2.
+	?end1 math:lessThan ?end2.
+} =>
+{	?event1 time:endsBefore ?event2.
+	?event2 time:endsAfter ?event1.
+}.
+
+
+# HAS SAME BEGINNING AS
+
+{	?event1 time:begins ?beginning1.
+	?event2 time:begins ?beginning2.
+	?event1 log:notEqualTo ?event2.
+	?beginning1 math:equalTo ?beginning2.
+} =>
+{	?event1 time:hasSameBeginningAs ?event2.
+}.
+
+
+# HAS SAME END AS
+
+{	?event1 time:ends ?end1.
+	?event2 time:ends ?end2.
+	?event1 log:notEqualTo ?event2.
+	?end1 math:equalTo ?end2.
+} =>
+{	?event1 time:hasSameEndAs ?event2.
+}.
+
+
+# BEFORE/AFTER
+
+{	?event1 time:ends ?end1.
+	?event2 time:begins ?beginning2.
+	?end1 math:lessThan ?beginning2.
+} =>
+{	?event1 time:before ?event2.
+	?event2 time:after ?event1.
+}.
+
+
+# OVERLAPS
+
+{	?event2 time:begins ?beginning2.
+	?event1 time:ends ?end1.
+	?event1 time:beginsBefore ?event2.
+	?event1 time:endsBefore ?event2.
+	?end1 math:greaterThan ?beginning2.
+} =>
+{	?event1 time:overlaps ?event2.
+}.
+
+
+# HAS SAME TIME AS
+
+{	?event1 time:hasSameBeginningAs ?event2.
+	?event1 time:hasSameEndAs ?event2.
+} =>
+{	?event1 time:hasSameTimeAs ?event2.
+}.
+
+
+# DURING/INCLUDES
+
+{	?event1 time:beginsBefore ?event2.
+	?event1 time:hasSameEndAs ?event2.
+} =>
+{	?event2 time:during ?event1.
+	?event1 time:includes ?event2.
+}.
+
+{	?event1 time:hasSameBeginningAs ?event2.
+	?event1 time:endsAfter ?event2.
+} =>
+{	?event2 time:during ?event1.
+	?event1 time:includes ?event2.
+}.
+
+{	?event1 time:beginsBefore ?event2.
+	?event1 time:endsAfter ?event2.
+} =>
+{	?event2 time:during ?event1.
+	?event1 time:includes ?event2.
+}.
+
+
+# HAS DURATION
+
+{	?event time:begins ?beginning.
+	?event time:ends ?end.
+	(?end ?beginning) math:difference ?duration.
+} =>
+{	?event time:hasDuration ?duration.
+}.
+
+
+# HAS SAME DURATION AS
+
+{	?event1 time:hasDuration ?duration1.
+	?event1 log:notEqualTo ?event2.
+	?event2 time:hasDuration ?duration2.
+	?duration1 math:equalTo ?duration2.
+} =>
+{	?event1 time:hasSameDurationAs ?event2.
+}.
+
+
+# TAKES LONGER THAN
+
+{	?event1 time:hasDuration ?duration1.
+	?event2 time:hasDuration ?duration2.
+	?duration1 math:greaterThan ?duration2.
+} =>
+{	?event1 time:takesLongerThan ?event2.
+}.
+
+
+# TAKES LESS LONG THAN
+
+{	?event1 time:hasDuration ?duration1.
+	?event2 time:hasDuration ?duration2.
+	?duration1 math:lessThan ?duration2.
+} =>
+{	?event1 time:takesLessLongThan ?event2.
+}.
+
+
+# BEGINS SAME AS END OF/ENDS SAME AS BEGINNING OF
+
+{
+    ?event1 time:begins ?beginning1 .
+    ?event2 time:ends ?end2 .
+    ?beginning1 math:equalTo ?end2 .
+} =>
+{
+    ?event1 time:beginsSameAsEndOf ?event2 .
+    ?event2 time:endsSameAsBeginningOf ?event1 .
+} .
+

@@ -1,0 +1,16 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix token: <token#> .
+
+token:Interval a rdfs:Class .
+
+token:startAt a rdf:Property ;
+    rdfs:domain xsd:dateTime ;
+    rdfs:range token:Interval .
+
+token:endAt a rdf:Property ;
+    rdfs:domain xsd:dateTime ;
+    rdfs:range token:Interval .
+
