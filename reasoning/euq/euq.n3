@@ -1,0 +1,12 @@
+# example from Jesse Wright
+
+@prefix : <http://example.org/test#>.
+
+:a :valid true .
+
+{
+  @forAll <#X> .
+  <#X> :valid true .
+} => {
+  :all :is :satisfied .
+} .
