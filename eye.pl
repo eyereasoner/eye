@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.1.2 josd').
+version_info('EYE v3.1.3 josd').
 
 license_info('MIT License
 
@@ -2100,7 +2100,10 @@ pathitem(Name, []) -->
             )
         ;   (   quvar(S, N, D)
             ->  (   nb_getval(fdepth, FD),
-                    FD >= D,
+                    (   FD > D
+                    ;   FD =:= D,
+                        FD =\= 1
+                    ),
                     \+flag('pass-all-ground')
                 ->  atom_concat('_', N, Name)
                 ;   atomic_list_concat(['\'<http://eyereasoner.github.io/var#', N, '>\''], Name),
