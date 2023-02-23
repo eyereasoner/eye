@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.1.0 josd').
+version_info('EYE v3.1.1 josd').
 
 license_info('MIT License
 
@@ -6845,6 +6845,7 @@ djiti_assertz(A) :-
     ->  true
     ;   retractall(wpfx(_)),
         with_output_to_chars(wh, C1),
+        retractall(wpfx(_)),
         \+ (C1 = [], \+flag('no-qnames')),
         numbervars(A),
         with_output_to_chars(wt(A), C2),
