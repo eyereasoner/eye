@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.1.3 josd').
+version_info('EYE v3.2.0 josd').
 
 license_info('MIT License
 
@@ -733,6 +733,16 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, M),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, C), M, _)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
+    % resolve at nested level
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
+                    getlist(X, V),
+                    conj_list(G, L),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
+                    conj_list(H, M),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C), M, _),
+                    call(C),
+                    conj_list(J, K)
+                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, J), '<>')),
     % deiteration at nested level
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
