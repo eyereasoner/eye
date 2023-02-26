@@ -723,7 +723,7 @@ opts(['--blogic'|Argus], Args) :-
                     append(K, D, E),
                     conj_list(F, E)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, F), '<>')),
-    % erase at even level
+    % resolve negative surface 1
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
                     conj_list(G, L),
@@ -733,7 +733,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, M),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, C), M, _)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
-    % resolve at nested level
+    % resolve negative surface 2
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
                     conj_list(G, L),
@@ -743,7 +743,7 @@ opts(['--blogic'|Argus], Args) :-
                     call(C),
                     conj_list(J, K)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, J), '<>')),
-    % deiteration at nested level
+    % resolve negative surface 3
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
                     conj_list(G, L),
