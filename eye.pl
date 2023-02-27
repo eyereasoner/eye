@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.2.1 josd').
+version_info('EYE v3.2.2 josd').
 
 license_info('MIT License
 
@@ -9870,9 +9870,10 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   member(B, A)
-        ->  C = true
-        ;   C = false
+        (   member(B, A),
+            C = true
+        ;   \+member(B, A),
+            C = false
         )
     ).
 
