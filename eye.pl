@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.2.0 josd').
+version_info('EYE v3.2.1 josd').
 
 license_info('MIT License
 
@@ -1807,6 +1807,12 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
     ;   write(implies(X, Y, Src)),
         writeln('.')
     ),
+    tr_n3p(Z, Src, Mode).
+tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\''(Y, X)|Z], Src, Mode) :-
+    !,
+    tr_tr(Y, U),
+    write(':-'(U, X)),
+    writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
