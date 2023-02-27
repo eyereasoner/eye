@@ -75,11 +75,13 @@ skolem:lemma4 a r:Inference;
     } () 0.0 0.0 1.0 1.0 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
   };
   r:evidence (
-    [ a r:Fact; r:gives {:map-BE gps:description ({
-        :i1 :location :Gent.
-    } true {
-        :i1 :location :Brugge.
-    } :drive_gent_brugge 1500.0 0.006 0.96 0.99)}]
+    [ a r:Fact; r:gives {{
+        :map-BE gps:description ({
+            :i1 :location :Gent.
+        } true {
+            :i1 :location :Brugge.
+        } :drive_gent_brugge 1500.0 0.006 0.96 0.99).
+    } <= true}]
     skolem:lemma6
     skolem:lemma7
     skolem:lemma8
@@ -464,11 +466,13 @@ skolem:lemma19 a r:Extraction;
 
 skolem:lemma20 a r:Extraction;
   r:gives {
-    :map-BE gps:description ({
-        :i1 :location :Brugge.
-    } true {
-        :i1 :location :Oostende.
-    } :drive_brugge_oostende 900.0 0.004 0.98 1.0).
+    {
+        :map-BE gps:description ({
+            :i1 :location :Brugge.
+        } true {
+            :i1 :location :Oostende.
+        } :drive_brugge_oostende 900.0 0.004 0.98 1.0).
+    } <= true.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/map/agent2-map.n3>].
 

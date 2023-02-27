@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.2.2 josd').
+version_info('EYE v3.2.3 josd').
 
 license_info('MIT License
 
@@ -4257,18 +4257,15 @@ wt2(':-'(X, Y)) :-
     ;   true
     ),
     assertz(rule_uvar(R)),
-    (   Y = true
-    ->  wt(X)
-    ;   wg(X),
-        write(' <= '),
-        wg(Y),
-        retract(rule_uvar(U)),
-        (   U \= [],
-            retract(rule_uvar(V)),
-            append(U, V, W)
-        ->  assertz(rule_uvar(W))
-        ;   true
-        )
+    wg(X),
+    write(' <= '),
+    wg(Y),
+    retract(rule_uvar(U)),
+    (   U \= [],
+        retract(rule_uvar(V)),
+        append(U, V, W)
+    ->  assertz(rule_uvar(W))
+    ;   true
     ),
     (   nb_getval(fdepth, 0)
     ->  retract(ncllit)
