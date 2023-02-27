@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.2.3 josd').
+version_info('EYE v3.3.0 josd').
 
 license_info('MIT License
 
@@ -723,38 +723,22 @@ opts(['--blogic'|Argus], Args) :-
                     append(K, D, E),
                     conj_list(F, E)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, F), '<>')),
-    % resolve negative surface 1
+    % erase at even level
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, H), L, K),
-                    getlist(Y, W),
-                    conj_list(C, K),
+                    getlist(Y, []),
                     conj_list(H, M),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, C), M, _)
-                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
-    % resolve negative surface 2
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
-                    getlist(X, V),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
-                    conj_list(H, M),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C), M, _),
-                    call(C),
-                    conj_list(J, K)
-                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, J), '<>')),
-    % resolve negative surface 3
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
-                    getlist(X, V),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, H), L, K),
-                    getlist(Y, W),
-                    conj_list(H, M),
-                    select(Q, M, N),
-                    member(Q, L),
-                    conj_list(O, N),
-                    conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, O)|K])
-                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, C), '<>')),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, O), M, N),
+                    (   conj_list(O, D),
+                        append(K, D, E),
+                        conj_list(C, E)
+                    ;   length(K, I),
+                        I > 1,
+                        conj_list(F, N),
+                        conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Y, F)|K])
+                    )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
     % non-unit resolution
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
