@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.3.0 josd').
+version_info('EYE v3.3.1 josd').
 
 license_info('MIT License
 
@@ -1879,6 +1879,11 @@ ttl_n3p(node(A), B) :-
 ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
+rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-
+    !.
+rename(A, A).
+
+
 %
 % N3 parser
 %
@@ -2022,8 +2027,9 @@ explicituri(ExplicitURI) -->
 
 expression(Node, T) -->
     pathitem(N1, T1),
-    pathtail(N1, Node, T2),
-    {   append(T1, T2, T)
+    pathtail(N1, N, T2),
+    {   rename(N, Node),
+        append(T1, T2, T)
     }.
 
 formulacontent(Formula) -->
@@ -5993,41 +5999,20 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
     \+flag(restricted),
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [Y|Z],
-            nonvar(Z)
-        )
-    ),
+    nonvar(X),
+    X = [Y|Z],
+    nonvar(Z),
     !.
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, []) :-
     \+flag(restricted),
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [_]
-        )
-    ),
-    !.
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>') :-
-    \+flag(restricted),
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [_]
-        )
-    ),
+    nonvar(X),
+    X = [_],
     !.
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
     \+flag(restricted),
-    when(
-        (   nonvar(X)
-        ),
-        (   X = [_|Y]
-        )
-    ),
+    nonvar(X),
+    X = [_|Y],
     !.
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
@@ -11651,8 +11636,6 @@ getlist(A, A) :-
     var(A),
     !.
 getlist(set(A), A) :-
-    !.
-getlist('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
     !.
 getlist([], []) :-
     !.
