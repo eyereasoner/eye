@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.3.2 josd').
+version_info('EYE v3.3.3 josd').
 
 license_info('MIT License
 
@@ -2197,7 +2197,22 @@ pathitem(Node, Triples) -->
             del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
             del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
         ->  Node = [Head|Tail],
-            Triples = W
+            findall(Mem,
+                (   member(M, W),
+                    M =.. [Pr, Su, Ob],
+                    (   Su = X
+                    ->  Subj = Node
+                    ;   Subj = Su
+                    ),
+                    (   Ob = X
+                    ->  Obj = Node
+                    ;   Obj = Ob
+                    ),
+                    Mem =.. [Pr, Subj, Obj]
+                ),
+                Q
+            ),
+            Triples = Q
         ;   Node = BN,
             Triples = T
         )
