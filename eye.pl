@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.3.1 josd').
+version_info('EYE v3.3.2 josd').
 
 license_info('MIT License
 
@@ -1691,7 +1691,14 @@ n3_n3p(Argument, Mode) :-
                             ->  assertz(cpred(CPi))
                             ;   true
                             ),
-                            assertz(':-'(Ci, Pj))
+                            assertz(':-'(Ci, Pj)),
+                            (   flag('pass-only-new'),
+                                Ci \= '<http://www.w3.org/2000/10/swap/reason#gives>'(_, _),
+                                Pj = true,
+                                \+pass_only_new(Ci)
+                            ->  assertz(pass_only_new(Ci))
+                            ;   true
+                            )
                         )
                     ;   djiti_assertz(Rt),
                         cnt(sc),
