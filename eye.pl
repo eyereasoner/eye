@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.0 josd').
+version_info('EYE v3.4.1 josd').
 
 license_info('MIT License
 
@@ -3871,7 +3871,7 @@ wt0(fail) :-
 wt0([]) :-
     !,
     (   flag('rdf-list-output')
-    ->  write('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>')
+    ->  wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>')
     ;   write('()')
     ).
 wt0(X) :-
@@ -4070,14 +4070,22 @@ wt2((X, Y)) :-
 wt2([X|Y]) :-
     !,
     (   flag('rdf-list-output')
-    ->  write('[ '),
+    ->  write('['),
+        nl,
+        indentation(2),
+        indent,
         wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'),
         write(' '),
         wg(X),
         write('; '),
+        nl,
+        indent,
         wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'),
         write(' '),
         wt(Y),
+        nl,
+        indentation(-2),
+        indent,
         write(']')
     ;   write('('),
         wg(X),
