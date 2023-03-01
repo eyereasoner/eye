@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.3.4 josd').
+version_info('EYE v3.3.5 josd').
 
 license_info('MIT License
 
@@ -2195,37 +2195,11 @@ pathitem(Node, Triples) -->
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, S, '>\''], BN)
-        ;   atom_concat('_', S, BN)
+            atomic_list_concat(['\'<', Sns, S, '>\''], Node)
+        ;   atom_concat('_', S, Node)
         )
     },
-    propertylist(BN, T),
-    {   (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
-            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
-            del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
-            del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
-            del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
-        ->  Node = [Head|Tail],
-            findall(Mem,
-                (   member(M, W),
-                    M =.. [Pr, Su, Ob],
-                    (   Su = X
-                    ->  Subj = Node
-                    ;   Subj = Su
-                    ),
-                    (   Ob = X
-                    ->  Obj = Node
-                    ;   Obj = Ob
-                    ),
-                    Mem =.. [Pr, Subj, Obj]
-                ),
-                Q
-            ),
-            Triples = Q
-        ;   Node = BN,
-            Triples = T
-        )
-    },
+    propertylist(Node, Triples),
     [']'].
 pathitem(set(Distinct), Triples) -->
     ['(', '$'],
