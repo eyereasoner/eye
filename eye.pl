@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.3.6 josd').
+version_info('EYE v3.4.0 josd').
 
 license_info('MIT License
 
@@ -75,6 +75,7 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
+    --rdf-list-output               output lists as RDF lists
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
     --skolem-genid <genid>          use <genid> in Skolem IRIs
@@ -1021,6 +1022,11 @@ opts(['--random-seed'|Argus], Args) :-
     N is random(2^120),
     nb_setval(random, N),
     opts(Argus, Args).
+opts(['--rdf-list-output'|Argus], Args) :-
+    !,
+    retractall(flag('rdf-list-output')),
+    assertz(flag('rdf-list-output')),
+    opts(Argus, Args).
 opts(['--restricted'|Argus], Args) :-
     !,
     retractall(flag(restricted)),
@@ -1413,6 +1419,8 @@ n3pin(Rt, In, File, Mode) :-
             )
         ;   (   Rt \= implies(_, _, _),
                 Rt \= scount(_),
+                Rt \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _),
+                Rt \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _),
                 \+flag('no-distinct-input'),
                 call(Rt)
             ->  true
@@ -1619,6 +1627,8 @@ n3_n3p(Argument, Mode) :-
                     throw(builtin_redefinition(Rt))
                 ),
                 (   Rt \= implies(_, _, _),
+                    Rt \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _),
+                    Rt \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _),
                     \+flag('no-distinct-input'),
                     call(Rt)
                 ->  true
@@ -2179,7 +2189,7 @@ pathitem(literal(Atom, DtLang), []) -->
     literal(Atom, DtLang),
     !.
 pathitem(Subject, Triples) -->
-    ['[',name(id)],
+    ['[', name(id)],
     !,
     expression(Subject, T1),
     propertylist(Subject, T2),
@@ -3860,7 +3870,10 @@ wt0(fail) :-
     write(' true').
 wt0([]) :-
     !,
-    write('()').
+    (   flag('rdf-list-output')
+    ->  write('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>')
+    ;   write('()')
+    ).
 wt0(X) :-
     number(X),
     !,
@@ -4056,7 +4069,7 @@ wt2((X, Y)) :-
     ).
 wt2([X|Y]) :-
     !,
-    (   \+last_tail([X|Y], [])
+    (   flag('rdf-list-output')
     ->  write('[ '),
         wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'),
         write(' '),
@@ -10827,14 +10840,6 @@ split(A, [B|C], [B|D], E) :-
     split(A, C, D, E).
 split(A, [B|C], D, [B|E]) :-
     split(A, C, D, E).
-
-last_tail([], []) :-
-    !.
-last_tail([_|B], B) :-
-    \+is_list(B),
-    !.
-last_tail([_|B], C) :-
-    last_tail(B, C).
 
 sub_list(A, A) :-
     !.
