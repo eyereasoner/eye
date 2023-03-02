@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.5 josd').
+version_info('EYE v3.4.6 josd').
 
 license_info('MIT License
 
@@ -707,15 +707,7 @@ opts(['--blogic'|Argus], Args) :-
     retractall(flag(nope)),
     assertz(flag(nope)),
     % assert positive surface
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(X, G),
-                    getlist(X, V),
-                    conj_list(G, L),
-                    (   \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
-                        \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
-                        \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L)
-                    ->  makevars(G, H, beta(V))
-                    ;   H = G
-                    )), H, '<>')),
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
@@ -825,8 +817,10 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     conj_list(R, K),
                     domain(V, R, P),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, H), B, beta(V))
-                    ), B, '<>')),
+                    makevars([P, H], [Q, S], beta(V)),
+                    findvars(S, W, beta),
+                    makevars(S, I, beta(W))
+                    ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % forward rule contrapositive
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
@@ -838,8 +832,10 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     domain(V, R, P),
-                    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(P, E), B, beta(V))
-                    ), B, '<>')),
+                    makevars([P, E], [Q, S], beta(V)),
+                    findvars(S, W, beta),
+                    makevars(S, I, beta(W))
+                    ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
