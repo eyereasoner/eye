@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.3 josd').
+version_info('EYE v3.4.5 josd').
 
 license_info('MIT License
 
@@ -1817,12 +1817,6 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
         writeln('.')
     ),
     tr_n3p(Z, Src, Mode).
-tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\''(Y, X)|Z], Src, Mode) :-
-    !,
-    tr_tr(Y, U),
-    write(':-'(U, X)),
-    writeln('.'),
-    tr_n3p(Z, Src, Mode).
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
     tr_tr(Y, U),
@@ -1914,6 +1908,8 @@ ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
 rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-
+    !.
+rename('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\'', ':-') :-
     !.
 rename(A, A).
 
