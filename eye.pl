@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.7 josd').
+version_info('EYE v3.4.8 josd').
 
 license_info('MIT License
 
@@ -11565,8 +11565,11 @@ findvar(A, epsilon) :-
     \+ sub_atom(A, 0, _, _, '_bn_'),
     \+ sub_atom(A, 0, _, _, '_e_').
 findvar(A, zeta) :-
-    sub_atom(A, 0, _, _, some),
-    !.
+    !,
+    (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
+        sub_atom(A, _, 4, _, '#bn_')
+    ;   sub_atom(A, 0, _, _, some)
+    ).
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
 
