@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.6 josd').
+version_info('EYE v3.4.7 josd').
 
 license_info('MIT License
 
@@ -4338,7 +4338,7 @@ wt2(prolog:X) :-
     wt0(Z).
 wt2(X-Y) :-
     !,
-    atomic_list_concat([X, '-', Y], Z),
+    term_to_atom(X-Y, Z),
     wt0(Z).
 wt2(X) :-
     X =.. [P, S, O],
