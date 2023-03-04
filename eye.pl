@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.10 josd').
+version_info('EYE v3.4.11 josd').
 
 license_info('MIT License
 
@@ -6030,9 +6030,11 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'([X|_], X).
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'([X|_], X) :-
+    !.
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'([_|Y], Y).
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'([_|Y], Y) :-
+    !.
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
