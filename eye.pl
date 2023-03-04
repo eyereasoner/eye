@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.9 josd').
+version_info('EYE v3.4.10 josd').
 
 license_info('MIT License
 
@@ -2205,37 +2205,11 @@ pathitem(Node, Triples) -->
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, S, '>\''], BN)
-        ;   atom_concat('_', S, BN)
+            atomic_list_concat(['\'<', Sns, S, '>\''], Node)
+        ;   atom_concat('_', S, Node)
         )
     },
-    propertylist(BN, T),
-    {   (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
-            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
-            del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
-            del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
-            del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
-        ->  Node = [Head|Tail],
-            findall(Mem,
-                (   member(M, W),
-                    M =.. [Pr, Su, Ob],
-                    (   Su = X
-                    ->  Subj = Node
-                    ;   Subj = Su
-                    ),
-                    (   Ob = X
-                    ->  Obj = Node
-                    ;   Obj = Ob
-                    ),
-                    Mem =.. [Pr, Subj, Obj]
-                ),
-                Q
-            ),
-            Triples = Q
-        ;   Node = BN,
-            Triples = T
-        )
-    },
+    propertylist(Node, Triples),
     [']'].
 pathitem(set(Distinct), Triples) -->
     ['(', '$'],
@@ -6056,23 +6030,9 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
-    \+flag(restricted),
-    nonvar(X),
-    X = [Y|Z],
-    nonvar(Z),
-    !.
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'([X|_], X).
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, []) :-
-    \+flag(restricted),
-    nonvar(X),
-    X = [_],
-    !.
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
-    \+flag(restricted),
-    nonvar(X),
-    X = [_|Y],
-    !.
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'([_|Y], Y).
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(

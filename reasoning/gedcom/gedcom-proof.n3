@@ -774,7 +774,7 @@ skolem:lemma68 a r:Inference;
     [ a r:Fact; r:gives {:Geert list:in (:Geert :Caroline :Dirk :Greta)}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
@@ -805,7 +805,7 @@ skolem:lemma70 a r:Inference;
     [ a r:Fact; r:gives {:Dirk list:in (:Geert :Caroline :Dirk :Greta)}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
@@ -845,8 +845,8 @@ skolem:lemma73 a r:Inference;
     :Jos owl:differentFrom :Rita.
   };
   r:evidence (
+    skolem:lemma75
     skolem:lemma80
-    skolem:lemma81
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:first :Jos}]
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Rita list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
@@ -864,8 +864,8 @@ skolem:lemma74 a r:Inference;
     :Jos owl:differentFrom :Greta.
   };
   r:evidence (
+    skolem:lemma75
     skolem:lemma80
-    skolem:lemma81
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:first :Jos}]
     [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Rita :Geert :Caroline :Dirk :Greta)}]
@@ -878,28 +878,25 @@ skolem:lemma74 a r:Inference;
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule skolem:lemma77.
 
-skolem:lemma75 a r:Inference;
+skolem:lemma75 a r:Extraction;
   r:gives {
-    :dp owl:distinctMembers (:Rita :Geert :Caroline :Dirk :Greta).
+    :dp owl:distinctMembers (:Jos :Rita :Geert :Caroline :Dirk :Greta).
   };
-  r:evidence (
-    skolem:lemma80
-    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma82.
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
 
 skolem:lemma76 a r:Inference;
   r:gives {
-    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
+    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Jos :Rita :Geert :Caroline :Dirk :Greta).
   };
   r:evidence (
-    skolem:lemma83
+    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
+    skolem:lemma81
+    skolem:lemma82
   );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma84.
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma83.
 
 skolem:lemma77 a r:Extraction;
   r:gives {
@@ -920,14 +917,14 @@ skolem:lemma78 a r:Inference;
     :Geert owl:differentFrom :Greta.
   };
   r:evidence (
+    skolem:lemma84
     skolem:lemma85
-    skolem:lemma86
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:first :Geert}]
     [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Caroline :Dirk :Greta)}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (:Caroline :Dirk :Greta)];
@@ -939,62 +936,121 @@ skolem:lemma79 a r:Inference;
     :Dirk owl:differentFrom :Greta.
   };
   r:evidence (
+    skolem:lemma86
     skolem:lemma87
-    skolem:lemma88
     [ a r:Fact; r:gives {(:Dirk :Greta) rdf:first :Dirk}]
     [ a r:Fact; r:gives {(:Dirk :Greta) rdf:rest (:Greta)}]
     [ a r:Fact; r:gives {:Greta list:in (:Greta)}]
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Caroline :Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (:Greta)];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
   r:rule skolem:lemma77.
 
-skolem:lemma80 a r:Extraction;
-  r:gives {
-    :dp owl:distinctMembers (:Jos :Rita :Geert :Caroline :Dirk :Greta).
-  };
-  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
-
-skolem:lemma81 a r:Inference;
+skolem:lemma80 a r:Inference;
   r:gives {
     (:Jos :Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Jos :Rita :Geert :Caroline :Dirk :Greta).
   };
   r:evidence (
-    skolem:lemma89
+    skolem:lemma81
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma84.
+  r:rule skolem:lemma88.
 
-skolem:lemma82 a r:Extraction;
+skolem:lemma81 a r:Inference;
   r:gives {
-    @forAll var:x_0, var:x_1, var:x_2. {
-        var:x_0 owl:distinctMembers var:x_1.
-        var:x_1 rdf:rest var:x_2.
-    } => {
-        var:x_0 owl:distinctMembers var:x_2.
-    }.
-  };
-  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
-
-skolem:lemma83 a r:Inference;
-  r:gives {
-    (:Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
+    (:Jos :Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
   };
   r:evidence (
-    skolem:lemma90
+    skolem:lemma89
     skolem:lemma75
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma91.
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma90.
 
-skolem:lemma84 a r:Extraction;
+skolem:lemma82 a r:Inference;
+  r:gives {
+    (:Rita :Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma91
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma88.
+
+skolem:lemma83 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 rdf:rest var:x_1.
+        var:x_0 a rdf:List.
+        var:x_2 ns1:subListOf var:x_1.
+    } => {
+        var:x_2 ns1:subListOf var:x_0.
+    }.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
+
+skolem:lemma84 a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Rita :Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma75
+    [ a r:Fact; r:gives {(:Jos :Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Rita :Geert :Caroline :Dirk :Greta)}]
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma92.
+
+skolem:lemma85 a r:Inference;
+  r:gives {
+    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Rita :Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
+    skolem:lemma91
+    skolem:lemma93
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma83.
+
+skolem:lemma86 a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma94
+    [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:rule skolem:lemma92.
+
+skolem:lemma87 a r:Inference;
+  r:gives {
+    (:Dirk :Greta) ns1:subListOf (:Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
+    skolem:lemma95
+    skolem:lemma96
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
+  r:rule skolem:lemma83.
+
+skolem:lemma88 a r:Extraction;
   r:gives {
     @forAll var:x_0. {
         var:x_0 a rdf:List.
@@ -1004,73 +1060,13 @@ skolem:lemma84 a r:Extraction;
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-skolem:lemma85 a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    skolem:lemma75
-    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma82.
-
-skolem:lemma86 a r:Inference;
-  r:gives {
-    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Geert :Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    skolem:lemma92
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma84.
-
-skolem:lemma87 a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Dirk :Greta).
-  };
-  r:evidence (
-    skolem:lemma93
-    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Caroline :Dirk :Greta)];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
-  r:rule skolem:lemma82.
-
-skolem:lemma88 a r:Inference;
-  r:gives {
-    (:Dirk :Greta) ns1:subListOf (:Dirk :Greta).
-  };
-  r:evidence (
-    skolem:lemma94
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Dirk :Greta)];
-  r:rule skolem:lemma84.
-
-skolem:lemma89 a r:Inference;
-  r:gives {
-    (:Jos :Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
-  };
-  r:evidence (
-    skolem:lemma90
-    skolem:lemma80
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Jos :Rita :Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma91.
-
-skolem:lemma90 a r:Extraction;
+skolem:lemma89 a r:Extraction;
   r:gives {
     owl:distinctMembers rdfs:range rdf:List.
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-skolem:lemma91 a r:Extraction;
+skolem:lemma90 a r:Extraction;
   r:gives {
     @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
         var:x_0 rdfs:range var:x_1.
@@ -1081,44 +1077,116 @@ skolem:lemma91 a r:Extraction;
   };
   r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
 
-skolem:lemma92 a r:Inference;
+skolem:lemma91 a r:Inference;
+  r:gives {
+    (:Rita :Geert :Caroline :Dirk :Greta) a rdf:List.
+  };
+  r:evidence (
+    skolem:lemma89
+    skolem:lemma84
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma90.
+
+skolem:lemma92 a r:Extraction;
+  r:gives {
+    @forAll var:x_0, var:x_1, var:x_2. {
+        var:x_0 owl:distinctMembers var:x_1.
+        var:x_1 rdf:rest var:x_2.
+    } => {
+        var:x_0 owl:distinctMembers var:x_2.
+    }.
+  };
+  r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/gedcom/rpo-rules.n3>].
+
+skolem:lemma93 a r:Inference;
+  r:gives {
+    (:Geert :Caroline :Dirk :Greta) ns1:subListOf (:Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma97
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma88.
+
+skolem:lemma94 a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Geert :Caroline :Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma84
+    [ a r:Fact; r:gives {(:Rita :Geert :Caroline :Dirk :Greta) rdf:rest (:Geert :Caroline :Dirk :Greta)}]
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Rita :Geert :Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
+  r:rule skolem:lemma92.
+
+skolem:lemma95 a r:Inference;
+  r:gives {
+    (:Caroline :Dirk :Greta) a rdf:List.
+  };
+  r:evidence (
+    skolem:lemma89
+    skolem:lemma86
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:rule skolem:lemma90.
+
+skolem:lemma96 a r:Inference;
+  r:gives {
+    (:Dirk :Greta) ns1:subListOf (:Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma98
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (:Dirk :Greta)];
+  r:rule skolem:lemma88.
+
+skolem:lemma97 a r:Inference;
   r:gives {
     (:Geert :Caroline :Dirk :Greta) a rdf:List.
   };
   r:evidence (
-    skolem:lemma90
-    skolem:lemma85
+    skolem:lemma89
+    skolem:lemma94
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
-  r:rule skolem:lemma91.
+  r:rule skolem:lemma90.
 
-skolem:lemma93 a r:Inference;
-  r:gives {
-    :dp owl:distinctMembers (:Caroline :Dirk :Greta).
-  };
-  r:evidence (
-    skolem:lemma85
-    [ a r:Fact; r:gives {(:Geert :Caroline :Dirk :Greta) rdf:rest (:Caroline :Dirk :Greta)}]
-  );
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Geert :Caroline :Dirk :Greta)];
-  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Caroline :Dirk :Greta)];
-  r:rule skolem:lemma82.
-
-skolem:lemma94 a r:Inference;
+skolem:lemma98 a r:Inference;
   r:gives {
     (:Dirk :Greta) a rdf:List.
   };
   r:evidence (
-    skolem:lemma90
-    skolem:lemma87
+    skolem:lemma89
+    skolem:lemma99
   );
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2002/07/owl#distinctMembers"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
   r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (:Dirk :Greta)];
-  r:rule skolem:lemma91.
+  r:rule skolem:lemma90.
+
+skolem:lemma99 a r:Inference;
+  r:gives {
+    :dp owl:distinctMembers (:Dirk :Greta).
+  };
+  r:evidence (
+    skolem:lemma86
+    [ a r:Fact; r:gives {(:Caroline :Dirk :Greta) rdf:rest (:Dirk :Greta)}]
+  );
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (:Caroline :Dirk :Greta)];
+  r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (:Dirk :Greta)];
+  r:rule skolem:lemma92.
 
