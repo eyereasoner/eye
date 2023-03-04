@@ -41,8 +41,8 @@ owl:complementOf a rdf:Property; rdfs:domain rdfs:Class; rdfs:range rdfs:Class.
 {?P a owl:FunctionalProperty. ?S ?P ?X. ?S ?P ?Y} => {?X owl:sameAs ?Y}.
 {?P a owl:InverseFunctionalProperty. ?X ?P ?O. ?Y ?P ?O} => {?X owl:sameAs ?Y}.
 {?A owl:distinctMembers ?D. ?D rdf:rest ?R} => {?A owl:distinctMembers ?R}.
-{?A owl:distinctMembers ?D. ?L :subListOf ?D. ?L rdf:first ?X; rdf:rest ?R. ?Y list:in ?R} => {?X owl:differentFrom ?Y}.
-{?C owl:oneOf ?L. ?X list:in ?L} => {?X a ?C}.
+{?A owl:distinctMembers ?D. ?L :subListOf ?D. ?L rdf:first ?X; rdf:rest ?R. ?Y :in ?R} => {?X owl:differentFrom ?Y}.
+{?C owl:oneOf ?L. ?X :in ?L} => {?X a ?C}.
 {?C owl:intersectionOf ?L. ?X :inAllOf ?L} => {?X a ?C}.
 {?C owl:unionOf ?L. ?X :inSomeOf ?L} => {?X a ?C}.
 
@@ -57,8 +57,8 @@ owl:complementOf a rdf:Property; rdfs:domain rdfs:Class; rdfs:range rdfs:Class.
 
 ### support
 
-#{?L rdf:first ?I; a rdf:List} => {?I list:in ?L}.
-#{?L rdf:rest ?R; a rdf:List. ?I list:in ?R} => {?I list:in ?L}.
+{?L rdf:first ?I; a rdf:List} => {?I :in ?L}.
+{?L rdf:rest ?R; a rdf:List. ?I :in ?R} => {?I :in ?L}.
 {?L a rdf:List} => {?L :subListOf ?L}.
 {?L rdf:rest ?R; a rdf:List. ?X :subListOf ?R} => {?X :subListOf ?L}.
 {?L rdf:first ?A; a rdf:List. ?X a ?A. ?L rdf:rest rdf:nil} => {?X :inAllOf ?L}.
