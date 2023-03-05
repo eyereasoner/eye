@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.4.11 josd').
+version_info('EYE v3.4.12 josd').
 
 license_info('MIT License
 
@@ -712,7 +712,7 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
                     getlist(X, V),
                     makevars(G, H, beta(V)),
-                    call(H)
+                    catch(call(H), _, false)
                     ), false, '<>')),
     % resolve positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, G),
@@ -841,8 +841,10 @@ opts(['--blogic'|Argus], Args) :-
                     getlist(X, V),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K),
+                    conj_list(H, M),
+                    list_triple(M, T),
                     conj_list(R, K),
-                    makevars(':-'(H, R), C, beta(V)),
+                    makevars(':-'(T, R), C, beta(V)),
                     copy_term_nat(C, CC),
                     labelvars(CC, 0, _, avar),
                     (   \+cc(CC)
@@ -10635,6 +10637,38 @@ conj_append((A, B), C, (A, D)) :-
     conj_append(B, C, D),
     !.
 conj_append(A, B, (A, B)).
+
+list_triple([A], A) :-
+    !.
+list_triple(A, B) :-
+    select(C, A, D),
+    C =.. [P, S, O],
+    P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+    P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+    listr(S, U, D),
+    listr(O, V, D),
+    B =.. [P, U, V].
+
+listr(A, A, _) :-
+    var(A),
+    !.
+listr(set(A), A, _) :-
+    !.
+listr([], [], _) :-
+    !.
+listr([A|B], [C|D], E) :-
+    listr(A, C, E),
+    !,
+    listr(B, D, E).
+listr([A|B], [A|D], E) :-
+    !,
+    listr(B, D, E).
+listr(A, [B|C], E) :-
+    select('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B), E, _),
+    select('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D), E, _),
+    !,
+    listr(D, C, E).
+listr(A, A, _).
 
 cflat([], []).
 cflat([A|B], C) :-
