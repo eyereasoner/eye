@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.5.0 josd').
+version_info('EYE v3.5.1 josd').
 
 license_info('MIT License
 
@@ -842,9 +842,10 @@ opts(['--blogic'|Argus], Args) :-
                     getlist(X, V),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Y, H), L, K),
-                    getlist(Y, _, K, O),
+                    getlist(Y, _, K, Q),
                     conj_list(H, M),
                     tlist(M, [T]),
+                    tlist(Q, O),
                     conj_list(R, O),
                     makevars(':-'(T, R), C, beta(V)),
                     copy_term_nat(C, CC),
