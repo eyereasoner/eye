@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.5.1 josd').
+version_info('EYE v3.6.0 josd').
 
 license_info('MIT License
 
@@ -842,10 +842,8 @@ opts(['--blogic'|Argus], Args) :-
                     getlist(X, V),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Y, H), L, K),
-                    getlist(Y, _, K, Q),
-                    conj_list(H, M),
-                    tlist(M, [T]),
-                    tlist(Q, O),
+                    getlist(Y, _, K, O),
+                    conj_list(H, [T]),
                     conj_list(R, O),
                     makevars(':-'(T, R), C, beta(V)),
                     copy_term_nat(C, CC),
@@ -10614,16 +10612,8 @@ unify(A, B) :-
     !,
     conj_list(A, C),
     conj_list(B, D),
-    (   (   member('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), C)
-        ;   member('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), D)
-        )
-    ->  tlist(C, E),
-        tlist(D, F)
-    ;   E = C,
-        F = D
-    ),
-    includes(E, F),
-    includes(F, E).
+    includes(C, D),
+    includes(D, C).
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
@@ -10649,57 +10639,6 @@ conj_append((A, B), C, (A, D)) :-
     conj_append(B, C, D),
     !.
 conj_append(A, B, (A, B)).
-
-tlist([A], [A]) :-
-    !.
-tlist(A, B) :-
-    tlistfr(A, L, D),
-    copy_term_nat([L, D], [E, F]),
-    labelvars([E, F], 0, _),
-    tlist(E, B, F).
-
-tlist([], [], _) :-
-    !.
-tlist([A|B], [C|D], E) :-
-    A =.. [F, G, H],
-    tlistr(G, I, E),
-    tlistr(H, J, E),
-    C =.. [F, I, J],
-    !,
-    tlist(B, D, E).
-tlist(A, A, _).
-
-tlistfr([], [], []) :-
-    !.
-tlistfr([A|B], C, [A|D]) :-
-    (   A = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)
-    ;   A = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)
-    ),
-    !,
-    tlistfr(B, C, D).
-tlistfr([A|B], [A|C], D) :-
-    tlistfr(B, C, D).
-
-tlistr(A, A, _) :-
-    var(A),
-    !.
-tlistr(set(A), A, _) :-
-    !.
-tlistr([], [], _) :-
-    !.
-tlistr([A|B], [C|D], E) :-
-    tlistr(A, C, E),
-    !,
-    tlistr(B, D, E).
-tlistr([A|B], [A|D], E) :-
-    !,
-    tlistr(B, D, E).
-tlistr(A, [B|C], E) :-
-    member('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B), E),
-    member('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D), E),
-    !,
-    tlistr(D, C, E).
-tlistr(A, A, _).
 
 cflat([], []).
 cflat([A|B], C) :-
