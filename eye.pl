@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.6.0 josd').
+version_info('EYE v3.7.0 josd').
 
 license_info('MIT License
 
@@ -6504,7 +6504,7 @@ djiti_assertz(A) :-
         labelvars([Ac, Bc, Ec], 0, _),
         (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, G], Sc))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
                 flush_output(user_error)
             ;   true
             )
@@ -7622,9 +7622,11 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/string#join>'([X,Y], Z) :-
     when(
-        (   nonvar(X)
+        (   ground([X,Y])
+        ;   ground(Z)
         ),
-        (   getlist(X, C),
+        (   ground([X,Y]),
+            getlist(X, C),
             getcodes(Y, D),
             labelvars(C, 0, _, avar),
             (   member(E, C),
@@ -7644,6 +7646,25 @@ djiti_assertz(A) :-
                 ),
                 atom_codes(G, F),
                 Z = literal(G, type('<http://www.w3.org/2001/XMLSchema#string>'))
+            )
+        ;   ground(Z),
+            getcodes(Z, U),
+            getcodes(Y, C),
+            (   C = []
+            ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                    (   member(B, U),
+                        atom_codes(A, [B])
+                    ),
+                    X
+                )
+            ;   escape_string(V, C),
+                esplit_string(U, V, [], W),
+                findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                    (   member(B, W),
+                        atom_codes(A, B)
+                    ),
+                    X
+                )
             )
         )
     ).
