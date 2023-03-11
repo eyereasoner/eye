@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.7.1 josd').
+version_info('EYE v3.8.0 josd').
 
 license_info('MIT License
 
@@ -759,32 +759,13 @@ opts(['--blogic'|Argus], Args) :-
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
                     ;   true
                     )), true, '<>')),
-    % negative surface factoring
+    % factoring
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     list_to_set(L, M),
                     conj_list(H, M),
                     (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
-                    ;   true
-                    )), true, '<>')),
-    % negative surface disjunction
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, H), L, K),
-                    conj_list(H, M),
-                    length(M, I),
-                    I > 1,
-                    findall(1,
-                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), M)
-                        ),
-                        D
-                    ),
-                    length(D, I),
-                    member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A), M),
-                    conj_list(B, [A|K]),
-                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, B)
-                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, B))
                     ;   true
                     )), true, '<>')),
     % adjust graffiti
@@ -808,7 +789,7 @@ opts(['--blogic'|Argus], Args) :-
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
-    % forward rule contrapositive
+    % contrapositive
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -836,7 +817,7 @@ opts(['--blogic'|Argus], Args) :-
                         assertz(C)
                     ;   true
                     )), true, '<>')),
-    % query surface
+    % query
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
