@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.8.2').
+version_info('EYE v3.8.3').
 
 license_info('MIT License
 
@@ -11400,8 +11400,10 @@ makevars(A, B, beta(C)) :-
     ->  throw(invalid_graffiti(D, in(A)))
     ;   true
     ),
+    findvars(A, Z, zeta),
+    append(D, Z, E),
     findall([X,_],
-        (   member(X, D)
+        (   member(X, E)
         ),
         F
     ),

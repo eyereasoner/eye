@@ -1,0 +1,37 @@
+# Calculate pi using Nilakantha series
+# See http://www.wikihow.com/Calculate-Pi
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
+
+(_:N _:Pi _:P) log:onNegativeSurface {
+    () log:onQuerySurface {
+        (_:N _:Pi) :pi true.
+    }.
+    (1 _:N 0 _:P 1) :pi true.
+    (3 (4 _:P)!math:product) math:sum _:Pi.
+}.
+
+(_:N _:P _:S) log:onNegativeSurface {
+    () log:onQuerySurface {
+        (_:N _:N _:P _:P _:S) :pi true.
+    }.
+}.
+
+(_:K _:N _:P0 _:P _:S _:K1 _:K2 _:P1 _:S1) log:onNegativeSurface {
+    () log:onQuerySurface {
+        (_:K _:N _:P0 _:P _:S) :pi true.
+    }.
+    _:K math:notEqualTo _:N.
+    (_:K 1) math:sum _:K1.
+    (2 _:K) math:product _:K2.
+    (_:P0 (_:S (_:K2 (_:K2 1)!math:sum (_:K2 2)!math:sum)!math:product)!math:quotient) math:sum _:P1.
+    _:S math:negation _:S1.
+    (_:K1 _:N _:P1 _:P _:S1) :pi true.
+}.
+
+# query
+(_:Pi) log:onQuerySurface {
+    (1000 _:Pi) :pi true.
+}.
