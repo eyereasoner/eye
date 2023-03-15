@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.8.3').
+version_info('EYE v3.9.0').
 
 license_info('MIT License
 
@@ -10643,7 +10643,7 @@ conjoin([X|Y], Z) :-
     conj_append(X, U, V),
     (   ground(V)
     ->  conj_list(V, A),
-        sort(A, B),
+        list_to_set(A, B),
         conj_list(Z, B)
     ;   Z = V
     ).
