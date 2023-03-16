@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.9.0').
+version_info('EYE v3.10.0').
 
 license_info('MIT License
 
@@ -6325,6 +6325,15 @@ djiti_assertz(A) :-
     (   nonvar(X)
     ->  Y = true
     ;   Y = false
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#call>'(A, B) :-
+    call(A),
+    catch(call(B), _, fail),
+    (   flag(nope)
+    ->  true
+    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B)), C),
+        istep('<>', B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B), C)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B) :-
