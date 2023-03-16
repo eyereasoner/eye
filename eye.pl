@@ -145,12 +145,12 @@ eye
 :- dynamic(qevar/3).
 :- dynamic(query/2).
 :- dynamic(quvar/3).
+:- dynamic(recursion/1).
 :- dynamic(retwist/3).
 :- dynamic(rule_uvar/1).
 :- dynamic(scope/1).
 :- dynamic(scount/1).
 :- dynamic(semantics/2).
-:- dynamic(span/1).
 :- dynamic(tabl/3).
 :- dynamic(tmpfile/1).
 :- dynamic(tuple/2).
@@ -4659,10 +4659,10 @@ indentation(C) :-
 % 5/ If brake or tactic linear-select stop, else start again at 1/
 %
 
-eam(Span) :-
+eam(Recursion) :-
     (   cnt(tr),
         (   flag(debug)
-        ->  format(user_error, 'eam/1 entering span ~w~n', [Span]),
+        ->  format(user_error, 'eam/1 entering recursion ~w~n', [Recursion]),
             flush_output(user_error)
         ;   true
         ),
@@ -4803,14 +4803,14 @@ eam(Span) :-
     ;   (   brake
         ;   flag(tactic, 'linear-select')
         ),
-        (   S is Span+1,
-            (   \+span(S)
-            ->  assertz(span(S))
+        (   R is Recursion+1,
+            (   \+recursion(R)
+            ->  assertz(recursion(R))
             ;   true
             ),
             nb_getval(limit, Limit),
-            Span < Limit,
-            eam(S)
+            Recursion < Limit,
+            eam(R)
         ;   (   flag(strings)
             ->  true
             ;   w3
@@ -4820,7 +4820,7 @@ eam(Span) :-
         !
     ;   assertz(brake),
         exogen,
-        eam(Span)
+        eam(Recursion)
     ).
 
 astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclusion_unique, Rule)
@@ -10441,7 +10441,7 @@ within_scope([A, B]) :-
         ->  nb_setval(limit, B)
         ;   true
         ),
-        span(B)
+        recursion(B)
     ),
     nb_getval(scope, A).
 
