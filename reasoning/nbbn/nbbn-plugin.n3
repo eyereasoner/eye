@@ -83,12 +83,12 @@ true <= {
 
 {(?A ?B 1.0) bbn:nb true} <= {
     ("memberchk" ?A ?B) e:derive true.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 
 {({?A e:boolean e:T} ?B 0.0) bbn:nb true} <= {
     ("memberchk" {?A e:boolean e:F} ?B) e:derive true.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 
 {({?A e:boolean e:F} ?B ?C) bbn:nb true} <= {
@@ -106,7 +106,7 @@ true <= {
 {(?A ?B ?C) bbn:nb true} <= {
     ?L e:firstRest (?A ?B).
     ?L bbn:bcnd ?C.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 
 {(?A ?B ?C) bbn:nb true} <= {
@@ -127,7 +127,7 @@ true <= {
 }.
 
 {(?A () 0.0) bbn:nc true} <= {
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 
 {(?A ?L ?D) bbn:nc true} <= {
@@ -143,7 +143,7 @@ true <= {
         }
         {?E log:equalTo 1.0}
     ) e:derive true.
-    ("!") e:derive true.
+    true log:callWithCut true.
     ("if_then_else"
         {?E math:equalTo 0}
         {("epsilon") e:calculate ?I}

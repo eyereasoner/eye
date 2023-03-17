@@ -16,7 +16,7 @@
 
 {?SCOPE gps:findpaths (?Maps ?Goal ?Path ?Duration ?Cost ?Belief ?Comfort ?Path ?Duration ?Cost ?Belief ?Comfort (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))} <= {
     ?SCOPE e:call ?Goal.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 {?SCOPE gps:findpaths (?Maps_s ?Goal ?Path_s ?Duration_s ?Cost_s ?Belief_s ?Comfort_s ?Path ?Duration ?Cost ?Belief ?Comfort (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))} <= {
     {?Map gps:description (?From ?Transition ?To ?Action ?Duration_n ?Cost_n ?Belief_n ?Comfort_n)} <= ?Where.
@@ -46,7 +46,7 @@
     ?A e:firstRest (?C ?D).
     ?D e:firstRest (?E ?F).
     ?C log:notEqualTo ?E.
-    ("!") e:derive true.
+    true log:callWithCut true.
     ?D gps:stagecount ?G.
     (?G 1) math:sum ?B.
 }.

@@ -2,6 +2,7 @@
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
@@ -14,7 +15,7 @@
 {(?B ?Waves1 ?Obstacles) :waves ?Waves} <= {
     ?Waves1 e:firstRest (?Wave ?Waves).
     ?Wave list:member ?B.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 {(?B ?Waves1 ?Obstacles) :waves ?Waves} <= {
     ?Waves1 e:firstRest (?Wave ?Waves2).
@@ -75,13 +76,13 @@
 }.
 
 {(?A ?A ?B) :path (?A)} <= {
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 {(?A ?B ?Waves1) :path ?Path1} <= {
     ?Waves1 e:firstRest (?Wave ?Waves).
     ?Path1 e:firstRest (?B ?Path).
     ?Wave list:member ?B1.
     ?B :neighbor ?B1.
-    ("!") e:derive true.
+    true log:callWithCut true.
     (?A ?B1 ?Waves) :path ?Path.
 }.

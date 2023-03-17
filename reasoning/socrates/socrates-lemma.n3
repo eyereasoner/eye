@@ -7,7 +7,16 @@
 
 :Socrates a :Human.
 :Socrates a :Mortal.
-{:Socrates a ?U_0} => {:Socrates a ?U_0}.
+{
+    :Socrates a ?U_0.
+} => {
+    :Socrates a ?U_0.
+}.
 :Human rdfs:subClassOf :Mortal.
-{?U_1 rdfs:subClassOf ?U_2. ?U_3 a ?U_1} => {?U_3 a ?U_2}.
+{
+    ?U_1 rdfs:subClassOf ?U_2.
+    ?U_3 a ?U_1.
+} => {
+    ?U_3 a ?U_2.
+}.
 

@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.10.0').
+version_info('EYE v3.11.0').
 
 license_info('MIT License
 
@@ -3521,7 +3521,7 @@ w3 :-
         write(', '),
         wp('<http://www.w3.org/2000/10/swap/reason#Conjunction>'),
         write(';'),
-        indentation(2),
+        indentation(4),
         nl,
         indent,
         (   prfstep(answer(_, _, _), B, Pnd, Cn, R, _, A),
@@ -3545,7 +3545,7 @@ w3 :-
         (   nb_getval(empty_gives, true)
         ->  write(' true.')
         ;   write(' {'),
-            indentation(2),
+            indentation(4),
             (   prfstep(answer(B1, B2, B3), _, _, _, _, _, _),
                 relabel([B1, B2, B3], [C1, C2, C3]),
                 djiti_answer(answer(C), answer(C1, C2, C3)),
@@ -3564,12 +3564,12 @@ w3 :-
                 fail
             ;   true
             ),
-            indentation(-2),
+            indentation(-4),
             nl,
             indent,
             write('}.')
         ),
-        indentation(-2),
+        indentation(-4),
         nl,
         nl
     ;   true
@@ -3626,14 +3626,14 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     wp('<http://www.w3.org/2000/10/swap/reason#Extraction>'),
     writeln(';'),
-    indentation(2),
+    indentation(4),
     indent,
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
     ->  write(' true;')
     ;   write(' {'),
         nl,
-        indentation(2),
+        indentation(4),
         indent,
         (   C = rule(PVars, EVars, Rule)
         ->  wq(PVars, allv),
@@ -3647,7 +3647,7 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
         ws(C),
         write('.'),
         nl,
-        indentation(-2),
+        indentation(-4),
         indent,
         write('};')
     ),
@@ -3672,7 +3672,7 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
         )
     ),
     write('].'),
-    indentation(-2).
+    indentation(-4).
 wj(Cnt, A, B, C, Rule) :-
     nb_getval(var_ns, Sns),
     atomic_list_concat(['<', Sns, 'lemma', Cnt, '>'], Sk),
@@ -3682,7 +3682,7 @@ wj(Cnt, A, B, C, Rule) :-
     write(' '),
     wp('<http://www.w3.org/2000/10/swap/reason#Inference>'),
     writeln(';'),
-    indentation(2),
+    indentation(4),
     indent,
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
@@ -3714,14 +3714,14 @@ wj(Cnt, A, B, C, Rule) :-
         ->  Q = allv
         ;   Q = some
         ),
-        indentation(2),
+        indentation(4),
         indent,
         wq(D, Q),
         wt(C),
         ws(C),
         write('.'),
         nl,
-        indentation(-2),
+        indentation(-4),
         indent,
         write('};')
     ),
@@ -3729,9 +3729,9 @@ wj(Cnt, A, B, C, Rule) :-
     indent,
     wp('<http://www.w3.org/2000/10/swap/reason#evidence>'),
     write(' ('),
-    indentation(2),
+    indentation(4),
     wr(B),
-    indentation(-2),
+    indentation(-4),
     nl,
     indent,
     write(');'),
@@ -3743,7 +3743,7 @@ wj(Cnt, A, B, C, Rule) :-
     write(' '),
     wi(A, true, rule(PVars, EVars, Rule), _),
     write('.'),
-    indentation(-2).
+    indentation(-4).
 
 wr(exopred(P, S, O)) :-
     atom(P),
@@ -3803,8 +3803,8 @@ wt(X) :-
 
 wt0(!) :-
     !,
-    write('("!") '),
-    wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
+    write('true '),
+    wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
 wt0(fail) :-
     !,
@@ -3992,18 +3992,16 @@ wt1(X) :-
 wt2((X, Y)) :-
     !,
     (   atomic(X),
-        X \= '!'
+        X \= '!',
+        X \= true
     ->  wt2([X, Y]),
         write(' '),
-        wt0('<http://eulersharp.sourceforge.net/2003/03swap/prolog#conjunction>'),
+        wt0('<http://www.w3.org/2000/10/swap/log#conjunction>'),
         write(' true')
     ;   wt(X),
         ws(X),
         write('.'),
-        (   (   flag(strings)
-            ;   flag(nope),
-                \+flag(blogic)
-            )
+        (   flag(strings)
         ->  write(' ')
         ;   nl,
             indent
@@ -4015,7 +4013,7 @@ wt2([X|Y]) :-
     (   flag('rdf-list-output')
     ->  write('['),
         nl,
-        indentation(2),
+        indentation(4),
         indent,
         wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'),
         write(' '),
@@ -4027,7 +4025,7 @@ wt2([X|Y]) :-
         write(' '),
         wt(Y),
         nl,
-        indentation(-2),
+        indentation(-4),
         indent,
         write(']')
     ;   write('('),
@@ -4347,10 +4345,7 @@ wg(X) :-
         )
     ->  write('{'),
         indentation(4),
-        (   (   flag(strings)
-            ;   flag(nope),
-                \+flag(blogic)
-            )
+        (   flag(strings)
         ->  true
         ;   nl,
             indent
@@ -4361,10 +4356,7 @@ wg(X) :-
         wt(X),
         nb_setval(fdepth, D),
         indentation(-4),
-        (   (   flag(strings)
-            ;   flag(nope),
-                \+flag(blogic)
-            )
+        (   flag(strings)
         ->  true
         ;   write('.'),
             nl,

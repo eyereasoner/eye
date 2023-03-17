@@ -7,32 +7,32 @@
 @prefix p: <http://eyereasoner.github.io/eye/reasoning/preduction#>.
 
 {{?A => ?B} p:preduce {?PA => ?PB}} <= {
-    ("!") e:derive true.
+    true log:callWithCut true.
     ?A p:preduce ?PA.
     ?B p:preduce ?PB.
 }.
 {{?A <= ?B} p:preduce {?PA <= ?PB}} <= {
-    ("!") e:derive true.
+    true log:callWithCut true.
     ?B p:preduce ?PB.
     ?A p:preduce ?PA.
 }.
 {true p:preduce true} <= {
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 {?C p:preduce ?Res} <= {
     ?C e:graphPair (?A ?B).
-    ("!") e:derive true.
+    true log:callWithCut true.
     ?A p:preduce ?PA.
     ?B p:preduce ?PB.
     (?PA ?PB) log:conjunction ?Res.
 }.
 {?A p:preduce ?B} <= {
     ?A p:should_fold ?B.
-    ("!") e:derive true.
+    true log:callWithCut true.
 }.
 {?A p:preduce ?Residue} <= {
     ?A p:should_unfold true.
-    ("!") e:derive true.
+    true log:callWithCut true.
     ?A p:condition ?B.
     ?B p:preduce ?Residue.
 }.
