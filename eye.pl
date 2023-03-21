@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.11.0').
+version_info('EYE v3.12.0').
 
 license_info('MIT License
 
@@ -735,7 +735,7 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(F, N),
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
-    % non-unit resolution
+    % resolution
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -749,22 +749,13 @@ opts(['--blogic'|Argus], Args) :-
                     makevars(K, J, beta(W)),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
                     (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, P), L,
-                            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), M),
-                        conj_list(H, M)
-                    ;   select(C, L, P, M),
-                        conj_list(H, M)
+                            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), M)
+                    ;   select(C, L, P, M)
                     ),
+                    list_to_set(M, T),
+                    conj_list(H, T),
                     (   ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
                         \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
-                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
-                    ;   true
-                    )), true, '<>')),
-    % factoring
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    list_to_set(L, M),
-                    conj_list(H, M),
-                    (   \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
                     ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
                     ;   true
                     )), true, '<>')),
