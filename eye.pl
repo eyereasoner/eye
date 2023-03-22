@@ -791,7 +791,7 @@ opts(['--blogic'|Argus], Args) :-
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
-    % backward rule
+    % create backward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K),
