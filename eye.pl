@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.12.0').
+version_info('EYE v3.12.1').
 
 license_info('MIT License
 
@@ -754,11 +754,8 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     list_to_set(M, T),
                     conj_list(H, T),
-                    (   ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
-                        \+'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)
-                    ->  assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
-                    ;   true
-                    )), true, '<>')),
+                    ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
+                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
     % adjust graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     findvars(G, U, beta),
@@ -800,14 +797,9 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K),
                     conj_list(H, [T]),
                     conj_list(R, K),
-                    makevars(':-'(T, R), C, beta(V)),
-                    copy_term_nat(C, CC),
-                    labelvars(CC, 0, _, avar),
-                    (   \+cc(CC)
-                    ->  assertz(cc(CC)),
-                        assertz(C)
-                    ;   true
-                    )), true, '<>')),
+                    conjify(R, S),
+                    makevars(':-'(T, S), C, beta(V))
+                    ), C, '<>')),
     % query
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
