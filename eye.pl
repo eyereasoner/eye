@@ -735,7 +735,7 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(F, N),
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
-    % resolution
+    % resolve negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -767,7 +767,7 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     W \= V
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, G), '<>')),
-    % forward rule
+    % create forward rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
@@ -777,7 +777,7 @@ opts(['--blogic'|Argus], Args) :-
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
-    % contrapositive
+    % create contrapositive
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
@@ -800,7 +800,7 @@ opts(['--blogic'|Argus], Args) :-
                     conjify(R, S),
                     makevars(':-'(T, S), C, beta(V))
                     ), C, '<>')),
-    % query
+    % create query
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
