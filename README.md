@@ -1,4 +1,4 @@
-# EYE - Euler Yet another proof Engine
+# Euler Yet another proof Engine - EYE
 
 ![EYE](https://josd.github.io/images/eye.png)
 
