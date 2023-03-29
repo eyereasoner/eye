@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.12.1').
+version_info('EYE v3.12.2').
 
 license_info('MIT License
 
@@ -1830,6 +1830,10 @@ tr_split([A|B], C, D) :-
 tr_split([A|B], [A|C], D) :-
     tr_split(B, C, D).
 
+ttl_n3p(literal(type(A, B)), C) :-
+    memberchk(A, ['http://www.w3.org/2001/XMLSchema#integer', 'http://www.w3.org/2001/XMLSchema#long', 'http://www.w3.org/2001/XMLSchema#decimal', 'http://www.w3.org/2001/XMLSchema#double']),
+    atom_number(B, C),
+    !.
 ttl_n3p(literal(type(A, B)), literal(E, type(A))) :-
     atom_codes(B, C),
     escape_string(C, D),
