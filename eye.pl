@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.12.2').
+version_info('EYE v3.12.3').
 
 license_info('MIT License
 
@@ -7043,45 +7043,65 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/math#acos>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is acos(W)
+        (   getnumber(X, U),
+            Y is acos(U),
+            !
+        ;   getnumber(Y, V),
+            X is cos(V)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#acosh>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is acosh(W)
+        (   getnumber(X, U),
+            Y is acosh(U),
+            !
+        ;   getnumber(Y, V),
+            X is cosh(V)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#asin>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is asin(W)
+        (   getnumber(X, U),
+            Y is asin(U),
+            !
+        ;   getnumber(Y, V),
+            X is sin(V)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#asinh>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is asinh(W)
+        (   getnumber(X, U),
+            Y is asinh(U),
+            !
+        ;   getnumber(Y, V),
+            X is sinh(V)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#atan>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is atan(W)
+        (   getnumber(X, U),
+            Y is atan(U),
+            !
+        ;   getnumber(Y, V),
+            X is tan(V)
         )
     ).
 
@@ -7098,9 +7118,13 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/math#atanh>'(X, Y) :-
     when(
         (   ground(X)
+        ;   ground(Y)
         ),
-        (   getnumber(X, W),
-            Y is atanh(W)
+        (   getnumber(X, U),
+            Y is atanh(U),
+            !
+        ;   getnumber(Y, V),
+            X is tanh(V)
         )
     ).
 
@@ -7122,8 +7146,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is cos(U),
             !
-        ;   getnumber(Y, W),
-            X is acos(W)
+        ;   getnumber(Y, V),
+            X is acos(V)
         )
     ).
 
@@ -7135,8 +7159,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is cosh(U),
             !
-        ;   getnumber(Y, W),
-            X is acosh(W)
+        ;   getnumber(Y, V),
+            X is acosh(V)
         )
     ).
 
@@ -7148,18 +7172,27 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is U*180/pi,
             !
-        ;   getnumber(Y, W),
-            X is W*pi/180
+        ;   getnumber(Y, V),
+            X is V*pi/180
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/math#difference>'([X, Y], Z) :-
     when(
         (   ground([X, Y])
+        ;   ground(Z)
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
-            Z is U-V
+            Z is U-V,
+            !
+        ;   getnumber(X, U),
+            getnumber(Z, W),
+            Y is U-W,
+            !
+        ;   getnumber(Y, V),
+            getnumber(Z, W),
+            X is V+W
         )
     ).
 
@@ -7290,8 +7323,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is -U,
             !
-        ;   getnumber(Y, W),
-            X is -W
+        ;   getnumber(Y, V),
+            X is -V
         )
     ).
 
@@ -7336,13 +7369,25 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z) :-
     when(
         (   ground([X, Y])
+        ;   ground(Z)
         ),
         (   getnumber(X, U),
             getnumber(Y, V),
             (   V =\= 0
             ->  Z is U/V
             ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
-            )
+            ),
+            !
+        ;   getnumber(X, U),
+            getnumber(Z, W),
+            (   W =\= 0
+            ->  Y is U/W
+            ;   throw(zero_division('<http://www.w3.org/2000/10/swap/math#quotient>'([X, Y], Z)))
+            ),
+            !
+        ;   getnumber(Y, V),
+            getnumber(Z, W),
+            X is V*W
         )
     ).
 
@@ -7354,8 +7399,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is U*pi/180,
             !
-        ;   getnumber(Y, W),
-            X is W*180/pi
+        ;   getnumber(Y, V),
+            X is V*180/pi
         )
     ).
 
@@ -7400,8 +7445,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is sin(U),
             !
-        ;   getnumber(Y, W),
-            X is asin(W)
+        ;   getnumber(Y, V),
+            X is asin(V)
         )
     ).
 
@@ -7413,8 +7458,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is sinh(U),
             !
-        ;   getnumber(Y, W),
-            X is asinh(W)
+        ;   getnumber(Y, V),
+            X is asinh(V)
         )
     ).
 
@@ -7434,8 +7479,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is tan(U),
             !
-        ;   getnumber(Y, W),
-            X is atan(W)
+        ;   getnumber(Y, V),
+            X is atan(V)
         )
     ).
 
@@ -7447,8 +7492,8 @@ djiti_assertz(A) :-
         (   getnumber(X, U),
             Y is tanh(U),
             !
-        ;   getnumber(Y, W),
-            X is atanh(W)
+        ;   getnumber(Y, V),
+            X is atanh(V)
         )
     ).
 
