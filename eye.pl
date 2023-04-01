@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.12.3').
+version_info('EYE v3.12.4').
 
 license_info('MIT License
 
@@ -5840,15 +5840,16 @@ djiti_assertz(A) :-
         ),
         (   atom_codes(X, U),
             atom_codes(Y, C),
-            (   C = []
+            escape_string(T, U),
+            escape_string(V, C),
+            (   V = []
             ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                    (   member(B, U),
+                    (   member(B, T),
                         atom_codes(A, [B])
                     ),
                     Z
                 )
-            ;   escape_string(V, C),
-                esplit_string(U, V, [], W),
+            ;   esplit_string(T, V, [], W),
                 findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, W),
                         atom_codes(A, B)
@@ -7631,15 +7632,16 @@ djiti_assertz(A) :-
         ;   ground(Z),
             getcodes(Z, U),
             getcodes(Y, C),
-            (   C = []
+            escape_string(T, U),
+            escape_string(V, C),
+            (   V = []
             ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                    (   member(B, U),
+                    (   member(B, T),
                         atom_codes(A, [B])
                     ),
                     X
                 )
-            ;   escape_string(V, C),
-                esplit_string(U, V, [], W),
+            ;   esplit_string(T, V, [], W),
                 findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, W),
                         atom_codes(A, B)
@@ -7717,7 +7719,8 @@ djiti_assertz(A) :-
     when(
         (   ground([X,Search,Replace])
         ),
-        (   (   regex(Search, X, [S|_])
+        (   (   atomic_list_concat(['(', Search, ')'], Se),
+                regex(Se, X, [S|_])
             ->  atom_codes(X, XC),
                 string_codes(S, SC),
                 atom_codes(Replace, RC),
