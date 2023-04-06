@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.13.0').
+version_info('EYE v3.14.0').
 
 license_info('MIT License
 
@@ -1814,7 +1814,36 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    B =.. [C|E].
+    (   memberchk(C, ['\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'']),
+        E = [[_|_]|_]
+    ->  tr_graffiti(A, B)
+    ;   B =.. [C|E]
+    ).
+
+tr_graffiti(A, B) :-
+    A =.. [C, D, E],
+    tr_tr(D, F),
+    tr_tr(E, R),
+    findall([G, H],
+        (   member(G, F),
+            (   sub_atom(G, _, 2, 0, '>\'')
+            ->  sub_atom(G, 0, _, 2, I),
+                atomic_list_concat([I, '_'], J),
+                gensym(J, K),
+                atomic_list_concat([K, '>\''], H)
+            ;   atomic_list_concat([G, '_'], I),
+                gensym(I, H)
+            )
+        ),
+        L
+    ),
+    findall(M,
+        (   member([_, M], L)
+        ),
+        N
+    ),
+    makevar(R, O, L),
+    B =.. [C, N, O].
 
 tr_split([], [], []) :-
     !.
