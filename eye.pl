@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.14.0').
+version_info('EYE v3.14.1').
 
 license_info('MIT License
 
@@ -6856,7 +6856,13 @@ djiti_assertz(A) :-
     when(
         (   ground([X, Y])
         ),
-        (   \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y)
+        (   (   \+atomic(X),
+                \+atomic(Y)
+            ->  findvars([X, Y], Z, beta),
+                Z = []
+            ;   true
+            ),
+            \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(X, Y)
         )
     ).
 
