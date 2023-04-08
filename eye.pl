@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.14.1').
+version_info('EYE v3.15.0').
 
 license_info('MIT License
 
@@ -6789,6 +6789,10 @@ djiti_assertz(A) :-
     ;   B = C
     ).
 
+'<http://www.w3.org/2000/10/swap/log#isomorphic>'(A, B) :-
+    makevars(A, C, beta),
+    \+ \+unify(C, B).
+    
 '<http://www.w3.org/2000/10/swap/log#langlit>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], literal(A, lang(B))).
 
 '<http://www.w3.org/2000/10/swap/log#localN3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
