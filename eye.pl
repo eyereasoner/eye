@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.15.1').
+version_info('EYE v3.15.2').
 
 license_info('MIT License
 
@@ -1837,13 +1837,9 @@ tr_graffiti(A, B) :-
         ),
         L
     ),
-    findall(M,
-        (   member([_, M], L)
-        ),
-        N
-    ),
+    couple(_, M, L),
     makevar(R, O, L),
-    B =.. [C, N, O].
+    B =.. [C, M, O].
 
 tr_split([], [], []) :-
     !.
