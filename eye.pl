@@ -207,6 +207,7 @@ main :-
     ).
 
 run :-
+    nb_setval(fm, 0),
     current_prolog_flag(version_data, swi(SV, _, _, _)),
     (   SV < 8
     ->  format(user_error, '** ERROR ** EYE requires at least swipl version 8 **~n', []),
@@ -300,6 +301,12 @@ run :-
         ;   true
         )
     ;   true
+    ),
+    nb_getval(fm, Cnt),
+    (   Cnt = 0
+    ->  true
+    ;   format(user_error, '*** fm=~w~n', [Cnt]),
+        flush_output(user_error)
     ),
     nb_getval(exit_code, EC),
     flush_output,
@@ -12462,8 +12469,12 @@ regexp_wildcard([A|B], [A|C]) :-
     regexp_wildcard(B, C).
 
 fm(A) :-
-    format(user_error, '~n*** ~q~n', [A]),
-    flush_output(user_error).
+    (   A = !
+    ->  true
+    ;   format(user_error, '~n*** ~q~n', [A]),
+        flush_output(user_error)
+    ),
+    cnt(fm).
 
 mf(A) :-
     forall(
