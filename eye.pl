@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.15.2').
+version_info('EYE v3.16.0').
 
 license_info('MIT License
 
@@ -63,6 +63,7 @@ eye
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --multi-query                   go into query answer loop
+    --no-blogic-resolve-negative    no blogic resolve negative surfaces
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -736,7 +737,8 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
     % resolve negative surfaces
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+    assertz(implies((\+flag('no-blogic-resolve-negative'),
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     length(L, D),
                     D < 4,
@@ -896,6 +898,11 @@ opts(['--multi-query'|Argus], Args) :-
     !,
     retractall(flag('multi-query')),
     assertz(flag('multi-query')),
+    opts(Argus, Args).
+opts(['--no-blogic-resolve-negative'|Argus], Args) :-
+    !,
+    retractall(flag('no-blogic-resolve-negative')),
+    assertz(flag('no-blogic-resolve-negative')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
