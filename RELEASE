@@ -3,102 +3,103 @@
 [v3.17.1 2023-04-10] adjusting resolution parameter
 [v3.17.0 2023-04-10] dropping --no-blogic-resolve-negative and using negative surface count limit
 [v3.16.1 2023-04-10] fixing resolve negative surfaces (obs from Patrick Hochstenbach)
-[v3.16.0] adding --no-blogic-resolve-negative switch to skip resolution of negative surfaces
-[v3.15.2] simplifying graffiti relabeling
-[v3.15.1] fixing log:isomorphic built-in
-[v3.15.0] adding experimental log:isomorphic built-in
-[v3.14.1] fixing log:notEqualTo built-in
-[v3.14.0] relabeling the blogic graffiti (obs from Ruben Dedecker)
-[v3.13.0] improving blogic resolution
-[v3.12.4] fixing e:stringSplit string:join and string:replace
-[v3.12.3] making math:acos math:acosh math:asin math:asinh math:atan math:atanh math:difference math:quotient bidirectional
-[v3.12.2] fixing --turtle for numerals https://github.com/eyereasoner/eye/issues/83
-[v3.12.1] refactoring blogic
-[v3.12.0] improving resolution for blogic
-[v3.11.0] reformat the output
-[v3.10.0] adding log:call built-in
-[v3.9.0] order-preserving version of log:conjunction (obs from Dörthe Arndt)
-[v3.8.3] fixing path expressions in blogic
-[v3.8.2] fixing https://github.com/eyereasoner/eye/issues/80
-[v3.8.1] simplifying version info
-[v3.8.0] simplifying blogic reasoning
-[v3.7.1] further taking out rdf list comprehension in blogic
-[v3.7.0] making string:join bidirectional
-[v3.6.0] taking out broken rdf list comprehension in blogic
-[v3.5.1] dealing with rdf lists in the premise of backward rules for blogic
-[v3.5.0] extending unifier for rdf lists
-[v3.4.13] fixing nested blogic graffiti using rdf lists
-[v3.4.12] dealing with rdf lists in the conclusion of backward rules for blogic
-[v3.4.11] further fixing rdf lists in rules
-[v3.4.10] fixing rdf lists in rules
-[v3.4.9] fixing blanknode labels containing a minus character
-[v3.4.8] fixing https://github.com/eyereasoner/eye/issues/79
-[v3.4.7] fixing https://github.com/eyereasoner/eye/issues/78
-[v3.4.6] fixing witness creation for blogic
-[v3.4.5] fixing issue https://github.com/eyereasoner/eye/issues/77
-[v3.4.3] fixing issue https://github.com/eyereasoner/eye/issues/76
-[v3.4.2] fixing positive surface blogic
-[v3.4.1] beautifying the output of --rdf-list-output
-[v3.4.0] new command line option --rdf-list-output to output lists as RDF lists
-[v3.3.6] reverting simplified RDF list handling
-[v3.3.5] simplifying RDF list handling
-[v3.3.4] fixing issue https://github.com/eyereasoner/eye/issues/66
-[v3.3.3] fixing https://github.com/eyereasoner/eye/issues/73#issuecomment-1448917259
-[v3.3.2] fixing https://github.com/eyereasoner/eye/issues/72 for --pass-only-new
-[v3.3.1] fixing issues https://github.com/eyereasoner/eye/issues/73 and https://github.com/eyereasoner/eye/issues/75
-[v3.3.0] simplified blogic implementation thanks to erasure at even level
-[v3.2.3] fixing issue https://github.com/eyereasoner/eye/issues/72
-[v3.2.2] fixing issue https://github.com/eyereasoner/eye/issues/71
-[v3.2.1] making log:isImpliedBy explicit instead of just its syntactic sugar <= (obs from Jesse Wright)
-[v3.2.0] adding blogic resolve at nested levek
-[v3.1.3] fixing @forAllin the premis of rules (obs from Jesse Wright)
-[v3.1.2] fixing log:notIncludes for (context recursion) scope (obs from Patrick Hochstenbach)
-[v3.1.1] fixing log:n3String interference with writing prefixes (obs from Jesse Wright)
-[v3.1.0] adding blogic deiteration at nested level
-[v3.0.1] fixing blogic graffiti when using rdf:first, rdf:rest and rdf:nil (obs from Patrick Hochstenbach)
-[v3.0.0] core blogic metarules and new list:sort, log:callWithCut and log:callWithOptional built-ins
-[v2.13.2] simplifying extended unifier for blogic
-[v2.13.1] work around for issue https://github.com/eyereasoner/eye-js/issues/129 by adding extra newline
-[v2.13.0] rewrite negative surface disjunction for blogic
-[v2.12.2] fixing string:concatenation (obs from Dörthe Arndt)
-[v2.12.1] improving non-unit resolution for blogic
-[v2.12.0] improving non-unit resolution for blogic and dropping log:onAskSurface and log:onConstructSurface
-[v2.11.0] adding non-unit resolution for blogic
-[v2.10.3] adding blogic negative surface redundancy removal
-[v2.10.2] using log:onQuerySurface instead of log:onConstructSurface
-[v2.10.1] fixing https://github.com/eyereasoner/Notation3-By-Example/blob/main/log/blogic/negativeSurface3.n3
-[v2.10.0] backward rules are now using log:onConstructSurface instead of log:onQuerySurface
-[v2.9.0] adding log:onAskSurface to ask ground questions
-[v2.8.2] using --warn to warn for multiple models with --blogic
-[v2.8.1] refactoring --blogic which is removing the exponential dsplit/3
-[v2.8.0] eye --blogic is now single model
-[v2.7.5] making sure that no built-in arrives in the conclusion of rules generated for --blogic
-[v2.7.4] simplifying the --blogic rule for contrapositives
-[v2.7.3] further substantial performance improvement of --blogic
-[v2.7.2] improving performance of --blogic with some 15%
-[v2.7.1] improving --restricted for graph: and log: built-ins
-[v2.7.0] refactoring --blogic
-[v2.6.3] fixing issues with log:rawType to succeed with https://github.com/eyereasoner/Notation3-By-Example/blob/main/log/rawType.n3
-[v2.6.2] using log:UnlabeledBlankNode instead of log:BlankNode for the log:rawType of []
-[v2.6.1] extending log:rawType with log:BlankNode, log:LabeledBlankNode, log:SkolemIRI and log:ForSome types and dropping log:isBlank (obs from Patrick Hochstenbach)
-[v2.6.0] adding log:isBlank built-in for SPARQL emulation
-[v2.5.0] generating fewer implications for --blogic
-[v2.4.0] refactoring --blogic and removing --no-erase
-[v2.3.10] fixing output of inference fuse
-[v2.3.9] refining --blogic model generation
-[v2.3.8] improving the performance of --blogic model generation
-[v2.3.7] fixing output of variable predicates (obs from Dörthe Arndt)
-[v2.3.6] further fixing https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/beetle13.n3 (obs from Dörthe Arndt)
-[v2.3.5] beautifying the output of graph literals
-[v2.3.4] adding experimental log:graffiti built-in as used in https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/parteval.n3
-[v2.3.3] fixing https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/beetle13.n3 (obs from Dörthe Arndt)
-[v2.3.2] improving readability of blogic graphs (obs from Ruben Dedecker)
-[v2.3.1] improving the output of log:trace (obs from William Van Woensel)
-[v2.3.0] loading library(dif) so that dif/2 can be used in n3p (obs from Patrick Hochstenbach)
-[v2.2.0] adding --no-models option to have no model generation for blogic
-[v2.1.1] finetuning blogic model handling
-[v2.1.0] improving blogic model handling
-[v2.0.1] using semantic versioning
+[v3.16.0 2023-04-09] adding --no-blogic-resolve-negative switch to skip resolution of negative surfaces
+[v3.15.2 2023-04-09] simplifying graffiti relabeling
+[v3.15.1 2023-04-08] fixing log:isomorphic built-in
+[v3.15.0 2023-04-08] adding experimental log:isomorphic built-in
+[v3.14.1 2023-04-07] fixing log:notEqualTo built-in
+[v3.14.0 2023-04-06] relabeling the blogic graffiti (obs from Ruben Dedecker)
+[v3.13.0 2023-04-03] improving blogic resolution
+[v3.12.4 2023-04-02] fixing e:stringSplit string:join and string:replace
+[v3.12.3 2023-03-30] making math:acos math:acosh math:asin math:asinh math:atan math:atanh math:difference math:quotient bidirectional
+[v3.12.2 2023-03-29] fixing --turtle for numerals https://github.com/eyereasoner/eye/issues/83
+[v3.12.1 2023-03-22] refactoring blogic
+[v3.12.0 2023-03-21] improving resolution for blogic
+[v3.11.0 2023-03-17] reformat the output
+[v3.10.0 2023-03-16] adding log:call built-in
+[v3.9.0 2023-03-16] order-preserving version of log:conjunction (obs from Dörthe Arndt)
+[v3.8.3 2023-03-14] fixing path expressions in blogic
+[v3.8.2 2023-03-14] fixing https://github.com/eyereasoner/eye/issues/80
+[v3.8.1 2023-03-12] simplifying version info
+[v3.8.0 2023-03-12] simplifying blogic reasoning
+[v3.7.1 2023-03-10] further taking out rdf list comprehension in blogic
+[v3.7.0 2023-03-10] making string:join bidirectional
+[v3.6.0 2023-03-07] taking out broken rdf list comprehension in blogic
+[v3.5.1 2023-03-06] dealing with rdf lists in the premise of backward rules for blogic
+[v3.5.0 2023-03-06] extending unifier for rdf lists
+[v3.4.13 2023-03-05] fixing nested blogic graffiti using rdf lists
+[v3.4.12 2023-03-05] dealing with rdf lists in the conclusion of backward rules for blogic
+[v3.4.11 2023-03-04] further fixing rdf lists in rules
+[v3.4.10 2023-03-04] fixing rdf lists in rules
+[v3.4.9 2023-03-04] fixing blanknode labels containing a minus character
+[v3.4.8 2023-03-03] fixing https://github.com/eyereasoner/eye/issues/79
+[v3.4.7 2023-03-03] fixing https://github.com/eyereasoner/eye/issues/78
+[v3.4.6 2023-03-02] fixing witness creation for blogic
+[v3.4.5 2023-03-02] fixing issue https://github.com/eyereasoner/eye/issues/77
+[v3.4.3 2023-03-02] fixing issue https://github.com/eyereasoner/eye/issues/76
+[v3.4.2 2023-03-07] fixing positive surface blogic
+[v3.4.1 2023-03-01] beautifying the output of --rdf-list-output
+[v3.4.0 2023-03-01] new command line option --rdf-list-output to output lists as RDF lists
+[v3.3.6 2023-03-01] reverting simplified RDF list handling
+[v3.3.5 2023-03-01] simplifying RDF list handling
+[v3.3.4 2023-03-01] fixing issue https://github.com/eyereasoner/eye/issues/66
+[v3.3.3 2023-03-01] fixing https://github.com/eyereasoner/eye/issues/73#issuecomment-1448917259
+[v3.3.2 2023-02-28] fixing https://github.com/eyereasoner/eye/issues/72 for --pass-only-new
+[v3.3.1 2023-02-28] fixing issues https://github.com/eyereasoner/eye/issues/73 and https://github.com/eyereasoner/eye/issues/75
+[v3.3.0 2023-02-27] simplified blogic implementation thanks to erasure at even level
+[v3.2.3 2023-02-27] fixing issue https://github.com/eyereasoner/eye/issues/72
+[v3.2.2 2023-02-27] fixing issue https://github.com/eyereasoner/eye/issues/71
+[v3.2.1 2023-02-27] making log:isImpliedBy explicit instead of just its syntactic sugar <= (obs from Jesse Wright)
+[v3.2.0 2023-02-26] adding blogic resolve at nested levek
+[v3.1.3 2023-02-23] fixing @forAllin the premis of rules (obs from Jesse Wright)
+[v3.1.2 2023-02-23] fixing log:notIncludes for (context recursion) scope (obs from Patrick Hochstenbach)
+[v3.1.1 2023-02-23] fixing log:n3String interference with writing prefixes (obs from Jesse Wright)
+[v3.1.0 2023-02-23] adding blogic deiteration at nested level
+[v3.0.1 2023-02-22] fixing blogic graffiti when using rdf:first, rdf:rest and rdf:nil (obs from Patrick Hochstenbach)
+[v3.0.0 2023-02-22] core blogic metarules and new list:sort, log:callWithCut and log:callWithOptional built-ins
+
+[v2.13.2 2023-02-20] simplifying extended unifier for blogic
+[v2.13.1 2023-02-20] work around for issue https://github.com/eyereasoner/eye-js/issues/129 by adding extra newline
+[v2.13.0 2023-02-20] rewrite negative surface disjunction for blogic
+[v2.12.2 2023-02-17] fixing string:concatenation (obs from Dörthe Arndt)
+[v2.12.1 2023-02-17] improving non-unit resolution for blogic
+[v2.12.0 2023-02-15] improving non-unit resolution for blogic and dropping log:onAskSurface and log:onConstructSurface
+[v2.11.0 2023-02-15] adding non-unit resolution for blogic
+[v2.10.3 2023-02-14] adding blogic negative surface redundancy removal
+[v2.10.2 2023-02-11] using log:onQuerySurface instead of log:onConstructSurface
+[v2.10.1 2023-02-10] fixing https://github.com/eyereasoner/Notation3-By-Example/blob/main/log/blogic/negativeSurface3.n3
+[v2.10.0 2023-02-10] backward rules are now using log:onConstructSurface instead of log:onQuerySurface
+[v2.9.0 2023-02-09] adding log:onAskSurface to ask ground questions
+[v2.8.2 2023-02-09] using --warn to warn for multiple models with --blogic
+[v2.8.1 2023-02-08] refactoring --blogic which is removing the exponential dsplit/3
+[v2.8.0 2023-02-08] eye --blogic is now single model
+[v2.7.5 2023-02-05] making sure that no built-in arrives in the conclusion of rules generated for --blogic
+[v2.7.4 2023-02-04] simplifying the --blogic rule for contrapositives
+[v2.7.3 2023-02-03] further substantial performance improvement of --blogic
+[v2.7.2 2023-02-03] improving performance of --blogic with some 15%
+[v2.7.1 2023-02-03] improving --restricted for graph: and log: built-ins
+[v2.7.0 2023-02-02] refactoring --blogic
+[v2.6.3 2023-02-01] fixing issues with log:rawType to succeed with https://github.com/eyereasoner/Notation3-By-Example/blob/main/log/rawType.n3
+[v2.6.2 2023-02-01] using log:UnlabeledBlankNode instead of log:BlankNode for the log:rawType of []
+[v2.6.1 2023-02-01] extending log:rawType with log:BlankNode, log:LabeledBlankNode, log:SkolemIRI and log:ForSome types and dropping log:isBlank (obs from Patrick Hochstenbach)
+[v2.6.0 2023-01-31] adding log:isBlank built-in for SPARQL emulation
+[v2.5.0 2023-01-31] generating fewer implications for --blogic
+[v2.4.0 2023-01-30] refactoring --blogic and removing --no-erase
+[v2.3.10 2023-01-29] fixing output of inference fuse
+[v2.3.9 2023-01-28] refining --blogic model generation
+[v2.3.8 2023-01-28] improving the performance of --blogic model generation
+[v2.3.7 2023-01-23] fixing output of variable predicates (obs from Dörthe Arndt)
+[v2.3.6 2023-01-22] further fixing https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/beetle13.n3 (obs from Dörthe Arndt)
+[v2.3.5 2023-01-22] beautifying the output of graph literals
+[v2.3.4 2023-01-21] adding experimental log:graffiti built-in as used in https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/parteval.n3
+[v2.3.3 2023-01-20] fixing https://github.com/eyereasoner/eye/blob/master/reasoning/blogic/beetle13.n3 (obs from Dörthe Arndt)
+[v2.3.2 2023-01-20] improving readability of blogic graphs (obs from Ruben Dedecker)
+[v2.3.1 2023-01-20] improving the output of log:trace (obs from William Van Woensel)
+[v2.3.0 2023-01-14] loading library(dif) so that dif/2 can be used in n3p (obs from Patrick Hochstenbach)
+[v2.2.0 2023-01-14] adding --no-models option to have no model generation for blogic
+[v2.1.1 2023-01-11] finetuning blogic model handling
+[v2.1.0 2023-01-11] improving blogic model handling
+[v2.0.1 2023-01-07] using semantic versioning
 
 [v23.107.1359] adjusting --version to be syntactically compatible with semver
 [v23.0106.2349] fixing log:prefix built-in to work backwards too (obs from Tim Duval)
