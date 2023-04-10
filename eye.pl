@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.17.1 2023-04-10').
+version_info('EYE v3.17.2 2023-04-10').
 
 license_info('MIT License
 
@@ -771,8 +771,8 @@ opts(['--blogic'|Argus], Args) :-
                             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), M),
                         conj_list(Q, R),
                         member(P, R)
-                    ;   select(C, L, Q, M),
-                        conj_list(P, R),
+                    ;   select(Q, L, P, M),
+                        conj_list(C, R),
                         member(Q, R)
                     ),
                     list_to_set(M, T),
