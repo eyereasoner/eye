@@ -56,9 +56,9 @@ export RELEASE="v$(cat VERSION)"
 export DATE="$(date -Idate)"
 
 # update version in eye.pl and add release line in RELEASE
-cat eye.pl | sed -e "s/'EYE.*'/'EYE $RELEASE $DATE'/" > eye.pl.tmp
+cat eye.pl | sed -e "s/'EYE.*'/'EYE $RELEASE \($DATE\)'/" > eye.pl.tmp
 mv eye.pl.tmp eye.pl
-sed -i '3 i\['"$RELEASE"' '"$DATE"'] '"$1"'' RELEASE
+sed -i '3 i\'"$RELEASE"' '\("$DATE"\)' '"$1"'' RELEASE
 
 # install eye, run the tests and do git diff
 sudo ./install.sh
