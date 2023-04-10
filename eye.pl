@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.16.1').
+version_info('EYE v3.17.0 2023-04-10').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --multi-query                   go into query answer loop
-    --no-blogic-resolve-negative    no blogic resolve negative surfaces
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -744,15 +743,27 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
     % resolve negative surfaces
-    assertz(implies((\+flag('no-blogic-resolve-negative'),
+    assertz(implies((findall(1,
+                        (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ),
+                        O
+                    ),
+                    length(O, N),
+                    (   N < 100
+                    ->  S = 3
+                    ;   (   N < 200
+                        ->  S = 2
+                        ;   S = 1
+                        )
+                    ),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
                     length(L, D),
-                    D < 4,
+                    D =< S,
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     conj_list(F, K),
                     length(K, E),
-                    E < 4,
+                    E =< S,
                     \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), K), atomic(I)),
                     makevars(K, J, beta(W)),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
@@ -909,11 +920,6 @@ opts(['--multi-query'|Argus], Args) :-
     !,
     retractall(flag('multi-query')),
     assertz(flag('multi-query')),
-    opts(Argus, Args).
-opts(['--no-blogic-resolve-negative'|Argus], Args) :-
-    !,
-    retractall(flag('no-blogic-resolve-negative')),
-    assertz(flag('no-blogic-resolve-negative')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
