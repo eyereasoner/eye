@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.17.5 (2023-04-11)').
+version_info('EYE v3.17.6 (2023-04-12)').
 
 license_info('MIT License
 
@@ -743,20 +743,15 @@ opts(['--blogic'|Argus], Args) :-
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
     % resolve negative surfaces
-    assertz(implies((findall(1,
-                        (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    conj_list(G, L),
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
                         ),
                         O
                     ),
-                    length(O, N),
-                    (   N < 100
-                    ->  S = 3
-                    ;   S = 1
-                    ),
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                    conj_list(G, L),
-                    length(L, D),
-                    D =< S,
+                    length(O, E),
+                    memberchk(E, [0, 2, 3]),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     conj_list(F, K),
                     length(K, 2),
