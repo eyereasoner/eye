@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.18.1 (2023-04-13)').
+version_info('EYE v3.19.0 (2023-04-14)').
 
 license_info('MIT License
 
@@ -718,7 +718,8 @@ opts(['--blogic'|Argus], Args) :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     makevars(G, H, beta(V)),
-                    catch(call(H), _, false)
+                    catch(call(H), _, false),
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H)
                     ), false, '<>')),
     % resolve positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -745,6 +746,7 @@ opts(['--blogic'|Argus], Args) :-
     % resolve negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
                     findall(1,
                         (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
                         ),
@@ -754,6 +756,7 @@ opts(['--blogic'|Argus], Args) :-
                     memberchk(E, [0, 2, 3]),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     conj_list(F, K),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), K),
                     length(K, 2),
                     \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), K), atomic(I)),
                     makevars(K, J, beta(W)),
