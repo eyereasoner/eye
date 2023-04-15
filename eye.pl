@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.19.0 (2023-04-14)').
+version_info('EYE v3.20.0 (2023-04-16)').
 
 license_info('MIT License
 
@@ -63,6 +63,7 @@ eye
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --multi-query                   go into query answer loop
+    --n3p-output                    reasoner output in n3p
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -70,7 +71,7 @@ eye
     --no-qvars                      no qvars in the output
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
-    --output <file>                 output reasoner output to <file>
+    --output <file>                 write reasoner output to <file>
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -375,7 +376,10 @@ gre(Argus) :-
     ;   version_info(Version),
         (   flag(quiet)
         ->  true
-        ;   format('#Processed by ~w~n', [Version])
+        ;   (   flag('n3p-output')
+            ->  format('% Processed by ~w~n', [Version])
+            ;   format('# Processed by ~w~n', [Version])
+            )
         ),
         findall(Argij,
             (   argi(Argij)
@@ -385,7 +389,10 @@ gre(Argus) :-
         append(Argil, Argi),
         (   flag(quiet)
         ->  true
-        ;   format('#eye~@~@~n~n', [w0(Argi), w1(Argus)]),
+        ;   (   flag('n3p-output')
+            ->  format('% eye~@~@~n~n', [w0(Argi), w1(Argus)])
+            ;   format('# eye~@~@~n~n', [w0(Argi), w1(Argus)])
+            ),
             flush_output
         )
     ),
@@ -664,7 +671,10 @@ gre(Argus) :-
         ;   flag(quiet)
         )
     ->  true
-    ;   format('#~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n#ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
+    ;   (   flag('n3p-output')
+        ->  format('% ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n% ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
+        ;   format('# ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n# ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
+        )
     ),
     (   flag(quiet)
     ->  true
@@ -822,12 +832,11 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
-                    ->  conj_list(I, K)
-                    ;   I = G,
-                        H = G
+                    ->  conj_list(I, K),
+                        makevars(query(I, H), C, beta(V))
+                    ;   djiti_answer(answer(G), J),
+                        makevars(implies(G, J, '<>'), C, beta(V))
                     ),
-                    djiti_answer(answer(H), J),
-                    makevars(implies(I, J, '<>'), C, beta(V)),
                     copy_term_nat(C, CC),
                     labelvars(CC, 0, _, avar),
                     (   \+cc(CC)
@@ -915,6 +924,11 @@ opts(['--multi-query'|Argus], Args) :-
     !,
     retractall(flag('multi-query')),
     assertz(flag('multi-query')),
+    opts(Argus, Args).
+opts(['--n3p-output'|Argus], Args) :-
+    !,
+    retractall(flag('n3p-output')),
+    assertz(flag('n3p-output')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -3480,22 +3494,10 @@ wh :-
     ).
 
 w3 :-
-    flag(blogic),
-    flag(n3p),
-    (   answer(B1, B2, B3),
-        relabel([B1, B2, B3], [C1, C2, C3]),
-        djiti_answer(answer(C), answer(C1, C2, C3)),
-        indent,
-        writeq(C),
-        ws(C),
-        write('.'),
-        nl,
-        cnt(output_statements),
-        fail
-    ;   nl
-    ).
-w3 :-
-    wh,
+    (   flag('n3p-output')
+    ->  true
+    ;   wh
+    ),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -3511,7 +3513,11 @@ w3 :-
         nb_setval(wn, N),
         relabel(A, B),
         indent,
-        wt(B),
+        (   flag('n3p-output')
+        ->  makeblank(B, Bk),
+            writeq(Bk)
+        ;   wt(B)
+        ),
         ws(B),
         write('.'),
         nl,
@@ -3528,7 +3534,11 @@ w3 :-
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
-        wt(C),
+        (   flag('n3p-output')
+        ->  makeblank(C, Ck),
+            writeq(Ck)
+        ;   wt(C)
+        ),
         ws(C),
         write('.'),
         nl,
@@ -4733,8 +4743,7 @@ eam(Recursion) :-
             ;   Lst4 = Lst2
             ),
             conj_list(Prem2, Lst4),
-            (   flag(blogic),
-                flag(n3p)
+            (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
@@ -11481,6 +11490,23 @@ commonvars(A, B, C) :-
 getvars(A, B) :-
     findvars(A, C, alpha),
     distinct(C, B).
+
+makeblank(A, B) :-
+    findvars(A, C, beta),
+    distinct(C, D),
+    findall([F, E],
+        (   member(F, D),
+            (   sub_atom(F, _, 19, _, '/.well-known/genid/'),
+                sub_atom(F, _, 1, G, '#')
+            ->  H is G-1,
+                sub_atom(F, _, H, 1, I)
+            ;   I = F
+            ),
+            atom_concat('_:', I, E)
+        ),
+        J
+    ),
+    makevar(A, B, J).
 
 makevars(A, B, beta(C)) :-
     !,
