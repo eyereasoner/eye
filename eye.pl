@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.0 (2023-04-16)').
+version_info('EYE v3.20.1 (2023-04-16)').
 
 license_info('MIT License
 
@@ -3514,8 +3514,9 @@ w3 :-
         relabel(A, B),
         indent,
         (   flag('n3p-output')
-        ->  makeblank(B, Bk),
-            writeq(Bk)
+        ->  makeblank(B, Ba),
+            exo_pred(Ba, Bb),
+            writeq(Bb)
         ;   wt(B)
         ),
         ws(B),
@@ -3535,8 +3536,9 @@ w3 :-
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
         (   flag('n3p-output')
-        ->  makeblank(C, Ck),
-            writeq(Ck)
+        ->  makeblank(C, Ca),
+            exo_pred(Ca, Cb),
+            writeq(Cb)
         ;   wt(C)
         ),
         ws(C),
@@ -10544,6 +10546,12 @@ domain(A, true, B) :-
     ),
     conj_list(B, D).
 domain(_, B, B).
+
+exo_pred(exopred(P, S, O), A) :-
+    atomic(P),
+    !,
+    A =.. [P, S, O].
+exo_pred(A, A).
 
 exopred(P, S, O) :-
     (   var(P),
