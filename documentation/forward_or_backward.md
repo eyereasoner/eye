@@ -7,7 +7,7 @@ The EYE reasoner can be used to create _forward chaining_ and _backward chaining
 ## Forward chaining
 
 A forward rule tries to find out which rules fits the data. When such 
-a rule is found, then the reasoner executes the consequenc of rule and 
+a rule is found, then the reasoner executes the consequence of rule and 
 produces more data (this is done in a loop until no more data can be created).
 
 For instance, if we have as input data:
