@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.1 (2023-04-16)').
+version_info('EYE v3.20.2 (2023-04-16)').
 
 license_info('MIT License
 
@@ -610,12 +610,19 @@ gre(Argus) :-
             )
         ),
         (   flag('pass-only-new')
-        ->  wh,
+        ->  (   flag('n3p-output')
+            ->  true
+            ;   wh
+            ),
             forall(
                 pass_only_new(Zn),
                 (   indent,
                     relabel(Zn, Zr),
-                    wt(Zr),
+                    (   flag('n3p-output')
+                    ->  makeblank(Zr, Zs),
+                        writeq(Zs)
+                    ;   wt(Zr)
+                    ),
                     ws(Zr),
                     write('.'),
                     nl,
