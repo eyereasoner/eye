@@ -25,6 +25,7 @@ Each data input should be one of:
 or, one of the more advanced inputs:
 
 - `--n3p <uri>` : the path or URL to a N3P prolog file (that can be generated with the `--intermediate` flag)
+- `--n3p-output` : request the output serialized as N3P prolog
 - `--proof <uri>` : the path or URL to N3 proof lemmas 
 
 Data inputs can be repeated. For instance, to provide a local and a remote N3 input and one Turtle input one can pass as command line arguments:
@@ -73,7 +74,7 @@ These are the most important options that can be provided in every EYE reasoner 
 - `--quiet`: make the EYE reasoner not verbose
 - `--restricted`: run the EYE reasoner in restricted more only allowing core built-ins without side-effects (without network/file access)
 - `--strings`: allow the `log:outputString` to output objects on the stdout
-- `--intermediate`: output all data and rules as N3P prolog to the standard output
+- `--intermediate`: output all data and rules as N3P prolog to the standard output (do not calculate any inferences)
 
 Flags that influence the processing of N3 rules:
 
