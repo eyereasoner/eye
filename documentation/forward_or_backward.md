@@ -2,7 +2,7 @@
 
 # Forward or backward 
 
-The EYE reasoner can be used to create _forward chaininig_ and _backward chaining_ rules. 
+The EYE reasoner can be used to create _forward chaining_ and _backward chaining_ rules. 
 
 ## Forward chaining
 
