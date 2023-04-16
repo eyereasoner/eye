@@ -42,6 +42,7 @@ The  EYE reasoner will generate for each of these rules new data (and the proces
 :Charly a :Composer .
 ```
 
+Forwards chaining is repeated; matching against new data, until no new data is produced.
 ## Backward chaining
 
 A backward rule works in the opposite direction: the EYE reasoner tries to find out which data fits a rule. When such a fit is found, then the rule holds. Backward rules can be used to add user defined "built-ins". As an example, consider the following backward rule:
