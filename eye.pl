@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.4 (2023-04-17)').
+version_info('EYE v3.20.5 (2023-04-17)').
 
 license_info('MIT License
 
@@ -1888,8 +1888,9 @@ tr_graffiti(A, B) :-
         L
     ),
     couple(_, M, L),
+    sort(M, N),
     makevar(R, O, L),
-    B =.. [C, M, O].
+    B =.. [C, N, O].
 
 tr_split([], [], []) :-
     !.
@@ -11658,19 +11659,31 @@ findvar(A, zeta) :-
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
 
+find_graffiti(A, []) :-
+    atomic(A),
+    !.
+find_graffiti('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, _), A) :-
+    is_list(A),
+    !.
+find_graffiti('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(A, _), A) :-
+    is_list(A),
+    !.
+find_graffiti('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(A, _), A) :-
+    is_list(A),
+    !.
+find_graffiti('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(A, _), A) :-
+    is_list(A),
+    !.
+find_graffiti([], []) :-
+    !.
+find_graffiti([A|B], C) :-
+    find_graffiti(A, D),
+    find_graffiti(B, E),
+    append(D, E, C),
+    !.
 find_graffiti(A, B) :-
-    findall(I,
-        (   member(D, A),
-            D =.. [E, C, F],
-            memberchk(E, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>']),
-            is_list(C),
-            conj_list(F, G),
-            find_graffiti(G, H),
-            append(C, H, I)
-        ),
-        J
-    ),
-    append(J, B).
+    A =.. C,
+    find_graffiti(C, B).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
