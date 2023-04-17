@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.3 (2023-04-17)').
+version_info('EYE v3.20.4 (2023-04-17)').
 
 license_info('MIT License
 
@@ -808,7 +808,7 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     conj_list(R, K),
                     domain(V, R, P),
-                    findgraffiti(K, D),
+                    find_graffiti(K, D),
                     append(V, D, U),
                     makevars([P, H], [Q, S], beta(U)),
                     findvars(S, W, beta),
@@ -824,7 +824,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     domain(V, R, P),
-                    findgraffiti([R], D),
+                    find_graffiti([R], D),
                     append(V, D, U),
                     makevars([P, E], [Q, S], beta(U)),
                     findvars(S, W, beta),
@@ -837,7 +837,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, [T]),
                     conj_list(R, K),
                     conjify(R, S),
-                    findgraffiti([R], D),
+                    find_graffiti([R], D),
                     append(V, D, U),
                     makevars(':-'(T, S), C, beta(U))
                     ), C, '<>')),
@@ -846,11 +846,11 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
                     ->  conj_list(I, K),
-                        findgraffiti(K, D),
+                        find_graffiti(K, D),
                         append(V, D, U),
                         makevars(query(I, H), C, beta(U))
                     ;   djiti_answer(answer(G), J),
-                        findgraffiti(L, D),
+                        find_graffiti(L, D),
                         append(V, D, U),
                         makevars(implies(G, J, '<>'), C, beta(U))
                     ),
@@ -4752,16 +4752,20 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  conj_list(Prem, Lst),
-            (   select(makevars(_, _, _), Lst, Lst2)
-            ->  true
-            ;   Lst2 = Lst
+        ->  (   flag(blogic)
+            ->  conj_list(Prem, Lst),
+                Lst = [_|Lst1],
+                (   select(makevars(_, _, _), Lst1, Lst2)
+                ->  true
+                ;   Lst2 = Lst
+                ),
+                (   select(catch(call(Call), _, _), Lst2, Lst3)
+                ->  Lst4 = [Call|Lst3]
+                ;   Lst4 = Lst2
+                ),
+                conj_list(Prem2, Lst4)
+            ;   Prem2 = Prem
             ),
-            (   select(call(Call), Lst2, Lst3)
-            ->  Lst4 = [Call|Lst3]
-            ;   Lst4 = Lst2
-            ),
-            conj_list(Prem2, Lst4),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
@@ -11654,16 +11658,19 @@ findvar(A, zeta) :-
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
 
-findgraffiti(A, B) :-
-    findall(C,
+find_graffiti(A, B) :-
+    findall(I,
         (   member(D, A),
-            D =.. [E, C, _],
+            D =.. [E, C, F],
             memberchk(E, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>']),
-            is_list(C)
+            is_list(C),
+            conj_list(F, G),
+            find_graffiti(G, H),
+            append(C, H, I)
         ),
-        F
+        J
     ),
-    append(F, B).
+    append(J, B).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
