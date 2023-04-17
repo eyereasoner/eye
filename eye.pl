@@ -20,7 +20,7 @@
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.2 (2023-04-16)').
+version_info('EYE v3.20.3 (2023-04-17)').
 
 license_info('MIT License
 
@@ -808,7 +808,9 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), L, K),
                     conj_list(R, K),
                     domain(V, R, P),
-                    makevars([P, H], [Q, S], beta(V)),
+                    findgraffiti(K, D),
+                    append(V, D, U),
+                    makevars([P, H], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -822,7 +824,9 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(T, J),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
                     domain(V, R, P),
-                    makevars([P, E], [Q, S], beta(V)),
+                    findgraffiti([R], D),
+                    append(V, D, U),
+                    makevars([P, E], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -833,16 +837,22 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(H, [T]),
                     conj_list(R, K),
                     conjify(R, S),
-                    makevars(':-'(T, S), C, beta(V))
+                    findgraffiti([R], D),
+                    append(V, D, U),
+                    makevars(':-'(T, S), C, beta(U))
                     ), C, '<>')),
     % create query
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     conj_list(G, L),
                     (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, H), L, K)
                     ->  conj_list(I, K),
-                        makevars(query(I, H), C, beta(V))
+                        findgraffiti(K, D),
+                        append(V, D, U),
+                        makevars(query(I, H), C, beta(U))
                     ;   djiti_answer(answer(G), J),
-                        makevars(implies(G, J, '<>'), C, beta(V))
+                        findgraffiti(L, D),
+                        append(V, D, U),
+                        makevars(implies(G, J, '<>'), C, beta(U))
                     ),
                     copy_term_nat(C, CC),
                     labelvars(CC, 0, _, avar),
@@ -11643,6 +11653,17 @@ findvar(A, zeta) :-
     ).
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
+
+findgraffiti(A, B) :-
+    findall(C,
+        (   member(D, A),
+            D =.. [E, C, _],
+            memberchk(E, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>']),
+            is_list(C)
+        ),
+        F
+    ),
+    append(F, B).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
