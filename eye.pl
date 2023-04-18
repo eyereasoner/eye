@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.7 (2023-04-18)').
+version_info('EYE v3.20.8 (2023-04-18)').
 
 license_info('MIT License
 
@@ -752,7 +752,7 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), L, K),
                     conj_list(H, M),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], O), M, N),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), M, N),
                     (   conj_list(O, D),
                         append(K, D, E),
                         conj_list(C, E)
@@ -760,7 +760,9 @@ opts(['--blogic'|Argus], Args) :-
                         I > 1,
                         conj_list(F, N),
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
-                    )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, C), '<>')),
+                    ),
+                    append(V, W, U)
+                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
     % resolve negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     conj_list(G, L),
