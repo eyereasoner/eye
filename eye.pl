@@ -18,9 +18,10 @@
 :- use_module(library(sha)).
 :- use_module(library(dif)).
 :- use_module(library(semweb/turtle)).
+:- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.6 (2023-04-17)').
+version_info('EYE v3.20.7 (2023-04-18)').
 
 license_info('MIT License
 
@@ -12385,8 +12386,28 @@ timestamp(Stamp) :-
 % Regular expressions
 %
 
+
+regex(Pattern, String, List) :-
+    catch(regex1(Pattern, String, List), _, regex2(Pattern, String, List)).
+
+% Regular expressions using pcre library
+regex1(Pattern, String, List) :-
+    atom_codes(Pattern, PatternC),
+    escape_string(PatC, PatternC),
+    atom_codes(Pat, PatC),
+    atom_codes(String, StringC),
+    escape_string(StrC, StringC),
+    atom_codes(Str, StrC),
+    re_matchsub(Pat, Str, Dict, []),
+    findall(Value,
+        (   get_dict(Key, Dict, Value),
+            Key \== 0
+        ),
+        List
+    ).
+
 % Regular Expressions inspired by http://www.cs.sfu.ca/~cameron/Teaching/384/99-3/regexp-plg.html
-regex(RE_esc_atom, Input_esc_atom, Output_esc_atoms) :-
+regex2(RE_esc_atom, Input_esc_atom, Output_esc_atoms) :-
     atom_codes(RE_esc_atom, RE_esc),
     atom_codes(Input_esc_atom, Input_esc),
     escape_string(RE, RE_esc),
