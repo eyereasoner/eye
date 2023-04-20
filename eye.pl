@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.8 (2023-04-18)').
+version_info('EYE v3.20.9 (2023-04-20)').
 
 license_info('MIT License
 
@@ -825,7 +825,14 @@ opts(['--blogic'|Argus], Args) :-
                     \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
                     select(R, L, J),
                     conj_list(T, J),
-                    E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T),
+                    findvars(R, N, beta),
+                    findall(A,
+                        (   member(A, V),
+                            \+member(A, N)
+                        ),
+                        B
+                    ),
+                    E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(B, T),
                     domain(V, R, P),
                     find_graffiti([R], D),
                     append(V, D, U),
