@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.20.9 (2023-04-20)').
+version_info('EYE v3.20.10 (2023-04-20)').
 
 license_info('MIT License
 
@@ -1713,14 +1713,7 @@ n3_n3p(Argument, Mode) :-
                             ->  assertz(cpred(CPi))
                             ;   true
                             ),
-                            assertz(':-'(Ci, Pj)),
-                            (   flag('pass-only-new'),
-                                Ci \= '<http://www.w3.org/2000/10/swap/reason#gives>'(_, _),
-                                Pj = true,
-                                \+pass_only_new(Ci)
-                            ->  assertz(pass_only_new(Ci))
-                            ;   true
-                            )
+                            assertz(':-'(Ci, Pj))
                         )
                     ;   djiti_assertz(Rt),
                         cnt(sc),
