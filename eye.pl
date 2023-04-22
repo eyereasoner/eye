@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.21.0 (2023-04-22)').
+version_info('EYE v3.21.1 (2023-04-23)').
 
 license_info('MIT License
 
@@ -738,7 +738,11 @@ opts(['--blogic'|Argus], Args) :-
                     is_list(V),
                     makevars(G, H, beta(V)),
                     catch(call(H), _, false),
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H)
+                    (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C)
+                    ->  I = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C)
+                    ;   I = H
+                    ),
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
                     ), false, '<>')),
     % simplify positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -4781,13 +4785,17 @@ eam(Recursion) :-
                 ),
                 (   select(makevars(_, _, _), Lst1, Lst2)
                 ->  true
-                ;   Lst2 = Lst
+                ;   Lst2 = Lst1
                 ),
                 (   select(catch(call(Call), _, _), Lst2, Lst3)
                 ->  Lst4 = [Call|Lst3]
                 ;   Lst4 = Lst2
                 ),
-                conj_list(Prem2, Lst4)
+                (   select((_ -> _ ; _), Lst4, Lst5)
+                ->  true
+                ;   Lst5 = Lst4
+                ),
+                conj_list(Prem2, Lst5)
             ;   Prem2 = Prem
             ),
             (   flag('n3p-output')
@@ -10583,6 +10591,7 @@ within_scope([A, B]) :-
     nb_getval(scope, A).
 
 domain(A, true, B) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, _),
     !,
     findall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(C, _),
         (   member(C, A)
