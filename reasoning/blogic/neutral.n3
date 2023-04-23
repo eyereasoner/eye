@@ -3,8 +3,8 @@
 
 (_:S1 _:S2) log:onNegativeSurface {
     _:S1 log:equalTo {
-        (_:V) log:onNeutralSurface {
-            _:V a :C .
+        (_:U) log:onNeutralSurface {
+            _:U a :C .
         } .
     } .
     _:S2 log:equalTo {
@@ -12,7 +12,7 @@
             _:V a :C .
         } .
     } .
-    _:S1 log:notEqualTo _:S2 .
+    _:S1 log:equalTo _:S2 .
     () log:onNegativeSurface {
         :test :is true .
     } .
