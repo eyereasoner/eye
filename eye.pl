@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.21.1 (2023-04-23)').
+version_info('EYE v3.22.0 (2023-04-29)').
 
 license_info('MIT License
 
@@ -794,7 +794,8 @@ opts(['--blogic'|Argus], Args) :-
                         O
                     ),
                     length(O, E),
-                    memberchk(E, [0, 2, 3]),
+                    length(L, D),
+                    memberchk(E, [0, 2, D]),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     is_list(W),
                     conj_list(F, K),
