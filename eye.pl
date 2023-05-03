@@ -21,7 +21,7 @@
 :- catch(use_module(library(pcre)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.22.1 (2023-05-02)').
+version_info('EYE v3.22.2 (2023-05-03)').
 
 license_info('MIT License
 
@@ -7117,8 +7117,8 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/log#uri>'(X, Y) :-
     when(
-        (   nonvar(X)
-        ;   nonvar(Y)
+        (   ground(X)
+        ;   ground(Y)
         ),
         (   atomic(X),
             (   atom_concat(some, V, X)
@@ -7133,7 +7133,7 @@ djiti_assertz(A) :-
             atomic_list_concat(['<', Z, '>'], U),
             Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
             !
-        ;   nonvar(Y),
+        ;   ground(Y),
             Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
             atomic_list_concat(['<', Z, '>'], X)
         )
