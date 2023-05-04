@@ -19,9 +19,10 @@
 :- use_module(library(dif)).
 :- use_module(library(semweb/turtle)).
 :- catch(use_module(library(pcre)), _, true).
+:- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.22.2 (2023-05-03)').
+version_info('EYE v3.22.3 (2023-05-04)').
 
 license_info('MIT License
 
