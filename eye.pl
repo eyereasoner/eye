@@ -784,7 +784,7 @@ opts(['--blogic'|Argus], Args) :-
                     ),
                     append(V, W, U)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
-    % resolve two negative surfaces
+    % resolve paired negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
