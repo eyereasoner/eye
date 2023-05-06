@@ -775,7 +775,7 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
                     conj_list(H, M),
                     list_to_set(M, T),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), M, N),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
                     is_list(W),
                     (   conj_list(O, D),
                         append(K, D, E),
