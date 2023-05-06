@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.22.3 (2023-05-04)').
+version_info('EYE v3.22.4 (2023-05-06)').
 
 license_info('MIT License
 
@@ -752,7 +752,8 @@ opts(['--blogic'|Argus], Args) :-
                     select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'([], H), L, K),
                     conj_list(H, D),
                     append(K, D, E),
-                    conj_list(F, E)
+                    list_to_set(E, B),
+                    conj_list(F, B)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, F), '<>')),
     % simplify graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -770,8 +771,10 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), L, K),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
                     conj_list(H, M),
+                    list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), M, N),
                     is_list(W),
                     (   conj_list(O, D),
@@ -788,30 +791,32 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
+                    list_to_set(L, B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), B),
                     findall(1,
-                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L)
+                        (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
                         ),
                         O
                     ),
                     length(O, E),
-                    length(L, D),
+                    length(B, D),
                     memberchk(E, [0, 2, D]),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                     is_list(W),
                     conj_list(F, K),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), K),
-                    length(K, 2),
-                    \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), K), atomic(I)),
-                    makevars(K, J, beta(W)),
+                    list_to_set(K, N),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), N),
+                    length(N, 2),
+                    \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), N), atomic(I)),
+                    makevars(N, J, beta(W)),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
                     is_list(U),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), L, A),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
                         is_list(Z),
                         M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|A],
                         conj_list(Q, R),
                         memberchk(P, R)
-                    ;   select(Q, L, A),
+                    ;   select(Q, B, A),
                         M = [P|A],
                         conj_list(C, R),
                         memberchk(Q, R)
@@ -824,7 +829,8 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), L, K),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                     is_list(Z),
                     conj_list(R, K),
                     domain(V, R, P),
@@ -838,19 +844,20 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), L),
-                    select(R, L, J),
+                    list_to_set(L, B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), B),
+                    select(R, B, J),
                     conj_list(T, J),
                     findvars(R, N, beta),
                     findall(A,
                         (   member(A, V),
                             \+member(A, N)
                         ),
-                        B
+                        Z
                     ),
-                    E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(B, T),
+                    E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
                     domain(V, R, P),
                     find_graffiti([R], D),
                     append(V, D, U),
@@ -862,7 +869,8 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), L, K),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), B, K),
                     is_list(Z),
                     conj_list(H, [T]),
                     conj_list(R, K),
@@ -875,14 +883,15 @@ opts(['--blogic'|Argus], Args) :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), L, K),
+                    list_to_set(L, B),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), B, K),
                         is_list(Z)
                     ->  conj_list(I, K),
                         find_graffiti(K, D),
                         append(V, D, U),
                         makevars(query(I, H), C, beta(U))
                     ;   djiti_answer(answer(G), J),
-                        find_graffiti(L, D),
+                        find_graffiti(B, D),
                         append(V, D, U),
                         makevars(implies(G, J, '<>'), C, beta(U))
                     ),
