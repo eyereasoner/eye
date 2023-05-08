@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.22.4 (2023-05-06)').
+version_info('EYE v3.22.5 (2023-05-08)').
 
 license_info('MIT License
 
@@ -1898,7 +1898,8 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   memberchk(C, ['\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'']),
+    (   flag(blogic),
+        memberchk(C, ['\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'']),
         E = [[_|_]|_]
     ->  tr_graffiti(A, B)
     ;   B =.. [C|E]
