@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.22.5 (2023-05-08)').
+version_info('EYE v3.23.0 (2023-05-11)').
 
 license_info('MIT License
 
@@ -1907,8 +1907,15 @@ tr_tr(A, B) :-
 
 tr_graffiti(A, B) :-
     A =.. [C, D, E],
-    tr_tr(D, F),
+    tr_tr(D, T),
     tr_tr(E, R),
+    (   C = '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
+        select('\'<http://www.w3.org/2000/10/swap/pragma#query>\'', T, S)
+    ->  F = S,
+        Z = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''
+    ;   F = T,
+        Z = C
+    ),
     findall([G, H],
         (   member(G, F),
             (   sub_atom(G, _, 2, 0, '>\'')
@@ -1925,7 +1932,7 @@ tr_graffiti(A, B) :-
     couple(_, M, L),
     sort(M, N),
     makevar(R, O, L),
-    B =.. [C, N, O].
+    B =.. [Z, N, O].
 
 tr_split([], [], []) :-
     !.

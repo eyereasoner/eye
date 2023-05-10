@@ -1,6 +1,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix pragma: <http://www.w3.org/2000/10/swap/pragma#>.
 @prefix : <http://example.org/ns#>.
 
-((:s (:s 0)) (:s (:s (:s 0)))) :add (:s (:s (:s (:s (:s 0))))).
-((:s (:s (:s (:s (:s 0))))) (:s (:s (:s (:s 0))))) :multiply (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s 0)))))))))))))))))))).
+((pragma:function :s (pragma:function :s 0)) (pragma:function :s (pragma:function :s (pragma:function :s 0)))) :add (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0))))).
+((pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0))))) (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0))))) :multiply (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0)))))))))))))))))))).
 

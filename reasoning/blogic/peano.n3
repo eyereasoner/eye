@@ -2,39 +2,40 @@
 # See https://en.wikipedia.org/wiki/Peano_axioms
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix pragma: <http://www.w3.org/2000/10/swap/pragma#>.
 @prefix : <http://example.org/ns#>.
 
 # add
 (_:A) log:onNegativeSurface {
-    () log:onQuerySurface {
+    (pragma:query) log:onNegativeSurface {
         (_:A 0) :add _:A.
     }.
 }.
 
 (_:A _:B _:C) log:onNegativeSurface {
-    () log:onQuerySurface {
-        (_:A (:s _:B)) :add (:s _:C).
+    (pragma:query) log:onNegativeSurface {
+        (_:A (pragma:function :s _:B)) :add (pragma:function :s _:C).
     }.
     (_:A _:B) :add _:C.
 }.
 
 # multiply
 (_:A) log:onNegativeSurface {
-    () log:onQuerySurface {
+    (pragma:query) log:onNegativeSurface {
         (_:A 0) :multiply 0.
     }.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onQuerySurface {
-        (_:A (:s _:B)) :multiply _:C.
+    (pragma:query) log:onNegativeSurface {
+        (_:A (pragma:function :s _:B)) :multiply _:C.
     }.
     (_:A _:B) :multiply _:D.
     (_:A _:D) :add _:C.
 }.
 
 # query
-(_:A _:B) log:onQuerySurface {
-    ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
-    (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
+(pragma:query _:A _:B) log:onNegativeSurface {
+    ((pragma:function :s (pragma:function :s 0)) (pragma:function :s (pragma:function :s (pragma:function :s 0)))) :add _:A.
+    (_:A (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0))))) :multiply _:B.
 }.
