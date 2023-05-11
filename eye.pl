@@ -1910,9 +1910,8 @@ tr_graffiti(A, B) :-
     tr_tr(D, T),
     tr_tr(E, R),
     (   C = '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-        select('\'<http://www.w3.org/2000/10/swap/pragma#query>\'', T, S)
-    ->  F = S,
-        Z = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''
+        select('\'<http://www.w3.org/2000/10/swap/pragma#query>\'', T, F)
+    ->  Z = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''
     ;   F = T,
         Z = C
     ),
