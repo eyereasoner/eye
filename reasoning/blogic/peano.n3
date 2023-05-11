@@ -14,7 +14,7 @@
 
 (_:A _:B _:C) log:onNegativeSurface {
     (pragma:query) log:onNegativeSurface {
-        (_:A (pragma:function :s _:B)) :add (pragma:function :s _:C).
+        (_:A (:s _:B)) :add (:s _:C).
     }.
     (_:A _:B) :add _:C.
 }.
@@ -28,7 +28,7 @@
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
     (pragma:query) log:onNegativeSurface {
-        (_:A (pragma:function :s _:B)) :multiply _:C.
+        (_:A (:s _:B)) :multiply _:C.
     }.
     (_:A _:B) :multiply _:D.
     (_:A _:D) :add _:C.
@@ -36,6 +36,6 @@
 
 # query
 (pragma:query _:A _:B) log:onNegativeSurface {
-    ((pragma:function :s (pragma:function :s 0)) (pragma:function :s (pragma:function :s (pragma:function :s 0)))) :add _:A.
-    (_:A (pragma:function :s (pragma:function :s (pragma:function :s (pragma:function :s 0))))) :multiply _:B.
+    ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
+    (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
 }.
