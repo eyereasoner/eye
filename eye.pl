@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.23.0 (2023-05-11)').
+version_info('EYE v3.23.1 (2023-05-16)').
 
 license_info('MIT License
 
@@ -560,6 +560,7 @@ gre(Argus) :-
             retractall('<http://www.w3.org/2000/10/swap/log#outputString>'(_, _)),
             retractall('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)),
             nb_setval(csv_header, []),
+            nb_setval(csv_header_strings, []),
             cnt(mq),
             nb_getval(mq, Cnt),
             (   Cnt mod 10000 =:= 0
@@ -1788,13 +1789,23 @@ tr_n3p(X, _, 'not-entail') :-
     writeln('.').
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query) :-
     !,
-    (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, T)
+    (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
     ->  (   is_list(T)
         ->  H = T
         ;   findvars(X, U, epsilon),
             distinct(U, H)
         ),
         nb_setval(csv_header, H),
+        (   is_list(L)
+        ->  findall(F,
+                (   member(literal(E, _), L),
+                    sub_atom(E, 1, _, 1, F)
+                ),
+                Q
+            )
+        ;   Q = H
+        ),
+        nb_setval(csv_header_strings, Q),
         V = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, H)
     ;   V = Y
     ),
@@ -1812,13 +1823,23 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query)
     tr_n3p(Z, Src, query).
 tr_n3p([':-'(Y, X)|Z], Src, query) :-
     !,
-    (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, T)
+    (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
     ->  (   is_list(T)
         ->  H = T
         ;   findvars(X, U, epsilon),
             distinct(U, H)
         ),
         nb_setval(csv_header, H),
+        (   is_list(L)
+        ->  findall(F,
+                (   member(literal(E, _), L),
+                    sub_atom(E, 1, _, 1, F)
+                ),
+                Q
+            )
+        ;   Q = H
+        ),
+        nb_setval(csv_header_strings, Q),
         V = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, H)
     ;   V = Y
     ),
@@ -4621,7 +4642,8 @@ wst :-
         )
     ),
     (   catch(nb_getval(csv_header, Header), _, Header = []),
-        wct(Header, Header),
+        catch(nb_getval(csv_header_strings, Headers), _, Headers = []),
+        wct(Headers, Header),
         length(Header, Headerl),
         query(Where, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, Select)),
         catch(call(Where), _, fail),
