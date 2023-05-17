@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.23.1 (2023-05-16)').
+version_info('EYE v3.23.2 (2023-05-17)').
 
 license_info('MIT License
 
@@ -731,8 +731,6 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    retractall(flag(nope)),
-    assertz(flag(nope)),
     % assert positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
