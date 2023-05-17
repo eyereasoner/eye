@@ -1,0 +1,153 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :beetle :is :beautiful.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :beetle :is :beautiful.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#beautiful"]];
+    r:rule [ a r:Fact; r:gives {
+        {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :beetle :is :beautiful.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#beetle"]];
+    r:rule [ a r:Fact; r:gives {
+        {
+            var:x_0 a :Car.
+        } => {
+            var:x_0 :is :beautiful.
+        }.
+    }].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :beetle a :Car.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle.n3>].
+
+(skolem:e_A_1_1) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        skolem:e_A_1_1 :is :beautiful.
+    }.
+    skolem:e_A_1_1 a :Car.
+    () log:onNegativeSurface {
+        skolem:e_A_1_1 :is :blue.
+    }.
+}.
+
+(skolem:e_A_1_1) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        skolem:e_A_1_1 :is :beautiful.
+    }.
+    skolem:e_A_1_1 a :Car.
+    () log:onNegativeSurface {
+        skolem:e_A_1_1 :is :green.
+    }.
+}.
+
+{
+    ?U_16 a :Car.
+    () log:onNegativeSurface {
+        ?U_16 :is :blue.
+    }.
+} => {
+    ?U_16 :is :green.
+}.
+
+{
+    ?U_17 a :Car.
+    () log:onNegativeSurface {
+        ?U_17 :is :green.
+    }.
+} => {
+    ?U_17 :is :blue.
+}.
+
+{
+    ?U_18 :is :green.
+} => {
+    ?U_18 :is :beautiful.
+}.
+
+{
+    ?U_19 :is :blue.
+} => {
+    ?U_19 :is :beautiful.
+}.
+
+{
+    ?U_20 a :Car.
+    () log:onNegativeSurface {
+        ?U_20 :is :blue.
+    }.
+} => {
+    ?U_20 :is :beautiful.
+}.
+
+{
+    () log:onNegativeSurface {
+        ?U_21 :is :beautiful.
+    }.
+    ?U_21 a :Car.
+} => {
+    ?U_21 :is :blue.
+}.
+
+{
+    ?U_22 a :Car.
+    () log:onNegativeSurface {
+        ?U_22 :is :green.
+    }.
+} => {
+    ?U_22 :is :beautiful.
+}.
+
+{
+    () log:onNegativeSurface {
+        ?U_23 :is :beautiful.
+    }.
+    ?U_23 a :Car.
+} => {
+    ?U_23 :is :green.
+}.
+
+(skolem:e_A_1_1) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        skolem:e_A_1_1 :is :beautiful.
+    }.
+    skolem:e_A_1_1 a :Car.
+}.
+
+{
+    ?U_32 a :Car.
+} => {
+    ?U_32 :is :beautiful.
+}.
+
+:beetle :is :beautiful.
+

@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.23.2 (2023-05-17)').
+version_info('EYE v3.24.0 (2023-05-17)').
 
 license_info('MIT License
 
@@ -629,6 +629,13 @@ gre(Argus) :-
                     ws(Zr),
                     write('.'),
                     nl,
+                    (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
+                        )
+                    ->  nl
+                    ;   true
+                    ),
                     cnt(output_statements)
                 )
             ),
@@ -731,6 +738,11 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
+    (   flag(nope)
+    ->  true
+    ;   retractall(flag('pass-only-new')),
+        assertz(flag('pass-only-new'))
+    ),
     % assert positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
@@ -3564,7 +3576,7 @@ wh :-
                 nb_setval(wpfx, true)
             )
         ),
-        (   \+flag('pass-only-new'),
+        (   \+ (flag('pass-only-new'), flag(nope)),
             nb_getval(wpfx, true)
         ->  nl
         ;   true
