@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.24.1 (2023-05-18)').
+version_info('EYE v3.24.2 (2023-05-18)').
 
 license_info('MIT License
 
@@ -616,6 +616,13 @@ gre(Argus) :-
         ->  (   flag('n3p-output')
             ->  true
             ;   wh
+            ),
+            (   flag(nope)
+            ->  true
+            ;   write('# -----------\n'),
+                write('# derivations\n'),
+                write('# -----------\n'),
+                nl
             ),
             forall(
                 pass_only_new(Zn),
