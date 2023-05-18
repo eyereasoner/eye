@@ -20,7 +20,7 @@ skolem:lemma1 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#beetle"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#beautiful"]];
-    r:rule [ a r:Rule; r:gives {
+    r:rule [ a r:Query; r:gives {
         {
             var:x_0 :is var:x_1.
         } => {
@@ -50,9 +50,9 @@ skolem:lemma3 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle.n3>].
 
-# -----------
-# derivations
-# -----------
+# ------------------
+# blogic derivations
+# ------------------
 
 (skolem:e_A_1_1) log:onNegativeSurface {
     () log:onNegativeSurface {

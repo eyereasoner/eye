@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.24.2 (2023-05-18)').
+version_info('EYE v3.24.3 (2023-05-18)').
 
 license_info('MIT License
 
@@ -617,12 +617,13 @@ gre(Argus) :-
             ->  true
             ;   wh
             ),
-            (   flag(nope)
-            ->  true
-            ;   write('# -----------\n'),
-                write('# derivations\n'),
-                write('# -----------\n'),
+            (   \+flag(nope),
+                flag(blogic)
+            ->  write('# ------------------\n'),
+                write('# blogic derivations\n'),
+                write('# ------------------\n'),
                 nl
+            ;   true
             ),
             forall(
                 pass_only_new(Zn),
@@ -745,7 +746,9 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    (   flag(nope)
+    (   (   flag(nope)
+        ;   member('--nope', Argus)
+        )
     ->  true
     ;   retractall(flag('pass-only-new')),
         assertz(flag('pass-only-new'))
@@ -907,7 +910,11 @@ opts(['--blogic'|Argus], Args) :-
                     ->  conj_list(I, K),
                         find_graffiti(K, D),
                         append(V, D, U),
-                        makevars(query(I, H), C, beta(U))
+                        (   flag(nope)
+                        ->  makevars(query(I, H), C, beta(U))
+                        ;   djiti_answer(answer(H), J),
+                            makevars(implies(I, J, '<>'), C, beta(U))
+                        )
                     ;   djiti_answer(answer(G), J),
                         find_graffiti(B, D),
                         append(V, D, U),
@@ -3735,7 +3742,12 @@ wi('<>', _, rule(_, _, A), _) :-     % wi(Source, Premise, Conclusion, Rule)
     write('[ '),
     wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
     write(' '),
-    wp('<http://www.w3.org/2000/10/swap/reason#Rule>'),
+    (   A = '<http://www.w3.org/2000/10/swap/log#implies>'(P, C),
+        djiti_answer(answer(C), D),
+        implies(P, D, _)
+    ->  wp('<http://www.w3.org/2000/10/swap/reason#Query>')
+    ;   wp('<http://www.w3.org/2000/10/swap/reason#Rule>')
+    ),
     write('; '),
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     write(' '),
