@@ -22,7 +22,7 @@
 :- catch(use_module(library(uuid)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.24.0 (2023-05-17)').
+version_info('EYE v3.24.1 (2023-05-18)').
 
 license_info('MIT License
 
@@ -3728,7 +3728,7 @@ wi('<>', _, rule(_, _, A), _) :-     % wi(Source, Premise, Conclusion, Rule)
     write('[ '),
     wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
     write(' '),
-    wp('<http://www.w3.org/2000/10/swap/reason#Fact>'),
+    wp('<http://www.w3.org/2000/10/swap/reason#Rule>'),
     write('; '),
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     write(' '),
