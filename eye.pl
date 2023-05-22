@@ -18,11 +18,10 @@
 :- use_module(library(sha)).
 :- use_module(library(dif)).
 :- use_module(library(semweb/turtle)).
-:- catch(use_module(library(pcre)), _, true).
-:- catch(use_module(library(uuid)), _, true).
+:- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.24.3 (2023-05-18)').
+version_info('EYE v3.25.0 (2023-05-22)').
 
 license_info('MIT License
 
@@ -7213,7 +7212,7 @@ djiti_assertz(A) :-
         ),
         (   '<http://www.w3.org/2000/10/swap/log#uri>'(X, literal(U, type('<http://www.w3.org/2001/XMLSchema#string>'))),
             (   \+got_uuid(U)
-            ->  uuid(Y, [uri(U)]),
+            ->  uuid(Y),
                 assertz(got_uuid(U))
             ;   true
             )
@@ -12483,16 +12482,21 @@ timestamp(Stamp) :-
     ;   Stamp = StampA
     ).
 
-%
-% Regular expressions
-%
-
+uuid(UUID) :-
+    Version = 4,
+    A is random(0xffffffff),
+    B is random(0xffff),
+    C is random(0x0fff) \/ Version<<12,
+    D is random(0xffff) \/ 0x8000,
+    E is random(0xffffffffffff),
+    format(atom(UUID),
+           '~`0t~16r~8+-~|\c
+            ~`0t~16r~4+-~|\c
+            ~`0t~16r~4+-~|\c
+            ~`0t~16r~4+-~|\c
+            ~`0t~16r~12+', [A,B,C,D,E]).
 
 regex(Pattern, String, List) :-
-    catch(regex1(Pattern, String, List), _, regex2(Pattern, String, List)).
-
-% Regular expressions using pcre library
-regex1(Pattern, String, List) :-
     atom_codes(Pattern, PatternC),
     escape_string(PatC, PatternC),
     atom_codes(Pat, PatC),
@@ -12506,163 +12510,6 @@ regex1(Pattern, String, List) :-
         ),
         List
     ).
-
-% Regular Expressions inspired by http://www.cs.sfu.ca/~cameron/Teaching/384/99-3/regexp-plg.html
-regex2(RE_esc_atom, Input_esc_atom, Output_esc_atoms) :-
-    atom_codes(RE_esc_atom, RE_esc),
-    atom_codes(Input_esc_atom, Input_esc),
-    escape_string(RE, RE_esc),
-    re(Parsed_RE, RE, []),
-    (   RE = [0'^|_]
-    ->  Bos = true
-    ;   Bos = false
-    ),
-    escape_string(Input, Input_esc),
-    tokenize2(Parsed_RE, Input, Outputs, Bos),
-    findall(Output_esc_atom,
-        (   member(Output, Outputs),
-            escape_string(Output, Output_esc),
-            atom_codes(Output_esc_atom, Output_esc)
-        ),
-        Output_esc_atoms
-    ),
-    !.
-
-tokenize2(_P_RE, [], [], true).
-tokenize2(P_RE, Input, Output, Bos) :-
-    (   rematch1(P_RE, Input, _, Output)
-    ->  true
-    ;   Bos = false,
-        Input = [_|Inp],
-        tokenize2(P_RE, Inp, Output, Bos)
-    ).
-
-rematch1(union(RE1, _RE2), S, U, Selected) :-
-    rematch1(RE1, S, U, Selected).
-rematch1(union(_RE1, RE2), S, U, Selected) :-
-    rematch1(RE2, S, U, Selected).
-rematch1(conc(RE1, RE2), S, U, Selected) :-
-    rematch1(RE1, S, U1, Sel1),
-    rematch1(RE2, U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(star(RE), S, U, Selected) :-
-    rematch1(RE, S, U1, Sel1),
-    rematch1(star(RE), U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(star(_RE), S, S, []).
-rematch1(qm(RE), S, U, Selected) :-
-    rematch1(RE, S, U, Selected).
-rematch1(qm(_RE), S, S, []).
-rematch1(plus(RE), S, U, Selected) :-
-    rematch1(RE, S, U1, Sel1),
-    rematch1(star(RE), U1, U, Sel2),
-    append(Sel1, Sel2, Selected).
-rematch1(group(RE), S, U, Selected) :-
-    rematch1(RE, S, U, Sel1),
-    append(P, U, S),
-    append(Sel1, [P], Selected).
-rematch1(any, [_C1|U], U, []).
-rematch1(char(C), [C|U], U, []).
-rematch1(bos, S, S, []).
-rematch1(eos, [], [], []).
-rematch1(negSet(Set), [C|U], U, []) :-
-    \+charSetMember(C, Set).
-rematch1(posSet(Set), [C|U], U, []) :-
-    charSetMember(C, Set).
-
-charSetMember(C, [char(C)|_]).
-charSetMember(C, [range(C1, C2)|_]) :-
-    C1 =< C,
-    C =< C2.
-charSetMember(C, [negSet(Set)|_]) :-
-    \+charSetMember(C, Set).
-charSetMember(C, [posSet(Set)|_]) :-
-    charSetMember(C, Set).
-charSetMember(C, [_|T]) :-
-    charSetMember(C, T).
-
-re(Z, L1, L3) :-
-    basicRE(W, L1, L2),
-    reTail(W, Z, L2, L3).
-
-reTail(W, Z, [0'||L2], L4) :-
-    basicRE(X, L2, L3),
-    reTail(union(W, X), Z, L3, L4).
-reTail(W, W, L1, L1).
-
-basicRE(Z, L1, L3) :-
-    simpleRE(W, L1, L2),
-    basicREtail(W, Z, L2, L3).
-
-basicREtail(W, Z, L1, L3) :-
-    simpleRE(X, L1, L2),
-    basicREtail(conc(W, X), Z, L2, L3).
-basicREtail(W, W, L1, L1).
-
-simpleRE(Z, L1, L3) :-
-    elementalRE(W, L1, L2),
-    simpleREtail(W, Z, L2, L3).
-
-simpleREtail(W, star(W), [0'*|L2], L2).
-simpleREtail(W, qm(W), [0'?|L2], L2).
-simpleREtail(W, plus(W), [0'+|L2], L2).
-simpleREtail(W, W, L1, L1).
-
-elementalRE(any, [0'.|L2], L2).
-elementalRE(group(X), [0'(|L2], L4) :-
-    re(X, L2, [0')|L4]).
-elementalRE(bos, [0'^|L2], L2).
-elementalRE(eos, [0'$|L2], L2).
-elementalRE(posSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'w|L2], L2).
-elementalRE(negSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'W|L2], L2).
-elementalRE(posSet([range(0'0, 0'9)]), [0'\\, 0'd|L2], L2).
-elementalRE(negSet([range(0'0, 0'9)]), [0'\\, 0'D|L2], L2).
-elementalRE(posSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0's|L2], L2).
-elementalRE(negSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0'S|L2], L2).
-elementalRE(char(C), [0'\\, C|L2], L2) :-
-    re_metachar([C]).
-elementalRE(char(C), [C|L2], L2) :-
-    \+re_metachar([C]).
-elementalRE(negSet(X), [0'[, 0'^|L2], L4) :-
-    !,
-    setItems(X, L2, [0']|L4]).
-elementalRE(posSet(X), [0'[|L2], L4) :-
-    setItems(X, L2, [0']|L4]).
-
-re_metachar([0'\\]).
-re_metachar([0'|]).
-re_metachar([0'*]).
-re_metachar([0'?]).
-re_metachar([0'+]).
-re_metachar([0'.]).
-re_metachar([0'[]).
-re_metachar([0'$]).
-re_metachar([0'(]).
-re_metachar([0')]).
-
-setItems([Item1|MoreItems], L1, L3) :-
-    setItem(Item1, L1, L2),
-    setItems(MoreItems, L2, L3).
-setItems([Item1], L1, L2) :-
-    setItem(Item1, L1, L2).
-
-setItem(posSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'w|L2], L2).
-setItem(negSet([range(0'A, 0'Z), range(0'a, 0'z), range(0'0, 0'9), char(0'_)]), [0'\\, 0'W|L2], L2).
-setItem(posSet([range(0'0, 0'9)]), [0'\\, 0'd|L2], L2).
-setItem(negSet([range(0'0, 0'9)]), [0'\\, 0'D|L2], L2).
-setItem(posSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0's|L2], L2).
-setItem(negSet([char(0x20), char(0'\t), char(0'\r), char(0'\n), char(0'\v), char(0'\f)]), [0'\\, 0'S|L2], L2).
-setItem(char(C), [0'\\, C|L2], L2) :-
-    set_metachar([C]).
-setItem(char(C), [C|L2], L2) :-
-    \+set_metachar([C]).
-setItem(range(A, B), L1, L4) :-
-    setItem(char(A), L1, [0'-|L3]),
-    setItem(char(B), L3, L4).
-
-set_metachar([0'\\]).
-set_metachar([0']]).
-set_metachar([0'-]).
 
 regexp_wildcard([], []) :-
     !.
