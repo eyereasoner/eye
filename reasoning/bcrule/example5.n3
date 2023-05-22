@@ -1,0 +1,15 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/> .
+
+:s :p {
+  { ?a :b1 :c1 } log:isImpliedBy { ?a :b :c } .
+} .
+
+{ :s :p ?O } => ?O .
+:a :b :c .
+
+{
+  :a :b1 :c1 .
+} => {
+  :yay :a :result .
+} .
