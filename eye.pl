@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.25.0 (2023-05-22)').
+version_info('EYE v3.25.1 (2023-05-22)').
 
 license_info('MIT License
 
@@ -1953,14 +1953,8 @@ tr_graffiti(A, B) :-
     A =.. [C, D, E],
     tr_tr(D, T),
     tr_tr(E, R),
-    (   C = '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-        select('\'<http://www.w3.org/2000/10/swap/pragma#query>\'', T, F)
-    ->  Z = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''
-    ;   F = T,
-        Z = C
-    ),
     findall([G, H],
-        (   member(G, F),
+        (   member(G, T),
             (   sub_atom(G, _, 2, 0, '>\'')
             ->  sub_atom(G, 0, _, 2, I),
                 atomic_list_concat([I, '_'], J),
@@ -1975,7 +1969,7 @@ tr_graffiti(A, B) :-
     couple(_, M, L),
     sort(M, N),
     makevar(R, O, L),
-    B =.. [Z, N, O].
+    B =.. [C, N, O].
 
 tr_split([], [], []) :-
     !.

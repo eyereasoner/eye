@@ -2,18 +2,17 @@
 # See https://en.wikipedia.org/wiki/Peano_axioms
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix pragma: <http://www.w3.org/2000/10/swap/pragma#>.
 @prefix : <http://example.org/ns#>.
 
 # add
 (_:A) log:onNegativeSurface {
-    (pragma:query) log:onNegativeSurface {
+    () log:onQuerySurface {
         (_:A 0) :add _:A.
     }.
 }.
 
 (_:A _:B _:C) log:onNegativeSurface {
-    (pragma:query) log:onNegativeSurface {
+    () log:onQuerySurface {
         (_:A (:s _:B)) :add (:s _:C).
     }.
     (_:A _:B) :add _:C.
@@ -21,13 +20,13 @@
 
 # multiply
 (_:A) log:onNegativeSurface {
-    (pragma:query) log:onNegativeSurface {
+    () log:onQuerySurface {
         (_:A 0) :multiply 0.
     }.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    (pragma:query) log:onNegativeSurface {
+    () log:onQuerySurface {
         (_:A (:s _:B)) :multiply _:C.
     }.
     (_:A _:B) :multiply _:D.
@@ -35,7 +34,7 @@
 }.
 
 # query
-(pragma:query _:A _:B) log:onNegativeSurface {
+(_:A _:B) log:onQuerySurface {
     ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
     (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
 }.
