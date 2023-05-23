@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.25.1 (2023-05-22)').
+version_info('EYE v3.25.2 (2023-05-23)').
 
 license_info('MIT License
 
@@ -12481,7 +12481,7 @@ uuid(UUID) :-
     A is random(0xffffffff),
     B is random(0xffff),
     C is random(0x0fff) \/ Version<<12,
-    D is random(0xffff) \/ 0x8000,
+    D is random(0x3fff) \/ 0x8000,
     E is random(0xffffffffffff),
     format(atom(UUID),
            '~`0t~16r~8+-~|\c
