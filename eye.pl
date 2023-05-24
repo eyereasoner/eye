@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.26.0 (2023-05-24)').
+version_info('EYE v3.26.1 (2023-05-24)').
 
 license_info('MIT License
 
@@ -120,6 +120,7 @@ eye
 :- dynamic(flag/1).
 :- dynamic(flag/2).
 :- dynamic(fpred/1).
+:- dynamic(got_cs/1).
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
@@ -4666,6 +4667,8 @@ wst :-
         length(Header, Headerl),
         query(Where, '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, Select)),
         catch(call(Where), _, fail),
+        \+got_cs(Select),
+        assertz(got_cs(Select)),
         write('\r\n'),
         wct(Select, Header),
         cnt(output_statements, Headerl),
