@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.25.2 (2023-05-23)').
+version_info('EYE v3.26.0 (2023-05-24)').
 
 license_info('MIT License
 
@@ -904,16 +904,13 @@ opts(['--blogic'|Argus], Args) :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), B, K),
+                    (   select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(Z, H), B, K),
                         is_list(Z)
                     ->  conj_list(I, K),
+                        djiti_answer(answer(H), J),
                         find_graffiti(K, D),
                         append(V, D, U),
-                        (   flag(nope)
-                        ->  makevars(query(I, H), C, beta(U))
-                        ;   djiti_answer(answer(H), J),
-                            makevars(implies(I, J, '<>'), C, beta(U))
-                        )
+                        makevars(implies(I, J, '<>'), C, beta(U))
                     ;   djiti_answer(answer(G), J),
                         find_graffiti(B, D),
                         append(V, D, U),
@@ -11766,7 +11763,7 @@ find_graffiti([A|B], C) :-
     append(D, E, C).
 find_graffiti(A, B) :-
     A =.. [C, D, E],
-    memberchk(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>']),
+    memberchk(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>', '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>']),
     is_list(D),
     !,
     find_graffiti(E, F),
