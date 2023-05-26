@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.27.0 (2023-05-25)').
+version_info('EYE v3.28.0 (2023-05-27)').
 
 license_info('MIT License
 
@@ -67,7 +67,6 @@ eye
     --n3p-output                    reasoner output in n3p
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
-    --no-halt                       no concern about halting
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
@@ -814,7 +813,7 @@ opts(['--blogic'|Argus], Args) :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
                     findall(1,
                         (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
                         ),
@@ -827,7 +826,7 @@ opts(['--blogic'|Argus], Args) :-
                     is_list(W),
                     conj_list(F, K),
                     list_to_set(K, N),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), N),
+                    \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), N),
                     length(N, 2),
                     \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), N), atomic(I)),
                     makevars(N, J, beta(W)),
@@ -868,11 +867,8 @@ opts(['--blogic'|Argus], Args) :-
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _), B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _), B),
-                    (   flag('no-halt')
-                    ->  true
-                    ;   \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
-                    ),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
                     select(R, B, J),
                     conj_list(T, J),
                     findvars(R, N, beta),
@@ -895,7 +891,7 @@ opts(['--blogic'|Argus], Args) :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(Z, H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(Z, H), B, K),
                     is_list(Z),
                     conj_list(H, [T]),
                     conj_list(R, K),
@@ -1023,11 +1019,6 @@ opts(['--no-distinct-output'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-output')),
     assertz(flag('no-distinct-output')),
-    opts(Argus, Args).
-opts(['--no-halt'|Argus], Args) :-
-    !,
-    retractall(flag('no-halt')),
-    assertz(flag('no-halt')),
     opts(Argus, Args).
 opts(['--no-numerals'|Argus], Args) :-
     !,

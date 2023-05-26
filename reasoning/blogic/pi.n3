@@ -6,7 +6,7 @@
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
 (_:N _:Pi _:P) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:negativeTriple {
         (_:N _:Pi) :pi true.
     }.
     (1 _:N 0 _:P 1) :pi true.
@@ -14,13 +14,13 @@
 }.
 
 (_:N _:P _:S) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:negativeTriple {
         (_:N _:N _:P _:P _:S) :pi true.
     }.
 }.
 
 (_:K _:N _:P0 _:P _:S _:K1 _:K2 _:P1 _:S1) log:onNegativeSurface {
-    () log:onQuerySurface {
+    () log:negativeTriple {
         (_:K _:N _:P0 _:P _:S) :pi true.
     }.
     _:K math:notEqualTo _:N.

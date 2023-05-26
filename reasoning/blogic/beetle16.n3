@@ -4,7 +4,7 @@
 # beetle is a car
 :beetle a :Car.
 
-# beetle is not beautiful 
+# beetle is not beautiful
 () log:onNegativeSurface {
     :beetle :is :beautiful.
 }.
@@ -15,7 +15,11 @@
     () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
-    _:A :is :new.
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            _:A :is :new.
+        }.
+    }.
 }.
 
 # if something is not new  it is old
