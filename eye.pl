@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.28.1 (2023-05-30)').
+version_info('EYE v4.0.0 (2023-05-31)').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
-    --multi-query                   go into query answer loop
     --n3p-output                    reasoner output in n3p
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -360,8 +359,7 @@ gre(Argus) :-
     nb_setval(current_scope, '<>'),
     nb_setval(wn, 0),
     opts(Argus, Args),
-    (   \+flag('multi-query'),
-        Args = []
+    (   Args = []
     ->  opts(['--help'], _)
     ;   true
     ),
@@ -465,7 +463,6 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag('multi-query'),
         \+flag(strings)
     ->  throw(halt(0))
     ;   true
@@ -498,171 +495,72 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
-    (   flag('multi-query')
-    ->  nb_setval(mq, 0),
-        repeat,
-        catch((read_line_to_codes(user_input, Fc), atom_codes(Fa, Fc)), _, Fa = end_of_file),
-        (   atomic_list_concat([Fi, Fo], ', ', Fa)
-        ->  open(Fo, write, Fos, [encoding(utf8)])
-        ;   Fi = Fa,
-            (   flag('output', Output)
-            ->  Fos = Output
-            ;   Fos = user_output
+    (   flag(profile)
+    ->  asserta(pce_profile:pce_show_profile :- fail),
+        profiler(_, cputime)
+    ;   true
+    ),
+    catch(eam(0), Exc3,
+        (   (   Exc3 = halt(0)
+            ->  true
+            ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                flush_output(user_error),
+                (   Exc3 = inference_fuse(_)
+                ->  nb_setval(exit_code, 2)
+                ;   nb_setval(exit_code, 3)
+                )
             )
-        ),
-        tell(Fos),
-        (   Fi = end_of_file
+        )
+    ),
+    (   flag('pass-only-new')
+    ->  (   flag('n3p-output')
         ->  true
-        ;   statistics(walltime, [_, _]),
-            nb_getval(output_statements, Outb),
-            statistics(inferences, Infb),
-            (   flag(blogic)
-            ->  Amq = ['--n3', Fi]
-            ;   Amq = ['--query', Fi]
-            ),
-            catch(args(Amq), Exc1,
-                (   format(user_error, '** ERROR ** args ** ~w~n', [Exc1]),
-                    flush_output(user_error),
-                    nb_setval(exit_code, 3)
-                )
-            ),
-            catch(eam(0), Exc2,
-                (   (   Exc2 = halt(0)
-                    ->  true
-                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc2]),
-                        flush_output(user_error),
-                        (   Exc2 = inference_fuse(_)
-                        ->  nb_setval(exit_code, 2)
-                        ;   nb_setval(exit_code, 3)
-                        )
-                    )
-                )
-            ),
-            (   flag(strings)
-            ->  wst
-            ;   true
-            ),
-            forall(
-                (   answer(A1, A2, A3),
-                    nonvar(A1)
-                ),
-                retract(answer(A1, A2, A3))
-            ),
-            retractall(implies(_, answer(_, _, _), _)),
-            retractall(implies(_, (answer(_, _, _), _), _)),
-            retractall(query(_, _)),
-            retractall('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)),
-            retractall(cc(_)),
-            retractall(brake),
-            retractall(prfstep(answer(_, _, _), _, _, _, _, _, _)),
-            retractall(lemma(_, _, _, _, _, _)),
-            retractall(got_wi(_, _, _, _, _)),
-            retractall(wpfx(_)),
-            retractall('<http://www.w3.org/2000/10/swap/log#outputString>'(_, _)),
-            retractall('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>'(_, _)),
-            nb_setval(csv_header, []),
-            nb_setval(csv_header_strings, []),
-            cnt(mq),
-            nb_getval(mq, Cnt),
-            (   Cnt mod 10000 =:= 0
-            ->  garbage_collect_atoms
-            ;   true
-            ),
-            statistics(runtime, [_, Ti4]),
-            statistics(walltime, [_, Ti5]),
-            (   flag(quiet)
-            ->  true
-            ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [Ti4, Ti5]),
-                flush_output(user_error)
-            ),
-            nb_getval(output_statements, Oute),
-            Outd is Oute-Outb,
-            catch(Outs is round(Outd/Ti5*1000), _, Outs = ''),
-            (   (   flag(strings)
-                ;   flag(quiet)
-                )
-            ->  nl
-            ;   format('#DONE ~3d [sec] mq=~w out=~d out/sec=~w~n~n', [Ti5, Cnt, Outd, Outs])
-            ),
-            timestamp(Stmp),
-            statistics(inferences, Infe),
-            Infd is Infe-Infb,
-            catch(Infs is round(Infd/Ti5*1000), _, Infs = ''),
-            (   flag(quiet)
-            ->  true
-            ;   format(user_error, '~w mq=~w out=~d inf=~w sec=~3d out/sec=~w inf/sec=~w~n~n', [Stmp, Cnt, Outd, Infd, Ti5, Outs, Infs]),
-                flush_output(user_error)
-            ),
-            fail
+        ;   wh
         ),
-        told
-    ;   (   flag(profile)
-        ->  asserta(pce_profile:pce_show_profile :- fail),
-            profiler(_, cputime)
-        ;   true
-        ),
-        catch(eam(0), Exc3,
-            (   (   Exc3 = halt(0)
-                ->  true
-                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                    flush_output(user_error),
-                    (   Exc3 = inference_fuse(_)
-                    ->  nb_setval(exit_code, 2)
-                    ;   nb_setval(exit_code, 3)
-                    )
-                )
-            )
-        ),
-        (   flag('pass-only-new')
-        ->  (   flag('n3p-output')
-            ->  true
-            ;   wh
-            ),
-            (   \+flag(nope),
-                flag(blogic)
-            ->  write('# ------------------\n'),
-                write('# blogic derivations\n'),
-                write('# ------------------\n'),
-                nl
-            ;   true
-            ),
-            forall(
-                pass_only_new(Zn),
-                (   indent,
-                    relabel(Zn, Zr),
-                    (   flag('n3p-output')
-                    ->  makeblank(Zr, Zs),
-                        writeq(Zs)
-                    ;   wt(Zr)
-                    ),
-                    ws(Zr),
-                    write('.'),
-                    nl,
-                    (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
-                        )
-                    ->  nl
-                    ;   true
-                    ),
-                    cnt(output_statements)
-                )
-            ),
+        (   \+flag(nope),
+            flag(blogic)
+        ->  write('# ------------------\n'),
+            write('# blogic derivations\n'),
+            write('# ------------------\n'),
             nl
         ;   true
         ),
-        (   flag(profile)
-        ->  profiler(_, false),
-            tell(user_error),
-            show_profile([]),
-            nl,
-            told,
-            (   flag('output', Output)
-            ->  tell(Output)
-            ;   true
+        forall(
+            pass_only_new(Zn),
+            (   indent,
+                relabel(Zn, Zr),
+                (   flag('n3p-output')
+                ->  makeblank(Zr, Zs),
+                    writeq(Zs)
+                ;   wt(Zr)
+                ),
+                ws(Zr),
+                write('.'),
+                nl,
+                (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
+                    )
+                ->  nl
+                ;   true
+                ),
+                cnt(output_statements)
             )
+        ),
+        nl
+    ;   true
+    ),
+    (   flag(profile)
+    ->  profiler(_, false),
+        tell(user_error),
+        show_profile([]),
+        nl,
+        told,
+        (   flag('output', Output)
+        ->  tell(Output)
         ;   true
         )
+    ;   true
     ),
     (   flag(strings)
     ->  wst
@@ -672,13 +570,10 @@ gre(Argus) :-
     nb_getval(tp, TP),
     statistics(runtime, [_, T4]),
     statistics(walltime, [_, T5]),
-    (   \+flag('multi-query')
-    ->  (   flag(quiet)
-        ->  true
-        ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
-            flush_output(user_error)
-        )
-    ;   true
+    (   flag(quiet)
+    ->  true
+    ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
+        flush_output(user_error)
     ),
     nb_getval(input_statements, Inp),
     nb_getval(output_statements, Outp),
@@ -738,11 +633,11 @@ gre(Argus) :-
     ).
 
 %
-% Integrated Surfaces in EYE
+% RDF Surfaces
 % See https://w3c-cg.github.io/rdfsurfaces/
 %
 
-isee :-
+rdfsurfaces :-
     % assert positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
@@ -933,7 +828,7 @@ opts(['--blogic'|Argus], Args) :-
     ;   retractall(flag('pass-only-new')),
         assertz(flag('pass-only-new'))
     ),
-    isee,
+    rdfsurfaces,
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
@@ -1008,11 +903,6 @@ opts(['--max-inferences',Lim|Argus], Args) :-
     ),
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
-    opts(Argus, Args).
-opts(['--multi-query'|Argus], Args) :-
-    !,
-    retractall(flag('multi-query')),
-    assertz(flag('multi-query')),
     opts(Argus, Args).
 opts(['--n3p-output'|Argus], Args) :-
     !,
@@ -10713,8 +10603,7 @@ exogen :-
             )
         )
     ).
-exogen :-
-    \+flag('multi-query').
+exogen.
 
 ucall(A) :-
     (   A = (B, C)
