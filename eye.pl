@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v3.28.0 (2023-05-27)').
+version_info('EYE v3.28.1 (2023-05-30)').
 
 license_info('MIT License
 
@@ -180,6 +180,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#negativeTriple>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
@@ -737,22 +738,11 @@ gre(Argus) :-
     ).
 
 %
-% command line options
+% Integrated Surfaces in EYE
+% See https://w3c-cg.github.io/rdfsurfaces/
 %
 
-opts([], []) :-
-    !.
-opts(['--blogic'|Argus], Args) :-
-    !,
-    retractall(flag(blogic)),
-    assertz(flag(blogic)),
-    (   (   flag(nope)
-        ;   member('--nope', Argus)
-        )
-    ->  true
-    ;   retractall(flag('pass-only-new')),
-        assertz(flag('pass-only-new'))
-    ),
+isee :-
     % assert positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
@@ -924,7 +914,26 @@ opts(['--blogic'|Argus], Args) :-
                         assertz(C),
                         retractall(brake)
                     ;   true
-                    )), true, '<>')),
+                    )), true, '<>')).
+
+%
+% command line options
+%
+
+opts([], []) :-
+    !.
+opts(['--blogic'|Argus], Args) :-
+    !,
+    retractall(flag(blogic)),
+    assertz(flag(blogic)),
+    (   (   flag(nope)
+        ;   member('--nope', Argus)
+        )
+    ->  true
+    ;   retractall(flag('pass-only-new')),
+        assertz(flag('pass-only-new'))
+    ),
+    isee,
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
