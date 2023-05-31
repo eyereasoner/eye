@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.1 (2023-05-31)').
+version_info('EYE v4.0.2 (2023-05-31)').
 
 license_info('MIT License
 
@@ -650,6 +650,10 @@ rdfsurfaces :-
                     ;   I = H
                     ),
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
+                    ), false, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, T),
+                    catch(call(T), _, false),
+                    '<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, T)
                     ), false, '<>')),
     % simplify positive surface
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
