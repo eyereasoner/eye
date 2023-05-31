@@ -2,7 +2,7 @@
 
 # RDF Surfaces aka BLOGIC
 
-The EYE reasoner provides an implementation of [RDF Surfaces](https://josd.github.io/surface/), a sublanguage of Notation3 to express a revised RDF logic as envisoned by Pat Hayes in this  2009 ISWC Invited Talk: [BLOGIC](https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk).
+The EYE reasoner provides an implementation of [RDF Surfaces](https://github.com/w3c-cg/rdfsurfaces), a sublanguage of Notation3 to express a revised RDF logic as envisoned by Pat Hayes in this  2009 ISWC Invited Talk: [BLOGIC](https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk).
 
 RDF Surfaces provides the capabilities to:
 
@@ -17,7 +17,7 @@ RDF Surfaces provides the capabilities to:
 In order to run a RDF Surfaces script the EYE reasoner needs to be started with the `--blogic` command line option:
 
 ```
-eye --quiet --blogic socrates.n3s
+eye --quiet --nope --blogic socrates.n3s
 ```
 
 Note that for running RDF Surfaces scripts no *query* arguments need to be provided to the EYE reasoner. All queries are defined in the RDF surfaces language itself.
@@ -61,4 +61,4 @@ When running the EYE reasoner on this script the result should be:
 ## More RDF Surfaces examples
 
 - https://github.com/eyereasoner/eye/tree/master/reasoning/blogic
-- https://github.com/eyereasoner/Notation3-By-Example/log/blogic
+- https://github.com/eyereasoner/Notation3-By-Example/tree/main/blogic
