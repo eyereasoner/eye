@@ -61,7 +61,7 @@ $ eye --nope --quiet --pass socrates.n3
 
 ## Online versions of EYE
 
-- Notation3 Editor http://ppr.cs.dal.ca:3002/n3/editor/
+- Notation3 Editor https://editor.notation3.org/
 - Semantic Web Reasoning With N3 https://n3.restdesc.org/rules/executing-rules/
 - Eyebrow https://github.com/eyereasoner/eyebrow
 
