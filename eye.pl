@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.0 (2023-05-31)').
+version_info('EYE v4.0.1 (2023-05-31)').
 
 license_info('MIT License
 
@@ -4314,7 +4314,9 @@ wt2(X) :-
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
         \+sub_atom(P, 0, _, _, avar),
         \+sub_atom(P, 0, _, _, allv),
-        \+sub_atom(P, 0, _, _, some)
+        \+sub_atom(P, 0, _, _, some),
+        P \= true,
+        P \= false
     ->  write('"'),
         writeq(X),
         write('"')
