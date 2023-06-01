@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.2 (2023-05-31)').
+version_info('EYE v4.0.3 (2023-06-01)').
 
 license_info('MIT License
 
@@ -677,7 +677,7 @@ rdfsurfaces :-
                     ),
                     W \= V
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, G), '<>')),
-    % simplify nested negative surfaces
+    % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
@@ -697,7 +697,7 @@ rdfsurfaces :-
                     ),
                     append(V, W, U)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
-    % resolve paired negative surfaces
+    % resolve negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
@@ -717,7 +717,6 @@ rdfsurfaces :-
                     list_to_set(K, N),
                     \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), N),
                     length(N, 2),
-                    \+ (member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I), N), atomic(I)),
                     makevars(N, J, beta(W)),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
                     is_list(U),
