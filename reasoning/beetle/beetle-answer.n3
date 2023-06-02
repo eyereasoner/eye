@@ -1,0 +1,61 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+{
+    :beetle :is :green.
+} log:or {
+    :beetle :is :blue.
+}.
+{
+    ?U_0 a :Car.
+} => {
+    {
+        ?U_0 :is :beautiful.
+    } log:or {
+        ?U_0 :is :blue.
+    }.
+}.
+
+{
+    ?U_1 a :Car.
+} => {
+    {
+        ?U_1 :is :green.
+    } log:or {
+        ?U_1 :is :beautiful.
+    }.
+}.
+
+{
+    ?U_2 a :Car.
+} => {
+    {
+        ?U_2 :is :beautiful.
+    } log:or {
+        ?U_2 :is :beautiful.
+    }.
+}.
+
+{
+    ?U_3 a :Car.
+} => {
+    ?U_3 :is :beautiful.
+}.
+
+{
+    :beetle :is :beautiful.
+} log:or {
+    :beetle :is :blue.
+}.
+{
+    :beetle :is :green.
+} log:or {
+    :beetle :is :beautiful.
+}.
+{
+    :beetle :is :beautiful.
+} log:or {
+    :beetle :is :beautiful.
+}.
+:beetle :is :beautiful.
+

@@ -1,0 +1,22 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# resolution
+{
+    ?P => {?C log:or ?D}.
+    ?C => ?E.
+} => {
+    ?P => {?E log:or ?D}.
+}.
+
+{
+    ?P => {?C log:or ?D}.
+    ?D => ?E.
+} => {
+    ?P => {?C log:or ?E}.
+}.
+
+# factoring
+{   ?P => {?C log:or ?C}.
+} => {
+    ?P => ?C.
+}.

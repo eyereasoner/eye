@@ -1,0 +1,14 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+{?A a :Car} => {{?A :is :green} log:or {?A :is :blue}}.
+
+# green things are beautiful
+{?A :is :green} => {?A :is :beautiful}.
+
+# blue things are beautiful
+{?A :is :blue} => {?A :is :beautiful}.
