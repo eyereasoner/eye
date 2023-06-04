@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.3 (2023-06-01)').
+version_info('EYE v4.0.4 (2023-06-04)').
 
 license_info('MIT License
 
@@ -11687,6 +11687,8 @@ raw_type(A, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>') :-
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     number(A),
     !.
+raw_type(true, '<http://www.w3.org/2000/10/swap/log#Formula>').
+raw_type(false, '<http://www.w3.org/2000/10/swap/log#Formula>').
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>') :-
     atom(A),
     \+ sub_atom(A, 0, _, _, some),
