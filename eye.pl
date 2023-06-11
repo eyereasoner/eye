@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.5 (2023-06-08)').
+version_info('EYE v4.0.6 (2023-06-11)').
 
 license_info('MIT License
 
@@ -11652,7 +11652,8 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
-        sub_atom(A, _, 4, _, '#bn_')
+        sub_atom(A, _, 4, _, '#bn_'),
+        sub_atom(A, _, 4, _, '#e_')
     ;   sub_atom(A, 0, _, _, some)
     ).
 findvar(A, eta) :-
