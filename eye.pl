@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.6 (2023-06-11)').
+version_info('EYE v4.0.7 (2023-06-11)').
 
 license_info('MIT License
 
@@ -758,7 +758,11 @@ rdfsurfaces :-
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
                     \+member(exopred(_, _, _), B),
-                    select(R, B, J),
+                    (   length(B, O),
+                        O =< 2
+                    ->  select(R, B, J)
+                    ;   B = [R|J]
+                    ),
                     conj_list(T, J),
                     findvars(R, N, beta),
                     findall(A,
