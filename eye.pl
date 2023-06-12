@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.7 (2023-06-11)').
+version_info('EYE v4.1.0 (2023-06-12)').
 
 license_info('MIT License
 
@@ -742,10 +742,9 @@ rdfsurfaces :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                     is_list(Z),
                     conj_list(R, K),
-                    domain(V, R, P),
                     find_graffiti(K, D),
                     append(V, D, U),
-                    makevars([P, H], [Q, S], beta(U)),
+                    makevars([R, H], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -772,10 +771,9 @@ rdfsurfaces :-
                         Z
                     ),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
-                    domain(V, R, P),
                     find_graffiti([R], D),
                     append(V, D, U),
-                    makevars([P, E], [Q, S], beta(U)),
+                    makevars([R, E], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -10561,17 +10559,6 @@ within_scope([A, B]) :-
         recursion(B)
     ),
     nb_getval(scope, A).
-
-domain(A, true, B) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, _),
-    !,
-    findall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(C, _),
-        (   member(C, A)
-        ),
-        D
-    ),
-    conj_list(B, D).
-domain(_, B, B).
 
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
