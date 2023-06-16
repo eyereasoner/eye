@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.1.0 (2023-06-12)').
+version_info('EYE v4.1.1 (2023-06-17)').
 
 license_info('MIT License
 
@@ -350,7 +350,6 @@ gre(Argus) :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
-    nb_setval(mconc, false),
     (   input_statements(Ist)
     ->  nb_setval(input_statements, Ist)
     ;   nb_setval(input_statements, 0)
@@ -2362,21 +2361,13 @@ prefix(Prefix) -->
 
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb),
-        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
-        ->  nb_setval(mconc, true)
-        ;   true
-        )
+    {   prolog_verb(Item, Verb)
     },
     !,
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
         ->  Trpl = triple(Object, Vrb, Subject)
         ;   Trpl = triple(Subject, Verb, Object)
-        ),
-        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
-        ->  nb_setval(mconc, false)
-        ;   true
         )
     },
     annotation(Trpl, Triples3),
@@ -2520,11 +2511,7 @@ symbol(Name) -->
     [bnode(Lbl)],
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-        atom_codes(Lb, LblTidy),
-        (   nb_getval(mconc, true)
-        ->  atom_concat(Lb, '_c', Label)
-        ;   Label = Lb
-        ),
+        atom_codes(Label, LblTidy),
         (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
