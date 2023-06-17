@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.1.1 (2023-06-17)').
+version_info('EYE v4.1.2 (2023-06-18)').
 
 license_info('MIT License
 
@@ -64,6 +64,7 @@ eye
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
+    --no-beautified-output          no beautified output
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -913,6 +914,11 @@ opts(['--n3p-output'|Argus], Args) :-
     !,
     retractall(flag('n3p-output')),
     assertz(flag('n3p-output')),
+    opts(Argus, Args).
+opts(['--no-beautified-output'|Argus], Args) :-
+    !,
+    retractall(flag('no-beautified-output')),
+    assertz(flag('no-beautified-output')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -4037,8 +4043,11 @@ wt2((X, Y)) :-
         write('.'),
         (   flag(strings)
         ->  write(' ')
-        ;   nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  write(' ')
+            ;   nl,
+                indent
+            )
         ),
         wt(Y)
     ).
@@ -4383,8 +4392,11 @@ wg(X) :-
         indentation(4),
         (   flag(strings)
         ->  true
-        ;   nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  true
+            ;   nl,
+                indent
+            )
         ),
         nb_getval(fdepth, D),
         E is D+1,
@@ -4394,9 +4406,12 @@ wg(X) :-
         indentation(-4),
         (   flag(strings)
         ->  true
-        ;   write('.'),
-            nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  true
+            ;   write('.'),
+                nl,
+                indent
+            )
         ),
         write('}')
     ;   wt(X)
