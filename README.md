@@ -58,6 +58,7 @@ $ eye --nope --quiet --pass socrates.n3
 - [EYE reasoning examples](https://github.com/eyereasoner/eye/tree/master/reasoning)
 - [Notation3 by example](https://github.com/eyereasoner/Notation3-By-Example)
 - [RDF Surfaces aka BLOGIC](https://github.com/eyereasoner/eye/tree/master/documentation/blogic.md)
+- [Running EYE using Docker](https://github.com/eyereasoner/eye/tree/master/documentation/docker.md)
 
 ## Online versions of EYE
 
