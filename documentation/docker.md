@@ -24,7 +24,7 @@ Use the EYE reasoner with a local Notation3 file as input:
 docker run --net=host --rm -v $HOME:$HOME -w $(pwd) -ti eyereasoner/eye --nope --quiet --pass myfile.n3
 ```
 
-### Windows
+## Windows
 
 Run the EYE reasoner:
 
