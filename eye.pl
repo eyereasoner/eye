@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.1.2 (2023-06-18)').
+version_info('EYE v4.1.3 (2023-06-22)').
 
 license_info('MIT License
 
@@ -517,34 +517,50 @@ gre(Argus) :-
         ->  true
         ;   wh
         ),
-        (   \+flag(nope),
-            flag(blogic)
-        ->  write('# ------------------\n'),
-            write('# blogic derivations\n'),
-            write('# ------------------\n'),
-            nl
-        ;   true
-        ),
-        forall(
-            pass_only_new(Zn),
-            (   indent,
-                relabel(Zn, Zr),
-                (   flag('n3p-output')
-                ->  makeblank(Zr, Zs),
-                    writeq(Zs)
-                ;   wt(Zr)
+        (   \+flag(nope)
+        ->  write('# -------------\n'),
+            write('# derived rules\n'),
+            write('# -------------\n'),
+            nl,
+            forall(
+                (   pass_only_new(Zn),
+                    Zn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
                 ),
-                ws(Zr),
-                write('.'),
-                nl,
-                (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
-                    )
-                ->  nl
-                ;   true
-                ),
-                cnt(output_statements)
+                (   indent,
+                    relabel(Zn, Zr),
+                    (   flag('n3p-output')
+                    ->  makeblank(Zr, Zs),
+                        writeq(Zs)
+                    ;   wt(Zr)
+                    ),
+                    ws(Zr),
+                    write('.'),
+                    nl,
+                    nl,
+                    cnt(output_statements)
+                )
+            )
+        ;   forall(
+                pass_only_new(Zn),
+                (   indent,
+                    relabel(Zn, Zr),
+                    (   flag('n3p-output')
+                    ->  makeblank(Zr, Zs),
+                        writeq(Zs)
+                    ;   wt(Zr)
+                    ),
+                    ws(Zr),
+                    write('.'),
+                    nl,
+                    (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
+                        )
+                    ->  nl
+                    ;   true
+                    ),
+                    cnt(output_statements)
+                )
             )
         ),
         nl
