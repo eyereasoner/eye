@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.0.5 (2023-06-08)').
+version_info('EYE v4.1.2 (2023-06-18)').
 
 license_info('MIT License
 
@@ -64,6 +64,7 @@ eye
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
+    --no-beautified-output          no beautified output
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -350,7 +351,6 @@ gre(Argus) :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
-    nb_setval(mconc, false),
     (   input_statements(Ist)
     ->  nb_setval(input_statements, Ist)
     ;   nb_setval(input_statements, 0)
@@ -742,10 +742,9 @@ rdfsurfaces :-
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                     is_list(Z),
                     conj_list(R, K),
-                    domain(V, R, P),
                     find_graffiti(K, D),
                     append(V, D, U),
-                    makevars([P, H], [Q, S], beta(U)),
+                    makevars([R, H], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -758,7 +757,11 @@ rdfsurfaces :-
                     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
                     \+member(exopred(_, _, _), B),
-                    select(R, B, J),
+                    (   length(B, O),
+                        O =< 2
+                    ->  select(R, B, J)
+                    ;   B = [R|J]
+                    ),
                     conj_list(T, J),
                     findvars(R, N, beta),
                     findall(A,
@@ -768,10 +771,9 @@ rdfsurfaces :-
                         Z
                     ),
                     E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
-                    domain(V, R, P),
                     find_graffiti([R], D),
                     append(V, D, U),
-                    makevars([P, E], [Q, S], beta(U)),
+                    makevars([R, E], [Q, S], beta(U)),
                     findvars(S, W, beta),
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -912,6 +914,11 @@ opts(['--n3p-output'|Argus], Args) :-
     !,
     retractall(flag('n3p-output')),
     assertz(flag('n3p-output')),
+    opts(Argus, Args).
+opts(['--no-beautified-output'|Argus], Args) :-
+    !,
+    retractall(flag('no-beautified-output')),
+    assertz(flag('no-beautified-output')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -2360,21 +2367,13 @@ prefix(Prefix) -->
 
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb),
-        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
-        ->  nb_setval(mconc, true)
-        ;   true
-        )
+    {   prolog_verb(Item, Verb)
     },
     !,
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
         ->  Trpl = triple(Object, Vrb, Subject)
         ;   Trpl = triple(Subject, Verb, Object)
-        ),
-        (   Verb = '\'<http://www.w3.org/2000/10/swap/log#implies>\''
-        ->  nb_setval(mconc, false)
-        ;   true
         )
     },
     annotation(Trpl, Triples3),
@@ -2518,11 +2517,7 @@ symbol(Name) -->
     [bnode(Lbl)],
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-        atom_codes(Lb, LblTidy),
-        (   nb_getval(mconc, true)
-        ->  atom_concat(Lb, '_c', Label)
-        ;   Label = Lb
-        ),
+        atom_codes(Label, LblTidy),
         (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
@@ -4048,8 +4043,11 @@ wt2((X, Y)) :-
         write('.'),
         (   flag(strings)
         ->  write(' ')
-        ;   nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  write(' ')
+            ;   nl,
+                indent
+            )
         ),
         wt(Y)
     ).
@@ -4394,8 +4392,11 @@ wg(X) :-
         indentation(4),
         (   flag(strings)
         ->  true
-        ;   nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  true
+            ;   nl,
+                indent
+            )
         ),
         nb_getval(fdepth, D),
         E is D+1,
@@ -4405,9 +4406,12 @@ wg(X) :-
         indentation(-4),
         (   flag(strings)
         ->  true
-        ;   write('.'),
-            nl,
-            indent
+        ;   (   flag('no-beautified-output')
+            ->  true
+            ;   write('.'),
+                nl,
+                indent
+            )
         ),
         write('}')
     ;   wt(X)
@@ -10558,17 +10562,6 @@ within_scope([A, B]) :-
     ),
     nb_getval(scope, A).
 
-domain(A, true, B) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, _),
-    !,
-    findall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(C, _),
-        (   member(C, A)
-        ),
-        D
-    ),
-    conj_list(B, D).
-domain(_, B, B).
-
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
     !,
@@ -11652,7 +11645,8 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
-        sub_atom(A, _, 4, _, '#bn_')
+        sub_atom(A, _, 4, _, '#bn_'),
+        sub_atom(A, _, 4, _, '#e_')
     ;   sub_atom(A, 0, _, _, some)
     ).
 findvar(A, eta) :-
