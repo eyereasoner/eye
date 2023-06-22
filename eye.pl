@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.1.3 (2023-06-22)').
+version_info('EYE v4.2.0 (2023-06-22)').
 
 license_info('MIT License
 
@@ -517,50 +517,26 @@ gre(Argus) :-
         ->  true
         ;   wh
         ),
-        (   \+flag(nope)
-        ->  write('# -------------\n'),
-            write('# derived rules\n'),
-            write('# -------------\n'),
-            nl,
-            forall(
-                (   pass_only_new(Zn),
-                    Zn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+        forall(
+            pass_only_new(Zn),
+            (   indent,
+                relabel(Zn, Zr),
+                (   flag('n3p-output')
+                ->  makeblank(Zr, Zs),
+                    writeq(Zs)
+                ;   wt(Zr)
                 ),
-                (   indent,
-                    relabel(Zn, Zr),
-                    (   flag('n3p-output')
-                    ->  makeblank(Zr, Zs),
-                        writeq(Zs)
-                    ;   wt(Zr)
-                    ),
-                    ws(Zr),
-                    write('.'),
-                    nl,
-                    nl,
-                    cnt(output_statements)
-                )
-            )
-        ;   forall(
-                pass_only_new(Zn),
-                (   indent,
-                    relabel(Zn, Zr),
-                    (   flag('n3p-output')
-                    ->  makeblank(Zr, Zs),
-                        writeq(Zs)
-                    ;   wt(Zr)
-                    ),
-                    ws(Zr),
-                    write('.'),
-                    nl,
-                    (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                        ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
-                        )
-                    ->  nl
-                    ;   true
-                    ),
-                    cnt(output_statements)
-                )
+                ws(Zr),
+                write('.'),
+                nl,
+                (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
+                    )
+                ->  nl
+                ;   true
+                ),
+                cnt(output_statements)
             )
         ),
         nl
@@ -843,13 +819,6 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    (   (   flag(nope)
-        ;   member('--nope', Argus)
-        )
-    ->  true
-    ;   retractall(flag('pass-only-new')),
-        assertz(flag('pass-only-new'))
-    ),
     rdfsurfaces,
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
@@ -3650,8 +3619,8 @@ wi('<>', _, rule(_, _, A), _) :-     % wi(Source, Premise, Conclusion, Rule)
     (   A = '<http://www.w3.org/2000/10/swap/log#implies>'(P, C),
         djiti_answer(answer(C), D),
         implies(P, D, _)
-    ->  wp('<http://www.w3.org/2000/10/swap/reason#Query>')
-    ;   wp('<http://www.w3.org/2000/10/swap/reason#Rule>')
+    ->  wp('<http://www.w3.org/2000/10/swap/reason#DerivedQuery>')
+    ;   wp('<http://www.w3.org/2000/10/swap/reason#DerivedRule>')
     ),
     write('; '),
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),

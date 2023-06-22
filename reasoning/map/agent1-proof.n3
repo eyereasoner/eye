@@ -172,7 +172,7 @@ skolem:lemma7 a r:Inference;
     r:evidence (
         skolem:lemma13
     );
-    r:rule [ a r:Rule; r:gives {
+    r:rule [ a r:DerivedRule; r:gives {
         {
             :i1 :location :Gent.
         } => {
@@ -189,7 +189,7 @@ skolem:lemma8 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:rule [ a r:Rule; r:gives {
+    r:rule [ a r:DerivedRule; r:gives {
         true => {
             ((<http://eyereasoner.github.io/eye/reasoning/map/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/map/agent1-map.n3>) 1) e:call true.
         }.
@@ -245,7 +245,7 @@ skolem:lemma11 a r:Inference;
             :i1 :location :Gent.
         }}]
     );
-    r:rule [ a r:Rule; r:gives {
+    r:rule [ a r:DerivedRule; r:gives {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/map/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/map/agent1-map.n3>) 1) gps:findpaths ((:map-BE) {
                 :i1 :location :Brugge.
@@ -386,7 +386,7 @@ skolem:lemma19 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {:i1 :location :Brugge}]
     );
-    r:rule [ a r:Rule; r:gives {
+    r:rule [ a r:DerivedRule; r:gives {
         {
             :i1 :location :Brugge.
         } => {
