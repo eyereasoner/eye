@@ -1,0 +1,35 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+#:oneway rdfs:subPropertyOf :path.
+(_:A _:B) log:onNegativeSurface {
+    _:A :oneway _:B.
+    () log:onNegativeSurface {
+        _:A :path _:B.
+    }.
+}.
+
+#:path a owl:TransitiveProperty.
+(_:A _:B _:C) log:onNegativeSurface {
+    _:A :path _:B.
+    _:B :path _:C.
+    () log:onNegativeSurface {
+        _:A :path _:C.
+    }.
+}.
+
+# query
+(_:A) log:onQuerySurface {
+    _:A :path :nantes.
+}.
