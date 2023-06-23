@@ -1,6 +1,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
+# French roads
 :paris :oneway :orleans.
 :paris :oneway :chartres.
 :paris :oneway :amiens.
@@ -12,7 +13,7 @@
 :lemans :oneway :tours.
 :angers :oneway :nantes.
 
-#:oneway rdfs:subPropertyOf :path.
+# oneway subproperty of path
 (_:A _:B) log:onNegativeSurface {
     _:A :oneway _:B.
     () log:onNegativeSurface {
@@ -20,7 +21,7 @@
     }.
 }.
 
-#:path a owl:TransitiveProperty.
+# path transitive property
 (_:A _:B _:C) log:onNegativeSurface {
     _:A :path _:B.
     _:B :path _:C.
