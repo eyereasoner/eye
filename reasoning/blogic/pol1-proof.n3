@@ -1,0 +1,37 @@
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        <urn:example:n1> <urn:example:p1> <urn:example:n2>.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        <urn:example:n1> <urn:example:p1> <urn:example:n2>.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo {
+        <urn:example:n1> <urn:example:p1> <urn:example:n2>.
+    }];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            () log:onResultSurface var:x_0.
+        } => var:x_0.
+    }].
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        () log:onResultSurface {
+            <urn:example:n1> <urn:example:p1> <urn:example:n2>.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/pol1.n3>].
+

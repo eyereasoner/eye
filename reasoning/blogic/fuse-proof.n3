@@ -1,0 +1,61 @@
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        <urn:example:S> a <urn:example:A>.
+        <urn:example:S> a <urn:example:B>.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        <urn:example:S> a <urn:example:A>.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "urn:example:S"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "urn:example:A"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        <urn:example:S> a <urn:example:B>.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "urn:example:S"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "urn:example:B"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        <urn:example:S> a <urn:example:A>.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/fuse.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        <urn:example:S> a <urn:example:B>.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/fuse.n3>].
+

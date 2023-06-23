@@ -1,0 +1,191 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :i a :A.
+        :i a :B.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :i a :A.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#i"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#A"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :i a :B.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#i"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#B"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :i a :A.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/abcd.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :i a :B.
+    };
+    r:evidence (
+        skolem:lemma3
+        skolem:lemma5
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#i"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a :A.
+            () log:onNegativeSurface {
+                var:x_0 a :C.
+            }.
+            () log:onNegativeSurface {
+                var:x_0 a :D.
+            }.
+        } => {
+            var:x_0 a :B.
+        }.
+    }].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            :i a :C.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/abcd.n3>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        () log:onNegativeSurface {
+            :i a :D.
+        }.
+    };
+    r:evidence (
+        skolem:lemma7
+        [ a r:Fact; r:gives {"is_list([])"}]
+        [ a r:Fact; r:gives {"conj_list('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))),['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')))])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')))],['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')))])"}]
+        [ a r:Fact; r:gives {"select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))),['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')))],[])"}]
+        [ a r:Fact; r:gives {"conj_list('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')),['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))],['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))])"}]
+        [ a r:Fact; r:gives {"select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')),['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'))],[])"}]
+        [ a r:Fact; r:gives {"is_list([])"}]
+        [ a r:Fact; r:gives {"conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')]),append([],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')]),conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>')]);length([],some0),some0>1,conj_list(some1,[]),conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#i>','<http://example.org/ns#D>'),['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],some1)])"}]
+        [ a r:Fact; r:gives {"append([],[],[])"}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                :i a :D.
+            }.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ({
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                :i a :D.
+            }.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo ({
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                :i a :D.
+            }.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo {
+        () log:onNegativeSurface {
+            :i a :D.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo ({
+        () log:onNegativeSurface {
+            :i a :D.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo ({
+        () log:onNegativeSurface {
+            :i a :D.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo {
+        :i a :D.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo ({
+        :i a :D.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_12"]; r:boundTo ({
+        :i a :D.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_13"]; r:boundTo {
+        :i a :D.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_14"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_16"]; r:boundTo ()];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 log:onNegativeSurface var:x_1.
+            "is_list(avar0)".
+            "conj_list(avar1,avar2)".
+            "list_to_set(avar2,avar3)".
+            "select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],avar4),avar3,avar5)".
+            "conj_list(avar4,avar6)".
+            "list_to_set(avar6,avar7)".
+            "select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar8,avar9),avar7,avar10)".
+            "is_list(avar8)".
+            "conj_list(avar9,avar11),append(avar5,avar11,avar12),conj_list(avar13,avar12);length(avar5,avar14),avar14>1,conj_list(avar15,avar10),conj_list(avar13,['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],avar15)|avar5])".
+            "append(avar0,avar8,avar16)".
+        } => {
+            var:x_16 log:onNegativeSurface var:x_13.
+        }.
+    }].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
+                    :i a :D.
+                }.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/abcd.n3>].
+

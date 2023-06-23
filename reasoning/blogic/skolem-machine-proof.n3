@@ -1,0 +1,511 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        5 :state (7 0).
+        5 :instruction (:halt :x :x :x).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        5 :state (7 0).
+        5 :instruction (:halt :x :x :x).
+    };
+    r:evidence (
+        skolem:lemma2
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 0];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:halt :x :x :x).
+        } => {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:halt :x :x :x).
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        5 :state (7 0).
+    };
+    r:evidence (
+        skolem:lemma4
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 0).
+            var:x_0 :instruction (:jpz 2 var:x_2 var:x_3).
+        } => {
+            var:x_2 :state (var:x_1 0).
+        }.
+    }].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        5 :instruction (:halt :x :x :x).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        1 :state (7 0).
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:goto var:x_3 :x :x).
+        } => {
+            var:x_3 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        1 :instruction (:jpz 2 5 2).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        4 :state (7 0).
+    };
+    r:evidence (
+        skolem:lemma8
+        skolem:lemma9
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 7];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:inc 1 var:x_3 :x).
+            var:x_1 :inc var:x_4.
+        } => {
+            var:x_3 :state (var:x_4 var:x_2).
+        }.
+    }].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        4 :instruction (:goto 1 :x :x).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        3 :state (6 0).
+    };
+    r:evidence (
+        skolem:lemma11
+        skolem:lemma12
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 0];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:dec 2 var:x_3 :x).
+            var:x_4 :inc var:x_2.
+        } => {
+            var:x_3 :state (var:x_1 var:x_4).
+        }.
+    }].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        3 :instruction (:inc 1 4 :x).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        6 :inc 7 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        2 :state (6 1).
+    };
+    r:evidence (
+        skolem:lemma14
+        skolem:lemma13
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_3 :inc var:x_2.
+            var:x_0 :instruction (:jpz 2 var:x_4 var:x_5).
+        } => {
+            var:x_5 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        2 :instruction (:dec 2 3 :x).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        0 :inc 1 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        1 :state (6 1).
+    };
+    r:evidence (
+        skolem:lemma15
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:goto var:x_3 :x :x).
+        } => {
+            var:x_3 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        4 :state (6 1).
+    };
+    r:evidence (
+        skolem:lemma16
+        skolem:lemma9
+        skolem:lemma17
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 6];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:inc 1 var:x_3 :x).
+            var:x_1 :inc var:x_4.
+        } => {
+            var:x_3 :state (var:x_4 var:x_2).
+        }.
+    }].
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        3 :state (5 1).
+    };
+    r:evidence (
+        skolem:lemma18
+        skolem:lemma12
+        skolem:lemma19
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:dec 2 var:x_3 :x).
+            var:x_4 :inc var:x_2.
+        } => {
+            var:x_3 :state (var:x_1 var:x_4).
+        }.
+    }].
+
+skolem:lemma17 a r:Extraction;
+    r:gives {
+        5 :inc 6 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        2 :state (5 2).
+    };
+    r:evidence (
+        skolem:lemma20
+        skolem:lemma19
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_3 :inc var:x_2.
+            var:x_0 :instruction (:jpz 2 var:x_4 var:x_5).
+        } => {
+            var:x_5 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma19 a r:Extraction;
+    r:gives {
+        1 :inc 2 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        1 :state (5 2).
+    };
+    r:evidence (
+        skolem:lemma21
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:goto var:x_3 :x :x).
+        } => {
+            var:x_3 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        4 :state (5 2).
+    };
+    r:evidence (
+        skolem:lemma22
+        skolem:lemma9
+        skolem:lemma23
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 5];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:inc 1 var:x_3 :x).
+            var:x_1 :inc var:x_4.
+        } => {
+            var:x_3 :state (var:x_4 var:x_2).
+        }.
+    }].
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        3 :state (4 2).
+    };
+    r:evidence (
+        skolem:lemma24
+        skolem:lemma12
+        skolem:lemma25
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:dec 2 var:x_3 :x).
+            var:x_4 :inc var:x_2.
+        } => {
+            var:x_3 :state (var:x_1 var:x_4).
+        }.
+    }].
+
+skolem:lemma23 a r:Extraction;
+    r:gives {
+        4 :inc 5 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        2 :state (4 3).
+    };
+    r:evidence (
+        skolem:lemma26
+        skolem:lemma25
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_3 :inc var:x_2.
+            var:x_0 :instruction (:jpz 2 var:x_4 var:x_5).
+        } => {
+            var:x_5 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma25 a r:Extraction;
+    r:gives {
+        2 :inc 3 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma26 a r:Inference;
+    r:gives {
+        1 :state (4 3).
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:goto var:x_3 :x :x).
+        } => {
+            var:x_3 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        4 :state (4 3).
+    };
+    r:evidence (
+        skolem:lemma28
+        skolem:lemma9
+        skolem:lemma29
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 4];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:inc 1 var:x_3 :x).
+            var:x_1 :inc var:x_4.
+        } => {
+            var:x_3 :state (var:x_4 var:x_2).
+        }.
+    }].
+
+skolem:lemma28 a r:Inference;
+    r:gives {
+        3 :state (3 3).
+    };
+    r:evidence (
+        skolem:lemma30
+        skolem:lemma12
+        skolem:lemma29
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 3];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_0 :instruction (:dec 2 var:x_3 :x).
+            var:x_4 :inc var:x_2.
+        } => {
+            var:x_3 :state (var:x_1 var:x_4).
+        }.
+    }].
+
+skolem:lemma29 a r:Extraction;
+    r:gives {
+        3 :inc 4 .
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        2 :state (3 4).
+    };
+    r:evidence (
+        skolem:lemma31
+        skolem:lemma29
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo 2];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :state (var:x_1 var:x_2).
+            var:x_3 :inc var:x_2.
+            var:x_0 :instruction (:jpz 2 var:x_4 var:x_5).
+        } => {
+            var:x_5 :state (var:x_1 var:x_2).
+        }.
+    }].
+
+skolem:lemma31 a r:Extraction;
+    r:gives {
+        1 :state (3 4).
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/skolem-machine.n3>].
+

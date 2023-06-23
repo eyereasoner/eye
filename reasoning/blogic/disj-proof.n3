@@ -1,0 +1,224 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :grass a :FarmingField.
+        :grass a :GreenColored.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :grass a :FarmingField.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#grass"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#FarmingField"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :grass a :GreenColored.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#grass"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#GreenColored"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :grass a :FarmingField.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :grass a :GreenColored.
+    };
+    r:evidence (
+        skolem:lemma3
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#grass"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a :FarmingField.
+            () log:onNegativeSurface {
+                var:x_0 a :YellowColored.
+            }.
+        } => {
+            var:x_0 a :GreenColored.
+        }.
+    }].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        () log:onNegativeSurface {
+            :grass a :YellowColored.
+        }.
+    };
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives {"is_list([])"}]
+        [ a r:Fact; r:gives {"conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')])"}]
+        [ a r:Fact; r:gives {"\+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(some6,some7),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')])"}]
+        [ a r:Fact; r:gives {"findall(1,member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(some8,some9),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')]),[])"}]
+        [ a r:Fact; r:gives {"length([],0)"}]
+        [ a r:Fact; r:gives {"length(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')],1)"}]
+        [ a r:Fact; r:gives {"memberchk(0,[0,2,1])"}]
+        skolem:lemma7
+        [ a r:Fact; r:gives {"is_list(['<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>'])"}]
+        [ a r:Fact; r:gives {"conj_list(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))])"}]
+        [ a r:Fact; r:gives {"\+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(some10,some11),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))])"}]
+        [ a r:Fact; r:gives {"length(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))],2)"}]
+        [ a r:Fact; r:gives {"makevars(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>','<http://example.org/ns#MixedColored>'))],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'))],beta(['<http://eyereasoner.github.io/.well-known/genid/3917894951695475063#e_S_1_2>']))"}]
+        [ a r:Fact; r:gives {"select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>'),'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'))],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')])"}]
+        [ a r:Fact; r:gives {"is_list([])"}]
+        [ a r:Fact; r:gives {"select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(some12,'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')],[]),is_list(some12),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')]=['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'))],conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')]),memberchk('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')]);select('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')],[]),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')]=['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')],conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')]),memberchk('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#MixedColored>')])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')],['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')])"}]
+        [ a r:Fact; r:gives {"conj_list('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>'),['<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')])"}]
+        [ a r:Fact; r:gives {"ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#grass>','<http://example.org/ns#YellowColored>')))"}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+        :grass a :MixedColored.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ({
+        :grass a :MixedColored.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo ({
+        :grass a :MixedColored.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo (skolem:e_S_1_2)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_12"]; r:boundTo {
+        skolem:e_S_1_2 a :YellowColored.
+        () log:onNegativeSurface {
+            skolem:e_S_1_2 a :MixedColored.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_13"]; r:boundTo ({
+        skolem:e_S_1_2 a :YellowColored.
+    } {
+        () log:onNegativeSurface {
+            skolem:e_S_1_2 a :MixedColored.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_14"]; r:boundTo ({
+        skolem:e_S_1_2 a :YellowColored.
+    } {
+        () log:onNegativeSurface {
+            skolem:e_S_1_2 a :MixedColored.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_16"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_17"]; r:boundTo ({
+        :grass a :YellowColored.
+    } {
+        () log:onNegativeSurface {
+            :grass a :MixedColored.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_18"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_19"]; r:boundTo {
+        :grass a :MixedColored.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_20"]; r:boundTo {
+        :grass a :YellowColored.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_23"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_21"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_22"]; r:boundTo {
+        :grass a :MixedColored.
+    }];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_24"]; r:boundTo ({
+        :grass a :YellowColored.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_25"]; r:boundTo ({
+        :grass a :MixedColored.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_26"]; r:boundTo ({
+        :grass a :YellowColored.
+    })];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_27"]; r:boundTo {
+        :grass a :YellowColored.
+    }];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 log:onNegativeSurface var:x_1.
+            "is_list(avar0)".
+            "conj_list(avar1,avar2)".
+            "list_to_set(avar2,avar3)".
+            "\+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(avar4,avar5),avar3)".
+            "findall(1,member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar6,avar7),avar3),avar8)".
+            "length(avar8,avar9)".
+            "length(avar3,avar10)".
+            "memberchk(avar9,[0,2,avar10])".
+            var:x_11 log:onNegativeSurface var:x_12.
+            "is_list(avar11)".
+            "conj_list(avar12,avar13)".
+            "list_to_set(avar13,avar14)".
+            "\+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(avar15,avar16),avar14)".
+            "length(avar14,2)" .
+            "makevars(avar14,avar17,beta(avar11))".
+            "select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar18,avar19),avar17,[avar20])".
+            "is_list(avar18)".
+            "select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar21,avar22),avar3,avar23),is_list(avar21),avar24=['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar18,avar19)|avar23],conj_list(avar22,avar25),memberchk(avar20,avar25);select(avar22,avar3,avar23),avar24=[avar20|avar23],conj_list(avar19,avar25),memberchk(avar22,avar25)".
+            "list_to_set(avar24,avar26)".
+            "conj_list(avar27,avar26)".
+            "ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(avar0,avar27))".
+        } => {
+            var:x_0 log:onNegativeSurface var:x_27.
+        }.
+    }].
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            :grass a :MixedColored.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        (skolem:e_S_1_2) log:onNegativeSurface {
+            skolem:e_S_1_2 a :YellowColored.
+            () log:onNegativeSurface {
+                skolem:e_S_1_2 a :MixedColored.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj.n3>].
+

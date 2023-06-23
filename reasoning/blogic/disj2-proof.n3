@@ -1,0 +1,177 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        :abc a :C0.
+        :abc a :C2.
+        :abc a :C22.
+        :abc a :C222.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :abc a :C0.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C0"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :abc a :C2.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :abc a :C22.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C22"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :abc a :C222.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C222"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :abc a :C0.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        :abc a :C2.
+    };
+    r:evidence (
+        skolem:lemma5
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a :C0.
+            () log:onNegativeSurface {
+                var:x_0 a :C1.
+            }.
+        } => {
+            var:x_0 a :C2.
+        }.
+    }].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :abc a :C22.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a :C2.
+            () log:onNegativeSurface {
+                var:x_0 a :C21.
+            }.
+        } => {
+            var:x_0 a :C22.
+        }.
+    }].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :abc a :C222.
+    };
+    r:evidence (
+        skolem:lemma7
+        skolem:lemma11
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a :C22.
+            () log:onNegativeSurface {
+                var:x_0 a :C221.
+            }.
+        } => {
+            var:x_0 a :C222.
+        }.
+    }].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            :abc a :C1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            :abc a :C21.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        () log:onNegativeSurface {
+            :abc a :C221.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3>].
+

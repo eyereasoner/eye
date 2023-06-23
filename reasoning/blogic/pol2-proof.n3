@@ -1,0 +1,133 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        :RubenD a foaf:Person.
+        :JosD a vcard:Individual.
+        :RubenD a vcard:Individual.
+        :JosD a foaf:Person.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :RubenD a foaf:Person.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#RubenD"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://xmlns.com/foaf/0.1/Person"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :JosD a vcard:Individual.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#JosD"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2006/vcard/ns#Individual"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :RubenD a vcard:Individual.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#RubenD"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2006/vcard/ns#Individual"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :JosD a foaf:Person.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#JosD"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://xmlns.com/foaf/0.1/Person"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    }].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :RubenD a foaf:Person.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/pol2.n3>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :JosD a vcard:Individual.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/pol2.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :RubenD a vcard:Individual.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#RubenD"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a foaf:Person.
+        } => {
+            var:x_0 a vcard:Individual.
+        }.
+    }].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :JosD a foaf:Person.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#JosD"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a vcard:Individual.
+        } => {
+            var:x_0 a foaf:Person.
+        }.
+    }].
+

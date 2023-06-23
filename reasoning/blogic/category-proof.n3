@@ -1,0 +1,527 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:gives {
+        <<:n1 :p1 :n2>> :category :C1.
+        <<:n1 a :C1>> :category :C1.
+        <<:n1 :p2 :n3>> :category :C1.
+        <<:n1 :p3 :n4>> :category :C1.
+        <<:n3 a :C2>> :category :C2.
+        <<:n3 :p2 :n1>> :category :C2.
+        <<:n3 :p4 :n5>> :category :C2.
+        <<:n3 :p5 :n6>> :category :C2.
+        <<:n6 a :C3>> :category :C3.
+        <<:n6 :p6 :n7>> :category :C3.
+        <<:n2 :p2 :n3>> :category :C1.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        <<:n1 :p1 :n2>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n1 :p1 :n2>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        <<:n1 a :C1>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n1 a :C1>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        <<:n1 :p2 :n3>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n1 :p2 :n3>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        <<:n1 :p3 :n4>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n1 :p3 :n4>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        <<:n3 a :C2>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma16
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n3 a :C2>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        <<:n3 :p2 :n1>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma17
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n3 :p2 :n1>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        <<:n3 :p4 :n5>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n3 :p4 :n5>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        <<:n3 :p5 :n6>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma19
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n3 :p5 :n6>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        <<:n6 a :C3>> :category :C3.
+    };
+    r:evidence (
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n6 a :C3>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C3"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        <<:n6 :p6 :n7>> :category :C3.
+    };
+    r:evidence (
+        skolem:lemma21
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n6 :p6 :n7>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C3"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        <<:n2 :p2 :n3>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo <<:n2 :p2 :n3>>];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 :category var:x_1.
+        } => {
+            var:x_0 :category var:x_1.
+        }.
+    }].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        <<:n1 :p1 :n2>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma23
+        skolem:lemma24
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n2"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        <<:n1 a :C1>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma23
+        skolem:lemma23
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        <<:n1 :p2 :n3>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma23
+        skolem:lemma25
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        <<:n1 :p3 :n4>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma23
+        skolem:lemma26
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n4"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        <<:n3 a :C2>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma27
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        <<:n3 :p2 :n1>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma28
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        <<:n3 :p4 :n5>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma29
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p4"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n5"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        <<:n3 :p5 :n6>> :category :C2.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma30
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p5"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n6"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        <<:n6 a :C3>> :category :C3.
+    };
+    r:evidence (
+        skolem:lemma31
+        skolem:lemma31
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n6"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#C3"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        <<:n6 :p6 :n7>> :category :C3.
+    };
+    r:evidence (
+        skolem:lemma31
+        skolem:lemma32
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n6"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#C3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#p6"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#n7"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 a var:x_1.
+            var:x_0 var:x_2 var:x_3.
+        } => {
+            <<var:x_0 var:x_2 var:x_3>> :category var:x_1.
+        }.
+    }].
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        <<:n2 :p2 :n3>> :category :C1.
+    };
+    r:evidence (
+        skolem:lemma12
+        skolem:lemma33
+        [ a r:Fact; r:gives {(_:sk_12 {
+            :n2 a _:sk_12.
+        } ()) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#C1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#n1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#p1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#n2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ n3:uri "http://example.org/ns#p2"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ n3:uri "http://example.org/ns#n3"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            <<var:x_0 var:x_1 var:x_2>> :category var:x_3.
+            var:x_2 var:x_4 var:x_5.
+            (var:x_6 {
+                var:x_2 a var:x_6.
+            } ()) log:collectAllIn var:x_7.
+        } => {
+            <<var:x_2 var:x_4 var:x_5>> :category var:x_3.
+        }.
+    }].
+
+skolem:lemma23 a r:Extraction;
+    r:gives {
+        :n1 a :C1.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma24 a r:Extraction;
+    r:gives {
+        :n1 :p1 :n2.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma25 a r:Extraction;
+    r:gives {
+        :n1 :p2 :n3.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma26 a r:Extraction;
+    r:gives {
+        :n1 :p3 :n4.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma27 a r:Extraction;
+    r:gives {
+        :n3 a :C2.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma28 a r:Extraction;
+    r:gives {
+        :n3 :p2 :n1.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma29 a r:Extraction;
+    r:gives {
+        :n3 :p4 :n5.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma30 a r:Extraction;
+    r:gives {
+        :n3 :p5 :n6.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma31 a r:Extraction;
+    r:gives {
+        :n6 a :C3.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma32 a r:Extraction;
+    r:gives {
+        :n6 :p6 :n7.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
+skolem:lemma33 a r:Extraction;
+    r:gives {
+        :n2 :p2 :n3.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/category.n3>].
+
