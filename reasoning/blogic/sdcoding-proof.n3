@@ -7,3 +7,247 @@
 @prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        0 dqc:sdcoding 0 .
+        1 dqc:sdcoding 1 .
+        2 dqc:sdcoding 2 .
+        3 dqc:sdcoding 3 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        0 dqc:sdcoding 0 .
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 0];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 dqc:sdcoding var:x_1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_1.
+        }.
+    }].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        1 dqc:sdcoding 1 .
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 1];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 dqc:sdcoding var:x_1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_1.
+        }.
+    }].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        2 dqc:sdcoding 2 .
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 2];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 dqc:sdcoding var:x_1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_1.
+        }.
+    }].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        3 dqc:sdcoding 3 .
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 3];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            var:x_0 dqc:sdcoding var:x_1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_1.
+        }.
+    }].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        0 dqc:sdcoding 0 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {0 dqc:alice (false false)}]
+        [ a r:Fact; r:gives {(false true) dqc:bob 0}]
+        [ a r:Fact; r:gives {(1 {
+            _:sk_10 dqc:r _:sk_11.
+            0 dqc:alice (_:sk_10 _:sk_12).
+            (_:sk_12 _:sk_11) dqc:bob 0.
+        } (1)) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)}]
+        [ a r:Fact; r:gives {(1) list:length 1}]
+        [ a r:Fact; r:gives {(1 2) math:remainder 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (false false)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (false true)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 dqc:alice var:x_1.
+            var:x_2 dqc:bob var:x_3.
+            (1 {
+                var:x_4 dqc:r var:x_5.
+                var:x_0 dqc:alice (var:x_4 var:x_6).
+                (var:x_6 var:x_5) dqc:bob var:x_3.
+            } var:x_7) log:collectAllIn var:x_8.
+            var:x_7 list:length var:x_9.
+            (var:x_9 2) math:remainder 1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_3.
+        }.
+    }].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        1 dqc:sdcoding 1 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {1 dqc:alice (false true)}]
+        [ a r:Fact; r:gives {(false false) dqc:bob 1}]
+        [ a r:Fact; r:gives {(1 {
+            _:sk_13 dqc:r _:sk_14.
+            1 dqc:alice (_:sk_13 _:sk_15).
+            (_:sk_15 _:sk_14) dqc:bob 1.
+        } (1)) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)}]
+        [ a r:Fact; r:gives {(1) list:length 1}]
+        [ a r:Fact; r:gives {(1 2) math:remainder 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (false true)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (false false)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 dqc:alice var:x_1.
+            var:x_2 dqc:bob var:x_3.
+            (1 {
+                var:x_4 dqc:r var:x_5.
+                var:x_0 dqc:alice (var:x_4 var:x_6).
+                (var:x_6 var:x_5) dqc:bob var:x_3.
+            } var:x_7) log:collectAllIn var:x_8.
+            var:x_7 list:length var:x_9.
+            (var:x_9 2) math:remainder 1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_3.
+        }.
+    }].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        2 dqc:sdcoding 2 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {2 dqc:alice (false false)}]
+        [ a r:Fact; r:gives {(false true) dqc:bob 2}]
+        [ a r:Fact; r:gives {(1 {
+            _:sk_16 dqc:r _:sk_17.
+            2 dqc:alice (_:sk_16 _:sk_18).
+            (_:sk_18 _:sk_17) dqc:bob 2.
+        } (1)) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)}]
+        [ a r:Fact; r:gives {(1) list:length 1}]
+        [ a r:Fact; r:gives {(1 2) math:remainder 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (false false)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (false true)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 dqc:alice var:x_1.
+            var:x_2 dqc:bob var:x_3.
+            (1 {
+                var:x_4 dqc:r var:x_5.
+                var:x_0 dqc:alice (var:x_4 var:x_6).
+                (var:x_6 var:x_5) dqc:bob var:x_3.
+            } var:x_7) log:collectAllIn var:x_8.
+            var:x_7 list:length var:x_9.
+            (var:x_9 2) math:remainder 1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_3.
+        }.
+    }].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        3 dqc:sdcoding 3 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {3 dqc:alice (false false)}]
+        [ a r:Fact; r:gives {(false false) dqc:bob 3}]
+        [ a r:Fact; r:gives {(1 {
+            _:sk_19 dqc:r _:sk_20.
+            3 dqc:alice (_:sk_19 _:sk_21).
+            (_:sk_21 _:sk_20) dqc:bob 3.
+        } (1)) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)}]
+        [ a r:Fact; r:gives {(1) list:length 1}]
+        [ a r:Fact; r:gives {(1 2) math:remainder 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (false false)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (false false)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/blogic/sdcoding.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_19"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_20"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 1];
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 dqc:alice var:x_1.
+            var:x_2 dqc:bob var:x_3.
+            (1 {
+                var:x_4 dqc:r var:x_5.
+                var:x_0 dqc:alice (var:x_4 var:x_6).
+                (var:x_6 var:x_5) dqc:bob var:x_3.
+            } var:x_7) log:collectAllIn var:x_8.
+            var:x_7 list:length var:x_9.
+            (var:x_9 2) math:remainder 1.
+        } => {
+            var:x_0 dqc:sdcoding var:x_3.
+        }.
+    }].
+

@@ -6,3 +6,25 @@
 @prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        (100000 3.141592653589792) :pi true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (100000 3.141592653589792) :pi true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(100000 3.141592653589792) :pi true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 3.141592653589792];
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            (100000 var:x_0) :pi true.
+        } => {
+            (100000 var:x_0) :pi true.
+        }.
+    }].
+

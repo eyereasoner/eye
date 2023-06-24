@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.2.0 (2023-06-22)').
+version_info('EYE v4.2.1 (2023-06-24)').
 
 license_info('MIT License
 
@@ -781,8 +781,15 @@ rdfsurfaces :-
                     conjify(R, S),
                     find_graffiti([R], D),
                     append(V, D, U),
-                    makevars(':-'(T, S), C, beta(U))
-                    ), C, '<>')),
+                    makevars(':-'(T, S), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')),
     % create query
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                     is_list(V),
@@ -5065,7 +5072,10 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
     copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(E, C), F),
     (   flag(nope)
     ->  D = E
-    ;   retwist(E, C, G),
+    ;   (   retwist(E, C, G)
+        ->  true
+        ;   G = '<>'
+        ),
         (   E = when(H, I)
         ->  conj_append(I, istep(G, E, C, F), J),
             D = when(H, J)
