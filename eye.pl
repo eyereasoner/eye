@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.2.1 (2023-06-24)').
+version_info('EYE v4.2.2 (2023-06-24)').
 
 license_info('MIT License
 
@@ -6126,8 +6126,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   conjoin(A, C),
-            unify(C, B)
+        (   conjoin(A, B)
         )
     ).
 
