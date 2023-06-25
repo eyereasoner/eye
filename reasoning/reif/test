@@ -1,3 +1,3 @@
-#!/bin/bash
+#!/bin/bash -x
 eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. --nope http://eyereasoner.github.io/eye/reasoning/reif/data.n3 http://eyereasoner.github.io/eye/reasoning/reif/reify.n3 --pass --output data-reif.n3
 eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. --nope http://eyereasoner.github.io/eye/reasoning/reif/data-reif.n3 http://eyereasoner.github.io/eye/reasoning/reif/dereify.n3 --pass --output data-roundtrip.n3

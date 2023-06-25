@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. --nope http://eyereasoner.github.io/eye/reasoning/ccd/train_data.n3 http://eyereasoner.github.io/eye/reasoning/ccd/background_rules.n3 http://eyereasoner.github.io/eye/reasoning/ccd/train_rules.n3 --query http://eyereasoner.github.io/eye/reasoning/ccd/train_query.n3 --output train_model.n3
 eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. http://eyereasoner.github.io/eye/reasoning/ccd/train_data.n3 http://eyereasoner.github.io/eye/reasoning/ccd/background_rules.n3 http://eyereasoner.github.io/eye/reasoning/ccd/train_rules.n3 --query http://eyereasoner.github.io/eye/reasoning/ccd/train_query.n3 --output train_model_proof.n3
 
