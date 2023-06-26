@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.2.3 (2023-06-26)').
+version_info('EYE v4.2.4 (2023-06-26)').
 
 license_info('MIT License
 
@@ -2212,11 +2212,22 @@ pathitem(Node, Triples) -->
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, S, '>\''], Node)
-        ;   atom_concat('_', S, Node)
+            atomic_list_concat(['\'<', Sns, S, '>\''], BN)
+        ;   atom_concat('_', S, BN)
         )
     },
-    propertylist(Node, Triples),
+    propertylist(BN, T),
+    {   (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
+            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
+            del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
+            del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
+            del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
+        ->  Node = [Head|Tail],
+            Triples = W
+        ;   Node = BN,
+            Triples = T
+        )
+    },
     [']'].
 pathitem(set(Distinct), Triples) -->
     ['(', '$'],
