@@ -1,5 +1,5 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example.org/ns#>.
+@prefix : <http://example.org/>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix var: <http://eyereasoner.github.io/var#>.
 @prefix skolem: <http://eyereasoner.github.io/.well-known/genid/3917894951695475063#>.
@@ -8,36 +8,27 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        _:sk_1 :is :beautiful.
+        :bob :loves skolem:t_0.
+        skolem:t_0 :is :lonely.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        _:sk_1 :is :beautiful.
+        :bob :loves skolem:t_0.
+        skolem:t_0 :is :lonely.
     };
     r:evidence (
-        skolem:lemma2
+        [ a r:Fact; r:gives {:bob :loves skolem:t_0}]
+        [ a r:Fact; r:gives {skolem:t_0 :is :lonely}]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://eyereasoner.github.io/.well-known/genid/3917894951695475063#t_0"]];
     r:rule [ a r:DerivedQuery; r:gives {
         {
-            var:x_0 :is :beautiful.
+            :bob :loves var:x_0.
+            var:x_0 :is :lonely.
         } => {
-            var:x_0 :is :beautiful.
-        }.
-    }].
-
-skolem:lemma2 a r:Inference;
-    r:gives {
-        _:sk_1 :is :beautiful.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-    r:rule [ a r:DerivedRule; r:gives {
-        true => {
-            var:x_0 :is :beautiful.
+            :bob :loves var:x_0.
+            var:x_0 :is :lonely.
         }.
     }].
 

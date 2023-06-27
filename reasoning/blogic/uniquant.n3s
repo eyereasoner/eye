@@ -1,17 +1,23 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example.org/ns#>.
+@prefix : <http://example.org/>.
 
-# beetle is a car
-:beetle a :Car.
+# Everybody loves somebody who is lonely
+(_:A _:B) log:onNegativeSurface {
+    (_:A) log:skolem _:B.
+    () log:negativeTriple {
+        _:A :loves _:B.
+    }.
+}.
 
-# everything is beautiful
-(_:A) log:onNegativeSurface {
-    () log:onNegativeSurface {
-        _:A :is :beautiful.
+(_:A _:B) log:onNegativeSurface {
+    (_:A) log:skolem _:B.
+    () log:negativeTriple {
+        _:B :is :lonely.
     }.
 }.
 
 # query
-(_:X) log:onQuerySurface {
-    _:X :is :beautiful.
+(_:x) log:onQuerySurface {
+    :bob :loves _:x.
+    _:x :is :lonely.
 }.
