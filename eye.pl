@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.2.4 (2023-06-26)').
+version_info('EYE v4.3.0 (2023-06-27)').
 
 license_info('MIT License
 
@@ -185,6 +185,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -795,18 +796,30 @@ rdfsurfaces :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    (   select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(Z, H), B, K),
-                        is_list(Z)
-                    ->  conj_list(I, K),
-                        djiti_answer(answer(H), J),
-                        find_graffiti(K, D),
-                        append(V, D, U),
-                        makevars(implies(I, J, '<>'), C, beta(U))
-                    ;   djiti_answer(answer(G), J),
-                        find_graffiti(B, D),
-                        append(V, D, U),
-                        makevars(implies(G, J, '<>'), C, beta(U))
-                    ),
+                    djiti_answer(answer(G), J),
+                    find_graffiti(B, D),
+                    append(V, D, U),
+                    makevars(implies(G, J, '<>'), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')),
+    % create question
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(Z, H), B, K),
+                    is_list(Z),
+                    conj_list(I, K),
+                    djiti_answer(answer(H), J),
+                    find_graffiti(K, D),
+                    append(V, D, U),
+                    makevars(implies(I, J, '<>'), C, beta(U)),
                     copy_term_nat(C, CC),
                     labelvars(CC, 0, _, avar),
                     (   \+cc(CC)
@@ -1843,7 +1856,14 @@ tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
     (   flag(blogic),
-        memberchk(C, ['\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'', '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'']),
+        memberchk(C, [
+                '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
+            ]
+        ),
         E = [[_|_]|_]
     ->  tr_graffiti(A, B)
     ;   B =.. [C|E]
@@ -11461,6 +11481,9 @@ dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
 dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
     !,
     dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, A)) :-
+    !,
+    dynify(A).
 dynify(A) :-
     functor(A, F, N),
     (   current_predicate(F/N)
@@ -11666,7 +11689,15 @@ find_graffiti([A|B], C) :-
     append(D, E, C).
 find_graffiti(A, B) :-
     A =.. [C, D, E],
-    memberchk(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>', '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>', '<http://www.w3.org/2000/10/swap/log#onQuerySurface>', '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>']),
+    memberchk(C, [
+            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
+            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
+        ]
+    ),
     is_list(D),
     !,
     find_graffiti(E, F),
