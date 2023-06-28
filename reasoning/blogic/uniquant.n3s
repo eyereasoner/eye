@@ -2,16 +2,9 @@
 @prefix : <http://example.org/>.
 
 # Everybody loves somebody who is lonely
-(_:A _:B) log:onNegativeSurface {
-    (_:A) log:skolem _:B.
-    () log:negativeTriple {
+(_:A) log:onNegativeSurface {
+    (_:B) log:onNegativeSurface {
         _:A :loves _:B.
-    }.
-}.
-
-(_:A _:B) log:onNegativeSurface {
-    (_:A) log:skolem _:B.
-    () log:negativeTriple {
         _:B :is :lonely.
     }.
 }.

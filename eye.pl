@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.3.0 (2023-06-27)').
+version_info('EYE v4.4.0 (2023-06-28)').
 
 license_info('MIT License
 
@@ -783,6 +783,30 @@ rdfsurfaces :-
                     find_graffiti([R], D),
                     append(V, D, U),
                     makevars(':-'(T, S), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                    is_list(V),
+                    V \= [],
+                    G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H),
+                    is_list(Z),
+                    Z \= [],
+                    conj_list(H, B),
+                    member(M, B),
+                    findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, X),
+                        (   member(X, Z)
+                        ),
+                        Y
+                    ),
+                    conj_list(S, Y),
+                    append(V, Z, U),
+                    makevars(':-'(M, S), C, beta(U)),
                     copy_term_nat(C, CC),
                     labelvars(CC, 0, _, avar),
                     (   \+cc(CC)
