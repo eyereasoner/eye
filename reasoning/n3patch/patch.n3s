@@ -1,0 +1,7 @@
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix ex: <http://www.example.org/terms#>.
+
+_:rename a solid:InsertDeletePatch;
+    solid:where   { _:person ex:familyName "Garcia". };
+    solid:inserts { _:person ex:givenName "Alex". };
+    solid:deletes { _:person ex:givenName "Claudia". }.

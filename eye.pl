@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.2 (2023-06-30)').
+version_info('EYE v4.4.3 (2023-06-30)').
 
 license_info('MIT License
 
@@ -129,7 +129,6 @@ eye
 :- dynamic(got_sq/0).
 :- dynamic(got_unique/2).
 :- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
-:- dynamic(got_uuid/1).
 :- dynamic(graph/2).
 :- dynamic(hash_value/2).
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
@@ -164,6 +163,7 @@ eye
 :- dynamic(tuple/7).
 :- dynamic(tuple/8).
 :- dynamic(unify/2).
+:- dynamic(uuid/2).
 :- dynamic(wcache/2).
 :- dynamic(wpfx/1).
 :- dynamic(wtcache/2).
@@ -2201,7 +2201,12 @@ pathitem(Name, []) -->
 pathitem(VarID, []) -->
     [uvar(Var)],
     !,
-    {   atom_codes(Var, VarCodes),
+    {   (   flag(blogic)
+        ->  nb_getval(line_number, Ln),
+            throw(no_universals_in_blogic(uvar(Var), after_line(Ln)))
+        ;   true
+        ),
+        atom_codes(Var, VarCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
         atom_codes(VarAtom, [0'_|VarTidy]),
         (   flag('pass-all-ground')
@@ -4945,6 +4950,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
+                \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -4981,6 +4987,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
+                    \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
@@ -7159,10 +7166,10 @@ djiti_assertz(A) :-
         (   ground(X)
         ),
         (   '<http://www.w3.org/2000/10/swap/log#uri>'(X, literal(U, type('<http://www.w3.org/2001/XMLSchema#string>'))),
-            (   \+got_uuid(U)
-            ->  uuid(Y),
-                assertz(got_uuid(U))
-            ;   true
+            (   uuid(U, Y)
+            ->  true
+            ;   uuid(Y),
+                assertz(uuid(U, Y))
             )
         )
     ).
