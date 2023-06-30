@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.1 (2023-06-28)').
+version_info('EYE v4.4.2 (2023-06-30)').
 
 license_info('MIT License
 
@@ -366,8 +366,7 @@ gre(Argus) :-
     ),
     (   flag('skolem-genid', Genid)
     ->  true
-    ;   A is random(2^62),
-        atom_number(Genid, A)
+    ;   uuid(Genid)
     ),
     atomic_list_concat(['http://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
@@ -791,6 +790,7 @@ rdfsurfaces :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')),
+    % convert universal statements
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     V \= [],
