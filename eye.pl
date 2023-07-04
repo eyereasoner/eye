@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.3 (2023-06-30)').
+version_info('EYE v4.4.4 (2023-07-04)').
 
 license_info('MIT License
 
@@ -4365,9 +4365,10 @@ wt2(X) :-
     X =.. [P, S, O],
     (   atom(P),
         \+ (sub_atom(P, 0, 1, _, '<'), sub_atom(P, _, 1, 0, '>')),
-        \+sub_atom(P, 0, _, _, avar),
-        \+sub_atom(P, 0, _, _, allv),
-        \+sub_atom(P, 0, _, _, some),
+        \+sub_atom(P, 0, 4, _, avar),
+        \+sub_atom(P, 0, 4, _, allv),
+        \+sub_atom(P, 0, 4, _, some),
+        \+sub_atom(P, 0, 2, _, '_:'),
         P \= true,
         P \= false
     ->  write('"'),
@@ -4436,6 +4437,7 @@ wg(X) :-
             F \= rdiv,
             (   sub_atom(F, 0, 1, _, '<'),
                 sub_atom(F, _, 1, 0, '>')
+            ;   sub_atom(F, 0, 2, _, '_:')
             ;   F = ':-'
             )
         )
@@ -11631,8 +11633,11 @@ makevar([A|B], [C|D], F) :-
 makevar(A, B, F) :-
     A =.. C,
     makevar(C, [Dh|Dt], F),
-    nonvar(Dh),
-    B =.. [Dh|Dt].
+    (   nonvar(Dh)
+    ->  B =.. [Dh|Dt]
+    ;   Dt = [Ds, Do],
+        B = exopred(Dh, Ds, Do)
+    ).
 
 findvars(A, B, Z) :-
     atomic(A),
