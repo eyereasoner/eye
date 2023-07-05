@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.4 (2023-07-04)').
+version_info('EYE v4.4.5 (2023-07-05)').
 
 license_info('MIT License
 
@@ -3590,7 +3590,7 @@ w3 :-
         nl,
         cnt(output_statements),
         fail
-    ;   nl
+    ;   true
     ).
 w3 :-
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
@@ -4602,7 +4602,10 @@ ws(X) :-
     (   \+number(Z),
         Z \= rdiv(_, _)
     ->  true
-    ;   write(' ')
+    ;   (   \+flag('n3p-output')
+        ->  write(' ')
+        ;   true
+        )
     ).
 
 wst :-
