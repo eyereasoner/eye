@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.5 (2023-07-05)').
+version_info('EYE v4.4.6 (2023-07-06)').
 
 license_info('MIT License
 
@@ -11579,6 +11579,7 @@ makeblank(A, B) :-
     findall([F, E],
         (   member(F, D),
             (   sub_atom(F, _, 19, _, '/.well-known/genid/'),
+                \+sub_atom(F, _, 3, _, '#t_'),
                 sub_atom(F, _, 1, G, '#')
             ->  H is G-1,
                 sub_atom(F, _, H, 1, I)
