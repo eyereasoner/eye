@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.4.7 (2023-07-07)').
+version_info('EYE v4.5.0 (2023-07-09)').
 
 license_info('MIT License
 
@@ -850,7 +850,27 @@ rdfsurfaces :-
                         assertz(C),
                         retractall(brake)
                     ;   true
-                    )), true, '<>')).
+                    )), true, '<>')),
+    % simplify question surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
+                    conj_list(H, M),
+                    list_to_set(M, T),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
+                    is_list(W),
+                    (   conj_list(O, D),
+                        append(K, D, E),
+                        conj_list(C, E)
+                    ;   length(K, I),
+                        I > 1,
+                        conj_list(F, N),
+                        conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
+                    ),
+                    append(V, W, U)
+                    ), '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(U, C), '<>')).
 
 %
 % command line options
