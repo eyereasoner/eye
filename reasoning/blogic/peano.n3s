@@ -33,8 +33,31 @@
     (_:A _:D) :add _:C.
 }.
 
+# factorial
+(_:A _:B) log:onNegativeSurface {
+    () log:negativeTriple {
+        _:A :factorial _:B.
+    }.
+    (_:A (:s 0)) :fac _:B.
+}.
+
+(_:A) log:onNegativeSurface {
+    () log:negativeTriple {
+        (0 _:A) :fac _:A.
+    }.
+}.
+
+(_:A _:B _:C _:D) log:onNegativeSurface {
+    () log:negativeTriple {
+        ((:s _:A) _:B) :fac _:C.
+    }.
+    (_:B (:s _:A)) :multiply _:D.
+    (_:A _:D) :fac _:C.
+}.
+
 # query
-(_:A _:B) log:onQuerySurface {
+(_:A _:B _:C) log:onQuerySurface {
     ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
     (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
+    (:s (:s (:s (:s (:s (:s (:s (:s (:s 0))))))))) :factorial _:C.
 }.
