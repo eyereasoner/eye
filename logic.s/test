@@ -1,0 +1,8 @@
+#!/bin/bash
+for dir in */
+do
+    pushd "${dir}"
+    ./test "$@" --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01
+    popd
+    echo ""
+done
