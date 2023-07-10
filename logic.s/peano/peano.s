@@ -65,8 +65,8 @@
 % query
 '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(['_:A', '_:B', '_:C'],
     (
-        '<urn:example:add>'([['<urn:example:s>', ['<urn:example:s>', 0]], ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', 0]]]], '_:A'),
-        '<urn:example:multiply>'(['_:A', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', 0]]]]], '_:B'),
-        '<urn:example:factorial>'(['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', ['<urn:example:s>', 0]]]]]]]]], '_:C')
+        '<urn:example:add>'([['<urn:example:s>', 0], ['<urn:example:s>', ['<urn:example:s>', 0]]], '_:A'),
+        '<urn:example:multiply>'(['_:A', '_:A'], '_:B'),
+        '<urn:example:factorial>'('_:B', '_:C')
     )
 ).
