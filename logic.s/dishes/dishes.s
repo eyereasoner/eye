@@ -1,7 +1,3 @@
-:- dynamic('<urn:example:contains>'/2).
-:- dynamic('<urn:example:does>'/2).
-:- dynamic('<urn:example:is>'/2).
-
 % Bob doesn't do the dishes
 '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([],
     '<urn:example:does>'('<urn:example:Bob>', '<urn:example:Dishes>')

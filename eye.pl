@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.5.0 (2023-07-09)').
+version_info('EYE v4.5.1 (2023-07-11)').
 
 license_info('MIT License
 
@@ -11606,7 +11606,10 @@ makeblank(A, B) :-
                 ->  E = F
                 ;   atom_concat('_:', I, E)
                 )
-            ;   atom_concat('_:', F, E)
+            ;   (   sub_atom(F, 0, 2, _, '_:')
+                ->  E = F
+                ;   atom_concat('_:', F, E)
+                )
             )
         ),
         J

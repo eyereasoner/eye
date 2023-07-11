@@ -1,5 +1,3 @@
-:- dynamic('<http://example.org/ns#is>'/2).
-
 % beetle is a car
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://example.org/ns#beetle>', '<http://example.org/ns#Car>').
 

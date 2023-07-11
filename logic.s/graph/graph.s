@@ -1,5 +1,3 @@
-:- dynamic('<urn:example:path>'/2).
-
 % French roads
 '<urn:example:oneway>'('<urn:example:paris>','<urn:example:orleans>').
 '<urn:example:oneway>'('<urn:example:paris>','<urn:example:chartres>').

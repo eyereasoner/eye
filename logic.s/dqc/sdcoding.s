@@ -1,5 +1,3 @@
-:- dynamic('<http://eyereasoner.github.io/eye/reasoning/dqc#sdcoding>'/2).
-
 % |R) = |0, 0) + |1, 1)
 '<http://eyereasoner.github.io/eye/reasoning/dqc#r>'(false,false).
 '<http://eyereasoner.github.io/eye/reasoning/dqc#r>'(true,true).
