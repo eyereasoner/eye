@@ -57,7 +57,7 @@
 
 # query
 (_:A _:B _:C) log:onQuerySurface {
-    ((:s (:s 0)) (:s (:s (:s 0)))) :add _:A.
-    (_:A (:s (:s (:s (:s 0))))) :multiply _:B.
-    (:s (:s (:s (:s (:s (:s (:s (:s (:s 0))))))))) :factorial _:C.
+    ((:s 0) (:s (:s 0))) :add _:A.
+    (_:A (:s (:s 0))) :multiply _:B.
+    _:B :factorial _:C.
 }.
