@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.5.1 (2023-07-11)').
+version_info('EYE v4.5.2 (2023-07-13)').
 
 license_info('MIT License
 
@@ -7168,6 +7168,7 @@ djiti_assertz(A) :-
         ;   ground(Y)
         ),
         (   atomic(X),
+            X \= [],
             (   atom_concat(some, V, X)
             ->  nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, 'sk_', V, '>'], U)
