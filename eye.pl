@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.5.3 (2023-07-14)').
+version_info('EYE v4.5.4 (2023-07-14)').
 
 license_info('MIT License
 
@@ -674,7 +674,7 @@ rdfsurfaces :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                     conj_list(H, M),
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
@@ -687,7 +687,7 @@ rdfsurfaces :-
                         conj_list(F, N),
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     ),
-                    append(V, W, U)
+                    append([V, Z, W], U)
                     ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
     % resolve negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -861,7 +861,7 @@ rdfsurfaces :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                     conj_list(H, M),
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
@@ -874,7 +874,7 @@ rdfsurfaces :-
                         conj_list(F, N),
                         conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                     ),
-                    append(V, W, U)
+                    append([V, Z, W], U)
                     ), '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(U, C), '<>')).
 
 %
