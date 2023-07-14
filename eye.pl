@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.5.4 (2023-07-14)').
+version_info('EYE v4.6.0 (2023-07-14)').
 
 license_info('MIT License
 
@@ -651,12 +651,13 @@ rdfsurfaces :-
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
                     conj_list(G, L),
-                    select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'([], H), L, K),
+                    select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(Z, H), L, K),
                     conj_list(H, D),
                     append(K, D, E),
                     list_to_set(E, B),
-                    conj_list(F, B)
-                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, F), '<>')),
+                    conj_list(F, B),
+                    append(V, Z, U)
+                    ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, F), '<>')),
     % simplify graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                     is_list(V),
