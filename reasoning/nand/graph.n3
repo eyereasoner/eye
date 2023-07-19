@@ -1,0 +1,39 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# oneway subproperty of path
+(_:A _:B) log:nand {
+    _:A :oneway _:B.
+    () log:nand {
+        _:A :path _:B.
+    }.
+}.
+
+# path transitive property
+(_:A _:B _:C) log:nand {
+    _:A :path _:B.
+    _:B :path _:C.
+    () log:nand {
+        _:A :path _:C.
+    }.
+}.
+
+# questions
+(_:A) log:nand {
+    _:A :path :nantes.
+    () log:output {
+        _:A :path :nantes.
+    }.
+}.

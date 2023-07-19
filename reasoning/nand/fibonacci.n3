@@ -1,0 +1,75 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+(_:X _:Y) log:nand {
+    () log:not {
+        _:X :fibonacci _:Y.
+    }.
+    (_:X 0 1) :fib _:Y.
+}.
+
+(_:A _:B) log:nand {
+    () log:not {
+        (0 _:A _:B) :fib _:A.
+    }.
+}.
+
+(_:A _:B) log:nand {
+    () log:not {
+        (1 _:A _:B) :fib _:B.
+    }.
+}.
+
+(_:A _:B _:C _:D _:X _:Y) log:nand {
+    () log:not {
+        (_:X _:A _:B) :fib _:Y.
+    }.
+    _:X math:greaterThan 1.
+    (_:X 1) math:difference _:C.
+    (_:A _:B) math:sum _:D.
+    (_:C _:B _:D) :fib _:Y.
+}.
+
+# questions
+(_:X) log:nand {
+    1 :fibonacci _:X.
+    () log:output {
+        1 :fibonacci _:X.
+    }.
+}.
+
+(_:X) log:nand {
+    2 :fibonacci _:X.
+    () log:output {
+        2 :fibonacci _:X.
+    }.
+}.
+
+(_:X) log:nand {
+    3 :fibonacci _:X.
+    () log:output {
+        3 :fibonacci _:X.
+    }.
+}.
+
+(_:X) log:nand {
+    91 :fibonacci _:X.
+    () log:output {
+        91 :fibonacci _:X.
+    }.
+}.
+
+(_:X) log:nand {
+    283 :fibonacci _:X.
+    () log:output {
+        283 :fibonacci _:X.
+    }.
+}.
+
+(_:X) log:nand {
+    3674 :fibonacci _:X.
+    () log:output {
+        3674 :fibonacci _:X.
+    }.
+}.
