@@ -1,0 +1,41 @@
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data
+:RubenD a foaf:Person.
+:JosD a vcard:Individual.
+
+# Define mapping operation
+() :policy {
+
+    # Mapping foaf:Person and vcard:Individual on each other
+    (_:S) log:nand {
+        _:S a foaf:Person .
+        () log:nand {
+            _:S a vcard:Individual .
+        } .
+    } .
+
+    (_:S) log:nand {
+        _:S a vcard:Individual .
+        () log:nand {
+            _:S a foaf:Person .
+        } .
+    } .
+}.
+
+# enact policy
+(_:S) log:nand {
+    () :policy _:S.
+    () log:nand _:S.
+}.
+
+# questions
+(_:A _:B) log:nand {
+    _:A a _:B.
+    () log:output {
+        _:A a _:B.
+    }.
+}.
