@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.6.0 (2023-07-14)').
+version_info('EYE v4.7.0 (2023-07-19)').
 
 license_info('MIT License
 
@@ -180,6 +180,9 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#not>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#negativeTriple>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
@@ -212,6 +215,7 @@ main :-
 
 run :-
     nb_setval(fm, 0),
+    nb_setval(mf, 0),
     current_prolog_flag(version_data, swi(SV, _, _, _)),
     (   SV < 8
     ->  format(user_error, '** ERROR ** EYE requires at least swipl version 8 **~n', []),
@@ -306,10 +310,16 @@ run :-
         )
     ;   true
     ),
-    nb_getval(fm, Cnt),
-    (   Cnt = 0
+    nb_getval(fm, Fm),
+    (   Fm = 0
     ->  true
-    ;   format(user_error, '*** fm=~w~n', [Cnt]),
+    ;   format(user_error, '*** fm=~w~n', [Fm]),
+        flush_output(user_error)
+    ),
+    nb_getval(mf, Mf),
+    (   Mf = 0
+    ->  true
+    ;   format(user_error, '*** mf=~w~n', [Mf]),
         flush_output(user_error)
     ),
     nb_getval(exit_code, EC),
@@ -463,7 +473,8 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag(strings)
+        \+flag(strings),
+        \+flag(nand)
     ->  throw(halt(0))
     ;   true
     ),
@@ -530,6 +541,7 @@ gre(Argus) :-
                 write('.'),
                 nl,
                 (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
                     ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
                     ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
                     )
@@ -629,7 +641,206 @@ gre(Argus) :-
 % See https://w3c-cg.github.io/rdfsurfaces/
 %
 
-rdfsurfaces :-
+nand :-
+    % blow inference fuse
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    makevars(G, H, beta(V)),
+                    catch(call(H), _, false),
+                    (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                    ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                    ;   I = H
+                    ),
+                    '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
+                    ), false, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#not>'(A, T),
+                    catch(call(T), _, false),
+                    '<http://www.w3.org/2000/10/swap/log#not>'(A, T)
+                    ), false, '<>')),
+    % simplify graffiti
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    findvars(G, U, beta),
+                    findall(M,
+                        (   member(M, V),
+                            memberchk(M, U)
+                        ),
+                        W
+                    ),
+                    W \= V
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G), '<>')),
+    % simplify negative surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
+                    conj_list(H, M),
+                    list_to_set(M, T),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
+                    is_list(W),
+                    (   conj_list(O, D),
+                        append(K, D, E),
+                        conj_list(C, E)
+                    ;   length(K, I),
+                        I > 1,
+                        conj_list(F, N),
+                        conj_list(C, ['<http://www.w3.org/2000/10/swap/log#nand>'([], F)|K])
+                    ),
+                    append([V, Z, W], U)
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<>')),
+    % resolve negative surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), B),
+                    findall(1,
+                        (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
+                        ),
+                        O
+                    ),
+                    length(O, E),
+                    length(B, D),
+                    memberchk(E, [0, 2, D]),
+                    '<http://www.w3.org/2000/10/swap/log#nand>'(W, F),
+                    is_list(W),
+                    conj_list(F, K),
+                    list_to_set(K, N),
+                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), N),
+                    length(N, 2),
+                    makevars(N, J, beta(W)),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
+                    is_list(U),
+                    (   select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, Q), B, A),
+                        is_list(Z),
+                        M = ['<http://www.w3.org/2000/10/swap/log#nand>'(U, C)|A],
+                        conj_list(Q, R),
+                        memberchk(P, R)
+                    ;   select(Q, B, A),
+                        M = [P|A],
+                        conj_list(C, R),
+                        memberchk(Q, R)
+                    ),
+                    list_to_set(M, T),
+                    conj_list(H, T),
+                    ground('<http://www.w3.org/2000/10/swap/log#nand>'(V, H))
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, H), '<>')),
+    % create forward rule
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
+                    is_list(Z),
+                    conj_list(R, K),
+                    find_graffiti(K, D),
+                    append(V, D, U),
+                    makevars([R, H], [Q, S], beta(U)),
+                    findvars(S, W, beta),
+                    makevars(S, I, beta(W))
+                    ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+    % create contrapositive rule
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
+                    \+member(exopred(_, _, _), B),
+                    (   length(B, O),
+                        O =< 2
+                    ->  select(R, B, J)
+                    ;   B = [R|J]
+                    ),
+                    conj_list(T, J),
+                    findvars(R, N, beta),
+                    findall(A,
+                        (   member(A, V),
+                            \+member(A, N)
+                        ),
+                        Z
+                    ),
+                    E = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, T),
+                    find_graffiti([R], D),
+                    append(V, D, U),
+                    makevars([R, E], [Q, S], beta(U)),
+                    findvars(S, W, beta),
+                    makevars(S, I, beta(W))
+                    ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+    % create backward rule
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#not>'(Z, H), B, K),
+                    is_list(Z),
+                    conj_list(H, [T]),
+                    conj_list(R, K),
+                    conjify(R, S),
+                    find_graffiti([R], D),
+                    append(V, D, U),
+                    makevars(':-'(T, S), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')),
+    % convert universal statements
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    V \= [],
+                    conj_list(G, [G]),
+                    (   G = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, H)
+                    ->  true
+                    ;   Z = [],
+                        H = '<http://www.w3.org/2000/10/swap/log#nand>'([], G)
+                    ),
+                    is_list(Z),
+                    conj_list(H, B),
+                    member(M, B),
+                    findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, X),
+                        (   member(X, Z)
+                        ),
+                        Y
+                    ),
+                    conj_list(S, Y),
+                    append(V, Z, U),
+                    makevars(':-'(M, S), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')),
+    % create question
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    list_to_set(L, B),
+                    select('<http://www.w3.org/2000/10/swap/log#output>'(Z, H), B, K),
+                    is_list(Z),
+                    conj_list(I, K),
+                    djiti_answer(answer(H), J),
+                    find_graffiti(K, D),
+                    append(V, D, U),
+                    makevars(implies(I, J, '<>'), C, beta(U)),
+                    copy_term_nat(C, CC),
+                    labelvars(CC, 0, _, avar),
+                    (   \+cc(CC)
+                    ->  assertz(cc(CC)),
+                        assertz(C),
+                        retractall(brake)
+                    ;   true
+                    )), true, '<>')).
+
+blogic :-
     % assert positive surface
     assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
     % blow inference fuse
@@ -888,7 +1099,7 @@ opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
-    rdfsurfaces,
+    blogic,
     opts(Argus, Args).
 opts(['--csv-separator',Separator|Argus], Args) :-
     !,
@@ -1904,14 +2115,21 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   flag(blogic),
-        memberchk(C, [
-                '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
-            ]
+    (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
+            (   \+flag(nand)
+            ->  assertz(flag(nand)),
+                nand
+            ;   true
+            )
+        ;   flag(blogic),
+            memberchk(C, [
+                    '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
+                    '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'',
+                    '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
+                    '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
+                    '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
+                ]
+            )
         ),
         E = [[_|_]|_]
     ->  tr_graffiti(A, B)
@@ -4829,7 +5047,9 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag(blogic)
+        ->  (   (   flag(nand)
+                ;   flag(blogic)
+                )
             ->  conj_list(Prem, Lst),
                 Lst = [_|Lst0],
                 (   select(is_list(_), Lst0, Lst1)
@@ -4981,6 +5201,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
+                \+ (flag(nand), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5018,6 +5239,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
+                    \+ (flag(nand), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
@@ -11531,6 +11753,12 @@ dynify(answer(A, _, _)) :-
     ->  true
     ;   dynamic(A/2)
     ).
+dynify('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
+    !,
+    dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
+    !,
+    dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).
@@ -11761,6 +11989,8 @@ find_graffiti([A|B], C) :-
 find_graffiti(A, B) :-
     A =.. [C, D, E],
     memberchk(C, [
+            '<http://www.w3.org/2000/10/swap/log#nand>',
+            '<http://www.w3.org/2000/10/swap/log#output>',
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
             '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
             '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
@@ -12529,7 +12759,7 @@ mf(A) :-
     forall(
         catch(A, _, fail),
         (   portray_clause(user_error, A),
-            write(user_error, '\n')
+            cnt(mf)
         )
     ),
     flush_output(user_error).
