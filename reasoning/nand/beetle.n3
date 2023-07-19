@@ -1,0 +1,40 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+(_:A) log:nand {
+    _:A a :Car.
+    () log:nand {
+        _:A :is :green.
+    }.
+    () log:nand {
+        _:A :is :blue.
+    }.
+}.
+
+# green things are beautiful
+(_:A) log:nand {
+    _:A :is :green.
+    () log:nand {
+        _:A :is :beautiful.
+    }.
+}.
+
+# blue things are beautiful
+(_:A) log:nand {
+    _:A :is :blue.
+    () log:nand {
+        _:A :is :beautiful.
+    }.
+}.
+
+# query
+(_:S _:O) log:nand {
+    _:S :is _:O.
+    () log:output {
+        _:S :is _:O.
+    }.
+}.
