@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.7.0 (2023-07-19)').
+version_info('EYE v4.8.0 (2023-07-20)').
 
 license_info('MIT License
 
@@ -6359,8 +6359,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (
-            md5_hash(A, B, [])
+        (   md5_hash(A, B, [])
         )
     ).
 
@@ -7164,8 +7163,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   sub_atom(A, 1, _, 1, C),
-            (
-                sub_atom_last(C, _, 1, N, '#') ->
+            (   sub_atom_last(C, _, 1, N, '#') ->
                 sub_atom(C, _, N, 0, B)
                 ;
                 sub_atom_last(C, _, 1, N, '/') ->
@@ -7197,8 +7195,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   sub_atom(A, 1, _, 1, C),
-            (
-                sub_atom_last(C, N, 1, _, '#') ->
+            (   sub_atom_last(C, N, 1, _, '#') ->
                 M is N+1,
                 sub_atom(C, 0, M, _, B)
                 ;
@@ -7247,6 +7244,9 @@ djiti_assertz(A) :-
             \+includes(A, B)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(X, Y) :-
+    \+'<http://www.w3.org/2000/10/swap/log#isomorphic>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#parsedAsN3>'(literal(A, _), B) :-
     atom_codes(A, C),
@@ -7529,8 +7529,7 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (
-            getnumber(X, U),
+        (   getnumber(X, U),
             Y is ceiling(U)
         )
     ).
@@ -7624,8 +7623,7 @@ djiti_assertz(A) :-
     when(
         (   ground(X)
         ),
-        (
-            getnumber(X, U),
+        (   getnumber(X, U),
             Y is floor(U)
         )
     ).
