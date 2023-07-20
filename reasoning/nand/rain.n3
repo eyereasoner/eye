@@ -1,0 +1,25 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+:currentWeather a :NormalWeather.
+:obs1 :ascribed :Rain.
+
+() log:nand {
+    :currentWeather a :NormalWeather.
+    () log:nand {
+        (_:S) log:nand {
+            _:S :ascribed :Rain.
+            () log:nand {
+                _:S :ascribed :WetGrass.
+            }.
+        }.
+    }.
+}.
+
+# questions
+(_:S _:O) log:nand {
+    _:S :ascribed _:O.
+    () log:output {
+        _:S :ascribed _:O.
+    }.
+}.
