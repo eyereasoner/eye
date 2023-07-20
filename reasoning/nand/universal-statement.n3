@@ -1,0 +1,19 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/>.
+
+# Everybody loves somebody who is lonely
+(_:A) log:nand {
+    (_:B) log:nand {
+        _:A :loves _:B.
+        _:B :is :lonely.
+    }.
+}.
+
+# query
+(_:x) log:nand {
+    :bob :loves _:x.
+    _:x :is :lonely.
+    () log:output {
+        :test :is true.
+    }.
+}.
