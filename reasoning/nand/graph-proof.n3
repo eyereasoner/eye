@@ -109,33 +109,54 @@ skolem:lemma6 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#angers"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#nantes"]];
-    r:rule skolem:lemma11.
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :path var:x_1.
+            var:x_1 :path var:x_2.
+        } => {
+            var:x_0 :path var:x_2.
+        }.
+    }].
 
 skolem:lemma7 a r:Inference;
     r:gives {
         :chartres :path :nantes.
     };
     r:evidence (
-        skolem:lemma12
+        skolem:lemma11
         skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#chartres"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#nantes"]];
-    r:rule skolem:lemma11.
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :path var:x_1.
+            var:x_1 :path var:x_2.
+        } => {
+            var:x_0 :path var:x_2.
+        }.
+    }].
 
 skolem:lemma8 a r:Inference;
     r:gives {
         :paris :path :nantes.
     };
     r:evidence (
-        skolem:lemma13
+        skolem:lemma12
         skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#paris"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#nantes"]];
-    r:rule skolem:lemma11.
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :path var:x_1.
+            var:x_1 :path var:x_2.
+        } => {
+            var:x_0 :path var:x_2.
+        }.
+    }].
 
 skolem:lemma9 a r:Extraction;
     r:gives {
@@ -148,7 +169,7 @@ skolem:lemma10 a r:Inference;
         :lemans :path :angers.
     };
     r:evidence (
-        skolem:lemma14
+        skolem:lemma13
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#angers"]];
@@ -160,23 +181,12 @@ skolem:lemma10 a r:Inference;
         }.
     }].
 
-skolem:lemma11 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 :path var:x_1.
-            var:x_1 :path var:x_2.
-        } => {
-            var:x_0 :path var:x_2.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/nand/graph.n3>].
-
-skolem:lemma12 a r:Inference;
+skolem:lemma11 a r:Inference;
     r:gives {
         :chartres :path :lemans.
     };
     r:evidence (
-        skolem:lemma15
+        skolem:lemma14
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#chartres"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
@@ -188,37 +198,44 @@ skolem:lemma12 a r:Inference;
         }.
     }].
 
-skolem:lemma13 a r:Inference;
+skolem:lemma12 a r:Inference;
     r:gives {
         :paris :path :lemans.
     };
     r:evidence (
-        skolem:lemma16
-        skolem:lemma12
+        skolem:lemma15
+        skolem:lemma11
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#paris"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#chartres"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://example.org/ns#lemans"]];
-    r:rule skolem:lemma11.
+    r:rule [ a r:DerivedRule; r:gives {
+        {
+            var:x_0 :path var:x_1.
+            var:x_1 :path var:x_2.
+        } => {
+            var:x_0 :path var:x_2.
+        }.
+    }].
 
-skolem:lemma14 a r:Extraction;
+skolem:lemma13 a r:Extraction;
     r:gives {
         :lemans :oneway :angers.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/nand/graph.n3>].
 
-skolem:lemma15 a r:Extraction;
+skolem:lemma14 a r:Extraction;
     r:gives {
         :chartres :oneway :lemans.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/nand/graph.n3>].
 
-skolem:lemma16 a r:Inference;
+skolem:lemma15 a r:Inference;
     r:gives {
         :paris :path :chartres.
     };
     r:evidence (
-        skolem:lemma17
+        skolem:lemma16
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#paris"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#chartres"]];
@@ -230,7 +247,7 @@ skolem:lemma16 a r:Inference;
         }.
     }].
 
-skolem:lemma17 a r:Extraction;
+skolem:lemma16 a r:Extraction;
     r:gives {
         :paris :oneway :chartres.
     };
