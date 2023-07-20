@@ -1,0 +1,29 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :i100000 a :N100000.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :i100000 a :N100000.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:i100000 a :N100000}]
+    );
+    r:rule [ a r:DerivedQuery; r:gives {
+        {
+            :i100000 a :N100000.
+        } => {
+            :i100000 a :N100000.
+        }.
+    }].
+
