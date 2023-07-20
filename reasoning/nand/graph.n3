@@ -22,12 +22,13 @@
 }.
 
 # path transitive property
-(_:A _:B _:C) log:nand {
-    _:A :path _:B.
-    _:B :path _:C.
-    () log:nand {
-        _:A :path _:C.
-    }.
+{
+    ?A :path ?B.
+    ?B :path ?C.
+}
+    =>
+{
+    ?A :path ?C.
 }.
 
 # questions
