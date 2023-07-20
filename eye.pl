@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.8.0 (2023-07-20)').
+version_info('EYE v4.8.1 (2023-07-20)').
 
 license_info('MIT License
 
@@ -181,7 +181,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#not>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#negativeTriple>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
@@ -653,9 +652,10 @@ nand :-
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#not>'(A, T),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(A, triple(Ts, Tp, To)),
+                    T =.. [Tp, Ts, To],
                     catch(call(T), _, false),
-                    '<http://www.w3.org/2000/10/swap/log#not>'(A, T)
+                    '<http://www.w3.org/2000/10/swap/log#nand>'(A, triple(Ts, Tp, To))
                     ), false, '<>')),
     % simplify graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -675,6 +675,7 @@ nand :-
                     conj_list(G, L),
                     list_to_set(L, B),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
+                    H \= triple(_, _, _),
                     conj_list(H, M),
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
@@ -694,7 +695,7 @@ nand :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), B),
                     findall(1,
                         (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
                         ),
@@ -707,7 +708,7 @@ nand :-
                     is_list(W),
                     conj_list(F, K),
                     list_to_set(K, N),
-                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), N),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), N),
                     length(N, 2),
                     makevars(N, J, beta(W)),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
@@ -733,6 +734,7 @@ nand :-
                     list_to_set(L, B),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
                     is_list(Z),
+                    H \= triple(_, _, _),
                     conj_list(R, K),
                     find_graffiti(K, D),
                     append(V, D, U),
@@ -746,7 +748,6 @@ nand :-
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#not>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
                     \+member(exopred(_, _, _), B),
                     (   length(B, O),
@@ -774,9 +775,9 @@ nand :-
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#not>'(Z, H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, triple(Hs, Hp, Ho)), B, K),
                     is_list(Z),
-                    conj_list(H, [T]),
+                    T =.. [Hp, Hs, Ho],
                     conj_list(R, K),
                     conjify(R, S),
                     find_graffiti([R], D),

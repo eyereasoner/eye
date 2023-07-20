@@ -6,51 +6,37 @@
 
 # add
 (_:A) log:nand {
-    () log:not {
-        (_:A 0) :add _:A.
-    }.
+    () log:nand <<(_:A 0) :add _:A>>.
 }.
 
 (_:A _:B _:C) log:nand {
-    () log:not {
-        (_:A (:s _:B)) :add (:s _:C).
-    }.
+    () log:nand <<(_:A (:s _:B)) :add (:s _:C)>>.
     (_:A _:B) :add _:C.
 }.
 
 # multiply
 (_:A) log:nand {
-    () log:not {
-        (_:A 0) :multiply 0.
-    }.
+    () log:nand <<(_:A 0) :multiply 0>>.
 }.
 
 (_:A _:B _:C _:D) log:nand {
-    () log:not {
-        (_:A (:s _:B)) :multiply _:C.
-    }.
+    () log:nand <<(_:A (:s _:B)) :multiply _:C>>.
     (_:A _:B) :multiply _:D.
     (_:A _:D) :add _:C.
 }.
 
 # factorial
 (_:A _:B) log:nand {
-    () log:not {
-        _:A :factorial _:B.
-    }.
+    () log:nand <<_:A :factorial _:B>>.
     (_:A (:s 0)) :fac _:B.
 }.
 
 (_:A) log:nand {
-    () log:not {
-        (0 _:A) :fac _:A.
-    }.
+    () log:nand <<(0 _:A) :fac _:A>>.
 }.
 
 (_:A _:B _:C _:D) log:nand {
-    () log:not {
-        ((:s _:A) _:B) :fac _:C.
-    }.
+    () log:nand <<((:s _:A) _:B) :fac _:C>>.
     (_:B (:s _:A)) :multiply _:D.
     (_:A _:D) :fac _:C.
 }.

@@ -3,28 +3,20 @@
 @prefix : <http://example.org/ns#>.
 
 (_:X _:Y) log:nand {
-    () log:not {
-        _:X :fibonacci _:Y.
-    }.
+    () log:nand <<_:X :fibonacci _:Y>>.
     (_:X 0 1) :fib _:Y.
 }.
 
 (_:A _:B) log:nand {
-    () log:not {
-        (0 _:A _:B) :fib _:A.
-    }.
+    () log:nand <<(0 _:A _:B) :fib _:A>>.
 }.
 
 (_:A _:B) log:nand {
-    () log:not {
-        (1 _:A _:B) :fib _:B.
-    }.
+    () log:nand <<(1 _:A _:B) :fib _:B>>.
 }.
 
 (_:A _:B _:C _:D _:X _:Y) log:nand {
-    () log:not {
-        (_:X _:A _:B) :fib _:Y.
-    }.
+    () log:nand <<(_:X _:A _:B) :fib _:Y>>.
     _:X math:greaterThan 1.
     (_:X 1) math:difference _:C.
     (_:A _:B) math:sum _:D.
