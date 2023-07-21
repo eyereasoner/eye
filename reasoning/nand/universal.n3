@@ -1,5 +1,13 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/>.
+
+# \Every x: type(x, Resource)
+(_:x) log:nand {
+    () log:nand {
+        _:x a rdfs:Resource.
+    }.
+}.
 
 # Everybody loves somebody who is lonely
 (_:A) log:nand {
@@ -10,10 +18,18 @@
 }.
 
 # questions
+() log:nand {
+    :pat a rdfs:Resource.
+    () log:output {
+        :pat a rdfs:Resource.
+    }.
+}.
+
 (_:x) log:nand {
     :bob :loves _:x.
     _:x :is :lonely.
     () log:output {
-        :test :is true.
+        :bob :loves _:x.
+        _:x :is :lonely.
     }.
 }.
