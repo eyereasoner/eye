@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.8.2 (2023-07-21)').
+version_info('EYE v4.8.3 (2023-07-22)').
 
 license_info('MIT License
 
@@ -525,7 +525,8 @@ gre(Argus) :-
     (   flag('pass-only-new')
     ->  (   flag('n3p-output')
         ->  true
-        ;   wh
+        ;   wh,
+            nl
         ),
         forall(
             pass_only_new(Zn),
