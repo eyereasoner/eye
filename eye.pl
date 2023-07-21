@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.8.1 (2023-07-20)').
+version_info('EYE v4.8.2 (2023-07-21)').
 
 license_info('MIT License
 
@@ -3760,7 +3760,7 @@ w1([A|B]) :-
 wh :-
     (   keep_skolem(_)
     ->  nb_getval(var_ns, Sns),
-        put_pfx('var', Sns)
+        put_pfx('skolem', Sns)
     ;   true
     ),
     (   flag('no-qnames')
