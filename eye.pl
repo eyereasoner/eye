@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.8.3 (2023-07-22)').
+version_info('EYE v4.8.4 (2023-07-23)').
 
 license_info('MIT License
 
@@ -1617,6 +1617,12 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   Rt = scope(Scope)
         ->  nb_setval(current_scope, Scope)
+        ;   true
+        ),
+        (   \+flag(nand),
+            Rt = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+        ->  assertz(flag(nand)),
+            nand
         ;   true
         ),
         (   Rt = ':-'(Ci, Px),
