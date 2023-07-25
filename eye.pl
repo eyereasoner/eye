@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.8.4 (2023-07-23)').
+version_info('EYE v4.9.0 (2023-07-25)').
 
 license_info('MIT License
 
@@ -1553,7 +1553,7 @@ args(['--turtle',Argument|Args]) :-
     ),
     assertz(ns('', D)),
     nb_setval(sc, 0),
-    rdf_read_turtle(stream(In), Triples, []),
+    rdf_read_turtle(stream(In), Triples, [on_error(error)]),
     close(In),
     forall(
         member(rdf(S, P, O), Triples),
@@ -7101,6 +7101,33 @@ djiti_assertz(A) :-
     ->  true
     ;   Y \= answer(_, _, _),
         Y \= (answer(_, _, _), _)
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   (   scope(X)
+            ->  true
+            ;   sub_atom(X, 0, 1, _, '<'),
+                sub_atom(X, _, 1, 0, '>'),
+                sub_atom(X, 1, _, 1, Z),
+                catch(
+                    args(['--turtle', Z]),
+                    _,
+                    (   catch(
+                            args(['--n3', Z]),
+                            Exc,
+                            (   format(user_error, '** ERROR ** ~w **~n', [Exc]),
+                                flush_output(user_error),
+                                fail
+                            )
+                        )
+                    )
+                )
+            )
+        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
