@@ -104,16 +104,23 @@ skolem:lemma6 a r:Inference;
         :herbie :is :beautiful.
     };
     r:evidence (
-        skolem:lemma11
+        [ a r:Fact; r:gives {() log:nand {
+            () log:nand {
+                :herbie :is :green.
+            }.
+            () log:nand {
+                :herbie :is :blue.
+            }.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#herbie"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
-            () log:onNegativeSurface {
-                () log:onNegativeSurface {
+            () log:nand {
+                () log:nand {
                     var:x_0 :is :green.
                 }.
-                () log:onNegativeSurface {
+                () log:nand {
                     var:x_0 :is :blue.
                 }.
             }.
@@ -127,7 +134,7 @@ skolem:lemma7 a r:Inference;
         :grannysmith :is :beautiful.
     };
     r:evidence (
-        skolem:lemma12
+        skolem:lemma11
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#grannysmith"]];
     r:rule [ a r:DerivedRule; r:gives {
@@ -143,7 +150,7 @@ skolem:lemma8 a r:Inference;
         :something :is :beautiful.
     };
     r:evidence (
-        skolem:lemma13
+        skolem:lemma12
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#something"]];
     r:rule [ a r:DerivedRule; r:gives {
@@ -159,7 +166,7 @@ skolem:lemma9 a r:Inference;
         :sky :is :beautiful.
     };
     r:evidence (
-        skolem:lemma14
+        skolem:lemma13
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#sky"]];
     r:rule [ a r:DerivedRule; r:gives {
@@ -175,7 +182,7 @@ skolem:lemma10 a r:Inference;
         :beetle :is :beautiful.
     };
     r:evidence (
-        skolem:lemma15
+        skolem:lemma14
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#beetle"]];
     r:rule [ a r:DerivedRule; r:gives {
@@ -188,36 +195,23 @@ skolem:lemma10 a r:Inference;
 
 skolem:lemma11 a r:Extraction;
     r:gives {
-        () log:onNegativeSurface {
-            () log:onNegativeSurface {
-                :herbie :is :green.
-            }.
-            () log:onNegativeSurface {
-                :herbie :is :blue.
-            }.
-        }.
+        :grannysmith :is :green.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle13.n3s>].
 
 skolem:lemma12 a r:Extraction;
     r:gives {
-        :grannysmith :is :green.
+        :something :is :green.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle13.n3s>].
 
 skolem:lemma13 a r:Extraction;
     r:gives {
-        :something :is :green.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle13.n3s>].
-
-skolem:lemma14 a r:Extraction;
-    r:gives {
         :sky :is :blue.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle13.n3s>].
 
-skolem:lemma15 a r:Extraction;
+skolem:lemma14 a r:Extraction;
     r:gives {
         :beetle a :Car.
     };

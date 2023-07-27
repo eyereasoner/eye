@@ -4,21 +4,37 @@
 () log:onNeutralSurface {
     _:e_E_1_1 a <urn:example:C>.
 }.
-(_:e_E_1_1) log:onNegativeSurface {
+(_:e_E_1_1) log:nand {
     _:e_E_1_1 a <urn:example:C>.
 }.
-(_:e_S1_1_1 _:e_a_1_1) log:onNegativeSurface {
-    _:e_a_1_1 log:onNegativeSurface _:e_S1_1_1.
-    () log:onNegativeSurface {
+(_:e_S1_1_1 _:e_a_1_1) log:nand {
+    _:e_a_1_1 log:nand _:e_S1_1_1.
+    () log:nand {
         () log:onNeutralSurface _:e_S1_1_1.
     }.
 }.
-() log:onNegativeSurface {
-    _:sk_23 a <urn:example:C>.
+(_:e_S1_1_2 _:e_x_1_1 _:e_y_1_1) log:nand {
+    () log:onNeutralSurface _:e_S1_1_2.
+    _:e_x_1_1 log:nand _:e_y_1_1.
+    () log:output {
+        () log:onNeutralSurface _:e_S1_1_2.
+        _:e_x_1_1 log:nand _:e_y_1_1.
+    }.
+}.
+() log:nand {
+    _:sk_24 a <urn:example:C>.
 }.
 () log:onNeutralSurface {
-    _:e_a_1_1 log:onNegativeSurface _:e_S1_1_1.
-    () log:onNegativeSurface {
+    _:e_a_1_1 log:nand _:e_S1_1_1.
+    () log:nand {
         () log:onNeutralSurface _:e_S1_1_1.
+    }.
+}.
+() log:onNeutralSurface {
+    () log:onNeutralSurface _:e_S1_1_2.
+    _:e_x_1_1 log:nand _:e_y_1_1.
+    () log:output {
+        () log:onNeutralSurface _:e_S1_1_2.
+        _:e_x_1_1 log:nand _:e_y_1_1.
     }.
 }.

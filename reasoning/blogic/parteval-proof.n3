@@ -15,64 +15,78 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma2;
     r:component skolem:lemma3;
     r:gives {
-        (_:sk_7 _:sk_8) log:onNegativeSurface {
-            _:sk_8 foaf:yahooChatID _:sk_7.
-            () log:onNegativeSurface {
-                _:sk_8 foaf:nick _:sk_7.
+        (_:sk_19 _:sk_20) log:nand {
+            _:sk_20 foaf:yahooChatID _:sk_19.
+            () log:nand {
+                _:sk_20 foaf:nick _:sk_19.
             }.
         }.
-        (_:sk_9) log:onNegativeSurface {
-            rdfs:subClassOf rdfs:subPropertyOf _:sk_9.
-            () log:onNegativeSurface {
-                schema:LifestyleModification _:sk_9 schema:MedicalTherapy.
+        (_:sk_23) log:nand {
+            rdfs:subClassOf rdfs:subPropertyOf _:sk_23.
+            () log:nand {
+                schema:LifestyleModification _:sk_23 schema:MedicalTherapy.
             }.
         }.
-        (_:sk_10) log:onNegativeSurface {
-            _:sk_10 a schema:LifestyleModification.
-            () log:onNegativeSurface {
-                _:sk_10 a schema:MedicalTherapy.
+        (_:sk_26) log:nand {
+            _:sk_26 a schema:LifestyleModification.
+            () log:nand {
+                _:sk_26 a schema:MedicalTherapy.
             }.
         }.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        (_:sk_7 _:sk_8) log:onNegativeSurface {
-            _:sk_8 foaf:yahooChatID _:sk_7.
-            () log:onNegativeSurface {
-                _:sk_8 foaf:nick _:sk_7.
+        (_:sk_19 _:sk_20) log:nand {
+            _:sk_20 foaf:yahooChatID _:sk_19.
+            () log:nand {
+                _:sk_20 foaf:nick _:sk_19.
             }.
         }.
     };
     r:evidence (
         skolem:lemma4
-        [ a r:Fact; r:gives {rdfs:subPropertyOf log:notEqualTo log:onNegativeSurface}]
-        [ a r:Fact; r:gives {rdfs:subPropertyOf log:notEqualTo log:onQuestionSurface}]
-        skolem:lemma5
+        [ a r:Fact; r:gives {rdfs:subPropertyOf log:notEqualTo log:nand}]
+        [ a r:Fact; r:gives {(skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1) log:nand {
+            skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
+            skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
+            () log:nand {
+                skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
+            }.
+        }}]
+        [ a r:Fact; r:gives {{
+            skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
+            skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
+            () log:nand {
+                skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
+            }.
+        } log:notIncludes {
+            _:sk_17 log:output _:sk_18.
+        }}]
         [ a r:Fact; r:gives {({
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } {
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
         }) graph:union {
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
@@ -80,13 +94,13 @@ skolem:lemma1 a r:Inference;
         [ a r:Fact; r:gives {({
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
@@ -95,31 +109,31 @@ skolem:lemma1 a r:Inference;
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
-            } log:graffiti (_:sk_7 foaf:yahooChatID foaf:nick _:sk_8).
+            } log:graffiti (_:sk_19 foaf:yahooChatID foaf:nick _:sk_20).
         }) graph:difference {
-            _:sk_8 foaf:yahooChatID _:sk_7.
-            () log:onNegativeSurface {
-                _:sk_8 foaf:nick _:sk_7.
+            _:sk_20 foaf:yahooChatID _:sk_19.
+            () log:nand {
+                _:sk_20 foaf:nick _:sk_19.
             }.
         }}]
         [ a r:Fact; r:gives {{
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } graph:length 3}]
         [ a r:Fact; r:gives {{
-            _:sk_8 foaf:yahooChatID _:sk_7.
-            () log:onNegativeSurface {
-                _:sk_8 foaf:nick _:sk_7.
+            _:sk_20 foaf:yahooChatID _:sk_19.
+            () log:nand {
+                _:sk_20 foaf:nick _:sk_19.
             }.
         } graph:length 2}]
         [ a r:Fact; r:gives {3 math:greaterThan 2}]
-        [ a r:Fact; r:gives {(_:sk_7 foaf:yahooChatID foaf:nick _:sk_8) log:graffiti (_:sk_7 _:sk_8)}]
+        [ a r:Fact; r:gives {(_:sk_19 foaf:yahooChatID foaf:nick _:sk_20) log:graffiti (_:sk_19 _:sk_20)}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/01/rdf-schema#subPropertyOf"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://xmlns.com/foaf/0.1/yahooChatID"]];
@@ -128,94 +142,112 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo {
         skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
         skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_18"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
         skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
         skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
         }.
         {
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
-        _:sk_8 foaf:yahooChatID _:sk_7.
-        () log:onNegativeSurface {
-            _:sk_8 foaf:nick _:sk_7.
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo {
+        _:sk_20 foaf:yahooChatID _:sk_19.
+        () log:nand {
+            _:sk_20 foaf:nick _:sk_19.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (_:sk_7 foaf:yahooChatID foaf:nick _:sk_8)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo 3];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 2];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo (_:sk_7 _:sk_8)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo (_:sk_19 foaf:yahooChatID foaf:nick _:sk_20)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_12"]; r:boundTo (_:sk_19 _:sk_20)];
     r:rule [ a r:DerivedQuery; r:gives {
         {
             var:x_1 var:x_0 var:x_2.
-            var:x_0 log:notEqualTo log:onNegativeSurface.
-            var:x_0 log:notEqualTo log:onQuestionSurface.
-            var:x_3 log:onNegativeSurface var:x_4.
+            var:x_0 log:notEqualTo log:nand.
+            var:x_3 log:nand var:x_4.
+            var:x_4 log:notIncludes {
+                var:x_5 log:output var:x_6.
+            }.
             (var:x_4 {
                 var:x_4 log:graffiti var:x_3.
-            }) graph:union var:x_5.
-            (var:x_5 {
+            }) graph:union var:x_7.
+            (var:x_7 {
                 var:x_1 var:x_0 var:x_2.
-                var:x_4 log:graffiti var:x_6.
-            }) graph:difference var:x_7.
-            var:x_4 graph:length var:x_8.
-            var:x_7 graph:length var:x_9.
-            var:x_8 math:greaterThan var:x_9.
-            var:x_6 log:graffiti var:x_10.
+                var:x_4 log:graffiti var:x_8.
+            }) graph:difference var:x_9.
+            var:x_4 graph:length var:x_10.
+            var:x_9 graph:length var:x_11.
+            var:x_10 math:greaterThan var:x_11.
+            var:x_8 log:graffiti var:x_12.
         } => {
-            var:x_10 log:onNegativeSurface var:x_7.
+            var:x_12 log:nand var:x_9.
         }.
     }].
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        (_:sk_9) log:onNegativeSurface {
-            rdfs:subClassOf rdfs:subPropertyOf _:sk_9.
-            () log:onNegativeSurface {
-                schema:LifestyleModification _:sk_9 schema:MedicalTherapy.
+        (_:sk_23) log:nand {
+            rdfs:subClassOf rdfs:subPropertyOf _:sk_23.
+            () log:nand {
+                schema:LifestyleModification _:sk_23 schema:MedicalTherapy.
             }.
         }.
     };
     r:evidence (
-        skolem:lemma6
-        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:onNegativeSurface}]
-        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:onQuestionSurface}]
         skolem:lemma5
+        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:nand}]
+        [ a r:Fact; r:gives {(skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1) log:nand {
+            skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
+            skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
+            () log:nand {
+                skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
+            }.
+        }}]
+        [ a r:Fact; r:gives {{
+            skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
+            skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
+            () log:nand {
+                skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
+            }.
+        } log:notIncludes {
+            _:sk_21 log:output _:sk_22.
+        }}]
         [ a r:Fact; r:gives {({
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } {
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
         }) graph:union {
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
@@ -223,13 +255,13 @@ skolem:lemma2 a r:Inference;
         [ a r:Fact; r:gives {({
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
             } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
@@ -238,31 +270,31 @@ skolem:lemma2 a r:Inference;
             {
                 skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
                 skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
                 }.
-            } log:graffiti (schema:MedicalTherapy rdfs:subClassOf _:sk_9 schema:LifestyleModification).
+            } log:graffiti (schema:MedicalTherapy rdfs:subClassOf _:sk_23 schema:LifestyleModification).
         }) graph:difference {
-            rdfs:subClassOf rdfs:subPropertyOf _:sk_9.
-            () log:onNegativeSurface {
-                schema:LifestyleModification _:sk_9 schema:MedicalTherapy.
+            rdfs:subClassOf rdfs:subPropertyOf _:sk_23.
+            () log:nand {
+                schema:LifestyleModification _:sk_23 schema:MedicalTherapy.
             }.
         }}]
         [ a r:Fact; r:gives {{
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } graph:length 3}]
         [ a r:Fact; r:gives {{
-            rdfs:subClassOf rdfs:subPropertyOf _:sk_9.
-            () log:onNegativeSurface {
-                schema:LifestyleModification _:sk_9 schema:MedicalTherapy.
+            rdfs:subClassOf rdfs:subPropertyOf _:sk_23.
+            () log:nand {
+                schema:LifestyleModification _:sk_23 schema:MedicalTherapy.
             }.
         } graph:length 2}]
         [ a r:Fact; r:gives {3 math:greaterThan 2}]
-        [ a r:Fact; r:gives {(schema:MedicalTherapy rdfs:subClassOf _:sk_9 schema:LifestyleModification) log:graffiti (_:sk_9)}]
+        [ a r:Fact; r:gives {(schema:MedicalTherapy rdfs:subClassOf _:sk_23 schema:LifestyleModification) log:graffiti (_:sk_23)}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/01/rdf-schema#subClassOf"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://schema.org/LifestyleModification"]];
@@ -271,94 +303,112 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo {
         skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
         skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_21"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
         skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
         skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
         }.
         {
             skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
             skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
             }.
         } log:graffiti (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1).
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
-        rdfs:subClassOf rdfs:subPropertyOf _:sk_9.
-        () log:onNegativeSurface {
-            schema:LifestyleModification _:sk_9 schema:MedicalTherapy.
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo {
+        rdfs:subClassOf rdfs:subPropertyOf _:sk_23.
+        () log:nand {
+            schema:LifestyleModification _:sk_23 schema:MedicalTherapy.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (schema:MedicalTherapy rdfs:subClassOf _:sk_9 schema:LifestyleModification)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo 3];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 2];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo (_:sk_9)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo (schema:MedicalTherapy rdfs:subClassOf _:sk_23 schema:LifestyleModification)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_12"]; r:boundTo (_:sk_23)];
     r:rule [ a r:DerivedQuery; r:gives {
         {
             var:x_1 var:x_0 var:x_2.
-            var:x_0 log:notEqualTo log:onNegativeSurface.
-            var:x_0 log:notEqualTo log:onQuestionSurface.
-            var:x_3 log:onNegativeSurface var:x_4.
+            var:x_0 log:notEqualTo log:nand.
+            var:x_3 log:nand var:x_4.
+            var:x_4 log:notIncludes {
+                var:x_5 log:output var:x_6.
+            }.
             (var:x_4 {
                 var:x_4 log:graffiti var:x_3.
-            }) graph:union var:x_5.
-            (var:x_5 {
+            }) graph:union var:x_7.
+            (var:x_7 {
                 var:x_1 var:x_0 var:x_2.
-                var:x_4 log:graffiti var:x_6.
-            }) graph:difference var:x_7.
-            var:x_4 graph:length var:x_8.
-            var:x_7 graph:length var:x_9.
-            var:x_8 math:greaterThan var:x_9.
-            var:x_6 log:graffiti var:x_10.
+                var:x_4 log:graffiti var:x_8.
+            }) graph:difference var:x_9.
+            var:x_4 graph:length var:x_10.
+            var:x_9 graph:length var:x_11.
+            var:x_10 math:greaterThan var:x_11.
+            var:x_8 log:graffiti var:x_12.
         } => {
-            var:x_10 log:onNegativeSurface var:x_7.
+            var:x_12 log:nand var:x_9.
         }.
     }].
 
 skolem:lemma3 a r:Inference;
     r:gives {
-        (_:sk_10) log:onNegativeSurface {
-            _:sk_10 a schema:LifestyleModification.
-            () log:onNegativeSurface {
-                _:sk_10 a schema:MedicalTherapy.
+        (_:sk_26) log:nand {
+            _:sk_26 a schema:LifestyleModification.
+            () log:nand {
+                _:sk_26 a schema:MedicalTherapy.
             }.
         }.
     };
     r:evidence (
-        skolem:lemma6
-        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:onNegativeSurface}]
-        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:onQuestionSurface}]
-        skolem:lemma7
+        skolem:lemma5
+        [ a r:Fact; r:gives {rdfs:subClassOf log:notEqualTo log:nand}]
+        [ a r:Fact; r:gives {(skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1) log:nand {
+            skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
+            skolem:e_X_1_1 a skolem:e_C_1_1.
+            () log:nand {
+                skolem:e_X_1_1 a skolem:e_D_1_1.
+            }.
+        }}]
+        [ a r:Fact; r:gives {{
+            skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
+            skolem:e_X_1_1 a skolem:e_C_1_1.
+            () log:nand {
+                skolem:e_X_1_1 a skolem:e_D_1_1.
+            }.
+        } log:notIncludes {
+            _:sk_24 log:output _:sk_25.
+        }}]
         [ a r:Fact; r:gives {({
             skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
             skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_X_1_1 a skolem:e_D_1_1.
             }.
         } {
             {
                 skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
                 skolem:e_X_1_1 a skolem:e_C_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_X_1_1 a skolem:e_D_1_1.
                 }.
             } log:graffiti (skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1).
         }) graph:union {
             skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
             skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_X_1_1 a skolem:e_D_1_1.
             }.
             {
                 skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
                 skolem:e_X_1_1 a skolem:e_C_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_X_1_1 a skolem:e_D_1_1.
                 }.
             } log:graffiti (skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1).
@@ -366,13 +416,13 @@ skolem:lemma3 a r:Inference;
         [ a r:Fact; r:gives {({
             skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
             skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_X_1_1 a skolem:e_D_1_1.
             }.
             {
                 skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
                 skolem:e_X_1_1 a skolem:e_C_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_X_1_1 a skolem:e_D_1_1.
                 }.
             } log:graffiti (skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1).
@@ -381,31 +431,31 @@ skolem:lemma3 a r:Inference;
             {
                 skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
                 skolem:e_X_1_1 a skolem:e_C_1_1.
-                () log:onNegativeSurface {
+                () log:nand {
                     skolem:e_X_1_1 a skolem:e_D_1_1.
                 }.
-            } log:graffiti (schema:LifestyleModification schema:MedicalTherapy _:sk_10).
+            } log:graffiti (schema:LifestyleModification schema:MedicalTherapy _:sk_26).
         }) graph:difference {
-            _:sk_10 a schema:LifestyleModification.
-            () log:onNegativeSurface {
-                _:sk_10 a schema:MedicalTherapy.
+            _:sk_26 a schema:LifestyleModification.
+            () log:nand {
+                _:sk_26 a schema:MedicalTherapy.
             }.
         }}]
         [ a r:Fact; r:gives {{
             skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
             skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_X_1_1 a skolem:e_D_1_1.
             }.
         } graph:length 3}]
         [ a r:Fact; r:gives {{
-            _:sk_10 a schema:LifestyleModification.
-            () log:onNegativeSurface {
-                _:sk_10 a schema:MedicalTherapy.
+            _:sk_26 a schema:LifestyleModification.
+            () log:nand {
+                _:sk_26 a schema:MedicalTherapy.
             }.
         } graph:length 2}]
         [ a r:Fact; r:gives {3 math:greaterThan 2}]
-        [ a r:Fact; r:gives {(schema:LifestyleModification schema:MedicalTherapy _:sk_10) log:graffiti (_:sk_10)}]
+        [ a r:Fact; r:gives {(schema:LifestyleModification schema:MedicalTherapy _:sk_26) log:graffiti (_:sk_26)}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/01/rdf-schema#subClassOf"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "http://schema.org/LifestyleModification"]];
@@ -414,53 +464,57 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo {
         skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
         skolem:e_X_1_1 a skolem:e_C_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_X_1_1 a skolem:e_D_1_1.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_24"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_25"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
         skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
         skolem:e_X_1_1 a skolem:e_C_1_1.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_X_1_1 a skolem:e_D_1_1.
         }.
         {
             skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
             skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
+            () log:nand {
                 skolem:e_X_1_1 a skolem:e_D_1_1.
             }.
         } log:graffiti (skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1).
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo {
-        _:sk_10 a schema:LifestyleModification.
-        () log:onNegativeSurface {
-            _:sk_10 a schema:MedicalTherapy.
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo {
+        _:sk_26 a schema:LifestyleModification.
+        () log:nand {
+            _:sk_26 a schema:MedicalTherapy.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (schema:LifestyleModification schema:MedicalTherapy _:sk_10)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo 3];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_9"]; r:boundTo 2];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo (_:sk_10)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_8"]; r:boundTo (schema:LifestyleModification schema:MedicalTherapy _:sk_26)];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_10"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_11"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_12"]; r:boundTo (_:sk_26)];
     r:rule [ a r:DerivedQuery; r:gives {
         {
             var:x_1 var:x_0 var:x_2.
-            var:x_0 log:notEqualTo log:onNegativeSurface.
-            var:x_0 log:notEqualTo log:onQuestionSurface.
-            var:x_3 log:onNegativeSurface var:x_4.
+            var:x_0 log:notEqualTo log:nand.
+            var:x_3 log:nand var:x_4.
+            var:x_4 log:notIncludes {
+                var:x_5 log:output var:x_6.
+            }.
             (var:x_4 {
                 var:x_4 log:graffiti var:x_3.
-            }) graph:union var:x_5.
-            (var:x_5 {
+            }) graph:union var:x_7.
+            (var:x_7 {
                 var:x_1 var:x_0 var:x_2.
-                var:x_4 log:graffiti var:x_6.
-            }) graph:difference var:x_7.
-            var:x_4 graph:length var:x_8.
-            var:x_7 graph:length var:x_9.
-            var:x_8 math:greaterThan var:x_9.
-            var:x_6 log:graffiti var:x_10.
+                var:x_4 log:graffiti var:x_8.
+            }) graph:difference var:x_9.
+            var:x_4 graph:length var:x_10.
+            var:x_9 graph:length var:x_11.
+            var:x_10 math:greaterThan var:x_11.
+            var:x_8 log:graffiti var:x_12.
         } => {
-            var:x_10 log:onNegativeSurface var:x_7.
+            var:x_12 log:nand var:x_9.
         }.
     }].
 
@@ -472,31 +526,7 @@ skolem:lemma4 a r:Extraction;
 
 skolem:lemma5 a r:Extraction;
     r:gives {
-        (skolem:e_O_1_1 skolem:e_P_1_1 skolem:e_Q_1_1 skolem:e_S_1_1) log:onNegativeSurface {
-            skolem:e_P_1_1 rdfs:subPropertyOf skolem:e_Q_1_1.
-            skolem:e_S_1_1 skolem:e_P_1_1 skolem:e_O_1_1.
-            () log:onNegativeSurface {
-                skolem:e_S_1_1 skolem:e_Q_1_1 skolem:e_O_1_1.
-            }.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/parteval.n3s>].
-
-skolem:lemma6 a r:Extraction;
-    r:gives {
         schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/parteval.n3s>].
-
-skolem:lemma7 a r:Extraction;
-    r:gives {
-        (skolem:e_C_1_1 skolem:e_D_1_1 skolem:e_X_1_1) log:onNegativeSurface {
-            skolem:e_C_1_1 rdfs:subClassOf skolem:e_D_1_1.
-            skolem:e_X_1_1 a skolem:e_C_1_1.
-            () log:onNegativeSurface {
-                skolem:e_X_1_1 a skolem:e_D_1_1.
-            }.
-        }.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/parteval.n3s>].
 

@@ -39,7 +39,7 @@ skolem:lemma2 a r:Inference;
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 :is :green.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 :is :pretty.
             }.
         } => {
@@ -53,13 +53,15 @@ skolem:lemma3 a r:Inference;
     };
     r:evidence (
         skolem:lemma5
-        skolem:lemma6
+        [ a r:Fact; r:gives {() log:nand {
+            :beetle :is :blue.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#beetle"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 a :Car.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 :is :blue.
             }.
         } => {
@@ -69,7 +71,7 @@ skolem:lemma3 a r:Inference;
 
 skolem:lemma4 a r:Inference;
     r:gives {
-        () log:onNegativeSurface {
+        () log:nand {
             :beetle :is :pretty.
         }.
     };
@@ -81,7 +83,7 @@ skolem:lemma4 a r:Inference;
         {
             var:x_0 a :Car.
         } => {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 :is :pretty.
             }.
         }.
@@ -90,14 +92,6 @@ skolem:lemma4 a r:Inference;
 skolem:lemma5 a r:Extraction;
     r:gives {
         :beetle a :Car.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle6a.n3s>].
-
-skolem:lemma6 a r:Extraction;
-    r:gives {
-        () log:onNegativeSurface {
-            :beetle :is :blue.
-        }.
     };
     r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/beetle6a.n3s>].
 

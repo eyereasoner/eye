@@ -59,25 +59,19 @@ skolem:lemma4 a r:Inference;
     };
     r:evidence (
         skolem:lemma3
-        skolem:lemma5
+        [ a r:Fact; r:gives {() log:nand {
+            :i a :C.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#i"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 a :A.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a :C.
             }.
         } => {
             var:x_0 a :B.
         }.
     }].
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
-        () log:onNegativeSurface {
-            :i a :C.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/abc.n3s>].
 

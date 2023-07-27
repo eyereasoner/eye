@@ -31,8 +31,10 @@ skolem:lemma2 a r:Inference;
         <urn:example:test> <urn:example:is> true.
     };
     r:evidence (
+        [ a r:Fact; r:gives {() log:nand {
+            skolem:e_E_1 a <urn:example:C>.
+        }}]
         skolem:lemma3
-        skolem:lemma4
         [ a r:Fact; r:gives {{
             skolem:e_E_1 a <urn:example:C>.
         } log:notIncludes {
@@ -49,8 +51,8 @@ skolem:lemma2 a r:Inference;
     }];
     r:rule [ a r:DerivedRule; r:gives {
         {
-            var:x_0 log:onNegativeSurface var:x_1.
-            var:x_2 log:onPositiveSurface var:x_3.
+            var:x_0 log:nand var:x_1.
+            var:x_2 log:onNeutralSurface var:x_3.
             var:x_1 log:notIncludes var:x_3.
         } => {
             <urn:example:test> <urn:example:is> true.
@@ -59,15 +61,7 @@ skolem:lemma2 a r:Inference;
 
 skolem:lemma3 a r:Extraction;
     r:gives {
-        () log:onNegativeSurface {
-            skolem:e_E_1 a <urn:example:C>.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/graph-play.n3s>].
-
-skolem:lemma4 a r:Extraction;
-    r:gives {
-        () log:onPositiveSurface {
+        () log:onNeutralSurface {
             skolem:e_F_1 a <urn:example:C>.
         }.
     };

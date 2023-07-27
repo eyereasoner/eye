@@ -32,58 +32,56 @@ skolem:lemma2 a r:Inference;
     };
     r:evidence (
         [ a r:Fact; r:gives {{
-            (_:sk_4) log:onNegativeSurface {
-                _:sk_4 a <urn:example:C>.
+            (skolem:e_V_1_2) log:onNegativeSurface {
+                skolem:e_V_1_2 a <urn:example:C>.
             }.
         } log:equalTo {
-            (_:sk_4) log:onNegativeSurface {
-                _:sk_4 a <urn:example:C>.
+            (skolem:e_V_1_2) log:onNegativeSurface {
+                skolem:e_V_1_2 a <urn:example:C>.
             }.
         }}]
         [ a r:Fact; r:gives {{
-            (_:sk_5) log:onNegativeSurface {
-                _:sk_5 a <urn:example:C>.
+            (skolem:e_E_1_2) log:onNegativeSurface {
+                skolem:e_E_1_2 a <urn:example:C>.
             }.
         } log:equalTo {
-            (_:sk_5) log:onNegativeSurface {
-                _:sk_5 a <urn:example:C>.
+            (skolem:e_E_1_2) log:onNegativeSurface {
+                skolem:e_E_1_2 a <urn:example:C>.
             }.
         }}]
         [ a r:Fact; r:gives {{
-            (_:sk_4) log:onNegativeSurface {
-                _:sk_4 a <urn:example:C>.
+            (skolem:e_V_1_2) log:onNegativeSurface {
+                skolem:e_V_1_2 a <urn:example:C>.
             }.
         } log:isomorphic {
-            (_:sk_5) log:onNegativeSurface {
-                _:sk_5 a <urn:example:C>.
+            (skolem:e_E_1_2) log:onNegativeSurface {
+                skolem:e_E_1_2 a <urn:example:C>.
             }.
         }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo {
-        (_:sk_4) log:onNegativeSurface {
-            _:sk_4 a <urn:example:C>.
+        (skolem:e_V_1_2) log:onNegativeSurface {
+            skolem:e_V_1_2 a <urn:example:C>.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo {
-        (_:sk_5) log:onNegativeSurface {
-            _:sk_5 a <urn:example:C>.
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+        (skolem:e_E_1_2) log:onNegativeSurface {
+            skolem:e_E_1_2 a <urn:example:C>.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 log:equalTo {
-                (var:x_1) log:onNegativeSurface {
-                    var:x_1 a <urn:example:C>.
+                (skolem:e_V_1_2) log:onNegativeSurface {
+                    skolem:e_V_1_2 a <urn:example:C>.
                 }.
             }.
-            var:x_2 log:equalTo {
-                (var:x_3) log:onNegativeSurface {
-                    var:x_3 a <urn:example:C>.
+            var:x_1 log:equalTo {
+                (skolem:e_E_1_2) log:onNegativeSurface {
+                    skolem:e_E_1_2 a <urn:example:C>.
                 }.
             }.
-            var:x_0 log:isomorphic var:x_2.
+            var:x_0 log:isomorphic var:x_1.
         } => {
             <urn:example:test> <urn:example:is> true.
         }.

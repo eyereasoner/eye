@@ -9,43 +9,43 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:component skolem:lemma2;
     r:gives {
-        () log:onNegativeSurface {
-            (skolem:e_E_1_1) log:onNegativeSurface {
+        () log:nand {
+            (skolem:e_E_1_1) log:nand {
                 skolem:e_E_1_1 a <urn:example:C>.
             }.
         }.
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_E_1_1 a <urn:example:C>.
         }.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        () log:onNegativeSurface {
-            (skolem:e_E_1_1) log:onNegativeSurface {
+        () log:nand {
+            (skolem:e_E_1_1) log:nand {
                 skolem:e_E_1_1 a <urn:example:C>.
             }.
         }.
     };
     r:evidence (
-        [ a r:Fact; r:gives {() log:onNegativeSurface {
-            (skolem:e_E_1_1) log:onNegativeSurface {
+        [ a r:Fact; r:gives {() log:nand {
+            (skolem:e_E_1_1) log:nand {
                 skolem:e_E_1_1 a <urn:example:C>.
             }.
         }}]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#onNegativeSurface"]];
+    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#nand"]];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (skolem:e_E_1_1)];
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo {
         skolem:e_E_1_1 a <urn:example:C>.
     }];
     r:rule [ a r:DerivedQuery; r:gives {
         {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_1 var:x_0 var:x_2.
             }.
         } => {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_1 var:x_0 var:x_2.
             }.
         }.
@@ -53,12 +53,12 @@ skolem:lemma1 a r:Inference;
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        () log:onNegativeSurface {
+        () log:nand {
             skolem:e_E_1_1 a <urn:example:C>.
         }.
     };
     r:evidence (
-        [ a r:Fact; r:gives {() log:onNegativeSurface {
+        [ a r:Fact; r:gives {() log:nand {
             skolem:e_E_1_1 a <urn:example:C>.
         }}]
     );
@@ -67,11 +67,11 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "urn:example:C"]];
     r:rule [ a r:DerivedQuery; r:gives {
         {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_1 var:x_0 var:x_2.
             }.
         } => {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_1 var:x_0 var:x_2.
             }.
         }.

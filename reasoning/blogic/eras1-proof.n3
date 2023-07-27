@@ -8,19 +8,19 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        () log:onNegativeSurface {
+        () log:nand {
             <urn:example:A> a <urn:example:AA>.
         }.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        () log:onNegativeSurface {
+        () log:nand {
             <urn:example:A> a <urn:example:AA>.
         }.
     };
     r:evidence (
-        [ a r:Fact; r:gives {() log:onNegativeSurface {
+        [ a r:Fact; r:gives {() log:nand {
             <urn:example:A> a <urn:example:AA>.
         }}]
     );
@@ -28,11 +28,11 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ n3:uri "urn:example:AA"]];
     r:rule [ a r:DerivedQuery; r:gives {
         {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a var:x_1.
             }.
         } => {
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a var:x_1.
             }.
         }.

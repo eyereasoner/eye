@@ -16,7 +16,7 @@ skolem:lemma1 a r:Inference;
         :s :p :o.
     };
     r:evidence (
-        skolem:lemma2
+        [ a r:Fact; r:gives {:s :p :o}]
     );
     r:rule [ a r:DerivedQuery; r:gives {
         {
@@ -25,29 +25,4 @@ skolem:lemma1 a r:Inference;
             :s :p :o.
         }.
     }].
-
-skolem:lemma2 a r:Inference;
-    r:gives {
-        :s :p :o.
-    };
-    r:evidence (
-        skolem:lemma3
-    );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
-        :s :p :o.
-    }];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ()];
-    r:rule [ a r:DerivedRule; r:gives {
-        {
-            var:x_0 log:onPositiveSurface var:x_1.
-        } => var:x_1.
-    }].
-
-skolem:lemma3 a r:Extraction;
-    r:gives {
-        () log:onPositiveSurface {
-            :s :p :o.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/spo.n3s>].
 

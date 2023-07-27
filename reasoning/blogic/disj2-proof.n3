@@ -97,13 +97,15 @@ skolem:lemma6 a r:Inference;
     };
     r:evidence (
         skolem:lemma5
-        skolem:lemma9
+        [ a r:Fact; r:gives {() log:nand {
+            :abc a :C1.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 a :C0.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a :C1.
             }.
         } => {
@@ -117,13 +119,15 @@ skolem:lemma7 a r:Inference;
     };
     r:evidence (
         skolem:lemma6
-        skolem:lemma10
+        [ a r:Fact; r:gives {() log:nand {
+            :abc a :C21.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 a :C2.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a :C21.
             }.
         } => {
@@ -137,41 +141,19 @@ skolem:lemma8 a r:Inference;
     };
     r:evidence (
         skolem:lemma7
-        skolem:lemma11
+        [ a r:Fact; r:gives {() log:nand {
+            :abc a :C221.
+        }}]
     );
     r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#abc"]];
     r:rule [ a r:DerivedRule; r:gives {
         {
             var:x_0 a :C22.
-            () log:onNegativeSurface {
+            () log:nand {
                 var:x_0 a :C221.
             }.
         } => {
             var:x_0 a :C222.
         }.
     }].
-
-skolem:lemma9 a r:Extraction;
-    r:gives {
-        () log:onNegativeSurface {
-            :abc a :C1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3s>].
-
-skolem:lemma10 a r:Extraction;
-    r:gives {
-        () log:onNegativeSurface {
-            :abc a :C21.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3s>].
-
-skolem:lemma11 a r:Extraction;
-    r:gives {
-        () log:onNegativeSurface {
-            :abc a :C221.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/blogic/disj2.n3s>].
 
