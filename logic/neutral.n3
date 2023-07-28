@@ -12,6 +12,7 @@
 # getting the content of a neutral surface
 (_:G _:H) log:nand {
     () log:nand _:G.
+    _:G graph:member {() log:nand true}.
     (_:G {() log:nand true}) graph:difference _:H.
     () log:output {
         :result :is _:H.
