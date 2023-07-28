@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.0 (2023-07-27)').
+version_info('EYE v4.10.1 (2023-07-28)').
 
 license_info('MIT License
 
@@ -7277,6 +7277,9 @@ djiti_assertz(A) :-
             )
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/log#version>'(_, literal(V, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+    version_info(V).
 
 '<http://www.w3.org/2000/10/swap/math#absoluteValue>'(X, Y) :-
     when(
