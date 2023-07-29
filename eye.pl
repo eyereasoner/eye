@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.1 (2023-07-28)').
+version_info('EYE v4.10.2 (2023-07-30)').
 
 license_info('MIT License
 
@@ -49,7 +49,6 @@ help_info('Usage: eye <options>* <data>* <query>*
 eye
     swipl -g main eye.pl --
 <options>
-    --blogic                        support RDF surfaces
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
@@ -841,6 +840,7 @@ nand :-
                     ;   true
                     )), true, '<>')).
 
+% DEPRECATED
 blogic :-
     retract('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)),
     conj_list(G, L),
@@ -916,12 +916,13 @@ tonand([A|B], [A|C]) :-
 
 opts([], []) :-
     !.
+% DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
     retractall(flag(blogic)),
     assertz(flag(blogic)),
     opts(Argus, Args).
-opts(['--csv-separator',Separator|Argus], Args) :-
+opts(['--csv-separator', Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
     assertz(flag('csv-separator', Separator)),
@@ -959,7 +960,7 @@ opts(['--help'|_], _) :-
     format(user_error, '~w~n', [Help]),
     flush_output(user_error),
     throw(halt(0)).
-opts(['--hmac-key',Key|Argus], Args) :-
+opts(['--hmac-key', Key|Argus], Args) :-
     !,
     retractall(flag('hmac-key', _)),
     assertz(flag('hmac-key', Key)),
@@ -969,7 +970,7 @@ opts(['--ignore-inference-fuse'|Argus], Args) :-
     retractall(flag('ignore-inference-fuse')),
     assertz(flag('ignore-inference-fuse')),
     opts(Argus, Args).
-opts(['--image',File|Argus], Args) :-
+opts(['--image', File|Argus], Args) :-
     !,
     retractall(flag(image, _)),
     assertz(flag(image, File)),
@@ -980,7 +981,7 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt(0)).
-opts(['--max-inferences',Lim|Argus], Args) :-
+opts(['--max-inferences', Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -1040,7 +1041,7 @@ opts(['--nope'|Argus], Args) :-
     retractall(flag(nope)),
     assertz(flag(nope)),
     opts(Argus, Args).
-opts(['--output',File|Argus], Args) :-
+opts(['--output', File|Argus], Args) :-
     !,
     retractall(flag('output', _)),
     open(File, write, Out, [encoding(utf8)]),
@@ -1057,7 +1058,7 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
-opts(['--intermediate',File|Argus], Args) :-
+opts(['--intermediate', File|Argus], Args) :-
     !,
     retractall(flag(intermediate, _)),
     open(File, write, Out, [encoding(utf8)]),
@@ -1068,7 +1069,7 @@ opts(['--profile'|Argus], Args) :-
     retractall(flag(profile)),
     assertz(flag(profile)),
     opts(Argus, Args).
-opts(['--quantify',Prefix|Argus], Args) :-
+opts(['--quantify', Prefix|Argus], Args) :-
     !,
     assertz(flag('quantify', Prefix)),
     opts(Argus, Args).
@@ -1097,7 +1098,7 @@ opts(['--rule-histogram'|Argus], Args) :-
     retractall(flag('rule-histogram')),
     assertz(flag('rule-histogram')),
     opts(Argus, Args).
-opts(['--skolem-genid',Genid|Argus], Args) :-
+opts(['--skolem-genid', Genid|Argus], Args) :-
     !,
     retractall(flag('skolem-genid', _)),
     assertz(flag('skolem-genid', Genid)),
@@ -1112,7 +1113,7 @@ opts(['--strings'|Argus], Args) :-
     retractall(flag(strings)),
     assertz(flag(strings)),
     opts(Argus, Args).
-opts(['--tactic','limited-answer',Lim|Argus], Args) :-
+opts(['--tactic', 'limited-answer', Lim|Argus], Args) :-
     !,
     (   number(Lim)
     ->  Limit = Lim
@@ -1127,12 +1128,12 @@ opts(['--tactic','limited-answer',Lim|Argus], Args) :-
     retractall(flag('limited-answer', _)),
     assertz(flag('limited-answer', Limit)),
     opts(Argus, Args).
-opts(['--tactic','linear-select'|Argus], Args) :-
+opts(['--tactic', 'linear-select'|Argus], Args) :-
     !,
     retractall(flag(tactic, 'linear-select')),
     assertz(flag(tactic, 'linear-select')),
     opts(Argus, Args).
-opts(['--tactic',Tactic|_], _) :-
+opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
 opts(['--version'|_], _) :-
@@ -1143,7 +1144,7 @@ opts(['--warn'|Argus], Args) :-
     retractall(flag(warn)),
     assertz(flag(warn)),
     opts(Argus, Args).
-opts(['--wcache',Argument,File|Argus], Args) :-
+opts(['--wcache', Argument, File|Argus], Args) :-
     !,
     absolute_uri(Argument, Arg),
     retractall(wcache(Arg, _)),
@@ -1159,19 +1160,19 @@ opts([Arg|Argus], [Arg|Args]) :-
 
 args([]) :-
     !.
-args(['--entail',Arg|Args]) :-
+args(['--entail', Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--not-entail',Arg|Args]) :-
+args(['--not-entail', Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
     n3_n3p(Arg, 'not-entail'),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--n3',Arg|Args]) :-
+args(['--n3', Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
@@ -1185,7 +1186,7 @@ args(['--n3',Arg|Args]) :-
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
     args(Args).
-args(['--n3p',Argument|Args]) :-
+args(['--n3p', Argument|Args]) :-
     !,
     retractall(flag(n3p)),
     assertz(flag(n3p)),
@@ -1291,7 +1292,7 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
-args(['--proof',Arg|Args]) :-
+args(['--proof', Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
     atomic_list_concat(['<', A, '>'], R),
@@ -1314,11 +1315,11 @@ args(['--proof',Arg|Args]) :-
         assertz(got_pi)
     ),
     args(Args).
-args(['--query',Arg|Args]) :-
+args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
     args(Args).
-args(['--turtle',Argument|Args]) :-
+args(['--turtle', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     atomic_list_concat(['<', Arg, '>'], R),
@@ -3594,7 +3595,7 @@ wh :-
             (   pfx(A, B),
                 \+wpfx(A)
             ),
-            (   format('@prefix ~w ~w.~n',[A,B]),
+            (   format('@prefix ~w ~w.~n', [A, B]),
                 assertz(wpfx(A)),
                 nb_setval(wpfx, true)
             )
@@ -4574,15 +4575,15 @@ wl([X|Y]) :-
     wg(X),
     wl(Y).
 
-wq([],_) :-
+wq([], _) :-
     !.
-wq([X|Y],allv) :-
+wq([X|Y], allv) :-
     !,
     write('@forAll '),
     wt(X),
     wk(Y),
     write('. ').
-wq([X|Y],some) :-
+wq([X|Y], some) :-
     (   \+flag('no-qvars')
     ->  write('@forSome '),
         wt(X),
@@ -5349,7 +5350,7 @@ djiti_assertz(A) :-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#call>'(A, B) :-
     \+flag(restricted),
     nonvar(A),
-    A \= [_,_],
+    A \= [_, _],
     !,
     when(
         (   nonvar(B)
@@ -5492,7 +5493,7 @@ djiti_assertz(A) :-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#fail>'(A, B) :-
     \+flag(restricted),
     nonvar(A),
-    A \= [_,_],
+    A \= [_, _],
     !,
     when(
         (   nonvar(B)
@@ -5607,7 +5608,7 @@ djiti_assertz(A) :-
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(A, B) :-
     \+flag(restricted),
     nonvar(A),
-    A \= [_,_],
+    A \= [_, _],
     !,
     when(
         (   nonvar(B)
@@ -6547,7 +6548,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, A) :-
     \+flag(restricted),
     nonvar(A),
-    A \= [_,_],
+    A \= [_, _],
     !,
     when(
         (   nonvar(B)
@@ -6803,7 +6804,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, B) :-
     \+flag(restricted),
     nonvar(B),
-    B \= [_,_],
+    B \= [_, _],
     !,
     when(
         (   nonvar(A)
@@ -6989,7 +6990,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
     (   nonvar(B)
-    ->  intersect([B,C], M),
+    ->  intersect([B, C], M),
         unify(M, B)
     ;   B = C
     ).
@@ -7849,12 +7850,12 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#join>'([X,Y], Z) :-
+'<http://www.w3.org/2000/10/swap/string#join>'([X, Y], Z) :-
     when(
-        (   ground([X,Y])
+        (   ground([X, Y])
         ;   ground(Z)
         ),
-        (   ground([X,Y]),
+        (   ground([X, Y]),
             getlist(X, C),
             getcodes(Y, D),
             labelvars(C, 0, _, avar),
@@ -7862,7 +7863,7 @@ djiti_assertz(A) :-
                 var(E),
                 var(Z)
             ->  true
-            ;   findall([D,S],
+            ;   findall([D, S],
                     (   member(A, X),
                         getcodes(A, S)
                     ),
@@ -7962,26 +7963,26 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/string#notMatches>'(X, Y) :-
     \+'<http://www.w3.org/2000/10/swap/string#matches>'(X, Y).
 
-'<http://www.w3.org/2000/10/swap/string#replace>'([literal(X, _),literal(Search, _),literal(Replace, _)], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#replace>'([literal(X, _), literal(Search, _), literal(Replace, _)], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
-        (   ground([X,Search,Replace])
+        (   ground([X, Search, Replace])
         ),
         (   (   atomic_list_concat(['(', Search, ')'], Se),
                 regex(Se, X, [S|_])
             ->  atom_codes(X, XC),
                 string_codes(S, SC),
                 atom_codes(Replace, RC),
-                subst([[[0'$,0'1],SC]], RC, TC),
-                subst([[SC,TC]], XC, YC),
+                subst([[[0'$, 0'1], SC]], RC, TC),
+                subst([[SC, TC]], XC, YC),
                 atom_codes(Y, YC)
             ;   Y = X
             )
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#replaceAll>'([literal(X, _),SearchList,ReplaceList], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#replaceAll>'([literal(X, _), SearchList, ReplaceList], literal(Y, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
-        (   ground([X,SearchList,ReplaceList])
+        (   ground([X, SearchList, ReplaceList])
         ),
         (   preformat(SearchList, SearchList2),
             preformat(ReplaceList, ReplaceList2),
@@ -7990,25 +7991,25 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _),literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
+'<http://www.w3.org/2000/10/swap/string#scrape>'([literal(X, _), literal(Y, _)], literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
-        (   ground([X,Y])
+        (   ground([X, Y])
         ),
         (   regex(Y, X, [W|_]),
             atom_string(Z, W)
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#scrapeAll>'([literal(X, _),literal(Y, _)], Z) :-
+'<http://www.w3.org/2000/10/swap/string#scrapeAll>'([literal(X, _), literal(Y, _)], Z) :-
     when(
-        (   ground([X,Y])
+        (   ground([X, Y])
         ),
         (   scrape(X, Y, V),
             preformat(Z, V)
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/string#search>'([literal(X, _),literal(Y, _)], Z) :-
+'<http://www.w3.org/2000/10/swap/string#search>'([literal(X, _), literal(Y, _)], Z) :-
     when(
         (   ground([X, Y])
         ),
@@ -11050,7 +11051,7 @@ scrape(X, Y, [V|Z]) :-
 scrape(_, _, []).
 
 srlist([], _, []).
-srlist([A|B], C, [[E,C]|D]) :-
+srlist([A|B], C, [[E, C]|D]) :-
     string_codes(A, E),
     srlist(B, C, D).
 
@@ -11697,7 +11698,7 @@ makevars(A, B, beta(C)) :-
     ),
     findvars(A, Z, zeta),
     append(D, Z, E),
-    findall([X,_],
+    findall([X, _],
         (   member(X, E)
         ),
         F
@@ -11706,7 +11707,7 @@ makevars(A, B, beta(C)) :-
 makevars(A, B, Z) :-
     findvars(A, C, Z),
     distinct(C, D),
-    findall([X,_],
+    findall([X, _],
         (   member(X, D)
         ),
         F
@@ -11717,7 +11718,7 @@ makevar(A, B, D) :-
     atomic(A),
     !,
     (   atom(A),
-        member([A,B], D)
+        member([A, B], D)
     ->  true
     ;   B = A
     ).
@@ -12552,7 +12553,7 @@ uuid(UUID) :-
             ~`0t~16r~4+-~|\c
             ~`0t~16r~4+-~|\c
             ~`0t~16r~4+-~|\c
-            ~`0t~16r~12+', [A,B,C,D,E]).
+            ~`0t~16r~12+', [A, B, C, D, E]).
 
 regex(Pattern, String, List) :-
     atom_codes(Pattern, PatternC),
