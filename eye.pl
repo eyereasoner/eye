@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.2 (2023-07-30)').
+version_info('EYE v4.10.3 (2023-07-30)').
 
 license_info('MIT License
 
@@ -1948,13 +1948,16 @@ tr_tr(A, B) :-
                 nand
             ;   true
             )
-        ;   flag(blogic),
-            memberchk(C, [
+        ;   memberchk(C, [
                     '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
                 ]
+            ),
+            (   \+flag(blogic)
+            ->  assertz(flag(blogic))
+            ;   true
             )
         ),
         E = [[_|_]|_]
@@ -2271,12 +2274,7 @@ pathitem(Name, []) -->
 pathitem(VarID, []) -->
     [uvar(Var)],
     !,
-    {   (   flag(blogic)
-        ->  nb_getval(line_number, Ln),
-            throw(no_universals_in_blogic(uvar(Var), after_line(Ln)))
-        ;   true
-        ),
-        atom_codes(Var, VarCodes),
+    {   atom_codes(Var, VarCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
         atom_codes(VarAtom, [0'_|VarTidy]),
         (   flag('pass-all-ground')
@@ -4873,9 +4871,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   (   flag(nand)
-                ;   flag(blogic)
-                )
+        ->  (   flag(nand)
             ->  conj_list(Prem, Lst),
                 Lst = [_|Lst0],
                 (   select(is_list(_), Lst0, Lst1)
@@ -5028,7 +5024,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
                 \+ (flag(nand), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
-                \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -5066,7 +5061,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
                     \+ (flag(nand), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
-                    \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
@@ -5410,11 +5404,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5553,11 +5543,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5667,11 +5653,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6607,11 +6589,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6694,11 +6672,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6863,11 +6837,7 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            (   flag(blogic)
-            ->  A3 = ['--blogic']
-            ;   A3 = ['']
-            ),
-            append([A1, A2, ['--nope', A3, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
