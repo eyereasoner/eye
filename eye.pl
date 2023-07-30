@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.3 (2023-07-30)').
+version_info('EYE v4.10.4 (2023-07-30)').
 
 license_info('MIT License
 
@@ -5164,6 +5164,8 @@ djiti_fact(answer(P, S, O), answer(P, S, O)) :-
     ->  assertz(pred(P))
     ;   true
     ).
+djiti_fact(implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, false), false, _), implies(true, A, '<>')) :-
+    !.
 djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     nonvar(B),
     conj_list(B, D),
@@ -5177,6 +5179,8 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
             )
         )
     ),
+    !.
+djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'('<http://www.w3.org/2000/10/swap/log#implies>'(A, false), false), implies(true, A, '<>')) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
