@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.5 (2023-07-31)').
+version_info('EYE v4.10.6 (2023-07-31)').
 
 license_info('MIT License
 
@@ -1904,6 +1904,8 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     ),
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
+    conj_list(X, L),
+    \+member('\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false), L),
     Y \= false,
     !,
     (   flag(tactic, 'linear-select')
@@ -1966,10 +1968,20 @@ tr_tr(A, A) :-
     number(A),
     !.
 tr_tr(A, B) :-
-    A =.. [C|D],
+    (   A = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(P, Q),
+        Q \= false,
+        conj_list(P, L),
+        member('\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false), L)
+    ->  append(L, ['\'<http://www.w3.org/2000/10/swap/log#implies>\''(Q, false)], M),
+        conj_list(R, M),
+        T = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(R, false),
+        labelblank(T, F)
+    ;   F = A
+    ),
+    F =.. [C|D],
     tr_tr(D, E),
     (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\''
-        ;   A = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false)
+        ;   F = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false)
         ;   memberchk(C, [
                     '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
@@ -1983,7 +1995,7 @@ tr_tr(A, B) :-
         ;   true
         ),
         E = [[_|_]|_]
-    ->  tr_graffiti(A, B)
+    ->  tr_graffiti(F, B)
     ;   B =.. [C|E]
     ).
 
@@ -11546,6 +11558,23 @@ labelvars(A, B, C, D, E, Q) :-
     arg(F, C, G),
     labelvars(G, D, H, Q),
     labelvars(F, B, C, H, E, Q).
+
+labelblank(A, B) :-
+    atomic(A),
+    !,
+    (   atom_concat('_', C, A)
+    ->  atomic_list_concat(['\'_:', C, '\''], B)
+    ;   B = A
+    ).
+labelblank(A, B) :-
+    A =.. C,
+    findall(D,
+        (   member(E, C),
+            labelblank(E, D)
+        ),
+        F
+    ),
+    B =.. F.
 
 relabel(A, A) :-
     var(A),
