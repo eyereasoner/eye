@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.4 (2023-07-30)').
+version_info('EYE v4.10.5 (2023-07-31)').
 
 license_info('MIT License
 
@@ -411,8 +411,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(blogic)
-    ->  blogic
+    (   flag(tonand)
+    ->  tonand
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -840,8 +840,19 @@ nand :-
                     ;   true
                     )), true, '<>')).
 
-% DEPRECATED
-blogic :-
+% tonand translator
+tonand :-
+    retract(implies(G, false, _)),
+    (   G \= false
+    ->  conj_list(G, L),
+        tonand(L, M),
+        conj_list(H, M)
+    ;   H = false
+    ),
+    findvars(H, V, beta),
+    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
+    fail.
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)),
     conj_list(G, L),
     tonand(L, M),
@@ -850,7 +861,7 @@ blogic :-
         assertz(R)
     ),
     fail.
-blogic :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G)),
     (   G \= false
     ->  conj_list(G, L),
@@ -860,7 +871,7 @@ blogic :-
     ),
     assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-blogic :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G)),
     conj_list(G, L),
     tonand(L, A),
@@ -869,18 +880,27 @@ blogic :-
     conj_list(H, M),
     assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-blogic :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)),
     conj_list(G, L),
     tonand(L, M),
     conj_list(H, M),
     assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-blogic :-
+tonand :-
     assertz(flag(nand)),
     nand.
 
 tonand([], []).
+tonand(['<http://www.w3.org/2000/10/swap/log#implies>'(B, false)|C], ['<http://www.w3.org/2000/10/swap/log#nand>'([], D)|E]) :-
+    !,
+    (   B \= false
+    ->  conj_list(B, F),
+        tonand(F, G),
+        conj_list(D, G)
+    ;   D = false
+    ),
+    tonand(C, E).
 tonand(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
     !,
     conj_list(B, E),
@@ -919,8 +939,8 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(blogic)),
-    assertz(flag(blogic)),
+    retractall(flag(tonand)),
+    assertz(flag(tonand)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -1438,10 +1458,15 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(nand),
-            Rt = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
-        ->  assertz(flag(nand)),
-            nand
+        (   \+flag(tonand),
+            (   Rt = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, false)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, _)
+            )
+        ->  assertz(flag(tonand))
         ;   true
         ),
         (   Rt = ':-'(Ci, Px),
@@ -1879,6 +1904,7 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     ),
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
+    Y \= false,
     !,
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
@@ -1942,23 +1968,19 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
-            (   \+flag(nand)
-            ->  assertz(flag(nand)),
-                nand
-            ;   true
-            )
+    (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\''
+        ;   A = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false)
         ;   memberchk(C, [
                     '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
                 ]
-            ),
-            (   \+flag(blogic)
-            ->  assertz(flag(blogic))
-            ;   true
             )
+        ),
+        (   \+flag(tonand)
+        ->  assertz(flag(tonand))
+        ;   true
         ),
         E = [[_|_]|_]
     ->  tr_graffiti(A, B)
@@ -5164,8 +5186,6 @@ djiti_fact(answer(P, S, O), answer(P, S, O)) :-
     ->  assertz(pred(P))
     ;   true
     ).
-djiti_fact(implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, false), false, _), implies(true, A, '<>')) :-
-    !.
 djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     nonvar(B),
     conj_list(B, D),
@@ -5179,8 +5199,6 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
             )
         )
     ),
-    !.
-djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'('<http://www.w3.org/2000/10/swap/log#implies>'(A, false), false), implies(true, A, '<>')) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
