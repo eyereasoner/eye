@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.7 (2023-08-01)').
+version_info('EYE v4.10.8 (2023-08-01)').
 
 license_info('MIT License
 
@@ -1440,12 +1440,14 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(tonand),
-            (   Rt = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, false)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, _)
+            functor(Rt, F, _),
+            memberchk(F, [
+                    '<http://www.w3.org/2000/10/swap/log#nand>',
+                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
+                    '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
+                    '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
+                    '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'
+                ]
             )
         ->  assertz(flag(tonand))
         ;   true
@@ -1948,14 +1950,13 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\''
-        ;   memberchk(C, [
-                    '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-                    '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
-                    '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
-                    '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
-                ]
-            )
+    (   memberchk(C, [
+                '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
+            ]
         ),
         (   \+flag(tonand)
         ->  assertz(flag(tonand))
