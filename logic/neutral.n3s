@@ -3,26 +3,26 @@
 @prefix : <urn:example:> .
 
 # a neutral surface with 2 triples
-() log:nand {
+() log:nands {
     :a :b :c.
     :d :e :f.
-    () log:nand true.
+    () log:nands true.
 }.
 
 # a neutral surface with the complement of the above 2 triples
-() log:nand {
-    () log:nand {
+() log:nands {
+    () log:nands {
         :a :b :c.
         :d :e :f.
     }.
-    () log:nand true.
+    () log:nands true.
 }.
 
 # getting the content of a neutral surface
-(_:G _:H) log:nand {
-    () log:nand _:G.
-    _:G graph:member {() log:nand true}.
-    (_:G {() log:nand true}) graph:difference _:H.
+(_:G _:H) log:nands {
+    () log:nands _:G.
+    _:G graph:member {() log:nands true}.
+    (_:G {() log:nands true}) graph:difference _:H.
     () log:output {
         :result :is _:H.
     }.

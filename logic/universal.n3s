@@ -3,29 +3,29 @@
 @prefix : <http://example.org/>.
 
 # \Every x: type(x, Resource)
-(_:x) log:nand {
-    () log:nand {
+(_:x) log:nands {
+    () log:nands {
         _:x a rdfs:Resource.
     }.
 }.
 
 # Everybody loves somebody who is lonely
-(_:A) log:nand {
-    (_:B) log:nand {
+(_:A) log:nands {
+    (_:B) log:nands {
         _:A :loves _:B.
         _:B :is :lonely.
     }.
 }.
 
 # questions
-() log:nand {
+() log:nands {
     :pat a rdfs:Resource.
     () log:output {
         :pat a rdfs:Resource.
     }.
 }.
 
-(_:x) log:nand {
+(_:x) log:nands {
     :bob :loves _:x.
     _:x :is :lonely.
     () log:output {

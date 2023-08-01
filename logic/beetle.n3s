@@ -5,34 +5,34 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(_:A) log:nand {
+(_:A) log:nands {
     _:A a :Car.
-    () log:nand {
+    () log:nands {
         _:A :is :green.
     }.
-    () log:nand {
+    () log:nands {
         _:A :is :blue.
     }.
 }.
 
 # green things are beautiful
-(_:A) log:nand {
+(_:A) log:nands {
     _:A :is :green.
-    () log:nand {
+    () log:nands {
         _:A :is :beautiful.
     }.
 }.
 
 # blue things are beautiful
-(_:A) log:nand {
+(_:A) log:nands {
     _:A :is :blue.
-    () log:nand {
+    () log:nands {
         _:A :is :beautiful.
     }.
 }.
 
 # questions
-(_:S _:O) log:nand {
+(_:S _:O) log:nands {
     _:S :is _:O.
     () log:output {
         _:S :is _:O.

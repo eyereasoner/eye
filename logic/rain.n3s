@@ -4,12 +4,12 @@
 :currentWeather a :NormalWeather.
 :obs1 :ascribed :Rain.
 
-() log:nand {
+() log:nands {
     :currentWeather a :NormalWeather.
-    () log:nand {
-        (_:S) log:nand {
+    () log:nands {
+        (_:S) log:nands {
             _:S :ascribed :Rain.
-            () log:nand {
+            () log:nands {
                 _:S :ascribed :WetGrass.
             }.
         }.
@@ -17,7 +17,7 @@
 }.
 
 # questions
-(_:S _:O) log:nand {
+(_:S _:O) log:nands {
     _:S :ascribed _:O.
     () log:output {
         _:S :ascribed _:O.

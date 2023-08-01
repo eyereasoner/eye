@@ -11,29 +11,29 @@
 () :policy {
 
     # Mapping foaf:Person and vcard:Individual on each other
-    (_:S) log:nand {
+    (_:S) log:nands {
         _:S a foaf:Person .
-        () log:nand {
+        () log:nands {
             _:S a vcard:Individual .
         } .
     } .
 
-    (_:S) log:nand {
+    (_:S) log:nands {
         _:S a vcard:Individual .
-        () log:nand {
+        () log:nands {
             _:S a foaf:Person .
         } .
     } .
 }.
 
 # enact policy
-(_:S) log:nand {
+(_:S) log:nands {
     () :policy _:S.
-    () log:nand _:S.
+    () log:nands _:S.
 }.
 
 # questions
-(_:A _:B) log:nand {
+(_:A _:B) log:nands {
     _:A a _:B.
     () log:output {
         _:A a _:B.
