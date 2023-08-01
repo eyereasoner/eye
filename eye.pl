@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.6 (2023-07-31)').
+version_info('EYE v4.10.7 (2023-08-01)').
 
 license_info('MIT License
 
@@ -842,17 +842,6 @@ nand :-
 
 % tonand translator
 tonand :-
-    retract(implies(G, false, _)),
-    (   G \= false
-    ->  conj_list(G, L),
-        tonand(L, M),
-        conj_list(H, M)
-    ;   H = false
-    ),
-    findvars(H, V, beta),
-    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
-    fail.
-tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)),
     conj_list(G, L),
     tonand(L, M),
@@ -891,16 +880,8 @@ tonand :-
     assertz(flag(nand)),
     nand.
 
-tonand([], []).
-tonand(['<http://www.w3.org/2000/10/swap/log#implies>'(B, false)|C], ['<http://www.w3.org/2000/10/swap/log#nand>'([], D)|E]) :-
-    !,
-    (   B \= false
-    ->  conj_list(B, F),
-        tonand(F, G),
-        conj_list(D, G)
-    ;   D = false
-    ),
-    tonand(C, E).
+tonand([], []) :-
+    !.
 tonand(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
     !,
     conj_list(B, E),
@@ -1904,9 +1885,6 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     ),
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
-    conj_list(X, L),
-    \+member('\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false), L),
-    Y \= false,
     !,
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
@@ -1968,20 +1946,9 @@ tr_tr(A, A) :-
     number(A),
     !.
 tr_tr(A, B) :-
-    (   A = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(P, Q),
-        Q \= false,
-        conj_list(P, L),
-        member('\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false), L)
-    ->  append(L, ['\'<http://www.w3.org/2000/10/swap/log#implies>\''(Q, false)], M),
-        conj_list(R, M),
-        T = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(R, false),
-        labelblank(T, F)
-    ;   F = A
-    ),
-    F =.. [C|D],
+    A =.. [C|D],
     tr_tr(D, E),
     (   (   C = '\'<http://www.w3.org/2000/10/swap/log#nand>\''
-        ;   F = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(_, false)
         ;   memberchk(C, [
                     '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                     '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
@@ -1995,7 +1962,7 @@ tr_tr(A, B) :-
         ;   true
         ),
         E = [[_|_]|_]
-    ->  tr_graffiti(F, B)
+    ->  tr_graffiti(A, B)
     ;   B =.. [C|E]
     ).
 
@@ -11558,23 +11525,6 @@ labelvars(A, B, C, D, E, Q) :-
     arg(F, C, G),
     labelvars(G, D, H, Q),
     labelvars(F, B, C, H, E, Q).
-
-labelblank(A, B) :-
-    atomic(A),
-    !,
-    (   atom_concat('_', C, A)
-    ->  atomic_list_concat(['\'_:', C, '\''], B)
-    ;   B = A
-    ).
-labelblank(A, B) :-
-    A =.. C,
-    findall(D,
-        (   member(E, C),
-            labelblank(E, D)
-        ),
-        F
-    ),
-    B =.. F.
 
 relabel(A, A) :-
     var(A),
