@@ -9,6 +9,15 @@
     () log:nand true.
 }.
 
+# a neutral surface with the complement of the above 2 triples
+() log:nand {
+    () log:nand {
+        :a :b :c.
+        :d :e :f.
+    }.
+    () log:nand true.
+}.
+
 # getting the content of a neutral surface
 (_:G _:H) log:nand {
     () log:nand _:G.
