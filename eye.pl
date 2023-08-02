@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.10 (2023-08-02)').
+version_info('EYE v4.10.11 (2023-08-02)').
 
 license_info('MIT License
 
@@ -3996,6 +3996,9 @@ wt0(!) :-
     write('true '),
     wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
+wt0(:-) :-
+    !,
+    wp('<http://www.w3.org/2000/10/swap/log#isImpliedBy>').
 wt0(fail) :-
     !,
     write('("fail") '),
