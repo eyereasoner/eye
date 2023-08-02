@@ -3,27 +3,23 @@
 @prefix : <urn:example:> .
 
 # a neutral surface with 2 triples
-() log:nands {
+() log:neutral {
     :a :b :c.
     :d :e :f.
-    () log:nands true.
 }.
 
-# a neutral surface with the complement of the above 2 triples
+# the negation of that neutral surface does not blow an inference fuse
 () log:nands {
-    () log:nands {
+    () log:neutral {
         :a :b :c.
         :d :e :f.
     }.
-    () log:nands true.
 }.
 
 # getting the content of a neutral surface
-(_:G _:H) log:nands {
-    () log:nands _:G.
-    _:G graph:member {() log:nands true}.
-    (_:G {() log:nands true}) graph:difference _:H.
+(_:G) log:nands {
+    () log:neutral _:G.
     () log:output {
-        :result :is _:H.
+        :result :is _:G.
     }.
 }.

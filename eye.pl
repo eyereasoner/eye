@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.13 (2023-08-02)').
+version_info('EYE v4.10.14 (2023-08-02)').
 
 license_info('MIT License
 
@@ -640,6 +640,8 @@ nands :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
                     is_list(V),
+                    G \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
+                    G \= true,
                     makevars(G, H, beta(V)),
                     catch(call(H), _, false),
                     (   H = '<http://www.w3.org/2000/10/swap/log#nands>'(_, C)
@@ -647,11 +649,6 @@ nands :-
                     ;   I = H
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nands>'(_, I)
-                    ), false, '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(A, triple(Ts, Tp, To)),
-                    T =.. [Tp, Ts, To],
-                    catch(call(T), _, false),
-                    '<http://www.w3.org/2000/10/swap/log#nands>'(A, triple(Ts, Tp, To))
                     ), false, '<>')),
     % simplify graffiti
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
