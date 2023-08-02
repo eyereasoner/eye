@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.12 (2023-08-02)').
+version_info('EYE v4.10.13 (2023-08-02)').
 
 license_info('MIT License
 
@@ -2211,6 +2211,19 @@ numericliteral(Number) -->
 object(Node, Triples) -->
     expression(Node, Triples).
 
+objecttail(Subject, Verb, Triples) -->
+    [','],
+    object(Object, Triples1),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
+        )
+    },
+    pathitem(Graph, []),
+    !,
+    objecttail(Subject, Verb, Triples3),
+    {   append([Triples1, [quad(Trpl, Graph)], Triples3], Triples)
+    }.
 objecttail(Subject, Verb, [Triple|Triples]) -->
     [','],
     !,
@@ -2486,6 +2499,22 @@ pathtail(Node, Node, []) -->
 prefix(Prefix) -->
     [Prefix:''].
 
+propertylist(Subject, Triples) -->
+    verb(Item, Triples1),
+    {   prolog_verb(Item, Verb)
+    },
+    object(Object, Triples2),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
+        )
+    },
+    pathitem(Graph, []),
+    !,
+    objecttail(Subject, Verb, Triples4),
+    propertylisttail(Subject, Triples5),
+    {   append([Triples1, Triples2, [quad(Trpl, Graph)], Triples4, Triples5], Triples)
+    }.
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb)
@@ -4300,6 +4329,15 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
+wt2(quad(triple(S, P, O), G)) :-
+    !,
+    wg(S),
+    write(' '),
+    wt0(P),
+    write(' '),
+    wg(O),
+    write(' '),
+    wg(G).
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
     ->  U = X
