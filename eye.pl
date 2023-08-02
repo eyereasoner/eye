@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.15 (2023-08-02)').
+version_info('EYE v4.10.16 (2023-08-03)').
 
 license_info('MIT License
 
@@ -177,6 +177,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
+:- dynamic('<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
@@ -640,8 +641,7 @@ nand :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
-                    G \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
-                    G \= true,
+                    \+neutral(G),
                     makevars(G, H, beta(V)),
                     catch(call(H), _, false),
                     (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
@@ -836,6 +836,14 @@ nand :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')).
+
+% neutral surface
+neutral(true).
+neutral('<http://www.w3.org/2000/10/swap/log#neutral>'(_, _)) :-
+    !.
+neutral(A) :-
+    A =.. [B, _, _],
+    '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(B, '<http://www.w3.org/2000/10/swap/log#neutral>').
 
 % tonand translator
 tonand :-
@@ -4930,7 +4938,11 @@ eam(Recursion) :-
                 ->  true
                 ;   Lst5 = Lst4
                 ),
-                conj_list(Prem2, Lst5)
+                (   select(\+neutral(_), Lst5, Lst6)
+                ->  true
+                ;   Lst6 = Lst5
+                ),
+                conj_list(Prem2, Lst6)
             ;   Prem2 = Prem
             ),
             (   flag('n3p-output')

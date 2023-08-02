@@ -1,24 +1,27 @@
-@prefix graph: <http://www.w3.org/2000/10/swap/graph#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <urn:example:> .
 
-# a neutral surface with 2 triples
-() log:neutral {
+# user neutral surface which is a subproperty of log:neutral
+:userNeutral rdfs:subPropertyOf log:neutral.
+
+# user neutral surface with 2 triples
+() :userNeutral {
     :a :b :c.
     :d :e :f.
 }.
 
-# the negation of that neutral surface does not blow an inference fuse
+# the negation of user neutral surface does not blow an inference fuse
 () log:nand {
-    () log:neutral {
+    () :userNeutral {
         :a :b :c.
         :d :e :f.
     }.
 }.
 
-# getting the content of a neutral surface
+# getting the content of user neutral surface
 (_:G) log:nand {
-    () log:neutral _:G.
+    () :userNeutral _:G.
     () log:output {
         :result :is _:G.
     }.
