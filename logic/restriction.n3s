@@ -13,33 +13,33 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-(_:y) log:nands {
+(_:y) log:nand {
     :xxx :bbb _:y.
-    () log:nands {
+    () log:nand {
         _:y a :ccc.
     }.
 }.
 
 # owl:allValuseFrom description logic
-(_:a _:b _:c) log:nands {
+(_:a _:b _:c) log:nand {
     _:a owl:onProperty _:b.
     _:a owl:allValuesFrom _:c.
-    () log:nands {
-        (_:x _:y) log:nands {
+    () log:nand {
+        (_:x _:y) log:nand {
             _:x a _:a.
             _:x _:b _:y.
-            () log:nands {
+            () log:nand {
                 _:y a _:c.
             }.
         }.
-        (_:x) log:nands {
-            (_:y) log:nands {
+        (_:x) log:nand {
+            (_:y) log:nand {
                 _:x _:b _:y.
-                () log:nands {
+                () log:nand {
                     _:y a _:c.
                 }.
             }.
-            () log:nands {
+            () log:nand {
                 _:x a _:a.
             }.
         }.
@@ -47,7 +47,7 @@
 }.
 
 # query
-(_:S _:C) log:nands {
+(_:S _:C) log:nand {
     _:S a _:C.
     () log:output {
         _:S a _:C.

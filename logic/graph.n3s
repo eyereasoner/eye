@@ -14,24 +14,24 @@
 :angers :oneway :nantes.
 
 # oneway subproperty of path
-(_:A _:B) log:nands {
+(_:A _:B) log:nand {
     _:A :oneway _:B.
-    () log:nands {
+    () log:nand {
         _:A :path _:B.
     }.
 }.
 
 # path transitive property
-(_:A _:B _:C) log:nands {
+(_:A _:B _:C) log:nand {
     _:A :path _:B.
     _:B :path _:C.
-    () log:nands {
+    () log:nand {
         _:A :path _:C.
     }.
 }.
 
 # questions
-(_:A) log:nands {
+(_:A) log:nand {
     _:A :path :nantes.
     () log:output {
         _:A :path :nantes.

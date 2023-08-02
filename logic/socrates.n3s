@@ -6,16 +6,16 @@
 :Man rdfs:subClassOf :Human.
 :Human rdfs:subClassOf :Mortal.
 
-(_:A _:B _:S) log:nands {
+(_:A _:B _:S) log:nand {
     _:A rdfs:subClassOf _:B.
     _:S a _:A.
-    () log:nands {
+    () log:nand {
         _:S a _:B.
     }.
 }.
 
 # questions
-(_:S _:C) log:nands {
+(_:S _:C) log:nand {
     _:S a _:C.
     () log:output {
         _:S a _:C.

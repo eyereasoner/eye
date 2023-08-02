@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.14 (2023-08-02)').
+version_info('EYE v4.10.15 (2023-08-02)').
 
 license_info('MIT License
 
@@ -179,7 +179,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#nands>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -411,8 +411,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(tonands)
-    ->  tonands
+    (   flag(tonand)
+    ->  tonand
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -470,7 +470,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(nands)
+        \+flag(nand)
     ->  throw(halt(0))
     ;   true
     ),
@@ -538,7 +538,7 @@ gre(Argus) :-
                 write('.'),
                 nl,
                 (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#nands>'(_, _)
+                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
                     )
                 ->  nl
                 ;   true
@@ -636,22 +636,22 @@ gre(Argus) :-
 % See https://w3c-cg.github.io/rdfsurfaces/
 %
 
-nands :-
+nand :-
     % blow inference fuse
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     G \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
                     G \= true,
                     makevars(G, H, beta(V)),
                     catch(call(H), _, false),
-                    (   H = '<http://www.w3.org/2000/10/swap/log#nands>'(_, C)
-                    ->  I = '<http://www.w3.org/2000/10/swap/log#nands>'(_, C)
+                    (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                    ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
                     ;   I = H
                     ),
-                    '<http://www.w3.org/2000/10/swap/log#nands>'(_, I)
+                    '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
     % simplify graffiti
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     findvars(G, U, beta),
                     findall(M,
@@ -661,17 +661,17 @@ nands :-
                         W
                     ),
                     W \= V
-                    ), '<http://www.w3.org/2000/10/swap/log#nands>'(W, G), '<>')),
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G), '<>')),
     % simplify negative surfaces
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#nands>'(Z, H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
                     H \= triple(_, _, _),
                     conj_list(H, M),
                     list_to_set(M, T),
-                    select('<http://www.w3.org/2000/10/swap/log#nands>'(W, O), T, N),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
                     is_list(W),
                     (   conj_list(O, D),
                         append(K, D, E),
@@ -679,38 +679,38 @@ nands :-
                     ;   length(K, I),
                         I > 1,
                         conj_list(F, N),
-                        conj_list(C, ['<http://www.w3.org/2000/10/swap/log#nands>'([], F)|K])
+                        conj_list(C, ['<http://www.w3.org/2000/10/swap/log#nand>'([], F)|K])
                     ),
                     append([V, Z, W], U)
-                    ), '<http://www.w3.org/2000/10/swap/log#nands>'(U, C), '<>')),
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<>')),
     % resolve negative surfaces
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nands>'(_, triple(_, _, _)), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
                     findall(1,
-                        (   member('<http://www.w3.org/2000/10/swap/log#nands>'(_, _), B)
+                        (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
                         ),
                         O
                     ),
                     length(O, E),
                     length(B, D),
                     memberchk(E, [0, 2, D]),
-                    '<http://www.w3.org/2000/10/swap/log#nands>'(W, F),
+                    '<http://www.w3.org/2000/10/swap/log#nand>'(W, F),
                     is_list(W),
                     conj_list(F, K),
                     list_to_set(K, N),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nands>'(_, triple(_, _, _)), N),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), N),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), N),
                     length(N, 2),
                     makevars(N, J, beta(W)),
-                    select('<http://www.w3.org/2000/10/swap/log#nands>'(U, C), J, [P]),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
                     is_list(U),
-                    (   select('<http://www.w3.org/2000/10/swap/log#nands>'(Z, Q), B, A),
+                    (   select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, Q), B, A),
                         is_list(Z),
-                        M = ['<http://www.w3.org/2000/10/swap/log#nands>'(U, C)|A],
+                        M = ['<http://www.w3.org/2000/10/swap/log#nand>'(U, C)|A],
                         conj_list(Q, R),
                         memberchk(P, R)
                     ;   select(Q, B, A),
@@ -720,15 +720,15 @@ nands :-
                     ),
                     list_to_set(M, T),
                     conj_list(H, T),
-                    ground('<http://www.w3.org/2000/10/swap/log#nands>'(V, H))
-                    ), '<http://www.w3.org/2000/10/swap/log#nands>'(V, H), '<>')),
+                    ground('<http://www.w3.org/2000/10/swap/log#nand>'(V, H))
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, H), '<>')),
     % create forward rule
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
-                    select('<http://www.w3.org/2000/10/swap/log#nands>'(Z, H), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
                     is_list(Z),
                     H \= triple(_, _, _),
                     conj_list(R, K),
@@ -739,11 +739,11 @@ nands :-
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % create contrapositive rule
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nands>'(_, _), B),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
                     \+member(exopred(_, _, _), B),
                     (   length(B, O),
@@ -759,7 +759,7 @@ nands :-
                         ),
                         Z
                     ),
-                    E = '<http://www.w3.org/2000/10/swap/log#nands>'(Z, T),
+                    E = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, T),
                     find_graffiti([R], D),
                     append(V, D, U),
                     makevars([R, E], [Q, S], beta(U)),
@@ -767,11 +767,11 @@ nands :-
                     makevars(S, I, beta(W))
                     ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % create backward rule
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
-                    select('<http://www.w3.org/2000/10/swap/log#nands>'(Z, triple(Hs, Hp, Ho)), B, K),
+                    select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, triple(Hs, Hp, Ho)), B, K),
                     is_list(Z),
                     T =.. [Hp, Hs, Ho],
                     conj_list(R, K),
@@ -788,14 +788,14 @@ nands :-
                     ;   true
                     )), true, '<>')),
     % convert universal statements
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     V \= [],
                     conj_list(G, [G]),
-                    (   G = '<http://www.w3.org/2000/10/swap/log#nands>'(Z, H)
+                    (   G = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, H)
                     ->  true
                     ;   Z = [],
-                        H = '<http://www.w3.org/2000/10/swap/log#nands>'([], G)
+                        H = '<http://www.w3.org/2000/10/swap/log#nand>'([], G)
                     ),
                     is_list(Z),
                     conj_list(H, B),
@@ -817,7 +817,7 @@ nands :-
                     ;   true
                     )), true, '<>')),
     % create question
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nands>'(V, G),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
                     conj_list(G, L),
                     list_to_set(L, B),
@@ -837,76 +837,76 @@ nands :-
                     ;   true
                     )), true, '<>')).
 
-% tonands translator
-tonands :-
+% tonand translator
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)),
     conj_list(G, L),
-    tonands(L, M),
+    tonand(L, M),
     forall(
         member(R, M),
         assertz(R)
     ),
     fail.
-tonands :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G)),
     (   G \= false
     ->  conj_list(G, L),
-        tonands(L, M),
+        tonand(L, M),
         conj_list(H, M)
     ;   H = false
     ),
-    assertz('<http://www.w3.org/2000/10/swap/log#nands>'(V, H)),
+    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-tonands :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G)),
     conj_list(G, L),
-    tonands(L, A),
+    tonand(L, A),
     conj_list(B, A),
     append(A, ['<http://www.w3.org/2000/10/swap/log#output>'([], B)], M),
     conj_list(H, M),
-    assertz('<http://www.w3.org/2000/10/swap/log#nands>'(V, H)),
+    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-tonands :-
+tonand :-
     retract('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)),
     conj_list(G, L),
-    tonands(L, M),
+    tonand(L, M),
     conj_list(H, M),
-    assertz('<http://www.w3.org/2000/10/swap/log#nands>'(V, H)),
+    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, H)),
     fail.
-tonands :-
-    assertz(flag(nands)),
-    nands.
+tonand :-
+    assertz(flag(nand)),
+    nand.
 
-tonands([], []) :-
+tonand([], []) :-
     !.
-tonands(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
+tonand(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
     !,
     conj_list(B, E),
-    tonands(E, F),
-    tonands(C, G),
+    tonand(E, F),
+    tonand(C, G),
     append(F, G, D).
-tonands(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#nands>'(A, D)|E]) :-
+tonand(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#nand>'(A, D)|E]) :-
     !,
     (   B \= false
     ->  conj_list(B, F),
-        tonands(F, G),
+        tonand(F, G),
         conj_list(D, G)
     ;   D = false
     ),
-    tonands(C, E).
-tonands(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#nands>'(A, D)|E]) :-
+    tonand(C, E).
+tonand(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#nand>'(A, D)|E]) :-
     !,
     B =.. [P, S, O],
     D = triple(S, P, O),
-    tonands(C, E).
-tonands(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#output>'(A, D)|E]) :-
+    tonand(C, E).
+tonand(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#output>'(A, D)|E]) :-
     !,
     conj_list(B, F),
-    tonands(F, G),
+    tonand(F, G),
     conj_list(D, G),
-    tonands(C, E).
-tonands([A|B], [A|C]) :-
-    tonands(B, C).
+    tonand(C, E).
+tonand([A|B], [A|C]) :-
+    tonand(B, C).
 
 %
 % command line options
@@ -917,8 +917,8 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(tonands)),
-    assertz(flag(tonands)),
+    retractall(flag(tonand)),
+    assertz(flag(tonand)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -1436,17 +1436,17 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(tonands),
+        (   \+flag(tonand),
             functor(Rt, F, _),
             memberchk(F, [
-                    '<http://www.w3.org/2000/10/swap/log#nands>',
+                    '<http://www.w3.org/2000/10/swap/log#nand>',
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
                     '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'
                 ]
             )
-        ->  assertz(flag(tonands))
+        ->  assertz(flag(tonand))
         ;   true
         ),
         (   Rt = ':-'(Ci, Px),
@@ -1948,15 +1948,15 @@ tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
     (   memberchk(C, [
-                '\'<http://www.w3.org/2000/10/swap/log#nands>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
             ]
         ),
-        (   \+flag(tonands)
-        ->  assertz(flag(tonands))
+        (   \+flag(tonand)
+        ->  assertz(flag(tonand))
         ;   true
         ),
         E = [[_|_]|_]
@@ -4911,7 +4911,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag(nands)
+        ->  (   flag(nand)
             ->  conj_list(Prem, Lst),
                 Lst = [_|Lst0],
                 (   select(is_list(_), Lst0, Lst1)
@@ -5063,7 +5063,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (flag(nands), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(nand), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -5100,7 +5100,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (flag(nands), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(nand), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
@@ -11615,7 +11615,7 @@ dynify(answer(A, _, _)) :-
     ->  true
     ;   dynamic(A/2)
     ).
-dynify('<http://www.w3.org/2000/10/swap/log#nands>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
     !,
     dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
@@ -11836,7 +11836,7 @@ find_graffiti([A|B], C) :-
 find_graffiti(A, B) :-
     A =.. [C, D, E],
     memberchk(C, [
-            '<http://www.w3.org/2000/10/swap/log#nands>',
+            '<http://www.w3.org/2000/10/swap/log#nand>',
             '<http://www.w3.org/2000/10/swap/log#output>'
         ]
     ),
