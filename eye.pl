@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.16 (2023-08-03)').
+version_info('EYE v4.10.17 (2023-08-03)').
 
 license_info('MIT License
 
@@ -746,6 +746,7 @@ nand :-
                     \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
                     \+member(exopred(_, _, _), B),
+                    \+ (member(M, B), neutral(M)),
                     (   length(B, O),
                         O =< 2
                     ->  select(R, B, J)
@@ -838,7 +839,6 @@ nand :-
                     )), true, '<>')).
 
 % neutral surface
-neutral(true).
 neutral('<http://www.w3.org/2000/10/swap/log#neutral>'(_, _)) :-
     !.
 neutral(A) :-
