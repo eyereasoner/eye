@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.17 (2023-08-03)').
+version_info('EYE v4.10.18 (2023-08-03)').
 
 license_info('MIT License
 
@@ -741,12 +741,12 @@ nand :-
     % create contrapositive rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
+                    \+neutral(G),
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
                     \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
                     \+member(exopred(_, _, _), B),
-                    \+ (member(M, B), neutral(M)),
                     (   length(B, O),
                         O =< 2
                     ->  select(R, B, J)
@@ -841,6 +841,15 @@ nand :-
 % neutral surface
 neutral('<http://www.w3.org/2000/10/swap/log#neutral>'(_, _)) :-
     !.
+neutral('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
+    !,
+    neutral(A).
+neutral((A, _)) :-
+    neutral(A),
+    !.
+neutral((_, A)) :-
+    !,
+    neutral(A).
 neutral(A) :-
     A =.. [B, _, _],
     '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(B, '<http://www.w3.org/2000/10/swap/log#neutral>').
