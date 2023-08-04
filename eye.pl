@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.18 (2023-08-03)').
+version_info('EYE v4.10.19 (2023-08-04)').
 
 license_info('MIT License
 
@@ -650,18 +650,6 @@ nand :-
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
-    % simplify graffiti
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    is_list(V),
-                    findvars(G, U, beta),
-                    findall(M,
-                        (   member(M, V),
-                            memberchk(M, U)
-                        ),
-                        W
-                    ),
-                    W \= V
-                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G), '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -1976,8 +1964,17 @@ tr_tr(A, B) :-
         ->  assertz(flag(tonand))
         ;   true
         ),
-        E = [[_|_]|_]
-    ->  tr_graffiti(A, B)
+        E = [V, G],
+        is_list(V),
+        findvars(G, U, beta),
+        findall(M,
+            (   member(M, V),
+                memberchk(M, U)
+            ),
+            W
+        ),
+        F =.. [C, W, G]
+    ->  tr_graffiti(F, B)
     ;   B =.. [C|E]
     ).
 
