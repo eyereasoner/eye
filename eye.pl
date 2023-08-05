@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.10.19 (2023-08-04)').
+version_info('EYE v4.11.0 (2023-08-05)').
 
 license_info('MIT License
 
@@ -650,6 +650,38 @@ nand :-
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
+    % unify neutral surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    findall(A,
+                        (   member(M, L),
+                            (   neutral(M),
+                                member('<http://www.w3.org/2000/10/swap/log#nand>'([], M), L)
+                            ->  A = '<http://www.w3.org/2000/10/swap/log#nand>'([], M)
+                            ;   A = M
+                            )
+                        ),
+                        Q
+                    ),
+                    conj_list(C, Q)
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, C), '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    conj_list(G, L),
+                    findall(A,
+                        (   member(M, L),
+                            (   M = '<http://www.w3.org/2000/10/swap/log#nand>'([], N),
+                                neutral(N),
+                                member(N, L)
+                            ->  A = N
+                            ;   A = M
+                            )
+                        ),
+                        Q
+                    ),
+                    conj_list(C, Q)
+                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, C), '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -660,6 +692,7 @@ nand :-
                     conj_list(H, M),
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
+                    \+neutral(O),
                     is_list(W),
                     (   conj_list(O, D),
                         append(K, D, E),
@@ -827,7 +860,11 @@ nand :-
                     )), true, '<>')).
 
 % neutral surface
-neutral('<http://www.w3.org/2000/10/swap/log#neutral>'(_, _)) :-
+neutral(A) :-
+    A =.. [P|_],
+    (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
+    ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
+    ),
     !.
 neutral('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
     !,
@@ -838,9 +875,6 @@ neutral((A, _)) :-
 neutral((_, A)) :-
     !,
     neutral(A).
-neutral(A) :-
-    A =.. [B, _, _],
-    '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(B, '<http://www.w3.org/2000/10/swap/log#neutral>').
 
 % tonand translator
 tonand :-
