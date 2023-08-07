@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.11.0 (2023-08-05)').
+version_info('EYE v4.11.1 (2023-08-07)').
 
 license_info('MIT License
 
@@ -2000,14 +2000,7 @@ tr_tr(A, B) :-
         ),
         E = [V, G],
         is_list(V),
-        findvars(G, U, beta),
-        findall(M,
-            (   member(M, V),
-                memberchk(M, U)
-            ),
-            W
-        ),
-        F =.. [C, W, G]
+        F =.. [C, V, G]
     ->  tr_graffiti(F, B)
     ;   B =.. [C|E]
     ).
