@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.11.2 (2023-08-08)').
+version_info('EYE v4.11.3 (2023-08-08)').
 
 license_info('MIT License
 
@@ -661,6 +661,7 @@ nand :-
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
                     is_list(W),
+                    \+neutral(O),
                     (   conj_list(O, D),
                         append(K, D, E),
                         conj_list(C, E)
