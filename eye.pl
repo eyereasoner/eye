@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.11.1 (2023-08-07)').
+version_info('EYE v4.11.2 (2023-08-08)').
 
 license_info('MIT License
 
@@ -650,38 +650,6 @@ nand :-
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
-    % unify neutral surfaces
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    is_list(V),
-                    conj_list(G, L),
-                    findall(A,
-                        (   member(M, L),
-                            (   neutral(M),
-                                member('<http://www.w3.org/2000/10/swap/log#nand>'([], M), L)
-                            ->  A = '<http://www.w3.org/2000/10/swap/log#nand>'([], M)
-                            ;   A = M
-                            )
-                        ),
-                        Q
-                    ),
-                    conj_list(C, Q)
-                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, C), '<>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    is_list(V),
-                    conj_list(G, L),
-                    findall(A,
-                        (   member(M, L),
-                            (   M = '<http://www.w3.org/2000/10/swap/log#nand>'([], N),
-                                neutral(N),
-                                member(N, L)
-                            ->  A = N
-                            ;   A = M
-                            )
-                        ),
-                        Q
-                    ),
-                    conj_list(C, Q)
-                    ), '<http://www.w3.org/2000/10/swap/log#nand>'(V, C), '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -692,7 +660,6 @@ nand :-
                     conj_list(H, M),
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
-                    \+neutral(O),
                     is_list(W),
                     (   conj_list(O, D),
                         append(K, D, E),
@@ -762,7 +729,6 @@ nand :-
     % create contrapositive rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
-                    \+neutral(G),
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
@@ -770,7 +736,8 @@ nand :-
                     \+member(exopred(_, _, _), B),
                     (   length(B, O),
                         O =< 2
-                    ->  select(R, B, J)
+                    ->  select(R, B, J),
+                        J \= []
                     ;   B = [R|J]
                     ),
                     conj_list(T, J),
