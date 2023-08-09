@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.11.3 (2023-08-08)').
+version_info('EYE v4.11.4 (2023-08-09)').
 
 license_info('MIT License
 
@@ -650,6 +650,12 @@ nand :-
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
+    % infer neutral surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    G = (_, _),
+                    neutral(G)
+                    ), G, '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -730,6 +736,7 @@ nand :-
     % create contrapositive rule
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
+                    \+neutral(G),
                     conj_list(G, L),
                     list_to_set(L, B),
                     \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
@@ -737,8 +744,7 @@ nand :-
                     \+member(exopred(_, _, _), B),
                     (   length(B, O),
                         O =< 2
-                    ->  select(R, B, J),
-                        J \= []
+                    ->  select(R, B, J)
                     ;   B = [R|J]
                     ),
                     conj_list(T, J),
@@ -837,12 +843,9 @@ neutral(A) :-
 neutral('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
     !,
     neutral(A).
-neutral((A, _)) :-
+neutral((A, B)) :-
     neutral(A),
-    !.
-neutral((_, A)) :-
-    !,
-    neutral(A).
+    neutral(B).
 
 % tonand translator
 tonand :-
