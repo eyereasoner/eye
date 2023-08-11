@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.12.0 (2023-08-11)').
+version_info('EYE v4.12.1 (2023-08-11)').
 
 license_info('MIT License
 
@@ -641,22 +641,23 @@ gre(Argus) :-
 nand :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    is_list(V),
-                    \+neutral(G),
-                    makevars(G, H, beta(V)),
-                    catch(call(H), _, false),
-                    (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
-                    ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
-                    ;   I = H
+                    call((
+                            is_list(V),
+                            makevars(G, H, beta(V)),
+                            \+ (G =.. [P|_],
+                                (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
+                                ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
+                                )
+                            ),
+                            catch(call(H), _, false),
+                            (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                            ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                            ;   I = H
+                            )
+                        )
                     ),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
-    % infer neutral surfaces
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    is_list(V),
-                    G = (_, _),
-                    neutral(G)
-                    ), G, '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -832,20 +833,6 @@ nand :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')).
-
-% neutral surface
-neutral(A) :-
-    A =.. [P|_],
-    (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
-    ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
-    ),
-    !.
-neutral('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
-    !,
-    neutral(A).
-neutral((A, B)) :-
-    neutral(A),
-    neutral(B).
 
 % tonand translator
 tonand :-
@@ -4929,28 +4916,12 @@ eam(Recursion) :-
             )
         ->  (   flag(nand)
             ->  conj_list(Prem, Lst),
-                Lst = [_|Lst0],
-                (   select(is_list(_), Lst0, Lst1)
+                Lst = [_|Lst2],
+                (   select(call(_), Lst2, Lst3)
                 ->  true
-                ;   Lst1 = Lst0
+                ;   Lst3 = Lst2
                 ),
-                (   select(makevars(_, _, _), Lst1, Lst2)
-                ->  true
-                ;   Lst2 = Lst1
-                ),
-                (   select(catch(call(Call), _, _), Lst2, Lst3)
-                ->  Lst4 = [Call|Lst3]
-                ;   Lst4 = Lst2
-                ),
-                (   select((_ -> _ ; _), Lst4, Lst5)
-                ->  true
-                ;   Lst5 = Lst4
-                ),
-                (   select(\+neutral(_), Lst5, Lst6)
-                ->  true
-                ;   Lst6 = Lst5
-                ),
-                conj_list(Prem2, Lst6)
+                conj_list(Prem2, Lst3)
             ;   Prem2 = Prem
             ),
             (   flag('n3p-output')
