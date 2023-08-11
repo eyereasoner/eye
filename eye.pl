@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.11.5 (2023-08-10)').
+version_info('EYE v4.12.0 (2023-08-11)').
 
 license_info('MIT License
 
@@ -182,6 +182,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#package>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -1449,6 +1450,8 @@ n3pin(Rt, In, File, Mode) :-
             functor(Rt, F, _),
             memberchk(F, [
                     '<http://www.w3.org/2000/10/swap/log#nand>',
+                    '<http://www.w3.org/2000/10/swap/log#output>',
+                    '<http://www.w3.org/2000/10/swap/log#package>',
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
@@ -1958,6 +1961,8 @@ tr_tr(A, B) :-
     tr_tr(D, E),
     (   memberchk(C, [
                 '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#output>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#package>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
@@ -11636,6 +11641,9 @@ dynify('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
 dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
     !,
     dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#package>'(_, A)) :-
+    !,
+    dynify(A).
 dynify(A) :-
     functor(A, F, N),
     (   current_predicate(F/N)
@@ -11852,7 +11860,8 @@ find_graffiti(A, B) :-
     A =.. [C, D, E],
     memberchk(C, [
             '<http://www.w3.org/2000/10/swap/log#nand>',
-            '<http://www.w3.org/2000/10/swap/log#output>'
+            '<http://www.w3.org/2000/10/swap/log#output>',
+            '<http://www.w3.org/2000/10/swap/log#output>'            
         ]
     ),
     is_list(D),
