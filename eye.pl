@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.12.1 (2023-08-11)').
+version_info('EYE v4.12.2 (2023-08-11)').
 
 license_info('MIT License
 
@@ -182,8 +182,8 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#package>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#package>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -641,21 +641,19 @@ gre(Argus) :-
 nand :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
-                    call((
-                            is_list(V),
-                            makevars(G, H, beta(V)),
-                            \+ (G =.. [P|_],
-                                (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
-                                ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
-                                )
-                            ),
-                            catch(call(H), _, false),
-                            (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
-                            ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
-                            ;   I = H
+                    call((is_list(V),
+                        \+ (G =.. [P|_],
+                            (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
+                            ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
                             )
+                        ),
+                        makevars(G, H, beta(V)),
+                        catch(call(H), _, false),
+                        (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                        ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                        ;   I = H
                         )
-                    ),
+                    )),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
     % simplify negative surfaces
@@ -11832,7 +11830,7 @@ find_graffiti(A, B) :-
     memberchk(C, [
             '<http://www.w3.org/2000/10/swap/log#nand>',
             '<http://www.w3.org/2000/10/swap/log#output>',
-            '<http://www.w3.org/2000/10/swap/log#output>'            
+            '<http://www.w3.org/2000/10/swap/log#output>'
         ]
     ),
     is_list(D),
@@ -12599,3 +12597,4 @@ mf(A) :-
         )
     ),
     flush_output(user_error).
+
