@@ -11830,7 +11830,7 @@ find_graffiti(A, B) :-
     memberchk(C, [
             '<http://www.w3.org/2000/10/swap/log#nand>',
             '<http://www.w3.org/2000/10/swap/log#output>',
-            '<http://www.w3.org/2000/10/swap/log#output>'
+            '<http://www.w3.org/2000/10/swap/log#package>'
         ]
     ),
     is_list(D),
