@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.12.3 (2023-08-14)').
+version_info('EYE v4.12.4 (2023-08-14)').
 
 license_info('MIT License
 
@@ -645,7 +645,9 @@ nand :-
                         is_gl(G),
                         G \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
                         makevars(G, H, beta(V)),
-                        catch(call(H), _, false),
+                        (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, false)
+                        ;   catch(call(H), _, false)
+                        ),
                         (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
                         ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
                         ;   I = H
