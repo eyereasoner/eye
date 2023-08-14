@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.12.2 (2023-08-11)').
+version_info('EYE v4.12.2 (2023-08-14)').
 
 license_info('MIT License
 
@@ -181,6 +181,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#neutral>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#package>'/2).
@@ -642,11 +643,7 @@ nand :-
     % blow inference fuse
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     call((is_list(V),
-                        \+ (G =.. [P|_],
-                            (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
-                            ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
-                            )
-                        ),
+                        \+neutral(G),
                         makevars(G, H, beta(V)),
                         catch(call(H), _, false),
                         (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
@@ -656,6 +653,11 @@ nand :-
                     )),
                     '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
                     ), false, '<>')),
+    % infer neutral surfaces
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                    is_list(V),
+                    neutral(G)
+                    ), G, '<>')),
     % simplify negative surfaces
     assertz(implies(('<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
                     is_list(V),
@@ -667,6 +669,7 @@ nand :-
                     list_to_set(M, T),
                     select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
                     is_list(W),
+                    \+neutral(O),
                     (   conj_list(O, D),
                         append(K, D, E),
                         conj_list(C, E)
@@ -706,10 +709,12 @@ nand :-
                         is_list(Z),
                         M = ['<http://www.w3.org/2000/10/swap/log#nand>'(U, C)|A],
                         conj_list(Q, R),
+                        \+neutral(P),
                         memberchk(P, R)
                     ;   select(Q, B, A),
                         M = [P|A],
                         conj_list(C, R),
+                        \+neutral(Q),
                         memberchk(Q, R)
                     ),
                     list_to_set(M, T),
@@ -726,6 +731,7 @@ nand :-
                     is_list(Z),
                     H \= triple(_, _, _),
                     conj_list(R, K),
+                    \+neutral(R),
                     find_graffiti(K, D),
                     append(V, D, U),
                     makevars([R, H], [Q, S], beta(U)),
@@ -746,6 +752,7 @@ nand :-
                         J \= []
                     ;   B = [R|J]
                     ),
+                    \+neutral(R),
                     conj_list(T, J),
                     findvars(R, N, beta),
                     findall(A,
@@ -770,6 +777,7 @@ nand :-
                     is_list(Z),
                     T =.. [Hp, Hs, Ho],
                     conj_list(R, K),
+                    \+neutral(R),
                     conjify(R, S),
                     find_graffiti([R], D),
                     append(V, D, U),
@@ -801,6 +809,7 @@ nand :-
                         Y
                     ),
                     conj_list(S, Y),
+                    \+neutral(S),
                     append(V, Z, U),
                     makevars(':-'(M, S), C, beta(U)),
                     copy_term_nat(C, CC),
@@ -831,6 +840,18 @@ nand :-
                         retractall(brake)
                     ;   true
                     )), true, '<>')).
+
+% neutral surface
+neutral(A) :-
+    nonvar(A),
+    A =.. [P|_],
+    (   P = '<http://www.w3.org/2000/10/swap/log#neutral>'
+    ;   '<http://www.w3.org/2000/01/rdf-schema#subPropertyOf>'(P, '<http://www.w3.org/2000/10/swap/log#neutral>')
+    ),
+    !.
+neutral('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
+    nonvar(A),
+    neutral(A).
 
 % tonand translator
 tonand :-
@@ -1435,6 +1456,7 @@ n3pin(Rt, In, File, Mode) :-
             functor(Rt, F, _),
             memberchk(F, [
                     '<http://www.w3.org/2000/10/swap/log#nand>',
+                    '<http://www.w3.org/2000/10/swap/log#neutral>',
                     '<http://www.w3.org/2000/10/swap/log#output>',
                     '<http://www.w3.org/2000/10/swap/log#package>',
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
@@ -1946,6 +1968,7 @@ tr_tr(A, B) :-
     tr_tr(D, E),
     (   memberchk(C, [
                 '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#neutral>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#output>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#package>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
@@ -11607,6 +11630,9 @@ dynify(answer(A, _, _)) :-
 dynify('<http://www.w3.org/2000/10/swap/log#nand>'(_, A)) :-
     !,
     dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#neutral>'(_, A)) :-
+    !,
+    dynify(A).
 dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
     !,
     dynify(A).
@@ -11829,6 +11855,7 @@ find_graffiti(A, B) :-
     A =.. [C, D, E],
     memberchk(C, [
             '<http://www.w3.org/2000/10/swap/log#nand>',
+            '<http://www.w3.org/2000/10/swap/log#neutral>',
             '<http://www.w3.org/2000/10/swap/log#output>',
             '<http://www.w3.org/2000/10/swap/log#package>'
         ]
