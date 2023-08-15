@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.12.5 (2023-08-14)').
+version_info('EYE v4.13.0 (2023-08-15)').
 
 license_info('MIT License
 
@@ -183,7 +183,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#neutral>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#package>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#surface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -1462,7 +1462,7 @@ n3pin(Rt, In, File, Mode) :-
                     '<http://www.w3.org/2000/10/swap/log#nand>',
                     '<http://www.w3.org/2000/10/swap/log#neutral>',
                     '<http://www.w3.org/2000/10/swap/log#output>',
-                    '<http://www.w3.org/2000/10/swap/log#package>',
+                    '<http://www.w3.org/2000/10/swap/log#surface>',
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
@@ -1974,7 +1974,7 @@ tr_tr(A, B) :-
                 '\'<http://www.w3.org/2000/10/swap/log#nand>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#neutral>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#output>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#package>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#surface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
@@ -11640,7 +11640,7 @@ dynify('<http://www.w3.org/2000/10/swap/log#neutral>'(_, A)) :-
 dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#package>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#surface>'(_, A)) :-
     !,
     dynify(A).
 dynify(A) :-
@@ -11861,7 +11861,7 @@ find_graffiti(A, B) :-
             '<http://www.w3.org/2000/10/swap/log#nand>',
             '<http://www.w3.org/2000/10/swap/log#neutral>',
             '<http://www.w3.org/2000/10/swap/log#output>',
-            '<http://www.w3.org/2000/10/swap/log#package>'
+            '<http://www.w3.org/2000/10/swap/log#surface>'
         ]
     ),
     is_list(D),
