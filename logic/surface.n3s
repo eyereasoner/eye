@@ -1,23 +1,23 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <urn:example:> .
 
-# package with 2 triples
-() log:package {
+# surface with 2 triples
+() log:surface {
     :a :b :c.
     :d :e :f.
 }.
 
-# the package with the negation of those 2 triples does not blow an inference fuse
-() log:package {
+# the surface with the negation of those 2 triples does not blow an inference fuse
+() log:surface {
     () log:nand {
         :a :b :c.
         :d :e :f.
     }.
 }.
 
-# getting the content of packages
+# getting the content of surfaces
 (_:G) log:nand {
-    () log:package _:G.
+    () log:surface _:G.
     () log:output {
         :result :is _:G.
     }.
