@@ -1,14 +1,17 @@
----------------------------------------------
-Logic: RDF Surfaces implemented with log:nand
----------------------------------------------
+-------------------------------------------------------------------------
+Logic: RDF Surfaces implemented with log:surface, log:nand and log:output
+-------------------------------------------------------------------------
 
-log:nand is a logic building block and a built-in just like log:implies
+log:surface is a neutral surface packaging all kinds of RDF surfaces.
+Using explicit accompanying log:nand based logic it can serve any purpose,
+from detecting policy violations to guaranteeing the quality of the data.
+
+log:nand is a universal logic building block to express anything in logic:
 - negation is a just log:nand
 - implication is a log:nand with an embedded log:nand
 - impliedBy is a log:nand with an embedded log:nand of a triple term
 - disjunction is a log:nand with multiple embedded log:nand's
 
-log:nand implements https://w3c-cg.github.io/rdfsurfaces/
-- a positive surface is a log:nand with just a single embedded log:nand
-- a question surface is a log:nand with an embedded log:output
-- a neutral surface is a log:neutral which is immune to log:nand
+log:output is used within log:nand to output the answer to a query.
+
+The top level is an implicit positive surface with implicit graffiti.
