@@ -27,15 +27,15 @@
 }.
 
 # enact policy
-(_:S) log:nand {
+(_:S) log:onNegativeSurface {
     () :policy _:S.
-    () log:nand _:S.
+    () log:onNegativeSurface _:S.
 }.
 
 # questions
-(_:A _:B) log:nand {
+(_:A _:B) log:onQuestionSurface {
     _:A a _:B.
-    () log:output {
+    () log:onAnswerSurface {
         _:A a _:B.
     }.
 }.

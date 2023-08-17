@@ -1,24 +1,24 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <urn:example:> .
 
-# surface with 2 triples
-() log:surface {
+# neutral surface with 2 triples
+() log:onNeutralSurface {
     :a :b :c.
     :d :e :f.
 }.
 
-# the surface with the negation of those 2 triples does not blow an inference fuse
-() log:surface {
-    () log:nand {
+# neutral surface with the negation of those 2 triples does not blow an inference fuse
+() log:onNeutralSurface {
+    () log:onNegativeSurface {
         :a :b :c.
         :d :e :f.
     }.
 }.
 
-# getting the content of surfaces
-(_:G) log:nand {
-    () log:surface _:G.
-    () log:output {
+# questions
+(_:G) log:onQuestionSurface {
+    () log:onNeutralSurface _:G.
+    () log:onAnswerSurface {
         :result :is _:G.
     }.
 }.

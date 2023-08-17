@@ -1,22 +1,15 @@
--------------------------------------------------------------------------
-Logic: RDF Surfaces implemented with log:surface, log:nand and log:output
--------------------------------------------------------------------------
+-----------------------
+Logic with RDF Surfaces
+-----------------------
 
-log:surface is a neutral surface packaging all kinds of RDF surfaces.
-Using explicit accompanying log:nand based logic it can serve any purpose,
-from detecting policy violations to guaranteeing the quality of the data.
+The top level surface is an implicit positive surface with implicit graffiti.
 
-log:nand is a negative surface used to express anything in logic:
-- negation is just a log:nand
-- implication is a log:nand with an embedded log:nand
-- impliedBy is a log:nand with an embedded log:nand of a triple term
-- disjunction is a log:nand with multiple embedded log:nand's
+log:onNegativeSurface is a negative surface used to express anything in logic:
+- negation is just a log:onNegativeSurface
+- implication is a log:onNegativeSurface with an embedded log:onNegativeSurface
+- impliedBy is a log:onNegativeSurface with an embedded log:negativeTriple
+- disjunction is a log:onNegativeSurface with just embedded log:onNegativeSurface's
 
-log:output is used within log:nand to output the answer to a query.
+log:onNeutralSurface is a neutral surface packaging all kinds of RDF surfaces.
 
-The top level is an implicit positive surface with implicit graffiti.
-
-
-P.S.
-log:surface is the origin from which things evolve using log:nand and
-all this can be observed with log:output driving dialogical reasoning.
+log:onQuestionSurface is a query surface with an embedded log:onAnswerSurface.

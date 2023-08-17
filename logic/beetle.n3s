@@ -5,36 +5,36 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(_:A) log:nand {
+(_:A) log:onNegativeSurface {
     _:A a :Car.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :is :green.
     }.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :is :blue.
     }.
 }.
 
 # green things are beautiful
-(_:A) log:nand {
+(_:A) log:onNegativeSurface {
     _:A :is :green.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
 }.
 
 # blue things are beautiful
-(_:A) log:nand {
+(_:A) log:onNegativeSurface {
     _:A :is :blue.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
 }.
 
 # questions
-(_:S _:O) log:nand {
+(_:S _:O) log:onQuestionSurface {
     _:S :is _:O.
-    () log:output {
+    () log:onAnswerSurface {
         _:S :is _:O.
     }.
 }.

@@ -4,12 +4,12 @@
 :currentWeather a :NormalWeather.
 :obs1 :ascribed :Rain.
 
-() log:nand {
+() log:onNegativeSurface {
     :currentWeather a :NormalWeather.
-    () log:nand {
-        (_:S) log:nand {
+    () log:onNegativeSurface {
+        (_:S) log:onNegativeSurface {
             _:S :ascribed :Rain.
-            () log:nand {
+            () log:onNegativeSurface {
                 _:S :ascribed :WetGrass.
             }.
         }.
@@ -17,9 +17,9 @@
 }.
 
 # questions
-(_:S _:O) log:nand {
+(_:S _:O) log:onQuestionSurface {
     _:S :ascribed _:O.
-    () log:output {
+    () log:onAnswerSurface {
         _:S :ascribed _:O.
     }.
 }.

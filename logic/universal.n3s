@@ -3,32 +3,32 @@
 @prefix : <http://example.org/>.
 
 # \Every x: type(x, Resource)
-(_:x) log:nand {
-    () log:nand {
+(_:x) log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:x a rdfs:Resource.
     }.
 }.
 
 # Everybody loves somebody who is lonely
-(_:A) log:nand {
-    (_:B) log:nand {
+(_:A) log:onNegativeSurface {
+    (_:B) log:onNegativeSurface {
         _:A :loves _:B.
         _:B :is :lonely.
     }.
 }.
 
 # questions
-() log:nand {
+() log:onQuestionSurface {
     :pat a rdfs:Resource.
-    () log:output {
+    () log:onAnswerSurface {
         :pat a rdfs:Resource.
     }.
 }.
 
-(_:x) log:nand {
+(_:x) log:onQuestionSurface {
     :bob :loves _:x.
     _:x :is :lonely.
-    () log:output {
+    () log:onAnswerSurface {
         :bob :loves _:x.
         _:x :is :lonely.
     }.

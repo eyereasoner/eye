@@ -14,26 +14,26 @@
 :angers :oneway :nantes.
 
 # oneway subproperty of path
-(_:A _:B) log:nand {
+(_:A _:B) log:onNegativeSurface {
     _:A :oneway _:B.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :path _:B.
     }.
 }.
 
 # path transitive property
-(_:A _:B _:C) log:nand {
+(_:A _:B _:C) log:onNegativeSurface {
     _:A :path _:B.
     _:B :path _:C.
-    () log:nand {
+    () log:onNegativeSurface {
         _:A :path _:C.
     }.
 }.
 
 # questions
-(_:A) log:nand {
+(_:A) log:onQuestionSurface {
     _:A :path :nantes.
-    () log:output {
+    () log:onAnswerSurface {
         _:A :path :nantes.
     }.
 }.

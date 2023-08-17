@@ -6,18 +6,18 @@
 :Man rdfs:subClassOf :Human.
 :Human rdfs:subClassOf :Mortal.
 
-(_:A _:B _:S) log:nand {
+(_:A _:B _:S) log:onNegativeSurface {
     _:A rdfs:subClassOf _:B.
     _:S a _:A.
-    () log:nand {
+    () log:onNegativeSurface {
         _:S a _:B.
     }.
 }.
 
 # questions
-(_:S _:C) log:nand {
+(_:S _:C) log:onQuestionSurface {
     _:S a _:C.
-    () log:output {
+    () log:onAnswerSurface {
         _:S a _:C.
     }.
 }.

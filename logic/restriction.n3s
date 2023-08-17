@@ -13,43 +13,43 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-(_:y) log:nand {
+(_:y) log:onNegativeSurface {
     :xxx :bbb _:y.
-    () log:nand {
+    () log:onNegativeSurface {
         _:y a :ccc.
     }.
 }.
 
 # owl:allValuseFrom description logic
-(_:a _:b _:c) log:nand {
+(_:a _:b _:c) log:onNegativeSurface {
     _:a owl:onProperty _:b.
     _:a owl:allValuesFrom _:c.
-    () log:nand {
-        (_:x _:y) log:nand {
+    () log:onNegativeSurface {
+        (_:x _:y) log:onNegativeSurface {
             _:x a _:a.
             _:x _:b _:y.
-            () log:nand {
+            () log:onNegativeSurface {
                 _:y a _:c.
             }.
         }.
-        (_:x) log:nand {
-            (_:y) log:nand {
+        (_:x) log:onNegativeSurface {
+            (_:y) log:onNegativeSurface {
                 _:x _:b _:y.
-                () log:nand {
+                () log:onNegativeSurface {
                     _:y a _:c.
                 }.
             }.
-            () log:nand {
+            () log:onNegativeSurface {
                 _:x a _:a.
             }.
         }.
     }.
 }.
 
-# query
-(_:S _:C) log:nand {
+# questions
+(_:S _:C) log:onQuestionSurface {
     _:S a _:C.
-    () log:output {
+    () log:onAnswerSurface {
         _:S a _:C.
     }.
 }.
