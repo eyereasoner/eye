@@ -11,16 +11,16 @@
 () :policy {
 
     # Mapping foaf:Person and vcard:Individual on each other
-    (_:S) log:nand {
+    (_:S) log:onNegativeSurface {
         _:S a foaf:Person .
-        () log:nand {
+        () log:onNegativeSurface {
             _:S a vcard:Individual .
         } .
     } .
 
-    (_:S) log:nand {
+    (_:S) log:onNegativeSurface {
         _:S a vcard:Individual .
-        () log:nand {
+        () log:onNegativeSurface {
             _:S a foaf:Person .
         } .
     } .
