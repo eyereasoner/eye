@@ -17,19 +17,12 @@
     }.
 }.
 
-# questions
-() log:onQuestionSurface {
+# query
+() log:onQuerySurface {
     :pat a rdfs:Resource.
-    () log:onAnswerSurface {
-        :pat a rdfs:Resource.
-    }.
 }.
 
-(_:x) log:onQuestionSurface {
+(_:x) log:onQuerySurface {
     :bob :loves _:x.
     _:x :is :lonely.
-    () log:onAnswerSurface {
-        :bob :loves _:x.
-        _:x :is :lonely.
-    }.
 }.

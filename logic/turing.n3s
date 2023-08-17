@@ -108,31 +108,19 @@
 (1 1 0 :left) :tape 1.
 (1 "#" 1 :stop) :tape :halt.
 
-# questions
-(_:A) log:onQuestionSurface {
+# query
+(_:A) log:onQuerySurface {
     (1 0 1 0 0 1) :compute _:A.
-    () log:onAnswerSurface {
-        (1 0 1 0 0 1) :compute _:A.
-    }.
 }.
 
-(_:A) log:onQuestionSurface {
+(_:A) log:onQuerySurface {
     (1 0 1 1 1 1) :compute _:A.
-    () log:onAnswerSurface {
-        (1 0 1 1 1 1) :compute _:A.
-    }.
 }.
 
-(_:A) log:onQuestionSurface {
+(_:A) log:onQuerySurface {
     (1 1 1 1 1 1) :compute _:A.
-    () log:onAnswerSurface {
-        (1 1 1 1 1 1) :compute _:A.
-    }.
 }.
 
-(_:A) log:onQuestionSurface {
+(_:A) log:onQuerySurface {
     () :compute _:A.
-    () log:onAnswerSurface {
-        () :compute _:A.
-    }.
 }.
