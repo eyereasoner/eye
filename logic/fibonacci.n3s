@@ -3,28 +3,20 @@
 @prefix : <http://example.org/ns#>.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        _:X :fibonacci _:Y.
-    }.
+    () log:onNegativeSurface <<_:X :fibonacci _:Y>>.
     (_:X 0 1) :fib _:Y.
 }.
 
 (_:A _:B) log:onNegativeSurface {
-    () log:negativeTriple {
-        (0 _:A _:B) :fib _:A.
-    }.
+    () log:onNegativeSurface <<(0 _:A _:B) :fib _:A>>.
 }.
 
 (_:A _:B) log:onNegativeSurface {
-    () log:negativeTriple {
-        (1 _:A _:B) :fib _:B.
-    }.
+    () log:onNegativeSurface <<(1 _:A _:B) :fib _:B>>.
 }.
 
 (_:A _:B _:C _:D _:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:X _:A _:B) :fib _:Y.
-    }.
+    () log:onNegativeSurface <<(_:X _:A _:B) :fib _:Y>>.
     _:X math:greaterThan 1.
     (_:X 1) math:difference _:C.
     (_:A _:B) math:sum _:D.

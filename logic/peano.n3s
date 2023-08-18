@@ -6,57 +6,43 @@
 
 # add
 (_:A) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:A 0) :add _:A.
-    }.
+    () log:onNegativeSurface <<(_:A 0) :add _:A>>.
 }.
 
 (_:A _:B _:C) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:A (:s _:B)) :add (:s _:C).
-    }.
+    () log:onNegativeSurface <<(_:A (:s _:B)) :add (:s _:C)>>.
     (_:A _:B) :add _:C.
 }.
 
 # multiply
 (_:A) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:A 0) :multiply 0.
-    }.
+    () log:onNegativeSurface <<(_:A 0) :multiply 0>>.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:A (:s _:B)) :multiply _:C.
-    }.
+    () log:onNegativeSurface <<(_:A (:s _:B)) :multiply _:C>>.
     (_:A _:B) :multiply _:D.
     (_:A _:D) :add _:C.
 }.
 
 # factorial
 (_:A _:B) log:onNegativeSurface {
-    () log:negativeTriple {
-        _:A :factorial _:B.
-    }.
+    () log:onNegativeSurface <<_:A :factorial _:B>>.
     (_:A (:s 0)) :fac _:B.
 }.
 
 (_:A) log:onNegativeSurface {
-    () log:negativeTriple {
-        (0 _:A) :fac _:A.
-    }.
+    () log:onNegativeSurface <<(0 _:A) :fac _:A>>.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:negativeTriple {
-        ((:s _:A) _:B) :fac _:C.
-    }.
+    () log:onNegativeSurface <<((:s _:A) _:B) :fac _:C>>.
     (_:B (:s _:A)) :multiply _:D.
     (_:A _:D) :fac _:C.
 }.
 
 # query
-(_:A _:B _:C) log:onQuestionSurface {
+(_:A _:B _:C) log:onNegativeSurface {
     ((:s 0) (:s (:s 0))) :add _:A.
     (_:A (:s (:s 0))) :multiply _:B.
     _:B :factorial _:C.

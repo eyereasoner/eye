@@ -7,12 +7,13 @@ See https://w3c-cg.github.io/rdfsurfaces/
 The top level surface is an implicit positive surface with implicit graffiti.
 
 log:onNegativeSurface is a negative surface used to express anything in logic:
-- negation is just a log:onNegativeSurface
-- implication is a log:onNegativeSurface with an embedded log:onNegativeSurface
-- impliedBy is a log:onNegativeSurface with an embedded log:negativeTriple
-- disjunction is a log:onNegativeSurface with just embedded log:onNegativeSurface's
-
-log:onNeutralSurface is a neutral surface.
+- a negation is just a log:onNegativeSurface
+- a positive surface is a log:onNegativeSurface of a log:onNegativeSurface
+- an implication is a log:onNegativeSurface with an embedded log:onNegativeSurface
+- an impliedBy is a log:onNegativeSurface with an embedded log:onNegativeSurface of a triple term
+- a disjunction is a log:onNegativeSurface with just embedded log:onNegativeSurface's
+- a query is a log:onNegativeSurface with an embedded log:onAnswerSurface
 
 log:onQuerySurface is a query surface.
-log:onQuestionSurface is a query surface with an embedded log:onAnswerSurface.
+
+log:onNeutralSurface is a neutral surface.
