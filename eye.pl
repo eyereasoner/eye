@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.13.4 (2023-08-17)').
+version_info('EYE v4.14.0 (2023-08-18)').
 
 license_info('MIT License
 
@@ -180,10 +180,12 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#neutral>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#output>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#surface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -645,7 +647,6 @@ surfaces :-
         call((
             is_list(V),
             is_gl(G),
-            G \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
             makevars(G, H, beta(V)),
             (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false)
             ;   catch(call(H), _, false)
@@ -657,13 +658,6 @@ surfaces :-
         )),
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
         ), false, '<>')),
-    % infer neutral surfaces
-    assertz(implies((
-        '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-        is_list(V),
-        is_gl(G),
-        G = '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _)
-        ), G, '<>')),
     % simplify negative surfaces
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -676,7 +670,6 @@ surfaces :-
         conj_list(H, M),
         list_to_set(M, T),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
-        O \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
         (   conj_list(O, D),
             append(K, D, E),
             conj_list(C, E)
@@ -695,7 +688,7 @@ surfaces :-
         conj_list(G, L),
         list_to_set(L, B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
-        \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
+        \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
         findall(1,
             (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
             ),
@@ -710,7 +703,7 @@ surfaces :-
         conj_list(F, K),
         list_to_set(K, N),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
-        \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), N),
+        \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), N),
         length(N, 2),
         makevars(N, J, beta(W)),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
@@ -719,12 +712,10 @@ surfaces :-
         (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
             M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|A],
             conj_list(Q, R),
-            P \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
             memberchk(P, R)
         ;   select(Q, B, A),
             M = [P|A],
             conj_list(C, R),
-            Q \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
             memberchk(Q, R)
         ),
         list_to_set(M, T),
@@ -738,11 +729,10 @@ surfaces :-
         is_gl(G),
         conj_list(G, L),
         list_to_set(L, B),
-        \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
+        \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
         H \= triple(_, _, _),
         conj_list(R, K),
-        R \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
         find_graffiti(K, D),
         append(V, D, U),
         makevars([R, H], [Q, S], beta(U)),
@@ -757,7 +747,7 @@ surfaces :-
         conj_list(G, L),
         list_to_set(L, B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
-        \+member('<http://www.w3.org/2000/10/swap/log#output>'(_, _), B),
+        \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
         \+member(exopred(_, _, _), B),
         (   length(B, O),
             O =< 2
@@ -765,7 +755,6 @@ surfaces :-
             J \= []
         ;   B = [R|J]
         ),
-        R \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
         conj_list(T, J),
         findvars(R, N, beta),
         findall(A,
@@ -791,7 +780,6 @@ surfaces :-
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, triple(Hs, Hp, Ho)), B, K),
         T =.. [Hp, Hs, Ho],
         conj_list(R, K),
-        R \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
         conjify(R, S),
         find_graffiti([R], D),
         append(V, D, U),
@@ -824,7 +812,6 @@ surfaces :-
             Y
         ),
         conj_list(S, Y),
-        S \= '<http://www.w3.org/2000/10/swap/log#neutral>'(_, _),
         append(V, Z, U),
         makevars(':-'(M, S), C, beta(U)),
         copy_term_nat(C, CC),
@@ -842,7 +829,7 @@ surfaces :-
         is_gl(G),
         conj_list(G, L),
         list_to_set(L, B),
-        select('<http://www.w3.org/2000/10/swap/log#output>'(Z, H), B, K),
+        select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(Z, H), B, K),
         conj_list(I, K),
         djiti_answer(answer(H), J),
         find_graffiti(K, D),
@@ -882,7 +869,7 @@ tosurfaces :-
     conj_list(G, L),
     tosurfaces(L, A),
     conj_list(B, A),
-    append(A, ['<http://www.w3.org/2000/10/swap/log#output>'([], B)], M),
+    append(A, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], B)], M),
     conj_list(H, M),
     assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
     fail.
@@ -919,7 +906,7 @@ tosurfaces(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<h
     B =.. [P, S, O],
     D = triple(S, P, O),
     tosurfaces(C, E).
-tosurfaces(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#output>'(A, D)|E]) :-
+tosurfaces(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, D)|E]) :-
     !,
     conj_list(B, F),
     tosurfaces(F, G),
@@ -1460,13 +1447,11 @@ n3pin(Rt, In, File, Mode) :-
             functor(Rt, F, _),
             memberchk(F, [
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
-                    '<http://www.w3.org/2000/10/swap/log#neutral>',
-                    '<http://www.w3.org/2000/10/swap/log#output>',
-                    '<http://www.w3.org/2000/10/swap/log#surface>',
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
+                    '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
                     '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'
+                    '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>',
+                    '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
                 ]
             )
         ->  assertz(flag(tosurfaces))
@@ -1972,13 +1957,11 @@ tr_tr(A, B) :-
     tr_tr(D, E),
     (   memberchk(C, [
                 '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#neutral>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#output>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#surface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
                 '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''
+                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\'',
+                '\'<http://www.w3.org/2000/10/swap/log#onAnswerSurface>\''
             ]
         ),
         (   \+flag(tosurfaces)
@@ -11636,13 +11619,19 @@ dynify(answer(A, _, _)) :-
 dynify('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#neutral>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#output>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
     !,
     dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#surface>'(_, A)) :-
+dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
+    !,
+    dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, A)) :-
+    !,
+    dynify(A).
+dynify('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, A)) :-
     !,
     dynify(A).
 dynify(A) :-
@@ -11861,9 +11850,11 @@ find_graffiti(A, B) :-
     A =.. [C, D, E],
     memberchk(C, [
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
-            '<http://www.w3.org/2000/10/swap/log#neutral>',
-            '<http://www.w3.org/2000/10/swap/log#output>',
-            '<http://www.w3.org/2000/10/swap/log#surface>'
+            '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
+            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>',
+            '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
         ]
     ),
     is_list(D),
