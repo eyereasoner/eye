@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.0 (2023-08-18)').
+version_info('EYE v4.14.1 (2023-08-19)').
 
 license_info('MIT License
 
@@ -646,7 +646,7 @@ surfaces :-
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         call((
             is_list(V),
-            is_gl(G),
+            is_graph(G),
             makevars(G, H, beta(V)),
             (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false)
             ;   catch(call(H), _, false)
@@ -662,7 +662,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
@@ -684,7 +684,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
@@ -699,7 +699,7 @@ surfaces :-
         memberchk(E, [0, 2, D]),
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
         is_list(W),
-        is_gl(F),
+        is_graph(F),
         conj_list(F, K),
         list_to_set(K, N),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
@@ -708,7 +708,7 @@ surfaces :-
         makevars(N, J, beta(W)),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
         is_list(U),
-        is_gl(C),
+        is_graph(C),
         (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
             M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|A],
             conj_list(Q, R),
@@ -726,7 +726,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
@@ -743,7 +743,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
@@ -774,7 +774,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, triple(Hs, Hp, Ho)), B, K),
@@ -796,7 +796,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         V \= [],
         conj_list(G, [G]),
         (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H)
@@ -826,7 +826,7 @@ surfaces :-
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
-        is_gl(G),
+        is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
         select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(Z, H), B, K),
@@ -10813,6 +10813,10 @@ is_gl(A) :-
         !
     ;   A = exopred(_, _, _)
     ).
+
+is_graph(true).
+is_graph(A) :-
+    is_gl(A).
 
 unify(A, B) :-
     nonvar(A),
