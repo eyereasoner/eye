@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.1 (2023-08-19)').
+version_info('EYE v4.14.2 (2023-08-19)').
 
 license_info('MIT License
 
@@ -856,12 +856,9 @@ tosurfaces :-
     fail.
 tosurfaces :-
     retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G)),
-    (   G \= false
-    ->  conj_list(G, L),
-        tosurfaces(L, M),
-        conj_list(H, M)
-    ;   H = false
-    ),
+    conj_list(G, L),
+    tosurfaces(L, M),
+    conj_list(H, M),
     assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
     fail.
 tosurfaces :-
@@ -887,19 +884,16 @@ tosurfaces :-
 tosurfaces([], []) :-
     !.
 tosurfaces(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
-    !,
     conj_list(B, E),
+    !,
     tosurfaces(E, F),
     tosurfaces(C, G),
     append(F, G, D).
 tosurfaces(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, D)|E]) :-
+    conj_list(B, F),
     !,
-    (   B \= false
-    ->  conj_list(B, F),
-        tosurfaces(F, G),
-        conj_list(D, G)
-    ;   D = false
-    ),
+    tosurfaces(F, G),
+    conj_list(D, G),
     tosurfaces(C, E).
 tosurfaces(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, D)|E]) :-
     !,
@@ -907,8 +901,8 @@ tosurfaces(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<h
     D = triple(S, P, O),
     tosurfaces(C, E).
 tosurfaces(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, D)|E]) :-
-    !,
     conj_list(B, F),
+    !,
     tosurfaces(F, G),
     conj_list(D, G),
     tosurfaces(C, E).
