@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.2 (2023-08-19)').
+version_info('EYE v4.14.3 (2023-08-19)').
 
 license_info('MIT License
 
@@ -415,8 +415,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(tosurfaces)
-    ->  tosurfaces
+    (   flag(rdfsurfaces)
+    ->  rdfsurfaces
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -474,7 +474,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(surfaces)
+        \+flag(rdfsurfaces)
     ->  throw(halt(0))
     ;   true
     ),
@@ -640,7 +640,22 @@ gre(Argus) :-
 % See https://w3c-cg.github.io/rdfsurfaces/
 %
 
-surfaces :-
+rdfsurfaces :-
+    % assert positive surface
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G), G, '<>')),
+    % simplify positive surface
+    assertz(implies((
+        '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+        is_list(V),
+        is_graph(G),
+        conj_list(G, L),
+        select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(Z, H), L, K),
+        conj_list(H, D),
+        append(K, D, E),
+        list_to_set(E, B),
+        conj_list(F, B),
+        append(V, Z, U)
+        ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, F), '<>')),
     % blow inference fuse
     assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -687,6 +702,7 @@ surfaces :-
         is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
+        \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
         \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
         findall(1,
@@ -702,6 +718,7 @@ surfaces :-
         is_graph(F),
         conj_list(F, K),
         list_to_set(K, N),
+        \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), N),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
         \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), N),
         length(N, 2),
@@ -746,6 +763,7 @@ surfaces :-
         is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
+        \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
         \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
         \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
         \+member(exopred(_, _, _), B),
@@ -777,8 +795,11 @@ surfaces :-
         is_graph(G),
         conj_list(G, L),
         list_to_set(L, B),
-        select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, triple(Hs, Hp, Ho)), B, K),
-        T =.. [Hp, Hs, Ho],
+        (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, triple(Hs, Hp, Ho)), B, K),
+            T =.. [Hp, Hs, Ho]
+        ;   select('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(Z, T), B, K),
+            T =.. [_, _, _]
+        ),
         conj_list(R, K),
         conjify(R, S),
         find_graffiti([R], D),
@@ -824,6 +845,15 @@ surfaces :-
         )), true, '<>')),
     % create question
     assertz(implies((
+        '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
+        conj_list(G, L),
+        append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], G)], M),
+        conj_list(H, M)
+        ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
+    assertz(implies((
+        '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)
+        ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<>')),
+    assertz(implies((
         '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
         is_list(V),
         is_graph(G),
@@ -844,71 +874,6 @@ surfaces :-
         ;   true
         )), true, '<>')).
 
-% tosurfaces translator
-tosurfaces :-
-    retract('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)),
-    conj_list(G, L),
-    tosurfaces(L, M),
-    forall(
-        member(R, M),
-        assertz(R)
-    ),
-    fail.
-tosurfaces :-
-    retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G)),
-    conj_list(G, L),
-    tosurfaces(L, M),
-    conj_list(H, M),
-    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
-    fail.
-tosurfaces :-
-    retract('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G)),
-    conj_list(G, L),
-    tosurfaces(L, A),
-    conj_list(B, A),
-    append(A, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], B)], M),
-    conj_list(H, M),
-    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
-    fail.
-tosurfaces :-
-    retract('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)),
-    conj_list(G, L),
-    tosurfaces(L, M),
-    conj_list(H, M),
-    assertz('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H)),
-    fail.
-tosurfaces :-
-    assertz(flag(surfaces)),
-    surfaces.
-
-tosurfaces([], []) :-
-    !.
-tosurfaces(['<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, B)|C], D) :-
-    conj_list(B, E),
-    !,
-    tosurfaces(E, F),
-    tosurfaces(C, G),
-    append(F, G, D).
-tosurfaces(['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, D)|E]) :-
-    conj_list(B, F),
-    !,
-    tosurfaces(F, G),
-    conj_list(D, G),
-    tosurfaces(C, E).
-tosurfaces(['<http://www.w3.org/2000/10/swap/log#negativeTriple>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, D)|E]) :-
-    !,
-    B =.. [P, S, O],
-    D = triple(S, P, O),
-    tosurfaces(C, E).
-tosurfaces(['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, B)|C], ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(A, D)|E]) :-
-    conj_list(B, F),
-    !,
-    tosurfaces(F, G),
-    conj_list(D, G),
-    tosurfaces(C, E).
-tosurfaces([A|B], [A|C]) :-
-    tosurfaces(B, C).
-
 %
 % command line options
 %
@@ -918,8 +883,8 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(tosurfaces)),
-    assertz(flag(tosurfaces)),
+    retractall(flag(rdfsurfaces)),
+    assertz(flag(rdfsurfaces)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -1437,7 +1402,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(tosurfaces),
+        (   \+flag(rdfsurfaces),
             functor(Rt, F, _),
             memberchk(F, [
                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
@@ -1448,7 +1413,7 @@ n3pin(Rt, In, File, Mode) :-
                     '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
                 ]
             )
-        ->  assertz(flag(tosurfaces))
+        ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
         (   Rt = ':-'(Ci, Px),
@@ -1958,8 +1923,8 @@ tr_tr(A, B) :-
                 '\'<http://www.w3.org/2000/10/swap/log#onAnswerSurface>\''
             ]
         ),
-        (   \+flag(tosurfaces)
-        ->  assertz(flag(tosurfaces))
+        (   \+flag(rdfsurfaces)
+        ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
         E = [V, G],
@@ -4916,7 +4881,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag(surfaces)
+        ->  (   flag(rdfsurfaces)
             ->  conj_list(Prem, Lst),
                 Lst = [_|Lst2],
                 (   select(call(_), Lst2, Lst3)
@@ -5056,7 +5021,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (flag(surfaces), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(rdfsurfaces), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -5093,7 +5058,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (flag(surfaces), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(rdfsurfaces), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
