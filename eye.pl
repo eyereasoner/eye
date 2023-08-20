@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.3 (2023-08-19)').
+version_info('EYE v4.14.4 (2023-08-20)').
 
 license_info('MIT License
 
@@ -178,6 +178,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
@@ -5404,7 +5405,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5543,7 +5548,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -5653,7 +5662,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6591,7 +6604,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6674,7 +6691,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--pass-all', '>', Tmp2]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
@@ -6839,7 +6860,11 @@ djiti_assertz(A) :-
             ->  append(Argu, ['--'], A2)
             ;   A2 = ['eye']
             ),
-            append([A1, A2, ['--nope', Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--query', Tmp2, '>', Tmp3]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
