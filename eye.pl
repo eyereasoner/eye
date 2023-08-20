@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.4 (2023-08-20)').
+version_info('EYE v4.14.5 (2023-08-20)').
 
 license_info('MIT License
 
@@ -6250,6 +6250,19 @@ djiti_assertz(A) :-
         ),
         (   conj_list(A, C),
             member(B, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/graph#renameBlanks>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   copy_term_nat(A, C),
+            findvars(C, D, beta),
+            makevars(C, B, beta(D)),
+            nb_getval(wn, W),
+            labelvars(B, W, N),
+            nb_setval(wn, N)
         )
     ).
 
