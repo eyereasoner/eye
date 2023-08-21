@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.5 (2023-08-20)').
+version_info('EYE v4.14.6 (2023-08-21)').
 
 license_info('MIT License
 
@@ -417,7 +417,8 @@ gre(Argus) :-
     ),
     args(Args),
     (   flag(rdfsurfaces)
-    ->  rdfsurfaces
+    ->  retractall(flag('pass-only-new')),
+        rdfsurfaces
     ;   true
     ),
     (   implies(_, Conc, _),
