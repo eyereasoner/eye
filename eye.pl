@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.6 (2023-08-21)').
+version_info('EYE v4.14.7 (2023-08-23)').
 
 license_info('MIT License
 
@@ -103,6 +103,7 @@ eye
     --query <n3-query>              output filtered with filter rules').
 
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
+:- dynamic(apfx/2).
 :- dynamic(argi/1).
 :- dynamic(base_uri/1).
 :- dynamic(bcnd/2).
@@ -4101,6 +4102,10 @@ wt0(X) :-
                 )
             ),
             pfx(E, D),
+            (   apfx(E, D)
+            ->  true
+            ;   assertz(apfx(E, D))
+            ),
             K is J-1,
             sub_atom(X, _, K, 1, F)
         ->  atom_concat(E, F, W),
@@ -4996,7 +5001,25 @@ eam(Recursion) :-
             eam(R)
         ;   (   flag(strings)
             ->  true
-            ;   w3
+            ;   (   flag('pass-only-new')
+                ->  w3
+                ;   open_null_stream(Ws),
+                    tell(Ws),
+                    w3,
+                    retractall(pfx(_, _)),
+                    retractall(wpfx(_)),
+                    nb_setval(lemma_cursor, 0),
+                    forall(
+                        apfx(Pfx, Uri),
+                        assertz(pfx(Pfx, Uri))
+                    ),
+                    told,
+                    (   flag('output', Output)
+                    ->  tell(Output)
+                    ;   true
+                    ),
+                    w3
+                )
             )
         ;   true
         ),

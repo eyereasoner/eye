@@ -1,14 +1,14 @@
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix string: <http://www.w3.org/2000/10/swap/string#>.
-@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix : <http://eulersharp.sourceforge.net/2007/07test#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix med: <http://eulersharp.sourceforge.net/2006/02swap/med#>.
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <http://eulersharp.sourceforge.net/2007/07test#>.
 @prefix fl: <http://eulersharp.sourceforge.net/2003/03swap/fl-rules#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix time: <http://www.w3.org/2000/10/swap/time#>.
 
 {
     {
@@ -545,19 +545,19 @@
             med:betaBlocker med:excludedFor med:SevereAsthma.
             med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
             {
-                ?U_2 med:prescribedFor ?U_3.
-                (?U_4 ?U_3) fl:mu ?U_5.
-                ?U_5 math:greaterThan 0.7 .
-                ?U_6 e:findall (?U_7 {
-                    ?U_2 med:excludedFor ?U_7.
-                } ?U_8).
-                ?U_6 e:findall (?U_7 {
-                    ?U_2 med:excludedFor ?U_7.
-                    (?U_4 ?U_7) fl:mu ?U_9.
-                    ?U_9 math:notGreaterThan 0.01.
-                } ?U_8).
+                ?U_18 med:prescribedFor ?U_19.
+                (?U_20 ?U_19) fl:mu ?U_21.
+                ?U_21 math:greaterThan 0.7 .
+                ?U_22 e:findall (?U_23 {
+                    ?U_18 med:excludedFor ?U_23.
+                } ?U_24).
+                ?U_22 e:findall (?U_23 {
+                    ?U_18 med:excludedFor ?U_23.
+                    (?U_20 ?U_23) fl:mu ?U_25.
+                    ?U_25 math:notGreaterThan 0.01.
+                } ?U_24).
             } => {
-                ?U_4 med:isPrescribed ?U_2.
+                ?U_20 med:isPrescribed ?U_18.
             }.
         }.
         {
@@ -578,19 +578,19 @@
             med:betaBlocker med:excludedFor med:SevereAsthma.
             med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
             {
-                ?U_2 med:prescribedFor ?U_3.
-                (?U_4 ?U_3) fl:mu ?U_5.
-                ?U_5 math:greaterThan 0.7 .
-                ?U_6 e:findall (?U_7 {
-                    ?U_2 med:excludedFor ?U_7.
-                } ?U_8).
-                ?U_6 e:findall (?U_7 {
-                    ?U_2 med:excludedFor ?U_7.
-                    (?U_4 ?U_7) fl:mu ?U_9.
-                    ?U_9 math:notGreaterThan 0.01.
-                } ?U_8).
+                ?U_18 med:prescribedFor ?U_19.
+                (?U_20 ?U_19) fl:mu ?U_21.
+                ?U_21 math:greaterThan 0.7 .
+                ?U_22 e:findall (?U_23 {
+                    ?U_18 med:excludedFor ?U_23.
+                } ?U_24).
+                ?U_22 e:findall (?U_23 {
+                    ?U_18 med:excludedFor ?U_23.
+                    (?U_20 ?U_23) fl:mu ?U_25.
+                    ?U_25 math:notGreaterThan 0.01.
+                } ?U_24).
             } => {
-                ?U_4 med:isPrescribed ?U_2.
+                ?U_20 med:isPrescribed ?U_18.
             }.
         } log:includes {
             med:aspirinHighDose med:excludedFor med:AllergyForAspirin.
@@ -723,19 +723,19 @@
             med:betaBlocker med:excludedFor med:SevereAsthma.
             med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
             {
-                ?U_10 med:prescribedFor ?U_11.
-                (?U_12 ?U_11) fl:mu ?U_13.
-                ?U_13 math:greaterThan 0.7 .
-                ?U_14 e:findall (?U_15 {
-                    ?U_10 med:excludedFor ?U_15.
-                } ?U_16).
-                ?U_14 e:findall (?U_15 {
-                    ?U_10 med:excludedFor ?U_15.
-                    (?U_12 ?U_15) fl:mu ?U_17.
-                    ?U_17 math:notGreaterThan 0.01.
-                } ?U_16).
+                ?U_26 med:prescribedFor ?U_27.
+                (?U_28 ?U_27) fl:mu ?U_29.
+                ?U_29 math:greaterThan 0.7 .
+                ?U_30 e:findall (?U_31 {
+                    ?U_26 med:excludedFor ?U_31.
+                } ?U_32).
+                ?U_30 e:findall (?U_31 {
+                    ?U_26 med:excludedFor ?U_31.
+                    (?U_28 ?U_31) fl:mu ?U_33.
+                    ?U_33 math:notGreaterThan 0.01.
+                } ?U_32).
             } => {
-                ?U_12 med:isPrescribed ?U_10.
+                ?U_28 med:isPrescribed ?U_26.
             }.
         }.
         {
@@ -756,19 +756,19 @@
             med:betaBlocker med:excludedFor med:SevereAsthma.
             med:betaBlocker med:excludedFor med:ChronicObstructivePumonaryDisease.
             {
-                ?U_10 med:prescribedFor ?U_11.
-                (?U_12 ?U_11) fl:mu ?U_13.
-                ?U_13 math:greaterThan 0.7 .
-                ?U_14 e:findall (?U_15 {
-                    ?U_10 med:excludedFor ?U_15.
-                } ?U_16).
-                ?U_14 e:findall (?U_15 {
-                    ?U_10 med:excludedFor ?U_15.
-                    (?U_12 ?U_15) fl:mu ?U_17.
-                    ?U_17 math:notGreaterThan 0.01.
-                } ?U_16).
+                ?U_26 med:prescribedFor ?U_27.
+                (?U_28 ?U_27) fl:mu ?U_29.
+                ?U_29 math:greaterThan 0.7 .
+                ?U_30 e:findall (?U_31 {
+                    ?U_26 med:excludedFor ?U_31.
+                } ?U_32).
+                ?U_30 e:findall (?U_31 {
+                    ?U_26 med:excludedFor ?U_31.
+                    (?U_28 ?U_31) fl:mu ?U_33.
+                    ?U_33 math:notGreaterThan 0.01.
+                } ?U_32).
             } => {
-                ?U_12 med:isPrescribed ?U_10.
+                ?U_28 med:isPrescribed ?U_26.
             }.
         } log:notIncludes {
             med:aspirinLowDose med:excludedFor med:SevereAsthma.
