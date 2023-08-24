@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.7 (2023-08-23)').
+version_info('EYE v4.14.8 (2023-08-24)').
 
 license_info('MIT License
 
@@ -11624,49 +11624,23 @@ relabel(A, B) :-
 dynify(A) :-
     var(A),
     !.
-dynify((A, B)) :-
-    !,
-    dynify(A),
-    dynify(B).
-dynify(implies(A, B, _)) :-
-    !,
-    dynify(A),
-    dynify(B).
-dynify(':-'(A, B)) :-
-    !,
-    dynify(A),
-    dynify(B).
-dynify(answer(A, _, _)) :-
-    nonvar(A),
-    !,
-    (   current_predicate(A/2)
-    ->  true
-    ;   dynamic(A/2)
-    ).
-dynify('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, A)) :-
-    !,
-    dynify(A).
-dynify('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, A)) :-
-    !,
-    dynify(A).
 dynify(A) :-
-    functor(A, F, N),
-    (   current_predicate(F/N)
+    atomic(A),
+    !.
+dynify([]) :-
+    !.
+dynify([A|B]) :-
+    !,
+    dynify(A),
+    dynify(B).
+dynify(A) :-
+    A =.. [B|C],
+    length(C, N),
+    (   current_predicate(B/N)
     ->  true
-    ;   dynamic(F/N)
-    ).
+    ;   dynamic(B/N)
+    ),
+    dynify(C).
 
 conjify((A, B), (C, D)) :-
     !,
