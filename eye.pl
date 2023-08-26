@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.8 (2023-08-24)').
+version_info('EYE v4.14.9 (2023-08-26)').
 
 license_info('MIT License
 
@@ -527,33 +527,22 @@ gre(Argus) :-
         )
     ),
     (   flag('pass-only-new')
-    ->  (   flag('n3p-output')
-        ->  true
-        ;   wh,
-            nl
-        ),
+    ->  open_null_stream(Ws),
+        tell(Ws),
+        w2,
+        retractall(pfx(_, _)),
+        retractall(wpfx(_)),
+        nb_setval(lemma_cursor, 0),
         forall(
-            pass_only_new(Zn),
-            (   indent,
-                relabel(Zn, Zr),
-                (   flag('n3p-output')
-                ->  makeblank(Zr, Zs),
-                    writeq(Zs)
-                ;   wt(Zr)
-                ),
-                ws(Zr),
-                write('.'),
-                nl,
-                (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                    ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                    )
-                ->  nl
-                ;   true
-                ),
-                cnt(output_statements)
-            )
+            apfx(Pfx, Uri),
+            assertz(pfx(Pfx, Uri))
         ),
-        nl
+        told,
+        (   flag('output', Output)
+        ->  tell(Output)
+        ;   true
+        ),
+        w2
     ;   true
     ),
     (   flag(profile)
@@ -3608,6 +3597,34 @@ wh :-
         )
     ).
 
+w2 :-
+    (   flag('n3p-output')
+    ->  true
+    ;   wh,
+        nl
+    ),
+    forall(
+        pass_only_new(Zn),
+        (   indent,
+            relabel(Zn, Zr),
+            (   flag('n3p-output')
+            ->  makeblank(Zr, Zs),
+                writeq(Zs)
+            ;   wt(Zr)
+            ),
+            ws(Zr),
+            write('.'),
+            nl,
+            (   (   Zr = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ;   Zr = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                )
+            ->  nl
+            ;   true
+            ),
+            cnt(output_statements)
+        )
+    ).
+
 w3 :-
     (   flag('n3p-output')
     ->  true
@@ -5002,7 +5019,7 @@ eam(Recursion) :-
         ;   (   flag(strings)
             ->  true
             ;   (   flag('pass-only-new')
-                ->  w3
+                ->  true
                 ;   open_null_stream(Ws),
                     tell(Ws),
                     w3,
