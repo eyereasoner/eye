@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.11 (2023-08-30)').
+version_info('EYE v4.14.12 (2023-08-31)').
 
 license_info('MIT License
 
@@ -1987,10 +1987,13 @@ ttl_n3p(literal(type(A, B)), C) :-
     memberchk(A, ['http://www.w3.org/2001/XMLSchema#integer', 'http://www.w3.org/2001/XMLSchema#long', 'http://www.w3.org/2001/XMLSchema#decimal', 'http://www.w3.org/2001/XMLSchema#double']),
     atom_number(B, C),
     !.
-ttl_n3p(literal(type(A, B)), literal(E, type(A))) :-
+ttl_n3p(literal(type('http://www.w3.org/2001/XMLSchema#boolean', A)), A) :-
+    !.
+ttl_n3p(literal(type(A, B)), literal(E, type(F))) :-
     atom_codes(B, C),
     escape_string(C, D),
     atom_codes(E, D),
+    atomic_list_concat(['<', A, '>'], F),
     !.
 ttl_n3p(literal(lang(A, B)), literal(E, lang(A))) :-
     atom_codes(B, C),
