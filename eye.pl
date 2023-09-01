@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.14.13 (2023-08-31)').
+version_info('EYE v4.15.0 (2023-09-01)').
 
 license_info('MIT License
 
@@ -837,16 +837,18 @@ rdfsurfaces :-
                 retractall(brake)
             ;   true
             )), true, '<>')),
-    % create question
+    % convert query surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
             conj_list(G, L),
             append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], G)], M),
             conj_list(H, M)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
+    % convert question surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<>')),
+    % create answer rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
@@ -866,7 +868,14 @@ rdfsurfaces :-
                 assertz(C),
                 retractall(brake)
             ;   true
-            )), true, '<>')).
+            )), true, '<>')),
+    % package neutral content
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(V, G),
+            conj_list(G, L),
+            append(L, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], true)], M),
+            conj_list(H, M)
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')).
 
 %
 % command line options
