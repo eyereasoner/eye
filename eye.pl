@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.1 (2023-09-01)').
+version_info('EYE v4.15.2 (2023-09-02)').
 
 license_info('MIT License
 
@@ -852,13 +852,6 @@ rdfsurfaces :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<>')),
-    % convert neutral surface
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(V, G),
-            conj_list(G, L),
-            append(L, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], true)], M),
-            conj_list(H, M)
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
     % blow inference fuse
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
