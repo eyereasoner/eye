@@ -29,6 +29,32 @@
     } .
 } .
 
+# distribution axiom
+(_:A _:B) log:onNegativeSurface {
+    () log:onNegativeSurface <<
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
+                    () log:onModalSurface _:A .
+                } .
+            } .
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
+                    () log:onModalSurface _:B .
+                } .
+            } .
+        }
+    >> .
+    () log:onNegativeSurface {
+        () log:onModalSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface _:A .
+                () log:onNegativeSurface _:B .
+            } .
+        } .
+    } .
+} .
+
 # alice likes cats
 :Alice :likes :Cats .
 
@@ -36,6 +62,20 @@
 () log:onNegativeSurface {
     () log:onModalSurface {
         :Bob :likes :Cats .
+    } .
+} .
+
+# it is necessary that charlie likes cats or dogs
+() log:onNegativeSurface {
+    () log:onModalSurface {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                :Charlie :likes :Cats .
+            } .
+            () log:onNegativeSurface {
+                :Charlie :likes :Dogs .
+            } .
+        } .
     } .
 } .
 
@@ -51,6 +91,24 @@
     () log:onModalSurface {
         () log:onNegativeSurface {
             :Bob :likes :Cats .
+        } .
+    } .
+    # is it necessary that charlie likes cats
+    # or is it necessary that charlie likes dogs
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                () log:onModalSurface {
+                    :Charlie :likes :Cats .
+                } .
+            } .
+        } .
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                () log:onModalSurface {
+                    :Charlie :likes :Dogs .
+                } .
+            } .
         } .
     } .
     () log:onAnswerSurface {
