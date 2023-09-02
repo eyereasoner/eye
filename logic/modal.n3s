@@ -1,0 +1,55 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <urn:example:> .
+
+# possibility axiom 1
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<
+        () log:onModalSurface {
+           () log:onNegativeSurface _:A .
+        }
+    >> .
+    () log:onNegativeSurface {
+        () log:onNegativeSurface _:A .
+    } .
+} .
+
+# possibility axiom 2
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<
+        () log:onModalSurface {
+           () log:onNegativeSurface _:A .
+        }
+    >> .
+    () log:onNegativeSurface {
+        () log:onModalSurface _:A .
+    } .
+} .
+
+# alice likes cats
+:Alice :likes :Cats .
+
+# it is necessary that bob likes cats
+() log:onNegativeSurface {
+    () log:onModalSurface {
+        :Bob :likes :Cats .
+    } .
+} .
+
+# questions
+() log:onQuestionSurface {
+    # is it possible that alice likes cats?
+    () log:onModalSurface {
+        () log:onNegativeSurface {
+            :Alice :likes :Cats .
+        } .
+    } .
+    # is it possible that bob likes cats?
+    () log:onModalSurface {
+        () log:onNegativeSurface {
+            :Bob :likes :Cats .
+        } .
+    } .
+    () log:onAnswerSurface {
+        :test :is true .
+    } .
+} .
