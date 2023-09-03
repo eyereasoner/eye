@@ -8,7 +8,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <urn:example:> .
 
-# possibility axiom 1
+# possibility axiom
 (_:A) log:onNegativeSurface {
     () log:onNegativeSurface <<
         () log:onModalSurface {
@@ -20,11 +20,11 @@
     } .
 } .
 
-# possibility axiom 2
+# necessity axiom
 (_:A) log:onNegativeSurface {
     () log:onNegativeSurface <<
-        () log:onModalSurface {
-           () log:onNegativeSurface _:A .
+        () log:onNegativeSurface {
+            () log:onNegativeSurface _:A .
         }
     >> .
     () log:onNegativeSurface {
