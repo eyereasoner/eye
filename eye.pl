@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.5 (2023-09-05)').
+version_info('EYE v4.15.6 (2023-09-05)').
 
 license_info('MIT License
 
@@ -76,6 +76,7 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
+    --rdf-list-input                input lists as RDF lists
     --rdf-list-output               output lists as RDF lists
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
@@ -1042,6 +1043,11 @@ opts(['--random-seed'|Argus], Args) :-
     !,
     N is random(2^120),
     nb_setval(random, N),
+    opts(Argus, Args).
+opts(['--rdf-list-input'|Argus], Args) :-
+    !,
+    retractall(flag('rdf-list-input')),
+    assertz(flag('rdf-list-input')),
     opts(Argus, Args).
 opts(['--rdf-list-output'|Argus], Args) :-
     !,
@@ -2314,7 +2320,8 @@ pathitem(Node, Triples) -->
         )
     },
     propertylist(BN, T),
-    {   (   memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
+    {   (   \+flag('rdf-list-input'),
+            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
             memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
             del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
             del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
