@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.4 (2023-09-05)').
+version_info('EYE v4.15.5 (2023-09-05)').
 
 license_info('MIT License
 
@@ -10918,14 +10918,16 @@ unify(A, B) :-
     nonvar(A),
     A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], C)),
     C \= false,
-    C \= (_, _),
+    conj_list(C, D),
+    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), D),
     !,
     unify(C, B).
 unify(A, B) :-
     nonvar(B),
     B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], C)),
     C \= false,
-    C \= (_, _),
+    conj_list(C, D),
+    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), D),
     !,
     unify(C, A).
 unify(A, B) :-
