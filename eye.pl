@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.3 (2023-09-04)').
+version_info('EYE v4.15.4 (2023-09-05)').
 
 license_info('MIT License
 
@@ -1907,12 +1907,6 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr('\'<http://www.w3.org/2000/10/swap/log#onModalSurface>\''(V,
-        '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\''([],
-        '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\''([], A))),
-        '\'<http://www.w3.org/2000/10/swap/log#onModalSurface>\''(V, B)) :-
-    !,
-    tr_tr(A, B).
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
@@ -10920,6 +10914,20 @@ unify(A, B) :-
     !,
     getlist(A, C),
     C = B.
+unify(A, B) :-
+    nonvar(A),
+    A = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], C)),
+    C \= false,
+    C \= (_, _),
+    !,
+    unify(C, B).
+unify(A, B) :-
+    nonvar(B),
+    B = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], C)),
+    C \= false,
+    C \= (_, _),
+    !,
+    unify(C, A).
 unify(A, B) :-
     nonvar(A),
     nonvar(B),
