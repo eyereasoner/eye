@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.7 (2023-09-07)').
+version_info('EYE v4.15.8 (2023-09-07)').
 
 license_info('MIT License
 
@@ -1403,7 +1403,8 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(rdfsurfaces),
-            functor(Rt, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', _)
+            functor(Rt, F, _),
+            sub_atom(F, _, 8, 0, 'Surface>')
         ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
@@ -11877,9 +11878,9 @@ find_graffiti([A|B], C) :-
     find_graffiti(B, E),
     append(D, E, C).
 find_graffiti(A, B) :-
-    A =.. [_, D, E],
+    A =.. [C, D, E],
+    sub_atom(C, _, 8, 0, 'Surface>'),
     is_list(D),
-    findvars(D, D, beta),
     !,
     find_graffiti(E, F),
     append(D, F, B).
