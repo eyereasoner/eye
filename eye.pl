@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.6 (2023-09-05)').
+version_info('EYE v4.15.7 (2023-09-07)').
 
 license_info('MIT License
 
@@ -183,11 +183,9 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -1405,16 +1403,7 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(rdfsurfaces),
-            functor(Rt, F, _),
-            memberchk(F, [
-                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>',
-                    '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
-                ]
-            )
+            functor(Rt, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', _)
         ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
@@ -1916,15 +1905,7 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   memberchk(C, [
-                '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\'',
-                '\'<http://www.w3.org/2000/10/swap/log#onAnswerSurface>\''
-            ]
-        ),
+    (   sub_atom(C, _, 9, 0, 'Surface>\''),
         (   \+flag(rdfsurfaces)
         ->  assertz(flag(rdfsurfaces))
         ;   true
@@ -11896,17 +11877,9 @@ find_graffiti([A|B], C) :-
     find_graffiti(B, E),
     append(D, E, C).
 find_graffiti(A, B) :-
-    A =.. [C, D, E],
-    memberchk(C, [
-            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>',
-            '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>',
-            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>',
-            '<http://www.w3.org/2000/10/swap/log#onQuerySurface>',
-            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>',
-            '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'
-        ]
-    ),
+    A =.. [_, D, E],
     is_list(D),
+    findvars(D, D, beta),
     !,
     find_graffiti(E, F),
     append(D, F, B).
