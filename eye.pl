@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.15.8 (2023-09-07)').
+version_info('EYE v4.15.9 (2023-09-07)').
 
 license_info('MIT License
 
@@ -1404,7 +1404,7 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   \+flag(rdfsurfaces),
             functor(Rt, F, _),
-            sub_atom(F, _, 8, 0, 'Surface>')
+            regex('^<.*#on.*Surface>$', F, _)
         ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
@@ -1906,7 +1906,7 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   sub_atom(C, _, 9, 0, 'Surface>\''),
+    (   regex('^\'<.*#on.*Surface>\'$', C, _),
         (   \+flag(rdfsurfaces)
         ->  assertz(flag(rdfsurfaces))
         ;   true
@@ -11879,7 +11879,7 @@ find_graffiti([A|B], C) :-
     append(D, E, C).
 find_graffiti(A, B) :-
     A =.. [C, D, E],
-    sub_atom(C, _, 8, 0, 'Surface>'),
+    regex('^<.*#on.*Surface>$', C, _),
     is_list(D),
     !,
     find_graffiti(E, F),
