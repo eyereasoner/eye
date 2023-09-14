@@ -13,19 +13,19 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
 
-() log:onNegativeSurface {
+|| log:onNegativeSurface {
     <> log:imports <../reasoning/edt/test-facts.ttl>.
     <> log:imports <../reasoning/edt/test-dl.ttl>.
-    () log:onNegativeSurface true.
+    || log:onNegativeSurface true.
 }.
 
-(_:X _:D _:C) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:X a _:D>>.
+|_:X _:D _:C| log:onNegativeSurface {
+    || log:onNegativeSurface <<_:X a _:D>>.
     _:C rdfs:subClassOf _:D.
     _:X a _:C.
 }.
 
 # query
-() log:onQuerySurface {
+|| log:onQuerySurface {
     :i100000 a :N100000.
 }.

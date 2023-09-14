@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.16.0 (2023-09-14)').
+version_info('EYE v4.16.1 (2023-09-14)').
 
 license_info('MIT License
 
@@ -1906,14 +1906,15 @@ tr_tr(A, A) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    (   (   regex('^\'<.*#on.*Surface>\'$', C, _)
+    (   E = [V, G],
+        (   V = graffiti(_)
+        ;   regex('^\'<.*#on.*Surface>\'$', C, _)
         ;   C = '\'<http://www.w3.org/2000/10/swap/log#negativeTriple>\''
         ),
         (   \+flag(rdfsurfaces)
         ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
-        E = [V, G],
         (   V = graffiti(_)
         ->  U = V
         ;   is_list(V),
@@ -4164,11 +4165,15 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
-wt1(graffiti(X)) :-
+wt1(graffiti([])) :-
+    !,
+    write('||').
+wt1(graffiti([X|Y])) :-
     !,
     write('|'),
-    wl(X),
-    write(' |').
+    wg(X),
+    wl(Y),
+    write('|').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
