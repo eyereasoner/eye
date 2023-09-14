@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.16.1 (2023-09-14)').
+version_info('EYE v4.16.2 (2023-09-15)').
 
 license_info('MIT License
 
@@ -9390,6 +9390,38 @@ djiti_assertz(A) :-
                 O =:= P
             ;   Offset is -J,
                 stamp_date_time(O, date(Year, Month, Day, Hour, Minute, Second, _, _, _), Offset),
+                fmsec(0, Second, Sec),
+                datetime(Year, Month, Day, Hour, Minute, Sec, Offset, S),
+                atom_codes(C, S)
+            )
+        )
+    ).
+
+% extra func:add-duration-to-dateTime
+'<http://www.w3.org/2007/rif-builtin-function#add-duration-to-dateTime>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#dateTime>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#duration>'))], literal(C, type('<http://www.w3.org/2001/XMLSchema#dateTime>'))) :-
+    \+flag(restricted),
+    when(
+        (   ground([A, B])
+        ),
+        (   atom_codes(A, U),
+            atom_codes(B, V),
+            datetime(D, E, F, G, H, I, J, U, []),
+            yearmonthduration(K, V, V2),
+            L is E+K-1,
+            Q is D+integer(floor(L/12)),
+            R is L-integer(floor(L/12))*12+1,
+            memotime(datime(Q, R, F, G, H, 0), M),
+            memotime(datime(1971, 1, 1, 0, 0, 0), N),
+            O is M+I+31536000-N-J,
+            daytimeduration(K2, [0'P|V2], []),
+            L2 is I+K2,
+            O2 is O+L2+31536000-N-J,
+            (   ground(C)
+            ->  atom_codes(C, W),
+                datetime(P, W, []),
+                O2 =:= P
+            ;   Offset is -J,
+                stamp_date_time(O2, date(Year, Month, Day, Hour, Minute, Second, _, _, _), Offset),
                 fmsec(0, Second, Sec),
                 datetime(Year, Month, Day, Hour, Minute, Sec, Offset, S),
                 atom_codes(C, S)
