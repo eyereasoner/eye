@@ -7,26 +7,26 @@
 @prefix : <http://example.org/>.
 
 # \Every x: type(x, Resource)
-|_:x| log:onNegativeSurface {
-    || log:onNegativeSurface {
+(_:x) log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:x a rdfs:Resource.
     }.
 }.
 
 # Everybody loves somebody who is lonely
-|_:A| log:onNegativeSurface {
-    |_:B| log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
+    (_:B) log:onNegativeSurface {
         _:A :loves _:B.
         _:B :is :lonely.
     }.
 }.
 
 # query
-|| log:onQuerySurface {
+() log:onQuerySurface {
     :pat a rdfs:Resource.
 }.
 
-|_:x| log:onQuerySurface {
+(_:x) log:onQuerySurface {
     :bob :loves _:x.
     _:x :is :lonely.
 }.
