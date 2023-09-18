@@ -5,14 +5,14 @@
 :beetle a :Car.
 
 # cars are green or blue
-|_:A| log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     _:A a :Car.
-    || log:onNegativeSurface {
-        || log:onNegativeSurface {
-            || log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onNegativeSurface {
                 _:A :is :green.
             }.
-            || log:onNegativeSurface {
+            () log:onNegativeSurface {
                 _:A :is :blue.
             }.
         }.
@@ -20,12 +20,12 @@
 }.
 
 # if something is green or blue it is a beautiful (but backwards)
-|_:A| log:onNegativeSurface {
-    || log:onNegativeSurface {
-        || log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
             _:A :is :green.
         }.
-        || log:onNegativeSurface {
+        () log:onNegativeSurface {
             _:A :is :blue.
         }.
     }.
@@ -35,6 +35,6 @@
 }.
 
 # query
-|_:S _:O| log:onQuerySurface {
+(_:S _:O) log:onQuerySurface {
     _:S :is _:O.
 }.

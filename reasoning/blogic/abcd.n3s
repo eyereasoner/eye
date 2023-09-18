@@ -3,32 +3,32 @@
 
 :i a :A.
 
-|| log:onNegativeSurface {
+() log:onNegativeSurface {
     :i a :C.
 }.
 
-|| log:onNegativeSurface {
-    || log:onNegativeSurface {
-        || log:onNegativeSurface {
+() log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
             :i a :D.
         }.
     }.
 }.
 
-|_:S| log:onNegativeSurface {
+(_:S) log:onNegativeSurface {
     _:S a :A.
-    || log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:S a :B.
     }.
-    || log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:S a :C.
     }.
-    || log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:S a :D.
     }.
 }.
 
 # query
-|_:S _:C| log:onQuerySurface {
+(_:S _:C) log:onQuerySurface {
     _:S a _:C.
 }.

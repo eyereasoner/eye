@@ -19,19 +19,19 @@
 0 :inv 1.
 1 :inv 0.
 
-|_:D _:Q| log:onNegativeSurface {
+(_:D _:Q) log:onNegativeSurface {
     () log:negativeTriple {
         (_:D 0 _:Q) :dff _:Q.
     }.
 }.
 
-|_:D _:Q| log:onNegativeSurface {
+(_:D _:Q) log:onNegativeSurface {
     () log:negativeTriple {
         (_:D 1 _:Q) :dff _:D.
     }.
 }.
 
-|_:A _:B _:Q _:T1 _:NA _:NB _:T2| log:onNegativeSurface {
+(_:A _:B _:Q _:T1 _:NA _:NB _:T2) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A _:B) :neta _:Q.
     }.
@@ -42,7 +42,7 @@
     (_:T1 _:T2) :or _:Q.
 }.
 
-|_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3| log:onNegativeSurface {
+(_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A _:B _:C) :netb (_:Q1 _:Q2).
     }.
@@ -56,7 +56,7 @@
 }.
 
 
-|_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3| log:onNegativeSurface {
+(_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3) log:onNegativeSurface {
     () log:negativeTriple {
         (_:C (_:Qa _:Qb _:Qc)) :gcc (_:Za _:Zb _:Zc).
     }.
@@ -68,13 +68,13 @@
 }.
 
 
-|_:S| log:onNegativeSurface {
+(_:S) log:onNegativeSurface {
     () log:negativeTriple {
         (() _:S) :testgcc ().
     }.
 }.
 
-|_:Cc _:S _:Nc _:C _:Cs _:N _:Ns| log:onNegativeSurface {
+(_:Cc _:S _:Nc _:C _:Cs _:N _:Ns) log:onNegativeSurface {
     () log:negativeTriple {
         (_:Cc _:S) :testgcc _:Nc.
     }.
@@ -85,6 +85,6 @@
 }.
 
 # query
-|_:Q| log:onQuerySurface {
+(_:Q) log:onQuerySurface {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc _:Q.
 }.

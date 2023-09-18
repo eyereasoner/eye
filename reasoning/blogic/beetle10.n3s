@@ -15,24 +15,24 @@
 :mars a :Planet.
 
 # green things are beautiful
-|_:A| log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     _:A :is :green.
-    || log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
 }.
 
 # things which are not green are beautiful
-|_:A| log:onNegativeSurface {
-    || log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:A :is :green
     }.
-    || log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:A :is :beautiful.
     }.
 }.
 
 # query
-|_:S _:O| log:onQuerySurface {
+(_:S _:O) log:onQuerySurface {
     _:S :is _:O.
 }.
