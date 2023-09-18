@@ -59,7 +59,7 @@ true dqc:k false.
 true dqc:k true.
 
 # KG
-(_:X _:Y _:Z) log:onNegativeSurface {
+(_:X _:Y _:Z| log:onNegativeSurface {
     () log:negativeTriple {
         _:X dqc:kg _:Y.
     }.
@@ -68,7 +68,7 @@ true dqc:k true.
 }.
 
 # GK
-(_:X _:Y _:Z) log:onNegativeSurface {
+(_:X _:Y _:Z| log:onNegativeSurface {
     () log:negativeTriple {
         _:X dqc:gk _:Y
     }.
@@ -77,28 +77,28 @@ true dqc:k true.
 }.
 
 # Alice
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         0 dqc:alice (_:X _:Y).
     }.
     _:X dqc:id _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         1 dqc:alice (_:X _:Y).
     }.
     _:X dqc:g _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         2 dqc:alice (_:X _:Y).
     }.
     _:X dqc:k _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         3 dqc:alice (_:X _:Y).
     }.
@@ -106,28 +106,28 @@ true dqc:k true.
 }.
 
 # Bob
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         (_:X _:Y) dqc:bob 0.
     }.
     _:X dqc:gk _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         (_:X _:Y) dqc:bob 1.
     }.
     _:X dqc:k _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         (_:X _:Y) dqc:bob 2.
     }.
     _:X dqc:g _:Y.
 }.
 
-(_:X _:Y) log:onNegativeSurface {
+(_:X _:Y| log:onNegativeSurface {
     () log:negativeTriple {
         (_:X _:Y) dqc:bob 3.
     }.
@@ -135,19 +135,19 @@ true dqc:k true.
 }.
 
 # superdense coding
-(_:N _:A _:B _:M _:X _:Y _:Z _:L _:S _:I) log:onNegativeSurface {
+(_:N _:A _:B _:M _:X _:Y _:Z _:L _:S _:I| log:onNegativeSurface {
     _:N dqc:alice _:A.
     _:B dqc:bob _:M.
     (1 {_:X dqc:r _:Y. _:N dqc:alice (_:X _:Z). (_:Z _:Y) dqc:bob _:M} _:L) log:collectAllIn _:S.
     _:L list:length _:I.
     (_:I 2) math:remainder 1.
-    () log:onNegativeSurface {
+    (| log:onNegativeSurface {
         _:N dqc:sdcoding _:M.
     }.
 }.
 
 # query
-(_:N _:M) log:onQuerySurface {
+(_:N _:M| log:onQuerySurface {
     _:N dqc:sdcoding _:M.
 }.
 

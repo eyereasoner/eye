@@ -29,7 +29,7 @@
 (_:L _:A1 _:A2 _:A3 _:A4 _:A5 _:A6 _:A7 _:A8 _:A9 _:A10 _:A11 _:A12 _:A13 _:A14 _:A15 _:A16 _:A17 _:A18 _:A19 _:A20
  _:A21 _:A22 _:A23 _:A24 _:A25 _:A26 _:A27 _:A28 _:A29 _:A30 _:A31 _:A32 _:A33 _:A34 _:A35 _:A36 _:A37 _:A38 _:A39 _:A40
  _:A41 _:A42 _:A43 _:A44 _:A45 _:A46 _:A47 _:A48 _:A49 _:A50 _:A51 _:A52 _:A53 _:A54 _:A55 _:A56 _:A57 _:A58 _:A59 _:A60
- _:A61 _:A62 _:A63 _:A64 _:A65 _:A66) log:onNegativeSurface {
+ _:A61 _:A62 _:A63 _:A64 _:A65 _:A66| log:onNegativeSurface {
     _:L log:equalTo ((_:A1 :Norwegian _:A2 _:A3 _:A4) (:blue _:A5 _:A6 _:A7 _:A8) (_:A9 _:A10 _:A11 :milk _:A12) _:A13 _:A14);
     :pair ((_:A15 _:A16 _:A17 _:A18 :Kools) (_:A19 _:A20 :horse _:A21 _:A22));
     :pair ((_:A23 _:A24 :fox _:A25 _:A26) (_:A27 _:A28 _:A29 _:A30 :Chesterfields));
@@ -43,28 +43,28 @@
     list:member (_:A56 :Japanese _:A57 _:A58 :Parliaments);
     list:member (_:A59 _:A60 _:A61 :water _:A62);
     list:member (_:A63 _:A64 :zebra _:A65 _:A66).
-    () log:onNegativeSurface {
+    (| log:onNegativeSurface {
         _:A60 :drinks :water.
         _:A64 :owns :zebra.
         :riddle :houses _:L.
     }.
 }.
 
-(_:A _:B _:C) log:onNegativeSurface {
+(_:A _:B _:C| log:onNegativeSurface {
     () log:negativeTriple {
         _:A :pair (_:B _:C).
     }.
     _:A :sublist (_:B _:C).
 }.
 
-(_:A _:B _:C) log:onNegativeSurface {
+(_:A _:B _:C| log:onNegativeSurface {
     () log:negativeTriple {
         _:A :pair (_:B _:C).
     }.
     _:A :sublist (_:C _:B).
 }.
 
-(_:A _:B _:C _:D _:E) log:onNegativeSurface {
+(_:A _:B _:C _:D _:E| log:onNegativeSurface {
     () log:negativeTriple {
         _:A :sublist _:B.
     }.
@@ -73,7 +73,7 @@
 }.
 
 # query
-(_:A _:B _:C) log:onQuerySurface {
+(_:A _:B _:C| log:onQuerySurface {
     _:A :drinks :water.
     _:B :owns :zebra.
     :riddle :houses _:C.
