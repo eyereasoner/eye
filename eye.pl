@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.16.4 (2023-09-18)').
+version_info('EYE v4.16.5 (2023-09-19)').
 
 license_info('MIT License
 
@@ -1456,23 +1456,29 @@ n3pin(Rt, In, File, Mode) :-
             ->  true
             ;   (   Rt \= pred('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>'),
                     \+ (Rt = scope(_), Mode = query)
-                ->  djiti_assertz(Rt),
+                ->  (   Rt =.. [Pa, Sa, Oa],
+                        regex('^<.*#on.*Surface>$', Pa, _),
+                        is_list(Sa)
+                    ->  Ra =.. [Pa, graffiti(Sa), Oa]
+                    ;   Ra = Rt
+                    ),
+                    djiti_assertz(Ra),
                     (   flag(intermediate, Out),
-                        Rt \= scount(_)
-                    ->  format(Out, '~q.~n', [Rt])
+                        Ra \= scount(_)
+                    ->  format(Out, '~q.~n', [Ra])
                     ;   true
                     ),
-                    (   Rt \= flag(_, _),
-                        Rt \= scope(_),
-                        Rt \= pfx(_, _),
-                        Rt \= pred(_),
-                        Rt \= cpred(_),
-                        Rt \= scount(_)
+                    (   Ra \= flag(_, _),
+                        Ra \= scope(_),
+                        Ra \= pfx(_, _),
+                        Ra \= pred(_),
+                        Ra \= cpred(_),
+                        Ra \= scount(_)
                     ->  (   flag(nope)
                         ->  true
                         ;   term_index(true, Pnd),
                             nb_getval(current_scope, Src),
-                            assertz(prfstep(Rt, true, Pnd, Rt, _, forward, Src))
+                            assertz(prfstep(Ra, true, Pnd, Ra, _, forward, Src))
                         )
                     ;   true
                     )
