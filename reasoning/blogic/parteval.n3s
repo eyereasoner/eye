@@ -40,24 +40,24 @@ foaf:yahooChatID rdfs:subPropertyOf foaf:nick.
 schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
 
 # rdfs logic
-(_:P _:Q _:S _:O| log:onNegativeSurface {
+(_:P _:Q _:S _:O) log:onNegativeSurface {
     _:P rdfs:subPropertyOf _:Q.
     _:S _:P _:O.
-    (| log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:S _:Q _:O.
     }.
 }.
 
-(_:C _:D _:X| log:onNegativeSurface {
+(_:C _:D _:X) log:onNegativeSurface {
     _:C rdfs:subClassOf _:D.
     _:X a _:C.
-    (| log:onNegativeSurface {
+    () log:onNegativeSurface {
         _:X a _:D.
     }.
 }.
 
 # partial evaluation question
-(_:S _:P _:O _:A _:G _:H _:I _:J _:K _:B _:C _:U _:V| log:onQuestionSurface {
+(_:S _:P _:O _:A _:G _:H _:I _:J _:K _:B _:C _:U _:V) log:onQuestionSurface {
     _:S _:P _:O.
     _:P log:notEqualTo log:onNegativeSurface.
     _:P log:notEqualTo log:onQuestionSurface.
@@ -69,7 +69,7 @@ schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
     _:I graph:length _:K.
     _:J math:greaterThan _:K.
     _:B log:graffiti _:C.
-    (| log:onAnswerSurface {
+    () log:onAnswerSurface {
         _:C log:onNegativeSurface _:I.
     }.
 }.

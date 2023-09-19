@@ -2,7 +2,7 @@
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 @prefix ex: <http://www.example.org/terms#>.
 
-(_:rename _:where _:inserts _:deletes| log:onNegativeSurface {
+(_:rename _:where _:inserts _:deletes) log:onNegativeSurface {
     <http://eyereasoner.github.io/eye/reasoning/n3patch/patch.n3s> log:semantics {
         _:rename a solid:InsertDeletePatch;
             solid:where _:where;
@@ -11,11 +11,11 @@
     }.
     _:where log:callWithCleanup true.
     _:deletes log:becomes _:inserts.
-    (| log:onNegativeSurface {
+    () log:onNegativeSurface {
     }.
 }.
 
-(_:Person _:familyName _:givenName| log:onQuerySurface {
+(_:Person _:familyName _:givenName) log:onQuerySurface {
     _:Person ex:familyName _:familyName;
         ex:givenName _:givenName.
 }.

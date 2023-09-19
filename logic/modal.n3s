@@ -9,43 +9,43 @@
 @prefix : <urn:example:> .
 
 # it is permitted for alice to keep cats
-(| log:onModalSurface {
-    (| log:onNegativeSurface {
+() log:onModalSurface {
+    () log:onNegativeSurface {
         :Alice :keeps :Cats .
     } .
 } .
 
 # it is obliged for bob to keep dogs
-(| log:onNegativeSurface {
-    (| log:onModalSurface {
+() log:onNegativeSurface {
+    () log:onModalSurface {
         :Bob :keeps :Dogs, :Sheep.
     } .
 } .
 
 # questions
-(| log:onQuestionSurface {
+() log:onQuestionSurface {
     # is it not obliged for alice to not keep cats?
-    (| log:onNegativeSurface {
-        (| log:onNegativeSurface {
-            (| log:onModalSurface {
-                (| log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onModalSurface {
+                () log:onNegativeSurface {
                     :Alice :keeps :Cats .
                 } .
             } .
         } .
     } .
     # is it not permitted for bob to not keep dogs?
-    (| log:onNegativeSurface {
-        (| log:onModalSurface {
-            (| log:onNegativeSurface {
-                (| log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onModalSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
                     :Bob :keeps :Dogs, :Sheep .
                 } .
             } .
         } .
     } .
     # answer
-    (| log:onAnswerSurface {
+    () log:onAnswerSurface {
         :test :is true .
     } .
 } .
