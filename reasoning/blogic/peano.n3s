@@ -5,13 +5,13 @@
 @prefix : <http://example.org/ns#>.
 
 # add
-(_:A) log:onNegativeSurface {
+($ _:A $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A 0) :add _:A.
     }.
 }.
 
-(_:A _:B _:C) log:onNegativeSurface {
+($ _:A _:B _:C $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A (:s _:B)) :add (:s _:C).
     }.
@@ -19,13 +19,13 @@
 }.
 
 # multiply
-(_:A) log:onNegativeSurface {
+($ _:A $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A 0) :multiply 0.
     }.
 }.
 
-(_:A _:B _:C _:D) log:onNegativeSurface {
+($ _:A _:B _:C _:D $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:A (:s _:B)) :multiply _:C.
     }.
@@ -34,20 +34,20 @@
 }.
 
 # factorial
-(_:A _:B) log:onNegativeSurface {
+($ _:A _:B $) log:onNegativeSurface {
     () log:negativeTriple {
         _:A :factorial _:B.
     }.
     (_:A (:s 0)) :fac _:B.
 }.
 
-(_:A) log:onNegativeSurface {
+($ _:A $) log:onNegativeSurface {
     () log:negativeTriple {
         (0 _:A) :fac _:A.
     }.
 }.
 
-(_:A _:B _:C _:D) log:onNegativeSurface {
+($ _:A _:B _:C _:D $) log:onNegativeSurface {
     () log:negativeTriple {
         ((:s _:A) _:B) :fac _:C.
     }.
@@ -56,7 +56,7 @@
 }.
 
 # query
-(_:A _:B _:C) log:onQuerySurface {
+($ _:A _:B _:C $) log:onQuerySurface {
     ((:s 0) (:s (:s 0))) :add _:A.
     (_:A (:s (:s 0))) :multiply _:B.
     _:B :factorial _:C.

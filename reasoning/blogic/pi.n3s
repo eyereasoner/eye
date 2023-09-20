@@ -5,7 +5,7 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
-(_:N _:Pi _:P _:A) log:onNegativeSurface {
+($ _:N _:Pi _:P _:A $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:N _:Pi) :pi true.
     }.
@@ -14,13 +14,13 @@
     (3 _:A) math:sum _:Pi.
 }.
 
-(_:N _:P _:S) log:onNegativeSurface {
+($ _:N _:P _:S $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:N _:N _:P _:P _:S) :pi true.
     }.
 }.
 
-(_:K _:N _:P0 _:P _:S _:K1 _:K2 _:P1 _:S1 _:A _:B _:C _:D) log:onNegativeSurface {
+($ _:K _:N _:P0 _:P _:S _:K1 _:K2 _:P1 _:S1 _:A _:B _:C _:D $) log:onNegativeSurface {
     () log:negativeTriple {
         (_:K _:N _:P0 _:P _:S) :pi true.
     }.
@@ -37,6 +37,6 @@
 }.
 
 # query
-(_:Pi) log:onQuerySurface {
+($ _:Pi $) log:onQuerySurface {
     (100000 _:Pi) :pi true.
 }.
