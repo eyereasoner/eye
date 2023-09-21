@@ -4,11 +4,11 @@
 # Reset Policy : reset all triples from the resultSurface back to the main surface
 
 
-($ $) log:onResultSurface {
+() log:onResultSurface {
     :n1 :p1 :n2.
 } .
 
-($ _:S $) log:onQuestionSurface {
-  ($ $) log:onResultSurface _:S.
-  ($ $) log:onAnswerSurface _:S.
+(_:S) log:onQuestionSurface {
+  () log:onResultSurface _:S.
+  () log:onAnswerSurface _:S.
 }.
