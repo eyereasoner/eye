@@ -60,77 +60,57 @@ true dqc:k true.
 
 # KG
 (_:X _:Y _:Z) log:onNegativeSurface {
-    () log:negativeTriple {
-        _:X dqc:kg _:Y.
-    }.
+    () log:onNegativeSurface <<_:X dqc:kg _:Y>>.
     _:X dqc:g _:Z.
     _:Z dqc:k _:Y.
 }.
 
 # GK
 (_:X _:Y _:Z) log:onNegativeSurface {
-    () log:negativeTriple {
-        _:X dqc:gk _:Y
-    }.
+    () log:onNegativeSurface <<_:X dqc:gk _:Y>>.
     _:X dqc:k _:Z.
     _:Z dqc:g _:Y.
 }.
 
 # Alice
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        0 dqc:alice (_:X _:Y).
-    }.
+    () log:onNegativeSurface <<0 dqc:alice (_:X _:Y)>>.
     _:X dqc:id _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        1 dqc:alice (_:X _:Y).
-    }.
+    () log:onNegativeSurface <<1 dqc:alice (_:X _:Y)>>.
     _:X dqc:g _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        2 dqc:alice (_:X _:Y).
-    }.
+    () log:onNegativeSurface <<2 dqc:alice (_:X _:Y)>>.
     _:X dqc:k _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        3 dqc:alice (_:X _:Y).
-    }.
+    () log:onNegativeSurface <<3 dqc:alice (_:X _:Y)>>.
     _:X dqc:kg _:Y.
 }.
 
 # Bob
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:X _:Y) dqc:bob 0.
-    }.
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 0>>.
     _:X dqc:gk _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:X _:Y) dqc:bob 1.
-    }.
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 1>>.
     _:X dqc:k _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:X _:Y) dqc:bob 2.
-    }.
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 2>>.
     _:X dqc:g _:Y.
 }.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:negativeTriple {
-        (_:X _:Y) dqc:bob 3.
-    }.
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 3>>.
     _:X dqc:id _:Y.
 }.
 
