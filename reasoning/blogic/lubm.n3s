@@ -4,6 +4,11 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://www.example.org/>.
 
+() log:onNegativeSurface {
+    <> log:imports <../lubm/facts.ttl>.
+    () log:onNegativeSurface true.
+}.
+
 (_:X) log:onNegativeSurface {
     _:X a :AdministrativeStaff.
     () log:onNegativeSurface {
@@ -767,6 +772,6 @@
 }.
 
 # query
-(_:X) log:onQuerySurface {
-    _:X a :Chair.
+(_:X _:Y) log:onQuerySurface {
+    _:X :degreeFrom _:Y.
 }.
