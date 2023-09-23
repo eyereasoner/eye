@@ -15,7 +15,7 @@
     } .
 } .
 
-# it is obliged for bob to keep dogs
+# it is obliged for bob to keep dogs and sheep
 () log:onNegativeSurface {
     () log:onModalSurface {
         :Bob :keeps :Dogs, :Sheep.
@@ -34,14 +34,14 @@
             } .
         } .
     } .
-    # is it not permitted for bob to not keep dogs?
+    # is it not permitted for bob to not keep dogs and sheep?
     () log:onNegativeSurface {
         () log:onModalSurface {
-            () log:onNegativeSurface {
-                () log:onNegativeSurface {
+            #() log:onNegativeSurface {
+            #    () log:onNegativeSurface {
                     :Bob :keeps :Dogs, :Sheep .
-                } .
-            } .
+            #    } .
+            #} .
         } .
     } .
     # answer
