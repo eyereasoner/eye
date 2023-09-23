@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.17.2 (2023-09-23)').
+version_info('EYE v4.17.3 (2023-09-23)').
 
 license_info('MIT License
 
@@ -657,10 +657,14 @@ rdfsurfaces :-
             conj_list(G, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
+            is_list(Z),
+            is_graph(H),
             H \= triple(_, _, _),
             conj_list(H, M),
             list_to_set(M, T),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
+            is_list(W),
+            is_graph(O),
             (   conj_list(O, D),
                 append(K, D, E),
                 conj_list(C, E)
@@ -669,7 +673,11 @@ rdfsurfaces :-
                 conj_list(F, N),
                 conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
             ),
-            append([V, Z, W], U)
+            findvars(H, R, beta),
+            intersection(Z, R, X),
+            findvars(O, S, beta),
+            intersection(W, S, Y),
+            append([V, X, Y], U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
     % resolve negative surfaces
     assertz(implies((
