@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.17.3 (2023-09-23)').
+version_info('EYE v4.17.4 (2023-09-23)').
 
 license_info('MIT License
 
@@ -647,7 +647,9 @@ rdfsurfaces :-
             append(K, D, E),
             list_to_set(E, B),
             conj_list(F, B),
-            append(V, Z, U)
+            findvars(H, R, beta),
+            intersection(Z, R, X),
+            append(V, X, U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, F), '<>')),
     % simplify negative surface
     assertz(implies((
@@ -830,15 +832,17 @@ rdfsurfaces :-
             ;   Z = [],
                 H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)
             ),
+            findvars(H, R, beta),
+            intersection(Z, R, X),
             conj_list(H, B),
             member(M, B),
-            findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, X),
-                (   member(X, Z)
+            findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, W),
+                (   member(W, X)
                 ),
                 Y
             ),
             conj_list(S, Y),
-            append(V, Z, U),
+            append(V, X, U),
             makevars(':-'(M, S), C, beta(U)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -11909,7 +11913,9 @@ find_graffiti(A, B) :-
     is_graph(E),
     !,
     find_graffiti(E, F),
-    append(D, F, B).
+    findvars(E, G, beta),
+    intersection(D, G, H),
+    append(H, F, B).
 find_graffiti(A, B) :-
     A =.. C,
     find_graffiti(C, B).
