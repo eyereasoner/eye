@@ -1,10 +1,10 @@
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix : <https://eyereasoner.github.io/eye/ns#>.
 
 {() :mi ()} <= true.
 
 {() :mi ?A} <= {
-    ?A e:firstRest (?G ?Gs).
+    ?A list:firstRest (?G ?Gs).
     () :headBody (?G ?Goals ?Gs).
     () :mi ?Goals.
 }.
@@ -12,9 +12,9 @@
 {() :headBody ({() :mi ()} ?Rs ?Rs)} <= true.
 
 {() :headBody ({() :mi ?A} ?B ?Rs)} <= {
-    ?A e:firstRest (?G ?Gs).
-    ?B e:firstRest ({() :headBody (?G ?Goals ?Gs)} ?C).
-    ?C e:firstRest ({() :mi ?Goals} ?Rs).
+    ?A list:firstRest (?G ?Gs).
+    ?B list:firstRest ({() :headBody (?G ?Goals ?Gs)} ?C).
+    ?C list:firstRest ({() :mi ?Goals} ?Rs).
 }.
 
 {() :headBody ({() :headBody (?Head ?Goals0 ?Goals)} ?Rs ?Rs)} <= {
@@ -24,5 +24,5 @@
 {() :headBody ({() :natnum (0)} ?Rs ?Rs)} <= true.
 
 {() :headBody ({() :natnum (:s ?X)} ?A ?Rs)} <= {
-    ?A e:firstRest ({() :natnum ?X} ?Rs).
+    ?A list:firstRest ({() :natnum ?X} ?Rs).
 }.
