@@ -5,6 +5,25 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix : <urn:example:> .
 
+# duality blogic
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNeutralSurface _:A .
+    } .
+    _:A log:notIncludes {
+        _:B log:onNegativeSurface _:C .
+    } .
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onNeutralSurface {
+                () log:onNegativeSurface {
+                    () log:onNegativeSurface _:A .
+                } .
+            } .
+        } .
+    } .
+} .
+
 # neutral surface with 2 triples
 () log:onNeutralSurface {
     :a :b :c .
@@ -58,12 +77,12 @@
     # check that necessity(A) = ~possibility(~A)
     () log:onNegativeSurface {
         () log:onNeutralSurface {
-            #() log:onNegativeSurface {
-            #    () log:onNegativeSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
                     :m :n :o .
                     :p :q :r .
-            #    } .
-            #} .
+                } .
+            } .
         } .
     } .
     () log:onAnswerSurface {
