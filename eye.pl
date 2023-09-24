@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.17.4 (2023-09-23)').
+version_info('EYE v4.17.5 (2023-09-24)').
 
 license_info('MIT License
 
@@ -781,9 +781,9 @@ rdfsurfaces :-
             is_graph(G),
             conj_list(G, L),
             list_to_set(L, B),
-            (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, triple(Hs, Hp, Ho)), B, K),
+            (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(Hs, Hp, Ho)), B, K),
                 T =.. [Hp, Hs, Ho]
-            ;   select('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(Z, T), B, K),
+            ;   select('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, T), B, K),
                 T =.. [_, _, _]
             ),
             conj_list(R, K),
@@ -866,9 +866,13 @@ rdfsurfaces :-
     % blow inference fuse
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+            is_list(V),
+            is_graph(G),
+            conj_list(G, L),
+            \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), L),
+            \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), L),
+            \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), L),
             call((
-                is_list(V),
-                is_graph(G),
                 makevars(G, H, beta(V)),
                 (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false)
                 ;   catch(call(H), _, false)
