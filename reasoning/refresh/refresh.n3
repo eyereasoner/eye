@@ -7,25 +7,33 @@
 
 # factoring
 {
-    ?P => {?C log:or true}.
+    ?P => {
+        ?C log:or true.
+    }.
     ?C list:sort (?D).
 } => {
     ?P => ?D.
 }.
 
 {
-    ?P => {() log:or true}.
+    ?P => {
+        () log:or true.
+    }.
 } => {
     ?P => false.
 }.
 
 # resolution
 {
-    ?P => {?C log:or true}.
+    ?P => {
+        ?C log:or true.
+    }.
     ?C list:member ?D.
     ?D => ?E.
     (?C ?D) list:remove ?F.
     ?G list:firstRest (?E ?F).
 } => {
-    ?P => {?G log:or true}.
+    ?P => {
+        ?G log:or true.
+    }.
 }.
