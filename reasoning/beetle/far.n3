@@ -1,8 +1,15 @@
 #-------------------------
-# Resolution and factoring
+# Factoring and resolution
 # ------------------------
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# factoring
+{
+    ?P => {?C log:or ?C}.
+} => {
+    ?P => ?C.
+}.
 
 # resolution
 {
@@ -17,11 +24,4 @@
     ?D => ?E.
 } => {
     ?P => {?C log:or ?E}.
-}.
-
-# factoring
-{
-    ?P => {?C log:or ?C}.
-} => {
-    ?P => ?C.
 }.
