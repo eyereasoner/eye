@@ -4,11 +4,40 @@
 # beetle is a car
 :beetle a :Car.
 
-# all cars are green or blue
-{?A a :Car} => {{?A :is :green} log:or {?A :is :blue}}.
+# all cars are red or green or blue
+{
+    ?A a :Car.
+} => {
+    (
+        {
+            ?A :is :red.
+        }
+        {
+            ?A :is :green.
+        }
+        {
+            ?A :is :blue.
+        }
+    ) log:or true.
+}.
+
+# red things are beautiful
+{
+    ?A :is :red.
+} => {
+    ?A :is :beautiful.
+}.
 
 # green things are beautiful
-{?A :is :green} => {?A :is :beautiful}.
+{
+    ?A :is :green.
+} => {
+    ?A :is :beautiful.
+}.
 
 # blue things are beautiful
-{?A :is :blue} => {?A :is :beautiful}.
+{
+    ?A :is :blue.
+} => {
+    ?A :is :beautiful.
+}.

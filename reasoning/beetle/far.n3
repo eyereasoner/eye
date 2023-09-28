@@ -2,26 +2,24 @@
 # Factoring and resolution
 # ------------------------
 
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 # factoring
 {
-    ?P => {?C log:or ?C}.
+    ?P => {?C log:or true}.
+    ?C list:sort (?D).
 } => {
-    ?P => ?C.
+    ?P => ?D.
 }.
 
 # resolution
 {
-    ?P => {?C log:or ?D}.
-    ?C => ?E.
-} => {
-    ?P => {?E log:or ?D}.
-}.
-
-{
-    ?P => {?C log:or ?D}.
+    ?P => {?C log:or true}.
+    ?C list:member ?D.
     ?D => ?E.
+    (?C ?D) list:remove ?F.
+    ?G list:firstRest (?E ?F).
 } => {
-    ?P => {?C log:or ?E}.
+    ?P => {?G log:or true}.
 }.

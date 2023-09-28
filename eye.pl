@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.17.6 (2023-09-25)').
+version_info('EYE v4.17.7 (2023-09-28)').
 
 license_info('MIT License
 
@@ -6452,11 +6452,10 @@ djiti_assertz(A) :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   findall(I,
-                (   member(I, A),
-                    I \= B
-                ),
-                C
+        (   selectchk(B, A, D),
+            (   \+member(B, D)
+            ->  C = D
+            ;   '<http://www.w3.org/2000/10/swap/list#remove>'([D, B], C)
             )
         )
     ).
@@ -6466,12 +6465,7 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   nth0(B, A, D),
-            findall(I,
-                (   member(I, A),
-                    I \= D
-                ),
-                C
-            )
+            selectchk(D, A, C)
         )
     ).
 
