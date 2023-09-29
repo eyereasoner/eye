@@ -7,9 +7,7 @@
 
 # factoring
 {
-    ?P => {
-        ?C log:or true.
-    }.
+    ?P => ?C.
     ?C list:sort (?D).
 } => {
     ?P => ?D.
@@ -17,24 +15,18 @@
 
 # resolution
 {
-    ?P => {
-        ?C log:or true.
-    }.
+    ?P => ?C.
     ?C list:member ?D.
     ?D => ?E.
     (?C ?D) list:remove ?F.
     ?G list:firstRest (?E ?F).
 } => {
-    ?P => {
-        ?G log:or true.
-    }.
+    ?P => ?G.
 }.
 
 # not(P) implies P is inconsistent
 {
-    ?P => {
-        () log:or true.
-    }.
+    ?P => ().
 } => {
     ?P => false.
 }.

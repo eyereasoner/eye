@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.17.7 (2023-09-28)').
+version_info('EYE v4.18.0 (2023-09-29)').
 
 license_info('MIT License
 
@@ -4943,6 +4943,7 @@ eam(Recursion) :-
         ;   true
         ),
         \+atom(Conc),
+        \+is_list(Conc),
         (   flag('rule-histogram'),
             copy_term_nat(Rule, RuleL)
         ->  lookup(RTP, tp, RuleL),
@@ -6506,7 +6507,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   sort(A, B)
+        (   is_list(A),
+            sort(A, B)
         )
     ).
 
