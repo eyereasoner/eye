@@ -15,14 +15,6 @@
     ?P => ?D.
 }.
 
-{
-    ?P => {
-        () log:or true.
-    }.
-} => {
-    ?P => false.
-}.
-
 # resolution
 {
     ?P => {
@@ -36,4 +28,13 @@
     ?P => {
         ?G log:or true.
     }.
+}.
+
+# not(P) implies P is inconsistent
+{
+    ?P => {
+        () log:or true.
+    }.
+} => {
+    ?P => false.
 }.
