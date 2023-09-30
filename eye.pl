@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.3 (2023-09-30)').
+version_info('EYE v4.18.4 (2023-10-01)').
 
 license_info('MIT License
 
@@ -647,10 +647,8 @@ refresh :-
             is_list(B),
             select(C, B, D),
             implies(C, E, _),
-            (   is_list(E)
-            ->  append(E, D, F)
-            ;   F = [E|D]
-            )), '<http://www.w3.org/2000/10/swap/log#implies>'(A, F), '<>')),
+            \+is_list(E)
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, [E|D]), '<>')),
     % double negation
     assertz(implies((
             implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, []), [], _)
