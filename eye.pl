@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.1 (2023-09-30)').
+version_info('EYE v4.18.2 (2023-09-30)').
 
 license_info('MIT License
 
@@ -651,10 +651,15 @@ refresh :-
             ->  append(E, D, F)
             ;   F = [E|D]
             )), '<http://www.w3.org/2000/10/swap/log#implies>'(A, F), '<>')),
-    % not(P) implies P is inconsistent
+    % double negation
     assertz(implies((
-            implies(A, [], _)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, false), '<>')).
+            implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, []), [], _)
+            ), A, '<>')),
+    % inference fuse
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#implies>'(A, []),
+            A
+            ), false, '<>')).
 
 %
 % RDF Surfaces
