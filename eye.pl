@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.0 (2023-09-29)').
+version_info('EYE v4.18.1 (2023-09-30)').
 
 license_info('MIT License
 
@@ -416,6 +416,10 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+    (   flag(refresh)
+    ->  refresh
+    ;   true
+    ),
     (   flag(rdfsurfaces)
     ->  retractall(flag('pass-only-new')),
         rdfsurfaces
@@ -625,6 +629,32 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
+
+%
+% REasoning with Factoring and RESolution in the Head - REFRESH
+%
+
+refresh :-
+    % factoring
+    assertz(implies((
+            implies(A, B, _),
+            is_list(B),
+            sort(B, [C])
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
+    % resolution
+    assertz(implies((
+            implies(A, B, _),
+            is_list(B),
+            select(C, B, D),
+            implies(C, E, _),
+            (   is_list(E)
+            ->  append(E, D, F)
+            ;   F = [E|D]
+            )), '<http://www.w3.org/2000/10/swap/log#implies>'(A, F), '<>')),
+    % not(P) implies P is inconsistent
+    assertz(implies((
+            implies(A, [], _)
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, false), '<>')).
 
 %
 % RDF Surfaces
@@ -1421,6 +1451,11 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
+        (   \+flag(refresh),
+            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
+        ->  assertz(flag(refresh))
+        ;   true
+        ),
         (   \+flag(rdfsurfaces),
             functor(Rt, F, _),
             regex('^<.*#on.*Surface>$', F, _)
@@ -1863,6 +1898,11 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
+    (   \+flag(refresh),
+        is_list(Y)
+    ->  assertz(flag(refresh))
+    ;   true
+    ),
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
         writeln('.'),
@@ -6507,8 +6547,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   is_list(A),
-            sort(A, B)
+        (   sort(A, B)
         )
     ).
 
