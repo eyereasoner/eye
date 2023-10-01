@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.5 (2023-10-01)').
+version_info('EYE v4.18.6 (2023-10-01)').
 
 license_info('MIT License
 
@@ -1461,7 +1461,9 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(refresh),
-            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
+            (   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'([_|_], _)
+            ;   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
+            )
         ->  assertz(flag(refresh))
         ;   true
         ),
@@ -1908,7 +1910,9 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+flag(refresh),
-        is_list(Y)
+        (   is_list(X)
+        ;   is_list(Y)
+        )
     ->  assertz(flag(refresh))
     ;   true
     ),
