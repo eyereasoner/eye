@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.6 (2023-10-01)').
+version_info('EYE v4.18.7 (2023-10-02)').
 
 license_info('MIT License
 
@@ -416,8 +416,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(refresh)
-    ->  refresh
+    (   flag(coherentlogic)
+    ->  coherentlogic
     ;   true
     ),
     (   flag(rdfsurfaces)
@@ -631,10 +631,11 @@ gre(Argus) :-
     ).
 
 %
-% REasoning with Factoring and RESolution in the Head - REFRESH
+% Coherent Logic
+% See http://www.ii.uib.no/acl/description.pdf
 %
 
-refresh :-
+coherentlogic :-
     % factoring
     assertz(implies((
             implies(A, B, _),
@@ -649,12 +650,6 @@ refresh :-
             implies(C, E, _),
             \+is_list(E)
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, [E|D]), '<>')),
-    % premis disjunction
-    assertz(implies((
-            implies(A, B, _),
-            is_list(A),
-            member(E, A)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(E, B), '<>')),
     % double negation
     assertz(implies((
             implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, []), [], _)
@@ -1460,11 +1455,9 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(refresh),
-            (   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'([_|_], _)
-            ;   Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
-            )
-        ->  assertz(flag(refresh))
+        (   \+flag(coherentlogic),
+            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
+        ->  assertz(flag(coherentlogic))
         ;   true
         ),
         (   \+flag(rdfsurfaces),
@@ -1909,11 +1902,9 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(refresh),
-        (   is_list(X)
-        ;   is_list(Y)
-        )
-    ->  assertz(flag(refresh))
+    (   \+flag(coherentlogic),
+        is_list(Y)
+    ->  assertz(flag(coherentlogic))
     ;   true
     ),
     (   flag(tactic, 'linear-select')
@@ -4946,7 +4937,6 @@ eam(Recursion) :-
         ;   true
         ),
         implies(Prem, Conc, Src),
-        \+is_list(Prem),
         ignore(Prem = true),
         (   flag(nope),
             \+flag('rule-histogram')
@@ -5137,7 +5127,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (flag(refresh), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(coherentlogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(rdfsurfaces), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5175,7 +5165,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (flag(refresh), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(coherentlogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(rdfsurfaces), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
