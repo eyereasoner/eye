@@ -636,13 +636,7 @@ gre(Argus) :-
 %
 
 coherentlogic :-
-    % factoring
-    assertz(implies((
-            implies(A, B, _),
-            is_list(B),
-            sort(B, [C])
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
-    % resolution
+    % resolution of CL clauses with Horn clauses
     assertz(implies((
             implies(A, B, _),
             is_list(B),
@@ -650,6 +644,12 @@ coherentlogic :-
             implies(C, E, _),
             \+is_list(E)
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, [E|D]), '<>')),
+    % factoring of CL clauses to Horn clauses
+    assertz(implies((
+            implies(A, B, _),
+            is_list(B),
+            sort(B, [C])
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
     % double negation
     assertz(implies((
             implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, []), [], _)
