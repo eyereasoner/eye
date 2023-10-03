@@ -1,0 +1,25 @@
+--------
+Sequents
+--------
+
+See https://en.wikipedia.org/wiki/Sequent
+
+E.g.
+
+# all cars are green or blue
+{
+    ?A a :Car.
+} => (
+    {
+        ?A :is :green.
+    }
+    {
+        ?A :is :blue.
+    }
+).
+
+# negation
+{
+    ?A a :Car.
+    ?A a :Horse.
+} => ().

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.0 (2023-10-03)').
+version_info('EYE v5.0.1 (2023-10-03)').
 
 license_info('MIT License
 
@@ -416,13 +416,13 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(coherentlogic)
-    ->  coherentlogic
+    (   flag(sequents)
+    ->  sequents
     ;   true
     ),
-    (   flag(rdfsurfaces)
+    (   flag(blogic)
     ->  retractall(flag('pass-only-new')),
-        rdfsurfaces
+        blogic
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -480,7 +480,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdfsurfaces)
+        \+flag(blogic)
     ->  throw(halt(0))
     ;   true
     ),
@@ -631,12 +631,12 @@ gre(Argus) :-
     ).
 
 %
-% Coherent Logic
-% See http://www.ii.uib.no/acl/description.pdf
+% Sequents
+% See https://en.wikipedia.org/wiki/Sequent
 %
 
-coherentlogic :-
-    % resolution of CL clauses with Horn clauses
+sequents :-
+    % resolution
     assertz(implies((
             implies(A, B, _),
             is_list(B),
@@ -644,7 +644,7 @@ coherentlogic :-
             implies(C, E, _),
             \+is_list(E)
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, [E|D]), '<>')),
-    % factoring of CL clauses to Horn clauses
+    % factoring
     assertz(implies((
             implies(A, B, _),
             is_list(B),
@@ -662,10 +662,10 @@ coherentlogic :-
 
 %
 % RDF Surfaces
-% See https://w3c-cg.github.io/rdfsurfaces/
+% See https://w3c-cg.github.io/blogic/
 %
 
-rdfsurfaces :-
+blogic :-
     % assert positive surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)
@@ -931,8 +931,8 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(rdfsurfaces)),
-    assertz(flag(rdfsurfaces)),
+    retractall(flag(blogic)),
+    assertz(flag(blogic)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -1455,15 +1455,15 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(coherentlogic),
+        (   \+flag(sequents),
             Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
-        ->  assertz(flag(coherentlogic))
+        ->  assertz(flag(sequents))
         ;   true
         ),
         (   functor(Rt, F, _),
             regex('^<.*#on.*Surface>$', F, _),
-            \+flag(rdfsurfaces)
-        ->  assertz(flag(rdfsurfaces))
+            \+flag(blogic)
+        ->  assertz(flag(blogic))
         ;   true
         ),
         (   Rt = ':-'(Ci, Px),
@@ -1902,9 +1902,9 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(coherentlogic),
+    (   \+flag(sequents),
         is_list(Y)
-    ->  assertz(flag(coherentlogic))
+    ->  assertz(flag(sequents))
     ;   true
     ),
     (   flag(tactic, 'linear-select')
@@ -2519,8 +2519,8 @@ propertylist(Subject, Triples) -->
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
             regex('^\'<.*#on.*Surface>\'$', Verb, _),
-            \+flag(rdfsurfaces)
-        ->  assertz(flag(rdfsurfaces))
+            \+flag(blogic)
+        ->  assertz(flag(blogic))
         ;   true
         )
     },
@@ -2686,7 +2686,7 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Lbl)],
-    {   (   flag(rdfsurfaces)
+    {   (   flag(blogic)
         ->  atom_codes(Lbl, LblCodes),
             subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
             atom_codes(Label, LblTidy),
@@ -4982,7 +4982,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag(rdfsurfaces)
+        ->  (   flag(blogic)
             ->  conj_list(Prem, Lst),
                 Lst = [_|Lst2],
                 (   select(call(_), Lst2, Lst3)
@@ -5144,8 +5144,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (flag(coherentlogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
-                \+ (flag(rdfsurfaces), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -5182,8 +5182,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (flag(coherentlogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
-                    \+ (flag(rdfsurfaces), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
