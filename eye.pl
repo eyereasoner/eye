@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v4.18.7 (2023-10-02)').
+version_info('EYE v5.0.0 (2023-10-03)').
 
 license_info('MIT License
 
@@ -1460,9 +1460,9 @@ n3pin(Rt, In, File, Mode) :-
         ->  assertz(flag(coherentlogic))
         ;   true
         ),
-        (   \+flag(rdfsurfaces),
-            functor(Rt, F, _),
-            regex('^<.*#on.*Surface>$', F, _)
+        (   functor(Rt, F, _),
+            regex('^<.*#on.*Surface>$', F, _),
+            \+flag(rdfsurfaces)
         ->  assertz(flag(rdfsurfaces))
         ;   true
         ),
@@ -1970,10 +1970,6 @@ tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
     (   regex('^\'<.*#on.*Surface>\'$', C, _),
-        (   \+flag(rdfsurfaces)
-        ->  assertz(flag(rdfsurfaces))
-        ;   true
-        ),
         E = [V, G],
         is_list(V),
         is_graph(G),
@@ -2520,7 +2516,13 @@ prefix(Prefix) -->
 
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb)
+    {   prolog_verb(Item, Verb),
+        (   atomic(Verb),
+            regex('^\'<.*#on.*Surface>\'$', Verb, _),
+            \+flag(rdfsurfaces)
+        ->  assertz(flag(rdfsurfaces))
+        ;   true
+        )
     },
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
@@ -2684,14 +2686,29 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Lbl)],
-    {   atom_codes(Lbl, LblCodes),
-        subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-        atom_codes(Label, LblTidy),
-        (   evar(Label, S, 0)
-        ->  true
-        ;   atom_concat(Label, '_', M),
-            gensym(M, S),
-            assertz(evar(Label, S, 0))
+    {   (   flag(rdfsurfaces)
+        ->  atom_codes(Lbl, LblCodes),
+            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
+            atom_codes(Label, LblTidy),
+            (   evar(Label, S, 0)
+            ->  true
+            ;   atom_concat(Label, '_', M),
+                gensym(M, S),
+                assertz(evar(Label, S, 0))
+            )
+        ;   nb_getval(fdepth, D),
+            (   D =:= 0
+            ->  Label = Lbl
+            ;   atom_codes(Lbl, LblCodes),
+                subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
+                atom_codes(Label, LblTidy)
+            ),
+            (   evar(Label, S, D)
+            ->  true
+            ;   atom_concat(Label, '_', M),
+                gensym(M, S),
+                assertz(evar(Label, S, D))
+            )
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
