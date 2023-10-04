@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.2 (2023-10-04)').
+version_info('EYE v5.0.3 (2023-10-04)').
 
 license_info('MIT License
 
@@ -650,6 +650,13 @@ sequents :-
             nonvar(B),
             list_to_set(B, [C])
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
+    % contrapositive
+    assertz(implies((
+            implies(A, set(B), _),
+            nonvar(B),
+            select(C, B, D),
+            E = ('<http://www.w3.org/2000/10/swap/log#implies>'(C, set([])), A)
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(E, set(D)), '<>')),
     % double negation
     assertz(implies((
             implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])), set([]), _)

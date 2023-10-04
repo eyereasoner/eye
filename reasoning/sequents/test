@@ -1,3 +1,5 @@
 #!/bin/bash -x
-eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. --nope http://eyereasoner.github.io/eye/reasoning/sequents/beetle.n3 --query http://eyereasoner.github.io/eye/reasoning/sequents/beetle-query.n3 --output beetle-answer.n3
-eye "$@" --wcache http://eyereasoner.github.io/eye/reasoning .. --nope http://eyereasoner.github.io/eye/reasoning/sequents/beetle12.n3 --query http://eyereasoner.github.io/eye/reasoning/sequents/beetle-query.n3 --output beetle12-answer.n3
+for f in *.n3
+do
+    eye "$@" --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $f --pass-only-new --output $f.out
+done
