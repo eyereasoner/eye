@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.1 (2023-10-03)').
+version_info('EYE v5.0.2 (2023-10-04)').
 
 license_info('MIT License
 
@@ -638,25 +638,25 @@ gre(Argus) :-
 sequents :-
     % resolution
     assertz(implies((
-            implies(A, B, _),
-            is_list(B),
+            implies(A, set(B), _),
+            nonvar(B),
             select(C, B, D),
             implies(C, E, _),
-            \+is_list(E)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, [E|D]), '<>')),
+            E \= set(_)
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([E|D])), '<>')),
     % factoring
     assertz(implies((
-            implies(A, B, _),
-            is_list(B),
-            sort(B, [C])
+            implies(A, set(B), _),
+            nonvar(B),
+            list_to_set(B, [C])
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
     % double negation
     assertz(implies((
-            implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, []), [], _)
+            implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])), set([]), _)
             ), A, '<>')),
     % inference fuse
     assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#implies>'(A, []),
+            '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])),
             A
             ), false, '<>')).
 
@@ -1456,7 +1456,7 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(sequents),
-            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, [_|_])
+            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
         ->  assertz(flag(sequents))
         ;   true
         ),
@@ -1903,7 +1903,7 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+flag(sequents),
-        is_list(Y)
+        Y = set(_)
     ->  assertz(flag(sequents))
     ;   true
     ),
@@ -5004,7 +5004,7 @@ eam(Recursion) :-
         ;   true
         ),
         \+atom(Conc),
-        \+is_list(Conc),
+        Conc \= set(_),
         (   flag('rule-histogram'),
             copy_term_nat(Rule, RuleL)
         ->  lookup(RTP, tp, RuleL),
