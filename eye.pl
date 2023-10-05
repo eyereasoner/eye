@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.3 (2023-10-04)').
+version_info('EYE v5.0.4 (2023-10-05)').
 
 license_info('MIT License
 
@@ -416,10 +416,6 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(sequents)
-    ->  sequents
-    ;   true
-    ),
     (   flag(blogic)
     ->  retractall(flag('pass-only-new')),
         blogic
@@ -629,43 +625,6 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
-
-%
-% Sequents
-% See https://en.wikipedia.org/wiki/Sequent
-%
-
-sequents :-
-    % resolution
-    assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            select(C, B, D),
-            implies(C, E, _),
-            E \= set(_)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([E|D])), '<>')),
-    % factoring
-    assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            list_to_set(B, [C])
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
-    % contrapositive
-    assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            select(C, B, D),
-            E = ('<http://www.w3.org/2000/10/swap/log#implies>'(C, set([])), A)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(E, set(D)), '<>')),
-    % double negation
-    assertz(implies((
-            implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])), set([]), _)
-            ), A, '<>')),
-    % inference fuse
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])),
-            A
-            ), false, '<>')).
 
 %
 % RDF Surfaces
@@ -1462,11 +1421,6 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(sequents),
-            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
-        ->  assertz(flag(sequents))
-        ;   true
-        ),
         (   functor(Rt, F, _),
             regex('^<.*#on.*Surface>$', F, _),
             \+flag(blogic)
@@ -1909,11 +1863,6 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(sequents),
-        Y = set(_)
-    ->  assertz(flag(sequents))
-    ;   true
-    ),
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
         writeln('.'),
@@ -5151,7 +5100,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5189,7 +5137,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
