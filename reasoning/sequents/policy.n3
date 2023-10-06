@@ -1,0 +1,38 @@
+# ------------------------
+# Policy enactment example
+# ------------------------
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data
+:RubenD a foaf:Person.
+:JosD a vcard:Individual.
+
+# Define mapping operation
+() :policy {
+
+    # Mapping foaf:Person and vcard:Individual on each other
+    {
+        ?S a foaf:Person .
+    } => ($
+        {
+            ?S a vcard:Individual .
+        }
+    $).
+
+    {
+        ?S a vcard:Individual .
+    } => ($
+        {
+            ?S a foaf:Person .
+        }
+    $).
+}.
+
+# enact policy
+{
+    () :policy ?S.
+} => ?S.
