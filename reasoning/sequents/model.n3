@@ -61,8 +61,8 @@ $).
 } <= {
     ?Prem => ?Cases.
     ?Cases list:member ?Case.
-    ?Prem log:call true.
     ?Model1 list:notMember ?Case.
+    ?Prem log:call true.
     ?Model2 list:firstRest (?Case ?Model1).
     true log:becomes ?Case.
     {
