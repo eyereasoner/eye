@@ -78,14 +78,15 @@ $).
     }.
 }.
 
-# is there a model where X is an individual who can choose E
+# find models where X is an individual who can choose E
 {
-    ?X a vcard:Individual.
     {
+        ?X a vcard:Individual.
         ?X :chooses :E.
     } :findModel ?Model.
 } => {
     {
+        ?X a vcard:Individual.
         ?X :chooses :E.
     } :perModel ?Model.
 }.
