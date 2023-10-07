@@ -1,36 +1,38 @@
-# --------------
-# Policy example
-# --------------
+# ------------------------
+# Policy enactment example
+# ------------------------
 
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-# Pat is an individual
-:Pat a vcard:Individual.
+# sample data
+:RubenD a foaf:Person.
+:JosD a vcard:Individual.
 
-# if X is an individual then X can choose between A and B
-{
-    ?X a vcard:Individual.
-} => ($
-    {
-        ?X :canChoose :A.
-    }
-    {
-        ?X :canChoose :B.
-    }
-$).
+# Define mapping operation
+() :policy {
 
-# is there a model where X is an individual who can choose B
-{
-    ?X a vcard:Individual.
+    # Mapping foaf:Person and vcard:Individual on each other
     {
-        ?X a vcard:Individual.
-    } => ?Cases.
-    ?Cases list:member {
-        ?X :canChoose :B.
-    }.
-} => {
-    ?X :canChoose :B.
+        ?S a foaf:Person .
+    } => ($
+        {
+            ?S a vcard:Individual .
+        }
+    $).
+
+    {
+        ?S a vcard:Individual .
+    } => ($
+        {
+            ?S a foaf:Person .
+        }
+    $).
 }.
+
+# enact policy
+{
+    () :policy ?S.
+} => ?S.
