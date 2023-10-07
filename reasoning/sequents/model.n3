@@ -1,0 +1,91 @@
+# ----------------------------
+# Policy model finding example
+# ----------------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix : <http://example.org/ns#>.
+
+# Pat is an individual
+:Pat a vcard:Individual.
+
+# if X is an individual then X chooses A or B
+{
+    ?X a vcard:Individual.
+} => ($
+    {
+        ?X :chooses :A.
+    }
+    {
+        ?X :chooses :B.
+    }
+$).
+
+# if X is an individual and X chooses A then X choose C or D
+{
+    ?X a vcard:Individual.
+    ?X :chooses :A.
+} => ($
+    {
+        ?X :chooses :C.
+    }
+    {
+        ?X :chooses :D.
+    }
+$).
+
+# if X is an individual and X chooses D then X chooses E or F
+{
+    ?X a vcard:Individual.
+    ?X :chooses :D.
+} => ($
+    {
+        ?X :chooses :E.
+    }
+    {
+        ?X :chooses :F.
+    }
+$).
+
+# find model from current to goal
+{
+    ?Goal :findModel ?Model.
+} <= {
+    ?Goal :findModels (() ?Model1).
+    ?Model1 list:sort ?Model.
+}.
+
+{
+    ?Goal :findModels (?Model ?Model).
+} <= {
+    ?Goal log:callWithCut true.
+}.
+
+{
+    ?Goal :findModels (?Model1 ?Model).
+} <= {
+    ?Prem => ?Cases.
+    ?Cases list:member ?Case.
+    ?Prem log:call true.
+    ?Model1 list:notMember ?Case.
+    ?Model2 list:firstRest (?Case ?Model1).
+    true log:becomes ?Case.
+    {
+        ?Goal :findModels (?Model2 ?Model).
+    } log:callWithCleanup {
+        ?Case log:becomes true.
+    }.
+}.
+
+# is there a model where X is an individual who can choose E
+{
+    ?X a vcard:Individual.
+    {
+        ?X :chooses :E.
+    } :findModel ?Model.
+} => {
+    {
+        ?X :chooses :E.
+    } :perModel ?Model.
+}.

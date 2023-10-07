@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.5 (2023-10-07)').
+version_info('EYE v5.0.6 (2023-10-08)').
 
 license_info('MIT License
 
@@ -6524,6 +6524,15 @@ djiti_assertz(A) :-
 
 '<http://www.w3.org/2000/10/swap/list#multisetNotEqualTo>'(A, B) :-
     \+'<http://www.w3.org/2000/10/swap/list#multisetEqualTo>'(A, B).
+
+'<http://www.w3.org/2000/10/swap/list#notMember>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, C),
+            \+member(B, C)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
     when(
