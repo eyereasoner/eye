@@ -50,20 +50,14 @@ $).
 
 # find model from current to goal
 {
-    ?Goal :findModel ?Model.
+    ?Goal :findModel (?Model1 ?Model).
 } <= {
-    ?Goal :findModels (() ?Model1).
+    ?Goal log:callWithCut true.
     ?Model1 list:sort ?Model.
 }.
 
 {
-    ?Goal :findModels (?Model ?Model).
-} <= {
-    ?Goal log:callWithCut true.
-}.
-
-{
-    ?Goal :findModels (?Model1 ?Model).
+    ?Goal :findModel (?Model1 ?Model).
 } <= {
     ?Prem => ?Cases.
     ?Cases list:member ?Case.
@@ -72,7 +66,7 @@ $).
     ?Model2 list:firstRest (?Case ?Model1).
     true log:becomes ?Case.
     {
-        ?Goal :findModels (?Model2 ?Model).
+        ?Goal :findModel (?Model2 ?Model).
     } log:callWithCleanup {
         ?Case log:becomes true.
     }.
@@ -83,7 +77,7 @@ $).
     {
         ?X a vcard:Individual.
         ?X :chooses :E.
-    } :findModel ?Model.
+    } :findModel (() ?Model).
 } => {
     {
         ?X a vcard:Individual.
