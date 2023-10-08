@@ -10,41 +10,41 @@
 # Pat is an individual
 :Pat a vcard:Individual.
 
-# if X is an individual then X chooses A or B
+# if X is an individual then X can do A or B
 {
     ?X a vcard:Individual.
 } => ($
     {
-        ?X :chooses :A.
+        ?X :canDo :A.
     }
     {
-        ?X :chooses :B.
+        ?X :canDo :B.
     }
 $).
 
-# if X is an individual and X chooses A then X chooses C or D
+# if X is an individual and X can do A then X can do C or D
 {
     ?X a vcard:Individual.
-    ?X :chooses :A.
+    ?X :canDo :A.
 } => ($
     {
-        ?X :chooses :E.
+        ?X :canDo :E.
     }
     {
-        ?X :chooses :D.
+        ?X :canDo :D.
     }
 $).
 
-# if X is an individual and X chooses D then X chooses E or F
+# if X is an individual and X can do D then X can do E or F
 {
     ?X a vcard:Individual.
-    ?X :chooses :D.
+    ?X :canDo :D.
 } => ($
     {
-        ?X :chooses :E.
+        ?X :canDo :E.
     }
     {
-        ?X :chooses :F.
+        ?X :canDo :F.
     }
 $).
 
@@ -72,15 +72,15 @@ $).
     }.
 }.
 
-# find model where X is an individual who chooses E
+# find model where X is an individual who can do E
 {
     {
         ?X a vcard:Individual.
-        ?X :chooses :E.
+        ?X :canDo :E.
     } :findModel (() () ?Model).
 } => {
     {
         ?X a vcard:Individual.
-        ?X :chooses :E.
+        ?X :canDo :E.
     } :perModel ?Model.
 }.
