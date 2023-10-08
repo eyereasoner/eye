@@ -50,23 +50,23 @@ $).
 
 # find model reaching goal
 {
-    ?Goal :findModel (?Model1 ?Model).
+    ?Goal :findModel (?Sequents ?Model ?Model).
 } <= {
     ?Goal log:callWithCut true.
-    ?Model1 list:sort ?Model.
 }.
 
 {
-    ?Goal :findModel (?Model1 ?Model).
+    ?Goal :findModel (?Sequents1 ?Model1 ?Model).
 } <= {
     ?Prem => ?Cases.
     ?Cases list:member ?Case.
-    ?Model1 list:notMember ?Case.
     ?Prem log:call true.
-    ?Model2 list:firstRest (?Case ?Model1).
+    ?Sequents1 list:notMember {?Prem => ?Cases}.
+    (?Sequents1 ({?Prem => ?Cases})) list:append ?Sequents2.
+    (?Model1 (?Case)) list:append ?Model2.
     true log:becomes ?Case.
     {
-        ?Goal :findModel (?Model2 ?Model).
+        ?Goal :findModel (?Sequents2 ?Model2 ?Model).
     } log:callWithCleanup {
         ?Case log:becomes true.
     }.
@@ -77,7 +77,7 @@ $).
     {
         ?X a vcard:Individual.
         ?X :chooses :E.
-    } :findModel (() ?Model).
+    } :findModel (() () ?Model).
 } => {
     {
         ?X a vcard:Individual.
