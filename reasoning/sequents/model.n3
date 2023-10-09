@@ -1,6 +1,10 @@
 # ----------------------------
 # Policy model finding example
 # ----------------------------
+#
+# Using sequents like in https://en.wikipedia.org/wiki/Sequent
+# A sequent is a log:implies with a set of possible conclusions e.g.
+#
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
@@ -22,7 +26,7 @@
     }
 $).
 
-# if X is an individual who can do A then X can do C or D
+# if X is an individual who can do A then X can do E or D
 {
     ?X a vcard:Individual.
     ?X :canDo :A.
