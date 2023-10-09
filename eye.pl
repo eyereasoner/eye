@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.6 (2023-10-08)').
+version_info('EYE v5.0.7 (2023-10-09)').
 
 license_info('MIT License
 
@@ -779,6 +779,35 @@ blogic :-
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+    % create sequent
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+            is_list(V),
+            is_graph(G),
+            conj_list(G, L),
+            list_to_set(L, B),
+            \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
+            \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
+            findall(J,
+                (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, J), B)
+                ),
+                H
+            ),
+            length(H, N),
+            N >= 2,
+            findall(J,
+                (   member(J, B),
+                    J \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                ),
+                K
+            ),
+            conj_list(R, K),
+            find_graffiti(K, D),
+            append(V, D, U),
+            makevars([R, H], [Q, S], beta(U)),
+            findvars(S, W, beta),
+            makevars(S, I, beta(W))
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, set(I)), '<>')),
     % create contrapositive rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -1459,6 +1488,7 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   \+flag(sequents),
+            \+flag(blogic),
             Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
         ->  assertz(flag(sequents)),
             sequents
@@ -1907,6 +1937,7 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+flag(sequents),
+        \+flag(blogic),
         Y = set(_)
     ->  assertz(flag(sequents)),
         sequents
@@ -5309,6 +5340,7 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
     (   \+flag(sequents),
+        \+flag(blogic),
         B = set(_)
     ->  assertz(flag(sequents)),
         sequents
