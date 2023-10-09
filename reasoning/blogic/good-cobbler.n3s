@@ -20,3 +20,19 @@ _:x a (:good :Cobbler).
         :test :is _:something.
     }.
 }.
+
+# invalid inference "x is good. x is a cobbler. therefore, x is a good cobbler".
+# uncommenting the following 2 triples will blow a inference fuse
+#_:x a :good.
+#_:x a :Cobbler.
+
+# maybe this is too strong in general
+(_:a _:b _:c) log:onNegativeSurface {
+    _:a a _:b.
+    _:a a _:c.
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            _:a a (_:b _:c).
+        }.
+    }.
+}.
