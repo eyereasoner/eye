@@ -7,18 +7,17 @@
 #
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix : <urn:example:>.
 
 # Some x is a good cobbler
 # (:good :Cobbler) stands for the functional term good(Cobbler)
 _:x a (:good :Cobbler).
 
-# is there someone who is good at something?
-{
-    ?X a (:good ?Y).
-} => {
-    :test :is ?Y.
-}.
+(:good :Cobbler) rdfs:subClassOf :Cobbler.
+
+# rdfs:subClassOf entailment
+{?C rdfs:subClassOf ?D. ?X a ?C} => {?X a ?D}.
 
 # invalid inference "x is good. x is a cobbler. therefore, x is a good cobbler".
 # uncommenting the following 2 triples will blow a inference fuse
@@ -34,3 +33,10 @@ _:x a (:good :Cobbler).
         ?X a (?Y ?Z).
     } => ($ $).
 }.
+
+# some more thinking
+# donald is a decoy duck, but it is not a duck
+
+:donald a (:decoy :duck).
+
+(:decoy :duck) rdfs:subClassOf :decoy.
