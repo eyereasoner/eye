@@ -1,0 +1,36 @@
+# ------------
+# Good Cobbler
+# ------------
+#
+# Example from https://shs.hal.science/halshs-04148373/document
+# Using functional logic http://intrologic.stanford.edu/chapters/chapter_11.html
+#
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# Some x is a good cobbler
+# (:good :Cobbler) stands for the functional term good(Cobbler)
+_:x a (:good :Cobbler).
+
+# is there someone who is good at something?
+{
+    ?X a (:good ?Y).
+} => {
+    :test :is ?Y.
+}.
+
+# invalid inference "x is good. x is a cobbler. therefore, x is a good cobbler".
+# uncommenting the following 2 triples will blow a inference fuse
+#_:x a :good.
+#_:x a :Cobbler.
+
+# maybe this is too strong in general
+{
+    ?X a ?Y.
+    ?X a ?Z.
+} => {
+    {
+        ?X a (?Y ?Z).
+    } => ($ $).
+}.
