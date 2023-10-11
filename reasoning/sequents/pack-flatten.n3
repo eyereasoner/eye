@@ -22,10 +22,14 @@
     }.
 }.
 
-{
-    ?l :data ?g.
-    ?g :flatten ?h.
-} => ?h.
+true => ($
+    {
+        {
+            ?l :data ?g.
+            ?g :flatten ?h.
+        } => ?h.
+    }
+$).
 
 {
     {
