@@ -4,6 +4,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix : <http://example.org/ns#>.
 
+# sample data from RubenD
 () :data {
     () :package {
         << () :content {
@@ -22,6 +23,7 @@
     }.
 }.
 
+# the logic for flatten in 4 backward rules
 (_:p _:d _:c _:q _:t _:l _:m) log:onNegativeSurface {
     () log:onNegativeSurface <<
         {
@@ -57,6 +59,7 @@
     }.
 }.
 
+# question
 (_:l _:g _:h) log:onQuestionSurface {
     _:l :data _:g.
     _:g :flatten _:h.
