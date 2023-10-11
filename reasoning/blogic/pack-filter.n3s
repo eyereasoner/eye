@@ -23,7 +23,7 @@
     }.
 }.
 
-# the logic for flatten in 5 backward rules
+# the logic for filter in 5 backward rules
 (_:c _:t _:d _:l _:m) log:onNegativeSurface {
     () log:onNegativeSurface <<
         {
@@ -78,7 +78,5 @@
 (_:l _:g _:h) log:onQuestionSurface {
     _:l :data _:g.
     _:g :filter _:h.
-    () log:onAnswerSurface {
-        _:l :filtered_data _:h.
-    }.
+    () log:onAnswerSurface _:h.
 }.

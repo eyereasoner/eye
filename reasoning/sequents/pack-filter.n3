@@ -24,16 +24,16 @@
 }.
 
 # testing unconditional sequent and see with --pass-only-new
-{
-    ?l :data ?g.
-    ?g :filter ?h.
-} => ($
+true => ($
     {
-        ?l :filtered_data ?h.
+        {
+            ?l :data ?g.
+            ?g :filter ?h.
+        } => ?h.
     }
 $).
 
-# the logic for flatten in 5 backward rules
+# the logic for filter in 5 backward rules
 {
     {
         () :package {

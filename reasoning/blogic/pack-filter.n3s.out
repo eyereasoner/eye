@@ -1,14 +1,12 @@
 @prefix : <http://example.org/ns#>.
 
-() :filtered_data {
-    () :package {
-        <<() :content {
-            :a :b :c.
-            () :package {
-                <<() :content {
-                    :u :v :w.
-                }>> :usable_until :tomorrow.
-            }.
-        }>> :usable_until :next_week.
-    }.
+() :package {
+    <<() :content {
+        :a :b :c.
+        () :package {
+            <<() :content {
+                :u :v :w.
+            }>> :usable_until :tomorrow.
+        }.
+    }>> :usable_until :next_week.
 }.
