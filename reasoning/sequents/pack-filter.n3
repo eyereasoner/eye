@@ -1,0 +1,82 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://example.org/ns#>.
+
+() :data {
+    () :package {
+        << () :content {
+            :a :b _:x.
+            () :package {
+                << () :content {
+                    :u :v :w.
+                    () :package {
+                        << () :content {
+                            _:x :y :z.
+                        } >> :usable_until :yesterday.
+                    }
+                } >> :usable_until :tomorrow.
+            }
+        } >> :usable_until :next_week.
+    }.
+}.
+
+{
+    ?l :data ?g.
+    ?g :filter ?h.
+} => ($
+    {
+        ?l :filtered_data ?h.
+    }
+$).
+
+{
+    {
+        () :package {
+            << () :content ?c >> :usable_until ?t.
+        }
+    } :filter {
+        () :package {
+            << () :content ?d >> :usable_until ?t.
+        }
+    }.
+} <= {
+    (:tomorrow :next_week) list:member ?t.
+    ?c graph:list ?l.
+    ?l :filter ?m.
+    ?d graph:list ?m.
+}.
+
+{
+    {
+        () :package {
+            << () :content ?c >> :usable_until ?t.
+        }.
+    } :filter true.
+} <= {
+    (:yesterday :past_week) list:member ?t.
+}.
+
+{
+    () :filter ().
+} <= true.
+
+{
+    ?g :filter ?h.
+} <= {
+    ?g list:firstRest (?f ?r).
+    ?h list:firstRest (?a ?b).
+    ?f :filter ?a.
+    ?r :filter ?b.
+}.
+
+{
+    ?g :filter ?g.
+} <= {
+    ?g log:rawType ?r.
+    ?r log:notEqualTo rdf:List.
+    ?g log:notIncludes {
+        () :package ?p.
+    }.
+}.
