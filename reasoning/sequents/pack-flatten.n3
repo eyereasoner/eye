@@ -1,0 +1,64 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://example.org/ns#>.
+
+() :data {
+    () :package {
+        << () :content {
+            :a :b :c.
+            () :package {
+                << () :content {
+                    :u :v :w.
+                    () :package {
+                        << () :content {
+                            :x :y :z.
+                        } >> :usable_until :yesterday.
+                    }
+                } >> :usable_until :tomorrow.
+            }
+        } >> :usable_until :next_week.
+    }.
+}.
+
+{
+    ?l :data ?g.
+    ?g :flatten ?h.
+} => ?h.
+
+{
+    {
+        () :package ?p.
+    } :flatten ?d.
+} <= {
+    ?p log:equalTo {
+        << () :content ?c >> ?q ?t.
+    }.
+    ?c graph:list ?l.
+    ?l :flatten ?m.
+    ?m graph:union ?d.
+}.
+
+{
+    () :flatten ().
+} <= true.
+
+{
+    ?g :flatten ?h.
+} <= {
+    ?g list:firstRest (?f ?r).
+    ?h list:firstRest (?a ?b).
+    ?f :flatten ?a.
+    ?r :flatten ?b.
+}.
+
+{
+    ?g :flatten ?g.
+} <= {
+    ?g log:rawType ?r.
+    ?r log:notEqualTo rdf:List.
+    ?g log:notIncludes {
+        () :package ?p.
+    }.
+}.
