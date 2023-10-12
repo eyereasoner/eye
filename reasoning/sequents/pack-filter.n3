@@ -5,15 +5,15 @@
 @prefix : <http://example.org/ns#>.
 
 # sample data from RubenD
-() :data {
-    () :package {
-        << () :content {
+[] :data {
+    [] :package {
+        << [] :content {
             :a :b :c.
-            () :package {
-                << () :content {
+            [] :package {
+                << [] :content {
                     :u :v :w.
-                    () :package {
-                        << () :content {
+                    [] :package {
+                        << [] :content {
                             :x :y :z.
                         } >> :usable_until :yesterday.
                     }
@@ -36,12 +36,12 @@ $).
 # the logic for filter in 5 backward rules
 {
     {
-        () :package {
-            << () :content ?c >> :usable_until ?t.
+        ?a :package {
+            << ?b :content ?c >> :usable_until ?t.
         }
     } :filter {
-        () :package {
-            << () :content ?d >> :usable_until ?t.
+        ?a :package {
+            << ?b :content ?d >> :usable_until ?t.
         }
     }.
 } <= {
@@ -53,8 +53,8 @@ $).
 
 {
     {
-        () :package {
-            << () :content ?c >> :usable_until ?t.
+        ?a :package {
+            << ?b :content ?c >> :usable_until ?t.
         }.
     } :filter true.
 } <= {
@@ -80,6 +80,6 @@ $).
     ?g log:rawType ?r.
     ?r log:notEqualTo rdf:List.
     ?g log:notIncludes {
-        () :package ?p.
+        ?a :package ?p.
     }.
 }.

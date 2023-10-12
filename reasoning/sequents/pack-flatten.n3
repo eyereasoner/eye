@@ -5,15 +5,15 @@
 @prefix : <http://example.org/ns#>.
 
 # sample data from RubenD
-() :data {
-    () :package {
-        << () :content {
+[] :data {
+    [] :package {
+        << [] :content {
             :a :b :c.
-            () :package {
-                << () :content {
+            [] :package {
+                << [] :content {
                     :u :v :w.
-                    () :package {
-                        << () :content {
+                    [] :package {
+                        << [] :content {
                             :x :y :z.
                         } >> :usable_until :yesterday.
                     }
@@ -36,11 +36,11 @@ $).
 # the logic for flatten in 4 backward rules
 {
     {
-        () :package ?p.
+        ?b :package ?p.
     } :flatten ?d.
 } <= {
     ?p log:equalTo {
-        << () :content ?c >> ?q ?t.
+        << ?a :content ?c >> ?q ?t.
     }.
     ?c graph:list ?l.
     ?l :flatten ?m.
@@ -66,6 +66,6 @@ $).
     ?g log:rawType ?r.
     ?r log:notEqualTo rdf:List.
     ?g log:notIncludes {
-        () :package ?p.
+        ?a :package ?p.
     }.
 }.
