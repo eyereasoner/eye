@@ -17,7 +17,7 @@
                             :x :y :z.
                         } >> :usable_until :yesterday.
                     }
-                } >> :usable_until :tomorrow.
+                } >> :usable_until :tomorrow; :p :o.
             }
         } >> :usable_until :next_week.
     }.
@@ -39,7 +39,7 @@ $).
         ?b :package ?p.
     } :flatten ?d.
 } <= {
-    ?p log:equalTo {
+    ?p log:includes {
         << ?a :content ?c >> ?q ?t.
     }.
     ?c graph:list ?l.

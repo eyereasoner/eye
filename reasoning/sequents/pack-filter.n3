@@ -17,7 +17,7 @@
                             :x :y :z.
                         } >> :usable_until :yesterday.
                     }
-                } >> :usable_until :tomorrow.
+                } >> :usable_until :tomorrow; :p :o.
             }
         } >> :usable_until :next_week.
     }.
@@ -36,29 +36,31 @@ $).
 # the logic for filter in 5 backward rules
 {
     {
-        ?a :package {
-            << ?b :content ?c >> :usable_until ?t.
-        }
+        ?a :package ?p.
     } :filter {
-        ?a :package {
-            << ?b :content ?d >> :usable_until ?t.
-        }
+        ?a :package ?q; :tag :valid.
     }.
 } <= {
+    ?p log:includes {
+        << ?b :content ?c >> :usable_until ?t.
+    }.
     (:tomorrow :next_week) list:member ?t.
     ?c graph:list ?l.
     ?l :filter ?m.
-    ?m graph:union ?d.
+    ?p graph:list ?n.
+    (?m ?n) list:append ?o.
+    ?o graph:union ?q.
 }.
 
 {
     {
-        ?a :package {
-            << ?b :content ?c >> :usable_until ?t.
-        }.
+        ?a :package ?p.
     } :filter true.
 } <= {
-    (:yesterday :past_week) list:member ?t.
+    ?p log:includes {
+        << ?b :content ?c >> :usable_until ?t.
+    }.
+    (:yesterday :last_week) list:member ?t.
 }.
 
 {

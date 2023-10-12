@@ -1,12 +1,47 @@
 @prefix : <http://example.org/ns#>.
 
 _:bn_23 :package {
+    :a :b :c.
+    _:bn_35 :package {
+        :u :v :w.
+        <<_:bn_40 :content {
+            :u :v :w.
+            _:bn_41 :package {
+                <<_:bn_43 :content {
+                    :x :y :z.
+                }>> :usable_until :yesterday.
+            }.
+        }>> :usable_until :tomorrow.
+        <<_:bn_40 :content {
+            :u :v :w.
+            _:bn_41 :package {
+                <<_:bn_43 :content {
+                    :x :y :z.
+                }>> :usable_until :yesterday.
+            }.
+        }>> :p :o.
+    }.
+    _:bn_35 :tag :valid.
     <<_:bn_34 :content {
         :a :b :c.
         _:bn_35 :package {
             <<_:bn_40 :content {
                 :u :v :w.
+                _:bn_41 :package {
+                    <<_:bn_43 :content {
+                        :x :y :z.
+                    }>> :usable_until :yesterday.
+                }.
             }>> :usable_until :tomorrow.
+            <<_:bn_40 :content {
+                :u :v :w.
+                _:bn_41 :package {
+                    <<_:bn_43 :content {
+                        :x :y :z.
+                    }>> :usable_until :yesterday.
+                }.
+            }>> :p :o.
         }.
     }>> :usable_until :next_week.
 }.
+_:bn_23 :tag :valid.
