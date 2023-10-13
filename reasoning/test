@@ -1,8 +1,11 @@
 #!/bin/bash
+CNT=0
 for dir in */
 do
+    let CNT++
     pushd "${dir}"
     ./test "$@" --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01
     popd
     echo ""
 done
+echo "Tests: $CNT"
