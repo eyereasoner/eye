@@ -1,5 +1,10 @@
 #!/bin/bash
+RED="\033[31m"
+PINK="\033[35m"
+GREEN="\033[32m"
+NORMAL="\033[0;39m"
 CNT=0
+
 for dir in */
 do
     let CNT++
@@ -8,4 +13,4 @@ do
     popd
     echo ""
 done
-echo "Tests: $CNT"
+echo -e "Tests: ${GREEN}${CNT} DONE${NORMAL}"
