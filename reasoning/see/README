@@ -1,0 +1,23 @@
+-----------------------------------
+Surface Equivalent Entailment - SEE
+-----------------------------------
+
+Supporting log:implies with a set of possible conclusions e.g.
+
+# all cars are green or blue
+{
+    ?A a :Car.
+} => ($
+    {
+        ?A :is :green.
+    }
+    {
+        ?A :is :blue.
+    }
+$).
+
+# negation
+{
+    ?A a :Car.
+    ?A a :Horse.
+} => ($ $).
