@@ -5,7 +5,7 @@
 @prefix : <http://example.org/ns#>.
 
 # sample data from RubenD
-() log:onNeutralSurface {
+[] :data {
     [] :package {
         [] :content {
             :a :b _:c.
@@ -25,7 +25,7 @@
 
 # unpack the triples that are usable in the future
 (_:b _:g _:l _:m _:h) log:onNegativeSurface {
-    _:b log:onNeutralSurface _:g.
+    _:b :data _:g.
     _:g graph:list _:l.
     _:l :unpack _:m.
     _:m graph:union _:h.
