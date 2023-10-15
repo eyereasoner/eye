@@ -1,22 +1,31 @@
 #!/bin/bash
-OK=0
-FAILED=0
+
 RED="\033[31m"
-PINK="\033[35m"
 GREEN="\033[32m"
 NORMAL="\033[0;39m"
 
+OK=0
+FAILED=0
+
 for dir in */
 do
-    pushd "${dir}"
+    pushd "${dir}" > /dev/null
     ./test "$@" --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01
     if [[ $(git status -s . | wc -l) -ne 0 ]]; then
-        let FAILED++
+        echo -e "${RED}FAILED${NORMAL}"
+        ((FAILED++))
     else
-        let OK++
+        echo -e "${GREEN}OK${NORMAL}"
+        ((OK++))
     fi
-    popd
+    popd  > /dev/null
     echo ""
 done
 
-echo -e "Tests: ${GREEN}${OK} OK ${RED}${FAILED} FAILED${NORMAL}"
+echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+
+if [[ ${FAILED} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi
