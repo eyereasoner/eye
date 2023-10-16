@@ -1,11 +1,17 @@
 #!/bin/bash
 
-RED="\033[31m"
-GREEN="\033[32m"
-NORMAL="\033[0;39m"
+RED="\e[31m"
+GREEN="\e[32m"
+BLUE="\e[94m"
+NORMAL="\e[0;39m"
 
 OK=0
 FAILED=0
+
+echo -e ${BLUE}"--------------------------"${NORMAL}
+echo -e ${BLUE}"Running eye/reasoning/test"${NORMAL}
+echo -e ${BLUE}"--------------------------"${NORMAL}
+echo -e ""
 
 for dir in */
 do
