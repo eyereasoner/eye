@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.0.10 (2023-10-15)').
+version_info('EYE v5.1.0 (2023-10-17)').
 
 license_info('MIT License
 
@@ -963,8 +963,6 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(blogic)),
-    assertz(flag(blogic)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -2002,6 +2000,12 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
+tr_tr(triple(A, B, C), triple(D, E, F)) :-
+    G =.. [B, A, C],
+    \+sub_atom(B, 0, _, _, '_e_'),
+    !,
+    tr_tr(G, H),
+    H =.. [E, D, F].
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
@@ -2722,29 +2726,14 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Lbl)],
-    {   (   flag(blogic)
-        ->  atom_codes(Lbl, LblCodes),
-            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-            atom_codes(Label, LblTidy),
-            (   evar(Label, S, 0)
-            ->  true
-            ;   atom_concat(Label, '_', M),
-                gensym(M, S),
-                assertz(evar(Label, S, 0))
-            )
-        ;   nb_getval(fdepth, D),
-            (   D =:= 0
-            ->  Label = Lbl
-            ;   atom_codes(Lbl, LblCodes),
-                subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-                atom_codes(Label, LblTidy)
-            ),
-            (   evar(Label, S, D)
-            ->  true
-            ;   atom_concat(Label, '_', M),
-                gensym(M, S),
-                assertz(evar(Label, S, D))
-            )
+    {   atom_codes(Lbl, LblCodes),
+        subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
+        atom_codes(Label, LblTidy),
+        (   evar(Label, S, 0)
+        ->  true
+        ;   atom_concat(Label, '_', M),
+            gensym(M, S),
+            assertz(evar(Label, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)

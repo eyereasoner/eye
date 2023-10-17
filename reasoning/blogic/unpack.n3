@@ -7,19 +7,19 @@
 # sample data from RubenD
 [] :data {
     [] :package {
-        [] :content {
+        <<(_:c) log:onNeutralSurface {
             :a :b _:c.
             [] :package {
-                [] :content {
+                <<(_:c) log:onNeutralSurface {
                     :u :v _:c.
                     [] :package {
-                        [] :content {
+                        <<(_:c) log:onNeutralSurface {
                             :x :y _:c.
-                        }; :usable_until :yesterday.
+                        }>> :usable_until :yesterday.
                     }; :tag :invalid.
-                }; :usable_until :tomorrow; :p :o.
+                }>> :usable_until :tomorrow; :p :o.
             }; :tag :valid.
-        }; :usable_until :next_week.
+        }>> :usable_until :next_week.
     }; :tag :valid.
 }.
 
@@ -50,8 +50,7 @@
         _:b :package _:p.
     } :unpack _:f>>.
     _:p log:includes {
-        _:a :content _:c.
-        _:a :usable_until _:t.
+        <<_:a log:onNeutralSurface _:c>> :usable_until _:t.
     }.
     (:tomorrow :next_week) list:member _:t.
     _:c graph:list _:l.
@@ -64,8 +63,7 @@
         _:b :package _:p.
     } :unpack true>>.
     _:p log:includes {
-        _:a :content _:c.
-        _:a :usable_until _:t.
+        <<_:a log:onNeutralSurface _:c>> :usable_until _:t.
     }.
     (:yesterday :last_week) list:member _:t.
 }.
