@@ -7,13 +7,13 @@
 # sample data from RubenD
 [] :data {
     [] :package {
-        <<(_:c) log:onNeutralSurface {
+        <<(_:c) log:onContentSurface {
             :a :b _:c.
             [] :package {
-                <<(_:c) log:onNeutralSurface {
+                <<(_:c) log:onContentSurface {
                     :u :v _:c.
                     [] :package {
-                        <<(_:c) log:onNeutralSurface {
+                        <<(_:c) log:onContentSurface {
                             :x :y _:c.
                         }>> :usable_until :yesterday.
                     }; :tag :invalid.
@@ -50,7 +50,7 @@
         _:b :package _:p.
     } :unpack _:f>>.
     _:p log:includes {
-        <<_:a log:onNeutralSurface _:c>> :usable_until _:t.
+        <<_:a log:onContentSurface _:c>> :usable_until _:t.
     }.
     (:tomorrow :next_week) list:member _:t.
     _:c graph:list _:l.
@@ -63,7 +63,7 @@
         _:b :package _:p.
     } :unpack true>>.
     _:p log:includes {
-        <<_:a log:onNeutralSurface _:c>> :usable_until _:t.
+        <<_:a log:onContentSurface _:c>> :usable_until _:t.
     }.
     (:yesterday :last_week) list:member _:t.
 }.
