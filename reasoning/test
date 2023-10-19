@@ -18,10 +18,10 @@ do
     pushd "${dir}" > /dev/null
     ./test --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01
     if [[ $(git status -s . | wc -l) -ne 0 ]]; then
-        echo -e "${RED}FAILED${NORMAL}"
+        echo -e "${RED}${dir} FAILED${NORMAL}"
         ((FAILED++))
     else
-        echo -e "${GREEN}OK${NORMAL}"
+        echo -e "${GREEN}${dir} OK${NORMAL}"
         ((OK++))
     fi
     popd  > /dev/null

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.2.0 (2023-10-19)').
+version_info('EYE v5.2.1 (2023-10-19)').
 
 license_info('MIT License
 
@@ -417,7 +417,8 @@ gre(Argus) :-
     ),
     args(Args),
     (   flag(blogic)
-    ->  blogic
+    ->  retractall(flag('pass-only-new')),
+        blogic
     ;   true
     ),
     (   implies(_, Conc, _),
