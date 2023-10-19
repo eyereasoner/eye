@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.2.1 (2023-10-19)').
+version_info('EYE v5.2.2 (2023-10-19)').
 
 license_info('MIT License
 
@@ -2002,12 +2002,6 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr(triple(A, B, C), triple(D, E, F)) :-
-    G =.. [B, A, C],
-    \+sub_atom(B, 0, _, _, '_e_'),
-    !,
-    tr_tr(G, H),
-    H =.. [E, D, F].
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
