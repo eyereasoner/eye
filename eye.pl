@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.2.3 (2023-10-20)').
+version_info('EYE v6.0.0 (2023-10-20)').
 
 license_info('MIT License
 
@@ -2720,8 +2720,7 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Lbl)],
-    {   (   flag(blogic),
-            \+sub_atom(Lbl, 0, 1, _, '_')
+    {   (   \+sub_atom(Lbl, 0, 1, _, '_')
         ->  atom_codes(Lbl, LblCodes),
             subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
             atom_codes(Label, LblTidy),
