@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v5.2.2 (2023-10-19)').
+version_info('EYE v5.2.3 (2023-10-20)').
 
 license_info('MIT License
 
@@ -963,8 +963,6 @@ opts([], []) :-
 % DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
-    retractall(flag(blogic)),
-    assertz(flag(blogic)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -2002,6 +2000,12 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
+tr_tr(triple(A, B, C), triple(D, E, F)) :-
+    G =.. [B, A, C],
+    \+sub_atom(B, 0, _, _, '_e_'),
+    !,
+    tr_tr(G, H),
+    H =.. [E, D, F].
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
@@ -2552,13 +2556,7 @@ prefix(Prefix) -->
 
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb),
-        (   atomic(Verb),
-            regex('^\'<.*#on.*Surface>\'$', Verb, _),
-            \+flag(blogic)
-        ->  assertz(flag(blogic))
-        ;   true
-        )
+    {   prolog_verb(Item, Verb)
     },
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
@@ -2722,7 +2720,8 @@ symbol(Name) -->
     }.
 symbol(Name) -->
     [bnode(Lbl)],
-    {   (   flag(blogic)
+    {   (   flag(blogic),
+            \+sub_atom(Lbl, 0, 1, _, '_')
         ->  atom_codes(Lbl, LblCodes),
             subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
             atom_codes(Label, LblTidy),
@@ -3027,14 +3026,20 @@ token(C0, In, C, Token) :-
     !,
     (   C1 == 0':
     ->  get_code(In, C2),
-        (   local_name(C2, In, C, Name2)
+        (   local_name(C2, In, C, Name2),
+            (   sub_atom(Name2, _, 7, 0, 'Surface'),
+                \+flag(blogic)
+            ->  assertz(flag(blogic))
+            ;   true
+            )
         ->  Token = (Name:Name2)
         ;   Token = (Name:''),
             C = C2
         )
     ;   Token = name(Name),
         C = C1
-    ).
+    )
+    .
 token(C0, In, C, P) :-
     punctuation(C0, P),
     !,
