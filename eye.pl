@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.0.1 (2023-10-21)').
+version_info('EYE v6.0.2 (2023-10-21)').
 
 license_info('MIT License
 
@@ -1992,6 +1992,7 @@ tr_tr(A, B) :-
     (   atom_concat('_', C, A),
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
+        ;   sub_atom(C, 0, _, _, '_e_')
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
@@ -2729,7 +2730,8 @@ symbol(Name) -->
             ;   atom_concat(Label, '_', M),
                 gensym(M, S),
                 assertz(evar(Label, S, 0))
-            )
+            ),
+            E = 'e_'
         ;   nb_getval(fdepth, D),
             (   D =:= 0
             ->  Label = Lbl
@@ -2742,7 +2744,8 @@ symbol(Name) -->
             ;   atomic_list_concat([D, Label, '_'], M),
                 gensym(M, S),
                 assertz(evar(Label, S, D))
-            )
+            ),
+            E = '_e_'
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -2751,9 +2754,9 @@ symbol(Name) -->
         ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
-            ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
+            ;   atomic_list_concat(['\'<', Sns, E, S, '>\''], Name)
             )
-        ;   atom_concat('_e_', S, Name)
+        ;   atomic_list_concat(['_', E, S], Name)
         )
     }.
 
@@ -4181,8 +4184,9 @@ wt0(X) :-
                 )
             ;   memberchk(Y, L)
             )
-        ->  (   (   sub_atom(Y, 0, 2, _, 'e_')
-                ;   sub_atom(Y, 0, 3, _, 'bn_')
+        ->  (   (   sub_atom(Y, 0, 2, _, 'bn_')
+                ;   sub_atom(Y, 0, 2, _, 'e_')
+                ;   sub_atom(Y, 0, 3, _, '_e_')
                 )
             ->  write('_:')
             ;   sub_atom(Y, 0, 2, _, Z),
