@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.0.0 (2023-10-20)').
+version_info('EYE v6.0.1 (2023-10-21)').
 
 license_info('MIT License
 
@@ -2739,7 +2739,7 @@ symbol(Name) -->
             ),
             (   evar(Label, S, D)
             ->  true
-            ;   atom_concat(Label, '_', M),
+            ;   atomic_list_concat([D, Label, '_'], M),
                 gensym(M, S),
                 assertz(evar(Label, S, D))
             )
