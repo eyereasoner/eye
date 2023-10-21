@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.0.2 (2023-10-21)').
+version_info('EYE v6.0.3 (2023-10-21)').
 
 license_info('MIT License
 
@@ -2341,17 +2341,14 @@ pathitem(Name, []) -->
             )
         )
     }.
-pathitem(VarID, []) -->
+pathitem(UVar, []) -->
     [uvar(Var)],
     !,
-    {   atom_codes(Var, VarCodes),
-        subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], VarCodes, VarTidy),
-        atom_codes(VarAtom, [0'_|VarTidy]),
+    {   atom_concat('_', Var, VarID),
         (   flag('pass-all-ground')
         ->  nb_getval(var_ns, Sns),
-            atom_codes(VarFrag, VarTidy),
-            atomic_list_concat(['\'<', Sns, VarFrag, '>\''], VarID)
-        ;   VarID = VarAtom
+            atomic_list_concat(['\'<', Sns, Var, '>\''], UVar)
+        ;   UVar = VarID
         )
     }.
 pathitem(Number, []) -->
@@ -2720,12 +2717,9 @@ symbol(Name) -->
         )
     }.
 symbol(Name) -->
-    [bnode(Lbl)],
-    {   (   \+sub_atom(Lbl, 0, 1, _, '_')
-        ->  atom_codes(Lbl, LblCodes),
-            subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-            atom_codes(Label, LblTidy),
-            (   evar(Label, S, 0)
+    [bnode(Label)],
+    {   (   \+sub_atom(Label, 0, 1, _, '_')
+        ->  (   evar(Label, S, 0)
             ->  true
             ;   atom_concat(Label, '_', M),
                 gensym(M, S),
@@ -2733,12 +2727,6 @@ symbol(Name) -->
             ),
             E = 'e_'
         ;   nb_getval(fdepth, D),
-            (   D =:= 0
-            ->  Label = Lbl
-            ;   atom_codes(Lbl, LblCodes),
-                subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-                atom_codes(Label, LblTidy)
-            ),
             (   evar(Label, S, D)
             ->  true
             ;   atomic_list_concat([D, Label, '_'], M),
