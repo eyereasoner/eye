@@ -12,72 +12,72 @@
 :Pat a vcard:Individual.
 
 # if X is an individual then X can do A or B
-(_:X) log:onNegativeSurface {
-    _:X a vcard:Individual.
+(_X) log:onNegativeSurface {
+    _X a vcard:Individual.
     () log:onNegativeSurface {
-        _:X :canDo :A.
+        _X :canDo :A.
     }.
     () log:onNegativeSurface {
-        _:X :canDo :B.
+        _X :canDo :B.
     }.
 }.
 
 # if X is an individual who can do A then X can do E or D
-(_:X) log:onNegativeSurface {
-    #_:X a vcard:Individual.
-    _:X :canDo :A.
+(_X) log:onNegativeSurface {
+    #_X a vcard:Individual.
+    _X :canDo :A.
     () log:onNegativeSurface {
-        _:X :canDo :E.
+        _X :canDo :E.
     }.
     () log:onNegativeSurface {
-        _:X :canDo :D.
+        _X :canDo :D.
     }.
 }.
 
 # if X is an individual who can do D then X can do E or F
-(_:X) log:onNegativeSurface {
-    #_:X a vcard:Individual.
-    _:X :canDo :D.
+(_X) log:onNegativeSurface {
+    #_X a vcard:Individual.
+    _X :canDo :D.
     () log:onNegativeSurface {
-        _:X :canDo :E.
+        _X :canDo :E.
     }.
     () log:onNegativeSurface {
-        _:X :canDo :F.
+        _X :canDo :F.
     }.
 }.
 
 # find model reaching goal
-(_:Goal _:Sequents _:Model) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:Goal :findModel (_:Sequents _:Model _:Model)>>.
-    _:Goal log:callWithCut true.
+(_Goal _Sequents _Model) log:onNegativeSurface {
+    () log:onNegativeSurface <<_Goal :findModel (_Sequents _Model _Model)>>.
+    _Goal log:callWithCut true.
 }.
 
-(_:Goal _:Sequents1 _:Model1 _:Model _:Prem _:Cases _:Case _:Sequents2 _:Model2) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:Goal :findModel (_:Sequents1 _:Model1 _:Model)>>.
-    _:Prem => _:Cases.
-    _:Cases list:member _:Case.
-    _:Prem log:call true.
-    _:Sequents1 list:notMember {_:Prem => _:Cases}.
-    (_:Sequents1 ({_:Prem => _:Cases})) list:append _:Sequents2.
-    (_:Model1 (_:Case)) list:append _:Model2.
-    true log:becomes _:Case.
+(_Goal _Sequents1 _Model1 _Model _Prem _Cases _Case _Sequents2 _Model2) log:onNegativeSurface {
+    () log:onNegativeSurface <<_Goal :findModel (_Sequents1 _Model1 _Model)>>.
+    _Prem => _Cases.
+    _Cases list:member _Case.
+    _Prem log:call true.
+    _Sequents1 list:notMember {_Prem => _Cases}.
+    (_Sequents1 ({_Prem => _Cases})) list:append _Sequents2.
+    (_Model1 (_Case)) list:append _Model2.
+    true log:becomes _Case.
     {
-        _:Goal :findModel (_:Sequents2 _:Model2 _:Model).
+        _Goal :findModel (_Sequents2 _Model2 _Model).
     } log:callWithCleanup {
-        _:Case log:becomes true.
+        _Case log:becomes true.
     }.
 }.
 
 # find model where X is an individual who can do E
-(_:X _:Model) log:onQuestionSurface {
+(_X _Model) log:onQuestionSurface {
     {
-        _:X a vcard:Individual.
-        _:X :canDo :E.
-    } :findModel (() () _:Model).
+        _X a vcard:Individual.
+        _X :canDo :E.
+    } :findModel (() () _Model).
     () log:onAnswerSurface {
         {
-            _:X a vcard:Individual.
-            _:X :canDo :E.
-        } :perModel _:Model.
+            _X a vcard:Individual.
+            _X :canDo :E.
+        } :perModel _Model.
     }.
 }.

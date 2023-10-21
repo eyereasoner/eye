@@ -17,40 +17,40 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-(_:y) log:onNegativeSurface {
-    :xxx :bbb _:y.
+(_y) log:onNegativeSurface {
+    :xxx :bbb _y.
     () log:onNegativeSurface {
-        _:y a :ccc.
+        _y a :ccc.
     }.
 }.
 
 # owl:allValuseFrom description logic
-(_:a _:b _:c) log:onNegativeSurface {
-    _:a owl:onProperty _:b.
-    _:a owl:allValuesFrom _:c.
+(_a _b _c) log:onNegativeSurface {
+    _a owl:onProperty _b.
+    _a owl:allValuesFrom _c.
     () log:onNegativeSurface {
-        (_:x _:y) log:onNegativeSurface {
-            _:x a _:a.
-            _:x _:b _:y.
+        (_x _y) log:onNegativeSurface {
+            _x a _a.
+            _x _b _y.
             () log:onNegativeSurface {
-                _:y a _:c.
+                _y a _c.
             }.
         }.
-        (_:x) log:onNegativeSurface {
-            (_:y) log:onNegativeSurface {
-                _:x _:b _:y.
+        (_x) log:onNegativeSurface {
+            (_y) log:onNegativeSurface {
+                _x _b _y.
                 () log:onNegativeSurface {
-                    _:y a _:c.
+                    _y a _c.
                 }.
             }.
             () log:onNegativeSurface {
-                _:x a _:a.
+                _x a _a.
             }.
         }.
     }.
 }.
 
 # query
-(_:S _:C) log:onQuerySurface {
-    _:S a _:C.
+(_S _C) log:onQuerySurface {
+    _S a _C.
 }.

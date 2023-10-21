@@ -20,23 +20,23 @@
 :angers :oneway :nantes.
 
 # oneway subproperty of path
-(_:A _:B) log:onNegativeSurface {
-    _:A :oneway _:B.
+(_A _B) log:onNegativeSurface {
+    _A :oneway _B.
     () log:onNegativeSurface {
-        _:A :path _:B.
+        _A :path _B.
     }.
 }.
 
 # path transitive property
-(_:A _:B _:C) log:onNegativeSurface {
-    _:A :path _:B.
-    _:B :path _:C.
+(_A _B _C) log:onNegativeSurface {
+    _A :path _B.
+    _B :path _C.
     () log:onNegativeSurface {
-        _:A :path _:C.
+        _A :path _C.
     }.
 }.
 
 # query
-(_:A) log:onQuerySurface {
-    _:A :path :nantes.
+(_A) log:onQuerySurface {
+    _A :path :nantes.
 }.

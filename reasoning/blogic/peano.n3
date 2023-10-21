@@ -8,48 +8,48 @@
 @prefix : <http://example.org/ns#>.
 
 # add
-(_:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_:A 0) :add _:A>>.
+(_A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_A 0) :add _A>>.
 }.
 
-(_:A _:B _:C) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_:A (:s _:B)) :add (:s _:C)>>.
-    (_:A _:B) :add _:C.
+(_A _B _C) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_A (:s _B)) :add (:s _C)>>.
+    (_A _B) :add _C.
 }.
 
 # multiply
-(_:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_:A 0) :multiply 0>>.
+(_A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_A 0) :multiply 0>>.
 }.
 
-(_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_:A (:s _:B)) :multiply _:C>>.
-    (_:A _:B) :multiply _:D.
-    (_:A _:D) :add _:C.
+(_A _B _C _D) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_A (:s _B)) :multiply _C>>.
+    (_A _B) :multiply _D.
+    (_A _D) :add _C.
 }.
 
 # factorial
-(_:A _:B) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:A :factorial _:B>>.
-    (_:A (:s 0)) :fac _:B.
+(_A _B) log:onNegativeSurface {
+    () log:onNegativeSurface <<_A :factorial _B>>.
+    (_A (:s 0)) :fac _B.
 }.
 
-(_:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(0 _:A) :fac _:A>>.
+(_A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(0 _A) :fac _A>>.
 }.
 
-(_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onNegativeSurface <<((:s _:A) _:B) :fac _:C>>.
-    (_:B (:s _:A)) :multiply _:D.
-    (_:A _:D) :fac _:C.
+(_A _B _C _D) log:onNegativeSurface {
+    () log:onNegativeSurface <<((:s _A) _B) :fac _C>>.
+    (_B (:s _A)) :multiply _D.
+    (_A _D) :fac _C.
 }.
 
 # question
-(_:A _:B _:C) log:onQuestionSurface {
-    ((:s 0) (:s (:s 0))) :add _:A.
-    (_:A (:s (:s 0))) :multiply _:B.
-    _:B :factorial _:C.
+(_A _B _C) log:onQuestionSurface {
+    ((:s 0) (:s (:s 0))) :add _A.
+    (_A (:s (:s 0))) :multiply _B.
+    _B :factorial _C.
     () log:onAnswerSurface {
-        :result :is _:C.
+        :result :is _C.
     }.
 }.

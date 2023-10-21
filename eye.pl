@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.0.4 (2023-10-21)').
+version_info('EYE v6.1.0 (2023-10-21)').
 
 license_info('MIT License
 
@@ -2723,23 +2723,17 @@ symbol(Name) -->
     [bnode(Lbl)],
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-        atom_codes(Label, LblTidy),
-        (   \+sub_atom(Label, 0, 1, _, '_')
-        ->  (   evar(Label, S, 0)
-            ->  true
-            ;   atom_concat(Label, '_', M),
-                gensym(M, S),
-                assertz(evar(Label, S, 0))
-            ),
-            E = 'e_'
-        ;   nb_getval(fdepth, D),
-            (   evar(Label, S, D)
-            ->  true
-            ;   atomic_list_concat([D, Label, '_'], M),
-                gensym(M, S),
-                assertz(evar(Label, S, D))
-            ),
-            E = '_e_'
+        atom_codes(Labl, LblTidy),
+        (   atom_concat(':', Label, Labl)
+        ->  nb_getval(fdepth, D)
+        ;   Label = Labl,
+            D = 0
+        ),
+        (   evar(Label, S, D)
+        ->  true
+        ;   atom_concat(Label, '_', M),
+            gensym(M, S),
+            assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -2748,9 +2742,9 @@ symbol(Name) -->
         ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
-            ;   atomic_list_concat(['\'<', Sns, E, S, '>\''], Name)
+            ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
             )
-        ;   atomic_list_concat(['_', E, S], Name)
+        ;   atom_concat('_e_', S, Name)
         )
     }.
 
@@ -2950,14 +2944,13 @@ token(0'?, In, C, uvar(Name)) :-
         throw(empty_quickvar_name(line(Ln)))
     ).
 token(0'_, In, C, bnode(Name)) :-
-    peek_code(In, 0':),
     !,
-    get_code(In, _),
     get_code(In, C0),
     (   name(C0, In, C, Name)
     ->  true
     ;   C = C0,
-        Name = ''
+        nb_getval(line_number, Ln),
+        throw(empty_bnode_name(line(Ln)))
     ).
 token(0'<, In, C, lt_lt) :-
     peek_code(In, 0'<),
@@ -3448,6 +3441,7 @@ name_start_char(C) :-
     pn_chars_base(C),
     !.
 name_start_char(0'_).
+name_start_char(0':).
 name_start_char(C) :-
     code_type(C, digit).
 

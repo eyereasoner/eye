@@ -1,12 +1,12 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-(_:S1 _:S2) log:onNegativeSurface {
+(_S1 _S2) log:onNegativeSurface {
 
-    _:S1 log:equalTo {
-        (_:X _:Y) log:onNeutralSurface {
-            :s1 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _:X.
-            :s2 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _:Y.
+    _S1 log:equalTo {
+        (_X _Y) log:onNeutralSurface {
+            :s1 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _X.
+            :s2 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _Y.
             :s3 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s4 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s5 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
@@ -18,8 +18,8 @@
         } .
     } .
 
-    _:S2 log:equalTo {
-        (_:Y _:X) log:onNeutralSurface {
+    _S2 log:equalTo {
+        (_Y _X) log:onNeutralSurface {
             :s6 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s7 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s3 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
@@ -28,12 +28,12 @@
             :s8 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s9 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
             :s10 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, :o10.
-            :s1 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _:Y.
-            :s2 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _:X.
+            :s1 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _Y.
+            :s2 :p :o1, :o2, :o3, :o4, :o5, :o6, :o7, :o8, :o9, _X.
         } .
     } .
 
-    _:S1 log:isomorphic _:S2 .
+    _S1 log:isomorphic _S2 .
 
     () log:onNegativeSurface {
         :test :is true .

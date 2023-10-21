@@ -8,13 +8,13 @@
 [] :data {
     [] :package {
         [] :content {
-            :a :b _:_c.
+            :a :b _:c.
             [] :package {
                 [] :content {
-                    :u :v _:_c.
+                    :u :v _:c.
                     [] :package {
                         [] :content {
-                            :x :y _:_c.
+                            :x :y _:c.
                         }; :usable_until :yesterday.
                     }; :tag :invalid.
                 }; :usable_until :tomorrow; :p :o.
@@ -24,12 +24,12 @@
 }.
 
 # unpack the triples that are usable in the future
-(_:b _:g _:l _:m _:h) log:onNegativeSurface {
-    _:b :data _:g.
-    _:g graph:list _:l.
-    _:l :unpack _:m.
-    _:m graph:union _:h.
-    () log:onAnswerSurface _:h.
+(_b _g _l _m _h) log:onNegativeSurface {
+    _b :data _g.
+    _g graph:list _l.
+    _l :unpack _m.
+    _m graph:union _h.
+    () log:onAnswerSurface _h.
 }.
 
 # the logic for unpack using backward rules
@@ -37,51 +37,51 @@
     () log:onNegativeSurface <<() :unpack ()>>.
 }.
 
-(_:g _:h _:f _:r _:a _:b) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:g :unpack _:h>>.
-    _:g list:firstRest (_:f _:r).
-    _:h list:firstRest (_:a _:b).
-    _:f :unpack _:a.
-    _:r :unpack _:b.
+(_g _h _f _r _a _b) log:onNegativeSurface {
+    () log:onNegativeSurface <<_g :unpack _h>>.
+    _g list:firstRest (_f _r).
+    _h list:firstRest (_a _b).
+    _f :unpack _a.
+    _r :unpack _b.
 }.
 
-(_:b _:p _:f _:a _:c _:t _:l _:m) log:onNegativeSurface {
+(_b _p _f _a _c _t _l _m) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        _:b :package _:p.
-    } :unpack _:f>>.
-    _:p log:includes {
-        _:a :content _:c; :usable_until _:t.
+        _b :package _p.
+    } :unpack _f>>.
+    _p log:includes {
+        _a :content _c; :usable_until _t.
     }.
-    (:tomorrow :next_week) list:member _:t.
-    _:c graph:list _:l.
-    _:l :unpack _:m.
-    _:m graph:union _:f.
+    (:tomorrow :next_week) list:member _t.
+    _c graph:list _l.
+    _l :unpack _m.
+    _m graph:union _f.
 }.
 
-(_:b _:p _:a _:c _:t _:l _:m) log:onNegativeSurface {
+(_b _p _a _c _t _l _m) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        _:b :package _:p.
+        _b :package _p.
     } :unpack true>>.
-    _:p log:includes {
-        _:a :content _:c; :usable_until _:t.
+    _p log:includes {
+        _a :content _c; :usable_until _t.
     }.
-    (:yesterday :last_week) list:member _:t.
+    (:yesterday :last_week) list:member _t.
 }.
 
-(_:b _:p) log:onNegativeSurface {
+(_b _p) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        _:b :tag _:p.
+        _b :tag _p.
     } :unpack true>>.
 }.
 
-(_:g _:r _:a _:p _:b _:q) log:onNegativeSurface {
-    () log:onNegativeSurface <<_:g :unpack _:g>>.
-    _:g log:rawType _:r.
-    _:r log:notEqualTo rdf:List.
-    _:g log:notIncludes {
-        _:a :package _:p.
+(_g _r _a _p _b _q) log:onNegativeSurface {
+    () log:onNegativeSurface <<_g :unpack _g>>.
+    _g log:rawType _r.
+    _r log:notEqualTo rdf:List.
+    _g log:notIncludes {
+        _a :package _p.
     }.
-    _:g log:notIncludes {
-        _:b :tag _:q.
+    _g log:notIncludes {
+        _b :tag _q.
     }.
 }.

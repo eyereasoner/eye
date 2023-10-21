@@ -9,21 +9,21 @@ ex:pers002 ex:familyName "Cardinale".
 ex:pers002 ex:givenName "Claudia".
 
 # patch surface
-(_:rename _:where _:inserts _:deletes) log:onNegativeSurface {
+(_rename _where _inserts _deletes) log:onNegativeSurface {
     <../n3patch/patch.n3> log:semantics {
-        _:rename a solid:InsertDeletePatch;
-            solid:where _:where;
-            solid:inserts _:inserts;
-            solid:deletes _:deletes.
+        _rename a solid:InsertDeletePatch;
+            solid:where _where;
+            solid:inserts _inserts;
+            solid:deletes _deletes.
     }.
-    _:where log:callWithCleanup true.
-    _:deletes log:becomes _:inserts.
+    _where log:callWithCleanup true.
+    _deletes log:becomes _inserts.
     () log:onNegativeSurface {
     }.
 }.
 
 # query
-(_:Person _:familyName _:givenName) log:onQuerySurface {
-    _:Person ex:familyName _:familyName;
-        ex:givenName _:givenName.
+(_Person _familyName _givenName) log:onQuerySurface {
+    _Person ex:familyName _familyName;
+        ex:givenName _givenName.
 }.

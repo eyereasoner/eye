@@ -12,30 +12,30 @@
 
 # Some x is a good cobbler
 # (:good :Cobbler) stands for the functional term good(Cobbler)
-_:x a (:good :Cobbler).
+_x a (:good :Cobbler).
 
 (:good :Cobbler) rdfs:subClassOf :Cobbler.
 
 # rdfs:subClassOf entailment
-(_:C _:D _:X) log:onNegativeSurface {
-    _:C rdfs:subClassOf _:D.
-    _:X a _:C.
+(_C _D _X) log:onNegativeSurface {
+    _C rdfs:subClassOf _D.
+    _X a _C.
     () log:onNegativeSurface {
-        _:X a _:D.
+        _X a _D.
     }.
 }.
 # invalid inference "x is good. x is a cobbler. therefore, x is a good cobbler".
 # uncommenting the following 2 triples will blow a inference fuse
-#_:x a :good.
-#_:x a :Cobbler.
+#_x a :good.
+#_x a :Cobbler.
 
 # maybe this is too strong in general
-(_:a _:b _:c) log:onNegativeSurface {
-    _:a a _:b.
-    _:a a _:c.
+(_a _b _c) log:onNegativeSurface {
+    _a a _b.
+    _a a _c.
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            _:a a (_:b _:c).
+            _a a (_b _c).
         }.
     }.
 }.
@@ -48,6 +48,6 @@ _:x a (:good :Cobbler).
 (:decoy :duck) rdfs:subClassOf :decoy.
 
 # query
-(_:S _:C) log:onQuerySurface {
-    _:S a _:C.
+(_S _C) log:onQuerySurface {
+    _S a _C.
 }.
