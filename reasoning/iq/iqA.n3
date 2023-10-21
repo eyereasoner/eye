@@ -1,5 +1,6 @@
 @prefix : <http://example.org/test#>.
 
+_:sk_0 :loves _:e_y_1.
 _:_e_0_x_1 :says {
     _:_e_1_x_2 :knows :Albert.
 }.
@@ -8,7 +9,7 @@ _:_e_0_x_1 :says {
     :s :ppp :ooo.
 }.
 {
-    ?U_0 :knows :Albert.
+    ?U_1 :knows :Albert.
 } => {
     <http://eyereasoner.github.io/var#x_0> :knows :Kurt.
 }.
@@ -19,38 +20,38 @@ _:_e_0_x_1 :says {
 }.
 {
     {
-        ?U_3 :p :a.
+        ?U_5 :p :a.
     } => {
-        ?U_3 :q :b.
+        ?U_5 :q :b.
     }.
 } => {
     {
-        ?U_3 :r :c.
+        ?U_5 :r :c.
     } => {
-        ?U_3 :s :d.
-    }.
-}.
-{
-    ?U_1 :p :o.
-} => {
-    ?U_1 :pp {
-        ?U_1 :ppp :ooo.
+        ?U_5 :s :d.
     }.
 }.
 {
     ?U_2 :p :o.
 } => {
+    ?U_2 :pp {
+        ?U_2 :ppp :ooo.
+    }.
+}.
+{
+    ?U_3 :p :o.
+} => {
     {
         {
-            ?U_2 :p2 ?U_4.
+            ?U_3 :p2 ?U_6.
         } => {
-            ?U_2 :p3 ?U_4.
+            ?U_3 :p3 ?U_6.
         }.
     } => {
         {
-            ?U_2 :p4 ?U_4.
+            ?U_3 :p4 ?U_6.
         } => {
-            ?U_2 :p5 ?U_4.
+            ?U_3 :p5 ?U_6.
         }.
     }.
 }.
@@ -61,14 +62,17 @@ _:_e_0_x_1 :says {
 }.
 {
     {
-        :s :p2 ?U_5.
+        :s :p2 ?U_7.
     } => {
-        :s :p3 ?U_5.
+        :s :p3 ?U_7.
     }.
 } => {
     {
-        :s :p4 ?U_5.
+        :s :p4 ?U_7.
     } => {
-        :s :p5 ?U_5.
+        :s :p5 ?U_7.
     }.
 }.
+{
+    ?U_4 :loves _:e_y_1.
+} <= true.
