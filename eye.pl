@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.1.0 (2023-10-21)').
+version_info('EYE v6.1.1 (2023-10-22)').
 
 license_info('MIT License
 
@@ -1992,7 +1992,7 @@ tr_tr(A, B) :-
     (   atom_concat('_', C, A),
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
-        ;   sub_atom(C, 0, _, _, '_e_')
+        ;   sub_atom(C, 0, _, _, 'g_')
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
@@ -2004,6 +2004,7 @@ tr_tr(A, A) :-
 tr_tr(triple(A, B, C), triple(D, E, F)) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
+    \+sub_atom(B, 0, _, _, '_g_'),
     !,
     tr_tr(G, H),
     H =.. [E, D, F].
@@ -2725,9 +2726,11 @@ symbol(Name) -->
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Labl, LblTidy),
         (   atom_concat(':', Label, Labl)
-        ->  nb_getval(fdepth, D)
+        ->  nb_getval(fdepth, D),
+            E = 'e_'
         ;   Label = Labl,
-            D = 0
+            D = 0,
+            E = 'g_'
         ),
         (   evar(Label, S, D)
         ->  true
@@ -2742,9 +2745,9 @@ symbol(Name) -->
         ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
-            ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
+            ;   atomic_list_concat(['\'<', Sns, E, S, '>\''], Name)
             )
-        ;   atom_concat('_e_', S, Name)
+        ;   atomic_list_concat(['_', E, S], Name)
         )
     }.
 
@@ -4172,21 +4175,26 @@ wt0(X) :-
                 )
             ;   memberchk(Y, L)
             )
-        ->  (   (   sub_atom(Y, 0, 2, _, 'bn_')
+        ->  (   (   sub_atom(Y, 0, 3, _, 'bn_')
                 ;   sub_atom(Y, 0, 2, _, 'e_')
-                ;   sub_atom(Y, 0, 3, _, '_e_')
                 )
             ->  write('_:')
-            ;   sub_atom(Y, 0, 2, _, Z),
-                memberchk(Z, ['x_', 't_']),
-                write('?')
+            ;   (   sub_atom(Y, 0, 2, _, 'g_')
+                ->  write('_')
+                ;   sub_atom(Y, 0, 2, _, Z),
+                    memberchk(Z, ['x_', 't_']),
+                    write('?')
+                )
             )
         ;   (   \+flag('no-qvars')
             ->  true
             ;   flag('quantify', Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
-            write('_:')
+            (   sub_atom(Y, 0, 2, _, 'g_')
+            ->  write('_')
+            ;   write('_:')
+            )
         ),
         write(Y),
         (   sub_atom(Y, 0, 2, _, 'x_')
@@ -11988,6 +11996,7 @@ findvar(A, beta) :-
     !,
     (   sub_atom(A, 0, _, _, '_bn_')
     ;   sub_atom(A, 0, _, _, '_e_')
+    ;   sub_atom(A, 0, _, _, '_g_')
     ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   sub_atom(A, 0, _, _, some)
     ;   sub_atom(A, 0, _, _, '_:')
@@ -12001,12 +12010,14 @@ findvar(A, epsilon) :-
     !,
     sub_atom(A, 0, 1, _, '_'),
     \+ sub_atom(A, 0, _, _, '_bn_'),
-    \+ sub_atom(A, 0, _, _, '_e_').
+    \+ sub_atom(A, 0, _, _, '_e_'),
+    \+ sub_atom(A, 0, _, _, '_g_').
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
         sub_atom(A, _, 4, _, '#bn_'),
-        sub_atom(A, _, 4, _, '#e_')
+        sub_atom(A, _, 4, _, '#e_'),
+        sub_atom(A, _, 4, _, '#g_')
     ;   sub_atom(A, 0, _, _, some)
     ).
 findvar(A, eta) :-
