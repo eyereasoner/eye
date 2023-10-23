@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.1.1 (2023-10-22)').
+version_info('EYE v6.1.2 (2023-10-23)').
 
 license_info('MIT License
 
@@ -417,8 +417,7 @@ gre(Argus) :-
     ),
     args(Args),
     (   flag(blogic)
-    ->  retractall(flag('pass-only-new')),
-        blogic
+    ->  blogic
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -4119,6 +4118,11 @@ wt0(X) :-
     ).
 wt0(X) :-
     atom(X),
+    atom_concat('_', _, X),
+    !,
+    write(X).
+wt0(X) :-
+    atom(X),
     atom_concat(some, Y, X),
     !,
     (   \+flag('no-qvars')
@@ -4528,6 +4532,14 @@ wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     ;   true
     ),
     !.
+wt2('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y)) :-
+    !,
+    makegraffiti('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, V)),
+    wg(U),
+    write(' '),
+    wp('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'),
+    write(' '),
+    wg(V).
 wt2(':-'(X, Y)) :-
     (   rule_uvar(R)
     ->  true
@@ -4587,7 +4599,7 @@ wt2(X) :-
         \+sub_atom(P, 0, 4, _, avar),
         \+sub_atom(P, 0, 4, _, allv),
         \+sub_atom(P, 0, 4, _, some),
-        \+sub_atom(P, 0, 2, _, '_:'),
+        \+sub_atom(P, 0, 1, _, '_'),
         P \= true,
         P \= false
     ->  write('"'),
@@ -5184,6 +5196,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
+                \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
+                    '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
                 \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
@@ -5222,6 +5236,8 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
+                    \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
+                        '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
                     \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
@@ -11888,6 +11904,33 @@ makeblank(A, B) :-
             ;   (   sub_atom(F, 0, 2, _, '_:')
                 ->  E = F
                 ;   atom_concat('_:', F, E)
+                )
+            )
+        ),
+        J
+    ),
+    makevar(A, B, J).
+
+makegraffiti(A, B) :-
+    findvars(A, C, beta),
+    distinct(C, D),
+    findall([F, E],
+        (   member(F, D),
+            (   sub_atom(F, _, 19, _, '/.well-known/genid/'),
+                sub_atom(F, _, 1, G, '#')
+            ->  H is G-1,
+                sub_atom(F, _, H, 1, I),
+                (   sub_atom(F, _, 3, _, '#t_')
+                ->  E = F
+                ;   atom_concat('_', I, E)
+                )
+            ;   (   atom_concat('some', K, F)
+                ->  atom_concat('sk_', K, M)
+                ;   M = F
+                ),
+                (   sub_atom(M, 0, 1, _, '_')
+                ->  E = M
+                ;   atom_concat('_', M, E)
                 )
             )
         ),
