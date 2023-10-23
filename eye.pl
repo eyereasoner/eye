@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.1.2 (2023-10-23)').
+version_info('EYE v6.1.3 (2023-10-23)').
 
 license_info('MIT License
 
@@ -509,17 +509,16 @@ gre(Argus) :-
     nb_setval(answer_count, 0),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
-        profiler(_, cputime)
-    ;   true
-    ),
-    catch(eam(0), Exc3,
-        (   (   Exc3 = halt(0)
-            ->  true
-            ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                flush_output(user_error),
-                (   Exc3 = inference_fuse(_)
-                ->  nb_setval(exit_code, 2)
-                ;   nb_setval(exit_code, 3)
+        profile(eam(0))
+    ;   catch(eam(0), Exc3,
+            (   (   Exc3 = halt(0)
+                ->  true
+                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                    flush_output(user_error),
+                    (   Exc3 = inference_fuse(_)
+                    ->  nb_setval(exit_code, 2)
+                    ;   nb_setval(exit_code, 3)
+                    )
                 )
             )
         )
@@ -541,18 +540,6 @@ gre(Argus) :-
         ;   true
         ),
         w2
-    ;   true
-    ),
-    (   flag(profile)
-    ->  profiler(_, false),
-        tell(user_error),
-        show_profile([]),
-        nl,
-        told,
-        (   flag('output', Output)
-        ->  tell(Output)
-        ;   true
-        )
     ;   true
     ),
     (   flag(strings)
