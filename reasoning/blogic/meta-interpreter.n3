@@ -12,36 +12,36 @@
     () log:onNegativeSurface <<() :mi ()>> .
 } .
 
-(_A _G _Gs _Goals) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :mi _A>> .
-    _A list:firstRest (_G _Gs) .
-    () :headBody (_G _Goals _Gs) .
-    () :mi _Goals .
+(?A ?G ?Gs ?Goals) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :mi ?A>> .
+    ?A list:firstRest (?G ?Gs) .
+    () :headBody (?G ?Goals ?Gs) .
+    () :mi ?Goals .
 } .
 
-(_Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :mi ()} _Rs _Rs)>> .
+(?Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi ()} ?Rs ?Rs)>> .
 } .
 
-(_A _B _Rs _G _Gs _Goals _C) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :mi _A} _B _Rs)>> .
-    _A list:firstRest (_G _Gs) .
-    _B list:firstRest ({() :headBody (_G _Goals _Gs)} _C) .
-    _C list:firstRest ({() :mi _Goals} _Rs) .
+(?A ?B ?Rs ?G ?Gs ?Goals ?C) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi ?A} ?B ?Rs)>> .
+    ?A list:firstRest (?G ?Gs) .
+    ?B list:firstRest ({() :headBody (?G ?Goals ?Gs)} ?C) .
+    ?C list:firstRest ({() :mi ?Goals} ?Rs) .
 } .
 
-(_Head _Goals0 _Goals _Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :headBody (_Head _Goals0 _Goals)} _Rs _Rs)>> .
-    () :headBody (_Head _Goals0 _Goals) .
+(?Head ?Goals0 ?Goals ?Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :headBody (?Head ?Goals0 ?Goals)} ?Rs ?Rs)>> .
+    () :headBody (?Head ?Goals0 ?Goals) .
 } .
 
-(_Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :natnum (0)} _Rs _Rs)>> .
+(?Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (0)} ?Rs ?Rs)>> .
 } .
 
-(_X _A _Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :natnum (:s _X)} _A _Rs)>> .
-    _A list:firstRest ({() :natnum _X} _Rs) .
+(?X ?A ?Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (:s ?X)} ?A ?Rs)>> .
+    ?A list:firstRest ({() :natnum ?X} ?Rs) .
 } .
 
 # question

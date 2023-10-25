@@ -6,27 +6,27 @@
 :Man rdfs:subClassOf :Human.
 :Human rdfs:subClassOf :Mortal.
 
-(_A _B _S) log:onNegativeSurface {
-    _A rdfs:subClassOf _B.
-    _S a _A.
+(?A ?B ?S) log:onNegativeSurface {
+    ?A rdfs:subClassOf ?B.
+    ?S a ?A.
     () log:onNegativeSurface {
-        _S a _B {| log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>; log:codex :codex1 |}.
+        ?S a ?B {| log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>; log:codex :codex1 |}.
         () log:onNeutralSurface {
-            _S a :BuddhistLikePerson {| :says <https://josd.github.io/card.ttl#me> |}.
+            ?S a :BuddhistLikePerson {| :says <https://josd.github.io/card.ttl#me> |}.
         } {| log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>; log:codex :codex1 |}.
     }.
 } {| log:name :codex1 |}.
 
 # query
-(_S _C) log:onQuerySurface {
-    _S a _C.
+(?S ?C) log:onQuerySurface {
+    ?S a ?C.
 }.
 
-(_B _N) log:onQuerySurface {
-    _B log:onNeutralSurface _N.
+(?B ?N) log:onQuerySurface {
+    ?B log:onNeutralSurface ?N.
 }.
 
-(_B _S _N) log:onQuerySurface {
-    _B log:source _S;
-        log:codex _N.
+(?B ?S ?N) log:onQuerySurface {
+    ?B log:source ?S;
+        log:codex ?N.
 }.

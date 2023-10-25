@@ -5,33 +5,33 @@
 :bob a :Person.
 
 # saying A or saying B
-(_S) log:onNegativeSurface {
-    _S a :Person.
+(?S) log:onNegativeSurface {
+    ?S a :Person.
     () log:onNegativeSurface {
-        _S :saying :A.
+        ?S :saying :A.
     }.
     () log:onNegativeSurface {
-        _S :saying :B.
+        ?S :saying :B.
     }.
 }.
 
 # saying A means saying C
-(_S) log:onNegativeSurface {
-    _S :saying :A.
+(?S) log:onNegativeSurface {
+    ?S :saying :A.
     () log:onNegativeSurface {
-        _S :saying :C.
+        ?S :saying :C.
     }.
 }.
 
 # saying B means saying C
-(_S) log:onNegativeSurface {
-    _S :saying :B.
+(?S) log:onNegativeSurface {
+    ?S :saying :B.
     () log:onNegativeSurface {
-        _S :saying :C.
+        ?S :saying :C.
     }.
 }.
 
 # query
-(_S _O) log:onQuerySurface {
-    _S :saying _O.
+(?S ?O) log:onQuerySurface {
+    ?S :saying ?O.
 }.

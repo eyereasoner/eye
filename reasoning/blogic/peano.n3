@@ -8,48 +8,48 @@
 @prefix : <http://example.org/ns#>.
 
 # add
-(_A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_A 0) :add _A>>.
+(?A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(?A 0) :add ?A>>.
 }.
 
-(_A _B _C) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_A (:s _B)) :add (:s _C)>>.
-    (_A _B) :add _C.
+(?A ?B ?C) log:onNegativeSurface {
+    () log:onNegativeSurface <<(?A (:s ?B)) :add (:s ?C)>>.
+    (?A ?B) :add ?C.
 }.
 
 # multiply
-(_A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_A 0) :multiply 0>>.
+(?A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(?A 0) :multiply 0>>.
 }.
 
-(_A _B _C _D) log:onNegativeSurface {
-    () log:onNegativeSurface <<(_A (:s _B)) :multiply _C>>.
-    (_A _B) :multiply _D.
-    (_A _D) :add _C.
+(?A ?B ?C ?D) log:onNegativeSurface {
+    () log:onNegativeSurface <<(?A (:s ?B)) :multiply ?C>>.
+    (?A ?B) :multiply ?D.
+    (?A ?D) :add ?C.
 }.
 
 # factorial
-(_A _B) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A :factorial _B>>.
-    (_A (:s 0)) :fac _B.
+(?A ?B) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A :factorial ?B>>.
+    (?A (:s 0)) :fac ?B.
 }.
 
-(_A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(0 _A) :fac _A>>.
+(?A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(0 ?A) :fac ?A>>.
 }.
 
-(_A _B _C _D) log:onNegativeSurface {
-    () log:onNegativeSurface <<((:s _A) _B) :fac _C>>.
-    (_B (:s _A)) :multiply _D.
-    (_A _D) :fac _C.
+(?A ?B ?C ?D) log:onNegativeSurface {
+    () log:onNegativeSurface <<((:s ?A) ?B) :fac ?C>>.
+    (?B (:s ?A)) :multiply ?D.
+    (?A ?D) :fac ?C.
 }.
 
 # question
-(_A _B _C) log:onQuestionSurface {
-    ((:s 0) (:s (:s 0))) :add _A.
-    (_A (:s (:s 0))) :multiply _B.
-    _B :factorial _C.
+(?A ?B ?C) log:onQuestionSurface {
+    ((:s 0) (:s (:s 0))) :add ?A.
+    (?A (:s (:s 0))) :multiply ?B.
+    ?B :factorial ?C.
     () log:onAnswerSurface {
-        :result :is _C.
+        :result :is ?C.
     }.
 }.

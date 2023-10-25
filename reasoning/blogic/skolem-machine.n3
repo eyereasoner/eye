@@ -34,97 +34,97 @@
 
 # UNIVERSAL INTERPRETATION OF REGISTER INSTRUCTIONS
 # :jpz
-(_PC _R2 _PA _PB) log:onNegativeSurface {
-    _PC :state (0 _R2).
-    _PC :instruction (:jpz 1 _PA _PB).
+(?PC ?R2 ?PA ?PB) log:onNegativeSurface {
+    ?PC :state (0 ?R2).
+    ?PC :instruction (:jpz 1 ?PA ?PB).
     () log:onNegativeSurface {
-        _PA :state (0 _R2).
+        ?PA :state (0 ?R2).
     }.
 }.
 
-(_PC _R1 _R2 _X _PA _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _X :inc _R1.
-    _PC :instruction (:jpz 1 _PA _PB).
+(?PC ?R1 ?R2 ?X ?PA ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?X :inc ?R1.
+    ?PC :instruction (:jpz 1 ?PA ?PB).
     () log:onNegativeSurface {
-        _PB :state (_R1 _R2).
+        ?PB :state (?R1 ?R2).
     }.
 }.
 
-(_PC _R1 _PA _PB) log:onNegativeSurface {
-    _PC :state (_R1 0).
-    _PC :instruction (:jpz 2 _PA _PB).
+(?PC ?R1 ?PA ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 0).
+    ?PC :instruction (:jpz 2 ?PA ?PB).
     () log:onNegativeSurface {
-        _PA :state (_R1 0).
+        ?PA :state (?R1 0).
     }.
 }.
 
-(_PC _R1 _R2 _X _PA _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _X :inc _R2.
-    _PC :instruction (:jpz 2 _PA _PB).
+(?PC ?R1 ?R2 ?X ?PA ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?X :inc ?R2.
+    ?PC :instruction (:jpz 2 ?PA ?PB).
     () log:onNegativeSurface {
-        _PB :state (_R1 _R2).
+        ?PB :state (?R1 ?R2).
     }.
 }.
 
 # :dec
-(_PC _R1 _R2 _D _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:dec 1 _PB :x).
-    _D :inc _R1.
+(?PC ?R1 ?R2 ?D ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:dec 1 ?PB :x).
+    ?D :inc ?R1.
     () log:onNegativeSurface {
-        _PB :state (_D _R2).
+        ?PB :state (?D ?R2).
     }.
 }.
 
-(_PC _R1 _R2 _D _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:dec 2 _PB :x).
-    _D :inc _R2.
+(?PC ?R1 ?R2 ?D ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:dec 2 ?PB :x).
+    ?D :inc ?R2.
     () log:onNegativeSurface {
-        _PB :state (_R1 _D).
+        ?PB :state (?R1 ?D).
     }.
 }.
 
 # inc
-(_PC _R1 _R2 _I _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:inc 1 _PB :x).
-    _R1 :inc _I.
+(?PC ?R1 ?R2 ?I ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:inc 1 ?PB :x).
+    ?R1 :inc ?I.
     () log:onNegativeSurface {
-        _PB :state (_I _R2).
+        ?PB :state (?I ?R2).
     }.
 }.
 
-(_PC _R1 _R2 _I _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:inc 2 _PB :x).
-    _R2 :inc _I.
+(?PC ?R1 ?R2 ?I ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:inc 2 ?PB :x).
+    ?R2 :inc ?I.
     () log:onNegativeSurface {
-        _PB :state (_R1 _I).
+        ?PB :state (?R1 ?I).
     }.
 }.
 
 # :goto
-(_PC _R1 _R2 _PB) log:onNegativeSurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:goto _PB :x :x).
+(?PC ?R1 ?R2 ?PB) log:onNegativeSurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:goto ?PB :x :x).
     () log:onNegativeSurface {
-        _PB :state (_R1 _R2).
+        ?PB :state (?R1 ?R2).
     }.
 }.
 
 # Natural number generation via inc
-#(_X _Y) log:onNegativeSurface {
-#    _X :inc _Y.
-#    (_Z) log:onNegativeSurface {
-#        _Y :inc _Z.
+#(?X ?Y) log:onNegativeSurface {
+#    ?X :inc ?Y.
+#    (?Z) log:onNegativeSurface {
+#        ?Y :inc ?Z.
 #    }.
 #}.
 
 # query
-(_PC _R1 _R2) log:onQuerySurface {
-    _PC :state (_R1 _R2).
-    _PC :instruction (:halt :x :x :x).
+(?PC ?R1 ?R2) log:onQuerySurface {
+    ?PC :state (?R1 ?R2).
+    ?PC :instruction (:halt :x :x :x).
 }.

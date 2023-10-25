@@ -26,49 +26,49 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-(_L _A1 _A2 _A3 _A4 _A5 _A6 _A7 _A8 _A9 _A10 _A11 _A12 _A13 _A14 _A15 _A16 _A17 _A18 _A19 _A20
- _A21 _A22 _A23 _A24 _A25 _A26 _A27 _A28 _A29 _A30 _A31 _A32 _A33 _A34 _A35 _A36 _A37 _A38 _A39 _A40
- _A41 _A42 _A43 _A44 _A45 _A46 _A47 _A48 _A49 _A50 _A51 _A52 _A53 _A54 _A55 _A56 _A57 _A58 _A59 _A60
- _A61 _A62 _A63 _A64 _A65 _A66) log:onNegativeSurface {
-    _L log:equalTo ((_A1 :Norwegian _A2 _A3 _A4) (:blue _A5 _A6 _A7 _A8) (_A9 _A10 _A11 :milk _A12) _A13 _A14);
-    :pair ((_A15 _A16 _A17 _A18 :Kools) (_A19 _A20 :horse _A21 _A22));
-    :pair ((_A23 _A24 :fox _A25 _A26) (_A27 _A28 _A29 _A30 :Chesterfields));
-    :sublist ((:ivory _A31 _A32 _A33 _A34) (:green _A35 _A36 :coffee _A37));
-    list:member (:red :Englishman _A38 _A39 _A40);
-    list:member (_A41 :Spaniard :dog _A42 _A43);
-    list:member (_A44 :Ukrainian _A45 :tea _A46);
-    list:member (_A47 _A48 :snails _A49 :Old_Gold);
-    list:member (:yellow _A50 _A51 _A52 :Kools);
-    list:member (_A53 _A54 _A55 :orange_juice :Lucky_Strike);
-    list:member (_A56 :Japanese _A57 _A58 :Parliaments);
-    list:member (_A59 _A60 _A61 :water _A62);
-    list:member (_A63 _A64 :zebra _A65 _A66).
+(?L ?A1 ?A2 ?A3 ?A4 ?A5 ?A6 ?A7 ?A8 ?A9 ?A10 ?A11 ?A12 ?A13 ?A14 ?A15 ?A16 ?A17 ?A18 ?A19 ?A20
+ ?A21 ?A22 ?A23 ?A24 ?A25 ?A26 ?A27 ?A28 ?A29 ?A30 ?A31 ?A32 ?A33 ?A34 ?A35 ?A36 ?A37 ?A38 ?A39 ?A40
+ ?A41 ?A42 ?A43 ?A44 ?A45 ?A46 ?A47 ?A48 ?A49 ?A50 ?A51 ?A52 ?A53 ?A54 ?A55 ?A56 ?A57 ?A58 ?A59 ?A60
+ ?A61 ?A62 ?A63 ?A64 ?A65 ?A66) log:onNegativeSurface {
+    ?L log:equalTo ((?A1 :Norwegian ?A2 ?A3 ?A4) (:blue ?A5 ?A6 ?A7 ?A8) (?A9 ?A10 ?A11 :milk ?A12) ?A13 ?A14);
+    :pair ((?A15 ?A16 ?A17 ?A18 :Kools) (?A19 ?A20 :horse ?A21 ?A22));
+    :pair ((?A23 ?A24 :fox ?A25 ?A26) (?A27 ?A28 ?A29 ?A30 :Chesterfields));
+    :sublist ((:ivory ?A31 ?A32 ?A33 ?A34) (:green ?A35 ?A36 :coffee ?A37));
+    list:member (:red :Englishman ?A38 ?A39 ?A40);
+    list:member (?A41 :Spaniard :dog ?A42 ?A43);
+    list:member (?A44 :Ukrainian ?A45 :tea ?A46);
+    list:member (?A47 ?A48 :snails ?A49 :Old_Gold);
+    list:member (:yellow ?A50 ?A51 ?A52 :Kools);
+    list:member (?A53 ?A54 ?A55 :orange_juice :Lucky_Strike);
+    list:member (?A56 :Japanese ?A57 ?A58 :Parliaments);
+    list:member (?A59 ?A60 ?A61 :water ?A62);
+    list:member (?A63 ?A64 :zebra ?A65 ?A66).
     () log:onNegativeSurface {
-        _A60 :drinks :water.
-        _A64 :owns :zebra.
-        :riddle :houses _L.
+        ?A60 :drinks :water.
+        ?A64 :owns :zebra.
+        :riddle :houses ?L.
     }.
 }.
 
-(_A _B _C) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A :pair (_B _C)>>.
-    _A :sublist (_B _C).
+(?A ?B ?C) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A :pair (?B ?C)>>.
+    ?A :sublist (?B ?C).
 }.
 
-(_A _B _C) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A :pair (_B _C)>>.
-    _A :sublist (_C _B).
+(?A ?B ?C) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A :pair (?B ?C)>>.
+    ?A :sublist (?C ?B).
 }.
 
-(_A _B _C _D _E) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A :sublist _B>>.
-    (_C _D) list:append _A.
-    (_E _B) list:append _C.
+(?A ?B ?C ?D ?E) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A :sublist ?B>>.
+    (?C ?D) list:append ?A.
+    (?E ?B) list:append ?C.
 }.
 
 # query
-(_A _B _C) log:onQuerySurface {
-    _A :drinks :water.
-    _B :owns :zebra.
-    :riddle :houses _C.
+(?A ?B ?C) log:onQuerySurface {
+    ?A :drinks :water.
+    ?B :owns :zebra.
+    :riddle :houses ?C.
 }.

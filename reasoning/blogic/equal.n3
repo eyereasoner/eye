@@ -1,18 +1,18 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-(_S1 _S2) log:onNegativeSurface {
-    _S1 log:equalTo {
+(?S1 ?S2) log:onNegativeSurface {
+    ?S1 log:equalTo {
         () log:onNeutralSurface {
-            _V a :C .
+            ?V a :C .
         } .
     } .
-    _S2 log:equalTo {
+    ?S2 log:equalTo {
         () log:onNeutralSurface {
-            _V a :C .
+            ?V a :C .
         } .
     } .
-    _S1 log:equalTo _S2 .
+    ?S1 log:equalTo ?S2 .
     () log:onNegativeSurface {
         :test :is true .
     } .

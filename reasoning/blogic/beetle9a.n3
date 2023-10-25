@@ -8,24 +8,24 @@
 :bob a :Person.
 
 # green things are beautiful
-(_A) log:onNegativeSurface {
-    _A :is :green.
+(?A) log:onNegativeSurface {
+    ?A :is :green.
     () log:onNegativeSurface {
-        _A :is :beautiful.
+        ?A :is :beautiful.
     }.
 }.
 
 # things which are not green are beautiful
-(_A) log:onNegativeSurface {
+(?A) log:onNegativeSurface {
     () log:onNegativeSurface {
-        _A :is :green
+        ?A :is :green
     }.
     () log:onNegativeSurface {
-        _A :is :beautiful.
+        ?A :is :beautiful.
     }.
 }.
 
 # query
-(_X) log:onQuerySurface {
-    _X :is :beautiful.
+(?X) log:onQuerySurface {
+    ?X :is :beautiful.
 }.

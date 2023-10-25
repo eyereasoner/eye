@@ -2,24 +2,24 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 () log:onNegativeSurface {
-    (_E) log:onNegativeSurface {
-        _E a :C.
+    (?E) log:onNegativeSurface {
+        ?E a :C.
     }.
 }.
 
-(_a _b _S1) log:onNegativeSurface {
+(?a ?b ?S1) log:onNegativeSurface {
 
-    _a log:onNegativeSurface {
-        _b log:onNegativeSurface _S1.
+    ?a log:onNegativeSurface {
+        ?b log:onNegativeSurface ?S1.
     }.
 
     () log:onNegativeSurface {
-        () log:onNegativeSurface _S1.
+        () log:onNegativeSurface ?S1.
     }.
 }.
 
-(_s _p _o) log:onQuerySurface {
+(?s ?p ?o) log:onQuerySurface {
     () log:onNegativeSurface {
-        _s _p _o.
+        ?s ?p ?o.
     }.
 }.

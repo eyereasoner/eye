@@ -2,19 +2,19 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
 () log:onNeutralSurface {
-    _F a :C .
+    ?F a :C .
 } .
 
 () log:onNegativeSurface {
-    _E a :C .
+    ?E a :C .
 } .
 
-(_a _b _S1 _S2) log:onNegativeSurface {
+(?a ?b ?S1 ?S2) log:onNegativeSurface {
 
-    _a log:onNegativeSurface _S1 .
-    _b log:onNeutralSurface _S2 .
+    ?a log:onNegativeSurface ?S1 .
+    ?b log:onNeutralSurface ?S2 .
 
-    _S1 log:notIncludes _S2 .
+    ?S1 log:notIncludes ?S2 .
 
     () log:onNegativeSurface {
         :test :is true .

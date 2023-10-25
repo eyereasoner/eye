@@ -4,21 +4,21 @@
 @prefix : <http://example.org/ns#>.
 
 # every farming field is green colored or yellow colored
-(_S) log:onNegativeSurface {
-    _S a :FarmingField.
+(?S) log:onNegativeSurface {
+    ?S a :FarmingField.
     () log:onNegativeSurface {
-        _S a :GreenColored.
+        ?S a :GreenColored.
     }.
     () log:onNegativeSurface {
-        _S a :YellowColored.
+        ?S a :YellowColored.
     }.
 }.
 
 # if yellow colored then mixed colored
-(_S) log:onNegativeSurface {
-    _S a :YellowColored.
+(?S) log:onNegativeSurface {
+    ?S a :YellowColored.
     () log:onNegativeSurface {
-        _S a :MixedColored.
+        ?S a :MixedColored.
     }.
 }.
 
@@ -29,6 +29,6 @@
 }.
 
 # query
-(_A _B) log:onQuerySurface {
-    _A a _B.
+(?A ?B) log:onQuerySurface {
+    ?A a ?B.
 }.

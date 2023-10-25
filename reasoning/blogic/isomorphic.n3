@@ -1,21 +1,21 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-(_S1 _S2) log:onNegativeSurface {
+(?S1 ?S2) log:onNegativeSurface {
 
-    _S1 log:equalTo {
-        (_V) log:onNegativeSurface {
-            _V a :C .
+    ?S1 log:equalTo {
+        (?V) log:onNegativeSurface {
+            ?V a :C .
         } .
     } .
 
-    _S2 log:equalTo {
-        (_E) log:onNegativeSurface {
-            _E a :C .
+    ?S2 log:equalTo {
+        (?E) log:onNegativeSurface {
+            ?E a :C .
         } .
     } .
 
-    _S1 log:isomorphic _S2 .
+    ?S1 log:isomorphic ?S2 .
 
     () log:onNegativeSurface {
         :test :is true .

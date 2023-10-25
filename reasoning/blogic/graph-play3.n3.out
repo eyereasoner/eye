@@ -1,17 +1,17 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 () log:onNeutralSurface {
-    _g_E_1_1 a <urn:example:C>.
+    ?g_0 a <urn:example:C>.
 }.
 () log:onNeutralSurface {
-    _g_a_1_1 log:onNegativeSurface _g_S1_1_1.
+    ?g_1 log:onNegativeSurface ?g_0.
     () log:onNegativeSurface {
-        () log:onNeutralSurface _g_S1_1_1.
+        () log:onNeutralSurface ?g_0.
     }.
 }.
 () log:onNeutralSurface {
-    () log:onNeutralSurface _g_S1_1_2.
+    () log:onNeutralSurface ?g_0.
     () log:onAnswerSurface {
-        () log:onNeutralSurface _g_S1_1_2.
+        () log:onNeutralSurface ?g_0.
     }.
 }.

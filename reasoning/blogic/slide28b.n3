@@ -5,13 +5,13 @@
 
 # Some non-city is a human community
 () log:onNegativeSurface {
-    _S a :City.
+    ?S a :City.
     () log:onNegativeSurface {
-        _S a :HumanCommunity.
+        ?S a :HumanCommunity.
     }.
 }.
 
 # query
-(_S _C) log:onQuerySurface {
-    _S a _C.
+(?S ?C) log:onQuerySurface {
+    ?S a ?C.
 }.

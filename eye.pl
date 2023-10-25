@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.1.3 (2023-10-23)').
+version_info('EYE v6.2.0 (2023-10-26)').
 
 license_info('MIT License
 
@@ -183,6 +183,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'/2).
@@ -1810,7 +1811,17 @@ n3_n3p(Argument, Mode) :-
                             ),
                             assertz(':-'(Ci, Pj))
                         )
-                    ;   djiti_assertz(Rt),
+                    ;   (   (   Rt = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
+                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _)
+                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
+                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, _)
+                            )
+                        ->  nb_getval(var_ns, Sns),
+                            labelvars(Rt, 0, _, Sns)
+                        ;   true
+                        ),
+                        djiti_assertz(Rt),
                         cnt(sc),
                         (   flag(intermediate, Out)
                         ->  portray_clause(Out, Rt)
@@ -1961,7 +1972,15 @@ tr_n3p([X|Z], Src, Mode) :-
         ;   write(prfstep(Y, true, _, Y, _, forward, Src)),
             writeln('.')
         )
-    ;   write(':-'(Y, true)),
+    ;   (   (   Y = '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\''(_, _)
+            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\''(_, _)
+            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\''(_, _)
+            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''(_, _)
+            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''(_, _)
+            )
+        ->  write(Y)
+        ;   write(':-'(Y, true))
+        ),
         writeln('.')
     ),
     tr_n3p(Z, Src, Mode).
@@ -4105,9 +4124,10 @@ wt0(X) :-
     ).
 wt0(X) :-
     atom(X),
-    atom_concat('_', _, X),
+    atom_concat('_', Y, X),
     !,
-    write(X).
+    write('?'),
+    write(Y).
 wt0(X) :-
     atom(X),
     atom_concat(some, Y, X),
@@ -4171,7 +4191,7 @@ wt0(X) :-
                 )
             ->  write('_:')
             ;   (   sub_atom(Y, 0, 2, _, 'g_')
-                ->  write('_')
+                ->  write('?')
                 ;   sub_atom(Y, 0, 2, _, Z),
                     memberchk(Z, ['x_', 't_']),
                     write('?')
@@ -4183,7 +4203,7 @@ wt0(X) :-
                 sub_atom(X, 1, _, _, Prefix)
             ),
             (   sub_atom(Y, 0, 2, _, 'g_')
-            ->  write('_')
+            ->  write('?')
             ;   write('_:')
             )
         ),
@@ -11748,7 +11768,10 @@ labelvars(A, B, C, D) :-
     var(A),
     !,
     atom_number(E, B),
-    atomic_list_concat([D, E], A),      % failing when A is an attributed variable
+    (   sub_atom(D, _, 19, _, '/.well-known/genid/')
+    ->  atomic_list_concat(['<', D, 'g_', E, '>'], A)       % failing when A is an attributed variable
+    ;   atomic_list_concat([D, E], A)                       % failing when A is an attributed variable
+    ),
     C is B+1.
 labelvars(A, B, B, _) :-
     atomic(A),

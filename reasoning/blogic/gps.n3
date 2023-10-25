@@ -14,47 +14,47 @@
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
 # find paths in the state space from initial state to goal state within limits
-(_SCOPE _Goal _Path _Duration _Cost _Belief _Comfort _MaxDuration _MaxCost _MinBelief _MinComfort) log:onNegativeSurface {
-    () log:onNegativeSurface <<_SCOPE gps:findpath (_Goal _Path _Duration _Cost _Belief _Comfort
-            (_MaxDuration _MaxCost _MinBelief _MinComfort))>>.
-    _SCOPE gps:findpaths (() _Goal () 0.0 0.0 1.0 1.0 _Path _Duration _Cost _Belief _Comfort
-        (_MaxDuration _MaxCost _MinBelief _MinComfort 1)).
+(?SCOPE ?Goal ?Path ?Duration ?Cost ?Belief ?Comfort ?MaxDuration ?MaxCost ?MinBelief ?MinComfort) log:onNegativeSurface {
+    () log:onNegativeSurface <<?SCOPE gps:findpath (?Goal ?Path ?Duration ?Cost ?Belief ?Comfort
+            (?MaxDuration ?MaxCost ?MinBelief ?MinComfort))>>.
+    ?SCOPE gps:findpaths (() ?Goal () 0.0 0.0 1.0 1.0 ?Path ?Duration ?Cost ?Belief ?Comfort
+        (?MaxDuration ?MaxCost ?MinBelief ?MinComfort 1)).
 }.
 
-(_SCOPE _Goal _Path _Duration _Cost _Belief _Comfort _MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount) log:onNegativeSurface {
-    () log:onNegativeSurface <<_SCOPE gps:findpath (_Goal _Path _Duration _Cost _Belief _Comfort (_MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount))>>.
-    _SCOPE gps:findpaths (() _Goal () 0.0 0.0 1.0 1.0 _Path _Duration _Cost _Belief _Comfort
-        (_MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount)).
+(?SCOPE ?Goal ?Path ?Duration ?Cost ?Belief ?Comfort ?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount) log:onNegativeSurface {
+    () log:onNegativeSurface <<?SCOPE gps:findpath (?Goal ?Path ?Duration ?Cost ?Belief ?Comfort (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))>>.
+    ?SCOPE gps:findpaths (() ?Goal () 0.0 0.0 1.0 1.0 ?Path ?Duration ?Cost ?Belief ?Comfort
+        (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount)).
 }.
 
-(_SCOPE _Maps _Goal _Path _Duration _Cost _Belief _Comfort _MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount) log:onNegativeSurface {
-    () log:onNegativeSurface <<_SCOPE gps:findpaths (_Maps _Goal _Path _Duration _Cost _Belief _Comfort _Path _Duration _Cost _Belief _Comfort
-            (_MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount))>>.
-    _Goal log:callWithCleanup true.
+(?SCOPE ?Maps ?Goal ?Path ?Duration ?Cost ?Belief ?Comfort ?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount) log:onNegativeSurface {
+    () log:onNegativeSurface <<?SCOPE gps:findpaths (?Maps ?Goal ?Path ?Duration ?Cost ?Belief ?Comfort ?Path ?Duration ?Cost ?Belief ?Comfort
+            (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))>>.
+    ?Goal log:callWithCleanup true.
 }.
 
-(_SCOPE _Maps_s _Goal _Path_s _Duration_s _Cost_s _Belief_s _Comfort_s _Path
- _Duration _Cost _Belief _Comfort _MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount
- _From _Transition _To _Action _Duration_n _Cost_n _Belief_n _Comfort_n _Map _Maps_t _Stagecount
- _Duration_t _Cost_t _Belief_t _Comfort_t _Path_t) log:onNegativeSurface {
-    () log:onNegativeSurface <<_SCOPE gps:findpaths (_Maps_s _Goal _Path_s _Duration_s _Cost_s _Belief_s _Comfort_s _Path _Duration _Cost _Belief _Comfort
-            (_MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount))>>.
-    _Map gps:description (_From _Transition _To _Action _Duration_n _Cost_n _Belief_n _Comfort_n).
-    (_Maps_s (_Map)) list:append _Maps_t.
-    _Maps_t gps:stagecount _Stagecount.
-    _Stagecount math:notGreaterThan _MaxStagecount.
-    (_Duration_s _Duration_n) math:sum _Duration_t.
-    _Duration_t math:notGreaterThan _MaxDuration.
-    (_Cost_s _Cost_n) math:sum _Cost_t.
-    _Cost_t math:notGreaterThan _MaxCost.
-    (_Belief_s _Belief_n) math:product _Belief_t.
-    _Belief_t math:notLessThan _MinBelief.
-    (_Comfort_s _Comfort_n) math:product _Comfort_t.
-    _Comfort_t math:notLessThan _MinComfort.
-    (_Path_s (_Action)) list:append _Path_t.
-    _From log:becomes _To.
-    {_SCOPE gps:findpaths (_Maps_t _Goal _Path_t _Duration_t _Cost_t _Belief_t _Comfort_t _Path _Duration _Cost _Belief _Comfort
-        (_MaxDuration _MaxCost _MinBelief _MinComfort _MaxStagecount))} log:callWithCleanup {_To log:becomes _From}.
+(?SCOPE ?Maps_s ?Goal ?Path_s ?Duration_s ?Cost_s ?Belief_s ?Comfort_s ?Path
+ ?Duration ?Cost ?Belief ?Comfort ?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount
+ ?From ?Transition ?To ?Action ?Duration_n ?Cost_n ?Belief_n ?Comfort_n ?Map ?Maps_t ?Stagecount
+ ?Duration_t ?Cost_t ?Belief_t ?Comfort_t ?Path_t) log:onNegativeSurface {
+    () log:onNegativeSurface <<?SCOPE gps:findpaths (?Maps_s ?Goal ?Path_s ?Duration_s ?Cost_s ?Belief_s ?Comfort_s ?Path ?Duration ?Cost ?Belief ?Comfort
+            (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))>>.
+    ?Map gps:description (?From ?Transition ?To ?Action ?Duration_n ?Cost_n ?Belief_n ?Comfort_n).
+    (?Maps_s (?Map)) list:append ?Maps_t.
+    ?Maps_t gps:stagecount ?Stagecount.
+    ?Stagecount math:notGreaterThan ?MaxStagecount.
+    (?Duration_s ?Duration_n) math:sum ?Duration_t.
+    ?Duration_t math:notGreaterThan ?MaxDuration.
+    (?Cost_s ?Cost_n) math:sum ?Cost_t.
+    ?Cost_t math:notGreaterThan ?MaxCost.
+    (?Belief_s ?Belief_n) math:product ?Belief_t.
+    ?Belief_t math:notLessThan ?MinBelief.
+    (?Comfort_s ?Comfort_n) math:product ?Comfort_t.
+    ?Comfort_t math:notLessThan ?MinComfort.
+    (?Path_s (?Action)) list:append ?Path_t.
+    ?From log:becomes ?To.
+    {?SCOPE gps:findpaths (?Maps_t ?Goal ?Path_t ?Duration_t ?Cost_t ?Belief_t ?Comfort_t ?Path ?Duration ?Cost ?Belief ?Comfort
+        (?MaxDuration ?MaxCost ?MinBelief ?MinComfort ?MaxStagecount))} log:callWithCleanup {?To log:becomes ?From}.
 }.
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
@@ -62,54 +62,54 @@
     () log:onNegativeSurface <<() gps:stagecount 1>>.
 }.
 
-(_A _B _C _D _E _F _G) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A gps:stagecount _B>>.
-    _A list:firstRest (_C _D).
-    _D list:firstRest (_E _F).
-    _C log:notEqualTo _E.
-    _D gps:stagecount _G.
-    (_G 1) math:sum _B.
+(?A ?B ?C ?D ?E ?F ?G) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A gps:stagecount ?B>>.
+    ?A list:firstRest (?C ?D).
+    ?D list:firstRest (?E ?F).
+    ?C log:notEqualTo ?E.
+    ?D gps:stagecount ?G.
+    (?G 1) math:sum ?B.
 }.
 
-(_A _B _C _D) log:onNegativeSurface {
-    () log:onNegativeSurface <<_A gps:stagecount _B>>.
-    _A list:firstRest (_C _D).
-    _D gps:stagecount _B.
+(?A ?B ?C ?D) log:onNegativeSurface {
+    () log:onNegativeSurface <<?A gps:stagecount ?B>>.
+    ?A list:firstRest (?C ?D).
+    ?D gps:stagecount ?B.
 }.
 
 # current state
 :i1 :location :Gent.
 
 # map of Belgium
-(_S _L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({_S :location :Gent} true {_S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)>>.
-    _S :location _L.
+(?S ?L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({?S :location :Gent} true {?S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)>>.
+    ?S :location ?L.
 }.
 
-(_S _L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({_S :location :Gent} true {_S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)>>.
-    _S :location _L.
+(?S ?L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({?S :location :Gent} true {?S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)>>.
+    ?S :location ?L.
 }.
 
-(_S _L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({_S :location :Kortrijk} true {_S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)>>.
-    _S :location _L.
+(?S ?L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({?S :location :Kortrijk} true {?S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)>>.
+    ?S :location ?L.
 }.
 
-(_S _L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({_S :location :Brugge} true {_S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)>>.
-    _S :location _L.
+(?S ?L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({?S :location :Brugge} true {?S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)>>.
+    ?S :location ?L.
 }.
 
 # path to goal state
-(_SCOPE _SUBJECT _PATH _DURATION _COST _BELIEF _COMFORT) log:onNegativeSurface {
-    _SCOPE gps:findpath ({_SUBJECT :location :Oostende} _PATH _DURATION _COST _BELIEF _COMFORT (5000.0 5.0 0.2 0.4 1)).
+(?SCOPE ?SUBJECT ?PATH ?DURATION ?COST ?BELIEF ?COMFORT) log:onNegativeSurface {
+    ?SCOPE gps:findpath ({?SUBJECT :location :Oostende} ?PATH ?DURATION ?COST ?BELIEF ?COMFORT (5000.0 5.0 0.2 0.4 1)).
     () log:onNegativeSurface {
-        _SUBJECT gps:path (_PATH _DURATION _COST _BELIEF _COMFORT).
+        ?SUBJECT gps:path (?PATH ?DURATION ?COST ?BELIEF ?COMFORT).
     }.
 }.
 
 # query
-(_SUBJECT _PATH _DURATION _COST _BELIEF _COMFORT) log:onQuerySurface {
-    _SUBJECT gps:path (_PATH _DURATION _COST _BELIEF _COMFORT).
+(?SUBJECT ?PATH ?DURATION ?COST ?BELIEF ?COMFORT) log:onQuerySurface {
+    ?SUBJECT gps:path (?PATH ?DURATION ?COST ?BELIEF ?COMFORT).
 }.

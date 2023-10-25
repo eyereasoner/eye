@@ -1,19 +1,19 @@
 @prefix : <urn:example:> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 
-(_E) log:onNegativeSurface {
-    _E a :C .
+(?E) log:onNegativeSurface {
+    ?E a :C .
 } .
 
-(_a _S1) log:onNegativeSurface {
+(?a ?S1) log:onNegativeSurface {
 
-    _a log:onNegativeSurface _S1.
+    ?a log:onNegativeSurface ?S1.
 
     () log:onNegativeSurface {
-        () log:onNeutralSurface _S1.
+        () log:onNeutralSurface ?S1.
     } .
 } .
 
-(_S1) log:onQuerySurface {
-    () log:onNeutralSurface _S1.
+(?S1) log:onQuerySurface {
+    () log:onNeutralSurface ?S1.
 } .
