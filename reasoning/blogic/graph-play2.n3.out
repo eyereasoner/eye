@@ -1,39 +1,39 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 () log:onNeutralSurface {
-    ?g_0 a <urn:example:C>.
+    _:e_E_1_1 a <urn:example:C>.
 }.
-(?g_0) log:onNegativeSurface {
-    ?g_0 a <urn:example:C>.
+(_:e_E_1_1) log:onNegativeSurface {
+    _:e_E_1_1 a <urn:example:C>.
 }.
-(?g_0 ?g_1) log:onNegativeSurface {
-    ?g_1 log:onNegativeSurface ?g_0.
+(_:e_S1_1_1 _:e_a_1_1) log:onNegativeSurface {
+    _:e_a_1_1 log:onNegativeSurface _:e_S1_1_1.
     () log:onNegativeSurface {
-        () log:onNeutralSurface ?g_0.
+        () log:onNeutralSurface _:e_S1_1_1.
     }.
 }.
 () log:onNegativeSurface {
-    ?sk_24 a <urn:example:C>.
+    _:sk_24 a <urn:example:C>.
 }.
-(?g_0 ?g_1 ?g_2) log:onNegativeSurface {
-    () log:onNeutralSurface ?g_0.
-    ?g_1 log:onNegativeSurface ?g_2.
+(_:e_S1_1_2 _:e_x_1_1 _:e_y_1_1) log:onNegativeSurface {
+    () log:onNeutralSurface _:e_S1_1_2.
+    _:e_x_1_1 log:onNegativeSurface _:e_y_1_1.
     () log:onAnswerSurface {
-        () log:onNeutralSurface ?g_0.
-        ?g_1 log:onNegativeSurface ?g_2.
+        () log:onNeutralSurface _:e_S1_1_2.
+        _:e_x_1_1 log:onNegativeSurface _:e_y_1_1.
     }.
 }.
 () log:onNeutralSurface {
-    ?g_1 log:onNegativeSurface ?g_0.
+    _:e_a_1_1 log:onNegativeSurface _:e_S1_1_1.
     () log:onNegativeSurface {
-        () log:onNeutralSurface ?g_0.
+        () log:onNeutralSurface _:e_S1_1_1.
     }.
 }.
 () log:onNeutralSurface {
-    () log:onNeutralSurface ?g_0.
-    ?g_1 log:onNegativeSurface ?g_2.
+    () log:onNeutralSurface _:e_S1_1_2.
+    _:e_x_1_1 log:onNegativeSurface _:e_y_1_1.
     () log:onAnswerSurface {
-        () log:onNeutralSurface ?g_0.
-        ?g_1 log:onNegativeSurface ?g_2.
+        () log:onNeutralSurface _:e_S1_1_2.
+        _:e_x_1_1 log:onNegativeSurface _:e_y_1_1.
     }.
 }.

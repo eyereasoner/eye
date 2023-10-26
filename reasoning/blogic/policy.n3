@@ -15,28 +15,28 @@
 () :policy {
 
     # Mapping foaf:Person and vcard:Individual on each other
-    (?S) log:onNegativeSurface {
-        ?S a foaf:Person .
+    (_:S) log:onNegativeSurface {
+        _:S a foaf:Person .
         () log:onNegativeSurface {
-            ?S a vcard:Individual .
+            _:S a vcard:Individual .
         } .
     } .
 
-    (?S) log:onNegativeSurface {
-        ?S a vcard:Individual .
+    (_:S) log:onNegativeSurface {
+        _:S a vcard:Individual .
         () log:onNegativeSurface {
-            ?S a foaf:Person .
+            _:S a foaf:Person .
         } .
     } .
 }.
 
 # enact policy
-(?S) log:onNegativeSurface {
-    () :policy ?S.
-    () log:onNegativeSurface ?S.
+(_:S) log:onNegativeSurface {
+    () :policy _:S.
+    () log:onNegativeSurface _:S.
 }.
 
 # query
-(?A ?B) log:onQuerySurface {
-    ?A a ?B.
+(_:A _:B) log:onQuerySurface {
+    _:A a _:B.
 }.

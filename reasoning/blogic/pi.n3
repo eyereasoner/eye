@@ -5,32 +5,32 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
-(?N ?Pi ?P ?A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?N ?Pi) :pi true>>.
-    (1 ?N 0 ?P 1) :pi true.
-    (4 ?P) math:product ?A.
-    (3 ?A) math:sum ?Pi.
+(_:N _:Pi _:P _:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:N _:Pi) :pi true>>.
+    (1 _:N 0 _:P 1) :pi true.
+    (4 _:P) math:product _:A.
+    (3 _:A) math:sum _:Pi.
 }.
 
-(?N ?P ?S) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?N ?N ?P ?P ?S) :pi true>>.
+(_:N _:P _:S) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:N _:N _:P _:P _:S) :pi true>>.
 }.
 
-(?K ?N ?P0 ?P ?S ?K1 ?K2 ?P1 ?S1 ?A ?B ?C ?D) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?K ?N ?P0 ?P ?S) :pi true>>.
-    ?K math:notEqualTo ?N.
-    (?K 1) math:sum ?K1.
-    (2 ?K) math:product ?K2.
-    (?K2 1) math:sum ?A.
-    (?K2 2) math:sum ?B.
-    (?K2 ?A ?B) math:product ?C.
-    (?S ?C) math:quotient ?D.
-    (?P0 ?D) math:sum ?P1.
-    ?S math:negation ?S1.
-    (?K1 ?N ?P1 ?P ?S1) :pi true.
+(_:K _:N _:P0 _:P _:S _:K1 _:K2 _:P1 _:S1 _:A _:B _:C _:D) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:K _:N _:P0 _:P _:S) :pi true>>.
+    _:K math:notEqualTo _:N.
+    (_:K 1) math:sum _:K1.
+    (2 _:K) math:product _:K2.
+    (_:K2 1) math:sum _:A.
+    (_:K2 2) math:sum _:B.
+    (_:K2 _:A _:B) math:product _:C.
+    (_:S _:C) math:quotient _:D.
+    (_:P0 _:D) math:sum _:P1.
+    _:S math:negation _:S1.
+    (_:K1 _:N _:P1 _:P _:S1) :pi true.
 }.
 
 # query
-(?Pi) log:onQuerySurface {
-    (50000 ?Pi) :pi true.
+(_:Pi) log:onQuerySurface {
+    (50000 _:Pi) :pi true.
 }.

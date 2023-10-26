@@ -40,36 +40,36 @@ foaf:yahooChatID rdfs:subPropertyOf foaf:nick.
 schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
 
 # rdfs logic
-(?P ?Q ?S ?O) log:onNegativeSurface {
-    ?P rdfs:subPropertyOf ?Q.
-    ?S ?P ?O.
+(_:P _:Q _:S _:O) log:onNegativeSurface {
+    _:P rdfs:subPropertyOf _:Q.
+    _:S _:P _:O.
     () log:onNegativeSurface {
-        ?S ?Q ?O.
+        _:S _:Q _:O.
     }.
 }.
 
-(?C ?D ?X) log:onNegativeSurface {
-    ?C rdfs:subClassOf ?D.
-    ?X a ?C.
+(_:C _:D _:X) log:onNegativeSurface {
+    _:C rdfs:subClassOf _:D.
+    _:X a _:C.
     () log:onNegativeSurface {
-        ?X a ?D.
+        _:X a _:D.
     }.
 }.
 
 # partial evaluation question
-(?S ?P ?O ?A ?G ?H ?I ?J ?K ?B ?C ?U ?V) log:onQuestionSurface {
-    ?S ?P ?O.
-    ?P log:notEqualTo log:onNegativeSurface.
-    ?P log:notEqualTo log:onQuestionSurface.
-    ?A log:onNegativeSurface ?G.
-    ?G log:notIncludes {?U log:onAnswerSurface ?V}.
-    (?G {?G log:graffiti ?A}) graph:union ?H.
-    (?H {?S ?P ?O. ?G log:graffiti ?B}) graph:difference ?I.
-    ?G graph:length ?J.
-    ?I graph:length ?K.
-    ?J math:greaterThan ?K.
-    ?B log:graffiti ?C.
+(_:S _:P _:O _:A _:G _:H _:I _:J _:K _:B _:C _:U _:V) log:onQuestionSurface {
+    _:S _:P _:O.
+    _:P log:notEqualTo log:onNegativeSurface.
+    _:P log:notEqualTo log:onQuestionSurface.
+    _:A log:onNegativeSurface _:G.
+    _:G log:notIncludes {_:U log:onAnswerSurface _:V}.
+    (_:G {_:G log:graffiti _:A}) graph:union _:H.
+    (_:H {_:S _:P _:O. _:G log:graffiti _:B}) graph:difference _:I.
+    _:G graph:length _:J.
+    _:I graph:length _:K.
+    _:J math:greaterThan _:K.
+    _:B log:graffiti _:C.
     () log:onAnswerSurface {
-        ?C log:onNegativeSurface ?I.
+        _:C log:onNegativeSurface _:I.
     }.
 }.

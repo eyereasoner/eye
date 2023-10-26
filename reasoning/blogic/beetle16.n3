@@ -10,29 +10,29 @@
 }.
 
 # if something is a car and not beautiful it is not new
-(?A) log:onNegativeSurface {
-    ?A a :Car.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
     () log:onNegativeSurface {
-        ?A :is :beautiful.
+        _:A :is :beautiful.
     }.
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            ?A :is :new.
+            _:A :is :new.
         }.
     }.
 }.
 
 # if something is not new  it is old
-(?A) log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     () log:onNegativeSurface {
-        ?A :is :new.
+        _:A :is :new.
     }.
     () log:onNegativeSurface {
-        ?A :is :old.
+        _:A :is :old.
     }.
 }.
 
 # query
-(?S ?O) log:onQuerySurface {
-    ?S :is ?O.
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
 }.

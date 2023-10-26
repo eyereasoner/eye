@@ -8,48 +8,48 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/ns#>.
 
-(?X ?Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<?X :fibonacci ?Y>>.
-    (?X 0 1) :fib ?Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:X :fibonacci _:Y>>.
+    (_:X 0 1) :fib _:Y.
 }.
 
-(?A ?B) log:onNegativeSurface {
-    () log:onNegativeSurface <<(0 ?A ?B) :fib ?A>>.
+(_:A _:B) log:onNegativeSurface {
+    () log:onNegativeSurface <<(0 _:A _:B) :fib _:A>>.
 }.
 
-(?A ?B) log:onNegativeSurface {
-    () log:onNegativeSurface <<(1 ?A ?B) :fib ?B>>.
+(_:A _:B) log:onNegativeSurface {
+    () log:onNegativeSurface <<(1 _:A _:B) :fib _:B>>.
 }.
 
-(?A ?B ?C ?D ?X ?Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?A ?B) :fib ?Y>>.
-    ?X math:greaterThan 1.
-    (?X 1) math:difference ?C.
-    (?A ?B) math:sum ?D.
-    (?C ?B ?D) :fib ?Y.
+(_:A _:B _:C _:D _:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:A _:B) :fib _:Y>>.
+    _:X math:greaterThan 1.
+    (_:X 1) math:difference _:C.
+    (_:A _:B) math:sum _:D.
+    (_:C _:B _:D) :fib _:Y.
 }.
 
 # query
-(?X) log:onQuerySurface {
-    1 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    1 :fibonacci _:X.
 }.
 
-(?X) log:onQuerySurface {
-    2 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    2 :fibonacci _:X.
 }.
 
-(?X) log:onQuerySurface {
-    3 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    3 :fibonacci _:X.
 }.
 
-(?X) log:onQuerySurface {
-    91 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    91 :fibonacci _:X.
 }.
 
-(?X) log:onQuerySurface {
-    283 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    283 :fibonacci _:X.
 }.
 
-(?X) log:onQuerySurface {
-    3674 :fibonacci ?X.
+(_:X) log:onQuerySurface {
+    3674 :fibonacci _:X.
 }.

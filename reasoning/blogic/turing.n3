@@ -9,73 +9,73 @@
 @prefix : <http://example.org/ns#>.
 
 # interpreter for Univeral Turing Machine
-(?OutTape ?Machine ?I) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :compute ?OutTape>>.
-    ?Machine :start ?I.
-    (?I () "#" ()) :find ?OutTape.
+(_:OutTape _:Machine _:I) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :compute _:OutTape>>.
+    _:Machine :start _:I.
+    (_:I () "#" ()) :find _:OutTape.
 }.
 
-(?List ?OutTape ?Head ?Tail ?Machine ?I) log:onNegativeSurface {
-    () log:onNegativeSurface <<?List :compute ?OutTape>>.
-    ?List list:firstRest (?Head ?Tail).
-    ?Machine :start ?I.
-    (?I () ?Head ?Tail) :find ?OutTape.
+(_:List _:OutTape _:Head _:Tail _:Machine _:I) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:List :compute _:OutTape>>.
+    _:List list:firstRest (_:Head _:Tail).
+    _:Machine :start _:I.
+    (_:I () _:Head _:Tail) :find _:OutTape.
 }.
 
-(?State ?Left ?Cell ?Right ?OutTape ?Write ?Move ?Next ?A ?B ?C) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?State ?Left ?Cell ?Right) :find ?OutTape>>.
-    (?State ?Cell ?Write ?Move) :tape ?Next.
-    (?Move ?Left ?Write ?Right ?A ?B ?C) :move true.
-    (?Next ?A ?B ?C) :continue ?OutTape.
+(_:State _:Left _:Cell _:Right _:OutTape _:Write _:Move _:Next _:A _:B _:C) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:State _:Left _:Cell _:Right) :find _:OutTape>>.
+    (_:State _:Cell _:Write _:Move) :tape _:Next.
+    (_:Move _:Left _:Write _:Right _:A _:B _:C) :move true.
+    (_:Next _:A _:B _:C) :continue _:OutTape.
 }.
 
-(?Left ?Cell ?Right ?OutTape ?R ?List) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:halt ?Left ?Cell ?Right) :continue ?OutTape>>.
-    ?Left :reverse ?R.
-    ?List list:firstRest (?Cell ?Right).
-    (?R ?List) list:append ?OutTape.
+(_:Left _:Cell _:Right _:OutTape _:R _:List) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:halt _:Left _:Cell _:Right) :continue _:OutTape>>.
+    _:Left :reverse _:R.
+    _:List list:firstRest (_:Cell _:Right).
+    (_:R _:List) list:append _:OutTape.
 }.
 
-(?State ?Left ?Cell ?Right ?OutTape) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?State ?Left ?Cell ?Right) :continue ?OutTape>>.
-    (?State ?Left ?Cell ?Right) :find ?OutTape.
+(_:State _:Left _:Cell _:Right _:OutTape) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:State _:Left _:Cell _:Right) :continue _:OutTape>>.
+    (_:State _:Left _:Cell _:Right) :find _:OutTape.
 }.
 
-(?Cell ?Right ?L) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:left () ?Cell ?Right () "#" ?L) :move true>>.
-    ?L list:firstRest (?Cell ?Right).
+(_:Cell _:Right _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:left () _:Cell _:Right () "#" _:L) :move true>>.
+    _:L list:firstRest (_:Cell _:Right).
 }.
 
-(?List ?Cell ?Right ?Tail ?Head ?L) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:left ?List ?Cell ?Right ?Tail ?Head ?L) :move true>>.
-    ?List list:firstRest (?Head ?Tail).
-    ?L list:firstRest (?Cell ?Right).
+(_:List _:Cell _:Right _:Tail _:Head _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true>>.
+    _:List list:firstRest (_:Head _:Tail).
+    _:L list:firstRest (_:Cell _:Right).
 }.
 
-(?Left ?Cell ?Right) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:stop ?Left ?Cell ?Right ?Left ?Cell ?Right) :move true>>.
+(_:Left _:Cell _:Right) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true>>.
 }.
 
-(?Left ?Cell ?L) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:right ?Left ?Cell () ?L "#" ()) :move true>>.
-    ?L list:firstRest (?Cell ?Left).
+(_:Left _:Cell _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:right _:Left _:Cell () _:L "#" ()) :move true>>.
+    _:L list:firstRest (_:Cell _:Left).
 }.
 
-(?Left ?Cell ?List ?L ?Head ?Tail) log:onNegativeSurface {
-    () log:onNegativeSurface <<(:right ?Left ?Cell ?List ?L ?Head ?Tail) :move true>>.
-    ?List list:firstRest (?Head ?Tail).
-    ?L list:firstRest (?Cell ?Left).
+(_:Left _:Cell _:List _:L _:Head _:Tail) log:onNegativeSurface {
+    () log:onNegativeSurface <<(:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true>>.
+    _:List list:firstRest (_:Head _:Tail).
+    _:L list:firstRest (_:Cell _:Left).
 }.
 
 () log:onNegativeSurface {
     () log:onNegativeSurface <<() :reverse ()>>.
 }.
 
-(?List ?Reverse ?Head ?Tail ?R) log:onNegativeSurface {
-    () log:onNegativeSurface <<?List :reverse ?Reverse>>.
-    ?List list:firstRest (?Head ?Tail).
-    ?Tail :reverse ?R.
-    (?R (?Head)) list:append ?Reverse.
+(_:List _:Reverse _:Head _:Tail _:R) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:List :reverse _:Reverse>>.
+    _:List list:firstRest (_:Head _:Tail).
+    _:Tail :reverse _:R.
+    (_:R (_:Head)) list:append _:Reverse.
 }.
 
 # a Turing machine to add 1 to a binary number
@@ -89,18 +89,18 @@
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-(?A) log:onQuerySurface {
-    (1 0 1 0 0 1) :compute ?A.
+(_:A) log:onQuerySurface {
+    (1 0 1 0 0 1) :compute _:A.
 }.
 
-(?A) log:onQuerySurface {
-    (1 0 1 1 1 1) :compute ?A.
+(_:A) log:onQuerySurface {
+    (1 0 1 1 1 1) :compute _:A.
 }.
 
-(?A) log:onQuerySurface {
-    (1 1 1 1 1 1) :compute ?A.
+(_:A) log:onQuerySurface {
+    (1 1 1 1 1 1) :compute _:A.
 }.
 
-(?A) log:onQuerySurface {
-    () :compute ?A.
+(_:A) log:onQuerySurface {
+    () :compute _:A.
 }.

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v6.2.0 (2023-10-26)').
+version_info('EYE v7.0.0 (2023-10-26)').
 
 license_info('MIT License
 
@@ -183,7 +183,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'/2).
@@ -1811,17 +1810,7 @@ n3_n3p(Argument, Mode) :-
                             ),
                             assertz(':-'(Ci, Pj))
                         )
-                    ;   (   (   Rt = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onNeutralSurface>'(_, _)
-                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, _)
-                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
-                            ;   Rt = '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(_, _)
-                            )
-                        ->  nb_getval(var_ns, Sns),
-                            labelvars(Rt, 0, _, Sns)
-                        ;   true
-                        ),
-                        djiti_assertz(Rt),
+                    ;   djiti_assertz(Rt),
                         cnt(sc),
                         (   flag(intermediate, Out)
                         ->  portray_clause(Out, Rt)
@@ -1972,15 +1961,7 @@ tr_n3p([X|Z], Src, Mode) :-
         ;   write(prfstep(Y, true, _, Y, _, forward, Src)),
             writeln('.')
         )
-    ;   (   (   Y = '\'<http://www.w3.org/2000/10/swap/log#onNegativeSurface>\''(_, _)
-            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onNeutralSurface>\''(_, _)
-            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onPositiveSurface>\''(_, _)
-            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onQuerySurface>\''(_, _)
-            ;   Y = '\'<http://www.w3.org/2000/10/swap/log#onQuestionSurface>\''(_, _)
-            )
-        ->  write(Y)
-        ;   write(':-'(Y, true))
-        ),
+    ;   write(':-'(Y, true)),
         writeln('.')
     ),
     tr_n3p(Z, Src, Mode).
@@ -1997,7 +1978,6 @@ tr_tr(A, B) :-
     (   atom_concat('_', C, A),
         (   sub_atom(C, 0, _, _, 'bn_')
         ;   sub_atom(C, 0, _, _, 'e_')
-        ;   sub_atom(C, 0, _, _, 'g_')
         )
     ->  nb_getval(var_ns, Sns),
         atomic_list_concat(['\'<', Sns, C, '>\''], B)
@@ -2009,7 +1989,6 @@ tr_tr(A, A) :-
 tr_tr(triple(A, B, C), triple(D, E, F)) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
-    \+sub_atom(B, 0, _, _, '_g_'),
     !,
     tr_tr(G, H),
     H =.. [E, D, F].
@@ -2563,7 +2542,13 @@ prefix(Prefix) -->
 
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb)
+    {   prolog_verb(Item, Verb),
+        (   atomic(Verb),
+            regex('^\'<.*#on.*Surface>\'$', Verb, _),
+            \+flag(blogic)
+        ->  assertz(flag(blogic))
+        ;   true
+        )
     },
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
@@ -2729,19 +2714,12 @@ symbol(Name) -->
     [bnode(Lbl)],
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
-        atom_codes(Labl, LblTidy),
-        (   atom_concat(':', Label, Labl)
-        ->  nb_getval(fdepth, D),
-            E = 'e_'
-        ;   Label = Labl,
-            D = 0,
-            E = 'g_'
-        ),
-        (   evar(Label, S, D)
+        atom_codes(Label, LblTidy),
+        (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, D))
+            assertz(evar(Label, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -2750,9 +2728,9 @@ symbol(Name) -->
         ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
-            ;   atomic_list_concat(['\'<', Sns, E, S, '>\''], Name)
+            ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
             )
-        ;   atomic_list_concat(['_', E, S], Name)
+        ;   atom_concat('_e_', S, Name)
         )
     }.
 
@@ -2952,13 +2930,14 @@ token(0'?, In, C, uvar(Name)) :-
         throw(empty_quickvar_name(line(Ln)))
     ).
 token(0'_, In, C, bnode(Name)) :-
+    peek_code(In, 0':),
     !,
+    get_code(In, _),
     get_code(In, C0),
     (   name(C0, In, C, Name)
     ->  true
     ;   C = C0,
-        nb_getval(line_number, Ln),
-        throw(empty_bnode_name(line(Ln)))
+        Name = ''
     ).
 token(0'<, In, C, lt_lt) :-
     peek_code(In, 0'<),
@@ -3023,20 +3002,14 @@ token(C0, In, C, Token) :-
     !,
     (   C1 == 0':
     ->  get_code(In, C2),
-        (   local_name(C2, In, C, Name2),
-            (   sub_atom(Name2, _, 7, 0, 'Surface'),
-                \+flag(blogic)
-            ->  assertz(flag(blogic))
-            ;   true
-            )
+        (   local_name(C2, In, C, Name2)
         ->  Token = (Name:Name2)
         ;   Token = (Name:''),
             C = C2
         )
     ;   Token = name(Name),
         C = C1
-    )
-    .
+    ).
 token(C0, In, C, P) :-
     punctuation(C0, P),
     !,
@@ -3449,7 +3422,6 @@ name_start_char(C) :-
     pn_chars_base(C),
     !.
 name_start_char(0'_).
-name_start_char(0':).
 name_start_char(C) :-
     code_type(C, digit).
 
@@ -4124,12 +4096,6 @@ wt0(X) :-
     ).
 wt0(X) :-
     atom(X),
-    atom_concat('_', Y, X),
-    !,
-    write('?'),
-    write(Y).
-wt0(X) :-
-    atom(X),
     atom_concat(some, Y, X),
     !,
     (   \+flag('no-qvars')
@@ -4186,26 +4152,20 @@ wt0(X) :-
                 )
             ;   memberchk(Y, L)
             )
-        ->  (   (   sub_atom(Y, 0, 3, _, 'bn_')
-                ;   sub_atom(Y, 0, 2, _, 'e_')
+        ->  (   (   sub_atom(Y, 0, 2, _, 'e_')
+                ;   sub_atom(Y, 0, 3, _, 'bn_')
                 )
             ->  write('_:')
-            ;   (   sub_atom(Y, 0, 2, _, 'g_')
-                ->  write('?')
-                ;   sub_atom(Y, 0, 2, _, Z),
-                    memberchk(Z, ['x_', 't_']),
-                    write('?')
-                )
+            ;   sub_atom(Y, 0, 2, _, Z),
+                memberchk(Z, ['x_', 't_']),
+                write('?')
             )
         ;   (   \+flag('no-qvars')
             ->  true
             ;   flag('quantify', Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
-            (   sub_atom(Y, 0, 2, _, 'g_')
-            ->  write('?')
-            ;   write('_:')
-            )
+            write('_:')
         ),
         write(Y),
         (   sub_atom(Y, 0, 2, _, 'x_')
@@ -4539,14 +4499,6 @@ wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     ;   true
     ),
     !.
-wt2('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y)) :-
-    !,
-    makegraffiti('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, Y), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, V)),
-    wg(U),
-    write(' '),
-    wp('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'),
-    write(' '),
-    wg(V).
 wt2(':-'(X, Y)) :-
     (   rule_uvar(R)
     ->  true
@@ -4606,7 +4558,7 @@ wt2(X) :-
         \+sub_atom(P, 0, 4, _, avar),
         \+sub_atom(P, 0, 4, _, allv),
         \+sub_atom(P, 0, 4, _, some),
-        \+sub_atom(P, 0, 1, _, '_'),
+        \+sub_atom(P, 0, 2, _, '_:'),
         P \= true,
         P \= false
     ->  write('"'),
@@ -5203,8 +5155,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
-                \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
-                    '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
                 \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
@@ -5243,8 +5193,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
-                    \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
-                        '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
                     \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
@@ -11768,10 +11716,7 @@ labelvars(A, B, C, D) :-
     var(A),
     !,
     atom_number(E, B),
-    (   sub_atom(D, _, 19, _, '/.well-known/genid/')
-    ->  atomic_list_concat(['<', D, 'g_', E, '>'], A)       % failing when A is an attributed variable
-    ;   atomic_list_concat([D, E], A)                       % failing when A is an attributed variable
-    ),
+    atomic_list_concat([D, E], A),      % failing when A is an attributed variable
     C is B+1.
 labelvars(A, B, B, _) :-
     atomic(A),
@@ -11921,33 +11866,6 @@ makeblank(A, B) :-
     ),
     makevar(A, B, J).
 
-makegraffiti(A, B) :-
-    findvars(A, C, beta),
-    distinct(C, D),
-    findall([F, E],
-        (   member(F, D),
-            (   sub_atom(F, _, 19, _, '/.well-known/genid/'),
-                sub_atom(F, _, 1, G, '#')
-            ->  H is G-1,
-                sub_atom(F, _, H, 1, I),
-                (   sub_atom(F, _, 3, _, '#t_')
-                ->  E = F
-                ;   atom_concat('_', I, E)
-                )
-            ;   (   atom_concat('some', K, F)
-                ->  atom_concat('sk_', K, M)
-                ;   M = F
-                ),
-                (   sub_atom(M, 0, 1, _, '_')
-                ->  E = M
-                ;   atom_concat('_', M, E)
-                )
-            )
-        ),
-        J
-    ),
-    makevar(A, B, J).
-
 makevars(A, B, beta(C)) :-
     !,
     distinct(C, D),
@@ -12049,7 +11967,6 @@ findvar(A, beta) :-
     !,
     (   sub_atom(A, 0, _, _, '_bn_')
     ;   sub_atom(A, 0, _, _, '_e_')
-    ;   sub_atom(A, 0, _, _, '_g_')
     ;   sub_atom(A, _, 19, _, '/.well-known/genid/')
     ;   sub_atom(A, 0, _, _, some)
     ;   sub_atom(A, 0, _, _, '_:')
@@ -12063,14 +11980,12 @@ findvar(A, epsilon) :-
     !,
     sub_atom(A, 0, 1, _, '_'),
     \+ sub_atom(A, 0, _, _, '_bn_'),
-    \+ sub_atom(A, 0, _, _, '_e_'),
-    \+ sub_atom(A, 0, _, _, '_g_').
+    \+ sub_atom(A, 0, _, _, '_e_').
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
         sub_atom(A, _, 4, _, '#bn_'),
-        sub_atom(A, _, 4, _, '#e_'),
-        sub_atom(A, _, 4, _, '#g_')
+        sub_atom(A, _, 4, _, '#e_')
     ;   sub_atom(A, 0, _, _, some)
     ).
 findvar(A, eta) :-

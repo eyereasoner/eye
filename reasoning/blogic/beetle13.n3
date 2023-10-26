@@ -21,32 +21,32 @@
 }.
 
 # all cars are green or blue
-(?A) log:onNegativeSurface {
-    ?A a :Car.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
     () log:onNegativeSurface {
-        ?A :is :green.
+        _:A :is :green.
     }.
     () log:onNegativeSurface {
-        ?A :is :blue.
+        _:A :is :blue.
     }.
 }.
 
 # green or blue things are beautiful
-(?A) log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            ?A :is :green.
+            _:A :is :green.
         }.
         () log:onNegativeSurface {
-            ?A :is :blue.
+            _:A :is :blue.
         }.
     }.
     () log:onNegativeSurface {
-        ?A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # query
-(?S) log:onQuerySurface {
-    ?S :is :beautiful.
+(_:S) log:onQuerySurface {
+    _:S :is :beautiful.
 }.

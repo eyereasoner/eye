@@ -9,132 +9,132 @@
 @prefix complex: <http://eyereasoner.github.io/eye/complex#>.
 @prefix : <http://example.org/ns#>.
 
-(?A ?B ?C ?D ?E ?F ?R ?T ?Z1 ?Z2 ?Z3 ?Z4 ?Z5 ?Z6 ?Z7 ?Z8 ?Z9 ?Z10) log:onNegativeSurface {
-    () log:onNegativeSurface <<((?A ?B) (?C ?D)) complex:exponentiation (?E ?F)>>.
-    (?A ?B) complex:polar (?R ?T).
-    (?R ?C) math:exponentiation ?Z1.
-    ?D math:negation ?Z2.
-    (?Z2 ?T) math:product ?Z3.
-    (2.718281828459045 ?Z3) math:exponentiation ?Z4.
-    (2.718281828459045 ?Z5) math:exponentiation ?R.
-    (?D ?Z5) math:product ?Z6.
-    (?C ?T) math:product ?Z7.
-    (?Z6 ?Z7) math:sum ?Z8.
-    ?Z8 math:cos ?Z9.
-    (?Z1 ?Z4 ?Z9) math:product ?E.
-    ?Z8 math:sin ?Z10.
-    (?Z1 ?Z4 ?Z10) math:product ?F.
+(_:A _:B _:C _:D _:E _:F _:R _:T _:Z1 _:Z2 _:Z3 _:Z4 _:Z5 _:Z6 _:Z7 _:Z8 _:Z9 _:Z10) log:onNegativeSurface {
+    () log:onNegativeSurface <<((_:A _:B) (_:C _:D)) complex:exponentiation (_:E _:F)>>.
+    (_:A _:B) complex:polar (_:R _:T).
+    (_:R _:C) math:exponentiation _:Z1.
+    _:D math:negation _:Z2.
+    (_:Z2 _:T) math:product _:Z3.
+    (2.718281828459045 _:Z3) math:exponentiation _:Z4.
+    (2.718281828459045 _:Z5) math:exponentiation _:R.
+    (_:D _:Z5) math:product _:Z6.
+    (_:C _:T) math:product _:Z7.
+    (_:Z6 _:Z7) math:sum _:Z8.
+    _:Z8 math:cos _:Z9.
+    (_:Z1 _:Z4 _:Z9) math:product _:E.
+    _:Z8 math:sin _:Z10.
+    (_:Z1 _:Z4 _:Z10) math:product _:F.
 }.
 
-(?A ?B ?C ?D ?E ?F ?Z1 ?Z2 ?Z3 ?Z4 ?Z5 ?Z6 ?Z7 ?Z8 ?Z9 ?Z10 ?Z11 ?Z12 ?Z13 ?Z14 ?Z15) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?A ?B) complex:asin (?C ?D)>>.
-    (1 ?A) math:sum ?Z1.
-    (?Z1 2) math:exponentiation ?Z2.
-    (?B 2) math:exponentiation ?Z3.
-    (?Z2 ?Z3) math:sum ?Z4.
-    (?Z4 0.5) math:exponentiation ?Z5.
-    (1 ?A) math:difference ?Z6.
-    (?Z6 2) math:exponentiation ?Z7.
-    (?Z7 ?Z3) math:sum ?Z8.
-    (?Z8 0.5) math:exponentiation ?Z9.
-    (?Z5 ?Z9) math:difference ?Z10.
-    (?Z10 2) math:quotient ?E.
-    (?Z5 ?Z9) math:sum ?Z11.
-    (?Z11 2) math:quotient ?F.
-    ?E math:asin ?C.
-    (?F 2) math:exponentiation ?Z12.
-    (?Z12 1) math:difference ?Z13.
-    (?Z13 0.5) math:exponentiation ?Z14.
-    (?F ?Z14) math:sum ?Z15.
-    (2.718281828459045 ?D) math:exponentiation ?Z15.
+(_:A _:B _:C _:D _:E _:F _:Z1 _:Z2 _:Z3 _:Z4 _:Z5 _:Z6 _:Z7 _:Z8 _:Z9 _:Z10 _:Z11 _:Z12 _:Z13 _:Z14 _:Z15) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B) complex:asin (_:C _:D)>>.
+    (1 _:A) math:sum _:Z1.
+    (_:Z1 2) math:exponentiation _:Z2.
+    (_:B 2) math:exponentiation _:Z3.
+    (_:Z2 _:Z3) math:sum _:Z4.
+    (_:Z4 0.5) math:exponentiation _:Z5.
+    (1 _:A) math:difference _:Z6.
+    (_:Z6 2) math:exponentiation _:Z7.
+    (_:Z7 _:Z3) math:sum _:Z8.
+    (_:Z8 0.5) math:exponentiation _:Z9.
+    (_:Z5 _:Z9) math:difference _:Z10.
+    (_:Z10 2) math:quotient _:E.
+    (_:Z5 _:Z9) math:sum _:Z11.
+    (_:Z11 2) math:quotient _:F.
+    _:E math:asin _:C.
+    (_:F 2) math:exponentiation _:Z12.
+    (_:Z12 1) math:difference _:Z13.
+    (_:Z13 0.5) math:exponentiation _:Z14.
+    (_:F _:Z14) math:sum _:Z15.
+    (2.718281828459045 _:D) math:exponentiation _:Z15.
 }.
 
-(?A ?B ?C ?D ?E ?F ?U ?Z1 ?Z2 ?Z3 ?Z4 ?Z5 ?Z6 ?Z7 ?Z8 ?Z9 ?Z10 ?Z11 ?Z12 ?Z13 ?Z14 ?Z15) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?A ?B) complex:acos (?C ?D)>>.
-    (1 ?A) math:sum ?Z1.
-    (?Z1 2) math:exponentiation ?Z2.
-    (?B 2) math:exponentiation ?Z3.
-    (?Z2 ?Z3) math:sum ?Z4.
-    (?Z4 0.5) math:exponentiation ?Z5.
-    (1 ?A) math:difference ?Z6.
-    (?Z6 2) math:exponentiation ?Z7.
-    (?Z7 ?Z3) math:sum ?Z8.
-    (?Z8 0.5) math:exponentiation ?Z9.
-    (?Z5 ?Z9) math:difference ?Z10.
-    (?Z10 2) math:quotient ?E.
-    (?Z5 ?Z9) math:sum ?Z11.
-    (?Z11 2) math:quotient ?F.
-    ?E math:acos ?C.
-    (?F 2) math:exponentiation ?Z12.
-    (?Z12 1) math:difference ?Z13.
-    (?Z13 0.5) math:exponentiation ?Z14.
-    (?F ?Z14) math:sum ?Z15.
-    (2.718281828459045 ?U) math:exponentiation ?Z15.
-    ?U math:negation ?D.
+(_:A _:B _:C _:D _:E _:F _:U _:Z1 _:Z2 _:Z3 _:Z4 _:Z5 _:Z6 _:Z7 _:Z8 _:Z9 _:Z10 _:Z11 _:Z12 _:Z13 _:Z14 _:Z15) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B) complex:acos (_:C _:D)>>.
+    (1 _:A) math:sum _:Z1.
+    (_:Z1 2) math:exponentiation _:Z2.
+    (_:B 2) math:exponentiation _:Z3.
+    (_:Z2 _:Z3) math:sum _:Z4.
+    (_:Z4 0.5) math:exponentiation _:Z5.
+    (1 _:A) math:difference _:Z6.
+    (_:Z6 2) math:exponentiation _:Z7.
+    (_:Z7 _:Z3) math:sum _:Z8.
+    (_:Z8 0.5) math:exponentiation _:Z9.
+    (_:Z5 _:Z9) math:difference _:Z10.
+    (_:Z10 2) math:quotient _:E.
+    (_:Z5 _:Z9) math:sum _:Z11.
+    (_:Z11 2) math:quotient _:F.
+    _:E math:acos _:C.
+    (_:F 2) math:exponentiation _:Z12.
+    (_:Z12 1) math:difference _:Z13.
+    (_:Z13 0.5) math:exponentiation _:Z14.
+    (_:F _:Z14) math:sum _:Z15.
+    (2.718281828459045 _:U) math:exponentiation _:Z15.
+    _:U math:negation _:D.
 }.
 
-(?X ?Y ?R ?T ?Tp ?Z1 ?Z2 ?Z3 ?Z4 ?Z5) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?Y) complex:polar(?R ?Tp)>>.
-    (?X 2) math:exponentiation ?Z1.
-    (?Y 2) math:exponentiation ?Z2.
-    (?Z1 ?Z2) math:sum ?Z3.
-    (?Z3 0.5) math:exponentiation ?R.
-    ?X math:absoluteValue ?Z4.
-    (?Z4 ?R) math:quotient ?Z5.
-    ?Z5 math:acos ?T.
-    (?X ?Y ?T) complex:dial ?Tp.
+(_:X _:Y _:R _:T _:Tp _:Z1 _:Z2 _:Z3 _:Z4 _:Z5) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) complex:polar(_:R _:Tp)>>.
+    (_:X 2) math:exponentiation _:Z1.
+    (_:Y 2) math:exponentiation _:Z2.
+    (_:Z1 _:Z2) math:sum _:Z3.
+    (_:Z3 0.5) math:exponentiation _:R.
+    _:X math:absoluteValue _:Z4.
+    (_:Z4 _:R) math:quotient _:Z5.
+    _:Z5 math:acos _:T.
+    (_:X _:Y _:T) complex:dial _:Tp.
 }.
 
-(?X ?Y ?T ?Tp) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?Y ?T) complex:dial ?Tp>>.
-    ?X math:notLessThan 0.
-    ?Y math:notLessThan 0.
-    (0 ?T) math:sum ?Tp.
+(_:X _:Y _:T _:Tp) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y _:T) complex:dial _:Tp>>.
+    _:X math:notLessThan 0.
+    _:Y math:notLessThan 0.
+    (0 _:T) math:sum _:Tp.
 }.
 
-(?X ?Y ?T ?Tp) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?Y ?T) complex:dial ?Tp>>.
-    ?X math:lessThan 0.
-    ?Y math:notLessThan 0.
-    (3.141592653589793 ?T) math:difference ?Tp.
+(_:X _:Y _:T _:Tp) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y _:T) complex:dial _:Tp>>.
+    _:X math:lessThan 0.
+    _:Y math:notLessThan 0.
+    (3.141592653589793 _:T) math:difference _:Tp.
 }.
 
-(?X ?Y ?T ?Tp) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?Y ?T) complex:dial ?Tp>>.
-    ?X math:lessThan 0.
-    ?Y math:lessThan 0.
-    (3.141592653589793 ?T) math:sum ?Tp.
+(_:X _:Y _:T _:Tp) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y _:T) complex:dial _:Tp>>.
+    _:X math:lessThan 0.
+    _:Y math:lessThan 0.
+    (3.141592653589793 _:T) math:sum _:Tp.
 }.
 
-(?X ?Y ?T ?Tp) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?X ?Y ?T) complex:dial ?Tp>>.
-    ?X math:notLessThan 0.
-    ?Y math:lessThan 0.
-    (3.141592653589793 2) math:product ?Z1.
-    (?Z1 ?T) math:difference ?Tp.
+(_:X _:Y _:T _:Tp) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y _:T) complex:dial _:Tp>>.
+    _:X math:notLessThan 0.
+    _:Y math:lessThan 0.
+    (3.141592653589793 2) math:product _:Z1.
+    (_:Z1 _:T) math:difference _:Tp.
 }.
 
 # query
-(?A ?B) log:onQuerySurface {
-    ((-1 0) (0.5 0)) complex:exponentiation (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    ((-1 0) (0.5 0)) complex:exponentiation (_:A _:B).
 }.
 
-(?A ?B) log:onQuerySurface {
-    ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (_:A _:B).
 }.
 
-(?A ?B) log:onQuerySurface {
-    ((0 1) (0 1)) complex:exponentiation (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    ((0 1) (0 1)) complex:exponentiation (_:A _:B).
 }.
 
-(?A ?B) log:onQuerySurface {
-    ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation (_:A _:B).
 }.
 
-(?A ?B) log:onQuerySurface {
-    (2 0) complex:asin (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    (2 0) complex:asin (_:A _:B).
 }.
 
-(?A ?B) log:onQuerySurface {
-    (2 0) complex:acos (?A ?B).
+(_:A _:B) log:onQuerySurface {
+    (2 0) complex:acos (_:A _:B).
 }.

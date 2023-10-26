@@ -17,25 +17,25 @@ _:x a (:good :Cobbler).
 (:good :Cobbler) rdfs:subClassOf :Cobbler.
 
 # rdfs:subClassOf entailment
-(?C ?D ?X) log:onNegativeSurface {
-    ?C rdfs:subClassOf ?D.
-    ?X a ?C.
+(_:C _:D _:X) log:onNegativeSurface {
+    _:C rdfs:subClassOf _:D.
+    _:X a _:C.
     () log:onNegativeSurface {
-        ?X a ?D.
+        _:X a _:D.
     }.
 }.
 # invalid inference "x is good. x is a cobbler. therefore, x is a good cobbler".
 # uncommenting the following 2 triples will blow a inference fuse
-#_x a :good.
-#_x a :Cobbler.
+#_:x a :good.
+#_:x a :Cobbler.
 
 # maybe this is too strong in general
-(?a ?b ?c) log:onNegativeSurface {
-    ?a a ?b.
-    ?a a ?c.
+(_:a _:b _:c) log:onNegativeSurface {
+    _:a a _:b.
+    _:a a _:c.
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            ?a a (?b ?c).
+            _:a a (_:b _:c).
         }.
     }.
 }.
@@ -48,6 +48,6 @@ _:x a (:good :Cobbler).
 (:decoy :duck) rdfs:subClassOf :decoy.
 
 # query
-(?S ?C) log:onQuerySurface {
-    ?S a ?C.
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
 }.

@@ -6,18 +6,18 @@
 @prefix : <urn:example:> .
 
 # duality blogic
-(?A ?B ?C) log:onNegativeSurface {
+(_:A _:B _:C) log:onNegativeSurface {
     () log:onNegativeSurface {
-        () log:onNeutralSurface ?A .
+        () log:onNeutralSurface _:A .
     } .
-    ?A log:notIncludes {
-        ?B log:onNegativeSurface ?C .
+    _:A log:notIncludes {
+        _:B log:onNegativeSurface _:C .
     } .
     () log:onNegativeSurface {
         () log:onNegativeSurface {
             () log:onNeutralSurface {
                 () log:onNegativeSurface {
-                    () log:onNegativeSurface ?A .
+                    () log:onNegativeSurface _:A .
                 } .
             } .
         } .
@@ -55,10 +55,10 @@
 } .
 
 # questions
-(?G) log:onQuestionSurface {
-    () log:onNeutralSurface ?G .
+(_:G) log:onQuestionSurface {
+    () log:onNeutralSurface _:G .
     () log:onAnswerSurface {
-        :result :is ?G .
+        :result :is _:G .
     } .
 } .
 

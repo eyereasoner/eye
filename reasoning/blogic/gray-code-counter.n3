@@ -19,58 +19,58 @@
 0 :inv 1.
 1 :inv 0.
 
-(?D ?Q) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?D 0 ?Q) :dff ?Q>>.
+(_:D _:Q) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:D 0 _:Q) :dff _:Q>>.
 }.
 
-(?D ?Q) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?D 1 ?Q) :dff ?D>>.
+(_:D _:Q) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:D 1 _:Q) :dff _:D>>.
 }.
 
-(?A ?B ?Q ?T1 ?NA ?NB ?T2) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?A ?B) :neta ?Q>>.
-    (?A ?B) :and ?T1.
-    ?A :inv ?NA.
-    ?B :inv ?NB.
-    (?NA ?NB) :and ?T2.
-    (?T1 ?T2) :or ?Q.
+(_:A _:B _:Q _:T1 _:NA _:NB _:T2) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B) :neta _:Q>>.
+    (_:A _:B) :and _:T1.
+    _:A :inv _:NA.
+    _:B :inv _:NB.
+    (_:NA _:NB) :and _:T2.
+    (_:T1 _:T2) :or _:Q.
 }.
 
-(?A ?B ?C ?Q1 ?Q2 ?T1 ?NC ?T2 ?NA ?T3) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?A ?B ?C) :netb (?Q1 ?Q2)>>.
-    (?A ?C) :and ?T1.
-    ?C :inv ?NC.
-    (?B ?NC) :and ?T2.
-    ?A :inv ?NA.
-    (?NA ?C) :and ?T3.
-    (?T1 ?T2) :or ?Q1.
-    (?T2 ?T3) :or ?Q2.
-}.
-
-
-(?C ?Qa ?Qb ?Qc ?Za ?Zb ?Zc ?D1 ?D2 ?D3) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?C (?Qa ?Qb ?Qc)) :gcc (?Za ?Zb ?Zc)>>.
-    (?Qa ?Qb ?Qc) :netb (?D1 ?D2).
-    (?Qa ?Qb) :neta ?D3.
-    (?D1 ?C ?Qa) :dff ?Za.
-    (?D2 ?C ?Qb) :dff ?Zb.
-    (?D3 ?C ?Qc) :dff ?Zc.
+(_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B _:C) :netb (_:Q1 _:Q2)>>.
+    (_:A _:C) :and _:T1.
+    _:C :inv _:NC.
+    (_:B _:NC) :and _:T2.
+    _:A :inv _:NA.
+    (_:NA _:C) :and _:T3.
+    (_:T1 _:T2) :or _:Q1.
+    (_:T2 _:T3) :or _:Q2.
 }.
 
 
-(?S) log:onNegativeSurface {
-    () log:onNegativeSurface <<(() ?S) :testgcc ()>>.
+(_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:C (_:Qa _:Qb _:Qc)) :gcc (_:Za _:Zb _:Zc)>>.
+    (_:Qa _:Qb _:Qc) :netb (_:D1 _:D2).
+    (_:Qa _:Qb) :neta _:D3.
+    (_:D1 _:C _:Qa) :dff _:Za.
+    (_:D2 _:C _:Qb) :dff _:Zb.
+    (_:D3 _:C _:Qc) :dff _:Zc.
 }.
 
-(?Cc ?S ?Nc ?C ?Cs ?N ?Ns) log:onNegativeSurface {
-    () log:onNegativeSurface <<(?Cc ?S) :testgcc ?Nc>>.
-    ?Cc list:firstRest (?C ?Cs).
-    ?Nc list:firstRest (?N ?Ns).
-    (?C ?S) :gcc ?N.
-    (?Cs ?N) :testgcc ?Ns.
+
+(_:S) log:onNegativeSurface {
+    () log:onNegativeSurface <<(() _:S) :testgcc ()>>.
+}.
+
+(_:Cc _:S _:Nc _:C _:Cs _:N _:Ns) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:Cc _:S) :testgcc _:Nc>>.
+    _:Cc list:firstRest (_:C _:Cs).
+    _:Nc list:firstRest (_:N _:Ns).
+    (_:C _:S) :gcc _:N.
+    (_:Cs _:N) :testgcc _:Ns.
 }.
 
 # query
-(?Q) log:onQuerySurface {
-    ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ?Q.
+(_:Q) log:onQuerySurface {
+    ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc _:Q.
 }.
