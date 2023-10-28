@@ -9,18 +9,18 @@
 @prefix : <urn:example:> .
 
 # duality blogic
-(_:A _:B _:C) log:onNegativeSurface {
+(skolem:A skolem:B skolem:C) log:onNegativeSurface {
     () log:onNegativeSurface {
-        () log:onModalSurface _:A .
+        () log:onModalSurface skolem:A .
     } .
-    _:A log:notIncludes {
-        _:B log:onNegativeSurface _:C .
+    skolem:A log:notIncludes {
+        skolem:B log:onNegativeSurface skolem:C .
     } .
     () log:onNegativeSurface {
         () log:onNegativeSurface {
             () log:onModalSurface {
                 () log:onNegativeSurface {
-                    () log:onNegativeSurface _:A .
+                    () log:onNegativeSurface skolem:A .
                 } .
             } .
         } .

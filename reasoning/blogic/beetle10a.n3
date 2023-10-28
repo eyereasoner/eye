@@ -16,34 +16,34 @@
 :mars a :Planet.
 
 # green things are beautiful
-(_:A) log:onNegativeSurface {
-    _:A :is :green.
+(skolem:A) log:onNegativeSurface {
+    skolem:A :is :green.
     () log:onNegativeSurface {
-        _:A :is :beautiful.
+        skolem:A :is :beautiful.
     }.
 }.
 
 # things which are not green are beautiful
-(_:A) log:onNegativeSurface {
+(skolem:A) log:onNegativeSurface {
     () log:onNegativeSurface {
-        _:A :is :green
+        skolem:A :is :green
     }.
     () log:onNegativeSurface {
-        _:A :is :beautiful.
+        skolem:A :is :beautiful.
     }.
 }.
 
 # triples are composed of rdfs resources
-(_:S _:P _:O) log:onNegativeSurface {
-    _:S _:P _:O.
+(skolem:S skolem:P skolem:O) log:onNegativeSurface {
+    skolem:S skolem:P skolem:O.
     () log:onNegativeSurface {
-        _:S a rdfs:Resource.
-        _:P a rdfs:Resource.
-        _:O a rdfs:Resource.
+        skolem:S a rdfs:Resource.
+        skolem:P a rdfs:Resource.
+        skolem:O a rdfs:Resource.
     }.
 }.
 
 # query
-(_:S _:O) log:onQuerySurface {
-    _:S :is _:O.
+(skolem:S skolem:O) log:onQuerySurface {
+    skolem:S :is skolem:O.
 }.

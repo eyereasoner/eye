@@ -12,36 +12,36 @@
     () log:onNegativeSurface <<() :mi ()>> .
 } .
 
-(_:A _:G _:Gs _:Goals) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :mi _:A>> .
-    _:A list:firstRest (_:G _:Gs) .
-    () :headBody (_:G _:Goals _:Gs) .
-    () :mi _:Goals .
+(skolem:A skolem:G skolem:Gs skolem:Goals) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :mi skolem:A>> .
+    skolem:A list:firstRest (skolem:G skolem:Gs) .
+    () :headBody (skolem:G skolem:Goals skolem:Gs) .
+    () :mi skolem:Goals .
 } .
 
-(_:Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :mi ()} _:Rs _:Rs)>> .
+(skolem:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi ()} skolem:Rs skolem:Rs)>> .
 } .
 
-(_:A _:B _:Rs _:G _:Gs _:Goals _:C) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :mi _:A} _:B _:Rs)>> .
-    _:A list:firstRest (_:G _:Gs) .
-    _:B list:firstRest ({() :headBody (_:G _:Goals _:Gs)} _:C) .
-    _:C list:firstRest ({() :mi _:Goals} _:Rs) .
+(skolem:A skolem:B skolem:Rs skolem:G skolem:Gs skolem:Goals skolem:C) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi skolem:A} skolem:B skolem:Rs)>> .
+    skolem:A list:firstRest (skolem:G skolem:Gs) .
+    skolem:B list:firstRest ({() :headBody (skolem:G skolem:Goals skolem:Gs)} skolem:C) .
+    skolem:C list:firstRest ({() :mi skolem:Goals} skolem:Rs) .
 } .
 
-(_:Head _:Goals0 _:Goals _:Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :headBody (_:Head _:Goals0 _:Goals)} _:Rs _:Rs)>> .
-    () :headBody (_:Head _:Goals0 _:Goals) .
+(skolem:Head skolem:Goals0 skolem:Goals skolem:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :headBody (skolem:Head skolem:Goals0 skolem:Goals)} skolem:Rs skolem:Rs)>> .
+    () :headBody (skolem:Head skolem:Goals0 skolem:Goals) .
 } .
 
-(_:Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :natnum (0)} _:Rs _:Rs)>> .
+(skolem:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (0)} skolem:Rs skolem:Rs)>> .
 } .
 
-(_:X _:A _:Rs) log:onNegativeSurface {
-    () log:onNegativeSurface <<() :headBody ({() :natnum (:s _:X)} _:A _:Rs)>> .
-    _:A list:firstRest ({() :natnum _:X} _:Rs) .
+(skolem:X skolem:A skolem:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (:s skolem:X)} skolem:A skolem:Rs)>> .
+    skolem:A list:firstRest ({() :natnum skolem:X} skolem:Rs) .
 } .
 
 # question

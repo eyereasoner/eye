@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v7.0.1 (2023-10-27)').
+version_info('EYE v8.0.0 (2023-10-28)').
 
 license_info('MIT License
 
@@ -1404,6 +1404,8 @@ args(['--turtle', Argument|Args]) :-
     ;   atomic_list_concat([Arg, '#'], D)
     ),
     assertz(ns('', D)),
+    nb_getval(var_ns, Sns),
+    assertz(ns(skolem, Sns)),
     nb_setval(sc, 0),
     rdf_read_turtle(stream(In), Triples, [on_error(error)]),
     close(In),
@@ -1607,6 +1609,8 @@ n3_n3p(Argument, Mode) :-
     ;   atomic_list_concat([Arg, '#'], D)
     ),
     assertz(ns('', D)),
+    nb_getval(var_ns, Sns),
+    assertz(ns(skolem, Sns)),
     retractall(quvar(_, _, _)),
     retractall(qevar(_, _, _)),
     retractall(evar(_, _, _)),
@@ -2715,11 +2719,12 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   evar(Label, S, 0)
+        nb_getval(fdepth, D),
+        (   evar(Label, S, D)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, 0))
+            assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
