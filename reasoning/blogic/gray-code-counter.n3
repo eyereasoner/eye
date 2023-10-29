@@ -19,58 +19,58 @@
 0 :inv 1.
 1 :inv 0.
 
-(skolem:D skolem:Q) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:D 0 skolem:Q) :dff skolem:Q>>.
+(_:D _:Q) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:D 0 _:Q) :dff _:Q>>.
 }.
 
-(skolem:D skolem:Q) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:D 1 skolem:Q) :dff skolem:D>>.
+(_:D _:Q) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:D 1 _:Q) :dff _:D>>.
 }.
 
-(skolem:A skolem:B skolem:Q skolem:T1 skolem:NA skolem:NB skolem:T2) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A skolem:B) :neta skolem:Q>>.
-    (skolem:A skolem:B) :and skolem:T1.
-    skolem:A :inv skolem:NA.
-    skolem:B :inv skolem:NB.
-    (skolem:NA skolem:NB) :and skolem:T2.
-    (skolem:T1 skolem:T2) :or skolem:Q.
+(_:A _:B _:Q _:T1 _:NA _:NB _:T2) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B) :neta _:Q>>.
+    (_:A _:B) :and _:T1.
+    _:A :inv _:NA.
+    _:B :inv _:NB.
+    (_:NA _:NB) :and _:T2.
+    (_:T1 _:T2) :or _:Q.
 }.
 
-(skolem:A skolem:B skolem:C skolem:Q1 skolem:Q2 skolem:T1 skolem:NC skolem:T2 skolem:NA skolem:T3) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A skolem:B skolem:C) :netb (skolem:Q1 skolem:Q2)>>.
-    (skolem:A skolem:C) :and skolem:T1.
-    skolem:C :inv skolem:NC.
-    (skolem:B skolem:NC) :and skolem:T2.
-    skolem:A :inv skolem:NA.
-    (skolem:NA skolem:C) :and skolem:T3.
-    (skolem:T1 skolem:T2) :or skolem:Q1.
-    (skolem:T2 skolem:T3) :or skolem:Q2.
-}.
-
-
-(skolem:C skolem:Qa skolem:Qb skolem:Qc skolem:Za skolem:Zb skolem:Zc skolem:D1 skolem:D2 skolem:D3) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:C (skolem:Qa skolem:Qb skolem:Qc)) :gcc (skolem:Za skolem:Zb skolem:Zc)>>.
-    (skolem:Qa skolem:Qb skolem:Qc) :netb (skolem:D1 skolem:D2).
-    (skolem:Qa skolem:Qb) :neta skolem:D3.
-    (skolem:D1 skolem:C skolem:Qa) :dff skolem:Za.
-    (skolem:D2 skolem:C skolem:Qb) :dff skolem:Zb.
-    (skolem:D3 skolem:C skolem:Qc) :dff skolem:Zc.
+(_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A _:B _:C) :netb (_:Q1 _:Q2)>>.
+    (_:A _:C) :and _:T1.
+    _:C :inv _:NC.
+    (_:B _:NC) :and _:T2.
+    _:A :inv _:NA.
+    (_:NA _:C) :and _:T3.
+    (_:T1 _:T2) :or _:Q1.
+    (_:T2 _:T3) :or _:Q2.
 }.
 
 
-(skolem:S) log:onNegativeSurface {
-    () log:onNegativeSurface <<(() skolem:S) :testgcc ()>>.
+(_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:C (_:Qa _:Qb _:Qc)) :gcc (_:Za _:Zb _:Zc)>>.
+    (_:Qa _:Qb _:Qc) :netb (_:D1 _:D2).
+    (_:Qa _:Qb) :neta _:D3.
+    (_:D1 _:C _:Qa) :dff _:Za.
+    (_:D2 _:C _:Qb) :dff _:Zb.
+    (_:D3 _:C _:Qc) :dff _:Zc.
 }.
 
-(skolem:Cc skolem:S skolem:Nc skolem:C skolem:Cs skolem:N skolem:Ns) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:Cc skolem:S) :testgcc skolem:Nc>>.
-    skolem:Cc list:firstRest (skolem:C skolem:Cs).
-    skolem:Nc list:firstRest (skolem:N skolem:Ns).
-    (skolem:C skolem:S) :gcc skolem:N.
-    (skolem:Cs skolem:N) :testgcc skolem:Ns.
+
+(_:S) log:onNegativeSurface {
+    () log:onNegativeSurface <<(() _:S) :testgcc ()>>.
+}.
+
+(_:Cc _:S _:Nc _:C _:Cs _:N _:Ns) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:Cc _:S) :testgcc _:Nc>>.
+    _:Cc list:firstRest (_:C _:Cs).
+    _:Nc list:firstRest (_:N _:Ns).
+    (_:C _:S) :gcc _:N.
+    (_:Cs _:N) :testgcc _:Ns.
 }.
 
 # query
-(skolem:Q) log:onQuerySurface {
-    ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc skolem:Q.
+(_:Q) log:onQuerySurface {
+    ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc _:Q.
 }.

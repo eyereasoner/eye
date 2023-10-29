@@ -7,17 +7,17 @@
 @prefix : <http://example.org/>.
 
 # \Every x: type(x, Resource)
-(skolem:x) log:onNegativeSurface {
+(_:x) log:onNegativeSurface {
     () log:onNegativeSurface {
-        skolem:x a rdfs:Resource.
+        _:x a rdfs:Resource.
     }.
 }.
 
 # Everybody loves somebody who is lonely
-(skolem:A) log:onNegativeSurface {
-    (skolem:B) log:onNegativeSurface {
-        skolem:A :loves skolem:B.
-        skolem:B :is :lonely.
+(_:A) log:onNegativeSurface {
+    (_:B) log:onNegativeSurface {
+        _:A :loves _:B.
+        _:B :is :lonely.
     }.
 }.
 
@@ -26,7 +26,7 @@
     :pat a rdfs:Resource.
 }.
 
-(skolem:x) log:onQuerySurface {
-    :bob :loves skolem:x.
-    skolem:x :is :lonely.
+(_:x) log:onQuerySurface {
+    :bob :loves _:x.
+    _:x :is :lonely.
 }.

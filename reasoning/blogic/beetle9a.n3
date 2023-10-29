@@ -8,24 +8,24 @@
 :bob a :Person.
 
 # green things are beautiful
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :green.
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
     () log:onNegativeSurface {
-        skolem:A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # things which are not green are beautiful
-(skolem:A) log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     () log:onNegativeSurface {
-        skolem:A :is :green
+        _:A :is :green
     }.
     () log:onNegativeSurface {
-        skolem:A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # query
-(skolem:X) log:onQuerySurface {
-    skolem:X :is :beautiful.
+(_:X) log:onQuerySurface {
+    _:X :is :beautiful.
 }.

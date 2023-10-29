@@ -5,34 +5,34 @@
 :beetle a :Car.
 
 # cars are green or blue
-(skolem:A) log:onNegativeSurface {
-    skolem:A a :Car.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
     () log:onNegativeSurface {
         () log:onNegativeSurface {
             () log:onNegativeSurface {
-                skolem:A :is :green.
+                _:A :is :green.
             }.
             () log:onNegativeSurface {
-                skolem:A :is :blue.
+                _:A :is :blue.
             }.
         }.
     }.
 }.
 
 # if something is green or blue it is a beautiful (but backwards)
-(skolem:A) log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            skolem:A :is :green.
+            _:A :is :green.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :blue.
+            _:A :is :blue.
         }.
     }.
-    () log:onNegativeSurface <<skolem:A :is :beautiful>>.
+    () log:onNegativeSurface <<_:A :is :beautiful>>.
 }.
 
 # query
-(skolem:S skolem:O) log:onQuerySurface {
-    skolem:S :is skolem:O.
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
 }.

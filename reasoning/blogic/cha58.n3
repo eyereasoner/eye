@@ -8,18 +8,18 @@
     () log:onNegativeSurface true.
 }.
 
-(skolem:S) log:onNegativeSurface {
-    skolem:S a foaf:Person.
+(_:S) log:onNegativeSurface {
+    _:S a foaf:Person.
     () log:onNegativeSurface {
-        skolem:S a schema:Person {| log:ohyeah {skolem:S a foaf:Person} |}.
+        _:S a schema:Person {| log:ohyeah {_:S a foaf:Person} |}.
     }.
 }.
 
 # query
-(skolem:S skolem:C) log:onQuerySurface {
-    skolem:S a schema:Person.
+(_:S _:C) log:onQuerySurface {
+    _:S a schema:Person.
 }.
 
-(skolem:S skolem:A) log:onQuerySurface {
-    skolem:S log:ohyeah skolem:A
+(_:S _:A) log:onQuerySurface {
+    _:S log:ohyeah _:A
 }.

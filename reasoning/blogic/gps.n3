@@ -14,47 +14,47 @@
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
 # find paths in the state space from initial state to goal state within limits
-(skolem:SCOPE skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:SCOPE gps:findpath (skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-            (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort))>>.
-    skolem:SCOPE gps:findpaths (() skolem:Goal () 0.0 0.0 1.0 1.0 skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-        (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort 1)).
+(_:SCOPE _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
+            (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort))>>.
+    _:SCOPE gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
+        (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort 1)).
 }.
 
-(skolem:SCOPE skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:SCOPE gps:findpath (skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount))>>.
-    skolem:SCOPE gps:findpaths (() skolem:Goal () 0.0 0.0 1.0 1.0 skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-        (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount)).
+(_:SCOPE _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount))>>.
+    _:SCOPE gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
+        (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)).
 }.
 
-(skolem:SCOPE skolem:Maps skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:SCOPE gps:findpaths (skolem:Maps skolem:Goal skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-            (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount))>>.
-    skolem:Goal log:callWithCleanup true.
+(_:SCOPE _:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:SCOPE gps:findpaths (_:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:Path _:Duration _:Cost _:Belief _:Comfort
+            (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount))>>.
+    _:Goal log:callWithCleanup true.
 }.
 
-(skolem:SCOPE skolem:Maps_s skolem:Goal skolem:Path_s skolem:Duration_s skolem:Cost_s skolem:Belief_s skolem:Comfort_s skolem:Path
- skolem:Duration skolem:Cost skolem:Belief skolem:Comfort skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount
- skolem:From skolem:Transition skolem:To skolem:Action skolem:Duration_n skolem:Cost_n skolem:Belief_n skolem:Comfort_n skolem:Map skolem:Maps_t skolem:Stagecount
- skolem:Duration_t skolem:Cost_t skolem:Belief_t skolem:Comfort_t skolem:Path_t) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:SCOPE gps:findpaths (skolem:Maps_s skolem:Goal skolem:Path_s skolem:Duration_s skolem:Cost_s skolem:Belief_s skolem:Comfort_s skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-            (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount))>>.
-    skolem:Map gps:description (skolem:From skolem:Transition skolem:To skolem:Action skolem:Duration_n skolem:Cost_n skolem:Belief_n skolem:Comfort_n).
-    (skolem:Maps_s (skolem:Map)) list:append skolem:Maps_t.
-    skolem:Maps_t gps:stagecount skolem:Stagecount.
-    skolem:Stagecount math:notGreaterThan skolem:MaxStagecount.
-    (skolem:Duration_s skolem:Duration_n) math:sum skolem:Duration_t.
-    skolem:Duration_t math:notGreaterThan skolem:MaxDuration.
-    (skolem:Cost_s skolem:Cost_n) math:sum skolem:Cost_t.
-    skolem:Cost_t math:notGreaterThan skolem:MaxCost.
-    (skolem:Belief_s skolem:Belief_n) math:product skolem:Belief_t.
-    skolem:Belief_t math:notLessThan skolem:MinBelief.
-    (skolem:Comfort_s skolem:Comfort_n) math:product skolem:Comfort_t.
-    skolem:Comfort_t math:notLessThan skolem:MinComfort.
-    (skolem:Path_s (skolem:Action)) list:append skolem:Path_t.
-    skolem:From log:becomes skolem:To.
-    {skolem:SCOPE gps:findpaths (skolem:Maps_t skolem:Goal skolem:Path_t skolem:Duration_t skolem:Cost_t skolem:Belief_t skolem:Comfort_t skolem:Path skolem:Duration skolem:Cost skolem:Belief skolem:Comfort
-        (skolem:MaxDuration skolem:MaxCost skolem:MinBelief skolem:MinComfort skolem:MaxStagecount))} log:callWithCleanup {skolem:To log:becomes skolem:From}.
+(_:SCOPE _:Maps_s _:Goal _:Path_s _:Duration_s _:Cost_s _:Belief_s _:Comfort_s _:Path
+ _:Duration _:Cost _:Belief _:Comfort _:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount
+ _:From _:Transition _:To _:Action _:Duration_n _:Cost_n _:Belief_n _:Comfort_n _:Map _:Maps_t _:Stagecount
+ _:Duration_t _:Cost_t _:Belief_t _:Comfort_t _:Path_t) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:SCOPE gps:findpaths (_:Maps_s _:Goal _:Path_s _:Duration_s _:Cost_s _:Belief_s _:Comfort_s _:Path _:Duration _:Cost _:Belief _:Comfort
+            (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount))>>.
+    _:Map gps:description (_:From _:Transition _:To _:Action _:Duration_n _:Cost_n _:Belief_n _:Comfort_n).
+    (_:Maps_s (_:Map)) list:append _:Maps_t.
+    _:Maps_t gps:stagecount _:Stagecount.
+    _:Stagecount math:notGreaterThan _:MaxStagecount.
+    (_:Duration_s _:Duration_n) math:sum _:Duration_t.
+    _:Duration_t math:notGreaterThan _:MaxDuration.
+    (_:Cost_s _:Cost_n) math:sum _:Cost_t.
+    _:Cost_t math:notGreaterThan _:MaxCost.
+    (_:Belief_s _:Belief_n) math:product _:Belief_t.
+    _:Belief_t math:notLessThan _:MinBelief.
+    (_:Comfort_s _:Comfort_n) math:product _:Comfort_t.
+    _:Comfort_t math:notLessThan _:MinComfort.
+    (_:Path_s (_:Action)) list:append _:Path_t.
+    _:From log:becomes _:To.
+    {_:SCOPE gps:findpaths (_:Maps_t _:Goal _:Path_t _:Duration_t _:Cost_t _:Belief_t _:Comfort_t _:Path _:Duration _:Cost _:Belief _:Comfort
+        (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount))} log:callWithCleanup {_:To log:becomes _:From}.
 }.
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
@@ -62,54 +62,54 @@
     () log:onNegativeSurface <<() gps:stagecount 1>>.
 }.
 
-(skolem:A skolem:B skolem:C skolem:D skolem:E skolem:F skolem:G) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:A gps:stagecount skolem:B>>.
-    skolem:A list:firstRest (skolem:C skolem:D).
-    skolem:D list:firstRest (skolem:E skolem:F).
-    skolem:C log:notEqualTo skolem:E.
-    skolem:D gps:stagecount skolem:G.
-    (skolem:G 1) math:sum skolem:B.
+(_:A _:B _:C _:D _:E _:F _:G) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:A gps:stagecount _:B>>.
+    _:A list:firstRest (_:C _:D).
+    _:D list:firstRest (_:E _:F).
+    _:C log:notEqualTo _:E.
+    _:D gps:stagecount _:G.
+    (_:G 1) math:sum _:B.
 }.
 
-(skolem:A skolem:B skolem:C skolem:D) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:A gps:stagecount skolem:B>>.
-    skolem:A list:firstRest (skolem:C skolem:D).
-    skolem:D gps:stagecount skolem:B.
+(_:A _:B _:C _:D) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:A gps:stagecount _:B>>.
+    _:A list:firstRest (_:C _:D).
+    _:D gps:stagecount _:B.
 }.
 
 # current state
 :i1 :location :Gent.
 
 # map of Belgium
-(skolem:S skolem:L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({skolem:S :location :Gent} true {skolem:S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)>>.
-    skolem:S :location skolem:L.
+(_:S _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({_:S :location :Gent} true {_:S :location :Brugge} :drive_gent_brugge 1500.0 0.006 0.96 0.99)>>.
+    _:S :location _:L.
 }.
 
-(skolem:S skolem:L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({skolem:S :location :Gent} true {skolem:S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)>>.
-    skolem:S :location skolem:L.
+(_:S _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({_:S :location :Gent} true {_:S :location :Kortrijk} :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)>>.
+    _:S :location _:L.
 }.
 
-(skolem:S skolem:L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({skolem:S :location :Kortrijk} true {skolem:S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)>>.
-    skolem:S :location skolem:L.
+(_:S _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({_:S :location :Kortrijk} true {_:S :location :Brugge} :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)>>.
+    _:S :location _:L.
 }.
 
-(skolem:S skolem:L) log:onNegativeSurface {
-    () log:onNegativeSurface <<:map-BE gps:description ({skolem:S :location :Brugge} true {skolem:S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)>>.
-    skolem:S :location skolem:L.
+(_:S _:L) log:onNegativeSurface {
+    () log:onNegativeSurface <<:map-BE gps:description ({_:S :location :Brugge} true {_:S :location :Oostende} :drive_brugge_oostende 900.0 0.004 0.98 1.0)>>.
+    _:S :location _:L.
 }.
 
 # path to goal state
-(skolem:SCOPE skolem:SUBJECT skolem:PATH skolem:DURATION skolem:COST skolem:BELIEF skolem:COMFORT) log:onNegativeSurface {
-    skolem:SCOPE gps:findpath ({skolem:SUBJECT :location :Oostende} skolem:PATH skolem:DURATION skolem:COST skolem:BELIEF skolem:COMFORT (5000.0 5.0 0.2 0.4 1)).
+(_:SCOPE _:SUBJECT _:PATH _:DURATION _:COST _:BELIEF _:COMFORT) log:onNegativeSurface {
+    _:SCOPE gps:findpath ({_:SUBJECT :location :Oostende} _:PATH _:DURATION _:COST _:BELIEF _:COMFORT (5000.0 5.0 0.2 0.4 1)).
     () log:onNegativeSurface {
-        skolem:SUBJECT gps:path (skolem:PATH skolem:DURATION skolem:COST skolem:BELIEF skolem:COMFORT).
+        _:SUBJECT gps:path (_:PATH _:DURATION _:COST _:BELIEF _:COMFORT).
     }.
 }.
 
 # query
-(skolem:SUBJECT skolem:PATH skolem:DURATION skolem:COST skolem:BELIEF skolem:COMFORT) log:onQuerySurface {
-    skolem:SUBJECT gps:path (skolem:PATH skolem:DURATION skolem:COST skolem:BELIEF skolem:COMFORT).
+(_:SUBJECT _:PATH _:DURATION _:COST _:BELIEF _:COMFORT) log:onQuerySurface {
+    _:SUBJECT gps:path (_:PATH _:DURATION _:COST _:BELIEF _:COMFORT).
 }.

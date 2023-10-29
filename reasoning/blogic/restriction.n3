@@ -17,40 +17,40 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-(skolem:y) log:onNegativeSurface {
-    :xxx :bbb skolem:y.
+(_:y) log:onNegativeSurface {
+    :xxx :bbb _:y.
     () log:onNegativeSurface {
-        skolem:y a :ccc.
+        _:y a :ccc.
     }.
 }.
 
 # owl:allValuseFrom description logic
-(skolem:a skolem:b skolem:c) log:onNegativeSurface {
-    skolem:a owl:onProperty skolem:b.
-    skolem:a owl:allValuesFrom skolem:c.
+(_:a _:b _:c) log:onNegativeSurface {
+    _:a owl:onProperty _:b.
+    _:a owl:allValuesFrom _:c.
     () log:onNegativeSurface {
-        (skolem:x skolem:y) log:onNegativeSurface {
-            skolem:x a skolem:a.
-            skolem:x skolem:b skolem:y.
+        (_:x _:y) log:onNegativeSurface {
+            _:x a _:a.
+            _:x _:b _:y.
             () log:onNegativeSurface {
-                skolem:y a skolem:c.
+                _:y a _:c.
             }.
         }.
-        (skolem:x) log:onNegativeSurface {
-            (skolem:y) log:onNegativeSurface {
-                skolem:x skolem:b skolem:y.
+        (_:x) log:onNegativeSurface {
+            (_:y) log:onNegativeSurface {
+                _:x _:b _:y.
                 () log:onNegativeSurface {
-                    skolem:y a skolem:c.
+                    _:y a _:c.
                 }.
             }.
             () log:onNegativeSurface {
-                skolem:x a skolem:a.
+                _:x a _:a.
             }.
         }.
     }.
 }.
 
 # query
-(skolem:S skolem:C) log:onQuerySurface {
-    skolem:S a skolem:C.
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
 }.

@@ -59,75 +59,75 @@ true dqc:k false.
 true dqc:k true.
 
 # KG
-(skolem:X skolem:Y skolem:Z) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:X dqc:kg skolem:Y>>.
-    skolem:X dqc:g skolem:Z.
-    skolem:Z dqc:k skolem:Y.
+(_:X _:Y _:Z) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:X dqc:kg _:Y>>.
+    _:X dqc:g _:Z.
+    _:Z dqc:k _:Y.
 }.
 
 # GK
-(skolem:X skolem:Y skolem:Z) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:X dqc:gk skolem:Y>>.
-    skolem:X dqc:k skolem:Z.
-    skolem:Z dqc:g skolem:Y.
+(_:X _:Y _:Z) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:X dqc:gk _:Y>>.
+    _:X dqc:k _:Z.
+    _:Z dqc:g _:Y.
 }.
 
 # Alice
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<0 dqc:alice (skolem:X skolem:Y)>>.
-    skolem:X dqc:id skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<0 dqc:alice (_:X _:Y)>>.
+    _:X dqc:id _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<1 dqc:alice (skolem:X skolem:Y)>>.
-    skolem:X dqc:g skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<1 dqc:alice (_:X _:Y)>>.
+    _:X dqc:g _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<2 dqc:alice (skolem:X skolem:Y)>>.
-    skolem:X dqc:k skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<2 dqc:alice (_:X _:Y)>>.
+    _:X dqc:k _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<3 dqc:alice (skolem:X skolem:Y)>>.
-    skolem:X dqc:kg skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<3 dqc:alice (_:X _:Y)>>.
+    _:X dqc:kg _:Y.
 }.
 
 # Bob
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:X skolem:Y) dqc:bob 0>>.
-    skolem:X dqc:gk skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 0>>.
+    _:X dqc:gk _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:X skolem:Y) dqc:bob 1>>.
-    skolem:X dqc:k skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 1>>.
+    _:X dqc:k _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:X skolem:Y) dqc:bob 2>>.
-    skolem:X dqc:g skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 2>>.
+    _:X dqc:g _:Y.
 }.
 
-(skolem:X skolem:Y) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:X skolem:Y) dqc:bob 3>>.
-    skolem:X dqc:id skolem:Y.
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 3>>.
+    _:X dqc:id _:Y.
 }.
 
 # superdense coding
-(skolem:N skolem:A skolem:B skolem:M skolem:X skolem:Y skolem:Z skolem:L skolem:S skolem:I) log:onNegativeSurface {
-    skolem:N dqc:alice skolem:A.
-    skolem:B dqc:bob skolem:M.
-    (1 {skolem:X dqc:r skolem:Y. skolem:N dqc:alice (skolem:X skolem:Z). (skolem:Z skolem:Y) dqc:bob skolem:M} skolem:L) log:collectAllIn skolem:S.
-    skolem:L list:length skolem:I.
-    (skolem:I 2) math:remainder 1.
+(_:N _:A _:B _:M _:X _:Y _:Z _:L _:S _:I) log:onNegativeSurface {
+    _:N dqc:alice _:A.
+    _:B dqc:bob _:M.
+    (1 {_:X dqc:r _:Y. _:N dqc:alice (_:X _:Z). (_:Z _:Y) dqc:bob _:M} _:L) log:collectAllIn _:S.
+    _:L list:length _:I.
+    (_:I 2) math:remainder 1.
     () log:onNegativeSurface {
-        skolem:N dqc:sdcoding skolem:M.
+        _:N dqc:sdcoding _:M.
     }.
 }.
 
 # query
-(skolem:N skolem:M) log:onQuerySurface {
-    skolem:N dqc:sdcoding skolem:M.
+(_:N _:M) log:onQuerySurface {
+    _:N dqc:sdcoding _:M.
 }.
 

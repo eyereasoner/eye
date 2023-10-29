@@ -5,130 +5,130 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(skolem:A) log:onNegativeSurface {
-    skolem:A a :Car.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
     () log:onNegativeSurface {
-        skolem:A :is :green.
+        _:A :is :green.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :blue.
+        _:A :is :blue.
     }.
 }.
 
 # green things are nice or pretty
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :green.
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
     () log:onNegativeSurface {
-        skolem:A :is :nice.
+        _:A :is :nice.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :pretty.
+        _:A :is :pretty.
     }.
 }.
 
 # pretty things are pretty 1 or pretty 2
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :pretty.
+(_:A) log:onNegativeSurface {
+    _:A :is :pretty.
     () log:onNegativeSurface {
-        skolem:A :is :pretty1.
+        _:A :is :pretty1.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :pretty2.
+        _:A :is :pretty2.
     }.
 }.
 
 # nice things are nice 1 or nice 2
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :nice.
+(_:A) log:onNegativeSurface {
+    _:A :is :nice.
     () log:onNegativeSurface {
-        skolem:A :is :nice1.
+        _:A :is :nice1.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :nice2.
+        _:A :is :nice2.
     }.
 }.
 
 # pretty 1 things are pretty 11 or pretty 12
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :pretty1.
+(_:A) log:onNegativeSurface {
+    _:A :is :pretty1.
     () log:onNegativeSurface {
-        skolem:A :is :pretty11.
+        _:A :is :pretty11.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :pretty12.
+        _:A :is :pretty12.
     }.
 }.
 
 # pretty 2 things are pretty 21 or pretty 22
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :pretty2.
+(_:A) log:onNegativeSurface {
+    _:A :is :pretty2.
     () log:onNegativeSurface {
-        skolem:A :is :pretty21.
+        _:A :is :pretty21.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :pretty22.
+        _:A :is :pretty22.
     }.
 }.
 
 # nice 1 things are nice 11 or nice 12
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :nice1.
+(_:A) log:onNegativeSurface {
+    _:A :is :nice1.
     () log:onNegativeSurface {
-        skolem:A :is :nice11.
+        _:A :is :nice11.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :nice12.
+        _:A :is :nice12.
     }.
 }.
 
 # nice 2 things are nice 21 or nice 22
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :nice2.
+(_:A) log:onNegativeSurface {
+    _:A :is :nice2.
     () log:onNegativeSurface {
-        skolem:A :is :nice21.
+        _:A :is :nice21.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :nice22.
+        _:A :is :nice22.
     }.
 }.
 
 # pretty or nice or blue things are beautiful
-(skolem:A) log:onNegativeSurface {
+(_:A) log:onNegativeSurface {
     () log:onNegativeSurface {
         () log:onNegativeSurface {
-            skolem:A :is :pretty11.
+            _:A :is :pretty11.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :pretty12.
+            _:A :is :pretty12.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :pretty21.
+            _:A :is :pretty21.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :pretty22.
+            _:A :is :pretty22.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :nice11.
+            _:A :is :nice11.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :nice12.
+            _:A :is :nice12.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :nice21.
+            _:A :is :nice21.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :nice22.
+            _:A :is :nice22.
         }.
         () log:onNegativeSurface {
-            skolem:A :is :blue.
+            _:A :is :blue.
         }.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # query
-(skolem:S skolem:O) log:onQuerySurface {
-    skolem:S :is skolem:O.
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
 }.

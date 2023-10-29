@@ -5,49 +5,49 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(skolem:A) log:onNegativeSurface {
-    skolem:A a :Car.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
     () log:onNegativeSurface {
-        skolem:A :is :green.
+        _:A :is :green.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :blue.
+        _:A :is :blue.
     }.
 }.
 
 # green things are nice or pretty
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :green.
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
     () log:onNegativeSurface {
-        skolem:A :is :nice.
+        _:A :is :nice.
     }.
     () log:onNegativeSurface {
-        skolem:A :is :pretty.
+        _:A :is :pretty.
     }.
 }.
 # pretty things are beautiful
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :pretty.
+(_:A) log:onNegativeSurface {
+    _:A :is :pretty.
     () log:onNegativeSurface {
-        skolem:A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # cars are not beautiful
-(skolem:A) log:onNegativeSurface {
-    skolem:A a :Car.
-    skolem:A :is :beautiful.
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
+    _:A :is :beautiful.
 }.
 
 # blue things are beautiful
-(skolem:A) log:onNegativeSurface {
-    skolem:A :is :blue.
+(_:A) log:onNegativeSurface {
+    _:A :is :blue.
     () log:onNegativeSurface {
-        skolem:A :is :beautiful.
+        _:A :is :beautiful.
     }.
 }.
 
 # query
-(skolem:S) log:onQuerySurface {
-    skolem:S :is :nice.
+(_:S) log:onQuerySurface {
+    _:S :is :nice.
 }.

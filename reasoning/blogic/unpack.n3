@@ -24,12 +24,12 @@
 }.
 
 # unpack the triples that are usable in the future
-(skolem:b skolem:g skolem:l skolem:m skolem:h) log:onNegativeSurface {
-    skolem:b :data skolem:g.
-    skolem:g graph:list skolem:l.
-    skolem:l :unpack skolem:m.
-    skolem:m graph:union skolem:h.
-    () log:onAnswerSurface skolem:h.
+(_:b _:g _:l _:m _:h) log:onNegativeSurface {
+    _:b :data _:g.
+    _:g graph:list _:l.
+    _:l :unpack _:m.
+    _:m graph:union _:h.
+    () log:onAnswerSurface _:h.
 }.
 
 # the logic for unpack using backward rules
@@ -37,51 +37,51 @@
     () log:onNegativeSurface <<() :unpack ()>>.
 }.
 
-(skolem:g skolem:h skolem:f skolem:r skolem:a skolem:b) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:g :unpack skolem:h>>.
-    skolem:g list:firstRest (skolem:f skolem:r).
-    skolem:h list:firstRest (skolem:a skolem:b).
-    skolem:f :unpack skolem:a.
-    skolem:r :unpack skolem:b.
+(_:g _:h _:f _:r _:a _:b) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:g :unpack _:h>>.
+    _:g list:firstRest (_:f _:r).
+    _:h list:firstRest (_:a _:b).
+    _:f :unpack _:a.
+    _:r :unpack _:b.
 }.
 
-(skolem:b skolem:p skolem:f skolem:a skolem:c skolem:t skolem:l skolem:m) log:onNegativeSurface {
+(_:b _:p _:f _:a _:c _:t _:l _:m) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        skolem:b :package skolem:p.
-    } :unpack skolem:f>>.
-    skolem:p log:includes {
-        skolem:a :content skolem:c; :usable_until skolem:t.
+        _:b :package _:p.
+    } :unpack _:f>>.
+    _:p log:includes {
+        _:a :content _:c; :usable_until _:t.
     }.
-    (:tomorrow :next_week) list:member skolem:t.
-    skolem:c graph:list skolem:l.
-    skolem:l :unpack skolem:m.
-    skolem:m graph:union skolem:f.
+    (:tomorrow :next_week) list:member _:t.
+    _:c graph:list _:l.
+    _:l :unpack _:m.
+    _:m graph:union _:f.
 }.
 
-(skolem:b skolem:p skolem:a skolem:c skolem:t skolem:l skolem:m) log:onNegativeSurface {
+(_:b _:p _:a _:c _:t _:l _:m) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        skolem:b :package skolem:p.
+        _:b :package _:p.
     } :unpack true>>.
-    skolem:p log:includes {
-        skolem:a :content skolem:c; :usable_until skolem:t.
+    _:p log:includes {
+        _:a :content _:c; :usable_until _:t.
     }.
-    (:yesterday :last_week) list:member skolem:t.
+    (:yesterday :last_week) list:member _:t.
 }.
 
-(skolem:b skolem:p) log:onNegativeSurface {
+(_:b _:p) log:onNegativeSurface {
     () log:onNegativeSurface <<{
-        skolem:b :tag skolem:p.
+        _:b :tag _:p.
     } :unpack true>>.
 }.
 
-(skolem:g skolem:r skolem:a skolem:p skolem:b skolem:q) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:g :unpack skolem:g>>.
-    skolem:g log:rawType skolem:r.
-    skolem:r log:notEqualTo rdf:List.
-    skolem:g log:notIncludes {
-        skolem:a :package skolem:p.
+(_:g _:r _:a _:p _:b _:q) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:g :unpack _:g>>.
+    _:g log:rawType _:r.
+    _:r log:notEqualTo rdf:List.
+    _:g log:notIncludes {
+        _:a :package _:p.
     }.
-    skolem:g log:notIncludes {
-        skolem:b :tag skolem:q.
+    _:g log:notIncludes {
+        _:b :tag _:q.
     }.
 }.

@@ -8,48 +8,48 @@
 @prefix : <http://example.org/ns#>.
 
 # add
-(skolem:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A 0) :add skolem:A>>.
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A 0) :add _:A>>.
 }.
 
-(skolem:A skolem:B skolem:C) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A (:s skolem:B)) :add (:s skolem:C)>>.
-    (skolem:A skolem:B) :add skolem:C.
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A (:s _:B)) :add (:s _:C)>>.
+    (_:A _:B) :add _:C.
 }.
 
 # multiply
-(skolem:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A 0) :multiply 0>>.
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A 0) :multiply 0>>.
 }.
 
-(skolem:A skolem:B skolem:C skolem:D) log:onNegativeSurface {
-    () log:onNegativeSurface <<(skolem:A (:s skolem:B)) :multiply skolem:C>>.
-    (skolem:A skolem:B) :multiply skolem:D.
-    (skolem:A skolem:D) :add skolem:C.
+(_:A _:B _:C _:D) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:A (:s _:B)) :multiply _:C>>.
+    (_:A _:B) :multiply _:D.
+    (_:A _:D) :add _:C.
 }.
 
 # factorial
-(skolem:A skolem:B) log:onNegativeSurface {
-    () log:onNegativeSurface <<skolem:A :factorial skolem:B>>.
-    (skolem:A (:s 0)) :fac skolem:B.
+(_:A _:B) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:A :factorial _:B>>.
+    (_:A (:s 0)) :fac _:B.
 }.
 
-(skolem:A) log:onNegativeSurface {
-    () log:onNegativeSurface <<(0 skolem:A) :fac skolem:A>>.
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface <<(0 _:A) :fac _:A>>.
 }.
 
-(skolem:A skolem:B skolem:C skolem:D) log:onNegativeSurface {
-    () log:onNegativeSurface <<((:s skolem:A) skolem:B) :fac skolem:C>>.
-    (skolem:B (:s skolem:A)) :multiply skolem:D.
-    (skolem:A skolem:D) :fac skolem:C.
+(_:A _:B _:C _:D) log:onNegativeSurface {
+    () log:onNegativeSurface <<((:s _:A) _:B) :fac _:C>>.
+    (_:B (:s _:A)) :multiply _:D.
+    (_:A _:D) :fac _:C.
 }.
 
 # question
-(skolem:A skolem:B skolem:C) log:onQuestionSurface {
-    ((:s 0) (:s (:s 0))) :add skolem:A.
-    (skolem:A (:s (:s 0))) :multiply skolem:B.
-    skolem:B :factorial skolem:C.
+(_:A _:B _:C) log:onQuestionSurface {
+    ((:s 0) (:s (:s 0))) :add _:A.
+    (_:A (:s (:s 0))) :multiply _:B.
+    _:B :factorial _:C.
     () log:onAnswerSurface {
-        :result :is skolem:C.
+        :result :is _:C.
     }.
 }.
