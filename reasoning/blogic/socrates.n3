@@ -12,15 +12,15 @@
 :Man rdfs:subClassOf :Human.
 :Human rdfs:subClassOf :Mortal.
 
-(_:A _:B _:S) log:onNegativeSurface {
-    _:A rdfs:subClassOf _:B.
-    _:S a _:A.
+(skolem:A skolem:B skolem:S) log:onNegativeSurface {
+    skolem:A rdfs:subClassOf skolem:B.
+    skolem:S a skolem:A.
     () log:onNegativeSurface {
-        _:S a _:B.
+        skolem:S a skolem:B.
     }.
 }.
 
 # query
-(_:S _:C) log:onQuerySurface {
-    _:S a _:C.
+(skolem:S skolem:C) log:onQuerySurface {
+    skolem:S a skolem:C.
 }.

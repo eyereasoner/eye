@@ -40,36 +40,36 @@ foaf:yahooChatID rdfs:subPropertyOf foaf:nick.
 schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
 
 # rdfs logic
-(_:P _:Q _:S _:O) log:onNegativeSurface {
-    _:P rdfs:subPropertyOf _:Q.
-    _:S _:P _:O.
+(skolem:P skolem:Q skolem:S skolem:O) log:onNegativeSurface {
+    skolem:P rdfs:subPropertyOf skolem:Q.
+    skolem:S skolem:P skolem:O.
     () log:onNegativeSurface {
-        _:S _:Q _:O.
+        skolem:S skolem:Q skolem:O.
     }.
 }.
 
-(_:C _:D _:X) log:onNegativeSurface {
-    _:C rdfs:subClassOf _:D.
-    _:X a _:C.
+(skolem:C skolem:D skolem:X) log:onNegativeSurface {
+    skolem:C rdfs:subClassOf skolem:D.
+    skolem:X a skolem:C.
     () log:onNegativeSurface {
-        _:X a _:D.
+        skolem:X a skolem:D.
     }.
 }.
 
 # partial evaluation question
-(_:S _:P _:O _:A _:G _:H _:I _:J _:K _:B _:C _:U _:V) log:onQuestionSurface {
-    _:S _:P _:O.
-    _:P log:notEqualTo log:onNegativeSurface.
-    _:P log:notEqualTo log:onQuestionSurface.
-    _:A log:onNegativeSurface _:G.
-    _:G log:notIncludes {_:U log:onAnswerSurface _:V}.
-    (_:G {_:G log:graffiti _:A}) graph:union _:H.
-    (_:H {_:S _:P _:O. _:G log:graffiti _:B}) graph:difference _:I.
-    _:G graph:length _:J.
-    _:I graph:length _:K.
-    _:J math:greaterThan _:K.
-    _:B log:graffiti _:C.
+(skolem:S skolem:P skolem:O skolem:A skolem:G skolem:H skolem:I skolem:J skolem:K skolem:B skolem:C skolem:U skolem:V) log:onQuestionSurface {
+    skolem:S skolem:P skolem:O.
+    skolem:P log:notEqualTo log:onNegativeSurface.
+    skolem:P log:notEqualTo log:onQuestionSurface.
+    skolem:A log:onNegativeSurface skolem:G.
+    skolem:G log:notIncludes {skolem:U log:onAnswerSurface skolem:V}.
+    (skolem:G {skolem:G log:graffiti skolem:A}) graph:union skolem:H.
+    (skolem:H {skolem:S skolem:P skolem:O. skolem:G log:graffiti skolem:B}) graph:difference skolem:I.
+    skolem:G graph:length skolem:J.
+    skolem:I graph:length skolem:K.
+    skolem:J math:greaterThan skolem:K.
+    skolem:B log:graffiti skolem:C.
     () log:onAnswerSurface {
-        _:C log:onNegativeSurface _:I.
+        skolem:C log:onNegativeSurface skolem:I.
     }.
 }.

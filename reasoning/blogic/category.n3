@@ -12,24 +12,24 @@
 :n6 :p6 :n7; a :C3.
 
 # categorize
-(_:A _:B _:C _:D) log:onNegativeSurface {
-    _:A a _:B.
-    _:A _:C _:D.
+(skolem:A skolem:B skolem:C skolem:D) log:onNegativeSurface {
+    skolem:A a skolem:B.
+    skolem:A skolem:C skolem:D.
     () log:onNegativeSurface {
-        <<_:A _:C _:D>> :category _:B.
+        <<skolem:A skolem:C skolem:D>> :category skolem:B.
     }.
 }.
 
-(_:A _:B _:C _:D _:E _:F _:G _:H) log:onNegativeSurface {
-    <<_:A _:B _:C>> :category _:D.
-    _:C _:E _:F.
-    (_:G {_:C a _:G} ()) log:collectAllIn _:H.
+(skolem:A skolem:B skolem:C skolem:D skolem:E skolem:F skolem:G skolem:H) log:onNegativeSurface {
+    <<skolem:A skolem:B skolem:C>> :category skolem:D.
+    skolem:C skolem:E skolem:F.
+    (skolem:G {skolem:C a skolem:G} ()) log:collectAllIn skolem:H.
     () log:onNegativeSurface {
-        <<_:C _:E _:F>> :category _:D.
+        <<skolem:C skolem:E skolem:F>> :category skolem:D.
     }.
 }.
 
 # query
-(_:A _:B) log:onQuerySurface {
-    _:A :category _:B.
+(skolem:A skolem:B) log:onQuerySurface {
+    skolem:A :category skolem:B.
 }.
