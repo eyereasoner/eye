@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.0.1 (2023-10-30)').
+version_info('EYE v8.0.2 (2023-10-30)').
 
 license_info('MIT License
 
@@ -479,26 +479,23 @@ gre(Argus) :-
     ->  throw(halt(0))
     ;   true
     ),
-    (   flag(nope)
+    (   pfx('r:', _)
     ->  true
-    ;   (   pfx('r:', _)
-        ->  true
-        ;   assertz(pfx('r:', '<http://www.w3.org/2000/10/swap/reason#>'))
-        ),
-        (   pfx('var:', _)
-        ->  true
-        ;   assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
-        ),
-        (   pfx('skolem:', _)
-        ->  true
-        ;   nb_getval(var_ns, Sns),
-            atomic_list_concat(['<', Sns, '>'], B),
-            assertz(pfx('skolem:', B))
-        ),
-        (   pfx('n3:', _)
-        ->  true
-        ;   assertz(pfx('n3:', '<http://www.w3.org/2004/06/rei#>'))
-        )
+    ;   assertz(pfx('r:', '<http://www.w3.org/2000/10/swap/reason#>'))
+    ),
+    (   pfx('var:', _)
+    ->  true
+    ;   assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
+    ),
+    (   pfx('skolem:', _)
+    ->  true
+    ;   nb_getval(var_ns, Sns),
+        atomic_list_concat(['<', Sns, '>'], B),
+        assertz(pfx('skolem:', B))
+    ),
+    (   pfx('n3:', _)
+    ->  true
+    ;   assertz(pfx('n3:', '<http://www.w3.org/2004/06/rei#>'))
     ),
     nb_setval(tr, 0),
     nb_setval(tc, 0),
