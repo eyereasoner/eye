@@ -1,39 +1,40 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/d7882a29-44b8-4cbc-bc70-3bd11fba1fdb#>.
 
 () log:onNeutralSurface {
-    _:E_1 a <urn:example:C>.
+    skolem:E_1 a <urn:example:C>.
 }.
-(_:E_1) log:onNegativeSurface {
-    _:E_1 a <urn:example:C>.
+(skolem:E_1) log:onNegativeSurface {
+    skolem:E_1 a <urn:example:C>.
 }.
-(_:S1_1 _:a_1) log:onNegativeSurface {
-    _:a_1 log:onNegativeSurface _:S1_1.
+(skolem:S1_1 skolem:a_1) log:onNegativeSurface {
+    skolem:a_1 log:onNegativeSurface skolem:S1_1.
     () log:onNegativeSurface {
-        () log:onNeutralSurface _:S1_1.
+        () log:onNeutralSurface skolem:S1_1.
     }.
 }.
 () log:onNegativeSurface {
     _:sk_24 a <urn:example:C>.
 }.
-(_:S1_2 _:x_1_0 _:y_1) log:onNegativeSurface {
-    () log:onNeutralSurface _:S1_2.
-    _:x_1_0 log:onNegativeSurface _:y_1.
+(skolem:S1_2 skolem:x_1 skolem:y_1) log:onNegativeSurface {
+    () log:onNeutralSurface skolem:S1_2.
+    skolem:x_1 log:onNegativeSurface skolem:y_1.
     () log:onAnswerSurface {
-        () log:onNeutralSurface _:S1_2.
-        _:x_1_0 log:onNegativeSurface _:y_1.
+        () log:onNeutralSurface skolem:S1_2.
+        skolem:x_1 log:onNegativeSurface skolem:y_1.
     }.
 }.
 () log:onNeutralSurface {
-    _:a_1 log:onNegativeSurface _:S1_1.
+    skolem:a_1 log:onNegativeSurface skolem:S1_1.
     () log:onNegativeSurface {
-        () log:onNeutralSurface _:S1_1.
+        () log:onNeutralSurface skolem:S1_1.
     }.
 }.
 () log:onNeutralSurface {
-    () log:onNeutralSurface _:S1_2.
-    _:x_1_0 log:onNegativeSurface _:y_1.
+    () log:onNeutralSurface skolem:S1_2.
+    skolem:x_1 log:onNegativeSurface skolem:y_1.
     () log:onAnswerSurface {
-        () log:onNeutralSurface _:S1_2.
-        _:x_1_0 log:onNegativeSurface _:y_1.
+        () log:onNeutralSurface skolem:S1_2.
+        skolem:x_1 log:onNegativeSurface skolem:y_1.
     }.
 }.
