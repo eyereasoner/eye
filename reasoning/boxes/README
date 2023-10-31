@@ -1,0 +1,35 @@
+-----
+Boxes
+-----
+
+Infinite fact boxes are backward rules aka user defined built-ins
+e.g. https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+
+# something is more interesting if it is greater
+{
+    ?x :moreInterestingThan ?y.
+} <= {
+    ?x math:greaterThan ?y.
+}.
+
+
+Sequent boxes are forward rules with a set of possible conclusions
+like expained in https://en.wikipedia.org/wiki/Sequent e.g.
+
+# all cars are green or blue
+{
+    ?A a :Car.
+} => ($
+    {
+        ?A :is :green.
+    }
+    {
+        ?A :is :blue.
+    }
+$).
+
+# negation
+{
+    ?A a :Car.
+    ?A a :Horse.
+} => ($ $).
