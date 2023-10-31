@@ -2,34 +2,50 @@
 Boxes
 -----
 
-Infinite fact boxes are backward rules aka user defined built-ins
-e.g. https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+(1) Infinite fact boxes are backward rules aka user defined built-ins
+    e.g.
 
-# something is more interesting if it is greater
-{
-    ?x :moreInterestingThan ?y.
-} <= {
-    ?x math:greaterThan ?y.
-}.
-
-
-Sequent boxes are forward rules with a set of possible conclusions
-like explained in https://en.wikipedia.org/wiki/Sequent e.g.
-
-# all cars are green or blue
-{
-    ?A a :Car.
-} => ($
+    # see https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+    # something is more interesting if it is greater
     {
-        ?A :is :green.
-    }
-    {
-        ?A :is :blue.
-    }
-$).
+        ?x :moreInterestingThan ?y.
+    } <= {
+        ?x math:greaterThan ?y.
+    }.
 
-# negation
-{
-    ?A a :Car.
-    ?A a :Horse.
-} => ($ $).
+
+(2) Partial evaluation boxes are rules with rules in the conclusion
+    e.g.
+
+    # partial evaluation of subclass
+    {
+        ?A rdfs:subClassOf ?B.
+    } => {
+        {
+            ?X a ?B.
+        } <= {
+            ?X a ?A.
+        }
+    }.
+
+
+(3) Possible conclusion boxes are forward rules with a set of possible conclusions
+    e.g.
+
+    # all cars are green or blue
+    {
+        ?A a :Car.
+    } => ($
+        {
+            ?A :is :green.
+        }
+        {
+            ?A :is :blue.
+        }
+    $).
+
+    # negation
+    {
+        ?A a :Car.
+        ?A a :Horse.
+    } => ($ $).
