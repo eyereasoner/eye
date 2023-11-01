@@ -1,0 +1,29 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix ex: <http://www.example.org/terms#>.
+
+# sample data
+ex:pers001 ex:familyName "Garcia".
+ex:pers001 ex:givenName "Claudia".
+ex:pers002 ex:familyName "Cardinale".
+ex:pers002 ex:givenName "Claudia".
+
+# patch surface
+(_:rename _:where _:inserts _:deletes) log:onNegativeSurface {
+    <../n3patch/patch.n3> log:semantics {
+        _:rename a solid:InsertDeletePatch;
+            solid:where _:where;
+            solid:inserts _:inserts;
+            solid:deletes _:deletes.
+    }.
+    _:where log:callWithCleanup true.
+    _:deletes log:becomes _:inserts.
+    () log:onNegativeSurface {
+    }.
+}.
+
+# query
+(_:Person _:familyName _:givenName) log:onQuerySurface {
+    _:Person ex:familyName _:familyName;
+        ex:givenName _:givenName.
+}.

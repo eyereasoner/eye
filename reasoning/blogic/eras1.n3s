@@ -1,0 +1,23 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+# ~(A . ~(B . ~A)) = ~A whatever B is 
+() log:onNegativeSurface {
+    :A a :AA .
+
+    () log:onNegativeSurface {
+        # B
+        :B a :BB .
+
+        () log:onNegativeSurface {
+            :A a :AA .
+        } .
+    } .
+} .
+
+
+(_:S _:O) log:onQuerySurface {
+    () log:onNegativeSurface {
+        _:S a _:O .
+    } .
+} .

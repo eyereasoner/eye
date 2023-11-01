@@ -1,0 +1,49 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# bob is a person
+:bob a :Person.
+
+# grannysmith apple is green
+:grannysmith a :Apple ;
+    :is :green .
+
+# mars is the red planet
+:mars a :Planet.
+
+# green things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# things which are not green are beautiful
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:A :is :green
+    }.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# triples are composed of rdfs resources
+(_:S _:P _:O) log:onNegativeSurface {
+    _:S _:P _:O.
+    () log:onNegativeSurface {
+        _:S a rdfs:Resource.
+        _:P a rdfs:Resource.
+        _:O a rdfs:Resource.
+    }.
+}.
+
+# query
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
+}.

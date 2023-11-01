@@ -1,0 +1,38 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# beetle is not beautiful
+() log:onNegativeSurface {
+    :beetle :is :beautiful.
+}.
+
+# if something is a car and not beautiful it is not new
+(_:A) log:onNegativeSurface {
+    _:A a :Car.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            _:A :is :new.
+        }.
+    }.
+}.
+
+# if something is not new  it is old
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:A :is :new.
+    }.
+    () log:onNegativeSurface {
+        _:A :is :old.
+    }.
+}.
+
+# query
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
+}.

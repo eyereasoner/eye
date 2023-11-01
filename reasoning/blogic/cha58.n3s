@@ -1,0 +1,25 @@
+@prefix schema: <http://schema.org/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+() log:onNegativeSurface {
+    <> log:imports <../cha58/cha58-data.ttl>.
+    () log:onNegativeSurface true.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a foaf:Person.
+    () log:onNegativeSurface {
+        _:S a schema:Person {| log:ohyeah {_:S a foaf:Person} |}.
+    }.
+}.
+
+# query
+(_:S _:C) log:onQuerySurface {
+    _:S a schema:Person.
+}.
+
+(_:S _:A) log:onQuerySurface {
+    _:S log:ohyeah _:A
+}.

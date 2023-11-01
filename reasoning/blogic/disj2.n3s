@@ -1,0 +1,94 @@
+# Disjunction example 2
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C0.
+    () log:onNegativeSurface {
+        _:S a :C1.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C2.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C1.
+    () log:onNegativeSurface {
+        _:S a :C11.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C12.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C2.
+    () log:onNegativeSurface {
+        _:S a :C21.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C22.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C11.
+    () log:onNegativeSurface {
+        _:S a :C111.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C112.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C12.
+    () log:onNegativeSurface {
+        _:S a :C121.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C122.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C21.
+    () log:onNegativeSurface {
+        _:S a :C211.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C212.
+    }.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :C22.
+    () log:onNegativeSurface {
+        _:S a :C221.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C222.
+    }.
+}.
+
+# data
+:abc a :C0.
+
+() log:onNegativeSurface {
+    :abc a :C1.
+}.
+
+() log:onNegativeSurface {
+    :abc a :C21.
+}.
+
+() log:onNegativeSurface {
+    :abc a :C221.
+}.
+
+# query
+(_:A _:B) log:onQuerySurface {
+    _:A a _:B.
+}.

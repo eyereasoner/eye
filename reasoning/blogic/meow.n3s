@@ -1,0 +1,16 @@
+@prefix : <urn:example.org:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+_:x a :Cat .
+:Minka a :Cat .
+
+(_:x) log:onNegativeSurface {
+    _:x a :Cat .
+    () log:onNegativeSurface {
+        _:x :says "meow"@en .
+    } .
+} .
+
+(_:S _:O) log:onQuerySurface {
+    _:S :says _:O .
+} .

@@ -1,0 +1,42 @@
+# ------------------------
+# Policy enactment example
+# ------------------------
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data
+:RubenD a foaf:Person.
+:JosD a vcard:Individual.
+
+# Define mapping operation
+() :policy {
+
+    # Mapping foaf:Person and vcard:Individual on each other
+    (_:S) log:onNegativeSurface {
+        _:S a foaf:Person .
+        () log:onNegativeSurface {
+            _:S a vcard:Individual .
+        } .
+    } .
+
+    (_:S) log:onNegativeSurface {
+        _:S a vcard:Individual .
+        () log:onNegativeSurface {
+            _:S a foaf:Person .
+        } .
+    } .
+}.
+
+# enact policy
+(_:S) log:onNegativeSurface {
+    () :policy _:S.
+    () log:onNegativeSurface _:S.
+}.
+
+# query
+(_:A _:B) log:onQuerySurface {
+    _:A a _:B.
+}.

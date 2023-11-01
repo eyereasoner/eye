@@ -1,0 +1,53 @@
+# ----------------
+# Meta-interpreter
+# ----------------
+#
+# Inspired by https://www.metalevel.at/acomip/
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix : <https://eyereasoner.github.io/eye/ns#> .
+
+() log:onNegativeSurface {
+    () log:onNegativeSurface <<() :mi ()>> .
+} .
+
+(_:A _:G _:Gs _:Goals) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :mi _:A>> .
+    _:A list:firstRest (_:G _:Gs) .
+    () :headBody (_:G _:Goals _:Gs) .
+    () :mi _:Goals .
+} .
+
+(_:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi ()} _:Rs _:Rs)>> .
+} .
+
+(_:A _:B _:Rs _:G _:Gs _:Goals _:C) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :mi _:A} _:B _:Rs)>> .
+    _:A list:firstRest (_:G _:Gs) .
+    _:B list:firstRest ({() :headBody (_:G _:Goals _:Gs)} _:C) .
+    _:C list:firstRest ({() :mi _:Goals} _:Rs) .
+} .
+
+(_:Head _:Goals0 _:Goals _:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :headBody (_:Head _:Goals0 _:Goals)} _:Rs _:Rs)>> .
+    () :headBody (_:Head _:Goals0 _:Goals) .
+} .
+
+(_:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (0)} _:Rs _:Rs)>> .
+} .
+
+(_:X _:A _:Rs) log:onNegativeSurface {
+    () log:onNegativeSurface <<() :headBody ({() :natnum (:s _:X)} _:A _:Rs)>> .
+    _:A list:firstRest ({() :natnum _:X} _:Rs) .
+} .
+
+# question
+() log:onQuestionSurface {
+    () :mi ({() :mi ({() :mi ({() :natnum (:s (:s (:s (:s (:s (0))))))})})}) .
+    () log:onAnswerSurface {
+        :test :is true .
+    } .
+} .

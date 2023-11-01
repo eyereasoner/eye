@@ -1,0 +1,14 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+:S a :A, :B.
+# should blow an inference fuse when the following line is uncommented
+#:S a :C .
+
+(_:X) log:onNegativeSurface {
+    _:X a :A, :B, :C.
+}.
+
+(_:S _:O) log:onQuerySurface {
+    _:S a _:O.
+}.

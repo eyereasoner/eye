@@ -1,0 +1,34 @@
+# Disjunction example
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# every farming field is green colored or yellow colored
+(_:S) log:onNegativeSurface {
+    _:S a :FarmingField.
+    () log:onNegativeSurface {
+        _:S a :GreenColored.
+    }.
+    () log:onNegativeSurface {
+        _:S a :YellowColored.
+    }.
+}.
+
+# if yellow colored then mixed colored
+(_:S) log:onNegativeSurface {
+    _:S a :YellowColored.
+    () log:onNegativeSurface {
+        _:S a :MixedColored.
+    }.
+}.
+
+# grass is a farming field and not mixed colored
+:grass a :FarmingField.
+() log:onNegativeSurface {
+    :grass a :MixedColored.
+}.
+
+# query
+(_:A _:B) log:onQuerySurface {
+    _:A a _:B.
+}.

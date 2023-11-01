@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.0.5 (2023-11-01)').
+version_info('EYE v8.1.0 (2023-11-01)').
 
 license_info('MIT License
 
@@ -943,9 +943,10 @@ blogic :-
 
 opts([], []) :-
     !.
-% DEPRECATED
 opts(['--blogic'|Argus], Args) :-
     !,
+    retractall(flag(blogic)),
+    assertz(flag(blogic)),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -2722,7 +2723,10 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        nb_getval(fdepth, D),
+        (   flag(blogic)
+        ->  D = 0
+        ;   nb_getval(fdepth, D)
+        ),
         (   evar(Label, S, D)
         ->  true
         ;   atom_concat(Label, '_', M),

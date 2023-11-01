@@ -1,0 +1,91 @@
+# -----------------------
+# Neutral surface example
+# -----------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <urn:example:> .
+
+# duality blogic
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onNeutralSurface _:A .
+    } .
+    _:A log:notIncludes {
+        _:B log:onNegativeSurface _:C .
+    } .
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onNeutralSurface {
+                () log:onNegativeSurface {
+                    () log:onNegativeSurface _:A .
+                } .
+            } .
+        } .
+    } .
+} .
+
+# neutral surface with 2 triples
+() log:onNeutralSurface {
+    :a :b :c .
+    :d :e :f .
+}.
+
+# neutral surface with the negation of those 2 triples does not blow an inference fuse
+() log:onNeutralSurface {
+    () log:onNegativeSurface {
+        :a :b :c .
+        :d :e :f .
+    } .
+} .
+
+# neutral negative surface as possibility
+() log:onNeutralSurface {
+    () log:onNegativeSurface {
+        :g :h :i .
+        :j :k :l .
+    } .
+} .
+
+# negative neutral surface as necessity
+() log:onNegativeSurface {
+    () log:onNeutralSurface {
+        :m :n :o .
+        :p :q :r .
+    } .
+} .
+
+# questions
+(_:G) log:onQuestionSurface {
+    () log:onNeutralSurface _:G .
+    () log:onAnswerSurface {
+        :result :is _:G .
+    } .
+} .
+
+() log:onQuestionSurface {
+    # check that possibility(A) = ~necessity(~A)
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onNeutralSurface {
+                () log:onNegativeSurface {
+                    :g :h :i .
+                    :j :k :l .
+                } .
+            } .
+        } .
+    } .
+    # check that necessity(A) = ~possibility(~A)
+    () log:onNegativeSurface {
+        () log:onNeutralSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
+                    :m :n :o .
+                    :p :q :r .
+                } .
+            } .
+        } .
+    } .
+    () log:onAnswerSurface {
+        :test :is true .
+    } .
+} .

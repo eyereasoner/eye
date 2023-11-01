@@ -1,0 +1,23 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+:i a :A.
+
+() log:onNegativeSurface {
+    :i a :C.
+}.
+
+(_:S) log:onNegativeSurface {
+    _:S a :A.
+    () log:onNegativeSurface {
+        _:S a :B.
+    }.
+    () log:onNegativeSurface {
+        _:S a :C.
+    }.
+}.
+
+# query
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
+}.
