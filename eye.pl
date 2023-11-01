@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.0.4 (2023-11-01)').
+version_info('EYE v8.0.5 (2023-11-01)').
 
 license_info('MIT License
 
@@ -2730,7 +2730,7 @@ symbol(Name) -->
             assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
+                D = 0
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
@@ -11247,10 +11247,10 @@ replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
 
 scrape(X, Y, [V|Z]) :-
     regex(Y, X, [W|_]),
-    !,
     atom_string(V, W),
     sub_atom(X, _, _, I, V),
     sub_atom(X, _, I, 0, U),
+    !,
     scrape(U, Y, Z).
 scrape(_, _, []).
 
