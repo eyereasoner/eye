@@ -1,0 +1,90 @@
+# ----------------------------
+# Policy model finding example
+# ----------------------------
+#
+# Using sequents like in https://en.wikipedia.org/wiki/Sequent
+# A sequent is a log:implies with a set of possible conclusions.
+#
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix : <http://example.org/ns#>.
+
+# Pat is an individual
+:Pat a vcard:Individual.
+
+# if X is an individual then X can do A or B
+{
+    ?X a vcard:Individual.
+} => ($
+    {
+        ?X :canDo :A.
+    }
+    {
+        ?X :canDo :B.
+    }
+$).
+
+# if X is an individual who can do A then X can do E or D
+{
+    ?X a vcard:Individual.
+    ?X :canDo :A.
+} => ($
+    {
+        ?X :canDo :E.
+    }
+    {
+        ?X :canDo :D.
+    }
+$).
+
+# if X is an individual who can do D then X can do E or F
+{
+    ?X a vcard:Individual.
+    ?X :canDo :D.
+} => ($
+    {
+        ?X :canDo :E.
+    }
+    {
+        ?X :canDo :F.
+    }
+$).
+
+# find model reaching goal
+{
+    ?Goal :findModel (?Sequents ?Model ?Model).
+} <= {
+    ?Goal log:callWithCut true.
+}.
+
+{
+    ?Goal :findModel (?Sequents1 ?Model1 ?Model).
+} <= {
+    ?Prem => ?Cases.
+    ?Cases list:member ?Case.
+    ?Prem log:call true.
+    ?Sequents1 list:notMember {?Prem => ?Cases}.
+    (?Sequents1 ({?Prem => ?Cases})) list:append ?Sequents2.
+    (?Model1 (?Case)) list:append ?Model2.
+    true log:becomes ?Case.
+    {
+        ?Goal :findModel (?Sequents2 ?Model2 ?Model).
+    } log:callWithCleanup {
+        ?Case log:becomes true.
+    }.
+}.
+
+# find model where X is an individual who can do E
+{
+    {
+        ?X a vcard:Individual.
+        ?X :canDo :E.
+    } :findModel (() () ?Model).
+} => {
+    {
+        ?X a vcard:Individual.
+        ?X :canDo :E.
+    } :perModel ?Model.
+}.
