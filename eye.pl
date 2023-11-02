@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.2.0 (2023-11-02)').
+version_info('EYE v8.2.1 (2023-11-02)').
 
 license_info('MIT License
 
@@ -7077,17 +7077,22 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
+    (   nonvar(Y),
+        Y = set([Z])
+    ->  true
+    ;   Z = Y
+    ),
     implies(U, V, _),
     unify(U, X),
-    unify(V, Y),
-    (   commonvars(X, Y, [])
-    ->  labelvars(Y, 0, _, avar)
+    unify(V, Z),
+    (   commonvars(X, Z, [])
+    ->  labelvars(Z, 0, _, avar)
     ;   true
     ),
-    (   var(Y)
+    (   var(Z)
     ->  true
-    ;   Y \= answer(_, _, _),
-        Y \= (answer(_, _, _), _)
+    ;   Z \= answer(_, _, _),
+        Z \= (answer(_, _, _), _)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-

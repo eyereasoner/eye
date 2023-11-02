@@ -13,40 +13,31 @@
 # if X is an individual then X can do A or B
 {
     ?X a vcard:Individual.
-} => ($
-    {
-        ?X :canDo :A.
-    }
-    {
-        ?X :canDo :B.
-    }
-$).
+} => ($ {
+    ?X :canDo :A.
+} {
+    ?X :canDo :B.
+} $).
 
 # if X is an individual who can do A then X can do E or D
 {
     ?X a vcard:Individual.
     ?X :canDo :A.
-} => ($
-    {
-        ?X :canDo :E.
-    }
-    {
-        ?X :canDo :D.
-    }
-$).
+} => ($ {
+    ?X :canDo :E.
+} {
+    ?X :canDo :D.
+} $).
 
 # if X is an individual who can do D then X can do E or F
 {
     ?X a vcard:Individual.
     ?X :canDo :D.
-} => ($
-    {
-        ?X :canDo :E.
-    }
-    {
-        ?X :canDo :F.
-    }
-$).
+} => ($ {
+    ?X :canDo :E.
+} {
+    ?X :canDo :F.
+} $).
 
 # find model reaching goal
 {

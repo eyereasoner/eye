@@ -30,11 +30,8 @@ Logic with Infinite fact boxes, NEgation and Sets of possible conclusions - LINE
         # all cars are green or blue
         {
             ?A a :Car.
-        } => ($
-            {
-                ?A :is :green.
-            }
-            {
-                ?A :is :blue.
-            }
-        $).
+        } => ($ {
+            ?A :is :green.
+        } {
+            ?A :is :blue.
+        } $).
