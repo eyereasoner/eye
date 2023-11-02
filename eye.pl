@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.2.1 (2023-11-02)').
+version_info('EYE v8.2.2 (2023-11-03)').
 
 license_info('MIT License
 
@@ -4595,13 +4595,13 @@ wtn(exopred(P, S, O)) :-
     ).
 wtn(triple(S, P, O)) :-
     !,
-    write('<<'),
+    write('<< '),
     wg(S),
     write(' '),
     wp(P),
     write(' '),
     wg(O),
-    write('>>').
+    write(' >>').
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),
