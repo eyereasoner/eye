@@ -1,0 +1,40 @@
+---------------------------------------------------------------------------------
+Logic with Infinite fact boxes, NEgation and Sets of possible conclusions - LINES
+---------------------------------------------------------------------------------
+
+(1) Infinite fact boxes are backward rules aka user defined built-ins
+    e.g.
+
+        # see https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+        # something is more interesting if it is greater
+        {
+            ?x :moreInterestingThan ?y.
+        } <= {
+            ?x math:greaterThan ?y.
+        }.
+
+
+(2) Negations are implications with no possible conclusion (empty set)
+    e.g.
+
+        # it is impossible that something is a car and a horse
+        {
+            ?A a :Car.
+            ?A a :Horse.
+        } => ($ $).
+
+
+(3) Forward rules with sets of possible conclusions
+    e.g.
+
+        # all cars are green or blue
+        {
+            ?A a :Car.
+        } => ($
+            {
+                ?A :is :green.
+            }
+            {
+                ?A :is :blue.
+            }
+        $).

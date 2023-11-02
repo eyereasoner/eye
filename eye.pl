@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.1.0 (2023-11-01)').
+version_info('EYE v8.2.0 (2023-11-02)').
 
 license_info('MIT License
 
@@ -610,11 +610,10 @@ gre(Argus) :-
     ).
 
 %
-% Sequents
-% See https://en.wikipedia.org/wiki/Sequent
+% Logic with Infinite fact boxes, NEgation and Sets of possible conclusions - LINES
 %
 
-sequents :-
+lines :-
     % resolution
     assertz(implies((
             implies(A, set(B), _),
@@ -1471,11 +1470,11 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(sequents),
+        (   \+flag(lines),
             \+flag(blogic),
             Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
-        ->  assertz(flag(sequents)),
-            sequents
+        ->  assertz(flag(lines)),
+            lines
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -1922,11 +1921,11 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(sequents),
+    (   \+flag(lines),
         \+flag(blogic),
         Y = set(_)
-    ->  assertz(flag(sequents)),
-        sequents
+    ->  assertz(flag(lines)),
+        lines
     ;   true
     ),
     (   flag(tactic, 'linear-select')
@@ -5169,7 +5168,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 Dn \= answer(_, _, _),
                 \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
                     '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(lines), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5209,7 +5208,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                     Cn \= answer(_, _, _),
                     \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
                         '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                    \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(lines), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
@@ -5330,11 +5329,11 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
-    (   \+flag(sequents),
+    (   \+flag(lines),
         \+flag(blogic),
         B = set(_)
-    ->  assertz(flag(sequents)),
-        sequents
+    ->  assertz(flag(lines)),
+        lines
     ;   true
     ),
     (   conj_list(B, D)

@@ -1,0 +1,35 @@
+#!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+BLUE="\e[94m"
+NORMAL="\e[0;39m"
+
+OK=0
+FAILED=0
+
+echo -e ${BLUE}"----------------------"${NORMAL}
+echo -e ${BLUE}"Running eye/lines/test"${NORMAL}
+echo -e ${BLUE}"----------------------"${NORMAL}
+echo -e ""
+
+for f in *.n3
+do
+    eye --quiet --nope $f --pass-only-new --output $f.out
+    if [[ $(git diff $f.out | wc -l) -ne 0 ]]; then
+        echo -e "$f ${RED}FAILED${NORMAL}"
+        ((FAILED++))
+    else
+        echo -e "$f ${GREEN}OK${NORMAL}"
+        ((OK++))
+    fi
+done
+
+echo -e ""
+echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+
+if [[ ${FAILED} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi
