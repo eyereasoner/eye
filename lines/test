@@ -15,7 +15,7 @@ echo -e ""
 
 for f in *.n3
 do
-    eye --quiet --nope $f --pass-only-new --output $f.out
+    eye --quiet --nope --skolem-genid 09856efc-a6d2-4575-95b6-a22fd5d3c9c9 $f --pass-only-new --output $f.out
     if [[ $(git diff $f.out | wc -l) -ne 0 ]]; then
         echo -e "$f ${RED}FAILED${NORMAL}"
         ((FAILED++))
