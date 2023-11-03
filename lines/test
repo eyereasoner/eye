@@ -8,12 +8,10 @@ NORMAL="\e[0;39m"
 OK=0
 FAILED=0
 
-echo -e ${BLUE}"----------------------"${NORMAL}
-echo -e ${BLUE}"Running eye/lines/test"${NORMAL}
-echo -e ${BLUE}"----------------------"${NORMAL}
-echo -e ""
-
-pushd examples-and-test-cases > /dev/null
+echo "--------------------------"
+echo "| Running eye/lines/test |"
+echo "--------------------------"
+echo ""
 
 for f in *.n3
 do
@@ -27,7 +25,7 @@ do
     fi
 done
 
-echo -e ""
+echo ""
 echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 
 if [[ ${FAILED} -eq 0 ]]; then
@@ -35,5 +33,3 @@ if [[ ${FAILED} -eq 0 ]]; then
 else
     exit 2
 fi
-
-popd > /dev/null
