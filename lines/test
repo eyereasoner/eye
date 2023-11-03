@@ -13,6 +13,7 @@ echo -e ${BLUE}"Running eye/lines/test"${NORMAL}
 echo -e ${BLUE}"----------------------"${NORMAL}
 echo -e ""
 
+pushd tests
 for f in *.n3
 do
     eye --quiet --nope --skolem-genid 09856efc-a6d2-4575-95b6-a22fd5d3c9c9 $f --pass-only-new --output $f.out
@@ -33,3 +34,5 @@ if [[ ${FAILED} -eq 0 ]]; then
 else
     exit 2
 fi
+
+popd
