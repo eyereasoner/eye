@@ -2,7 +2,7 @@
 % Euler Yet another proof Engine -- Jos De Roo
 % --------------------------------------------
 %
-% See http://github.com/eyereasoner/eye
+% See https://github.com/eyereasoner/eye
 %
 
 :- use_module(library(lists)).
@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.2.3 (2023-11-03)').
+version_info('EYE v8.3.0 (2023-11-04)').
 
 license_info('MIT License
 
@@ -610,10 +610,12 @@ gre(Argus) :-
     ).
 
 %
-% Logic with Infinite fact boxes, NEgation and Sets of possible conclusions - LINES
+% Logic3
+%
+% See https://github.com/eyereasoner/eye/tree/master/logic3
 %
 
-lines :-
+logic3 :-
     % resolution
     assertz(implies((
             implies(A, set(B), _),
@@ -652,6 +654,7 @@ lines :-
 
 %
 % RDF Surfaces
+%
 % See https://w3c-cg.github.io/blogic/
 %
 
@@ -1475,11 +1478,11 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(lines),
+        (   \+flag(logic3),
             \+flag(blogic),
             Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
-        ->  assertz(flag(lines)),
-            lines
+        ->  assertz(flag(logic3)),
+            logic3
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -1926,11 +1929,11 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(lines),
+    (   \+flag(logic3),
         \+flag(blogic),
         Y = set(_)
-    ->  assertz(flag(lines)),
-        lines
+    ->  assertz(flag(logic3)),
+        logic3
     ;   true
     ),
     (   flag(tactic, 'linear-select')
@@ -5173,7 +5176,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 Dn \= answer(_, _, _),
                 \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
                     '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                \+ (flag(lines), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(logic3), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5213,7 +5216,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                     Cn \= answer(_, _, _),
                     \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
                         '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                    \+ (flag(lines), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(logic3), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
@@ -5334,11 +5337,11 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
-    (   \+flag(lines),
+    (   \+flag(logic3),
         \+flag(blogic),
         B = set(_)
-    ->  assertz(flag(lines)),
-        lines
+    ->  assertz(flag(logic3)),
+        logic3
     ;   true
     ),
     (   conj_list(B, D)
