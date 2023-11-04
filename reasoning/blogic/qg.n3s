@@ -1,0 +1,13 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/ns#>.
+
+:simon :says <<() log:onPositiveSurface {:Pat a :Man, :Human}>>.
+
+(_:S _:X) log:onNegativeSurface {
+    _:S :says <<() log:onPositiveSurface _:X>>.
+    () log:onNegativeSurface _:X.
+}.
+
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
+}.

@@ -1,0 +1,133 @@
+# Superdense coding using discrete quantum computing
+
+# See https://arxiv.org/pdf/1101.3764.pdf and https://arxiv.org/pdf/1010.2929.pdf
+
+# Discrete quantum theory is obtained by instantiating the mathematical framework
+# of Hilbert spaces with a finite field instead of the field of complex numbers.
+# This instantiation collapses much the structure of actual quantum mechanics but
+# retains several of its distinguishing characteristics including the notions of
+# superposition, interference, and entanglement. Furthermore, discrete quantum
+# theory excludes local hidden variable models, has a no-cloning theorem, and can
+# express natural counterparts of quantum information protocols such as superdense
+# coding and teleportation.
+
+# Surprisingly discrete quantum computing is identical to conventional logic
+# programming except for a small twist that is responsible for all the
+# "quantum-ness". The twist occurs when merging sets of answers computed by
+# several alternatives: the answers are combined using an exclusive version of
+# logical disjunction. In other words, the two branches of a choice junction
+# exhibit an interference effect: an answer is produced from the junction if it
+# occurs in one or the other branch but not both.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix dqc: <http://eyereasoner.github.io/eye/reasoning/dqc#>.
+
+# |R) = |0, 0) + |1, 1)
+false dqc:r false.
+true dqc:r true.
+
+# |S) = |0, 1) + |1, 0)
+false dqc:s true.
+true dqc:s false.
+
+# |U) = |0, 0) + |1, 0) + |1, 1)
+false dqc:u false.
+true dqc:u false.
+true dqc:u true.
+
+# |V ) = |0, 0) + |0, 1) + |1, 0)
+false dqc:v false.
+false dqc:v true.
+true dqc:v false.
+
+# 1 |0) = |0)
+false dqc:id false.
+# 1 |1) = |1)
+true dqc:id true.
+
+# G |0) = |1)
+false dqc:g true.
+# G |1) = |0)
+true dqc:g false.
+
+# K |0) = |0)
+false dqc:k false.
+# K |1) = |0) + |1)
+true dqc:k false.
+true dqc:k true.
+
+# KG
+(_:X _:Y _:Z) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:X dqc:kg _:Y>>.
+    _:X dqc:g _:Z.
+    _:Z dqc:k _:Y.
+}.
+
+# GK
+(_:X _:Y _:Z) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:X dqc:gk _:Y>>.
+    _:X dqc:k _:Z.
+    _:Z dqc:g _:Y.
+}.
+
+# Alice
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<0 dqc:alice (_:X _:Y)>>.
+    _:X dqc:id _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<1 dqc:alice (_:X _:Y)>>.
+    _:X dqc:g _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<2 dqc:alice (_:X _:Y)>>.
+    _:X dqc:k _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<3 dqc:alice (_:X _:Y)>>.
+    _:X dqc:kg _:Y.
+}.
+
+# Bob
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 0>>.
+    _:X dqc:gk _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 1>>.
+    _:X dqc:k _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 2>>.
+    _:X dqc:g _:Y.
+}.
+
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface <<(_:X _:Y) dqc:bob 3>>.
+    _:X dqc:id _:Y.
+}.
+
+# superdense coding
+(_:N _:A _:B _:M _:X _:Y _:Z _:L _:S _:I) log:onNegativeSurface {
+    _:N dqc:alice _:A.
+    _:B dqc:bob _:M.
+    (1 {_:X dqc:r _:Y. _:N dqc:alice (_:X _:Z). (_:Z _:Y) dqc:bob _:M} _:L) log:collectAllIn _:S.
+    _:L list:length _:I.
+    (_:I 2) math:remainder 1.
+    () log:onNegativeSurface {
+        _:N dqc:sdcoding _:M.
+    }.
+}.
+
+# query
+(_:N _:M) log:onQuerySurface {
+    _:N dqc:sdcoding _:M.
+}.
+

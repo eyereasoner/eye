@@ -1,0 +1,41 @@
+# -----------------------
+# Basic Monadic Benchmark
+# -----------------------
+#
+# Tested with input of 10^n triples generated with http://josd.github.io/bmb/graphgen.n3
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://eulersharp.sourceforge.net/2007/07test/graph#>.
+
+() log:onNegativeSurface {
+    <> log:imports <../bmt/1tt1.ttl>.
+    <> log:imports <../bmt/1tt2.ttl>.
+    <> log:imports <../bmt/1tt3.ttl>.
+    <> log:imports <../bmt/1tt4.ttl>.
+    <> log:imports <../bmt/1tt5.ttl>.
+    <> log:imports <../bmt/1tt6.ttl>.
+    <> log:imports <../bmt/1tt7.ttl>.
+    <> log:imports <../bmt/1tt8.ttl>.
+    <> log:imports <../bmt/1tt9.ttl>.
+    <> log:imports <../bmt/1tt10.ttl>.
+    () log:onNegativeSurface true.
+}.
+
+(_:R _:D0 _:D1 _:D2 _:D3 _:D4 _:D5 _:D6 _:D7 _:D8 _:D9) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:R :cycle (_:D0 _:D1 _:D2 _:D3 _:D4 _:D5 _:D6 _:D7 _:D8 _:D9)>>.
+    _:D0 _:R _:D1.
+    _:D1 _:R _:D2.
+    _:D2 _:R _:D3.
+    _:D3 _:R _:D4.
+    _:D4 _:R _:D5.
+    _:D5 _:R _:D6.
+    _:D6 _:R _:D7.
+    _:D7 _:R _:D8.
+    _:D8 _:R _:D9.
+    _:D9 _:R _:D0.
+}.
+
+# query
+(_:R _:C) log:onQuerySurface {
+    _:R :cycle _:C.
+}.

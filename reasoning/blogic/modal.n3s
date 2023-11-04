@@ -1,0 +1,70 @@
+# -------------------
+# Modal logic example
+# -------------------
+#
+# See https://en.wikipedia.org/wiki/Modal_logic and
+# https://github.com/eyereasoner/Notation3-By-Example/tree/main/examples/modal
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <urn:example:> .
+
+# duality blogic
+(_:A _:B _:C) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        () log:onModalSurface _:A .
+    } .
+    _:A log:notIncludes {
+        _:B log:onNegativeSurface _:C .
+    } .
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onModalSurface {
+                () log:onNegativeSurface {
+                    () log:onNegativeSurface _:A .
+                } .
+            } .
+        } .
+    } .
+} .
+
+# it is permitted for alice to keep cats
+() log:onModalSurface {
+    () log:onNegativeSurface {
+        :Alice :keeps :Cats .
+    } .
+} .
+
+# it is obliged for bob to keep dogs and sheep
+() log:onNegativeSurface {
+    () log:onModalSurface {
+        :Bob :keeps :Dogs, :Sheep.
+    } .
+} .
+
+# questions
+() log:onQuestionSurface {
+    # is it not obliged for alice to not keep cats?
+    () log:onNegativeSurface {
+        () log:onNegativeSurface {
+            () log:onModalSurface {
+                () log:onNegativeSurface {
+                    :Alice :keeps :Cats .
+                } .
+            } .
+        } .
+    } .
+    # is it not permitted for bob to not keep dogs and sheep?
+    () log:onNegativeSurface {
+        () log:onModalSurface {
+            () log:onNegativeSurface {
+                () log:onNegativeSurface {
+                    :Bob :keeps :Dogs, :Sheep .
+                } .
+            } .
+        } .
+    } .
+    # answer
+    () log:onAnswerSurface {
+        :test :is true .
+    } .
+} .

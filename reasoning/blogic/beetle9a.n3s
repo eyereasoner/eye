@@ -1,0 +1,31 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# bob is a person
+:bob a :Person.
+
+# green things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# things which are not green are beautiful
+(_:A) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:A :is :green
+    }.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# query
+(_:X) log:onQuerySurface {
+    _:X :is :beautiful.
+}.

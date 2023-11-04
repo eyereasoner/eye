@@ -1,0 +1,20 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+(_:E) log:onNegativeSurface {
+    _:E a :C .
+} .
+
+(_:a _:S1) log:onNegativeSurface {
+
+    _:a log:onNegativeSurface _:S1.
+
+    () log:onNegativeSurface {
+        () log:onNeutralSurface _:S1.
+    } .
+} .
+
+(_:S1 _:x _:y) log:onQuerySurface {
+    () log:onNeutralSurface _:S1.
+    _:x log:onNegativeSurface _:y.
+} .

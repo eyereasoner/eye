@@ -1,0 +1,35 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data
+:n1 :p1 :n2; a :C1.
+:n1 :p2 :n3.
+:n1 :p3 :n4.
+:n2 :p2 :n3.
+:n3 :p4 :n5; a :C2.
+:n3 :p5 :n6.
+:n3 :p2 :n1.
+:n6 :p6 :n7; a :C3.
+
+# categorize
+(_:A _:B _:C _:D) log:onNegativeSurface {
+    _:A a _:B.
+    _:A _:C _:D.
+    () log:onNegativeSurface {
+        <<_:A _:C _:D>> :category _:B.
+    }.
+}.
+
+(_:A _:B _:C _:D _:E _:F _:G _:H) log:onNegativeSurface {
+    <<_:A _:B _:C>> :category _:D.
+    _:C _:E _:F.
+    (_:G {_:C a _:G} ()) log:collectAllIn _:H.
+    () log:onNegativeSurface {
+        <<_:C _:E _:F>> :category _:D.
+    }.
+}.
+
+# query
+(_:A _:B) log:onQuerySurface {
+    _:A :category _:B.
+}.
