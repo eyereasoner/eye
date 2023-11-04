@@ -8,9 +8,7 @@ NORMAL="\e[0;39m"
 OK=0
 FAILED=0
 
-echo -e "${YELLOW}---------------------------${NORMAL}"
-echo -e "${YELLOW}- Running eye/logic3/test -${NORMAL}"
-echo -e "${YELLOW}---------------------------${NORMAL}"
+echo -e "${YELLOW}Running eye/logic3/test${NORMAL}"
 echo ""
 
 for f in *.n3
@@ -24,8 +22,8 @@ do
         ((OK++))
     fi
 done
-
 echo ""
+
 echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 
 if [[ ${FAILED} -eq 0 ]]; then
