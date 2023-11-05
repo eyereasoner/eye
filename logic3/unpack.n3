@@ -23,14 +23,6 @@
     }; :tag :valid.
 }.
 
-# unpack the triples that are usable in the future
-{
-    ?b :data ?g.
-    ?g graph:list ?l.
-    ?l :unpack ?m.
-    ?m graph:union ?h.
-} => ?h.
-
 # the logic for unpack using backward rules
 {
     () :unpack ().
@@ -92,4 +84,14 @@
     ?g log:notIncludes {
         ?b :tag ?q.
     }.
+}.
+
+# test: unpack the triples that are usable in the future
+{
+    ?b :data ?g.
+    ?g graph:list ?l.
+    ?l :unpack ?m.
+    ?m graph:union ?h.
+} => {
+    :test :is ?h.
 }.
