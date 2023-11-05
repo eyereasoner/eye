@@ -1,6 +1,6 @@
-@prefix : <urn:example:>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
 
 10 a :NaturalNumber.
 
@@ -30,6 +30,16 @@
 } => {
     {
         ?x a :OddNumber.
+    } => ($ $).
+}.
+
+# All x : (X a NaturalNumber) -> ( x : 2 = 1 , not(X a EvenNumber) )
+{
+    ?x a :NaturalNumber.
+    (?x 2) math:remainder 1.
+} => {
+    {
+        ?x a :EvenNumber.
     } => ($ $).
 }.
 

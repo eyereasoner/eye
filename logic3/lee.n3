@@ -2,22 +2,22 @@
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
+@prefix : <http://example.org/ns#>.
 
 {
     (?Source ?Destination ?Obstacles) :route ?Path.
 } <= {
     (?Destination ((?Source) ()) ?Obstacles) :waves ?Waves.
     (?Source ?Destination ?Waves) :path ?P.
-    ?P e:reverse ?Path.
+    (?P) func:reverse ?Path.
 }.
 
 {
     (?B ?Waves1 ?Obstacles) :waves ?Waves.
 } <= {
-    ?Waves1 e:firstRest (?Wave ?Waves).
+    ?Waves1 list:firstRest (?Wave ?Waves).
     ?Wave list:member ?B.
     true log:callWithCut true.
 }.
@@ -25,11 +25,11 @@
 {
     (?B ?Waves1 ?Obstacles) :waves ?Waves.
 } <= {
-    ?Waves1 e:firstRest (?Wave ?Waves2).
-    ?Waves2 e:firstRest (?LastWave ?LastWaves).
-    ?SCOPE e:findall (?X {(?X ?Wave ?LastWave) :admissible ?Obstacles} ?List).
-    ?List e:sort ?NextWave.
-    ?Waves3 e:firstRest (?NextWave ?Waves1).
+    ?Waves1 list:firstRest (?Wave ?Waves2).
+    ?Waves2 list:firstRest (?LastWave ?LastWaves).
+    (?X {(?X ?Wave ?LastWave) :admissible ?Obstacles} ?List) log:collectAllIn ?SCOPE.
+    ?List list:sort ?NextWave.
+    ?Waves3 list:firstRest (?NextWave ?Waves1).
     (?B ?Waves3 ?Obstacles) :waves ?Waves.
 }.
 
@@ -37,8 +37,8 @@
     (?X ?Wave ?LastWave) :admissible ?Obstacles.
 } <= {
     (?X ?Wave) :adjacent ?Obstacles.
-    ?SCOPE e:fail {?LastWave list:member ?X}.
-    ?SCOPE e:fail {?Wave list:member ?X}.
+    (1 {?LastWave list:member ?X} ()) log:collectAllIn ?SCOPE.
+    (1 {?Wave list:member ?X} ()) log:collectAllIn ?SCOPE.
 }.
 
 {
@@ -46,7 +46,7 @@
 } <= {
     ?Wave list:member ?X1.
     ?X1 :neighbor ?X.
-    ?SCOPE e:fail {?X :obstructed ?Obstacles}.
+    (1 {?X :obstructed ?Obstacles} ()) log:collectAllIn ?SCOPE.
 }.
 
 {
@@ -116,8 +116,8 @@
 {
     (?A ?B ?Waves1) :path ?Path1.
 } <= {
-    ?Waves1 e:firstRest (?Wave ?Waves).
-    ?Path1 e:firstRest (?B ?Path).
+    ?Waves1 list:firstRest (?Wave ?Waves).
+    ?Path1 list:firstRest (?B ?Path).
     ?Wave list:member ?B1.
     ?B :neighbor ?B1.
     true log:callWithCut true.
