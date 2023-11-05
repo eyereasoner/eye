@@ -1,7 +1,12 @@
 #!/bin/bash
-eye --quiet --nope https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-turtle/manifest.ttl --query run-manifest.n3 --output run-outcome.n3
-echo "#===============" | tee -a run-outcome.n3
-echo "#TEST TURTLE-DEV" | tee -a run-outcome.n3
-echo "#===============" | tee -a run-outcome.n3
-echo -n "#FAILED: " | tee -a run-outcome.n3; cat run-outcome.n3 | grep :failed | wc -l | tee -a run-outcome.n3
-echo -n "#PASSED: " | tee -a run-outcome.n3; cat run-outcome.n3 | grep :passed | wc -l | tee -a run-outcome.n3
+eye --quiet --nope \
+    https://w3c.github.io/rdf-tests/rdf/rdf11/rdf-turtle/manifest.ttl \
+    --query run-manifest.n3 --output run-outcome.n3
+
+echo "# ===============" | tee -a run-outcome.n3
+echo "# TEST TURTLE-DEV" | tee -a run-outcome.n3
+echo "# ===============" | tee -a run-outcome.n3
+echo "#"
+echo -n "# RESULT: " | tee -a run-outcome.n3; cat run-outcome.n3 | grep :result | wc -l | tee -a run-outcome.n3
+echo -n "# PASSED: " | tee -a run-outcome.n3; cat run-outcome.n3 | grep :passed | wc -l | tee -a run-outcome.n3
+echo -n "# FAILED: " | tee -a run-outcome.n3; cat run-outcome.n3 | grep :failed | wc -l | tee -a run-outcome.n3
