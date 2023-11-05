@@ -63,15 +63,10 @@
     }.
 }.
 
-# find model where X is an individual who can do E
-{
+# query: find model where X is an individual who can do E
+($ $) <= {
     {
         ?X a vcard:Individual.
         ?X :canDo :E.
     } :findModel (() () ?Model).
-} => {
-    {
-        ?X a vcard:Individual.
-        ?X :canDo :E.
-    } :perModel ?Model.
 }.

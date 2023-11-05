@@ -13,16 +13,19 @@ Logic3
             ?x math:greaterThan ?y.
         }.
 
-
-(2) Nands are forward rules with no possible conclusion (empty set)
+(2) Nands are implications with no possible conclusion (empty set)
     e.g.
 
         # it is impossible that something is a car and a horse
         {
-            ?A a :Car.
-            ?A a :Horse.
+            ?S a :Car.
+            ?S a :Horse.
         } => ($ $).
-
+        
+        # query
+        ($ $) <= {
+            ?S a ?C.
+        }.
 
 (3) Sequents are forward rules with a set of possible conclusions
     e.g.

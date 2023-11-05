@@ -122,21 +122,12 @@
     (?Z1 ?T) math:difference ?Tp.
 }.
 
-# test
-{
+# query
+($ $) <= {
     ((-1 0) (0.5 0)) complex:exponentiation ?C1.
     ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ?C2.
     ((0 1) (0 1)) complex:exponentiation ?C3.
     ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation ?C4.
     (2 0) complex:asin ?C5.
     (2 0) complex:acos ?C6.
-} => {
-    :test :is {
-        ((-1 0) (0.5 0)) complex:exponentiation ?C1.
-        ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation ?C2.
-        ((0 1) (0 1)) complex:exponentiation ?C3.
-        ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation ?C4.
-        (2 0) complex:asin ?C5.
-        (2 0) complex:acos ?C6.
-    }.
 }.

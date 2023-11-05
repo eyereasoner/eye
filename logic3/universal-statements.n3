@@ -24,15 +24,9 @@
     (?A) log:skolem ?B.
 }.
 
-# test
-{
+# query
+($ $) <= {
     :pat a rdfs:Resource.
     :bob :loves ?x.
     ?x :is :lonely.
-} => {
-    :test :is {
-        :pat a rdfs:Resource.
-        :bob :loves ?x.
-        ?x :is :lonely.
-    }.
 }.

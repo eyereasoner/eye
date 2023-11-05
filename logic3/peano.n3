@@ -48,15 +48,9 @@
     (?A ?D) :fac ?C.
 }.
 
-# test
-{
+# query
+($ $) <= {
     ((:s 0) (:s (:s 0))) :add ?A.
     (?A (:s (:s 0))) :multiply ?B.
     ?B :factorial ?C.
-} => {
-    :test :is {
-        ((:s 0) (:s (:s 0))) :add ?A.
-        (?A (:s (:s 0))) :multiply ?B.
-        ?B :factorial ?C.
-    }.
 }.

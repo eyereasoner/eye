@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.3.1 (2023-11-04)').
+version_info('EYE v8.4.0 (2023-11-05)').
 
 license_info('MIT License
 
@@ -1928,6 +1928,23 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
         writeln('.')
     ),
     tr_n3p(Z, Src, query).
+tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
+    !,
+    (   \+flag(logic3),
+        \+flag(blogic)
+    ->  assertz(flag(logic3)),
+        logic3
+    ;   true
+    ),
+    (   \+flag('limited-answer', _),
+        flag(nope)
+    ->  write(query(X, X)),
+        writeln('.')
+    ;   djiti_answer(answer(X), A),
+        write(implies(X, A, Src)),
+        writeln('.')
+    ),
+    tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+flag(logic3),

@@ -86,12 +86,17 @@
     }.
 }.
 
-# test: unpack the triples that are usable in the future
+# unpack the triples that are usable in the future
 {
     ?b :data ?g.
     ?g graph:list ?l.
     ?l :unpack ?m.
     ?m graph:union ?h.
 } => {
-    :test :is ?h.
+    :fu :is ?h.
+}.
+
+# query
+($ $) <= {
+    :fu :is ?h.
 }.
