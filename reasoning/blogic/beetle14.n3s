@@ -1,0 +1,33 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# herbie is green or blue
+() log:onNegativeSurface {
+    () log:onNegativeSurface {
+        :herbie :is :green.
+    }.
+    () log:onNegativeSurface {
+        :herbie :is :blue.
+    }.
+}.
+
+# green things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :green.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# blue things are beautiful
+(_:A) log:onNegativeSurface {
+    _:A :is :blue.
+    () log:onNegativeSurface {
+        _:A :is :beautiful.
+    }.
+}.
+
+# query
+(_:S _:O) log:onQuerySurface {
+    _:S :is _:O.
+}.

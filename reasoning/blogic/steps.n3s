@@ -1,0 +1,83 @@
+# ----------------------------
+# Policy model finding example
+# ----------------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix : <http://example.org/ns#>.
+
+# Pat is an individual
+:Pat a vcard:Individual.
+
+# if X is an individual then X can do A or B
+(_:X) log:onNegativeSurface {
+    _:X a vcard:Individual.
+    () log:onNegativeSurface {
+        _:X :canDo :A.
+    }.
+    () log:onNegativeSurface {
+        _:X :canDo :B.
+    }.
+}.
+
+# if X is an individual who can do A then X can do E or D
+(_:X) log:onNegativeSurface {
+    #_:X a vcard:Individual.
+    _:X :canDo :A.
+    () log:onNegativeSurface {
+        _:X :canDo :E.
+    }.
+    () log:onNegativeSurface {
+        _:X :canDo :D.
+    }.
+}.
+
+# if X is an individual who can do D then X can do E or F
+(_:X) log:onNegativeSurface {
+    #_:X a vcard:Individual.
+    _:X :canDo :D.
+    () log:onNegativeSurface {
+        _:X :canDo :E.
+    }.
+    () log:onNegativeSurface {
+        _:X :canDo :F.
+    }.
+}.
+
+# find model reaching goal
+(_:Goal _:Sequents _:Model) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:Goal :findModel (_:Sequents _:Model _:Model)>>.
+    _:Goal log:callWithCut true.
+}.
+
+(_:Goal _:Sequents1 _:Model1 _:Model _:Prem _:Cases _:Case _:Sequents2 _:Model2) log:onNegativeSurface {
+    () log:onNegativeSurface <<_:Goal :findModel (_:Sequents1 _:Model1 _:Model)>>.
+    _:Prem => _:Cases.
+    _:Cases list:member _:Case.
+    _:Prem log:call true.
+    _:Sequents1 list:notMember {_:Prem => _:Cases}.
+    (_:Sequents1 ({_:Prem => _:Cases})) list:append _:Sequents2.
+    (_:Model1 (_:Case)) list:append _:Model2.
+    true log:becomes _:Case.
+    {
+        _:Goal :findModel (_:Sequents2 _:Model2 _:Model).
+    } log:callWithCleanup {
+        _:Case log:becomes true.
+    }.
+}.
+
+# find model where X is an individual who can do E
+(_:X _:Model) log:onQuestionSurface {
+    {
+        _:X a vcard:Individual.
+        _:X :canDo :E.
+    } :findModel (() () _:Model).
+    () log:onAnswerSurface {
+        {
+            _:X a vcard:Individual.
+            _:X :canDo :E.
+        } :perModel _:Model.
+    }.
+}.

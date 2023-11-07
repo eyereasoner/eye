@@ -1,0 +1,22 @@
+@prefix : <http://example.org/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:Socrates a :Man.
+:Socrates a :Human.
+:Socrates a :Mortal.
+() log:onNeutralSurface {
+    :Socrates a :BuddhistLikePerson.
+    << :Socrates a :BuddhistLikePerson >> :says <https://josd.github.io/card.ttl#me>.
+}.
+<< :Socrates a :Human >> log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>.
+<< :Socrates a :Human >> log:codex :codex1.
+<< () log:onNeutralSurface {
+    :Socrates a :BuddhistLikePerson.
+    << :Socrates a :BuddhistLikePerson >> :says <https://josd.github.io/card.ttl#me>.
+} >> log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>.
+<< () log:onNeutralSurface {
+    :Socrates a :BuddhistLikePerson.
+    << :Socrates a :BuddhistLikePerson >> :says <https://josd.github.io/card.ttl#me>.
+} >> log:codex :codex1.
+<< :Socrates a :Mortal >> log:source <https://eyereasoner.github.io/eye/reasoning/blogic/socrates-star.n3>.
+<< :Socrates a :Mortal >> log:codex :codex1.

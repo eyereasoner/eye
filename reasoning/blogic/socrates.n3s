@@ -1,0 +1,26 @@
+# ------------------
+# Socrates inference
+# ------------------
+#
+# Infer that Socrates is mortal.
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+:Socrates a :Man.
+:Man rdfs:subClassOf :Human.
+:Human rdfs:subClassOf :Mortal.
+
+(_:A _:B _:S) log:onNegativeSurface {
+    _:A rdfs:subClassOf _:B.
+    _:S a _:A.
+    () log:onNegativeSurface {
+        _:S a _:B.
+    }.
+}.
+
+# query
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
+}.

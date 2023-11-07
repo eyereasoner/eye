@@ -1,0 +1,26 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+() log:onNeutralSurface {
+    _:F a :C .
+} .
+
+() log:onNegativeSurface {
+    _:E a :C .
+} .
+
+(_:a _:b _:S1 _:S2) log:onNegativeSurface {
+
+    _:a log:onNegativeSurface _:S1 .
+    _:b log:onNeutralSurface _:S2 .
+
+    _:S1 log:notIncludes _:S2 .
+
+    () log:onNegativeSurface {
+        :test :is true .
+    } .
+} .
+
+() log:onQuerySurface {
+    :test :is true .
+} .

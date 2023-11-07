@@ -1,0 +1,52 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# slide 33 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+# owl restriction
+:aaa owl:onProperty :bbb.
+:aaa owl:allValuesFrom :ccc.
+
+# the following 2 triples should entail :yyy a :ccc.
+#:xxx a :aaa.
+#:xxx :bbb :yyy.
+
+# the following codex should entail :xxx a :aaa.
+(_:y) log:onNegativeSurface {
+    :xxx :bbb _:y.
+    () log:onNegativeSurface {
+        _:y a :ccc.
+    }.
+}.
+
+# owl:allValuseFrom description logic
+(_:a _:b _:c) log:onNegativeSurface {
+    _:a owl:onProperty _:b.
+    _:a owl:allValuesFrom _:c.
+    () log:onNegativeSurface {
+        (_:x _:y) log:onNegativeSurface {
+            _:x a _:a.
+            _:x _:b _:y.
+            () log:onNegativeSurface {
+                _:y a _:c.
+            }.
+        }.
+        (_:x) log:onNegativeSurface {
+            (_:y) log:onNegativeSurface {
+                _:x _:b _:y.
+                () log:onNegativeSurface {
+                    _:y a _:c.
+                }.
+            }.
+            () log:onNegativeSurface {
+                _:x a _:a.
+            }.
+        }.
+    }.
+}.
+
+# query
+(_:S _:C) log:onQuerySurface {
+    _:S a _:C.
+}.
