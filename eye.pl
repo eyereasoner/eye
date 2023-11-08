@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.4.1 (2023-11-07)').
+version_info('EYE v8.5.0 (2023-11-08)').
 
 license_info('MIT License
 
@@ -76,6 +76,7 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
+    --relabel-blank-nodes           relabel blank nodes in triple or graph terms
     --rdf-list-input                input lists as RDF lists
     --rdf-list-output               output lists as RDF lists
     --restricted                    restricting to core built-ins
@@ -611,12 +612,12 @@ gre(Argus) :-
     ).
 
 %
-% Logic3
+% Sequents
 %
-% See https://github.com/eyereasoner/eye/tree/master/logic3
+% See https://en.wikipedia.org/wiki/Sequent
 %
 
-logic3 :-
+sequents :-
     % resolution
     assertz(implies((
             implies(A, set(B), _),
@@ -1117,6 +1118,11 @@ opts(['--random-seed'|Argus], Args) :-
     N is random(2^120),
     nb_setval(random, N),
     opts(Argus, Args).
+opts(['--relabel-blank-nodes'|Argus], Args) :-
+    !,
+    retractall(flag('relabel-blank-nodes')),
+    assertz(flag('relabel-blank-nodes')),
+    opts(Argus, Args).
 opts(['--rdf-list-input'|Argus], Args) :-
     !,
     retractall(flag('rdf-list-input')),
@@ -1479,11 +1485,11 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(logic3),
+        (   \+flag(sequents),
             \+flag(blogic),
             Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
-        ->  assertz(flag(logic3)),
-            logic3
+        ->  assertz(flag(sequents)),
+            sequents
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -1930,10 +1936,10 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
     !,
-    (   \+flag(logic3),
+    (   \+flag(sequents),
         \+flag(blogic)
-    ->  assertz(flag(logic3)),
-        logic3
+    ->  assertz(flag(sequents)),
+        sequents
     ;   true
     ),
     (   \+flag('limited-answer', _),
@@ -1947,11 +1953,11 @@ tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(logic3),
+    (   \+flag(sequents),
         \+flag(blogic),
         Y = set(_)
-    ->  assertz(flag(logic3)),
-        logic3
+    ->  assertz(flag(sequents)),
+        sequents
     ;   true
     ),
     (   flag(tactic, 'linear-select')
@@ -2748,7 +2754,7 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   flag(blogic)
+        (   \+flag('relabel-blank-nodes')
         ->  D = 0
         ;   nb_getval(fdepth, D)
         ),
@@ -2759,7 +2765,7 @@ symbol(Name) -->
             assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
-                D = 0
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
@@ -5194,7 +5200,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 Dn \= answer(_, _, _),
                 \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
                     '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                \+ (flag(logic3), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5234,7 +5240,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                     Cn \= answer(_, _, _),
                     \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
                         '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                    \+ (flag(logic3), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
+                    \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
@@ -5355,11 +5361,11 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
-    (   \+flag(logic3),
+    (   \+flag(sequents),
         \+flag(blogic),
         B = set(_)
-    ->  assertz(flag(logic3)),
-        logic3
+    ->  assertz(flag(sequents)),
+        sequents
     ;   true
     ),
     (   conj_list(B, D)
