@@ -2,8 +2,8 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <http://example.org/fibonacci#>.
 
-[]
-    a rule:BackwardRule;
+# backward rules
+[]  a rule:BackwardRule;
     rule:uvars (_:X _:Y);
     rule:evars ();
     rule:premise
@@ -11,22 +11,19 @@
     rule:conclusion
         (_:X :fibonacci _:Y).
 
-[]
-    a rule:BackwardRule;
+[]  a rule:BackwardRule;
     rule:uvars (_:A _:B);
     rule:evars ();
     rule:conclusion
         ((0 _:A _:B) :fib _:A).
 
-[]
-    a rule:BackwardRule;
+[]  a rule:BackwardRule;
     rule:uvars (_:A _:B);
     rule:evars ();
     rule:conclusion
         ((1 _:A _:B) :fib _:B).
 
-[]
-    a rule:BackwardRule;
+[]  a rule:BackwardRule;
     rule:uvars (_:X _:Y _:A _:B _:C _:D);
     rule:evars ();
     rule:premise
@@ -38,8 +35,7 @@
         ((_:X _:A _:B) :fib _:Y).
 
 # queries
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
@@ -47,8 +43,7 @@
     rule:conclusion
         (0 :fibonacci _:Y).
 
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
@@ -56,8 +51,7 @@
     rule:conclusion
         (1 :fibonacci _:Y).
 
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
@@ -65,8 +59,7 @@
     rule:conclusion
         (6 :fibonacci _:Y).
 
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
@@ -74,8 +67,7 @@
     rule:conclusion
         (91 :fibonacci _:Y).
 
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
@@ -83,8 +75,7 @@
     rule:conclusion
         (283 :fibonacci _:Y).
 
-[]
-    a rule:QueryRule;
+[]  a rule:QueryRule;
     rule:uvars (_:Y);
     rule:evars ();
     rule:premise
