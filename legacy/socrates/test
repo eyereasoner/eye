@@ -1,0 +1,3 @@
+#!/bin/bash -x
+eye "$@" --nope --legacy socrates.ttl --pass-only-new --output out/socrates.ttl.out
+riot --stream=Turtle socrates.jsonld | eye "$@" --nope --legacy - --pass-only-new --output out/socrates.jsonld.out

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.5.0 (2023-11-08)').
+version_info('EYE v8.6.0 (2023-11-10)').
 
 license_info('MIT License
 
@@ -60,6 +60,7 @@ eye
     --ignore-inference-fuse         do not halt in case of inference fuse
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
+    --legacy                        RDF legacy support
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
@@ -612,47 +613,32 @@ gre(Argus) :-
     ).
 
 %
-% Sequents
-%
-% See https://en.wikipedia.org/wiki/Sequent
+% RDF legacy
 %
 
-sequents :-
-    % resolution
+legacy :-
     assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            select(C, B, D),
-            implies(C, E, _),
-            E \= set(_)
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([E|D])), '<>')),
-    % factoring
-    assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            list_to_set(B, [C])
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<>')),
-    % contrapositive
-    assertz(implies((
-            implies(A, set(B), _),
-            nonvar(B),
-            (   B = []
-            ->  conj_list(A, L),
-                select('<http://www.w3.org/2000/10/swap/log#implies>'(F, set([])), L, M),
-                conj_list(E, M)
-            ;   select(C, B, D),
-                E = ('<http://www.w3.org/2000/10/swap/log#implies>'(C, set([])), A),
-                F = set(D)
-            )), '<http://www.w3.org/2000/10/swap/log#implies>'(E, F), '<>')),
-    % double negation
-    assertz(implies((
-            implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])), set([]), _)
-            ), A, '<>')),
-    % inference fuse
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])),
-            A
-            ), false, '<>')).
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#Rule>'),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
+            getlist(U, V),
+            findall(Tp,
+                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
+                    getlist(Ap, [S, P, O]),
+                    Tp =.. [P, S, O]
+                ),
+                L
+            ),
+            conj_list(A, L),
+            findall(Tc,
+                (   '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
+                    getlist(Ac, [S, P, O]),
+                    Tc =.. [P, S, O]
+                ),
+                M
+            ),
+            conj_list(B, M),
+            makevars([A, B], [Q, I], beta(V))
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')).
 
 %
 % RDF Surfaces
@@ -1009,6 +995,12 @@ opts(['--image', File|Argus], Args) :-
     !,
     retractall(flag(image, _)),
     assertz(flag(image, File)),
+    opts(Argus, Args).
+opts(['--legacy'|Argus], Args) :-
+    !,
+    retractall(flag(legacy)),
+    assertz(flag(legacy)),
+    legacy,
     opts(Argus, Args).
 opts(['--license'|_], _) :-
     !,
@@ -1485,13 +1477,6 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   \+flag(sequents),
-            \+flag(blogic),
-            Rt = '<http://www.w3.org/2000/10/swap/log#implies>'(_, set(_))
-        ->  assertz(flag(sequents)),
-            sequents
-        ;   true
-        ),
         (   functor(Rt, F, _),
             regex('^<.*#on.*Surface>$', F, _),
             \+flag(blogic)
@@ -1936,12 +1921,6 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     tr_n3p(Z, Src, query).
 tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
     !,
-    (   \+flag(sequents),
-        \+flag(blogic)
-    ->  assertz(flag(sequents)),
-        sequents
-    ;   true
-    ),
     (   \+flag('limited-answer', _),
         flag(nope)
     ->  write(query(X, X)),
@@ -1953,13 +1932,6 @@ tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   \+flag(sequents),
-        \+flag(blogic),
-        Y = set(_)
-    ->  assertz(flag(sequents)),
-        sequents
-    ;   true
-    ),
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
         writeln('.'),
@@ -5200,7 +5172,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 Dn \= answer(_, _, _),
                 \+ (Dn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gn),
                     '<http://www.w3.org/2000/10/swap/log#includes>'(Gn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                \+ (flag(sequents), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+ (flag(blogic), Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
@@ -5240,7 +5211,6 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                     Cn \= answer(_, _, _),
                     \+ (Cn = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Hn),
                         '<http://www.w3.org/2000/10/swap/log#includes>'(Hn, '<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _))),
-                    \+ (flag(sequents), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+ (flag(blogic), Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
@@ -5361,13 +5331,6 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
-    (   \+flag(sequents),
-        \+flag(blogic),
-        B = set(_)
-    ->  assertz(flag(sequents)),
-        sequents
-    ;   true
-    ),
     (   conj_list(B, D)
     ->  true
     ;   (   B = set(D)
@@ -11926,7 +11889,8 @@ makevars(A, B, beta(C)) :-
     !,
     distinct(C, D),
     findvars(D, G, beta),
-    (   D \= G
+    (   D \= G,
+        \+flag(legacy)
     ->  throw(invalid_graffiti(D, in(A)))
     ;   true
     ),

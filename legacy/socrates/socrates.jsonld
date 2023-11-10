@@ -1,0 +1,78 @@
+{
+    "@graph": [
+        {
+            "@id": "http://example.org/socrates#Human",
+            "rdfs:subClassOf": {
+                "@id": "http://example.org/socrates#Mortal"
+            }
+        },
+        {
+            "@id": "http://example.org/socrates#Socrates",
+            "@type": "Human"
+        },
+        {
+            "@id": "http://example.org/socrates#rule1",
+            "rule:conclusion": {
+                "@list": [
+                    {
+                        "@id": "_:b5"
+                    },
+                    {
+                        "@id": "rdf:type"
+                    },
+                    {
+                        "@id": "_:b3"
+                    }
+                ]
+            },
+            "rule:premise": [
+                {
+                    "@list": [
+                        {
+                            "@id": "_:b5"
+                        },
+                        {
+                            "@id": "rdf:type"
+                        },
+                        {
+                            "@id": "_:b8"
+                        }
+                    ]
+                },
+                {
+                    "@list": [
+                        {
+                            "@id": "_:b8"
+                        },
+                        {
+                            "@id": "rdfs:subClassOf"
+                        },
+                        {
+                            "@id": "_:b3"
+                        }
+                    ]
+                }
+            ],
+            "rule:uvars": {
+                "@list": [
+                    {
+                        "@id": "_:b8"
+                    },
+                    {
+                        "@id": "_:b3"
+                    },
+                    {
+                        "@id": "_:b5"
+                    }
+                ]
+            },
+            "@type": "rule:Rule"
+        }
+    ],
+    "@context": {
+        "rule": "http://eyereasoner.github.io/rule#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "@vocab": "http://example.org/socrates#"
+    }
+}
