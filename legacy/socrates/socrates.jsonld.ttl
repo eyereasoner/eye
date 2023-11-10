@@ -1,0 +1,38 @@
+@prefix :     <http://example.org/socrates#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rule: <http://eyereasoner.github.io/rule#> .
+
+:rule1  rdf:type         rule:ForwardRule ;
+        rule:conclusion  ( _:b0
+                           rdf:type
+                           _:b1
+                         ) ;
+        rule:evars       () ;
+        rule:premise     ( _:b2
+                           rdfs:subClassOf
+                           _:b1
+                         ) ;
+        rule:premise     ( _:b0
+                           rdf:type
+                           _:b2
+                         ) ;
+        rule:uvars       ( _:b2
+                           _:b1
+                           _:b0
+                         ) .
+
+:query1  rdf:type        rule:QueryRule ;
+        rule:conclusion  ( _:b0
+                           rdf:type :Mortal
+                         ) ;
+        rule:evars       () ;
+        rule:premise     ( _:b0
+                           rdf:type :Mortal
+                         ) ;
+        rule:uvars       ( _:b0
+                         ) .
+
+:Human  rdfs:subClassOf  :Mortal .
+
+:Socrates  rdf:type  :Human .

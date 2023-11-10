@@ -1,6 +1,109 @@
 {
     "@graph": [
         {
+            "@id": "http://example.org/socrates#rule1",
+            "rule:conclusion": {
+                "@list": [
+                    {
+                        "@id": "_:b10"
+                    },
+                    {
+                        "@id": "rdf:type"
+                    },
+                    {
+                        "@id": "_:b16"
+                    }
+                ]
+            },
+            "rule:premise": [
+                {
+                    "@list": [
+                        {
+                            "@id": "_:b10"
+                        },
+                        {
+                            "@id": "rdf:type"
+                        },
+                        {
+                            "@id": "_:b5"
+                        }
+                    ]
+                },
+                {
+                    "@list": [
+                        {
+                            "@id": "_:b5"
+                        },
+                        {
+                            "@id": "rdfs:subClassOf"
+                        },
+                        {
+                            "@id": "_:b16"
+                        }
+                    ]
+                }
+            ],
+            "rule:evars": {
+                "@list": [
+                ]
+            },
+            "rule:uvars": {
+                "@list": [
+                    {
+                        "@id": "_:b5"
+                    },
+                    {
+                        "@id": "_:b16"
+                    },
+                    {
+                        "@id": "_:b10"
+                    }
+                ]
+            },
+            "@type": "rule:ForwardRule"
+        },
+        {
+            "@id": "http://example.org/socrates#query1",
+            "rule:conclusion": {
+                "@list": [
+                    {
+                        "@id": "_:b10"
+                    },
+                    {
+                        "@id": "rdf:type"
+                    },
+                    {
+                        "@id": "http://example.org/socrates#Mortal"
+                    }
+                ]
+            },
+            "rule:premise": {
+                "@list": [
+                    {
+                        "@id": "_:b10"
+                    },
+                    {
+                        "@id": "rdf:type"
+                    },
+                    {
+                        "@id": "http://example.org/socrates#Mortal"
+                    }
+                ]
+            },
+            "rule:evars": {
+                "@list": [
+                ]
+            },
+            "rule:uvars": {
+                "@list": [
+                    {
+                        "@id": "_:b10"
+                    }
+                ]
+            },
+            "@type": "rule:QueryRule"
+        },
+        {
             "@id": "http://example.org/socrates#Human",
             "rdfs:subClassOf": {
                 "@id": "http://example.org/socrates#Mortal"
@@ -9,64 +112,6 @@
         {
             "@id": "http://example.org/socrates#Socrates",
             "@type": "Human"
-        },
-        {
-            "@id": "http://example.org/socrates#rule1",
-            "rule:conclusion": {
-                "@list": [
-                    {
-                        "@id": "_:b5"
-                    },
-                    {
-                        "@id": "rdf:type"
-                    },
-                    {
-                        "@id": "_:b3"
-                    }
-                ]
-            },
-            "rule:premise": [
-                {
-                    "@list": [
-                        {
-                            "@id": "_:b5"
-                        },
-                        {
-                            "@id": "rdf:type"
-                        },
-                        {
-                            "@id": "_:b8"
-                        }
-                    ]
-                },
-                {
-                    "@list": [
-                        {
-                            "@id": "_:b8"
-                        },
-                        {
-                            "@id": "rdfs:subClassOf"
-                        },
-                        {
-                            "@id": "_:b3"
-                        }
-                    ]
-                }
-            ],
-            "rule:uvars": {
-                "@list": [
-                    {
-                        "@id": "_:b8"
-                    },
-                    {
-                        "@id": "_:b3"
-                    },
-                    {
-                        "@id": "_:b5"
-                    }
-                ]
-            },
-            "@type": "rule:Rule"
         }
     ],
     "@context": {

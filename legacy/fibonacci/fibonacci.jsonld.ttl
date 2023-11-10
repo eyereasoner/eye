@@ -1,0 +1,153 @@
+@prefix :     <http://example.org/fibonacci#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix rule: <http://eyereasoner.github.io/rule#> .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 1 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 1 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 0 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 0 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:BackwardRule ;
+  rule:conclusion  ( _:b1
+                     :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( ( _:b1
+                       0 1
+                     ) :fib
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b1
+                     _:b0
+                   )
+] .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 283 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 283 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 3674 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 3674 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 6 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 6 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:BackwardRule ;
+  rule:conclusion  ( ( 0
+                       _:b2
+                       _:b3
+                     ) :fib
+                     _:b2
+                   ) ;
+  rule:evars       () ;
+  rule:uvars       ( _:b2
+                     _:b3
+                   )
+] .
+
+[ a                rule:QueryRule ;
+  rule:conclusion  ( 91 :fibonacci
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( 91 :fibonacci
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b0
+                   )
+] .
+
+[ a                rule:BackwardRule ;
+  rule:conclusion  ( ( 1
+                       _:b2
+                       _:b3
+                     ) :fib
+                     _:b3
+                   ) ;
+  rule:evars       () ;
+  rule:uvars       ( _:b2
+                     _:b3
+                   )
+] .
+
+[ a                rule:BackwardRule ;
+  rule:conclusion  ( ( _:b1
+                       _:b2
+                       _:b3
+                     ) :fib
+                     _:b0
+                   ) ;
+  rule:evars       () ;
+  rule:premise     ( _:b1
+                     math:greaterThan 1
+                   ) ;
+  rule:premise     ( ( _:b1
+                       1
+                     ) math:difference
+                     _:b4
+                   ) ;
+  rule:premise     ( ( _:b2
+                       _:b3
+                     ) math:sum
+                     _:b5
+                   ) ;
+  rule:premise     ( ( _:b4
+                       _:b3
+                       _:b5
+                     ) :fib
+                     _:b0
+                   ) ;
+  rule:uvars       ( _:b1
+                     _:b0
+                     _:b2
+                     _:b3
+                     _:b4
+                     _:b5
+                   )
+] .

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.0 (2023-11-10)').
+version_info('EYE v8.6.1 (2023-11-11)').
 
 license_info('MIT License
 
@@ -478,6 +478,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
+        \+flag(legacy),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -617,8 +618,9 @@ gre(Argus) :-
 %
 
 legacy :-
+    % forward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#Rule>'),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
             '<http://eyereasoner.github.io/rule#uvars>'(R, U),
             getlist(U, V),
             findall(Tp,
@@ -638,7 +640,63 @@ legacy :-
             ),
             conj_list(B, M),
             makevars([A, B], [Q, I], beta(V))
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')).
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+    % backward rule
+    assertz(implies((
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
+            getlist(U, V),
+            findall(Tp,
+                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
+                    getlist(Ap, [S, P, O]),
+                    Tp =.. [P, S, O]
+                ),
+                L
+            ),
+            conj_list(A, L),
+            '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
+            getlist(Ac, [S, P, O]),
+            B =.. [P, S, O],
+            makevars(':-'(B, A), C, beta(V)),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')),
+    % query rule
+    assertz(implies((
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
+            getlist(U, V),
+            findall(Tp,
+                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
+                    getlist(Ap, [S, P, O]),
+                    Tp =.. [P, S, O]
+                ),
+                L
+            ),
+            conj_list(A, L),
+            findall(Tc,
+                (   '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
+                    getlist(Ac, [S, P, O]),
+                    Tc =.. [P, S, O]
+                ),
+                M
+            ),
+            conj_list(B, M),
+            djiti_answer(answer(B), J),
+            makevars(implies(A, J, '<>'), C, beta(V)),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')).
 
 %
 % RDF Surfaces
