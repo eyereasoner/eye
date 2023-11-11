@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.2 (2023-11-11)').
+version_info('EYE v8.6.3 (2023-11-11)').
 
 license_info('MIT License
 
@@ -640,7 +640,6 @@ legacy :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
                 (   member([S, P, O], K),
@@ -657,12 +656,12 @@ legacy :-
                 M
             ),
             conj_list(B, M),
+            findvars([A, B], V, beta),
             makevars([A, B], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
                 (   member([S, P, O], K),
@@ -673,6 +672,7 @@ legacy :-
             conj_list(A, L),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
+            findvars([A, B], V, beta),
             makevars(':-'(B, A), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -685,7 +685,6 @@ legacy :-
     % query rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
                 (   member([S, P, O], K),
@@ -703,6 +702,7 @@ legacy :-
             ),
             conj_list(B, M),
             djiti_answer(answer(B), J),
+            findvars([A, J], V, beta),
             makevars(implies(A, J, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
