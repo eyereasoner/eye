@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.1 (2023-11-11)').
+version_info('EYE v8.6.2 (2023-11-11)').
 
 license_info('MIT License
 
@@ -419,6 +419,10 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+    (   flag(legacy)
+    ->  legacy
+    ;   true
+    ),
     (   flag(blogic)
     ->  blogic
     ;   true
@@ -618,22 +622,36 @@ gre(Argus) :-
 %
 
 legacy :-
+    % create list terms
+    (   pred(P),
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+        X =.. [P, _, _],
+        call(X),
+        getterm(X, Y),
+        (   Y = X
+        ->  true
+        ;   retract(X),
+            assertz(Y)
+        ),
+        fail
+    ;   true
+    ),
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
-            getlist(U, V),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
+            '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
-                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
-                    getlist(Ap, [S, P, O]),
+                (   member([S, P, O], K),
                     Tp =.. [P, S, O]
                 ),
                 L
             ),
             conj_list(A, L),
+            '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
             findall(Tc,
-                (   '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
-                    getlist(Ac, [S, P, O]),
+                (   member([S, P, O], H),
                     Tc =.. [P, S, O]
                 ),
                 M
@@ -644,18 +662,16 @@ legacy :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
-            getlist(U, V),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
+            '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
-                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
-                    getlist(Ap, [S, P, O]),
+                (   member([S, P, O], K),
                     Tp =.. [P, S, O]
                 ),
                 L
             ),
             conj_list(A, L),
-            '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
-            getlist(Ac, [S, P, O]),
+            '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
             makevars(':-'(B, A), C, beta(V)),
             copy_term_nat(C, CC),
@@ -669,19 +685,18 @@ legacy :-
     % query rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
-            '<http://eyereasoner.github.io/rule#uvars>'(R, U),
-            getlist(U, V),
+            '<http://eyereasoner.github.io/rule#uvars>'(R, V),
+            '<http://eyereasoner.github.io/rule#premise>'(R, K),
             findall(Tp,
-                (   '<http://eyereasoner.github.io/rule#premise>'(R, Ap),
-                    getlist(Ap, [S, P, O]),
+                (   member([S, P, O], K),
                     Tp =.. [P, S, O]
                 ),
                 L
             ),
             conj_list(A, L),
+            '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
             findall(Tc,
-                (   '<http://eyereasoner.github.io/rule#conclusion>'(R, Ac),
-                    getlist(Ac, [S, P, O]),
+                (   member([S, P, O], H),
                     Tc =.. [P, S, O]
                 ),
                 M
@@ -1058,7 +1073,6 @@ opts(['--legacy'|Argus], Args) :-
     !,
     retractall(flag(legacy)),
     assertz(flag(legacy)),
-    legacy,
     opts(Argus, Args).
 opts(['--license'|_], _) :-
     !,
@@ -12224,6 +12238,26 @@ getlist(A, [B|C]) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B),
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D),
     getlist(D, C).
+
+getterm(A, A) :-
+    var(A),
+    !.
+getterm([], []) :-
+    !.
+getterm([A|B], [C|D]) :-
+    getterm(A, C),
+    !,
+    getterm(B, D).
+getterm(A, [B|C]) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
+    !,
+    getterm(D, B),
+    getterm(E, C).
+getterm(A, B) :-
+    A =.. [C|D],
+    getterm(D, E),
+    B =.. [C|E].
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),

@@ -1,153 +1,444 @@
-@prefix :     <http://example.org/fibonacci#> .
-@prefix math: <http://www.w3.org/2000/10/swap/math#> .
 @prefix rule: <http://eyereasoner.github.io/rule#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix : <http://example.org/fibonacci#> .
 
-[ a                rule:BackwardRule ;
-  rule:conclusion  ( _:b0
-                     :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( ( _:b0
-                       0 1
-                     ) :fib
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b0
-                     _:b1
-                   )
-] .
+_:b0    a                rule:BackwardRule ;
+        rule:conclusion  _:b1 .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 6 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 6 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b1    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b2 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 283 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 283 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b2    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b4 .
 
-[ a                rule:BackwardRule ;
-  rule:conclusion  ( ( _:b0
-                       _:b2
-                       _:b3
-                     ) :fib
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( _:b0
-                     math:greaterThan 1
-                   ) ;
-  rule:premise     ( ( _:b0
-                       1
-                     ) math:difference
-                     _:b4
-                   ) ;
-  rule:premise     ( ( _:b2
-                       _:b3
-                     ) math:sum
-                     _:b5
-                   ) ;
-  rule:premise     ( ( _:b4
-                       _:b3
-                       _:b5
-                     ) :fib
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b0
-                     _:b1
-                     _:b2
-                     _:b3
-                     _:b4
-                     _:b5
-                   )
-] .
+_:b4    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b5 .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 91 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 91 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b5    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 3674 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 3674 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b0    rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b7 .
 
-[ a                rule:BackwardRule ;
-  rule:conclusion  ( ( 1
-                       _:b2
-                       _:b3
-                     ) :fib
-                     _:b3
-                   ) ;
-  rule:evars       () ;
-  rule:uvars       ( _:b2
-                     _:b3
-                   )
-] .
+_:b7    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b8 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
 
-[ a                rule:BackwardRule ;
-  rule:conclusion  ( ( 0
-                       _:b2
-                       _:b3
-                     ) :fib
-                     _:b2
-                   ) ;
-  rule:evars       () ;
-  rule:uvars       ( _:b2
-                     _:b3
-                   )
-] .
+_:b8    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b9 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b10 .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 1 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 1 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b9    <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b11 .
 
-[ a                rule:QueryRule ;
-  rule:conclusion  ( 0 :fibonacci
-                     _:b1
-                   ) ;
-  rule:evars       () ;
-  rule:premise     ( 0 :fibonacci
-                     _:b1
-                   ) ;
-  rule:uvars       ( _:b1
-                   )
-] .
+_:b11   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  0 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b12 .
+
+_:b12   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b10   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fib ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b13 .
+
+_:b13   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b0    rule:uvars  _:b14 .
+
+_:b14   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b15 .
+
+_:b15   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b16   a                rule:QueryRule ;
+        rule:conclusion  _:b17 .
+
+_:b17   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b18 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b18   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  3674 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b19 .
+
+_:b19   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b20 .
+
+_:b20   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b16   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b21 .
+
+_:b21   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b22 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b22   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  3674 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b23 .
+
+_:b23   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b24 .
+
+_:b24   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b16   rule:uvars  _:b25 .
+
+_:b25   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b26   a                rule:QueryRule ;
+        rule:conclusion  _:b27 .
+
+_:b27   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b28 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b28   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  0 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b29 .
+
+_:b29   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b30 .
+
+_:b30   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b26   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b31 .
+
+_:b31   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b32 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b32   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  0 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b33 .
+
+_:b33   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b34 .
+
+_:b34   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b26   rule:uvars  _:b35 .
+
+_:b35   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b36   a                rule:QueryRule ;
+        rule:conclusion  _:b37 .
+
+_:b37   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b38 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b38   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  283 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b39 .
+
+_:b39   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b40 .
+
+_:b40   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b36   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b41 .
+
+_:b41   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b42 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b42   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  283 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b43 .
+
+_:b43   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b44 .
+
+_:b44   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b36   rule:uvars  _:b45 .
+
+_:b45   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b46   a                rule:QueryRule ;
+        rule:conclusion  _:b47 .
+
+_:b47   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b48 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b48   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b49 .
+
+_:b49   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b50 .
+
+_:b50   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b46   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b51 .
+
+_:b51   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b52 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b52   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b53 .
+
+_:b53   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b54 .
+
+_:b54   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b46   rule:uvars  _:b55 .
+
+_:b55   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b56   a                rule:QueryRule ;
+        rule:conclusion  _:b57 .
+
+_:b57   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b58 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b58   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  91 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b59 .
+
+_:b59   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b60 .
+
+_:b60   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b56   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b61 .
+
+_:b61   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b62 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b62   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  91 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b63 .
+
+_:b63   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b64 .
+
+_:b64   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b56   rule:uvars  _:b65 .
+
+_:b65   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b66   a                rule:QueryRule ;
+        rule:conclusion  _:b67 .
+
+_:b67   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b68 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b68   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b69 .
+
+_:b69   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b70 .
+
+_:b70   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b66   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b71 .
+
+_:b71   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b72 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b72   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b73 .
+
+_:b73   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fibonacci ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b74 .
+
+_:b74   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b66   rule:uvars  _:b75 .
+
+_:b75   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b76   a                rule:BackwardRule ;
+        rule:conclusion  _:b77 .
+
+_:b77   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b78 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b78   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b79 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b80 .
+
+_:b79   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  0 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b81 .
+
+_:b81   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b83 .
+
+_:b83   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b80   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fib ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b85 .
+
+_:b85   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b76   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:uvars    _:b86 .
+
+_:b86   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b87 .
+
+_:b87   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b88   a                rule:BackwardRule ;
+        rule:conclusion  _:b89 .
+
+_:b89   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b90 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b90   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b91 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b92 .
+
+_:b91   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b93 .
+
+_:b93   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b94 .
+
+_:b94   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b92   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fib ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b95 .
+
+_:b95   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b88   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:uvars    _:b96 .
+
+_:b96   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b97 .
+
+_:b97   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b98   a                rule:BackwardRule ;
+        rule:conclusion  _:b99 .
+
+_:b99   <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b100 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b100  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b101 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b102 .
+
+_:b101  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b103 .
+
+_:b103  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b104 .
+
+_:b104  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b102  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fib ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b105 .
+
+_:b105  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b98   rule:evars    <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> ;
+        rule:premise  _:b106 .
+
+_:b106  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b107 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b108 .
+
+_:b107  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b109 .
+
+_:b109  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  math:greaterThan ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b110 .
+
+_:b110  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b108  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b111 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b112 .
+
+_:b111  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b113 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b114 .
+
+_:b113  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b115 .
+
+_:b115  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  1 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b114  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  math:difference ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b116 .
+
+_:b116  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b117 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b112  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b118 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b119 .
+
+_:b118  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b120 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b121 .
+
+_:b120  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b122 .
+
+_:b122  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b121  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  math:sum ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b123 .
+
+_:b123  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b124 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b119  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b125 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b125  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b126 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b127 .
+
+_:b126  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b117 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b128 .
+
+_:b128  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b129 .
+
+_:b129  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b124 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b127  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  :fib ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b130 .
+
+_:b130  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .
+
+_:b98   rule:uvars  _:b131 .
+
+_:b131  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b3 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b132 .
+
+_:b132  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b6 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b133 .
+
+_:b133  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b82 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b134 .
+
+_:b134  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b84 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b135 .
+
+_:b135  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b117 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  _:b136 .
+
+_:b136  <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>  _:b124 ;
+        <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>  <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil> .

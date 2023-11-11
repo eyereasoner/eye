@@ -1,38 +1,96 @@
-@prefix :     <http://example.org/socrates#> .
-@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix rule: <http://eyereasoner.github.io/rule#> .
-
-:rule1  rdf:type         rule:ForwardRule ;
-        rule:conclusion  ( _:b0
-                           rdf:type
-                           _:b1
-                         ) ;
-        rule:evars       () ;
-        rule:premise     ( _:b2
-                           rdfs:subClassOf
-                           _:b1
-                         ) ;
-        rule:premise     ( _:b0
-                           rdf:type
-                           _:b2
-                         ) ;
-        rule:uvars       ( _:b2
-                           _:b1
-                           _:b0
-                         ) .
-
-:query1  rdf:type        rule:QueryRule ;
-        rule:conclusion  ( _:b0
-                           rdf:type :Mortal
-                         ) ;
-        rule:evars       () ;
-        rule:premise     ( _:b0
-                           rdf:type :Mortal
-                         ) ;
-        rule:uvars       ( _:b0
-                         ) .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix : <http://example.org/socrates#> .
 
 :Human  rdfs:subClassOf  :Mortal .
 
 :Socrates  rdf:type  :Human .
+
+:query1  rdf:type        rule:QueryRule ;
+        rule:conclusion  _:b0 .
+
+_:b0    rdf:first  _:b1 ;
+        rdf:rest   rdf:nil .
+
+_:b1    rdf:first  _:b2 ;
+        rdf:rest   _:b3 .
+
+_:b3    rdf:first  rdf:type ;
+        rdf:rest   _:b4 .
+
+_:b4    rdf:first  :Mortal ;
+        rdf:rest   rdf:nil .
+
+:query1  rule:evars   rdf:nil ;
+        rule:premise  _:b5 .
+
+_:b5    rdf:first  _:b6 ;
+        rdf:rest   rdf:nil .
+
+_:b6    rdf:first  _:b2 ;
+        rdf:rest   _:b7 .
+
+_:b7    rdf:first  rdf:type ;
+        rdf:rest   _:b8 .
+
+_:b8    rdf:first  :Mortal ;
+        rdf:rest   rdf:nil .
+
+:query1  rule:uvars  _:b9 .
+
+_:b9    rdf:first  _:b2 ;
+        rdf:rest   rdf:nil .
+
+:rule1  rdf:type         rule:ForwardRule ;
+        rule:conclusion  _:b10 .
+
+_:b10   rdf:first  _:b11 ;
+        rdf:rest   rdf:nil .
+
+_:b11   rdf:first  _:b2 ;
+        rdf:rest   _:b12 .
+
+_:b12   rdf:first  rdf:type ;
+        rdf:rest   _:b13 .
+
+_:b13   rdf:first  _:b14 ;
+        rdf:rest   rdf:nil .
+
+:rule1  rule:evars    rdf:nil ;
+        rule:premise  _:b15 .
+
+_:b15   rdf:first  _:b16 ;
+        rdf:rest   _:b17 .
+
+_:b16   rdf:first  _:b18 ;
+        rdf:rest   _:b19 .
+
+_:b19   rdf:first  rdfs:subClassOf ;
+        rdf:rest   _:b20 .
+
+_:b20   rdf:first  _:b14 ;
+        rdf:rest   rdf:nil .
+
+_:b17   rdf:first  _:b21 ;
+        rdf:rest   rdf:nil .
+
+_:b21   rdf:first  _:b2 ;
+        rdf:rest   _:b22 .
+
+_:b22   rdf:first  rdf:type ;
+        rdf:rest   _:b23 .
+
+_:b23   rdf:first  _:b18 ;
+        rdf:rest   rdf:nil .
+
+:rule1  rule:uvars  _:b24 .
+
+_:b24   rdf:first  _:b18 ;
+        rdf:rest   _:b25 .
+
+_:b25   rdf:first  _:b14 ;
+        rdf:rest   _:b26 .
+
+_:b26   rdf:first  _:b2 ;
+        rdf:rest   rdf:nil .
