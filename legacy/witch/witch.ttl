@@ -1,0 +1,60 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/witch#>.
+
+# \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x)
+[]  rdf:type rule:ForwardRule;
+    rule:premise (
+        (_:x rdf:type :BURNS)
+        (_:x rdf:type :WOMAN)
+    );
+    rule:conclusion (
+        (_:x rdf:type :WITCH)
+    ).
+
+# WOMAN(GIRL)
+:GIRL rdf:type :WOMAN.
+
+# \forall x : ISMADEOFWOOD(x) => BURNS(x)
+[]  rdf:type rule:ForwardRule;
+    rule:premise (
+        (_:x rdf:type :ISMADEOFWOOD)
+    );
+    rule:conclusion (
+        (_:x rdf:type :BURNS)
+    ).
+
+# \forall x : FLOATS(x) => ISMADEOFWOOD(x)
+[]  rdf:type rule:ForwardRule;
+    rule:premise (
+        (_:x rdf:type :FLOATS)
+    );
+    rule:conclusion (
+        (_:x rdf:type :ISMADEOFWOOD)
+    ).
+
+# FLOATS(DUCK)
+:DUCK rdf:type :FLOATS.
+
+# \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
+[]  rdf:type rule:ForwardRule;
+    rule:premise (
+        (_:x rdf:type :FLOATS)
+        (_:x :SAMEWEIGHT _:y)
+    );
+    rule:conclusion (
+        (_:y rdf:type :FLOATS)
+    ).
+
+# and, by experiment
+# SAMEWEIGHT(DUCK,GIRL)
+:DUCK :SAMEWEIGHT :GIRL.
+
+# who's a witch?
+[]  rdf:type rule:QueryRule;
+    rule:premise (
+        (_:S rdf:type :WITCH)
+    );
+    rule:conclusion (
+        (_:S rdf:type :WITCH)
+    ).
