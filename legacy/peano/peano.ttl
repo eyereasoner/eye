@@ -1,0 +1,68 @@
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/peano#>.
+
+# add
+[]  a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        ((_:A 0) :add _:A)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        ((_:A _:B) :add _:C)
+    );
+    rule:conclusion (
+        ((_:A (:s _:B)) :add (:s _:C))
+    ).
+
+# multiply
+[]  a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        ((_:A 0) :multiply 0)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        ((_:A _:B) :multiply _:D)
+        ((_:A _:D) :add _:C)
+    );
+    rule:conclusion (
+        ((_:A (:s _:B)) :multiply _:C)
+    ).
+
+# factorial
+[]  a rule:BackwardRule;
+    rule:premise (
+        ((_:A (:s 0)) :fac _:B)
+    );
+    rule:conclusion (
+        (_:A :factorial _:B)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        ((0 _:A) :fac _:A)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        ((_:B (:s _:A)) :multiply _:D)
+        ((_:A _:D) :fac _:C)
+    );
+    rule:conclusion (
+        (((:s _:A) _:B) :fac _:C)
+    ).
+
+# query
+[]  a rule:QueryRule;
+    rule:premise (
+        (((:s 0) (:s (:s 0))) :add _:A)
+        ((_:A (:s (:s 0))) :multiply _:B)
+        (_:B :factorial _:C)
+    );
+    rule:conclusion (
+        (:result :is _:C)
+    ).
