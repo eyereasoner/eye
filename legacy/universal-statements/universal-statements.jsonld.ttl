@@ -1,0 +1,168 @@
+@prefix rule: <http://eyereasoner.github.io/rule#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/universal-statements#> .
+
+_:b0    rdf:type         rule:BackwardRule ;
+        rule:conclusion  _:b1 .
+
+_:b1    rdf:first  _:b2 ;
+        rdf:rest   rdf:nil .
+
+_:b2    rdf:first  _:b3 ;
+        rdf:rest   _:b4 .
+
+_:b4    rdf:first  rdf:type ;
+        rdf:rest   _:b5 .
+
+_:b5    rdf:first  rdfs:Resource ;
+        rdf:rest   rdf:nil .
+
+_:b0    rule:premise  rdf:nil .
+
+_:b6    rdf:type         rule:QueryRule ;
+        rule:conclusion  _:b7 .
+
+_:b7    rdf:first  _:b8 ;
+        rdf:rest   rdf:nil .
+
+_:b8    rdf:first  :pat ;
+        rdf:rest   _:b9 .
+
+_:b9    rdf:first  rdf:type ;
+        rdf:rest   _:b10 .
+
+_:b10   rdf:first  rdfs:Resource ;
+        rdf:rest   rdf:nil .
+
+_:b6    rule:premise  _:b11 .
+
+_:b11   rdf:first  _:b12 ;
+        rdf:rest   rdf:nil .
+
+_:b12   rdf:first  :pat ;
+        rdf:rest   _:b13 .
+
+_:b13   rdf:first  rdf:type ;
+        rdf:rest   _:b14 .
+
+_:b14   rdf:first  rdfs:Resource ;
+        rdf:rest   rdf:nil .
+
+_:b15   rdf:type         rule:QueryRule ;
+        rule:conclusion  _:b16 .
+
+_:b16   rdf:first  _:b17 ;
+        rdf:rest   _:b18 .
+
+_:b17   rdf:first  :bob ;
+        rdf:rest   _:b19 .
+
+_:b19   rdf:first  :loves ;
+        rdf:rest   _:b20 .
+
+_:b20   rdf:first  _:b3 ;
+        rdf:rest   rdf:nil .
+
+_:b18   rdf:first  _:b21 ;
+        rdf:rest   rdf:nil .
+
+_:b21   rdf:first  _:b3 ;
+        rdf:rest   _:b22 .
+
+_:b22   rdf:first  :is ;
+        rdf:rest   _:b23 .
+
+_:b23   rdf:first  :lonely ;
+        rdf:rest   rdf:nil .
+
+_:b15   rule:premise  _:b24 .
+
+_:b24   rdf:first  _:b25 ;
+        rdf:rest   _:b26 .
+
+_:b25   rdf:first  :bob ;
+        rdf:rest   _:b27 .
+
+_:b27   rdf:first  :loves ;
+        rdf:rest   _:b28 .
+
+_:b28   rdf:first  _:b3 ;
+        rdf:rest   rdf:nil .
+
+_:b26   rdf:first  _:b29 ;
+        rdf:rest   rdf:nil .
+
+_:b29   rdf:first  _:b3 ;
+        rdf:rest   _:b30 .
+
+_:b30   rdf:first  :is ;
+        rdf:rest   _:b31 .
+
+_:b31   rdf:first  :lonely ;
+        rdf:rest   rdf:nil .
+
+_:b32   rdf:type         rule:BackwardRule ;
+        rule:conclusion  _:b33 .
+
+_:b33   rdf:first  _:b34 ;
+        rdf:rest   rdf:nil .
+
+_:b34   rdf:first  _:b35 ;
+        rdf:rest   _:b36 .
+
+_:b36   rdf:first  :is ;
+        rdf:rest   _:b37 .
+
+_:b37   rdf:first  :lonely ;
+        rdf:rest   rdf:nil .
+
+_:b32   rule:premise  _:b38 .
+
+_:b38   rdf:first  _:b39 ;
+        rdf:rest   rdf:nil .
+
+_:b39   rdf:first  _:b40 ;
+        rdf:rest   _:b41 .
+
+_:b40   rdf:first  _:b42 ;
+        rdf:rest   rdf:nil .
+
+_:b41   rdf:first  log:skolem ;
+        rdf:rest   _:b43 .
+
+_:b43   rdf:first  _:b35 ;
+        rdf:rest   rdf:nil .
+
+_:b44   rdf:type         rule:BackwardRule ;
+        rule:conclusion  _:b45 .
+
+_:b45   rdf:first  _:b46 ;
+        rdf:rest   rdf:nil .
+
+_:b46   rdf:first  _:b42 ;
+        rdf:rest   _:b47 .
+
+_:b47   rdf:first  :loves ;
+        rdf:rest   _:b48 .
+
+_:b48   rdf:first  _:b35 ;
+        rdf:rest   rdf:nil .
+
+_:b44   rule:premise  _:b49 .
+
+_:b49   rdf:first  _:b50 ;
+        rdf:rest   rdf:nil .
+
+_:b50   rdf:first  _:b51 ;
+        rdf:rest   _:b52 .
+
+_:b51   rdf:first  _:b42 ;
+        rdf:rest   rdf:nil .
+
+_:b52   rdf:first  log:skolem ;
+        rdf:rest   _:b53 .
+
+_:b53   rdf:first  _:b35 ;
+        rdf:rest   rdf:nil .
