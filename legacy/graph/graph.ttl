@@ -1,0 +1,42 @@
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/graph#>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# oneway subproperty of path
+[]  a rule:ForwardRule;
+    rule:premise (
+        (_:A :oneway _:B)
+    );
+    rule:conclusion (
+        (_:A :path _:B)
+    ).
+
+# path transitive property
+[]  a rule:ForwardRule;
+    rule:premise (
+        (_:A :path _:B)
+        (_:B :path _:C)
+    );
+    rule:conclusion (
+        (_:A :path _:C)
+    ).
+
+# query rule
+[]  a rule:QueryRule;
+    rule:premise (
+        (_:A :path :nantes)
+    );
+    rule:conclusion (
+        (_:A :path :nantes)
+    ).
