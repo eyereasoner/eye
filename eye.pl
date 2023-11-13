@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.4 (2023-11-13)').
+version_info('EYE v8.6.5 (2023-11-13)').
 
 license_info('MIT License
 
@@ -6769,7 +6769,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(B)
         ),
-        (   reset_gensym,
+        (   getconj(B, Bg),
+            reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -6802,9 +6803,9 @@ djiti_assertz(A) :-
                 nl
             ),
             write('{'),
-            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Bg, _)),
             write('} => {'),
-            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Bg, _)),
             write('}.'),
             nl,
             told,
@@ -6842,7 +6843,7 @@ djiti_assertz(A) :-
                 semantics(Res, L),
                 conj_list(K, L),
                 labelvars(K, 0, _),
-                B = [_, _, M],
+                Bg = [_, _, M],
                 K = '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([_, _, M], _),
                 delete_file(Tmp1),
                 delete_file(Tmp2),
@@ -6857,14 +6858,15 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
     nonvar(B),
-    \+is_list(B),
-    catch(findall(A, B, E), _, E = []),
+    getconj(B, Bg),
+    \+is_list(Bg),
+    catch(findall(A, Bg, E), _, E = []),
     (   flag(warn)
-    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
+    ->  copy_term_nat([A, Bg, E], [Ac, Bc, Ec]),
         labelvars([Ac, Bc, Ec], 0, _),
         (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, G], Sc))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, Bg, G], [A, Bg, E]]),
                 flush_output(user_error)
             ;   true
             )
@@ -7117,7 +7119,10 @@ djiti_assertz(A) :-
             nonvar(B),
             nonvar(C)
         ),
-        (   if_then_else(A, B, C)
+        (   getconj(A, Ag),
+            getconj(B, Bg),
+            getconj(C, Cg),
+            if_then_else(Ag, Bg, Cg)
         )
     ).
 

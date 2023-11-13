@@ -1,0 +1,147 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/sdcoding#>.
+
+# |R) = |0, 0) + |1, 1)
+false :r false.
+true :r true.
+
+# |S) = |0, 1) + |1, 0)
+false :s true.
+true :s false.
+
+# |U) = |0, 0) + |1, 0) + |1, 1)
+false :u false.
+true :u false.
+true :u true.
+
+# |V ) = |0, 0) + |0, 1) + |1, 0)
+false :v false.
+false :v true.
+true :v false.
+
+# 1 |0) = |0)
+false :id false.
+# 1 |1) = |1)
+true :id true.
+
+# G |0) = |1)
+false :g true.
+# G |1) = |0)
+true :g false.
+
+# K |0) = |0)
+false :k false.
+# K |1) = |0) + |1)
+true :k false.
+true :k true.
+
+# KG
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :g _:Z)
+        (_:Z :k _:Y)
+    );
+    rule:conclusion (
+        (_:X :kg _:Y)
+    ).
+
+# GK
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :k _:Z)
+        (_:Z :g _:Y)
+    );
+    rule:conclusion (
+        (_:X :gk _:Y)
+    ).
+
+# Alice
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :id _:Y)
+    );
+    rule:conclusion (
+        (0 :alice (_:X _:Y))
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :g _:Y)
+    );
+    rule:conclusion (
+        (1 :alice (_:X _:Y))
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :k _:Y)
+    );
+    rule:conclusion (
+        (2 :alice (_:X _:Y))
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :kg _:Y)
+    );
+    rule:conclusion (
+        (3 :alice (_:X _:Y))
+    ).
+
+# Bob
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :gk _:Y)
+    );
+    rule:conclusion (
+        ((_:X _:Y) :bob 0)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :k _:Y)
+    );
+    rule:conclusion (
+        ((_:X _:Y) :bob 1)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :g _:Y)
+    );
+    rule:conclusion (
+        ((_:X _:Y) :bob 2)
+    ).
+
+[]  a rule:BackwardRule;
+    rule:premise (
+        (_:X :id _:Y)
+    );
+    rule:conclusion (
+        ((_:X _:Y) :bob 3)
+    ).
+
+# superdense coding
+[]  a rule:ForwardRule;
+    rule:premise (
+        (_:N :alice _:A)
+        (_:B :bob _:M)
+        ((1 ((_:X :r _:Y) (_:N :alice (_:X _:Z)) ((_:Z _:Y) :bob _:M)) _:L) log:collectAllIn _:S)
+        (_:L list:length _:I)
+        ((_:I 2) math:remainder 1)
+    );
+    rule:conclusion (
+        (_:N :sdcoding _:M)
+    ).
+
+# query
+[]  a rule:QueryRule;
+    rule:premise (
+        (_:N :sdcoding _:M)
+    );
+    rule:conclusion (
+        (_:N :sdcoding _:M)
+    ).
