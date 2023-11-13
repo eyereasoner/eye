@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.3 (2023-11-11)').
+version_info('EYE v8.6.4 (2023-11-13)').
 
 license_info('MIT License
 
@@ -641,21 +641,9 @@ legacy :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
-            findall(Tp,
-                (   member([S, P, O], K),
-                    Tp =.. [P, S, O]
-                ),
-                L
-            ),
-            conj_list(A, L),
+            getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
-            findall(Tc,
-                (   member([S, P, O], H),
-                    Tc =.. [P, S, O]
-                ),
-                M
-            ),
-            conj_list(B, M),
+            getconj(H, B),
             findvars([A, B], V, beta),
             makevars([A, B], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -663,13 +651,7 @@ legacy :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
-            findall(Tp,
-                (   member([S, P, O], K),
-                    Tp =.. [P, S, O]
-                ),
-                L
-            ),
-            conj_list(A, L),
+            getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
             findvars([A, B], V, beta),
@@ -686,21 +668,9 @@ legacy :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
-            findall(Tp,
-                (   member([S, P, O], K),
-                    Tp =.. [P, S, O]
-                ),
-                L
-            ),
-            conj_list(A, L),
+            getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
-            findall(Tc,
-                (   member([S, P, O], H),
-                    Tc =.. [P, S, O]
-                ),
-                M
-            ),
-            conj_list(B, M),
+            getconj(H, B),
             djiti_answer(answer(B), J),
             findvars([A, J], V, beta),
             makevars(implies(A, J, '<>'), C, beta(V)),
@@ -6695,9 +6665,11 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
-    catch(call(A), _, fail),
-    A \= B,
-    unify(A, C),
+    getconj(A, Ag),
+    getconj(B, Bg),
+    catch(call(Ag), _, fail),
+    Ag \= Bg,
+    unify(Ag, C),
     conj_list(C, D),
     forall(
         member(E, D),
@@ -6731,9 +6703,9 @@ djiti_assertz(A) :-
         )
     ),
     nb_getval(wn, W),
-    labelvars(B, W, N),
+    labelvars(Bg, W, N),
     nb_setval(wn, N),
-    unify(B, F),
+    unify(Bg, F),
     conj_list(F, G),
     forall(
         member(H, G),
@@ -6753,33 +6725,39 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#call>'(A, B) :-
-    call(A),
-    catch(call(B), _, fail),
+    getconj(A, Ag),
+    getconj(B, Bg),
+    call(Ag),
+    catch(call(Bg), _, fail),
     (   flag(nope)
     ->  true
-    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B)), C),
-        istep('<>', B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B), C)
+    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg)), C),
+        istep('<>', Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg), C)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B) :-
-    call_cleanup(A, B),
+    getconj(A, Ag),
+    getconj(B, Bg),
+    call_cleanup(Ag, Bg),
     (   flag(nope)
     ->  true
-    ;   conj_append(A, B, C),
-        copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
-        istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
+    ;   conj_append(Ag, Bg, C),
+        copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(Ag, Bg)), D),
+        istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(Ag, Bg), D)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B) :-
-    call(A),
-    (   \+catch(call(B), _, fail)
+    getconj(A, Ag),
+    getconj(B, Bg),
+    call(Ag),
+    (   \+catch(call(Bg), _, fail)
     ->  true
-    ;   catch(call(B), _, fail),
+    ;   catch(call(Bg), _, fail),
         (   flag(nope)
         ->  true
-        ;   conj_append(A, B, C),
-            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B)), D),
-            istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B), D)
+        ;   conj_append(Ag, Bg, C),
+            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(Ag, Bg)), D),
+            istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(Ag, Bg), D)
         )
     ).
 
@@ -12258,6 +12236,17 @@ getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
     B =.. [C|E].
+
+getconj([], true) :-
+    !.
+getconj([[S, P, O]], A) :-
+    !,
+    A =.. [P, S, O].
+getconj([[S, P, O]|A], (B, C)) :-
+    !,
+    B =.. [P, S, O],
+    getconj(A, C).
+getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
