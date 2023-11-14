@@ -5,38 +5,38 @@
 @prefix : <http://example.org/sdcoding#>.
 
 # |R) = |0, 0) + |1, 1)
-false :r false.
-true :r true.
+:FALSE :r :FALSE.
+:TRUE :r :TRUE.
 
 # |S) = |0, 1) + |1, 0)
-false :s true.
-true :s false.
+:FALSE :s :TRUE.
+:TRUE :s :FALSE.
 
 # |U) = |0, 0) + |1, 0) + |1, 1)
-false :u false.
-true :u false.
-true :u true.
+:FALSE :u :FALSE.
+:TRUE :u :FALSE.
+:TRUE :u :TRUE.
 
 # |V ) = |0, 0) + |0, 1) + |1, 0)
-false :v false.
-false :v true.
-true :v false.
+:FALSE :v :FALSE.
+:FALSE :v :TRUE.
+:TRUE :v :FALSE.
 
 # 1 |0) = |0)
-false :id false.
+:FALSE :id :FALSE.
 # 1 |1) = |1)
-true :id true.
+:TRUE :id :TRUE.
 
 # G |0) = |1)
-false :g true.
+:FALSE :g :TRUE.
 # G |1) = |0)
-true :g false.
+:TRUE :g :FALSE.
 
 # K |0) = |0)
-false :k false.
+:FALSE :k :FALSE.
 # K |1) = |0) + |1)
-true :k false.
-true :k true.
+:TRUE :k :FALSE.
+:TRUE :k :TRUE.
 
 # KG
 []  a rule:BackwardRule;
