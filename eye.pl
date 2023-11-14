@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.5 (2023-11-13)').
+version_info('EYE v8.6.6 (2023-11-14)').
 
 license_info('MIT License
 
@@ -6410,7 +6410,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   makevars(A, C, delta),
+        (   map(getconj, A, Ah),
+            makevars(Ah, C, delta),
             difference(C, B)
         )
     ).
@@ -6419,7 +6420,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   intersect(A, B)
+        (   map(getconj, A, Ah),
+            intersect(Ah, B)
         )
     ).
 
@@ -6427,7 +6429,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   conj_list(A, D),
+        (   getconj(A, Ag),
+            conj_list(Ag, D),
             (   ground(D)
             ->  distinct(D, C)
             ;   C = D
@@ -6437,13 +6440,15 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/graph#list>'(A, B) :-
-    conj_list(A, B).
+    getconj(A, Ag),
+    conj_list(Ag, B).
 
 '<http://www.w3.org/2000/10/swap/graph#member>'(A, B) :-
     when(
         (   nonvar(A)
         ),
-        (   conj_list(A, C),
+        (   getconj(A, Ag),
+            conj_list(Ag, C),
             member(B, C)
         )
     ).
@@ -6880,7 +6885,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   reset_gensym,
+        (   getconj(A, Ag),
+            reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -6892,8 +6898,8 @@ djiti_assertz(A) :-
                 ),
                 nl
             ),
-            labelvars(A, 0, _),
-            wt(A),
+            labelvars(Ag, 0, _),
+            wt(Ag),
             write('.'),
             nl,
             told,
@@ -6944,7 +6950,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   conjoin(A, M),
+        (   map(getconj, A, Ah),
+            conjoin(Ah, M),
             unify(M, B)
         )
     ).
@@ -7126,23 +7133,20 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
-    (   nonvar(Y),
-        Y = set([Z])
-    ->  true
-    ;   Z = Y
-    ),
+'<http://www.w3.org/2000/10/swap/log#implies>'(A, B) :-
+    getconj(A, X),
+    getconj(B, Y),
     implies(U, V, _),
     unify(U, X),
-    unify(V, Z),
-    (   commonvars(X, Z, [])
-    ->  labelvars(Z, 0, _, avar)
+    unify(V, Y),
+    (   commonvars(X, Y, [])
+    ->  labelvars(Y, 0, _, avar)
     ;   true
     ),
-    (   var(Z)
+    (   var(Y)
     ->  true
-    ;   Z \= answer(_, _, _),
-        Z \= (answer(_, _, _), _)
+    ;   Y \= answer(_, _, _),
+        Y \= (answer(_, _, _), _)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
@@ -7178,7 +7182,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   Y
+        (   getconj(Y, Yg),
+            call(Yg)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
@@ -7187,8 +7192,10 @@ djiti_assertz(A) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            conj_list(X, A),
-            conj_list(Y, B),
+            getconj(X, Xg),
+            getconj(Y, Yg),
+            conj_list(Xg, A),
+            conj_list(Yg, B),
             includes(A, B)
         )
     ).
@@ -7199,7 +7206,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   \+ \+call(Y)
+        (   getconj(Y, Yg),
+            \+ \+call(Yg)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#includesNotBind>'(X, Y) :-
@@ -7207,8 +7215,10 @@ djiti_assertz(A) :-
         (   nonvar(X),
             nonvar(Y)
         ),
-        (   conj_list(X, A),
-            conj_list(Y, B),
+        (   getconj(X, Xg),
+            getconj(Y, Yg),
+            conj_list(Xg, A),
+            conj_list(Yg, B),
             \+ \+includes(A, B)
         )
     ).
@@ -7216,8 +7226,9 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
     (   nonvar(B)
-    ->  intersect([B, C], M),
-        unify(M, B)
+    ->  getconj(B, Bg),
+        intersect([Bg, C], M),
+        unify(M, Bg)
     ;   B = C
     ).
 
@@ -7307,7 +7318,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   \+call(Y)
+        (   getconj(Y, Yg),
+            \+call(Yg)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
@@ -7316,8 +7328,10 @@ djiti_assertz(A) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            conj_list(X, A),
-            conj_list(Y, B),
+            getconj(X, Xg),
+            getconj(Y, Yg),
+            conj_list(Xg, A),
+            conj_list(Yg, B),
             \+includes(A, B)
         )
     ).
@@ -12227,6 +12241,8 @@ getterm(A, A) :-
     !.
 getterm([], []) :-
     !.
+getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
+    !.
 getterm([A|B], [C|D]) :-
     getterm(A, C),
     !,
@@ -12242,6 +12258,9 @@ getterm(A, B) :-
     getterm(D, E),
     B =.. [C|E].
 
+getconj(A, A) :-
+    var(A),
+    !.
 getconj([], true) :-
     !.
 getconj([[S, P, O]], A) :-
@@ -12265,6 +12284,13 @@ getcodes(literal(A, _), B) :-
 getcodes(A, B) :-
     nonvar(A),
     with_output_to_chars(wg(A), B).
+
+map(_, [], []) :-
+    !.
+map(A, [B|C], [D|E]) :-
+    F =.. [A, B, D],
+    call(F),
+    map(A, C, E).
 
 preformat([], []) :-
     !.
