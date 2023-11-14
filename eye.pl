@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.6 (2023-11-14)').
+version_info('EYE v8.6.7 (2023-11-14)').
 
 license_info('MIT License
 
@@ -6470,7 +6470,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   conjoin(A, B)
+        (   map(getconj, A, Ah),
+            conjoin(Ah, B)
         )
     ).
 
@@ -7004,7 +7005,9 @@ djiti_assertz(A) :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   forall(A, B)
+        (   getconj(A, Ag),
+            getconj(B, Bg),
+            forall(Ag, Bg)
         )
     ).
 
@@ -7034,7 +7037,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   reset_gensym,
+        (   map(getconj, A, Ah),
+            reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -7067,9 +7071,9 @@ djiti_assertz(A) :-
                 nl
             ),
             write('{'),
-            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(Ah, _)),
             write('} => {'),
-            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(Ah, _)),
             write('}.'),
             nl,
             told,
@@ -7107,7 +7111,7 @@ djiti_assertz(A) :-
                 semantics(Res, L),
                 conj_list(K, L),
                 labelvars(K, 0, _),
-                A = M,
+                Ah = M,
                 K = '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(M, _),
                 delete_file(Tmp1),
                 delete_file(Tmp2),
@@ -7224,7 +7228,8 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
-    '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
+    getconj(A, Ag),
+    '<http://www.w3.org/2000/10/swap/log#conclusion>'(Ag, C),
     (   nonvar(B)
     ->  getconj(B, Bg),
         intersect([Bg, C], M),
