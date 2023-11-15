@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.7 (2023-11-14)').
+version_info('EYE v8.6.8 (2023-11-15)').
 
 license_info('MIT License
 
@@ -4257,8 +4257,12 @@ wt0(X) :-
                 ->  J > 1,
                     sub_atom(X, 0, I, _, C),
                     atom_concat(C, '/>', D)
-                ;   J = 1,
-                    D = X
+                ;   (   sub_atom_last(X, I, 1, J, ':')
+                    ->  sub_atom(X, 0, I, _, C),
+                        atom_concat(C, ':>', D)
+                    ;   J = 1,
+                        D = X
+                    )
                 )
             ),
             pfx(E, D),
