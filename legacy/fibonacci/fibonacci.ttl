@@ -3,7 +3,7 @@
 @prefix : <http://example.org/fibonacci#>.
 
 # backward rules
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((_:X 0 1) :fib _:Y)
     );
@@ -11,19 +11,19 @@
         (_:X :fibonacci _:Y)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise ();
     rule:conclusion (
         ((0 _:A _:B) :fib _:A)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise ();
     rule:conclusion (
         ((1 _:A _:B) :fib _:B)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         (_:X math:greaterThan 1)
         ((_:X 1) math:difference _:C)
@@ -35,7 +35,7 @@
     ).
 
 # queries
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (0 :fibonacci _:Y)
     );
@@ -43,7 +43,7 @@
         (0 :fibonacci _:Y)
     ).
 
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (1 :fibonacci _:Y)
     );
@@ -51,7 +51,7 @@
         (1 :fibonacci _:Y)
     ).
 
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (6 :fibonacci _:Y)
     );
@@ -59,7 +59,7 @@
         (6 :fibonacci _:Y)
     ).
 
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (91 :fibonacci _:Y)
     );
@@ -67,7 +67,7 @@
         (91 :fibonacci _:Y)
     ).
 
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (283 :fibonacci _:Y)
     );
@@ -75,7 +75,7 @@
         (283 :fibonacci _:Y)
     ).
 
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (3674 :fibonacci _:Y)
     );

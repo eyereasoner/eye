@@ -4,7 +4,7 @@
 @prefix : <http://example.org/complex-numbers#>.
 
 # exponentiation
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((_:A _:B) complex:polar (_:R _:T))
         ((_:R _:C) math:exponentiation _:Z1)
@@ -25,7 +25,7 @@
     ).
 
 # asin
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((1 _:A) math:sum _:Z1)
         ((_:Z1 2) math:exponentiation _:Z2)
@@ -52,7 +52,7 @@
     ).
 
 # acos
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((1 _:A) math:sum _:Z1)
         ((_:Z1 2) math:exponentiation _:Z2)
@@ -80,7 +80,7 @@
     ).
 
 # polar
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((_:X 2) math:exponentiation _:Z1)
         ((_:Y 2) math:exponentiation _:Z2)
@@ -96,7 +96,7 @@
     ).
 
 # dial
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         (_:X math:notLessThan 0)
         (_:Y math:notLessThan 0)
@@ -106,7 +106,7 @@
         ((_:X _:Y _:T) complex:dial _:Tp)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         (_:X math:lessThan 0)
         (_:Y math:notLessThan 0)
@@ -116,7 +116,7 @@
         ((_:X _:Y _:T) complex:dial _:Tp)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         (_:X math:lessThan 0)
         (_:Y math:lessThan 0)
@@ -126,7 +126,7 @@
         ((_:X _:Y _:T) complex:dial _:Tp)
     ).
 
-[]  a rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         (_:X math:notLessThan 0)
         (_:Y math:lessThan 0)
@@ -138,7 +138,7 @@
     ).
 
 # query
-[]  a rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (((-1 0) (0.5 0)) complex:exponentiation _:C1)
         (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation _:C2)
