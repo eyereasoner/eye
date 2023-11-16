@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.8 (2023-11-15)').
+version_info('EYE v8.6.9 (2023-11-16)').
 
 license_info('MIT License
 
@@ -60,7 +60,6 @@ eye
     --ignore-inference-fuse         do not halt in case of inference fuse
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
-    --legacy                        RDF legacy support
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
@@ -419,8 +418,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(legacy)
-    ->  legacy
+    (   flag(rdflanguage)
+    ->  rdflanguage
     ;   true
     ),
     (   flag(blogic)
@@ -482,7 +481,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(legacy),
+        \+flag(rdflanguage),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -618,10 +617,10 @@ gre(Argus) :-
     ).
 
 %
-% RDF legacy
+% RDF Language
 %
 
-legacy :-
+rdflanguage :-
     % create list terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -1462,6 +1461,11 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
+            (   Predicate = '<http://eyereasoner.github.io/rule#premise>',
+                \+flag(rdflanguage)
+            ->  assertz(flag(rdflanguage))
+            ;   true
+            ),
             (   flag(intermediate, Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
@@ -1517,6 +1521,11 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   Rt = scope(Scope)
         ->  nb_setval(current_scope, Scope)
+        ;   true
+        ),
+        (   Rt = '<http://eyereasoner.github.io/rule#premise>'(_, _),
+            \+flag(rdflanguage)
+        ->  assertz(flag(rdflanguage))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2596,6 +2605,12 @@ prefix(Prefix) -->
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
+        (   atomic(Verb),
+            Verb = '\'<http://eyereasoner.github.io/rule#premise>\'',
+            \+flag(rdflanguage)
+        ->  assertz(flag(rdflanguage))
+        ;   true
+        ),
         (   atomic(Verb),
             regex('^\'<.*#on.*Surface>\'$', Verb, _),
             \+flag(blogic)
@@ -11967,8 +11982,7 @@ makevars(A, B, beta(C)) :-
     !,
     distinct(C, D),
     findvars(D, G, beta),
-    (   D \= G,
-        \+flag(legacy)
+    (   D \= G
     ->  throw(invalid_graffiti(D, in(A)))
     ;   true
     ),
