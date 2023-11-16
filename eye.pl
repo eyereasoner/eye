@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.9 (2023-11-16)').
+version_info('EYE v8.6.10 (2023-11-16)').
 
 license_info('MIT License
 
@@ -418,8 +418,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(rdflanguage)
-    ->  rdflanguage
+    (   flag(looking_through_rdf_glasses)
+    ->  looking_through_rdf_glasses
     ;   true
     ),
     (   flag(blogic)
@@ -481,7 +481,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdflanguage),
+        \+flag(looking_through_rdf_glasses),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -620,7 +620,7 @@ gre(Argus) :-
 % RDF Language
 %
 
-rdflanguage :-
+looking_through_rdf_glasses :-
     % create list terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -1462,8 +1462,8 @@ args(['--turtle', Argument|Args]) :-
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
             (   Predicate = '<http://eyereasoner.github.io/rule#premise>',
-                \+flag(rdflanguage)
-            ->  assertz(flag(rdflanguage))
+                \+flag(looking_through_rdf_glasses)
+            ->  assertz(flag(looking_through_rdf_glasses))
             ;   true
             ),
             (   flag(intermediate, Out)
@@ -1524,8 +1524,8 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   Rt = '<http://eyereasoner.github.io/rule#premise>'(_, _),
-            \+flag(rdflanguage)
-        ->  assertz(flag(rdflanguage))
+            \+flag(looking_through_rdf_glasses)
+        ->  assertz(flag(looking_through_rdf_glasses))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2607,8 +2607,8 @@ propertylist(Subject, Triples) -->
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
             Verb = '\'<http://eyereasoner.github.io/rule#premise>\'',
-            \+flag(rdflanguage)
-        ->  assertz(flag(rdflanguage))
+            \+flag(looking_through_rdf_glasses)
+        ->  assertz(flag(looking_through_rdf_glasses))
         ;   true
         ),
         (   atomic(Verb),
@@ -4640,11 +4640,21 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   wg(S),
+    ;   (   flag(looking_through_rdf_glasses),
+            \+nb_getval(indentation, 0)
+        ->  write('(')
+        ;   true
+        ),
+        wg(S),
         write(' '),
         wp(P),
         write(' '),
-        wg(O)
+        wg(O),
+        (   flag(looking_through_rdf_glasses),
+            \+nb_getval(indentation, 0)
+        ->  write(')')
+        ;   true
+        )
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4707,7 +4717,10 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  write('{'),
+    ->  (   flag(looking_through_rdf_glasses)
+        ->  write('(')
+        ;   write('{')
+        ),
         indentation(4),
         (   flag(strings)
         ->  true
@@ -4732,7 +4745,10 @@ wg(X) :-
                 indent
             )
         ),
-        write('}')
+        (   flag(looking_through_rdf_glasses)
+        ->  write(')')
+        ;   write('}')
+        )
     ;   wt(X)
     ).
 
