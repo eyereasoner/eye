@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.10 (2023-11-16)').
+version_info('EYE v8.6.11 (2023-11-17)').
 
 license_info('MIT License
 
@@ -4348,7 +4348,10 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        write('.'),
+        (   flag(looking_through_rdf_glasses)
+        ->  true
+        ;   write('.')
+        ),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4662,11 +4665,21 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   wg(S),
+    ;   (   flag(looking_through_rdf_glasses),
+            \+nb_getval(indentation, 0)
+        ->  write('(')
+        ;   true
+        ),
+        wg(S),
         write(' '),
         wg(P),
         write(' '),
-        wg(O)
+        wg(O),
+        (   flag(looking_through_rdf_glasses),
+            \+nb_getval(indentation, 0)
+        ->  write(')')
+        ;   true
+        )
     ).
 wtn(triple(S, P, O)) :-
     !,
@@ -4740,7 +4753,10 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   write('.'),
+            ;   (   flag(looking_through_rdf_glasses)
+                ->  true
+                ;   write('.')
+                ),
                 nl,
                 indent
             )
