@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.11 (2023-11-17)').
+version_info('EYE v8.6.12 (2023-11-17)').
 
 license_info('MIT License
 
@@ -2774,8 +2774,11 @@ symbol(Name) -->
     !,
     {   (   memberchk(N, [true, false])
         ->  Name = N
-        ;   nb_getval(line_number, Ln),
-            throw(invalid_keyword(N, after_line(Ln)))
+        ;   (   N = a
+            ->  Name = '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''
+            ;   nb_getval(line_number, Ln),
+                throw(invalid_keyword(N, after_line(Ln)))
+            )
         )
     }.
 symbol(Name) -->

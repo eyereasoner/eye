@@ -1,18 +1,17 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix rule: <http://eyereasoner.github.io/rule#>.
 @prefix : <urn:example:>.
 
 # \Every x: type(x, Resource)
-[]  rdf:type rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise ();
     rule:conclusion (
-        (_:x rdf:type rdfs:Resource)
+        (_:x a rdfs:Resource)
     ).
 
 # Everybody loves somebody who is lonely
-[]  rdf:type rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((_:A) log:skolem _:B)
     );
@@ -20,7 +19,7 @@
         (_:A :loves _:B)
     ).
 
-[]  rdf:type rule:BackwardRule;
+[] a rule:BackwardRule;
     rule:premise (
         ((_:A) log:skolem _:B)
     );
@@ -29,15 +28,15 @@
     ).
 
 # queries
-[]  rdf:type rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
-        (:pat rdf:type rdfs:Resource)
+        (:pat a rdfs:Resource)
     );
     rule:conclusion (
-        (:pat rdf:type rdfs:Resource)
+        (:pat a rdfs:Resource)
     ).
 
-[]  rdf:type rule:QueryRule;
+[] a rule:QueryRule;
     rule:premise (
         (:bob :loves _:x)
         (_:x :is :lonely)

@@ -1,4 +1,3 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix rule: <http://eyereasoner.github.io/rule#>.
 @prefix : <urn:example:>.
@@ -11,17 +10,17 @@
 [] a rule:ForwardRule;
     rule:premise (
         (_:A rdfs:subClassOf _:B)
-        (_:S rdf:type _:A)
+        (_:S a _:A)
     );
     rule:conclusion (
-        (_:S rdf:type _:B)
+        (_:S a _:B)
     ).
 
 # query rule
 [] a rule:QueryRule;
     rule:premise (
-        (_:S rdf:type :Mortal)
+        (_:S a :Mortal)
     );
     rule:conclusion (
-        (_:S rdf:type :Mortal)
+        (_:S a :Mortal)
     ).

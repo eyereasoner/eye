@@ -1,6 +1,5 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix rule: <http://eyereasoner.github.io/rule#>.
 @prefix : <urn:example:>.
 
@@ -17,7 +16,7 @@
 [] a rule:BackwardRule;
     rule:premise (
         (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
+        (_:Pol a :Policy)
         ((((_:Pol :allOf _:Field)) ((_:Test :has _:Field))) log:forAllIn _:X)
     );
     rule:conclusion (
@@ -27,7 +26,7 @@
 [] a rule:BackwardRule;
     rule:premise (
         (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
+        (_:Pol a :Policy)
         ((_:Field ((_:Pol :anyOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
         (_:List list:length _:L)
         (_:L log:notEqualTo 0)
@@ -39,7 +38,7 @@
 [] a rule:BackwardRule;
     rule:premise (
         (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
+        (_:Pol a :Policy)
         ((_:Field ((_:Pol :noneOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
         (_:List list:length _:L)
         (_:L log:equalTo 0)
@@ -50,7 +49,7 @@
 
 [] a rule:QueryRule;
     rule:premise (
-        (_:Pol rdf:type :Policy)
+        (_:Pol a :Policy)
         (_:Pol :pass :allOfTest)
         (_:Pol :pass :anyOfTest)
         (_:Pol :pass :noneOfTest)
