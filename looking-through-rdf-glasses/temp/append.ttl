@@ -1,4 +1,4 @@
-@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix rule: <http://eyereasoner.github.io/rule#>.
 @prefix : <urn:example:>.
@@ -18,8 +18,8 @@
     rule:premise (
         (:Let :param1 _:X1)
         (:Let :param2 _:X2)
-        ((_:X1 _:X2) graph:union _:Y)
+        ((_:X1 _:X2) list:append _:Y)
     );
     rule:conclusion (
-        ((_:X1 _:X2) :union _:Y)
+        ((_:X1 _:X2) :append _:Y)
 ).
