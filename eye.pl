@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.12 (2023-11-17)').
+version_info('EYE v8.6.13 (2023-11-18)').
 
 license_info('MIT License
 
@@ -4154,6 +4154,10 @@ wt0(fail) :-
     write('("fail") '),
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
+wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
+    flag(looking_through_rdf_glasses),
+    !,
+    write(a).
 wt0([]) :-
     !,
     (   flag('rdf-list-output')
@@ -4385,10 +4389,26 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   write('('),
-        wg(X),
-        wl(Y),
-        write(')')
+    ;   (   flag(looking_through_rdf_glasses),
+            is_lott([X|Y])
+        ->  write('('),
+            indentation(4),
+            forall(
+                member(Z, [X|Y]),
+                (   nl,
+                    indent,
+                    wt(Z)
+                )
+            ),
+            indentation(-4),
+            nl,
+            indent,
+            write(')')
+        ;   write('('),
+            wg(X),
+            wl(Y),
+            write(')')
+        )
     ).
 wt2(literal(X, lang(Y))) :-
     !,
@@ -11141,6 +11161,10 @@ is_gl(A) :-
 is_graph(true).
 is_graph(A) :-
     is_gl(A).
+
+is_lott([]).
+is_lott([[_, _, _]|A]) :-
+    is_lott(A).
 
 unify(A, B) :-
     nonvar(A),

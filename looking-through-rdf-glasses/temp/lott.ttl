@@ -1,0 +1,12 @@
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <urn:example:>.
+
+[] a rule:QueryRule;
+    rule:premise ();
+    rule:conclusion (
+        (:test :is (
+            (:A a :B)
+            (:C a :D)
+        )
+    )
+).
