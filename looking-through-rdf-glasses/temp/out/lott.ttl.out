@@ -1,6 +1,21 @@
 @prefix : <urn:example:>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
 
-:test :is (
-    (:A a :B)
-    (:C a :D)
+:Socrates a :Human.
+:Human rdfs:subClassOf :Mortal.
+_:sk_0 a rule:ForwardRule.
+_:sk_0 rule:premise (
+    (_:sk_1 rdfs:subClassOf _:sk_2)
+    (_:sk_3 a _:sk_1)
+).
+_:sk_0 rule:conclusion (
+    (_:sk_3 a _:sk_2)
+).
+_:sk_4 a rule:QueryRule.
+_:sk_4 rule:premise (
+    (_:sk_3 a :Mortal)
+).
+_:sk_4 rule:conclusion (
+    (_:sk_3 a :Mortal)
 ).
