@@ -1,0 +1,31 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <urn:example:>.
+
+# _:M is the sequence of moves to move _:N disks from _:X to _:Y using _:Z as intermediary
+[] a rule:BackwardRule;
+    rule:premise (
+        (_:N math:greaterThan 1)
+        ((_:N 1) math:difference _:N1)
+        ((_:N1 _:X _:Z _:Y) :moves _:M1)
+        ((_:N1 _:Z _:Y _:X) :moves _:M2)
+        ((_:M1 ((_:X _:Y)) _:M2) list:append _:M)
+    );
+    rule:conclusion (
+        ((_:N _:X _:Y _:Z) :moves _:M)
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        ((1 _:X _:Y _:Z) :moves ((_:X _:Y)))
+    ).
+
+[] a rule:QueryRule;
+    rule:premise (
+        ((9 :left :right :center) :moves _:M)
+    );
+    rule:conclusion (
+        (9 :answer _:M)
+    ).
