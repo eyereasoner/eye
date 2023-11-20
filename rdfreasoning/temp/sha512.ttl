@@ -1,0 +1,14 @@
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#> .
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <urn:example:> .
+
+:Let :param "hello world" .
+
+[] a rule:QueryRule;
+    rule:premise (
+        (:Let :param _:X)
+        (_:X crypto:sha512 _:Y)
+    );
+    rule:conclusion (
+        (_:X :sha512 _:Y)
+    ).

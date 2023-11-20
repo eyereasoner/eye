@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.14 (2023-11-20)').
+version_info('EYE v8.6.15 (2023-11-20)').
 
 license_info('MIT License
 
@@ -799,35 +799,6 @@ blogic :-
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
-    % create sequent
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
-            is_graph(G),
-            conj_list(G, L),
-            list_to_set(L, B),
-            \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
-            \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
-            findall(J,
-                (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, J), B)
-                ),
-                H
-            ),
-            length(H, N),
-            N >= 2,
-            findall(J,
-                (   member(J, B),
-                    J \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-                ),
-                K
-            ),
-            conj_list(R, K),
-            find_graffiti(K, D),
-            append(V, D, U),
-            makevars([R, H], [Q, S], beta(U)),
-            findvars(S, W, beta),
-            makevars(S, I, beta(W))
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, set(I)), '<>')),
     % create contrapositive rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
@@ -1970,17 +1941,6 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
         writeln('.')
     ),
     tr_n3p(Z, Src, query).
-tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
-    !,
-    (   \+flag('limited-answer', _),
-        flag(nope)
-    ->  write(query(X, X)),
-        writeln('.')
-    ;   djiti_answer(answer(X), A),
-        write(implies(X, A, Src)),
-        writeln('.')
-    ),
-    tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   flag(tactic, 'linear-select')
@@ -5146,7 +5106,6 @@ eam(Recursion) :-
         ;   true
         ),
         \+atom(Conc),
-        Conc \= set(_),
         (   flag('rule-histogram'),
             copy_term_nat(Rule, RuleL)
         ->  lookup(RTP, tp, RuleL),
@@ -5449,10 +5408,7 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
     (   conj_list(B, D)
     ->  true
-    ;   (   B = set(D)
-        ->  true
-        ;   D = B
-        )
+    ;   D = B
     ),
     forall(
         member(E, D),
