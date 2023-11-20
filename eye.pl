@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.13 (2023-11-18)').
+version_info('EYE v8.6.14 (2023-11-20)').
 
 license_info('MIT License
 
@@ -418,8 +418,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(looking_through_rdf_glasses)
-    ->  looking_through_rdf_glasses
+    (   flag(rdfreasoning)
+    ->  rdfreasoning
     ;   true
     ),
     (   flag(blogic)
@@ -481,7 +481,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(looking_through_rdf_glasses),
+        \+flag(rdfreasoning),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -617,10 +617,10 @@ gre(Argus) :-
     ).
 
 %
-% RDF Language
+% RDF Reasoning
 %
 
-looking_through_rdf_glasses :-
+rdfreasoning :-
     % create list terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -1462,8 +1462,8 @@ args(['--turtle', Argument|Args]) :-
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
             (   Predicate = '<http://eyereasoner.github.io/rule#premise>',
-                \+flag(looking_through_rdf_glasses)
-            ->  assertz(flag(looking_through_rdf_glasses))
+                \+flag(rdfreasoning)
+            ->  assertz(flag(rdfreasoning))
             ;   true
             ),
             (   flag(intermediate, Out)
@@ -1524,8 +1524,8 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   Rt = '<http://eyereasoner.github.io/rule#premise>'(_, _),
-            \+flag(looking_through_rdf_glasses)
-        ->  assertz(flag(looking_through_rdf_glasses))
+            \+flag(rdfreasoning)
+        ->  assertz(flag(rdfreasoning))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2607,8 +2607,8 @@ propertylist(Subject, Triples) -->
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
             Verb = '\'<http://eyereasoner.github.io/rule#premise>\'',
-            \+flag(looking_through_rdf_glasses)
-        ->  assertz(flag(looking_through_rdf_glasses))
+            \+flag(rdfreasoning)
+        ->  assertz(flag(rdfreasoning))
         ;   true
         ),
         (   atomic(Verb),
@@ -4155,7 +4155,7 @@ wt0(fail) :-
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
 wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
-    flag(looking_through_rdf_glasses),
+    flag(rdfreasoning),
     !,
     write(a).
 wt0([]) :-
@@ -4355,7 +4355,7 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(looking_through_rdf_glasses)
+        (   flag(rdfreasoning)
         ->  true
         ;   write('.')
         ),
@@ -4389,7 +4389,7 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   (   flag(looking_through_rdf_glasses),
+    ;   (   flag(rdfreasoning),
             is_lott([X|Y])
         ->  write('('),
             indentation(4),
@@ -4666,7 +4666,7 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   (   flag(looking_through_rdf_glasses),
+    ;   (   flag(rdfreasoning),
             \+nb_getval(indentation, 0)
         ->  write('(')
         ;   true
@@ -4676,7 +4676,7 @@ wt2(X) :-
         wp(P),
         write(' '),
         wg(O),
-        (   flag(looking_through_rdf_glasses),
+        (   flag(rdfreasoning),
             \+nb_getval(indentation, 0)
         ->  write(')')
         ;   true
@@ -4688,7 +4688,7 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   (   flag(looking_through_rdf_glasses),
+    ;   (   flag(rdfreasoning),
             \+nb_getval(indentation, 0)
         ->  write('(')
         ;   true
@@ -4698,7 +4698,7 @@ wtn(exopred(P, S, O)) :-
         wg(P),
         write(' '),
         wg(O),
-        (   flag(looking_through_rdf_glasses),
+        (   flag(rdfreasoning),
             \+nb_getval(indentation, 0)
         ->  write(')')
         ;   true
@@ -4753,7 +4753,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(looking_through_rdf_glasses)
+    ->  (   flag(rdfreasoning)
         ->  write('(')
         ;   write('{')
         ),
@@ -4776,7 +4776,7 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag(looking_through_rdf_glasses)
+            ;   (   flag(rdfreasoning)
                 ->  true
                 ;   write('.')
                 ),
@@ -4784,7 +4784,7 @@ wg(X) :-
                 indent
             )
         ),
-        (   flag(looking_through_rdf_glasses)
+        (   flag(rdfreasoning)
         ->  write(')')
         ;   write('}')
         )
