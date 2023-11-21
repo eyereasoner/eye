@@ -6,7 +6,7 @@
 :Socrates a :Human, :Immortal.
 :Human rdfs:subClassOf :Mortal.
 
-# forward rule
+# rdfs subclass
 [] a rule:ForwardRule;
     rule:premise (
         (_:A rdfs:subClassOf _:B)
@@ -16,6 +16,7 @@
         (_:S a _:B)
     ).
 
+# inference fuse
 [] a rule:ForwardRule;
     rule:premise (
         (_:S a :Mortal)
@@ -23,7 +24,7 @@
     );
     rule:conclusion false.
 
-# query rule
+# query
 [] a rule:QueryRule;
     rule:premise (
         (_:S a :Mortal)
