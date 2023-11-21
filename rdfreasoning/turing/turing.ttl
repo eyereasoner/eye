@@ -5,106 +5,106 @@
 
 # interpreter for Turing machine
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (() :compute _:OutTape)
+    );
     rule:premise (
         (_:Machine :start _:I)
         ((_:I () "#" ()) :find _:OutTape)
-    );
-    rule:conclusion (
-        (() :compute _:OutTape)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:List :compute _:OutTape)
+    );
     rule:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:Machine :start _:I)
         ((_:I () _:Head _:Tail) :find _:OutTape)
-    );
-    rule:conclusion (
-        (_:List :compute _:OutTape)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((_:State _:Left _:Cell _:Right) :find _:OutTape)
+    );
     rule:premise (
         ((_:State _:Cell _:Write _:Move) :tape _:Next)
         ((_:Move _:Left _:Write _:Right _:A _:B _:C) :move true)
         ((_:Next _:A _:B _:C) :continue _:OutTape)
-    );
-    rule:conclusion (
-        ((_:State _:Left _:Cell _:Right) :find _:OutTape)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((:halt _:Left _:Cell _:Right) :continue _:OutTape)
+    );
     rule:premise (
         (_:Left :reverse _:R)
         (_:List list:firstRest (_:Cell _:Right))
         ((_:R _:List) list:append _:OutTape)
-    );
-    rule:conclusion (
-        ((:halt _:Left _:Cell _:Right) :continue _:OutTape)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        ((_:State _:Left _:Cell _:Right) :find _:OutTape)
-    );
     rule:conclusion (
         ((_:State _:Left _:Cell _:Right) :continue _:OutTape)
+    );
+    rule:premise (
+        ((_:State _:Left _:Cell _:Right) :find _:OutTape)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:L list:firstRest (_:Cell _:Right))
-    );
     rule:conclusion (
         ((:left () _:Cell _:Right () "#" _:L) :move true)
+    );
+    rule:premise (
+        (_:L list:firstRest (_:Cell _:Right))
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true)
+    );
     rule:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:L list:firstRest (_:Cell _:Right))
-    );
-    rule:conclusion (
-        ((:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         ((:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true)
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:L list:firstRest (_:Cell _:Left))
-    );
     rule:conclusion (
         ((:right _:Left _:Cell () _:L "#" ()) :move true)
+    );
+    rule:premise (
+        (_:L list:firstRest (_:Cell _:Left))
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true)
+    );
     rule:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:L list:firstRest (_:Cell _:Left))
-    );
-    rule:conclusion (
-        ((:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         (() :reverse ())
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:List :reverse _:Reverse)
+    );
     rule:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:Tail :reverse _:R)
         ((_:R (_:Head)) list:append _:Reverse)
-    );
-    rule:conclusion (
-        (_:List :reverse _:Reverse)
     ).
 
 # a Turing machine to add 1 to a binary number

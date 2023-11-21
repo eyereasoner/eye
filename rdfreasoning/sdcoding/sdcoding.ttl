@@ -40,88 +40,88 @@
 
 # KG
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:X :kg _:Y)
+    );
     rule:premise (
         (_:X :g _:Z)
         (_:Z :k _:Y)
-    );
-    rule:conclusion (
-        (_:X :kg _:Y)
     ).
 
 # GK
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:X :gk _:Y)
+    );
     rule:premise (
         (_:X :k _:Z)
         (_:Z :g _:Y)
-    );
-    rule:conclusion (
-        (_:X :gk _:Y)
     ).
 
 # Alice
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :id _:Y)
-    );
     rule:conclusion (
         (0 :alice (_:X _:Y))
+    );
+    rule:premise (
+        (_:X :id _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :g _:Y)
-    );
     rule:conclusion (
         (1 :alice (_:X _:Y))
+    );
+    rule:premise (
+        (_:X :g _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :k _:Y)
-    );
     rule:conclusion (
         (2 :alice (_:X _:Y))
+    );
+    rule:premise (
+        (_:X :k _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :kg _:Y)
-    );
     rule:conclusion (
         (3 :alice (_:X _:Y))
+    );
+    rule:premise (
+        (_:X :kg _:Y)
     ).
 
 # Bob
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :gk _:Y)
-    );
     rule:conclusion (
         ((_:X _:Y) :bob 0)
+    );
+    rule:premise (
+        (_:X :gk _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :k _:Y)
-    );
     rule:conclusion (
         ((_:X _:Y) :bob 1)
+    );
+    rule:premise (
+        (_:X :k _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :g _:Y)
-    );
     rule:conclusion (
         ((_:X _:Y) :bob 2)
+    );
+    rule:premise (
+        (_:X :g _:Y)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        (_:X :id _:Y)
-    );
     rule:conclusion (
         ((_:X _:Y) :bob 3)
+    );
+    rule:premise (
+        (_:X :id _:Y)
     ).
 
 # superdense coding

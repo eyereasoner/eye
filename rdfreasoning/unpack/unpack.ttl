@@ -31,56 +31,56 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         (() :unpackLott ())
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:g :unpackLott _:h)
+    );
     rule:premise (
         (_:g list:firstRest (_:f _:r))
         (_:f :unpack _:a)
         (_:r :unpackLott _:b)
         ((_:a _:b) list:append _:h)
-    );
-    rule:conclusion (
-        (_:g :unpackLott _:h)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((_:b :package _:p) :unpack _:f)
+    );
     rule:premise (
         (_:p list:member (_:a :content _:c))
         (_:p list:member (_:a :usable_until _:t))
         ((:tomorrow :next_week) list:member _:t)
         (_:c :unpackLott _:f)
-    );
-    rule:conclusion (
-        ((_:b :package _:p) :unpack _:f)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((_:b :package _:p) :unpack ())
+    );
     rule:premise (
         (_:p list:member (_:a :content _:c))
         (_:p list:member (_:a :usable_until _:t))
         ((:yesterday :last_week) list:member _:t)
-    );
-    rule:conclusion (
-        ((_:b :package _:p) :unpack ())
     ).
 
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         ((_:b :tag _:p) :unpack ())
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:g :unpack (_:g))
+    );
     rule:premise (
         ((_:g) list:notMember (_:a :package _:p))
         ((_:g) list:notMember (_:b :tag _:q))
-    );
-    rule:conclusion (
-        (_:g :unpack (_:g))
     ).
 
 # unpack the triples that are usable in the future

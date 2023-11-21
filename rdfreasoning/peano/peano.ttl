@@ -3,10 +3,10 @@
 
 # add
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         ((_:A 0) :add _:A)
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
     rule:premise (
@@ -18,42 +18,42 @@
 
 # multiply
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         ((_:A 0) :multiply 0)
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        ((_:A (:s _:B)) :multiply _:C)
+    );
     rule:premise (
         ((_:A _:B) :multiply _:D)
         ((_:A _:D) :add _:C)
-    );
-    rule:conclusion (
-        ((_:A (:s _:B)) :multiply _:C)
     ).
 
 # factorial
 [] a rule:BackwardRule;
-    rule:premise (
-        ((_:A (:s 0)) :fac _:B)
-    );
     rule:conclusion (
         (_:A :factorial _:B)
+    );
+    rule:premise (
+        ((_:A (:s 0)) :fac _:B)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         ((0 _:A) :fac _:A)
-    ).
+    );
+    rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (((:s _:A) _:B) :fac _:C)
+    );
     rule:premise (
         ((_:B (:s _:A)) :multiply _:D)
         ((_:A _:D) :fac _:C)
-    );
-    rule:conclusion (
-        (((:s _:A) _:B) :fac _:C)
     ).
 
 # query

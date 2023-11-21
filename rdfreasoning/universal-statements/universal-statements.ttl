@@ -5,26 +5,26 @@
 
 # \Every x: type(x, Resource)
 [] a rule:BackwardRule;
-    rule:premise ();
     rule:conclusion (
         (_:x a rdfs:Resource)
-    ).
+    );
+    rule:premise ().
 
 # Everybody loves somebody who is lonely
 [] a rule:BackwardRule;
-    rule:premise (
-        ((_:A) log:skolem _:B)
-    );
     rule:conclusion (
         (_:A :loves _:B)
+    );
+    rule:premise (
+        ((_:A) log:skolem _:B)
     ).
 
 [] a rule:BackwardRule;
-    rule:premise (
-        ((_:A) log:skolem _:B)
-    );
     rule:conclusion (
         (_:B :is :lonely)
+    );
+    rule:premise (
+        ((_:A) log:skolem _:B)
     ).
 
 # queries

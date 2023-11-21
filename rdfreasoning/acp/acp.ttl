@@ -14,37 +14,37 @@
     :noneOf :D.
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:Pol :pass :allOfTest)
+    );
     rule:premise (
         (_:Test :policy _:Pol)
         (_:Pol a :Policy)
         ((((_:Pol :allOf _:Field)) ((_:Test :has _:Field))) log:forAllIn _:X)
-    );
-    rule:conclusion (
-        (_:Pol :pass :allOfTest)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:Pol :pass :anyOfTest)
+    );
     rule:premise (
         (_:Test :policy _:Pol)
         (_:Pol a :Policy)
         ((_:Field ((_:Pol :anyOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
         (_:List list:length _:L)
         (_:L log:notEqualTo 0)
-    );
-    rule:conclusion (
-        (_:Pol :pass :anyOfTest)
     ).
 
 [] a rule:BackwardRule;
+    rule:conclusion (
+        (_:Pol :pass :noneOfTest)
+    );
     rule:premise (
         (_:Test :policy _:Pol)
         (_:Pol a :Policy)
         ((_:Field ((_:Pol :noneOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
         (_:List list:length _:L)
         (_:L log:equalTo 0)
-    );
-    rule:conclusion (
-        (_:Pol :pass :noneOfTest)
     ).
 
 [] a rule:QueryRule;
