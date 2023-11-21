@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.15 (2023-11-20)').
+version_info('EYE v8.6.16 (2023-11-21)').
 
 license_info('MIT License
 
@@ -5379,6 +5379,14 @@ djiti_conc(':-'(exopred(P, S, O), B), ':-'(A, B)) :-
 djiti_conc(answer((A, B), void, void), (answer(A, void, void), D)) :-
     !,
     djiti_conc(answer(B, void, void), D).
+djiti_conc(answer(A, void, void), answer(B, void, void)) :-
+    is_lott(A),
+    !,
+    getconj(A, B).
+djiti_conc(A, B) :-
+    is_lott(A),
+    !,
+    getconj(A, B).
 djiti_conc(A, A).
 
 djiti_fact(answer(P, S, O), answer(P, S, O)) :-
@@ -7512,7 +7520,11 @@ djiti_assertz(A) :-
     wg(U),
     write(' TRACE '),
     copy_term_nat(Y, V),
-    wg(V),
+    (   number(X),
+        X < 0
+    ->  fm(V)
+    ;   wg(V)
+    ),
     nl,
     told,
     (   flag('output', Output)

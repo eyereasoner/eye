@@ -1,0 +1,92 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <urn:example:>.
+
+# sample data from RubenD
+_:b1 :data (
+    (_:b2 :package (
+        (_:b3 :content (
+            (:a :b _:c)
+            (_:b4 :package (
+                (_:b5 :content (
+                    (:u :v _:w)
+                    (_:b6 :package (
+                        (_:b7 :content (
+                            (:x :y _:z)
+                        ))
+                        (_:b7 :usable_until :yesterday)
+                    ))
+                    (_:b6 :tag :invalid)
+                ))
+                (_:b5 :usable_until :tomorrow)
+                (_:b5 :p :o)
+            ))
+            (_:b4 :tag :valid)
+        ))
+        (_:b3 :usable_until :next_week)
+    ))
+    (_:b2 :tag :valid)
+).
+
+# the logic for unpack using backward rules
+[] a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        (() :unpackLott ())
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise (
+        (_:g list:firstRest (_:f _:r))
+        (_:f :unpack _:a)
+        (_:r :unpackLott _:b)
+        ((_:a _:b) list:append _:h)
+    );
+    rule:conclusion (
+        (_:g :unpackLott _:h)
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise (
+        (_:p list:member (_:a :content _:c))
+        (_:p list:member (_:a :usable_until _:t))
+        ((:tomorrow :next_week) list:member _:t)
+        (_:c :unpackLott _:f)
+    );
+    rule:conclusion (
+        ((_:b :package _:p) :unpack _:f)
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise (
+        (_:p list:member (_:a :content _:c))
+        (_:p list:member (_:a :usable_until _:t))
+        ((:yesterday :last_week) list:member _:t)
+    );
+    rule:conclusion (
+        ((_:b :package _:p) :unpack ())
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise ();
+    rule:conclusion (
+        ((_:b :tag _:p) :unpack ())
+    ).
+
+[] a rule:BackwardRule;
+    rule:premise (
+        ((_:g) list:notMember (_:a :package _:p))
+        ((_:g) list:notMember (_:b :tag _:q))
+    );
+    rule:conclusion (
+        (_:g :unpack (_:g))
+    ).
+
+# unpack the triples that are usable in the future
+[] a rule:QueryRule;
+    rule:premise (
+        (_:b :data _:g)
+        (_:g :unpackLott _:m)
+    );
+    rule:conclusion _:m.
