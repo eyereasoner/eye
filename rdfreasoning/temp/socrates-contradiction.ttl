@@ -1,0 +1,33 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <urn:example:>.
+
+# facts
+:Socrates a :Human, :Immortal.
+:Human rdfs:subClassOf :Mortal.
+
+# forward rule
+[] a rule:ForwardRule;
+    rule:premise (
+        (_:A rdfs:subClassOf _:B)
+        (_:S a _:A)
+    );
+    rule:conclusion (
+        (_:S a _:B)
+    ).
+
+[] a rule:ForwardRule;
+    rule:premise (
+        (_:S a :Mortal)
+        (_:S a :Immortal)
+    );
+    rule:conclusion false.
+
+# query rule
+[] a rule:QueryRule;
+    rule:premise (
+        (_:S a :Mortal)
+    );
+    rule:conclusion (
+        (_:S a :Mortal)
+    ).
