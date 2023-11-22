@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.16 (2023-11-21)').
+version_info('EYE v8.6.17 (2023-11-22)').
 
 license_info('MIT License
 
@@ -691,40 +691,47 @@ rdfreasoning :-
 blogic :-
     % assert positive surface
     assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)
-            ), G, '<>')),
+            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G),
+            getconj(G, Gc)
+            ), Gc, '<>')),
     % simplify positive surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(Z, H), L, K),
-            conj_list(H, D),
+            getconj(H, Hc),
+            conj_list(Hc, D),
             append(K, D, E),
             list_to_set(E, B),
-            conj_list(F, B),
-            findvars(H, R, beta),
+            getconj(F, Fc),
+            conj_list(Fc, B),
+            findvars(Hc, R, beta),
             intersection(Z, R, X),
             append(V, X, U)
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, F), '<>')),
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, Fc), '<>')),
     % simplify negative surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
             is_list(Z),
-            is_graph(H),
-            H \= triple(_, _, _),
-            conj_list(H, M),
+            getconj(H, Hc),
+            is_graph(Hc),
+            Hc \= triple(_, _, _),
+            conj_list(Hc, M),
             list_to_set(M, T),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
             is_list(W),
-            is_graph(O),
-            (   conj_list(O, D),
+            getconj(O, Oc),
+            is_graph(Oc),
+            (   conj_list(Oc, D),
                 append(K, D, E),
                 conj_list(C, E)
             ;   length(K, I),
@@ -732,9 +739,9 @@ blogic :-
                 conj_list(F, N),
                 conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
             ),
-            findvars(H, R, beta),
+            findvars(Hc, R, beta),
             intersection(Z, R, X),
-            findvars(O, S, beta),
+            findvars(Oc, S, beta),
             intersection(W, S, Y),
             append([V, X, Y], U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
@@ -742,8 +749,9 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
@@ -758,8 +766,9 @@ blogic :-
             memberchk(E, [0, 2, D]),
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
             is_list(W),
-            is_graph(F),
-            conj_list(F, K),
+            getconj(F, Fc),
+            is_graph(Fc),
+            conj_list(Fc, K),
             list_to_set(K, N),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), N),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
@@ -768,14 +777,16 @@ blogic :-
             makevars(N, J, beta(W)),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
             is_list(U),
-            is_graph(C),
+            getconj(C, Cc),
+            is_graph(Cc),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
                 M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|A],
-                conj_list(Q, R),
+                getconj(Q, Qc),
+                conj_list(Qc, R),
                 memberchk(P, R)
             ;   select(Q, B, A),
                 M = [P|A],
-                conj_list(C, R),
+                conj_list(Cc, R),
                 memberchk(Q, R)
             ),
             list_to_set(M, T),
@@ -786,8 +797,9 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), B, K),
@@ -803,8 +815,9 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
@@ -835,8 +848,9 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(Hs, Hp, Ho)), B, K),
                 T =.. [Hp, Hs, Ho]
@@ -860,8 +874,9 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
-            conj_list(G, L),
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, H), B, K),
             conj_list(I, K),
@@ -881,17 +896,19 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             is_list(V),
-            is_graph(G),
             V \= [],
-            conj_list(G, [G]),
-            (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H)
+            getconj(G, Gc),
+            is_graph(Gc),
+            conj_list(Gc, [Gc]),
+            (   Gc = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H),
+                getconj(H, Hc)
             ->  true
             ;   Z = [],
-                H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)
+                Hc = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], Gc)
             ),
-            findvars(H, R, beta),
+            findvars(Hc, R, beta),
             intersection(Z, R, X),
-            conj_list(H, B),
+            conj_list(Hc, B),
             member(M, B),
             findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, W),
                 (   member(W, X)
@@ -912,25 +929,28 @@ blogic :-
     % convert query surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
-            conj_list(G, L),
-            append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], G)], M),
+            getconj(G, Gc),
+            conj_list(Gc, L),
+            append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], Gc)], M),
             conj_list(H, M)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
     % convert question surface
     assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<>')),
+            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G),
+            getconj(G, Gc)
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, Gc), '<>')),
     % blow inference fuse
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             call((
                 is_list(V),
-                is_graph(G),
-                conj_list(G, L),
+                getconj(G, Gc),
+                is_graph(Gc),
+                conj_list(Gc, L),
                 \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), L),
-                makevars(G, H, beta(V)),
+                makevars(Gc, H, beta(V)),
                 (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                     J = true
                 ;   catch(call(H), _, false),
