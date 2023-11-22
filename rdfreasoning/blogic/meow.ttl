@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
@@ -5,7 +6,7 @@ _:x a :Cat .
 :Minka a :Cat .
 
 (_:x) log:onNegativeSurface (
-    (_:x a :Cat)
+    (_:x rdf:type :Cat)
     (() log:onNegativeSurface (
         (_:x :says "meow"@en)
     ))

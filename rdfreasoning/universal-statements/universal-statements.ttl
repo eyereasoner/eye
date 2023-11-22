@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix rule: <http://eyereasoner.github.io/rule#>.
@@ -6,7 +7,7 @@
 # \Every x: type(x, Resource)
 [] a rule:BackwardRule;
     rule:conclusion (
-        (_:x a rdfs:Resource)
+        (_:x rdf:type rdfs:Resource)
     );
     rule:premise ().
 
@@ -30,10 +31,10 @@
 # queries
 [] a rule:QueryRule;
     rule:premise (
-        (:pat a rdfs:Resource)
+        (:pat rdf:type rdfs:Resource)
     );
     rule:conclusion (
-        (:pat a rdfs:Resource)
+        (:pat rdf:type rdfs:Resource)
     ).
 
 [] a rule:QueryRule;

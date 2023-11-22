@@ -4,6 +4,7 @@
 #
 # See https://en.wikipedia.org/wiki/Disjunction_elimination
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
@@ -12,7 +13,7 @@
 
 # all cars are green or blue
 (_:A) log:onNegativeSurface (
-    (_:A a :Car)
+    (_:A rdf:type :Car)
     (() log:onNegativeSurface (
         (_:A :is :green)
     ))
