@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.17 (2023-11-22)').
+version_info('EYE v8.6.18 (2023-11-23)').
 
 license_info('MIT License
 
@@ -853,15 +853,19 @@ blogic :-
             conj_list(Gc, L),
             list_to_set(L, B),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(Hs, Hp, Ho)), B, K),
-                T =.. [Hp, Hs, Ho]
+                Tt =.. [Hp, Hs, Ho]
             ;   select('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, T), B, K),
-                T =.. [_, _, _]
+                (   T = [St, Pt, Ot]
+                ->  Tt =.. [Pt, St, Ot]
+                ;   T =.. [_, _, _],
+                    Tt = T
+                )
             ),
             conj_list(R, K),
             conjify(R, S),
             find_graffiti([R], D),
             append(V, D, U),
-            makevars(':-'(T, S), C, beta(U)),
+            makevars(':-'(Tt, S), C, beta(U)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
