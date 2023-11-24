@@ -40,6 +40,11 @@
 
 # KG
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+        _:Z
+    );
     rule:conclusion (
         (_:X :kg _:Y)
     );
@@ -50,6 +55,11 @@
 
 # GK
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+        _:Z
+    );
     rule:conclusion (
         (_:X :gk _:Y)
     );
@@ -60,6 +70,10 @@
 
 # Alice
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         (0 :alice (_:X _:Y))
     );
@@ -68,6 +82,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         (1 :alice (_:X _:Y))
     );
@@ -76,6 +94,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         (2 :alice (_:X _:Y))
     );
@@ -84,6 +106,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         (3 :alice (_:X _:Y))
     );
@@ -93,6 +119,10 @@
 
 # Bob
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         ((_:X _:Y) :bob 0)
     );
@@ -101,6 +131,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         ((_:X _:Y) :bob 1)
     );
@@ -109,6 +143,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         ((_:X _:Y) :bob 2)
     );
@@ -117,6 +155,10 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         ((_:X _:Y) :bob 3)
     );
@@ -126,6 +168,18 @@
 
 # superdense coding
 [] a rule:ForwardRule;
+    rule:vars (
+        _:N
+        _:A
+        _:B
+        _:M
+        _:X
+        _:Y
+        _:Z
+        _:L
+        _:S
+        _:I
+    );
     rule:premise (
         (_:N :alice _:A)
         (_:B :bob _:M)
@@ -139,6 +193,10 @@
 
 # query
 [] a rule:QueryRule;
+    rule:vars (
+        _:N
+        _:M
+    );
     rule:premise (
         (_:N :sdcoding _:M)
     );

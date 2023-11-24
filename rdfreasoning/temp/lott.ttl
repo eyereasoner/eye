@@ -4,11 +4,20 @@
 @prefix : <http://example.org/ns#>.
 
 [] a rule:ForwardRule;
+    rule:vars (
+        _:rule1
+        _:query1
+    );
     rule:premise ();
     rule:conclusion (
         (:Socrates rdf:type :Human)
         (:Human rdfs:subClassOf :Mortal)
         (_:rule1 rdf:type rule:ForwardRule)
+        (_:rule1 rule:vars (
+            _:A
+            _:B
+            _:S
+        ))
         (_:rule1 rule:premise (
             (_:A rdfs:subClassOf _:B)
             (_:S rdf:type _:A)
@@ -17,6 +26,9 @@
             (_:S rdf:type _:B)
         ))
         (_:query1 rdf:type rule:QueryRule)
+        (_:query1 rule:vars (
+            _:S
+        ))
         (_:query1 rule:premise (
             (_:S rdf:type :Mortal)
         ))

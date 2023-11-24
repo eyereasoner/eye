@@ -9,6 +9,11 @@
 
 # rdfs subclass
 [] a rule:ForwardRule;
+    rule:vars (
+        _:A
+        _:B
+        _:S
+    );
     rule:premise (
         (_:A rdfs:subClassOf _:B)
         (_:S rdf:type _:A)
@@ -19,6 +24,9 @@
 
 # query
 [] a rule:QueryRule;
+    rule:vars (
+        _:S
+    );
     rule:premise (
         (_:S rdf:type :Mortal)
     );

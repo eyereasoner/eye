@@ -4,12 +4,15 @@
 
 # \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x)
 [] a rule:ForwardRule;
+    rule:vars (
+        _:X
+    );
     rule:premise (
-        (_:x rdf:type :BURNS)
-        (_:x rdf:type :WOMAN)
+        (_:X rdf:type :BURNS)
+        (_:X rdf:type :WOMAN)
     );
     rule:conclusion (
-        (_:x rdf:type :WITCH)
+        (_:X rdf:type :WITCH)
     ).
 
 # WOMAN(GIRL)
@@ -17,20 +20,26 @@
 
 # \forall x : ISMADEOFWOOD(x) => BURNS(x)
 [] a rule:ForwardRule;
+    rule:vars (
+        _:X
+    );
     rule:premise (
-        (_:x rdf:type :ISMADEOFWOOD)
+        (_:X rdf:type :ISMADEOFWOOD)
     );
     rule:conclusion (
-        (_:x rdf:type :BURNS)
+        (_:X rdf:type :BURNS)
     ).
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x)
 [] a rule:ForwardRule;
+    rule:vars (
+        _:X
+    );
     rule:premise (
-        (_:x rdf:type :FLOATS)
+        (_:X rdf:type :FLOATS)
     );
     rule:conclusion (
-        (_:x rdf:type :ISMADEOFWOOD)
+        (_:X rdf:type :ISMADEOFWOOD)
     ).
 
 # FLOATS(DUCK)
@@ -38,12 +47,16 @@
 
 # \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
 [] a rule:ForwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:premise (
-        (_:x rdf:type :FLOATS)
-        (_:x :SAMEWEIGHT _:y)
+        (_:X rdf:type :FLOATS)
+        (_:X :SAMEWEIGHT _:Y)
     );
     rule:conclusion (
-        (_:y rdf:type :FLOATS)
+        (_:Y rdf:type :FLOATS)
     ).
 
 # and, by experiment
@@ -52,6 +65,9 @@
 
 # who's a witch?
 [] a rule:QueryRule;
+    rule:vars (
+        _:S
+    );
     rule:premise (
         (_:S rdf:type :WITCH)
     );

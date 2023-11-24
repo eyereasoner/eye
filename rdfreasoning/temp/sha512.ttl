@@ -5,6 +5,10 @@
 :Let :param "hello world".
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:premise (
         (:Let :param _:X)
         (_:X crypto:sha512 _:Y)
