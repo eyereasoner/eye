@@ -31,12 +31,21 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 [] a rule:BackwardRule;
+    rule:vars ();
     rule:conclusion (
         (() :unpackLott ())
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:g
+        _:h
+        _:f
+        _:r
+        _:a
+        _:b
+    );
     rule:conclusion (
         (_:g :unpackLott _:h)
     );
@@ -48,6 +57,14 @@ _:b1 :data (
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:b
+        _:p
+        _:f
+        _:a
+        _:c
+        _:t
+    );
     rule:conclusion (
         ((_:b :package _:p) :unpack _:f)
     );
@@ -59,6 +76,13 @@ _:b1 :data (
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:b
+        _:p
+        _:a
+        _:c
+        _:t
+    );
     rule:conclusion (
         ((_:b :package _:p) :unpack ())
     );
@@ -69,12 +93,23 @@ _:b1 :data (
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:b
+        _:p
+    );
     rule:conclusion (
         ((_:b :tag _:p) :unpack ())
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:g
+        _:a
+        _:p
+        _:b
+        _:q
+    );
     rule:conclusion (
         (_:g :unpack (_:g))
     );
@@ -85,6 +120,11 @@ _:b1 :data (
 
 # unpack the triples that are usable in the future
 [] a rule:QueryRule;
+    rule:vars (
+        _:b
+        _:g
+        _:m
+    );
     rule:premise (
         (_:b :data _:g)
         (_:g :unpackLott _:m)
