@@ -5,6 +5,16 @@
 
 # _:M is the sequence of moves to move _:N disks from _:X to _:Y using _:Z as intermediary
 [] a rule:BackwardRule;
+    rule:vars (
+        _:N
+        _:X
+        _:Y
+        _:Z
+        _:M
+        _:N1
+        _:M1
+        _:M2
+    );
     rule:conclusion (
         ((_:N _:X _:Y _:Z) :moves _:M)
     );
@@ -17,12 +27,20 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+        _:Z
+    );
     rule:conclusion (
         ((1 _:X _:Y _:Z) :moves ((_:X _:Y)))
     );
     rule:premise ().
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:M
+    );
     rule:premise (
         ((9 :left :right :center) :moves _:M)
     );

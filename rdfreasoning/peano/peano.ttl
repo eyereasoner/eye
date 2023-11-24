@@ -3,12 +3,20 @@
 
 # add
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+    );
     rule:conclusion (
         ((_:A 0) :add _:A)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+        _:C
+    );
     rule:premise (
         ((_:A _:B) :add _:C)
     );
@@ -18,12 +26,21 @@
 
 # multiply
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+    );
     rule:conclusion (
         ((_:A 0) :multiply 0)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+    );
     rule:conclusion (
         ((_:A (:s _:B)) :multiply _:C)
     );
@@ -34,6 +51,10 @@
 
 # factorial
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+    );
     rule:conclusion (
         (_:A :factorial _:B)
     );
@@ -42,12 +63,21 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+    );
     rule:conclusion (
         ((0 _:A) :fac _:A)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+    );
     rule:conclusion (
         (((:s _:A) _:B) :fac _:C)
     );
@@ -58,6 +88,11 @@
 
 # query
 [] a rule:QueryRule;
+    rule:vars (
+        _:A
+        _:B
+        _:C
+    );
     rule:premise (
         (((:s 0) (:s (:s 0))) :add _:A)
         ((_:A (:s (:s 0))) :multiply _:B)

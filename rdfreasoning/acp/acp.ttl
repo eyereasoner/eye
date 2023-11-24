@@ -15,6 +15,12 @@
     :noneOf :D.
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:Pol
+        _:Test
+        _:Field
+        _:X
+    );
     rule:conclusion (
         (_:Pol :pass :allOfTest)
     );
@@ -25,7 +31,14 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:conclusion (
+    rule:vars (
+        _:Pol
+        _:Test
+        _:Field
+        _:List
+        _:X
+        _:L
+    );rule:conclusion (
         (_:Pol :pass :anyOfTest)
     );
     rule:premise (
@@ -37,6 +50,14 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:Pol
+        _:Test
+        _:Field
+        _:List
+        _:X
+        _:L
+    );
     rule:conclusion (
         (_:Pol :pass :noneOfTest)
     );
@@ -49,6 +70,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Pol
+    );
     rule:premise (
         (_:Pol rdf:type :Policy)
         (_:Pol :pass :allOfTest)

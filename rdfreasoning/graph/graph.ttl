@@ -15,6 +15,10 @@
 
 # oneway subproperty of path
 [] a rule:ForwardRule;
+    rule:vars (
+        _:A
+        _:B
+    );
     rule:premise (
         (_:A :oneway _:B)
     );
@@ -24,6 +28,11 @@
 
 # path transitive property
 [] a rule:ForwardRule;
+    rule:vars (
+        _:A
+        _:B
+        _:C
+    );
     rule:premise (
         (_:A :path _:B)
         (_:B :path _:C)
@@ -34,6 +43,9 @@
 
 # query
 [] a rule:QueryRule;
+    rule:vars (
+        _:A
+    );
     rule:premise (
         (_:A :path :nantes)
     );
