@@ -1,0 +1,30 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/ns#>.
+
+# facts
+:Socrates a :Human.
+
+# humans are mortal
+[] a rule:ForwardRule;
+    rule:vars (
+        _:S
+    );
+    rule:premise (
+        (_:S rdf:type :Human)
+    );
+    rule:conclusion (
+        (_:S rdf:type :Mortal)
+    ).
+
+# query
+[] a rule:QueryRule;
+    rule:vars (
+        _:S
+    );
+    rule:premise (
+        (_:S rdf:type :Mortal)
+    );
+    rule:conclusion (
+        (_:S rdf:type :Mortal)
+    ).

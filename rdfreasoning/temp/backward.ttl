@@ -1,0 +1,27 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+@prefix : <http://example.org/ns#>.
+
+# see https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+# something is more interesting if it is greater
+[] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
+    rule:conclusion (
+        (_:X :moreInterestingThan _:Y)
+    );
+    rule:premise (
+        (_:X math:greaterThan _:Y)
+    ).
+
+# query
+[] a rule:QueryRule;
+    rule:vars ();
+    rule:premise (
+        (5 :moreInterestingThan 3)
+    );
+    rule:conclusion (
+        (5 :moreInterestingThan 3)
+    ).
