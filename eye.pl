@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.19 (2023-11-24)').
+version_info('EYE v8.6.20 (2023-11-24)').
 
 license_info('MIT License
 
@@ -5133,6 +5133,7 @@ eam(Recursion) :-
         ;   true
         ),
         \+atom(Conc),
+        \+is_list(Conc),
         (   flag('rule-histogram'),
             copy_term_nat(Rule, RuleL)
         ->  lookup(RTP, tp, RuleL),
