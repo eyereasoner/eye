@@ -3,6 +3,12 @@
 @prefix : <http://example.org/ns#>.
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:N
+        _:Pi
+        _:P
+        _:A
+    );
     rule:conclusion (
         ((_:N _:Pi) :pi true)
     );
@@ -13,12 +19,32 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:N
+        _:P
+        _:S
+    );
     rule:conclusion (
         ((_:N _:N _:P _:P _:S) :pi true)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:K
+        _:N
+        _:P0
+        _:P
+        _:S
+        _:K1
+        _:K2
+        _:A
+        _:B
+        _:C
+        _:D
+        _:P1
+        _:S1
+    );
     rule:conclusion (
         ((_:K _:N _:P0 _:P _:S) :pi true)
     );
@@ -37,6 +63,9 @@
 
 # query
 [] a rule:QueryRule;
+    rule:vars (
+        _:Pi
+    );
     rule:premise (
         ((50000 _:Pi) :pi true)
     );

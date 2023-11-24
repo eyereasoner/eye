@@ -4,6 +4,10 @@
 
 # backward rules
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:Y
+    );
     rule:conclusion (
         (_:X :fibonacci _:Y)
     );
@@ -12,18 +16,34 @@
     ).
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+    );
     rule:conclusion (
         ((0 _:A _:B) :fib _:A)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:A
+        _:B
+    );
     rule:conclusion (
         ((1 _:A _:B) :fib _:B)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
+    rule:vars (
+        _:X
+        _:A
+        _:B
+        _:Y
+        _:C
+        _:D
+    );
     rule:conclusion (
         ((_:X _:A _:B) :fib _:Y)
     );
@@ -36,6 +56,9 @@
 
 # queries
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (0 :fibonacci _:Y)
     );
@@ -44,6 +67,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (1 :fibonacci _:Y)
     );
@@ -52,6 +78,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (6 :fibonacci _:Y)
     );
@@ -60,6 +89,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (91 :fibonacci _:Y)
     );
@@ -68,6 +100,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (283 :fibonacci _:Y)
     );
@@ -76,6 +111,9 @@
     ).
 
 [] a rule:QueryRule;
+    rule:vars (
+        _:Y
+    );
     rule:premise (
         (3674 :fibonacci _:Y)
     );
