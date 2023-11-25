@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.21 (2023-11-25)').
+version_info('EYE v8.6.22 (2023-11-26)').
 
 license_info('MIT License
 
@@ -2247,6 +2247,18 @@ existential -->
     [atname(forSome)],
     !,
     symbol_csl(Symbols),
+    {   nb_getval(fdepth, D),
+        forall(
+            member(S, Symbols),
+            (   gensym('qe_', Q),
+                asserta(qevar(S, Q, D))
+            )
+        )
+    }.
+existential -->
+    [atname(graffiti)],
+    !,
+    pathitem(Symbols, _),
     {   nb_getval(fdepth, D),
         forall(
             member(S, Symbols),
