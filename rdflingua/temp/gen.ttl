@@ -4,7 +4,7 @@
 @prefix : <http://example.org/ns#>.
 
 [] a rule:ForwardRule;
-    rule:vars (
+    rule:graffiti (
         _:rule1
         _:query1
     );
@@ -13,7 +13,7 @@
         (:Socrates rdf:type :Human)
         (:Human rdfs:subClassOf :Mortal)
         (_:rule1 rdf:type rule:ForwardRule)
-        (_:rule1 rule:vars (
+        (_:rule1 rule:graffiti (
             _:A
             _:B
             _:S
@@ -26,7 +26,7 @@
             (_:S rdf:type _:B)
         ))
         (_:query1 rdf:type rule:QueryRule)
-        (_:query1 rule:vars (
+        (_:query1 rule:graffiti (
             _:S
         ))
         (_:query1 rule:premise (

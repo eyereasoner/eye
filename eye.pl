@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.22 (2023-11-26)').
+version_info('EYE v8.6.23 (2023-11-26)').
 
 license_info('MIT License
 
@@ -639,7 +639,7 @@ rdflingua :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),
@@ -650,7 +650,7 @@ rdflingua :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),
@@ -668,7 +668,7 @@ rdflingua :-
     % query rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),

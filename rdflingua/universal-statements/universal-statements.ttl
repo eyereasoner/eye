@@ -6,7 +6,7 @@
 
 # \Every x: type(x, Resource)
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:X
     );
     rule:conclusion (
@@ -16,7 +16,7 @@
 
 # Everybody loves somebody who is lonely
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:A
         _:B
     );
@@ -28,7 +28,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:B
         _:A
     );
@@ -41,7 +41,7 @@
 
 # queries
 [] a rule:QueryRule;
-    rule:vars ();
+    rule:graffiti ();
     rule:premise (
         (:pat rdf:type rdfs:Resource)
     );
@@ -50,7 +50,7 @@
     ).
 
 [] a rule:QueryRule;
-    rule:vars (
+    rule:graffiti (
         _:X
     );
     rule:premise (

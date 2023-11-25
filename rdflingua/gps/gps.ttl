@@ -7,7 +7,7 @@
 
 # find paths in the state space from initial state to goal state within limits
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:SCOPE
         _:Goal
         _:Path
@@ -30,7 +30,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:SCOPE
         _:Goal
         _:Path
@@ -54,7 +54,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:SCOPE
         _:Maps
         _:Goal
@@ -78,7 +78,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:SCOPE
         _:Maps_s
         _:Goal
@@ -139,14 +139,14 @@
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
 [] a rule:BackwardRule;
-    rule:vars ();
+    rule:graffiti ();
     rule:conclusion (
         (() gps:stagecount 1)
     );
     rule:premise ().
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:A
         _:B
         _:C
@@ -167,7 +167,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:A
         _:B
         _:C
@@ -186,7 +186,7 @@
 
 # map of Belgium
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:S
         _:L
     );
@@ -198,7 +198,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:S
         _:L
     );
@@ -210,7 +210,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:S
         _:L
     );
@@ -222,7 +222,7 @@
     ).
 
 [] a rule:BackwardRule;
-    rule:vars (
+    rule:graffiti (
         _:S
         _:L
     );
@@ -235,7 +235,7 @@
 
 # query
 [] a rule:QueryRule;
-    rule:vars (
+    rule:graffiti (
         _:SCOPE
         _:SUBJECT
         _:PATH
