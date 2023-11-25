@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.20 (2023-11-24)').
+version_info('EYE v8.6.21 (2023-11-25)').
 
 license_info('MIT License
 
@@ -418,8 +418,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(rdfreasoning)
-    ->  rdfreasoning
+    (   flag(rdflingua)
+    ->  rdflingua
     ;   true
     ),
     (   flag(blogic)
@@ -481,7 +481,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdfreasoning),
+        \+flag(rdflingua),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -617,10 +617,10 @@ gre(Argus) :-
     ).
 
 %
-% RDF Reasoning
+% RDF Lingua
 %
 
-rdfreasoning :-
+rdflingua :-
     % create list terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -1460,8 +1460,8 @@ args(['--turtle', Argument|Args]) :-
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
             (   Predicate = '<http://eyereasoner.github.io/rule#premise>',
-                \+flag(rdfreasoning)
-            ->  assertz(flag(rdfreasoning))
+                \+flag(rdflingua)
+            ->  assertz(flag(rdflingua))
             ;   true
             ),
             (   flag(intermediate, Out)
@@ -1522,8 +1522,8 @@ n3pin(Rt, In, File, Mode) :-
         ;   true
         ),
         (   Rt = '<http://eyereasoner.github.io/rule#premise>'(_, _),
-            \+flag(rdfreasoning)
-        ->  assertz(flag(rdfreasoning))
+            \+flag(rdflingua)
+        ->  assertz(flag(rdflingua))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2594,8 +2594,8 @@ propertylist(Subject, Triples) -->
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
             Verb = '\'<http://eyereasoner.github.io/rule#premise>\'',
-            \+flag(rdfreasoning)
-        ->  assertz(flag(rdfreasoning))
+            \+flag(rdflingua)
+        ->  assertz(flag(rdflingua))
         ;   true
         ),
         (   atomic(Verb),
@@ -4142,7 +4142,7 @@ wt0(fail) :-
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
 wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
-    flag(rdfreasoning),
+    flag(rdflingua),
     !,
     write(a).
 wt0([]) :-
@@ -4342,7 +4342,7 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(rdfreasoning)
+        (   flag(rdflingua)
         ->  true
         ;   write('.')
         ),
@@ -4376,7 +4376,7 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   (   flag(rdfreasoning),
+    ;   (   flag(rdflingua),
             is_lott([X|Y])
         ->  write('('),
             indentation(4),
@@ -4653,7 +4653,7 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   (   flag(rdfreasoning),
+    ;   (   flag(rdflingua),
             \+nb_getval(indentation, 0)
         ->  write('(')
         ;   true
@@ -4663,7 +4663,7 @@ wt2(X) :-
         wp(P),
         write(' '),
         wg(O),
-        (   flag(rdfreasoning),
+        (   flag(rdflingua),
             \+nb_getval(indentation, 0)
         ->  write(')')
         ;   true
@@ -4675,7 +4675,7 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   (   flag(rdfreasoning),
+    ;   (   flag(rdflingua),
             \+nb_getval(indentation, 0)
         ->  write('(')
         ;   true
@@ -4685,7 +4685,7 @@ wtn(exopred(P, S, O)) :-
         wg(P),
         write(' '),
         wg(O),
-        (   flag(rdfreasoning),
+        (   flag(rdflingua),
             \+nb_getval(indentation, 0)
         ->  write(')')
         ;   true
@@ -4740,7 +4740,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(rdfreasoning)
+    ->  (   flag(rdflingua)
         ->  write('(')
         ;   write('{')
         ),
@@ -4763,7 +4763,7 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag(rdfreasoning)
+            ;   (   flag(rdflingua)
                 ->  true
                 ;   write('.')
                 ),
@@ -4771,7 +4771,7 @@ wg(X) :-
                 indent
             )
         ),
-        (   flag(rdfreasoning)
+        (   flag(rdflingua)
         ->  write(')')
         ;   write('}')
         )
