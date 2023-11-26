@@ -5,7 +5,7 @@
 
 # interpreter for Turing machine
 :turing_rule1 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:OutTape
         _:Machine
         _:I
@@ -19,7 +19,7 @@
     ).
 
 :turing_rule2 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:List
         _:OutTape
         _:Head
@@ -37,7 +37,7 @@
     ).
 
 :turing_rule3 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:State
         _:Left
         _:Cell
@@ -60,7 +60,7 @@
     ).
 
 :turing_rule4 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:Left
         _:Cell
         _:Right
@@ -78,7 +78,7 @@
     ).
 
 :turing_rule5 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:State
         _:Left
         _:Cell
@@ -93,7 +93,7 @@
     ).
 
 :turing_rule6 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:Cell
         _:Right
         _:L
@@ -106,7 +106,7 @@
     ).
 
 :turing_rule7 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:List
         _:Cell
         _:Right
@@ -123,7 +123,7 @@
     ).
 
 :turing_rule8 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:Left
         _:Cell
         _:Right
@@ -134,7 +134,7 @@
     rule:premise ().
 
 :turing_rule9 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:Left
         _:Cell
         _:L
@@ -147,7 +147,7 @@
     ).
 
 :turing_rule10 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:Left
         _:Cell
         _:List
@@ -164,14 +164,14 @@
     ).
 
 :turing_rule11 a rule:BackwardRule;
-    rule:graffiti ();
+    rule:vars ();
     rule:conclusion (
         (() :reverse ())
     );
     rule:premise ().
 
 :turing_rule12 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:List
         _:Reverse
         _:Head
@@ -199,7 +199,7 @@
 
 # query
 :turing_query a rule:QueryRule;
-    rule:graffiti (
+    rule:vars (
         _:A1
         _:A2
         _:A3

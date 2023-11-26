@@ -6,7 +6,7 @@
 
 # \Every x: type(x, Resource)
 :universal_statements_rule1 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:X
     );
     rule:conclusion (
@@ -16,7 +16,7 @@
 
 # Everybody loves somebody who is lonely
 :universal_statements_rule2 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:A
         _:B
     );
@@ -28,7 +28,7 @@
     ).
 
 :universal_statements_rule3 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:B
         _:A
     );
@@ -41,7 +41,7 @@
 
 # queries
 :universal_statements_query1 a rule:QueryRule;
-    rule:graffiti ();
+    rule:vars ();
     rule:premise (
         (:pat rdf:type rdfs:Resource)
     );
@@ -50,7 +50,7 @@
     ).
 
 :universal_statements_query2 a rule:QueryRule;
-    rule:graffiti (
+    rule:vars (
         _:X
     );
     rule:premise (

@@ -31,14 +31,14 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 :unpack_rule1 a rule:BackwardRule;
-    rule:graffiti ();
+    rule:vars ();
     rule:conclusion (
         (() :unpackLott ())
     );
     rule:premise ().
 
 :unpack_rule2 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:g
         _:h
         _:f
@@ -57,7 +57,7 @@ _:b1 :data (
     ).
 
 :unpack_rule3 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:b
         _:p
         _:f
@@ -76,7 +76,7 @@ _:b1 :data (
     ).
 
 :unpack_rule4 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:b
         _:p
         _:a
@@ -93,7 +93,7 @@ _:b1 :data (
     ).
 
 :unpack_rule5 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:b
         _:p
     );
@@ -103,7 +103,7 @@ _:b1 :data (
     rule:premise ().
 
 :unpack_rule6 a rule:BackwardRule;
-    rule:graffiti (
+    rule:vars (
         _:g
         _:a
         _:p
@@ -120,7 +120,7 @@ _:b1 :data (
 
 # unpack the triples that are usable in the future
 :unpack_query a rule:QueryRule;
-    rule:graffiti (
+    rule:vars (
         _:b
         _:g
         _:m

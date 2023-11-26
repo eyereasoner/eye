@@ -4,7 +4,7 @@
 
 # \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x)
 :witch_rule1 a rule:ForwardRule;
-    rule:graffiti (
+    rule:vars (
         _:X
     );
     rule:premise (
@@ -20,7 +20,7 @@
 
 # \forall x : ISMADEOFWOOD(x) => BURNS(x)
 :witch_rule2 a rule:ForwardRule;
-    rule:graffiti (
+    rule:vars (
         _:X
     );
     rule:premise (
@@ -32,7 +32,7 @@
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x)
 :witch_rule3 a rule:ForwardRule;
-    rule:graffiti (
+    rule:vars (
         _:X
     );
     rule:premise (
@@ -47,7 +47,7 @@
 
 # \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
 :witch_rule4 a rule:ForwardRule;
-    rule:graffiti (
+    rule:vars (
         _:X
         _:Y
     );
@@ -65,7 +65,7 @@
 
 # who's a witch?
 :witch_query a rule:QueryRule;
-    rule:graffiti (
+    rule:vars (
         _:S
     );
     rule:premise (

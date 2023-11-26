@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.1 (2023-11-26)').
+version_info('EYE v8.7.2 (2023-11-27)').
 
 license_info('MIT License
 
@@ -645,7 +645,7 @@ rdflingua :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
-            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
+            '<http://eyereasoner.github.io/rule#vars>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),
@@ -653,7 +653,7 @@ rdflingua :-
             getconj(H, B),
             (   flag(explain),
                 B \= false
-            ->  conj_append(B, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
+            ->  conj_append(B, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
             ;   D = B
             ),
             makevars([A, D], [Q, I], beta(V))
@@ -661,14 +661,14 @@ rdflingua :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
-            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
+            '<http://eyereasoner.github.io/rule#vars>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
             (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
+            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
             ;   D = A
             ),
             makevars(':-'(B, D), C, beta(V)),
@@ -683,7 +683,7 @@ rdflingua :-
     % query rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
-            '<http://eyereasoner.github.io/rule#graffiti>'(R, U),
+            '<http://eyereasoner.github.io/rule#vars>'(R, U),
             getlist(U, V),
             '<http://eyereasoner.github.io/rule#premise>'(R, K),
             getconj(K, A),
@@ -691,7 +691,7 @@ rdflingua :-
             getconj(H, B),
             djiti_answer(answer(B), J),
             (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
+            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
             ;   D = A
             ),
             makevars(implies(D, J, '<>'), C, beta(V)),

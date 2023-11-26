@@ -4,13 +4,13 @@
 @prefix : <http://example.org/ns#>.
 
 :gen_rule a rule:ForwardRule;
-    rule:graffiti ();
+    rule:vars ();
     rule:premise ();
     rule:conclusion (
         (:Socrates rdf:type :Human)
         (:Human rdfs:subClassOf :Mortal)
         (:rdfs_subclass_rule rdf:type rule:ForwardRule)
-        (:rdfs_subclass_rule rule:graffiti (
+        (:rdfs_subclass_rule rule:vars (
             _:A
             _:B
             _:S
@@ -23,7 +23,7 @@
             (_:S rdf:type _:B)
         ))
         (:socrates_query rdf:type rule:QueryRule)
-        (:socrates_query rule:graffiti (
+        (:socrates_query rule:vars (
             _:S
         ))
         (:socrates_query rule:premise (
