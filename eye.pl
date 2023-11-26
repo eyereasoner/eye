@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.6.23 (2023-11-26)').
+version_info('EYE v8.7.0 (2023-11-26)').
 
 license_info('MIT License
 
@@ -621,6 +621,13 @@ gre(Argus) :-
 %
 
 rdflingua :-
+    % configure
+    (   \+flag(nope)
+    ->  assertz(flag(nope)),
+        assertz(flag(explain)),
+        assertz(implies('<http://eyereasoner.github.io/rule#binding>'(R, U), answer('<http://eyereasoner.github.io/rule#binding>', R, U), '<>'))
+    ;   true
+    ),
     % create list terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -645,7 +652,11 @@ rdflingua :-
             getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
             getconj(H, B),
-            makevars([A, B], [Q, I], beta(V))
+            (   flag(explain)
+            ->  conj_append(B, '<http://eyereasoner.github.io/rule#binding>'(R, U), D)
+            ;   D = B
+            ),
+            makevars([A, D], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies((
@@ -675,7 +686,11 @@ rdflingua :-
             '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
-            makevars(implies(A, J, '<>'), C, beta(V)),
+            (   flag(explain)
+            ->  conj_append(J, '<http://eyereasoner.github.io/rule#binding>'(R, U), D)
+            ;   D = J
+            ),
+            makevars(implies(A, D, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
