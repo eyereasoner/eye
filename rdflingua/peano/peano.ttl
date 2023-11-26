@@ -2,7 +2,7 @@
 @prefix : <http://example.org/ns#>.
 
 # add
-[] a rule:BackwardRule;
+:peano_add_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:A
     );
@@ -11,7 +11,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:peano_add_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -25,7 +25,7 @@
     ).
 
 # multiply
-[] a rule:BackwardRule;
+:peano_multiply_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:A
     );
@@ -34,7 +34,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:peano_multiply_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -50,7 +50,7 @@
     ).
 
 # factorial
-[] a rule:BackwardRule;
+:peano_factorial_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -62,7 +62,7 @@
         ((_:A (:s 0)) :fac _:B)
     ).
 
-[] a rule:BackwardRule;
+:peano_factorial_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:A
     );
@@ -71,7 +71,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:peano_factorial_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -87,14 +87,14 @@
     ).
 
 # query
-[] a rule:QueryRule;
+:peano_query a rule:QueryRule;
     rule:graffiti (
         _:A
         _:B
         _:C
     );
     rule:premise (
-        (((:s 0) (:s (:s 0))) :add _:A)
+        (((:s 0) (:s 0)) :add _:A)
         ((_:A (:s (:s 0))) :multiply _:B)
         (_:B :factorial _:C)
     );

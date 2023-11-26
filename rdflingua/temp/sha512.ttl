@@ -4,7 +4,8 @@
 
 :Let :param "hello world".
 
-[] a rule:QueryRule;
+# query
+:sha512_query a rule:QueryRule;
     rule:graffiti (
         _:X
         _:Y
@@ -14,5 +15,5 @@
         (_:X crypto:sha512 _:Y)
     );
     rule:conclusion (
-        (_:X :sha512 _:Y)
+        (() :sha512 (_:X _:Y))
     ).

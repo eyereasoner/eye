@@ -6,9 +6,8 @@
 @prefix : <http://example.org/ns#>.
 
 # find paths in the state space from initial state to goal state within limits
-[] a rule:BackwardRule;
+:gps_rule1 a rule:BackwardRule;
     rule:graffiti (
-        _:SCOPE
         _:Goal
         _:Path
         _:Duration
@@ -21,17 +20,16 @@
         _:MinComfort
     );
     rule:conclusion (
-        (_:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort)))
     );
     rule:premise (
-        (_:SCOPE gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort 1)))
     ).
 
-[] a rule:BackwardRule;
+:gps_rule2 a rule:BackwardRule;
     rule:graffiti (
-        _:SCOPE
         _:Goal
         _:Path
         _:Duration
@@ -45,17 +43,16 @@
         _:MaxStagecount
     );
     rule:conclusion (
-        (_:SCOPE gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpath (_:Goal _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)))
     );
     rule:premise (
-        (_:SCOPE gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)))
     ).
 
-[] a rule:BackwardRule;
+:gps_rule3 a rule:BackwardRule;
     rule:graffiti (
-        _:SCOPE
         _:Maps
         _:Goal
         _:Path
@@ -70,16 +67,15 @@
         _:MaxStagecount
     );
     rule:conclusion (
-        (_:SCOPE gps:findpaths (_:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpaths (_:Maps _:Goal _:Path _:Duration _:Cost _:Belief _:Comfort _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)))
     );
     rule:premise (
         (_:Goal log:callWithCleanup ())
     ).
 
-[] a rule:BackwardRule;
+:gps_rule4 a rule:BackwardRule;
     rule:graffiti (
-        _:SCOPE
         _:Maps_s
         _:Goal
         _:Path_s
@@ -115,7 +111,7 @@
         _:Path_t
     );
     rule:conclusion (
-        (_:SCOPE gps:findpaths (_:Maps_s _:Goal _:Path_s _:Duration_s _:Cost_s _:Belief_s _:Comfort_s _:Path _:Duration _:Cost _:Belief _:Comfort
+        (() gps:findpaths (_:Maps_s _:Goal _:Path_s _:Duration_s _:Cost_s _:Belief_s _:Comfort_s _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)))
     );
     rule:premise (
@@ -133,19 +129,19 @@
         (_:Comfort_t math:notLessThan _:MinComfort)
         ((_:Path_s (_:Action)) list:append _:Path_t)
         (_:From log:becomes _:To)
-        (((_:SCOPE gps:findpaths (_:Maps_t _:Goal _:Path_t _:Duration_t _:Cost_t _:Belief_t _:Comfort_t _:Path _:Duration _:Cost _:Belief _:Comfort
+        (((() gps:findpaths (_:Maps_t _:Goal _:Path_t _:Duration_t _:Cost_t _:Belief_t _:Comfort_t _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount)))) log:callWithCleanup ((_:To log:becomes _:From)))
     ).
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
-[] a rule:BackwardRule;
+:gps_rule5 a rule:BackwardRule;
     rule:graffiti ();
     rule:conclusion (
         (() gps:stagecount 1)
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:gps_rule6 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -166,7 +162,7 @@
         ((_:G 1) math:sum _:B)
     ).
 
-[] a rule:BackwardRule;
+:gps_rule7 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -185,7 +181,7 @@
 :i1 :location :Gent.
 
 # map of Belgium
-[] a rule:BackwardRule;
+:gps_rule8 a rule:BackwardRule;
     rule:graffiti (
         _:S
         _:L
@@ -197,7 +193,7 @@
         (_:S :location _:L)
     ).
 
-[] a rule:BackwardRule;
+:gps_rule9 a rule:BackwardRule;
     rule:graffiti (
         _:S
         _:L
@@ -209,7 +205,7 @@
         (_:S :location _:L)
     ).
 
-[] a rule:BackwardRule;
+:gps_rule10 a rule:BackwardRule;
     rule:graffiti (
         _:S
         _:L
@@ -221,7 +217,7 @@
         (_:S :location _:L)
     ).
 
-[] a rule:BackwardRule;
+:gps_rule11 a rule:BackwardRule;
     rule:graffiti (
         _:S
         _:L
@@ -234,9 +230,8 @@
     ).
 
 # query
-:query_path_oostende a rule:QueryRule;
+:gps_query a rule:QueryRule;
     rule:graffiti (
-        _:SCOPE
         _:SUBJECT
         _:PATH
         _:DURATION
@@ -245,7 +240,7 @@
         _:COMFORT
     );
     rule:premise (
-        (_:SCOPE gps:findpath (((_:SUBJECT :location :Oostende)) _:PATH _:DURATION _:COST _:BELIEF _:COMFORT (5000.0 5.0 0.2 0.4 1)))
+        (() gps:findpath (((_:SUBJECT :location :Oostende)) _:PATH _:DURATION _:COST _:BELIEF _:COMFORT (5000.0 5.0 0.2 0.4 1)))
     );
     rule:conclusion (
         (_:SUBJECT gps:path (_:PATH _:DURATION _:COST _:BELIEF _:COMFORT))

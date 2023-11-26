@@ -5,7 +5,7 @@
 @prefix : <http://example.org/ns#>.
 
 # \Every x: type(x, Resource)
-[] a rule:BackwardRule;
+:universal_statements_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:X
     );
@@ -15,7 +15,7 @@
     rule:premise ().
 
 # Everybody loves somebody who is lonely
-[] a rule:BackwardRule;
+:universal_statements_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -27,7 +27,7 @@
         ((_:A) log:skolem _:B)
     ).
 
-[] a rule:BackwardRule;
+:universal_statements_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:B
         _:A
@@ -40,7 +40,7 @@
     ).
 
 # queries
-[] a rule:QueryRule;
+:universal_statements_query1 a rule:QueryRule;
     rule:graffiti ();
     rule:premise (
         (:pat rdf:type rdfs:Resource)
@@ -49,7 +49,7 @@
         (:pat rdf:type rdfs:Resource)
     ).
 
-[] a rule:QueryRule;
+:universal_statements_query2 a rule:QueryRule;
     rule:graffiti (
         _:X
     );

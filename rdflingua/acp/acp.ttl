@@ -14,7 +14,7 @@
     :anyOf :C;
     :noneOf :D.
 
-[] a rule:BackwardRule;
+:acp_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:Pol
         _:Test
@@ -30,7 +30,7 @@
         ((((_:Pol :allOf _:Field)) ((_:Test :has _:Field))) log:forAllIn _:X)
     ).
 
-[] a rule:BackwardRule;
+:acp_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:Pol
         _:Test
@@ -49,7 +49,7 @@
         (_:L log:notEqualTo 0)
     ).
 
-[] a rule:BackwardRule;
+:acp_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:Pol
         _:Test
@@ -69,7 +69,8 @@
         (_:L log:equalTo 0)
     ).
 
-[] a rule:QueryRule;
+# query
+:acp_query a rule:QueryRule;
     rule:graffiti (
         _:Pol
     );

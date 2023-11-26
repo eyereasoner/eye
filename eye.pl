@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.0 (2023-11-26)').
+version_info('EYE v8.7.1 (2023-11-26)').
 
 license_info('MIT License
 
@@ -624,8 +624,7 @@ rdflingua :-
     % configure
     (   \+flag(nope)
     ->  assertz(flag(nope)),
-        assertz(flag(explain)),
-        assertz(implies('<http://eyereasoner.github.io/rule#binding>'(R, U), answer('<http://eyereasoner.github.io/rule#binding>', R, U), '<>'))
+        assertz(flag(explain))
     ;   true
     ),
     % create list terms
@@ -652,8 +651,9 @@ rdflingua :-
             getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
             getconj(H, B),
-            (   flag(explain)
-            ->  conj_append(B, '<http://eyereasoner.github.io/rule#binding>'(R, U), D)
+            (   flag(explain),
+                B \= false
+            ->  conj_append(B, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
             ;   D = B
             ),
             makevars([A, D], [Q, I], beta(V))
@@ -667,7 +667,11 @@ rdflingua :-
             getconj(K, A),
             '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
-            makevars(':-'(B, A), C, beta(V)),
+            (   flag(explain)
+            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
+            ;   D = A
+            ),
+            makevars(':-'(B, D), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -687,10 +691,10 @@ rdflingua :-
             getconj(H, B),
             djiti_answer(answer(B), J),
             (   flag(explain)
-            ->  conj_append(J, '<http://eyereasoner.github.io/rule#binding>'(R, U), D)
-            ;   D = J
+            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#binding>', R, U)), D)
+            ;   D = A
             ),
-            makevars(implies(A, D, '<>'), C, beta(V)),
+            makevars(implies(D, J, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -3849,7 +3853,10 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        write('.'),
+        (   flag(rdflingua)
+        ->  true
+        ;   write('.')
+        ),
         nl,
         cnt(output_statements),
         fail
@@ -4213,7 +4220,8 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground')
+        \+flag('pass-all-ground'),
+        \+flag(rdflingua)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://eyereasoner.github.io/var#all_', Y, '>'], Z),
@@ -4690,9 +4698,11 @@ wt2(X) :-
         wp(P),
         write(' '),
         wg(O),
-        (   flag(rdflingua),
-            \+nb_getval(indentation, 0)
-        ->  write(')')
+        (   flag(rdflingua)
+        ->  (   \+nb_getval(indentation, 0)
+            ->  write(')')
+            ;   write('.')
+            )
         ;   true
         )
     ).
@@ -4712,9 +4722,11 @@ wtn(exopred(P, S, O)) :-
         wg(P),
         write(' '),
         wg(O),
-        (   flag(rdflingua),
-            \+nb_getval(indentation, 0)
-        ->  write(')')
+        (   flag(rdflingua)
+        ->  (   \+nb_getval(indentation, 0)
+            ->  write(')')
+            ;   write('.')
+            )
         ;   true
         )
     ).
@@ -12396,6 +12408,12 @@ map(A, [B|C], [D|E]) :-
     F =.. [A, B, D],
     call(F),
     map(A, C, E).
+
+remember(A) :-
+    \+call(A),
+    !,
+    assertz(A).
+remember(_).
 
 preformat([], []) :-
     !.

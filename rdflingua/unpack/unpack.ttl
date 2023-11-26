@@ -30,14 +30,14 @@ _:b1 :data (
 ).
 
 # the logic for unpack using backward rules
-[] a rule:BackwardRule;
+:unpack_rule1 a rule:BackwardRule;
     rule:graffiti ();
     rule:conclusion (
         (() :unpackLott ())
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:unpack_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:g
         _:h
@@ -56,7 +56,7 @@ _:b1 :data (
         ((_:a _:b) list:append _:h)
     ).
 
-[] a rule:BackwardRule;
+:unpack_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:b
         _:p
@@ -75,7 +75,7 @@ _:b1 :data (
         (_:c :unpackLott _:f)
     ).
 
-[] a rule:BackwardRule;
+:unpack_rule4 a rule:BackwardRule;
     rule:graffiti (
         _:b
         _:p
@@ -92,7 +92,7 @@ _:b1 :data (
         ((:yesterday :last_week) list:member _:t)
     ).
 
-[] a rule:BackwardRule;
+:unpack_rule5 a rule:BackwardRule;
     rule:graffiti (
         _:b
         _:p
@@ -102,7 +102,7 @@ _:b1 :data (
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:unpack_rule6 a rule:BackwardRule;
     rule:graffiti (
         _:g
         _:a
@@ -119,7 +119,7 @@ _:b1 :data (
     ).
 
 # unpack the triples that are usable in the future
-[] a rule:QueryRule;
+:unpack_query a rule:QueryRule;
     rule:graffiti (
         _:b
         _:g

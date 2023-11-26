@@ -4,7 +4,7 @@
 @prefix : <http://example.org/ns#>.
 
 # interpreter for Turing machine
-[] a rule:BackwardRule;
+:turing_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:OutTape
         _:Machine
@@ -18,7 +18,7 @@
         ((_:I () "#" ()) :find _:OutTape)
     ).
 
-[] a rule:BackwardRule;
+:turing_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:List
         _:OutTape
@@ -36,7 +36,7 @@
         ((_:I () _:Head _:Tail) :find _:OutTape)
     ).
 
-[] a rule:BackwardRule;
+:turing_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:State
         _:Left
@@ -59,7 +59,7 @@
         ((_:Next _:A _:B _:C) :continue _:OutTape)
     ).
 
-[] a rule:BackwardRule;
+:turing_rule4 a rule:BackwardRule;
     rule:graffiti (
         _:Left
         _:Cell
@@ -77,7 +77,7 @@
         ((_:R _:List) list:append _:OutTape)
     ).
 
-[] a rule:BackwardRule;
+:turing_rule5 a rule:BackwardRule;
     rule:graffiti (
         _:State
         _:Left
@@ -92,7 +92,7 @@
         ((_:State _:Left _:Cell _:Right) :find _:OutTape)
     ).
 
-[] a rule:BackwardRule;
+:turing_rule6 a rule:BackwardRule;
     rule:graffiti (
         _:Cell
         _:Right
@@ -105,7 +105,7 @@
         (_:L list:firstRest (_:Cell _:Right))
     ).
 
-[] a rule:BackwardRule;
+:turing_rule7 a rule:BackwardRule;
     rule:graffiti (
         _:List
         _:Cell
@@ -122,7 +122,7 @@
         (_:L list:firstRest (_:Cell _:Right))
     ).
 
-[] a rule:BackwardRule;
+:turing_rule8 a rule:BackwardRule;
     rule:graffiti (
         _:Left
         _:Cell
@@ -133,7 +133,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:turing_rule9 a rule:BackwardRule;
     rule:graffiti (
         _:Left
         _:Cell
@@ -146,7 +146,7 @@
         (_:L list:firstRest (_:Cell _:Left))
     ).
 
-[] a rule:BackwardRule;
+:turing_rule10 a rule:BackwardRule;
     rule:graffiti (
         _:Left
         _:Cell
@@ -163,14 +163,14 @@
         (_:L list:firstRest (_:Cell _:Left))
     ).
 
-[] a rule:BackwardRule;
+:turing_rule11 a rule:BackwardRule;
     rule:graffiti ();
     rule:conclusion (
         (() :reverse ())
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:turing_rule12 a rule:BackwardRule;
     rule:graffiti (
         _:List
         _:Reverse
@@ -198,7 +198,7 @@
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-[] a rule:QueryRule;
+:turing_query a rule:QueryRule;
     rule:graffiti (
         _:A1
         _:A2

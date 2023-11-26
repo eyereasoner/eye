@@ -3,7 +3,7 @@
 @prefix : <http://example.org/ns#>.
 
 # backward rules
-[] a rule:BackwardRule;
+:fibonacci_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -15,7 +15,7 @@
         ((_:X 0 1) :fib _:Y)
     ).
 
-[] a rule:BackwardRule;
+:fibonacci_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -25,7 +25,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:fibonacci_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:A
         _:B
@@ -35,7 +35,7 @@
     );
     rule:premise ().
 
-[] a rule:BackwardRule;
+:fibonacci_rule4 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:A
@@ -54,69 +54,26 @@
         ((_:C _:B _:D) :fib _:Y)
     ).
 
-# queries
-[] a rule:QueryRule;
+# query
+:fibonacci_query a rule:QueryRule;
     rule:graffiti (
-        _:Y
+        _:F1
+        _:F2
+        _:F3
+        _:F4
+        _:F5
     );
     rule:premise (
-        (0 :fibonacci _:Y)
+        (0 :fibonacci _:F1)
+        (1 :fibonacci _:F2)
+        (6 :fibonacci _:F3)
+        (91 :fibonacci _:F4)
+        (283 :fibonacci _:F5)
     );
     rule:conclusion (
-        (0 :fibonacci _:Y)
-    ).
-
-[] a rule:QueryRule;
-    rule:graffiti (
-        _:Y
-    );
-    rule:premise (
-        (1 :fibonacci _:Y)
-    );
-    rule:conclusion (
-        (1 :fibonacci _:Y)
-    ).
-
-[] a rule:QueryRule;
-    rule:graffiti (
-        _:Y
-    );
-    rule:premise (
-        (6 :fibonacci _:Y)
-    );
-    rule:conclusion (
-        (6 :fibonacci _:Y)
-    ).
-
-[] a rule:QueryRule;
-    rule:graffiti (
-        _:Y
-    );
-    rule:premise (
-        (91 :fibonacci _:Y)
-    );
-    rule:conclusion (
-        (91 :fibonacci _:Y)
-    ).
-
-[] a rule:QueryRule;
-    rule:graffiti (
-        _:Y
-    );
-    rule:premise (
-        (283 :fibonacci _:Y)
-    );
-    rule:conclusion (
-        (283 :fibonacci _:Y)
-    ).
-
-[] a rule:QueryRule;
-    rule:graffiti (
-        _:Y
-    );
-    rule:premise (
-        (3674 :fibonacci _:Y)
-    );
-    rule:conclusion (
-        (3674 :fibonacci _:Y)
+        (() :fibonacci (0 _:F1))
+        (() :fibonacci (1 _:F2))
+        (() :fibonacci (6 _:F3))
+        (() :fibonacci (91 _:F4))
+        (() :fibonacci (283 _:F5))
     ).

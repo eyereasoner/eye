@@ -2,7 +2,7 @@
 @prefix : <http://example.org/ns#>.
 
 # saying A means saying C
-[] a rule:ForwardRule;
+:negation_predicates_rule1 a rule:ForwardRule;
     rule:graffiti (
         _:S
     );
@@ -13,7 +13,7 @@
         (_:S :saying :C)
     ).
 
-[] a rule:ForwardRule;
+:negation_predicates_rule2 a rule:ForwardRule;
     rule:graffiti (
         _:S
     );
@@ -25,7 +25,7 @@
     ).
 
 # saying B means saying C
-[] a rule:ForwardRule;
+:negation_predicates_rule3 a rule:ForwardRule;
     rule:graffiti (
         _:S
     );
@@ -36,7 +36,7 @@
         (_:S :saying :C)
     ).
 
-[] a rule:ForwardRule;
+:negation_predicates_rule4 a rule:ForwardRule;
     rule:premise (
         (_:S :not_saying :C)
     );
@@ -45,7 +45,7 @@
     ).
 
 # saying A or saying B
-[] a rule:ForwardRule;
+:negation_predicates_rule5 a rule:ForwardRule;
     rule:graffiti (
         _:S
     );
@@ -56,7 +56,7 @@
         (_:S :saying :B)
     ).
 
-[] a rule:ForwardRule;
+:negation_predicates_rule6 a rule:ForwardRule;
     rule:graffiti (
         _:S
     );
@@ -72,7 +72,7 @@
 :alice :not_saying :C.
 
 # query
-[] a rule:QueryRule;
+:negation_predicates_query a rule:QueryRule;
     rule:graffiti ();
     rule:premise (
         (:alice :saying :C)

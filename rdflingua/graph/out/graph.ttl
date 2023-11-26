@@ -1,0 +1,39 @@
+@prefix : <http://example.org/ns#>.
+@prefix rule: <http://eyereasoner.github.io/rule#>.
+
+:graph_rule1 rule:binding (:paris :orleans).
+:graph_rule1 rule:binding (:paris :chartres).
+:graph_rule1 rule:binding (:paris :amiens).
+:graph_rule1 rule:binding (:orleans :blois).
+:graph_rule1 rule:binding (:orleans :bourges).
+:graph_rule1 rule:binding (:blois :tours).
+:graph_rule1 rule:binding (:chartres :lemans).
+:graph_rule1 rule:binding (:lemans :angers).
+:graph_rule1 rule:binding (:lemans :tours).
+:graph_rule1 rule:binding (:angers :nantes).
+:graph_rule2 rule:binding (:paris :orleans :blois).
+:graph_rule2 rule:binding (:paris :orleans :bourges).
+:graph_rule2 rule:binding (:paris :chartres :lemans).
+:graph_rule2 rule:binding (:orleans :blois :tours).
+:graph_rule2 rule:binding (:chartres :lemans :angers).
+:graph_rule2 rule:binding (:chartres :lemans :tours).
+:graph_rule2 rule:binding (:lemans :angers :nantes).
+:graph_query rule:binding (:angers).
+:angers :path :nantes.
+:graph_query rule:binding (:lemans).
+:lemans :path :nantes.
+:graph_rule2 rule:binding (:paris :orleans :tours).
+:graph_rule2 rule:binding (:paris :chartres :angers).
+:graph_rule2 rule:binding (:paris :chartres :tours).
+:graph_rule2 rule:binding (:chartres :lemans :nantes).
+:graph_rule2 rule:binding (:paris :blois :tours).
+:graph_rule2 rule:binding (:paris :lemans :angers).
+:graph_rule2 rule:binding (:paris :lemans :tours).
+:graph_rule2 rule:binding (:paris :lemans :nantes).
+:graph_rule2 rule:binding (:chartres :angers :nantes).
+:graph_query rule:binding (:chartres).
+:chartres :path :nantes.
+:graph_query rule:binding (:paris).
+:paris :path :nantes.
+:graph_rule2 rule:binding (:paris :chartres :nantes).
+:graph_rule2 rule:binding (:paris :angers :nantes).

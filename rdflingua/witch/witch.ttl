@@ -3,7 +3,7 @@
 @prefix : <http://example.org/ns#>.
 
 # \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x)
-[] a rule:ForwardRule;
+:witch_rule1 a rule:ForwardRule;
     rule:graffiti (
         _:X
     );
@@ -19,7 +19,7 @@
 :GIRL a :WOMAN.
 
 # \forall x : ISMADEOFWOOD(x) => BURNS(x)
-[] a rule:ForwardRule;
+:witch_rule2 a rule:ForwardRule;
     rule:graffiti (
         _:X
     );
@@ -31,7 +31,7 @@
     ).
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x)
-[] a rule:ForwardRule;
+:witch_rule3 a rule:ForwardRule;
     rule:graffiti (
         _:X
     );
@@ -46,7 +46,7 @@
 :DUCK a :FLOATS.
 
 # \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
-[] a rule:ForwardRule;
+:witch_rule4 a rule:ForwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -64,7 +64,7 @@
 :DUCK :SAMEWEIGHT :GIRL.
 
 # who's a witch?
-[] a rule:QueryRule;
+:witch_query a rule:QueryRule;
     rule:graffiti (
         _:S
     );

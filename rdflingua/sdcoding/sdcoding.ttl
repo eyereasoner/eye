@@ -39,7 +39,7 @@
 :TRUE :k :TRUE.
 
 # KG
-[] a rule:BackwardRule;
+:sdcoding_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -54,7 +54,7 @@
     ).
 
 # GK
-[] a rule:BackwardRule;
+:sdcoding_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -69,7 +69,7 @@
     ).
 
 # Alice
-[] a rule:BackwardRule;
+:sdcoding_rule3 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -81,7 +81,7 @@
         (_:X :id _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule4 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -93,7 +93,7 @@
         (_:X :g _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule5 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -105,7 +105,7 @@
         (_:X :k _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule6 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -118,7 +118,7 @@
     ).
 
 # Bob
-[] a rule:BackwardRule;
+:sdcoding_rule7 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -130,7 +130,7 @@
         (_:X :gk _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule8 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -142,7 +142,7 @@
         (_:X :k _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule9 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -154,7 +154,7 @@
         (_:X :g _:Y)
     ).
 
-[] a rule:BackwardRule;
+:sdcoding_rule10 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -167,7 +167,7 @@
     ).
 
 # superdense coding
-[] a rule:ForwardRule;
+:sdcoding_rule11 a rule:ForwardRule;
     rule:graffiti (
         _:N
         _:A
@@ -192,7 +192,7 @@
     ).
 
 # query
-[] a rule:QueryRule;
+:sdcoding_query a rule:QueryRule;
     rule:graffiti (
         _:N
         _:M
@@ -201,5 +201,5 @@
         (_:N :sdcoding _:M)
     );
     rule:conclusion (
-        (_:N :sdcoding _:M)
+        (() :sdcoding (_:N _:M))
     ).

@@ -3,36 +3,33 @@
 @prefix rule: <http://eyereasoner.github.io/rule#>.
 @prefix : <http://example.org/ns#>.
 
-[] a rule:ForwardRule;
-    rule:graffiti (
-        _:rule1
-        _:query1
-    );
+:gen_rule a rule:ForwardRule;
+    rule:graffiti ();
     rule:premise ();
     rule:conclusion (
         (:Socrates rdf:type :Human)
         (:Human rdfs:subClassOf :Mortal)
-        (_:rule1 rdf:type rule:ForwardRule)
-        (_:rule1 rule:graffiti (
+        (:rdfs_subclass_rule rdf:type rule:ForwardRule)
+        (:rdfs_subclass_rule rule:graffiti (
             _:A
             _:B
             _:S
         ))
-        (_:rule1 rule:premise (
+        (:rdfs_subclass_rule rule:premise (
             (_:A rdfs:subClassOf _:B)
             (_:S rdf:type _:A)
         ))
-        (_:rule1 rule:conclusion (
+        (:rdfs_subclass_rule rule:conclusion (
             (_:S rdf:type _:B)
         ))
-        (_:query1 rdf:type rule:QueryRule)
-        (_:query1 rule:graffiti (
+        (:socrates_query rdf:type rule:QueryRule)
+        (:socrates_query rule:graffiti (
             _:S
         ))
-        (_:query1 rule:premise (
+        (:socrates_query rule:premise (
             (_:S rdf:type :Mortal)
         ))
-        (_:query1 rule:conclusion (
+        (:socrates_query rule:conclusion (
             (_:S rdf:type :Mortal)
         ))
     ).

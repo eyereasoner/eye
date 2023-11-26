@@ -4,7 +4,7 @@
 @prefix : <http://example.org/ns#>.
 
 # _:M is the sequence of moves to move _:N disks from _:X to _:Y using _:Z as intermediary
-[] a rule:BackwardRule;
+:hanoi_rule1 a rule:BackwardRule;
     rule:graffiti (
         _:N
         _:X
@@ -26,7 +26,7 @@
         ((_:M1 ((_:X _:Y)) _:M2) list:append _:M)
     ).
 
-[] a rule:BackwardRule;
+:hanoi_rule2 a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -37,7 +37,8 @@
     );
     rule:premise ().
 
-[] a rule:QueryRule;
+# query
+:hanoi_query a rule:QueryRule;
     rule:graffiti (
         _:M
     );
@@ -45,5 +46,5 @@
         ((9 :left :right :center) :moves _:M)
     );
     rule:conclusion (
-        (9 :answer _:M)
+        ((9 :left :right :center) :moves _:M)
     ).

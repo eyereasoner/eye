@@ -4,7 +4,7 @@
 
 # see https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
 # something is more interesting if it is greater
-[] a rule:BackwardRule;
+:backward_rule a rule:BackwardRule;
     rule:graffiti (
         _:X
         _:Y
@@ -17,11 +17,11 @@
     ).
 
 # query
-[] a rule:QueryRule;
+:backward_query a rule:QueryRule;
     rule:graffiti ();
     rule:premise (
         (5 :moreInterestingThan 3)
     );
     rule:conclusion (
-        (5 :moreInterestingThan 3)
+        (:result :is (5 :moreInterestingThan 3))
     ).
