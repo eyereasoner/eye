@@ -9,7 +9,7 @@
 @prefix : <http://example.org/ns#>.
 
 (_:X _:Y) log:onNegativeSurface (
-    (() log:negativeTriple (_:X :fibonacci _:Y))
+    (() log:negativeTriple (() :fibonacci (_:X _:Y)))
     ((_:X 0 1) :fib _:Y)
 ).
 
@@ -31,25 +31,25 @@
 
 # query
 (_:X) log:onQuerySurface (
-    (1 :fibonacci _:X)
+    (() :fibonacci (1 _:X))
 ).
 
 (_:X) log:onQuerySurface (
-    (2 :fibonacci _:X)
+    (() :fibonacci (2 _:X))
 ).
 
 (_:X) log:onQuerySurface (
-    (3 :fibonacci _:X)
+    (() :fibonacci (3 _:X))
 ).
 
 (_:X) log:onQuerySurface (
-    (91 :fibonacci _:X)
+    (() :fibonacci (91 _:X))
 ).
 
 (_:X) log:onQuerySurface (
-    (283 :fibonacci _:X)
+    (() :fibonacci (283 _:X))
 ).
 
 (_:X) log:onQuerySurface (
-    (3674 :fibonacci _:X)
+    (() :fibonacci (3674 _:X))
 ).
