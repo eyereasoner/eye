@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.2 (2023-11-27)').
+version_info('EYE v8.7.3 (2023-11-27)').
 
 license_info('MIT License
 
@@ -11198,7 +11198,8 @@ is_graph(A) :-
     is_gl(A).
 
 is_lott([]).
-is_lott([[_, _, _]|A]) :-
+is_lott([[_, P, _]|A]) :-
+    \+is_list(P),
     is_lott(A).
 
 unify(A, B) :-
@@ -12356,6 +12357,34 @@ getlist(A, [B|C]) :-
 getterm(A, A) :-
     var(A),
     !.
+getterm(A, B) :-
+    is_lott(A),
+    !,
+    findall(_,
+        (   member([D, E, F], A),
+            memberchk(E, ['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>']),
+            Z =.. [E, D, F],
+            assertz(Z)
+        ),
+        _
+    ),
+    findall([D, E, F],
+        (   member([G, E, H], A),
+            E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            getterm(G, D),
+            getterm(H, F)
+        ),
+        B
+    ),
+    findall(_,
+        (   member([D, E, F], A),
+            memberchk(E, ['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>']),
+            Z =.. [E, D, F],
+            retract(Z)
+        ),
+        _
+    ).
 getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
