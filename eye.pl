@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.3 (2023-11-27)').
+version_info('EYE v8.7.4 (2023-11-28)').
 
 license_info('MIT License
 
@@ -644,31 +644,31 @@ rdflingua :-
     ),
     % forward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#ForwardRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#ForwardRule>'),
+            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
             getlist(U, V),
-            '<http://eyereasoner.github.io/rule#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, H),
             getconj(H, B),
             (   flag(explain),
                 B \= false
-            ->  conj_append(B, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
+            ->  conj_append(B, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
             ;   D = B
             ),
             makevars([A, D], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#BackwardRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#BackwardRule>'),
+            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
             getlist(U, V),
-            '<http://eyereasoner.github.io/rule#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/rule#conclusion>'(R, [[S, P, O]]),
+            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, [[S, P, O]]),
             B =.. [P, S, O],
             (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
+            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
             ;   D = A
             ),
             makevars(':-'(B, D), C, beta(V)),
@@ -682,16 +682,16 @@ rdflingua :-
             )), true, '<>')),
     % query rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/rule#QueryRule>'),
-            '<http://eyereasoner.github.io/rule#vars>'(R, U),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#QueryRule>'),
+            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
             getlist(U, V),
-            '<http://eyereasoner.github.io/rule#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/rule#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
             (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://eyereasoner.github.io/rule#bindings>', R, U)), D)
+            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
             ;   D = A
             ),
             makevars(implies(D, J, '<>'), C, beta(V)),
@@ -1478,7 +1478,7 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://eyereasoner.github.io/rule#premise>',
+            (   Predicate = '<http://www.w3.org/2000/10/swap/rule#premise>',
                 \+flag(rdflingua)
             ->  assertz(flag(rdflingua))
             ;   true
@@ -1540,7 +1540,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   Rt = '<http://eyereasoner.github.io/rule#premise>'(_, _),
+        (   Rt = '<http://www.w3.org/2000/10/swap/rule#premise>'(_, _),
             \+flag(rdflingua)
         ->  assertz(flag(rdflingua))
         ;   true
@@ -2624,7 +2624,7 @@ propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
-            Verb = '\'<http://eyereasoner.github.io/rule#premise>\'',
+            Verb = '\'<http://www.w3.org/2000/10/swap/rule#premise>\'',
             \+flag(rdflingua)
         ->  assertz(flag(rdflingua))
         ;   true
@@ -11108,7 +11108,10 @@ within_scope([A, B]) :-
         ),
         recursion(B)
     ),
-    nb_getval(scope, A).
+    (   flag(rdflingua)
+    ->  A = '<http://www.w3.org/2000/10/swap/rule#scope>'
+    ;   nb_getval(scope, A)
+    ).
 
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
