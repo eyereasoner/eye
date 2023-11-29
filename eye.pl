@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.4 (2023-11-28)').
+version_info('EYE v8.7.5 (2023-11-29)').
 
 license_info('MIT License
 
@@ -8327,12 +8327,20 @@ djiti_assertz(A) :-
         ),
         (   (   atomic_list_concat(['(', Search, ')'], Se),
                 regex(Se, X, [S|_])
-            ->  atom_codes(X, XC),
-                string_codes(S, SC),
-                atom_codes(Replace, RC),
-                subst([[[0'$, 0'1], SC]], RC, TC),
-                subst([[SC, TC]], XC, YC),
-                atom_codes(Y, YC)
+            ->  (   sub_atom(Search, 0, 1, _, '^')
+                ->  atom_concat(S, T, X),
+                    atom_concat(Replace, T, Y)
+                ;   (   sub_atom(Search, _, 1, 0, '$')
+                    ->  atom_concat(T, S, X),
+                        atom_concat(T, Replace, Y)
+                    ;   atom_codes(X, XC),
+                        string_codes(S, SC),
+                        atom_codes(Replace, RC),
+                        subst([[[0'$, 0'1], SC]], RC, TC),
+                        subst([[SC, TC]], XC, YC),
+                        atom_codes(Y, YC)
+                    )
+                )
             ;   Y = X
             )
         )
