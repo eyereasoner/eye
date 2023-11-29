@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v8.7.5 (2023-11-29)').
+version_info('EYE v9.0.0 (2023-11-30)').
 
 license_info('MIT License
 
@@ -69,6 +69,7 @@ eye
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
+    --no-bnode-relabeling           no relabeling of blank nodes in triple or graph terms
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
@@ -76,7 +77,6 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
-    --relabel-blank-nodes           relabel blank nodes in triple or graph terms
     --rdf-list-input                input lists as RDF lists
     --rdf-list-output               output lists as RDF lists
     --restricted                    restricting to core built-ins
@@ -418,10 +418,6 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(rdflingua)
-    ->  rdflingua
-    ;   true
-    ),
     (   flag(blogic)
     ->  blogic
     ;   true
@@ -481,7 +477,6 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdflingua),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -615,94 +610,6 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
-
-%
-% RDF Lingua
-%
-
-rdflingua :-
-    % configure
-    (   \+flag(nope)
-    ->  assertz(flag(nope)),
-        assertz(flag(explain))
-    ;   true
-    ),
-    % create list terms
-    (   pred(P),
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-        X =.. [P, _, _],
-        call(X),
-        getterm(X, Y),
-        (   Y = X
-        ->  true
-        ;   retract(X),
-            assertz(Y)
-        ),
-        fail
-    ;   true
-    ),
-    % forward rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#ForwardRule>'),
-            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
-            getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, H),
-            getconj(H, B),
-            (   flag(explain),
-                B \= false
-            ->  conj_append(B, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
-            ;   D = B
-            ),
-            makevars([A, D], [Q, I], beta(V))
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
-    % backward rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#BackwardRule>'),
-            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
-            getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, [[S, P, O]]),
-            B =.. [P, S, O],
-            (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
-            ;   D = A
-            ),
-            makevars(':-'(B, D), C, beta(V)),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')),
-    % query rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/rule#QueryRule>'),
-            '<http://www.w3.org/2000/10/swap/rule#vars>'(R, U),
-            getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/rule#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/rule#conclusion>'(R, H),
-            getconj(H, B),
-            djiti_answer(answer(B), J),
-            (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/rule#bindings>', R, U)), D)
-            ;   D = A
-            ),
-            makevars(implies(D, J, '<>'), C, beta(V)),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')).
 
 %
 % RDF Surfaces
@@ -1168,10 +1075,10 @@ opts(['--random-seed'|Argus], Args) :-
     N is random(2^120),
     nb_setval(random, N),
     opts(Argus, Args).
-opts(['--relabel-blank-nodes'|Argus], Args) :-
+opts(['--no-bnode-relabeling'|Argus], Args) :-
     !,
-    retractall(flag('relabel-blank-nodes')),
-    assertz(flag('relabel-blank-nodes')),
+    retractall(flag('no-bnode-relabeling')),
+    assertz(flag('no-bnode-relabeling')),
     opts(Argus, Args).
 opts(['--rdf-list-input'|Argus], Args) :-
     !,
@@ -1478,11 +1385,6 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://www.w3.org/2000/10/swap/rule#premise>',
-                \+flag(rdflingua)
-            ->  assertz(flag(rdflingua))
-            ;   true
-            ),
             (   flag(intermediate, Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
@@ -1538,11 +1440,6 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   Rt = scope(Scope)
         ->  nb_setval(current_scope, Scope)
-        ;   true
-        ),
-        (   Rt = '<http://www.w3.org/2000/10/swap/rule#premise>'(_, _),
-            \+flag(rdflingua)
-        ->  assertz(flag(rdflingua))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2274,18 +2171,6 @@ existential -->
             )
         )
     }.
-existential -->
-    [atname(graffiti)],
-    !,
-    pathitem(Symbols, _),
-    {   nb_getval(fdepth, D),
-        forall(
-            member(S, Symbols),
-            (   gensym('qe_', Q),
-                asserta(qevar(S, Q, D))
-            )
-        )
-    }.
 
 explicituri(ExplicitURI) -->
     [relative_uri(ExplicitURI)].
@@ -2624,12 +2509,6 @@ propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
-            Verb = '\'<http://www.w3.org/2000/10/swap/rule#premise>\'',
-            \+flag(rdflingua)
-        ->  assertz(flag(rdflingua))
-        ;   true
-        ),
-        (   atomic(Verb),
             regex('^\'<.*#on.*Surface>\'$', Verb, _),
             \+flag(blogic)
         ->  assertz(flag(blogic))
@@ -2804,7 +2683,7 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   \+flag('relabel-blank-nodes')
+        (   flag('no-bnode-relabeling')
         ->  D = 0
         ;   nb_getval(fdepth, D)
         ),
@@ -3853,10 +3732,7 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   flag(rdflingua)
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         nl,
         cnt(output_statements),
         fail
@@ -4175,10 +4051,6 @@ wt0(fail) :-
     write('("fail") '),
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
-wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
-    flag(rdflingua),
-    !,
-    write(a).
 wt0([]) :-
     !,
     (   flag('rdf-list-output')
@@ -4220,8 +4092,7 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground'),
-        \+flag(rdflingua)
+        \+flag('pass-all-ground')
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://eyereasoner.github.io/var#all_', Y, '>'], Z),
@@ -4377,10 +4248,7 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(rdflingua)
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4411,26 +4279,10 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   (   flag(rdflingua),
-            is_lott([X|Y])
-        ->  write('('),
-            indentation(4),
-            forall(
-                member(Z, [X|Y]),
-                (   nl,
-                    indent,
-                    wt(Z)
-                )
-            ),
-            indentation(-4),
-            nl,
-            indent,
-            write(')')
-        ;   write('('),
-            wg(X),
-            wl(Y),
-            write(')')
-        )
+    ;   write('('),
+        wg(X),
+        wl(Y),
+        write(')')
     ).
 wt2(literal(X, lang(Y))) :-
     !,
@@ -4688,23 +4540,11 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   (   flag(rdflingua),
-            \+nb_getval(indentation, 0)
-        ->  write('(')
-        ;   true
-        ),
-        wg(S),
+    ;   wg(S),
         write(' '),
         wp(P),
         write(' '),
-        wg(O),
-        (   flag(rdflingua)
-        ->  (   \+nb_getval(indentation, 0)
-            ->  write(')')
-            ;   write('.')
-            )
-        ;   true
-        )
+        wg(O)
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4712,23 +4552,11 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   (   flag(rdflingua),
-            \+nb_getval(indentation, 0)
-        ->  write('(')
-        ;   true
-        ),
-        wg(S),
+    ;   wg(S),
         write(' '),
         wg(P),
         write(' '),
-        wg(O),
-        (   flag(rdflingua)
-        ->  (   \+nb_getval(indentation, 0)
-            ->  write(')')
-            ;   write('.')
-            )
-        ;   true
-        )
+        wg(O)
     ).
 wtn(triple(S, P, O)) :-
     !,
@@ -4779,10 +4607,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(rdflingua)
-        ->  write('(')
-        ;   write('{')
-        ),
+    ->  write('{'),
         indentation(4),
         (   flag(strings)
         ->  true
@@ -4802,18 +4627,12 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag(rdflingua)
-                ->  true
-                ;   write('.')
-                ),
+            ;   write('.'),
                 nl,
                 indent
             )
         ),
-        (   flag(rdflingua)
-        ->  write(')')
-        ;   write('}')
-        )
+        write('}')
     ;   wt(X)
     ).
 
@@ -11116,10 +10935,7 @@ within_scope([A, B]) :-
         ),
         recursion(B)
     ),
-    (   flag(rdflingua)
-    ->  A = '<http://www.w3.org/2000/10/swap/rule#scope>'
-    ;   nb_getval(scope, A)
-    ).
+    nb_getval(scope, A).
 
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
