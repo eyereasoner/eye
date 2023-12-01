@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.2 (2023-12-01)').
+version_info('EYE v9.0.3 (2023-12-01)').
 
 license_info('MIT License
 
@@ -649,8 +649,10 @@ lingua :-
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
             getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            getconj(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            getconj(H, B),
             (   flag(explain),
                 B \= false
             ->  conj_append(B, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
@@ -663,8 +665,10 @@ lingua :-
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
             getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            getconj(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            getconj(H, B),
             (   flag(explain)
             ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
             ;   D = A
@@ -683,8 +687,10 @@ lingua :-
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
             getlist(U, V),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            getconj(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            getconj(H, B),
             djiti_answer(answer(B), J),
             (   flag(explain)
             ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
@@ -3836,7 +3842,10 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        write('.'),
+        (   flag(lingua)
+        ->  true
+        ;   write('.')
+        ),
         nl,
         cnt(output_statements),
         fail
@@ -4155,6 +4164,10 @@ wt0(fail) :-
     write('("fail") '),
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
+wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
+    flag(lingua),
+    !,
+    write(a).
 wt0([]) :-
     !,
     (   flag('rdf-list-output')
@@ -4196,7 +4209,8 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground')
+        \+flag('pass-all-ground'),
+        \+flag(lingua)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://eyereasoner.github.io/var#all_', Y, '>'], Z),
@@ -4383,10 +4397,26 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   write('('),
-        wg(X),
-        wl(Y),
-        write(')')
+    ;   (   flag(lingua),
+            is_lott([X|Y])
+        ->  write('('),
+            indentation(4),
+            forall(
+                member(Z, [X|Y]),
+                (   nl,
+                    indent,
+                    wt(Z)
+                )
+            ),
+            indentation(-4),
+            nl,
+            indent,
+            write(')')
+        ;   write('('),
+            wg(X),
+            wl(Y),
+            write(')')
+        )
     ).
 wt2(literal(X, lang(Y))) :-
     !,
@@ -4644,11 +4674,23 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   wg(S),
+    ;   (   flag(lingua),
+            \+nb_getval(indentation, 0)
+        ->  write('(')
+        ;   true
+        ),
+        wg(S),
         write(' '),
         wp(P),
         write(' '),
-        wg(O)
+        wg(O),
+        (   flag(lingua)
+        ->  (   \+nb_getval(indentation, 0)
+            ->  write(')')
+            ;   write('.')
+            )
+        ;   true
+        )
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4656,11 +4698,23 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   wg(S),
+    ;   (   flag(lingua),
+            \+nb_getval(indentation, 0)
+        ->  write('(')
+        ;   true
+        ),
+        wg(S),
         write(' '),
         wg(P),
         write(' '),
-        wg(O)
+        wg(O),
+        (   flag(lingua)
+        ->  (   \+nb_getval(indentation, 0)
+            ->  write(')')
+            ;   write('.')
+            )
+        ;   true
+        )
     ).
 wtn(triple(S, P, O)) :-
     !,
@@ -4711,7 +4765,10 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  write('{'),
+    ->  (   flag(lingua)
+        ->  write('(')
+        ;   write('{')
+        ),
         indentation(4),
         (   flag(strings)
         ->  true
@@ -4731,12 +4788,18 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   write('.'),
+            ;   (   flag(lingua)
+                ->  true
+                ;   write('.')
+                ),
                 nl,
                 indent
             )
         ),
-        write('}')
+        (   flag(lingua)
+        ->  write(')')
+        ;   write('}')
+        )
     ;   wt(X)
     ).
 
