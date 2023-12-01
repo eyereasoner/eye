@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.3 (2023-12-01)').
+version_info('EYE v9.0.4 (2023-12-02)').
 
 license_info('MIT License
 
@@ -4366,7 +4366,10 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        write('.'),
+        (   flag(lingua)
+        ->  true
+        ;   write('.')
+        ),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4766,7 +4769,7 @@ wg(X) :-
             )
         )
     ->  (   flag(lingua)
-        ->  write('(')
+        ->  write('(<http://www.w3.org/2000/10/swap/lingua#graph>')
         ;   write('{')
         ),
         indentation(4),
