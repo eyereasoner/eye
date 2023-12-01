@@ -1,0 +1,54 @@
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# oneway subproperty of path
+:graph_rule1 a lingua:ForwardRule;
+    lingua:vars (
+        _:A
+        _:B
+    );
+    lingua:premise (lingua:graph
+        (_:A :oneway _:B)
+    );
+    lingua:conclusion (lingua:graph
+        (_:A :path _:B)
+    ).
+
+# path transitive property
+:graph_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+    );
+    lingua:premise (lingua:graph
+        (_:A :path _:B)
+        (_:B :path _:C)
+    );
+    lingua:conclusion (lingua:graph
+        (_:A :path _:C)
+    ).
+
+# query
+:graph_query a lingua:QueryRule;
+    lingua:vars (
+        _:A
+    );
+    lingua:premise (lingua:graph
+        (_:A :path :nantes)
+    );
+    lingua:conclusion (lingua:graph
+        (_:A :path :nantes)
+    ).

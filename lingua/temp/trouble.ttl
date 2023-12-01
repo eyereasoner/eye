@@ -1,0 +1,21 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+((:a :b :c) (:d :e :f) (:g :h :i)) a :Triple.
+((:a :b :c) (:d :e :f) (:g :h :i)) a :Graph.
+
+:Triple owl:disjointWith :Graph.
+
+:owl_disjointWith_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:X
+    );
+    lingua:premise (lingua:graph
+        (_:A owl:disjointWith _:B)
+        (_:X a _:A)
+        (_:X a _:B)
+    );
+    lingua:conclusion false.

@@ -1,0 +1,132 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data from RubenD
+_:b1 :data (
+    (_:b2 :package (
+        (_:b3 :content (
+            (:a :b _:c)
+            (_:b4 :package (
+                (_:b5 :content (
+                    (:u :v _:w)
+                    (_:b6 :package (
+                        (_:b7 :content (
+                            (:x :y _:z)
+                        ))
+                        (_:b7 :usable_until :yesterday)
+                    ))
+                    (_:b6 :tag :invalid)
+                ))
+                (_:b5 :usable_until :tomorrow)
+                (_:b5 :p :o)
+            ))
+            (_:b4 :tag :valid)
+        ))
+        (_:b3 :usable_until :next_week)
+    ))
+    (_:b2 :tag :valid)
+).
+
+# the logic for unpack using backward rules
+:unpack_rule1 a lingua:BackwardRule;
+    lingua:vars ();
+    lingua:conclusion (lingua:graph
+        (() :unpackLott ())
+    );
+    lingua:premise (lingua:graph).
+
+:unpack_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:g
+        _:h
+        _:f
+        _:r
+        _:a
+        _:b
+    );
+    lingua:conclusion (lingua:graph
+        (_:g :unpackLott _:h)
+    );
+    lingua:premise (lingua:graph
+        (_:g list:firstRest (_:f _:r))
+        (_:f :unpack _:a)
+        (_:r :unpackLott _:b)
+        ((_:a _:b) list:append _:h)
+    ).
+
+:unpack_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+        _:f
+        _:a
+        _:c
+        _:t
+    );
+    lingua:conclusion (lingua:graph
+        ((_:b :package _:p) :unpack _:f)
+    );
+    lingua:premise (lingua:graph
+        (_:p list:member (_:a :content _:c))
+        (_:p list:member (_:a :usable_until _:t))
+        ((:tomorrow :next_week) list:member _:t)
+        (_:c :unpackLott _:f)
+    ).
+
+:unpack_rule4 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+        _:a
+        _:c
+        _:t
+    );
+    lingua:conclusion (lingua:graph
+        ((_:b :package _:p) :unpack ())
+    );
+    lingua:premise (lingua:graph
+        (_:p list:member (_:a :content _:c))
+        (_:p list:member (_:a :usable_until _:t))
+        ((:yesterday :last_week) list:member _:t)
+    ).
+
+:unpack_rule5 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+    );
+    lingua:conclusion (lingua:graph
+        ((_:b :tag _:p) :unpack ())
+    );
+    lingua:premise (lingua:graph).
+
+:unpack_rule6 a lingua:BackwardRule;
+    lingua:vars (
+        _:g
+        _:a
+        _:p
+        _:b
+        _:q
+    );
+    lingua:conclusion (lingua:graph
+        (_:g :unpack (_:g))
+    );
+    lingua:premise (lingua:graph
+        ((_:g) list:notMember (_:a :package _:p))
+        ((_:g) list:notMember (_:b :tag _:q))
+    ).
+
+# unpack the triples that are usable in the future
+:unpack_query a lingua:QueryRule;
+    lingua:vars (
+        _:b
+        _:g
+        _:m
+    );
+    lingua:premise (lingua:graph
+        (_:b :data _:g)
+        (_:g :unpackLott _:m)
+    );
+    lingua:conclusion _:m.

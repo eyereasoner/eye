@@ -1,0 +1,82 @@
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# saying A means saying C
+:negation_predicates_rule1 a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S :saying :A)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :saying :C)
+    ).
+
+:negation_predicates_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S :not_saying :C)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :not_saying :A)
+    ).
+
+# saying B means saying C
+:negation_predicates_rule3 a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S :saying :B)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :saying :C)
+    ).
+
+:negation_predicates_rule4 a lingua:ForwardRule;
+    lingua:premise (lingua:graph
+        (_:S :not_saying :C)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :not_saying :B)
+    ).
+
+# saying A or saying B
+:negation_predicates_rule5 a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S :not_saying :A)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :saying :B)
+    ).
+
+:negation_predicates_rule6 a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S :not_saying :B)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S :saying :A)
+    ).
+
+# assuming the negation of the query so that
+# it can be discharged when the query succeeds
+:alice :not_saying :C.
+
+# query
+:negation_predicates_query a lingua:QueryRule;
+    lingua:vars ();
+    lingua:premise (lingua:graph
+        (:alice :saying :C)
+    );
+    lingua:conclusion (lingua:graph
+        (:alice :saying :C)
+    ).

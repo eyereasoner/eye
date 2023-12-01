@@ -1,0 +1,63 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# \Every x: type(x, Resource)
+:universal_statements_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+    );
+    lingua:conclusion (lingua:graph
+        (_:X rdf:type rdfs:Resource)
+    );
+    lingua:premise (lingua:graph).
+
+# Everybody loves somebody who is lonely
+:universal_statements_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+    );
+    lingua:conclusion (lingua:graph
+        (_:A :loves _:B)
+    );
+    lingua:premise (lingua:graph
+        ((_:A) log:skolem _:B)
+    ).
+
+:universal_statements_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:B
+        _:A
+    );
+    lingua:conclusion (lingua:graph
+        (_:B :is :lonely)
+    );
+    lingua:premise (lingua:graph
+        ((_:A) log:skolem _:B)
+    ).
+
+# queries
+:universal_statements_query1 a lingua:QueryRule;
+    lingua:vars ();
+    lingua:premise (lingua:graph
+        (:pat rdf:type rdfs:Resource)
+    );
+    lingua:conclusion (lingua:graph
+        (:pat rdf:type rdfs:Resource)
+    ).
+
+:universal_statements_query2 a lingua:QueryRule;
+    lingua:vars (
+        _:X
+    );
+    lingua:premise (lingua:graph
+        (:bob :loves _:X)
+        (_:X :is :lonely)
+    );
+    lingua:conclusion (lingua:graph
+        (:bob :loves _:X)
+        (_:X :is :lonely)
+    ).

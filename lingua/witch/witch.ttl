@@ -1,0 +1,76 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x)
+:witch_rule1 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
+    lingua:premise (lingua:graph
+        (_:X rdf:type :BURNS)
+        (_:X rdf:type :WOMAN)
+    );
+    lingua:conclusion (lingua:graph
+        (_:X rdf:type :WITCH)
+    ).
+
+# WOMAN(GIRL)
+:GIRL a :WOMAN.
+
+# \forall x : ISMADEOFWOOD(x) => BURNS(x)
+:witch_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
+    lingua:premise (lingua:graph
+        (_:X rdf:type :ISMADEOFWOOD)
+    );
+    lingua:conclusion (lingua:graph
+        (_:X rdf:type :BURNS)
+    ).
+
+# \forall x : FLOATS(x) => ISMADEOFWOOD(x)
+:witch_rule3 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
+    lingua:premise (lingua:graph
+        (_:X rdf:type :FLOATS)
+    );
+    lingua:conclusion (lingua:graph
+        (_:X rdf:type :ISMADEOFWOOD)
+    ).
+
+# FLOATS(DUCK)
+:DUCK a :FLOATS.
+
+# \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
+:witch_rule4 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+    );
+    lingua:premise (lingua:graph
+        (_:X rdf:type :FLOATS)
+        (_:X :SAMEWEIGHT _:Y)
+    );
+    lingua:conclusion (lingua:graph
+        (_:Y rdf:type :FLOATS)
+    ).
+
+# and, by experiment
+# SAMEWEIGHT(DUCK,GIRL)
+:DUCK :SAMEWEIGHT :GIRL.
+
+# who's a witch?
+:witch_query a lingua:QueryRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S rdf:type :WITCH)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S rdf:type :WITCH)
+    ).

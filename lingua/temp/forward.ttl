@@ -1,0 +1,30 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# facts
+:Socrates a :Human.
+
+# humans are mortal
+:forward_rule a lingua:ForwardRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S rdf:type :Human)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S rdf:type :Mortal)
+    ).
+
+# query
+:forward_query a lingua:QueryRule;
+    lingua:vars (
+        _:S
+    );
+    lingua:premise (lingua:graph
+        (_:S rdf:type :Mortal)
+    );
+    lingua:conclusion (lingua:graph
+        (_:S rdf:type :Mortal)
+    ).

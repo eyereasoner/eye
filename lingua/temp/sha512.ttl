@@ -1,0 +1,19 @@
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+:Let :param "hello world".
+
+# query
+:sha512_query a lingua:QueryRule;
+    lingua:vars (
+        _:X
+        _:Y
+    );
+    lingua:premise (lingua:graph
+        (:Let :param _:X)
+        (_:X crypto:sha512 _:Y)
+    );
+    lingua:conclusion (lingua:graph
+        (() :sha512 (_:X _:Y))
+    ).

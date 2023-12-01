@@ -1,0 +1,103 @@
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# add
+:peano_add_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+    );
+    lingua:conclusion (lingua:graph
+        ((_:A 0) :add _:A)
+    );
+    lingua:premise (lingua:graph).
+
+:peano_add_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+    );
+    lingua:premise (lingua:graph
+        ((_:A _:B) :add _:C)
+    );
+    lingua:conclusion (lingua:graph
+        ((_:A (:s _:B)) :add (:s _:C))
+    ).
+
+# multiply
+:peano_multiply_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+    );
+    lingua:conclusion (lingua:graph
+        ((_:A 0) :multiply 0)
+    );
+    lingua:premise (lingua:graph).
+
+:peano_multiply_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+    );
+    lingua:conclusion (lingua:graph
+        ((_:A (:s _:B)) :multiply _:C)
+    );
+    lingua:premise (lingua:graph
+        ((_:A _:B) :multiply _:D)
+        ((_:A _:D) :add _:C)
+    ).
+
+# factorial
+:peano_factorial_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+    );
+    lingua:conclusion (lingua:graph
+        (_:A :factorial _:B)
+    );
+    lingua:premise (lingua:graph
+        ((_:A (:s 0)) :fac _:B)
+    ).
+
+:peano_factorial_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+    );
+    lingua:conclusion (lingua:graph
+        ((0 _:A) :fac _:A)
+    );
+    lingua:premise (lingua:graph).
+
+:peano_factorial_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+    );
+    lingua:conclusion (lingua:graph
+        (((:s _:A) _:B) :fac _:C)
+    );
+    lingua:premise (lingua:graph
+        ((_:B (:s _:A)) :multiply _:D)
+        ((_:A _:D) :fac _:C)
+    ).
+
+# query
+:peano_query a lingua:QueryRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+    );
+    lingua:premise (lingua:graph
+        (((:s 0) (:s 0)) :add _:A)
+        ((_:A (:s (:s 0))) :multiply _:B)
+        (_:B :factorial _:C)
+    );
+    lingua:conclusion (lingua:graph
+        (:result :is _:C)
+    ).
