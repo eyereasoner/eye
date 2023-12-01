@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.0 (2023-11-30)').
+version_info('EYE v9.0.1 (2023-12-01)').
 
 license_info('MIT License
 
@@ -2254,8 +2254,7 @@ objecttail(_, _, []) -->
 pathitem(Name, []) -->
     symbol(S),
     !,
-    {   (   qevar(S, N, D),
-            \+quvar(S, _, _)
+    {   (   qevar(S, N, D)
         ->  (   D = 1,
                 nb_getval(fdepth, FD),
                 FD >= D,
