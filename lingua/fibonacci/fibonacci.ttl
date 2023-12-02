@@ -8,10 +8,10 @@
         _:X
         _:Y
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:X :fibonacci _:Y)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:X 0 1) :fib _:Y)
     ).
 
@@ -20,20 +20,20 @@
         _:A
         _:B
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((0 _:A _:B) :fib _:A)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :fibonacci_rule3 a lingua:BackwardRule;
     lingua:vars (
         _:A
         _:B
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((1 _:A _:B) :fib _:B)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :fibonacci_rule4 a lingua:BackwardRule;
     lingua:vars (
@@ -44,10 +44,10 @@
         _:C
         _:D
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:X _:A _:B) :fib _:Y)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:X math:greaterThan 1)
         ((_:X 1) math:difference _:C)
         ((_:A _:B) math:sum _:D)
@@ -63,14 +63,14 @@
         _:F4
         _:F5
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (0 :fibonacci _:F1)
         (1 :fibonacci _:F2)
         (6 :fibonacci _:F3)
         (91 :fibonacci _:F4)
         (283 :fibonacci _:F5)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (() :fibonacci (0 _:F1))
         (() :fibonacci (1 _:F2))
         (() :fibonacci (6 _:F3))

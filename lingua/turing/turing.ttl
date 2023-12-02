@@ -10,10 +10,10 @@
         _:Machine
         _:I
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (() :compute _:OutTape)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Machine :start _:I)
         ((_:I () "#" ()) :find _:OutTape)
     ).
@@ -27,10 +27,10 @@
         _:Machine
         _:I
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:List :compute _:OutTape)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:Machine :start _:I)
         ((_:I () _:Head _:Tail) :find _:OutTape)
@@ -50,10 +50,10 @@
         _:B
         _:C
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:State _:Left _:Cell _:Right) :find _:OutTape)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:State _:Cell _:Write _:Move) :tape _:Next)
         ((_:Move _:Left _:Write _:Right _:A _:B _:C) :move true)
         ((_:Next _:A _:B _:C) :continue _:OutTape)
@@ -68,10 +68,10 @@
         _:R
         _:List
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:halt _:Left _:Cell _:Right) :continue _:OutTape)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Left :reverse _:R)
         (_:List list:firstRest (_:Cell _:Right))
         ((_:R _:List) list:append _:OutTape)
@@ -85,10 +85,10 @@
         _:Right
         _:OutTape
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:State _:Left _:Cell _:Right) :continue _:OutTape)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:State _:Left _:Cell _:Right) :find _:OutTape)
     ).
 
@@ -98,10 +98,10 @@
         _:Right
         _:L
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:left () _:Cell _:Right () "#" _:L) :move true)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:L list:firstRest (_:Cell _:Right))
     ).
 
@@ -114,10 +114,10 @@
         _:Head
         _:L
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:L list:firstRest (_:Cell _:Right))
     ).
@@ -128,10 +128,10 @@
         _:Cell
         _:Right
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :turing_rule9 a lingua:BackwardRule;
     lingua:vars (
@@ -139,10 +139,10 @@
         _:Cell
         _:L
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:right _:Left _:Cell () _:L "#" ()) :move true)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:L list:firstRest (_:Cell _:Left))
     ).
 
@@ -155,20 +155,20 @@
         _:Head
         _:Tail
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:L list:firstRest (_:Cell _:Left))
     ).
 
 :turing_rule11 a lingua:BackwardRule;
     lingua:vars ();
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (() :reverse ())
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :turing_rule12 a lingua:BackwardRule;
     lingua:vars (
@@ -178,10 +178,10 @@
         _:Tail
         _:R
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:List :reverse _:Reverse)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:List list:firstRest (_:Head _:Tail))
         (_:Tail :reverse _:R)
         ((_:R (_:Head)) list:append _:Reverse)
@@ -205,13 +205,13 @@
         _:A3
         _:A4
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((1 0 1 0 0 1) :compute _:A1)
         ((1 0 1 1 1 1) :compute _:A2)
         ((1 1 1 1 1 1) :compute _:A3)
         (() :compute _:A4)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((1 0 1 0 0 1) :compute _:A1)
         ((1 0 1 1 1 1) :compute _:A2)
         ((1 1 1 1 1 1) :compute _:A3)

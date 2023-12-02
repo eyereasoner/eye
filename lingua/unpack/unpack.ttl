@@ -32,10 +32,10 @@ _:b1 :data (
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
     lingua:vars ();
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (() :unpackLott ())
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :unpack_rule2 a lingua:BackwardRule;
     lingua:vars (
@@ -46,10 +46,10 @@ _:b1 :data (
         _:a
         _:b
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:g :unpackLott _:h)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:g list:firstRest (_:f _:r))
         (_:f :unpack _:a)
         (_:r :unpackLott _:b)
@@ -65,10 +65,10 @@ _:b1 :data (
         _:c
         _:t
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:b :package _:p) :unpack _:f)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:p list:member (_:a :content _:c))
         (_:p list:member (_:a :usable_until _:t))
         ((:tomorrow :next_week) list:member _:t)
@@ -83,10 +83,10 @@ _:b1 :data (
         _:c
         _:t
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:b :package _:p) :unpack ())
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:p list:member (_:a :content _:c))
         (_:p list:member (_:a :usable_until _:t))
         ((:yesterday :last_week) list:member _:t)
@@ -97,10 +97,10 @@ _:b1 :data (
         _:b
         _:p
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:b :tag _:p) :unpack ())
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :unpack_rule6 a lingua:BackwardRule;
     lingua:vars (
@@ -110,10 +110,10 @@ _:b1 :data (
         _:b
         _:q
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:g :unpack (_:g))
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:g) list:notMember (_:a :package _:p))
         ((_:g) list:notMember (_:b :tag _:q))
     ).
@@ -125,7 +125,7 @@ _:b1 :data (
         _:g
         _:m
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:b :data _:g)
         (_:g :unpackLott _:m)
     );

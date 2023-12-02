@@ -15,10 +15,10 @@
         _:M1
         _:M2
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:N _:X _:Y _:Z) :moves _:M)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:N math:greaterThan 1)
         ((_:N 1) math:difference _:N1)
         ((_:N1 _:X _:Z _:Y) :moves _:M1)
@@ -32,19 +32,19 @@
         _:Y
         _:Z
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((1 _:X _:Y _:Z) :moves ((_:X _:Y)))
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 # query
 :hanoi_query a lingua:QueryRule;
     lingua:vars (
         _:M
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((7 :left :right :center) :moves _:M)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((7 :left :right :center) :moves _:M)
     ).

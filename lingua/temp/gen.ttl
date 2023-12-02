@@ -5,8 +5,8 @@
 
 :gen_rule a lingua:ForwardRule;
     lingua:vars ();
-    lingua:premise (lingua:graph);
-    lingua:conclusion (lingua:graph
+    lingua:premise ();
+    lingua:conclusion (
         (:Socrates rdf:type :Human)
         (:Human rdfs:subClassOf :Mortal)
         (:rdfs_subclass_rule rdf:type lingua:ForwardRule)
@@ -15,21 +15,21 @@
             _:B
             _:S
         ))
-        (:rdfs_subclass_rule lingua:premise (lingua:graph
+        (:rdfs_subclass_rule lingua:premise (
             (_:A rdfs:subClassOf _:B)
             (_:S rdf:type _:A)
         ))
-        (:rdfs_subclass_rule lingua:conclusion (lingua:graph
+        (:rdfs_subclass_rule lingua:conclusion (
             (_:S rdf:type _:B)
         ))
         (:socrates_query rdf:type lingua:QueryRule)
         (:socrates_query lingua:vars (
             _:S
         ))
-        (:socrates_query lingua:premise (lingua:graph
+        (:socrates_query lingua:premise (
             (_:S rdf:type :Mortal)
         ))
-        (:socrates_query lingua:conclusion (lingua:graph
+        (:socrates_query lingua:conclusion (
             (_:S rdf:type :Mortal)
         ))
     ).

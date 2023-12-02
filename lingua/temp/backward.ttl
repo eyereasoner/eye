@@ -9,19 +9,19 @@
         _:X
         _:Y
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:X :moreInterestingThan _:Y)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:X math:greaterThan _:Y)
     ).
 
 # query
 :backward_query a lingua:QueryRule;
     lingua:vars ();
-    lingua:premise (lingua:graph
+    lingua:premise (
         (5 :moreInterestingThan 3)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:result :is (5 :moreInterestingThan 3))
     ).

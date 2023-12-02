@@ -6,10 +6,10 @@
     lingua:vars (
         _:A
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:A 0) :add _:A)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :peano_add_rule2 a lingua:BackwardRule;
     lingua:vars (
@@ -17,10 +17,10 @@
         _:B
         _:C
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:A _:B) :add _:C)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:A (:s _:B)) :add (:s _:C))
     ).
 
@@ -29,10 +29,10 @@
     lingua:vars (
         _:A
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:A 0) :multiply 0)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :peano_multiply_rule2 a lingua:BackwardRule;
     lingua:vars (
@@ -41,10 +41,10 @@
         _:C
         _:D
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((_:A (:s _:B)) :multiply _:C)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:A _:B) :multiply _:D)
         ((_:A _:D) :add _:C)
     ).
@@ -55,10 +55,10 @@
         _:A
         _:B
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:A :factorial _:B)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:A (:s 0)) :fac _:B)
     ).
 
@@ -66,10 +66,10 @@
     lingua:vars (
         _:A
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         ((0 _:A) :fac _:A)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 :peano_factorial_rule3 a lingua:BackwardRule;
     lingua:vars (
@@ -78,10 +78,10 @@
         _:C
         _:D
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (((:s _:A) _:B) :fac _:C)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:B (:s _:A)) :multiply _:D)
         ((_:A _:D) :fac _:C)
     ).
@@ -93,11 +93,11 @@
         _:B
         _:C
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (((:s 0) (:s 0)) :add _:A)
         ((_:A (:s (:s 0))) :multiply _:B)
         (_:B :factorial _:C)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:result :is _:C)
     ).

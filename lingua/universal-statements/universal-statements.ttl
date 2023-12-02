@@ -9,10 +9,10 @@
     lingua:vars (
         _:X
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:X rdf:type rdfs:Resource)
     );
-    lingua:premise (lingua:graph).
+    lingua:premise ().
 
 # Everybody loves somebody who is lonely
 :universal_statements_rule2 a lingua:BackwardRule;
@@ -20,10 +20,10 @@
         _:A
         _:B
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:A :loves _:B)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:A) log:skolem _:B)
     ).
 
@@ -32,20 +32,20 @@
         _:B
         _:A
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:B :is :lonely)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         ((_:A) log:skolem _:B)
     ).
 
 # queries
 :universal_statements_query1 a lingua:QueryRule;
     lingua:vars ();
-    lingua:premise (lingua:graph
+    lingua:premise (
         (:pat rdf:type rdfs:Resource)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:pat rdf:type rdfs:Resource)
     ).
 
@@ -53,11 +53,11 @@
     lingua:vars (
         _:X
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (:bob :loves _:X)
         (_:X :is :lonely)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:bob :loves _:X)
         (_:X :is :lonely)
     ).

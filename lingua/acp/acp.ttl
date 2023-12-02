@@ -21,10 +21,10 @@
         _:Field
         _:X
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:Pol :pass :allOfTest)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Test :policy _:Pol)
         (_:Pol rdf:type :Policy)
         ((((_:Pol :allOf _:Field)) ((_:Test :has _:Field))) log:forAllIn _:X)
@@ -38,10 +38,10 @@
         _:List
         _:X
         _:L
-    );lingua:conclusion (lingua:graph
+    );lingua:conclusion (
         (_:Pol :pass :anyOfTest)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Test :policy _:Pol)
         (_:Pol rdf:type :Policy)
         ((_:Field ((_:Pol :anyOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
@@ -58,10 +58,10 @@
         _:X
         _:L
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:Pol :pass :noneOfTest)
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Test :policy _:Pol)
         (_:Pol rdf:type :Policy)
         ((_:Field ((_:Pol :noneOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
@@ -74,13 +74,13 @@
     lingua:vars (
         _:Pol
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:Pol rdf:type :Policy)
         (_:Pol :pass :allOfTest)
         (_:Pol :pass :anyOfTest)
         (_:Pol :pass :noneOfTest)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:test :for _:Pol)
         (:test :is true)
     ).

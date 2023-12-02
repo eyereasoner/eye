@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.4 (2023-12-02)').
+version_info('EYE v9.0.5 (2023-12-02)').
 
 license_info('MIT License
 
@@ -4769,7 +4769,7 @@ wg(X) :-
             )
         )
     ->  (   flag(lingua)
-        ->  write('(<http://www.w3.org/2000/10/swap/lingua#graph>')
+        ->  write('(')
         ;   write('{')
         ),
         indentation(4),
@@ -12357,7 +12357,8 @@ getlist(A, [B|C]) :-
 getterm(A, A) :-
     var(A),
     !.
-getterm(['<http://www.w3.org/2000/10/swap/lingua#graph>'|A], B) :-
+getterm(A, B) :-
+    is_lott(A),
     !,
     findall(_,
         (   member([D, E, F], A),
@@ -12367,15 +12368,14 @@ getterm(['<http://www.w3.org/2000/10/swap/lingua#graph>'|A], B) :-
         ),
         _
     ),
-    findall(T,
+    findall([D, E, F],
         (   member([G, E, H], A),
             E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
             E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
             getterm(G, D),
-            getterm(H, F),
-            T =.. [E, D, F]
+            getterm(H, F)
         ),
-        L
+        B
     ),
     findall(_,
         (   member([D, E, F], A),
@@ -12384,8 +12384,7 @@ getterm(['<http://www.w3.org/2000/10/swap/lingua#graph>'|A], B) :-
             retract(Z)
         ),
         _
-    ),
-    conj_list(B, L).
+    ).
 getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-

@@ -6,10 +6,10 @@
     lingua:vars (
         _:S
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :saying :A)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :saying :C)
     ).
 
@@ -17,10 +17,10 @@
     lingua:vars (
         _:S
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :not_saying :C)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :not_saying :A)
     ).
 
@@ -29,18 +29,18 @@
     lingua:vars (
         _:S
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :saying :B)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :saying :C)
     ).
 
 :negation_predicates_rule4 a lingua:ForwardRule;
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :not_saying :C)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :not_saying :B)
     ).
 
@@ -49,10 +49,10 @@
     lingua:vars (
         _:S
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :not_saying :A)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :saying :B)
     ).
 
@@ -60,10 +60,10 @@
     lingua:vars (
         _:S
     );
-    lingua:premise (lingua:graph
+    lingua:premise (
         (_:S :not_saying :B)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (_:S :saying :A)
     ).
 
@@ -74,9 +74,9 @@
 # query
 :negation_predicates_query a lingua:QueryRule;
     lingua:vars ();
-    lingua:premise (lingua:graph
+    lingua:premise (
         (:alice :saying :C)
     );
-    lingua:conclusion (lingua:graph
+    lingua:conclusion (
         (:alice :saying :C)
     ).
