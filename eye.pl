@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.5 (2023-12-02)').
+version_info('EYE v9.0.6 (2023-12-03)').
 
 license_info('MIT License
 
@@ -77,7 +77,6 @@ eye
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
-    --rdf-list-input                input lists as RDF lists
     --rdf-list-output               output lists as RDF lists
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
@@ -721,7 +720,8 @@ blogic :-
     % simplify positive surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -734,25 +734,28 @@ blogic :-
             conj_list(Fc, B),
             findvars(Hc, R, beta),
             intersection(Z, R, X),
-            append(V, X, U)
+            append(Vl, X, U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, Fc), '<>')),
     % simplify negative surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
-            is_list(Z),
+            getlist(Z, Zl),
+            is_list(Zl),
             getconj(H, Hc),
             is_graph(Hc),
             Hc \= triple(_, _, _),
             conj_list(Hc, M),
             list_to_set(M, T),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
-            is_list(W),
+            getlist(W, Wl),
+            is_list(Wl),
             getconj(O, Oc),
             is_graph(Oc),
             (   conj_list(Oc, D),
@@ -764,15 +767,16 @@ blogic :-
                 conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
             ),
             findvars(Hc, R, beta),
-            intersection(Z, R, X),
+            intersection(Zl, R, X),
             findvars(Oc, S, beta),
-            intersection(W, S, Y),
-            append([V, X, Y], U)
+            intersection(Wl, S, Y),
+            append([Vl, X, Y], U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
     % resolve negative surfaces
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -789,7 +793,8 @@ blogic :-
             length(B, D),
             memberchk(E, [0, 2, D]),
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
-            is_list(W),
+            getlist(W, Wl),
+            is_list(Wl),
             getconj(F, Fc),
             is_graph(Fc),
             conj_list(Fc, K),
@@ -798,13 +803,14 @@ blogic :-
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
             \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), N),
             length(N, 2),
-            makevars(N, J, beta(W)),
+            makevars(N, J, beta(Wl)),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
-            is_list(U),
+            getlist(U, Ul),
+            is_list(Ul),
             getconj(C, Cc),
             is_graph(Cc),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
-                M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)|A],
+                M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Ul, C)|A],
                 getconj(Q, Qc),
                 conj_list(Qc, R),
                 memberchk(P, R)
@@ -815,12 +821,13 @@ blogic :-
             ),
             list_to_set(M, T),
             conj_list(H, T),
-            ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H))
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
+            ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H))
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<>')),
     % create forward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -830,7 +837,7 @@ blogic :-
             H \= triple(_, _, _),
             conj_list(R, K),
             find_graffiti(K, D),
-            append(V, D, U),
+            append(Vl, D, U),
             makevars([R, H], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
@@ -838,7 +845,8 @@ blogic :-
     % create contrapositive rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -856,14 +864,14 @@ blogic :-
             conj_list(T, J),
             findvars(R, N, beta),
             findall(A,
-                (   member(A, V),
+                (   member(A, Vl),
                     \+member(A, N)
                 ),
                 Z
             ),
             E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
             find_graffiti([R], D),
-            append(V, D, U),
+            append(Vl, D, U),
             makevars([R, E], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
@@ -871,7 +879,8 @@ blogic :-
     % create backward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -888,7 +897,7 @@ blogic :-
             conj_list(R, K),
             conjify(R, S),
             find_graffiti([R], D),
-            append(V, D, U),
+            append(Vl, D, U),
             makevars(':-'(Tt, S), C, beta(U)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -901,7 +910,8 @@ blogic :-
     % create answer rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
+            getlist(V, Vl),
+            is_list(Vl),
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, L),
@@ -910,7 +920,7 @@ blogic :-
             conj_list(I, K),
             djiti_answer(answer(H), J),
             find_graffiti(K, D),
-            append(V, D, U),
+            append(Vl, D, U),
             makevars(implies(I, J, '<>'), C, beta(U)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -923,8 +933,9 @@ blogic :-
     % convert universal statement
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-            is_list(V),
-            V \= [],
+            getlist(V, Vl),
+            is_list(Vl),
+            Vl \= [],
             getconj(G, Gc),
             is_graph(Gc),
             conj_list(Gc, [Gc]),
@@ -938,13 +949,13 @@ blogic :-
             intersection(Z, R, X),
             conj_list(Hc, B),
             member(M, B),
-            findall('<http://www.w3.org/2000/10/swap/log#skolem>'(V, W),
+            findall('<http://www.w3.org/2000/10/swap/log#skolem>'(Vl, W),
                 (   member(W, X)
                 ),
                 Y
             ),
             conj_list(S, Y),
-            append(V, X, U),
+            append(Vl, X, U),
             makevars(':-'(M, S), C, beta(U)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -971,14 +982,15 @@ blogic :-
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             call((
-                is_list(V),
+                getlist(V, Vl),
+                is_list(Vl),
                 getconj(G, Gc),
                 is_graph(Gc),
                 conj_list(Gc, L),
                 \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), L),
-                makevars(Gc, H, beta(V)),
+                makevars(Gc, H, beta(Vl)),
                 (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                     J = true
                 ;   catch(call(H), _, false),
@@ -1174,11 +1186,6 @@ opts(['--no-bnode-relabeling'|Argus], Args) :-
     !,
     retractall(flag('no-bnode-relabeling')),
     assertz(flag('no-bnode-relabeling')),
-    opts(Argus, Args).
-opts(['--rdf-list-input'|Argus], Args) :-
-    !,
-    retractall(flag('rdf-list-input')),
-    assertz(flag('rdf-list-input')),
     opts(Argus, Args).
 opts(['--rdf-list-output'|Argus], Args) :-
     !,
@@ -2451,17 +2458,8 @@ pathitem(Node, Triples) -->
         )
     },
     propertylist(BN, T),
-    {   (   \+flag('rdf-list-input'),
-            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), T),
-            memberchk('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), T),
-            del(T, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>\''(X, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#List>\''), U),
-            del(U, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\''(X, Head), V),
-            del(V, '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>\''(X, Tail), W)
-        ->  Node = [Head|Tail],
-            Triples = W
-        ;   Node = BN,
-            Triples = T
-        )
+    {   Node = BN,
+        Triples = T
     },
     [']'].
 pathitem(set(Distinct), Triples) -->
@@ -12351,8 +12349,24 @@ getlist([A|B], [A|D]) :-
     getlist(B, D).
 getlist(A, [B|C]) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B),
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D),
-    getlist(D, C).
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B2),
+        B2 \= B
+    ->  throw(malformed_list_extra_first(A, B, B2))
+    ;   true
+    ),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D),
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D2),
+            D2 \= D
+        ->  throw(malformed_list_extra_rest(A, D, D2))
+        ;   true
+        )
+    ->  true
+    ;   throw(malformed_list_no_rest(A))
+    ),
+    (   getlist(D, C)
+    ->  true
+    ;   throw(malformed_list_invalid_rest(D))
+    ).
 
 getterm(A, A) :-
     var(A),
@@ -12395,10 +12409,27 @@ getterm([A|B], [C|D]) :-
     getterm(B, D).
 getterm(A, [B|C]) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D2),
+        D2 \= D
+    ->  throw(malformed_list_extra_first(A, D, D2))
+    ;   true
+    ),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E2),
+            E2 \= E
+        ->  throw(malformed_list_extra_rest(A, E, E2))
+        ;   true
+        )
+    ->  true
+    ;   throw(malformed_list_no_rest(A))
+    ),
     !,
     getterm(D, B),
-    getterm(E, C).
+    (   getterm(E, C),
+        is_list(C)
+    ->  true
+    ;   throw(malformed_list_invalid_rest(E))
+    ).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
