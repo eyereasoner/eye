@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.7 (2023-12-06)').
+version_info('EYE v9.0.8 (2023-12-06)').
 
 license_info('MIT License
 
@@ -712,6 +712,21 @@ lingua :-
 %
 
 blogic :-
+    % create terms
+    (   pred(P),
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+        X =.. [P, _, _],
+        call(X),
+        getterm(X, Y),
+        (   Y = X
+        ->  true
+        ;   retract(X),
+            assertz(Y)
+        ),
+        fail
+    ;   true
+    ),
     % assert positive surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G),
@@ -835,10 +850,11 @@ blogic :-
             \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), B, K),
             H \= triple(_, _, _),
+            getconj(H, Hc),
             conj_list(R, K),
             find_graffiti(K, D),
             append(Vl, D, U),
-            makevars([R, H], [Q, S], beta(U)),
+            makevars([R, Hc], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -918,7 +934,8 @@ blogic :-
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, H), B, K),
             conj_list(I, K),
-            djiti_answer(answer(H), J),
+            getconj(H, Hc),
+            djiti_answer(answer(Hc), J),
             find_graffiti(K, D),
             append(Vl, D, U),
             makevars(implies(I, J, '<>'), C, beta(U)),
