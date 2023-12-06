@@ -7,7 +7,7 @@
         _:A
     );
     lingua:conclusion (
-        ((_:A 0) :add _:A)
+        (_:A 0) :add _:A
     );
     lingua:premise ().
 
@@ -18,10 +18,10 @@
         _:C
     );
     lingua:premise (
-        ((_:A _:B) :add _:C)
+        (_:A _:B) :add _:C
     );
     lingua:conclusion (
-        ((_:A (:s _:B)) :add (:s _:C))
+        (_:A (:s _:B)) :add (:s _:C)
     ).
 
 # multiply
@@ -30,7 +30,7 @@
         _:A
     );
     lingua:conclusion (
-        ((_:A 0) :multiply 0)
+        (_:A 0) :multiply 0
     );
     lingua:premise ().
 
@@ -42,11 +42,11 @@
         _:D
     );
     lingua:conclusion (
-        ((_:A (:s _:B)) :multiply _:C)
+        (_:A (:s _:B)) :multiply _:C
     );
     lingua:premise (
-        ((_:A _:B) :multiply _:D)
-        ((_:A _:D) :add _:C)
+        (_:A _:B) :multiply _:D
+        (_:A _:D) :add _:C
     ).
 
 # factorial
@@ -56,10 +56,10 @@
         _:B
     );
     lingua:conclusion (
-        (_:A :factorial _:B)
+        _:A :factorial _:B
     );
     lingua:premise (
-        ((_:A (:s 0)) :fac _:B)
+        (_:A (:s 0)) :fac _:B
     ).
 
 :peano_factorial_rule2 a lingua:BackwardRule;
@@ -67,7 +67,7 @@
         _:A
     );
     lingua:conclusion (
-        ((0 _:A) :fac _:A)
+        (0 _:A) :fac _:A
     );
     lingua:premise ().
 
@@ -79,11 +79,11 @@
         _:D
     );
     lingua:conclusion (
-        (((:s _:A) _:B) :fac _:C)
+        ((:s _:A) _:B) :fac _:C
     );
     lingua:premise (
-        ((_:B (:s _:A)) :multiply _:D)
-        ((_:A _:D) :fac _:C)
+        (_:B (:s _:A)) :multiply _:D
+        (_:A _:D) :fac _:C
     ).
 
 # query
@@ -94,10 +94,10 @@
         _:C
     );
     lingua:premise (
-        (((:s 0) (:s 0)) :add _:A)
-        ((_:A (:s (:s 0))) :multiply _:B)
-        (_:B :factorial _:C)
+        ((:s 0) (:s 0)) :add _:A
+        (_:A (:s (:s 0))) :multiply _:B
+        _:B :factorial _:C
     );
     lingua:conclusion (
-        (:result :is _:C)
+        :result :is _:C
     ).

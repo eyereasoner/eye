@@ -4,13 +4,13 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix : <http://example.org/ns#>.
 
-# \Every x: type(x, Resource)
+# \Every x: type(x, Resource
 :universal_statements_rule1 a lingua:BackwardRule;
     lingua:vars (
         _:X
     );
     lingua:conclusion (
-        (_:X rdf:type rdfs:Resource)
+        _:X rdf:type rdfs:Resource
     );
     lingua:premise ().
 
@@ -21,10 +21,10 @@
         _:B
     );
     lingua:conclusion (
-        (_:A :loves _:B)
+        _:A :loves _:B
     );
     lingua:premise (
-        ((_:A) log:skolem _:B)
+        (_:A) log:skolem _:B
     ).
 
 :universal_statements_rule3 a lingua:BackwardRule;
@@ -33,20 +33,20 @@
         _:A
     );
     lingua:conclusion (
-        (_:B :is :lonely)
+        _:B :is :lonely
     );
     lingua:premise (
-        ((_:A) log:skolem _:B)
+        (_:A) log:skolem _:B
     ).
 
 # queries
 :universal_statements_query1 a lingua:QueryRule;
     lingua:vars ();
     lingua:premise (
-        (:pat rdf:type rdfs:Resource)
+        :pat rdf:type rdfs:Resource
     );
     lingua:conclusion (
-        (:pat rdf:type rdfs:Resource)
+        :pat rdf:type rdfs:Resource
     ).
 
 :universal_statements_query2 a lingua:QueryRule;
@@ -54,10 +54,10 @@
         _:X
     );
     lingua:premise (
-        (:bob :loves _:X)
-        (_:X :is :lonely)
+        :bob :loves _:X
+        _:X :is :lonely
     );
     lingua:conclusion (
-        (:bob :loves _:X)
-        (_:X :is :lonely)
+        :bob :loves _:X
+        _:X :is :lonely
     ).

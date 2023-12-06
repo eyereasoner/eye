@@ -38,7 +38,7 @@
 :places_rule1 a lingua:BackwardRule;
     lingua:vars ();
     lingua:conclusion (
-        (() :places true)
+        () :places true
     );
     lingua:premise ().
 
@@ -53,17 +53,21 @@
         _:SCOPE
     );
     lingua:conclusion (
-        (_:PLACES :places true)
+        _:PLACES :places true
     );
     lingua:premise (
-        (_:PLACES list:firstRest ((_:PLACE _:COLOR) _:TAIL))
-        (_:TAIL :places true)
-        (_:PLACE :neighbours _:NEIGHBOURS)
-        ((:red :green :blue :yellow) list:member _:COLOR)
-        ((1 (
-                (_:TAIL list:member (_:NEIGHBOUR _:COLOR))
-                (_:NEIGHBOURS list:member _:NEIGHBOUR)
-            ) ()) log:collectAllIn _:SCOPE)
+        _:PLACES list:firstRest ((_:PLACE _:COLOR) _:TAIL)
+        _:TAIL :places true
+        _:PLACE :neighbours _:NEIGHBOURS
+        (:red :green :blue :yellow) list:member _:COLOR
+        (
+            1
+            (
+                _:TAIL list:member (_:NEIGHBOUR _:COLOR)
+                _:NEIGHBOURS list:member _:NEIGHBOUR
+            )
+            ()
+        ) log:collectAllIn _:SCOPE
     ).
 
 # query
@@ -77,10 +81,16 @@
         _:PLACES
     );
     lingua:premise (
-        (((_:PLACE _:COLOR) ((_:PLACE :neighbours _:NEIGHBOURS)) _:LIST) log:collectAllIn _:SCOPE)
-        ((_:LIST) func:reverse _:PLACES)
-        (_:PLACES :places true)
+        (
+            (_:PLACE _:COLOR)
+            (
+                _:PLACE :neighbours _:NEIGHBOURS
+            )
+            _:LIST
+        ) log:collectAllIn _:SCOPE
+        (_:LIST) func:reverse _:PLACES
+        _:PLACES :places true
     );
     lingua:conclusion (
-        (_:PLACES :coloring true)
+        _:PLACES :coloring true
     ).

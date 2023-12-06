@@ -4,37 +4,37 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix : <http://example.org/ns#>.
 
-# |R) = |0, 0) + |1, 1)
+# |R) = |0, 0) + |1, 1
 :FALSE :r :FALSE.
 :TRUE :r :TRUE.
 
-# |S) = |0, 1) + |1, 0)
+# |S) = |0, 1) + |1, 0
 :FALSE :s :TRUE.
 :TRUE :s :FALSE.
 
-# |U) = |0, 0) + |1, 0) + |1, 1)
+# |U) = |0, 0) + |1, 0) + |1, 1
 :FALSE :u :FALSE.
 :TRUE :u :FALSE.
 :TRUE :u :TRUE.
 
-# |V ) = |0, 0) + |0, 1) + |1, 0)
+# |V ) = |0, 0) + |0, 1) + |1, 0
 :FALSE :v :FALSE.
 :FALSE :v :TRUE.
 :TRUE :v :FALSE.
 
-# 1 |0) = |0)
+# 1 |0) = |0
 :FALSE :id :FALSE.
-# 1 |1) = |1)
+# 1 |1) = |1
 :TRUE :id :TRUE.
 
-# G |0) = |1)
+# G |0) = |1
 :FALSE :g :TRUE.
-# G |1) = |0)
+# G |1) = |0
 :TRUE :g :FALSE.
 
-# K |0) = |0)
+# K |0) = |0
 :FALSE :k :FALSE.
-# K |1) = |0) + |1)
+# K |1) = |0) + |1
 :TRUE :k :FALSE.
 :TRUE :k :TRUE.
 
@@ -46,11 +46,11 @@
         _:Z
     );
     lingua:conclusion (
-        (_:X :kg _:Y)
+        _:X :kg _:Y
     );
     lingua:premise (
-        (_:X :g _:Z)
-        (_:Z :k _:Y)
+        _:X :g _:Z
+        _:Z :k _:Y
     ).
 
 # GK
@@ -61,11 +61,11 @@
         _:Z
     );
     lingua:conclusion (
-        (_:X :gk _:Y)
+        _:X :gk _:Y
     );
     lingua:premise (
-        (_:X :k _:Z)
-        (_:Z :g _:Y)
+        _:X :k _:Z
+        _:Z :g _:Y
     ).
 
 # Alice
@@ -75,10 +75,10 @@
         _:Y
     );
     lingua:conclusion (
-        (0 :alice (_:X _:Y))
+        0 :alice (_:X _:Y)
     );
     lingua:premise (
-        (_:X :id _:Y)
+        _:X :id _:Y
     ).
 
 :sdcoding_rule4 a lingua:BackwardRule;
@@ -87,10 +87,10 @@
         _:Y
     );
     lingua:conclusion (
-        (1 :alice (_:X _:Y))
+        1 :alice (_:X _:Y)
     );
     lingua:premise (
-        (_:X :g _:Y)
+        _:X :g _:Y
     ).
 
 :sdcoding_rule5 a lingua:BackwardRule;
@@ -99,10 +99,10 @@
         _:Y
     );
     lingua:conclusion (
-        (2 :alice (_:X _:Y))
+        2 :alice (_:X _:Y)
     );
     lingua:premise (
-        (_:X :k _:Y)
+        _:X :k _:Y
     ).
 
 :sdcoding_rule6 a lingua:BackwardRule;
@@ -111,10 +111,10 @@
         _:Y
     );
     lingua:conclusion (
-        (3 :alice (_:X _:Y))
+        3 :alice (_:X _:Y)
     );
     lingua:premise (
-        (_:X :kg _:Y)
+        _:X :kg _:Y
     ).
 
 # Bob
@@ -124,10 +124,10 @@
         _:Y
     );
     lingua:conclusion (
-        ((_:X _:Y) :bob 0)
+        (_:X _:Y) :bob 0
     );
     lingua:premise (
-        (_:X :gk _:Y)
+        _:X :gk _:Y
     ).
 
 :sdcoding_rule8 a lingua:BackwardRule;
@@ -136,10 +136,10 @@
         _:Y
     );
     lingua:conclusion (
-        ((_:X _:Y) :bob 1)
+        (_:X _:Y) :bob 1
     );
     lingua:premise (
-        (_:X :k _:Y)
+        _:X :k _:Y
     ).
 
 :sdcoding_rule9 a lingua:BackwardRule;
@@ -148,10 +148,10 @@
         _:Y
     );
     lingua:conclusion (
-        ((_:X _:Y) :bob 2)
+        (_:X _:Y) :bob 2
     );
     lingua:premise (
-        (_:X :g _:Y)
+        _:X :g _:Y
     ).
 
 :sdcoding_rule10 a lingua:BackwardRule;
@@ -160,10 +160,10 @@
         _:Y
     );
     lingua:conclusion (
-        ((_:X _:Y) :bob 3)
+        (_:X _:Y) :bob 3
     );
     lingua:premise (
-        (_:X :id _:Y)
+        _:X :id _:Y
     ).
 
 # superdense coding
@@ -181,14 +181,22 @@
         _:I
     );
     lingua:premise (
-        (_:N :alice _:A)
-        (_:B :bob _:M)
-        ((1 ((_:X :r _:Y) (_:N :alice (_:X _:Z)) ((_:Z _:Y) :bob _:M)) _:L) log:collectAllIn _:S)
-        (_:L list:length _:I)
-        ((_:I 2) math:remainder 1)
+        _:N :alice _:A
+        _:B :bob _:M
+        (
+            1
+            (
+                _:X :r _:Y
+                _:N :alice (_:X _:Z)
+                (_:Z _:Y) :bob _:M
+            )
+            _:L
+        ) log:collectAllIn _:S
+        _:L list:length _:I
+        (_:I 2) math:remainder 1
     );
     lingua:conclusion (
-        (_:N :sdcoding _:M)
+        _:N :sdcoding _:M
     ).
 
 # query
@@ -198,8 +206,8 @@
         _:M
     );
     lingua:premise (
-        (_:N :sdcoding _:M)
+        _:N :sdcoding _:M
     );
     lingua:conclusion (
-        (() :sdcoding (_:N _:M))
+        () :sdcoding (_:N _:M)
     ).

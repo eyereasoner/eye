@@ -10,18 +10,18 @@
         _:Y
     );
     lingua:conclusion (
-        (_:X :moreInterestingThan _:Y)
+        _:X :moreInterestingThan _:Y
     );
     lingua:premise (
-        (_:X math:greaterThan _:Y)
+        _:X math:greaterThan _:Y
     ).
 
 # query
 :backward_query a lingua:QueryRule;
     lingua:vars ();
     lingua:premise (
-        (5 :moreInterestingThan 3)
+        5 :moreInterestingThan 3
     );
     lingua:conclusion (
-        (:result :is (5 :moreInterestingThan 3))
+        :result :is (5 :moreInterestingThan 3)
     ).

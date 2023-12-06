@@ -9,10 +9,10 @@
         _:Y
     );
     lingua:conclusion (
-        (_:X :fibonacci _:Y)
+        _:X :fibonacci _:Y
     );
     lingua:premise (
-        ((_:X 0 1) :fib _:Y)
+        (_:X 0 1) :fib _:Y
     ).
 
 :fibonacci_rule2 a lingua:BackwardRule;
@@ -21,7 +21,7 @@
         _:B
     );
     lingua:conclusion (
-        ((0 _:A _:B) :fib _:A)
+        (0 _:A _:B) :fib _:A
     );
     lingua:premise ().
 
@@ -31,7 +31,7 @@
         _:B
     );
     lingua:conclusion (
-        ((1 _:A _:B) :fib _:B)
+        (1 _:A _:B) :fib _:B
     );
     lingua:premise ().
 
@@ -45,13 +45,13 @@
         _:D
     );
     lingua:conclusion (
-        ((_:X _:A _:B) :fib _:Y)
+        (_:X _:A _:B) :fib _:Y
     );
     lingua:premise (
-        (_:X math:greaterThan 1)
-        ((_:X 1) math:difference _:C)
-        ((_:A _:B) math:sum _:D)
-        ((_:C _:B _:D) :fib _:Y)
+        _:X math:greaterThan 1
+        (_:X 1) math:difference _:C
+        (_:A _:B) math:sum _:D
+        (_:C _:B _:D) :fib _:Y
     ).
 
 # query
@@ -64,16 +64,16 @@
         _:F5
     );
     lingua:premise (
-        (0 :fibonacci _:F1)
-        (1 :fibonacci _:F2)
-        (6 :fibonacci _:F3)
-        (91 :fibonacci _:F4)
-        (283 :fibonacci _:F5)
+        0 :fibonacci _:F1
+        1 :fibonacci _:F2
+        6 :fibonacci _:F3
+        91 :fibonacci _:F4
+        283 :fibonacci _:F5
     );
     lingua:conclusion (
-        (() :fibonacci (0 _:F1))
-        (() :fibonacci (1 _:F2))
-        (() :fibonacci (6 _:F3))
-        (() :fibonacci (91 _:F4))
-        (() :fibonacci (283 _:F5))
+        () :fibonacci (0 _:F1)
+        () :fibonacci (1 _:F2)
+        () :fibonacci (6 _:F3)
+        () :fibonacci (91 _:F4)
+        () :fibonacci (283 _:F5)
     ).

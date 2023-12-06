@@ -5,35 +5,35 @@
 
 # sample data from RubenD
 _:b1 :data (
-    (_:b2 :package (
-        (_:b3 :content (
-            (:a :b _:c)
-            (_:b4 :package (
-                (_:b5 :content (
-                    (:u :v _:w)
-                    (_:b6 :package (
-                        (_:b7 :content (
-                            (:x :y _:z)
-                        ))
-                        (_:b7 :usable_until :yesterday)
-                    ))
-                    (_:b6 :tag :invalid)
-                ))
-                (_:b5 :usable_until :tomorrow)
-                (_:b5 :p :o)
-            ))
-            (_:b4 :tag :valid)
-        ))
-        (_:b3 :usable_until :next_week)
-    ))
-    (_:b2 :tag :valid)
+    _:b2 :package (
+        _:b3 :content (
+            :a :b _:c
+            _:b4 :package (
+                _:b5 :content (
+                    :u :v _:w
+                    _:b6 :package (
+                        _:b7 :content (
+                            :x :y _:z
+                        )
+                        _:b7 :usable_until :yesterday
+                    )
+                    _:b6 :tag :invalid
+                )
+                _:b5 :usable_until :tomorrow
+                _:b5 :p :o
+            )
+            _:b4 :tag :valid
+        )
+        _:b3 :usable_until :next_week
+    )
+    _:b2 :tag :valid
 ).
 
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
     lingua:vars ();
     lingua:conclusion (
-        (() :unpackLott ())
+        () :unpackl ()
     );
     lingua:premise ().
 
@@ -47,13 +47,13 @@ _:b1 :data (
         _:b
     );
     lingua:conclusion (
-        (_:g :unpackLott _:h)
+        _:g :unpackl _:h
     );
     lingua:premise (
-        (_:g list:firstRest (_:f _:r))
-        (_:f :unpack _:a)
-        (_:r :unpackLott _:b)
-        ((_:a _:b) list:append _:h)
+        _:g list:firstRest (_:f _:r)
+        _:f :unpack _:a
+        _:r :unpackl _:b
+        (_:a _:b) list:append _:h
     ).
 
 :unpack_rule3 a lingua:BackwardRule;
@@ -61,35 +61,41 @@ _:b1 :data (
         _:b
         _:p
         _:f
+        _:l
         _:a
         _:c
         _:t
+        _:d
     );
     lingua:conclusion (
-        ((_:b :package _:p) :unpack _:f)
+        (_:b :package _:p) :unpack _:f
     );
     lingua:premise (
-        (_:p list:member (_:a :content _:c))
-        (_:p list:member (_:a :usable_until _:t))
-        ((:tomorrow :next_week) list:member _:t)
-        (_:c :unpackLott _:f)
+        _:p list:lott _:l
+        _:l list:member (_:a :content _:c)
+        _:l list:member (_:a :usable_until _:t)
+        (:tomorrow :next_week) list:member _:t
+        _:c list:lott _:d
+        _:d :unpackl _:f
     ).
 
 :unpack_rule4 a lingua:BackwardRule;
     lingua:vars (
         _:b
         _:p
+        _:l
         _:a
         _:c
         _:t
     );
     lingua:conclusion (
-        ((_:b :package _:p) :unpack ())
+        (_:b :package _:p) :unpack ()
     );
     lingua:premise (
-        (_:p list:member (_:a :content _:c))
-        (_:p list:member (_:a :usable_until _:t))
-        ((:yesterday :last_week) list:member _:t)
+        _:p list:lott _:l
+        _:l list:member (_:a :content _:c)
+        _:l list:member (_:a :usable_until _:t)
+        (:yesterday :last_week) list:member _:t
     ).
 
 :unpack_rule5 a lingua:BackwardRule;
@@ -98,7 +104,7 @@ _:b1 :data (
         _:p
     );
     lingua:conclusion (
-        ((_:b :tag _:p) :unpack ())
+        (_:b :tag _:p) :unpack ()
     );
     lingua:premise ().
 
@@ -111,11 +117,11 @@ _:b1 :data (
         _:q
     );
     lingua:conclusion (
-        (_:g :unpack (_:g))
+        _:g :unpack (_:g)
     );
     lingua:premise (
-        ((_:g) list:notMember (_:a :package _:p))
-        ((_:g) list:notMember (_:b :tag _:q))
+        (_:g) list:notMember (_:a :package _:p)
+        (_:g) list:notMember (_:b :tag _:q)
     ).
 
 # unpack the triples that are usable in the future
@@ -123,10 +129,14 @@ _:b1 :data (
     lingua:vars (
         _:b
         _:g
+        _:l
         _:m
+        _:u
     );
     lingua:premise (
-        (_:b :data _:g)
-        (_:g :unpackLott _:m)
+        _:b :data _:g
+        _:g list:lott _:l
+        _:l :unpackl _:m
+        _:u list:lott _:m
     );
-    lingua:conclusion _:m.
+    lingua:conclusion _:u.

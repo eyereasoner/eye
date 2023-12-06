@@ -4,14 +4,14 @@
 @prefix : <http://example.org/ns#>.
 
 :Let :param1 (
-    (:A :B :C)
-    (:A :X :C)
-    (:D :E :F)
+    :A :B :C
+    :A :X :C
+    :D :E :F
 ).
 
 :Let :param2 (
-    (:A :Y :C)
-    (:A :B :C)
+    :A :Y :C
+    :A :B :C
 ).
 
 #query
@@ -22,10 +22,10 @@
         _:Y
     );
     lingua:premise (
-        (:Let :param1 _:X1)
-        (:Let :param2 _:X2)
-        ((_:X1 _:X2) graph:union _:Y)
+        :Let :param1 _:X1
+        :Let :param2 _:X2
+        (_:X1 _:X2) graph:union _:Y
     );
     lingua:conclusion (
-        ((_:X1 _:X2) :union _:Y)
+        (_:X1 _:X2) :union _:Y
 ).

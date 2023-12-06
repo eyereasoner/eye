@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.6 (2023-12-03)').
+version_info('EYE v9.0.7 (2023-12-06)').
 
 license_info('MIT License
 
@@ -3840,10 +3840,7 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   flag(lingua)
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         nl,
         cnt(output_statements),
         fail
@@ -4364,7 +4361,8 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(lingua)
+        (   flag(lingua),
+            \+nb_getval(indentation, 0)
         ->  true
         ;   write('.')
         ),
@@ -4398,26 +4396,10 @@ wt2([X|Y]) :-
         indentation(-4),
         indent,
         write(']')
-    ;   (   flag(lingua),
-            is_lott([X|Y])
-        ->  write('('),
-            indentation(4),
-            forall(
-                member(Z, [X|Y]),
-                (   nl,
-                    indent,
-                    wt(Z)
-                )
-            ),
-            indentation(-4),
-            nl,
-            indent,
-            write(')')
-        ;   write('('),
-            wg(X),
-            wl(Y),
-            write(')')
-        )
+    ;   write('('),
+        wg(X),
+        wl(Y),
+        write(')')
     ).
 wt2(literal(X, lang(Y))) :-
     !,
@@ -4675,23 +4657,11 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   (   flag(lingua),
-            \+nb_getval(indentation, 0)
-        ->  write('(')
-        ;   true
-        ),
-        wg(S),
+    ;   wg(S),
         write(' '),
         wp(P),
         write(' '),
-        wg(O),
-        (   flag(lingua)
-        ->  (   \+nb_getval(indentation, 0)
-            ->  write(')')
-            ;   write('.')
-            )
-        ;   true
-        )
+        wg(O)
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4699,23 +4669,11 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   (   flag(lingua),
-            \+nb_getval(indentation, 0)
-        ->  write('(')
-        ;   true
-        ),
-        wg(S),
+    ;   wg(S),
         write(' '),
         wg(P),
         write(' '),
-        wg(O),
-        (   flag(lingua)
-        ->  (   \+nb_getval(indentation, 0)
-            ->  write(')')
-            ;   write('.')
-            )
-        ;   true
-        )
+        wg(O)
     ).
 wtn(triple(S, P, O)) :-
     !,
@@ -5434,11 +5392,11 @@ djiti_conc(answer((A, B), void, void), (answer(A, void, void), D)) :-
     !,
     djiti_conc(answer(B, void, void), D).
 djiti_conc(answer(A, void, void), answer(B, void, void)) :-
-    is_lott(A),
+    list_lott(A, _),
     !,
     getconj(A, B).
 djiti_conc(A, B) :-
-    is_lott(A),
+    list_lott(A, _),
     !,
     getconj(A, B).
 djiti_conc(A, A).
@@ -6541,7 +6499,19 @@ djiti_assertz(A) :-
         ),
         (   getconj(A, Ag),
             conj_list(Ag, C),
-            member(B, C)
+            getconj(B, Bg),
+            member(Bg, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/graph#notMember>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   getconj(A, Ag),
+            conj_list(Ag, C),
+            getconj(B, Bg),
+            \+member(Bg, C)
         )
     ).
 
@@ -6592,6 +6562,9 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/list#firstRest>'([A|B], [A, B]).
+
+'<http://www.w3.org/2000/10/swap/list#lott>'(A, B) :-
+    list_lott(A, B).
 
 '<http://www.w3.org/2000/10/swap/list#in>'(A, B) :-
     when(
@@ -11195,10 +11168,10 @@ is_graph(true).
 is_graph(A) :-
     is_gl(A).
 
-is_lott([]).
-is_lott([[_, P, _]|A]) :-
-    \+is_list(P),
-    is_lott(A).
+list_lott([], []).
+list_lott([A, B, C|D], [[A, B, C]|E]) :-
+    \+is_list(B),
+    list_lott(D, E).
 
 unify(A, B) :-
     nonvar(A),
@@ -12372,35 +12345,34 @@ getterm(A, A) :-
     var(A),
     !.
 getterm(A, B) :-
-    is_lott(A),
+    list_lott(A, C),
     !,
     findall(_,
-        (   member([D, E, F], A),
+        (   member([D, E, F], C),
             memberchk(E, ['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>']),
             Z =.. [E, D, F],
             assertz(Z)
         ),
         _
     ),
-    findall([D, E, F],
-        (   member([G, E, H], A),
+    findall([G, E, H],
+        (   member([D, E, F], C),
             E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
             E \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-            getterm(G, D),
-            getterm(H, F)
+            getterm(D, G),
+            getterm(F, H)
         ),
-        B
+        I
     ),
     findall(_,
-        (   member([D, E, F], A),
+        (   member([D, E, F], C),
             memberchk(E, ['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>']),
             Z =.. [E, D, F],
             retract(Z)
         ),
         _
-    ).
-getterm([], []) :-
-    !.
+    ),
+    list_lott(B, I).
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
     !.
 getterm([A|B], [C|D]) :-
@@ -12440,10 +12412,10 @@ getconj(A, A) :-
     !.
 getconj([], true) :-
     !.
-getconj([[S, P, O]], A) :-
+getconj([S, P, O], A) :-
     !,
     A =.. [P, S, O].
-getconj([[S, P, O]|A], (B, C)) :-
+getconj([S, P, O|A], (B, C)) :-
     !,
     B =.. [P, S, O],
     getconj(A, C).

@@ -7,10 +7,10 @@
         _:S
     );
     lingua:premise (
-        (_:S :saying :A)
+        _:S :saying :A
     );
     lingua:conclusion (
-        (_:S :saying :C)
+        _:S :saying :C
     ).
 
 :negation_predicates_rule2 a lingua:ForwardRule;
@@ -18,10 +18,10 @@
         _:S
     );
     lingua:premise (
-        (_:S :not_saying :C)
+        _:S :not_saying :C
     );
     lingua:conclusion (
-        (_:S :not_saying :A)
+        _:S :not_saying :A
     ).
 
 # saying B means saying C
@@ -30,18 +30,18 @@
         _:S
     );
     lingua:premise (
-        (_:S :saying :B)
+        _:S :saying :B
     );
     lingua:conclusion (
-        (_:S :saying :C)
+        _:S :saying :C
     ).
 
 :negation_predicates_rule4 a lingua:ForwardRule;
     lingua:premise (
-        (_:S :not_saying :C)
+        _:S :not_saying :C
     );
     lingua:conclusion (
-        (_:S :not_saying :B)
+        _:S :not_saying :B
     ).
 
 # saying A or saying B
@@ -50,10 +50,10 @@
         _:S
     );
     lingua:premise (
-        (_:S :not_saying :A)
+        _:S :not_saying :A
     );
     lingua:conclusion (
-        (_:S :saying :B)
+        _:S :saying :B
     ).
 
 :negation_predicates_rule6 a lingua:ForwardRule;
@@ -61,10 +61,10 @@
         _:S
     );
     lingua:premise (
-        (_:S :not_saying :B)
+        _:S :not_saying :B
     );
     lingua:conclusion (
-        (_:S :saying :A)
+        _:S :saying :A
     ).
 
 # assuming the negation of the query so that
@@ -75,8 +75,8 @@
 :negation_predicates_query a lingua:QueryRule;
     lingua:vars ();
     lingua:premise (
-        (:alice :saying :C)
+        :alice :saying :C
     );
     lingua:conclusion (
-        (:alice :saying :C)
+        :alice :saying :C
     ).

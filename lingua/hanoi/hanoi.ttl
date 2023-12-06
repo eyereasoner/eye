@@ -16,14 +16,14 @@
         _:M2
     );
     lingua:conclusion (
-        ((_:N _:X _:Y _:Z) :moves _:M)
+        (_:N _:X _:Y _:Z) :moves _:M
     );
     lingua:premise (
-        (_:N math:greaterThan 1)
-        ((_:N 1) math:difference _:N1)
-        ((_:N1 _:X _:Z _:Y) :moves _:M1)
-        ((_:N1 _:Z _:Y _:X) :moves _:M2)
-        ((_:M1 ((_:X _:Y)) _:M2) list:append _:M)
+        _:N math:greaterThan 1
+        (_:N 1) math:difference _:N1
+        (_:N1 _:X _:Z _:Y) :moves _:M1
+        (_:N1 _:Z _:Y _:X) :moves _:M2
+        (_:M1 ((_:X _:Y)) _:M2) list:append _:M
     ).
 
 :hanoi_rule2 a lingua:BackwardRule;
@@ -33,7 +33,7 @@
         _:Z
     );
     lingua:conclusion (
-        ((1 _:X _:Y _:Z) :moves ((_:X _:Y)))
+        (1 _:X _:Y _:Z) :moves ((_:X _:Y))
     );
     lingua:premise ().
 
@@ -43,8 +43,8 @@
         _:M
     );
     lingua:premise (
-        ((7 :left :right :center) :moves _:M)
+        (7 :left :right :center) :moves _:M
     );
     lingua:conclusion (
-        ((7 :left :right :center) :moves _:M)
+        (7 :left :right :center) :moves _:M
     ).

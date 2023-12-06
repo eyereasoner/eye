@@ -22,12 +22,19 @@
         _:X
     );
     lingua:conclusion (
-        (_:Pol :pass :allOfTest)
+        _:Pol :pass :allOfTest
     );
     lingua:premise (
-        (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
-        ((((_:Pol :allOf _:Field)) ((_:Test :has _:Field))) log:forAllIn _:X)
+        _:Test :policy _:Pol
+        _:Pol rdf:type :Policy
+        (
+            (
+                _:Pol :allOf _:Field
+            )
+            (
+                _:Test :has _:Field
+            )
+        ) log:forAllIn _:X
     ).
 
 :acp_rule2 a lingua:BackwardRule;
@@ -39,14 +46,21 @@
         _:X
         _:L
     );lingua:conclusion (
-        (_:Pol :pass :anyOfTest)
+        _:Pol :pass :anyOfTest
     );
     lingua:premise (
-        (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
-        ((_:Field ((_:Pol :anyOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
-        (_:List list:length _:L)
-        (_:L log:notEqualTo 0)
+        _:Test :policy _:Pol
+        _:Pol rdf:type :Policy
+        (
+            _:Field
+            (
+                _:Pol :anyOf _:Field
+                _:Test :has _:Field
+            )
+            _:List
+        ) log:collectAllIn _:X
+        _:List list:length _:L
+        _:L log:notEqualTo 0
     ).
 
 :acp_rule3 a lingua:BackwardRule;
@@ -59,14 +73,17 @@
         _:L
     );
     lingua:conclusion (
-        (_:Pol :pass :noneOfTest)
+        _:Pol :pass :noneOfTest
     );
     lingua:premise (
-        (_:Test :policy _:Pol)
-        (_:Pol rdf:type :Policy)
-        ((_:Field ((_:Pol :noneOf _:Field) (_:Test :has _:Field)) _:List) log:collectAllIn _:X)
-        (_:List list:length _:L)
-        (_:L log:equalTo 0)
+        _:Test :policy _:Pol
+        _:Pol rdf:type :Policy
+        (_:Field (
+                _:Pol :noneOf _:Field
+                _:Test :has _:Field
+            ) _:List) log:collectAllIn _:X
+        _:List list:length _:L
+        _:L log:equalTo 0
     ).
 
 # query
@@ -75,12 +92,12 @@
         _:Pol
     );
     lingua:premise (
-        (_:Pol rdf:type :Policy)
-        (_:Pol :pass :allOfTest)
-        (_:Pol :pass :anyOfTest)
-        (_:Pol :pass :noneOfTest)
+        _:Pol rdf:type :Policy
+        _:Pol :pass :allOfTest
+        _:Pol :pass :anyOfTest
+        _:Pol :pass :noneOfTest
     );
     lingua:conclusion (
-        (:test :for _:Pol)
-        (:test :is true)
+        :test :for _:Pol
+        :test :is true
     ).
