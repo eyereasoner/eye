@@ -1,0 +1,42 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix : <http://example.org/ns#>.
+
+# sample data
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Claudia".
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
+
+# patch rule
+:patch_rule a lingua:ForwardRule;
+    lingua:vars (
+        _:person
+    );
+    lingua:premise (
+        _:person :familyName "Garcia"
+        (
+            _:person :givenName "Claudia"
+        ) log:becomes (
+            _:person :givenName "Alex"
+        )
+    );
+    lingua:conclusion ().
+
+# query
+:patch_query a lingua:QueryRule;
+    lingua:vars (
+        _:person
+        _:fname
+        _:gname
+    );    
+    lingua:premise (
+        _:person :familyName _:fname
+        _:person :givenName _:gname
+    );
+    lingua:conclusion (
+        _:person :familyName _:fname
+        _:person :givenName _:gname
+    ).
