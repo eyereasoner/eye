@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.8 (2023-12-06)').
+version_info('EYE v9.0.9 (2023-12-08)').
 
 license_info('MIT License
 
@@ -6817,6 +6817,17 @@ djiti_assertz(A) :-
     getconj(B, Bg),
     call(Ag),
     catch(call(Bg), _, fail),
+    (   flag(nope)
+    ->  true
+    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg)), C),
+        istep('<>', Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg), C)
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#callNotBind>'(A, B) :-
+    getconj(A, Ag),
+    getconj(B, Bg),
+    \+ \+call(Ag),
+    \+ \+catch(call(Bg), _, fail),
     (   flag(nope)
     ->  true
     ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg)), C),
