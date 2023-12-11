@@ -4,17 +4,12 @@
 @prefix : <http://example.org/ns#>.
 
 :gen_rule a lingua:ForwardRule;
-    lingua:vars ();
     lingua:premise ();
     lingua:conclusion (
         :Socrates rdf:type :Human
         :Human rdfs:subClassOf :Mortal
+
         :rdfs_subclass_rule rdf:type lingua:ForwardRule
-        :rdfs_subclass_rule lingua:vars (
-            _:A
-            _:B
-            _:S
-        )
         :rdfs_subclass_rule lingua:premise (
             _:A rdfs:subClassOf _:B
             _:S rdf:type _:A
@@ -22,14 +17,15 @@
         :rdfs_subclass_rule lingua:conclusion (
             _:S rdf:type _:B
         )
+        :rdfs_subclass_rule lingua:varCount 3
+
         :socrates_query rdf:type lingua:QueryRule
-        :socrates_query lingua:vars (
-            _:S
-        )
         :socrates_query lingua:premise (
             _:S rdf:type :Mortal
         )
         :socrates_query lingua:conclusion (
             _:S rdf:type :Mortal
         )
-    ).
+        :socrates_query lingua:varCount 1
+    );
+    lingua:varCount 3.

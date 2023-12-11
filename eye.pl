@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.9 (2023-12-08)').
+version_info('EYE v9.0.10 (2023-12-11)').
 
 license_info('MIT License
 
@@ -646,33 +646,28 @@ lingua :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
-            getlist(U, V),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            (   flag(explain),
-                B \= false
-            ->  conj_append(B, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
-            ;   D = B
-            ),
-            makevars([A, D], [Q, I], beta(V))
+            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
+            findvars([A, B], U, beta),
+            distinct(U, V),
+            length(V, N),
+            makevars([A, B], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
-            getlist(U, V),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
-            ;   D = A
-            ),
-            makevars(':-'(B, D), C, beta(V)),
+            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
+            findvars([A, B], U, beta),
+            distinct(U, V),
+            length(V, N),
+            makevars(':-'(B, A), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -684,18 +679,16 @@ lingua :-
     % query rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#vars>'(R, U),
-            getlist(U, V),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
-            (   flag(explain)
-            ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, U)), D)
-            ;   D = A
-            ),
-            makevars(implies(D, J, '<>'), C, beta(V)),
+            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
+            findvars([A, B], U, beta),
+            distinct(U, V),
+            length(V, N),
+            makevars(implies(A, J, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)

@@ -3,96 +3,68 @@
 
 # add
 :peano_add_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-    );
     lingua:conclusion (
         (_:A 0) :add _:A
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 1.
 
 :peano_add_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-    );
     lingua:premise (
         (_:A _:B) :add _:C
     );
     lingua:conclusion (
         (_:A (:s _:B)) :add (:s _:C)
-    ).
+    );
+    lingua:varCount 3.
 
 # multiply
 :peano_multiply_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-    );
     lingua:conclusion (
         (_:A 0) :multiply 0
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 1.
 
 :peano_multiply_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-        _:D
-    );
     lingua:conclusion (
         (_:A (:s _:B)) :multiply _:C
     );
     lingua:premise (
         (_:A _:B) :multiply _:D
         (_:A _:D) :add _:C
-    ).
+    );
+    lingua:varCount 4.
 
 # factorial
 :peano_factorial_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-    );
     lingua:conclusion (
         _:A :factorial _:B
     );
     lingua:premise (
         (_:A (:s 0)) :fac _:B
-    ).
+    );
+    lingua:varCount 2.
 
 :peano_factorial_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-    );
     lingua:conclusion (
         (0 _:A) :fac _:A
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 1.
 
 :peano_factorial_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-        _:D
-    );
     lingua:conclusion (
         ((:s _:A) _:B) :fac _:C
     );
     lingua:premise (
         (_:B (:s _:A)) :multiply _:D
         (_:A _:D) :fac _:C
-    ).
+    );
+    lingua:varCount 4.
 
 # query
 :peano_query a lingua:QueryRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-    );
     lingua:premise (
         ((:s 0) (:s 0)) :add _:A
         (_:A (:s (:s 0))) :multiply _:B
@@ -100,4 +72,5 @@
     );
     lingua:conclusion (
         :result :is _:C
-    ).
+    );
+    lingua:varCount 3.

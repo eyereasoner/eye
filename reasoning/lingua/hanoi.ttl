@@ -5,16 +5,6 @@
 
 # _:M is the sequence of moves to move _:N disks from _:X to _:Y using _:Z as intermediary
 :hanoi_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:N
-        _:X
-        _:Y
-        _:Z
-        _:M
-        _:N1
-        _:M1
-        _:M2
-    );
     lingua:conclusion (
         (_:N _:X _:Y _:Z) :moves _:M
     );
@@ -24,27 +14,22 @@
         (_:N1 _:X _:Z _:Y) :moves _:M1
         (_:N1 _:Z _:Y _:X) :moves _:M2
         (_:M1 ((_:X _:Y)) _:M2) list:append _:M
-    ).
+    );
+    lingua:varCount 8.
 
 :hanoi_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:Z
-    );
     lingua:conclusion (
         (1 _:X _:Y _:Z) :moves ((_:X _:Y))
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 3.
 
 # query
 :hanoi_query a lingua:QueryRule;
-    lingua:vars (
-        _:M
-    );
     lingua:premise (
         (7 :left :right :center) :moves _:M
     );
     lingua:conclusion (
         (7 :left :right :center) :moves _:M
-    ).
+    );
+    lingua:varCount 1.

@@ -15,40 +15,31 @@
 
 # oneway subproperty of path
 :graph_rule1 a lingua:ForwardRule;
-    lingua:vars (
-        _:A
-        _:B
-    );
     lingua:premise (
         _:A :oneway _:B
     );
     lingua:conclusion (
         _:A :path _:B
-    ).
+    );
+    lingua:varCount 2.
 
 # path transitive property
 :graph_rule2 a lingua:ForwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-    );
     lingua:premise (
         _:A :path _:B
         _:B :path _:C
     );
     lingua:conclusion (
         _:A :path _:C
-    ).
+    );
+    lingua:varCount 3.
 
 # query
 :graph_query a lingua:QueryRule;
-    lingua:vars (
-        _:A
-    );
     lingua:premise (
         _:A :path :nantes
     );
     lingua:conclusion (
         _:A :path :nantes
-    ).
+    );
+    lingua:varCount 1.

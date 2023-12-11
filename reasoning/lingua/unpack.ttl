@@ -31,21 +31,13 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
-    lingua:vars ();
     lingua:conclusion (
         () :unpackl ()
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 0.
 
 :unpack_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:g
-        _:h
-        _:f
-        _:r
-        _:a
-        _:b
-    );
     lingua:conclusion (
         _:g :unpackl _:h
     );
@@ -54,19 +46,10 @@ _:b1 :data (
         _:f :unpack _:a
         _:r :unpackl _:b
         (_:a _:b) list:append _:h
-    ).
+    );
+    lingua:varCount 6.
 
 :unpack_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-        _:f
-        _:l
-        _:a
-        _:c
-        _:t
-        _:d
-    );
     lingua:conclusion (
         (_:b :package _:p) :unpack _:f
     );
@@ -77,17 +60,10 @@ _:b1 :data (
         (:tomorrow :next_week) list:member _:t
         _:c list:lott _:d
         _:d :unpackl _:f
-    ).
+    );
+    lingua:varCount 8.
 
 :unpack_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-        _:l
-        _:a
-        _:c
-        _:t
-    );
     lingua:conclusion (
         (_:b :package _:p) :unpack ()
     );
@@ -96,47 +72,33 @@ _:b1 :data (
         _:l list:member (_:a :content _:c)
         _:l list:member (_:a :usable_until _:t)
         (:yesterday :last_week) list:member _:t
-    ).
+    );
+    lingua:varCount 6.
 
 :unpack_rule5 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-    );
     lingua:conclusion (
         (_:b :tag _:p) :unpack ()
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 2.
 
 :unpack_rule6 a lingua:BackwardRule;
-    lingua:vars (
-        _:g
-        _:a
-        _:p
-        _:b
-        _:q
-    );
     lingua:conclusion (
         _:g :unpack (_:g)
     );
     lingua:premise (
         (_:g) list:notMember (_:a :package _:p)
         (_:g) list:notMember (_:b :tag _:q)
-    ).
+    );
+    lingua:varCount 5.
 
 # unpack the triples that are usable in the future
 :unpack_query a lingua:QueryRule;
-    lingua:vars (
-        _:b
-        _:g
-        _:l
-        _:m
-        _:u
-    );
     lingua:premise (
         _:b :data _:g
         _:g list:lott _:l
         _:l :unpackl _:m
         _:u list:lott _:m
     );
-    lingua:conclusion _:u.
+    lingua:conclusion _:u;
+    lingua:varCount 5.

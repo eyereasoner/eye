@@ -5,28 +5,16 @@
 
 # interpreter for Turing machine
 :turing_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:OutTape
-        _:Machine
-        _:I
-    );
     lingua:conclusion (
         () :compute _:OutTape
     );
     lingua:premise (
         _:Machine :start _:I
         (_:I () "#" ()) :find _:OutTape
-    ).
+    );
+    lingua:varCount 3.
 
 :turing_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:List
-        _:OutTape
-        _:Head
-        _:Tail
-        _:Machine
-        _:I
-    );
     lingua:conclusion (
         _:List :compute _:OutTape
     );
@@ -34,22 +22,10 @@
         _:List list:firstRest (_:Head _:Tail)
         _:Machine :start _:I
         (_:I () _:Head _:Tail) :find _:OutTape
-    ).
+    );
+    lingua:varCount 6.
 
 :turing_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:State
-        _:Left
-        _:Cell
-        _:Right
-        _:OutTape
-        _:Write
-        _:Move
-        _:Next
-        _:A
-        _:B
-        _:C
-    );
     lingua:conclusion (
         (_:State _:Left _:Cell _:Right) :find _:OutTape
     );
@@ -57,17 +33,10 @@
         (_:State _:Cell _:Write _:Move) :tape _:Next
         (_:Move _:Left _:Write _:Right _:A _:B _:C) :move true
         (_:Next _:A _:B _:C) :continue _:OutTape
-    ).
+    );
+    lingua:varCount 11.
 
 :turing_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:Left
-        _:Cell
-        _:Right
-        _:OutTape
-        _:R
-        _:List
-    );
     lingua:conclusion (
         (:halt _:Left _:Cell _:Right) :continue _:OutTape
     );
@@ -75,109 +44,71 @@
         _:Left :reverse _:R
         _:List list:firstRest (_:Cell _:Right)
         (_:R _:List) list:append _:OutTape
-    ).
+    );
+    lingua:varCount 6.
 
 :turing_rule5 a lingua:BackwardRule;
-    lingua:vars (
-        _:State
-        _:Left
-        _:Cell
-        _:Right
-        _:OutTape
-    );
     lingua:conclusion (
         (_:State _:Left _:Cell _:Right) :continue _:OutTape
     );
     lingua:premise (
         (_:State _:Left _:Cell _:Right) :find _:OutTape
-    ).
+    );
+    lingua:varCount 5.
 
 :turing_rule6 a lingua:BackwardRule;
-    lingua:vars (
-        _:Cell
-        _:Right
-        _:L
-    );
     lingua:conclusion (
         (:left () _:Cell _:Right () "#" _:L) :move true
     );
     lingua:premise (
         _:L list:firstRest (_:Cell _:Right)
-    ).
+    );
+    lingua:varCount 3.
 
 :turing_rule7 a lingua:BackwardRule;
-    lingua:vars (
-        _:List
-        _:Cell
-        _:Right
-        _:Tail
-        _:Head
-        _:L
-    );
     lingua:conclusion (
         (:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true
     );
     lingua:premise (
         _:List list:firstRest (_:Head _:Tail)
         _:L list:firstRest (_:Cell _:Right)
-    ).
+    );
+    lingua:varCount 6.
 
 :turing_rule8 a lingua:BackwardRule;
-    lingua:vars (
-        _:Left
-        _:Cell
-        _:Right
-    );
     lingua:conclusion (
         (:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 3.
 
 :turing_rule9 a lingua:BackwardRule;
-    lingua:vars (
-        _:Left
-        _:Cell
-        _:L
-    );
     lingua:conclusion (
         (:right _:Left _:Cell () _:L "#" ()) :move true
     );
     lingua:premise (
         _:L list:firstRest (_:Cell _:Left)
-    ).
+    );
+    lingua:varCount 3.
 
 :turing_rule10 a lingua:BackwardRule;
-    lingua:vars (
-        _:Left
-        _:Cell
-        _:List
-        _:L
-        _:Head
-        _:Tail
-    );
     lingua:conclusion (
         (:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true
     );
     lingua:premise (
         _:List list:firstRest (_:Head _:Tail)
         _:L list:firstRest (_:Cell _:Left)
-    ).
+    );
+    lingua:varCount 6.
 
 :turing_rule11 a lingua:BackwardRule;
-    lingua:vars ();
     lingua:conclusion (
         () :reverse ()
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 0.
 
 :turing_rule12 a lingua:BackwardRule;
-    lingua:vars (
-        _:List
-        _:Reverse
-        _:Head
-        _:Tail
-        _:R
-    );
     lingua:conclusion (
         _:List :reverse _:Reverse
     );
@@ -185,7 +116,8 @@
         _:List list:firstRest (_:Head _:Tail)
         _:Tail :reverse _:R
         (_:R (_:Head)) list:append _:Reverse
-    ).
+    );
+    lingua:varCount 5.
 
 # a Turing machine to add 1 to a binary number
 :add1 :start 0.
@@ -199,12 +131,6 @@
 
 # query
 :turing_query a lingua:QueryRule;
-    lingua:vars (
-        _:A1
-        _:A2
-        _:A3
-        _:A4
-    );
     lingua:premise (
         (1 0 1 0 0 1) :compute _:A1
         (1 0 1 1 1 1) :compute _:A2
@@ -216,4 +142,5 @@
         (1 0 1 1 1 1) :compute _:A2
         (1 1 1 1 1 1) :compute _:A3
         () :compute _:A4
-    ).
+    );
+    lingua:varCount 4.

@@ -5,26 +5,6 @@
 
 # exponentiation
 :complex_numbers_exponentiation_rule a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-        _:D
-        _:E
-        _:F
-        _:R
-        _:T
-        _:Z1
-        _:Z2
-        _:Z3
-        _:Z4
-        _:Z5
-        _:Z6
-        _:Z7
-        _:Z8
-        _:Z9
-        _:Z10
-    );
     lingua:conclusion (
         ((_:A _:B) (_:C _:D)) complex:exponentiation (_:E _:F)
     );
@@ -42,33 +22,11 @@
         (_:Z1 _:Z4 _:Z9) math:product _:E
         _:Z8 math:sin _:Z10
         (_:Z1 _:Z4 _:Z10) math:product _:F
-    ).
+    );
+    lingua:varCount 18.
 
 # asin
 :complex_numbers_asin_rule a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-        _:D
-        _:E
-        _:F
-        _:Z1
-        _:Z2
-        _:Z3
-        _:Z4
-        _:Z5
-        _:Z6
-        _:Z7
-        _:Z8
-        _:Z9
-        _:Z10
-        _:Z11
-        _:Z12
-        _:Z13
-        _:Z14
-        _:Z15
-    );
     lingua:conclusion (
         (_:A _:B) complex:asin (_:C _:D)
     );
@@ -92,34 +50,11 @@
         (_:Z13 0.5) math:exponentiation _:Z14
         (_:F _:Z14) math:sum _:Z15
         (2.718281828459045 _:D) math:exponentiation _:Z15
-    ).
+    );
+    lingua:varCount 21.
 
 # acos
 :complex_numbers_acos_rule a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-        _:D
-        _:E
-        _:F
-        _:Z1
-        _:Z2
-        _:Z3
-        _:Z4
-        _:Z5
-        _:Z6
-        _:Z7
-        _:Z8
-        _:Z9
-        _:Z10
-        _:Z11
-        _:Z12
-        _:Z13
-        _:Z14
-        _:Z15
-        _:U
-    );
     lingua:conclusion (
         (_:A _:B) complex:acos (_:C _:D)
     );
@@ -144,22 +79,11 @@
         (_:F _:Z14) math:sum _:Z15
         (2.718281828459045 _:U) math:exponentiation _:Z15
         _:U math:negation _:D
-    ).
+    );
+    lingua:varCount 22.
 
 # polar
 :complex_numbers_polar_rule a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:R
-        _:Tp
-        _:Z1
-        _:Z2
-        _:Z3
-        _:Z4
-        _:Z5
-        _:T
-    );
     lingua:conclusion (
         (_:X _:Y) complex:polar(_:R _:Tp)
     );
@@ -172,16 +96,11 @@
         (_:Z4 _:R) math:quotient _:Z5
         _:Z5 math:acos _:T
         (_:X _:Y _:T) complex:dial _:Tp
-    ).
+    );
+    lingua:varCount 10.
 
 # dial
 :complex_numbers_dial_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:T
-        _:Tp
-    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -189,15 +108,10 @@
         _:X math:notLessThan 0
         _:Y math:notLessThan 0
         (0 _:T) math:sum _:Tp
-    ).
+    );
+    lingua:varCount 4.
 
 :complex_numbers_dial_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:T
-        _:Tp
-    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -205,15 +119,10 @@
         _:X math:lessThan 0
         _:Y math:notLessThan 0
         (3.141592653589793 _:T) math:difference _:Tp
-    ).
+    );
+    lingua:varCount 4.
 
 :complex_numbers_dial_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:T
-        _:Tp
-    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -221,16 +130,10 @@
         _:X math:lessThan 0
         _:Y math:lessThan 0
         (3.141592653589793 _:T) math:sum _:Tp
-    ).
+    );
+    lingua:varCount 4.
 
 :complex_numbers_dial_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:T
-        _:Tp
-        _:Z1
-    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -239,18 +142,11 @@
         _:Y math:lessThan 0
         (3.141592653589793 2) math:product _:Z1
         (_:Z1 _:T) math:difference _:Tp
-    ).
+    );
+    lingua:varCount 5.
 
 # query
 :complex_numbers_query a lingua:QueryRule;
-    lingua:vars (
-        _:C1
-        _:C2
-        _:C3
-        _:C4
-        _:C5
-        _:C6
-    );
     lingua:premise (
         ((-1 0) (0.5 0)) complex:exponentiation _:C1
         ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation _:C2
@@ -266,4 +162,5 @@
         ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation _:C4
         (2 0) complex:asin _:C5
         (2 0) complex:acos _:C6
-    ).
+    );
+    lingua:varCount 6.

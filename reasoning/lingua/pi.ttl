@@ -3,12 +3,6 @@
 @prefix : <http://example.org/ns#>.
 
 :pi_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:N
-        _:Pi
-        _:P
-        _:A
-    );
     lingua:conclusion (
         (_:N _:Pi) :pi true
     );
@@ -16,35 +10,17 @@
         (1 _:N 0 _:P 1) :pi true
         (4 _:P) math:product _:A
         (3 _:A) math:sum _:Pi
-    ).
+    );
+    lingua:varCount 4.
 
 :pi_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:N
-        _:P
-        _:S
-    );
     lingua:conclusion (
         (_:N _:N _:P _:P _:S) :pi true
     );
-    lingua:premise ().
+    lingua:premise ();
+    lingua:varCount 3.
 
 :pi_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:K
-        _:N
-        _:P0
-        _:P
-        _:S
-        _:K1
-        _:K2
-        _:A
-        _:B
-        _:C
-        _:D
-        _:P1
-        _:S1
-    );
     lingua:conclusion (
         (_:K _:N _:P0 _:P _:S) :pi true
     );
@@ -59,16 +35,15 @@
         (_:P0 _:D) math:sum _:P1
         _:S math:negation _:S1
         (_:K1 _:N _:P1 _:P _:S1) :pi true
-    ).
+    );
+    lingua:varCount 13.
 
 # query
 :pi_query a lingua:QueryRule;
-    lingua:vars (
-        _:Pi
-    );
     lingua:premise (
         (1000 _:Pi) :pi true
     );
     lingua:conclusion (
         (1000 _:Pi) :pi true
-    ).
+    );
+    lingua:varCount 1.

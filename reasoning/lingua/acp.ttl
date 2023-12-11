@@ -15,12 +15,6 @@
     :noneOf :D.
 
 :acp_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:Pol
-        _:Test
-        _:Field
-        _:X
-    );
     lingua:conclusion (
         _:Pol :pass :allOfTest
     );
@@ -35,17 +29,11 @@
                 _:Test :has _:Field
             )
         ) log:forAllIn _:X
-    ).
+    );
+    lingua:varCount 4.
 
 :acp_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:Pol
-        _:Test
-        _:Field
-        _:List
-        _:X
-        _:L
-    );lingua:conclusion (
+    lingua:conclusion (
         _:Pol :pass :anyOfTest
     );
     lingua:premise (
@@ -61,17 +49,10 @@
         ) log:collectAllIn _:X
         _:List list:length _:L
         _:L log:notEqualTo 0
-    ).
+    );
+    lingua:varCount 6.
 
 :acp_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:Pol
-        _:Test
-        _:Field
-        _:List
-        _:X
-        _:L
-    );
     lingua:conclusion (
         _:Pol :pass :noneOfTest
     );
@@ -84,13 +65,11 @@
             ) _:List) log:collectAllIn _:X
         _:List list:length _:L
         _:L log:equalTo 0
-    ).
+    );
+    lingua:varCount 6.
 
 # query
 :acp_query a lingua:QueryRule;
-    lingua:vars (
-        _:Pol
-    );
     lingua:premise (
         _:Pol rdf:type :Policy
         _:Pol :pass :allOfTest
@@ -100,4 +79,5 @@
     lingua:conclusion (
         :test :for _:Pol
         :test :is true
-    ).
+    );
+    lingua:varCount 1.

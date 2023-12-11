@@ -7,24 +7,20 @@
 
 # humans are mortal
 :forward_rule a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
         _:S rdf:type :Human
     );
     lingua:conclusion (
         _:S rdf:type :Mortal
-    ).
+    );
+    lingua:varCount 1.
 
 # query
 :forward_query a lingua:QueryRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
         _:S rdf:type :Mortal
     );
     lingua:conclusion (
         _:S rdf:type :Mortal
-    ).
+    );
+    lingua:varCount 1.
