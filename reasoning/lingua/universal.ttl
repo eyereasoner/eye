@@ -9,8 +9,7 @@
     lingua:conclusion (
         _:X rdf:type rdfs:Resource
     );
-    lingua:premise ();
-    lingua:varCount 1.
+    lingua:premise ().
 
 # Everybody loves somebody who is lonely
 :universal_statements_rule2 a lingua:BackwardRule;
@@ -19,8 +18,7 @@
     );
     lingua:premise (
         (_:A) log:skolem _:B
-    );
-    lingua:varCount 2.
+    ).
 
 :universal_statements_rule3 a lingua:BackwardRule;
     lingua:conclusion (
@@ -28,8 +26,7 @@
     );
     lingua:premise (
         (_:A) log:skolem _:B
-    );
-    lingua:varCount 2.
+    ).
 
 # queries
 :universal_statements_query1 a lingua:QueryRule;
@@ -38,8 +35,7 @@
     );
     lingua:conclusion (
         :pat rdf:type rdfs:Resource
-    );
-    lingua:varCount 0.
+    ).
 
 :universal_statements_query2 a lingua:QueryRule;
     lingua:premise (
@@ -49,5 +45,4 @@
     lingua:conclusion (
         :bob :loves _:X
         _:X :is :lonely
-    );
-    lingua:varCount 1.
+    ).

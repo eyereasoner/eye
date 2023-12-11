@@ -22,8 +22,7 @@
         (_:Z1 _:Z4 _:Z9) math:product _:E
         _:Z8 math:sin _:Z10
         (_:Z1 _:Z4 _:Z10) math:product _:F
-    );
-    lingua:varCount 18.
+    ).
 
 # asin
 :complex_numbers_asin_rule a lingua:BackwardRule;
@@ -50,8 +49,7 @@
         (_:Z13 0.5) math:exponentiation _:Z14
         (_:F _:Z14) math:sum _:Z15
         (2.718281828459045 _:D) math:exponentiation _:Z15
-    );
-    lingua:varCount 21.
+    ).
 
 # acos
 :complex_numbers_acos_rule a lingua:BackwardRule;
@@ -79,8 +77,7 @@
         (_:F _:Z14) math:sum _:Z15
         (2.718281828459045 _:U) math:exponentiation _:Z15
         _:U math:negation _:D
-    );
-    lingua:varCount 22.
+    ).
 
 # polar
 :complex_numbers_polar_rule a lingua:BackwardRule;
@@ -96,8 +93,7 @@
         (_:Z4 _:R) math:quotient _:Z5
         _:Z5 math:acos _:T
         (_:X _:Y _:T) complex:dial _:Tp
-    );
-    lingua:varCount 10.
+    ).
 
 # dial
 :complex_numbers_dial_rule1 a lingua:BackwardRule;
@@ -108,8 +104,7 @@
         _:X math:notLessThan 0
         _:Y math:notLessThan 0
         (0 _:T) math:sum _:Tp
-    );
-    lingua:varCount 4.
+    ).
 
 :complex_numbers_dial_rule2 a lingua:BackwardRule;
     lingua:conclusion (
@@ -119,8 +114,7 @@
         _:X math:lessThan 0
         _:Y math:notLessThan 0
         (3.141592653589793 _:T) math:difference _:Tp
-    );
-    lingua:varCount 4.
+    ).
 
 :complex_numbers_dial_rule3 a lingua:BackwardRule;
     lingua:conclusion (
@@ -130,8 +124,7 @@
         _:X math:lessThan 0
         _:Y math:lessThan 0
         (3.141592653589793 _:T) math:sum _:Tp
-    );
-    lingua:varCount 4.
+    ).
 
 :complex_numbers_dial_rule4 a lingua:BackwardRule;
     lingua:conclusion (
@@ -142,8 +135,7 @@
         _:Y math:lessThan 0
         (3.141592653589793 2) math:product _:Z1
         (_:Z1 _:T) math:difference _:Tp
-    );
-    lingua:varCount 5.
+    ).
 
 # query
 :complex_numbers_query a lingua:QueryRule;
@@ -162,5 +154,4 @@
         ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation _:C4
         (2 0) complex:asin _:C5
         (2 0) complex:acos _:C6
-    );
-    lingua:varCount 6.
+    ).

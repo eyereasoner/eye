@@ -14,8 +14,7 @@
     lingua:premise (
         () gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort 1))
-    );
-    lingua:varCount 10.
+    ).
 
 :gps_rule2 a lingua:BackwardRule;
     lingua:conclusion (
@@ -25,8 +24,7 @@
     lingua:premise (
         () gps:findpaths (() _:Goal () 0.0 0.0 1.0 1.0 _:Path _:Duration _:Cost _:Belief _:Comfort
             (_:MaxDuration _:MaxCost _:MinBelief _:MinComfort _:MaxStagecount))
-    );
-    lingua:varCount 11.
+    ).
 
 :gps_rule3 a lingua:BackwardRule;
     lingua:conclusion (
@@ -35,8 +33,7 @@
     );
     lingua:premise (
         _:Goal log:call true
-    );
-    lingua:varCount 12.
+    ).
 
 :gps_rule4 a lingua:BackwardRule;
     lingua:conclusion (
@@ -64,16 +61,14 @@
         ) log:callWithCleanup (
             _:To log:becomes _:From
         )
-    );
-    lingua:varCount 33.
+    ).
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
 :gps_rule5 a lingua:BackwardRule;
     lingua:conclusion (
         () gps:stagecount 1
     );
-    lingua:premise ();
-    lingua:varCount 0.
+    lingua:premise ().
 
 :gps_rule6 a lingua:BackwardRule;
     lingua:conclusion (
@@ -85,8 +80,7 @@
         _:C log:notEqualTo _:E
         _:D gps:stagecount _:G
         (_:G 1) math:sum _:B
-    );
-    lingua:varCount 7.
+    ).
 
 :gps_rule7 a lingua:BackwardRule;
     lingua:conclusion (
@@ -95,8 +89,7 @@
     lingua:premise (
         _:A list:firstRest (_:C _:D)
         _:D gps:stagecount _:B
-    );
-    lingua:varCount 4.
+    ).
 
 # current state as practical example
 :i1 :location :Gent.
@@ -108,8 +101,7 @@
     );
     lingua:premise (
         _:S :location _:L
-    );
-    lingua:varCount 2.
+    ).
 
 :gps_rule9 a lingua:BackwardRule;
     lingua:conclusion (
@@ -117,8 +109,7 @@
     );
     lingua:premise (
         _:S :location _:L
-    );
-    lingua:varCount 2.
+    ).
 
 :gps_rule10 a lingua:BackwardRule;
     lingua:conclusion (
@@ -126,8 +117,7 @@
     );
     lingua:premise (
         _:S :location _:L
-    );
-    lingua:varCount 2.
+    ).
 
 :gps_rule11 a lingua:BackwardRule;
     lingua:conclusion (
@@ -135,8 +125,7 @@
     );
     lingua:premise (
         _:S :location _:L
-    );
-    lingua:varCount 2.
+    ).
 
 # query
 :gps_query a lingua:QueryRule;
@@ -145,5 +134,4 @@
     );
     lingua:conclusion (
         _:SUBJECT gps:path (_:PATH _:DURATION _:COST _:BELIEF _:COMFORT)
-    );
-    lingua:varCount 6.
+    ).

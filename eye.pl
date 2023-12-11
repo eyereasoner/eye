@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.10 (2023-12-11)').
+version_info('EYE v9.0.11 (2023-12-11)').
 
 license_info('MIT License
 
@@ -618,8 +618,8 @@ gre(Argus) :-
 %
 % RDF Lingua
 %
-% - RDF as the web talking language
-% - Reasoning with rules described in RDF
+% RDF as the web talking language
+% Reasoning with rules described in RDF
 
 lingua :-
     % configure
@@ -650,10 +650,7 @@ lingua :-
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
-            findvars([A, B], U, beta),
-            distinct(U, V),
-            length(V, N),
+            findvars([A, B], V, beta),
             makevars([A, B], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
@@ -663,10 +660,7 @@ lingua :-
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
-            findvars([A, B], U, beta),
-            distinct(U, V),
-            length(V, N),
+            findvars([A, B], V, beta),
             makevars(':-'(B, A), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -684,10 +678,7 @@ lingua :-
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
-            '<http://www.w3.org/2000/10/swap/lingua#varCount>'(R, N),
-            findvars([A, B], U, beta),
-            distinct(U, V),
-            length(V, N),
+            findvars([A, B], V, beta),
             makevars(implies(A, J, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),

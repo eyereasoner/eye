@@ -29,8 +29,7 @@
                 _:Test :has _:Field
             )
         ) log:forAllIn _:X
-    );
-    lingua:varCount 4.
+    ).
 
 :acp_rule2 a lingua:BackwardRule;
     lingua:conclusion (
@@ -49,8 +48,7 @@
         ) log:collectAllIn _:X
         _:List list:length _:L
         _:L log:notEqualTo 0
-    );
-    lingua:varCount 6.
+    ).
 
 :acp_rule3 a lingua:BackwardRule;
     lingua:conclusion (
@@ -65,8 +63,7 @@
             ) _:List) log:collectAllIn _:X
         _:List list:length _:L
         _:L log:equalTo 0
-    );
-    lingua:varCount 6.
+    ).
 
 # query
 :acp_query a lingua:QueryRule;
@@ -79,5 +76,4 @@
     lingua:conclusion (
         :test :for _:Pol
         :test :is true
-    );
-    lingua:varCount 1.
+    ).

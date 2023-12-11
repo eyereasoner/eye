@@ -32,8 +32,7 @@
     );
     lingua:conclusion (
         :actuator1 :control1 _:C
-    );
-    lingua:varCount 5.
+    ).
 
 :control_rule2 a lingua:ForwardRule;
     lingua:premise (
@@ -50,8 +49,7 @@
     );
     lingua:conclusion (
         :actuator2 :control1 _:C
-    );
-    lingua:varCount 10.
+    ).
 
 # backward rules
 :control_rule3 a lingua:BackwardRule;
@@ -63,8 +61,7 @@
         _:M1 math:lessThan _:M2
         (_:M2 _:M1) math:difference _:M3
         (_:M3 0.5) math:exponentiation _:M
-    );
-    lingua:varCount 5.
+    ).
 
 :control_rule4 a lingua:BackwardRule;
     lingua:conclusion (
@@ -73,8 +70,7 @@
     lingua:premise (
         _:I :measurement1 (_:M1 _:M2)
         _:M1 math:notLessThan _:M2
-    );
-    lingua:varCount 3.
+    ).
 
 # query
 :control_query a lingua:QueryRule;
@@ -83,5 +79,4 @@
     );
     lingua:conclusion (
         _:O :control1 _:C
-    );
-    lingua:varCount 2.
+    ).
