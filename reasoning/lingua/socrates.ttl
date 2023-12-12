@@ -9,6 +9,11 @@
 
 # rdfs subclass
 :rdfs_subclass_rule a lingua:ForwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:S
+    );
     lingua:premise (
         _:A rdfs:subClassOf _:B
         _:S rdf:type _:A
@@ -19,6 +24,9 @@
 
 # query
 :socrates_query a lingua:QueryRule;
+    lingua:vars (
+        _:S
+    );
     lingua:premise (
         _:S rdf:type :Mortal
     );

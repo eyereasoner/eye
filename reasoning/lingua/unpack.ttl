@@ -31,12 +31,21 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
+    lingua:vars ();
     lingua:conclusion (
         () :unpackl ()
     );
     lingua:premise ().
 
 :unpack_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:g
+        _:h
+        _:f
+        _:r
+        _:a
+        _:b
+    );
     lingua:conclusion (
         _:g :unpackl _:h
     );
@@ -48,6 +57,16 @@ _:b1 :data (
     ).
 
 :unpack_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+        _:f
+        _:l
+        _:a
+        _:c
+        _:t
+        _:d
+    );
     lingua:conclusion (
         (_:b :package _:p) :unpack _:f
     );
@@ -61,6 +80,14 @@ _:b1 :data (
     ).
 
 :unpack_rule4 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+        _:l
+        _:a
+        _:c
+        _:t
+    );
     lingua:conclusion (
         (_:b :package _:p) :unpack ()
     );
@@ -72,12 +99,23 @@ _:b1 :data (
     ).
 
 :unpack_rule5 a lingua:BackwardRule;
+    lingua:vars (
+        _:b
+        _:p
+    );
     lingua:conclusion (
         (_:b :tag _:p) :unpack ()
     );
     lingua:premise ().
 
 :unpack_rule6 a lingua:BackwardRule;
+    lingua:vars (
+        _:g
+        _:a
+        _:p
+        _:b
+        _:q
+    );
     lingua:conclusion (
         _:g :unpack (_:g)
     );
@@ -88,6 +126,13 @@ _:b1 :data (
 
 # unpack the triples that are usable in the future
 :unpack_query a lingua:QueryRule;
+    lingua:vars (
+        _:b
+        _:g
+        _:l
+        _:m
+        _:u
+    );
     lingua:premise (
         _:b :data _:g
         _:g list:lott _:l

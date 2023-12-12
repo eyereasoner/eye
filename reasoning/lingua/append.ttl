@@ -16,6 +16,11 @@
 
 # query
 :append_query a lingua:QueryRule;
+    lingua:vars (
+        _:X1
+        _:X2
+        _:Y
+    );
     lingua:premise (
         :Let :param1 _:X1
         :Let :param2 _:X2
@@ -23,4 +28,4 @@
     );
     lingua:conclusion (
         (_:X1 _:X2) :append _:Y
-    ).
+).

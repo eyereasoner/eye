@@ -4,6 +4,9 @@
 
 # \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x
 :witch_rule1 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
     lingua:premise (
         _:X rdf:type :BURNS
         _:X rdf:type :WOMAN
@@ -17,6 +20,9 @@
 
 # \forall x : ISMADEOFWOOD(x) => BURNS(x
 :witch_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
     lingua:premise (
         _:X rdf:type :ISMADEOFWOOD
     );
@@ -26,6 +32,9 @@
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x
 :witch_rule3 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+    );
     lingua:premise (
         _:X rdf:type :FLOATS
     );
@@ -38,6 +47,10 @@
 
 # \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y
 :witch_rule4 a lingua:ForwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+    );
     lingua:premise (
         _:X rdf:type :FLOATS
         _:X :SAMEWEIGHT _:Y
@@ -52,6 +65,9 @@
 
 # who's a witch?
 :witch_query a lingua:QueryRule;
+    lingua:vars (
+        _:S
+    );
     lingua:premise (
         _:S rdf:type :WITCH
     );

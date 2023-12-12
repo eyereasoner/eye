@@ -12,6 +12,9 @@
 
 # patch rule
 :patch_rule a lingua:ForwardRule;
+    lingua:vars (
+        _:person
+    );
     lingua:premise (
         _:person :familyName "Garcia"
         (
@@ -24,6 +27,11 @@
 
 # query
 :patch_query a lingua:QueryRule;
+    lingua:vars (
+        _:person
+        _:fname
+        _:gname
+    );    
     lingua:premise (
         _:person :familyName _:fname
         _:person :givenName _:gname

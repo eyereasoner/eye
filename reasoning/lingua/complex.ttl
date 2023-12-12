@@ -5,6 +5,26 @@
 
 # exponentiation
 :complex_numbers_exponentiation_rule a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+        _:E
+        _:F
+        _:R
+        _:T
+        _:Z1
+        _:Z2
+        _:Z3
+        _:Z4
+        _:Z5
+        _:Z6
+        _:Z7
+        _:Z8
+        _:Z9
+        _:Z10
+    );
     lingua:conclusion (
         ((_:A _:B) (_:C _:D)) complex:exponentiation (_:E _:F)
     );
@@ -26,6 +46,29 @@
 
 # asin
 :complex_numbers_asin_rule a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+        _:E
+        _:F
+        _:Z1
+        _:Z2
+        _:Z3
+        _:Z4
+        _:Z5
+        _:Z6
+        _:Z7
+        _:Z8
+        _:Z9
+        _:Z10
+        _:Z11
+        _:Z12
+        _:Z13
+        _:Z14
+        _:Z15
+    );
     lingua:conclusion (
         (_:A _:B) complex:asin (_:C _:D)
     );
@@ -53,6 +96,30 @@
 
 # acos
 :complex_numbers_acos_rule a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+        _:C
+        _:D
+        _:E
+        _:F
+        _:Z1
+        _:Z2
+        _:Z3
+        _:Z4
+        _:Z5
+        _:Z6
+        _:Z7
+        _:Z8
+        _:Z9
+        _:Z10
+        _:Z11
+        _:Z12
+        _:Z13
+        _:Z14
+        _:Z15
+        _:U
+    );
     lingua:conclusion (
         (_:A _:B) complex:acos (_:C _:D)
     );
@@ -81,6 +148,18 @@
 
 # polar
 :complex_numbers_polar_rule a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+        _:R
+        _:Tp
+        _:Z1
+        _:Z2
+        _:Z3
+        _:Z4
+        _:Z5
+        _:T
+    );
     lingua:conclusion (
         (_:X _:Y) complex:polar(_:R _:Tp)
     );
@@ -97,6 +176,12 @@
 
 # dial
 :complex_numbers_dial_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+        _:T
+        _:Tp
+    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -107,6 +192,12 @@
     ).
 
 :complex_numbers_dial_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+        _:T
+        _:Tp
+    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -117,6 +208,12 @@
     ).
 
 :complex_numbers_dial_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+        _:T
+        _:Tp
+    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -127,6 +224,13 @@
     ).
 
 :complex_numbers_dial_rule4 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+        _:Y
+        _:T
+        _:Tp
+        _:Z1
+    );
     lingua:conclusion (
         (_:X _:Y _:T) complex:dial _:Tp
     );
@@ -139,6 +243,14 @@
 
 # query
 :complex_numbers_query a lingua:QueryRule;
+    lingua:vars (
+        _:C1
+        _:C2
+        _:C3
+        _:C4
+        _:C5
+        _:C6
+    );
     lingua:premise (
         ((-1 0) (0.5 0)) complex:exponentiation _:C1
         ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation _:C2

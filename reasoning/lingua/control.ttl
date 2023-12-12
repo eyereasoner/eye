@@ -22,6 +22,13 @@
 
 # forward rules
 :control_rule1 a lingua:ForwardRule;
+    lingua:vars (
+        _:M1
+        _:D1
+        _:C1
+        _:C2
+        _:C
+    );
     lingua:premise (
         :input1 :measurement10 _:M1
         :input2 :measurement2 true
@@ -35,6 +42,18 @@
     ).
 
 :control_rule2 a lingua:ForwardRule;
+    lingua:vars (
+        _:M3
+        _:P3
+        _:M4
+        _:T2
+        _:E
+        _:D
+        _:C1
+        _:N
+        _:C2
+        _:C
+    );
     lingua:premise (
         :input3 :measurement3 _:M3
         :state3 :observation3 _:P3
@@ -53,6 +72,14 @@
 
 # backward rules
 :control_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:I
+        _:M
+        _:M1
+        _:M2
+        _:M3
+        _:M
+    );
     lingua:conclusion (
         _:I :measurement10 _:M
     );
@@ -64,6 +91,11 @@
     ).
 
 :control_rule4 a lingua:BackwardRule;
+    lingua:vars (
+        _:I
+        _:M1
+        _:M2
+    );
     lingua:conclusion (
         _:I :measurement10 _:M1
     );
@@ -74,6 +106,10 @@
 
 # query
 :control_query a lingua:QueryRule;
+    lingua:vars (
+        _:O
+        _:C
+    );
     lingua:premise (
         _:O :control1 _:C
     );

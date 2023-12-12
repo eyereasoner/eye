@@ -6,6 +6,9 @@
 
 # \Every x: type(x, Resource
 :universal_statements_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:X
+    );
     lingua:conclusion (
         _:X rdf:type rdfs:Resource
     );
@@ -13,6 +16,10 @@
 
 # Everybody loves somebody who is lonely
 :universal_statements_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:A
+        _:B
+    );
     lingua:conclusion (
         _:A :loves _:B
     );
@@ -21,6 +28,10 @@
     ).
 
 :universal_statements_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:B
+        _:A
+    );
     lingua:conclusion (
         _:B :is :lonely
     );
@@ -30,6 +41,7 @@
 
 # queries
 :universal_statements_query1 a lingua:QueryRule;
+    lingua:vars ();
     lingua:premise (
         :pat rdf:type rdfs:Resource
     );
@@ -38,6 +50,9 @@
     ).
 
 :universal_statements_query2 a lingua:QueryRule;
+    lingua:vars (
+        _:X
+    );
     lingua:premise (
         :bob :loves _:X
         _:X :is :lonely

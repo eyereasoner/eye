@@ -3,6 +3,12 @@
 @prefix : <http://example.org/ns#>.
 
 :pi_rule1 a lingua:BackwardRule;
+    lingua:vars (
+        _:N
+        _:Pi
+        _:P
+        _:A
+    );
     lingua:conclusion (
         (_:N _:Pi) :pi true
     );
@@ -13,12 +19,32 @@
     ).
 
 :pi_rule2 a lingua:BackwardRule;
+    lingua:vars (
+        _:N
+        _:P
+        _:S
+    );
     lingua:conclusion (
         (_:N _:N _:P _:P _:S) :pi true
     );
     lingua:premise ().
 
 :pi_rule3 a lingua:BackwardRule;
+    lingua:vars (
+        _:K
+        _:N
+        _:P0
+        _:P
+        _:S
+        _:K1
+        _:K2
+        _:A
+        _:B
+        _:C
+        _:D
+        _:P1
+        _:S1
+    );
     lingua:conclusion (
         (_:K _:N _:P0 _:P _:S) :pi true
     );
@@ -37,6 +63,9 @@
 
 # query
 :pi_query a lingua:QueryRule;
+    lingua:vars (
+        _:Pi
+    );
     lingua:premise (
         (1000 _:Pi) :pi true
     );
