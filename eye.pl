@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.13 (2023-12-12)').
+version_info('EYE v9.0.14 (2023-12-12)').
 
 license_info('MIT License
 
@@ -7038,6 +7038,9 @@ djiti_assertz(A) :-
     \+flag(restricted),
     '<http://www.w3.org/2000/10/swap/log#semantics>'(A, C),
     '<http://www.w3.org/2000/10/swap/log#n3String>'(C, B).
+
+'<http://www.w3.org/2000/10/swap/log#copy>'(X, Y) :-
+    copy_term_nat(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#dtlit>'([A, B], C) :-
     when(
