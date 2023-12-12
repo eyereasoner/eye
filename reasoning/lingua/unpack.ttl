@@ -1,142 +1,98 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # sample data from RubenD
-_:b1 :data (
-    _:b2 :package (
-        _:b3 :content (
+var:b1 :data (
+    var:b2 :package (
+        var:b3 :content (
             :a :b _:c
-            _:b4 :package (
-                _:b5 :content (
+            var:b4 :package (
+                var:b5 :content (
                     :u :v _:w
-                    _:b6 :package (
-                        _:b7 :content (
+                    var:b6 :package (
+                        var:b7 :content (
                             :x :y _:z
                         )
-                        _:b7 :usable_until :yesterday
+                        var:b7 :usable_until :yesterday
                     )
-                    _:b6 :tag :invalid
+                    var:b6 :tag :invalid
                 )
-                _:b5 :usable_until :tomorrow
-                _:b5 :p :o
+                var:b5 :usable_until :tomorrow
+                var:b5 :p :o
             )
-            _:b4 :tag :valid
+            var:b4 :tag :valid
         )
-        _:b3 :usable_until :next_week
+        var:b3 :usable_until :next_week
     )
-    _:b2 :tag :valid
+    var:b2 :tag :valid
 ).
 
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
-    lingua:vars ();
     lingua:conclusion (
         () :unpackl ()
     );
     lingua:premise ().
 
 :unpack_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:g
-        _:h
-        _:f
-        _:r
-        _:a
-        _:b
-    );
     lingua:conclusion (
-        _:g :unpackl _:h
+        var:g :unpackl var:h
     );
     lingua:premise (
-        _:g list:firstRest (_:f _:r)
-        _:f :unpack _:a
-        _:r :unpackl _:b
-        (_:a _:b) list:append _:h
+        var:g list:firstRest (var:f var:r)
+        var:f :unpack var:a
+        var:r :unpackl var:b
+        (var:a var:b) list:append var:h
     ).
 
 :unpack_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-        _:f
-        _:l
-        _:a
-        _:c
-        _:t
-        _:d
-    );
     lingua:conclusion (
-        (_:b :package _:p) :unpack _:f
+        (var:b :package var:p) :unpack var:f
     );
     lingua:premise (
-        _:p list:lott _:l
-        _:l list:member (_:a :content _:c)
-        _:l list:member (_:a :usable_until _:t)
-        (:tomorrow :next_week) list:member _:t
-        _:c list:lott _:d
-        _:d :unpackl _:f
+        var:p list:lott var:l
+        var:l list:member (var:a :content var:c)
+        var:l list:member (var:a :usable_until var:t)
+        (:tomorrow :next_week) list:member var:t
+        var:c list:lott var:d
+        var:d :unpackl var:f
     ).
 
 :unpack_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-        _:l
-        _:a
-        _:c
-        _:t
-    );
     lingua:conclusion (
-        (_:b :package _:p) :unpack ()
+        (var:b :package var:p) :unpack ()
     );
     lingua:premise (
-        _:p list:lott _:l
-        _:l list:member (_:a :content _:c)
-        _:l list:member (_:a :usable_until _:t)
-        (:yesterday :last_week) list:member _:t
+        var:p list:lott var:l
+        var:l list:member (var:a :content var:c)
+        var:l list:member (var:a :usable_until var:t)
+        (:yesterday :last_week) list:member var:t
     ).
 
 :unpack_rule5 a lingua:BackwardRule;
-    lingua:vars (
-        _:b
-        _:p
-    );
     lingua:conclusion (
-        (_:b :tag _:p) :unpack ()
+        (var:b :tag var:p) :unpack ()
     );
     lingua:premise ().
 
 :unpack_rule6 a lingua:BackwardRule;
-    lingua:vars (
-        _:g
-        _:a
-        _:p
-        _:b
-        _:q
-    );
     lingua:conclusion (
-        _:g :unpack (_:g)
+        var:g :unpack (var:g)
     );
     lingua:premise (
-        (_:g) list:notMember (_:a :package _:p)
-        (_:g) list:notMember (_:b :tag _:q)
+        (var:g) list:notMember (var:a :package var:p)
+        (var:g) list:notMember (var:b :tag var:q)
     ).
 
 # unpack the triples that are usable in the future
 :unpack_query a lingua:QueryRule;
-    lingua:vars (
-        _:b
-        _:g
-        _:l
-        _:m
-        _:u
-    );
     lingua:premise (
-        _:b :data _:g
-        _:g list:lott _:l
-        _:l :unpackl _:m
-        _:u list:lott _:m
+        var:b :data var:g
+        var:g list:lott var:l
+        var:l :unpackl var:m
+        var:u list:lott var:m
     );
-    lingua:conclusion _:u.
+    lingua:conclusion var:u.

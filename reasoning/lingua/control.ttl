@@ -1,5 +1,6 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # input
@@ -22,97 +23,61 @@
 
 # forward rules
 :control_rule1 a lingua:ForwardRule;
-    lingua:vars (
-        _:M1
-        _:D1
-        _:C1
-        _:C2
-        _:C
-    );
     lingua:premise (
-        :input1 :measurement10 _:M1
+        :input1 :measurement10 var:M1
         :input2 :measurement2 true
-        :disturbance1 :measurement3 _:D1
-        (_:M1 19.6) math:product _:C1           # proportial part
-        (10 _:C2) math:exponentiation _:D1      # compensation part
-        (_:C1 _:C2) math:difference _:C         # simple feedforward control
+        :disturbance1 :measurement3 var:D1
+        (var:M1 19.6) math:product var:C1           # proportial part
+        (10 var:C2) math:exponentiation var:D1      # compensation part
+        (var:C1 var:C2) math:difference var:C         # simple feedforward control
     );
     lingua:conclusion (
-        :actuator1 :control1 _:C
+        :actuator1 :control1 var:C
     ).
 
 :control_rule2 a lingua:ForwardRule;
-    lingua:vars (
-        _:M3
-        _:P3
-        _:M4
-        _:T2
-        _:E
-        _:D
-        _:C1
-        _:N
-        _:C2
-        _:C
-    );
     lingua:premise (
-        :input3 :measurement3 _:M3
-        :state3 :observation3 _:P3
-        :output2 :measurement4 _:M4
-        :output2 :target2 _:T2
-        (_:T2 _:M4) math:difference _:E         # error
-        (_:P3 _:M4) math:difference _:D         # differential error
-        (5.8 _:E) math:product _:C1             # proportial part
-        (7.3 _:E) math:quotient _:N             # nonlinear factor
-        (_:N _:D) math:product _:C2             # nonlinear differential part
-        (_:C1 _:C2) math:sum _:C                # PND feedback control
+        :input3 :measurement3 var:M3
+        :state3 :observation3 var:P3
+        :output2 :measurement4 var:M4
+        :output2 :target2 var:T2
+        (var:T2 var:M4) math:difference var:E         # error
+        (var:P3 var:M4) math:difference var:D         # differential error
+        (5.8 var:E) math:product var:C1             # proportial part
+        (7.3 var:E) math:quotient var:N             # nonlinear factor
+        (var:N var:D) math:product var:C2             # nonlinear differential part
+        (var:C1 var:C2) math:sum var:C                # PND feedback control
     );
     lingua:conclusion (
-        :actuator2 :control1 _:C
+        :actuator2 :control1 var:C
     ).
 
 # backward rules
 :control_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:I
-        _:M
-        _:M1
-        _:M2
-        _:M3
-        _:M
-    );
     lingua:conclusion (
-        _:I :measurement10 _:M
+        var:I :measurement10 var:M
     );
     lingua:premise (
-        _:I :measurement1 (_:M1 _:M2)
-        _:M1 math:lessThan _:M2
-        (_:M2 _:M1) math:difference _:M3
-        (_:M3 0.5) math:exponentiation _:M
+        var:I :measurement1 (var:M1 var:M2)
+        var:M1 math:lessThan var:M2
+        (var:M2 var:M1) math:difference var:M3
+        (var:M3 0.5) math:exponentiation var:M
     ).
 
 :control_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:I
-        _:M1
-        _:M2
-    );
     lingua:conclusion (
-        _:I :measurement10 _:M1
+        var:I :measurement10 var:M1
     );
     lingua:premise (
-        _:I :measurement1 (_:M1 _:M2)
-        _:M1 math:notLessThan _:M2
+        var:I :measurement1 (var:M1 var:M2)
+        var:M1 math:notLessThan var:M2
     ).
 
 # query
 :control_query a lingua:QueryRule;
-    lingua:vars (
-        _:O
-        _:C
-    );
     lingua:premise (
-        _:O :control1 _:C
+        var:O :control1 var:C
     );
     lingua:conclusion (
-        _:O :control1 _:C
+        var:O :control1 var:C
     ).

@@ -1,4 +1,5 @@
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # French roads
@@ -15,40 +16,28 @@
 
 # oneway subproperty of path
 :graph_rule1 a lingua:ForwardRule;
-    lingua:vars (
-        _:A
-        _:B
-    );
     lingua:premise (
-        _:A :oneway _:B
+        var:A :oneway var:B
     );
     lingua:conclusion (
-        _:A :path _:B
+        var:A :path var:B
     ).
 
 # path transitive property
 :graph_rule2 a lingua:ForwardRule;
-    lingua:vars (
-        _:A
-        _:B
-        _:C
-    );
     lingua:premise (
-        _:A :path _:B
-        _:B :path _:C
+        var:A :path var:B
+        var:B :path var:C
     );
     lingua:conclusion (
-        _:A :path _:C
+        var:A :path var:C
     ).
 
 # query
 :graph_query a lingua:QueryRule;
-    lingua:vars (
-        _:A
-    );
     lingua:premise (
-        _:A :path :nantes
+        var:A :path :nantes
     );
     lingua:conclusion (
-        _:A :path :nantes
+        var:A :path :nantes
     ).

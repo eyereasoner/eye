@@ -1,24 +1,20 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # see https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
 # something is more interesting if it is greater
 :backward_rule a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        _:X :moreInterestingThan _:Y
+        var:X :moreInterestingThan var:Y
     );
     lingua:premise (
-        _:X math:greaterThan _:Y
+        var:X math:greaterThan var:Y
     ).
 
 # query
 :backward_query a lingua:QueryRule;
-    lingua:vars ();
     lingua:premise (
         5 :moreInterestingThan 3
     );

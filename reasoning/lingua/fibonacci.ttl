@@ -1,79 +1,55 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # backward rules
 :fibonacci_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        _:X :fibonacci _:Y
+        var:X :fibonacci var:Y
     );
     lingua:premise (
-        (_:X 0 1) :fib _:Y
+        (var:X 0 1) :fib var:Y
     ).
 
 :fibonacci_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-    );
     lingua:conclusion (
-        (0 _:A _:B) :fib _:A
+        (0 var:A var:B) :fib var:A
     );
     lingua:premise ().
 
 :fibonacci_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:A
-        _:B
-    );
     lingua:conclusion (
-        (1 _:A _:B) :fib _:B
+        (1 var:A var:B) :fib var:B
     );
     lingua:premise ().
 
 :fibonacci_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:A
-        _:B
-        _:Y
-        _:C
-        _:D
-    );
     lingua:conclusion (
-        (_:X _:A _:B) :fib _:Y
+        (var:X var:A var:B) :fib var:Y
     );
     lingua:premise (
-        _:X math:greaterThan 1
-        (_:X 1) math:difference _:C
-        (_:A _:B) math:sum _:D
-        (_:C _:B _:D) :fib _:Y
+        var:X math:greaterThan 1
+        (var:X 1) math:difference var:C
+        (var:A var:B) math:sum var:D
+        (var:C var:B var:D) :fib var:Y
     ).
 
 # query
 :fibonacci_query a lingua:QueryRule;
-    lingua:vars (
-        _:F1
-        _:F2
-        _:F3
-        _:F4
-        _:F5
-    );
     lingua:premise (
-        0 :fibonacci _:F1
-        1 :fibonacci _:F2
-        6 :fibonacci _:F3
-        91 :fibonacci _:F4
-        283 :fibonacci _:F5
+        0 :fibonacci var:F1
+        1 :fibonacci var:F2
+        6 :fibonacci var:F3
+        91 :fibonacci var:F4
+        283 :fibonacci var:F5
+        3674 :fibonacci var:F6
     );
     lingua:conclusion (
-        () :fibonacci (0 _:F1)
-        () :fibonacci (1 _:F2)
-        () :fibonacci (6 _:F3)
-        () :fibonacci (91 _:F4)
-        () :fibonacci (283 _:F5)
+        () :fibonacci (0 var:F1)
+        () :fibonacci (1 var:F2)
+        () :fibonacci (6 var:F3)
+        () :fibonacci (91 var:F4)
+        () :fibonacci (283 var:F5)
+        () :fibonacci (3674 var:F6)
     ).

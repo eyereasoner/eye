@@ -1,50 +1,33 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
-# _:M is the sequence of moves to move _:N disks from _:X to _:Y using _:Z as intermediary
+# var:M is the sequence of moves to move var:N disks from var:X to var:Y using var:Z as intermediary
 :hanoi_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:N
-        _:X
-        _:Y
-        _:Z
-        _:M
-        _:N1
-        _:M1
-        _:M2
-    );
     lingua:conclusion (
-        (_:N _:X _:Y _:Z) :moves _:M
+        (var:N var:X var:Y var:Z) :moves var:M
     );
     lingua:premise (
-        _:N math:greaterThan 1
-        (_:N 1) math:difference _:N1
-        (_:N1 _:X _:Z _:Y) :moves _:M1
-        (_:N1 _:Z _:Y _:X) :moves _:M2
-        (_:M1 ((_:X _:Y)) _:M2) list:append _:M
+        var:N math:greaterThan 1
+        (var:N 1) math:difference var:N1
+        (var:N1 var:X var:Z var:Y) :moves var:M1
+        (var:N1 var:Z var:Y var:X) :moves var:M2
+        (var:M1 ((var:X var:Y)) var:M2) list:append var:M
     ).
 
 :hanoi_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:Z
-    );
     lingua:conclusion (
-        (1 _:X _:Y _:Z) :moves ((_:X _:Y))
+        (1 var:X var:Y var:Z) :moves ((var:X var:Y))
     );
     lingua:premise ().
 
 # query
 :hanoi_query a lingua:QueryRule;
-    lingua:vars (
-        _:M
-    );
     lingua:premise (
-        (7 :left :right :center) :moves _:M
+        (7 :left :right :center) :moves var:M
     );
     lingua:conclusion (
-        (7 :left :right :center) :moves _:M
+        (7 :left :right :center) :moves var:M
     ).

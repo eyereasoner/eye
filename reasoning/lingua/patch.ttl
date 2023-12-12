@@ -1,7 +1,8 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # sample data
@@ -12,31 +13,23 @@
 
 # patch rule
 :patch_rule a lingua:ForwardRule;
-    lingua:vars (
-        _:person
-    );
     lingua:premise (
-        _:person :familyName "Garcia"
+        var:person :familyName "Garcia"
         (
-            _:person :givenName "Claudia"
+            var:person :givenName "Claudia"
         ) log:becomes (
-            _:person :givenName "Alex"
+            var:person :givenName "Alex"
         )
     );
     lingua:conclusion ().
 
 # query
 :patch_query a lingua:QueryRule;
-    lingua:vars (
-        _:person
-        _:fname
-        _:gname
-    );    
     lingua:premise (
-        _:person :familyName _:fname
-        _:person :givenName _:gname
+        var:person :familyName var:fname
+        var:person :givenName var:gname
     );
     lingua:conclusion (
-        _:person :familyName _:fname
-        _:person :givenName _:gname
+        var:person :familyName var:fname
+        var:person :givenName var:gname
     ).

@@ -1,6 +1,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 :Let :param1 (
@@ -16,16 +17,11 @@
 
 # query
 :append_query a lingua:QueryRule;
-    lingua:vars (
-        _:X1
-        _:X2
-        _:Y
-    );
     lingua:premise (
-        :Let :param1 _:X1
-        :Let :param2 _:X2
-        (_:X1 _:X2) list:append _:Y
+        :Let :param1 var:X1
+        :Let :param2 var:X2
+        (var:X1 var:X2) list:append var:Y
     );
     lingua:conclusion (
-        (_:X1 _:X2) :append _:Y
+        (var:X1 var:X2) :append var:Y
 ).

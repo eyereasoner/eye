@@ -1,7 +1,8 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # |R) = |0, 0) + |1, 1
@@ -40,174 +41,116 @@
 
 # KG
 :sdcoding_rule1 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:Z
-    );
     lingua:conclusion (
-        _:X :kg _:Y
+        var:X :kg var:Y
     );
     lingua:premise (
-        _:X :g _:Z
-        _:Z :k _:Y
+        var:X :g var:Z
+        var:Z :k var:Y
     ).
 
 # GK
 :sdcoding_rule2 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-        _:Z
-    );
     lingua:conclusion (
-        _:X :gk _:Y
+        var:X :gk var:Y
     );
     lingua:premise (
-        _:X :k _:Z
-        _:Z :g _:Y
+        var:X :k var:Z
+        var:Z :g var:Y
     ).
 
 # Alice
 :sdcoding_rule3 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        0 :alice (_:X _:Y)
+        0 :alice (var:X var:Y)
     );
     lingua:premise (
-        _:X :id _:Y
+        var:X :id var:Y
     ).
 
 :sdcoding_rule4 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        1 :alice (_:X _:Y)
+        1 :alice (var:X var:Y)
     );
     lingua:premise (
-        _:X :g _:Y
+        var:X :g var:Y
     ).
 
 :sdcoding_rule5 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        2 :alice (_:X _:Y)
+        2 :alice (var:X var:Y)
     );
     lingua:premise (
-        _:X :k _:Y
+        var:X :k var:Y
     ).
 
 :sdcoding_rule6 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        3 :alice (_:X _:Y)
+        3 :alice (var:X var:Y)
     );
     lingua:premise (
-        _:X :kg _:Y
+        var:X :kg var:Y
     ).
 
 # Bob
 :sdcoding_rule7 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        (_:X _:Y) :bob 0
+        (var:X var:Y) :bob 0
     );
     lingua:premise (
-        _:X :gk _:Y
+        var:X :gk var:Y
     ).
 
 :sdcoding_rule8 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        (_:X _:Y) :bob 1
+        (var:X var:Y) :bob 1
     );
     lingua:premise (
-        _:X :k _:Y
+        var:X :k var:Y
     ).
 
 :sdcoding_rule9 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        (_:X _:Y) :bob 2
+        (var:X var:Y) :bob 2
     );
     lingua:premise (
-        _:X :g _:Y
+        var:X :g var:Y
     ).
 
 :sdcoding_rule10 a lingua:BackwardRule;
-    lingua:vars (
-        _:X
-        _:Y
-    );
     lingua:conclusion (
-        (_:X _:Y) :bob 3
+        (var:X var:Y) :bob 3
     );
     lingua:premise (
-        _:X :id _:Y
+        var:X :id var:Y
     ).
 
 # superdense coding
 :sdcoding_rule11 a lingua:ForwardRule;
-    lingua:vars (
-        _:N
-        _:A
-        _:B
-        _:M
-        _:X
-        _:Y
-        _:Z
-        _:L
-        _:S
-        _:I
-    );
     lingua:premise (
-        _:N :alice _:A
-        _:B :bob _:M
+        var:N :alice var:A
+        var:B :bob var:M
         (
             1
             (
-                _:X :r _:Y
-                _:N :alice (_:X _:Z)
-                (_:Z _:Y) :bob _:M
+                var:X :r var:Y
+                var:N :alice (var:X var:Z)
+                (var:Z var:Y) :bob var:M
             )
-            _:L
-        ) log:collectAllIn _:S
-        _:L list:length _:I
-        (_:I 2) math:remainder 1
+            var:L
+        ) log:collectAllIn var:S
+        var:L list:length var:I
+        (var:I 2) math:remainder 1
     );
     lingua:conclusion (
-        _:N :sdcoding _:M
+        var:N :sdcoding var:M
     ).
 
 # query
 :sdcoding_query a lingua:QueryRule;
-    lingua:vars (
-        _:N
-        _:M
-    );
     lingua:premise (
-        _:N :sdcoding _:M
+        var:N :sdcoding var:M
     );
     lingua:conclusion (
-        () :sdcoding (_:N _:M)
+        () :sdcoding (var:N var:M)
     ).

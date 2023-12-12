@@ -1,70 +1,56 @@
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # saying A means saying C
 :negation_predicates_rule1 a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S :saying :A
+        var:S :saying :A
     );
     lingua:conclusion (
-        _:S :saying :C
+        var:S :saying :C
     ).
 
 :negation_predicates_rule2 a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S :not_saying :C
+        var:S :not_saying :C
     );
     lingua:conclusion (
-        _:S :not_saying :A
+        var:S :not_saying :A
     ).
 
 # saying B means saying C
 :negation_predicates_rule3 a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S :saying :B
+        var:S :saying :B
     );
     lingua:conclusion (
-        _:S :saying :C
+        var:S :saying :C
     ).
 
 :negation_predicates_rule4 a lingua:ForwardRule;
     lingua:premise (
-        _:S :not_saying :C
+        var:S :not_saying :C
     );
     lingua:conclusion (
-        _:S :not_saying :B
+        var:S :not_saying :B
     ).
 
 # saying A or saying B
 :negation_predicates_rule5 a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S :not_saying :A
+        var:S :not_saying :A
     );
     lingua:conclusion (
-        _:S :saying :B
+        var:S :saying :B
     ).
 
 :negation_predicates_rule6 a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S :not_saying :B
+        var:S :not_saying :B
     );
     lingua:conclusion (
-        _:S :saying :A
+        var:S :saying :A
     ).
 
 # assuming the negation of the query so that
@@ -73,7 +59,6 @@
 
 # query
 :negation_predicates_query a lingua:QueryRule;
-    lingua:vars ();
     lingua:premise (
         :alice :saying :C
     );

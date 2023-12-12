@@ -1,5 +1,6 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 # facts
@@ -7,24 +8,18 @@
 
 # humans are mortal
 :forward_rule a lingua:ForwardRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S rdf:type :Human
+        var:S rdf:type :Human
     );
     lingua:conclusion (
-        _:S rdf:type :Mortal
+        var:S rdf:type :Mortal
     ).
 
 # query
 :forward_query a lingua:QueryRule;
-    lingua:vars (
-        _:S
-    );
     lingua:premise (
-        _:S rdf:type :Mortal
+        var:S rdf:type :Mortal
     );
     lingua:conclusion (
-        _:S rdf:type :Mortal
+        var:S rdf:type :Mortal
     ).

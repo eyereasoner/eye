@@ -1,6 +1,7 @@
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix lingua: <http://eyereasoner.github.io/lingua#>.
+@prefix var: <http://eyereasoner.github.io/var#>.
 @prefix : <http://example.org/ns#>.
 
 :Let :param1 (
@@ -18,22 +19,14 @@
 
 #query
 :union_query a lingua:QueryRule;
-    lingua:vars (
-        _:X1
-        _:X2
-        _:X3
-        _:Y
-        _:Y_RT
-        _:X3_RT
-    );
     lingua:premise (
-        :Let :param1 _:X1
-        :Let :param2 _:X2
-        :Let :param3 _:X3
-        (_:X1 _:X2) graph:union _:Y
-        _:Y log:rawType _:Y_RT
-        _:X3 log:rawType _:X3_RT
-        _:Y log:notEqualTo _:X3
+        :Let :param1 var:X1
+        :Let :param2 var:X2
+        :Let :param3 var:X3
+        (var:X1 var:X2) graph:union var:Y
+        var:Y log:rawType var:Y_RT
+        var:X3 log:rawType var:X3_RT
+        var:Y log:notEqualTo var:X3
     );
     lingua:conclusion (
         :test :is true
