@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.14 (2023-12-12)').
+version_info('EYE v9.0.15 (2023-12-14)').
 
 license_info('MIT License
 
@@ -645,22 +645,22 @@ lingua :-
     ),
     % forward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/lingua#ForwardRule>'),
-            '<http://eyereasoner.github.io/lingua#premise>'(R, K),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            findvars([A, B], V, alpha),
+            findvars([A, B], V, delta),
             makevars([A, B], [Q, I], beta(V))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
     % backward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/lingua#BackwardRule>'),
-            '<http://eyereasoner.github.io/lingua#premise>'(R, K),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            findvars([A, B], V, alpha),
+            findvars([A, B], V, delta),
             makevars(':-'(B, A), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -672,13 +672,13 @@ lingua :-
             )), true, '<>')),
     % query rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://eyereasoner.github.io/lingua#QueryRule>'),
-            '<http://eyereasoner.github.io/lingua#premise>'(R, K),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
             getconj(K, A),
-            '<http://eyereasoner.github.io/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
-            findvars([A, B], V, alpha),
+            findvars([A, B], V, delta),
             makevars(implies(A, J, '<>'), C, beta(V)),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
@@ -1488,7 +1488,7 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://eyereasoner.github.io/lingua#premise>',
+            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#premise>',
                 \+flag(lingua)
             ->  assertz(flag(lingua))
             ;   true
@@ -1550,7 +1550,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   Rt = '<http://eyereasoner.github.io/lingua#premise>'(_, _),
+        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -2612,7 +2612,7 @@ propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
         (   atomic(Verb),
-            Verb = '\'<http://eyereasoner.github.io/lingua#premise>\'',
+            Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -11092,7 +11092,7 @@ within_scope([A, B]) :-
         recursion(B)
     ),
     (   flag(lingua)
-    ->  A = '<http://eyereasoner.github.io/lingua#scope>'
+    ->  A = '<http://www.w3.org/2000/10/swap/lingua#scope>'
     ;   nb_getval(scope, A)
     ).
 
