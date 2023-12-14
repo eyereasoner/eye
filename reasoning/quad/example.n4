@@ -1,0 +1,16 @@
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix : <http://example.org/> .
+
+# default graph
+:bob dc:publisher "Bob" .
+:alice dc:publisher "Alice" .
+
+# bob graph
+_:bn1 foaf:name "Bob" :bob .
+_:bn1 foaf:mbox <mailto:bob@oldcorp.example.org> :bob .
+_:bn1 foaf:knows _:bn2 :bob .
+
+# alice graph
+_:bn2 foaf:name "Alice" :alice .
+_:bn2 foaf:mbox <mailto:alice@work.example.org> :alice .
