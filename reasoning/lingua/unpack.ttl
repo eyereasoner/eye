@@ -5,29 +5,29 @@
 @prefix : <http://example.org/ns#>.
 
 # sample data from RubenD
-var:b1 :data (
-    var:b2 :package (
-        var:b3 :content (
+_:b1 :data (
+    _:b2 :package (
+        _:b3 :content (
             :a :b _:c
-            var:b4 :package (
-                var:b5 :content (
+            _:b4 :package (
+                _:b5 :content (
                     :u :v _:w
-                    var:b6 :package (
-                        var:b7 :content (
+                    _:b6 :package (
+                        _:b7 :content (
                             :x :y _:z
                         )
-                        var:b7 :usable_until :yesterday
+                        _:b7 :usable_until :yesterday
                     )
-                    var:b6 :tag :invalid
+                    _:b6 :tag :invalid
                 )
-                var:b5 :usable_until :tomorrow
-                var:b5 :p :o
+                _:b5 :usable_until :tomorrow
+                _:b5 :p :o
             )
-            var:b4 :tag :valid
+            _:b4 :tag :valid
         )
-        var:b3 :usable_until :next_week
+        _:b3 :usable_until :next_week
     )
-    var:b2 :tag :valid
+    _:b2 :tag :valid
 ).
 
 # the logic for unpack using backward rules
