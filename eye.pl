@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.15 (2023-12-14)').
+version_info('EYE v9.0.16 (2023-12-14)').
 
 license_info('MIT License
 
@@ -12423,19 +12423,26 @@ getterm(A, B) :-
     getterm(D, E),
     B =.. [C|E].
 
-getconj(A, A) :-
+getconj(A, B) :-
+    getcnj(A, C),
+    (   flag(lingua)
+    ->  conjify(C, B)
+    ;   B = C
+    ).
+
+getcnj(A, A) :-
     var(A),
     !.
-getconj([], true) :-
+getcnj([], true) :-
     !.
-getconj([S, P, O], A) :-
+getcnj([S, P, O], A) :-
     !,
     A =.. [P, S, O].
-getconj([S, P, O|A], (B, C)) :-
+getcnj([S, P, O|A], (B, C)) :-
     !,
     B =.. [P, S, O],
     getconj(A, C).
-getconj(A, A).
+getcnj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
