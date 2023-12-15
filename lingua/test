@@ -1,0 +1,33 @@
+#!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+NORMAL="\e[0;39m"
+
+OK=0
+FAILED=0
+
+echo -e "${YELLOW}Running eye/lingua/test${NORMAL}"
+echo ""
+
+for file in *.ttl
+do
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $file --output out/$file
+    if [[ $(git diff out/$file | wc -l) -ne 0 ]]; then
+        echo -e "${file} ${RED}FAILED${NORMAL}"
+        ((FAILED++))
+    else
+        echo -e "${file} ${GREEN}OK${NORMAL}"
+        ((OK++))
+    fi
+done
+echo ""
+
+echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+
+if [[ ${FAILED} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi
