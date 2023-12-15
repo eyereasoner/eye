@@ -13,7 +13,7 @@ echo ""
 
 for file in *.ttl
 do
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $file --output out/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $file --output out/$file
     if [[ $(git diff out/$file | wc -l) -ne 0 ]]; then
         echo -e "${file} ${RED}FAILED${NORMAL}"
         ((FAILED++))

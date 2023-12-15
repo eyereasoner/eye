@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.18 (2023-12-15)').
+version_info('EYE v9.1.0 (2023-12-15)').
 
 license_info('MIT License
 
@@ -624,7 +624,8 @@ gre(Argus) :-
 lingua :-
     % configure
     (   \+flag(nope)
-    ->  assertz(flag(nope))
+    ->  assertz(flag(nope)),
+        assertz(flag(explain))
     ;   true
     ),
     % create terms
@@ -650,8 +651,13 @@ lingua :-
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             findvars([A, B], V, delta),
-            makevars([A, B], [Q, I], beta(V))
-            ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+            list_to_set(V, U),
+            makevars([A, B, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = I
+            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, D), '<>')),
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
@@ -660,7 +666,14 @@ lingua :-
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             findvars([A, B], V, delta),
-            makevars(':-'(B, A), C, beta(V)),
+            list_to_set(V, U),
+            makevars([A, B, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = Q
+            ),
+            C = ':-'(I, D),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -678,7 +691,14 @@ lingua :-
             getconj(H, B),
             djiti_answer(answer(B), J),
             findvars([A, B], V, delta),
-            makevars(implies(A, J, '<>'), C, beta(V)),
+            list_to_set(V, U),
+            makevars([A, J, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = Q
+            ),
+            C = implies(D, I, '<>'),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -11487,6 +11507,10 @@ split(A, [B|C], [B|D], E) :-
     split(A, C, D, E).
 split(A, [B|C], D, [B|E]) :-
     split(A, C, D, E).
+
+zip_list([], [], []).
+zip_list([A|B], [C|D], [[A,C]|E]) :-
+    zip_list(B, D, E).
 
 sub_list(A, A) :-
     !.
