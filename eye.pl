@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.0.16 (2023-12-14)').
+version_info('EYE v9.0.17 (2023-12-15)').
 
 license_info('MIT License
 
@@ -417,6 +417,10 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+    (   flag(rulegen)
+    ->  rulegen
+    ;   true
+    ),
     (   flag(lingua)
     ->  lingua
     ;   true
@@ -480,6 +484,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
+        \+flag(rulegen),
         \+flag(lingua),
         \+flag(blogic)
     ->  throw(halt(0))
@@ -616,16 +621,37 @@ gre(Argus) :-
     ).
 
 %
+% Rule generation
+%
+
+rulegen :-
+    % query rule
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#answer>'(K, H),
+            getconj(K, A),
+            getconj(H, B),
+            djiti_answer(answer(B), J),
+            findvars([A, B], V, delta),
+            makevars(implies(A, J, '<>'), C, beta(V)),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')).
+
+%
 % RDF Lingua
 %
-% - RDF as the web talking language
-% - Reasoning with rules described in RDF
+% RDF as the web talking language
+% Reasoning with rules described in RDF
 
 lingua :-
     % configure
     (   \+flag(nope)
-    ->  assertz(flag(nope)),
-        assertz(flag(explain))
+    ->  assertz(flag(nope))
     ;   true
     ),
     % create terms
@@ -1548,6 +1574,11 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   Rt = scope(Scope)
         ->  nb_setval(current_scope, Scope)
+        ;   true
+        ),
+        (   Rt = '<http://www.w3.org/2000/10/swap/log#answer>'(_, _),
+            \+flag(rulegen)
+        ->  assertz(flag(rulegen))
         ;   true
         ),
         (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
@@ -2611,6 +2642,12 @@ prefix(Prefix) -->
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
+        (   atomic(Verb),
+            Verb = '\'<http://www.w3.org/2000/10/swap/log#answer>\'',
+            \+flag(rulegen)
+        ->  assertz(flag(rulegen))
+        ;   true
+        ),
         (   atomic(Verb),
             Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
             \+flag(lingua)
