@@ -14,8 +14,9 @@ echo ""
 for file in *.ttl
 do
     echo -en "${file} "
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $file --output out/$file
-    if [[ $(git diff out/$file | wc -l) -eq 0 ]]; then
+    eye --quiet --nope --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $file --output answer/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $file --output explain/$file
+    if [[ $(git diff answer/$file explain/$file | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else
