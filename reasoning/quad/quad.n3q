@@ -17,12 +17,12 @@ _:bn1 foaf:knows _:bn2 :bob .
 _:bn2 foaf:name "Alice" :alice .
 _:bn2 foaf:mbox <mailto:alice@work.example.org> :alice .
 
-# collect graph terms
+# query
 {
     ?G dc:publisher ?R.
     ({?A ?B ?C} {?A ?B ?C ?G} ?L) log:collectAllIn ?SCOPE.
     ?L log:notEqualTo ().
     ?GT graph:list ?L.
-} => {
+} log:answer {
     ?GT dc:publisher ?R.
 }.
