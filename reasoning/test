@@ -14,13 +14,14 @@ echo ""
 for dir in */
 do
     pushd "${dir}" > /dev/null
-    ./test --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01
-    if [[ $(git diff . | wc -l) -ne 0 ]]; then
-        echo -e "${RED}${dir} FAILED${NORMAL}"
-        ((FAILED++))
-    else
-        echo -e "${GREEN}${dir} OK${NORMAL}"
+    echo -e "${YELLOW}testing ${dir}${NORMAL}"
+    ./test
+    if [[ $(git diff . | wc -l) -eq 0 ]]; then
+        echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
+    else
+        echo -e "${RED}FAILED${NORMAL}"
+        ((FAILED++))
     fi
     popd  > /dev/null
     echo ""
