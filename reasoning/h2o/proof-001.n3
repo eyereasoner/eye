@@ -4,7 +4,7 @@
 @prefix t: <http://eyereasoner.github.io/eye/reasoning/tfcontext#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -30,11 +30,11 @@ skolem:lemma2 a r:Inference;
         [ a r:Fact; r:gives {t:Ghent-Belgium list:in (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)}]
         skolem:lemma5
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/h2o#traveler1"]];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/tfcontext#Ghent-Belgium"]];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 51.0535];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo 3.7304];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/h2o#traveler1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/tfcontext#Ghent-Belgium"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 51.0535];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 3.7304];
     r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Extraction;

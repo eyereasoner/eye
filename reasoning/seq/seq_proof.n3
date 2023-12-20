@@ -7,7 +7,7 @@
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
 @prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -26,10 +26,10 @@ skolem:lemma1 a r:Inference;
         [ a r:Fact; r:gives {((1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) (", ")) list:append (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")}]
         [ a r:Fact; r:gives {(1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13) string:concatenation "1-4, 6, 9-11, 13"}]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo "1-4, 6, 9-11, 13"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13 ", ")];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 "-" 4 ", " 6 ", " 9 "-" 11 ", " 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "1-4, 6, 9-11, 13"];
     r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
@@ -47,14 +47,14 @@ skolem:lemma2 a r:Inference;
         [ a r:Fact; r:gives {((13 11 10 9 6)) func:reverse (6 9 10 11 13)}]
         skolem:lemma6
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (1 "-" 4 ", ")];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (13 11 10 9 6 4 3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (1 2 3 4 6 9 10 11 13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo (13 11 10 9 6)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (4 3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (6 9 10 11 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((1 "-" 4 ", ") (6 ", ") (9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 "-" 4 ", ")];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (13 11 10 9 6 4 3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 2 3 4 6 9 10 11 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (13 11 10 9 6)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (4 3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (6 9 10 11 13)];
     r:rule skolem:lemma7.
 
 skolem:lemma3 a r:Extraction;
@@ -80,11 +80,11 @@ skolem:lemma4 a r:Inference;
         [ a r:Fact; r:gives {(3 1) math:sum 4}]
         skolem:lemma8
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (4 3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 3];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (4 3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (2 1)];
     r:rule skolem:lemma9.
 
 skolem:lemma5 a r:Inference;
@@ -95,10 +95,10 @@ skolem:lemma5 a r:Inference;
         [ a r:Fact; r:gives {(4 3 2 1) e:firstRest (4 (3 2 1))}]
         [ a r:Fact; r:gives {(3 2 1) list:last 1}]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (4 3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 4];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (4 3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
     r:rule skolem:lemma10.
 
 skolem:lemma6 a r:Inference;
@@ -116,14 +116,14 @@ skolem:lemma6 a r:Inference;
         [ a r:Fact; r:gives {((13 11 10 9)) func:reverse (9 10 11 13)}]
         skolem:lemma13
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (6 ", ")];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (13 11 10 9 6)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (6 9 10 11 13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo (13 11 10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (6)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (9 10 11 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((6 ", ") (9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (6 ", ")];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (13 11 10 9 6)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (6 9 10 11 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (13 11 10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (6)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (9 10 11 13)];
     r:rule skolem:lemma7.
 
 skolem:lemma7 a r:Extraction;
@@ -154,11 +154,11 @@ skolem:lemma8 a r:Inference;
         [ a r:Fact; r:gives {(2 1) math:sum 3}]
         skolem:lemma14
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (3 2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 3];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 2];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (3 2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1)];
     r:rule skolem:lemma9.
 
 skolem:lemma9 a r:Extraction;
@@ -192,7 +192,7 @@ skolem:lemma11 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
     r:rule skolem:lemma15.
 
 skolem:lemma12 a r:Inference;
@@ -202,7 +202,7 @@ skolem:lemma12 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
     r:rule skolem:lemma16.
 
 skolem:lemma13 a r:Inference;
@@ -220,14 +220,14 @@ skolem:lemma13 a r:Inference;
         [ a r:Fact; r:gives {((13)) func:reverse (13)}]
         skolem:lemma19
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (9 "-" 11 ", ")];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ((13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (13 11 10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (9 10 11 13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo (13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (11 10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo (13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((9 "-" 11 ", ") (13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (9 "-" 11 ", ")];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (13 11 10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (9 10 11 13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (11 10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (13)];
     r:rule skolem:lemma7.
 
 skolem:lemma14 a r:Inference;
@@ -240,11 +240,11 @@ skolem:lemma14 a r:Inference;
         [ a r:Fact; r:gives {(1 1) math:sum 2}]
         skolem:lemma20
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (2 1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 2];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (1)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 1];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (2 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ()];
     r:rule skolem:lemma9.
 
 skolem:lemma15 a r:Extraction;
@@ -273,11 +273,11 @@ skolem:lemma17 a r:Inference;
         [ a r:Fact; r:gives {(10 1) math:sum 11}]
         skolem:lemma21
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (11 10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 10];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (11 10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 11];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (9)];
     r:rule skolem:lemma9.
 
 skolem:lemma18 a r:Inference;
@@ -288,10 +288,10 @@ skolem:lemma18 a r:Inference;
         [ a r:Fact; r:gives {(11 10 9) e:firstRest (11 (10 9))}]
         [ a r:Fact; r:gives {(10 9) list:last 9}]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (11 10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 11];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (11 10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 11];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 9];
     r:rule skolem:lemma10.
 
 skolem:lemma19 a r:Inference;
@@ -309,14 +309,14 @@ skolem:lemma19 a r:Inference;
         [ a r:Fact; r:gives {(()) func:reverse ()}]
         skolem:lemma24
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo ((13 ", "))];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo (13 ", ")];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo ()];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo (13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo (13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_5"]; r:boundTo ()];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_6"]; r:boundTo (13)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_7"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((13 ", "))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (13 ", ")];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (13)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo ()];
     r:rule skolem:lemma7.
 
 skolem:lemma20 a r:Inference;
@@ -326,7 +326,7 @@ skolem:lemma20 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:rule skolem:lemma15.
 
 skolem:lemma21 a r:Inference;
@@ -339,11 +339,11 @@ skolem:lemma21 a r:Inference;
         [ a r:Fact; r:gives {(9 1) math:sum 10}]
         skolem:lemma25
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo (10 9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_1"]; r:boundTo 10];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_2"]; r:boundTo (9)];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_3"]; r:boundTo 9];
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_4"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (10 9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (9)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ()];
     r:rule skolem:lemma9.
 
 skolem:lemma22 a r:Inference;
@@ -353,7 +353,7 @@ skolem:lemma22 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 13];
     r:rule skolem:lemma15.
 
 skolem:lemma23 a r:Inference;
@@ -363,7 +363,7 @@ skolem:lemma23 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 13];
     r:rule skolem:lemma16.
 
 skolem:lemma24 a r:Inference;
@@ -382,7 +382,7 @@ skolem:lemma25 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://eyereasoner.github.io/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
     r:rule skolem:lemma15.
 
 skolem:lemma26 a r:Extraction;

@@ -4,7 +4,7 @@
 @prefix n3: <https://www.w3.org/ns/n3#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -20,8 +20,8 @@ skolem:lemma1 a r:Inference;
         skolem:lemma2
         skolem:lemma3
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; <http://www.w3.org/2004/06/rei#nodeId> "_:sk_0"]];
     r:rule skolem:lemma4.
 
 skolem:lemma2 a r:Extraction;
@@ -80,8 +80,8 @@ skolem:lemma3 a r:Inference;
             }.
         }) e:derive true}]
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/subtasks.n3"]];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/subtasks.n3"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :task1 :subTask :subtask1.
         :subtask1 a :Completed.
         :task1 :subTask :subtask2.
@@ -92,10 +92,10 @@ skolem:lemma3 a r:Inference;
         :subtask4 a :Completed.
         :task2 :subTask :subtask5.
     }];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_2"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :task1 :subTask _:sk_0.
     }];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_3"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
         _:sk_0 a :Completed.
     }];
     r:rule skolem:lemma5.

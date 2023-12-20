@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.1.0 (2023-12-15)').
+version_info('EYE v9.1.1 (2023-12-20)').
 
 license_info('MIT License
 
@@ -409,7 +409,7 @@ gre(Argus) :-
         ;   flag('pass-all-ground')
         )
     ->  retractall(pfx('var:', _)),
-        assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
+        assertz(pfx('var:', '<http://www.w3.org/2000/10/swap/var#>'))
     ;   true
     ),
     (   flag(intermediate, Out)
@@ -491,7 +491,7 @@ gre(Argus) :-
     ),
     (   pfx('var:', _)
     ->  true
-    ;   assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
+    ;   assertz(pfx('var:', '<http://www.w3.org/2000/10/swap/var#>'))
     ),
     (   pfx('skolem:', _)
     ->  true
@@ -650,7 +650,7 @@ lingua :-
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            findvars([A, B], V, delta),
+            findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
             (   flag(explain)
@@ -665,7 +665,7 @@ lingua :-
             getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
-            findvars([A, B], V, delta),
+            findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
             (   flag(explain)
@@ -690,7 +690,7 @@ lingua :-
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
             getconj(H, B),
             djiti_answer(answer(B), J),
-            findvars([A, B], V, delta),
+            findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, J, U], [Q, I, X], beta(U)),
             (   flag(explain)
@@ -2426,10 +2426,10 @@ pathitem(Name, []) -->
                 FD >= D,
                 \+flag('pass-all-ground')
             ->  atom_concat('_', N, Name)
-            ;   atomic_list_concat(['\'<http://eyereasoner.github.io/var#', N, '>\''], Name),
+            ;   atomic_list_concat(['\'<http://www.w3.org/2000/10/swap/var#', N, '>\''], Name),
                 (   pfx('var:', _)
                 ->  true
-                ;   assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
+                ;   assertz(pfx('var:', '<http://www.w3.org/2000/10/swap/var#>'))
                 )
             )
         ;   (   quvar(S, N, D)
@@ -2440,10 +2440,10 @@ pathitem(Name, []) -->
                     ),
                     \+flag('pass-all-ground')
                 ->  atom_concat('_', N, Name)
-                ;   atomic_list_concat(['\'<http://eyereasoner.github.io/var#', N, '>\''], Name),
+                ;   atomic_list_concat(['\'<http://www.w3.org/2000/10/swap/var#', N, '>\''], Name),
                     (   pfx('var:', _)
                     ->  true
-                    ;   assertz(pfx('var:', '<http://eyereasoner.github.io/var#>'))
+                    ;   assertz(pfx('var:', '<http://www.w3.org/2000/10/swap/var#>'))
                     )
                 )
             ;   Name = S
@@ -4250,7 +4250,7 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['<http://eyereasoner.github.io/var#some_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#some_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -4262,14 +4262,14 @@ wt0(X) :-
         \+flag(lingua)
     ->  write('?U_'),
         write(Y)
-    ;   atomic_list_concat(['<http://eyereasoner.github.io/var#all_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
     atom(X),
     atom_concat(avar, Y, X),
     !,
-    atomic_list_concat(['<http://eyereasoner.github.io/var#x_', Y, '>'], Z),
+    atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#x_', Y, '>'], Z),
     wt0(Z).
 wt0(X) :-
     flag(nope),
@@ -4891,7 +4891,7 @@ wv(X) :-
     !,
     write('[ '),
     wp('<http://www.w3.org/2004/06/rei#uri>'),
-    write(' "http://eyereasoner.github.io/var#x_'),
+    write(' "http://www.w3.org/2000/10/swap/var#x_'),
     write(Y),
     write('"]').
 wv(X) :-
@@ -7638,7 +7638,7 @@ djiti_assertz(A) :-
             ->  nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, 'sk_', V, '>'], U)
             ;   (   atom_concat(avar, V, X)
-                ->  atomic_list_concat(['<http://eyereasoner.github.io/var#x_', V, '>'], U)
+                ->  atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#x_', V, '>'], U)
                 ;   U = X
                 )
             ),
@@ -12213,7 +12213,7 @@ shallowvars(_, [], _).
 
 findvar(A, alpha) :-
     !,
-    atom_concat('<http://eyereasoner.github.io/var#', _, A).
+    atom_concat('<http://www.w3.org/2000/10/swap/var#', _, A).
 findvar(A, beta) :-
     !,
     (   sub_atom(A, 0, _, _, '_bn_')
@@ -12313,7 +12313,7 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#SkolemIRI>') :-
     sub_atom(A, _, 19, _, '/.well-known/genid/'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
-    sub_atom(A, 1, _, _, 'http://eyereasoner.github.io/var#qe_'),
+    sub_atom(A, 1, _, _, 'http://www.w3.org/2000/10/swap/var#qe_'),
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
 

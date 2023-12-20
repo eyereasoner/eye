@@ -3,7 +3,7 @@
 @prefix : <http://example.org/test#>.
 @prefix n3: <https://www.w3.org/ns/n3#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix var: <http://eyereasoner.github.io/var#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -21,7 +21,7 @@ skolem:lemma1 a r:Inference;
         skolem:lemma3
         skolem:lemma4
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task1"]];
     r:rule skolem:lemma5.
 
 skolem:lemma2 a r:Inference;
@@ -32,7 +32,7 @@ skolem:lemma2 a r:Inference;
         skolem:lemma6
         skolem:lemma7
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://example.org/test#task2"]];
     r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Extraction;
@@ -59,12 +59,12 @@ skolem:lemma4 a r:Inference;
             :task1 a :DiscardedTask.
         }}]
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/tasks.n3"]];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/tasks.n3"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :task1 a :CompositeTask.
         :task2 a :CompositeTask.
     }];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_2"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :task1 a :DiscardedTask.
     }];
     r:rule skolem:lemma8.
@@ -106,12 +106,12 @@ skolem:lemma7 a r:Inference;
             :task2 a :DiscardedTask.
         }}]
     );
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/tasks.n3"]];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/eye/reasoning/n3c/tasks.n3"]];
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :task1 a :CompositeTask.
         :task2 a :CompositeTask.
     }];
-    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://eyereasoner.github.io/var#x_2"]; r:boundTo {
+    r:binding [ r:variable [ <http://www.w3.org/2004/06/rei#uri> "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :task2 a :DiscardedTask.
     }];
     r:rule skolem:lemma8.

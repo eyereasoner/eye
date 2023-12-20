@@ -2,14 +2,15 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix var: <http://eyereasoner.github.io/.well-known/genid/var#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
 
-# import facts
-() log:onNegativeSurface {
-    <> log:imports <../reasoning/dt/test-dl.ttl>.
-    () log:onNegativeSurface true.
-}.
+# importing
+:imports_rule a lingua:ForwardRule;
+    lingua:premise (
+        <> log:imports <../reasoning/dt/test-dl.ttl>
+    );
+    lingua:conclusion ().
 
 # rdfs subclass
 :rdfs_subclass_rule a lingua:BackwardRule;
