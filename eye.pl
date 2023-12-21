@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.1.1 (2023-12-20)').
+version_info('EYE v9.1.2 (2023-12-21)').
 
 license_info('MIT License
 
@@ -2531,15 +2531,9 @@ pathitem(List, Triples) -->
 pathitem(triple(S, P, O), []) -->
     [lt_lt],
     !,
-    {   nb_getval(fdepth, I),
-        J is I+1,
-        nb_setval(fdepth, J)
-    },
     subject(S, []),
     verb(P, []),
     object(O, []),
-    {   nb_setval(fdepth, I)
-    },
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
