@@ -89,18 +89,9 @@
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-(_:A) log:onQuerySurface {
-    (1 0 1 0 0 1) :compute _:A.
-}.
-
-(_:A) log:onQuerySurface {
-    (1 0 1 1 1 1) :compute _:A.
-}.
-
-(_:A) log:onQuerySurface {
-    (1 1 1 1 1 1) :compute _:A.
-}.
-
-(_:A) log:onQuerySurface {
-    () :compute _:A.
+(_:A1 _:A2 _:A3 _:A4) log:onQuerySurface {
+    (1 0 1 0 0 1) :compute _:A1.
+    (1 0 1 1 1 1) :compute _:A2.
+    (1 1 1 1 1 1) :compute _:A3.
+    () :compute _:A4.
 }.
