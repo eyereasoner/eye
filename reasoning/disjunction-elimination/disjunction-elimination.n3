@@ -1,4 +1,4 @@
-# disjunction elimination test case using negation predicates
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://eyereasoner.github.io/eye/reasoning#>.
 
 # saying A means saying C
@@ -12,3 +12,9 @@
 # saying A or saying B
 {?S :not_saying :A} => {?S :saying :B}.
 {?S :not_saying :B} => {?S :saying :A}.
+
+# assuming the negation of the query so that it can be discharged when the query succeeds
+_:anon :not_saying :C.
+
+# query
+{?S :saying :C} log:answer {?S :saying :C}.

@@ -1,6 +1,7 @@
 # original version at http://www.ii.uib.no/~bezem/GL/dpe.in
 # DP(r) => DP(re), i.e. the diamond property is preserved under reflexive closure
 
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <dpe#>.
 
 :a :re :b.
@@ -26,3 +27,9 @@
 # DP
 {?X :r ?Y. ?X :r ?Z} => {?Y :r ?U. ?Z :r ?U}.
 
+# assuming the negation of the query so that it can be discharged when the query succeeds
+{:b :re ?X} => {:c :not_re ?X}.
+{:c :re ?X} => {:b :not_re ?X}.
+
+# query
+{:b :re ?X. :c :re ?X} log:answer {:b :re ?X. :c :re ?X}.
