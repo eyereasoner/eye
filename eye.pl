@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.1.3 (2023-12-22)').
+version_info('EYE v9.1.4 (2023-12-22)').
 
 license_info('MIT License
 
@@ -417,10 +417,6 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(lingua)
-    ->  lingua
-    ;   true
-    ),
     (   flag(blogic)
     ->  blogic
     ;   true
@@ -480,7 +476,6 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(lingua),
         \+flag(blogic)
     ->  throw(halt(0))
     ;   true
@@ -616,99 +611,6 @@ gre(Argus) :-
     ).
 
 %
-% RDF Lingua
-%
-% RDF as the web talking language
-% Reasoning with rules described in RDF
-
-lingua :-
-    % configure
-    (   \+flag(nope)
-    ->  assertz(flag(nope)),
-        assertz(flag(explain))
-    ;   true
-    ),
-    % create terms
-    (   pred(P),
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-        X =.. [P, _, _],
-        call(X),
-        getterm(X, Y),
-        (   Y = X
-        ->  true
-        ;   retract(X),
-            assertz(Y)
-        ),
-        fail
-    ;   true
-    ),
-    % forward rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, B, U], [Q, I, X], beta(U)),
-            (   flag(explain)
-            ->  zip_list(U, X, W),
-                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = I
-            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, D), '<>')),
-    % backward rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, B, U], [Q, I, X], beta(U)),
-            (   flag(explain)
-            ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = Q
-            ),
-            C = ':-'(I, D),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')),
-    % query rule
-    assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
-            djiti_answer(answer(B), J),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, J, U], [Q, I, X], beta(U)),
-            (   flag(explain)
-            ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = Q
-            ),
-            C = implies(D, I, '<>'),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')).
-
-%
 % RDF Surfaces
 %
 % See https://w3c-cg.github.io/blogic/
@@ -732,51 +634,44 @@ blogic :-
     ),
     % assert positive surface
     assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G),
-            getconj(G, Gc)
-            ), Gc, '<>')),
+            '<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(_, G)
+            ), G, '<>')),
     % simplify positive surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             select('<http://www.w3.org/2000/10/swap/log#onPositiveSurface>'(Z, H), L, K),
-            getconj(H, Hc),
-            conj_list(Hc, D),
+            conj_list(H, D),
             append(K, D, E),
             list_to_set(E, B),
-            getconj(F, Fc),
-            conj_list(Fc, B),
-            findvars(Hc, R, beta),
+            conj_list(F, B),
+            findvars(H, R, beta),
             intersection(Z, R, X),
             append(Vl, X, U)
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, Fc), '<>')),
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, F), '<>')),
     % simplify negative surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
             getlist(Z, Zl),
             is_list(Zl),
-            getconj(H, Hc),
-            is_graph(Hc),
-            Hc \= triple(_, _, _),
-            conj_list(Hc, M),
+            is_graph(H),
+            H \= triple(_, _, _),
+            conj_list(H, M),
             list_to_set(M, T),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
             getlist(W, Wl),
             is_list(Wl),
-            getconj(O, Oc),
-            is_graph(Oc),
-            (   conj_list(Oc, D),
+            is_graph(O),
+            (   conj_list(O, D),
                 append(K, D, E),
                 conj_list(C, E)
             ;   length(K, I),
@@ -784,9 +679,9 @@ blogic :-
                 conj_list(F, N),
                 conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
             ),
-            findvars(Hc, R, beta),
+            findvars(H, R, beta),
             intersection(Zl, R, X),
-            findvars(Oc, S, beta),
+            findvars(O, S, beta),
             intersection(Wl, S, Y),
             append([Vl, X, Y], U)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
@@ -795,9 +690,8 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), B),
@@ -813,9 +707,8 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
             getlist(W, Wl),
             is_list(Wl),
-            getconj(F, Fc),
-            is_graph(Fc),
-            conj_list(Fc, K),
+            is_graph(F),
+            conj_list(F, K),
             list_to_set(K, N),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), N),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), N),
@@ -825,16 +718,14 @@ blogic :-
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
             getlist(U, Ul),
             is_list(Ul),
-            getconj(C, Cc),
-            is_graph(Cc),
+            is_graph(C),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
                 M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Ul, C)|A],
-                getconj(Q, Qc),
-                conj_list(Qc, R),
+                conj_list(Q, R),
                 memberchk(P, R)
             ;   select(Q, B, A),
                 M = [P|A],
-                conj_list(Cc, R),
+                conj_list(C, R),
                 memberchk(Q, R)
             ),
             list_to_set(M, T),
@@ -846,18 +737,16 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), B),
             select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), B, K),
             H \= triple(_, _, _),
-            getconj(H, Hc),
             conj_list(R, K),
             find_graffiti(K, D),
             append(Vl, D, U),
-            makevars([R, Hc], [Q, S], beta(U)),
+            makevars([R, H], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -866,9 +755,8 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), B),
             \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
@@ -900,9 +788,8 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(Hs, Hp, Ho)), B, K),
                 Tt =.. [Hp, Hs, Ho]
@@ -931,14 +818,12 @@ blogic :-
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             getlist(V, Vl),
             is_list(Vl),
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, L),
+            is_graph(G),
+            conj_list(G, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, H), B, K),
             conj_list(I, K),
-            getconj(H, Hc),
-            djiti_answer(answer(Hc), J),
+            djiti_answer(answer(H), J),
             find_graffiti(K, D),
             append(Vl, D, U),
             makevars(implies(I, J, '<>'), C, beta(U)),
@@ -956,18 +841,16 @@ blogic :-
             getlist(V, Vl),
             is_list(Vl),
             Vl \= [],
-            getconj(G, Gc),
-            is_graph(Gc),
-            conj_list(Gc, [Gc]),
-            (   Gc = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H),
-                getconj(H, Hc)
+            is_graph(G),
+            conj_list(G, [G]),
+            (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H)
             ->  true
             ;   Z = [],
-                Hc = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], Gc)
+                H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)
             ),
-            findvars(Hc, R, beta),
+            findvars(H, R, beta),
             intersection(Z, R, X),
-            conj_list(Hc, B),
+            conj_list(H, B),
             member(M, B),
             findall('<http://www.w3.org/2000/10/swap/log#skolem>'(Vl, W),
                 (   member(W, X)
@@ -988,29 +871,26 @@ blogic :-
     % convert query surface
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
-            getconj(G, Gc),
-            conj_list(Gc, L),
-            append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], Gc)], M),
+            conj_list(G, L),
+            append(L, ['<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'([], G)], M),
             conj_list(H, M)
             ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, H), '<>')),
     % convert question surface
     assertz(implies((
-            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G),
-            getconj(G, Gc)
-            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, Gc), '<>')),
+            '<http://www.w3.org/2000/10/swap/log#onQuestionSurface>'(V, G)
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<>')),
     % blow inference fuse
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
             call((
                 getlist(V, Vl),
                 is_list(Vl),
-                getconj(G, Gc),
-                is_graph(Gc),
-                conj_list(Gc, L),
+                is_graph(G),
+                conj_list(G, L),
                 \+member('<http://www.w3.org/2000/10/swap/log#negativeTriple>'(_, _), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, triple(_, _, _)), L),
                 \+member('<http://www.w3.org/2000/10/swap/log#onAnswerSurface>'(_, _), L),
-                makevars(Gc, H, beta(Vl)),
+                makevars(G, H, beta(Vl)),
                 (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                     J = true
                 ;   catch(call(H), _, false),
@@ -1507,11 +1387,6 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#premise>',
-                \+flag(lingua)
-            ->  assertz(flag(lingua))
-            ;   true
-            ),
             (   flag(intermediate, Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
@@ -1567,11 +1442,6 @@ n3pin(Rt, In, File, Mode) :-
         ),
         (   Rt = scope(Scope)
         ->  nb_setval(current_scope, Scope)
-        ;   true
-        ),
-        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
-            \+flag(lingua)
-        ->  assertz(flag(lingua))
         ;   true
         ),
         (   functor(Rt, F, _),
@@ -2673,12 +2543,6 @@ prefix(Prefix) -->
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb),
-        (   atomic(Verb),
-            Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
-            \+flag(lingua)
-        ->  assertz(flag(lingua))
-        ;   true
-        ),
         (   atomic(Verb),
             regex('^\'<.*#on.*Surface>\'$', Verb, _),
             \+flag(blogic)
@@ -4222,10 +4086,6 @@ wt0(fail) :-
     write('("fail") '),
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
-wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
-    flag(lingua),
-    !,
-    write(a).
 wt0([]) :-
     !,
     (   flag('rdf-list-output')
@@ -4267,8 +4127,7 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground'),
-        \+flag(lingua)
+        \+flag('pass-all-ground')
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
@@ -4424,11 +4283,7 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(lingua),
-            \+nb_getval(indentation, 0)
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4787,10 +4642,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(lingua)
-        ->  write('(')
-        ;   write('{')
-        ),
+    ->  write('{'),
         indentation(4),
         (   flag(strings)
         ->  true
@@ -4810,18 +4662,12 @@ wg(X) :-
         ->  true
         ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag(lingua)
-                ->  true
-                ;   write('.')
-                ),
+            ;   write('.'),
                 nl,
                 indent
             )
         ),
-        (   flag(lingua)
-        ->  write(')')
-        ;   write('}')
-        )
+        write('}')
     ;   wt(X)
     ).
 
@@ -5454,14 +5300,6 @@ djiti_conc(':-'(exopred(P, S, O), B), ':-'(A, B)) :-
 djiti_conc(answer((A, B), void, void), (answer(A, void, void), D)) :-
     !,
     djiti_conc(answer(B, void, void), D).
-djiti_conc(answer(A, void, void), answer(B, void, void)) :-
-    list_lott(A, _),
-    !,
-    getconj(A, B).
-djiti_conc(A, B) :-
-    list_lott(A, _),
-    !,
-    getconj(A, B).
 djiti_conc(A, A).
 
 djiti_fact(answer(P, S, O), answer(P, S, O)) :-
@@ -6523,8 +6361,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   map(getconj, A, Ah),
-            makevars(Ah, C, delta),
+        (   makevars(A, C, delta),
             difference(C, B)
         )
     ).
@@ -6533,8 +6370,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   map(getconj, A, Ah),
-            intersect(Ah, B)
+        (   intersect(A, B)
         )
     ).
 
@@ -6542,8 +6378,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   getconj(A, Ag),
-            conj_list(Ag, D),
+        (   conj_list(A, D),
             (   ground(D)
             ->  distinct(D, C)
             ;   C = D
@@ -6553,17 +6388,14 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/graph#list>'(A, B) :-
-    getconj(A, Ag),
-    conj_list(Ag, B).
+    conj_list(A, B).
 
 '<http://www.w3.org/2000/10/swap/graph#member>'(A, B) :-
     when(
         (   nonvar(A)
         ),
-        (   getconj(A, Ag),
-            conj_list(Ag, C),
-            getconj(B, Bg),
-            member(Bg, C)
+        (   conj_list(A, C),
+            member(B, C)
         )
     ).
 
@@ -6571,10 +6403,8 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   getconj(A, Ag),
-            conj_list(Ag, C),
-            getconj(B, Bg),
-            \+member(Bg, C)
+        (   conj_list(A, C),
+            \+member(B, C)
         )
     ).
 
@@ -6595,8 +6425,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   map(getconj, A, Ah),
-            conjoin(Ah, B)
+        (   conjoin(A, B)
         )
     ).
 
@@ -6799,11 +6628,9 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#becomes>'(A, B) :-
-    getconj(A, Ag),
-    getconj(B, Bg),
-    catch(call(Ag), _, fail),
-    Ag \= Bg,
-    unify(Ag, C),
+    catch(call(A), _, fail),
+    A \= B,
+    unify(A, C),
     conj_list(C, D),
     forall(
         member(E, D),
@@ -6837,9 +6664,9 @@ djiti_assertz(A) :-
         )
     ),
     nb_getval(wn, W),
-    labelvars(Bg, W, N),
+    labelvars(B, W, N),
     nb_setval(wn, N),
-    unify(Bg, F),
+    unify(B, F),
     conj_list(F, G),
     forall(
         member(H, G),
@@ -6859,50 +6686,42 @@ djiti_assertz(A) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#call>'(A, B) :-
-    getconj(A, Ag),
-    getconj(B, Bg),
-    call(Ag),
-    catch(call(Bg), _, fail),
+    call(A),
+    catch(call(B), _, fail),
     (   flag(nope)
     ->  true
-    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg)), C),
-        istep('<>', Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg), C)
+    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B)), C),
+        istep('<>', B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B), C)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callNotBind>'(A, B) :-
-    getconj(A, Ag),
-    getconj(B, Bg),
-    \+ \+call(Ag),
-    \+ \+catch(call(Bg), _, fail),
+    \+ \+call(A),
+    \+ \+catch(call(B), _, fail),
     (   flag(nope)
     ->  true
-    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg)), C),
-        istep('<>', Bg, '<http://www.w3.org/2000/10/swap/log#call>'(Ag, Bg), C)
+    ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B)), C),
+        istep('<>', B, '<http://www.w3.org/2000/10/swap/log#call>'(A, B), C)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B) :-
-    getconj(A, Ag),
-    getconj(B, Bg),
-    call_cleanup(Ag, Bg),
+    call_cleanup(A, B),
     (   flag(nope)
     ->  true
-    ;   conj_append(Ag, Bg, C),
-        copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(Ag, Bg)), D),
-        istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(Ag, Bg), D)
+    ;   conj_append(A, B, C),
+        copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
+        istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B) :-
-    getconj(A, Ag),
-    getconj(B, Bg),
-    call(Ag),
-    (   \+catch(call(Bg), _, fail)
+    call(A),
+    (   \+catch(call(B), _, fail)
     ->  true
-    ;   catch(call(Bg), _, fail),
+    ;   catch(call(B), _, fail),
         (   flag(nope)
         ->  true
-        ;   conj_append(Ag, Bg, C),
-            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(Ag, Bg)), D),
-            istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(Ag, Bg), D)
+        ;   conj_append(A, B, C),
+            copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B)), D),
+            istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B), D)
         )
     ).
 
@@ -6914,8 +6733,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(B)
         ),
-        (   getconj(B, Bg),
-            reset_gensym,
+        (   reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -6948,9 +6766,9 @@ djiti_assertz(A) :-
                 nl
             ),
             write('{'),
-            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Bg, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
             write('} => {'),
-            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(Bg, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#collectAllIn>'(B, _)),
             write('}.'),
             nl,
             told,
@@ -6988,7 +6806,7 @@ djiti_assertz(A) :-
                 semantics(Res, L),
                 conj_list(K, L),
                 labelvars(K, 0, _),
-                Bg = [_, _, M],
+                B = [_, _, M],
                 K = '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([_, _, M], _),
                 delete_file(Tmp1),
                 delete_file(Tmp2),
@@ -7003,15 +6821,14 @@ djiti_assertz(A) :-
 '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], Sc) :-
     within_scope(Sc),
     nonvar(B),
-    getconj(B, Bg),
-    \+is_list(Bg),
-    catch(findall(A, Bg, E), _, E = []),
+    \+is_list(B),
+    catch(findall(A, B, E), _, E = []),
     (   flag(warn)
-    ->  copy_term_nat([A, Bg, E], [Ac, Bc, Ec]),
+    ->  copy_term_nat([A, B, E], [Ac, Bc, Ec]),
         labelvars([Ac, Bc, Ec], 0, _),
         (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, G], Sc))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, Bg, G], [A, Bg, E]]),
+            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
                 flush_output(user_error)
             ;   true
             )
@@ -7025,8 +6842,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   getconj(A, Ag),
-            reset_gensym,
+        (   reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -7038,8 +6854,8 @@ djiti_assertz(A) :-
                 ),
                 nl
             ),
-            labelvars(Ag, 0, _),
-            wt(Ag),
+            labelvars(A, 0, _),
+            wt(A),
             write('.'),
             nl,
             told,
@@ -7090,8 +6906,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   map(getconj, A, Ah),
-            conjoin(Ah, M),
+        (   conjoin(A, M),
             unify(M, B)
         )
     ).
@@ -7147,9 +6962,7 @@ djiti_assertz(A) :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   getconj(A, Ag),
-            getconj(B, Bg),
-            forall(Ag, Bg)
+        (   forall(A, B)
         )
     ).
 
@@ -7179,8 +6992,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   map(getconj, A, Ah),
-            reset_gensym,
+        (   reset_gensym,
             tmp_file(Tmp1),
             open(Tmp1, write, Ws1, [encoding(utf8)]),
             tell(Ws1),
@@ -7213,9 +7025,9 @@ djiti_assertz(A) :-
                 nl
             ),
             write('{'),
-            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(Ah, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
             write('} => {'),
-            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(Ah, _)),
+            wt('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, _)),
             write('}.'),
             nl,
             told,
@@ -7253,7 +7065,7 @@ djiti_assertz(A) :-
                 semantics(Res, L),
                 conj_list(K, L),
                 labelvars(K, 0, _),
-                Ah = M,
+                A = M,
                 K = '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(M, _),
                 delete_file(Tmp1),
                 delete_file(Tmp2),
@@ -7272,27 +7084,22 @@ djiti_assertz(A) :-
             nonvar(B),
             nonvar(C)
         ),
-        (   getconj(A, Ag),
-            getconj(B, Bg),
-            getconj(C, Cg),
-            if_then_else(Ag, Bg, Cg)
+        (   if_then_else(A, B, C)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#implies>'(A, B) :-
-    getconj(A, X),
-    getconj(B, Y),
     implies(U, V, _),
-    unify(U, X),
-    unify(V, Y),
-    (   commonvars(X, Y, [])
-    ->  labelvars(Y, 0, _, avar)
+    unify(U, A),
+    unify(V, B),
+    (   commonvars(A, B, [])
+    ->  labelvars(B, 0, _, avar)
     ;   true
     ),
-    (   var(Y)
+    (   var(B)
     ->  true
-    ;   Y \= answer(_, _, _),
-        Y \= (answer(_, _, _), _)
+    ;   B \= answer(_, _, _),
+        B \= (answer(_, _, _), _)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
@@ -7328,8 +7135,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   getconj(Y, Yg),
-            call(Yg)
+        (   call(Y)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
@@ -7338,10 +7144,8 @@ djiti_assertz(A) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            getconj(X, Xg),
-            getconj(Y, Yg),
-            conj_list(Xg, A),
-            conj_list(Yg, B),
+            conj_list(X, A),
+            conj_list(Y, B),
             includes(A, B)
         )
     ).
@@ -7352,8 +7156,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   getconj(Y, Yg),
-            \+ \+call(Yg)
+        (   \+ \+call(Y)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#includesNotBind>'(X, Y) :-
@@ -7361,21 +7164,17 @@ djiti_assertz(A) :-
         (   nonvar(X),
             nonvar(Y)
         ),
-        (   getconj(X, Xg),
-            getconj(Y, Yg),
-            conj_list(Xg, A),
-            conj_list(Yg, B),
+        (   conj_list(X, A),
+            conj_list(Y, B),
             \+ \+includes(A, B)
         )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#inferences>'(A, B) :-
-    getconj(A, Ag),
-    '<http://www.w3.org/2000/10/swap/log#conclusion>'(Ag, C),
+    '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, C),
     (   nonvar(B)
-    ->  getconj(B, Bg),
-        intersect([Bg, C], M),
-        unify(M, Bg)
+    ->  intersect([B, C], M),
+        unify(M, B)
     ;   B = C
     ).
 
@@ -7465,8 +7264,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(Y)
         ),
-        (   getconj(Y, Yg),
-            \+call(Yg)
+        (   \+call(Y)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
@@ -7475,10 +7273,8 @@ djiti_assertz(A) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            getconj(X, Xg),
-            getconj(Y, Yg),
-            conj_list(Xg, A),
-            conj_list(Yg, B),
+            conj_list(X, A),
+            conj_list(Y, B),
             \+includes(A, B)
         )
     ).
@@ -11153,10 +10949,7 @@ within_scope([A, B]) :-
         ),
         recursion(B)
     ),
-    (   flag(lingua)
-    ->  A = '<http://www.w3.org/2000/10/swap/lingua#scope>'
-    ;   nb_getval(scope, A)
-    ).
+    nb_getval(scope, A).
 
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
@@ -12488,27 +12281,6 @@ getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
     B =.. [C|E].
-
-getconj(A, B) :-
-    getcnj(A, C),
-    (   flag(lingua)
-    ->  conjify(C, B)
-    ;   B = C
-    ).
-
-getcnj(A, A) :-
-    var(A),
-    !.
-getcnj([], true) :-
-    !.
-getcnj([S, P, O], A) :-
-    !,
-    A =.. [P, S, O].
-getcnj([S, P, O|A], (B, C)) :-
-    !,
-    B =.. [P, S, O],
-    getconj(A, C).
-getcnj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
