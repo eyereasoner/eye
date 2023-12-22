@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.1.2 (2023-12-21)').
+version_info('EYE v9.1.3 (2023-12-22)').
 
 license_info('MIT License
 
@@ -1719,6 +1719,21 @@ n3_n3p(Argument, Mode) :-
     catch(
         (   repeat,
             tokens(In, Tokens),
+            (   (   memberchk(log:onNegativeSurface, Tokens)
+                ;   memberchk(relative_uri('http://www.w3.org/2000/10/swap/log#onNegativeSurface'), Tokens)
+                ;   memberchk(log:onPositiveSurface, Tokens)
+                ;   memberchk(relative_uri('http://www.w3.org/2000/10/swap/log#onPositiveSurface'), Tokens)
+                ;   memberchk(log:onQuerySurface, Tokens)
+                ;   memberchk(relative_uri('http://www.w3.org/2000/10/swap/log#onQuerySurface'), Tokens)
+                ;   memberchk(log:onQuestionSurface, Tokens)
+                ;   memberchk(relative_uri('http://www.w3.org/2000/10/swap/log#onQuestionSurface'), Tokens)
+                )
+            ->  retractall(flag(blogic)),
+                assertz(flag(blogic)),
+                retractall(flag('no-bnode-relabeling')),
+                assertz(flag('no-bnode-relabeling'))
+            ;   true
+            ),
             phrase(document(Triples), Tokens, Rest),
             (   Rest = []
             ->  true
