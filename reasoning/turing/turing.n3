@@ -1,64 +1,82 @@
-# Turing completeness test case
-# See http://en.wikipedia.org/wiki/Prolog#Turing_completeness
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
 
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <http://eyereasoner.github.io/eye/reasoning#>.
-
-{(?Tape0 ?Tape) :turing true} <= {
-    (:q0 () ?Ls ?Tape0 ?Rs) :perform true.
-    (?Ls ?Ls1) :reverse true.
-    (?Ls1 ?Rs ?Tape) :append true.
+# interpreter for Turing machine
+{() :compute ?OutTape} <= {
+    ?Machine :start ?I.
+    (?I () "#" ()) :find ?OutTape.
 }.
 
-{(:qf ?Ls ?Ls ?Rs ?Rs) :perform true} <= true.
-{(?Q0 ?Ls0 ?Ls ?Rs0 ?Rs) :perform true} <= {
-    (?Rs0 ?Sym ?RsRest) :symbol true.
-    (?Q0 ?Sym ?Q1 ?NewSym ?Action) :rule true.
-    ?Rs2 e:firstRest (?NewSym ?RsRest).
-    (?Action ?Ls0 ?Ls1 ?Rs2 ?Rs1) :action true.
-    (?Q1 ?Ls1 ?Ls ?Rs1 ?Rs) :perform true.
+{?List :compute ?OutTape} <= {
+    ?List list:firstRest (?Head ?Tail).
+    ?Machine :start ?I.
+    (?I () ?Head ?Tail) :find ?OutTape.
 }.
 
-{(() :b ()) :symbol true} <= true.
-{(?Ls ?Sym ?Rs) :symbol true} <= {
-    ?Ls e:firstRest (?Sym ?Rs).
+{(?State ?Left ?Cell ?Right) :find ?OutTape} <= {
+    (?State ?Cell ?Write ?Move) :tape ?Next.
+    (?Move ?Left ?Write ?Right ?A ?B ?C) :move true.
+    (?Next ?A ?B ?C) :continue ?OutTape.
 }.
 
-{(:left ?Ls0 ?Ls ?Rs0 ?Rs) :action true} <= {
-    (?Ls0 ?Ls ?Rs0 ?Rs) :left true.
-}.
-{(:stay ?Ls ?Ls ?Rs ?Rs) :action true} <= true.
-{(:right ?Ls0 ?Ls1 ?Rs1 ?Rs) :action true} <= {
-    ?Ls1 e:firstRest (?Sym ?Ls0).
-    ?Rs1 e:firstRest (?Sym ?Rs).
+{(:halt ?Left ?Cell ?Right) :continue ?OutTape} <= {
+    ?Left :reverse ?R.
+    ?List list:firstRest (?Cell ?Right).
+    (?R ?List) list:append ?OutTape.
 }.
 
-{(() () ?Rs0 ?Rs1) :left true} <= {
-    ?Rs1 e:firstRest (:b ?Rs0).
-}.
-{(?Ls1 ?Ls ?Rs ?Rs1) :left true} <= {
-    ?Ls1 e:firstRest (?L ?Ls).
-    ?Rs1 e:firstRest (?L ?Rs).
+{(?State ?Left ?Cell ?Right) :continue ?OutTape} <= {
+    (?State ?Left ?Cell ?Right) :find ?OutTape.
 }.
 
-{(() ?L ?L) :append true} <= true.
-{(?L1 ?L ?L2) :append true} <= {
-    ?L1 e:firstRest (?H ?T).
-    ?L2 e:firstRest (?H ?R).
-    (?T ?L ?R) :append true.
+{(:left () ?Cell ?Right () "#" ?L) :move true} <= {
+    ?L list:firstRest (?Cell ?Right).
 }.
 
-{(?Xs ?Ys) :reverse true} <= {
-    (?Xs () ?Ys) :reverse true.
+{(:left ?List ?Cell ?Right ?Tail ?Head ?L) :move true} <= {
+    ?List list:firstRest (?Head ?Tail).
+    ?L list:firstRest (?Cell ?Right).
 }.
 
-{(() ?Ys ?Ys) :reverse true} <= true.
-{(?Xs1 ?Rs ?Ys) :reverse true} <= {
-    ?Xs1 e:firstRest (?X ?Xs).
-    ?Rs1 e:firstRest (?X ?Rs).
-    (?Xs ?Rs1 ?Ys) :reverse true.
+{(:stop ?Left ?Cell ?Right ?Left ?Cell ?Right) :move true} <= true.
+
+{(:right ?Left ?Cell () ?L "#" ()) :move true} <= {
+    ?L list:firstRest (?Cell ?Left).
 }.
 
-# facts
-(:q0 1 :q0 1 :right) :rule true.
-(:q0 :b :qf 1 :stay) :rule true.
+{(:right ?Left ?Cell ?List ?L ?Head ?Tail) :move true} <= {
+    ?List list:firstRest (?Head ?Tail).
+    ?L list:firstRest (?Cell ?Left).
+}.
+
+{() :reverse ()} <= true.
+
+{?List :reverse ?Reverse} <= {
+    ?List list:firstRest (?Head ?Tail).
+    ?Tail :reverse ?R.
+    (?R (?Head)) list:append ?Reverse.
+}.
+
+# a Turing machine to add 1 to a binary number
+:add1 :start 0.
+
+(0 0 0 :right) :tape 0.
+(0 1 1 :right) :tape 0.
+(0 "#" "#" :left) :tape 1.
+(1 0 1 :stop) :tape :halt.
+(1 1 0 :left) :tape 1.
+(1 "#" 1 :stop) :tape :halt.
+
+# query
+{
+    (1 0 1 0 0 1) :compute ?A1.
+    (1 0 1 1 1 1) :compute ?A2.
+    (1 1 1 1 1 1) :compute ?A3.
+    () :compute ?A4.
+} log:answer {
+    (1 0 1 0 0 1) :compute ?A1.
+    (1 0 1 1 1 1) :compute ?A2.
+    (1 1 1 1 1 1) :compute ?A3.
+    () :compute ?A4.
+}.
