@@ -288,15 +288,13 @@ skolem:lemma10 a r:Inference;
     r:evidence (
         skolem:lemma19
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        {
+    r:rule [ a r:Fact; r:gives {{
+        :i1 :location :Gent.
+    } => {
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
             :i1 :location :Gent.
-        } => {
-            ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
-                :i1 :location :Gent.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma11 a r:Inference;
     r:gives {
@@ -305,11 +303,9 @@ skolem:lemma11 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        true => {
-            ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call true.
-        }.
-    }].
+    r:rule [ a r:Fact; r:gives {true => {
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call true.
+    }}].
 
 skolem:lemma12 a r:Inference;
     r:gives {
@@ -361,30 +357,28 @@ skolem:lemma14 a r:Inference;
             :i1 :location :Gent.
         }}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
+    r:rule [ a r:Fact; r:gives {{
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
+            :i1 :location :Oostende.
+        } (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
+        {
+            :i1 :location :Brugge.
+        } e:becomes {
+            :i1 :location :Gent.
+        }.
+    } => {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
                 :i1 :location :Oostende.
             } (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
+        } e:finalize {
             {
                 :i1 :location :Brugge.
             } e:becomes {
                 :i1 :location :Gent.
             }.
-        } => {
-            {
-                ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
-                    :i1 :location :Oostende.
-                } (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
-            } e:finalize {
-                {
-                    :i1 :location :Brugge.
-                } e:becomes {
-                    :i1 :location :Gent.
-                }.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma15 a r:Extraction;
     r:gives {
@@ -467,30 +461,28 @@ skolem:lemma18 a r:Inference;
             :i1 :location :Gent.
         }}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
+    r:rule [ a r:Fact; r:gives {{
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
+            :i1 :location :Oostende.
+        } (:drive_gent_kortrijk) 1600.0 0.007 0.96 0.99 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        {
+            :i1 :location :Kortrijk.
+        } e:becomes {
+            :i1 :location :Gent.
+        }.
+    } => {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
                 :i1 :location :Oostende.
             } (:drive_gent_kortrijk) 1600.0 0.007 0.96 0.99 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        } e:finalize {
             {
                 :i1 :location :Kortrijk.
             } e:becomes {
                 :i1 :location :Gent.
             }.
-        } => {
-            {
-                ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE) {
-                    :i1 :location :Oostende.
-                } (:drive_gent_kortrijk) 1600.0 0.007 0.96 0.99 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
-            } e:finalize {
-                {
-                    :i1 :location :Kortrijk.
-                } e:becomes {
-                    :i1 :location :Gent.
-                }.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma19 a r:Extraction;
     r:gives {
@@ -717,15 +709,13 @@ skolem:lemma28 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {:i1 :location :Brugge}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        {
+    r:rule [ a r:Fact; r:gives {{
+        :i1 :location :Brugge.
+    } => {
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
             :i1 :location :Brugge.
-        } => {
-            ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
-                :i1 :location :Brugge.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma29 a r:Inference;
     r:gives {
@@ -777,30 +767,28 @@ skolem:lemma31 a r:Inference;
             :i1 :location :Brugge.
         }}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
+    r:rule [ a r:Fact; r:gives {{
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
+            :i1 :location :Oostende.
+        } (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
+        {
+            :i1 :location :Oostende.
+        } e:becomes {
+            :i1 :location :Brugge.
+        }.
+    } => {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
                 :i1 :location :Oostende.
             } (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
+        } e:finalize {
             {
                 :i1 :location :Oostende.
             } e:becomes {
                 :i1 :location :Brugge.
             }.
-        } => {
-            {
-                ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
-                    :i1 :location :Oostende.
-                } (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1)).
-            } e:finalize {
-                {
-                    :i1 :location :Oostende.
-                } e:becomes {
-                    :i1 :location :Brugge.
-                }.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma32 a r:Extraction;
     r:gives {
@@ -823,15 +811,13 @@ skolem:lemma33 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {:i1 :location :Kortrijk}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        {
+    r:rule [ a r:Fact; r:gives {{
+        :i1 :location :Kortrijk.
+    } => {
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
             :i1 :location :Kortrijk.
-        } => {
-            ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
-                :i1 :location :Kortrijk.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma34 a r:Inference;
     r:gives {
@@ -869,30 +855,28 @@ skolem:lemma35 a r:Inference;
             :i1 :location :Kortrijk.
         }}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
+    r:rule [ a r:Fact; r:gives {{
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
+            :i1 :location :Oostende.
+        } (:drive_gent_kortrijk :drive_kortrijk_brugge) 3200.0 0.014 0.9216 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        {
+            :i1 :location :Brugge.
+        } e:becomes {
+            :i1 :location :Kortrijk.
+        }.
+    } => {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
                 :i1 :location :Oostende.
             } (:drive_gent_kortrijk :drive_kortrijk_brugge) 3200.0 0.014 0.9216 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        } e:finalize {
             {
                 :i1 :location :Brugge.
             } e:becomes {
                 :i1 :location :Kortrijk.
             }.
-        } => {
-            {
-                ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE) {
-                    :i1 :location :Oostende.
-                } (:drive_gent_kortrijk :drive_kortrijk_brugge) 3200.0 0.014 0.9216 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
-            } e:finalize {
-                {
-                    :i1 :location :Brugge.
-                } e:becomes {
-                    :i1 :location :Kortrijk.
-                }.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma36 a r:Extraction;
     r:gives {
@@ -1028,15 +1012,13 @@ skolem:lemma40 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {:i1 :location :Oostende}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        {
+    r:rule [ a r:Fact; r:gives {{
+        :i1 :location :Oostende.
+    } => {
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
             :i1 :location :Oostende.
-        } => {
-            ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) e:call {
-                :i1 :location :Oostende.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma41 a r:Extraction;
     r:gives {
@@ -1086,30 +1068,28 @@ skolem:lemma43 a r:Inference;
             :i1 :location :Brugge.
         }}]
     );
-    r:rule [ a r:DerivedRule; r:gives {
+    r:rule [ a r:Fact; r:gives {{
+        ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE :map-BE) {
+            :i1 :location :Oostende.
+        } (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        {
+            :i1 :location :Oostende.
+        } e:becomes {
+            :i1 :location :Brugge.
+        }.
+    } => {
         {
             ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE :map-BE) {
                 :i1 :location :Oostende.
             } (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
+        } e:finalize {
             {
                 :i1 :location :Oostende.
             } e:becomes {
                 :i1 :location :Brugge.
             }.
-        } => {
-            {
-                ((<http://eyereasoner.github.io/eye/reasoning/gps/gps-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/gps/gps-example1.n3>) 1) gps:findpaths ((:map-BE :map-BE :map-BE) {
-                    :i1 :location :Oostende.
-                } (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1)).
-            } e:finalize {
-                {
-                    :i1 :location :Oostende.
-                } e:becomes {
-                    :i1 :location :Brugge.
-                }.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma44 a r:Inference;
     r:gives {

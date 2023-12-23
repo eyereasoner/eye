@@ -1,0 +1,22 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+:Minka a :Cat.
+:Charly a :Dog.
+
+{
+    _:x a :Cat.
+} => {
+    {
+        _:y a :Dog.
+    } => {
+        :test :is true.
+    }.
+}.
+
+#query
+{
+    :test :is true.
+} log:answer {
+    :test :is true.
+}.

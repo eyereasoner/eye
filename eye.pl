@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.1.4 (2023-12-22)').
+version_info('EYE v9.1.5 (2023-12-24)').
 
 license_info('MIT License
 
@@ -140,6 +140,7 @@ eye
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
+:- dynamic(nonl/0).
 :- dynamic(ns/2).
 :- dynamic(parsed_as_n3/2).
 :- dynamic(pass_only_new/1).
@@ -3860,20 +3861,9 @@ w3 :-
 
 wi('<>', _, rule(_, _, A), _) :-     % wi(Source, Premise, Conclusion, Rule)
     !,
-    write('[ '),
-    wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
-    write(' '),
-    (   A = '<http://www.w3.org/2000/10/swap/log#implies>'(P, C),
-        djiti_answer(answer(C), D),
-        implies(P, D, _)
-    ->  wp('<http://www.w3.org/2000/10/swap/reason#DerivedQuery>')
-    ;   wp('<http://www.w3.org/2000/10/swap/reason#DerivedRule>')
-    ),
-    write('; '),
-    wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
-    write(' '),
-    wg(A),
-    write(']').
+    assertz(nonl),
+    wr(A),
+    retract(nonl).
 wi(A, B, C, Rule) :-
     term_index(B-C, Ind),
     (   lemma(Cnt, A, B, C, Ind, Rule)
@@ -3962,6 +3952,9 @@ wj(Cnt, A, B, C, Rule) :-
     ;   write(' {'),
         nl,
         Rule = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc),
+        nb_getval(wn, W),
+        labelvars([A, B, C], W, N, avar),
+        nb_setval(wn, N),
         unifiable(Prem, B, Bs),
         (   unifiable(Conc, C, Cs)
         ->  true
@@ -3971,9 +3964,6 @@ wj(Cnt, A, B, C, Rule) :-
         sort(Ds, Bindings),
         term_variables(Prem, PVars),
         term_variables(Conc, CVars),
-        nb_getval(wn, W),
-        labelvars([A, B, C], W, N, some),
-        nb_setval(wn, N),
         labelvars([Rule, PVars, CVars], 0, _, avar),
         findall(V,
             (   member(V, CVars),
@@ -4029,12 +4019,18 @@ wr((X, Y)) :-
 wr(Z) :-
     prfstep(Z, Y, _, Q, Rule, _, X),
     !,
-    nl,
-    indent,
+    (   nonl
+    ->  true
+    ;   nl,
+        indent
+    ),
     wi(X, Y, Q, Rule).
 wr(Y) :-
-    nl,
-    indent,
+    (   nonl
+    ->  true
+    ;   nl,
+        indent
+    ),
     write('[ '),
     wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'),
     write(' '),
@@ -12015,7 +12011,9 @@ shallowvars(_, [], _).
 
 findvar(A, alpha) :-
     !,
-    atom_concat('<http://www.w3.org/2000/10/swap/var#', _, A).
+    (   atom_concat('<http://www.w3.org/2000/10/swap/var#', _, A)
+    ;   sub_atom(A, 0, _, _, avar)
+    ).
 findvar(A, beta) :-
     !,
     (   sub_atom(A, 0, _, _, '_bn_')

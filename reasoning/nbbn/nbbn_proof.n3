@@ -172,8 +172,45 @@ skolem:lemma4 a r:Inference;
         skolem:lemma6
         skolem:lemma7
     );
-    r:rule [ a r:DerivedRule; r:gives {
-        {
+    r:rule [ a r:Fact; r:gives {{
+        ({
+            {
+                :Resistance :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        } {
+            {
+                :InfectionTreated :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        }) e:firstRest ({
+            {
+                :Resistance :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        } ({
+            {
+                :InfectionTreated :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        })).
+        ("if_then_else" {
+            ("nb_getval" "bnet" "done") e:derive true.
+        } true {
+            () bbn:bnet true.
+            ("nb_setval" "bnet" "done") e:derive true.
+        }) e:derive true.
+        ({
+            :Resistance :outcomeOf :FloxacinTreatment.
+        }) bbn:bvar true.
+        (e:T) bbn:bval true.
+        ({
+            {
+                :Resistance :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        } ({
+            {
+                :InfectionTreated :outcomeOf :FloxacinTreatment.
+            } e:boolean e:T.
+        }) 0.21419642857142857) bbn:nb true.
+    } => {
+        ((<http://eyereasoner.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1) e:call {
             ({
                 {
                     :Resistance :outcomeOf :FloxacinTreatment.
@@ -210,47 +247,8 @@ skolem:lemma4 a r:Inference;
                     :InfectionTreated :outcomeOf :FloxacinTreatment.
                 } e:boolean e:T.
             }) 0.21419642857142857) bbn:nb true.
-        } => {
-            ((<http://eyereasoner.github.io/eye/reasoning/nbbn/nbbn-plugin.n3> <http://eyereasoner.github.io/eye/reasoning/nbbn/nbbn-model.n3>) 1) e:call {
-                ({
-                    {
-                        :Resistance :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                } {
-                    {
-                        :InfectionTreated :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                }) e:firstRest ({
-                    {
-                        :Resistance :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                } ({
-                    {
-                        :InfectionTreated :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                })).
-                ("if_then_else" {
-                    ("nb_getval" "bnet" "done") e:derive true.
-                } true {
-                    () bbn:bnet true.
-                    ("nb_setval" "bnet" "done") e:derive true.
-                }) e:derive true.
-                ({
-                    :Resistance :outcomeOf :FloxacinTreatment.
-                }) bbn:bvar true.
-                (e:T) bbn:bval true.
-                ({
-                    {
-                        :Resistance :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                } ({
-                    {
-                        :InfectionTreated :outcomeOf :FloxacinTreatment.
-                    } e:boolean e:T.
-                }) 0.21419642857142857) bbn:nb true.
-            }.
         }.
-    }].
+    }}].
 
 skolem:lemma5 a r:Extraction;
     r:gives {
