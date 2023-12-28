@@ -2,25 +2,32 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
+# ackermann(0, y)
 {
     (0 ?Y) :ackermann ?A.
 } <= {
     (?Y 1) math:sum ?A.
 }.
 
+# ackermann(1, y)
 {
     (1 ?Y) :ackermann ?A.
 } <= {
-    (?Y 2) math:sum ?A.
+    (?Y 3) math:sum ?B.
+    (2 ?B) math:sum ?C.
+    (?C 3) math:difference ?A.
 }.
 
+# ackermann(2, y)
 {
     (2 ?Y) :ackermann ?A.
 } <= {
-    (2 ?Y) math:product ?B.
-    (?B 3) math:sum ?A.
+    (?Y 3) math:sum ?B.
+    (2 ?B) math:product ?C.
+    (?C 3) math:difference ?A.
 }.
 
+# ackermann(3, y)
 {
     (3 ?Y) :ackermann ?A.
 } <= {
@@ -29,34 +36,52 @@
     (?C 3) math:difference ?A.
 }.
 
+# ackermann(4, y)
 {
-    (4 0) :ackermann ?A.
+    (4 ?Y) :ackermann ?A.
 } <= {
-    (2 1) math:exponentiation ?C.
-    (2 ?C) math:exponentiation ?D.
-    (2 ?D) math:exponentiation ?E.
-    (?E 3) math:difference ?A.
+    (?Y 3) math:sum ?B.
+    (2 ?B) :tetration ?C.
+    (?C 3) math:difference ?A.
+}.
+
+# ackermann(5, y)
+{
+    (5 ?Y) :ackermann ?A.
+} <= {
+    (?Y 3) math:sum ?B.
+    (2 ?B) :pentation ?C.
+    (?C 3) math:difference ?A.
+}.
+
+# tetration
+{
+    (?A 0) :tetration 1.
+} <= {
+    true log:callWithCut true.
 }.
 
 {
-    (4 1) :ackermann ?A.
+    (?A ?N) :tetration ?B.
 } <= {
-    (2 1) math:exponentiation ?C.
-    (2 ?C) math:exponentiation ?D.
-    (2 ?D) math:exponentiation ?E.
-    (2 ?E) math:exponentiation ?F.
-    (?F 3) math:difference ?A.
+    (?N 1) math:difference ?M.
+    (?A ?M) :tetration ?C.
+    (?A ?C) math:exponentiation ?B.
+}.
+
+# pentation
+{
+    (?A 0) :pentation 1.
+} <= {
+    true log:callWithCut true.
 }.
 
 {
-    (4 2) :ackermann ?A.
+    (?A ?N) :pentation ?B.
 } <= {
-    (2 1) math:exponentiation ?C.
-    (2 ?C) math:exponentiation ?D.
-    (2 ?D) math:exponentiation ?E.
-    (2 ?E) math:exponentiation ?F.
-    (2 ?F) math:exponentiation ?G.
-    (?G 3) math:difference ?A.
+    (?N 1) math:difference ?M.
+    (?A ?M) :pentation ?C.
+    (?A ?C) :tetration ?B.
 }.
 
 # query
@@ -72,6 +97,7 @@
     (4 0) :ackermann ?A8.
     (4 1) :ackermann ?A9.
     (4 2) :ackermann ?A10.
+    (5 0) :ackermann ?A11.
 } log:answer {
     (0 0) :ackermann ?A0.
     (0 6) :ackermann ?A1.
@@ -84,4 +110,5 @@
     (4 0) :ackermann ?A8.
     (4 1) :ackermann ?A9.
     (4 2) :ackermann ?A10.
+    (5 0) :ackermann ?A11.
 }.
