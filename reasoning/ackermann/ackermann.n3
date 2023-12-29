@@ -2,86 +2,50 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
-# ackermann(0, y)
+# ackermann(x, y)
 {
-    (0 ?Y) :ackermann ?A.
+    (?X ?Y) :ackermann ?A.
 } <= {
+    (?Y 3) math:sum ?B.
+    (?X ?B 2) :ackermann ?C.
+    (?C 3) math:difference ?A.
+}.
+
+# ackermann(x, y, z)
+{
+    (0 ?Y ?Z) :ackermann ?A.
+} <= {
+    true log:callWithCut true.
     (?Y 1) math:sum ?A.
 }.
 
-# ackermann(1, y)
 {
-    (1 ?Y) :ackermann ?A.
+    (1 ?Y ?Z) :ackermann ?A.
 } <= {
-    (?Y 3) math:sum ?B.
-    (2 ?B) math:sum ?C.
-    (?C 3) math:difference ?A.
+    true log:callWithCut true.
+    (?Y ?Z) math:sum ?A.
 }.
 
-# ackermann(2, y)
 {
-    (2 ?Y) :ackermann ?A.
+    (2 ?Y ?Z) :ackermann ?A.
 } <= {
-    (?Y 3) math:sum ?B.
-    (2 ?B) math:product ?C.
-    (?C 3) math:difference ?A.
+    true log:callWithCut true.
+    (?Y ?Z) math:product ?A.
 }.
 
-# ackermann(3, y)
 {
-    (3 ?Y) :ackermann ?A.
-} <= {
-    (?Y 3) math:sum ?B.
-    (2 ?B) math:exponentiation ?C.
-    (?C 3) math:difference ?A.
-}.
-
-# ackermann(4, y)
-{
-    (4 ?Y) :ackermann ?A.
-} <= {
-    (?Y 3) math:sum ?B.
-    (2 ?B) :tetration ?C.
-    (?C 3) math:difference ?A.
-}.
-
-# ackermann(5, y)
-{
-    (5 ?Y) :ackermann ?A.
-} <= {
-    (?Y 3) math:sum ?B.
-    (2 ?B) :pentation ?C.
-    (?C 3) math:difference ?A.
-}.
-
-# tetration
-{
-    (?A 0) :tetration 1.
+    (?X 0 ?Z) :ackermann 1.
 } <= {
     true log:callWithCut true.
 }.
 
 {
-    (?A ?N) :tetration ?B.
+    (?X ?Y ?Z) :ackermann ?A.
 } <= {
-    (?N 1) math:difference ?M.
-    (?A ?M) :tetration ?C.
-    (?A ?C) math:exponentiation ?B.
-}.
-
-# pentation
-{
-    (?A 0) :pentation 1.
-} <= {
-    true log:callWithCut true.
-}.
-
-{
-    (?A ?N) :pentation ?B.
-} <= {
-    (?N 1) math:difference ?M.
-    (?A ?M) :pentation ?C.
-    (?A ?C) :tetration ?B.
+    (?Y 1) math:difference ?B.
+    (?X ?B ?Z) :ackermann ?C.
+    (?X 1) math:difference ?D.
+    (?D ?C ?Z) :ackermann ?A.
 }.
 
 # query
