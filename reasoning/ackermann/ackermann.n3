@@ -12,6 +12,7 @@
 }.
 
 # ackermann(x, y, z)
+# succ
 {
     (0 ?Y ?Z) :ackermann ?A.
 } <= {
@@ -19,6 +20,7 @@
     (?Y 1) math:sum ?A.
 }.
 
+# sum
 {
     (1 ?Y ?Z) :ackermann ?A.
 } <= {
@@ -26,6 +28,7 @@
     (?Y ?Z) math:sum ?A.
 }.
 
+# product
 {
     (2 ?Y ?Z) :ackermann ?A.
 } <= {
@@ -33,6 +36,7 @@
     (?Y ?Z) math:product ?A.
 }.
 
+# exponentiation, tetration, pentation, etc
 {
     (?X 0 ?Z) :ackermann 1.
 } <= {
