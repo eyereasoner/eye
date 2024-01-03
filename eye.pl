@@ -3859,7 +3859,7 @@ w3 :-
     ;   true
     ).
 
-wi('<>', _, rule(_, _, A), _) :-     % wi(Source, Premise, Conclusion, Rule)
+wi('<>', _, rule(_, _, A), _) :-    % wi(Source, Premise, Conclusion, Rule)
     !,
     assertz(nonl),
     wr(A),
@@ -4007,7 +4007,7 @@ wj(Cnt, A, B, C, Rule) :-
     write('.'),
     indentation(-4).
 
-wr(exopred(P, S, O)) :-
+wr(exopred(P, S, O)) :-             % write reason
     atom(P),
     !,
     U =.. [P, S, O],
