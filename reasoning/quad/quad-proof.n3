@@ -1,0 +1,157 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix dc: <http://purl.org/dc/terms/>.
+@prefix : <http://example.org/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        {
+            skolem:e_bn1_1 foaf:name "Bob".
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        } dc:publisher "Bob".
+        {
+            skolem:e_bn2_1 foaf:name "Alice".
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        } dc:publisher "Alice".
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        {
+            skolem:e_bn1_1 foaf:name "Bob".
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        } dc:publisher "Bob".
+    };
+    r:evidence (
+        skolem:lemma3
+        [ a r:Fact; r:gives {({
+            _:sk_1 _:sk_0 _:sk_2.
+        } _:sk_1 _:sk_0 _:sk_2 :bob ({
+            skolem:e_bn1_1 foaf:name "Bob".
+        } {
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+        } {
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        })) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>) 1)}]
+        [ a r:Fact; r:gives {({
+            skolem:e_bn1_1 foaf:name "Bob".
+        } {
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+        } {
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        }) log:notEqualTo ()}]
+        [ a r:Fact; r:gives {{
+            skolem:e_bn1_1 foaf:name "Bob".
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        } graph:list ({
+            skolem:e_bn1_1 foaf:name "Bob".
+        } {
+            skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+        } {
+            skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/bob"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "Bob"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        skolem:e_bn1_1 foaf:name "Bob".
+    } {
+        skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+    } {
+        skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo {
+        skolem:e_bn1_1 foaf:name "Bob".
+        skolem:e_bn1_1 foaf:mbox <mailto:bob@oldcorp.example.org>.
+        skolem:e_bn1_1 foaf:knows skolem:e_bn2_1.
+    }];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        {
+            skolem:e_bn2_1 foaf:name "Alice".
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        } dc:publisher "Alice".
+    };
+    r:evidence (
+        skolem:lemma5
+        [ a r:Fact; r:gives {({
+            _:sk_4 _:sk_3 _:sk_5.
+        } _:sk_4 _:sk_3 _:sk_5 :alice ({
+            skolem:e_bn2_1 foaf:name "Alice".
+        } {
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        })) log:collectAllIn ((<http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>) 1)}]
+        [ a r:Fact; r:gives {({
+            skolem:e_bn2_1 foaf:name "Alice".
+        } {
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        }) log:notEqualTo ()}]
+        [ a r:Fact; r:gives {{
+            skolem:e_bn2_1 foaf:name "Alice".
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        } graph:list ({
+            skolem:e_bn2_1 foaf:name "Alice".
+        } {
+            skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/alice"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "Alice"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        skolem:e_bn2_1 foaf:name "Alice".
+    } {
+        skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo {
+        skolem:e_bn2_1 foaf:name "Alice".
+        skolem:e_bn2_1 foaf:mbox <mailto:alice@work.example.org>.
+    }];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :bob dc:publisher "Bob".
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+            var:x_0 dc:publisher var:x_1.
+            ({
+                var:x_3 var:x_2 var:x_4.
+            } var:x_3 var:x_2 var:x_4 var:x_0 var:x_5) log:collectAllIn var:x_6.
+            var:x_5 log:notEqualTo ().
+            var:x_7 graph:list var:x_5.
+        } => {
+            var:x_7 dc:publisher var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/quad/quad-query.n3>].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :alice dc:publisher "Alice".
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/quad/quad.n3>].
+
