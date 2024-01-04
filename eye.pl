@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.2.0 (2024-01-04)').
+version_info('EYE v9.2.1 (2024-01-04)').
 
 license_info('MIT License
 
@@ -1504,40 +1504,6 @@ tr_n3p(X, _, 'not-entail') :-
     conj_list(Y, X),
     write(query(\+Y, true)),
     writeln('.').
-tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#answer>\''(X, Y)|Z], Src, Mode) :-
-    !,
-    (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
-    ->  (   is_list(T)
-        ->  H = T
-        ;   findvars(X, U, epsilon),
-            distinct(U, H)
-        ),
-        nb_setval(csv_header, H),
-        (   is_list(L)
-        ->  findall(F,
-                (   member(literal(E, _), L),
-                    sub_atom(E, 1, _, 1, F)
-                ),
-                Q
-            )
-        ;   Q = H
-        ),
-        nb_setval(csv_header_strings, Q),
-        V = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, H)
-    ;   V = Y
-    ),
-    (   \+flag('limited-answer', _),
-        flag(nope),
-        (   flag('no-distinct-output')
-        ;   V = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(_, _)
-        )
-    ->  write(query(X, V)),
-        writeln('.')
-    ;   djiti_answer(answer(V), A),
-        write(implies(X, A, Src)),
-        writeln('.')
-    ),
-    tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query) :-
     !,
     (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
