@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.2.1 (2024-01-04)').
+version_info('EYE v9.3.0 (2024-01-07)').
 
 license_info('MIT License
 
@@ -1633,7 +1633,7 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr(triple(A, B, C), triple(D, E, F)) :-
+tr_tr(edge(N, triple(A, B, C)), edge(N, triple(D, E, F))) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
     !,
@@ -1700,10 +1700,11 @@ rename(A, A).
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
-annotation(Triple, Triples) -->
+annotation(edge(N, Triple), Triples) -->
     [lb_pipe],
     !,
-    propertylist(Triple, Triples),
+    edgename(N),
+    propertylist(edge(N, Triple), Triples),
     {   (   Triples \= []
         ->  true
         ;   nb_getval(line_number, Ln),
@@ -1818,6 +1819,22 @@ dtlang(type(T)) -->
     },
     [].
 
+edgename(N) -->
+    expression(N, []),
+    ['|'],
+    !.
+edgename(N) -->
+    {   gensym('bn_', B),
+        (   (   nb_getval(entail_mode, false),
+                nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Sns),
+            atomic_list_concat(['\'<', Sns, B, '>\''], N)
+        ;   atom_concat('_', B, N)
+        )
+    }.
+
 existential -->
     [atname(forSome)],
     !,
@@ -1887,11 +1904,11 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     !,
     object(Object, Triples1),
     {   (   Verb = isof(Vrb)
-        ->  Trpl = triple(Object, Vrb, Subject)
-        ;   Trpl = triple(Subject, Verb, Object)
+        ->  Edge = edge(_, triple(Object, Vrb, Subject))
+        ;   Edge = edge(_, triple(Subject, Verb, Object))
         )
     },
-    annotation(Trpl, Triples2),
+    annotation(Edge, Triples2),
     objecttail(Subject, Verb, Triples3),
     {   append([Triples1, Triples2, Triples3], Triples),
         (   Verb = isof(V)
@@ -2021,9 +2038,10 @@ pathitem(List, Triples) -->
     !,
     pathlist(List, Triples),
     [')'].
-pathitem(triple(S, P, O), []) -->
+pathitem(edge(N, triple(S, P, O)), []) -->
     [lt_lt],
     !,
+    edgename(N),
     subject(S, []),
     verb(P, []),
     object(O, []),
@@ -2171,11 +2189,11 @@ propertylist(Subject, [Triple|Triples]) -->
     !,
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
-        ->  Trpl = triple(Object, Vrb, Subject)
-        ;   Trpl = triple(Subject, Verb, Object)
+        ->  Edge = edge(_, triple(Object, Vrb, Subject))
+        ;   Edge = edge(_, triple(Subject, Verb, Object))
         )
     },
-    annotation(Trpl, Triples3),
+    annotation(Edge, Triples3),
     objecttail(Subject, Verb, Triples4),
     propertylisttail(Subject, Triples5),
     {   append([Triples1, Triples2, Triples3, Triples4, Triples5], Triples),
@@ -3218,6 +3236,7 @@ punctuation(0'=, '=').
 punctuation(0'<, '<').
 punctuation(0'>, '>').
 punctuation(0'$, '$').
+punctuation(0'|, '|').
 
 skip_line(-1, _, -1) :-
     !.
@@ -3525,10 +3544,10 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     (   C = rule(_, _, Rl),
         Rl =.. [P, S, O],
-        '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
+        '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
     ->  wt(Src)
     ;   (   C =.. [P, S, O],
-            '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
+            '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
         ->  wt(Src)
         ;   wt(A)
         )
@@ -4024,6 +4043,17 @@ wt2(quad(triple(S, P, O), G)) :-
     wg(O),
     write(' '),
     wg(G).
+wt2(edge(N, triple(S, P, O))) :-
+    !,
+    write('<< '),
+    wg(N),
+    write(' | '),
+    wg(S),
+    write(' '),
+    wp(P),
+    write(' '),
+    wg(O),
+    write(' >>').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
     ->  U = X

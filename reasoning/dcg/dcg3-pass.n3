@@ -1,39 +1,39 @@
 @prefix : <http://example.org#>.
 
-:parseTree :is << << << :the a :Determiner >> :nounPhrase << :cat a :Noun >> >> :sentence << << :eats a :Verb >> :verbPhrase << << :a a :Determiner >> :nounPhrase << :bat a :Noun >> >> >> >>.
-_:sk_0 a :ParseTree.
-_:sk_0 :node :sentence.
-_:sk_1 :node :nounPhrase.
-_:sk_2 :node :verbPhrase.
-_:sk_3 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
-_:sk_4 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
-_:sk_5 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
-_:sk_6 :node :nounPhrase.
-_:sk_7 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
-_:sk_8 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
-_:sk_0 :left << << :the a :Determiner >> :nounPhrase << :cat a :Noun >> >>.
-_:sk_1 :left << :the a :Determiner >>.
-_:sk_2 :left << :eats a :Verb >>.
-_:sk_3 :left :cat.
-_:sk_4 :left :the.
-_:sk_5 :left :eats.
-_:sk_6 :left << :a a :Determiner >>.
-_:sk_7 :left :a.
-_:sk_8 :left :bat.
-_:sk_0 :right << << :eats a :Verb >> :verbPhrase << << :a a :Determiner >> :nounPhrase << :bat a :Noun >> >> >>.
-_:sk_1 :right << :cat a :Noun >>.
-_:sk_2 :right << << :a a :Determiner >> :nounPhrase << :bat a :Noun >> >>.
-_:sk_3 :right :Noun.
-_:sk_4 :right :Determiner.
-_:sk_5 :right :Verb.
-_:sk_6 :right << :bat a :Noun >>.
-_:sk_7 :right :Determiner.
-_:sk_8 :right :Noun.
-_:sk_1 :parent _:sk_0.
-_:sk_2 :parent _:sk_0.
-_:sk_3 :parent _:sk_1.
-_:sk_4 :parent _:sk_1.
-_:sk_5 :parent _:sk_2.
-_:sk_6 :parent _:sk_2.
-_:sk_7 :parent _:sk_6.
-_:sk_8 :parent _:sk_6.
+:parseTree :is << _:sk_0 | << _:sk_1 | << _:sk_2 | :the a :Determiner >> :nounPhrase << _:sk_3 | :cat a :Noun >> >> :sentence << _:sk_4 | << _:sk_5 | :eats a :Verb >> :verbPhrase << _:sk_6 | << _:sk_7 | :a a :Determiner >> :nounPhrase << _:sk_8 | :bat a :Noun >> >> >> >>.
+_:sk_9 a :ParseTree.
+_:sk_9 :node :sentence.
+_:sk_10 :node :nounPhrase.
+_:sk_11 :node :verbPhrase.
+_:sk_12 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
+_:sk_13 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
+_:sk_14 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
+_:sk_15 :node :nounPhrase.
+_:sk_16 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
+_:sk_17 :node <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>.
+_:sk_9 :left << _:sk_1 | << _:sk_2 | :the a :Determiner >> :nounPhrase << _:sk_3 | :cat a :Noun >> >>.
+_:sk_10 :left << _:sk_2 | :the a :Determiner >>.
+_:sk_11 :left << _:sk_5 | :eats a :Verb >>.
+_:sk_12 :left :cat.
+_:sk_13 :left :the.
+_:sk_14 :left :eats.
+_:sk_15 :left << _:sk_7 | :a a :Determiner >>.
+_:sk_16 :left :a.
+_:sk_17 :left :bat.
+_:sk_9 :right << _:sk_4 | << _:sk_5 | :eats a :Verb >> :verbPhrase << _:sk_6 | << _:sk_7 | :a a :Determiner >> :nounPhrase << _:sk_8 | :bat a :Noun >> >> >>.
+_:sk_10 :right << _:sk_3 | :cat a :Noun >>.
+_:sk_11 :right << _:sk_6 | << _:sk_7 | :a a :Determiner >> :nounPhrase << _:sk_8 | :bat a :Noun >> >>.
+_:sk_12 :right :Noun.
+_:sk_13 :right :Determiner.
+_:sk_14 :right :Verb.
+_:sk_15 :right << _:sk_8 | :bat a :Noun >>.
+_:sk_16 :right :Determiner.
+_:sk_17 :right :Noun.
+_:sk_10 :parent _:sk_9.
+_:sk_11 :parent _:sk_9.
+_:sk_12 :parent _:sk_10.
+_:sk_13 :parent _:sk_10.
+_:sk_14 :parent _:sk_11.
+_:sk_15 :parent _:sk_11.
+_:sk_16 :parent _:sk_15.
+_:sk_17 :parent _:sk_15.
