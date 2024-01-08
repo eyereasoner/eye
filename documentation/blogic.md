@@ -2,6 +2,9 @@
 
 # RDF Surfaces aka BLOGIC
 
+> [!NOTE]  
+> This is experimental work available in branch https://github.com/eyereasoner/eye/tree/blogic
+
 The EYE reasoner provides an implementation of [RDF Surfaces](https://github.com/w3c-cg/rdfsurfaces), a sublanguage of Notation3 to express a revised RDF logic as envisoned by Pat Hayes in this  2009 ISWC Invited Talk: [BLOGIC](https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk).
 
 RDF Surfaces provides the capabilities to:
@@ -60,5 +63,5 @@ When running the EYE reasoner on this script the result should be:
 
 ## More RDF Surfaces examples
 
-- https://github.com/eyereasoner/eye/tree/master/reasoning/blogic
+- https://github.com/eyereasoner/eye/tree/blogic/reasoning/blogic
 - https://github.com/eyereasoner/Notation3-By-Example/tree/main/blogic
