@@ -1,0 +1,69 @@
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/ns#>.
+
+# add
+:peano_add_rule1 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:A 0) :add var:A
+    );
+    lingua:premise ().
+
+:peano_add_rule2 a lingua:BackwardRule;
+    lingua:premise (
+        (var:A var:B) :add var:C
+    );
+    lingua:conclusion (
+        (var:A (:s var:B)) :add (:s var:C)
+    ).
+
+# multiply
+:peano_multiply_rule1 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:A 0) :multiply 0
+    );
+    lingua:premise ().
+
+:peano_multiply_rule2 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:A (:s var:B)) :multiply var:C
+    );
+    lingua:premise (
+        (var:A var:B) :multiply var:D
+        (var:A var:D) :add var:C
+    ).
+
+# factorial
+:peano_factorial_rule1 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:A :factorial var:B
+    );
+    lingua:premise (
+        (var:A (:s 0)) :fac var:B
+    ).
+
+:peano_factorial_rule2 a lingua:BackwardRule;
+    lingua:conclusion (
+        (0 var:A) :fac var:A
+    );
+    lingua:premise ().
+
+:peano_factorial_rule3 a lingua:BackwardRule;
+    lingua:conclusion (
+        ((:s var:A) var:B) :fac var:C
+    );
+    lingua:premise (
+        (var:B (:s var:A)) :multiply var:D
+        (var:A var:D) :fac var:C
+    ).
+
+# query
+:peano_query a lingua:QueryRule;
+    lingua:premise (
+        ((:s 0) (:s (:s 0))) :add var:A
+        (var:A (:s (:s 0))) :multiply var:B
+        var:B :factorial var:C
+    );
+    lingua:conclusion (
+        :result :is var:C
+    ).

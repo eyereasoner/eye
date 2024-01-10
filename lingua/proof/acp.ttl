@@ -1,0 +1,10 @@
+@prefix : <http://example.org/ns#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+:acp_rule1 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_0) (var:X (lingua:scope 1))).
+:acp_rule2 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_1) (var:List (:C)) (var:X (lingua:scope 1)) (var:L 1)).
+:acp_rule3 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_2) (var:List ()) (var:X (lingua:scope 1)) (var:L 0)).
+:acp_query lingua:bindings ((var:Pol :PolicyX)).
+:test :for :PolicyX.
+:test :is true.

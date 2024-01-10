@@ -1,0 +1,158 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix complex: <http://eyereasoner.github.io/complex#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/ns#>.
+
+# exponentiation
+:complex_numbers_exponentiation_rule a lingua:BackwardRule;
+    lingua:conclusion (
+        ((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F)
+    );
+    lingua:premise (
+        (var:A var:B) complex:polar (var:R var:T)
+        (var:R var:C) math:exponentiation var:Z1
+        var:D math:negation var:Z2
+        (var:Z2 var:T) math:product var:Z3
+        (2.718281828459045 var:Z3) math:exponentiation var:Z4
+        (2.718281828459045 var:Z5) math:exponentiation var:R
+        (var:D var:Z5) math:product var:Z6
+        (var:C var:T) math:product var:Z7
+        (var:Z6 var:Z7) math:sum var:Z8
+        var:Z8 math:cos var:Z9
+        (var:Z1 var:Z4 var:Z9) math:product var:E
+        var:Z8 math:sin var:Z10
+        (var:Z1 var:Z4 var:Z10) math:product var:F
+    ).
+
+# asin
+:complex_numbers_asin_rule a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:A var:B) complex:asin (var:C var:D)
+    );
+    lingua:premise (
+        (1 var:A) math:sum var:Z1
+        (var:Z1 2) math:exponentiation var:Z2
+        (var:B 2) math:exponentiation var:Z3
+        (var:Z2 var:Z3) math:sum var:Z4
+        (var:Z4 0.5) math:exponentiation var:Z5
+        (1 var:A) math:difference var:Z6
+        (var:Z6 2) math:exponentiation var:Z7
+        (var:Z7 var:Z3) math:sum var:Z8
+        (var:Z8 0.5) math:exponentiation var:Z9
+        (var:Z5 var:Z9) math:difference var:Z10
+        (var:Z10 2) math:quotient var:E
+        (var:Z5 var:Z9) math:sum var:Z11
+        (var:Z11 2) math:quotient var:F
+        var:E math:asin var:C
+        (var:F 2) math:exponentiation var:Z12
+        (var:Z12 1) math:difference var:Z13
+        (var:Z13 0.5) math:exponentiation var:Z14
+        (var:F var:Z14) math:sum var:Z15
+        (2.718281828459045 var:D) math:exponentiation var:Z15
+    ).
+
+# acos
+:complex_numbers_acos_rule a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:A var:B) complex:acos (var:C var:D)
+    );
+    lingua:premise (
+        (1 var:A) math:sum var:Z1
+        (var:Z1 2) math:exponentiation var:Z2
+        (var:B 2) math:exponentiation var:Z3
+        (var:Z2 var:Z3) math:sum var:Z4
+        (var:Z4 0.5) math:exponentiation var:Z5
+        (1 var:A) math:difference var:Z6
+        (var:Z6 2) math:exponentiation var:Z7
+        (var:Z7 var:Z3) math:sum var:Z8
+        (var:Z8 0.5) math:exponentiation var:Z9
+        (var:Z5 var:Z9) math:difference var:Z10
+        (var:Z10 2) math:quotient var:E
+        (var:Z5 var:Z9) math:sum var:Z11
+        (var:Z11 2) math:quotient var:F
+        var:E math:acos var:C
+        (var:F 2) math:exponentiation var:Z12
+        (var:Z12 1) math:difference var:Z13
+        (var:Z13 0.5) math:exponentiation var:Z14
+        (var:F var:Z14) math:sum var:Z15
+        (2.718281828459045 var:U) math:exponentiation var:Z15
+        var:U math:negation var:D
+    ).
+
+# polar
+:complex_numbers_polar_rule a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:X var:Y) complex:polar(var:R var:Tp)
+    );
+    lingua:premise (
+        (var:X 2) math:exponentiation var:Z1
+        (var:Y 2) math:exponentiation var:Z2
+        (var:Z1 var:Z2) math:sum var:Z3
+        (var:Z3 0.5) math:exponentiation var:R
+        var:X math:absoluteValue var:Z4
+        (var:Z4 var:R) math:quotient var:Z5
+        var:Z5 math:acos var:T
+        (var:X var:Y var:T) complex:dial var:Tp
+    ).
+
+# dial
+:complex_numbers_dial_rule1 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:X var:Y var:T) complex:dial var:Tp
+    );
+    lingua:premise (
+        var:X math:notLessThan 0
+        var:Y math:notLessThan 0
+        (0 var:T) math:sum var:Tp
+    ).
+
+:complex_numbers_dial_rule2 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:X var:Y var:T) complex:dial var:Tp
+    );
+    lingua:premise (
+        var:X math:lessThan 0
+        var:Y math:notLessThan 0
+        (3.141592653589793 var:T) math:difference var:Tp
+    ).
+
+:complex_numbers_dial_rule3 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:X var:Y var:T) complex:dial var:Tp
+    );
+    lingua:premise (
+        var:X math:lessThan 0
+        var:Y math:lessThan 0
+        (3.141592653589793 var:T) math:sum var:Tp
+    ).
+
+:complex_numbers_dial_rule4 a lingua:BackwardRule;
+    lingua:conclusion (
+        (var:X var:Y var:T) complex:dial var:Tp
+    );
+    lingua:premise (
+        var:X math:notLessThan 0
+        var:Y math:lessThan 0
+        (3.141592653589793 2) math:product var:Z1
+        (var:Z1 var:T) math:difference var:Tp
+    ).
+
+# query
+:complex_numbers_query a lingua:QueryRule;
+    lingua:premise (
+        ((-1 0) (0.5 0)) complex:exponentiation var:C1
+        ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2
+        ((0 1) (0 1)) complex:exponentiation var:C3
+        ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:C4
+        (2 0) complex:asin var:C5
+        (2 0) complex:acos var:C6
+    );
+    lingua:conclusion (
+        ((-1 0) (0.5 0)) complex:exponentiation var:C1
+        ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2
+        ((0 1) (0 1)) complex:exponentiation var:C3
+        ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:C4
+        (2 0) complex:asin var:C5
+        (2 0) complex:acos var:C6
+    ).

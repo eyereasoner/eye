@@ -1,0 +1,10 @@
+@prefix : <http://example.org/ns#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:union_query lingua:bindings ((var:X1 (:A :B :C)) (var:X2 (:D :E :F)) (var:X3 (:A :B :C :D :E :F)) (var:Y (
+    :A :B :C
+    :D :E :F
+)) (var:Y_RT log:Formula) (var:X3_RT <http://www.w3.org/1999/02/22-rdf-syntax-ns#List>)).
+:test :is true.

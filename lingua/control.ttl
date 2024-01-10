@@ -1,0 +1,83 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/ns#>.
+
+# input
+:input1 :measurement1 (6 11).
+:input2 :measurement2 true.
+:input3 :measurement3 56967.
+
+# disturbance
+:disturbance1 :measurement3 35766.
+:disturbance2 :measurement1 (45 39).
+
+# state
+:state1 :observation1 80.
+:state2 :observation2 false.
+:state3 :observation3 22.
+
+# output
+:output2 :measurement4 24.
+:output2 :target2 29.
+
+# forward rules
+:control_rule1 a lingua:ForwardRule;
+    lingua:premise (
+        :input1 :measurement10 var:M1
+        :input2 :measurement2 true
+        :disturbance1 :measurement3 var:D1
+        (var:M1 19.6) math:product var:C1           # proportial part
+        (10 var:C2) math:exponentiation var:D1      # compensation part
+        (var:C1 var:C2) math:difference var:C         # simple feedforward control
+    );
+    lingua:conclusion (
+        :actuator1 :control1 var:C
+    ).
+
+:control_rule2 a lingua:ForwardRule;
+    lingua:premise (
+        :input3 :measurement3 var:M3
+        :state3 :observation3 var:P3
+        :output2 :measurement4 var:M4
+        :output2 :target2 var:T2
+        (var:T2 var:M4) math:difference var:E         # error
+        (var:P3 var:M4) math:difference var:D         # differential error
+        (5.8 var:E) math:product var:C1             # proportial part
+        (7.3 var:E) math:quotient var:N             # nonlinear factor
+        (var:N var:D) math:product var:C2             # nonlinear differential part
+        (var:C1 var:C2) math:sum var:C                # PND feedback control
+    );
+    lingua:conclusion (
+        :actuator2 :control1 var:C
+    ).
+
+# backward rules
+:control_rule3 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:I :measurement10 var:M
+    );
+    lingua:premise (
+        var:I :measurement1 (var:M1 var:M2)
+        var:M1 math:lessThan var:M2
+        (var:M2 var:M1) math:difference var:M3
+        (var:M3 0.5) math:exponentiation var:M
+    ).
+
+:control_rule4 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:I :measurement10 var:M1
+    );
+    lingua:premise (
+        var:I :measurement1 (var:M1 var:M2)
+        var:M1 math:notLessThan var:M2
+    ).
+
+# query
+:control_query a lingua:QueryRule;
+    lingua:premise (
+        var:O :control1 var:C
+    );
+    lingua:conclusion (
+        var:O :control1 var:C
+    ).

@@ -1,0 +1,80 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/ns#>.
+
+:test1
+    :policy :PolicyX;
+    :has :A, :B, :C.
+
+:PolicyX
+    a :Policy;
+    :allOf :A, :B;
+    :anyOf :C;
+    :noneOf :D.
+
+:acp_rule1 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:Pol :pass :allOfTest
+    );
+    lingua:premise (
+        var:Test :policy var:Pol
+        var:Pol rdf:type :Policy
+        (
+            (
+                var:Pol :allOf var:Field
+            )
+            (
+                var:Test :has var:Field
+            )
+        ) log:forAllIn var:X
+    ).
+
+:acp_rule2 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:Pol :pass :anyOfTest
+    );
+    lingua:premise (
+        var:Test :policy var:Pol
+        var:Pol rdf:type :Policy
+        (
+            var:Field
+            (
+                var:Pol :anyOf var:Field
+                var:Test :has var:Field
+            )
+            var:List
+        ) log:collectAllIn var:X
+        var:List list:length var:L
+        var:L log:notEqualTo 0
+    ).
+
+:acp_rule3 a lingua:BackwardRule;
+    lingua:conclusion (
+        var:Pol :pass :noneOfTest
+    );
+    lingua:premise (
+        var:Test :policy var:Pol
+        var:Pol rdf:type :Policy
+        (var:Field (
+                var:Pol :noneOf var:Field
+                var:Test :has var:Field
+            ) var:List) log:collectAllIn var:X
+        var:List list:length var:L
+        var:L log:equalTo 0
+    ).
+
+# query
+:acp_query a lingua:QueryRule;
+    lingua:premise (
+        var:Pol rdf:type :Policy
+        var:Pol :pass :allOfTest
+        var:Pol :pass :anyOfTest
+        var:Pol :pass :noneOfTest
+    );
+    lingua:conclusion (
+        :test :for var:Pol
+        :test :is true
+    ).
