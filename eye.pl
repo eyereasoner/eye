@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.3.1 (2024-01-08)').
+version_info('EYE v9.4.0 (2024-01-11)').
 
 license_info('MIT License
 
