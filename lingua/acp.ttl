@@ -1,4 +1,3 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
@@ -21,7 +20,7 @@
     );
     lingua:premise (
         var:Test :policy var:Pol
-        var:Pol rdf:type :Policy
+        var:Pol a :Policy
         (
             (
                 var:Pol :allOf var:Field
@@ -38,7 +37,7 @@
     );
     lingua:premise (
         var:Test :policy var:Pol
-        var:Pol rdf:type :Policy
+        var:Pol a :Policy
         (
             var:Field
             (
@@ -57,7 +56,7 @@
     );
     lingua:premise (
         var:Test :policy var:Pol
-        var:Pol rdf:type :Policy
+        var:Pol a :Policy
         (var:Field (
                 var:Pol :noneOf var:Field
                 var:Test :has var:Field
@@ -69,7 +68,7 @@
 # query
 :acp_query a lingua:QueryRule;
     lingua:premise (
-        var:Pol rdf:type :Policy
+        var:Pol a :Policy
         var:Pol :pass :allOfTest
         var:Pol :pass :anyOfTest
         var:Pol :pass :noneOfTest

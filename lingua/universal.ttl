@@ -1,4 +1,3 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
@@ -8,7 +7,7 @@
 # \Every x: type(x, Resource
 :universal_statements_rule1 a lingua:BackwardRule;
     lingua:conclusion (
-        var:X rdf:type rdfs:Resource
+        var:X a rdfs:Resource
     );
     lingua:premise ().
 
@@ -32,10 +31,10 @@
 # queries
 :universal_statements_query1 a lingua:QueryRule;
     lingua:premise (
-        :pat rdf:type rdfs:Resource
+        :pat a rdfs:Resource
     );
     lingua:conclusion (
-        :pat rdf:type rdfs:Resource
+        :pat a rdfs:Resource
     ).
 
 :universal_statements_query2 a lingua:QueryRule;
