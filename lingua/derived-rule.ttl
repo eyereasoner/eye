@@ -1,0 +1,29 @@
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/ns#>.
+
+:Minka a :Cat.
+:Charly a :Dog.
+
+:main_rule a lingua:ForwardRule;
+    lingua:premise (
+        var:x a :Cat
+    );
+    lingua:conclusion (
+        :derived_rule a lingua:ForwardRule
+        :main_rule lingua:premise (
+            var:y a :Dog
+        )
+        :main_rule lingua:conclusion (
+            :test :is true
+        )
+    ).
+
+# query
+:main_query a lingua:QueryRule;
+    lingua:premise (
+        :test :is true
+    );
+    lingua:conclusion (
+        :test :is true
+    ).
