@@ -1,15 +1,16 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/ns#>.
 
 # \forall x : BURNS(x) /\ WOMAN(x) => WITCH(x
 :witch_rule1 a lingua:ForwardRule;
-    lingua:premise (
-        var:X a :BURNS
-        var:X a :WOMAN
+    lingua:premise (lingua:conjunction
+        var:X rdf:type :BURNS
+        var:X rdf:type :WOMAN
     );
-    lingua:conclusion (
-        var:X a :WITCH
+    lingua:conclusion (lingua:conjunction
+        var:X rdf:type :WITCH
     ).
 
 # WOMAN(GIRL
@@ -17,20 +18,20 @@
 
 # \forall x : ISMADEOFWOOD(x) => BURNS(x
 :witch_rule2 a lingua:ForwardRule;
-    lingua:premise (
-        var:X a :ISMADEOFWOOD
+    lingua:premise (lingua:conjunction
+        var:X rdf:type :ISMADEOFWOOD
     );
-    lingua:conclusion (
-        var:X a :BURNS
+    lingua:conclusion (lingua:conjunction
+        var:X rdf:type :BURNS
     ).
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x
 :witch_rule3 a lingua:ForwardRule;
-    lingua:premise (
-        var:X a :FLOATS
+    lingua:premise (lingua:conjunction
+        var:X rdf:type :FLOATS
     );
-    lingua:conclusion (
-        var:X a :ISMADEOFWOOD
+    lingua:conclusion (lingua:conjunction
+        var:X rdf:type :ISMADEOFWOOD
     ).
 
 # FLOATS(DUCK
@@ -38,12 +39,12 @@
 
 # \forall x,y : FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y
 :witch_rule4 a lingua:ForwardRule;
-    lingua:premise (
-        var:X a :FLOATS
+    lingua:premise (lingua:conjunction
+        var:X rdf:type :FLOATS
         var:X :SAMEWEIGHT var:Y
     );
-    lingua:conclusion (
-        var:Y a :FLOATS
+    lingua:conclusion (lingua:conjunction
+        var:Y rdf:type :FLOATS
     ).
 
 # and, by experiment
@@ -52,9 +53,9 @@
 
 # who's a witch?
 :witch_query a lingua:QueryRule;
-    lingua:premise (
-        var:S a :WITCH
+    lingua:premise (lingua:conjunction
+        var:S rdf:type :WITCH
     );
-    lingua:conclusion (
-        var:S a :WITCH
+    lingua:conclusion (lingua:conjunction
+        var:S rdf:type :WITCH
     ).

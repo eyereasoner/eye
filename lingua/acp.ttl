@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
@@ -15,12 +16,12 @@
     :noneOf :D.
 
 :acp_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:Pol :pass :allOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:Test :policy var:Pol
-        var:Pol a :Policy
+        var:Pol rdf:type :Policy
         (
             (
                 var:Pol :allOf var:Field
@@ -32,15 +33,15 @@
     ).
 
 :acp_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:Pol :pass :anyOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:Test :policy var:Pol
-        var:Pol a :Policy
+        var:Pol rdf:type :Policy
         (
             var:Field
-            (
+            (lingua:conjunction
                 var:Pol :anyOf var:Field
                 var:Test :has var:Field
             )
@@ -51,29 +52,33 @@
     ).
 
 :acp_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:Pol :pass :noneOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:Test :policy var:Pol
-        var:Pol a :Policy
-        (var:Field (
+        var:Pol rdf:type :Policy
+        (
+            var:Field
+            (lingua:conjunction
                 var:Pol :noneOf var:Field
                 var:Test :has var:Field
-            ) var:List) log:collectAllIn var:X
+            )
+            var:List
+        ) log:collectAllIn var:X
         var:List list:length var:L
         var:L log:equalTo 0
     ).
 
 # query
 :acp_query a lingua:QueryRule;
-    lingua:premise (
-        var:Pol a :Policy
+    lingua:premise (lingua:conjunction
+        var:Pol rdf:type :Policy
         var:Pol :pass :allOfTest
         var:Pol :pass :anyOfTest
         var:Pol :pass :noneOfTest
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         :test :for var:Pol
         :test :is true
     ).

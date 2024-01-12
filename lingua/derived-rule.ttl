@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/ns#>.
@@ -6,24 +7,24 @@
 :Charly a :Dog.
 
 :main_rule a lingua:ForwardRule;
-    lingua:premise (
-        var:x a :Cat
+    lingua:premise (lingua:conjunction
+        var:x rdf:type :Cat
     );
-    lingua:conclusion (
-        :derived_rule a lingua:ForwardRule
-        :derived_rule lingua:premise (
-            var:y a :Dog
+    lingua:conclusion (lingua:conjunction
+        :derived_rule rdf:type lingua:ForwardRule
+        :derived_rule lingua:premise (lingua:conjunction
+            var:y rdf:type :Dog
         )
-        :derived_rule lingua:conclusion (
+        :derived_rule lingua:conclusion (lingua:conjunction
             :test :is true
         )
     ).
 
 # query
 :main_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         :test :is true
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         :test :is true
     ).

@@ -13,7 +13,7 @@
 
 # patch rule
 :patch_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:person :familyName "Garcia"
         (
             var:person :givenName "Claudia"
@@ -21,15 +21,15 @@
             var:person :givenName "Alex"
         )
     );
-    lingua:conclusion ().
+    lingua:conclusion (lingua:conjunction).
 
 # query
 :patch_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:person :familyName var:fname
         var:person :givenName var:gname
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:person :familyName var:fname
         var:person :givenName var:gname
     ).

@@ -23,7 +23,7 @@
 
 # forward rules
 :control_rule1 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         :input1 :measurement10 var:M1
         :input2 :measurement2 true
         :disturbance1 :measurement3 var:D1
@@ -31,12 +31,12 @@
         (10 var:C2) math:exponentiation var:D1      # compensation part
         (var:C1 var:C2) math:difference var:C       # simple feedforward control
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         :actuator1 :control1 var:C
     ).
 
 :control_rule2 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         :input3 :measurement3 var:M3
         :state3 :observation3 var:P3
         :output2 :measurement4 var:M4
@@ -48,16 +48,16 @@
         (var:N var:D) math:product var:C2           # nonlinear differential part
         (var:C1 var:C2) math:sum var:C              # PND feedback control
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         :actuator2 :control1 var:C
     ).
 
 # backward rules
 :control_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:I :measurement10 var:M
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:I :measurement1 (var:M1 var:M2)
         var:M1 math:lessThan var:M2
         (var:M2 var:M1) math:difference var:M3
@@ -65,19 +65,19 @@
     ).
 
 :control_rule4 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:I :measurement10 var:M1
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:I :measurement1 (var:M1 var:M2)
         var:M1 math:notLessThan var:M2
     ).
 
 # query
 :control_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:O :control1 var:C
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:O :control1 var:C
     ).

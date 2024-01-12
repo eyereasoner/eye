@@ -37,23 +37,23 @@
 
 # rules
 :places_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         () :places true
     );
-    lingua:premise ().
+    lingua:premise (lingua:conjunction).
 
 :places_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:PLACES :places true
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:PLACES list:firstRest ((var:PLACE var:COLOR) var:TAIL)
         var:TAIL :places true
         var:PLACE :neighbours var:NEIGHBOURS
         (:red :green :blue :yellow) list:member var:COLOR
         (
             1
-            (
+            (lingua:conjunction
                 var:TAIL list:member (var:NEIGHBOUR var:COLOR)
                 var:NEIGHBOURS list:member var:NEIGHBOUR
             )
@@ -64,10 +64,10 @@
 
 # query
 :query_rule a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         (
             (var:PLACE var:COLOR)
-            (
+            (lingua:conjunction
                 var:PLACE :neighbours var:NEIGHBOURS
             )
             var:LIST
@@ -75,6 +75,6 @@
         (var:LIST) func:reverse var:PLACES
         var:PLACES :places true
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:PLACES :coloring true
     ).

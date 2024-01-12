@@ -32,16 +32,16 @@ _:b1 :data (
 
 # the logic for unpack using backward rules
 :unpack_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         () :unpackl ()
     );
-    lingua:premise ().
+    lingua:premise (lingua:conjunction).
 
 :unpack_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:g :unpackl var:h
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:g list:firstRest (var:f var:r)
         var:f :unpack var:a
         var:r :unpackl var:b
@@ -49,10 +49,10 @@ _:b1 :data (
     ).
 
 :unpack_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         (var:b :package var:p) :unpack var:f
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:p list:lott var:l
         var:l list:member (var:a :content var:c)
         var:l list:member (var:a :usable_until var:t)
@@ -62,10 +62,10 @@ _:b1 :data (
     ).
 
 :unpack_rule4 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         (var:b :package var:p) :unpack ()
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:p list:lott var:l
         var:l list:member (var:a :content var:c)
         var:l list:member (var:a :usable_until var:t)
@@ -73,23 +73,23 @@ _:b1 :data (
     ).
 
 :unpack_rule5 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         (var:b :tag var:p) :unpack ()
     );
-    lingua:premise ().
+    lingua:premise (lingua:conjunction).
 
 :unpack_rule6 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:conjunction
         var:g :unpack (var:g)
     );
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         (var:g) list:notMember (var:a :package var:p)
         (var:g) list:notMember (var:b :tag var:q)
     ).
 
 # unpack the triples that are usable in the future
 :unpack_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:conjunction
         var:b :data var:g
         var:g list:lott var:l
         var:l :unpackl var:m
