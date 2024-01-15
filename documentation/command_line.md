@@ -27,6 +27,7 @@ or, one of the more advanced inputs:
 - `--n3p <uri>` : the path or URL to a N3P prolog file (that can be generated with the `--intermediate` flag)
 - `--n3p-output` : request the output serialized as N3P prolog
 - `--proof <uri>` : the path or URL to N3 proof lemmas 
+- `--image <file>` : generate from the input file a new reasoner image (see Image below)
 
 Data inputs can be repeated. For instance, to provide a local and a remote N3 input and one Turtle input one can pass as command line arguments:
 
@@ -89,4 +90,20 @@ eye --nope --quiet \
 
 eye --nope --quiet --restricted \
     mydata.n3 http://somewhere.org/remote.n3 --query filter1.n3
+```
+
+### Image
+
+Use the `--image` option to create a specialized reasoner with a hard coded
+context:
+
+```
+# Turn all *.n3 files into a `test.pvm` image
+eye --nope --quiet --image test.pvm *.n3
+```
+
+Run the image on new data:
+
+```
+swipl -x test.pvm --nope --quiet --pass newdata.n3
 ```
