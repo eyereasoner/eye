@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.1 (2024-01-12)').
+version_info('EYE v9.4.2 (2024-01-15)').
 
 license_info('MIT License
 
@@ -1177,7 +1177,7 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#premise>',
+            (   Object = ['<http://www.w3.org/2000/10/swap/lingua#conjunction>'|_],
                 \+flag(lingua)
             ->  assertz(flag(lingua))
             ;   true
@@ -1239,7 +1239,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
+        (   Rt =.. [_, _, ['<http://www.w3.org/2000/10/swap/lingua#conjunction>'|_]],
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -2276,15 +2276,15 @@ prefix(Prefix) -->
 
 propertylist(Subject, Triples) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb),
-        (   atomic(Verb),
-            Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
+    {   prolog_verb(Item, Verb)
+    },
+    object(Object, Triples2),
+    {   (   Object = ['\'<http://www.w3.org/2000/10/swap/lingua#conjunction>\''|_],
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
         )
     },
-    object(Object, Triples2),
     {   (   Verb = isof(Vrb)
         ->  Trpl = triple(Object, Vrb, Subject)
         ;   Trpl = triple(Subject, Verb, Object)
