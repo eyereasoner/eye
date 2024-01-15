@@ -94,7 +94,7 @@ eye --nope --quiet --restricted \
 
 ### Image
 
-Use the `--image` option to create a specialized reasoner with an hard coded
+Use the `--image` option to create a specialized reasoner with a hard coded
 context:
 
 ```
