@@ -8,7 +8,9 @@ NORMAL="\e[0;39m"
 OK=0
 FAILED=0
 
+echo -e "${YELLOW}-----------------------${NORMAL}"
 echo -e "${YELLOW}Running eye/lingua/test${NORMAL}"
+echo -e "${YELLOW}-----------------------${NORMAL}"
 echo ""
 
 for f in *.ttl
@@ -25,8 +27,7 @@ do
     fi
 done
 echo ""
-
-echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+echo -e "${YELLOW}Tests:${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 
 if [[ ${FAILED} -eq 0 ]]; then
     exit 0
