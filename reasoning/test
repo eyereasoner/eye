@@ -14,8 +14,8 @@ echo ""
 for dir in */
 do
     pushd "${dir}" > /dev/null
-    echo -e "${YELLOW}testing ${dir}${NORMAL}"
-    ./test
+    echo -en "${dir} "
+    ./test 2> /dev/null
     if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
@@ -24,8 +24,8 @@ do
         ((FAILED++))
     fi
     popd  > /dev/null
-    echo ""
 done
+echo ""
 
 echo -e "Tests: ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 
