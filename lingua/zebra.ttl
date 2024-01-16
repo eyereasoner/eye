@@ -1,10 +1,23 @@
+# ---------------
+# Einstein Riddle
+# ---------------
+#
+# The situation:
+# - There are 5 houses in five different colors.
+# - In each house lives a person with a different nationality.
+# - These five owners drink a certain type of beverage, smoke a certain brand of cigar and keep a certain pet.
+# - No owners have the same pet, smoke the same brand of cigar or drink the same beverage.
+#
+# The question is:
+#   Who owns the fish?
+
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/ns#>.
 
-:eats_rule a lingua:ForwardRule;
+:owns_rule a lingua:ForwardRule;
     lingua:premise (lingua:conjunction
         var:L log:equalTo ((var:A1 :norwegian var:A2 var:A3 var:A4) (:blue var:A5 var:A6 var:A7 var:A8) (var:A9 var:A10 var:A11 :milk var:A12) var:A13 var:A14)
         var:L :pair ((var:A15 var:A16 var:A17 var:A18 :blends) (var:A19 var:A20 :cats var:A21 var:A22))
@@ -21,7 +34,7 @@
         var:L list:member (var:A67 var:B :fish var:A69 var:A70)
     );
     lingua:conclusion (lingua:conjunction
-        var:B :eats :fish
+        var:B :owns :fish
     ).
 
 :pair_rule1 a lingua:BackwardRule;
@@ -52,8 +65,8 @@
 # query
 :query_rule a lingua:QueryRule;
     lingua:premise (lingua:conjunction
-        var:WHO :eats :fish
+        var:WHO :owns :fish
     );
     lingua:conclusion (lingua:conjunction
-        var:WHO :eats :fish
+        var:WHO :owns :fish
     ).
