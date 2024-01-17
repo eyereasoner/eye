@@ -4,22 +4,20 @@ RDF Lingua
 
 RDF Core as the web talking language.
 
-Reasoning with rules described in RDF:
-- rule name a lingua:ForwardRule, lingua:BackwardRule or lingua:QueryRule
-- rule name lingua:premise which is a list of subject predicate object items
-- rule name lingua:conclusion which is a list of subject predicate object items
+Reasoning with rules described in RDF as
+- rulename a ruleType
+- rulename lingua:premise conjunctionList
+- rulename lingua:conclusion conjunctionList
 
-and able to give proof explanations on top of the query answers:
-- rule name lingua:bindings list of var:name value substitutions
+and able to give proof explanations as
+- rulename lingua:bindings substitutionList
 
-The range of lingua:premise and lingua:conclusion are lists like
-    (lingua:conjunction
-        :s1 :p1 :o1
-        :s2 :p2 :o2
-        ...
-    )
-so lists with a first element lingua:conjunction and a rest of 3 element triples.
-Same for any other conjunction of triples.
+A ruleType is one of lingua:ForwardRule, lingua:BackwardRule or lingua:QueryRule.
+
+A conjunctionList is a list with lingua:conjunction as first element and with
+a rest composed of zero or more subject predicate object 3 element triples.
+
+A substitutionList is a list of (var:name value) pairs.
 
 The lingua: prefix is <http://www.w3.org/2000/10/swap/lingua#> which is rooted
 in the "Semantic Web Area for Play" uri http://www.w3.org/2000/10/swap/
