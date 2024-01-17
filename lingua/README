@@ -12,5 +12,18 @@ Reasoning with rules described in RDF:
 and able to give proof explanations on top of the query answers:
 - rule name lingua:bindings list of var:name value substitutions
 
+The range of lingua:premise and lingua:conclusion are lists like
+    (lingua:conjunction
+        :s1 :p1 :o1
+        :s2 :p2 :o2
+        ...
+    )
+so lists with a first element lingua:conjunction and a rest of 3 element triples.
+Same for any other conjunction of triples.
+
 The lingua: prefix is <http://www.w3.org/2000/10/swap/lingua#> which is rooted
 in the "Semantic Web Area for Play" uri http://www.w3.org/2000/10/swap/
+
+The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for variables
+which are interpreted as universally quantified variables with a scope of the rule
+in which they occur.
