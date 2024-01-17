@@ -12,12 +12,12 @@
 # facts
 :alice :marriedTo :bob.
 (lingua:conjunction :alice :marriedTo :bob) :since "1999".
-:marriedTo a :SymmetricRelation.
+:marriedTo a :Symmetry.
 
-# logic
+# rules
 :symmetry_rule a lingua:ForwardRule;
     lingua:premise (lingua:conjunction
-        var:p rdf:type :SymmetricRelation
+        var:p rdf:type :Symmetry
         var:s var:p var:o
     );
     lingua:conclusion (lingua:conjunction
@@ -26,7 +26,7 @@
 
 :symmetry_rule2 a lingua:ForwardRule;
     lingua:premise (lingua:conjunction
-        var:p rdf:type :SymmetricRelation
+        var:p rdf:type :Symmetry
         (lingua:conjunction var:s var:p var:o) var:p2 var:o2
     );
     lingua:conclusion (lingua:conjunction
