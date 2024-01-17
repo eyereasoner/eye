@@ -1,0 +1,12 @@
+@prefix : <http://example.org/ns#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+:symmetry_rule lingua:bindings ((var:p :marriedTo) (var:s :alice) (var:o :bob)).
+:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:p2 :since) (var:s :alice) (var:o :bob) (var:o2 "1999")).
+:symmetry_query lingua:bindings ((var:p :marriedTo)).
+:bob :marriedTo :alice.
+(lingua:conjunction :bob :marriedTo :alice) :since "1999".
+(lingua:conjunction :alice :marriedTo :bob) :since "1999".
+:symmetry_rule lingua:bindings ((var:p :marriedTo) (var:s :bob) (var:o :alice)).
+:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:p2 :since) (var:s :bob) (var:o :alice) (var:o2 "1999")).
