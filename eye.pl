@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.4 (2024-01-17)').
+version_info('EYE v9.4.5 (2024-01-18)').
 
 license_info('MIT License
 
@@ -1177,10 +1177,7 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   (   Object = ['<http://www.w3.org/2000/10/swap/lingua#conjunction>'|_]
-                ;   Predicate = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-                    Object = '<http://www.w3.org/2000/10/swap/lingua#conjunction>'
-                ),
+            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#premise>',
                 \+flag(lingua)
             ->  assertz(flag(lingua))
             ;   true
@@ -1242,9 +1239,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   (   Rt =.. [_, _, ['<http://www.w3.org/2000/10/swap/lingua#conjunction>'|_]]
-            ;   Rt = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, '<http://www.w3.org/2000/10/swap/lingua#conjunction>')
-            ),
+        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -2272,10 +2267,7 @@ propertylist(Subject, [Triple|Triples]) -->
     },
     !,
     object(Object, Triples2),
-    {   (   (   Object = ['\'<http://www.w3.org/2000/10/swap/lingua#conjunction>\''|_]
-            ;   Verb = '\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>\'',
-                Object = '\'<http://www.w3.org/2000/10/swap/lingua#conjunction>\''
-            ),
+    {   (   Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -12011,15 +12003,10 @@ getterm(A, B) :-
     B =.. [C|E].
 
 getconj(A, B) :-
-    (   nonvar(A),
-        A = ['<http://www.w3.org/2000/10/swap/lingua#conjunction>'|C]
-    ->  true
-    ;   C = A
-    ),
-    getcnj(C, D),
+    getcnj(A, C),
     (   flag(lingua)
-    ->  conjify(D, B)
-    ;   B = D
+    ->  conjify(C, B)
+    ;   B = C
     ).
 
 getcnj(A, A) :-

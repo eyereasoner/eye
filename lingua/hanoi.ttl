@@ -12,10 +12,10 @@
 
 # var:M is the sequence of moves to move var:N disks from var:X to var:Y using var:Z as intermediary
 :hanoi_rule1 a lingua:BackwardRule;
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         (var:N var:X var:Y var:Z) :moves var:M
     );
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         var:N math:greaterThan 1
         (var:N 1) math:difference var:N1
         (var:N1 var:X var:Z var:Y) :moves var:M1
@@ -24,16 +24,16 @@
     ).
 
 :hanoi_rule2 a lingua:BackwardRule;
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         (1 var:X var:Y var:Z) :moves ((var:X var:Y))
     );
     lingua:premise true.
 
 # query
 :hanoi_query a lingua:QueryRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         (7 :left :right :center) :moves var:M
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         (7 :left :right :center) :moves var:M
     ).

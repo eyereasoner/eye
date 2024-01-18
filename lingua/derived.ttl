@@ -13,24 +13,24 @@
 :Charly a :Dog.
 
 :main_rule a lingua:ForwardRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         var:x rdf:type :Cat
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         :derived_rule rdf:type lingua:ForwardRule
-        :derived_rule lingua:premise (lingua:conjunction
+        :derived_rule lingua:premise (
             var:y rdf:type :Dog
         )
-        :derived_rule lingua:conclusion (lingua:conjunction
+        :derived_rule lingua:conclusion (
             :test :is true
         )
     ).
 
 # query
 :main_query a lingua:QueryRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         :test :is true
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         :test :is true
     ).

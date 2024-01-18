@@ -5,22 +5,15 @@ RDF Lingua
 RDF as the web talking language.
 
 Reasoning with rules described in RDF as
-    rulename a ruleType.
-    rulename lingua:premise conjunctionList.
-    rulename lingua:conclusion conjunctionList.
+    rulename a lingua:ForwardRule, lingua:BackwardRule or lingua:QueryRule.
+    rulename lingua:premis list of triple trios.
+    rulename lingua:conclusion list of triple trios.
 
 and able to give proof explanations as
-    rulename lingua:bindings substitutionList.
-
-A ruleType is one of lingua:ForwardRule, lingua:BackwardRule or lingua:QueryRule.
-
-A conjunctionList is a list with lingua:conjunction as first element and with
-a rest list composed of zero or more subject predicate object 3 element triples.
-
-A substitutionList is a list of (var:name value) pairs.
+    rulename lingua:bindings list of (var:name value) pairs.
 
 The lingua: prefix is <http://www.w3.org/2000/10/swap/lingua#> and is rooted
 in the "Semantic Web Area for Play" http://www.w3.org/2000/10/swap/.
 
 The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
-variables that are interpreted as rule scoped universally quantified variables.
+variables that are interpreted as universally quantified variables.

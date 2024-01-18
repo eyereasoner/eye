@@ -11,10 +11,10 @@
 
 # query
 :sha512_query a lingua:QueryRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         :Let :param var:X
         var:X crypto:sha512 var:Y
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         () :sha512 (var:X var:Y)
     ).

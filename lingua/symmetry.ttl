@@ -11,37 +11,37 @@
 
 # facts
 :alice :marriedTo :bob.
-(lingua:conjunction :alice :marriedTo :bob) :since "1999".
+( :alice :marriedTo :bob) :since "1999".
 :marriedTo a :Symmetry.
 
 # rules
 :symmetry_rule a lingua:ForwardRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         var:p rdf:type :Symmetry
         var:s var:p var:o
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         var:o var:p var:s
     ).
 
 :symmetry_rule2 a lingua:ForwardRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         var:p rdf:type :Symmetry
-        (lingua:conjunction var:s var:p var:o) var:p2 var:o2
+        ( var:s var:p var:o) var:p2 var:o2
     );
-    lingua:conclusion (lingua:conjunction
-        (lingua:conjunction var:o var:p var:s) var:p2 var:o2
+    lingua:conclusion (
+        ( var:o var:p var:s) var:p2 var:o2
     ).
 
 # query
 :symmetry_query a lingua:QueryRule;
-    lingua:premise (lingua:conjunction
+    lingua:premise (
         :bob :marriedTo :alice
-        (lingua:conjunction :bob :marriedTo :alice) :since "1999"
-        (lingua:conjunction :alice var:p :bob) :since "1999"
+        ( :bob :marriedTo :alice) :since "1999"
+        ( :alice var:p :bob) :since "1999"
     );
-    lingua:conclusion (lingua:conjunction
+    lingua:conclusion (
         :bob :marriedTo :alice
-        (lingua:conjunction :bob :marriedTo :alice) :since "1999"
-        (lingua:conjunction :alice var:p :bob) :since "1999"
+        ( :bob :marriedTo :alice) :since "1999"
+        ( :alice var:p :bob) :since "1999"
     ).
