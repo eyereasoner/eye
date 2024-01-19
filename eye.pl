@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.6 (2024-01-19)').
+version_info('EYE v9.4.7 (2024-01-19)').
 
 license_info('MIT License
 
@@ -1742,7 +1742,7 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr(occurrence(N, triple(A, B, C)), occurrence(N, triple(D, E, F))) :-
+tr_tr(triple(A, B, C), triple(D, E, F)) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
     !,
@@ -1809,11 +1809,10 @@ rename(A, A).
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
-annotation(occurrence(N, Triple), Triples) -->
+annotation(Triple, Triples) -->
     [lb_pipe],
     !,
-    occurrencename(N),
-    propertylist(occurrence(N, Triple), Triples),
+    propertylist(Triple, Triples),
     {   (   Triples \= []
         ->  true
         ;   nb_getval(line_number, Ln),
@@ -1984,11 +1983,11 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     !,
     object(Object, Triples1),
     {   (   Verb = isof(Vrb)
-        ->  Occ = occurrence(_, triple(Object, Vrb, Subject))
-        ;   Occ = occurrence(_, triple(Subject, Verb, Object))
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
         )
     },
-    annotation(Occ, Triples2),
+    annotation(Trpl, Triples2),
     objecttail(Subject, Verb, Triples3),
     {   append([Triples1, Triples2, Triples3], Triples),
         (   Verb = isof(V)
@@ -2006,22 +2005,6 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     }.
 objecttail(_, _, []) -->
     [].
-
-occurrencename(N) -->
-    expression(N, []),
-    ['|'],
-    !.
-occurrencename(N) -->
-    {   gensym('bn_', B),
-        (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
-            ;   flag('pass-all-ground')
-            )
-        ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, B, '>\''], N)
-        ;   atom_concat('_', B, N)
-        )
-    }.
 
 pathitem(Name, []) -->
     symbol(S),
@@ -2134,10 +2117,9 @@ pathitem(List, Triples) -->
     !,
     pathlist(List, Triples),
     [')'].
-pathitem(occurrence(N, triple(S, P, O)), []) -->
+pathitem(triple(S, P, O), []) -->
     [lt_lt],
     !,
-    occurrencename(N),
     subject(S, []),
     verb(P, []),
     object(O, []),
@@ -2274,11 +2256,11 @@ propertylist(Subject, [Triple|Triples]) -->
         ;   true
         ),
         (   Verb = isof(Vrb)
-        ->  Occ = occurrence(_, triple(Object, Vrb, Subject))
-        ;   Occ = occurrence(_, triple(Subject, Verb, Object))
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
         )
     },
-    annotation(Occ, Triples3),
+    annotation(Trpl, Triples3),
     objecttail(Subject, Verb, Triples4),
     propertylisttail(Subject, Triples5),
     {   append([Triples1, Triples2, Triples3, Triples4, Triples5], Triples),
@@ -3321,7 +3303,6 @@ punctuation(0'=, '=').
 punctuation(0'<, '<').
 punctuation(0'>, '>').
 punctuation(0'$, '$').
-punctuation(0'|, '|').
 
 skip_line(-1, _, -1) :-
     !.
@@ -3629,10 +3610,10 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     (   C = rule(_, _, Rl),
         Rl =.. [P, S, O],
-        '<http://www.w3.org/2000/10/swap/reason#source>'(occurrence(_, triple(S, P, O)), Src)
+        '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
     ->  wt(Src)
     ;   (   C =.. [P, S, O],
-            '<http://www.w3.org/2000/10/swap/reason#source>'(occurrence(_, triple(S, P, O)), Src)
+            '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
         ->  wt(Src)
         ;   wt(A)
         )
@@ -4128,17 +4109,6 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
-wt2(occurrence(N, triple(S, P, O))) :-
-    !,
-    write('<< '),
-    wg(N),
-    write(' | '),
-    wg(S),
-    write(' '),
-    wp(P),
-    write(' '),
-    wg(O),
-    write(' >>').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
     ->  U = X
