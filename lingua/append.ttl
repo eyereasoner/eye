@@ -21,11 +21,11 @@
 
 # query
 :append_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise [ lingua:conjunction (
         :Let :param1 var:X1
         :Let :param2 var:X2
         (var:X1 var:X2) list:append var:Y
-    );
-    lingua:conclusion (
+    )];
+    lingua:conclusion [ lingua:conjunction (
         (var:X1 var:X2) :append var:Y
-    ).
+    )].
