@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.9 (2024-01-20)').
+version_info('EYE v9.4.10 (2024-01-20)').
 
 license_info('MIT License
 
@@ -3766,10 +3766,6 @@ wt0(fail) :-
     write('("fail") '),
     wp('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'),
     write(' true').
-wt0('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
-    flag(lingua),
-    !,
-    write(a).
 wt0([]) :-
     !,
     (   flag('rdf-list-output')

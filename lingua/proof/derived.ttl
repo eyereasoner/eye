@@ -1,9 +1,16 @@
 @prefix : <http://example.org/ns#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 
 :main_rule lingua:bindings ((var:cat :Alice) (var:string "http://example.org/ns#Alice") (var:string2 "http://example.org/ns#Alice_derived_rule") (var:name :Alice_derived_rule) (var:dog var:x_0)).
 :main_rule lingua:bindings ((var:cat :Minka) (var:string "http://example.org/ns#Minka") (var:string2 "http://example.org/ns#Minka_derived_rule") (var:name :Minka_derived_rule) (var:dog var:x_0)).
+:get_rules lingua:bindings ((var:pred rdf:type) (var:object lingua:ForwardRule)).
+:Minka_derived_rule a lingua:ForwardRule.
+:get_rules lingua:bindings ((var:pred lingua:premise) (var:object (var:x_0 rdf:type :Dog))).
+:Minka_derived_rule lingua:premise (var:x_0 rdf:type :Dog).
+:get_rules lingua:bindings ((var:pred lingua:conclusion) (var:object (:test :is true))).
+:Minka_derived_rule lingua:conclusion (:test :is true).
 :Alice_derived_rule lingua:bindings ((var:x_0 :Charly)).
 :Minka_derived_rule lingua:bindings ((var:x_0 :Charly)).
 :main_query lingua:bindings ((var:result true)).
