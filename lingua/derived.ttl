@@ -5,23 +5,29 @@
 # Proving a derived rule.
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/ns#>.
 
+:Alice a :Cat.
 :Minka a :Cat.
 :Charly a :Dog.
 
 :main_rule a lingua:ForwardRule;
     lingua:premise (
-        var:x rdf:type :Cat
+        var:cat rdf:type :Cat
+        var:cat log:uri var:string
+        (var:string "_derived_rule") string:concatenation var:string2
+        var:name log:uri var:string2
     );
     lingua:conclusion (
-        :derived_rule rdf:type lingua:ForwardRule
-        :derived_rule lingua:premise (
-            var:y rdf:type :Dog
+        var:name rdf:type lingua:ForwardRule
+        var:name lingua:premise (
+            var:dog rdf:type :Dog
         )
-        :derived_rule lingua:conclusion (
+        var:name lingua:conclusion (
             :test :is true
         )
     ).
