@@ -9,7 +9,7 @@
 # Suppose that Alice and Bob initially share a pair of mobits in the joint
 # state |R). Alice can encode two bits (four possible messages) by choosing
 # to apply the operators 1, G, K or KG to her mobit, resulting in one of the
-# four states |R), |S), |U) or |V ) ]. If she then delivers her transformed
+# four states |R), |S), |U) or |V ). If she then delivers her transformed
 # mobit to Bob, he can perform a joint measurement on both mobits to
 # reliably distinguish these possibilities.
 # The same set of entangled mobit states and single-mobit transformations
@@ -75,93 +75,93 @@
 
 # KG
 :sdcoding_rule1 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         var:X :kg var:Y
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :g var:Z
         var:Z :k var:Y
-    ) ].
+    ).
 
 # GK
 :sdcoding_rule2 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         var:X :gk var:Y
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :k var:Z
         var:Z :g var:Y
-    ) ].
+    ).
 
 # Alice
 :sdcoding_rule3 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         0 :alice (var:X var:Y)
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :id var:Y
-    ) ].
+    ).
 
 :sdcoding_rule4 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         1 :alice (var:X var:Y)
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :g var:Y
-    ) ].
+    ).
 
 :sdcoding_rule5 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         2 :alice (var:X var:Y)
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :k var:Y
-    ) ].
+    ).
 
 :sdcoding_rule6 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         3 :alice (var:X var:Y)
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :kg var:Y
-    ) ].
+    ).
 
 # Bob
 :sdcoding_rule7 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         (var:X var:Y) :bob 0
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :gk var:Y
-    ) ].
+    ).
 
 :sdcoding_rule8 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         (var:X var:Y) :bob 1
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :k var:Y
-    ) ].
+    ).
 
 :sdcoding_rule9 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         (var:X var:Y) :bob 2
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :g var:Y
-    ) ].
+    ).
 
 :sdcoding_rule10 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         (var:X var:Y) :bob 3
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:X :id var:Y
-    ) ].
+    ).
 
 # superdense coding
 :sdcoding_rule11 a lingua:ForwardRule;
-    lingua:premise [ lingua:conjunction (
+    lingua:premise (
         var:N :alice var:A
         var:B :bob var:M
         (
@@ -175,16 +175,16 @@
         ) log:collectAllIn var:S
         var:L list:length var:I
         (var:I 2) math:remainder 1
-    ) ];
-    lingua:conclusion [ lingua:conjunction (
+    );
+    lingua:conclusion (
         var:N :sdcoding var:M
-    ) ].
+    ).
 
 # query
 :sdcoding_query a lingua:QueryRule;
-    lingua:premise [ lingua:conjunction (
+    lingua:premise (
         var:N :sdcoding var:M
-    ) ];
-    lingua:conclusion [ lingua:conjunction (
+    );
+    lingua:conclusion (
         () :sdcoding (var:N var:M)
-    ) ].
+    ).

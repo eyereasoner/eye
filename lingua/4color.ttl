@@ -43,16 +43,16 @@
 
 # rules
 :places_rule1 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         () :places true
-    ) ];
+    );
     lingua:premise true.
 
 :places_rule2 a lingua:BackwardRule;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         var:PLACES :places true
-    ) ];
-    lingua:premise [ lingua:conjunction (
+    );
+    lingua:premise (
         var:PLACES list:firstRest ((var:PLACE var:COLOR) var:TAIL)
         var:TAIL :places true
         var:PLACE :neighbours var:NEIGHBOURS
@@ -66,11 +66,11 @@
             ()
         ) log:collectAllIn var:SCOPE
         true log:callWithCut true
-    ) ].
+    ).
 
 # query
 :query_rule a lingua:QueryRule;
-    lingua:premise [ lingua:conjunction (
+    lingua:premise (
         (
             (var:PLACE var:COLOR)
             (
@@ -80,7 +80,7 @@
         ) log:collectAllIn var:SCOPE
         (var:LIST) func:reverse var:PLACES
         var:PLACES :places true
-    ) ];
-    lingua:conclusion [ lingua:conjunction (
+    );
+    lingua:conclusion (
         var:PLACES :coloring true
-    ) ].
+    ).

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.7 (2024-01-19)').
+version_info('EYE v9.4.8 (2024-01-20)').
 
 license_info('MIT License
 
@@ -181,7 +181,6 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/lingua#conjunction>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
@@ -1178,7 +1177,7 @@ args(['--turtle', Argument|Args]) :-
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
             djiti_assertz(Triple),
-            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#conjunction>',
+            (   Predicate = '<http://www.w3.org/2000/10/swap/lingua#premise>',
                 \+flag(lingua)
             ->  assertz(flag(lingua))
             ;   true
@@ -1240,7 +1239,7 @@ n3pin(Rt, In, File, Mode) :-
         ->  nb_setval(current_scope, Scope)
         ;   true
         ),
-        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#conjunction>'(_, _),
+        (   Rt = '<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _),
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -2250,7 +2249,7 @@ propertylist(Subject, [Triple|Triples]) -->
     },
     !,
     object(Object, Triples2),
-    {   (   Verb = '\'<http://www.w3.org/2000/10/swap/lingua#conjunction>\'',
+    {   (   Verb = '\'<http://www.w3.org/2000/10/swap/lingua#premise>\'',
             \+flag(lingua)
         ->  assertz(flag(lingua))
         ;   true
@@ -4742,7 +4741,10 @@ eam(Recursion) :-
         (   Concd \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(_, _),
             Concd \= ':-'(_, _)
         ->  nb_getval(wn, W),
-            labelvars(Prem-Concd, W, N),        % failing when Prem contains attributed variables
+            (   flag(lingua)
+            ->  labelvars(Prem-Concd, W, N, avar)
+            ;   labelvars(Prem-Concd, W, N)         % failing when Prem contains attributed variables
+            ),
             nb_setval(wn, N)
         ;   true
         ),
@@ -11753,9 +11755,11 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
-        sub_atom(A, _, 4, _, '#bn_'),
-        sub_atom(A, _, 4, _, '#e_')
+        (   sub_atom(A, _, 4, _, '#bn_')
+        ;   sub_atom(A, _, 4, _, '#e_')
+        )
     ;   sub_atom(A, 0, _, _, some)
+    ;   sub_atom(A, 0, _, _, avar)
     ).
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
@@ -11974,15 +11978,10 @@ getterm(A, B) :-
     B =.. [C|E].
 
 getconj(A, B) :-
-    (   nonvar(A),
-        '<http://www.w3.org/2000/10/swap/lingua#conjunction>'(A, C)
-    ->  true
-    ;   C = A
-    ),
-    getcnj(C, D),
+    getcnj(A, C),
     (   flag(lingua)
-    ->  conjify(D, B)
-    ;   B = D
+    ->  conjify(C, B)
+    ;   B = C
     ).
 
 getcnj(A, A) :-

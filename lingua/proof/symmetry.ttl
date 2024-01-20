@@ -3,19 +3,11 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 :symmetry_rule lingua:bindings ((var:p :marriedTo) (var:s :alice) (var:o :bob)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:bn_1) (var:s :alice) (var:o :bob) (var:p2 lingua:conjunction) (var:o2 (:alice :marriedTo :bob)) (var:y _:sk_10)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:bn_1) (var:s :alice) (var:o :bob) (var:p2 :since) (var:o2 "1999") (var:y _:sk_11)).
-:symmetry_query lingua:bindings ((var:x _:bn_1) (var:y (:alice :marriedTo :bob)) (var:z "1999")).
+:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:p2 :since) (var:s :alice) (var:o :bob) (var:o2 "1999")).
+:symmetry_query lingua:bindings ((var:y (:alice :marriedTo :bob)) (var:z "1999")).
 :bob :marriedTo :alice.
-_:bn_1 lingua:conjunction (:alice :marriedTo :bob).
-_:bn_1 :since "1999".
-:symmetry_query lingua:bindings ((var:x _:sk_11) (var:y (:bob :marriedTo :alice)) (var:z "1999")).
-_:sk_11 lingua:conjunction (:bob :marriedTo :alice).
-_:sk_11 :since "1999".
+(:alice :marriedTo :bob) :since "1999".
+:symmetry_query lingua:bindings ((var:y (:bob :marriedTo :alice)) (var:z "1999")).
+(:bob :marriedTo :alice) :since "1999".
 :symmetry_rule lingua:bindings ((var:p :marriedTo) (var:s :bob) (var:o :alice)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_10) (var:s :bob) (var:o :alice) (var:p2 lingua:conjunction) (var:o2 (:bob :marriedTo :alice)) (var:y _:sk_10)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_10) (var:s :bob) (var:o :alice) (var:p2 lingua:conjunction) (var:o2 (:alice :marriedTo :bob)) (var:y _:bn_1)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_10) (var:s :alice) (var:o :bob) (var:p2 lingua:conjunction) (var:o2 (:bob :marriedTo :alice)) (var:y _:sk_10)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_10) (var:s :alice) (var:o :bob) (var:p2 lingua:conjunction) (var:o2 (:alice :marriedTo :bob)) (var:y _:sk_10)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_11) (var:s :bob) (var:o :alice) (var:p2 lingua:conjunction) (var:o2 (:bob :marriedTo :alice)) (var:y _:sk_10)).
-:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:x _:sk_11) (var:s :bob) (var:o :alice) (var:p2 :since) (var:o2 "1999") (var:y _:bn_1)).
+:symmetry_rule2 lingua:bindings ((var:p :marriedTo) (var:p2 :since) (var:s :bob) (var:o :alice) (var:o2 "1999")).

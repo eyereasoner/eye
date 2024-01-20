@@ -10,22 +10,22 @@
 
 :gen_rule a lingua:ForwardRule;
     lingua:premise true;
-    lingua:conclusion [ lingua:conjunction (
+    lingua:conclusion (
         :Socrates rdf:type :Human
         :Human rdfs:subClassOf :Mortal
         :rdfs_subclass_rule rdf:type lingua:ForwardRule
-        :rdfs_subclass_rule lingua:premise [ lingua:conjunction (
+        :rdfs_subclass_rule lingua:premise (
             var:A rdfs:subClassOf var:B
             var:S rdf:type var:A
-        ) ]
-        :rdfs_subclass_rule lingua:conclusion [ lingua:conjunction (
+        )
+        :rdfs_subclass_rule lingua:conclusion (
             var:S rdf:type var:B
-        ) ]
+        )
         :socrates_query rdf:type lingua:QueryRule
-        :socrates_query lingua:premise [ lingua:conjunction (
+        :socrates_query lingua:premise (
             var:S rdf:type :Mortal
-        ) ]
-        :socrates_query lingua:conclusion [ lingua:conjunction (
+        )
+        :socrates_query lingua:conclusion (
             var:S rdf:type :Mortal
-        ) ]
-    ) ].
+        )
+    ).
