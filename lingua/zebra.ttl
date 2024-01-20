@@ -32,41 +32,41 @@
         var:L list:member (var:A61 var:A62 var:A63 :beer :bluemasters)
         var:L list:member (var:A64 :german var:A65 var:A66 :prince)
         var:L list:member (var:A67 var:B :fish var:A69 var:A70)
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:B :owns :fish
-    )].
+    ) ].
 
 :pair_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A :pair (var:B var:C)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:A :sublist (var:B var:C)
-    )].
+    ) ].
 
 :pair_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A :pair (var:B var:C)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:A :sublist (var:C var:B)
-    )].
+    ) ].
 
 :sublist_rule a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A :sublist var:B
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         (var:C var:D) list:append var:A
         (var:E var:B) list:append var:C
-    )].
+    ) ].
 
 # query
 :query_rule a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         var:WHO :owns :fish
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:WHO :owns :fish
-    )].
+    ) ].

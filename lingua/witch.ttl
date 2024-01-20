@@ -17,10 +17,10 @@
     lingua:premise [ lingua:conjunction (
         var:X rdf:type :BURNS
         var:X rdf:type :WOMAN
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:X rdf:type :WITCH
-    )].
+    ) ].
 
 # WOMAN(GIRL
 :GIRL a :WOMAN.
@@ -29,19 +29,19 @@
 :witch_rule2 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:X rdf:type :ISMADEOFWOOD
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:X rdf:type :BURNS
-    )].
+    ) ].
 
 # \forall x : FLOATS(x) => ISMADEOFWOOD(x
 :witch_rule3 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:X rdf:type :FLOATS
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:X rdf:type :ISMADEOFWOOD
-    )].
+    ) ].
 
 # FLOATS(DUCK
 :DUCK a :FLOATS.
@@ -51,10 +51,10 @@
     lingua:premise [ lingua:conjunction (
         var:X rdf:type :FLOATS
         var:X :SAMEWEIGHT var:Y
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:Y rdf:type :FLOATS
-    )].
+    ) ].
 
 # and, by experiment
 # SAMEWEIGHT(DUCK,GIRL
@@ -64,7 +64,7 @@
 :witch_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         var:S rdf:type :WITCH
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S rdf:type :WITCH
-    )].
+    ) ].

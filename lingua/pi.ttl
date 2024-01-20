@@ -12,23 +12,23 @@
 :pi_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:N var:Pi) :pi true
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         (1 var:N 0 var:P 1) :pi true
         (4 var:P) math:product var:A
         (3 var:A) math:sum var:Pi
-    )].
+    ) ].
 
 :pi_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:N var:N var:P var:P var:S) :pi true
-    )];
+    ) ];
     lingua:premise true.
 
 :pi_rule3 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:K var:N var:P0 var:P var:S) :pi true
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:K math:notEqualTo var:N
         (var:K 1) math:sum var:K1
@@ -40,13 +40,13 @@
         (var:P0 var:D) math:sum var:P1
         var:S math:negation var:S1
         (var:K1 var:N var:P1 var:P var:S1) :pi true
-    )].
+    ) ].
 
 # query
 :pi_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         (5000 var:Pi) :pi true
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         (5000 var:Pi) :pi true
-    )].
+    ) ].

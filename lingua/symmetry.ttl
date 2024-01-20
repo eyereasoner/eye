@@ -11,7 +11,7 @@
 
 # facts
 :alice :marriedTo :bob.
-[ lingua:conjunction (:alice :marriedTo :bob)] :since "1999".
+[ lingua:conjunction (:alice :marriedTo :bob) ] :since "1999".
 :marriedTo a :Symmetry.
 
 # rules
@@ -19,21 +19,21 @@
     lingua:premise [ lingua:conjunction (
         var:p rdf:type :Symmetry
         var:s var:p var:o
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:o var:p var:s
-    )].
+    ) ].
 
 :symmetry_rule2 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:p rdf:type :Symmetry
         var:x lingua:conjunction (var:s var:p var:o)
         var:x var:p2 var:o2
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:y lingua:conjunction (var:o var:p var:s)
         var:y var:p2 var:o2
-    )].
+    ) ].
 
 # query
 :symmetry_query a lingua:QueryRule;
@@ -41,9 +41,9 @@
         :bob :marriedTo :alice
         var:x lingua:conjunction var:y
         var:x :since var:z
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :bob :marriedTo :alice
         var:x lingua:conjunction var:y
         var:x :since var:z
-    )].
+    ) ].

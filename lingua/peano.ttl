@@ -12,56 +12,56 @@
 :peano_add_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:A 0) :add var:A
-    )];
+    ) ];
     lingua:premise true.
 
 :peano_add_rule2 a lingua:BackwardRule;
     lingua:premise [ lingua:conjunction (
         (var:A var:B) :add var:C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         (var:A (:s var:B)) :add (:s var:C)
-    )].
+    ) ].
 
 # multiply
 :peano_multiply_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:A 0) :multiply 0
-    )];
+    ) ];
     lingua:premise true.
 
 :peano_multiply_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:A (:s var:B)) :multiply var:C
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         (var:A var:B) :multiply var:D
         (var:A var:D) :add var:C
-    )].
+    ) ].
 
 # factorial
 :peano_factorial_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A :factorial var:B
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         (var:A (:s 0)) :fac var:B
-    )].
+    ) ].
 
 :peano_factorial_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (0 var:A) :fac var:A
-    )];
+    ) ];
     lingua:premise true.
 
 :peano_factorial_rule3 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         ((:s var:A) var:B) :fac var:C
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         (var:B (:s var:A)) :multiply var:D
         (var:A var:D) :fac var:C
-    )].
+    ) ].
 
 # query
 :peano_query a lingua:QueryRule;
@@ -69,7 +69,7 @@
         ((:s 0) (:s (:s 0))) :add var:A
         (var:A (:s (:s 0))) :multiply var:B
         var:B :factorial var:C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :result :is var:C
-    )].
+    ) ].

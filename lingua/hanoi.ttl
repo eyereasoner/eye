@@ -14,26 +14,26 @@
 :hanoi_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (var:N var:X var:Y var:Z) :moves var:M
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:N math:greaterThan 1
         (var:N 1) math:difference var:N1
         (var:N1 var:X var:Z var:Y) :moves var:M1
         (var:N1 var:Z var:Y var:X) :moves var:M2
         (var:M1 ((var:X var:Y)) var:M2) list:append var:M
-    )].
+    ) ].
 
 :hanoi_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         (1 var:X var:Y var:Z) :moves ((var:X var:Y))
-    )];
+    ) ];
     lingua:premise true.
 
 # query
 :hanoi_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         (7 :left :right :center) :moves var:M
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         (7 :left :right :center) :moves var:M
-    )].
+    ) ].

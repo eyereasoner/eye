@@ -12,52 +12,52 @@
 :negation_predicates_rule1 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :saying :A
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :saying :C
-    )].
+    ) ].
 
 :negation_predicates_rule2 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :not_saying :C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :not_saying :A
-    )].
+    ) ].
 
 # saying B means saying C
 :negation_predicates_rule3 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :saying :B
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :saying :C
-    )].
+    ) ].
 
 :negation_predicates_rule4 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :not_saying :C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :not_saying :B
-    )].
+    ) ].
 
 # saying A or saying B
 :negation_predicates_rule5 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :not_saying :A
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :saying :B
-    )].
+    ) ].
 
 :negation_predicates_rule6 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:S :not_saying :B
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:S :saying :A
-    )].
+    ) ].
 
 # assuming the negation of the query so that
 # it can be discharged when the query succeeds
@@ -67,7 +67,7 @@
 :negation_predicates_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         :alice :saying :C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :alice :saying :C
-    )].
+    ) ].

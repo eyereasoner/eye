@@ -15,22 +15,22 @@
 :main_rule a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:x rdf:type :Cat
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :derived_rule rdf:type lingua:ForwardRule
         :derived_rule lingua:premise [ lingua:conjunction (
             var:y rdf:type :Dog
-        )]
+        ) ]
         :derived_rule lingua:conclusion [ lingua:conjunction (
             :test :is true
-        )]
-    )].
+        ) ]
+    ) ].
 
 # query
 :main_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         :test :is true
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :test :is true
-    )].
+    ) ].

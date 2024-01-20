@@ -22,7 +22,7 @@
 :acp_rule1 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:Pol :pass :allOfTest
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
@@ -34,12 +34,12 @@
                 var:Test :has var:Field
             )
         ) log:forAllIn var:X
-    )].
+    ) ].
 
 :acp_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:Pol :pass :anyOfTest
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
@@ -53,12 +53,12 @@
         ) log:collectAllIn var:X
         var:List list:length var:L
         var:L log:notEqualTo 0
-    )].
+    ) ].
 
 :acp_rule3 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:Pol :pass :noneOfTest
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
@@ -72,7 +72,7 @@
         ) log:collectAllIn var:X
         var:List list:length var:L
         var:L log:equalTo 0
-    )].
+    ) ].
 
 # query
 :acp_query a lingua:QueryRule;
@@ -81,8 +81,8 @@
         var:Pol :pass :allOfTest
         var:Pol :pass :anyOfTest
         var:Pol :pass :noneOfTest
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         :test :for var:Pol
         :test :is true
-    )].
+    ) ].

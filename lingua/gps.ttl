@@ -24,36 +24,36 @@
     lingua:conclusion [ lingua:conjunction (
         () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort))
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1))
-    )].
+    ) ].
 
 :gps_rule2 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount))
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount))
-    )].
+    ) ].
 
 :gps_rule3 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         () gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount))
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:Goal log:call true
-    )].
+    ) ].
 
 :gps_rule4 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         () gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s var:Path var:Duration var:Cost var:Belief var:Comfort
             (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount))
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n)
         (var:Maps_s (var:Map)) list:append var:Maps_t
@@ -75,35 +75,35 @@
         ) log:callWithCleanup (
             var:To log:becomes var:From
         )
-    )].
+    ) ].
 
 # counting the number of stages (a stage is a sequence of steps in the same map)
 :gps_rule5 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         () gps:stagecount 1
-    )];
+    ) ];
     lingua:premise true.
 
 :gps_rule6 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A gps:stagecount var:B
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:A list:firstRest (var:C var:D)
         var:D list:firstRest (var:E var:F)
         var:C log:notEqualTo var:E
         var:D gps:stagecount var:G
         (var:G 1) math:sum var:B
-    )].
+    ) ].
 
 :gps_rule7 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:A gps:stagecount var:B
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:A list:firstRest (var:C var:D)
         var:D gps:stagecount var:B
-    )].
+    ) ].
 
 # current state as practical example
 :i1 :location :Gent.
@@ -112,40 +112,40 @@
 :gps_rule8 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         :map-BE gps:description ((var:S :location :Gent) () (var:S :location :Brugge) :drive_gent_brugge 1500.0 0.006 0.96 0.99)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:S :location var:L
-    )].
+    ) ].
 
 :gps_rule9 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         :map-BE gps:description ((var:S :location :Gent) () (var:S :location :Kortrijk) :drive_gent_kortrijk 1600.0 0.007 0.96 0.99)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:S :location var:L
-    )].
+    ) ].
 
 :gps_rule10 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         :map-BE gps:description ((var:S :location :Kortrijk) () (var:S :location :Brugge) :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:S :location var:L
-    )].
+    ) ].
 
 :gps_rule11 a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         :map-BE gps:description ((var:S :location :Brugge) () (var:S :location :Oostende) :drive_brugge_oostende 900.0 0.004 0.98 1.0)
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:S :location var:L
-    )].
+    ) ].
 
 # query
 :gps_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         () gps:findpath ((var:SUBJECT :location :Oostende) var:PATH var:DURATION var:COST var:BELIEF var:COMFORT (5000.0 5.0 0.2 0.4 1))
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:SUBJECT gps:path (var:PATH var:DURATION var:COST var:BELIEF var:COMFORT)
-    )].
+    ) ].

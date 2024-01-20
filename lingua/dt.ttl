@@ -15,24 +15,24 @@
 :imports_rule a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         <> log:imports <../reasoning/dt/test-dl.ttl>
-    )];
+    ) ];
     lingua:conclusion true.
 
 # rdfs subclass
 :rdfs_subclass_rule a lingua:BackwardRule;
     lingua:conclusion [ lingua:conjunction (
         var:S rdf:type var:B
-    )];
+    ) ];
     lingua:premise [ lingua:conjunction (
         var:A rdfs:subClassOf var:B
         var:S rdf:type var:A
-    )].
+    ) ].
 
 # query
 :dt_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         var:X rdf:type :A2
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:X rdf:type :A2
-    )].
+    ) ].

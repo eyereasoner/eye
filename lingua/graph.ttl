@@ -24,26 +24,26 @@
 :graph_rule1 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:A :oneway var:B
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:A :path var:B
-    )].
+    ) ].
 
 # path transitive property
 :graph_rule2 a lingua:ForwardRule;
     lingua:premise [ lingua:conjunction (
         var:A :path var:B
         var:B :path var:C
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:A :path var:C
-    )].
+    ) ].
 
 # query
 :graph_query a lingua:QueryRule;
     lingua:premise [ lingua:conjunction (
         var:A :path :nantes
-    )];
+    ) ];
     lingua:conclusion [ lingua:conjunction (
         var:A :path :nantes
-    )].
+    ) ].
