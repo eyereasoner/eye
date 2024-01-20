@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.8 (2024-01-20)').
+version_info('EYE v9.4.9 (2024-01-20)').
 
 license_info('MIT License
 
@@ -4740,12 +4740,12 @@ eam(Recursion) :-
         ),
         (   Concd \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(_, _),
             Concd \= ':-'(_, _)
-        ->  nb_getval(wn, W),
-            (   flag(lingua)
-            ->  labelvars(Prem-Concd, W, N, avar)
-            ;   labelvars(Prem-Concd, W, N)         % failing when Prem contains attributed variables
-            ),
-            nb_setval(wn, N)
+        ->  (   flag(lingua)
+            ->  labelvars(Prem-Concd, 0, _, avar)
+            ;   nb_getval(wn, W),
+                labelvars(Prem-Concd, W, N),        % failing when Prem contains attributed variables
+                nb_setval(wn, N)
+            )
         ;   true
         ),
         (   flag(debug)
@@ -11032,8 +11032,12 @@ split(A, [B|C], D, [B|E]) :-
     split(A, C, D, E).
 
 zip_list([], [], []).
-zip_list([A|B], [C|D], [[A,C]|E]) :-
-    zip_list(B, D, E).
+zip_list([A|B], [C|D], [[E,C]|F]) :-
+    (   atom_concat('avar', G, A)
+    ->  atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#x_', G, '>'], E)
+    ;   E = A
+    ),
+    zip_list(B, D, F).
 
 sub_list(A, A) :-
     !.
