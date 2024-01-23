@@ -1,0 +1,25 @@
+# -------------
+# Equality test
+# -------------
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+:let :param (
+    :A :B :C
+    :D :E :F
+).
+
+#query
+:equal_query a lingua:QueryRule;
+    lingua:premise (
+        :let :param var:X
+        (var:X) graph:union var:Y
+        var:X log:equalTo var:Y     # this is the case in N3
+    );
+    lingua:conclusion (
+        :test :is true
+    ).
