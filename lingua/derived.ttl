@@ -1,0 +1,50 @@
+# ------------
+# Derived rule
+# ------------
+#
+# Proving a derived rule.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+:Alice a :Cat.
+:Minka a :Cat.
+:Charly a :Dog.
+
+:main_rule a lingua:ForwardRule;
+    lingua:premise (
+        var:cat rdf:type :Cat
+        var:cat log:uri var:string
+        (var:string "_derived_rule") string:concatenation var:string2
+        var:name log:uri var:string2
+    );
+    lingua:conclusion (
+        var:name rdf:type lingua:ForwardRule
+        var:name lingua:premise (
+            var:dog rdf:type :Dog
+        )
+        var:name lingua:conclusion (
+            :test :is true
+        )
+    ).
+
+# query
+:main_query a lingua:QueryRule;
+    lingua:premise (
+        :test :is var:result
+    );
+    lingua:conclusion (
+        :test :is var:result
+    ).
+
+:get_rules a lingua:QueryRule;
+    lingua:premise (
+        :Minka_derived_rule var:pred var:object
+    );
+    lingua:conclusion (
+        :Minka_derived_rule var:pred var:object
+    ).

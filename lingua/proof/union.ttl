@@ -1,0 +1,16 @@
+@prefix : <https://eyereasoner.github.io/eye/lingua/union.ttl#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+:union_query lingua:bindings ((var:X1 (:A :B :C :A :X :C :D :E :F)) (var:X2 (:A :Y :C :A :B :C)) (var:Y (
+    :A :B :C
+    :A :X :C
+    :D :E :F
+    :A :Y :C
+))).
+((:A :B :C :A :X :C :D :E :F) (:A :Y :C :A :B :C)) :union (
+    :A :B :C
+    :A :X :C
+    :D :E :F
+    :A :Y :C
+).

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.10 (2024-01-20)').
+version_info('EYE v9.4.11 (2024-01-24)').
 
 license_info('MIT License
 
@@ -6047,6 +6047,16 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/graph#equalTo>'(A, B) :-
+    when(
+        (   ground([A, B])
+        ),
+        (   getconj(A, U),
+            getconj(B, V),
+            unify(U, V)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/graph#intersection>'(A, B) :-
     when(
         (   nonvar(A)
@@ -6082,6 +6092,16 @@ djiti_assertz(A) :-
             conj_list(Ag, C),
             getconj(B, Bg),
             member(Bg, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/graph#notEqualTo>'(A, B) :-
+    when(
+        (   ground([A, B])
+        ),
+        (   getconj(A, U),
+            getconj(B, V),
+            \+unify(U, V)
         )
     ).
 
