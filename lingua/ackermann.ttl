@@ -28,10 +28,10 @@
 
 # ackermann(x, y)
 :ackermann_rule_main a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y) :ackermann var:A
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:Y 3) math:sum var:B
         (var:X var:B 2) :ackermann var:C
         (var:C 3) math:difference var:A
@@ -40,48 +40,48 @@
 # ackermann(x, y, z)
 # succ (x=0)
 :ackermann_rule0 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (0 var:Y var:Z) :ackermann var:A
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         true log:callWithCut true
         (var:Y 1) math:sum var:A
     ).
 
 # sum (x=1)
 :ackermann_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (1 var:Y var:Z) :ackermann var:A
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         true log:callWithCut true
         (var:Y var:Z) math:sum var:A
     ).
 
 # product (x=2)
 :ackermann_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (2 var:Y var:Z) :ackermann var:A
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         true log:callWithCut true
         (var:Y var:Z) math:product var:A
     ).
 
 # exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
 :ackermann_rule3plus a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X 0 var:Z) :ackermann 1
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         true log:callWithCut true
     ).
 
 :ackermann_rule_final a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y var:Z) :ackermann var:A
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:Y 1) math:difference var:B
         (var:X var:B var:Z) :ackermann var:C
         (var:X 1) math:difference var:D
@@ -90,7 +90,7 @@
 
 # query
 :ackermann_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (0 0) :ackermann var:A0
         (0 6) :ackermann var:A1
         (1 2) :ackermann var:A2
@@ -104,7 +104,7 @@
         #(4 2) :ackermann var:A10   # leaving out because the proof is 2.5 GB
         (5 0) :ackermann var:A11
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (0 0) :ackermann var:A0
         (0 6) :ackermann var:A1
         (1 2) :ackermann var:A2

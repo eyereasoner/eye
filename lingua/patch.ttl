@@ -19,7 +19,7 @@
 
 # patch rule
 :patch_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:person :familyName "Garcia"
         (
             var:person :givenName "Claudia"
@@ -31,11 +31,11 @@
 
 # query
 :patch_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:person :familyName var:fname
         var:person :givenName var:gname
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:person :familyName var:fname
         var:person :givenName var:gname
     ).

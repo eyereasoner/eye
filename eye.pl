@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.4.11 (2024-01-24)').
+version_info('EYE v9.4.12 (2024-01-24)').
 
 license_info('MIT License
 
@@ -4319,7 +4319,8 @@ wg(X) :-
             )
         )
     ->  (   flag(lingua)
-        ->  write('(')
+        ->  write('('),
+            wp('<http://www.w3.org/2000/10/swap/lingua#graphTerm>')
         ;   write('{')
         ),
         indentation(4),
@@ -11998,10 +11999,15 @@ getterm(A, B) :-
     B =.. [C|E].
 
 getconj(A, B) :-
-    getcnj(A, C),
+    (   nonvar(A),
+        A = ['<http://www.w3.org/2000/10/swap/lingua#graphTerm>'|C]
+    ->  true
+    ;   C = A
+    ),
+    getcnj(C, D),
     (   flag(lingua)
-    ->  conjify(C, B)
-    ;   B = C
+    ->  conjify(D, B)
+    ;   B = D
     ).
 
 getcnj(A, A) :-

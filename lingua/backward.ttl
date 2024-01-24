@@ -11,18 +11,18 @@
 
 # something is more interesting if it is greater
 :backward_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:X :moreInterestingThan var:Y
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X math:greaterThan var:Y
     ).
 
 # query
 :backward_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         5 :moreInterestingThan 3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :result :is (5 :moreInterestingThan 3)
     ).

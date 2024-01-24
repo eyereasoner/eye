@@ -18,7 +18,7 @@
 @prefix : <#>.
 
 :owns_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:L log:equalTo ((var:A1 :norwegian var:A2 var:A3 var:A4) (:blue var:A5 var:A6 var:A7 var:A8) (var:A9 var:A10 var:A11 :milk var:A12) var:A13 var:A14)
         var:L :pair ((var:A15 var:A16 var:A17 var:A18 :blends) (var:A19 var:A20 :cats var:A21 var:A22))
         var:L :pair ((var:A23 var:A24 :horse var:A25 var:A26) (var:A27 var:A28 var:A29 var:A30 :dunhill))
@@ -33,40 +33,40 @@
         var:L list:member (var:A64 :german var:A65 var:A66 :prince)
         var:L list:member (var:A67 var:B :fish var:A69 var:A70)
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:B :owns :fish
     ).
 
 :pair_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:A :pair (var:B var:C)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:A :sublist (var:B var:C)
     ).
 
 :pair_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:A :pair (var:B var:C)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:A :sublist (var:C var:B)
     ).
 
 :sublist_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:A :sublist var:B
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:C var:D) list:append var:A
         (var:E var:B) list:append var:C
     ).
 
 # query
 :query_rule a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:WHO :owns :fish
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:WHO :owns :fish
     ).

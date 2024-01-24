@@ -16,35 +16,35 @@
 :Charly a :Dog.
 
 :main_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:cat rdf:type :Cat
         var:cat log:uri var:string
         (var:string "_derived_rule") string:concatenation var:string2
         var:name log:uri var:string2
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:name rdf:type lingua:ForwardRule
-        var:name lingua:premise (
+        var:name lingua:premise (lingua:graphTerm
             var:dog rdf:type :Dog
         )
-        var:name lingua:conclusion (
+        var:name lingua:conclusion (lingua:graphTerm
             :test :is true
         )
     ).
 
 # query
 :main_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :test :is var:result
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :test :is var:result
     ).
 
 :get_rules a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :Minka_derived_rule var:pred var:object
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :Minka_derived_rule var:pred var:object
     ).

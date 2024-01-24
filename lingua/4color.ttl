@@ -43,23 +43,23 @@
 
 # rules
 :places_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         () :places true
     );
     lingua:premise true.
 
 :places_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:PLACES :places true
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:PLACES list:firstRest ((var:PLACE var:COLOR) var:TAIL)
         var:TAIL :places true
         var:PLACE :neighbours var:NEIGHBOURS
         (:red :green :blue :yellow) list:member var:COLOR
         (
             1
-            (
+            (lingua:graphTerm
                 var:TAIL list:member (var:NEIGHBOUR var:COLOR)
                 var:NEIGHBOURS list:member var:NEIGHBOUR
             )
@@ -70,10 +70,10 @@
 
 # query
 :query_rule a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (
             (var:PLACE var:COLOR)
-            (
+            (lingua:graphTerm
                 var:PLACE :neighbours var:NEIGHBOURS
             )
             var:LIST
@@ -81,6 +81,6 @@
         (var:LIST) func:reverse var:PLACES
         var:PLACES :places true
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:PLACES :coloring true
     ).

@@ -16,19 +16,19 @@
 
 # rdfs subclass
 :rdfs_subclass_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:A rdfs:subClassOf var:B
         var:S rdf:type var:A
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S rdf:type var:B
     ).
 
 # query
 :socrates_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S rdf:type :Mortal
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S rdf:type :Mortal
     ).

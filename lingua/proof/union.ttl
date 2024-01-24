@@ -2,13 +2,13 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:union_query lingua:bindings ((var:X1 (:A :B :C :A :X :C :D :E :F)) (var:X2 (:A :Y :C :A :B :C)) (var:Y (
+:union_query lingua:bindings ((var:X1 (lingua:graphTerm :A :B :C :A :X :C :D :E :F)) (var:X2 (lingua:graphTerm :A :Y :C :A :B :C)) (var:Y (lingua:graphTerm
     :A :B :C
     :A :X :C
     :D :E :F
     :A :Y :C
 ))).
-((:A :B :C :A :X :C :D :E :F) (:A :Y :C :A :B :C)) :union (
+((lingua:graphTerm :A :B :C :A :X :C :D :E :F) (lingua:graphTerm :A :Y :C :A :B :C)) :union (lingua:graphTerm
     :A :B :C
     :A :X :C
     :D :E :F

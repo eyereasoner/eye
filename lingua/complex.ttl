@@ -12,10 +12,10 @@
 
 # exponentiation
 :complex_numbers_exponentiation_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         ((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:A var:B) complex:polar (var:R var:T)
         (var:R var:C) math:exponentiation var:Z1
         var:D math:negation var:Z2
@@ -33,10 +33,10 @@
 
 # asin
 :complex_numbers_asin_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:A var:B) complex:asin (var:C var:D)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (1 var:A) math:sum var:Z1
         (var:Z1 2) math:exponentiation var:Z2
         (var:B 2) math:exponentiation var:Z3
@@ -60,10 +60,10 @@
 
 # acos
 :complex_numbers_acos_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:A var:B) complex:acos (var:C var:D)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (1 var:A) math:sum var:Z1
         (var:Z1 2) math:exponentiation var:Z2
         (var:B 2) math:exponentiation var:Z3
@@ -88,10 +88,10 @@
 
 # polar
 :complex_numbers_polar_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y) complex:polar(var:R var:Tp)
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:X 2) math:exponentiation var:Z1
         (var:Y 2) math:exponentiation var:Z2
         (var:Z1 var:Z2) math:sum var:Z3
@@ -104,40 +104,40 @@
 
 # dial
 :complex_numbers_dial_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y var:T) complex:dial var:Tp
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X math:notLessThan 0
         var:Y math:notLessThan 0
         (0 var:T) math:sum var:Tp
     ).
 
 :complex_numbers_dial_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y var:T) complex:dial var:Tp
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X math:lessThan 0
         var:Y math:notLessThan 0
         (3.141592653589793 var:T) math:difference var:Tp
     ).
 
 :complex_numbers_dial_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y var:T) complex:dial var:Tp
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X math:lessThan 0
         var:Y math:lessThan 0
         (3.141592653589793 var:T) math:sum var:Tp
     ).
 
 :complex_numbers_dial_rule4 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         (var:X var:Y var:T) complex:dial var:Tp
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X math:notLessThan 0
         var:Y math:lessThan 0
         (3.141592653589793 2) math:product var:Z1
@@ -146,7 +146,7 @@
 
 # query
 :complex_numbers_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         ((-1 0) (0.5 0)) complex:exponentiation var:C1
         ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2
         ((0 1) (0 1)) complex:exponentiation var:C3
@@ -154,7 +154,7 @@
         (2 0) complex:asin var:C5
         (2 0) complex:acos var:C6
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         ((-1 0) (0.5 0)) complex:exponentiation var:C1
         ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2
         ((0 1) (0 1)) complex:exponentiation var:C3

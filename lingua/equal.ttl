@@ -8,18 +8,18 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-:let :param (
+:let :param (lingua:graphTerm
     :A :B :C
     :D :E :F
 ).
 
 #query
 :equal_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :let :param var:X
         (var:X) graph:union var:Y
         var:X graph:equalTo var:Y
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :test :is true
     ).

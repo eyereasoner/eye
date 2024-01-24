@@ -11,43 +11,43 @@
 
 # \Every x: type(x, Resource
 :universal_statements_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:X rdf:type rdfs:Resource
     );
     lingua:premise true.
 
 # Everybody loves somebody who is lonely
 :universal_statements_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:A :loves var:B
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:A) log:skolem var:B
     ).
 
 :universal_statements_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:B :is :lonely
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         (var:A) log:skolem var:B
     ).
 
 # queries
 :universal_statements_query1 a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :pat rdf:type rdfs:Resource
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :pat rdf:type rdfs:Resource
     ).
 
 :universal_statements_query2 a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :bob :loves var:X
         var:X :is :lonely
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :bob :loves var:X
         var:X :is :lonely
     ).

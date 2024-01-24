@@ -14,26 +14,26 @@
 
 # importing
 :imports_rule a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         <> log:imports <../reasoning/dt/test-dl.ttl>
     );
     lingua:conclusion true.
 
 # rdfs subclass
 :rdfs_subclass_rule a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S rdf:type var:B
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:A rdfs:subClassOf var:B
         var:S rdf:type var:A
     ).
 
 # query
 :dt_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:X rdf:type dt:A2
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:X rdf:type dt:A2
     ).

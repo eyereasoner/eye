@@ -10,52 +10,52 @@
 
 # saying A means saying C
 :negation_predicates_rule1 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :saying :A
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :saying :C
     ).
 
 :negation_predicates_rule2 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :not_saying :C
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :not_saying :A
     ).
 
 # saying B means saying C
 :negation_predicates_rule3 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :saying :B
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :saying :C
     ).
 
 :negation_predicates_rule4 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :not_saying :C
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :not_saying :B
     ).
 
 # saying A or saying B
 :negation_predicates_rule5 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :not_saying :A
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :saying :B
     ).
 
 :negation_predicates_rule6 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:S :not_saying :B
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:S :saying :A
     ).
 
@@ -65,9 +65,9 @@
 
 # query
 :negation_predicates_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :alice :saying :C
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :alice :saying :C
     ).

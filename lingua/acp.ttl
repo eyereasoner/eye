@@ -20,10 +20,10 @@
     :noneOf :D.
 
 :acp_rule1 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:Pol :pass :allOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
         (
@@ -37,15 +37,15 @@
     ).
 
 :acp_rule2 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:Pol :pass :anyOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
         (
             var:Field
-            (
+            (lingua:graphTerm
                 var:Pol :anyOf var:Field
                 var:Test :has var:Field
             )
@@ -56,15 +56,15 @@
     ).
 
 :acp_rule3 a lingua:BackwardRule;
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:Pol :pass :noneOfTest
     );
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:Test :policy var:Pol
         var:Pol rdf:type :Policy
         (
             var:Field
-            (
+            (lingua:graphTerm
                 var:Pol :noneOf var:Field
                 var:Test :has var:Field
             )
@@ -76,13 +76,13 @@
 
 # query
 :acp_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:Pol rdf:type :Policy
         var:Pol :pass :allOfTest
         var:Pol :pass :anyOfTest
         var:Pol :pass :noneOfTest
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :test :for var:Pol
         :test :is true
     ).

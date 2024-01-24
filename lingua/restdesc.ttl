@@ -16,10 +16,10 @@
 
 # RESTdesc
 :restdesc_rule1 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel1 var:b1
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -30,12 +30,12 @@
     ).
 
 :restdesc_rule2 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel2 var:b1
         var:a2 :rel2 var:b2
         var:a3 :rel2 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -46,12 +46,12 @@
     ).
 
 :restdesc_rule3 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel3 var:b1
         var:a2 :rel3 var:b2
         var:a3 :rel3 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -62,12 +62,12 @@
     ).
 
 :restdesc_rule4 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel4 var:b1
         var:a2 :rel4 var:b2
         var:a3 :rel4 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -78,12 +78,12 @@
     ).
 
 :restdesc_rule5 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel5 var:b1
         var:a2 :rel5 var:b2
         var:a3 :rel5 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -94,12 +94,12 @@
     ).
 
 :restdesc_rule6 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel6 var:b1
         var:a2 :rel6 var:b2
         var:a3 :rel6 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -110,12 +110,12 @@
     ).
 
 :restdesc_rule7 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel7 var:b1
         var:a2 :rel7 var:b2
         var:a3 :rel7 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -126,12 +126,12 @@
     ).
 
 :restdesc_rule8 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel8 var:b1
         var:a2 :rel8 var:b2
         var:a3 :rel8 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -142,12 +142,12 @@
     ).
 
 :restdesc_rule9 a lingua:ForwardRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         var:a1 :rel9 var:b1
         var:a2 :rel9 var:b2
         var:a3 :rel9 var:b3
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         var:request http:methodName "GET"
         var:request http:requestURI var:a1
         var:request http:resp var:resp
@@ -160,9 +160,9 @@
 
 # query
 :restdesc_query a lingua:QueryRule;
-    lingua:premise (
+    lingua:premise (lingua:graphTerm
         :x :relGoal :y
     );
-    lingua:conclusion (
+    lingua:conclusion (lingua:graphTerm
         :x :relGoal :y
     ).
