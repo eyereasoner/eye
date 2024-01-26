@@ -23,14 +23,10 @@ GRAPH :backward_rule_premise {
 }
 
 # query
-:backward_query a lingua:QueryRule;
-    lingua:premise :backward_query_premise;
-    lingua:conclusion :backward_query_conclusion.
+:query a lingua:QueryRule;
+    lingua:premise :query_graph;
+    lingua:conclusion :query_graph.
 
-GRAPH :backward_query_premise {
-    5 :moreInterestingThan 3
-}
-
-GRAPH :backward_query_conclusion {
+GRAPH :query_graph {
     5 :moreInterestingThan 3
 }

@@ -29,13 +29,9 @@ GRAPH :rdfs_subclass_rule_conclusion {
 
 # query
 :socrates_query a lingua:QueryRule;
-    lingua:premise :socrates_query_premise;
-    lingua:conclusion :socrates_query_conclusion.
+    lingua:premise :socrates_query_graph;
+    lingua:conclusion :socrates_query_graph.
 
-GRAPH :socrates_query_premise {
-    var:S a :Mortal.
-}
-
-GRAPH :socrates_query_conclusion {
+GRAPH :socrates_query_graph {
     var:S a :Mortal.
 }
