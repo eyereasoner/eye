@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.1 (2024-01-26)').
+version_info('EYE v9.6.2 (2024-01-26)').
 
 license_info('MIT License
 
@@ -639,9 +639,9 @@ lingua :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            getconj(H, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
@@ -654,9 +654,9 @@ lingua :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            getconj(H, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
@@ -678,9 +678,9 @@ lingua :-
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            getconj(K, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            getconj(H, B),
             djiti_answer(answer(B), J),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -11833,6 +11833,16 @@ getlist(A, [B|C]) :-
 getterm(A, A) :-
     var(A),
     !.
+getterm('<http://www.w3.org/2000/10/swap/graph#union>'(A, B), '<http://www.w3.org/2000/10/swap/graph#union>'(C, B)) :-
+    !,
+    map(getconj, A, C).
+getterm('<http://www.w3.org/2000/10/swap/log#becomes>'(A, B), '<http://www.w3.org/2000/10/swap/log#becomes>'(C, D)) :-
+    !,
+    getconj(A, C),
+    getconj(B, D).
+getterm('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], D), '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, E, C], D)) :-
+    !,
+    getconj(B, E).
 getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
@@ -11868,6 +11878,12 @@ getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
     B =.. [C|E].
+
+getconj(A, B) :-
+    nonvar(A),
+    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B),
+    !.
+getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),

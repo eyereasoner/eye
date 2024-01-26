@@ -1,0 +1,32 @@
+# ------------
+# Filter query
+# ------------
+
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# facts
+:Let :param "Huey".
+:Let :param "Dewey".
+:Let :param "Louie".
+
+# query
+:filter_query a lingua:QueryRule;
+    lingua:premise :filter_query_premise;
+    lingua:conclusion :filter_query_conclusion.
+
+GRAPH :filter_query_premise {
+    (var:param :where_graph var:filteredParams) log:collectAllIn var:scope.
+}
+
+GRAPH :where_graph {
+    :Let :param var:param.
+    var:param string:lessThan "Louie".
+}
+
+GRAPH :filter_query_conclusion {
+    :result :is var:filteredParams.
+}

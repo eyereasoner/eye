@@ -1,0 +1,49 @@
+# -------------
+# Patch example
+# -------------
+#
+# Patching RDF data.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# sample data
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Claudia".
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
+
+# patch rule
+:patch_rule a lingua:ForwardRule;
+    lingua:premise :patch_rule_premise;
+    lingua:conclusion :patch_rule_conclusion.
+
+GRAPH :patch_rule_premise {
+    var:person :familyName "Garcia".
+    :deletes_graph log:becomes :inserts_graph.
+}
+
+GRAPH :patch_rule_conclusion {
+}
+
+GRAPH :deletes_graph {
+    var:person :givenName "Claudia".
+}
+
+GRAPH :inserts_graph {
+    var:person :givenName "Alex".
+}
+
+# query
+:patch_query a lingua:QueryRule;
+    lingua:premise :patch_query_graph;
+    lingua:conclusion :patch_query_graph.
+
+GRAPH :patch_query_graph {
+    var:person :familyName var:fname.
+    var:person :givenName var:gname.
+}

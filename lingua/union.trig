@@ -25,9 +25,7 @@ GRAPH :graph2 {
     lingua:conclusion :union_query_conclusion.
 
 GRAPH :union_query_premise {
-    :graph1 lingua:graph var:X1.
-    :graph2 lingua:graph var:X2.
-    (var:X1 var:X2) graph:union var:Y.
+    (:graph1 :graph2) graph:union var:U.
 }
 
-GRAPH :union_query_conclusion var:Y
+GRAPH :union_query_conclusion var:U
