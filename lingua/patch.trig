@@ -22,19 +22,19 @@
     lingua:premise :patch_rule_premise;
     lingua:conclusion :patch_rule_conclusion.
 
-graph :patch_rule_premise {
+GRAPH :patch_rule_premise {
     var:person :familyName "Garcia".
     :deletes_graph log:becomes :inserts_graph.
 }
 
-graph :patch_rule_conclusion {
+GRAPH :patch_rule_conclusion {
 }
 
-graph :deletes_graph {
+GRAPH :deletes_graph {
     var:person :givenName "Claudia".
 }
 
-graph :inserts_graph {
+GRAPH :inserts_graph {
     var:person :givenName "Alex".
 }
 
@@ -43,7 +43,7 @@ graph :inserts_graph {
     lingua:premise :patch_query_graph;
     lingua:conclusion :patch_query_graph.
 
-graph :patch_query_graph {
+GRAPH :patch_query_graph {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }

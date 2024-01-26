@@ -18,15 +18,15 @@
     lingua:premise :filter_query_premise;
     lingua:conclusion :filter_query_conclusion.
 
-graph :filter_query_premise {
+GRAPH :filter_query_premise {
     (var:param :where_graph var:filteredParams) log:collectAllIn var:scope.
 }
 
-graph :where_graph {
+GRAPH :where_graph {
     :Let :param var:param.
     var:param string:lessThan "Louie".
 }
 
-graph :filter_query_conclusion {
+GRAPH :filter_query_conclusion {
     :result :is var:filteredParams.
 }
