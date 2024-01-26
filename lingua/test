@@ -16,8 +16,8 @@ echo ""
 for f in *.trig
 do
     echo -en "${f} "
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . --nope --lingua https://eyereasoner.github.io/eye/lingua/$f --output answer/$f
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . --lingua https://eyereasoner.github.io/eye/lingua/$f --output proof/$f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . --nope https://eyereasoner.github.io/eye/lingua/$f --output answer/$f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . https://eyereasoner.github.io/eye/lingua/$f --output proof/$f
     if [[ $(git diff */$f | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))

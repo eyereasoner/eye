@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.0 (2024-01-26)').
+version_info('EYE v9.6.1 (2024-01-26)').
 
 license_info('MIT License
 
@@ -61,7 +61,6 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
-    --lingua                        interpreting RDF lingua
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
     --no-beautified-output          no beautified output
@@ -771,11 +770,6 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt(0)).
-opts(['--lingua'|Argus], Args) :-
-    !,
-    retractall(flag(lingua)),
-    assertz(flag(lingua)),
-    opts(Argus, Args).
 opts(['--max-inferences', Lim|Argus], Args) :-
     !,
     (   number(Lim)
@@ -2318,7 +2312,11 @@ qname(URI) -->
 
 simpleStatement(['\'<http://www.w3.org/2000/10/swap/lingua#graph>\''(N, G)]) -->
     [name(Name)],
-    {   downcase_atom(Name, 'graph')
+    {   downcase_atom(Name, 'graph'),
+        (   flag(lingua)
+        ->  true
+        ;   assertz(flag(lingua))
+        )
     },
     !,
     expression(N, []),
