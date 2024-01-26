@@ -1,0 +1,33 @@
+# -------------------
+# Graph union example
+# -------------------
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+GRAPH :graph1 {
+    :A :B :C.
+    :A :X :C.
+    :D :E :F.
+}
+
+GRAPH :graph2 {
+    :A :Y :C.
+    :A :B :C.
+}
+
+#query
+:union_query a lingua:QueryRule;
+    lingua:premise :union_query_premise;
+    lingua:conclusion :union_query_conclusion.
+
+GRAPH :union_query_premise {
+    :graph1 lingua:graph var:X1.
+    :graph2 lingua:graph var:X2.
+    (var:X1 var:X2) graph:union var:Y.
+}
+
+GRAPH :union_query_conclusion var:Y
