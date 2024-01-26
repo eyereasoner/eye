@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.5.0 (2024-01-24)').
+version_info('EYE v9.6.0 (2024-01-26)').
 
 license_info('MIT License
 
@@ -61,6 +61,7 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
+    --lingua                        interpreting RDF lingua
     --max-inferences <nr>           halt after maximum number of inferences
     --n3p-output                    reasoner output in n3p
     --no-beautified-output          no beautified output
@@ -414,6 +415,10 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+    (   flag(lingua)
+    ->  lingua
+    ;   true
+    ),
     (   implies(_, Conc, _),
         (   var(Conc)
         ;   Conc \= answer(_, _, _),
@@ -468,7 +473,8 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag(strings)
+        \+flag(strings),
+        \+flag(lingua)
     ->  throw(halt(0))
     ;   true
     ),
@@ -603,6 +609,99 @@ gre(Argus) :-
     ).
 
 %
+% RDF Lingua
+%
+% RDF as the web talking language
+% Reasoning with rules described in RDF
+
+lingua :-
+    % configure
+    (   \+flag(nope)
+    ->  assertz(flag(nope)),
+        assertz(flag(explain))
+    ;   true
+    ),
+    % create terms
+    (   pred(P),
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+        X =.. [P, _, _],
+        call(X),
+        getterm(X, Y),
+        (   Y = X
+        ->  true
+        ;   retract(X),
+            assertz(Y)
+        ),
+        fail
+    ;   true
+    ),
+    % forward rule
+    assertz(implies((
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            findvars([A, B], V, alpha),
+            list_to_set(V, U),
+            makevars([A, B, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = I
+            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, D), '<>')),
+    % backward rule
+    assertz(implies((
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            findvars([A, B], V, alpha),
+            list_to_set(V, U),
+            makevars([A, B, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = Q
+            ),
+            C = ':-'(I, D),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')),
+    % query rule
+    assertz(implies((
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(K, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
+            '<http://www.w3.org/2000/10/swap/lingua#graph>'(H, B),
+            djiti_answer(answer(B), J),
+            findvars([A, B], V, alpha),
+            list_to_set(V, U),
+            makevars([A, J, U], [Q, I, X], beta(U)),
+            (   flag(explain)
+            ->  zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
+            ;   D = Q
+            ),
+            C = implies(D, I, '<>'),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')).
+
+%
 % command line options
 %
 
@@ -672,6 +771,11 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt(0)).
+opts(['--lingua'|Argus], Args) :-
+    !,
+    retractall(flag(lingua)),
+    assertz(flag(lingua)),
+    opts(Argus, Args).
 opts(['--max-inferences', Lim|Argus], Args) :-
     !,
     (   number(Lim)
@@ -2212,6 +2316,14 @@ qname(URI) -->
     },
     !.
 
+simpleStatement(['\'<http://www.w3.org/2000/10/swap/lingua#graph>\''(N, G)]) -->
+    [name(Name)],
+    {   downcase_atom(Name, 'graph')
+    },
+    !,
+    expression(N, []),
+    pathitem(G, []),
+    withoutdot.
 simpleStatement(Triples) -->
     subject(Subject, Triples1),
     (   {   Subject = (D1;D2)
@@ -11722,6 +11834,8 @@ getlist(A, [B|C]) :-
 
 getterm(A, A) :-
     var(A),
+    !.
+getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
     !.
