@@ -15,7 +15,7 @@
     lingua:premise _:backward_rule_premise.
 
 GRAPH _:backward_rule_conclusion {
-    var:X :moreInterestingThan var:Y
+    (var:X -1) :moreInterestingThan var:Y
 }
 
 GRAPH _:backward_rule_premise {
@@ -28,5 +28,5 @@ GRAPH _:backward_rule_premise {
     lingua:conclusion _:query_graph.
 
 GRAPH _:query_graph {
-    5 :moreInterestingThan 3
+    (5 -1) :moreInterestingThan 3
 }
