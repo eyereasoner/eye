@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.4 (2024-01-27)').
+version_info('EYE v9.6.5 (2024-01-28)').
 
 license_info('MIT License
 
@@ -4114,6 +4114,20 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
+wt2('<http://www.w3.org/2000/10/swap/lingua#bindings>'(X, Y)) :-
+    !,
+    rebind(Y, U, V),
+    forall(
+        member(M, V),
+        (   wt(M),
+            nl
+        )
+    ),
+    wt(X),
+    write(' '),
+    wp('<http://www.w3.org/2000/10/swap/lingua#bindings>'),
+    write(' '),
+    wt(U).
 wt2('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y)) :-
     !,
     wp(X),
@@ -11996,6 +12010,17 @@ remember(A) :-
     !,
     assertz(A).
 remember(_).
+
+rebind([], [], []).
+rebind([[A, B]|C], [[A, D]|E], ['<http://www.w3.org/2000/10/swap/lingua#graph>'(D, B)|F]) :-
+    is_gl(B),
+    !,
+    gensym('gn_', N),
+    nb_getval(var_ns, Sns),
+    atomic_list_concat(['<', Sns, N, '>'], D),
+    rebind(C, E, F).
+rebind([A|B], [A|C], D) :-
+    rebind(B, C, D).
 
 preformat([], []) :-
     !.
