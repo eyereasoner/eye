@@ -14,11 +14,11 @@
     lingua:conclusion _:backward_rule_conclusion;
     lingua:premise _:backward_rule_premise.
 
-GRAPH _:backward_rule_conclusion {
+_:backward_rule_conclusion {
     (var:X -1) :moreInterestingThan var:Y
 }
 
-GRAPH _:backward_rule_premise {
+_:backward_rule_premise {
     var:X math:greaterThan var:Y
 }
 
@@ -27,6 +27,6 @@ GRAPH _:backward_rule_premise {
     lingua:premise _:query_graph;
     lingua:conclusion _:query_graph.
 
-GRAPH _:query_graph {
+_:query_graph {
     (5 -1) :moreInterestingThan 3
 }

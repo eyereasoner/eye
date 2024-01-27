@@ -8,13 +8,13 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-GRAPH _:graph1 {
+_:graph1 {
     :A :B :C.
     :A :X :C.
     :D :E :F.
 }
 
-GRAPH _:graph2 {
+_:graph2 {
     :A :Y :C.
     :A :B :C.
 }
@@ -24,10 +24,10 @@ GRAPH _:graph2 {
     lingua:premise _:union_query_premise;
     lingua:conclusion _:union_query_conclusion.
 
-GRAPH _:union_query_premise {
+_:union_query_premise {
     (_:graph1 _:graph2) graph:union var:U.
 }
 
-GRAPH _:union_query_conclusion {
+_:union_query_conclusion {
     _:answer lingua:graph var:U.
 }

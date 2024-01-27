@@ -18,12 +18,12 @@
     lingua:premise _:rdfs_subclass_rule_premise;
     lingua:conclusion _:rdfs_subclass_rule_conclusion.
 
-GRAPH _:rdfs_subclass_rule_premise {
+_:rdfs_subclass_rule_premise {
     var:A rdfs:subClassOf var:B.
     var:S a var:A.
 }
 
-GRAPH _:rdfs_subclass_rule_conclusion {
+_:rdfs_subclass_rule_conclusion {
     var:S a var:B.
 }
 
@@ -32,6 +32,6 @@ GRAPH _:rdfs_subclass_rule_conclusion {
     lingua:premise _:socrates_query_graph;
     lingua:conclusion _:socrates_query_graph.
 
-GRAPH _:socrates_query_graph {
+_:socrates_query_graph {
     var:S a :Mortal.
 }
