@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.2 (2024-01-26)').
+version_info('EYE v9.6.3 (2024-01-27)').
 
 license_info('MIT License
 
@@ -2401,7 +2401,9 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   flag('no-bnode-relabeling')
+        (   (   flag('no-bnode-relabeling')
+            ;   flag(lingua)
+            )
         ->  D = 0
         ;   nb_getval(fdepth, D)
         ),
@@ -3449,7 +3451,10 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        write('.'),
+        (   C = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
+        ->  true
+        ;   write('.')
+        ),
         nl,
         cnt(output_statements),
         fail
@@ -4096,6 +4101,12 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
+wt2('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y)) :-
+    !,
+    write('GRAPH '),
+    wp(X),
+    write(' '),
+    wg(Y).
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
     ->  U = X

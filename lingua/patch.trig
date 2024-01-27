@@ -19,31 +19,31 @@
 
 # patch rule
 :patch_rule a lingua:ForwardRule;
-    lingua:premise :patch_rule_premise;
-    lingua:conclusion :patch_rule_conclusion.
+    lingua:premise _:patch_rule_premise;
+    lingua:conclusion _:patch_rule_conclusion.
 
-GRAPH :patch_rule_premise {
+GRAPH _:patch_rule_premise {
     var:person :familyName "Garcia".
-    :deletes_graph log:becomes :inserts_graph.
+    _:deletes_graph log:becomes _:inserts_graph.
 }
 
-GRAPH :patch_rule_conclusion {
+GRAPH _:patch_rule_conclusion {
 }
 
-GRAPH :deletes_graph {
+GRAPH _:deletes_graph {
     var:person :givenName "Claudia".
 }
 
-GRAPH :inserts_graph {
+GRAPH _:inserts_graph {
     var:person :givenName "Alex".
 }
 
 # query
 :patch_query a lingua:QueryRule;
-    lingua:premise :patch_query_graph;
-    lingua:conclusion :patch_query_graph.
+    lingua:premise _:patch_query_graph;
+    lingua:conclusion _:patch_query_graph.
 
-GRAPH :patch_query_graph {
+GRAPH _:patch_query_graph {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }
