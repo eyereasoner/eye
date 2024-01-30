@@ -20,14 +20,11 @@
 # patch rule
 :patch_rule a lingua:ForwardRule;
     lingua:premise _:patch_rule_premise;
-    lingua:conclusion _:patch_rule_conclusion.
+    lingua:conclusion true.
 
 _:patch_rule_premise {
     var:person :familyName "Garcia".
     _:deletes_graph log:becomes _:inserts_graph.
-}
-
-_:patch_rule_conclusion {
 }
 
 _:deletes_graph {
