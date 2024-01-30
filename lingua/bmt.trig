@@ -32,11 +32,11 @@ _:imports_rule_conclusion {
 }
 
 #query
-:bmt_query a lingua:QueryRule;
-    lingua:premise _:bmt_query_premise;
-    lingua:conclusion _:bmt_query_conclusion.
+:bmt_query a lingua:Query;
+    lingua:question _:bmt_question;
+    lingua:answer _:bmt_answer.
 
-_:bmt_query_premise {
+_:bmt_question {
     var:D0 var:R var:D1.
     var:D1 var:R var:D2.
     var:D2 var:R var:D3.
@@ -49,6 +49,6 @@ _:bmt_query_premise {
     var:D9 var:R var:D0.
 }
 
-_:bmt_query_conclusion {
+_:bmt_answer {
     var:R bmt:cycle (var:D0 var:D1 var:D2 var:D3 var:D4 var:D5 var:D6 var:D7 var:D8 var:D9).
 }

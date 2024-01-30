@@ -23,10 +23,9 @@ _:backward_rule_premise {
 }
 
 # query
-:query a lingua:QueryRule;
-    lingua:premise _:query_graph;
-    lingua:conclusion _:query_graph.
+:query a lingua:Query;
+    lingua:question _:question.
 
-_:query_graph {
+_:question {
     ("this" 5) :moreInterestingThan ("that" 3).
 }

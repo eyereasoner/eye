@@ -14,19 +14,19 @@
 :Let :param "Louie".
 
 # query
-:filter_query a lingua:QueryRule;
-    lingua:premise _:filter_query_premise;
-    lingua:conclusion _:filter_query_conclusion.
+:filter_query a lingua:Query;
+    lingua:question _:filter_question;
+    lingua:answer _:filter_answer.
 
-_:filter_query_premise {
-    (var:param _:where_graph var:filteredParams) log:collectAllIn var:scope.
+_:filter_question {
+    (var:param _:filter_where var:filteredParams) log:collectAllIn var:scope.
 }
 
-_:where_graph {
+_:filter_answer {
+    :result :is var:filteredParams.
+}
+
+_:filter_where {
     :Let :param var:param.
     var:param string:lessThan "Louie".
-}
-
-_:filter_query_conclusion {
-    :result :is var:filteredParams.
 }

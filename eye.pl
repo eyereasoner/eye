@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.5 (2024-01-28)').
+version_info('EYE v9.6.6 (2024-01-30)').
 
 license_info('MIT License
 
@@ -181,6 +181,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#answer>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
@@ -674,13 +675,15 @@ lingua :-
                 retractall(brake)
             ;   true
             )), true, '<>')),
-    % query rule
+    % query
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#QueryRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
+            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#Query>'),
+            '<http://www.w3.org/2000/10/swap/lingua#question>'(R, K),
             getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
+            (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, H)
+            ->  getconj(H, B)
+            ;   B = A
+            ),
             djiti_answer(answer(B), J),
             findvars([A, B], V, alpha),
             list_to_set(V, U),

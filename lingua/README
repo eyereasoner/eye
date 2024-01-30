@@ -4,8 +4,9 @@ RDF Lingua
 
 RDF as the web talking language.
 
-Reasoning with rules described in RDF as
-    :rulename a lingua:ForwardRule, lingua:BackwardRule or lingua:QueryRule.
+Lingua supports reasoning with rules described in RDF as
+    :rulename a lingua:ForwardRule.
+    :rulename a lingua:BackwardRule.
     :rulename lingua:premis _:premisename.
     :rulename lingua:conclusion _:conclusionname.
 
@@ -17,8 +18,26 @@ Reasoning with rules described in RDF as
         RDF triples
     }
 
-and able to give proof explanations as
+and is able to give proof explanations as
     :rulename lingua:bindings list of (var:name value) pairs.
+
+Lingua also supports querying with queries described in RDF as
+    :queryname a lingua:Query.
+    :queryname lingua:question _:questionname.
+    :queryname lingua:answer _:answername.
+
+    _:questionname {
+        RDF triples
+    }
+
+    _:answername {
+        RDF triples
+    }
+
+and is able to give proof explanations as
+    :queryname lingua:bindings list of (var:name value) pairs.
+
+A query without lingua:answer will answer with bound lingua:question.
 
 The lingua: prefix is <http://www.w3.org/2000/10/swap/lingua#> and is rooted
 in the "Semantic Web Area for Play" http://www.w3.org/2000/10/swap/ URI.

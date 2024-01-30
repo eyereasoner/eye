@@ -39,11 +39,10 @@ _:inserts_graph {
 }
 
 # query
-:patch_query a lingua:QueryRule;
-    lingua:premise _:patch_query_graph;
-    lingua:conclusion _:patch_query_graph.
+:patch_query a lingua:Query;
+    lingua:question _:patch_question.
 
-_:patch_query_graph {
+_:patch_question {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }

@@ -20,14 +20,14 @@ _:graph2 {
 }
 
 #query
-:union_query a lingua:QueryRule;
-    lingua:premise _:union_query_premise;
-    lingua:conclusion _:union_query_conclusion.
+:union_query a lingua:Query;
+    lingua:question _:union_question;
+    lingua:answer _:union_answer.
 
-_:union_query_premise {
+_:union_question {
     (_:graph1 _:graph2) graph:union var:U.
 }
 
-_:union_query_conclusion {
+_:union_answer {
     _:answer lingua:graph var:U.
 }
