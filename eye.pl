@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.8 (2024-01-31)').
+version_info('EYE v9.6.9 (2024-01-31)').
 
 license_info('MIT License
 
@@ -2368,6 +2368,14 @@ statements_optional(Triples) -->
     !,
     {   nb_setval(line_number, Ln)
     },
+    statements_optional(T),
+    {   append(Tr, T, Triples)
+    }.
+statements_optional(Triples) -->
+    ['{'],
+    statementlist(Tr),
+    ['}'],
+    !,
     statements_optional(T),
     {   append(Tr, T, Triples)
     }.
