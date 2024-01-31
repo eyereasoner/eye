@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.6 (2024-01-30)').
+version_info('EYE v9.6.7 (2024-01-31)').
 
 license_info('MIT License
 
@@ -11984,8 +11984,14 @@ getterm(A, B) :-
 
 getconj(A, B) :-
     nonvar(A),
-    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B),
-    !.
+    findall(C,
+        (   '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)
+        ),
+        D
+    ),
+    D \= [],
+    !,
+    conjoin(D, B).
 getconj(A, A).
 
 getstring(A, B) :-
