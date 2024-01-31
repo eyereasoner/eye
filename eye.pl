@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.9 (2024-01-31)').
+version_info('EYE v9.6.10 (2024-01-31)').
 
 license_info('MIT License
 
@@ -11997,12 +11997,9 @@ getconj(A, B) :-
         ),
         D
     ),
-    (   D = [B]
-    ->  true
-    ;   D \= [],
-        throw(same_graph_name_for_multiple_graphs(A, D))
-    ),
-    !.
+    D \= [],
+    !,
+    conjoin(D, B).
 getconj(A, A).
 
 getstring(A, B) :-
