@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.10 (2024-01-31)').
+version_info('EYE v9.6.11 (2024-02-01)').
 
 license_info('MIT License
 
@@ -639,10 +639,8 @@ lingua :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
@@ -654,10 +652,8 @@ lingua :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, K),
-            getconj(K, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, H),
-            getconj(H, B),
+            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
@@ -678,10 +674,9 @@ lingua :-
     % query
     assertz(implies((
             '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#Query>'),
-            '<http://www.w3.org/2000/10/swap/lingua#question>'(R, K),
-            getconj(K, A),
-            (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, H)
-            ->  getconj(H, B)
+            '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
+            (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
+            ->  true
             ;   B = A
             ),
             djiti_answer(answer(B), J),
@@ -11881,79 +11876,6 @@ getlist(A, [B|C]) :-
 getterm(A, A) :-
     var(A),
     !.
-getterm('<http://www.w3.org/2000/10/swap/graph#length>'(A, B), '<http://www.w3.org/2000/10/swap/graph#length>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/graph#list>'(A, B), '<http://www.w3.org/2000/10/swap/graph#list>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/graph#member>'(A, B), '<http://www.w3.org/2000/10/swap/graph#member>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/graph#notMember>'(A, B), '<http://www.w3.org/2000/10/swap/graph#notMember>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/graph#union>'(A, B), '<http://www.w3.org/2000/10/swap/graph#union>'(C, B)) :-
-    !,
-    map(getconj, A, C).
-getterm('<http://www.w3.org/2000/10/swap/log#becomes>'(A, B), '<http://www.w3.org/2000/10/swap/log#becomes>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#call>'(A, B), '<http://www.w3.org/2000/10/swap/log#call>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#callNotBind>'(A, B), '<http://www.w3.org/2000/10/swap/log#callNotBind>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#callWithCut>'(A, B), '<http://www.w3.org/2000/10/swap/log#callWithCut>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B), '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, B, C], D), '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([A, E, C], D)) :-
-    !,
-    getconj(B, E).
-getterm('<http://www.w3.org/2000/10/swap/log#conclusion>'(A, B), '<http://www.w3.org/2000/10/swap/log#conclusion>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/log#forAllIn>'([A, B], C), '<http://www.w3.org/2000/10/swap/log#collectAllIn>'([D, E], C)) :-
-    !,
-    getconj(A, D),
-    getconj(B, E).
-getterm('<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'([A, B, C], D), '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'([E, F, G], D)) :-
-    !,
-    getconj(A, E),
-    getconj(B, F),
-    getconj(C, G).
-getterm('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#includes>'(A, B), '<http://www.w3.org/2000/10/swap/log#includes>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#includesNotBind>'(A, B), '<http://www.w3.org/2000/10/swap/log#includesNotBind>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
-getterm('<http://www.w3.org/2000/10/swap/log#inferences>'(A, B), '<http://www.w3.org/2000/10/swap/log#inferences>'(C, B)) :-
-    !,
-    getconj(A, C).
-getterm('<http://www.w3.org/2000/10/swap/log#notIncludes>'(A, B), '<http://www.w3.org/2000/10/swap/log#notIncludes>'(C, D)) :-
-    !,
-    getconj(A, C),
-    getconj(B, D).
 getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
@@ -11985,6 +11907,14 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
+getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)) :-
+    !,
+    getterm(B, C).
+getterm(A, B) :-
+    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _),
+    !,
+    getconj(A, C),
+    getterm(C, B).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
