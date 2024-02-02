@@ -1,0 +1,81 @@
+@prefix pack: <https://example.org/ns/package#>.
+@prefix : <https://eyereasoner.github.io/eye/lingua/pack.trig#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sign: <https://example.org/ns/signature#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+_:gn_6 {
+    _:bn_2 pack:content {
+        :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+    }.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:bn_2 pack:hasContentSignature _:bn_3.
+    _:bn_3 a sign:Signature.
+    _:bn_3 sign:issuer :Alice.
+    _:bn_3 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_3 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+}
+:pack_query lingua:bindings ((var:P pack:package) (var:S _:bn_1) (var:O _:gn_6)).
+_:bn_1 pack:package {
+    _:bn_2 pack:content {
+        :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+    }.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:bn_2 pack:hasContentSignature _:bn_3.
+    _:bn_3 a sign:Signature.
+    _:bn_3 sign:issuer :Alice.
+    _:bn_3 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_3 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+}.
+_:gn_7 {
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+}
+:pack_query lingua:bindings ((var:P lingua:graph) (var:S _:e_content1_1) (var:O _:gn_7)).
+_:e_content1_1 {
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+}
+_:gn_8 {
+    var:S var:P var:O.
+}
+:pack_query lingua:bindings ((var:P lingua:graph) (var:S _:e_pack_question_1) (var:O _:gn_8)).
+_:e_pack_question_1 {
+    var:S var:P var:O.
+}
+_:gn_9 {
+    _:bn_2 pack:content {
+        :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+    }.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:bn_2 pack:hasContentSignature _:bn_3.
+    _:bn_3 a sign:Signature.
+    _:bn_3 sign:issuer :Alice.
+    _:bn_3 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_3 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+}
+:pack_query lingua:bindings ((var:P lingua:graph) (var:S _:e_pack1_1) (var:O _:gn_9)).
+_:e_pack1_1 {
+    _:bn_2 pack:content {
+        :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+    }.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:bn_2 pack:hasContentSignature _:bn_3.
+    _:bn_3 a sign:Signature.
+    _:bn_3 sign:issuer :Alice.
+    _:bn_3 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_3 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+}
+:pack_query lingua:bindings ((var:P <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>) (var:S :pack_query) (var:O lingua:Query)).
+:pack_query a lingua:Query.
+_:gn_10 {
+    var:S var:P var:O.
+}
+:pack_query lingua:bindings ((var:P lingua:question) (var:S :pack_query) (var:O _:gn_10)).
+:pack_query lingua:question {
+    var:S var:P var:O.
+}.
