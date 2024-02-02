@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.11 (2024-02-01)').
+version_info('EYE v9.6.12 (2024-02-02)').
 
 license_info('MIT License
 
@@ -135,6 +135,7 @@ eye
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
 :- dynamic(intern/1).
+:- dynamic(keep_ng/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
@@ -3426,6 +3427,7 @@ w3 :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
+    nb_setval(keep_ng, true),
     flag(nope),
     !,
     (   query(Q, A),
@@ -4120,24 +4122,12 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
-wt2('<http://www.w3.org/2000/10/swap/lingua#bindings>'(X, Y)) :-
-    !,
-    rebind(Y, U, V),
-    forall(
-        member(M, V),
-        (   wt(M),
-            nl
-        )
-    ),
-    wt(X),
-    write(' '),
-    wp('<http://www.w3.org/2000/10/swap/lingua#bindings>'),
-    write(' '),
-    wt(U).
 wt2('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y)) :-
     !,
     wp(X),
     write(' '),
+    nb_setval(keep_ng, false),
+    retractall(keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y))),
     wg(Y).
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
@@ -4353,32 +4343,47 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  write('{'),
-        indentation(4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+    ->  (   flag(lingua),
+            nb_getval(keep_ng, true)
+        ->  (   '<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X)
             ->  true
-            ;   nl,
-                indent
-            )
-        ),
-        nb_getval(fdepth, D),
-        E is D+1,
-        nb_setval(fdepth, E),
-        wt(X),
-        nb_setval(fdepth, D),
-        indentation(-4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+            ;   gensym('gn_', Y),
+                nb_getval(var_ns, Sns),
+                atomic_list_concat(['<', Sns, Y, '>'], N)
+            ),
+            (   \+keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X))
+            ->  assertz(keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X)))
+            ;   true
+            ),
+            wt(N)
+        ;   nb_setval(keep_ng, true),
+            write('{'),
+            indentation(4),
+            (   flag(strings)
             ->  true
-            ;   write('.'),
-                nl,
-                indent
-            )
-        ),
-        write('}')
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   nl,
+                    indent
+                )
+            ),
+            nb_getval(fdepth, D),
+            E is D+1,
+            nb_setval(fdepth, E),
+            wt(X),
+            nb_setval(fdepth, D),
+            indentation(-4),
+            (   flag(strings)
+            ->  true
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   write('.'),
+                    nl,
+                    indent
+                )
+            ),
+            write('}')
+        )
     ;   wt(X)
     ).
 
@@ -4825,6 +4830,7 @@ eam(Recursion) :-
                     w3,
                     retractall(pfx(_, _)),
                     retractall(wpfx(_)),
+                    retractall(keep_ng(_)),
                     nb_setval(wn, Wn),
                     nb_setval(output_statements, 0),
                     nb_setval(lemma_cursor, 0),
@@ -4837,7 +4843,19 @@ eam(Recursion) :-
                     ->  tell(Output)
                     ;   true
                     ),
-                    w3
+                    w3,
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   wt(NG),
+                            nl
+                        )
+                    ),
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   wt(NG),
+                            nl
+                        )
+                    )
                 )
             )
         ;   true
@@ -11957,17 +11975,6 @@ remember(A) :-
     !,
     assertz(A).
 remember(_).
-
-rebind([], [], []).
-rebind([[A, B]|C], [[A, D]|E], ['<http://www.w3.org/2000/10/swap/lingua#graph>'(D, B)|F]) :-
-    is_gl(B),
-    !,
-    gensym('gn_', N),
-    nb_getval(var_ns, Sns),
-    atomic_list_concat(['<', Sns, N, '>'], D),
-    rebind(C, E, F).
-rebind([A|B], [A|C], D) :-
-    rebind(B, C, D).
 
 preformat([], []) :-
     !.
