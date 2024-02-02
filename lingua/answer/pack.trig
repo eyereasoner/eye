@@ -1,16 +1,20 @@
 @prefix pack: <https://example.org/ns/package#>.
+@prefix : <https://eyereasoner.github.io/eye/lingua/pack.trig#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix sign: <https://example.org/ns/signature#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
 
 _:bn_1 pack:package _:e_pack1_1.
 _:e_pack1_1 {
     _:bn_2 pack:content _:e_content1_1.
-    _:bn_2 pack:origin <https://eyereasoner.github.io/eye/lingua/pack.trig#Endpoint>.
-    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
     _:bn_2 pack:hasContentSignature _:bn_3.
-    _:bn_3 a <https://example.org/ns/signature#Signature>.
-    _:bn_3 <https://example.org/ns/signature#issuer> <https://eyereasoner.github.io/eye/lingua/pack.trig#Alice>.
-    _:bn_3 <https://example.org/ns/signature#created> "2024-01-08T17:08:52.166Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.
-    _:bn_3 <https://example.org/ns/signature#proofValue> "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+    _:bn_3 a sign:Signature.
+    _:bn_3 sign:issuer :Alice.
+    _:bn_3 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_3 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
 }
 _:e_content1_1 {
-    <https://eyereasoner.github.io/eye/lingua/pack.trig#Bob> <http://www.w3.org/2006/vcard/ns#bday> "2000-01-01T09:00:00.000Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>.
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
 }

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.6.12 (2024-02-02)').
+version_info('EYE v9.6.13 (2024-02-02)').
 
 license_info('MIT License
 
@@ -4828,9 +4828,20 @@ eam(Recursion) :-
                     tell(Ws),
                     nb_getval(wn, Wn),
                     w3,
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   wt(NG),
+                            nl
+                        )
+                    ),
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   wt(NG),
+                            nl
+                        )
+                    ),
                     retractall(pfx(_, _)),
                     retractall(wpfx(_)),
-                    retractall(keep_ng(_)),
                     nb_setval(wn, Wn),
                     nb_setval(output_statements, 0),
                     nb_setval(lemma_cursor, 0),
