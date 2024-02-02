@@ -15,7 +15,7 @@
     lingua:premise _:fibonacci_rule1_premise.
 
 _:fibonacci_rule1_conclusion {
-    var:X :fibonacci var:Y.
+    () :fibonacci (var:X var:Y).
 }
 
 _:fibonacci_rule1_premise {
@@ -55,19 +55,9 @@ _:fibonacci_rule4_premise {
 
 # query
 :fibonacci_query a lingua:Query;
-    lingua:question _:fibonacci_question;
-    lingua:answer _:fibonacci_answer.
+    lingua:question _:fibonacci_question.
 
 _:fibonacci_question {
-    0 :fibonacci var:F1.
-    1 :fibonacci var:F2.
-    6 :fibonacci var:F3.
-    91 :fibonacci var:F4.
-    283 :fibonacci var:F5.
-    3674 :fibonacci var:F6.
-}
-
-_:fibonacci_answer {
     () :fibonacci (0 var:F1).
     () :fibonacci (1 var:F2).
     () :fibonacci (6 var:F3).
