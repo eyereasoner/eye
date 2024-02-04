@@ -13,12 +13,16 @@ echo -e "${YELLOW}Running lingua/test${NORMAL}"
 echo -e "${YELLOW}-------------------${NORMAL}"
 echo ""
 
-for f in *.trig
+for dir in . ./math
 do
-    echo -en "${f} "
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . --nope https://eyereasoner.github.io/eye/lingua/$f --output answer/$f
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . https://eyereasoner.github.io/eye/lingua/$f --output proof/$f
-    if [[ $(git diff */$f | wc -l) -eq 0 ]]; then
+pushd $dir > /dev/null
+
+for file in *.trig
+do
+    echo -en "$dir/${file} "
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . --nope https://eyereasoner.github.io/eye/lingua/$file --output answer/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/lingua . https://eyereasoner.github.io/eye/lingua/$file --output proof/$file
+    if [[ $(git diff */$file | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else
@@ -26,6 +30,10 @@ do
         ((FAILED++))
     fi
 done
+
+popd > /dev/null
+done
+
 echo ""
 echo -e "${YELLOW}Tests:${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 
