@@ -7,8 +7,8 @@
 # [[
 # In linear logic we are instead concerned with the change of truth with a
 # change of state. We model this in a very simple way: when an inference rule
-# is applied we consume the propositions used as premises and produce the
-# propositions in the conclusions, thereby effecting an overall change in state.
+# is applied we consume the propositions used as bodys and produce the
+# propositions in the heads, thereby effecting an overall change in state.
 # ]]
 #
 # See https://github.com/hongsun502/wstLogic
@@ -28,57 +28,57 @@
 @prefix : <#>.
 
 # find paths in the state space from initial state to goal state within limits
-:gps_rule1 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule1_conclusion;
-    lingua:premise _:gps_rule1_premise.
+:gps_rule1
+    lingua:head _:gps_rule1_head;
+    lingua:body _:gps_rule1_body.
 
-_:gps_rule1_conclusion {
+_:gps_rule1_head {
     () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort)).
 }
 
-_:gps_rule1_premise {
+_:gps_rule1_body {
     () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1)).
 }
 
-:gps_rule2 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule2_conclusion;
-    lingua:premise _:gps_rule2_premise.
+:gps_rule2
+    lingua:head _:gps_rule2_head;
+    lingua:body _:gps_rule2_body.
 
-_:gps_rule2_conclusion {
+_:gps_rule2_head {
     () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
 }
 
-_:gps_rule2_premise {
+_:gps_rule2_body {
     () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
 }
 
-:gps_rule3 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule3_conclusion;
-    lingua:premise _:gps_rule3_premise.
+:gps_rule3
+    lingua:head _:gps_rule3_head;
+    lingua:body _:gps_rule3_body.
 
-_:gps_rule3_conclusion {
+_:gps_rule3_head {
     () gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
 }
 
-_:gps_rule3_premise {
+_:gps_rule3_body {
     var:Goal log:call true.
 }
 
-:gps_rule4 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule4_conclusion;
-    lingua:premise _:gps_rule4_premise.
+:gps_rule4
+    lingua:head _:gps_rule4_head;
+    lingua:body _:gps_rule4_body.
 
-_:gps_rule4_conclusion {
+_:gps_rule4_head {
     () gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
 }
 
-_:gps_rule4_premise {
+_:gps_rule4_body {
     var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n).
     (var:Maps_s (var:Map)) list:append var:Maps_t.
     var:Maps_t gps:stagecount var:Stagecount.
@@ -106,23 +106,23 @@ _:gps_rule4_call2 {
 }
 
 # counting the number of stages (a stage is a sequence of gps in the same map)
-:gps_rule5 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule5_conclusion;
-    lingua:premise true.
+:gps_rule5
+    lingua:head _:gps_rule5_head;
+    lingua:body true.
 
-_:gps_rule5_conclusion {
+_:gps_rule5_head {
     () gps:stagecount 1.
 }
 
-:gps_rule6 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule6_conclusion;
-    lingua:premise _:gps_rule6_premise.
+:gps_rule6
+    lingua:head _:gps_rule6_head;
+    lingua:body _:gps_rule6_body.
 
-_:gps_rule6_conclusion {
+_:gps_rule6_head {
     var:A gps:stagecount var:B.
 }
 
-_:gps_rule6_premise {
+_:gps_rule6_body {
     var:A list:firstRest (var:C var:D).
     var:D list:firstRest (var:E var:F).
     var:C log:notEqualTo var:E.
@@ -130,15 +130,15 @@ _:gps_rule6_premise {
     (var:G 1) math:sum var:B.
 }
 
-:gps_rule7 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule7_conclusion;
-    lingua:premise _:gps_rule7_premise.
+:gps_rule7
+    lingua:head _:gps_rule7_head;
+    lingua:body _:gps_rule7_body.
 
-_:gps_rule7_conclusion {
+_:gps_rule7_head {
     var:A gps:stagecount var:B.
 }
 
-_:gps_rule7_premise {
+_:gps_rule7_body {
     var:A list:firstRest (var:C var:D).
     var:D gps:stagecount var:B.
 }
@@ -147,15 +147,15 @@ _:gps_rule7_premise {
 :i1 :location :Gent.
 
 # map of Belgium
-:gps_rule8 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule8_conclusion;
-    lingua:premise _:gps_rule8_premise.
+:gps_rule8
+    lingua:head _:gps_rule8_head;
+    lingua:body _:gps_rule8_body.
 
-_:gps_rule8_conclusion {
+_:gps_rule8_head {
     :map-BE gps:description (_:gps_rule8_from true _:gps_rule8_to :drive_gent_brugge 1500.0 0.006 0.96 0.99).
 }
 
-_:gps_rule8_premise {
+_:gps_rule8_body {
     var:S :location var:L.
 }
 
@@ -167,15 +167,15 @@ _:gps_rule8_to {
     var:S :location :Brugge.
 }
 
-:gps_rule9 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule9_conclusion;
-    lingua:premise _:gps_rule9_premise.
+:gps_rule9
+    lingua:head _:gps_rule9_head;
+    lingua:body _:gps_rule9_body.
 
-_:gps_rule9_conclusion {
+_:gps_rule9_head {
     :map-BE gps:description (_:gps_rule9_from true _:gps_rule9_to :drive_gent_kortrijk 1600.0 0.007 0.96 0.99).
 }
 
-_:gps_rule9_premise {
+_:gps_rule9_body {
     var:S :location var:L.
 }
 
@@ -187,15 +187,15 @@ _:gps_rule9_to {
     var:S :location :Kortrijk.
 }
 
-:gps_rule10 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule10_conclusion;
-    lingua:premise _:gps_rule10_premise.
+:gps_rule10
+    lingua:head _:gps_rule10_head;
+    lingua:body _:gps_rule10_body.
 
-_:gps_rule10_conclusion {
+_:gps_rule10_head {
     :map-BE gps:description (_:gps_rule10_from true _:gps_rule10_to :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99).
 }
 
-_:gps_rule10_premise {
+_:gps_rule10_body {
     var:S :location var:L.
 }
 
@@ -207,15 +207,15 @@ _:gps_rule10_to {
     var:S :location :Brugge.
 }
 
-:gps_rule11 a lingua:BackwardRule;
-    lingua:conclusion _:gps_rule11_conclusion;
-    lingua:premise _:gps_rule11_premise.
+:gps_rule11
+    lingua:head _:gps_rule11_head;
+    lingua:body _:gps_rule11_body.
 
-_:gps_rule11_conclusion {
+_:gps_rule11_head {
     :map-BE gps:description (_:gps_rule11_from true _:gps_rule11_to :drive_brugge_oostende 900.0 0.004 0.98 1.0).
 }
 
-_:gps_rule11_premise {
+_:gps_rule11_body {
     var:S :location var:L.
 }
 
@@ -228,7 +228,7 @@ _:gps_rule11_to {
 }
 
 # query
-:gps_query a lingua:Query;
+:gps_query
     lingua:question _:gps_query_question;
     lingua:answer _:gps_query_answer.
 

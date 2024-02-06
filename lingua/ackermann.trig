@@ -27,15 +27,15 @@
 @prefix : <#>.
 
 # ackermann(x, y)
-:ackermann_rule_main a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule_main_conclusion;
-    lingua:premise _:ackermann_rule_main_premise.
+:ackermann_rule_main
+    lingua:head _:ackermann_rule_main_head;
+    lingua:body _:ackermann_rule_main_body.
 
-_:ackermann_rule_main_conclusion {
+_:ackermann_rule_main_head {
     (var:X var:Y) :ackermann var:A.
 }
 
-_:ackermann_rule_main_premise {
+_:ackermann_rule_main_body {
     (var:Y 3) math:sum var:B.
     (var:X var:B 2) :ackermann var:C.
     (var:C 3) math:difference var:A.
@@ -43,69 +43,69 @@ _:ackermann_rule_main_premise {
 
 # ackermann(x, y, z)
 # succ (x=0)
-:ackermann_rule0 a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule0_conclusion;
-    lingua:premise _:ackermann_rule0_premise.
+:ackermann_rule0
+    lingua:head _:ackermann_rule0_head;
+    lingua:body _:ackermann_rule0_body.
 
-_:ackermann_rule0_conclusion {
+_:ackermann_rule0_head {
     (0 var:Y var:Z) :ackermann var:A.
 }
 
-_:ackermann_rule0_premise {
+_:ackermann_rule0_body {
     true log:callWithCut true.
     (var:Y 1) math:sum var:A.
 }
 
 # sum (x=1)
-:ackermann_rule1 a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule1_conclusion;
-    lingua:premise _:ackermann_rule1_premise.
+:ackermann_rule1
+    lingua:head _:ackermann_rule1_head;
+    lingua:body _:ackermann_rule1_body.
 
-_:ackermann_rule1_conclusion {
+_:ackermann_rule1_head {
     (1 var:Y var:Z) :ackermann var:A.
 }
 
-_:ackermann_rule1_premise {
+_:ackermann_rule1_body {
     true log:callWithCut true.
     (var:Y var:Z) math:sum var:A.
 }
 
 # product (x=2)
-:ackermann_rule2 a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule2_conclusion;
-    lingua:premise _:ackermann_rule2_premise.
+:ackermann_rule2
+    lingua:head _:ackermann_rule2_head;
+    lingua:body _:ackermann_rule2_body.
 
-_:ackermann_rule2_conclusion {
+_:ackermann_rule2_head {
     (2 var:Y var:Z) :ackermann var:A.
 }
 
-_:ackermann_rule2_premise {
+_:ackermann_rule2_body {
     true log:callWithCut true.
     (var:Y var:Z) math:product var:A.
 }
 
 # exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
-:ackermann_rule3plus a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule3plus_conclusion;
-    lingua:premise _:ackermann_rule3plus_premise.
+:ackermann_rule3plus
+    lingua:head _:ackermann_rule3plus_head;
+    lingua:body _:ackermann_rule3plus_body.
 
-_:ackermann_rule3plus_conclusion {
+_:ackermann_rule3plus_head {
     (var:X 0 var:Z) :ackermann 1.
 }
 
-_:ackermann_rule3plus_premise {
+_:ackermann_rule3plus_body {
     true log:callWithCut true.
 }
 
-:ackermann_rule_final a lingua:BackwardRule;
-    lingua:conclusion _:ackermann_rule_final_conclusion;
-    lingua:premise _:ackermann_rule_final_premise.
+:ackermann_rule_final
+    lingua:head _:ackermann_rule_final_head;
+    lingua:body _:ackermann_rule_final_body.
 
-_:ackermann_rule_final_conclusion {
+_:ackermann_rule_final_head {
     (var:X var:Y var:Z) :ackermann var:A.
 }
 
-_:ackermann_rule_final_premise {
+_:ackermann_rule_final_body {
     (var:Y 1) math:difference var:B.
     (var:X var:B var:Z) :ackermann var:C.
     (var:X 1) math:difference var:D.
@@ -113,7 +113,7 @@ _:ackermann_rule_final_premise {
 }
 
 # query
-:ackermann_query a lingua:Query;
+:ackermann_query
     lingua:question _:ackermann_question.
 
 _:ackermann_question {

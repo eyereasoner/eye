@@ -14,7 +14,7 @@
 :Minka a :Cat.
 :Charly a :Dog.
 
-:main_rule a lingua:ForwardRule;
+:main_rule
     lingua:premise _:main_rule_premise;
     lingua:conclusion _:main_rule_conclusion.
 
@@ -23,7 +23,7 @@ _:main_rule_premise {
 }
 
 _:main_rule_conclusion {
-    :derived_rule a lingua:ForwardRule;
+    :derived_rule
         lingua:premise _:derived_rule_premise;
         lingua:conclusion _:derived_rule_conclusion.
 }
@@ -37,7 +37,7 @@ _:derived_rule_conclusion {
 }
 
 # query
-:main_query a lingua:Query;
+:main_query
     lingua:question _:main_question.
 
 _:main_question {

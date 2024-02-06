@@ -10,43 +10,43 @@
 @prefix : <#>.
 
 # backward rules
-:fibonacci_rule1 a lingua:BackwardRule;
-    lingua:conclusion _:fibonacci_rule1_conclusion;
-    lingua:premise _:fibonacci_rule1_premise.
+:fibonacci_rule1
+    lingua:head _:fibonacci_rule1_head;
+    lingua:body _:fibonacci_rule1_body.
 
-_:fibonacci_rule1_conclusion {
+_:fibonacci_rule1_head {
     (var:X) :fibonacci var:Y.
 }
 
-_:fibonacci_rule1_premise {
+_:fibonacci_rule1_body {
     (var:X 0 1) :fib var:Y.
 }
 
-:fibonacci_rule2 a lingua:BackwardRule;
-    lingua:conclusion _:fibonacci_rule2_conclusion;
-    lingua:premise true.
+:fibonacci_rule2
+    lingua:head _:fibonacci_rule2_head;
+    lingua:body true.
 
-_:fibonacci_rule2_conclusion {
+_:fibonacci_rule2_head {
     (0 var:A var:B) :fib var:A.
 }
 
-:fibonacci_rule3 a lingua:BackwardRule;
-    lingua:conclusion _:fibonacci_rule3_conclusion;
-    lingua:premise true.
+:fibonacci_rule3
+    lingua:head _:fibonacci_rule3_head;
+    lingua:body true.
 
-_:fibonacci_rule3_conclusion {
+_:fibonacci_rule3_head {
     (1 var:A var:B) :fib var:B.
 }
 
-:fibonacci_rule4 a lingua:BackwardRule;
-    lingua:conclusion _:fibonacci_rule4_conclusion;
-    lingua:premise _:fibonacci_rule4_premise.
+:fibonacci_rule4
+    lingua:head _:fibonacci_rule4_head;
+    lingua:body _:fibonacci_rule4_body.
 
-_:fibonacci_rule4_conclusion {
+_:fibonacci_rule4_head {
     (var:X var:A var:B) :fib var:Y.
 }
 
-_:fibonacci_rule4_premise {
+_:fibonacci_rule4_body {
     var:X math:greaterThan 1.
     (var:X 1) math:difference var:C.
     (var:A var:B) math:sum var:D.
@@ -54,7 +54,7 @@ _:fibonacci_rule4_premise {
 }
 
 # query
-:fibonacci_query a lingua:Query;
+:fibonacci_query
     lingua:question _:fibonacci_question.
 
 _:fibonacci_question {

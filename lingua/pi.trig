@@ -9,37 +9,37 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-:pi_rule1 a lingua:BackwardRule;
-    lingua:conclusion _:pi_rule1_conclusion;
-    lingua:premise _:pi_rule1_premise.
+:pi_rule1
+    lingua:head _:pi_rule1_head;
+    lingua:body _:pi_rule1_body.
 
-_:pi_rule1_conclusion {
+_:pi_rule1_head {
     (var:N var:Pi) :pi true.
 }
 
-_:pi_rule1_premise {
+_:pi_rule1_body {
     (1 var:N 0 var:P 1) :pi true.
     (4 var:P) math:product var:A.
     (3 var:A) math:sum var:Pi.
 }
 
-:pi_rule2 a lingua:BackwardRule;
-    lingua:conclusion _:pi_rule2_conclusion;
-    lingua:premise true.
+:pi_rule2
+    lingua:head _:pi_rule2_head;
+    lingua:body true.
 
-_:pi_rule2_conclusion {
+_:pi_rule2_head {
     (var:N var:N var:P var:P var:S) :pi true.
 }
 
-:pi_rule3 a lingua:BackwardRule;
-    lingua:conclusion _:pi_rule3_conclusion;
-    lingua:premise _:pi_rule3_premise.
+:pi_rule3
+    lingua:head _:pi_rule3_head;
+    lingua:body _:pi_rule3_body.
 
-_:pi_rule3_conclusion {
+_:pi_rule3_head {
     (var:K var:N var:P0 var:P var:S) :pi true.
  }
  
-_:pi_rule3_premise {
+_:pi_rule3_body {
     var:K math:notEqualTo var:N.
     (var:K 1) math:sum var:K1.
     (2 var:K) math:product var:K2.
@@ -53,7 +53,7 @@ _:pi_rule3_premise {
 }
 
 # query
-:pi_query a lingua:Query;
+:pi_query
     lingua:question _:pi_question.
 
 _:pi_question {

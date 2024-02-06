@@ -11,15 +11,15 @@
 @prefix : <#>.
 
 # exponentiation
-:complex_number_exponentiation_rule a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_exponentiation_rule_conclusion;
-    lingua:premise _:complex_number_exponentiation_rule_premise.
+:complex_number_exponentiation_rule
+    lingua:head _:complex_number_exponentiation_rule_head;
+    lingua:body _:complex_number_exponentiation_rule_body.
 
-_:complex_number_exponentiation_rule_conclusion {
+_:complex_number_exponentiation_rule_head {
     ((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F).
 }
 
-_:complex_number_exponentiation_rule_premise {
+_:complex_number_exponentiation_rule_body {
     (var:A var:B) complex:polar (var:R var:T).
     (var:R var:C) math:exponentiation var:Z1.
     var:D math:negation var:Z2.
@@ -36,15 +36,15 @@ _:complex_number_exponentiation_rule_premise {
 }
 
 # asin
-:complex_number_asin_rule a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_asin_rule_conclusion;
-    lingua:premise _:complex_number_asin_rule_premise.
+:complex_number_asin_rule
+    lingua:head _:complex_number_asin_rule_head;
+    lingua:body _:complex_number_asin_rule_body.
 
-_:complex_number_asin_rule_conclusion {
+_:complex_number_asin_rule_head {
     (var:A var:B) complex:asin (var:C var:D).
 }
 
-_:complex_number_asin_rule_premise {
+_:complex_number_asin_rule_body {
     (1 var:A) math:sum var:Z1.
     (var:Z1 2) math:exponentiation var:Z2.
     (var:B 2) math:exponentiation var:Z3.
@@ -67,15 +67,15 @@ _:complex_number_asin_rule_premise {
 }
 
 # acos
-:complex_number_acos_rule a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_acos_rule_conclusion;
-    lingua:premise _:complex_number_acos_rule_premise.
+:complex_number_acos_rule
+    lingua:head _:complex_number_acos_rule_head;
+    lingua:body _:complex_number_acos_rule_body.
 
-_:complex_number_acos_rule_conclusion {
+_:complex_number_acos_rule_head {
     (var:A var:B) complex:acos (var:C var:D).
 }
 
-_:complex_number_acos_rule_premise {
+_:complex_number_acos_rule_body {
     (1 var:A) math:sum var:Z1.
     (var:Z1 2) math:exponentiation var:Z2.
     (var:B 2) math:exponentiation var:Z3.
@@ -99,15 +99,15 @@ _:complex_number_acos_rule_premise {
 }
 
 # polar
-:complex_number_polar_rule a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_polar_rule_conclusion;
-    lingua:premise _:complex_number_polar_rule_premise.
+:complex_number_polar_rule
+    lingua:head _:complex_number_polar_rule_head;
+    lingua:body _:complex_number_polar_rule_body.
 
-_:complex_number_polar_rule_conclusion {
+_:complex_number_polar_rule_head {
     (var:X var:Y) complex:polar(var:R var:Tp).
 }
 
-_:complex_number_polar_rule_premise {
+_:complex_number_polar_rule_body {
     (var:X 2) math:exponentiation var:Z1.
     (var:Y 2) math:exponentiation var:Z2.
     (var:Z1 var:Z2) math:sum var:Z3.
@@ -119,57 +119,57 @@ _:complex_number_polar_rule_premise {
 }
 
 # dial
-:complex_number_dial_rule1 a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_dial_rule1_conclusion;
-    lingua:premise _:complex_number_dial_rule1_premise.
+:complex_number_dial_rule1
+    lingua:head _:complex_number_dial_rule1_head;
+    lingua:body _:complex_number_dial_rule1_body.
 
-_:complex_number_dial_rule1_conclusion {
+_:complex_number_dial_rule1_head {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-_:complex_number_dial_rule1_premise {
+_:complex_number_dial_rule1_body {
     var:X math:notLessThan 0.
     var:Y math:notLessThan 0.
     (0 var:T) math:sum var:Tp.
 }
 
-:complex_number_dial_rule2 a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_dial_rule2_conclusion;
-    lingua:premise _:complex_number_dial_rule2_premise.
+:complex_number_dial_rule2
+    lingua:head _:complex_number_dial_rule2_head;
+    lingua:body _:complex_number_dial_rule2_body.
 
-_:complex_number_dial_rule2_conclusion {
+_:complex_number_dial_rule2_head {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-_:complex_number_dial_rule2_premise {
+_:complex_number_dial_rule2_body {
     var:X math:lessThan 0.
     var:Y math:notLessThan 0.
     (3.141592653589793 var:T) math:difference var:Tp.
 }
 
-:complex_number_dial_rule3 a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_dial_rule3_conclusion;
-    lingua:premise _:complex_number_dial_rule3_premise.
+:complex_number_dial_rule3
+    lingua:head _:complex_number_dial_rule3_head;
+    lingua:body _:complex_number_dial_rule3_body.
 
-_:complex_number_dial_rule3_conclusion {
+_:complex_number_dial_rule3_head {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-_:complex_number_dial_rule3_premise {
+_:complex_number_dial_rule3_body {
     var:X math:lessThan 0.
     var:Y math:lessThan 0.
     (3.141592653589793 var:T) math:sum var:Tp.
 }
 
-:complex_number_dial_rule4 a lingua:BackwardRule;
-    lingua:conclusion _:complex_number_dial_rule4_conclusion;
-    lingua:premise _:complex_number_dial_rule4_premise.
+:complex_number_dial_rule4
+    lingua:head _:complex_number_dial_rule4_head;
+    lingua:body _:complex_number_dial_rule4_body.
 
-_:complex_number_dial_rule4_conclusion {
+_:complex_number_dial_rule4_head {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-_:complex_number_dial_rule4_premise {
+_:complex_number_dial_rule4_body {
     var:X math:notLessThan 0.
     var:Y math:lessThan 0.
     (3.141592653589793 2) math:product var:Z1.
@@ -177,7 +177,7 @@ _:complex_number_dial_rule4_premise {
 }
 
 # query
-:complex_number_query a lingua:Query;
+:complex_number_query
     lingua:question _:complex_number_question.
 
 _:complex_number_question {

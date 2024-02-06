@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.0 (2024-02-06)').
+version_info('EYE v9.7.1 (2024-02-06)').
 
 license_info('MIT License
 
@@ -639,7 +639,6 @@ lingua :-
     ),
     % forward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#ForwardRule>'),
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
@@ -652,9 +651,8 @@ lingua :-
             )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, D), '<>')),
     % backward rule
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#BackwardRule>'),
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
+            '<http://www.w3.org/2000/10/swap/lingua#body>'(R, A),
+            '<http://www.w3.org/2000/10/swap/lingua#head>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
@@ -674,7 +672,6 @@ lingua :-
             )), true, '<>')),
     % query
     assertz(implies((
-            '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(R, '<http://www.w3.org/2000/10/swap/lingua#Query>'),
             '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
             (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
             ->  true

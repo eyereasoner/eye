@@ -10,20 +10,20 @@
 @prefix : <#>.
 
 # something is more interesting if it is greater
-:backward_rule a lingua:BackwardRule;
-    lingua:conclusion _:backward_rule_conclusion;
-    lingua:premise _:backward_rule_premise.
+:backward_rule
+    lingua:head _:backward_rule_head;
+    lingua:body _:backward_rule_body.
 
-_:backward_rule_conclusion {
+_:backward_rule_head {
     ("this" var:X) :moreInterestingThan ("that" var:Y).
 }
 
-_:backward_rule_premise {
+_:backward_rule_body {
     var:X math:greaterThan var:Y.
 }
 
 # query
-:query a lingua:Query;
+:query
     lingua:question _:question.
 
 _:question {
