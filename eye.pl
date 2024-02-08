@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.1 (2024-02-06)').
+version_info('EYE v9.7.2 (2024-02-08)').
 
 license_info('MIT License
 
@@ -149,6 +149,7 @@ eye
 :- dynamic(pred/1).
 :- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
 :- dynamic(qevar/3).
+:- dynamic(quad/2).
 :- dynamic(query/2).
 :- dynamic(quvar/3).
 :- dynamic(recursion/1).
@@ -183,6 +184,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#answer>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#graph>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
@@ -620,6 +622,20 @@ lingua :-
     (   \+flag(nope)
     ->  assertz(flag(nope)),
         assertz(flag(explain))
+    ;   true
+    ),
+    % create named graphs
+    (   quad(_, A),
+        findall(C,
+            (   retract(quad(triple(S, P, O), A)),
+                C =.. [P, S, O]
+            ),
+            D
+        ),
+        D \= [],
+        conjoin(D, E),
+        assertz('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, E)),
+        fail
     ;   true
     ),
     % create terms
@@ -1963,6 +1979,19 @@ numericliteral(Number) -->
 object(Node, Triples) -->
     expression(Node, Triples).
 
+objecttail(Subject, Verb, Triples) -->
+    [','],
+    object(Object, Triples1),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
+        )
+    },
+    pathitem(Graph, []),
+    !,
+    objecttail(Subject, Verb, Triples3),
+    {   append([Triples1, [quad(Trpl, Graph)], Triples3], Triples)
+    }.
 objecttail(Subject, Verb, [Triple|Triples]) -->
     [','],
     !,
@@ -2229,6 +2258,22 @@ pathtail(Node, Node, []) -->
 prefix(Prefix) -->
     [Prefix:''].
 
+propertylist(Subject, Triples) -->
+    verb(Item, Triples1),
+    {   prolog_verb(Item, Verb)
+    },
+    object(Object, Triples2),
+    {   (   Verb = isof(Vrb)
+        ->  Trpl = triple(Object, Vrb, Subject)
+        ;   Trpl = triple(Subject, Verb, Object)
+        )
+    },
+    pathitem(Graph, []),
+    !,
+    objecttail(Subject, Verb, Triples4),
+    propertylisttail(Subject, Triples5),
+    {   append([Triples1, Triples2, [quad(Trpl, Graph)], Triples4, Triples5], Triples)
+    }.
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
     {   prolog_verb(Item, Verb)
@@ -4119,6 +4164,15 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
+wt2(quad(triple(S, P, O), G)) :-
+    !,
+    wg(S),
+    write(' '),
+    wt0(P),
+    write(' '),
+    wg(O),
+    write(' '),
+    wg(G).
 wt2('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y)) :-
     !,
     wp(X),
