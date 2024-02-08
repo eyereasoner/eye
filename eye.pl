@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.3 (2024-02-08)').
+version_info('EYE v9.7.4 (2024-02-09)').
 
 license_info('MIT License
 
@@ -4400,7 +4400,8 @@ wg(X) :-
             ->  true
             ;   gensym('gn_', Y),
                 nb_getval(var_ns, Sns),
-                atomic_list_concat(['<', Sns, Y, '>'], N)
+                atomic_list_concat(['<', Sns, Y, '>'], N),
+                assertz('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X))
             ),
             (   \+keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X))
             ->  assertz(keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X)))
