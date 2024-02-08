@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.2 (2024-02-08)').
+version_info('EYE v9.7.3 (2024-02-08)').
 
 license_info('MIT License
 
@@ -2711,7 +2711,7 @@ token(0'<, In, C, relative_uri(URI)) :-
     iri_chars(C1, In, C, Codes),
     D = Codes,
     atom_codes(URI, D),
-    (   URI = 'http://www.w3.org/2000/10/swap/lingua#',
+    (   atom_concat('http://www.w3.org/2000/10/swap/lingua#', _, URI),
         \+flag(lingua)
     ->  assertz(flag(lingua))
     ;   true
