@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.4 (2024-02-09)').
+version_info('EYE v9.7.5 (2024-02-09)').
 
 license_info('MIT License
 
@@ -506,6 +506,7 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
+    nb_setval(keep_ng, true),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
@@ -660,7 +661,8 @@ lingua :-
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
-            (   flag(explain)
+            (   flag(explain),
+                I \= false
             ->  zip_list(U, X, W),
                 conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
             ;   D = I
@@ -3469,7 +3471,6 @@ w3 :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
-    nb_setval(keep_ng, true),
     flag(nope),
     !,
     (   query(Q, A),
@@ -4772,10 +4773,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag('n3p-output')
-            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false)))
-            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false)))
-            ),
+        ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false))),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
                 fail
