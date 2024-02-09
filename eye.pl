@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.5 (2024-02-09)').
+version_info('EYE v9.7.6 (2024-02-10)').
 
 license_info('MIT License
 
@@ -3490,7 +3490,12 @@ w3 :-
         ;   wt(B)
         ),
         ws(B),
-        write('.'),
+        (   (   B = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
+            ;   B = exopred('<http://www.w3.org/2000/10/swap/lingua#graph>', _, _)
+            )
+        ->  true
+        ;   write('.')
+        ),
         nl,
         (   A = (_, _),
             conj_list(A, L)
@@ -3512,7 +3517,9 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   C = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
+        (   (   C = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
+            ;   C = exopred('<http://www.w3.org/2000/10/swap/lingua#graph>', _, _)
+            )
         ->  true
         ;   write('.')
         ),
