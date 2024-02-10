@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.7 (2024-02-10)').
+version_info('EYE v9.7.8 (2024-02-10)').
 
 license_info('MIT License
 
@@ -12004,10 +12004,12 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
-getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)) :-
+getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B)) :-
+    getconj(A, C),
+    C \= A,
     !,
-    getterm(B, D),
-    conjify(D, C).
+    getterm(C, D),
+    conjify(D, B).
 getterm(A, B) :-
     '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _),
     !,
