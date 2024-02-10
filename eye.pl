@@ -643,7 +643,6 @@ lingua :-
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-        P \= '<http://www.w3.org/2000/10/swap/lingua#graph>',
         X =.. [P, _, _],
         call(X),
         getterm(X, Y),
@@ -12005,6 +12004,11 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
+getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)) :-
+    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B),
+    !,
+    getterm(B, D),
+    conjify(D, C).
 getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
     getconj(A, D),
     D \= A,
