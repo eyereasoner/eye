@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.8 (2024-02-10)').
+version_info('EYE v9.7.9 (2024-02-10)').
 
 license_info('MIT License
 
@@ -643,6 +643,7 @@ lingua :-
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+        P \= '<http://www.w3.org/2000/10/swap/lingua#graph>',
         X =.. [P, _, _],
         call(X),
         getterm(X, Y),
@@ -12004,12 +12005,12 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
-getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B)) :-
-    getconj(A, C),
-    C \= A,
+getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+    getconj(A, D),
+    D \= A,
     !,
-    getterm(C, D),
-    conjify(D, B).
+    getterm(D, E),
+    conjify(E, C).
 getterm(A, B) :-
     '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _),
     !,
