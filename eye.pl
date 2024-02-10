@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.6 (2024-02-10)').
+version_info('EYE v9.7.7 (2024-02-10)').
 
 license_info('MIT License
 
@@ -7848,15 +7848,23 @@ djiti_assertz(A) :-
                     (   member(B, T),
                         atom_codes(A, [B])
                     ),
-                    X
+                    Q
                 )
             ;   esplit_string(T, V, [], W),
                 findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, W),
                         atom_codes(A, B)
                     ),
-                    X
+                    Q
                 )
+            ),
+            findall(literal(N, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                (   member(literal(M, type('<http://www.w3.org/2001/XMLSchema#string>')), Q),
+                    atom_codes(M, Mc),
+                    escape_string(Mc, Nc),
+                    atom_codes(N, Nc)
+                ),
+                X
             )
         )
     ).
