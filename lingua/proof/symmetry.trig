@@ -1,0 +1,16 @@
+@prefix : <https://eyereasoner.github.io/eye/lingua/symmetry.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+:symmetry_rule lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :alice) (var:z :bob) (var:o "1999")).
+:symmetry_query lingua:bindings ((var:x :married_graph1) (var:z "1999")).
+:married_graph1 :since "1999".
+:symmetry_query lingua:bindings ((var:x _:gn_1) (var:z "1999")).
+_:gn_1 :since "1999".
+:symmetry_rule lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :bob) (var:z :alice) (var:o "1999")).
+:married_graph1 {
+    :alice :marriedTo :bob.
+}
+_:gn_1 {
+    :bob :marriedTo :alice.
+}
