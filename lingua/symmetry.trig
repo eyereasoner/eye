@@ -11,30 +11,44 @@
 
 # facts
 :marriedTo a owl:SymmetricProperty.
-:married_graph1 :since "1999".
+:alice :marriedTo :bob.
 :married_graph1 {
     :alice :marriedTo :bob.
 }
+:married_graph1 :since "1999".
 
 # rules
-:symmetry_rule
-    lingua:premise _:symmetry_rule_premise;
-    lingua:conclusion _:symmetry_rule_conclusion.
+:symmetry_rule1
+    lingua:premise _:symmetry_rule1_premise;
+    lingua:conclusion _:symmetry_rule1_conclusion.
 
-_:symmetry_rule_premise {
+_:symmetry_rule1_premise {
     var:y a owl:SymmetricProperty.
-    _:symmetry_rule_graph1 var:p var:o.
-}
-
-_:symmetry_rule_conclusion {
-    _:symmetry_rule_graph2 var:p var:o.
-}
-
-_:symmetry_rule_graph1 {
     var:x var:y var:z.
 }
 
-_:symmetry_rule_graph2 {
+_:symmetry_rule1_conclusion {
+    var:z var:y var:x.
+}
+
+:symmetry_rule2
+    lingua:premise _:symmetry_rule2_premise;
+    lingua:conclusion _:symmetry_rule2_conclusion.
+
+_:symmetry_rule2_premise {
+    var:y a owl:SymmetricProperty.
+    _:symmetry_rule2_graph1 var:p var:o.
+}
+
+_:symmetry_rule2_conclusion {
+    _:symmetry_rule2_graph2 var:p var:o.
+}
+
+_:symmetry_rule2_graph1 {
+    var:x var:y var:z.
+}
+
+_:symmetry_rule2_graph2 {
     var:z var:y var:x.
 }
 
@@ -43,5 +57,6 @@ _:symmetry_rule_graph2 {
     lingua:question _:symmetry_question.
 
 _:symmetry_question {
-    var:x :since var:z.
+    var:x :marriedTo var:z.
+    var:s :since var:o.
 }

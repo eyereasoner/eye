@@ -2,12 +2,18 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:symmetry_rule lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :alice) (var:z :bob) (var:o "1999")).
-:symmetry_query lingua:bindings ((var:x :married_graph1) (var:z "1999")).
+:symmetry_rule1 lingua:bindings ((var:y :marriedTo) (var:x :alice) (var:z :bob)).
+:symmetry_rule2 lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :alice) (var:z :bob) (var:o "1999")).
+:symmetry_query lingua:bindings ((var:x :alice) (var:z :bob) (var:s :married_graph1) (var:o "1999")).
+:alice :marriedTo :bob.
 :married_graph1 :since "1999".
-:symmetry_query lingua:bindings ((var:x _:gn_1) (var:z "1999")).
+:symmetry_query lingua:bindings ((var:x :alice) (var:z :bob) (var:s _:gn_1) (var:o "1999")).
 _:gn_1 :since "1999".
-:symmetry_rule lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :bob) (var:z :alice) (var:o "1999")).
+:symmetry_query lingua:bindings ((var:x :bob) (var:z :alice) (var:s :married_graph1) (var:o "1999")).
+:bob :marriedTo :alice.
+:symmetry_query lingua:bindings ((var:x :bob) (var:z :alice) (var:s _:gn_1) (var:o "1999")).
+:symmetry_rule1 lingua:bindings ((var:y :marriedTo) (var:x :bob) (var:z :alice)).
+:symmetry_rule2 lingua:bindings ((var:y :marriedTo) (var:p :since) (var:x :bob) (var:z :alice) (var:o "1999")).
 :married_graph1 {
     :alice :marriedTo :bob.
 }
