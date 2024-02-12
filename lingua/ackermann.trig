@@ -52,7 +52,7 @@ _:ackermann_rule0_head {
 }
 
 _:ackermann_rule0_body {
-    true log:callWithCut true.
+    _:true log:callWithCut _:true.
     (var:Y 1) math:sum var:A.
 }
 
@@ -66,7 +66,7 @@ _:ackermann_rule1_head {
 }
 
 _:ackermann_rule1_body {
-    true log:callWithCut true.
+    _:true log:callWithCut _:true.
     (var:Y var:Z) math:sum var:A.
 }
 
@@ -80,7 +80,7 @@ _:ackermann_rule2_head {
 }
 
 _:ackermann_rule2_body {
-    true log:callWithCut true.
+    _:true log:callWithCut _:true.
     (var:Y var:Z) math:product var:A.
 }
 
@@ -94,7 +94,7 @@ _:ackermann_rule3plus_head {
 }
 
 _:ackermann_rule3plus_body {
-    true log:callWithCut true.
+    _:true log:callWithCut _:true.
 }
 
 :ackermann_rule_final
@@ -110,6 +110,11 @@ _:ackermann_rule_final_body {
     (var:X var:B var:Z) :ackermann var:C.
     (var:X 1) math:difference var:D.
     (var:D var:C var:Z) :ackermann var:A.
+}
+
+# always true
+_:true {
+    () log:equalTo ().
 }
 
 # query
