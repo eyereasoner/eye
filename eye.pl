@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.7.11 (2024-02-12)').
+version_info('EYE v9.7.12 (2024-02-12)').
 
 license_info('MIT License
 
@@ -11535,7 +11535,9 @@ quant(answer(':-', _, _), allv) :-
     !.
 quant(answer('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>', _, _), allv) :-
     !.
-quant(_-('<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _), _), avar) :-
+quant(_-A, avar) :-
+    conj_list(A, B),
+    member('<http://www.w3.org/2000/10/swap/lingua#premise>'(_, _), B),
     !.
 quant(_, some).
 
