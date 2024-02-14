@@ -17,7 +17,7 @@ for dir in */
 do
     pushd "${dir}" > /dev/null
     echo -en "${dir} "
-    ./test 2> /dev/null
+    ./test > /dev/null 2>&1
     if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
