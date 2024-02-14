@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.8.1 (2024-02-13)').
+version_info('EYE v9.8.2 (2024-02-14)').
 
 license_info('MIT License
 
@@ -6241,6 +6241,15 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#select>'([A, B], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   select(A, B, C)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B) :-
     when(
         (   nonvar(A),
@@ -6845,6 +6854,17 @@ djiti_assertz(A) :-
             )
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/log#rule>'([[A, B], C], D) :-
+    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), D, beta(C)).
+
+'<http://www.w3.org/2000/10/swap/log#ruleB>'([[A, B], C], D) :-
+    makevars(':-'(A, B), D, beta(C)),
+    \+D.
+
+'<http://www.w3.org/2000/10/swap/log#ruleQ>'([[A, B], C], D) :-
+    djiti_answer(answer(B), E),
+    makevars('<http://www.w3.org/2000/10/swap/log#implies>'(A, E), D, beta(C)).
 
 '<http://www.w3.org/2000/10/swap/log#n3String>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     (   n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>')))

@@ -1,0 +1,9 @@
+#!/bin/bash
+for f in *.n3
+do
+    [ "$f" == "surfaces.n3" ] && continue
+    echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache http://eyereasoner.github.io/eye/reasoning .. --nope --no-bnode-relabeling http://eyereasoner.github.io/eye/reasoning/surfaces/$f http://eyereasoner.github.io/eye/reasoning/surfaces/surfaces.n3 --output answer/$f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache http://eyereasoner.github.io/eye/reasoning .. --nope --no-bnode-relabeling http://eyereasoner.github.io/eye/reasoning/surfaces/$f http://eyereasoner.github.io/eye/reasoning/surfaces/surfaces.n3 --output answer/$f
+    echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache http://eyereasoner.github.io/eye/reasoning .. --no-bnode-relabeling http://eyereasoner.github.io/eye/reasoning/surfaces/$f http://eyereasoner.github.io/eye/reasoning/surfaces/surfaces.n3 --output proof/$f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache http://eyereasoner.github.io/eye/reasoning .. --no-bnode-relabeling http://eyereasoner.github.io/eye/reasoning/surfaces/$f http://eyereasoner.github.io/eye/reasoning/surfaces/surfaces.n3 --output proof/$f
+done

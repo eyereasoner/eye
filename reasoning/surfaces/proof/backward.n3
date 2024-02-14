@@ -1,0 +1,41 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        5 :moreInterestingThan 3 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        5 :moreInterestingThan 3 .
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule [ a r:Fact; r:gives {{
+        5 :moreInterestingThan 3.
+    } => {
+        5 :moreInterestingThan 3.
+    }}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        5 :moreInterestingThan 3 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {5 math:greaterThan 3}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 3];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :moreInterestingThan var:x_1.
+    } <= {
+        var:x_0 math:greaterThan var:x_1.
+    }}].
+
