@@ -1,0 +1,100 @@
+# -----------------------------
+# Access control policy example
+# -----------------------------
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+:test1
+    :policy :PolicyX;
+    :has :A, :B, :C.
+
+:PolicyX
+    a :Policy;
+    :allOf :A, :B;
+    :anyOf :C;
+    :noneOf :D.
+
+:acp_rule1
+    lingua:head _:acp_rule1_head;
+    lingua:body _:acp_rule1_body.
+
+_:acp_rule1_head {
+    var:Pol :pass :allOfTest.
+}
+
+_:acp_rule1_body {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (_:acp_rule1_fa1 _:acp_rule1_fa2) log:forAllIn var:X.
+}
+
+_:acp_rule1_fa1 {
+    var:Pol :allOf var:Field.
+}
+
+_:acp_rule1_fa2 {
+    var:Test :has var:Field.
+}
+
+:acp_rule2
+    lingua:head _:acp_rule2_head;
+    lingua:body _:acp_rule2_body.
+
+_:acp_rule2_head {
+    var:Pol :pass :anyOfTest.
+}
+
+_:acp_rule2_body {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:acp_rule2_where var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    var:L log:notEqualTo 0.
+}
+
+_:acp_rule2_where {
+    var:Pol :anyOf var:Field.
+    var:Test :has var:Field.
+}
+
+:acp_rule3
+    lingua:head _:acp_rule3_head;
+    lingua:body _:acp_rule3_body.
+
+_:acp_rule3_head {
+    var:Pol :pass :noneOfTest.
+}
+
+_:acp_rule3_body {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:acp_rule3_where var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    var:L log:equalTo 0.
+}
+
+_:acp_rule3_where {
+    var:Pol :noneOf var:Field.
+    var:Test :has var:Field.
+}
+
+# query
+:acp_query
+    lingua:question _:acp_question;
+    lingua:answer _:acp_answer.
+
+_:acp_question {
+    var:Pol a :Policy.
+    var:Pol :pass :allOfTest.
+    var:Pol :pass :anyOfTest.
+    var:Pol :pass :noneOfTest.
+}
+
+_:acp_answer {
+    :test :for var:Pol.
+    :test :is true.
+}

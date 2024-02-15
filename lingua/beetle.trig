@@ -1,0 +1,101 @@
+# --------------
+# Beetle example
+# --------------
+#
+# See https://en.wikipedia.org/wiki/Disjunction_elimination
+# using negation predicates
+
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+:beetle_disj_rule1
+    lingua:premise _:beetle_disj_rule1_premise;
+    lingua:conclusion _:beetle_disj_rule1_conclusion.
+
+_:beetle_disj_rule1_premise {
+    var:A a :Car.
+    var:A :isNot :green.
+}
+
+_:beetle_disj_rule1_conclusion {
+    var:A :is :blue.
+}
+
+:beetle_disj_rule2
+    lingua:premise _:beetle_disj_rule2_premise;
+    lingua:conclusion _:beetle_disj_rule2_conclusion.
+
+_:beetle_disj_rule2_premise {
+    var:A a :Car.
+    var:A :isNot :blue.
+}
+
+_:beetle_disj_rule2_conclusion {
+    var:A :is :green.
+}
+
+# green things are beautiful
+:beetle_beautiful_rule1
+    lingua:premise _:beetle_beautiful_rule1_premise;
+    lingua:conclusion _:beetle_beautiful_rule1_conclusion.
+
+_:beetle_beautiful_rule1_premise {
+    var:A :is :green.
+}
+
+_:beetle_beautiful_rule1_conclusion {
+    var:A :is :beautiful.
+}
+
+:beetle_beautiful_rule2
+    lingua:premise _:beetle_beautiful_rule2_premise;
+    lingua:conclusion _:beetle_beautiful_rule2_conclusion.
+
+_:beetle_beautiful_rule2_premise {
+    var:A :isNot :beautiful.
+}
+
+_:beetle_beautiful_rule2_conclusion {
+    var:A :isNot :green.
+}
+
+# blue things are beautiful
+:beetle_beautiful_rule3
+    lingua:premise _:beetle_beautiful_rule3_premise;
+    lingua:conclusion _:beetle_beautiful_rule3_conclusion.
+
+_:beetle_beautiful_rule3_premise {
+    var:A :is :blue.
+}
+
+_:beetle_beautiful_rule3_conclusion {
+    var:A :is :beautiful.
+}
+
+:beetle_beautiful_rule4
+    lingua:premise _:beetle_beautiful_rule4_premise;
+    lingua:conclusion _:beetle_beautiful_rule4_conclusion.
+
+_:beetle_beautiful_rule4_premise {
+    var:A :isNot :beautiful.
+}
+
+_:beetle_beautiful_rule4_conclusion {
+    var:A :isNot :blue.
+}
+
+# assuming the negation of the query so that it can be discharged when the query succeeds
+:beetle :isNot :beautiful.
+
+# query
+:beetle_query
+    lingua:question _:beetle_question.
+
+_:beetle_question {
+    :beetle :is :beautiful.
+}
