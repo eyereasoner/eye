@@ -1,0 +1,92 @@
+# ----------------------------------------
+# Negation as envisioned by Wouter Termont
+# ----------------------------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# NOT {
+#    _:s1 _:p1 _:o1.
+#    _:s2 _:p2 _:o2.
+#    _:s3 _:p3 _:o3.
+# }
+:implication1
+    lingua:premise _:implication1_premise;
+    lingua:conclusion _:implication1_conclusion.
+
+_:implication1_premise
+    log:closedBy <>.
+
+_:implication1_premise {
+    _:s1 _:p1 _:o1.
+    _:s2 _:p2 _:o2.
+}
+
+_:implication1_conclusion
+    log:closedBy <>.
+
+_:implication1_conclusion {
+    _:c3 log:complement _:p3.
+    _:s3 _:c3 _:o3.
+}
+
+:implication2
+    lingua:premise _:implication2_premise;
+    lingua:conclusion _:implication2_conclusion.
+
+_:implication2_premise
+    log:closedBy <>.
+
+_:implication2_premise {
+    _:s2 _:p2 _:o2.
+    _:s3 _:p3 _:o3.
+}
+
+_:implication2_conclusion
+    log:closedBy <>.
+
+_:implication2_conclusion {
+    _:c1 log:complement _:p1.
+    _:s1 _:c1 _:o1.
+}
+
+:implication3
+    lingua:premise _:implication3_premise;
+    lingua:conclusion _:implication3_conclusion.
+
+_:implication3_premise
+    log:closedBy <>.
+
+_:implication3_premise {
+    _:s3 _:p3 _:o3.
+    _:s1 _:p1 _:o1.
+}
+
+_:implication3_conclusion
+    log:closedBy <>.
+
+_:implication3_conclusion {
+    _:c2 log:complement _:p2.
+    _:s2 _:c2 _:o2.
+}
+
+# asserting the following should blow an inference fuse
+_:s1 _:p1 _:o1.
+_:s2 _:p2 _:o2.
+_:s3 _:p3 _:o3.
+
+# fuse
+:complement_inference_fuse
+    lingua:premise _:complement_inference_fuse_premise;
+    lingua:conclusion false.
+
+_:complement_inference_fuse_premise
+    log:closedBy <>.
+
+_:complement_inference_fuse_premise {
+    var:P log:complement var:C.
+    var:S var:P var:O.
+    var:S var:C var:O.
+}
