@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.0 (2024-02-15)').
+version_info('EYE v9.9.1 (2024-02-15)').
 
 license_info('MIT License
 
@@ -186,7 +186,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#answer>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#graph>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#closedIn>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#closedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -641,8 +641,8 @@ lingua :-
     ;   true
     ),
     % check boundaries
-    (   '<http://www.w3.org/2000/10/swap/log#closedIn>'(Name, Base1),
-        '<http://www.w3.org/2000/10/swap/log#closedIn>'(Name, Base2),
+    (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1),
+        '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
         Base1 \= Base2
     ->  throw(boundary_violation(Name, Base1, Base2))
     ;   true
