@@ -15,9 +15,9 @@
 # can express the following in pure RDF
 #
 # NOT {
-#    _:s1 _:p1 _:o1.
-#    _:s2 _:p2 _:o2.
-#    _:s3 _:p3 _:o3.
+#    _:s1 :p1 _:o1.
+#    _:s2 :p2 _:o2.
+#    _:s3 :p3 _:o3.
 # }
 :implication1
     lingua:premise _:implication1_premise;
@@ -28,13 +28,13 @@ _:implication1_conclusion
     log:closedBy <>.
 
 _:implication1_premise {
-    _:s1 _:p1 _:o1.
-    _:s2 _:p2 _:o2.
+    _:s1 :p1 _:o1.
+    _:s2 :p2 _:o2.
 }
 
 _:implication1_conclusion {
-    _:c3 log:complement _:p3.
-    _:s3 _:c3 _:o3.
+    :c3 log:complement :p3.
+    _:s3 :c3 _:o3.
 }
 
 :implication2
@@ -46,13 +46,13 @@ _:implication2_conclusion
     log:closedBy <>.
 
 _:implication2_premise {
-    _:s2 _:p2 _:o2.
-    _:s3 _:p3 _:o3.
+    _:s2 :p2 _:o2.
+    _:s3 :p3 _:o3.
 }
 
 _:implication2_conclusion {
-    _:c1 log:complement _:p1.
-    _:s1 _:c1 _:o1.
+    :c1 log:complement :p1.
+    _:s1 :c1 _:o1.
 }
 
 :implication3
@@ -64,19 +64,19 @@ _:implication3_conclusion
     log:closedBy <>.
 
 _:implication3_premise {
-    _:s3 _:p3 _:o3.
-    _:s1 _:p1 _:o1.
+    _:s3 :p3 _:o3.
+    _:s1 :p1 _:o1.
 }
 
 _:implication3_conclusion {
-    _:c2 log:complement _:p2.
-    _:s2 _:c2 _:o2.
+    :c2 log:complement :p2.
+    _:s2 :c2 _:o2.
 }
 
 # asserting the following should blow an inference fuse
-_:s1 _:p1 _:o1.
-_:s2 _:p2 _:o2.
-_:s3 _:p3 _:o3.
+_:s1 :p1 _:o1.
+_:s2 :p2 _:o2.
+_:s3 :p3 _:o3.
 
 # fuse
 :complement_inference_fuse
