@@ -15,20 +15,17 @@
 :Human rdfs:subClassOf :Mortal.
 
 # rdfs subclass
-:rdfs_subclass_rule
-    lingua:premise _:rdfs_subclass_rule_premise;
+:rdfs_subclass_rule lingua:premise _:rdfs_subclass_rule_premise;
     lingua:conclusion _:rdfs_subclass_rule_conclusion.
-
 _:rdfs_subclass_rule_premise
+    log:closedBy <>.
+_:rdfs_subclass_rule_conclusion
     log:closedBy <>.
 
 _:rdfs_subclass_rule_premise {
     var:A rdfs:subClassOf var:B.
     var:S a var:A.
 }
-
-_:rdfs_subclass_rule_conclusion
-    log:closedBy <>.
 
 _:rdfs_subclass_rule_conclusion {
     var:S a var:B.
@@ -37,6 +34,8 @@ _:rdfs_subclass_rule_conclusion {
 # query
 :socrates_query
     lingua:question _:socrates_question.
+_:socrates_question
+    log:closedBy <>.
 
 _:socrates_question {
     var:S a :Mortal.

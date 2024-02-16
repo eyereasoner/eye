@@ -6,6 +6,7 @@
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix complex: <http://eyereasoner.github.io/complex#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -14,6 +15,10 @@
 :complex_number_exponentiation_rule
     lingua:head _:complex_number_exponentiation_rule_head;
     lingua:body _:complex_number_exponentiation_rule_body.
+_:complex_number_exponentiation_rule_head
+    log:closedBy <>.
+_:complex_number_exponentiation_rule_body
+    log:closedBy <>.
 
 _:complex_number_exponentiation_rule_head {
     ((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F).
@@ -39,6 +44,10 @@ _:complex_number_exponentiation_rule_body {
 :complex_number_asin_rule
     lingua:head _:complex_number_asin_rule_head;
     lingua:body _:complex_number_asin_rule_body.
+_:complex_number_asin_rule_head
+    log:closedBy <>.
+_:complex_number_asin_rule_body
+    log:closedBy <>.
 
 _:complex_number_asin_rule_head {
     (var:A var:B) complex:asin (var:C var:D).
@@ -70,6 +79,10 @@ _:complex_number_asin_rule_body {
 :complex_number_acos_rule
     lingua:head _:complex_number_acos_rule_head;
     lingua:body _:complex_number_acos_rule_body.
+_:complex_number_acos_rule_head
+    log:closedBy <>.
+_:complex_number_acos_rule_body
+    log:closedBy <>.
 
 _:complex_number_acos_rule_head {
     (var:A var:B) complex:acos (var:C var:D).
@@ -102,6 +115,10 @@ _:complex_number_acos_rule_body {
 :complex_number_polar_rule
     lingua:head _:complex_number_polar_rule_head;
     lingua:body _:complex_number_polar_rule_body.
+_:complex_number_polar_rule_head
+    log:closedBy <>.
+_:complex_number_polar_rule_body
+    log:closedBy <>.
 
 _:complex_number_polar_rule_head {
     (var:X var:Y) complex:polar(var:R var:Tp).
@@ -122,6 +139,10 @@ _:complex_number_polar_rule_body {
 :complex_number_dial_rule1
     lingua:head _:complex_number_dial_rule1_head;
     lingua:body _:complex_number_dial_rule1_body.
+_:complex_number_dial_rule1_head
+    log:closedBy <>.
+_:complex_number_dial_rule1_body
+    log:closedBy <>.
 
 _:complex_number_dial_rule1_head {
     (var:X var:Y var:T) complex:dial var:Tp.
@@ -136,6 +157,10 @@ _:complex_number_dial_rule1_body {
 :complex_number_dial_rule2
     lingua:head _:complex_number_dial_rule2_head;
     lingua:body _:complex_number_dial_rule2_body.
+_:complex_number_dial_rule2_head
+    log:closedBy <>.
+_:complex_number_dial_rule2_body
+    log:closedBy <>.
 
 _:complex_number_dial_rule2_head {
     (var:X var:Y var:T) complex:dial var:Tp.
@@ -150,6 +175,10 @@ _:complex_number_dial_rule2_body {
 :complex_number_dial_rule3
     lingua:head _:complex_number_dial_rule3_head;
     lingua:body _:complex_number_dial_rule3_body.
+_:complex_number_dial_rule3_head
+    log:closedBy <>.
+_:complex_number_dial_rule3_body
+    log:closedBy <>.
 
 _:complex_number_dial_rule3_head {
     (var:X var:Y var:T) complex:dial var:Tp.
@@ -164,6 +193,10 @@ _:complex_number_dial_rule3_body {
 :complex_number_dial_rule4
     lingua:head _:complex_number_dial_rule4_head;
     lingua:body _:complex_number_dial_rule4_body.
+_:complex_number_dial_rule4_head
+    log:closedBy <>.
+_:complex_number_dial_rule4_body
+    log:closedBy <>.
 
 _:complex_number_dial_rule4_head {
     (var:X var:Y var:T) complex:dial var:Tp.
@@ -179,6 +212,8 @@ _:complex_number_dial_rule4_body {
 # query
 :complex_number_query
     lingua:question _:complex_number_question.
+_:complex_number_question
+    log:closedBy <>.
 
 _:complex_number_question {
     ((-1 0) (0.5 0)) complex:exponentiation var:C1.

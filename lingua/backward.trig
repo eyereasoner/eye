@@ -5,6 +5,7 @@
 # See https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -13,6 +14,10 @@
 :backward_rule
     lingua:head _:backward_rule_head;
     lingua:body _:backward_rule_body.
+_:backward_rule_head
+    log:closedBy <>.
+_:backward_rule_body
+    log:closedBy <>.
 
 _:backward_rule_head {
     ("this" var:X) :moreInterestingThan ("that" var:Y).
@@ -25,6 +30,8 @@ _:backward_rule_body {
 # query
 :query
     lingua:question _:question.
+_:question
+    log:closedBy <>.
 
 _:question {
     ("this" 5) :moreInterestingThan ("that" 3).

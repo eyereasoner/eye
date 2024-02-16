@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.1 (2024-02-15)').
+version_info('EYE v9.9.2 (2024-02-16)').
 
 license_info('MIT License
 
@@ -184,7 +184,13 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#answer>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#bindings>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#body>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#conclusion>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#graph>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#head>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#premise>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/lingua#question>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#closedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
@@ -641,10 +647,26 @@ lingua :-
     ;   true
     ),
     % check boundaries
-    (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1),
-        '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
-        Base1 \= Base2
-    ->  throw(boundary_violation(Name, Base1, Base2))
+    (   member(P, [
+            '<http://www.w3.org/2000/10/swap/lingua#answer>',
+            '<http://www.w3.org/2000/10/swap/lingua#body>',
+            '<http://www.w3.org/2000/10/swap/lingua#conclusion>',
+            '<http://www.w3.org/2000/10/swap/lingua#head>',
+            '<http://www.w3.org/2000/10/swap/lingua#premise>',
+            '<http://www.w3.org/2000/10/swap/lingua#question>'
+        ]),
+        X =.. [P, _, Name],
+        call(X),
+        \+member(Name, [true, false]), 
+        (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1)
+        ->  (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
+                Base1 \= Base2
+            ->  throw(boundary_violation(Name, Base1, Base2))
+            ;   true
+            )
+        ;   throw(missing_boundary(Name))
+        ),
+        fail
     ;   true
     ),
     % create terms
