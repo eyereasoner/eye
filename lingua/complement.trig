@@ -7,6 +7,13 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
+# Each predicate in RDF represents a binary relation, i.e. a set of 2-tuples.
+# For each of those relations you can formulate exactly one complementary
+# relation, which contains exactly the pairs of elements that are not in the
+# original set (from this follows LEM). If we represent the relationship
+# between these complements by a predicate, e.g. log:complement, then we
+# can express the following in pure RDF
+#
 # NOT {
 #    _:s1 _:p1 _:o1.
 #    _:s2 _:p2 _:o2.
