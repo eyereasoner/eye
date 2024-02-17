@@ -17,10 +17,8 @@
 :main_rule
     lingua:premise _:main_rule_premise;
     lingua:conclusion _:main_rule_conclusion.
-_:main_rule_premise
-    log:closedBy <>.
-_:main_rule_conclusion
-    log:closedBy <>.
+_:main_rule_premise log:closedBy <>.
+_:main_rule_conclusion log:closedBy <>.
 
 _:main_rule_premise {
     var:cat a :Cat.
@@ -43,8 +41,7 @@ _:derived_rule_conclusion {
 # query
 :main_query
     lingua:question _:main_question.
-_:main_question
-    log:closedBy <>.
+_:main_question log:closedBy <>.
 
 _:main_question {
     :test :is var:result.

@@ -14,10 +14,8 @@
 :backward_rule
     lingua:head _:backward_rule_head;
     lingua:body _:backward_rule_body.
-_:backward_rule_head
-    log:closedBy <>.
-_:backward_rule_body
-    log:closedBy <>.
+_:backward_rule_head log:closedBy <>.
+_:backward_rule_body log:closedBy <>.
 
 _:backward_rule_head {
     ("this" var:X) :moreInterestingThan ("that" var:Y).
@@ -30,8 +28,7 @@ _:backward_rule_body {
 # query
 :query
     lingua:question _:question.
-_:question
-    log:closedBy <>.
+_:question log:closedBy <>.
 
 _:question {
     ("this" 5) :moreInterestingThan ("that" 3).

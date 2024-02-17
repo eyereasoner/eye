@@ -13,10 +13,8 @@
 :pi_rule1
     lingua:head _:pi_rule1_head;
     lingua:body _:pi_rule1_body.
-_:pi_rule1_head
-    log:closedBy <>.
-_:pi_rule1_body
-    log:closedBy <>.
+_:pi_rule1_head log:closedBy <>.
+_:pi_rule1_body log:closedBy <>.
 
 _:pi_rule1_head {
     (var:N var:Pi) :pi true.
@@ -31,8 +29,7 @@ _:pi_rule1_body {
 :pi_rule2
     lingua:head _:pi_rule2_head;
     lingua:body true.
-_:pi_rule2_head
-    log:closedBy <>.
+_:pi_rule2_head log:closedBy <>.
 
 _:pi_rule2_head {
     (var:N var:N var:P var:P var:S) :pi true.
@@ -41,10 +38,8 @@ _:pi_rule2_head {
 :pi_rule3
     lingua:head _:pi_rule3_head;
     lingua:body _:pi_rule3_body.
-_:pi_rule3_head
-    log:closedBy <>.
-_:pi_rule3_body
-    log:closedBy <>.
+_:pi_rule3_head log:closedBy <>.
+_:pi_rule3_body log:closedBy <>.
 
 _:pi_rule3_head {
     (var:K var:N var:P0 var:P var:S) :pi true.
@@ -66,8 +61,7 @@ _:pi_rule3_body {
 # query
 :pi_query
     lingua:question _:pi_question.
-_:pi_question
-    log:closedBy <>.
+_:pi_question log:closedBy <>.
 
 _:pi_question {
     (5000 var:Pi) :pi true.
