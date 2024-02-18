@@ -8,18 +8,15 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-:test1
-    :policy :PolicyX;
+:test1 :policy :PolicyX;
     :has :A, :B, :C.
 
-:PolicyX
-    a :Policy;
+:PolicyX a :Policy;
     :allOf :A, :B;
     :anyOf :C;
     :noneOf :D.
 
-:acp_rule1
-    lingua:head _:acp_rule1_head;
+:acp_rule1 lingua:head _:acp_rule1_head;
     lingua:body _:acp_rule1_body.
 _:acp_rule1_head log:closedBy <>.
 _:acp_rule1_body log:closedBy <>.
@@ -42,8 +39,7 @@ _:acp_rule1_fa2 {
     var:Test :has var:Field.
 }
 
-:acp_rule2
-    lingua:head _:acp_rule2_head;
+:acp_rule2 lingua:head _:acp_rule2_head;
     lingua:body _:acp_rule2_body.
 _:acp_rule2_head log:closedBy <>.
 _:acp_rule2_body log:closedBy <>.
@@ -65,8 +61,7 @@ _:acp_rule2_where {
     var:Test :has var:Field.
 }
 
-:acp_rule3
-    lingua:head _:acp_rule3_head;
+:acp_rule3 lingua:head _:acp_rule3_head;
     lingua:body _:acp_rule3_body.
 _:acp_rule3_head log:closedBy <>.
 _:acp_rule3_body log:closedBy <>.
@@ -89,8 +84,7 @@ _:acp_rule3_where {
 }
 
 # query
-:acp_query
-    lingua:question _:acp_question;
+:acp_query lingua:question _:acp_question;
     lingua:answer _:acp_answer.
 _:acp_question log:closedBy <>.
 _:acp_answer log:closedBy <>.

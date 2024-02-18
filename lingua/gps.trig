@@ -28,8 +28,7 @@
 @prefix : <#>.
 
 # find paths in the state space from initial state to goal state within limits
-:gps_rule1
-    lingua:head _:gps_rule1_head;
+:gps_rule1 lingua:head _:gps_rule1_head;
     lingua:body _:gps_rule1_body.
 _:gps_rule1_head log:closedBy <>.
 _:gps_rule1_body log:closedBy <>.
@@ -44,8 +43,7 @@ _:gps_rule1_body {
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1)).
 }
 
-:gps_rule2
-    lingua:head _:gps_rule2_head;
+:gps_rule2 lingua:head _:gps_rule2_head;
     lingua:body _:gps_rule2_body.
 _:gps_rule2_head log:closedBy <>.
 _:gps_rule2_body log:closedBy <>.
@@ -60,8 +58,7 @@ _:gps_rule2_body {
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
 }
 
-:gps_rule3
-    lingua:head _:gps_rule3_head;
+:gps_rule3 lingua:head _:gps_rule3_head;
     lingua:body _:gps_rule3_body.
 _:gps_rule3_head log:closedBy <>.
 _:gps_rule3_body log:closedBy <>.
@@ -75,8 +72,7 @@ _:gps_rule3_body {
     var:Goal log:call true.
 }
 
-:gps_rule4
-    lingua:head _:gps_rule4_head;
+:gps_rule4 lingua:head _:gps_rule4_head;
     lingua:body _:gps_rule4_body.
 _:gps_rule4_head log:closedBy <>.
 _:gps_rule4_body log:closedBy <>.
@@ -114,8 +110,7 @@ _:gps_rule4_call2 {
 }
 
 # counting the number of stages (a stage is a sequence of gps in the same map)
-:gps_rule5
-    lingua:head _:gps_rule5_head;
+:gps_rule5 lingua:head _:gps_rule5_head;
     lingua:body true.
 _:gps_rule5_head log:closedBy <>.
 
@@ -123,8 +118,7 @@ _:gps_rule5_head {
     () gps:stagecount 1.
 }
 
-:gps_rule6
-    lingua:head _:gps_rule6_head;
+:gps_rule6 lingua:head _:gps_rule6_head;
     lingua:body _:gps_rule6_body.
 _:gps_rule6_head log:closedBy <>.
 _:gps_rule6_body log:closedBy <>.
@@ -141,8 +135,7 @@ _:gps_rule6_body {
     (var:G 1) math:sum var:B.
 }
 
-:gps_rule7
-    lingua:head _:gps_rule7_head;
+:gps_rule7 lingua:head _:gps_rule7_head;
     lingua:body _:gps_rule7_body.
 _:gps_rule7_head log:closedBy <>.
 _:gps_rule7_body log:closedBy <>.
@@ -160,8 +153,7 @@ _:gps_rule7_body {
 :i1 :location :Gent.
 
 # map of Belgium
-:gps_rule8
-    lingua:head _:gps_rule8_head;
+:gps_rule8 lingua:head _:gps_rule8_head;
     lingua:body _:gps_rule8_body.
 _:gps_rule8_head log:closedBy <>.
 _:gps_rule8_body log:closedBy <>.
@@ -182,8 +174,7 @@ _:gps_rule8_to {
     var:S :location :Brugge.
 }
 
-:gps_rule9
-    lingua:head _:gps_rule9_head;
+:gps_rule9 lingua:head _:gps_rule9_head;
     lingua:body _:gps_rule9_body.
 _:gps_rule9_head log:closedBy <>.
 _:gps_rule9_body log:closedBy <>.
@@ -204,8 +195,7 @@ _:gps_rule9_to {
     var:S :location :Kortrijk.
 }
 
-:gps_rule10
-    lingua:head _:gps_rule10_head;
+:gps_rule10 lingua:head _:gps_rule10_head;
     lingua:body _:gps_rule10_body.
 _:gps_rule10_head log:closedBy <>.
 _:gps_rule10_body log:closedBy <>.
@@ -226,8 +216,7 @@ _:gps_rule10_to {
     var:S :location :Brugge.
 }
 
-:gps_rule11
-    lingua:head _:gps_rule11_head;
+:gps_rule11 lingua:head _:gps_rule11_head;
     lingua:body _:gps_rule11_body.
 _:gps_rule11_head log:closedBy <>.
 _:gps_rule11_body log:closedBy <>.
@@ -249,8 +238,7 @@ _:gps_rule11_to {
 }
 
 # query
-:gps_query
-    lingua:question _:gps_query_question;
+:gps_query lingua:question _:gps_query_question;
     lingua:answer _:gps_query_answer.
 _:gps_query_question log:closedBy <>.
 _:gps_query_answer log:closedBy <>.

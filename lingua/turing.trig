@@ -12,8 +12,7 @@
 @prefix : <#>.
 
 # interpreter for Turing machine
-:turing_rule1
-    lingua:head _:turing_rule1_head;
+:turing_rule1 lingua:head _:turing_rule1_head;
     lingua:body _:turing_rule1_body.
 _:turing_rule1_head log:closedBy <>.
 _:turing_rule1_body log:closedBy <>.
@@ -27,8 +26,7 @@ _:turing_rule1_body {
     (var:I () "#" ()) :find var:OutTape.
 }
 
-:turing_rule2
-    lingua:head _:turing_rule2_head;
+:turing_rule2 lingua:head _:turing_rule2_head;
     lingua:body _:turing_rule2_body.
 _:turing_rule2_head log:closedBy <>.
 _:turing_rule2_body log:closedBy <>.
@@ -43,8 +41,7 @@ _:turing_rule2_body {
     (var:I () var:Head var:Tail) :find var:OutTape.
 }
 
-:turing_rule3
-    lingua:head _:turing_rule3_head;
+:turing_rule3 lingua:head _:turing_rule3_head;
     lingua:body _:turing_rule3_body.
 _:turing_rule3_head log:closedBy <>.
 _:turing_rule3_body log:closedBy <>.
@@ -59,8 +56,7 @@ _:turing_rule3_body {
     (var:Next var:A var:B var:C) :continue var:OutTape.
 }
 
-:turing_rule4
-    lingua:head _:turing_rule4_head;
+:turing_rule4 lingua:head _:turing_rule4_head;
     lingua:body _:turing_rule4_body.
 _:turing_rule4_head log:closedBy <>.
 _:turing_rule4_body log:closedBy <>.
@@ -75,8 +71,7 @@ _:turing_rule4_body {
     (var:R var:List) list:append var:OutTape.
 }
 
-:turing_rule5
-    lingua:head _:turing_rule5_head;
+:turing_rule5 lingua:head _:turing_rule5_head;
     lingua:body _:turing_rule5_body.
 _:turing_rule5_head log:closedBy <>.
 _:turing_rule5_body log:closedBy <>.
@@ -89,8 +84,7 @@ _:turing_rule5_body {
     (var:State var:Left var:Cell var:Right) :find var:OutTape.
 }
 
-:turing_rule6
-    lingua:head _:turing_rule6_head;
+:turing_rule6 lingua:head _:turing_rule6_head;
     lingua:body _:turing_rule6_body.
 _:turing_rule6_head log:closedBy <>.
 _:turing_rule6_body log:closedBy <>.
@@ -103,8 +97,7 @@ _:turing_rule6_body {
     var:L list:firstRest (var:Cell var:Right).
 }
 
-:turing_rule7
-    lingua:head _:turing_rule7_head;
+:turing_rule7 lingua:head _:turing_rule7_head;
     lingua:body _:turing_rule7_body.
 _:turing_rule7_head log:closedBy <>.
 _:turing_rule7_body log:closedBy <>.
@@ -118,8 +111,7 @@ _:turing_rule7_body {
     var:L list:firstRest (var:Cell var:Right).
 }
 
-:turing_rule8
-    lingua:head _:turing_rule8_head;
+:turing_rule8 lingua:head _:turing_rule8_head;
     lingua:body true.
 _:turing_rule8_head log:closedBy <>.
 
@@ -127,8 +119,7 @@ _:turing_rule8_head {
     (:stop var:Left var:Cell var:Right var:Left var:Cell var:Right) :move true.
 }
 
-:turing_rule9
-    lingua:head _:turing_rule9_head;
+:turing_rule9 lingua:head _:turing_rule9_head;
     lingua:body _:turing_rule9_body.
 _:turing_rule9_head log:closedBy <>.
 _:turing_rule9_body log:closedBy <>.
@@ -141,8 +132,7 @@ _:turing_rule9_body {
     var:L list:firstRest (var:Cell var:Left).
 }
 
-:turing_rule10
-    lingua:head _:turing_rule10_head;
+:turing_rule10 lingua:head _:turing_rule10_head;
     lingua:body _:turing_rule10_body.
 _:turing_rule10_head log:closedBy <>.
 _:turing_rule10_body log:closedBy <>.
@@ -156,8 +146,7 @@ _:turing_rule10_body {
     var:L list:firstRest (var:Cell var:Left).
 }
 
-:turing_rule11
-    lingua:head _:turing_rule11_head;
+:turing_rule11 lingua:head _:turing_rule11_head;
     lingua:body true.
 _:turing_rule11_head log:closedBy <>.
 
@@ -165,8 +154,7 @@ _:turing_rule11_head {
     () :reverse ().
 }
 
-:turing_rule12
-    lingua:head _:turing_rule12_head;
+:turing_rule12 lingua:head _:turing_rule12_head;
     lingua:body _:turing_rule12_body.
 _:turing_rule12_head log:closedBy <>.
 _:turing_rule12_body log:closedBy <>.
@@ -192,8 +180,7 @@ _:turing_rule12_body {
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-:turing_query
-    lingua:question _:turing_question.
+:turing_query lingua:question _:turing_question.
 _:turing_question log:closedBy <>.
 
 _:turing_question {
