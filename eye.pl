@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.3 (2024-02-21)').
+version_info('EYE v9.9.4 (2024-02-21)').
 
 license_info('MIT License
 
@@ -424,8 +424,8 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(lingua)
-    ->  lingua
+    (   flag(see)
+    ->  see
     ;   true
     ),
     (   implies(_, Conc, _),
@@ -483,7 +483,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(lingua)
+        \+flag(see)
     ->  throw(halt(0))
     ;   true
     ),
@@ -619,12 +619,13 @@ gre(Argus) :-
     ).
 
 %
-% RDF Lingua
+% Second Eye of Euler - SEE
+% Supporting RDF Lingua
 %
 % RDF as the web talking language
 % Reasoning with rules described in RDF
 
-lingua :-
+see :-
     % configure
     (   \+flag(nope)
     ->  assertz(flag(nope)),
@@ -2487,7 +2488,7 @@ symbol(Name) -->
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
         (   (   flag('no-bnode-relabeling')
-            ;   flag(lingua)
+            ;   flag(see)
             )
         ->  D = 0
         ;   nb_getval(fdepth, D)
@@ -2743,8 +2744,8 @@ token(0'<, In, C, relative_uri(URI)) :-
     D = Codes,
     atom_codes(URI, D),
     (   atom_concat('http://www.w3.org/2000/10/swap/lingua#', _, URI),
-        \+flag(lingua)
-    ->  assertz(flag(lingua))
+        \+flag(see)
+    ->  assertz(flag(see))
     ;   true
     ).
 token(0'>, In, C, gt_gt) :-
@@ -3907,7 +3908,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground')
-    ->  (   flag(lingua)
+    ->  (   flag(see)
         ->  write('var:U_')
         ;   write('?U_')
         ),
@@ -4431,7 +4432,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(lingua),
+    ->  (   flag(see),
             nb_getval(keep_ng, true)
         ->  (   graph(N, X)
             ->  true
