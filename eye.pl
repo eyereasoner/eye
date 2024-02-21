@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.2 (2024-02-16)').
+version_info('EYE v9.9.3 (2024-02-21)').
 
 license_info('MIT License
 
@@ -187,7 +187,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#bindings>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#body>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#conclusion>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/lingua#graph>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#head>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#premise>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#question>'/2).
@@ -642,7 +641,7 @@ lingua :-
         ),
         D \= [],
         conjoin(D, E),
-        assertz('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, E)),
+        assertz(graph(A, E)),
         fail
     ;   true
     ),
@@ -2383,7 +2382,7 @@ qname(URI) -->
     },
     !.
 
-simpleStatement(['\'<http://www.w3.org/2000/10/swap/lingua#graph>\''(N, G)]) -->
+simpleStatement([graph(N, G)]) -->
     [name(Name)],
     {   downcase_atom(Name, 'graph')
     },
@@ -2393,7 +2392,7 @@ simpleStatement(['\'<http://www.w3.org/2000/10/swap/lingua#graph>\''(N, G)]) -->
     formulacontent(G),
     ['}'],
     withoutdot.
-simpleStatement(['\'<http://www.w3.org/2000/10/swap/lingua#graph>\''(N, G)]) -->
+simpleStatement([graph(N, G)]) -->
     symbol(N),
     ['{'],
     formulacontent(G),
@@ -3520,8 +3519,8 @@ w3 :-
         ;   wt(B)
         ),
         ws(B),
-        (   (   B = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
-            ;   B = exopred('<http://www.w3.org/2000/10/swap/lingua#graph>', _, _)
+        (   (   B = graph(_, _)
+            ;   B = exopred(graph, _, _)
             )
         ->  true
         ;   write('.')
@@ -3547,8 +3546,8 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   (   C = '<http://www.w3.org/2000/10/swap/lingua#graph>'(_, _)
-            ;   C = exopred('<http://www.w3.org/2000/10/swap/lingua#graph>', _, _)
+        (   (   C = graph(_, _)
+            ;   C = exopred(graph, _, _)
             )
         ->  true
         ;   write('.')
@@ -4211,12 +4210,12 @@ wt2(quad(triple(S, P, O), G)) :-
     wg(O),
     write(' '),
     wg(G).
-wt2('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y)) :-
+wt2(graph(X, Y)) :-
     !,
     wp(X),
     write(' '),
     nb_setval(keep_ng, false),
-    retractall(keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(X, Y))),
+    retractall(keep_ng(graph(X, Y))),
     wg(Y).
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
@@ -4434,15 +4433,15 @@ wg(X) :-
         )
     ->  (   flag(lingua),
             nb_getval(keep_ng, true)
-        ->  (   '<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X)
+        ->  (   graph(N, X)
             ->  true
             ;   gensym('gn_', Y),
                 nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, Y, '>'], N),
-                assertz('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X))
+                assertz(graph(N, X))
             ),
-            (   \+keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X))
-            ->  assertz(keep_ng('<http://www.w3.org/2000/10/swap/lingua#graph>'(N, X)))
+            (   \+keep_ng(graph(N, X))
+            ->  assertz(keep_ng(graph(N, X)))
             ;   true
             ),
             wt(N)
@@ -12035,19 +12034,19 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
-getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)) :-
-    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B),
+getterm(graph(A, B), graph(A, C)) :-
+    graph(A, B),
     !,
     getterm(B, D),
     conjify(D, C).
-getterm('<http://www.w3.org/2000/10/swap/lingua#graph>'(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
     getconj(A, D),
     D \= A,
     !,
     getterm(D, E),
     conjify(E, C).
 getterm(A, B) :-
-    '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, _),
+    graph(A, _),
     !,
     getconj(A, C),
     getterm(C, D),
@@ -12060,7 +12059,7 @@ getterm(A, B) :-
 getconj(A, B) :-
     nonvar(A),
     findall(C,
-        (   '<http://www.w3.org/2000/10/swap/lingua#graph>'(A, C)
+        (   graph(A, C)
         ),
         D
     ),
