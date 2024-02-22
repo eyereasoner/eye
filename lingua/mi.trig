@@ -36,7 +36,7 @@ _:mi_rule2_body {
     () :mi var:Goals.
 }
 
-# head-body rules
+# general head-body rules
 :hb_rule1 lingua:head _:hb_rule1_head;
     lingua:body true.
 
@@ -96,38 +96,39 @@ _:hb_rule3_body {
     () :headBody (var:Head var:Goals0 var:Goals).
 }
 
-:hb_rule4 lingua:head _:hb_rule4_head;
+# natnum head-body rules
+:natnum_hb_rule1 lingua:head _:natnum_hb_rule1_head;
     lingua:body true.
 
-_:hb_rule4_head log:closedBy <>.
+_:natnum_hb_rule1_head log:closedBy <>.
 
-_:hb_rule4_head {
-    () :headBody (_:hb_rule4_head_graph1 var:Rs var:Rs).
+_:natnum_hb_rule1_head {
+    () :headBody (_:natnum_hb_rule1_head_graph1 var:Rs var:Rs).
 }
 
-_:hb_rule4_head_graph1 {
+_:natnum_hb_rule1_head_graph1 {
     () :natnum (0).
 }
 
-:hb_rule5 lingua:head _:hb_rule5_head;
-    lingua:body _:hb_rule5_body.
+:natnum_hb_rule2 lingua:head _:natnum_hb_rule2_head;
+    lingua:body _:natnum_hb_rule2_body.
 
-_:hb_rule5_head log:closedBy <>.
-_:hb_rule5_body log:closedBy <>.
+_:natnum_hb_rule2_head log:closedBy <>.
+_:natnum_hb_rule2_body log:closedBy <>.
 
-_:hb_rule5_head {
-    () :headBody (_:hb_rule5_head_graph1 var:A var:Rs).
+_:natnum_hb_rule2_head {
+    () :headBody (_:natnum_hb_rule2_head_graph1 var:A var:Rs).
 }
 
-_:hb_rule5_head_graph1 {
+_:natnum_hb_rule2_head_graph1 {
     () :natnum (:s var:X).
 }
 
-_:hb_rule5_body {
-    var:A list:firstRest (_:hb_rule5_body_graph1 var:Rs).
+_:natnum_hb_rule2_body {
+    var:A list:firstRest (_:natnum_hb_rule2_body_graph1 var:Rs).
 }
 
-_:hb_rule5_body_graph1 {
+_:natnum_hb_rule2_body_graph1 {
     () :natnum var:X.
 }
 
