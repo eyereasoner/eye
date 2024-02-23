@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.4 (2024-02-21)').
+version_info('EYE v9.9.5 (2024-02-23)').
 
 license_info('MIT License
 
@@ -426,7 +426,7 @@ gre(Argus) :-
     args(Args),
     (   flag(see)
     ->  see
-    ;   true
+    ;   init
     ),
     (   implies(_, Conc, _),
         (   var(Conc)
@@ -615,6 +615,21 @@ gre(Argus) :-
         ),
         format(user_error, '~n', []),
         flush_output(user_error)
+    ;   true
+    ).
+
+% init for N3
+init :-
+    % create quads
+    (   retract(graph(N, G)),
+        conj_list(G, L),
+        forall(
+            (   member(M, L),
+                M =.. [P, S, O]
+            ),
+            assertz(quad(triple(S, P, O), N))
+        ),
+        fail
     ;   true
     ).
 
