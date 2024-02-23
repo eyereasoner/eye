@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.5 (2024-02-23)').
+version_info('EYE v9.9.6 (2024-02-23)').
 
 license_info('MIT License
 
@@ -663,10 +663,7 @@ see :-
     ),
     % check boundaries
     (   member(P, [
-            '<http://www.w3.org/2000/10/swap/lingua#answer>',
             '<http://www.w3.org/2000/10/swap/lingua#body>',
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>',
-            '<http://www.w3.org/2000/10/swap/lingua#head>',
             '<http://www.w3.org/2000/10/swap/lingua#premise>',
             '<http://www.w3.org/2000/10/swap/lingua#question>'
         ]),
@@ -679,7 +676,7 @@ see :-
             ->  throw(boundary_violation(Name, Base1, Base2))
             ;   true
             )
-        ;   throw(missing_boundary(Name))
+        ;   true
         ),
         fail
     ;   true
@@ -702,6 +699,7 @@ see :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
+            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -715,6 +713,7 @@ see :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#body>'(R, A),
+            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#head>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -736,6 +735,7 @@ see :-
     % query
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
+            closed(A),
             (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
             ->  true
             ;   B = A
@@ -11918,6 +11918,10 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
     sub_atom(A, 1, _, _, 'http://www.w3.org/2000/10/swap/var#qe_'),
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
+
+closed(true).
+closed(A) :-
+    '<http://www.w3.org/2000/10/swap/log#closedBy>'(A, _).
 
 getnumber(rdiv(A, B), C) :-
     nonvar(A),

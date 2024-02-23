@@ -18,7 +18,6 @@
     lingua:conclusion _:main_rule_conclusion.
 
 _:main_rule_premise log:closedBy <>.
-_:main_rule_conclusion log:closedBy <>.
 
 _:main_rule_premise {
     var:cat a :Cat.
@@ -27,6 +26,7 @@ _:main_rule_premise {
 _:main_rule_conclusion {
     :derived_rule lingua:premise _:derived_rule_premise;
         lingua:conclusion _:derived_rule_conclusion.
+    _:derived_rule_premise log:closedBy <>.
 }
 
 _:derived_rule_premise {
