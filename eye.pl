@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.7 (2024-02-24)').
+version_info('EYE v9.9.8 (2024-02-24)').
 
 license_info('MIT License
 
@@ -904,6 +904,11 @@ opts(['--pass-all-ground'|Argus], Args) :-
     retractall(flag('pass-all-ground')),
     assertz(flag('pass-all-ground')),
     opts(['--pass-all'|Argus], Args).
+opts(['--pass-merged'|Argus], Args) :-
+    !,
+    retractall(flag('pass-merged')),
+    assertz(flag('pass-merged')),
+    opts(['--pass-all'|Argus], Args).
 opts(['--pass-only-new'|Argus], Args) :-
     !,
     retractall(flag('pass-only-new')),
@@ -1007,7 +1012,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--pass-merged', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1147,26 +1152,6 @@ args(['--pass-all'|Args]) :-
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
-    args(Args).
-args(['--pass-merged'|Args]) :-
-    !,
-    assertz(implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
-            answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies(':-'(C, A),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    (   flag(intermediate, Out)
-    ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
-            answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
-    ;   true
-    ),
-    retractall(flag('pass-merged')),
-    assertz(flag('pass-merged')),
     args(Args).
 args(['--proof', Arg|Args]) :-
     !,
