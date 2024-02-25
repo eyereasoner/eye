@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.9 (2024-02-24)').
+version_info('EYE v9.9.10 (2024-02-25)').
 
 license_info('MIT License
 
@@ -192,7 +192,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#premise>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#question>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#closedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -662,26 +661,6 @@ see :-
         fail
     ;   true
     ),
-    % check boundaries
-    (   member(P, [
-            '<http://www.w3.org/2000/10/swap/lingua#body>',
-            '<http://www.w3.org/2000/10/swap/lingua#premise>',
-            '<http://www.w3.org/2000/10/swap/lingua#question>'
-        ]),
-        X =.. [P, _, Name],
-        call(X),
-        \+member(Name, [true, false]), 
-        (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1)
-        ->  (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
-                Base1 \= Base2
-            ->  throw(boundary_violation(Name, Base1, Base2))
-            ;   true
-            )
-        ;   true
-        ),
-        fail
-    ;   true
-    ),
     % create terms
     (   pred(P),
         P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
@@ -701,7 +680,6 @@ see :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -715,7 +693,6 @@ see :-
     % backward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#body>'(R, A),
-            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#head>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -737,7 +714,6 @@ see :-
     % query
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
-            closed(A),
             (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
             ->  true
             ;   B = A
@@ -11932,10 +11908,6 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
     sub_atom(A, 1, _, _, 'http://www.w3.org/2000/10/swap/var#qe_'),
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
-
-closed(true).
-closed(A) :-
-    '<http://www.w3.org/2000/10/swap/log#closedBy>'(A, _).
 
 getnumber(rdiv(A, B), C) :-
     nonvar(A),

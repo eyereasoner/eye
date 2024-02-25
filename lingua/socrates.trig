@@ -5,7 +5,6 @@
 # Infer that Socrates is mortal.
 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -18,8 +17,6 @@
 :rdfs_subclass_rule lingua:premise _:rdfs_subclass_rule_premise;
     lingua:conclusion _:rdfs_subclass_rule_conclusion.
 
-_:rdfs_subclass_rule_premise log:closedBy <>.
-
 _:rdfs_subclass_rule_premise {
     var:A rdfs:subClassOf var:B.
     var:S a var:A.
@@ -31,8 +28,6 @@ _:rdfs_subclass_rule_conclusion {
 
 # query
 :socrates_query lingua:question _:socrates_question.
-
-_:socrates_question log:closedBy <>.
 
 _:socrates_question {
     var:S a :Mortal.

@@ -4,7 +4,6 @@
 #
 # Examples of graph based reasoning.
 
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -25,8 +24,6 @@
 :graph_rule1 lingua:premise _:graph_rule1_premise;
     lingua:conclusion _:graph_rule1_conclusion.
 
-_:graph_rule1_premise log:closedBy <>.
-
 _:graph_rule1_premise {
     var:A :oneway var:B.
 }
@@ -39,8 +36,6 @@ _:graph_rule1_conclusion {
 :graph_rule2 lingua:premise _:graph_rule2_premise;
     lingua:conclusion _:graph_rule2_conclusion.
 
-_:graph_rule2_premise log:closedBy <>.
-
 _:graph_rule2_premise {
     var:A :path var:B.
     var:B :path var:C.
@@ -52,8 +47,6 @@ _:graph_rule2_conclusion {
 
 # query
 :graph_query lingua:question _:graph_question.
-
-_:graph_question log:closedBy <>.
 
 _:graph_question {
     var:A :path :nantes.
