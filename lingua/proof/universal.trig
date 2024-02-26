@@ -1,44 +1,45 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/universal.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 :universal_statements_rule1 lingua:body true.
-:universal_statements_rule1 lingua:head _:e_universal_statements_rule1_head_1.
+:universal_statements_rule1 lingua:head term:universal_statements_rule1_head.
 :universal_statements_rule1 lingua:bindings ((var:X :pat)).
-:universal_statements_query1 lingua:question _:e_universal_statements_question1_1.
-:universal_statements_query1 lingua:answer _:e_universal_statements_question1_1.
+:universal_statements_query1 lingua:question term:universal_statements_question1.
+:universal_statements_query1 lingua:answer term:universal_statements_question1.
 :universal_statements_query1 lingua:bindings ().
 :pat a rdfs:Resource.
-:universal_statements_rule2 lingua:body _:e_universal_statements_rule2_body_1.
-:universal_statements_rule2 lingua:head _:e_universal_statements_rule2_head_1.
+:universal_statements_rule2 lingua:body term:universal_statements_rule2_body.
+:universal_statements_rule2 lingua:head term:universal_statements_rule2_head.
 :universal_statements_rule2 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
-:universal_statements_rule3 lingua:body _:e_universal_statements_rule2_body_1.
-:universal_statements_rule3 lingua:head _:e_universal_statements_rule3_head_1.
+:universal_statements_rule3 lingua:body term:universal_statements_rule2_body.
+:universal_statements_rule3 lingua:head term:universal_statements_rule3_head.
 :universal_statements_rule3 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
-:universal_statements_query2 lingua:question _:e_universal_statements_question2_1.
-:universal_statements_query2 lingua:answer _:e_universal_statements_question2_1.
+:universal_statements_query2 lingua:question term:universal_statements_question2.
+:universal_statements_query2 lingua:answer term:universal_statements_question2.
 :universal_statements_query2 lingua:bindings ((var:X skolem:t_0)).
 :bob :loves skolem:t_0.
 skolem:t_0 :is :lonely.
-_:e_universal_statements_rule1_head_1 {
+term:universal_statements_rule1_head {
     var:X a rdfs:Resource.
 }
-_:e_universal_statements_question1_1 {
+term:universal_statements_question1 {
     :pat a rdfs:Resource.
 }
-_:e_universal_statements_rule2_body_1 {
+term:universal_statements_rule2_body {
     (var:A) log:skolem var:B.
 }
-_:e_universal_statements_rule2_head_1 {
+term:universal_statements_rule2_head {
     var:A :loves var:B.
 }
-_:e_universal_statements_rule3_head_1 {
+term:universal_statements_rule3_head {
     var:B :is :lonely.
 }
-_:e_universal_statements_question2_1 {
+term:universal_statements_question2 {
     :bob :loves var:X.
     var:X :is :lonely.
 }

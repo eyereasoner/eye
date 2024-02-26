@@ -8,6 +8,7 @@
 @prefix solid: <http://www.w3.org/ns/solid/terms#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
@@ -18,30 +19,26 @@
 :pers002 :givenName "Claudia".
 
 # patch rule
-:patch_rule lingua:premise _:patch_rule_premise;
+:patch_rule lingua:premise term:patch_rule_premise;
     lingua:conclusion true.
 
-_:patch_rule_premise log:closedBy <>.
-
-_:patch_rule_premise {
+term:patch_rule_premise {
     var:person :familyName "Garcia".
-    _:deletes_graph log:becomes _:inserts_graph.
+    term:deletes_graph log:becomes term:inserts_graph.
 }
 
-_:deletes_graph {
+term:deletes_graph {
     var:person :givenName "Claudia".
 }
 
-_:inserts_graph {
+term:inserts_graph {
     var:person :givenName "Alex".
 }
 
 # query
-:patch_query lingua:question _:patch_question.
+:patch_query lingua:question term:patch_question.
 
-_:patch_question log:closedBy <>.
-
-_:patch_question {
+term:patch_question {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }

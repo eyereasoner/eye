@@ -5,145 +5,135 @@
 # Inspired by https://www.metalevel.at/acomip/
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # meta-interpreter rules
-:mi_rule1 lingua:head _:mi_rule1_head;
+:mi_rule1 lingua:head term:mi_rule1_head;
     lingua:body true.
 
-_:mi_rule1_head {
+term:mi_rule1_head {
     () :mi ().
 }
 
-:mi_rule2 lingua:head _:mi_rule2_head;
-    lingua:body _:mi_rule2_body.
+:mi_rule2 lingua:head term:mi_rule2_head;
+    lingua:body term:mi_rule2_body.
 
-_:mi_rule2_body log:closedBy <>.
-
-_:mi_rule2_head {
+term:mi_rule2_head {
     () :mi var:A.
 }
 
-_:mi_rule2_body {
+term:mi_rule2_body {
     var:A list:firstRest (var:G var:Gs).
     () :headBody (var:G var:Goals var:Gs).
     () :mi var:Goals.
 }
 
 # general head-body rules
-:hb_rule1 lingua:head _:hb_rule1_head;
+:hb_rule1 lingua:head term:hb_rule1_head;
     lingua:body true.
 
-_:hb_rule1_head {
-    () :headBody (_:hb_rule1_head_graph1 var:Rs var:Rs).
+term:hb_rule1_head {
+    () :headBody (term:hb_rule1_head_graph1 var:Rs var:Rs).
 }
 
-_:hb_rule1_head_graph1 {
+term:hb_rule1_head_graph1 {
     () :mi ().
 }
 
-:hb_rule2 lingua:head _:hb_rule2_head;
-    lingua:body _:hb_rule2_body.
+:hb_rule2 lingua:head term:hb_rule2_head;
+    lingua:body term:hb_rule2_body.
 
-_:hb_rule2_body log:closedBy <>.
-
-_:hb_rule2_head {
-    () :headBody (_:hb_rule2_head_graph1 var:B var:Rs).
+term:hb_rule2_head {
+    () :headBody (term:hb_rule2_head_graph1 var:B var:Rs).
 }
 
-_:hb_rule2_head_graph1 {
+term:hb_rule2_head_graph1 {
     () :mi var:A.
 }
 
-_:hb_rule2_body {
+term:hb_rule2_body {
     var:A list:firstRest (var:G var:Gs).
-    var:B list:firstRest (_:hb_rule2_body_graph1 var:C).
-    var:C list:firstRest (_:hb_rule2_body_graph2 var:Rs).
+    var:B list:firstRest (term:hb_rule2_body_graph1 var:C).
+    var:C list:firstRest (term:hb_rule2_body_graph2 var:Rs).
 }
 
-_:hb_rule2_body_graph1 {
+term:hb_rule2_body_graph1 {
     () :headBody (var:G var:Goals var:Gs).
 }
 
-_:hb_rule2_body_graph2 {
+term:hb_rule2_body_graph2 {
     () :mi var:Goals.
 }
 
-:hb_rule3 lingua:head _:hb_rule3_head;
-    lingua:body _:hb_rule3_body.
+:hb_rule3 lingua:head term:hb_rule3_head;
+    lingua:body term:hb_rule3_body.
 
-_:hb_rule3_body log:closedBy <>.
-
-_:hb_rule3_head {
-    () :headBody (_:hb_rule3_head_graph1 var:Rs var:Rs).
+term:hb_rule3_head {
+    () :headBody (term:hb_rule3_head_graph1 var:Rs var:Rs).
 }
 
-_:hb_rule3_head_graph1 {
+term:hb_rule3_head_graph1 {
     () :headBody (var:Head var:Goals0 var:Goals).
 }
 
-_:hb_rule3_body {
+term:hb_rule3_body {
     () :headBody (var:Head var:Goals0 var:Goals).
 }
 
 # natnum head-body rules
-:natnum_hb_rule1 lingua:head _:natnum_hb_rule1_head;
+:natnum_hb_rule1 lingua:head term:natnum_hb_rule1_head;
     lingua:body true.
 
-_:natnum_hb_rule1_head {
-    () :headBody (_:natnum_hb_rule1_head_graph1 var:Rs var:Rs).
+term:natnum_hb_rule1_head {
+    () :headBody (term:natnum_hb_rule1_head_graph1 var:Rs var:Rs).
 }
 
-_:natnum_hb_rule1_head_graph1 {
+term:natnum_hb_rule1_head_graph1 {
     () :natnum (0).
 }
 
-:natnum_hb_rule2 lingua:head _:natnum_hb_rule2_head;
-    lingua:body _:natnum_hb_rule2_body.
+:natnum_hb_rule2 lingua:head term:natnum_hb_rule2_head;
+    lingua:body term:natnum_hb_rule2_body.
 
-_:natnum_hb_rule2_body log:closedBy <>.
-
-_:natnum_hb_rule2_head {
-    () :headBody (_:natnum_hb_rule2_head_graph1 var:A var:Rs).
+term:natnum_hb_rule2_head {
+    () :headBody (term:natnum_hb_rule2_head_graph1 var:A var:Rs).
 }
 
-_:natnum_hb_rule2_head_graph1 {
+term:natnum_hb_rule2_head_graph1 {
     () :natnum (:s var:X).
 }
 
-_:natnum_hb_rule2_body {
-    var:A list:firstRest (_:natnum_hb_rule2_body_graph1 var:Rs).
+term:natnum_hb_rule2_body {
+    var:A list:firstRest (term:natnum_hb_rule2_body_graph1 var:Rs).
 }
 
-_:natnum_hb_rule2_body_graph1 {
+term:natnum_hb_rule2_body_graph1 {
     () :natnum var:X.
 }
 
 # query
-:query lingua:question _:question;
-    lingua:answer _:answer.
+:query lingua:question term:question;
+    lingua:answer term:answer.
 
-_:question log:closedBy <>.
-
-_:question {
-    () :mi (_:question_graph1).
+term:question {
+    () :mi (term:question_graph1).
 }
 
-_:question_graph1 {
-    () :mi (_:question_graph2).
+term:question_graph1 {
+    () :mi (term:question_graph2).
 }
 
-_:question_graph2 {
-    () :mi (_:question_graph3).
+term:question_graph2 {
+    () :mi (term:question_graph3).
 }
 
-_:question_graph3 {
+term:question_graph3 {
     () :natnum (:s (:s (:s (:s (:s (0)))))).
 }
 
-_:answer {
+term:answer {
     () :natnum (:s (:s (:s (:s (:s (0)))))).
 }

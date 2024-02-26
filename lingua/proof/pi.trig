@@ -1,13 +1,14 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/pi.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 :pi_rule2 lingua:body true.
-:pi_rule2 lingua:head _:e_pi_rule2_head_1.
+:pi_rule2 lingua:head term:pi_rule2_head.
 :pi_rule2 lingua:bindings ((var:N 5000) (var:P 0.035398163397948094) (var:S -1)).
-:pi_rule3 lingua:body _:e_pi_rule3_body_1.
-:pi_rule3 lingua:head _:e_pi_rule3_head_1.
+:pi_rule3 lingua:body term:pi_rule3_body.
+:pi_rule3 lingua:head term:pi_rule3_head.
 :pi_rule3 lingua:bindings ((var:K 4999) (var:N 5000) (var:K1 5000) (var:K2 9998) (var:A 9999) (var:B 10000) (var:C 999700020000) (var:S 1) (var:D 1.000300070015003e-12) (var:P0 0.0353981633969478) (var:P1 0.035398163397948094) (var:S1 -1) (var:P 0.035398163397948094)).
 :pi_rule3 lingua:bindings ((var:K 4998) (var:N 5000) (var:K1 4999) (var:K2 9996) (var:A 9997) (var:B 9998) (var:C 999100259976) (var:S -1) (var:D -1.0009005502851352e-12) (var:P0 0.0353981633979487) (var:P1 0.0353981633969478) (var:S1 1) (var:P 0.035398163397948094)).
 :pi_rule3 lingua:bindings ((var:K 4997) (var:N 5000) (var:K1 4998) (var:K2 9994) (var:A 9995) (var:B 9996) (var:C 998500739880) (var:S 1) (var:D 1.0015015112759758e-12) (var:P0 0.035398163396947194) (var:P1 0.0353981633979487) (var:S1 -1) (var:P 0.035398163397948094)).
@@ -5007,17 +5008,17 @@
 :pi_rule3 lingua:bindings ((var:K 3) (var:N 5000) (var:K1 4) (var:K2 6) (var:A 7) (var:B 8) (var:C 336) (var:S 1) (var:D 0.002976190476190476) (var:P0 0.03333333333333333) (var:P1 0.036309523809523805) (var:S1 -1) (var:P 0.035398163397948094)).
 :pi_rule3 lingua:bindings ((var:K 2) (var:N 5000) (var:K1 3) (var:K2 4) (var:A 5) (var:B 6) (var:C 120) (var:S -1) (var:D -0.008333333333333333) (var:P0 0.041666666666666664) (var:P1 0.03333333333333333) (var:S1 1) (var:P 0.035398163397948094)).
 :pi_rule3 lingua:bindings ((var:K 1) (var:N 5000) (var:K1 2) (var:K2 2) (var:A 3) (var:B 4) (var:C 24) (var:S 1) (var:D 0.041666666666666664) (var:P0 0) (var:P1 0.041666666666666664) (var:S1 -1) (var:P 0.035398163397948094)).
-:pi_rule1 lingua:body _:e_pi_rule1_body_1.
-:pi_rule1 lingua:head _:e_pi_rule1_head_1.
+:pi_rule1 lingua:body term:pi_rule1_body.
+:pi_rule1 lingua:head term:pi_rule1_head.
 :pi_rule1 lingua:bindings ((var:N 5000) (var:P 0.035398163397948094) (var:A 0.14159265359179238) (var:Pi 3.1415926535917924)).
-:pi_query lingua:question _:e_pi_question_1.
-:pi_query lingua:answer _:e_pi_question_1.
+:pi_query lingua:question term:pi_question.
+:pi_query lingua:answer term:pi_question.
 :pi_query lingua:bindings ((var:Pi 3.1415926535917924)).
 (5000 3.1415926535917924) :pi true.
-_:e_pi_rule2_head_1 {
+term:pi_rule2_head {
     (var:N var:N var:P var:P var:S) :pi true.
 }
-_:e_pi_rule3_body_1 {
+term:pi_rule3_body {
     var:K math:notEqualTo var:N.
     (var:K 1) math:sum var:K1.
     (2 var:K) math:product var:K2.
@@ -5029,17 +5030,17 @@ _:e_pi_rule3_body_1 {
     var:S math:negation var:S1.
     (var:K1 var:N var:P1 var:P var:S1) :pi true.
 }
-_:e_pi_rule3_head_1 {
+term:pi_rule3_head {
     (var:K var:N var:P0 var:P var:S) :pi true.
 }
-_:e_pi_rule1_body_1 {
+term:pi_rule1_body {
     (1 var:N 0 var:P 1) :pi true.
     (4 var:P) math:product var:A.
     (3 var:A) math:sum var:Pi.
 }
-_:e_pi_rule1_head_1 {
+term:pi_rule1_head {
     (var:N var:Pi) :pi true.
 }
-_:e_pi_question_1 {
+term:pi_question {
     (5000 var:Pi) :pi true.
 }

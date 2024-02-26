@@ -5,58 +5,51 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # \Every x: type(x, Resource
-:universal_statements_rule1 lingua:head _:universal_statements_rule1_head;
+:universal_statements_rule1 lingua:head term:universal_statements_rule1_head;
     lingua:body true.
 
-_:universal_statements_rule1_head {
+term:universal_statements_rule1_head {
     var:X a rdfs:Resource.
 }
 
 # Everybody loves somebody who is lonely
-:universal_statements_rule2 lingua:head _:universal_statements_rule2_head;
-    lingua:body _:universal_statements_rule2_body.
+:universal_statements_rule2 lingua:head term:universal_statements_rule2_head;
+    lingua:body term:universal_statements_rule2_body.
 
-_:universal_statements_rule2_body log:closedBy <>.
-
-_:universal_statements_rule2_head {
+term:universal_statements_rule2_head {
     var:A :loves var:B.
 }
 
-_:universal_statements_rule2_body {
+term:universal_statements_rule2_body {
     (var:A) log:skolem var:B.
 }
 
-:universal_statements_rule3 lingua:head _:universal_statements_rule3_head;
-    lingua:body _:universal_statements_rule3_body.
+:universal_statements_rule3 lingua:head term:universal_statements_rule3_head;
+    lingua:body term:universal_statements_rule3_body.
 
-_:universal_statements_rule3_body log:closedBy <>.
-
-_:universal_statements_rule3_head {
+term:universal_statements_rule3_head {
     var:B :is :lonely.
 }
 
-_:universal_statements_rule3_body {
+term:universal_statements_rule3_body {
     (var:A) log:skolem var:B.
 }
 
 # queries
-:universal_statements_query1 lingua:question _:universal_statements_question1.
+:universal_statements_query1 lingua:question term:universal_statements_question1.
 
-_:universal_statements_question1 log:closedBy <>.
-
-_:universal_statements_question1 {
+term:universal_statements_question1 {
     :pat a rdfs:Resource.
 }
 
-:universal_statements_query2 lingua:question _:universal_statements_question2.
+:universal_statements_query2 lingua:question term:universal_statements_question2.
 
-_:universal_statements_question2 log:closedBy <>.
-
-_:universal_statements_question2 {
+term:universal_statements_question2 {
     :bob :loves var:X.
     var:X :is :lonely.
 }

@@ -10,14 +10,14 @@
 @prefix pol: <https://example.org/ns/policy#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-[] pack:package _:pack1 .
+[] pack:package term:pack1 .
 
-_:pack1 {
-    [] pack:content _:content1 ;
+term:pack1 {
+    [] pack:content term:content1 ;
         pack:origin :Endpoint ;
         pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime ;
         pack:hasContentSignature [
@@ -28,15 +28,13 @@ _:pack1 {
         ] .
 }
 
-_:content1 {
+term:content1 {
     :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime .
 }
 
 # query
-:pack_query lingua:question _:pack_question.
+:pack_query lingua:question term:pack_question.
 
-_:pack_question log:closedBy <>.
-
-_:pack_question {
+term:pack_question {
     var:S pack:package var:O.
 }

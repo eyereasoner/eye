@@ -1,30 +1,31 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/patch.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-:patch_rule lingua:premise _:gn_1.
+:patch_rule lingua:premise term:patch_rule_premise.
 :patch_rule lingua:conclusion true.
 :patch_rule lingua:bindings ((var:person :pers001)).
-:patch_query lingua:question _:e_patch_question_1.
-:patch_query lingua:answer _:e_patch_question_1.
+:patch_query lingua:question term:patch_question.
+:patch_query lingua:answer term:patch_question.
 :patch_query lingua:bindings ((var:person :pers001) (var:fname "Garcia") (var:gname "Alex")).
 :pers001 :familyName "Garcia".
 :pers001 :givenName "Alex".
 :patch_query lingua:bindings ((var:person :pers002) (var:fname "Cardinale") (var:gname "Claudia")).
 :pers002 :familyName "Cardinale".
 :pers002 :givenName "Claudia".
-_:gn_1 {
+term:patch_rule_premise {
     var:person :familyName "Garcia".
-    _:e_deletes_graph_1 log:becomes _:e_inserts_graph_1.
+    term:deletes_graph log:becomes term:inserts_graph.
 }
-_:e_patch_question_1 {
+term:patch_question {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }
-_:e_deletes_graph_1 {
+term:deletes_graph {
     var:person :givenName "Claudia".
 }
-_:e_inserts_graph_1 {
+term:inserts_graph {
     var:person :givenName "Alex".
 }

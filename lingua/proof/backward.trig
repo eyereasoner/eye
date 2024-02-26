@@ -1,21 +1,22 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/backward.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
-:backward_rule lingua:body _:e_backward_rule_body_1.
-:backward_rule lingua:head _:e_backward_rule_head_1.
+:backward_rule lingua:body term:backward_rule_body.
+:backward_rule lingua:head term:backward_rule_head.
 :backward_rule lingua:bindings ((var:X 5) (var:Y 3)).
-:query lingua:question _:e_question_1.
-:query lingua:answer _:e_question_1.
+:query lingua:question term:question.
+:query lingua:answer term:question.
 :query lingua:bindings ().
 ("this" 5) :moreInterestingThan ("that" 3).
-_:e_backward_rule_body_1 {
+term:backward_rule_body {
     var:X math:greaterThan var:Y.
 }
-_:e_backward_rule_head_1 {
+term:backward_rule_head {
     ("this" var:X) :moreInterestingThan ("that" var:Y).
 }
-_:e_question_1 {
+term:question {
     ("this" 5) :moreInterestingThan ("that" 3).
 }

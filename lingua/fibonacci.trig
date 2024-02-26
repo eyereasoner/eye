@@ -5,49 +5,45 @@
 # See https://en.wikipedia.org/wiki/Fibonacci_number
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # backward rules
-:fibonacci_rule1 lingua:head _:fibonacci_rule1_head;
-    lingua:body _:fibonacci_rule1_body.
+:fibonacci_rule1 lingua:head term:fibonacci_rule1_head;
+    lingua:body term:fibonacci_rule1_body.
 
-_:fibonacci_rule1_body log:closedBy <>.
-
-_:fibonacci_rule1_head {
+term:fibonacci_rule1_head {
     (var:X) :fibonacci var:Y.
 }
 
-_:fibonacci_rule1_body {
+term:fibonacci_rule1_body {
     (var:X 0 1) :fib var:Y.
 }
 
-:fibonacci_rule2 lingua:head _:fibonacci_rule2_head;
+:fibonacci_rule2 lingua:head term:fibonacci_rule2_head;
     lingua:body true.
 
-_:fibonacci_rule2_head {
+term:fibonacci_rule2_head {
     (0 var:A var:B) :fib var:A.
 }
 
-:fibonacci_rule3 lingua:head _:fibonacci_rule3_head;
+:fibonacci_rule3 lingua:head term:fibonacci_rule3_head;
     lingua:body true.
 
-_:fibonacci_rule3_head {
+term:fibonacci_rule3_head {
     (1 var:A var:B) :fib var:B.
 }
 
-:fibonacci_rule4 lingua:head _:fibonacci_rule4_head;
-    lingua:body _:fibonacci_rule4_body.
+:fibonacci_rule4 lingua:head term:fibonacci_rule4_head;
+    lingua:body term:fibonacci_rule4_body.
 
-_:fibonacci_rule4_body log:closedBy <>.
-
-_:fibonacci_rule4_head {
+term:fibonacci_rule4_head {
     (var:X var:A var:B) :fib var:Y.
 }
 
-_:fibonacci_rule4_body {
+term:fibonacci_rule4_body {
     var:X math:greaterThan 1.
     (var:X 1) math:difference var:C.
     (var:A var:B) math:sum var:D.
@@ -55,11 +51,9 @@ _:fibonacci_rule4_body {
 }
 
 # query
-:fibonacci_query lingua:question _:fibonacci_question.
+:fibonacci_query lingua:question term:fibonacci_question.
 
-_:fibonacci_question log:closedBy <>.
-
-_:fibonacci_question {
+term:fibonacci_question {
     (0) :fibonacci var:F1.
     (1) :fibonacci var:F2.
     (6) :fibonacci var:F3.

@@ -1,22 +1,23 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/socrates.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 
-:rdfs_subclass_rule lingua:premise _:e_rdfs_subclass_rule_premise_1.
-:rdfs_subclass_rule lingua:conclusion _:e_rdfs_subclass_rule_conclusion_1.
+:rdfs_subclass_rule lingua:premise term:rdfs_subclass_rule_premise.
+:rdfs_subclass_rule lingua:conclusion term:rdfs_subclass_rule_conclusion.
 :rdfs_subclass_rule lingua:bindings ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
-:socrates_query lingua:question _:e_socrates_question_1.
-:socrates_query lingua:answer _:e_socrates_question_1.
+:socrates_query lingua:question term:socrates_question.
+:socrates_query lingua:answer term:socrates_question.
 :socrates_query lingua:bindings ((var:S :Socrates)).
 :Socrates a :Mortal.
-_:e_rdfs_subclass_rule_premise_1 {
+term:rdfs_subclass_rule_premise {
     var:A rdfs:subClassOf var:B.
     var:S a var:A.
 }
-_:e_rdfs_subclass_rule_conclusion_1 {
+term:rdfs_subclass_rule_conclusion {
     var:S a var:B.
 }
-_:e_socrates_question_1 {
+term:socrates_question {
     var:S a :Mortal.
 }
