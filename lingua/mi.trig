@@ -5,6 +5,7 @@
 # Inspired by https://www.metalevel.at/acomip/
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -19,6 +20,8 @@ _:mi_rule1_head {
 
 :mi_rule2 lingua:head _:mi_rule2_head;
     lingua:body _:mi_rule2_body.
+
+_:mi_rule2_body log:closedBy <>.
 
 _:mi_rule2_head {
     () :mi var:A.
@@ -45,6 +48,8 @@ _:hb_rule1_head_graph1 {
 :hb_rule2 lingua:head _:hb_rule2_head;
     lingua:body _:hb_rule2_body.
 
+_:hb_rule2_body log:closedBy <>.
+
 _:hb_rule2_head {
     () :headBody (_:hb_rule2_head_graph1 var:B var:Rs).
 }
@@ -69,6 +74,8 @@ _:hb_rule2_body_graph2 {
 
 :hb_rule3 lingua:head _:hb_rule3_head;
     lingua:body _:hb_rule3_body.
+
+_:hb_rule3_body log:closedBy <>.
 
 _:hb_rule3_head {
     () :headBody (_:hb_rule3_head_graph1 var:Rs var:Rs).
@@ -97,6 +104,8 @@ _:natnum_hb_rule1_head_graph1 {
 :natnum_hb_rule2 lingua:head _:natnum_hb_rule2_head;
     lingua:body _:natnum_hb_rule2_body.
 
+_:natnum_hb_rule2_body log:closedBy <>.
+
 _:natnum_hb_rule2_head {
     () :headBody (_:natnum_hb_rule2_head_graph1 var:A var:Rs).
 }
@@ -116,6 +125,8 @@ _:natnum_hb_rule2_body_graph1 {
 # query
 :query lingua:question _:question;
     lingua:answer _:answer.
+
+_:question log:closedBy <>.
 
 _:question {
     () :mi (_:question_graph1).

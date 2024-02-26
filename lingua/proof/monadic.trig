@@ -2,8 +2,13 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix bmt: <http://eulersharp.sourceforge.net/2007/07test/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
+:imports_rule lingua:premise _:e_imports_rule_premise_1.
+:imports_rule lingua:conclusion true.
 :imports_rule lingua:bindings ().
+:bmt_query lingua:question _:e_bmt_question_1.
+:bmt_query lingua:answer _:e_bmt_answer_1.
 :bmt_query lingua:bindings ((var:R bmt:i12) (var:D0 bmt:i45) (var:D1 bmt:i45) (var:D2 bmt:i45) (var:D3 bmt:i45) (var:D4 bmt:i45) (var:D5 bmt:i45) (var:D6 bmt:i45) (var:D7 bmt:i45) (var:D8 bmt:i45) (var:D9 bmt:i45)).
 bmt:i12 bmt:cycle (bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45 bmt:i45).
 :bmt_query lingua:bindings ((var:R bmt:i12) (var:D0 bmt:i66) (var:D1 bmt:i66) (var:D2 bmt:i66) (var:D3 bmt:i66) (var:D4 bmt:i66) (var:D5 bmt:i66) (var:D6 bmt:i66) (var:D7 bmt:i66) (var:D8 bmt:i66) (var:D9 bmt:i66)).
@@ -3040,3 +3045,30 @@ bmt:i27 bmt:cycle (bmt:i84 bmt:i39 bmt:i84 bmt:i39 bmt:i84 bmt:i39 bmt:i84 bmt:i
 bmt:i27 bmt:cycle (bmt:i72 bmt:i21 bmt:i72 bmt:i21 bmt:i72 bmt:i21 bmt:i72 bmt:i21 bmt:i72 bmt:i21).
 :bmt_query lingua:bindings ((var:R bmt:i27) (var:D0 bmt:i39) (var:D1 bmt:i84) (var:D2 bmt:i39) (var:D3 bmt:i84) (var:D4 bmt:i39) (var:D5 bmt:i84) (var:D6 bmt:i39) (var:D7 bmt:i84) (var:D8 bmt:i39) (var:D9 bmt:i84)).
 bmt:i27 bmt:cycle (bmt:i39 bmt:i84 bmt:i39 bmt:i84 bmt:i39 bmt:i84 bmt:i39 bmt:i84 bmt:i39 bmt:i84).
+_:e_imports_rule_premise_1 {
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt1.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt2.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt3.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt4.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt5.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt6.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt7.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt8.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt9.ttl>.
+    <https://eyereasoner.github.io/eye/lingua/monadic.trig> log:imports <https://eyereasoner.github.io/eye/reasoning/bmt/1tt10.ttl>.
+}
+_:e_bmt_question_1 {
+    var:D0 var:R var:D1.
+    var:D1 var:R var:D2.
+    var:D2 var:R var:D3.
+    var:D3 var:R var:D4.
+    var:D4 var:R var:D5.
+    var:D5 var:R var:D6.
+    var:D6 var:R var:D7.
+    var:D7 var:R var:D8.
+    var:D8 var:R var:D9.
+    var:D9 var:R var:D0.
+}
+_:e_bmt_answer_1 {
+    var:R bmt:cycle (var:D0 var:D1 var:D2 var:D3 var:D4 var:D5 var:D6 var:D7 var:D8 var:D9).
+}

@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.10 (2024-02-25)').
+version_info('EYE v9.9.11 (2024-02-26)').
 
 license_info('MIT License
 
@@ -131,7 +131,7 @@ eye
 :- dynamic(got_sq/0).
 :- dynamic(got_unique/2).
 :- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
-:- dynamic(graph/2).
+:- dynamic(graph/3).
 :- dynamic(hash_value/2).
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
@@ -150,7 +150,7 @@ eye
 :- dynamic(pred/1).
 :- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
 :- dynamic(qevar/3).
-:- dynamic(quad/2).
+:- dynamic(quad/3).
 :- dynamic(query/2).
 :- dynamic(quvar/3).
 :- dynamic(recursion/1).
@@ -192,6 +192,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#premise>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/lingua#question>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#closedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -621,13 +622,13 @@ gre(Argus) :-
 % init for N3
 init :-
     % create quads
-    (   retract(graph(N, G)),
+    (   retract(graph(N, G, Src)),
         conj_list(G, L),
         forall(
             (   member(M, L),
                 M =.. [P, S, O]
             ),
-            assertz(quad(triple(S, P, O), N))
+            assertz(quad(triple(S, P, O), N, Src))
         ),
         fail
     ;   true
@@ -648,16 +649,36 @@ see :-
     ;   true
     ),
     % create named graphs
-    (   quad(_, A),
+    (   quad(_, A, Src),
         findall(C,
-            (   retract(quad(triple(S, P, O), A)),
+            (   retract(quad(triple(S, P, O), A, Src)),
                 C =.. [P, S, O]
             ),
             D
         ),
         D \= [],
         conjoin(D, E),
-        assertz(graph(A, E)),
+        assertz(graph(A, E, Src)),
+        fail
+    ;   true
+    ),
+    % check boundaries
+    (   member(P, [
+            '<http://www.w3.org/2000/10/swap/lingua#body>',
+            '<http://www.w3.org/2000/10/swap/lingua#premise>',
+            '<http://www.w3.org/2000/10/swap/lingua#question>'
+        ]),
+        X =.. [P, _, Name],
+        call(X),
+        \+member(Name, [true, false]), 
+        (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1)
+        ->  (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
+                Base1 \= Base2
+            ->  throw(boundary_violation(Name, Base1, Base2))
+            ;   true
+            )
+        ;   true
+        ),
         fail
     ;   true
     ),
@@ -680,6 +701,7 @@ see :-
     % forward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
+            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
@@ -687,22 +709,27 @@ see :-
             (   flag(explain),
                 I \= false
             ->  zip_list(U, X, W),
-                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = I
-            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, D), '<>')),
+                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#premise>', R, A)), D),
+                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#conclusion>', R, B)), E),
+                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
+            ;   F = I
+            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
     % backward rule
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#body>'(R, A),
+            closed(A),
             '<http://www.w3.org/2000/10/swap/lingua#head>'(R, B),
             findvars([A, B], V, alpha),
             list_to_set(V, U),
             makevars([A, B, U], [Q, I, X], beta(U)),
             (   flag(explain)
             ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = Q
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#body>', R, A)), D),
+                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#head>', R, B)), E),
+                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
+            ;   F = Q
             ),
-            C = ':-'(I, D),
+            C = ':-'(I, F),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -714,6 +741,7 @@ see :-
     % query
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
+            closed(A),
             (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
             ->  true
             ;   B = A
@@ -724,10 +752,12 @@ see :-
             makevars([A, J, U], [Q, I, X], beta(U)),
             (   flag(explain)
             ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), D)
-            ;   D = Q
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#question>', R, A)), D),
+                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#answer>', R, B)), E),
+                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
+            ;   F = Q
             ),
-            C = implies(D, I, '<>'),
+            C = implies(F, I, '<>'),
             copy_term_nat(C, CC),
             labelvars(CC, 0, _, avar),
             (   \+cc(CC)
@@ -1119,7 +1149,7 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies((quad(triple(P, S, O), G), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+    assertz(implies((quad(triple(P, S, O), G, _), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(quad, triple(P, S, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
     ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
@@ -1127,7 +1157,9 @@ args(['--pass-all'|Args]) :-
         portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
+            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+        portray_clause(Out, implies((quad(triple(P, S, O), G, _), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
+            answer(quad, triple(P, S, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
     args(Args).
@@ -1411,6 +1443,7 @@ n3_n3p(Argument, Mode) :-
     nb_setval(sc, 0),
     nb_setval(semantics, []),
     atomic_list_concat(['\'<', Arg, '>\''], Src),
+    nb_setval(current_scope, Src),
     atomic_list_concat([Tmp, '_p'], Tmp_p),
     assertz(tmpfile(Tmp_p)),
     open(Tmp_p, write, Ws, [encoding(utf8)]),
@@ -2305,7 +2338,8 @@ propertylist(Subject, Triples) -->
     !,
     objecttail(Subject, Verb, Triples4),
     propertylisttail(Subject, Triples5),
-    {   append([Triples1, Triples2, [quad(Trpl, Graph)], Triples4, Triples5], Triples)
+    {   nb_getval(current_scope, Src),
+        append([Triples1, Triples2, [quad(Trpl, Graph, Src)], Triples4, Triples5], Triples)
     }.
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
@@ -2384,9 +2418,10 @@ qname(URI) -->
     },
     !.
 
-simpleStatement([graph(N, G)]) -->
+simpleStatement([graph(N, G, Src)]) -->
     [name(Name)],
-    {   downcase_atom(Name, 'graph')
+    {   downcase_atom(Name, 'graph'),
+        nb_getval(current_scope, Src)
     },
     !,
     symbol(N),
@@ -2394,7 +2429,9 @@ simpleStatement([graph(N, G)]) -->
     formulacontent(G),
     ['}'],
     withoutdot.
-simpleStatement([graph(N, G)]) -->
+simpleStatement([graph(N, G, Src)]) -->
+    {   nb_getval(current_scope, Src)
+    },
     symbol(N),
     ['{'],
     formulacontent(G),
@@ -3521,8 +3558,8 @@ w3 :-
         ;   wt(B)
         ),
         ws(B),
-        (   (   B = graph(_, _)
-            ;   B = exopred(graph, _, _)
+        (   (   B = graph(_, _, _)
+            ;   B = exopred(graph, _, _, _)
             )
         ->  true
         ;   write('.')
@@ -3548,8 +3585,8 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   (   C = graph(_, _)
-            ;   C = exopred(graph, _, _)
+        (   (   C = graph(_, _, _)
+            ;   C = exopred(graph, _, _, _)
             )
         ->  true
         ;   write('.')
@@ -4203,22 +4240,6 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write(' {'),
     wt(X),
     write('}').
-wt2(quad(triple(S, P, O), G)) :-
-    !,
-    wg(S),
-    write(' '),
-    wt0(P),
-    write(' '),
-    wg(O),
-    write(' '),
-    wg(G).
-wt2(graph(X, Y)) :-
-    !,
-    wp(X),
-    write(' '),
-    nb_setval(keep_ng, false),
-    retractall(keep_ng(graph(X, Y))),
-    wg(Y).
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     (   flag(nope)
     ->  U = X
@@ -4393,6 +4414,22 @@ wtn(triple(S, P, O)) :-
     write(' '),
     wg(O),
     write(' >>').
+wtn(quad(triple(S, P, O), G, _)) :-
+    !,
+    wg(S),
+    write(' '),
+    wt0(P),
+    write(' '),
+    wg(O),
+    write(' '),
+    wg(G).
+wtn(graph(X, Y, Src)) :-
+    !,
+    wp(X),
+    write(' '),
+    nb_setval(keep_ng, false),
+    retractall(keep_ng(graph(X, Y, Src))),
+    wg(Y).
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),
@@ -4435,15 +4472,16 @@ wg(X) :-
         )
     ->  (   flag(see),
             nb_getval(keep_ng, true)
-        ->  (   graph(N, X)
+        ->  (   graph(N, X, Src)
             ->  true
             ;   gensym('gn_', Y),
                 nb_getval(var_ns, Sns),
                 atomic_list_concat(['<', Sns, Y, '>'], N),
-                assertz(graph(N, X))
+                Src = '<>',
+                assertz(graph(N, X, Src))
             ),
-            (   \+keep_ng(graph(N, X))
-            ->  assertz(keep_ng(graph(N, X)))
+            (   \+keep_ng(graph(N, X, Src))
+            ->  assertz(keep_ng(graph(N, X, Src)))
             ;   true
             ),
             wt(N)
@@ -11909,6 +11947,10 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
 
+closed(true).
+closed(A) :-
+    '<http://www.w3.org/2000/10/swap/log#closedBy>'(A, _).
+
 getnumber(rdiv(A, B), C) :-
     nonvar(A),
     !,
@@ -12040,21 +12082,21 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
-getterm(graph(A, B), graph(A, C)) :-
-    graph(A, B),
+getterm(graph(A, B, Src), graph(A, C, Src)) :-
+    graph(A, B, Src),
     !,
     getterm(B, D),
     conjify(D, C).
-getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
-    getconj(A, D),
+getterm(graph(A, B, Src), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+    getconj(A, D, Src),
     D \= A,
     !,
     getterm(D, E),
     conjify(E, C).
 getterm(A, B) :-
-    graph(A, _),
+    graph(A, _, Src),
     !,
-    getconj(A, C),
+    getconj(A, C, Src),
     getterm(C, D),
     conjify(D, B).
 getterm(A, B) :-
@@ -12062,17 +12104,17 @@ getterm(A, B) :-
     getterm(D, E),
     B =.. [C|E].
 
-getconj(A, B) :-
+getconj(A, B, Src) :-
     nonvar(A),
     findall(C,
-        (   graph(A, C)
+        (   graph(A, C, Src)
         ),
         D
     ),
     D \= [],
     !,
     conjoin(D, B).
-getconj(A, A).
+getconj(A, A, _).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),

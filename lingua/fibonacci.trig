@@ -5,6 +5,7 @@
 # See https://en.wikipedia.org/wiki/Fibonacci_number
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -12,6 +13,8 @@
 # backward rules
 :fibonacci_rule1 lingua:head _:fibonacci_rule1_head;
     lingua:body _:fibonacci_rule1_body.
+
+_:fibonacci_rule1_body log:closedBy <>.
 
 _:fibonacci_rule1_head {
     (var:X) :fibonacci var:Y.
@@ -38,6 +41,8 @@ _:fibonacci_rule3_head {
 :fibonacci_rule4 lingua:head _:fibonacci_rule4_head;
     lingua:body _:fibonacci_rule4_body.
 
+_:fibonacci_rule4_body log:closedBy <>.
+
 _:fibonacci_rule4_head {
     (var:X var:A var:B) :fib var:Y.
 }
@@ -51,6 +56,8 @@ _:fibonacci_rule4_body {
 
 # query
 :fibonacci_query lingua:question _:fibonacci_question.
+
+_:fibonacci_question log:closedBy <>.
 
 _:fibonacci_question {
     (0) :fibonacci var:F1.

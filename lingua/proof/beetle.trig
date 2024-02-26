@@ -2,11 +2,54 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
+:beetle_beautiful_rule2 lingua:premise _:e_beetle_beautiful_rule2_premise_1.
+:beetle_beautiful_rule2 lingua:conclusion _:e_beetle_beautiful_rule2_conclusion_1.
 :beetle_beautiful_rule2 lingua:bindings ((var:A :beetle)).
+:beetle_beautiful_rule4 lingua:premise _:e_beetle_beautiful_rule2_premise_1.
+:beetle_beautiful_rule4 lingua:conclusion _:e_beetle_beautiful_rule4_conclusion_1.
 :beetle_beautiful_rule4 lingua:bindings ((var:A :beetle)).
+:beetle_disj_rule1 lingua:premise _:e_beetle_disj_rule1_premise_1.
+:beetle_disj_rule1 lingua:conclusion _:e_beetle_disj_rule1_conclusion_1.
 :beetle_disj_rule1 lingua:bindings ((var:A :beetle)).
+:beetle_disj_rule2 lingua:premise _:e_beetle_disj_rule2_premise_1.
+:beetle_disj_rule2 lingua:conclusion _:e_beetle_disj_rule2_conclusion_1.
 :beetle_disj_rule2 lingua:bindings ((var:A :beetle)).
+:beetle_beautiful_rule1 lingua:premise _:e_beetle_disj_rule2_conclusion_1.
+:beetle_beautiful_rule1 lingua:conclusion _:e_beetle_beautiful_rule1_conclusion_1.
 :beetle_beautiful_rule1 lingua:bindings ((var:A :beetle)).
+:beetle_beautiful_rule3 lingua:premise _:e_beetle_disj_rule1_conclusion_1.
+:beetle_beautiful_rule3 lingua:conclusion _:e_beetle_beautiful_rule1_conclusion_1.
 :beetle_beautiful_rule3 lingua:bindings ((var:A :beetle)).
+:beetle_query lingua:question _:e_beetle_question_1.
+:beetle_query lingua:answer _:e_beetle_question_1.
 :beetle_query lingua:bindings ().
 :beetle :is :beautiful.
+_:e_beetle_beautiful_rule2_premise_1 {
+    var:A :isNot :beautiful.
+}
+_:e_beetle_beautiful_rule2_conclusion_1 {
+    var:A :isNot :green.
+}
+_:e_beetle_beautiful_rule4_conclusion_1 {
+    var:A :isNot :blue.
+}
+_:e_beetle_disj_rule1_premise_1 {
+    var:A a :Car.
+    var:A :isNot :green.
+}
+_:e_beetle_disj_rule1_conclusion_1 {
+    var:A :is :blue.
+}
+_:e_beetle_disj_rule2_premise_1 {
+    var:A a :Car.
+    var:A :isNot :blue.
+}
+_:e_beetle_disj_rule2_conclusion_1 {
+    var:A :is :green.
+}
+_:e_beetle_beautiful_rule1_conclusion_1 {
+    var:A :is :beautiful.
+}
+_:e_beetle_question_1 {
+    :beetle :is :beautiful.
+}

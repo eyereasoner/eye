@@ -5,6 +5,7 @@
 # Proving a derived rule.
 
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
@@ -16,6 +17,8 @@
 :main_rule lingua:premise _:main_rule_premise;
     lingua:conclusion _:main_rule_conclusion.
 
+_:main_rule_premise log:closedBy <>.
+
 _:main_rule_premise {
     var:cat a :Cat.
 }
@@ -23,6 +26,7 @@ _:main_rule_premise {
 _:main_rule_conclusion {
     :derived_rule lingua:premise _:derived_rule_premise;
         lingua:conclusion _:derived_rule_conclusion.
+    _:derived_rule_premise log:closedBy <>.
 }
 
 _:derived_rule_premise {
@@ -35,6 +39,8 @@ _:derived_rule_conclusion {
 
 # query
 :main_query lingua:question _:main_question.
+
+_:main_question log:closedBy <>.
 
 _:main_question {
     :test :is var:result.

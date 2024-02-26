@@ -21,6 +21,8 @@
 :patch_rule lingua:premise _:patch_rule_premise;
     lingua:conclusion true.
 
+_:patch_rule_premise log:closedBy <>.
+
 _:patch_rule_premise {
     var:person :familyName "Garcia".
     _:deletes_graph log:becomes _:inserts_graph.
@@ -36,6 +38,8 @@ _:inserts_graph {
 
 # query
 :patch_query lingua:question _:patch_question.
+
+_:patch_question log:closedBy <>.
 
 _:patch_question {
     var:person :familyName var:fname.

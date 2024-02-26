@@ -30,6 +30,8 @@
 :ackermann_rule_main lingua:head _:ackermann_rule_main_head;
     lingua:body _:ackermann_rule_main_body.
 
+_:ackermann_rule_main_body log:closedBy <>.
+
 _:ackermann_rule_main_head {
     (var:X var:Y) :ackermann var:A.
 }
@@ -45,6 +47,8 @@ _:ackermann_rule_main_body {
 :ackermann_rule0 lingua:head _:ackermann_rule0_head;
     lingua:body _:ackermann_rule0_body.
 
+_:ackermann_rule0_body log:closedBy <>.
+
 _:ackermann_rule0_head {
     (0 var:Y var:Z) :ackermann var:A.
 }
@@ -57,6 +61,8 @@ _:ackermann_rule0_body {
 # sum (x=1)
 :ackermann_rule1 lingua:head _:ackermann_rule1_head;
     lingua:body _:ackermann_rule1_body.
+
+_:ackermann_rule1_body log:closedBy <>.
 
 _:ackermann_rule1_head {
     (1 var:Y var:Z) :ackermann var:A.
@@ -71,6 +77,8 @@ _:ackermann_rule1_body {
 :ackermann_rule2 lingua:head _:ackermann_rule2_head;
     lingua:body _:ackermann_rule2_body.
 
+_:ackermann_rule2_body log:closedBy <>.
+
 _:ackermann_rule2_head {
     (2 var:Y var:Z) :ackermann var:A.
 }
@@ -84,6 +92,8 @@ _:ackermann_rule2_body {
 :ackermann_rule3plus lingua:head _:ackermann_rule3plus_head;
     lingua:body _:ackermann_rule3plus_body.
 
+_:ackermann_rule3plus_body log:closedBy <>.
+
 _:ackermann_rule3plus_head {
     (var:X 0 var:Z) :ackermann 1.
 }
@@ -94,6 +104,8 @@ _:ackermann_rule3plus_body {
 
 :ackermann_rule_final lingua:head _:ackermann_rule_final_head;
     lingua:body _:ackermann_rule_final_body.
+
+_:ackermann_rule_final_body log:closedBy <>.
 
 _:ackermann_rule_final_head {
     (var:X var:Y var:Z) :ackermann var:A.
@@ -113,6 +125,8 @@ _:ackermann_rule_final_body {
 
 # query
 :ackermann_query lingua:question _:ackermann_question.
+
+_:ackermann_question log:closedBy <>.
 
 _:ackermann_question {
     (0 0) :ackermann var:A0.

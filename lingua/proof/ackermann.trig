@@ -1,21 +1,35 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/ackermann.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
+:ackermann_rule0 lingua:body _:gn_1.
+:ackermann_rule0 lingua:head _:e_ackermann_rule0_head_1.
 :ackermann_rule0 lingua:bindings ((var:Y 3) (var:A 4) (var:Z 2)).
+:ackermann_rule_main lingua:body _:e_ackermann_rule_main_body_1.
+:ackermann_rule_main lingua:head _:e_ackermann_rule_main_head_1.
 :ackermann_rule_main lingua:bindings ((var:Y 0) (var:B 3) (var:X 0) (var:C 4) (var:A 1)).
 :ackermann_rule0 lingua:bindings ((var:Y 9) (var:A 10) (var:Z 2)).
 :ackermann_rule_main lingua:bindings ((var:Y 6) (var:B 9) (var:X 0) (var:C 10) (var:A 7)).
+:ackermann_rule1 lingua:body _:gn_2.
+:ackermann_rule1 lingua:head _:e_ackermann_rule1_head_1.
 :ackermann_rule1 lingua:bindings ((var:Y 5) (var:Z 2) (var:A 7)).
 :ackermann_rule_main lingua:bindings ((var:Y 2) (var:B 5) (var:X 1) (var:C 7) (var:A 4)).
 :ackermann_rule1 lingua:bindings ((var:Y 10) (var:Z 2) (var:A 12)).
 :ackermann_rule_main lingua:bindings ((var:Y 7) (var:B 10) (var:X 1) (var:C 12) (var:A 9)).
+:ackermann_rule2 lingua:body _:gn_3.
+:ackermann_rule2 lingua:head _:e_ackermann_rule2_head_1.
 :ackermann_rule2 lingua:bindings ((var:Y 5) (var:Z 2) (var:A 10)).
 :ackermann_rule_main lingua:bindings ((var:Y 2) (var:B 5) (var:X 2) (var:C 10) (var:A 7)).
 :ackermann_rule2 lingua:bindings ((var:Y 12) (var:Z 2) (var:A 24)).
 :ackermann_rule_main lingua:bindings ((var:Y 9) (var:B 12) (var:X 2) (var:C 24) (var:A 21)).
+:ackermann_rule3plus lingua:body _:gn_4.
+:ackermann_rule3plus lingua:head _:e_ackermann_rule3plus_head_1.
 :ackermann_rule3plus lingua:bindings ((var:X 3) (var:Z 2)).
 :ackermann_rule2 lingua:bindings ((var:Y 1) (var:Z 2) (var:A 2)).
+:ackermann_rule_final lingua:body _:e_ackermann_rule_final_body_1.
+:ackermann_rule_final lingua:head _:e_ackermann_rule_final_head_1.
 :ackermann_rule_final lingua:bindings ((var:Y 1) (var:B 0) (var:X 3) (var:Z 2) (var:C 1) (var:D 2) (var:A 2)).
 :ackermann_rule2 lingua:bindings ((var:Y 2) (var:Z 2) (var:A 4)).
 :ackermann_rule_final lingua:bindings ((var:Y 2) (var:B 1) (var:X 3) (var:Z 2) (var:C 2) (var:D 2) (var:A 4)).
@@ -63,6 +77,8 @@
 :ackermann_rule_final lingua:bindings ((var:Y 2) (var:B 1) (var:X 5) (var:Z 2) (var:C 2) (var:D 4) (var:A 4)).
 :ackermann_rule_final lingua:bindings ((var:Y 3) (var:B 2) (var:X 5) (var:Z 2) (var:C 4) (var:D 4) (var:A 65536)).
 :ackermann_rule_main lingua:bindings ((var:Y 0) (var:B 3) (var:X 5) (var:C 65536) (var:A 65533)).
+:ackermann_query lingua:question _:e_ackermann_question_1.
+:ackermann_query lingua:answer _:e_ackermann_question_1.
 :ackermann_query lingua:bindings ((var:A0 1) (var:A1 7) (var:A2 4) (var:A3 9) (var:A4 7) (var:A5 21) (var:A6 125) (var:A7 131069) (var:A8 13) (var:A9 65533) (var:A11 65533)).
 (0 0) :ackermann 1 .
 (0 6) :ackermann 7 .
@@ -75,3 +91,64 @@
 (4 0) :ackermann 13 .
 (4 1) :ackermann 65533 .
 (5 0) :ackermann 65533 .
+_:gn_1 {
+    () log:equalTo ().
+    true log:callWithCut true.
+    (var:Y 1) math:sum var:A.
+}
+_:e_ackermann_rule0_head_1 {
+    (0 var:Y var:Z) :ackermann var:A.
+}
+_:e_ackermann_rule_main_body_1 {
+    (var:Y 3) math:sum var:B.
+    (var:X var:B 2) :ackermann var:C.
+    (var:C 3) math:difference var:A.
+}
+_:e_ackermann_rule_main_head_1 {
+    (var:X var:Y) :ackermann var:A.
+}
+_:gn_2 {
+    () log:equalTo ().
+    true log:callWithCut true.
+    (var:Y var:Z) math:sum var:A.
+}
+_:e_ackermann_rule1_head_1 {
+    (1 var:Y var:Z) :ackermann var:A.
+}
+_:gn_3 {
+    () log:equalTo ().
+    true log:callWithCut true.
+    (var:Y var:Z) math:product var:A.
+}
+_:e_ackermann_rule2_head_1 {
+    (2 var:Y var:Z) :ackermann var:A.
+}
+_:gn_4 {
+    () log:equalTo ().
+    true log:callWithCut true.
+}
+_:e_ackermann_rule3plus_head_1 {
+    (var:X 0 var:Z) :ackermann 1.
+}
+_:e_ackermann_rule_final_body_1 {
+    (var:Y 1) math:difference var:B.
+    (var:X var:B var:Z) :ackermann var:C.
+    (var:X 1) math:difference var:D.
+    (var:D var:C var:Z) :ackermann var:A.
+}
+_:e_ackermann_rule_final_head_1 {
+    (var:X var:Y var:Z) :ackermann var:A.
+}
+_:e_ackermann_question_1 {
+    (0 0) :ackermann var:A0.
+    (0 6) :ackermann var:A1.
+    (1 2) :ackermann var:A2.
+    (1 7) :ackermann var:A3.
+    (2 2) :ackermann var:A4.
+    (2 9) :ackermann var:A5.
+    (3 4) :ackermann var:A6.
+    (3 14) :ackermann var:A7.
+    (4 0) :ackermann var:A8.
+    (4 1) :ackermann var:A9.
+    (5 0) :ackermann var:A11.
+}
