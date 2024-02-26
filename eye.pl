@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.14 (2024-02-26)').
+version_info('EYE v9.9.15 (2024-02-26)').
 
 license_info('MIT License
 
@@ -5229,6 +5229,8 @@ djiti_fact(A, A) :-
     (   P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
         P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
         P \= '<http://www.w3.org/2000/10/swap/log#callWithCleanup>',
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
         P \= query,
         P \= pfx,
         P \= flag,
