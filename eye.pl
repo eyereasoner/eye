@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.12 (2024-02-26)').
+version_info('EYE v9.9.13 (2024-02-26)').
 
 license_info('MIT License
 
@@ -12087,16 +12087,16 @@ getterm(graph(A, B, Src), graph(A, C, Src)) :-
     !,
     getterm(B, D),
     conjify(D, C).
-getterm(graph(A, B, _), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
-    getconj(A, D),
+getterm(graph(A, B, Src), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+    getconj(A, D, Src),
     D \= A,
     !,
     getterm(D, E),
     conjify(E, C).
 getterm(A, B) :-
-    graph(A, _, _),
+    graph(A, _, Src),
     !,
-    getconj(A, C),
+    getconj(A, C, Src),
     getterm(C, D),
     conjify(D, B).
 getterm(A, B) :-
@@ -12104,17 +12104,21 @@ getterm(A, B) :-
     getterm(D, E),
     B =.. [C|E].
 
-getconj(A, B) :-
+getconj(A, B, Src) :-
     nonvar(A),
+    (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(A, _)
+    ->  Sc = Src
+    ;   true
+    ),
     findall(C,
-        (   graph(A, C, _)
+        (   graph(A, C, Sc)
         ),
         D
     ),
     D \= [],
     !,
     conjoin(D, B).
-getconj(A, A).
+getconj(A, A, _).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
