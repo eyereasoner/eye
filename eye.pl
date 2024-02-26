@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.13 (2024-02-26)').
+version_info('EYE v9.9.14 (2024-02-26)').
 
 license_info('MIT License
 
@@ -122,6 +122,7 @@ eye
 :- dynamic(flag/1).
 :- dynamic(flag/2).
 :- dynamic(fpred/1).
+:- dynamic(got_closed/2).
 :- dynamic(got_cs/1).
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
@@ -672,7 +673,8 @@ see :-
         call(X),
         \+member(Name, [true, false]), 
         (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base1)
-        ->  (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
+        ->  assertz(got_closed(Name, Base1)),
+            (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(Name, Base2),
                 Base1 \= Base2
             ->  throw(boundary_violation(Name, Base1, Base2))
             ;   true
@@ -12106,7 +12108,7 @@ getterm(A, B) :-
 
 getconj(A, B, Src) :-
     nonvar(A),
-    (   '<http://www.w3.org/2000/10/swap/log#closedBy>'(A, _)
+    (   got_closed(A, Src)
     ->  Sc = Src
     ;   true
     ),
