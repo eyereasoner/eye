@@ -30,11 +30,11 @@ gc:parent rdfs:subPropertyOf gc:ancestor.
 {?C gc:grandparent ?GP. ?C gc:sex gc:Male} => {?GP gc:grandson ?C}.
 {?C gc:grandparent ?GP. ?C gc:sex gc:Female} => {?GP gc:granddaughter ?C}.
 
-{?C gc:childIn ?F. ?C2 gc:childIn ?F. ?C owl:differentFrom ?C2} => {?C gc:sibling ?C2}.
+{?C gc:childIn ?F. ?C2 gc:childIn ?F. ?C log:notEqualTo ?C2} => {?C gc:sibling ?C2}.
 {?C gc:sibling ?S. ?S gc:sex gc:Male} => {?C gc:brother ?S}.
 {?C gc:sibling ?S. ?S gc:sex gc:Female} => {?C gc:sister ?S}.
 
-{?SP gc:spouseIn ?F. ?SP2 gc:spouseIn ?F. ?SP owl:differentFrom ?SP2} => {?SP gc:spouse ?SP2}.
+{?SP gc:spouseIn ?F. ?SP2 gc:spouseIn ?F. ?SP log:notEqualTo ?SP2} => {?SP gc:spouse ?SP2}.
 {?SP gc:spouse ?H. ?H gc:sex gc:Male} => {?SP gc:husband ?H}.
 {?SP gc:spouse ?W. ?W gc:sex gc:Female} => {?SP gc:wife ?W}.
 
