@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.10.1 (2024-02-27)').
+version_info('EYE v9.10.2 (2024-02-27)').
 
 license_info('MIT License
 
@@ -6140,6 +6140,16 @@ djiti_assertz(A) :-
             )
         )
     ).
+
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
+    nonvar(X),
+    X = [Y|_],
+    !.
+
+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
+    nonvar(X),
+    X = [_|Y],
+    !.
 
 '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     when(
