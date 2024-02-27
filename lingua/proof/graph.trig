@@ -1,10 +1,9 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/graph.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:graph_rule1 lingua:premise term:graph_rule1_premise.
-:graph_rule1 lingua:conclusion term:graph_rule1_conclusion.
+:graph_rule1 lingua:premise _:e_graph_rule1_premise_1.
+:graph_rule1 lingua:conclusion _:e_graph_rule1_conclusion_1.
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :orleans)).
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :chartres)).
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :amiens)).
@@ -15,8 +14,8 @@
 :graph_rule1 lingua:bindings ((var:A :lemans) (var:B :angers)).
 :graph_rule1 lingua:bindings ((var:A :lemans) (var:B :tours)).
 :graph_rule1 lingua:bindings ((var:A :angers) (var:B :nantes)).
-:graph_rule2 lingua:premise term:graph_rule2_premise.
-:graph_rule2 lingua:conclusion term:graph_rule2_conclusion.
+:graph_rule2 lingua:premise _:e_graph_rule2_premise_1.
+:graph_rule2 lingua:conclusion _:e_graph_rule2_conclusion_1.
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :orleans) (var:C :blois)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :orleans) (var:C :bourges)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :chartres) (var:C :lemans)).
@@ -24,8 +23,8 @@
 :graph_rule2 lingua:bindings ((var:A :chartres) (var:B :lemans) (var:C :angers)).
 :graph_rule2 lingua:bindings ((var:A :chartres) (var:B :lemans) (var:C :tours)).
 :graph_rule2 lingua:bindings ((var:A :lemans) (var:B :angers) (var:C :nantes)).
-:graph_query lingua:question term:graph_question.
-:graph_query lingua:answer term:graph_question.
+:graph_query lingua:question _:e_graph_question_1.
+:graph_query lingua:answer _:e_graph_question_1.
 :graph_query lingua:bindings ((var:A :angers)).
 :angers :path :nantes.
 :graph_query lingua:bindings ((var:A :lemans)).
@@ -45,19 +44,19 @@
 :paris :path :nantes.
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :chartres) (var:C :nantes)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :angers) (var:C :nantes)).
-term:graph_rule1_premise {
+_:e_graph_rule1_premise_1 {
     var:A :oneway var:B.
 }
-term:graph_rule1_conclusion {
+_:e_graph_rule1_conclusion_1 {
     var:A :path var:B.
 }
-term:graph_rule2_premise {
+_:e_graph_rule2_premise_1 {
     var:A :path var:B.
     var:B :path var:C.
 }
-term:graph_rule2_conclusion {
+_:e_graph_rule2_conclusion_1 {
     var:A :path var:C.
 }
-term:graph_question {
+_:e_graph_question_1 {
     var:A :path :nantes.
 }

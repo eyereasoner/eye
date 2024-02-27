@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.9.17 (2024-02-27)').
+version_info('EYE v9.10.0 (2024-02-27)').
 
 license_info('MIT License
 
@@ -658,18 +658,6 @@ see :-
         D \= [],
         conjoin(D, E),
         assertz(graph(A, E)),
-        fail
-    ;   true
-    ),
-    % check boundaries
-    (   member(P, [
-            '<http://www.w3.org/2000/10/swap/lingua#body>',
-            '<http://www.w3.org/2000/10/swap/lingua#premise>',
-            '<http://www.w3.org/2000/10/swap/lingua#question>'
-        ]),
-        X =.. [P, _, Name],
-        call(X),
-        \+member(Name, [true, false]), 
         fail
     ;   true
     ),

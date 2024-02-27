@@ -1,56 +1,55 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/beetle.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:beetle_beautiful_rule2 lingua:premise term:beetle_beautiful_rule2_premise.
-:beetle_beautiful_rule2 lingua:conclusion term:beetle_beautiful_rule2_conclusion.
+:beetle_beautiful_rule2 lingua:premise _:e_beetle_beautiful_rule2_premise_1.
+:beetle_beautiful_rule2 lingua:conclusion _:e_beetle_beautiful_rule2_conclusion_1.
 :beetle_beautiful_rule2 lingua:bindings ((var:A :beetle)).
-:beetle_beautiful_rule4 lingua:premise term:beetle_beautiful_rule2_premise.
-:beetle_beautiful_rule4 lingua:conclusion term:beetle_beautiful_rule4_conclusion.
+:beetle_beautiful_rule4 lingua:premise _:e_beetle_beautiful_rule2_premise_1.
+:beetle_beautiful_rule4 lingua:conclusion _:e_beetle_beautiful_rule4_conclusion_1.
 :beetle_beautiful_rule4 lingua:bindings ((var:A :beetle)).
-:beetle_disj_rule1 lingua:premise term:beetle_disj_rule1_premise.
-:beetle_disj_rule1 lingua:conclusion term:beetle_disj_rule1_conclusion.
+:beetle_disj_rule1 lingua:premise _:e_beetle_disj_rule1_premise_1.
+:beetle_disj_rule1 lingua:conclusion _:e_beetle_disj_rule1_conclusion_1.
 :beetle_disj_rule1 lingua:bindings ((var:A :beetle)).
-:beetle_disj_rule2 lingua:premise term:beetle_disj_rule2_premise.
-:beetle_disj_rule2 lingua:conclusion term:beetle_disj_rule2_conclusion.
+:beetle_disj_rule2 lingua:premise _:e_beetle_disj_rule2_premise_1.
+:beetle_disj_rule2 lingua:conclusion _:e_beetle_disj_rule2_conclusion_1.
 :beetle_disj_rule2 lingua:bindings ((var:A :beetle)).
-:beetle_beautiful_rule1 lingua:premise term:beetle_disj_rule2_conclusion.
-:beetle_beautiful_rule1 lingua:conclusion term:beetle_beautiful_rule1_conclusion.
+:beetle_beautiful_rule1 lingua:premise _:e_beetle_disj_rule2_conclusion_1.
+:beetle_beautiful_rule1 lingua:conclusion _:e_beetle_beautiful_rule1_conclusion_1.
 :beetle_beautiful_rule1 lingua:bindings ((var:A :beetle)).
-:beetle_beautiful_rule3 lingua:premise term:beetle_disj_rule1_conclusion.
-:beetle_beautiful_rule3 lingua:conclusion term:beetle_beautiful_rule1_conclusion.
+:beetle_beautiful_rule3 lingua:premise _:e_beetle_disj_rule1_conclusion_1.
+:beetle_beautiful_rule3 lingua:conclusion _:e_beetle_beautiful_rule1_conclusion_1.
 :beetle_beautiful_rule3 lingua:bindings ((var:A :beetle)).
-:beetle_query lingua:question term:beetle_question.
-:beetle_query lingua:answer term:beetle_question.
+:beetle_query lingua:question _:e_beetle_question_1.
+:beetle_query lingua:answer _:e_beetle_question_1.
 :beetle_query lingua:bindings ().
 :beetle :is :beautiful.
-term:beetle_beautiful_rule2_premise {
+_:e_beetle_beautiful_rule2_premise_1 {
     var:A :isNot :beautiful.
 }
-term:beetle_beautiful_rule2_conclusion {
+_:e_beetle_beautiful_rule2_conclusion_1 {
     var:A :isNot :green.
 }
-term:beetle_beautiful_rule4_conclusion {
+_:e_beetle_beautiful_rule4_conclusion_1 {
     var:A :isNot :blue.
 }
-term:beetle_disj_rule1_premise {
+_:e_beetle_disj_rule1_premise_1 {
     var:A a :Car.
     var:A :isNot :green.
 }
-term:beetle_disj_rule1_conclusion {
+_:e_beetle_disj_rule1_conclusion_1 {
     var:A :is :blue.
 }
-term:beetle_disj_rule2_premise {
+_:e_beetle_disj_rule2_premise_1 {
     var:A a :Car.
     var:A :isNot :blue.
 }
-term:beetle_disj_rule2_conclusion {
+_:e_beetle_disj_rule2_conclusion_1 {
     var:A :is :green.
 }
-term:beetle_beautiful_rule1_conclusion {
+_:e_beetle_beautiful_rule1_conclusion_1 {
     var:A :is :beautiful.
 }
-term:beetle_question {
+_:e_beetle_question_1 {
     :beetle :is :beautiful.
 }

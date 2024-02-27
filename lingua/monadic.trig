@@ -7,16 +7,15 @@
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix bmt: <http://eulersharp.sourceforge.net/2007/07test/graph#>.
 @prefix : <#>.
 
 # importing
-:imports_rule lingua:premise term:imports_rule_premise;
+:imports_rule lingua:premise _:imports_rule_premise;
     lingua:conclusion true.
 
-term:imports_rule_premise {
+_:imports_rule_premise {
     <> log:imports <../reasoning/bmt/1tt1.ttl>.
     <> log:imports <../reasoning/bmt/1tt2.ttl>.
     <> log:imports <../reasoning/bmt/1tt3.ttl>.
@@ -30,10 +29,10 @@ term:imports_rule_premise {
 }
 
 #query
-:bmt_query lingua:question term:bmt_question;
-    lingua:answer term:bmt_answer.
+:bmt_query lingua:question _:bmt_question;
+    lingua:answer _:bmt_answer.
 
-term:bmt_question {
+_:bmt_question {
     var:D0 var:R var:D1.
     var:D1 var:R var:D2.
     var:D2 var:R var:D3.
@@ -46,6 +45,6 @@ term:bmt_question {
     var:D9 var:R var:D0.
 }
 
-term:bmt_answer {
+_:bmt_answer {
     var:R bmt:cycle (var:D0 var:D1 var:D2 var:D3 var:D4 var:D5 var:D6 var:D7 var:D8 var:D9).
 }

@@ -6,25 +6,24 @@
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # something is more interesting if it is greater
-:backward_rule lingua:head term:backward_rule_head;
-    lingua:body term:backward_rule_body.
+:backward_rule lingua:head _:backward_rule_head;
+    lingua:body _:backward_rule_body.
 
-term:backward_rule_head {
+_:backward_rule_head {
     ("this" var:X) :moreInterestingThan ("that" var:Y).
 }
 
-term:backward_rule_body {
+_:backward_rule_body {
     var:X math:greaterThan var:Y.
 }
 
 # query
-:query lingua:question term:question.
+:query lingua:question _:question.
 
-term:question {
+_:question {
     ("this" 5) :moreInterestingThan ("that" 3).
 }

@@ -1,17 +1,16 @@
 @prefix : <https://eyereasoner.github.io/eye/lingua/union.trig#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-:union_query lingua:question term:union_question.
-:union_query lingua:answer term:union_answer.
+:union_query lingua:question _:e_union_question_1.
+:union_query lingua:answer _:e_union_answer_1.
 :union_query lingua:bindings ((var:U _:gn_1)).
 :result :is _:gn_1.
-term:union_question {
-    (term:graph1 term:graph2) graph:union var:U.
+_:e_union_question_1 {
+    (_:e_graph1_1 _:e_graph2_1) graph:union var:U.
 }
-term:union_answer {
+_:e_union_answer_1 {
     :result :is var:U.
 }
 _:gn_1 {
@@ -20,12 +19,12 @@ _:gn_1 {
     :D :E :F.
     :A :Y :C.
 }
-term:graph1 {
+_:e_graph1_1 {
     :A :B :C.
     :A :X :C.
     :D :E :F.
 }
-term:graph2 {
+_:e_graph2_1 {
     :A :Y :C.
     :A :B :C.
 }

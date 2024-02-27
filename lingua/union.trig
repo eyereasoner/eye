@@ -4,29 +4,28 @@
 
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix term: <http://www.w3.org/2000/10/swap/term#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-term:graph1 {
+_:graph1 {
     :A :B :C.
     :A :X :C.
     :D :E :F.
 }
 
-term:graph2 {
+_:graph2 {
     :A :Y :C.
     :A :B :C.
 }
 
 #query
-:union_query lingua:question term:union_question;
-    lingua:answer term:union_answer.
+:union_query lingua:question _:union_question;
+    lingua:answer _:union_answer.
 
-term:union_question {
-    (term:graph1 term:graph2) graph:union var:U.
+_:union_question {
+    (_:graph1 _:graph2) graph:union var:U.
 }
 
-term:union_answer {
+_:union_answer {
     :result :is var:U.
 }
