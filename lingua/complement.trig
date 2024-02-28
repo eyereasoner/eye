@@ -59,9 +59,9 @@ _:implication3_conclusion {
 }
 
 # asserting the following should blow an inference fuse
-_:s1 :p1 _:o1.
-_:s2 :p2 _:o2.
-_:s3 :p3 _:o3.
+# _:s1 :p1 _:o1.
+# _:s2 :p2 _:o2.
+# _:s3 :p3 _:o3.
 
 # fuse
 :complement_inference_fuse lingua:premise _:complement_inference_fuse_premise;
@@ -71,4 +71,12 @@ _:complement_inference_fuse_premise {
     var:P log:complement var:C.
     var:S var:P var:O.
     var:S var:C var:O.
+}
+
+# query
+:complement_query lingua:question _:question.
+
+_:question {
+    :complement_inference_fuse lingua:premise _:complement_inference_fuse_premise;
+        lingua:conclusion false.
 }

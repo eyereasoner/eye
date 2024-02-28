@@ -1,0 +1,24 @@
+@prefix : <https://eyereasoner.github.io/eye/lingua/complement.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:complement_query lingua:question _:e_question_1.
+:complement_query lingua:answer _:e_question_1.
+:complement_query lingua:bindings ((var:P var:P) (var:C var:C) (var:S var:S) (var:O var:O)).
+:complement_inference_fuse lingua:premise _:gn_1.
+:complement_inference_fuse lingua:conclusion false.
+_:e_question_1 {
+    :complement_inference_fuse lingua:premise _:e_complement_inference_fuse_premise_1.
+    :complement_inference_fuse lingua:conclusion false.
+}
+_:gn_1 {
+    var:P log:complement var:C.
+    var:S var:P var:O.
+    var:S var:C var:O.
+}
+_:e_complement_inference_fuse_premise_1 {
+    var:P log:complement var:C.
+    var:S var:P var:O.
+    var:S var:C var:O.
+}
