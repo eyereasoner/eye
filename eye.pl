@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.10.4 (2024-02-28)').
+version_info('EYE v9.10.5 (2024-02-28)').
 
 license_info('MIT License
 
@@ -6157,6 +6157,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(X, Y) :-
     when(
         (   nonvar(X)
+        ;   nonvar(Y)
         ),
         (   X = [Y|_]
         )
@@ -6166,6 +6167,7 @@ djiti_assertz(A) :-
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(X, Y) :-
     when(
         (   nonvar(X)
+        ;   nonvar(Y)
         ),
         (   X = [_|Y]
         )
