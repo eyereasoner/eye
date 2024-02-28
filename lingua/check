@@ -1,0 +1,10 @@
+#!/bin/bash
+
+for file in *.trig
+do
+    echo $file
+    riot --out trig $file | eye --quiet --nope - --output answer/$file 2> /dev/null
+    riot --out trig $file | eye --quiet - --output proof/$file 2> /dev/null
+done
+
+git diff
