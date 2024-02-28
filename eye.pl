@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.10.3 (2024-02-28)').
+version_info('EYE v9.10.4 (2024-02-28)').
 
 license_info('MIT License
 
@@ -657,6 +657,16 @@ see :-
         ),
         D \= [],
         conjoin(D, E),
+        assertz(graph(A, E)),
+        fail
+    ;   true
+    ),
+    (   graph(A, B),
+        conj_list(B, C),
+        relist(C, D),
+        conj_list(E, D),
+        E \= B,
+        retract(graph(A, B)),
         assertz(graph(A, E)),
         fail
     ;   true
@@ -10976,6 +10986,18 @@ cflat([A|B], C) :-
 couple([], [], []).
 couple([A|B], [C|D], [[A, C]|E]) :-
     couple(B, D, E).
+
+relist([], []).
+relist(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B)|C], D) :-
+    !,
+    assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B)),
+    relist(C, D).
+relist(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, B)|C], D) :-
+    !,
+    assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, B)),
+    relist(C, D).
+relist([A|B], [A|C]) :-
+    relist(B, C).
 
 includes(_, []) :-
     !.
