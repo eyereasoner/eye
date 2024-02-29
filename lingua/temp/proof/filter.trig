@@ -1,0 +1,20 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/filter.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+
+:filter_query lingua:question _:e_b0_1.
+:filter_query lingua:answer _:e_b1_1.
+:filter_query lingua:bindings ((var:param var:U_1) (var:filteredParams ("Huey" "Dewey")) (var:scope ((<->) 1))).
+:result :is ("Huey" "Dewey").
+_:e_b0_1 {
+    (var:param _:e_b4_1 var:filteredParams) log:collectAllIn var:scope.
+}
+_:e_b1_1 {
+    :result :is var:filteredParams.
+}
+_:e_b4_1 {
+    :Let :param var:param.
+    var:param string:lessThan "Louie".
+}

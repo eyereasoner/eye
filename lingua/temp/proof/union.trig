@@ -1,0 +1,30 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+
+:union_query lingua:question _:e_b2_1.
+:union_query lingua:answer _:e_b3_1.
+:union_query lingua:bindings ((var:U _:gn_1)).
+:result :is _:gn_1.
+_:e_b2_1 {
+    (_:e_b0_1 _:e_b1_1) graph:union var:U.
+}
+_:e_b3_1 {
+    :result :is var:U.
+}
+_:gn_1 {
+    :A :B :C.
+    :A :X :C.
+    :D :E :F.
+    :A :Y :C.
+}
+_:e_b0_1 {
+    :A :B :C.
+    :A :X :C.
+    :D :E :F.
+}
+_:e_b1_1 {
+    :A :Y :C.
+    :A :B :C.
+}

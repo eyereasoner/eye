@@ -1,0 +1,21 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/backward.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+:backward_rule lingua:body _:e_b1_1.
+:backward_rule lingua:head _:e_b0_1.
+:backward_rule lingua:bindings ((var:X 5) (var:Y 3)).
+:query lingua:question _:e_b6_1.
+:query lingua:answer _:e_b6_1.
+:query lingua:bindings ().
+("this" 5) :moreInterestingThan ("that" 3).
+_:e_b1_1 {
+    var:X math:greaterThan var:Y.
+}
+_:e_b0_1 {
+    ("this" var:X) :moreInterestingThan ("that" var:Y).
+}
+_:e_b6_1 {
+    ("this" 5) :moreInterestingThan ("that" 3).
+}

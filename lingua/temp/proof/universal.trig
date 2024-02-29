@@ -1,0 +1,44 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/universal.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/6a0f288e-3770-4e4c-9f0e-5e6fe8a91ea9#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:universal_statements_rule1 lingua:body true.
+:universal_statements_rule1 lingua:head _:e_b0_1.
+:universal_statements_rule1 lingua:bindings ((var:X :pat)).
+:universal_statements_query1 lingua:question _:e_b7_1.
+:universal_statements_query1 lingua:answer _:e_b7_1.
+:universal_statements_query1 lingua:bindings ().
+:pat a rdfs:Resource.
+:universal_statements_rule2 lingua:body _:e_b2_1.
+:universal_statements_rule2 lingua:head _:e_b1_1.
+:universal_statements_rule2 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
+:universal_statements_rule3 lingua:body _:e_b2_1.
+:universal_statements_rule3 lingua:head _:e_b4_1.
+:universal_statements_rule3 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
+:universal_statements_query2 lingua:question _:e_b8_1.
+:universal_statements_query2 lingua:answer _:e_b8_1.
+:universal_statements_query2 lingua:bindings ((var:X skolem:t_0)).
+:bob :loves skolem:t_0.
+skolem:t_0 :is :lonely.
+_:e_b0_1 {
+    var:X a rdfs:Resource.
+}
+_:e_b7_1 {
+    :pat a rdfs:Resource.
+}
+_:e_b2_1 {
+    (var:A) log:skolem var:B.
+}
+_:e_b1_1 {
+    var:A :loves var:B.
+}
+_:e_b4_1 {
+    var:B :is :lonely.
+}
+_:e_b8_1 {
+    :bob :loves var:X.
+    var:X :is :lonely.
+}

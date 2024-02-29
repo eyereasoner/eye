@@ -1,0 +1,30 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:patch_rule lingua:premise _:e_b0_1.
+:patch_rule lingua:conclusion true.
+:patch_rule lingua:bindings ((var:person :pers001)).
+:patch_query lingua:question _:e_b3_1.
+:patch_query lingua:answer _:e_b3_1.
+:patch_query lingua:bindings ((var:person :pers001) (var:fname "Garcia") (var:gname "Alex")).
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Alex".
+:patch_query lingua:bindings ((var:person :pers002) (var:fname "Cardinale") (var:gname "Claudia")).
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
+_:e_b0_1 {
+    var:person :familyName "Garcia".
+    _:e_b1_1 log:becomes _:e_b2_1.
+}
+_:e_b3_1 {
+    var:person :familyName var:fname.
+    var:person :givenName var:gname.
+}
+_:e_b1_1 {
+    var:person :givenName "Claudia".
+}
+_:e_b2_1 {
+    var:person :givenName "Alex".
+}

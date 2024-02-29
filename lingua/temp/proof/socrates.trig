@@ -1,0 +1,22 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+
+:rdfs_subclass_rule lingua:premise _:e_b0_1.
+:rdfs_subclass_rule lingua:conclusion _:e_b1_1.
+:rdfs_subclass_rule lingua:bindings ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
+:socrates_query lingua:question _:e_b2_1.
+:socrates_query lingua:answer _:e_b2_1.
+:socrates_query lingua:bindings ((var:S :Socrates)).
+:Socrates a :Mortal.
+_:e_b0_1 {
+    var:A rdfs:subClassOf var:B.
+    var:S a var:A.
+}
+_:e_b1_1 {
+    var:S a var:B.
+}
+_:e_b2_1 {
+    var:S a :Mortal.
+}

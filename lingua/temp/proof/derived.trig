@@ -1,0 +1,34 @@
+@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/derived.trig#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+:main_rule lingua:premise _:e_b0_1.
+:main_rule lingua:conclusion _:e_b1_1.
+:main_rule lingua:bindings ((var:cat :Alice) (var:dog var:x_2)).
+:main_rule lingua:bindings ((var:cat :Minka) (var:dog var:x_2)).
+:derived_rule lingua:premise _:gn_1.
+:derived_rule lingua:conclusion _:e_b3_1.
+:derived_rule lingua:bindings ((var:x_2 :Charly)).
+:main_query lingua:question _:e_b4_1.
+:main_query lingua:answer _:e_b4_1.
+:main_query lingua:bindings ((var:result true)).
+:test :is true.
+_:e_b0_1 {
+    var:cat a :Cat.
+}
+_:e_b1_1 {
+    :derived_rule lingua:premise _:e_b2_1.
+    :derived_rule lingua:conclusion _:e_b3_1.
+}
+_:gn_1 {
+    _:sk_4 a :Dog.
+}
+_:e_b3_1 {
+    :test :is true.
+}
+_:e_b4_1 {
+    :test :is var:result.
+}
+_:e_b2_1 {
+    var:dog a :Dog.
+}
