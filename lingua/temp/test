@@ -15,7 +15,7 @@ echo ""
 
 # ackermann(4, 2)
 echo -en "ackermann42.trig "
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope ackermann42.trig --output answer/ackerman42.trig 2> /dev/null
+eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope ackermann42.trig --output answer/ackermann42.trig 2> /dev/null
 if [[ $(git diff */ackermann42.trig | wc -l) -eq 0 ]]; then
     echo -e "${GREEN}OK${NORMAL}"
     ((OK++))
@@ -54,3 +54,12 @@ do
     fi
 done
 popd > /dev/null
+
+echo ""
+echo -e "${YELLOW}Tests:${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+
+if [[ ${FAILED} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi
