@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.10.5 (2024-02-28)').
+version_info('EYE v9.11.0 (2024-03-02)').
 
 license_info('MIT License
 
@@ -1232,7 +1232,7 @@ args(['--turtle', Argument|Args]) :-
     assertz(ns(skolem, Sns)),
     nb_setval(sc, 0),
     rdf_read_turtle(stream(In), Triples, [on_error(error)]),
-    %close(In),
+    close(In),
     forall(
         member(rdf(S, P, O), Triples),
         (   ttl_n3p(S, Subject),
