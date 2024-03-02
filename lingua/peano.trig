@@ -1,0 +1,89 @@
+# ----------------
+# Peano arithmetic
+# ----------------
+#
+# See https://en.wikipedia.org/wiki/Peano_axioms
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# add
+:peano_add_rule1 lingua:head _:peano_add_rule1_head;
+    lingua:body true.
+
+_:peano_add_rule1_head {
+    (var:A 0) :add var:A.
+}
+
+:peano_add_rule2 lingua:head _:peano_add_rule2_head;
+    lingua:body _:peano_add_rule2_body.
+
+_:peano_add_rule2_head {
+    (var:A (:s var:B)) :add (:s var:C).
+}
+
+_:peano_add_rule2_body {
+    (var:A var:B) :add var:C.
+}
+
+# multiply
+:peano_multiply_rule1 lingua:head _:peano_multiply_rule1_head;
+    lingua:body true.
+
+_:peano_multiply_rule1_head {
+    (var:A 0) :multiply 0.
+}
+
+:peano_multiply_rule2 lingua:head _:peano_multiply_rule2_head;
+    lingua:body _:peano_multiply_rule2_body.
+
+_:peano_multiply_rule2_head {
+    (var:A (:s var:B)) :multiply var:C.
+}
+
+_:peano_multiply_rule2_body {
+    (var:A var:B) :multiply var:D.
+    (var:A var:D) :add var:C.
+}
+
+# factorial
+:peano_factorial_rule lingua:head _:peano_factorial_rule_head;
+    lingua:body _:peano_factorial_rule_body.
+
+_:peano_factorial_rule_head {
+    var:A :factorial var:B.
+}
+
+_:peano_factorial_rule_body {
+    (var:A (:s 0)) :fac var:B.
+}
+
+:peano_fac_rule1 lingua:head _:peano_fac_rule1_head;
+    lingua:body true.
+
+_:peano_fac_rule1_head {
+    (0 var:A) :fac var:A.
+}
+
+:peano_fac_rule2 lingua:head _:peano_fac_rule2_head;
+    lingua:body _:peano_fac_rule2_body.
+
+_:peano_fac_rule2_head {
+    ((:s var:A) var:B) :fac var:C.
+}
+
+_:peano_fac_rule2_body {
+    (var:B (:s var:A)) :multiply var:D.
+    (var:A var:D) :fac var:C.
+}
+
+# query
+:peano_query lingua:question _:peano_question.
+
+_:peano_question {
+    ((:s 0) (:s (:s 0))) :add var:A.
+    (var:A (:s (:s 0))) :multiply var:B.
+    var:B :factorial var:C.
+}
