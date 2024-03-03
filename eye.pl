@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.11.1 (2024-03-03)').
+version_info('EYE v9.11.2 (2024-03-03)').
 
 license_info('MIT License
 
@@ -137,7 +137,6 @@ eye
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
 :- dynamic(intern/1).
-:- dynamic(keep_ng/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
@@ -425,9 +424,17 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
-    (   flag(see)
-    ->  see
-    ;   init
+    % create quads
+    (   retract(graph(N, G)),
+        conj_list(G, L),
+        forall(
+            (   member(M, L),
+                M =.. [P, S, O]
+            ),
+            assertz(quad(triple(S, P, O), N))
+        ),
+        fail
+    ;   true
     ),
     (   implies(_, Conc, _),
         (   var(Conc)
@@ -483,8 +490,7 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag(strings),
-        \+flag(see)
+        \+flag(strings)
     ->  throw(halt(0))
     ;   true
     ),
@@ -513,7 +519,6 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
-    nb_setval(keep_ng, true),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
@@ -618,142 +623,6 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
-
-% init for N3
-init :-
-    % create quads
-    (   retract(graph(N, G)),
-        conj_list(G, L),
-        forall(
-            (   member(M, L),
-                M =.. [P, S, O]
-            ),
-            assertz(quad(triple(S, P, O), N))
-        ),
-        fail
-    ;   true
-    ).
-
-%
-% Second Eye of Euler - SEE
-% Supporting RDF Lingua
-%
-% RDF as the web talking language
-% Reasoning with rules described in RDF
-
-see :-
-    % configure
-    (   \+flag(nope)
-    ->  assertz(flag(nope)),
-        assertz(flag(explain))
-    ;   true
-    ),
-    % create named graphs
-    (   quad(_, A),
-        findall(C,
-            (   retract(quad(triple(S, P, O), A)),
-                C =.. [P, S, O]
-            ),
-            D
-        ),
-        D \= [],
-        conjoin(D, E),
-        assertz(graph(A, E)),
-        fail
-    ;   true
-    ),
-    (   graph(A, B),
-        conj_list(B, C),
-        relist(C, D),
-        conj_list(E, D),
-        E \= B,
-        retract(graph(A, B)),
-        assertz(graph(A, E)),
-        fail
-    ;   true
-    ),
-    % create terms
-    (   pred(P),
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-        P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-        X =.. [P, _, _],
-        call(X),
-        getterm(X, Y),
-        (   Y = X
-        ->  true
-        ;   retract(X),
-            assertz(Y)
-        ),
-        fail
-    ;   true
-    ),
-    \+flag('pass-merged'),
-    % forward rule
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/lingua#premise>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#conclusion>'(R, B),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, B, U], [Q, I, X], beta(U)),
-            (   flag(explain),
-                I \= false
-            ->  zip_list(U, X, W),
-                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/lingua#premise>', R, A)), D),
-                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#conclusion>', R, B)), E),
-                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
-            ;   F = I
-            )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
-    % backward rule
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/lingua#body>'(R, A),
-            '<http://www.w3.org/2000/10/swap/lingua#head>'(R, B),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, B, U], [Q, I, X], beta(U)),
-            (   flag(explain)
-            ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#body>', R, A)), D),
-                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#head>', R, B)), E),
-                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
-            ;   F = Q
-            ),
-            C = ':-'(I, F),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')),
-    % query
-    assertz(implies((
-            '<http://www.w3.org/2000/10/swap/lingua#question>'(R, A),
-            (   '<http://www.w3.org/2000/10/swap/lingua#answer>'(R, B)
-            ->  true
-            ;   B = A
-            ),
-            djiti_answer(answer(B), J),
-            findvars([A, B], V, alpha),
-            list_to_set(V, U),
-            makevars([A, J, U], [Q, I, X], beta(U)),
-            (   flag(explain)
-            ->  zip_list(U, X, W),
-                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/lingua#question>', R, A)), D),
-                conj_append(D, remember(answer('<http://www.w3.org/2000/10/swap/lingua#answer>', R, B)), E),
-                conj_append(E, remember(answer('<http://www.w3.org/2000/10/swap/lingua#bindings>', R, W)), F)
-            ;   F = Q
-            ),
-            C = implies(F, I, '<>'),
-            copy_term_nat(C, CC),
-            labelvars(CC, 0, _, avar),
-            (   \+cc(CC)
-            ->  assertz(cc(CC)),
-                assertz(C),
-                retractall(brake)
-            ;   true
-            )), true, '<>')).
-see.
 
 %
 % command line options
@@ -1865,11 +1734,6 @@ ttl_n3p(node(A), B) :-
     nb_getval(var_ns, Sns),
     atomic_list_concat(['<', Sns, 'node_', A, '>'], B).
 ttl_n3p(A, B) :-
-    (   atom_concat('http://www.w3.org/2000/10/swap/lingua#', _, A),
-        \+flag(see)
-    ->  assertz(flag(see))
-    ;   true
-    ),
     atomic_list_concat(['<', A, '>'], B).
 
 rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-
@@ -2531,9 +2395,7 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   (   flag('no-bnode-relabeling')
-            ;   flag(see)
-            )
+        (   flag('no-bnode-relabeling')
         ->  D = 0
         ;   nb_getval(fdepth, D)
         ),
@@ -2786,12 +2648,7 @@ token(0'<, In, C, relative_uri(URI)) :-
     get_code(In, C1),
     iri_chars(C1, In, C, Codes),
     D = Codes,
-    atom_codes(URI, D),
-    (   atom_concat('http://www.w3.org/2000/10/swap/lingua#', _, URI),
-        \+flag(see)
-    ->  assertz(flag(see))
-    ;   true
-    ).
+    atom_codes(URI, D).
 token(0'>, In, C, gt_gt) :-
     peek_code(In, 0'>),
     !,
@@ -3564,12 +3421,7 @@ w3 :-
         ;   wt(B)
         ),
         ws(B),
-        (   (   B = graph(_, _)
-            ;   B = exopred(graph, _, _)
-            )
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         nl,
         (   A = (_, _),
             conj_list(A, L)
@@ -3591,12 +3443,7 @@ w3 :-
         ;   wt(C)
         ),
         ws(C),
-        (   (   C = graph(_, _)
-            ;   C = exopred(graph, _, _)
-            )
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         nl,
         cnt(output_statements),
         fail
@@ -3899,10 +3746,7 @@ wt(X) :-
 
 wt0(!) :-
     !,
-    (   flag(see)
-    ->  write('_:true')
-    ;   write('true ')
-    ),
+    write('true '),
     wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
 wt0(:-) :-
@@ -3955,10 +3799,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground')
-    ->  (   flag(see)
-        ->  write('var:U_')
-        ;   write('?U_')
-        ),
+    ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
         wt0(Z)
@@ -4366,13 +4207,6 @@ wt2(quad(triple(S, P, O), G)) :-
     wg(O),
     write(' '),
     wg(G).
-wt2(graph(X, Y)) :-
-    !,
-    wp(X),
-    write(' '),
-    nb_setval(keep_ng, false),
-    retractall(keep_ng(graph(X, Y))),
-    wg(Y).
 wt2(is(O, T)) :-
     !,
     (   number(T),
@@ -4479,48 +4313,32 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(see),
-            nb_getval(keep_ng, true)
-        ->  (   graph(N, X)
+    ->  write('{'),
+        indentation(4),
+        (   flag(strings)
+        ->  true
+        ;   (   flag('no-beautified-output')
             ->  true
-            ;   gensym('gn_', Y),
-                nb_getval(var_ns, Sns),
-                atomic_list_concat(['<', Sns, Y, '>'], N),
-                assertz(graph(N, X))
-            ),
-            (   \+keep_ng(graph(N, X))
-            ->  assertz(keep_ng(graph(N, X)))
-            ;   true
-            ),
-            wt(N)
-        ;   nb_setval(keep_ng, true),
-            write('{'),
-            indentation(4),
-            (   flag(strings)
+            ;   nl,
+                indent
+            )
+        ),
+        nb_getval(fdepth, D),
+        E is D+1,
+        nb_setval(fdepth, E),
+        wt(X),
+        nb_setval(fdepth, D),
+        indentation(-4),
+        (   flag(strings)
+        ->  true
+        ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag('no-beautified-output')
-                ->  true
-                ;   nl,
-                    indent
-                )
-            ),
-            nb_getval(fdepth, D),
-            E is D+1,
-            nb_setval(fdepth, E),
-            wt(X),
-            nb_setval(fdepth, D),
-            indentation(-4),
-            (   flag(strings)
-            ->  true
-            ;   (   flag('no-beautified-output')
-                ->  true
-                ;   write('.'),
-                    nl,
-                    indent
-                )
-            ),
-            write('}')
-        )
+            ;   write('.'),
+                nl,
+                indent
+            )
+        ),
+        write('}')
     ;   wt(X)
     ).
 
@@ -4966,18 +4784,6 @@ eam(Recursion) :-
                     tell(Ws),
                     nb_getval(wn, Wn),
                     w3,
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   wt(NG),
-                            nl
-                        )
-                    ),
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   wt(NG),
-                            nl
-                        )
-                    ),
                     retractall(pfx(_, _)),
                     retractall(wpfx(_)),
                     nb_setval(wn, Wn),
@@ -4992,19 +4798,7 @@ eam(Recursion) :-
                     ->  tell(Output)
                     ;   true
                     ),
-                    w3,
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   wt(NG),
-                            nl
-                        )
-                    ),
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   wt(NG),
-                            nl
-                        )
-                    )
+                    w3
                 )
             )
         ;   true
@@ -10907,10 +10701,6 @@ is_gl(A) :-
     ;   A = exopred(_, _, _)
     ).
 
-is_graph(true).
-is_graph(A) :-
-    is_gl(A).
-
 unify(A, B) :-
     nonvar(A),
     A = exopred(P, S, O),
@@ -12077,74 +11867,6 @@ getlist(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(D))
     ).
-
-getterm(A, A) :-
-    var(A),
-    !.
-getterm([], []) :-
-    !.
-getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
-    !.
-getterm([A|B], [C|D]) :-
-    getterm(A, C),
-    !,
-    getterm(B, D).
-getterm(A, [B|C]) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D2),
-        D2 \= D
-    ->  throw(malformed_list_extra_first(A, D, D2))
-    ;   true
-    ),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E2),
-            E2 \= E
-        ->  throw(malformed_list_extra_rest(A, E, E2))
-        ;   true
-        )
-    ->  true
-    ;   throw(malformed_list_no_rest(A))
-    ),
-    !,
-    getterm(D, B),
-    (   getterm(E, C),
-        is_list(C)
-    ->  true
-    ;   throw(malformed_list_invalid_rest(E))
-    ).
-getterm(graph(A, B), graph(A, C)) :-
-    graph(A, B),
-    !,
-    getterm(B, D),
-    conjify(D, C).
-getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
-    getconj(A, D),
-    D \= A,
-    !,
-    getterm(D, E),
-    conjify(E, C).
-getterm(A, B) :-
-    graph(A, _),
-    !,
-    getconj(A, C),
-    getterm(C, D),
-    conjify(D, B).
-getterm(A, B) :-
-    A =.. [C|D],
-    getterm(D, E),
-    B =.. [C|E].
-
-getconj(A, B) :-
-    nonvar(A),
-    findall(C,
-        (   graph(A, C)
-        ),
-        D
-    ),
-    D \= [],
-    !,
-    conjoin(D, B).
-getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
