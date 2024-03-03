@@ -1,22 +1,19 @@
-@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 
-:rdfs_subclass_rule lingua:premise _:e_b0_1.
-:rdfs_subclass_rule lingua:conclusion _:e_b1_1.
-:rdfs_subclass_rule lingua:bindings ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
-:socrates_query lingua:question _:e_b2_1.
-:socrates_query lingua:answer _:e_b2_1.
-:socrates_query lingua:bindings ((var:S :Socrates)).
-:Socrates a :Mortal.
-_:e_b0_1 {
-    var:A rdfs:subClassOf var:B.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#rdfs_subclass_rule> <http://www.w3.org/2000/10/swap/lingua#premise> _:node_1.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#rdfs_subclass_rule> <http://www.w3.org/2000/10/swap/lingua#conclusion> _:node_2.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#rdfs_subclass_rule> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:A <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Human>) (var:B <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Mortal>) (var:S <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Socrates>)).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#socrates_query> <http://www.w3.org/2000/10/swap/lingua#question> _:node_3.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#socrates_query> <http://www.w3.org/2000/10/swap/lingua#answer> _:node_3.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#socrates_query> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:S <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Socrates>)).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Socrates> a <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Mortal>.
+_:node_1 {
+    var:A <http://www.w3.org/2000/01/rdf-schema#subClassOf> var:B.
     var:S a var:A.
 }
-_:e_b1_1 {
+_:node_2 {
     var:S a var:B.
 }
-_:e_b2_1 {
-    var:S a :Mortal.
+_:node_3 {
+    var:S a <file:///home/jdroo/github.com/eyereasoner/eye/lingua/socrates.trig#Mortal>.
 }

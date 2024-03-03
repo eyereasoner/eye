@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.11.0 (2024-03-02)').
+version_info('EYE v9.11.1 (2024-03-03)').
 
 license_info('MIT License
 
@@ -93,6 +93,7 @@ eye
     [--n3] <uri>                    N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
+    --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
 <query>
     --entail <rdf-graph>            output true if RDF graph is entailed
@@ -336,7 +337,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--trig', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -1004,7 +1005,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -1176,7 +1177,7 @@ args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
     args(Args).
-args(['--turtle', Argument|Args]) :-
+args(['--trig', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
     atomic_list_concat(['<', Arg, '>'], R),
@@ -1231,8 +1232,13 @@ args(['--turtle', Argument|Args]) :-
     nb_getval(var_ns, Sns),
     assertz(ns(skolem, Sns)),
     nb_setval(sc, 0),
-    rdf_read_turtle(stream(In), Triples, [on_error(error)]),
+    rdf_read_turtle(stream(In), Triples, [base_uri(Arg), format(trig), prefixes(Pfxs), on_error(error)]),
     close(In),
+    forall(
+        member(Pfx-Ns, Pfxs),
+        put_pfx(Pfx, Ns)
+    ),
+    put_pfx('', D),
     forall(
         member(rdf(S, P, O), Triples),
         (   ttl_n3p(S, Subject),
@@ -1250,6 +1256,16 @@ args(['--turtle', Argument|Args]) :-
             )
         )
     ),
+    forall(
+        member(rdf(S, P, O, G), Triples),
+        (   ttl_n3p(S, Subject),
+            ttl_n3p(P, Predicate),
+            ttl_n3p(O, Object),
+            G = H:_,
+            ttl_n3p(H, Graph),
+            assertz(quad(triple(Subject, Predicate, Object), Graph))
+        )
+    ),
     length(Triples, SC),
     nb_getval(input_statements, IN),
     Inp is SC+IN,
@@ -1260,6 +1276,9 @@ args(['--turtle', Argument|Args]) :-
         flush_output(user_error)
     ),
     args(Args).
+args(['--turtle', Arg|Args]) :-
+    !,
+    args(['--trig', Arg|Args]).
 args([Arg|Args]) :-
     args(['--n3', Arg|Args]).
 
@@ -1846,6 +1865,11 @@ ttl_n3p(node(A), B) :-
     nb_getval(var_ns, Sns),
     atomic_list_concat(['<', Sns, 'node_', A, '>'], B).
 ttl_n3p(A, B) :-
+    (   atom_concat('http://www.w3.org/2000/10/swap/lingua#', _, A),
+        \+flag(see)
+    ->  assertz(flag(see))
+    ;   true
+    ),
     atomic_list_concat(['<', A, '>'], B).
 
 rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-

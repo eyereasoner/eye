@@ -1,30 +1,27 @@
-@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-:union_query lingua:question _:e_b2_1.
-:union_query lingua:answer _:e_b3_1.
-:union_query lingua:bindings ((var:U _:gn_1)).
-:result :is _:gn_1.
-_:e_b2_1 {
-    (_:e_b0_1 _:e_b1_1) graph:union var:U.
-}
-_:e_b3_1 {
-    :result :is var:U.
-}
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#union_query> <http://www.w3.org/2000/10/swap/lingua#question> _:gn_1.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#union_query> <http://www.w3.org/2000/10/swap/lingua#answer> _:node_4.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#union_query> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:U _:gn_2)).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#result> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#is> _:gn_2.
 _:gn_1 {
-    :A :B :C.
-    :A :X :C.
-    :D :E :F.
-    :A :Y :C.
+    (_:node_1 _:node_2) <http://www.w3.org/2000/10/swap/graph#union> var:U.
 }
-_:e_b0_1 {
-    :A :B :C.
-    :A :X :C.
-    :D :E :F.
+_:node_4 {
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#result> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#is> var:U.
 }
-_:e_b1_1 {
-    :A :Y :C.
-    :A :B :C.
+_:gn_2 {
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#B> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#X> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#D> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#E> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#F>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#Y> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+}
+_:node_1 {
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#B> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#X> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#D> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#E> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#F>.
+}
+_:node_2 {
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#Y> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
+    <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#A> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#B> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/union.trig#C>.
 }

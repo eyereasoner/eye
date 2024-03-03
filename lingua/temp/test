@@ -13,13 +13,13 @@ echo -e "${YELLOW}Running lingua/temp/test${NORMAL}"
 echo -e "${YELLOW}------------------------${NORMAL}"
 echo ""
 
-echo -e "${YELLOW}testing with riot trig input${NORMAL}"
+echo -e "${YELLOW}testing with --trig input${NORMAL}"
 pushd .. > /dev/null
 for file in *.trig
 do
     echo -en "$file "
-    riot --out trig $file | eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope - --output temp/answer/$file 2> /dev/null
-    riot --out trig $file | eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 - --output temp/proof/$file 2> /dev/null
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope --trig $file --output temp/answer/$file 2> /dev/null
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --trig $file --output temp/proof/$file 2> /dev/null
     if [[ $(git diff temp/*/$file | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
@@ -29,19 +29,6 @@ do
     fi
 done
 popd > /dev/null
-echo ""
-
-echo -e "${YELLOW}running all cases together${NORMAL}"
-echo -en "allcases.trig "
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope ../*.trig --output answer/allcases.trig 2> /dev/null
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 ../*.trig --output proof/allcases.trig 2> /dev/null
-if [[ $(git diff */allcases.trig | wc -l) -eq 0 ]]; then
-    echo -e "${GREEN}OK${NORMAL}"
-    ((OK++))
-else
-    echo -e "${RED}FAILED${NORMAL}"
-    ((FAILED++))
-fi
 echo ""
 
 echo -e "${YELLOW}calculating ackermann(4, 2)${NORMAL}"

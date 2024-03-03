@@ -6,39 +6,39 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 :universal_statements_rule1 lingua:body true.
-:universal_statements_rule1 lingua:head _:e_universal_statements_rule1_head_1.
+:universal_statements_rule1 lingua:head _:node_1.
 :universal_statements_rule1 lingua:bindings ((var:X :pat)).
-:universal_statements_query1 lingua:question _:e_universal_statements_question1_1.
-:universal_statements_query1 lingua:answer _:e_universal_statements_question1_1.
+:universal_statements_query1 lingua:question _:node_8.
+:universal_statements_query1 lingua:answer _:node_8.
 :universal_statements_query1 lingua:bindings ().
 :pat a rdfs:Resource.
-:universal_statements_rule2 lingua:body _:e_universal_statements_rule2_body_1.
-:universal_statements_rule2 lingua:head _:e_universal_statements_rule2_head_1.
+:universal_statements_rule2 lingua:body _:gn_1.
+:universal_statements_rule2 lingua:head _:node_2.
 :universal_statements_rule2 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
-:universal_statements_rule3 lingua:body _:e_universal_statements_rule2_body_1.
-:universal_statements_rule3 lingua:head _:e_universal_statements_rule3_head_1.
+:universal_statements_rule3 lingua:body _:gn_1.
+:universal_statements_rule3 lingua:head _:node_5.
 :universal_statements_rule3 lingua:bindings ((var:A :bob) (var:B skolem:t_0)).
-:universal_statements_query2 lingua:question _:e_universal_statements_question2_1.
-:universal_statements_query2 lingua:answer _:e_universal_statements_question2_1.
+:universal_statements_query2 lingua:question _:node_9.
+:universal_statements_query2 lingua:answer _:node_9.
 :universal_statements_query2 lingua:bindings ((var:X skolem:t_0)).
 :bob :loves skolem:t_0.
 skolem:t_0 :is :lonely.
-_:e_universal_statements_rule1_head_1 {
+_:node_1 {
     var:X a rdfs:Resource.
 }
-_:e_universal_statements_question1_1 {
+_:node_8 {
     :pat a rdfs:Resource.
 }
-_:e_universal_statements_rule2_body_1 {
+_:gn_1 {
     (var:A) log:skolem var:B.
 }
-_:e_universal_statements_rule2_head_1 {
+_:node_2 {
     var:A :loves var:B.
 }
-_:e_universal_statements_rule3_head_1 {
+_:node_5 {
     var:B :is :lonely.
 }
-_:e_universal_statements_question2_1 {
+_:node_9 {
     :bob :loves var:X.
     var:X :is :lonely.
 }

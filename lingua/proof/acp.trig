@@ -4,69 +4,69 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
-:acp_rule1 lingua:body _:e_acp_rule1_body_1.
-:acp_rule1 lingua:head _:e_acp_rule1_head_1.
+:acp_rule1 lingua:body _:gn_1.
+:acp_rule1 lingua:head _:node_1.
 :acp_rule1 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:U_0) (var:X ((<https://eyereasoner.github.io/eye/lingua/acp.trig>) 1))).
-:acp_rule2 lingua:body _:e_acp_rule2_body_1.
-:acp_rule2 lingua:head _:e_acp_rule2_head_1.
+:acp_rule2 lingua:body _:gn_2.
+:acp_rule2 lingua:head _:node_7.
 :acp_rule2 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:U_1) (var:List (:C)) (var:X ((<https://eyereasoner.github.io/eye/lingua/acp.trig>) 1)) (var:L 1)).
-:acp_rule3 lingua:body _:e_acp_rule3_body_1.
-:acp_rule3 lingua:head _:e_acp_rule3_head_1.
+:acp_rule3 lingua:body _:gn_3.
+:acp_rule3 lingua:head _:node_13.
 :acp_rule3 lingua:bindings ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:U_2) (var:List ()) (var:X ((<https://eyereasoner.github.io/eye/lingua/acp.trig>) 1)) (var:L 0)).
-:acp_query lingua:question _:e_acp_question_1.
-:acp_query lingua:answer _:e_acp_answer_1.
+:acp_query lingua:question _:node_19.
+:acp_query lingua:answer _:node_20.
 :acp_query lingua:bindings ((var:Pol :PolicyX)).
 :test :for :PolicyX.
 :test :is true.
-_:e_acp_rule1_body_1 {
+_:gn_1 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (_:e_acp_rule1_fa1_1 _:e_acp_rule1_fa2_1) log:forAllIn var:X.
+    (_:node_4 _:node_6) log:forAllIn var:X.
 }
-_:e_acp_rule1_head_1 {
+_:node_1 {
     var:Pol :pass :allOfTest.
 }
-_:e_acp_rule2_body_1 {
+_:gn_2 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (var:Field _:e_acp_rule2_where_1 var:List) log:collectAllIn var:X.
+    (var:Field _:node_11 var:List) log:collectAllIn var:X.
     var:List list:length var:L.
     var:L log:notEqualTo 0.
 }
-_:e_acp_rule2_head_1 {
+_:node_7 {
     var:Pol :pass :anyOfTest.
 }
-_:e_acp_rule3_body_1 {
+_:gn_3 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (var:Field _:e_acp_rule3_where_1 var:List) log:collectAllIn var:X.
+    (var:Field _:node_17 var:List) log:collectAllIn var:X.
     var:List list:length var:L.
     var:L log:equalTo 0.
 }
-_:e_acp_rule3_head_1 {
+_:node_13 {
     var:Pol :pass :noneOfTest.
 }
-_:e_acp_question_1 {
+_:node_19 {
     var:Pol a :Policy.
     var:Pol :pass :allOfTest.
     var:Pol :pass :anyOfTest.
     var:Pol :pass :noneOfTest.
 }
-_:e_acp_answer_1 {
+_:node_20 {
     :test :for var:Pol.
     :test :is true.
 }
-_:e_acp_rule1_fa1_1 {
+_:node_4 {
     var:Pol :allOf var:Field.
 }
-_:e_acp_rule1_fa2_1 {
+_:node_6 {
     var:Test :has var:Field.
 }
-_:e_acp_rule2_where_1 {
+_:node_11 {
     var:Pol :anyOf var:Field.
     var:Test :has var:Field.
 }
-_:e_acp_rule3_where_1 {
+_:node_17 {
     var:Pol :noneOf var:Field.
     var:Test :has var:Field.
 }

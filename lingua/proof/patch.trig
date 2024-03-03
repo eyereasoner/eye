@@ -3,28 +3,28 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-:patch_rule lingua:premise _:e_patch_rule_premise_1.
+:patch_rule lingua:premise _:gn_1.
 :patch_rule lingua:conclusion true.
 :patch_rule lingua:bindings ((var:person :pers001)).
-:patch_query lingua:question _:e_patch_question_1.
-:patch_query lingua:answer _:e_patch_question_1.
+:patch_query lingua:question _:node_4.
+:patch_query lingua:answer _:node_4.
 :patch_query lingua:bindings ((var:person :pers001) (var:fname "Garcia") (var:gname "Alex")).
 :pers001 :familyName "Garcia".
 :pers001 :givenName "Alex".
 :patch_query lingua:bindings ((var:person :pers002) (var:fname "Cardinale") (var:gname "Claudia")).
 :pers002 :familyName "Cardinale".
 :pers002 :givenName "Claudia".
-_:e_patch_rule_premise_1 {
+_:gn_1 {
     var:person :familyName "Garcia".
-    _:e_deletes_graph_1 log:becomes _:e_inserts_graph_1.
+    _:node_2 log:becomes _:node_3.
 }
-_:e_patch_question_1 {
+_:node_4 {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }
-_:e_deletes_graph_1 {
+_:node_2 {
     var:person :givenName "Claudia".
 }
-_:e_inserts_graph_1 {
+_:node_3 {
     var:person :givenName "Alex".
 }

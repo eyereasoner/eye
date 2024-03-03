@@ -1,30 +1,27 @@
-@prefix : <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-:patch_rule lingua:premise _:e_b0_1.
-:patch_rule lingua:conclusion true.
-:patch_rule lingua:bindings ((var:person :pers001)).
-:patch_query lingua:question _:e_b3_1.
-:patch_query lingua:answer _:e_b3_1.
-:patch_query lingua:bindings ((var:person :pers001) (var:fname "Garcia") (var:gname "Alex")).
-:pers001 :familyName "Garcia".
-:pers001 :givenName "Alex".
-:patch_query lingua:bindings ((var:person :pers002) (var:fname "Cardinale") (var:gname "Claudia")).
-:pers002 :familyName "Cardinale".
-:pers002 :givenName "Claudia".
-_:e_b0_1 {
-    var:person :familyName "Garcia".
-    _:e_b1_1 log:becomes _:e_b2_1.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_rule> <http://www.w3.org/2000/10/swap/lingua#premise> _:gn_1.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_rule> <http://www.w3.org/2000/10/swap/lingua#conclusion> true.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_rule> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers001>)).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_query> <http://www.w3.org/2000/10/swap/lingua#question> _:node_4.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_query> <http://www.w3.org/2000/10/swap/lingua#answer> _:node_4.
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_query> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers001>) (var:fname "Garcia") (var:gname "Alex")).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers001> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#familyName> "Garcia".
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers001> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#givenName> "Alex".
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#patch_query> <http://www.w3.org/2000/10/swap/lingua#bindings> ((var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers002>) (var:fname "Cardinale") (var:gname "Claudia")).
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers002> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#familyName> "Cardinale".
+<file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#pers002> <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#givenName> "Claudia".
+_:gn_1 {
+    var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#familyName> "Garcia".
+    _:node_2 <http://www.w3.org/2000/10/swap/log#becomes> _:node_3.
 }
-_:e_b3_1 {
-    var:person :familyName var:fname.
-    var:person :givenName var:gname.
+_:node_4 {
+    var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#familyName> var:fname.
+    var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#givenName> var:gname.
 }
-_:e_b1_1 {
-    var:person :givenName "Claudia".
+_:node_2 {
+    var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#givenName> "Claudia".
 }
-_:e_b2_1 {
-    var:person :givenName "Alex".
+_:node_3 {
+    var:person <file:///home/jdroo/github.com/eyereasoner/eye/lingua/patch.trig#givenName> "Alex".
 }

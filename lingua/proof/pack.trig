@@ -1,4 +1,3 @@
-@prefix : <https://example.org/ns/example#>.
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix pack: <https://example.org/ns/package#>.
@@ -6,23 +5,23 @@
 @prefix sign: <https://example.org/ns/signature#>.
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
 
-:pack_query lingua:question _:e_pack_question_1.
-:pack_query lingua:answer _:e_pack_question_1.
-:pack_query lingua:bindings ((var:S _:bn_1) (var:O _:e_pack1_1)).
-_:bn_1 pack:package _:e_pack1_1.
-_:e_pack_question_1 {
+<https://example.org/ns/example#pack_query> lingua:question _:node_6.
+<https://example.org/ns/example#pack_query> lingua:answer _:node_6.
+<https://example.org/ns/example#pack_query> lingua:bindings ((var:S _:node_1) (var:O _:gn_1)).
+_:node_1 pack:package _:gn_1.
+_:node_6 {
     var:S pack:package var:O.
 }
-_:e_pack1_1 {
-    _:bn_2 pack:content _:e_content1_1.
-    _:bn_2 pack:origin :Endpoint.
-    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
-    _:bn_2 pack:hasContentSignature _:bn_4.
-    _:bn_4 a sign:Signature.
-    _:bn_4 sign:issuer :Alice.
-    _:bn_4 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
-    _:bn_4 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+_:gn_1 {
+    _:node_3 pack:content _:node_4.
+    _:node_3 pack:origin <https://example.org/ns/example#Endpoint>.
+    _:node_3 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:node_5 a sign:Signature.
+    _:node_5 sign:issuer <https://example.org/ns/example#Alice>.
+    _:node_5 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:node_5 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
+    _:node_3 pack:hasContentSignature _:node_5.
 }
-_:e_content1_1 {
-    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
+_:node_4 {
+    <https://example.org/ns/example#Bob> vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
 }

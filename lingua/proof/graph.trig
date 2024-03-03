@@ -2,8 +2,8 @@
 @prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:graph_rule1 lingua:premise _:e_graph_rule1_premise_1.
-:graph_rule1 lingua:conclusion _:e_graph_rule1_conclusion_1.
+:graph_rule1 lingua:premise _:node_1.
+:graph_rule1 lingua:conclusion _:node_2.
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :orleans)).
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :chartres)).
 :graph_rule1 lingua:bindings ((var:A :paris) (var:B :amiens)).
@@ -14,8 +14,8 @@
 :graph_rule1 lingua:bindings ((var:A :lemans) (var:B :angers)).
 :graph_rule1 lingua:bindings ((var:A :lemans) (var:B :tours)).
 :graph_rule1 lingua:bindings ((var:A :angers) (var:B :nantes)).
-:graph_rule2 lingua:premise _:e_graph_rule2_premise_1.
-:graph_rule2 lingua:conclusion _:e_graph_rule2_conclusion_1.
+:graph_rule2 lingua:premise _:node_3.
+:graph_rule2 lingua:conclusion _:node_4.
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :orleans) (var:C :blois)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :orleans) (var:C :bourges)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :chartres) (var:C :lemans)).
@@ -23,8 +23,8 @@
 :graph_rule2 lingua:bindings ((var:A :chartres) (var:B :lemans) (var:C :angers)).
 :graph_rule2 lingua:bindings ((var:A :chartres) (var:B :lemans) (var:C :tours)).
 :graph_rule2 lingua:bindings ((var:A :lemans) (var:B :angers) (var:C :nantes)).
-:graph_query lingua:question _:e_graph_question_1.
-:graph_query lingua:answer _:e_graph_question_1.
+:graph_query lingua:question _:node_5.
+:graph_query lingua:answer _:node_5.
 :graph_query lingua:bindings ((var:A :angers)).
 :angers :path :nantes.
 :graph_query lingua:bindings ((var:A :lemans)).
@@ -44,19 +44,19 @@
 :paris :path :nantes.
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :chartres) (var:C :nantes)).
 :graph_rule2 lingua:bindings ((var:A :paris) (var:B :angers) (var:C :nantes)).
-_:e_graph_rule1_premise_1 {
+_:node_1 {
     var:A :oneway var:B.
 }
-_:e_graph_rule1_conclusion_1 {
+_:node_2 {
     var:A :path var:B.
 }
-_:e_graph_rule2_premise_1 {
+_:node_3 {
     var:A :path var:B.
     var:B :path var:C.
 }
-_:e_graph_rule2_conclusion_1 {
+_:node_4 {
     var:A :path var:C.
 }
-_:e_graph_question_1 {
+_:node_5 {
     var:A :path :nantes.
 }
