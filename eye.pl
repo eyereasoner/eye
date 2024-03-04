@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v9.11.3 (2024-03-03)').
+version_info('EYE v9.11.4 (2024-03-04)').
 
 license_info('MIT License
 
@@ -1637,6 +1637,12 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
     tr_tr(Y, U),
     write(':-'(U, X)),
+    writeln('.'),
+    tr_n3p(Z, Src, Mode).
+tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
+    !,
+    djiti_answer(answer(Y), A),
+    write(implies(X, A, Src)),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>\''(X, Y)|Z], Src, Mode) :-

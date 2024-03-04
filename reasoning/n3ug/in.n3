@@ -1,10 +1,26 @@
-@prefix ex: <http://example.org/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
 
+# unnamed graphs
 _:bn1 {
-    ex:s ex:p _:x.
+    :s :p _:x.
 }
 
 _:bn2 {
-    ex:a ex:b ex:c.
-    ex:d ex:e _:x.
+    :a :b :c.
+    :d :e _:x.
 }
+
+# named graph
+:g {
+    :u :v :w.
+    :x :y :z.
+}
+
+# query
+{
+    ?S ?P ?O ?G.
+    ?G log:rawType log:LabeledBlankNode.
+} log:query {
+    ?S ?P ?O ?G.
+}.
