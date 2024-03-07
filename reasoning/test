@@ -16,8 +16,11 @@ echo ""
 for dir in */
 do
     pushd "${dir}" > /dev/null
-    echo -en "${dir} "
+    echo -en "${dir} ... "
+    start=$(($(date +%s%N)/1000000))
     ./test > /dev/null 2>&1
+    end=$(($(date +%s%N)/1000000))
+    echo -en "`expr $end - $start` msec "
     if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
