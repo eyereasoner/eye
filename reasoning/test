@@ -13,6 +13,7 @@ echo -e "${YELLOW}Running reasoning/test${NORMAL}"
 echo -e "${YELLOW}----------------------${NORMAL}"
 echo ""
 
+begin=$(($(date +%s)))
 for dir in */
 do
     pushd "${dir}" > /dev/null
@@ -20,7 +21,7 @@ do
     start=$(($(date +%s%N)/1000000))
     ./test > /dev/null 2>&1
     end=$(($(date +%s%N)/1000000))
-    echo -en "`expr $end - $start` msec "
+    echo -en "${YELLOW}`expr $end - $start` msec${NORMAL} "
     if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
@@ -30,10 +31,10 @@ do
     fi
     popd  > /dev/null
 done
+end=$(($(date +%s)))
 echo ""
 
-echo -e "${YELLOW}Tests:${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
-
+echo -e "reasoning tests: ${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 if [[ ${FAILED} -eq 0 ]]; then
     exit 0
 else
