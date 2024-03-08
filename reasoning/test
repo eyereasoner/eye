@@ -13,7 +13,11 @@ echo -e "${YELLOW}Running reasoning/test${NORMAL}"
 echo -e "${YELLOW}----------------------${NORMAL}"
 echo ""
 
-pad () { [ "$#" -gt 1 ] && [ -n "$2" ] && printf "%$2.${2#-}s" "$1"; }
+pad () {
+    [ "$#" -gt 1 ]
+    [ -n "$2" ]
+    printf "%$2.${2#-}s" "$1"
+}
 
 begin=$(($(date +%s)))
 for dir in */
