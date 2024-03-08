@@ -13,15 +13,17 @@ echo -e "${YELLOW}Running reasoning/test${NORMAL}"
 echo -e "${YELLOW}----------------------${NORMAL}"
 echo ""
 
+pad () { [ "$#" -gt 1 ] && [ -n "$2" ] && printf "%$2.${2#-}s" "$1"; }
+
 begin=$(($(date +%s)))
 for dir in */
 do
     pushd "${dir}" > /dev/null
-    echo -en "${dir} ... "
+    echo -en "$(pad "${file}${dir}" -28)"
     start=$(($(date +%s%N)/1000000))
     ./test > /dev/null 2>&1
     end=$(($(date +%s%N)/1000000))
-    echo -en "${YELLOW}`expr $end - $start` msec${NORMAL} "
+    echo -en "$(pad "${YELLOW}`expr $end - $start` msec${NORMAL} " 28)"
     if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
