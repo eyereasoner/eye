@@ -31,6 +31,6 @@ done
 
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 mkdir -p "$prefix/lib" "$prefix/bin" || exit 1
-swipl -q -f "$SCRIPT_DIR/eye.pl" -g main -- --image "$prefix/lib/eye.pvm" || exit 1
+swipl -q -f "$SCRIPT_DIR/eye.pl" -g main -- --quiet --image "$prefix/lib/eye.pvm" || exit 1
 sed "s#@PREFIX@#$prefix#g" "$SCRIPT_DIR/eye.sh.in" > "$prefix/bin/eye" || exit 1
 chmod 755 "$prefix/bin/eye"
