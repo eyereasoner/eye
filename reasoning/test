@@ -40,7 +40,7 @@ done
 end=$(($(date +%s)))
 echo ""
 
-echo -e "reasoning tests: ${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
 if [[ ${FAILED} -eq 0 ]]; then
     exit 0
 else
