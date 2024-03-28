@@ -1,0 +1,78 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+# Examples from "Neeltje Komt Dinsdag In Evakostuum" , M.C. Gomperts
+
+:Tweety a :Bird.
+
+## Syllogism 1 : Camestres
+
+# All cats are mammals
+(_:Cat) log:nand {
+    _:Cat a :Cat.
+    () log:nand {
+        _:Cat a :Mammal.
+    }.
+}.
+
+# No bird is a mammal
+(_:Bird) log:nand {
+    _:Bird a :Bird.
+    _:Bird a :Mammal.
+}.
+
+# IMPLIES: Bird is not a Cat
+
+## Syllogism 2 : Datasi
+
+# All cats are feline
+(_:Cat) log:nand {
+    _:Cat a :Cat.
+    () log:nand {
+        _:Cat a :Feline.
+    }.
+}.
+
+# Some cats are white
+_:X a :Cat , :White.
+
+# IMPLIES : Some white are feline 
+
+# Syllogism 3 : Ferio
+
+# No muslim is a christian
+(_:M) log:nand {
+    _:M a :Muslim.
+    _:M a :Christian.
+}.
+
+# Some worshippers are muslim
+_:P a :Worshipper , :Muslim.
+
+# IMPLIES : Some worshipper is not a christian 
+
+() log:nand {
+    # 1
+    () log:nand {
+        :Tweety a :Cat.
+    }.
+
+    # 2 
+    _:X a :White, :Feline.
+
+    # 3
+    () log:nand {
+        _:P a :Christian.
+    }.
+
+    () log:nand {
+        :test :is true.
+    }.
+}.
+
+# Test
+{
+    :test :is true.
+} log:query {
+    :test :is true.
+}.

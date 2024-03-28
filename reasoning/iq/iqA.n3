@@ -1,18 +1,133 @@
 @prefix : <http://example.org/test#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 _:sk_0 :loves _:e_y_1.
 _:e_x_1 :says {
-    _:e_x_3 :knows :Albert.
+    _:e_x_1 :knows :Albert.
 }.
 :s :p :o.
 :s :pp {
     :s :ppp :ooo.
 }.
 {
-    ?U_1 :knows :Albert.
+    ?U_1 <http://www.w3.org/2000/10/swap/log#nand> ?U_2.
+    "getlist(some1,some3)".
+    "is_list(some3)".
+    "is_graph(some2)".
+    "conj_list(some2,some4)".
+    "list_to_set(some4,some5)".
+    "select('<http://www.w3.org/2000/10/swap/log#nand>'(some6,some7),some5,some8)".
+    "getlist(some6,some9)".
+    "is_list(some9)".
+    "is_graph(some7)".
+    "conj_list(some7,some10)".
+    "list_to_set(some10,some11)".
+    "select('<http://www.w3.org/2000/10/swap/log#nand>'(some12,some13),some11,some14)".
+    "getlist(some12,some15)".
+    "is_list(some15)".
+    "is_graph(some13)".
+    "conj_list(some13,some16),append(some8,some16,some17),conj_list(some18,some17);length(some8,some19),some19>1,conj_list(some20,some14),conj_list(some18,['<http://www.w3.org/2000/10/swap/log#nand>'([],some20)|some8])".
+    "findvars(some7,some21,beta)".
+    "intersection(some9,some21,some22)".
+    "findvars(some13,some23,beta)".
+    "intersection(some15,some23,some24)".
+    "append([some3,some22,some24],some25)".
 } => {
-    var:x_0 :knows :Kurt.
+    _:sk_25 <http://www.w3.org/2000/10/swap/log#nand> _:sk_18.
+}.
+{
+    ?U_26 <http://www.w3.org/2000/10/swap/log#nand> ?U_27.
+    "getlist(some26,some28)".
+    "is_list(some28)".
+    "is_graph(some27)".
+    "conj_list(some27,some29)".
+    "list_to_set(some29,some30)".
+    "findall(1,member('<http://www.w3.org/2000/10/swap/log#nand>'(some31,some32),some30),some33)".
+    "length(some33,some34)".
+    "length(some30,some35)".
+    "memberchk(some34,[0,2,some35])".
+    ?U_36 <http://www.w3.org/2000/10/swap/log#nand> ?U_37.
+    "getlist(some36,some38)".
+    "is_list(some38)".
+    "is_graph(some37)".
+    "conj_list(some37,some39)".
+    "list_to_set(some39,some40)".
+    "length(some40,2)" .
+    "makevars(some40,some41,beta(some38))".
+    "select('<http://www.w3.org/2000/10/swap/log#nand>'(some42,some43),some41,[some44])".
+    "getlist(some42,some45)".
+    "is_list(some45)".
+    "is_graph(some43)".
+    "select('<http://www.w3.org/2000/10/swap/log#nand>'(some46,some47),some30,some48),some49=['<http://www.w3.org/2000/10/swap/log#nand>'(some45,some43)|some48],conj_list(some47,some50),memberchk(some44,some50);select(some47,some30,some48),some49=[some44|some48],conj_list(some43,some50),memberchk(some47,some50)".
+    "list_to_set(some49,some51)".
+    "conj_list(some52,some51)".
+    "ground('<http://www.w3.org/2000/10/swap/log#nand>'(some28,some52))".
+} => {
+    _:sk_28 <http://www.w3.org/2000/10/swap/log#nand> _:sk_52.
+}.
+{
+    ?U_53 <http://www.w3.org/2000/10/swap/log#nand> ?U_54.
+    "getlist(some53,some55)".
+    "is_list(some55)".
+    "is_graph(some54)".
+    "conj_list(some54,some56)".
+    "list_to_set(some56,some57)".
+    "select('<http://www.w3.org/2000/10/swap/log#nand>'(some58,some59),some57,some60)".
+    "conj_list(some61,some60)".
+    "makevars([some61,some59],[some62,some63],beta(some55))".
+    "findvars(some63,some64,beta)".
+    "makevars(some63,some65,beta(some64))".
+} => {
+    _:sk_62 => _:sk_65.
+}.
+{
+    ?U_66 <http://www.w3.org/2000/10/swap/log#nand> ?U_67.
+    "getlist(some66,some68)".
+    "is_list(some68)".
+    "is_graph(some67)".
+    "conj_list(some67,some69)".
+    "list_to_set(some69,some70)".
+    "\+member(exopred(some71,some72,some73),some70)".
+    "length(some70,some74),some74=<2->select(some75,some70,some76),some76\=[];some70=[some75|some76]".
+    "conj_list(some77,some76)".
+    "findvars(some75,some78,beta)".
+    "findall(some79,(member(some79,some68),\+member(some79,some78)),some80)".
+    "some81='<http://www.w3.org/2000/10/swap/log#nand>'(some80,some77)".
+    "makevars([some75,some81],[some82,some83],beta(some68))".
+    "findvars(some83,some84,beta)".
+    "makevars(some83,some85,beta(some84))".
+} => {
+    _:sk_82 => _:sk_85.
+}.
+{
+    ?U_86 <http://www.w3.org/2000/10/swap/log#nand> ?U_87.
+    "getlist(some86,some88)".
+    "is_list(some88)".
+    "some88\=[]".
+    "is_graph(some87)".
+    "conj_list(some87,[some87])".
+    "some87='<http://www.w3.org/2000/10/swap/log#nand>'(some89,some90)->true;some89=[],some90='<http://www.w3.org/2000/10/swap/log#nand>'([],some87)".
+    "findvars(some90,some91,beta)".
+    "intersection(some89,some91,some92)".
+    "conj_list(some90,some93)".
+    "member(some94,some93)".
+    "findall('<http://www.w3.org/2000/10/swap/log#skolem>'(some88,some95),member(some95,some92),some96)".
+    "conj_list(some97,some96)".
+    "append(some88,some92,some98)".
+    "makevars([some94,some97],[some99,some100],beta(some98))".
+} => {
+    _:sk_99 <= _:sk_100.
+}.
+{
+    ?U_101 <http://www.w3.org/2000/10/swap/log#nand> ?U_102.
+    "call((getlist(some101,some103),is_list(some103),is_graph(some102),conj_list(some102,some104),makevars(some102,some105,beta(some103)),(some105='<http://www.w3.org/2000/10/swap/log#nand>'(some106,false),some107=true;catch(call(some105),some108,false),some107=some105),(some105='<http://www.w3.org/2000/10/swap/log#nand>'(some109,some110)->some111='<http://www.w3.org/2000/10/swap/log#nand>'(some112,some110);some111=some105)))".
+    (?U_107 {
+        ?U_113 <http://www.w3.org/2000/10/swap/log#nand> ?U_111.
+    }) <http://www.w3.org/2000/10/swap/log#conjunction> true.
+} => false.
+{
+    ?U_114 :knows :Albert.
+} => {
+    ?U_114 :knows :Kurt.
 }.
 {
     :e :p :a.
@@ -21,38 +136,38 @@ _:e_x_1 :says {
 }.
 {
     {
-        ?U_5 :p :a.
+        ?U_118 :p :a.
     } => {
-        ?U_5 :q :b.
+        ?U_118 :q :b.
     }.
 } => {
     {
-        ?U_5 :r :c.
+        ?U_118 :r :c.
     } => {
-        ?U_5 :s :d.
+        ?U_118 :s :d.
     }.
 }.
 {
-    ?U_2 :p :o.
+    ?U_115 :p :o.
 } => {
-    ?U_2 :pp {
-        ?U_2 :ppp :ooo.
+    ?U_115 :pp {
+        ?U_115 :ppp :ooo.
     }.
 }.
 {
-    ?U_3 :p :o.
+    ?U_116 :p :o.
 } => {
     {
         {
-            ?U_3 :p2 ?U_6.
+            ?U_116 :p2 ?U_119.
         } => {
-            ?U_3 :p3 ?U_6.
+            ?U_116 :p3 ?U_119.
         }.
     } => {
         {
-            ?U_3 :p4 ?U_6.
+            ?U_116 :p4 ?U_119.
         } => {
-            ?U_3 :p5 ?U_6.
+            ?U_116 :p5 ?U_119.
         }.
     }.
 }.
@@ -63,17 +178,17 @@ _:e_x_1 :says {
 }.
 {
     {
-        :s :p2 ?U_7.
+        :s :p2 ?U_120.
     } => {
-        :s :p3 ?U_7.
+        :s :p3 ?U_120.
     }.
 } => {
     {
-        :s :p4 ?U_7.
+        :s :p4 ?U_120.
     } => {
-        :s :p5 ?U_7.
+        :s :p5 ?U_120.
     }.
 }.
 {
-    ?U_4 :loves _:e_y_1.
+    ?U_117 :loves _:e_y_1.
 } <= true.
