@@ -1,0 +1,33 @@
+# --------------------
+# Universal statements
+# --------------------
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+# \Every x: type(x, Resource)
+(_:x) log:nand {
+    () log:nand {
+        _:x a rdfs:Resource.
+    }.
+}.
+
+# Everybody loves somebody who is lonely
+(_:A) log:nand {
+    (_:B) log:nand {
+        _:A :loves _:B.
+        _:B :is :lonely.
+    }.
+}.
+
+# query
+{
+    :pat a rdfs:Resource.
+    :bob :loves ?x.
+    ?x :is :lonely.
+} log:query {
+    :pat a rdfs:Resource.
+    :bob :loves ?x.
+    ?x :is :lonely.
+}.
