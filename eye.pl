@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.0.1 (2024-03-29)').
+version_info('EYE v10.0.2 (2024-03-29)').
 
 license_info('MIT License
 
@@ -468,6 +468,7 @@ gre(Argus) :-
             is_graph(G),
             conj_list(G, L),
             list_to_set(L, B),
+            \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), B),
             findall(1,
                 (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
                 ),
@@ -482,6 +483,7 @@ gre(Argus) :-
             is_graph(F),
             conj_list(F, K),
             list_to_set(K, N),
+            \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), N),
             length(N, 2),
             makevars(N, J, beta(Wl)),
             select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
@@ -510,8 +512,11 @@ gre(Argus) :-
             conj_list(G, L),
             list_to_set(L, B),
             select('<http://www.w3.org/2000/10/swap/log#nand>'(_, H), B, K),
+            H \= triple(_, _, _),
             conj_list(R, K),
-            makevars([R, H], [Q, S], beta(Vl)),
+            find_graffiti(K, D),
+            append(Vl, D, U),
+            makevars([R, H], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
@@ -523,6 +528,7 @@ gre(Argus) :-
             is_graph(G),
             conj_list(G, L),
             list_to_set(L, B),
+            \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
             \+member(exopred(_, _, _), B),
             (   length(B, O),
                 O =< 2
@@ -539,10 +545,35 @@ gre(Argus) :-
                 Z
             ),
             E = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, T),
-            makevars([R, E], [Q, S], beta(Vl)),
+            find_graffiti([R], D),
+            append(Vl, D, U),
+            makevars([R, E], [Q, S], beta(U)),
             findvars(S, W, beta),
             makevars(S, I, beta(W))
             ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+    % convert negative surfaces to backward rule
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+            getlist(V, Vl),
+            is_list(Vl),
+            is_graph(G),
+            conj_list(G, L),
+            list_to_set(L, B),
+            select('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(Hs, Hp, Ho)), B, K),
+            Tt =.. [Hp, Hs, Ho],
+            conj_list(R, K),
+            conjify(R, S),
+            find_graffiti([R], D),
+            append(Vl, D, U),
+            makevars(':-'(Tt, S), C, beta(U)),
+            copy_term_nat(C, CC),
+            labelvars(CC, 0, _, avar),
+            (   \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(C),
+                retractall(brake)
+            ;   true
+            )), true, '<>')),
     % convert negative surfaces to universal statements
     assertz(implies((
             '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -577,6 +608,7 @@ gre(Argus) :-
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
+                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), L),
                 makevars(G, H, beta(Vl)),
                 (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, false),
                     J = true
@@ -11873,6 +11905,30 @@ findvar(A, zeta) :-
     ).
 findvar(A, eta) :-
     sub_atom(A, 0, _, _, allv).
+
+find_graffiti(A, []) :-
+    atomic(A),
+    !.
+find_graffiti([], []) :-
+    !.
+find_graffiti([A|B], C) :-
+    !,
+    find_graffiti(A, D),
+    find_graffiti(B, E),
+    append(D, E, C).
+find_graffiti(A, B) :-
+    A =.. [C, D, E],
+    regex('^<.*#on.*Surface>$', C, _),
+    is_list(D),
+    is_graph(E),
+    !,
+    find_graffiti(E, F),
+    findvars(E, G, beta),
+    intersection(D, G, H),
+    append(H, F, B).
+find_graffiti(A, B) :-
+    A =.. C,
+    find_graffiti(C, B).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
