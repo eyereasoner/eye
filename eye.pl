@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.0.2 (2024-03-29)').
+version_info('EYE v10.0.3 (2024-03-29)').
 
 license_info('MIT License
 
@@ -186,6 +186,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -440,6 +441,7 @@ gre(Argus) :-
             getlist(Z, Zl),
             is_list(Zl),
             is_graph(H),
+            H \= triple(_, _, _),
             conj_list(H, M),
             list_to_set(M, T),
             select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
@@ -624,6 +626,11 @@ gre(Argus) :-
             '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
             ), false, '<>')),
     % set engine values
+    (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+    ->  retractall(flag(rdfsurfaces)),
+        assertz(flag(rdfsurfaces))
+    ;   true
+    ),
     (   implies(_, Conc, _),
         (   var(Conc)
         ;   Conc \= answer(_, _, _),
@@ -678,7 +685,8 @@ gre(Argus) :-
         \+implies(_, (answer(_, _, _), _), _),
         \+query(_, _),
         \+flag('pass-only-new'),
-        \+flag(strings)
+        \+flag(strings),
+        \+flag(rdfsurfaces)
     ->  throw(halt(0))
     ;   true
     ),
@@ -4864,7 +4872,20 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false))),
+        ->  (   flag(rdfsurfaces)
+            ->  conj_list(Prem, Lst),
+                Lst = [_|Lst2],
+                (   select(call(_), Lst2, Lst3)
+                ->  true
+                ;   Lst3 = Lst2
+                ),
+                conj_list(Prem2, Lst3)
+            ;   Prem2 = Prem
+            ),
+            (   flag('n3p-output')
+            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
                 fail
