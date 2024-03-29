@@ -1,7 +1,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <#>.
 
-# unnamed graphs
+# blank-node graphs
 _:bn1 {
     :s :p _:x.
 }
@@ -10,6 +10,9 @@ _:bn2 {
     :a :b :c.
     :d :e _:x.
 }
+
+# additional quad
+:s :p :o _:bn1.
 
 # named graph
 :g {
