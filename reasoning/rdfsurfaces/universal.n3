@@ -22,12 +22,13 @@
 }.
 
 # query
-{
+(_:x) log:nand {
     :pat a rdfs:Resource.
-    :bob :loves ?x.
-    ?x :is :lonely.
-} log:query {
-    :pat a rdfs:Resource.
-    :bob :loves ?x.
-    ?x :is :lonely.
+    :bob :loves _:x.
+    _:x :is :lonely.
+    () log:nans {
+        :pat a rdfs:Resource.
+        :bob :loves _:x.
+        _:x :is :lonely.
+    }.
 }.

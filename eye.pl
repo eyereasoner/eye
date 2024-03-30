@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.0.4 (2024-03-29)').
+version_info('EYE v10.0.5 (2024-03-30)').
 
 license_info('MIT License
 
@@ -480,6 +480,7 @@ gre(Argus) :-
                 conj_list(G, L),
                 list_to_set(L, B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
                     ),
@@ -495,6 +496,7 @@ gre(Argus) :-
                 conj_list(F, K),
                 list_to_set(K, N),
                 \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), N),
+                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
@@ -522,6 +524,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(_, H), B, K),
                 H \= triple(_, _, _),
                 conj_list(R, K),
@@ -540,6 +543,7 @@ gre(Argus) :-
                 conj_list(G, L),
                 list_to_set(L, B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 \+member(exopred(_, _, _), B),
                 (   length(B, O),
                     O =< 2
@@ -611,6 +615,28 @@ gre(Argus) :-
                 append(Vl, X, U),
                 makevars([M, S], [Q, I], beta(U))
                 ), ':-'(Q, I), '<>')),
+        % convert negative surfaces to answer rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                getlist(V, Vl),
+                is_list(Vl),
+                is_graph(G),
+                conj_list(G, L),
+                list_to_set(L, B),
+                select('<http://www.w3.org/2000/10/swap/log#nans>'(_, H), B, K),
+                conj_list(I, K),
+                djiti_answer(answer(H), J),
+                find_graffiti(K, D),
+                append(Vl, D, U),
+                makevars(implies(I, J, '<>'), C, beta(U)),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<>')),
         % blow inference fuse
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),

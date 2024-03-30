@@ -20,8 +20,9 @@
 }.
 
 # query
-{
+() log:nand {
     :Socrates a :Mortal.
-} log:query {
-    :Socrates a :Mortal.
+    () log:nans {
+        :Socrates a :Mortal.
+    }.
 }.

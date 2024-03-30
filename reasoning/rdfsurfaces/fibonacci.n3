@@ -30,18 +30,19 @@
 }.
 
 # query
-{
-    1 :fibonacci ?X1.
-    2 :fibonacci ?X2.
-    3 :fibonacci ?X3.
-    91 :fibonacci ?X91.
-    283 :fibonacci ?X283.
-    3674 :fibonacci ?X3674.
-} log:query {
-    1 :fibonacci ?X1.
-    2 :fibonacci ?X2.
-    3 :fibonacci ?X3.
-    91 :fibonacci ?X91.
-    283 :fibonacci ?X283.
-    3674 :fibonacci ?X3674.
+(_:X1 _:X2 _:X3 _:X91 _:X283 _:X3674) log:nand {
+    1 :fibonacci _:X1.
+    2 :fibonacci _:X2.
+    3 :fibonacci _:X3.
+    91 :fibonacci _:X91.
+    283 :fibonacci _:X283.
+    3674 :fibonacci _:X3674.
+    () log:nans {
+        1 :fibonacci _:X1.
+        2 :fibonacci _:X2.
+        3 :fibonacci _:X3.
+        91 :fibonacci _:X91.
+        283 :fibonacci _:X283.
+        3674 :fibonacci _:X3674.
+    }.
 }.

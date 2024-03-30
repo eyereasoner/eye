@@ -47,8 +47,9 @@
 }.
 
 # query
-{
+() log:nand {
     :xxx a :aaa.
-} log:query {
-    :xxx a :aaa.
+    () log:nans {
+        :xxx a :aaa.
+    }.
 }.

@@ -45,10 +45,11 @@
 }.
 
 # question
-{
-    ((:s 0) (:s (:s 0))) :add ?A.
-    (?A (:s (:s 0))) :multiply ?B.
-    ?B :factorial ?C.
-} log:query {
-    :result :is ?C.
+(_:A _:B _:C) log:nand {
+    ((:s 0) (:s (:s 0))) :add _:A.
+    (_:A (:s (:s 0))) :multiply _:B.
+    _:B :factorial _:C.
+    () log:nans {
+        :result :is _:C.
+    }.
 }.

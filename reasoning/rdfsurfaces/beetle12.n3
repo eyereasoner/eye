@@ -129,8 +129,9 @@
 }.
 
 # query
-{
-    ?S :is ?O.
-} log:query {
-    ?S :is ?O.
+(_:S _:O) log:nand {
+    _:S :is _:O.
+    () log:nans {
+        _:S :is _:O.
+    }.
 }.
