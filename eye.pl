@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.1.0 (2024-04-06)').
+version_info('EYE v10.1.1 (2024-04-06)').
 
 license_info('MIT License
 
@@ -136,6 +136,7 @@ eye
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
 :- dynamic(intern/1).
+:- dynamic(keep_ng/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(mtime/2).
@@ -4097,7 +4098,8 @@ wt(X) :-
 
 wt0(!) :-
     !,
-    write('true '),
+    wm(true),
+    write(' '),
     wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
 wt0(:-) :-
@@ -4558,6 +4560,13 @@ wt2(quad(triple(S, P, O), G)) :-
     wg(O),
     write(' '),
     wg(G).
+wt2(graph(X, Y)) :-
+    !,
+    wp(X),
+    write(' '),
+    nb_setval(keep_ng, false),
+    retractall(keep_ng(graph(X, Y))),
+    wg(Y).
 wt2(is(O, T)) :-
     !,
     (   number(T),
@@ -4597,7 +4606,7 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   wg(S),
+    ;   wm(S),
         write(' '),
         wp(P),
         write(' '),
@@ -4609,7 +4618,7 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   wg(S),
+    ;   wm(S),
         write(' '),
         wg(P),
         write(' '),
@@ -4664,32 +4673,51 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  write('{'),
-        indentation(4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+    ->  (   flag(lingua),
+            nb_getval(keep_ng, true)
+        ->  (   graph(N, X)
             ->  true
-            ;   nl,
-                indent
-            )
-        ),
-        nb_getval(fdepth, D),
-        E is D+1,
-        nb_setval(fdepth, E),
-        wt(X),
-        nb_setval(fdepth, D),
-        indentation(-4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+            ;   gensym('bng_', Y),
+                nb_getval(var_ns, Sns),
+                atomic_list_concat(['<', Sns, Y, '>'], N),
+                assertz(graph(N, X))
+            ),
+            (   \+keep_ng(graph(N, X))
+            ->  assertz(keep_ng(graph(N, X)))
+            ;   true
+            ),
+            wt(N)
+        ;   (   flag(lingua)
+            ->  nb_setval(keep_ng, true)
+            ;   true
+            ),
+            write('{'),
+            indentation(4),
+            (   flag(strings)
             ->  true
-            ;   write('.'),
-                nl,
-                indent
-            )
-        ),
-        write('}')
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   nl,
+                    indent
+                )
+            ),
+            nb_getval(fdepth, D),
+            E is D+1,
+            nb_setval(fdepth, E),
+            wt(X),
+            nb_setval(fdepth, D),
+            indentation(-4),
+            (   flag(strings)
+            ->  true
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   write('.'),
+                    nl,
+                    indent
+                )
+            ),
+            write('}')
+        )
     ;   wt(X)
     ).
 
@@ -4727,6 +4755,17 @@ wl([X|Y]) :-
     write(' '),
     wg(X),
     wl(Y).
+
+wm(A) :-
+    (   flag(lingua),
+        raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
+    ->  write('[] '),
+        wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
+        write(' '),
+        wt(A),
+        write(';')
+    ;   wg(A)
+    ).
 
 wq([], _) :-
     !.
@@ -5148,6 +5187,20 @@ eam(Recursion) :-
                     tell(Ws),
                     nb_getval(wn, Wn),
                     w3,
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   nl,
+                            wt(NG),
+                            nl
+                        )
+                    ),
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   nl,
+                            wt(NG),
+                            nl
+                        )
+                    ),
                     retractall(pfx(_, _)),
                     retractall(wpfx(_)),
                     nb_setval(wn, Wn),
@@ -5162,7 +5215,21 @@ eam(Recursion) :-
                     ->  tell(Output)
                     ;   true
                     ),
-                    w3
+                    w3,
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   nl,
+                            wt(NG),
+                            nl
+                        )
+                    ),
+                    forall(
+                        retract(keep_ng(NG)),
+                        (   nl,
+                            wt(NG),
+                            nl
+                        )
+                    )
                 )
             )
         ;   true
