@@ -537,8 +537,8 @@ gre(Argus) :-
             fail
         ;   true
         )
-    ;   
-        % create quads
+
+    ;   % create quads
         (   retract(graph(N, G)),
             conj_list(G, L),
             forall(
@@ -596,6 +596,7 @@ gre(Argus) :-
                 intersection(Wl, S, Y),
                 append([Vl, X, Y], U)
                 ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<>')),
+
         % resolve negative surfaces
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -641,6 +642,7 @@ gre(Argus) :-
                 conj_list(H, T),
                 ground('<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H))
                 ), '<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H), '<>')),
+
         % convert negative surfaces to forward rules
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -659,6 +661,7 @@ gre(Argus) :-
                 findvars(S, W, beta),
                 makevars(S, I, beta(W))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+
         % convert negative surfaces to forward contrapositive rules
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -691,6 +694,7 @@ gre(Argus) :-
                 findvars(S, W, beta),
                 makevars(S, I, beta(W))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+
         % convert negative surfaces to backward rules
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -714,6 +718,7 @@ gre(Argus) :-
                     retractall(brake)
                 ;   true
                 )), true, '<>')),
+
         % convert negative surfaces to universal statements
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -740,6 +745,7 @@ gre(Argus) :-
                 append(Vl, X, U),
                 makevars([M, S], [Q, I], beta(U))
                 ), ':-'(Q, I), '<>')),
+
         % convert negative surfaces to answer rules
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -762,6 +768,7 @@ gre(Argus) :-
                     retractall(brake)
                 ;   true
                 )), true, '<>')),
+
         % blow inference fuse
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
@@ -787,6 +794,7 @@ gre(Argus) :-
                 ), false, '<>'))
     ;   true
     ),
+
     % set engine values
     (   implies(_, Conc, _),
         (   var(Conc)

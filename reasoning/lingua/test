@@ -1,6 +1,5 @@
 #!/bin/bash
 for f in *.trig
 do
-    echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope --trig $f --output output/$f
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope --trig $f --output output/$f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache http://eyereasoner.github.io/eye/reasoning .. --nope --trig http://eyereasoner.github.io/eye/reasoning/lingua/$f --output output/$f
 done
