@@ -3,7 +3,6 @@
 # ----------------------------------------
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
@@ -19,7 +18,7 @@
 #    _:s2 :p2 _:o2.
 #    _:s3 :p3 _:o3.
 # }
-_:bng_1 lingua:implication _:bng_2.
+_:bng_1 log:implication _:bng_2.
 
 _:bng_1 {
     _:s1 :p1 _:o1.
@@ -31,7 +30,7 @@ _:bng_2 {
     _:s3 :c3 _:o3.
 }
 
-_:bng_3 lingua:implication _:bng_4.
+_:bng_3 log:implication _:bng_4.
 
 _:bng_3 {
     _:s2 :p2 _:o2.
@@ -43,7 +42,7 @@ _:bng_4 {
     _:s1 :c1 _:o1.
 }
 
-_:bng_5 lingua:implication _:bng_6.
+_:bng_5 log:implication _:bng_6.
 
 _:bng_5 {
     _:s3 :p3 _:o3.
@@ -61,7 +60,7 @@ _:bng_6 {
 # _:s3 :p3 _:o3.
 
 # fuse
-_:bng_7 lingua:implication false.
+_:bng_7 log:implication false.
 
 _:bng_7 {
     var:P log:complement var:C.
@@ -70,8 +69,8 @@ _:bng_7 {
 }
 
 # query
-_:bng_8 lingua:query _:bng_8.
+_:bng_8 log:question _:bng_8.
 
 _:bng_8 {
-    _:bng_7 lingua:implication false.
+    _:bng_7 log:implication false.
 }

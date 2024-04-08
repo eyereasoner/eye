@@ -5,21 +5,17 @@
 # See https://en.wikipedia.org/wiki/Peano_axioms
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-# assuming lingua explanations
-[] lingua:explanation [].
-
 # add
-_:bng_1 lingua:component true.
+_:bng_1 log:component true.
 
 _:bng_1 {
     (var:A 0) :add var:A.
 }
 
-_:bng_2 lingua:component _:bng_3.
+_:bng_2 log:component _:bng_3.
 
 _:bng_2 {
     (var:A (:s var:B)) :add (:s var:C).
@@ -30,13 +26,13 @@ _:bng_3 {
 }
 
 # multiply
-_:bng_4 lingua:component true.
+_:bng_4 log:component true.
 
 _:bng_4 {
     (var:A 0) :multiply 0.
 }
 
-_:bng_5 lingua:component _:bng_6.
+_:bng_5 log:component _:bng_6.
 
 _:bng_5 {
     (var:A (:s var:B)) :multiply var:C.
@@ -48,7 +44,7 @@ _:bng_6 {
 }
 
 # factorial
-_:bng_7 lingua:component _:bng_8.
+_:bng_7 log:component _:bng_8.
 
 _:bng_7 {
     var:A :factorial var:B.
@@ -58,13 +54,13 @@ _:bng_8 {
     (var:A (:s 0)) :fac var:B.
 }
 
-_:bng_9 lingua:component true.
+_:bng_9 log:component true.
 
 _:bng_9 {
     (0 var:A) :fac var:A.
 }
 
-_:bng_10 lingua:component _:bng_11.
+_:bng_10 log:component _:bng_11.
 
 _:bng_10 {
     ((:s var:A) var:B) :fac var:C.
@@ -76,7 +72,7 @@ _:bng_11 {
 }
 
 # query
-_:bng_12 lingua:query _:bng_13.
+_:bng_12 log:question _:bng_13.
 
 _:bng_12 {
     ((:s 0) (:s (:s 0))) :multiply var:A.

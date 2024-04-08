@@ -5,14 +5,11 @@
 # See http://www.wikihow.com/Calculate-Pi
 
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-# assuming lingua explanations
-[] lingua:explanation [].
-
-_:bng_1 lingua:component _:bng_2.
+_:bng_1 log:component _:bng_2.
 
 _:bng_1 {
     (var:N var:Pi) :pi true.
@@ -24,13 +21,13 @@ _:bng_2 {
     (3 var:A) math:sum var:Pi.
 }
 
-_:bng_3 lingua:component true.
+_:bng_3 log:component true.
 
 _:bng_3 {
     (var:N var:N var:P var:P var:S) :pi true.
 }
 
-_:bng_4 lingua:component _:bng_5.
+_:bng_4 log:component _:bng_5.
 
 _:bng_4 {
     (var:K var:N var:P0 var:P var:S) :pi true.
@@ -50,7 +47,7 @@ _:bng_5 {
 }
 
 # query
-_:bng_6 lingua:query _:bng_6.
+_:bng_6 log:question _:bng_6.
 
 _:bng_6 {
     (50000 var:Pi) :pi true.

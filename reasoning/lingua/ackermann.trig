@@ -23,15 +23,11 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-# assuming lingua explanations
-[] lingua:explanation [].
-
 # ackermann(x, y)
-_:bng_1 lingua:component _:bng_2.
+_:bng_1 log:component _:bng_2.
 
 _:bng_1 {
     (var:X var:Y) :ackermann var:A.
@@ -45,7 +41,7 @@ _:bng_2 {
 
 # ackermann(x, y, z)
 # succ (x=0)
-_:bng_3 lingua:component _:bng_4.
+_:bng_3 log:component _:bng_4.
 
 _:bng_3 {
     (0 var:Y var:Z) :ackermann var:A.
@@ -57,7 +53,7 @@ _:bng_4 {
 }
 
 # sum (x=1)
-_:bng_5 lingua:component _:bng_6.
+_:bng_5 log:component _:bng_6.
 
 _:bng_5 {
     (1 var:Y var:Z) :ackermann var:A.
@@ -69,7 +65,7 @@ _:bng_6 {
 }
 
 # product (x=2)
-_:bng_7 lingua:component _:bng_8.
+_:bng_7 log:component _:bng_8.
 
 _:bng_7 {
     (2 var:Y var:Z) :ackermann var:A.
@@ -81,7 +77,7 @@ _:bng_8 {
 }
 
 # exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
-_:bng_9 lingua:component _:bng_10.
+_:bng_9 log:component _:bng_10.
 
 _:bng_9 {
     (var:X 0 var:Z) :ackermann 1.
@@ -91,7 +87,7 @@ _:bng_10 {
     [] rdf:value true; log:callWithCut true.
 }
 
-_:bng_11 lingua:component _:bng_12.
+_:bng_11 log:component _:bng_12.
 
 _:bng_11 {
     (var:X var:Y var:Z) :ackermann var:A.
@@ -105,7 +101,7 @@ _:bng_12 {
 }
 
 # query
-_:bng_14 lingua:query _:bng_14.
+_:bng_14 log:question _:bng_14.
 
 _:bng_14 {
     (0 0) :ackermann var:A0.

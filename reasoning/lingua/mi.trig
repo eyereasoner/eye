@@ -5,18 +5,18 @@
 # Inspired by https://www.metalevel.at/acomip/
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # meta-interpreter rules
-_:mi_rule1_head lingua:component true.
+_:mi_rule1_head log:component true.
 
 _:mi_rule1_head {
     () :mi ().
 }
 
-_:mi_rule2_head lingua:component _:mi_rule2_body.
+_:mi_rule2_head log:component _:mi_rule2_body.
 
 _:mi_rule2_head {
     () :mi var:A.
@@ -29,7 +29,7 @@ _:mi_rule2_body {
 }
 
 # general head-body rules
-_:hb_rule1_head lingua:component true.
+_:hb_rule1_head log:component true.
 
 _:hb_rule1_head {
     () :headBody (_:hb_rule1_head_graph1 var:Rs var:Rs).
@@ -39,7 +39,7 @@ _:hb_rule1_head_graph1 {
     () :mi ().
 }
 
-_:hb_rule2_head lingua:component _:hb_rule2_body.
+_:hb_rule2_head log:component _:hb_rule2_body.
 
 _:hb_rule2_head {
     () :headBody (_:hb_rule2_head_graph1 var:B var:Rs).
@@ -63,7 +63,7 @@ _:hb_rule2_body_graph2 {
     () :mi var:Goals.
 }
 
-_:hb_rule3_head lingua:component _:hb_rule3_body.
+_:hb_rule3_head log:component _:hb_rule3_body.
 
 _:hb_rule3_head {
     () :headBody (_:hb_rule3_head_graph1 var:Rs var:Rs).
@@ -78,7 +78,7 @@ _:hb_rule3_body {
 }
 
 # natnum head-body rules
-_:natnum_hb_rule1_head lingua:component true.
+_:natnum_hb_rule1_head log:component true.
 
 _:natnum_hb_rule1_head {
     () :headBody (_:natnum_hb_rule1_head_graph1 var:Rs var:Rs).
@@ -88,7 +88,7 @@ _:natnum_hb_rule1_head_graph1 {
     () :natnum (0).
 }
 
-_:natnum_hb_rule2_head lingua:component _:natnum_hb_rule2_body.
+_:natnum_hb_rule2_head log:component _:natnum_hb_rule2_body.
 
 _:natnum_hb_rule2_head {
     () :headBody (_:natnum_hb_rule2_head_graph1 var:A var:Rs).
@@ -107,7 +107,7 @@ _:natnum_hb_rule2_body_graph1 {
 }
 
 # query
-_:question lingua:query _:answer.
+_:question log:question _:answer.
 
 _:question {
     () :mi (_:question_graph1).

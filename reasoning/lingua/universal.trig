@@ -4,19 +4,18 @@
 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # \Every x: type(x, Resource
-_:bng_1 lingua:component true.
+_:bng_1 log:component true.
 
 _:bng_1 {
     var:X a rdfs:Resource.
 }
 
 # Everybody loves somebody who is lonely
-_:bng_2 lingua:component _:bng_3.
+_:bng_2 log:component _:bng_3.
 
 _:bng_2 {
     var:A :loves var:B.
@@ -26,7 +25,7 @@ _:bng_3 {
     (var:A) log:skolem var:B.
 }
 
-_:bng_4 lingua:component _:bng_5.
+_:bng_4 log:component _:bng_5.
 
 _:bng_4 {
     var:B :is :lonely.
@@ -37,13 +36,13 @@ _:bng_5 {
 }
 
 # queries
-_:bng_6 lingua:query _:bng_6.
+_:bng_6 log:question _:bng_6.
 
 _:bng_6 {
     :pat a rdfs:Resource.
 }
 
-_:bng_7 lingua:query _:bng_7.
+_:bng_7 log:question _:bng_7.
 
 _:bng_7 {
     :bob :loves var:X.

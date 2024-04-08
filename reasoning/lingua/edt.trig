@@ -10,16 +10,12 @@
 # observations, diseases, treatments, ...).
 
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
 
-# assuming lingua explanations
-[] lingua:explanation [].
-
 # importing
-_:bng_1 lingua:implication true.
+_:bng_1 log:implication true.
 
 _:bng_1 {
     <> log:imports <https://eyereasoner.github.io/eye/reasoning/edt/test-facts.ttl>.
@@ -27,7 +23,7 @@ _:bng_1 {
 }
 
 # rdfs subclass rule
-_:bng_2 lingua:component _:bng_3.
+_:bng_2 log:component _:bng_3.
 
 _:bng_2 {
     var:X a var:D.
@@ -39,7 +35,7 @@ _:bng_3 {
 }
 
 # query
-_:bng_4 lingua:query _:bng_4.
+_:bng_4 log:question _:bng_4.
 
 _:bng_4 {
     edt:i100000 a edt:N100000.

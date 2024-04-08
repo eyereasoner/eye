@@ -6,12 +6,12 @@
 # See http://en.wikipedia.org/wiki/Prolog#Turing_completeness
 
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
 # interpreter for Turing machine
-_:bng_1 lingua:component _:bng_2.
+_:bng_1 log:component _:bng_2.
 
 _:bng_1 {
     () :compute var:OutTape.
@@ -22,7 +22,7 @@ _:bng_2 {
     (var:I () "#" ()) :find var:OutTape.
 }
 
-_:bng_3 lingua:component _:bng_4.
+_:bng_3 log:component _:bng_4.
 
 _:bng_3 {
     var:List :compute var:OutTape.
@@ -34,7 +34,7 @@ _:bng_4 {
     (var:I () var:Head var:Tail) :find var:OutTape.
 }
 
-_:bng_5 lingua:component _:bng_6.
+_:bng_5 log:component _:bng_6.
 
 _:bng_5 {
     (var:State var:Left var:Cell var:Right) :find var:OutTape.
@@ -46,7 +46,7 @@ _:bng_6 {
     (var:Next var:A var:B var:C) :continue var:OutTape.
 }
 
-_:bng_7 lingua:component _:bng_8.
+_:bng_7 log:component _:bng_8.
 
 _:bng_7 {
     (:halt var:Left var:Cell var:Right) :continue var:OutTape.
@@ -58,7 +58,7 @@ _:bng_8 {
     (var:R var:List) list:append var:OutTape.
 }
 
-_:bng_9 lingua:component _:bng_10.
+_:bng_9 log:component _:bng_10.
 
 _:bng_9 {
     (var:State var:Left var:Cell var:Right) :continue var:OutTape.
@@ -68,7 +68,7 @@ _:bng_10 {
     (var:State var:Left var:Cell var:Right) :find var:OutTape.
 }
 
-_:bng_11 lingua:component _:bng_12.
+_:bng_11 log:component _:bng_12.
 
 _:bng_11 {
     (:left () var:Cell var:Right () "#" var:L) :move true.
@@ -78,7 +78,7 @@ _:bng_12 {
     var:L list:firstRest (var:Cell var:Right).
 }
 
-_:bng_13 lingua:component _:bng_14.
+_:bng_13 log:component _:bng_14.
 
 _:bng_13 {
     (:left var:List var:Cell var:Right var:Tail var:Head var:L) :move true.
@@ -89,13 +89,13 @@ _:bng_14 {
     var:L list:firstRest (var:Cell var:Right).
 }
 
-_:bng_15 lingua:component true.
+_:bng_15 log:component true.
 
 _:bng_15 {
     (:stop var:Left var:Cell var:Right var:Left var:Cell var:Right) :move true.
 }
 
-_:bng_16 lingua:component _:bng_17.
+_:bng_16 log:component _:bng_17.
 
 _:bng_16 {
     (:right var:Left var:Cell () var:L "#" ()) :move true.
@@ -105,7 +105,7 @@ _:bng_17 {
     var:L list:firstRest (var:Cell var:Left).
 }
 
-_:bng_18 lingua:component _:bng_19.
+_:bng_18 log:component _:bng_19.
 
 _:bng_18 {
     (:right var:Left var:Cell var:List var:L var:Head var:Tail) :move true.
@@ -116,13 +116,13 @@ _:bng_19 {
     var:L list:firstRest (var:Cell var:Left).
 }
 
-_:bng_20 lingua:component true.
+_:bng_20 log:component true.
 
 _:bng_20 {
     () :reverse ().
 }
 
-_:bng_21 lingua:component _:bng_22.
+_:bng_21 log:component _:bng_22.
 
 _:bng_21 {
     var:List :reverse var:Reverse.
@@ -145,7 +145,7 @@ _:bng_22 {
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-_:bng_23 lingua:query _:bng_23.
+_:bng_23 log:question _:bng_23.
 
 _:bng_23 {
     (1 0 1 0 0 1) :compute var:A1.

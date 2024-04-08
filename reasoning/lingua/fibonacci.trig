@@ -7,15 +7,11 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix lingua: <http://www.w3.org/2000/10/swap/lingua#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <#>.
 
-# assuming lingua explanations
-[] lingua:explanation [].
-
 # backward rules
-_:bng_1 lingua:component _:bng_2.
+_:bng_1 log:component _:bng_2.
 
 _:bng_1 {
     var:X :fibonacci var:Y.
@@ -25,19 +21,19 @@ _:bng_2 {
     (var:X 0 1) :fib var:Y.
 }
 
-_:bng_3 lingua:component true.
+_:bng_3 log:component true.
 
 _:bng_3 {
     (0 var:A var:B) :fib var:A.
 }
 
-_:bng_4 lingua:component true.
+_:bng_4 log:component true.
 
 _:bng_4 {
     (1 var:A var:B) :fib var:B.
 }
 
-_:bng_5 lingua:component _:bng_6.
+_:bng_5 log:component _:bng_6.
 
 _:bng_5 {
     (var:X var:A var:B) :fib var:Y.
@@ -51,7 +47,7 @@ _:bng_6 {
 }
 
 # query
-_:bng_7 lingua:query _:bng_7.
+_:bng_7 log:question _:bng_7.
 
 _:bng_7 {
     [] rdf:value 0; :fibonacci var:F1.
