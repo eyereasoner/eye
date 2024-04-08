@@ -187,14 +187,14 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#implication>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#question>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#implication>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#question>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
