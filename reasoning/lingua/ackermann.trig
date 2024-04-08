@@ -27,7 +27,7 @@
 @prefix : <#>.
 
 # ackermann(x, y)
-_:bng_1 log:component _:bng_2.
+_:bng_1 log:isImpliedBy _:bng_2.
 
 _:bng_1 {
     (var:X var:Y) :ackermann var:A.
@@ -41,7 +41,7 @@ _:bng_2 {
 
 # ackermann(x, y, z)
 # succ (x=0)
-_:bng_3 log:component _:bng_4.
+_:bng_3 log:isImpliedBy _:bng_4.
 
 _:bng_3 {
     (0 var:Y var:Z) :ackermann var:A.
@@ -53,7 +53,7 @@ _:bng_4 {
 }
 
 # sum (x=1)
-_:bng_5 log:component _:bng_6.
+_:bng_5 log:isImpliedBy _:bng_6.
 
 _:bng_5 {
     (1 var:Y var:Z) :ackermann var:A.
@@ -65,7 +65,7 @@ _:bng_6 {
 }
 
 # product (x=2)
-_:bng_7 log:component _:bng_8.
+_:bng_7 log:isImpliedBy _:bng_8.
 
 _:bng_7 {
     (2 var:Y var:Z) :ackermann var:A.
@@ -77,7 +77,7 @@ _:bng_8 {
 }
 
 # exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
-_:bng_9 log:component _:bng_10.
+_:bng_9 log:isImpliedBy _:bng_10.
 
 _:bng_9 {
     (var:X 0 var:Z) :ackermann 1.
@@ -87,7 +87,7 @@ _:bng_10 {
     [] rdf:value true; log:callWithCut true.
 }
 
-_:bng_11 log:component _:bng_12.
+_:bng_11 log:isImpliedBy _:bng_12.
 
 _:bng_11 {
     (var:X var:Y var:Z) :ackermann var:A.
@@ -101,7 +101,7 @@ _:bng_12 {
 }
 
 # query
-_:bng_14 log:question _:bng_14.
+_:bng_14 log:query _:bng_14.
 
 _:bng_14 {
     (0 0) :ackermann var:A0.

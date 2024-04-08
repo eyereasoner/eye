@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.0 (2024-04-08)').
+version_info('EYE v10.2.1 (2024-04-08)').
 
 license_info('MIT License
 
@@ -189,12 +189,12 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implication>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#question>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -426,10 +426,12 @@ gre(Argus) :-
     args(Args),
 
     % lingua
-    (   (   '<http://www.w3.org/2000/10/swap/log#implication>'(_, _)
-        ;   '<http://www.w3.org/2000/10/swap/log#component>'(_, _)
-        ;   '<http://www.w3.org/2000/10/swap/log#question>'(_, _)
-        )
+    (   (   '<http://www.w3.org/2000/10/swap/log#implication>'(Subj, Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Subj, Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj)
+        ),
+        atomic(Subj),
+        atomic(Obj)
     ->  retractall(flag(lingua)),
         assertz(flag(lingua)),
 
@@ -497,7 +499,7 @@ gre(Argus) :-
 
         % create backward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#component>'(B, A),
+                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(B, A),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U)),
@@ -513,7 +515,7 @@ gre(Argus) :-
 
         % create queries
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#question>'(A, B),
+                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
                 djiti_answer(answer(B), J),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),

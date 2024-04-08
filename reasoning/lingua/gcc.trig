@@ -19,19 +19,19 @@
 [] rdf:value 0; :inv 1.
 [] rdf:value 1; :inv 0.
 
-_:bng_1 log:component true.
+_:bng_1 log:isImpliedBy true.
 
 _:bng_1 {
     (var:D 0 var:Q) :dff var:Q.
 }
 
-_:bng_2 log:component true.
+_:bng_2 log:isImpliedBy true.
 
 _:bng_2 {
     (var:D 1 var:Q) :dff var:D.
 }
 
-_:bng_3 log:component _:bng_4.
+_:bng_3 log:isImpliedBy _:bng_4.
 
 _:bng_3 {
     (var:A var:B) :neta var:Q.
@@ -45,7 +45,7 @@ _:bng_4 {
     (var:T1 var:T2) :or var:Q.
 }
 
-_:bng_5 log:component _:bng_6.
+_:bng_5 log:isImpliedBy _:bng_6.
 
 _:bng_5 {
     (var:A var:B var:C) :netb (var:Q1 var:Q2).
@@ -61,7 +61,7 @@ _:bng_6 {
     (var:T2 var:T3) :or var:Q2.
 }
 
-_:bng_7 log:component _:bng_8.
+_:bng_7 log:isImpliedBy _:bng_8.
 
 _:bng_7 {
     (var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc).
@@ -75,13 +75,13 @@ _:bng_8 {
     (var:D3 var:C var:Qc) :dff var:Zc.
 }
 
-_:bng_9 log:component true.
+_:bng_9 log:isImpliedBy true.
 
 _:bng_9 {
     (() var:S) :testgcc ().
 }
 
-_:bng_10 log:component _:bng_11.
+_:bng_10 log:isImpliedBy _:bng_11.
 
 _:bng_10 {
     (var:Cc var:S) :testgcc var:Nc.
@@ -95,7 +95,7 @@ _:bng_11 {
 }
 
 # query
-_:bng_12 log:question _:bng_12.
+_:bng_12 log:query _:bng_12.
 
 _:bng_12 {
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q.

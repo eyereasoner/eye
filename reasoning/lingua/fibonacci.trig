@@ -11,7 +11,7 @@
 @prefix : <#>.
 
 # backward rules
-_:bng_1 log:component _:bng_2.
+_:bng_1 log:isImpliedBy _:bng_2.
 
 _:bng_1 {
     var:X :fibonacci var:Y.
@@ -21,19 +21,19 @@ _:bng_2 {
     (var:X 0 1) :fib var:Y.
 }
 
-_:bng_3 log:component true.
+_:bng_3 log:isImpliedBy true.
 
 _:bng_3 {
     (0 var:A var:B) :fib var:A.
 }
 
-_:bng_4 log:component true.
+_:bng_4 log:isImpliedBy true.
 
 _:bng_4 {
     (1 var:A var:B) :fib var:B.
 }
 
-_:bng_5 log:component _:bng_6.
+_:bng_5 log:isImpliedBy _:bng_6.
 
 _:bng_5 {
     (var:X var:A var:B) :fib var:Y.
@@ -47,7 +47,7 @@ _:bng_6 {
 }
 
 # query
-_:bng_7 log:question _:bng_7.
+_:bng_7 log:query _:bng_7.
 
 _:bng_7 {
     [] rdf:value 0; :fibonacci var:F1.

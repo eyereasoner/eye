@@ -11,7 +11,7 @@
 @prefix : <#>.
 
 # something is more interesting if it is greater
-_:bng_1 log:component _:bng_2.
+_:bng_1 log:isImpliedBy _:bng_2.
 
 _:bng_1 {
     var:X :moreInterestingThan var:Y.
@@ -22,7 +22,7 @@ _:bng_2 {
 }
 
 # query
-_:bng_3 log:question _:bng_3.
+_:bng_3 log:query _:bng_3.
 
 _:bng_3 {
     [] rdf:value 5; :moreInterestingThan 3.
