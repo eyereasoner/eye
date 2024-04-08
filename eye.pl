@@ -19,9 +19,10 @@
 :- use_module(library(dif)).
 :- use_module(library(semweb/turtle)).
 :- use_module(library(pcre)).
+:- use_module(library(process)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.1.2 (2024-04-08)').
+version_info('EYE v10.1.3 (2024-04-08)').
 
 license_info('MIT License
 
