@@ -21,7 +21,7 @@
 :- use_module(library(pcre)).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.1.1 (2024-04-06)').
+version_info('EYE v10.1.2 (2024-04-08)').
 
 license_info('MIT License
 
@@ -159,6 +159,7 @@ eye
 :- dynamic(scope/1).
 :- dynamic(scount/1).
 :- dynamic(semantics/2).
+:- dynamic(shellcache/2).
 :- dynamic(tabl/3).
 :- dynamic(tmpfile/1).
 :- dynamic(tuple/2).
@@ -7479,6 +7480,26 @@ djiti_assertz(A) :-
                 ),
                 semantics(X, L),
                 conj_list(Y, L)
+            )
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#shell>'(X, Y) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   (   shellcache(X, Y)
+            ->  true
+            ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                setup_call_cleanup(
+                    process_create('/bin/sh', ['-c', U], [stdout(pipe(Out))]),
+                    read_string(Out, _, V),
+                    close(Out)
+                ),
+                atom_string(W, V),
+                Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                assertz(shellcache(X, Y))
             )
         )
     ).
