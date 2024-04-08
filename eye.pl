@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.1 (2024-04-08)').
+version_info('EYE v10.2.2 (2024-04-08)').
 
 license_info('MIT License
 
@@ -189,7 +189,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#implication>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
@@ -426,7 +425,7 @@ gre(Argus) :-
     args(Args),
 
     % lingua
-    (   (   '<http://www.w3.org/2000/10/swap/log#implication>'(Subj, Obj)
+    (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj)
         ;   '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Subj, Obj)
         ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj)
         ),
@@ -469,6 +468,7 @@ gre(Argus) :-
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
             X =.. [P, _, _],
             call(X),
+            ground(X),
             getterm(X, Y),
             (   Y = X
             ->  true
@@ -491,7 +491,8 @@ gre(Argus) :-
 
         % create forward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#implication>'(A, B),
+                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
+                ground([A, B]),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U))
@@ -4459,6 +4460,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
+    \+flag(lingua),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4742,6 +4744,7 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
+    \+flag(lingua),
     !,
     write('=>').
 wp(':-') :-
@@ -5429,6 +5432,9 @@ djiti_fact(implies(A, B, C), implies(A, B, C)) :-
     !.
 djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     nonvar(B),
+    (   \+atomic(A)
+    ;   \+atomic(B)
+    ),
     (   conj_list(B, D)
     ->  true
     ;   D = B
