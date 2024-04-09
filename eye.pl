@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.2 (2024-04-08)').
+version_info('EYE v10.2.3 (2024-04-09)').
 
 license_info('MIT License
 
@@ -108,6 +108,7 @@ eye
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
 :- dynamic(argi/1).
+:- dynamic(askcache/2).
 :- dynamic(base_uri/1).
 :- dynamic(bcnd/2).
 :- dynamic(bgot/3).
@@ -751,8 +752,15 @@ gre(Argus) :-
                 ),
                 conj_list(S, Y),
                 append(Vl, X, U),
-                makevars([M, S], [Q, I], beta(U))
-                ), ':-'(Q, I), '<>')),
+                makevars(':-'(M, S), C, beta(U)),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<>')),
 
         % convert negative surfaces to answer rules
         assertz(implies((
@@ -6743,6 +6751,23 @@ djiti_assertz(A) :-
         (   nonvar(A)
         ),
         (   list_to_set(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#ask>'(X, Y) :-
+    \+flag(restricted),
+    when(
+        (   nonvar(X)
+        ),
+        (   (   askcache(X, Y)
+            ->  true
+            ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                writeln(U),
+                read_line_to_codes(user_input, V),
+                atom_codes(W, V),
+                Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                assertz(askcache(X, Y))
+            )
         )
     ).
 

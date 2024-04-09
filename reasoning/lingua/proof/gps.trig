@@ -1,0 +1,62 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning/lingua/gps.trig#>.
+@prefix gps: <http://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :i1 gps:path ((:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99).
+        :i1 gps:path ((:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :i1 gps:path ((:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {() gps:findpath (skolem:bng_1 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (5000.0 5.0 0.2 0.4 1))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/lingua/gps.trig#i1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:drive_gent_brugge :drive_brugge_oostende)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2400.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 0.01];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0.9408];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 0.99];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. skolem:bng_2 log:implies skolem:bng_3}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :i1 gps:path ((:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {() gps:findpath (skolem:bng_1 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (5000.0 5.0 0.2 0.4 1))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/lingua/gps.trig#i1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 4100.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 0.018000000000000002];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0.903168];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 0.9801];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. skolem:bng_2 log:implies skolem:bng_3}].
+
+
+skolem:bng_1 {
+    :i1 :location :Oostende.
+}
+
+skolem:bng_2 {
+    () gps:findpath (skolem:bng_4 var:x_1 var:x_2 var:x_3 var:x_4 var:x_5 (5000.0 5.0 0.2 0.4 1)).
+}
+
+skolem:bng_3 {
+    var:x_0 gps:path (var:x_1 var:x_2 var:x_3 var:x_4 var:x_5).
+}
+
+skolem:bng_4 {
+    var:x_0 :location :Oostende.
+}

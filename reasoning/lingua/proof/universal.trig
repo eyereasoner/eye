@@ -1,0 +1,52 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning/lingua/universal.trig#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :pat a rdfs:Resource.
+        :bob :loves skolem:t_0.
+        skolem:t_0 :is :lonely.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :pat a rdfs:Resource.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:pat a rdfs:Resource}]
+    );
+    r:rule [ a r:Fact; r:gives {skolem:bng_1 log:implies skolem:bng_1}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :bob :loves skolem:t_0.
+        skolem:t_0 :is :lonely.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:bob :loves skolem:t_0}]
+        [ a r:Fact; r:gives {skolem:t_0 :is :lonely}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#t_0"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_2 log:implies skolem:bng_3}].
+
+
+skolem:bng_1 {
+    :pat a rdfs:Resource.
+}
+
+skolem:bng_2 {
+    :bob :loves var:x_0.
+    var:x_0 :is :lonely.
+}
+
+skolem:bng_3 {
+    :bob :loves var:x_0.
+    var:x_0 :is :lonely.
+}

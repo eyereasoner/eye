@@ -1,0 +1,282 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule [ a r:Fact; r:gives {{
+        :test :is true.
+    } => {
+        :test :is true.
+    }}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma3
+        skolem:lemma4
+        skolem:lemma5
+        skolem:lemma6
+    );
+    r:rule skolem:lemma7.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Bird.
+    } => {
+        () log:nand {
+            var:x_0 a :Cat.
+        }.
+    }}].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        skolem:e_X_1 a :White.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        skolem:e_X_1 a :Feline.
+    };
+    r:evidence (
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Cat.
+    } => {
+        var:x_0 a :Feline.
+    }}].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    };
+    r:evidence (
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Muslim.
+    } => {
+        () log:nand {
+            var:x_0 a :Christian.
+        }.
+    }}].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        {
+            () log:nand {
+                :Tweety a :Cat.
+            }.
+            skolem:e_X_1 a :White.
+            skolem:e_X_1 a :Feline.
+            () log:nand {
+                skolem:e_P_1 a :Christian.
+            }.
+        } => {
+            :test :is true.
+        }.
+    };
+    r:evidence (
+        skolem:lemma11
+        [ a r:Fact; r:gives {"getlist([],[])"}]
+        [ a r:Fact; r:gives {"is_list([])"}]
+        [ a r:Fact; r:gives {"is_graph(('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))))"}]
+        [ a r:Fact; r:gives {"conj_list(('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))),['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))])"}]
+        [ a r:Fact; r:gives {"list_to_set(['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))],['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))])"}]
+        [ a r:Fact; r:gives {"\+member('<http://www.w3.org/2000/10/swap/log#nans>'(some38,some39),['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))])"}]
+        [ a r:Fact; r:gives {"select('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true)),['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>')),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true))],['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))])"}]
+        [ a r:Fact; r:gives {"'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true)\=triple(some40,some41,some42)"}]
+        [ a r:Fact; r:gives {"conj_list(('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))),['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))])"}]
+        [ a r:Fact; r:gives {"find_graffiti(['<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))],[])"}]
+        [ a r:Fact; r:gives {"append([],[],[])"}]
+        [ a r:Fact; r:gives {"makevars([('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))),'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true)],[('<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Tweety>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Cat>')),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#White>'),'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_X_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Feline>'),'<http://www.w3.org/2000/10/swap/log#nand>'([],'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_P_1>','<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#Christian>'))),'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true)],beta([]))"}]
+        [ a r:Fact; r:gives {"findvars('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true),[],beta)"}]
+        [ a r:Fact; r:gives {"makevars('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true),'<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#is>'('<http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3#test>',true),beta([]))"}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+        skolem:e_X_1 a :White.
+        skolem:e_X_1 a :Feline.
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+        () log:nand {
+            :test :is true.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+    } {
+        skolem:e_X_1 a :White.
+    } {
+        skolem:e_X_1 a :Feline.
+    } {
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    } {
+        () log:nand {
+            :test :is true.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ({
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+    } {
+        skolem:e_X_1 a :White.
+    } {
+        skolem:e_X_1 a :Feline.
+    } {
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    } {
+        () log:nand {
+            :test :is true.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_38"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_39"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ({
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+    } {
+        skolem:e_X_1 a :White.
+    } {
+        skolem:e_X_1 a :Feline.
+    } {
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_40"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_41"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_42"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_13"]; r:boundTo {
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+        skolem:e_X_1 a :White.
+        skolem:e_X_1 a :Feline.
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_14"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_16"]; r:boundTo {
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+        skolem:e_X_1 a :White.
+        skolem:e_X_1 a :Feline.
+        () log:nand {
+            skolem:e_P_1 a :Christian.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_17"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_18"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_19"]; r:boundTo {
+        :test :is true.
+    }];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16, var:x_17, var:x_18, var:x_19. {
+        var:x_0 log:nand var:x_1.
+        "getlist(avar0,avar2)".
+        "is_list(avar2)".
+        "is_graph(avar1)".
+        "conj_list(avar1,avar3)".
+        "list_to_set(avar3,avar4)".
+        "\+member('<http://www.w3.org/2000/10/swap/log#nans>'(avar5,avar6),avar4)".
+        "select('<http://www.w3.org/2000/10/swap/log#nand>'(avar7,avar8),avar4,avar9)".
+        "avar8\=triple(avar10,avar11,avar12)".
+        "conj_list(avar13,avar9)".
+        "find_graffiti(avar9,avar14)".
+        "append(avar2,avar14,avar15)".
+        "makevars([avar13,avar8],[avar16,avar17],beta(avar15))".
+        "findvars(avar17,avar18,beta)".
+        "makevars(avar17,avar19,beta(avar18))".
+    } => {
+        var:x_16 => var:x_19.
+    }}].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        :Tweety a :Bird.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        skolem:e_X_1 a :Cat.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        skolem:e_P_1 a :Muslim.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        () log:nand {
+            () log:nand {
+                :Tweety a :Cat.
+            }.
+            skolem:e_X_1 a :White.
+            skolem:e_X_1 a :Feline.
+            () log:nand {
+                skolem:e_P_1 a :Christian.
+            }.
+            () log:nand {
+                :test :is true.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.n3>].
+

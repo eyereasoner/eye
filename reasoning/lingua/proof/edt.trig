@@ -1,0 +1,24 @@
+@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        edt:i100000 a edt:N100000.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        edt:i100000 a edt:N100000.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {edt:i100000 a edt:N100000}]
+    );
+    r:rule [ a r:Fact; r:gives {skolem:bng_1 log:implies skolem:bng_1}].
+
+
+skolem:bng_1 {
+    edt:i100000 a edt:N100000.
+}
