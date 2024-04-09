@@ -1,4 +1,4 @@
-@prefix skolem: <http://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
@@ -55,7 +55,7 @@ skolem:lemma4 a r:Extraction;
     r:gives {
         :Alice :loves :Bob.
     };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
 
 skolem:lemma5 a r:Extraction;
     r:gives {
@@ -71,19 +71,19 @@ skolem:lemma6 a r:Extraction;
     r:gives {
         :Bob a :Person.
     };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/snaf/demo.n3>].
 
 skolem:lemma7 a r:Inference;
     r:gives {
         :Alice :hates :Nobody.
     };
     r:evidence (
-        [ a r:Fact; r:gives {((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <https://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1) log:notIncludes {
             :Alice :hates :Bob.
         }}]
         skolem:lemma6
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((<http://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/snaf/demo.n3> <https://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/Bob"]];
     r:rule skolem:lemma8.
 
@@ -98,5 +98,5 @@ skolem:lemma8 a r:Extraction;
             :Alice :hates :Nobody.
         }.
     };
-    r:because [ a r:Parsing; r:source <http://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/snaf/rules.n3>].
 

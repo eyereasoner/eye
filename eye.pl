@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.3 (2024-04-09)').
+version_info('EYE v10.2.4 (2024-04-09)').
 
 license_info('MIT License
 
@@ -383,7 +383,7 @@ gre(Argus) :-
     ->  true
     ;   uuid(Genid)
     ),
-    atomic_list_concat(['http://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
+    atomic_list_concat(['https://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
     (   (   flag(strings)
         ;   flag(image, _)
