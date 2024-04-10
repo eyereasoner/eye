@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.4 (2024-04-09)').
+version_info('EYE v10.2.5 (2024-04-10)').
 
 license_info('MIT License
 
@@ -6763,9 +6763,10 @@ djiti_assertz(A) :-
             ->  true
             ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 writeln(U),
-                read_line_to_codes(user_input, V),
-                atom_codes(W, V),
-                Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                read(V),
+                term_string(V, W),
+                atom_string(Z, W),
+                Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 assertz(askcache(X, Y))
             )
         )
