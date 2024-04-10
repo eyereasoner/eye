@@ -6754,6 +6754,15 @@ djiti_assertz(A) :-
         )
     ).
 
+:- if(current_prolog_flag(emscripten, true)).
+userInput(U, V) :-
+    await(U, V).
+:- else.
+userInput(U, V) :-
+    writeln(U),
+    read(V).
+:- endif.
+
 '<http://www.w3.org/2000/10/swap/log#ask>'(X, Y) :-
     \+flag(restricted),
     when(
@@ -6762,8 +6771,7 @@ djiti_assertz(A) :-
         (   (   askcache(X, Y)
             ->  true
             ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                writeln(U),
-                read(V),
+                userInput(U, V),
                 term_string(V, W),
                 atom_string(Z, W),
                 Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
