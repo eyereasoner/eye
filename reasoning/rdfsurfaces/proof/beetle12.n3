@@ -1,6 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3s#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
@@ -17,8 +17,8 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3#beetle"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3#beautiful"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3s#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3s#beautiful"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
         var:x_0 :is var:x_1.
     } => {
@@ -32,7 +32,7 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma3
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3s#beetle"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Car.
     } => {
@@ -43,5 +43,5 @@ skolem:lemma3 a r:Extraction;
     r:gives {
         :beetle a :Car.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle12.n3s>].
 

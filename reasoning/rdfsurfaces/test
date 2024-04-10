@@ -1,6 +1,7 @@
 #!/bin/bash
-for f in *.n3
+for f in *.n3s
 do
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/$f --output output/$f
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/$f --output proof/$f
+    echo $f
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/$f --output output/${f%.n3s}.n3
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/$f --output proof/${f%.n3s}.n3
 done
