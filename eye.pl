@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.5 (2024-04-10)').
+version_info('EYE v10.2.6 (2024-04-10)').
 
 license_info('MIT License
 
@@ -6754,6 +6754,20 @@ djiti_assertz(A) :-
         )
     ).
 
+:- if(current_prolog_flag(emscripten, true)).
+userInput(A, B) :-
+    await(A, C),
+    term_string(C, D),
+    atom_string(E, D),
+    sub_atom(E, 1, _, 1, B).
+:- else.
+userInput(A, B) :-
+    writeln(A),
+    read(C),
+    term_string(C, D),
+    atom_string(B, D).
+:- endif.
+
 '<http://www.w3.org/2000/10/swap/log#ask>'(X, Y) :-
     \+flag(restricted),
     when(
@@ -6762,11 +6776,8 @@ djiti_assertz(A) :-
         (   (   askcache(X, Y)
             ->  true
             ;   X = literal(U, type('<http://www.w3.org/2001/XMLSchema#string>')),
-                writeln(U),
-                read(V),
-                term_string(V, W),
-                atom_string(Z, W),
-                Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
+                userInput(U, V),
+                Y = literal(V, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 assertz(askcache(X, Y))
             )
         )
