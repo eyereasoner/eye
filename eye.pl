@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.7 (2024-04-10)').
+version_info('EYE v10.2.8 (2024-04-11)').
 
 license_info('MIT License
 
@@ -6752,15 +6752,13 @@ djiti_assertz(A) :-
 :- if(current_prolog_flag(emscripten, true)).
 userInput(A, B) :-
     await(A, C),
-    term_string(C, D),
-    atom_string(E, D),
-    sub_atom(E, 1, _, 1, B).
+    term_to_atom(C, D),
+    sub_atom(D, 1, _, 1, B).
 :- else.
 userInput(A, B) :-
     writeln(A),
     read(C),
-    term_string(C, D),
-    atom_string(B, D).
+    term_to_atom(C, B).
 :- endif.
 
 '<http://www.w3.org/2000/10/swap/log#ask>'(X, Y) :-
