@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.8 (2024-04-11)').
+version_info('EYE v10.2.9 (2024-04-11)').
 
 license_info('MIT License
 
@@ -492,7 +492,7 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<void>')),
 
         % create backward rules
         assertz(implies((
@@ -508,7 +508,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<>')),
+                )), true, '<void>')),
 
         % create queries
         assertz(implies((
@@ -525,7 +525,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<>')),
+                )), true, '<void>')),
 
         % create universal statements
         (   pred(P),
@@ -565,7 +565,7 @@ gre(Argus) :-
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#nand>'([], '<http://www.w3.org/2000/10/swap/log#nand>'([], G)),
                 \+call(G)
-                ), G, '<>')),
+                ), G, '<void>')),
 
         % simplify negative surfaces
         assertz(implies((
@@ -599,7 +599,7 @@ gre(Argus) :-
                 findvars(O, S, beta),
                 intersection(Wl, S, Y),
                 append([Vl, X, Y], U)
-                ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<>')),
+                ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<void>')),
 
         % resolve negative surfaces
         assertz(implies((
@@ -645,7 +645,7 @@ gre(Argus) :-
                 list_to_set(M, T),
                 conj_list(H, T),
                 ground('<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H))
-                ), '<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H), '<>')),
+                ), '<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H), '<void>')),
 
         % convert negative surfaces to forward rules
         assertz(implies((
@@ -664,7 +664,7 @@ gre(Argus) :-
                 makevars([R, H], [Q, S], beta(U)),
                 findvars(S, W, beta),
                 makevars(S, I, beta(W))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<void>')),
 
         % convert negative surfaces to forward contrapositive rules
         assertz(implies((
@@ -697,7 +697,7 @@ gre(Argus) :-
                 makevars([R, E], [Q, S], beta(U)),
                 findvars(S, W, beta),
                 makevars(S, I, beta(W))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<void>')),
 
         % convert negative surfaces to backward rules
         assertz(implies((
@@ -721,7 +721,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<>')),
+                )), true, '<void>')),
 
         % convert negative surfaces to universal statements
         assertz(implies((
@@ -755,7 +755,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<>')),
+                )), true, '<void>')),
 
         % convert negative surfaces to answer rules
         assertz(implies((
@@ -778,7 +778,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<>')),
+                )), true, '<void>')),
 
         % blow inference fuse
         assertz(implies((
@@ -802,7 +802,7 @@ gre(Argus) :-
                 )),
                 J,
                 '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
-                ), false, '<>'))
+                ), false, '<void>'))
     ;   true
     ),
 
@@ -3910,6 +3910,9 @@ wi('<>', _, rule(_, _, A), _) :-    % wi(Source, Premise, Conclusion, Rule)
     assertz(nonl),
     wr(A),
     retract(nonl).
+wi('<void>', _, _, _) :-
+    write('[]'),
+    !.
 wi(A, B, C, Rule) :-
     term_index(B-C, Ind),
     (   lemma(Cnt, A, B, C, Ind, Rule)
