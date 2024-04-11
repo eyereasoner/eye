@@ -2,14 +2,14 @@
 @prefix : <http://example.org#>.
 
 [] log:dcg
-    "sentence(triple(NP, '<http://example.org#sentence>', VP)) --> noun_phrase(NP), verb_phrase(VP)",
-    "noun_phrase(triple(D, '<http://example.org#nounPhrase>', N)) --> determiner(D), noun(N)",
-    "verb_phrase(triple(V, '<http://example.org#verbPhrase>', NP)) --> verb(V), noun_phrase(NP)",
-    "determiner(triple('<http://example.org#the>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Determiner>')) --> [the]",
-    "determiner(triple('<http://example.org#a>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Determiner>')) --> [a]",
-    "noun(triple('<http://example.org#cat>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Noun>')) --> [cat]",
-    "noun(triple('<http://example.org#bat>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Noun>')) --> [bat]",
-    "verb(triple('<http://example.org#eats>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Verb>')) --> [eats]".
+    "sentence(edge(_, triple(NP, '<http://example.org#sentence>', VP))) --> noun_phrase(NP), verb_phrase(VP)",
+    "noun_phrase(edge(_, triple(D, '<http://example.org#nounPhrase>', N))) --> determiner(D), noun(N)",
+    "verb_phrase(edge(_, triple(V, '<http://example.org#verbPhrase>', NP))) --> verb(V), noun_phrase(NP)",
+    "determiner(edge(_, triple('<http://example.org#the>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Determiner>'))) --> [the]",
+    "determiner(edge(_, triple('<http://example.org#a>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Determiner>'))) --> [a]",
+    "noun(edge(_, triple('<http://example.org#cat>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Noun>'))) --> [cat]",
+    "noun(edge(_, triple('<http://example.org#bat>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Noun>'))) --> [bat]",
+    "verb(edge(_, triple('<http://example.org#eats>', '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>', '<http://example.org#Verb>'))) --> [eats]".
 
 {("sentence(S)" ?S) log:phrase ("the" "cat" "eats" "a" "bat")} => {:parseTree :is ?S}.
 

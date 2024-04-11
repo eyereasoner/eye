@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.9 (2024-04-11)').
+version_info('EYE v10.2.10 (2024-04-11)').
 
 license_info('MIT License
 
@@ -579,7 +579,7 @@ gre(Argus) :-
                 getlist(Z, Zl),
                 is_list(Zl),
                 is_graph(H),
-                H \= triple(_, _, _),
+                H \= edge(_, triple(_, _, _)),
                 conj_list(H, M),
                 list_to_set(M, T),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
@@ -609,7 +609,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
@@ -625,7 +625,7 @@ gre(Argus) :-
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
-                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), N),
+                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), N),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
@@ -657,7 +657,7 @@ gre(Argus) :-
                 list_to_set(L, B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(_, H), B, K),
-                H \= triple(_, _, _),
+                H \= edge(_, triple(_, _, _)),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
@@ -707,7 +707,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(Hs, Hp, Ho)), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(Hs, Hp, Ho))), B, K),
                 Tt =.. [Hp, Hs, Ho],
                 conj_list(R, K),
                 conjify(R, S),
@@ -788,7 +788,7 @@ gre(Argus) :-
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, triple(_, _, _)), L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), L),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, false),
                         J = true
@@ -2058,7 +2058,7 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr(triple(A, B, C), triple(D, E, F)) :-
+tr_tr(edge(N, triple(A, B, C)), edge(N, triple(D, E, F))) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
     !,
@@ -2311,12 +2311,20 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     [','],
     !,
     object(Object, Triples1),
-    {   (   Verb = isof(Vrb)
-        ->  Trpl = triple(Object, Vrb, Subject)
-        ;   Trpl = triple(Subject, Verb, Object)
+    {   gensym('bne_', N),
+        (   (   nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Sns),
+            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
+        ;   atom_concat('_', N, BN)
+        ),
+        (   Verb = isof(Vrb)
+        ->  Edge = edge(BN, triple(Object, Vrb, Subject))
+        ;   Edge = edge(BN, triple(Subject, Verb, Object))
         )
     },
-    annotation(Trpl, Triples2),
+    annotation(Edge, Triples2),
     objecttail(Subject, Verb, Triples3),
     {   append([Triples1, Triples2, Triples3], Triples),
         (   Verb = isof(V)
@@ -2446,12 +2454,21 @@ pathitem(List, Triples) -->
     !,
     pathlist(List, Triples),
     [')'].
-pathitem(triple(S, P, O), []) -->
+pathitem(edge(BN, triple(S, P, O)), []) -->
     [lt_lt],
     !,
     subject(S, []),
     verb(P, []),
     object(O, []),
+    {   gensym('bne_', N),
+        (   (   nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Sns),
+            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
+        ;   atom_concat('_', N, BN)
+        )
+    },
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
@@ -2595,12 +2612,20 @@ propertylist(Subject, [Triple|Triples]) -->
     },
     !,
     object(Object, Triples2),
-    {   (   Verb = isof(Vrb)
-        ->  Trpl = triple(Object, Vrb, Subject)
-        ;   Trpl = triple(Subject, Verb, Object)
+    {   gensym('bne_', N),
+        (   (   nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Sns),
+            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
+        ;   atom_concat('_', N, BN)
+        ),
+        (   Verb = isof(Vrb)
+        ->  Edge = edge(BN, triple(Object, Vrb, Subject))
+        ;   Edge = edge(BN, triple(Subject, Verb, Object))
         )
     },
-    annotation(Trpl, Triples3),
+    annotation(Edge, Triples3),
     objecttail(Subject, Verb, Triples4),
     propertylisttail(Subject, Triples5),
     {   append([Triples1, Triples2, Triples3, Triples4, Triples5], Triples),
@@ -3974,10 +3999,10 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     (   C = rule(_, _, Rl),
         Rl =.. [P, S, O],
-        '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
+        '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
     ->  wt(Src)
     ;   (   C =.. [P, S, O],
-            '<http://www.w3.org/2000/10/swap/reason#source>'(triple(S, P, O), Src)
+            '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
         ->  wt(Src)
         ;   wt(A)
         )
@@ -4590,6 +4615,15 @@ wt2(graph(X, Y)) :-
     nb_setval(keep_ng, false),
     retractall(keep_ng(graph(X, Y))),
     wg(Y).
+wt2(edge(_, triple(S, P, O))) :-
+    !,
+    write('<< '),
+    wg(S),
+    write(' '),
+    wp(P),
+    write(' '),
+    wg(O),
+    write(' >>').
 wt2(is(O, T)) :-
     !,
     (   number(T),
