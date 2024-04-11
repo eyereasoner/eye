@@ -1,0 +1,84 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/lingua/derived.trig#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_1 log:implies skolem:bng_1}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/lingua/derived.trig#Charly"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :Charly a :Dog.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/lingua/derived.trig>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        @forAll var:x_2. skolem:bng_2 log:implies skolem:bng_3.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/lingua/derived.trig#Alice"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. skolem:bng_4 log:implies skolem:bng_5}].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :Alice a :Cat.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/lingua/derived.trig>].
+
+
+skolem:bng_1 {
+    :test :is var:x_0.
+}
+
+skolem:bng_2 {
+    var:x_2 a :Dog.
+}
+
+skolem:bng_3 {
+    :test :is true.
+}
+
+skolem:bng_4 {
+    var:x_0 a :Cat.
+}
+
+skolem:bng_5 {
+    skolem:bng_6 log:implies skolem:bng_3.
+}
+
+skolem:bng_6 {
+    var:x_1 a :Dog.
+}
+
+skolem:bng_3 {
+    :test :is true.
+}
