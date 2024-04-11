@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.10 (2024-04-11)').
+version_info('EYE v10.2.11 (2024-04-11)').
 
 license_info('MIT License
 
@@ -2312,7 +2312,8 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     !,
     object(Object, Triples1),
     {   gensym('bne_', N),
-        (   (   nb_getval(fdepth, 0)
+        (   (   nb_getval(entail_mode, false),
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
@@ -2461,7 +2462,8 @@ pathitem(edge(BN, triple(S, P, O)), []) -->
     verb(P, []),
     object(O, []),
     {   gensym('bne_', N),
-        (   (   nb_getval(fdepth, 0)
+        (   (   nb_getval(entail_mode, false),
+                nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
         ->  nb_getval(var_ns, Sns),
