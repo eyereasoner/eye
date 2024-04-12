@@ -1,6 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix : <https://eyereasoner.github.io/eye/reasoning/nand/beetle.nand#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle.nand#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -18,8 +18,8 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/nand/beetle.nand#beetle"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/nand/beetle.nand#beautiful"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle.nand#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle.nand#beautiful"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. skolem:bng_1 log:implies skolem:bng_2}].
 
 skolem:lemma2 a r:Inference;
@@ -29,14 +29,14 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma3
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/nand/beetle.nand#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle.nand#beetle"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_3 log:implies skolem:bng_4}].
 
 skolem:lemma3 a r:Extraction;
     r:gives {
         :beetle a :Car.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/beetle.nand>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/beetle.nand>].
 
 
 skolem:bng_1 {

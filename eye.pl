@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.12 (2024-04-12)').
+version_info('EYE v10.2.13 (2024-04-12)').
 
 license_info('MIT License
 
@@ -12518,7 +12518,8 @@ getcodes(literal(A, _), B) :-
     atom_codes(A, B).
 getcodes(A, B) :-
     nonvar(A),
-    with_output_to_chars(wg(A), B).
+    with_output_to_chars(wg(A), C),
+    escape_string(C, B).
 
 map(_, [], []) :-
     !.
