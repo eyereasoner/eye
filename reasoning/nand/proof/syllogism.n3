@@ -1,0 +1,128 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule [ a r:Fact; r:gives {skolem:bng_1 log:implies skolem:bng_1}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma3
+        skolem:lemma4
+        skolem:lemma5
+        skolem:lemma6
+    );
+    r:rule [].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        () log:nand skolem:bng_2.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand#Tweety"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_3 log:implies skolem:bng_4}].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        skolem:node_11 a :White.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        skolem:node_11 a :Feline.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_11"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_5 log:implies skolem:bng_6}].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        () log:nand skolem:bng_7.
+    };
+    r:evidence (
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_15"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_8 log:implies skolem:bng_9}].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        :Tweety a :Bird.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        skolem:node_11 a :Cat.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        skolem:node_15 a :Muslim.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/syllogism.nand>].
+
+
+skolem:bng_1 {
+    :test :is true.
+}
+
+skolem:bng_2 {
+    :Tweety a :Cat.
+}
+
+skolem:bng_3 {
+    var:x_0 a :Bird.
+}
+
+skolem:bng_4 {
+    () log:nand skolem:bng_5.
+}
+
+skolem:bng_5 {
+    var:x_0 a :Cat.
+}
+
+skolem:bng_6 {
+    var:x_0 a :Feline.
+}
+
+skolem:bng_7 {
+    skolem:node_15 a :Christian.
+}
+
+skolem:bng_8 {
+    var:x_0 a :Muslim.
+}
+
+skolem:bng_9 {
+    () log:nand skolem:bng_10.
+}
+
+skolem:bng_10 {
+    var:x_0 a :Christian.
+}

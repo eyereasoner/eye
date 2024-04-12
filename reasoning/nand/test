@@ -1,0 +1,7 @@
+#!/bin/bash
+for file in *.nand
+do
+    echo $file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope --trig https://eyereasoner.github.io/eye/reasoning/nand/$file --output output/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --trig https://eyereasoner.github.io/eye/reasoning/nand/$file --output proof/${file%.nand}.n3
+done
