@@ -9,20 +9,20 @@
 @prefix : <#>.
 
 (_:X _:Y) log:nand {
-    () log:nand <<_:X :fibonacci _:Y>>.
+    () log:nano {_:X :fibonacci _:Y}.
     (_:X 0 1) :fib _:Y.
 }.
 
 (_:A _:B) log:nand {
-    () log:nand <<(0 _:A _:B) :fib _:A>>.
+    () log:nano {(0 _:A _:B) :fib _:A}.
 }.
 
 (_:A _:B) log:nand {
-    () log:nand <<(1 _:A _:B) :fib _:B>>.
+    () log:nano {(1 _:A _:B) :fib _:B}.
 }.
 
 (_:A _:B _:C _:D _:X _:Y) log:nand {
-    () log:nand <<(_:X _:A _:B) :fib _:Y>>.
+    () log:nano {(_:X _:A _:B) :fib _:Y}.
     _:X math:greaterThan 1.
     (_:X 1) math:difference _:C.
     (_:A _:B) math:sum _:D.

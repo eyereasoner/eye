@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.11 (2024-04-11)').
+version_info('EYE v10.2.12 (2024-04-12)').
 
 license_info('MIT License
 
@@ -579,7 +579,6 @@ gre(Argus) :-
                 getlist(Z, Zl),
                 is_list(Zl),
                 is_graph(H),
-                H \= edge(_, triple(_, _, _)),
                 conj_list(H, M),
                 list_to_set(M, T),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
@@ -609,7 +608,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
@@ -625,7 +624,7 @@ gre(Argus) :-
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
-                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), N),
+                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), N),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
@@ -655,9 +654,9 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 select('<http://www.w3.org/2000/10/swap/log#nand>'(_, H), B, K),
-                H \= edge(_, triple(_, _, _)),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
@@ -675,6 +674,7 @@ gre(Argus) :-
                 conj_list(G, L),
                 list_to_set(L, B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
                 \+member(exopred(_, _, _), B),
                 (   length(B, O),
@@ -707,13 +707,12 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(Hs, Hp, Ho))), B, K),
-                Tt =.. [Hp, Hs, Ho],
+                select('<http://www.w3.org/2000/10/swap/log#nano>'(_, T), B, K),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
                 append(Vl, D, U),
-                makevars(':-'(Tt, S), C, beta(U)),
+                makevars(':-'(T, S), C, beta(U)),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -788,7 +787,7 @@ gre(Argus) :-
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, edge(_, triple(_, _, _))), L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), L),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, false),
                         J = true
