@@ -1,0 +1,83 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+(_:A) log:nand _:bng_1.
+
+_:bng_1 {
+    _:A a :Car.
+    () log:nand _:bng_2.
+    () log:nand _:bng_3.
+}
+
+_:bng_2 {
+    _:A :is :green.
+}
+
+_:bng_3 {
+    _:A :is :blue.
+}
+
+# green things are nice or pretty
+(_:A) log:nand _:bng_4.
+
+_:bng_4 {
+    _:A :is :green.
+    () log:nand _:bng_5.
+    () log:nand _:bng_6.
+}
+
+_:bng_5 {
+    _:A :is :nice.
+}
+
+_:bng_6 {
+    _:A :is :pretty.
+}
+
+# pretty things are beautiful
+(_:A) log:nand _:bng_7.
+
+_:bng_7 {
+    _:A :is :pretty.
+    () log:nand _:bng_8.
+}
+
+_:bng_8 {
+    _:A :is :beautiful.
+}
+
+# cars are not beautiful
+(_:A) log:nand _:bng_9.
+
+_:bng_9 {
+    _:A a :Car.
+    _:A :is :beautiful.
+}
+
+# blue things are beautiful
+(_:A) log:nand _:bng_10.
+
+_:bng_10 {
+    _:A :is :blue.
+    () log:nand _:bng_11.
+}
+
+_:bng_11 {
+    _:A :is :beautiful.
+}
+
+# query
+(_:S _:O) log:nand _:bng_12.
+
+_:bng_12 {
+    _:S :is _:O.
+    () log:nans _:bng_13.
+}
+
+_:bng_13 {
+    _:S :is _:O.
+}
