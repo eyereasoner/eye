@@ -1,6 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -29,22 +29,22 @@ skolem:lemma2 a r:Inference;
         skolem:lemma3
         skolem:lemma4
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand#Human"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand#Mortal"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand#Socrates"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig#Human"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig#Mortal"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig#Socrates"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. skolem:bng_2 log:implies skolem:bng_3}].
 
 skolem:lemma3 a r:Extraction;
     r:gives {
         :Human rdfs:subClassOf :Mortal.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig>].
 
 skolem:lemma4 a r:Extraction;
     r:gives {
         :Socrates a :Human.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.nand>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/socrates.trig>].
 
 
 skolem:bng_1 {
