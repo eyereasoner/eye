@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.14 (2024-04-14)').
+version_info('EYE v10.2.15 (2024-04-14)').
 
 license_info('MIT License
 
@@ -1465,7 +1465,7 @@ args(['--trig', Argument|Args]) :-
     ->  D = '#'
     ;   atomic_list_concat([Arg, '#'], D)
     ),
-    %assertz(ns('', D)),
+    assertz(ns('', D)),
     nb_getval(var_ns, Sns),
     assertz(ns(skolem, Sns)),
     nb_setval(sc, 0),
@@ -1475,7 +1475,7 @@ args(['--trig', Argument|Args]) :-
         member(Pfx-Ns, Pfxs),
         put_pfx(Pfx, Ns)
     ),
-    put_pfx('', D),
+    put_pfx('', 'http://example.org/#'),
     forall(
         member(rdf(S, P, O), Triples),
         (   ttl_n3p(S, Subject),
