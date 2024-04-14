@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.15 (2024-04-14)').
+version_info('EYE v10.2.16 (2024-04-14)').
 
 license_info('MIT License
 
@@ -462,6 +462,7 @@ gre(Argus) :-
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= quad,
             X =.. [P, _, _],
             call(X),
             ground(X),
@@ -541,19 +542,7 @@ gre(Argus) :-
             fail
         ;   true
         )
-
-    ;   % create quads
-        (   retract(graph(N, G)),
-            conj_list(G, L),
-            forall(
-                (   member(M, L),
-                    M =.. [P, S, O]
-                ),
-                assertz(quad(triple(S, P, O), N))
-            ),
-            fail
-        ;   true
-        )
+    ;   true
     ),
 
     % rdfsurfaces
@@ -2692,7 +2681,7 @@ qname(URI) -->
     },
     !.
 
-simpleStatement([graph(N, G)]) -->
+simpleStatement(Quads) -->
     [name(Name)],
     {   downcase_atom(Name, 'graph')
     },
@@ -2701,14 +2690,30 @@ simpleStatement([graph(N, G)]) -->
     ['{'],
     formulacontent(G),
     ['}'],
-    withoutdot.
-simpleStatement([graph(N, G)]) -->
+    withoutdot,
+    {   conj_list(G, L),
+        findall(quad(triple(S, P, O), N),
+            (   member(M, L),
+                M =.. [P, S, O]
+            ),
+            Quads
+        )
+    }.
+simpleStatement(Quads) -->
     symbol(N),
     ['{'],
     formulacontent(G),
     ['}'],
     withoutdot,
-    !.
+    !,
+    {   conj_list(G, L),
+        findall(quad(triple(S, P, O), N),
+            (   member(M, L),
+                M =.. [P, S, O]
+            ),
+            Quads
+        )
+    }.
 simpleStatement(Triples) -->
     subject(Subject, Triples1),
     (   {   Subject = (D1;D2)
