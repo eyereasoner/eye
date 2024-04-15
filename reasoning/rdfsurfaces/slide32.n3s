@@ -1,0 +1,19 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+:Ghent a :City.
+
+(_:x) log:nand {
+    _:x a :City.
+    () log:nand {
+        _:x a :HumanCommunity.
+    }.
+}.
+
+# query
+() log:nand {
+    :Ghent a :HumanCommunity.
+    () log:nans {
+        :Ghent a :HumanCommunity.
+    }.
+}.

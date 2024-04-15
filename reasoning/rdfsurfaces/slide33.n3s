@@ -1,0 +1,55 @@
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+# slide 33 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+# owl restriction
+:aaa owl:onProperty :bbb.
+:aaa owl:allValuesFrom :ccc.
+
+# the following 2 triples should entail :yyy a :ccc.
+#:xxx a :aaa.
+#:xxx :bbb :yyy.
+
+# the following codex should entail :xxx a :aaa.
+(_:y) log:nand {
+    :xxx :bbb _:y.
+    () log:nand {
+        _:y a :ccc.
+    }.
+}.
+
+# owl:allValuseFrom description logic
+(_:a _:b _:c) log:nand {
+    _:a owl:onProperty _:b.
+    _:a owl:allValuesFrom _:c.
+    () log:nand {
+        (_:x _:y) log:nand {
+            _:x a _:a.
+            _:x _:b _:y.
+            () log:nand {
+                _:y a _:c.
+            }.
+        }.
+        (_:x) log:nand {
+            (_:y) log:nand {
+                _:x _:b _:y.
+                () log:nand {
+                    _:y a _:c.
+                }.
+            }.
+            () log:nand {
+                _:x a _:a.
+            }.
+        }.
+    }.
+}.
+
+# query
+() log:nand {
+    :xxx a :aaa.
+    () log:nans {
+        :xxx a :aaa.
+    }.
+}.

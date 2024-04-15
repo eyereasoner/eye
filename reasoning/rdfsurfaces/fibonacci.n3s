@@ -1,0 +1,48 @@
+# -----------------
+# Fibonacci numbers
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Fibonacci_number
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+(_:X _:Y) log:nand {
+    () log:nano {_:X :fibonacci _:Y}.
+    (_:X 0 1) :fib _:Y.
+}.
+
+(_:A _:B) log:nand {
+    () log:nano {(0 _:A _:B) :fib _:A}.
+}.
+
+(_:A _:B) log:nand {
+    () log:nano {(1 _:A _:B) :fib _:B}.
+}.
+
+(_:A _:B _:C _:D _:X _:Y) log:nand {
+    () log:nano {(_:X _:A _:B) :fib _:Y}.
+    _:X math:greaterThan 1.
+    (_:X 1) math:difference _:C.
+    (_:A _:B) math:sum _:D.
+    (_:C _:B _:D) :fib _:Y.
+}.
+
+# query
+(_:X1 _:X2 _:X3 _:X91 _:X283 _:X3674) log:nand {
+    1 :fibonacci _:X1.
+    2 :fibonacci _:X2.
+    3 :fibonacci _:X3.
+    91 :fibonacci _:X91.
+    283 :fibonacci _:X283.
+    3674 :fibonacci _:X3674.
+    () log:nans {
+        1 :fibonacci _:X1.
+        2 :fibonacci _:X2.
+        3 :fibonacci _:X3.
+        91 :fibonacci _:X91.
+        283 :fibonacci _:X283.
+        3674 :fibonacci _:X3674.
+    }.
+}.
