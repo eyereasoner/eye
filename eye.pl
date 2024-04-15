@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.17 (2024-04-15)').
+version_info('EYE v10.2.18 (2024-04-15)').
 
 license_info('MIT License
 
@@ -426,7 +426,18 @@ gre(Argus) :-
     args(Args),
 
     % lingua
-    (   memberchk('--trig', Args)
+    (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#nand>'(_, Obj),
+            atomic(Obj)
+        )
     ->  retractall(flag(lingua)),
         assertz(flag(lingua)),
 
@@ -1912,6 +1923,7 @@ tr_n3p(X, _, 'not-entail') :-
     write(query(\+Y, true)),
     writeln('.').
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query) :-
+    \+ (atomic(X), atomic(Y)),
     !,
     (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
     ->  (   is_list(T)
@@ -1946,6 +1958,7 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, query)
     ),
     tr_n3p(Z, Src, query).
 tr_n3p([':-'(Y, X)|Z], Src, query) :-
+    \+ (atomic(X), atomic(Y)),
     !,
     (   Y = '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#csvTuple>\''(L, T)
     ->  (   is_list(T)
@@ -1980,6 +1993,7 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
     ),
     tr_n3p(Z, Src, query).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
+    \+ (atomic(X), atomic(Y)),
     !,
     (   flag(tactic, 'linear-select')
     ->  write(implies(X, '\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>\''(X, Y), Src)),
@@ -1993,10 +2007,15 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
     tr_tr(Y, U),
-    write(':-'(U, X)),
+    (   atomic(X),
+        atomic(Y)
+    ->  write('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\''(U, X))
+    ;   write(':-'(U, X))
+    ),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
+    \+ (atomic(X), atomic(Y)),
     !,
     djiti_answer(answer(Y), A),
     write(implies(X, A, Src)),
