@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.16 (2024-04-14)').
+version_info('EYE v10.2.17 (2024-04-15)').
 
 license_info('MIT License
 
@@ -7466,23 +7466,27 @@ userInput(A, B) :-
     \+'<http://www.w3.org/2000/10/swap/log#isomorphic>'(X, Y).
 
 '<http://www.w3.org/2000/10/swap/log#parsedAsN3>'(literal(A, _), B) :-
-    (   parsed_as_n3(A, B)
-    ->  true
-    ;   atom_codes(A, C),
-        escape_string(D, C),
-        atom_codes(E, D),
-        tmp_file(Tmp),
-        open(Tmp, write, Ws, [encoding(utf8)]),
-        tell(Ws),
-        writef(E, []),
-        told,
-        (   flag('output', Output)
-        ->  tell(Output)
-        ;   true
+    when(
+        (   nonvar(A)
         ),
-        atomic_list_concat(['<file://', Tmp, '>'], F),
-        '<http://www.w3.org/2000/10/swap/log#semantics>'(F, B),
-        assertz(parsed_as_n3(A, B))
+        (   parsed_as_n3(A, B)
+        ->  true
+        ;   atom_codes(A, C),
+            escape_string(D, C),
+            atom_codes(E, D),
+            tmp_file(Tmp),
+            open(Tmp, write, Ws, [encoding(utf8)]),
+            tell(Ws),
+            writef(E, []),
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            atomic_list_concat(['<file://', Tmp, '>'], F),
+            '<http://www.w3.org/2000/10/swap/log#semantics>'(F, B),
+            assertz(parsed_as_n3(A, B))
+        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#phrase>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
