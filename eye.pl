@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.18 (2024-04-15)').
+version_info('EYE v10.2.19 (2024-04-16)').
 
 license_info('MIT License
 
@@ -12434,6 +12434,8 @@ getlist(A, A) :-
 getlist(set(A), A) :-
     !.
 getlist([], []) :-
+    !.
+getlist('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
     !.
 getlist([A|B], [C|D]) :-
     getlist(A, C),
