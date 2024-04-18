@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.19 (2024-04-16)').
+version_info('EYE v10.2.20 (2024-04-18)').
 
 license_info('MIT License
 
@@ -451,6 +451,10 @@ gre(Argus) :-
             ),
             D \= [],
             conjoin(D, E),
+            (   contains(G, E)
+            ->  throw(term_cannot_contain_itself(G, E))
+            ;   true
+            ),
             assertz(graph(G, E)),
             fail
         ;   true
@@ -12124,6 +12128,14 @@ atomify(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), A) :-
     atom(A),
     !.
 atomify(A, A).
+
+contains(X, X) :-
+    !.
+contains(X, Term) :-
+    compound(Term),
+    arg(_, Term, Arg),
+    contains(X, Arg),
+    !.
 
 commonvars('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, _), B, C) :-
     !,
