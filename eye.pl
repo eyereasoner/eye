@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.20 (2024-04-18)').
+version_info('EYE v10.2.21 (2024-04-19)').
 
 license_info('MIT License
 
@@ -2136,10 +2136,11 @@ rename(A, A).
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
-annotation(Triple, Triples) -->
+annotation(edge(N, Triple), Triples) -->
     [lb_pipe],
     !,
-    propertylist(Triple, Triples),
+    edgename(N),
+    propertylist(edge(N, Triple), Triples),
     {   (   Triples \= []
         ->  true
         ;   nb_getval(line_number, Ln),
@@ -2254,6 +2255,22 @@ dtlang(type(T)) -->
     },
     [].
 
+edgename(N) -->
+    expression(N, []),
+    ['|'],
+    !.
+edgename(N) -->
+    {   gensym('bne_', B),
+        (   (   nb_getval(entail_mode, false),
+                nb_getval(fdepth, 0)
+            ;   flag('pass-all-ground')
+            )
+        ->  nb_getval(var_ns, Sns),
+            atomic_list_concat(['\'<', Sns, B, '>\''], N)
+        ;   atom_concat('_', B, N)
+        )
+    }.
+
 existential -->
     [atname(forSome)],
     !,
@@ -2322,18 +2339,9 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     [','],
     !,
     object(Object, Triples1),
-    {   gensym('bne_', N),
-        (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
-            ;   flag('pass-all-ground')
-            )
-        ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
-        ;   atom_concat('_', N, BN)
-        ),
-        (   Verb = isof(Vrb)
-        ->  Edge = edge(BN, triple(Object, Vrb, Subject))
-        ;   Edge = edge(BN, triple(Subject, Verb, Object))
+    {   (   Verb = isof(Vrb)
+        ->  Edge = edge(_, triple(Object, Vrb, Subject))
+        ;   Edge = edge(_, triple(Subject, Verb, Object))
         )
     },
     annotation(Edge, Triples2),
@@ -2466,22 +2474,22 @@ pathitem(List, Triples) -->
     !,
     pathlist(List, Triples),
     [')'].
-pathitem(edge(BN, triple(S, P, O)), []) -->
+pathitem(triple(S, P, O), []) -->
     [lt_lt],
+    ['('],
     !,
     subject(S, []),
     verb(P, []),
     object(O, []),
-    {   gensym('bne_', N),
-        (   (   nb_getval(entail_mode, false),
-                nb_getval(fdepth, 0)
-            ;   flag('pass-all-ground')
-            )
-        ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
-        ;   atom_concat('_', N, BN)
-        )
-    },
+    [')'],
+    [gt_gt].
+pathitem(edge(N, triple(S, P, O)), []) -->
+    [lt_lt],
+    !,
+    edgename(N),
+    subject(S, []),
+    verb(P, []),
+    object(O, []),
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
@@ -2625,17 +2633,9 @@ propertylist(Subject, [Triple|Triples]) -->
     },
     !,
     object(Object, Triples2),
-    {   gensym('bne_', N),
-        (   (   nb_getval(fdepth, 0)
-            ;   flag('pass-all-ground')
-            )
-        ->  nb_getval(var_ns, Sns),
-            atomic_list_concat(['\'<', Sns, N, '>\''], BN)
-        ;   atom_concat('_', N, BN)
-        ),
-        (   Verb = isof(Vrb)
-        ->  Edge = edge(BN, triple(Object, Vrb, Subject))
-        ;   Edge = edge(BN, triple(Subject, Verb, Object))
+    {   (   Verb = isof(Vrb)
+        ->  Edge = edge(_, triple(Object, Vrb, Subject))
+        ;   Edge = edge(_, triple(Subject, Verb, Object))
         )
     },
     annotation(Edge, Triples3),
@@ -3718,6 +3718,7 @@ punctuation(0'=, '=').
 punctuation(0'<, '<').
 punctuation(0'>, '>').
 punctuation(0'$, '$').
+punctuation(0'|, '|').
 
 skip_line(-1, _, -1) :-
     !.
@@ -4644,9 +4645,14 @@ wt2(graph(X, Y)) :-
     nb_setval(keep_ng, false),
     retractall(keep_ng(graph(X, Y))),
     wg(Y).
-wt2(edge(_, triple(S, P, O))) :-
+wt2(edge(N, triple(S, P, O))) :-
     !,
     write('<< '),
+    (   findvar(N, beta)
+    ->  true
+    ;   wg(N),
+        write(' | ')
+    ),
     wg(S),
     write(' '),
     wp(P),
@@ -4712,13 +4718,13 @@ wtn(exopred(P, S, O)) :-
     ).
 wtn(triple(S, P, O)) :-
     !,
-    write('<< '),
+    write('<<( '),
     wg(S),
     write(' '),
     wp(P),
     write(' '),
     wg(O),
-    write(' >>').
+    write(' )>>').
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),
@@ -12363,7 +12369,7 @@ raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#UnlabeledBlankNode>') :-
     nb_getval(var_ns, B),
     sub_atom(A, 1, _, _, B),
-    sub_atom(A, _, 4, _, '#bn_'),
+    sub_atom(A, _, 3, _, '#bn'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#LabeledBlankNode>') :-
     nb_getval(var_ns, B),
