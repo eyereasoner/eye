@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.22 (2024-04-19)').
+version_info('EYE v10.2.23 (2024-04-19)').
 
 license_info('MIT License
 
@@ -1361,11 +1361,14 @@ args(['--pass'|Args]) :-
         ),
         \+implies(_, answer(_, _, _), _),
         \+implies(_, (answer(_, _, _), _), _)
-    ->  assertz(query(exopred(P, S, O), exopred(P, S, O)))
-    ;   assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
+    ->  assertz(query(exopred(P, S, O), exopred(P, S, O))),
+        assertz(query(quad(triple(S, P, O), G), quad(triple(S, P, O), G)))
+    ;   assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>')),
+        assertz(implies(quad(triple(S, P, O), G), answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ),
     (   flag(intermediate, Out)
-    ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
+    ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>')),
+        portray_clause(Out, implies(quad(triple(S, P, O), G), answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ;   true
     ),
     args(Args).
