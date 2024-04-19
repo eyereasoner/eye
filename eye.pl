@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.21 (2024-04-19)').
+version_info('EYE v10.2.22 (2024-04-19)').
 
 license_info('MIT License
 
@@ -2475,14 +2475,12 @@ pathitem(List, Triples) -->
     pathlist(List, Triples),
     [')'].
 pathitem(triple(S, P, O), []) -->
-    [lt_lt],
-    ['('],
+    [lt_lt_lp],
     !,
     subject(S, []),
     verb(P, []),
     object(O, []),
-    [')'],
-    [gt_gt].
+    [rp_gt_gt].
 pathitem(edge(N, triple(S, P, O)), []) -->
     [lt_lt],
     !,
@@ -3048,6 +3046,13 @@ token(0'_, In, C, bnode(Name)) :-
     ;   C = C0,
         Name = ''
     ).
+token(0'<, In, C, lt_lt_lp) :-
+    peek_string(In, 2, D),
+    string_codes(D, [0'<, 0'(]),
+    !,
+    get_code(In, _),
+    get_code(In, _),
+    get_code(In, C).
 token(0'<, In, C, lt_lt) :-
     peek_code(In, 0'<),
     !,
@@ -3077,6 +3082,13 @@ token(0'<, In, C, relative_uri(URI)) :-
 token(0'>, In, C, gt_gt) :-
     peek_code(In, 0'>),
     !,
+    get_code(In, _),
+    get_code(In, C).
+token(0'), In, C, rp_gt_gt) :-
+    peek_string(In, 2, D),
+    string_codes(D, [0'>, 0'>]),
+    !,
+    get_code(In, _),
     get_code(In, _),
     get_code(In, C).
 token(0'{, In, C, lb_pipe) :-
