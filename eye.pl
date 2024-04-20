@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.23 (2024-04-19)').
+version_info('EYE v10.2.24 (2024-04-20)').
 
 license_info('MIT License
 
@@ -2104,18 +2104,18 @@ ttl_n3p(literal(type('http://www.w3.org/2001/XMLSchema#boolean', A)), A) :-
     !.
 ttl_n3p(literal(type(A, B)), literal(E, type(F))) :-
     atom_codes(B, C),
-    escape_string(C, D),
+    escape_codes(C, D),
     atom_codes(E, D),
     atomic_list_concat(['<', A, '>'], F),
     !.
 ttl_n3p(literal(lang(A, B)), literal(E, lang(A))) :-
     atom_codes(B, C),
-    escape_string(C, D),
+    escape_codes(C, D),
     atom_codes(E, D),
     !.
 ttl_n3p(literal(A), literal(E, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     atom_codes(A, C),
-    escape_string(C, D),
+    escape_codes(C, D),
     atom_codes(E, D),
     !.
 ttl_n3p(node(A), B) :-
@@ -2305,8 +2305,8 @@ formulacontent(Formula) -->
 literal(Atom, DtLang) -->
     string(Codes),
     dtlang(DtLang),
-    {   escape_string(Codes, B),
-        escape_string(B, C),
+    {   escape_codes(Codes, B),
+        escape_codes(B, C),
         atom_codes(A, C),
         (   sub_atom(A, _, 1, _, '\'')
         ->  escape_squote(C, D),
@@ -2424,7 +2424,7 @@ pathitem(Atom, []) -->
     },
     !,
     {   atom_codes(A, B),
-        escape_string(C, B),
+        escape_codes(C, B),
         atom_codes(Atom, C)
     }.
 pathitem(Number, [], L1, L2) :-
@@ -4991,7 +4991,7 @@ wst :-
         (   member([_, MT], KT),
             getcodes(MT, LT)
         ),
-        (   escape_string(NT, LT),
+        (   escape_codes(NT, LT),
             atom_codes(ST, NT),
             wt(ST)
         )
@@ -6368,7 +6368,7 @@ djiti_assertz(A) :-
         (   ground(X)
         ),
         (   atom_codes(X, U),
-            escape_string(U, V),
+            escape_codes(U, V),
             atom_codes(Z, V)
         )
     ).
@@ -6392,8 +6392,8 @@ djiti_assertz(A) :-
         ),
         (   atom_codes(X, U),
             atom_codes(Y, C),
-            escape_string(T, U),
-            escape_string(V, C),
+            escape_codes(T, U),
+            escape_codes(V, C),
             (   V = []
             ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, T),
@@ -7416,7 +7416,7 @@ userInput(A, B) :-
     term_variables(A, V),
     labelvars([A, V], 0, _, avar),
     with_output_to_chars((wq(V, allv), wt(A)), E),
-    escape_string(E, F),
+    escape_codes(E, F),
     atom_codes(B, F).
 
 '<http://www.w3.org/2000/10/swap/log#localName>'(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
@@ -7446,7 +7446,7 @@ userInput(A, B) :-
         numbervars(A),
         with_output_to_chars(wt(A), C2),
         append(C1, C2, C),
-        escape_string(C, D),
+        escape_codes(C, D),
         atom_codes(B, D),
         assertz(n3s(A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))))
     ).
@@ -7516,7 +7516,7 @@ userInput(A, B) :-
         (   parsed_as_n3(A, B)
         ->  true
         ;   atom_codes(A, C),
-            escape_string(D, C),
+            escape_codes(D, C),
             atom_codes(E, D),
             tmp_file(Tmp),
             open(Tmp, write, Ws, [encoding(utf8)]),
@@ -7629,7 +7629,9 @@ userInput(A, B) :-
                     read_string(Out, _, V),
                     close(Out)
                 ),
-                atom_string(W, V),
+                string_codes(V, C),
+                escape_codes(C, D),
+                atom_codes(W, D),
                 Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 assertz(shellcache(X, Y))
             )
@@ -8322,8 +8324,8 @@ userInput(A, B) :-
         ;   ground(Z),
             getcodes(Z, U),
             getcodes(Y, C),
-            escape_string(T, U),
-            escape_string(V, C),
+            escape_codes(T, U),
+            escape_codes(V, C),
             (   V = []
             ->  findall(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')),
                     (   member(B, T),
@@ -8342,7 +8344,7 @@ userInput(A, B) :-
             findall(literal(N, type('<http://www.w3.org/2001/XMLSchema#string>')),
                 (   member(literal(M, type('<http://www.w3.org/2001/XMLSchema#string>')), Q),
                     atom_codes(M, Mc),
-                    escape_string(Mc, Nc),
+                    escape_codes(Mc, Nc),
                     atom_codes(N, Nc)
                 ),
                 X
@@ -11951,31 +11953,31 @@ lookup(A, B, C) :-
     atomic_list_concat([B, '_tabl_entry_', I], A),
     assertz(tabl(A, B, C)).
 
-escape_string([], []) :-
+escape_codes([], []) :-
     !.
-escape_string([0'\t|A], [0'\\, 0't|B]) :-
+escape_codes([0'\t|A], [0'\\, 0't|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'\b|A], [0'\\, 0'b|B]) :-
+    escape_codes(A, B).
+escape_codes([0'\b|A], [0'\\, 0'b|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'\n|A], [0'\\, 0'n|B]) :-
+    escape_codes(A, B).
+escape_codes([0'\n|A], [0'\\, 0'n|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'\r|A], [0'\\, 0'r|B]) :-
+    escape_codes(A, B).
+escape_codes([0'\r|A], [0'\\, 0'r|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'\f|A], [0'\\, 0'f|B]) :-
+    escape_codes(A, B).
+escape_codes([0'\f|A], [0'\\, 0'f|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'"|A], [0'\\, 0'"|B]) :-
+    escape_codes(A, B).
+escape_codes([0'"|A], [0'\\, 0'"|B]) :-
     !,
-    escape_string(A, B).
-escape_string([0'\\|A], [0'\\, 0'\\|B]) :-
+    escape_codes(A, B).
+escape_codes([0'\\|A], [0'\\, 0'\\|B]) :-
     !,
-    escape_string(A, B).
-escape_string([A|B], [A|C]) :-
-    escape_string(B, C).
+    escape_codes(A, B).
+escape_codes([A|B], [A|C]) :-
+    escape_codes(B, C).
 
 escape_squote([], []) :-
     !.
@@ -12581,7 +12583,7 @@ getcodes(literal(A, _), B) :-
 getcodes(A, B) :-
     nonvar(A),
     with_output_to_chars(wg(A), C),
-    escape_string(C, B).
+    escape_codes(C, B).
 
 map(_, [], []) :-
     !.
@@ -13171,10 +13173,10 @@ uuid(UUID) :-
 
 regex(Pattern, String, List) :-
     atom_codes(Pattern, PatternC),
-    escape_string(PatC, PatternC),
+    escape_codes(PatC, PatternC),
     atom_codes(Pat, PatC),
     atom_codes(String, StringC),
-    escape_string(StrC, StringC),
+    escape_codes(StrC, StringC),
     atom_codes(Str, StrC),
     re_matchsub(Pat, Str, Dict, []),
     findall(Value,
