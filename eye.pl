@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.25 (2024-04-22)').
+version_info('EYE v10.3.0 (2024-04-22)').
 
 license_info('MIT License
 
@@ -118,6 +118,7 @@ eye
 :- dynamic(cc/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
+:- dynamic(edge/2).
 :- dynamic(evar/3).
 :- dynamic(exopred/3).              % exopred(Predicate, Subject, Object)
 :- dynamic(fact/1).
@@ -184,6 +185,7 @@ eye
 :- dynamic('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>'/2).
 :- dynamic('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'/2).
+:- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
@@ -437,6 +439,7 @@ gre(Argus) :-
             atomic(Obj)
         ;   '<http://www.w3.org/2000/10/swap/log#nand>'(_, Obj),
             atomic(Obj)
+        ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
         )
     ->  retractall(flag(lingua)),
         assertz(flag(lingua)),
@@ -477,6 +480,7 @@ gre(Argus) :-
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
             P \= quad,
             X =.. [P, _, _],
             call(X),
@@ -500,6 +504,9 @@ gre(Argus) :-
 
         % remove rdf named graphs
         retractall(graph(_, _)),
+
+        % remove rdf reifiers
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)),
 
         % create forward rules
         assertz(implies((
@@ -12490,9 +12497,9 @@ getlist(A, [B|C]) :-
     ;   true
     ),
     (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D),
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, D2),
-            D2 \= D
-        ->  throw(malformed_list_extra_rest(A, D, D2))
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
+            E \= D
+        ->  throw(malformed_list_extra_rest(A, D, E))
         ;   true
         )
     ->  true
@@ -12519,15 +12526,15 @@ getterm([A|B], [C|D]) :-
     getterm(B, D).
 getterm(A, [B|C]) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D2),
-        D2 \= D
-    ->  throw(malformed_list_extra_first(A, D, D2))
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, E),
+        E \= D
+    ->  throw(malformed_list_extra_first(A, D, E))
     ;   true
     ),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E2),
-            E2 \= E
-        ->  throw(malformed_list_extra_rest(A, E, E2))
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, F),
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, G),
+            G \= F
+        ->  throw(malformed_list_extra_rest(A, F, G))
         ;   true
         )
     ->  true
@@ -12535,10 +12542,10 @@ getterm(A, [B|C]) :-
     ),
     !,
     getterm(D, B),
-    (   getterm(E, C),
+    (   getterm(F, C),
         is_list(C)
     ->  true
-    ;   throw(malformed_list_invalid_rest(E))
+    ;   throw(malformed_list_invalid_rest(F))
     ).
 getterm(graph(A, B), graph(A, C)) :-
     graph(A, B),
@@ -12551,6 +12558,21 @@ getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
     !,
     getterm(D, E),
     conjify(E, C).
+getterm(edge(A, B), edge(A, B)) :-
+    (   edge(A, C),
+        C \= B
+    ->  throw(malformed_edge_extra_reifies(A, B, C))
+    ;   assertz(edge(A, B))
+    ),
+    !.
+getterm(A, edge(A, B)) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, B),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, C),
+        C \= B
+    ->  throw(malformed_edge_extra_reifies(A, B, C))
+    ;   true
+    ),
+    !.
 getterm(A, B) :-
     graph(A, _),
     !,
