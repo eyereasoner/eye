@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.3.0 (2024-04-22)').
+version_info('EYE v10.4.0 (2024-04-22)').
 
 license_info('MIT License
 
@@ -12560,7 +12560,7 @@ getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
     conjify(E, C).
 getterm(edge(A, B), edge(A, B)) :-
     (   edge(A, C),
-        C \= B
+        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
     ->  throw(malformed_edge_extra_reifies(A, B, C))
     ;   assertz(edge(A, B))
     ),
@@ -12568,7 +12568,7 @@ getterm(edge(A, B), edge(A, B)) :-
 getterm(A, edge(A, B)) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, B),
     (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, C),
-        C \= B
+        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
     ->  throw(malformed_edge_extra_reifies(A, B, C))
     ;   true
     ),
