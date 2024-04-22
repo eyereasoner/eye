@@ -1,0 +1,15 @@
+@prefix : <http://example.org/#>.
+
+:s :p <<( :a :b :c )>>.
+:s :p << :d :e :f >>.
+:s :p << :x | :g :h :i >>.
+:s :p :o.
+<< :s :p :o >> :j :k.
+<< :y | :s :p :o >> :j :k.
+<< :y | :s :p :o >> :l :m.
+<< :y | :s :p :o >> :l :n.
+:liz :marriedTo :richard.
+<< :m1 | :liz :marriedTo :richard >> :from 1964 .
+<< :m2 | :liz :marriedTo :richard >> :from 1980 .
+<< :m1 | :liz :marriedTo :richard >> :to 1975 .
+<< :m2 | :liz :marriedTo :richard >> :to 2001 .

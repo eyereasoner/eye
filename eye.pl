@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.2.24 (2024-04-20)').
+version_info('EYE v10.2.25 (2024-04-22)').
 
 license_info('MIT License
 
@@ -2143,14 +2143,17 @@ annotation(edge(N, Triple), Triples) -->
     [lb_pipe],
     !,
     edgename(N),
-    propertylist(edge(N, Triple), Triples),
-    {   (   Triples \= []
+    propertylist(edge(N, Triple), Triples1),
+    {   (   Triples1 \= []
         ->  true
         ;   nb_getval(line_number, Ln),
             throw('empty_triple_annotation'(after_line(Ln)))
         )
     },
-    [pipe_rb].
+    [pipe_rb],
+    annotation(edge(_, Triple), Triples2),
+    {   append(Triples1, Triples2, Triples)
+    }.
 annotation(_, []) -->
     [].
 
