@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.0 (2024-04-24)').
+version_info('EYE v10.5.1 (2024-04-24)').
 
 license_info('MIT License
 
@@ -578,25 +578,22 @@ gre(Argus) :-
         assertz(flag(npnsurfaces)),
 
         % convert to rdfsurfaces
-        (   retract('<http://www.w3.org/2000/10/swap/log#npn>'(V, [P, N, I])),
-            (   I > 0
-            ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nand>'([], N), G),
-                assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
-            ;   (   I =:= 0
-                ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nans>'([], N), G),
-                    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
-                ;   conj_append(P, '<http://www.w3.org/2000/10/swap/log#nano>'([], N), G),
-                    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
-                )
-            ),
-            fail
-        ;   true
-        )
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#npn>'(V, [P, N, I]),
+                (   I > 0
+                ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nand>'([], N), G)
+                ;   (   I =:= 0
+                    ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nans>'([], N), G)
+                    ;   conj_append(P, '<http://www.w3.org/2000/10/swap/log#nano>'([], N), G)
+                    )
+                )), '<http://www.w3.org/2000/10/swap/log#nand>'(V, G), '<void>'))
     ;   true
     ),
-            
+
     % rdfsurfaces
-    (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+    (   (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+        ;   '<http://www.w3.org/2000/10/swap/log#npn>'(_, _)
+        )
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
 

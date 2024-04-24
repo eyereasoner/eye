@@ -1,0 +1,51 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_1 log:implies skolem:bng_1}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Charly"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_2 log:implies skolem:bng_3}].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :Charly a :Dog.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/npnsurfaces/derived.trig>].
+
+
+skolem:bng_1 {
+    :test :is var:x_0.
+}
+
+skolem:bng_2 {
+    var:x_0 a :Dog.
+}
+
+skolem:bng_3 {
+    :test :is true.
+}
