@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.4.0 (2024-04-22)').
+version_info('EYE v10.5.0 (2024-04-24)').
 
 license_info('MIT License
 
@@ -195,6 +195,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#npn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -437,6 +438,10 @@ gre(Argus) :-
         ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj),
             atomic(Subj),
             atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#npn>'(_, Obj),
+            getlist(Obj, [Obj1, Obj2, _]),
+            atomic(Obj1),
+            atomic(Obj2)
         ;   '<http://www.w3.org/2000/10/swap/log#nand>'(_, Obj),
             atomic(Obj)
         ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
@@ -567,6 +572,29 @@ gre(Argus) :-
     ;   true
     ),
 
+    % npnsurfaces
+    (   '<http://www.w3.org/2000/10/swap/log#npn>'(_, _)
+    ->  retractall(flag(npnsurfaces)),
+        assertz(flag(npnsurfaces)),
+
+        % convert to rdfsurfaces
+        (   retract('<http://www.w3.org/2000/10/swap/log#npn>'(V, [P, N, I])),
+            (   I > 0
+            ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nand>'([], N), G),
+                assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
+            ;   (   I =:= 0
+                ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nans>'([], N), G),
+                    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
+                ;   conj_append(P, '<http://www.w3.org/2000/10/swap/log#nano>'([], N), G),
+                    assertz('<http://www.w3.org/2000/10/swap/log#nand>'(V, G))
+                )
+            ),
+            fail
+        ;   true
+        )
+    ;   true
+    ),
+            
     % rdfsurfaces
     (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
     ->  retractall(flag(rdfsurfaces)),

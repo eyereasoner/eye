@@ -1,0 +1,57 @@
+# -----------------
+# Fibonacci numbers
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Fibonacci_number
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+(_:X _:Y) log:npn (_:bng_1 _:bng_2 -1).
+
+_:bng_1 {
+    (_:X 0 1) :fib _:Y.
+}
+
+_:bng_2 {
+    _:X :fibonacci _:Y.
+}
+
+(_:A _:B) log:npn (true _:bng_3 -1).
+
+_:bng_3 {
+    (0 _:A _:B) :fib _:A.
+}
+
+(_:A _:B) log:npn (true _:bng_4 -1).
+
+_:bng_4 {
+    (1 _:A _:B) :fib _:B.
+}
+
+(_:A _:B _:C _:D _:X _:Y) log:npn (_:bng_5 _:bng_6 -1).
+
+_:bng_5 {
+    _:X math:greaterThan 1.
+    (_:X 1) math:difference _:C.
+    (_:A _:B) math:sum _:D.
+    (_:C _:B _:D) :fib _:Y.
+}
+
+_:bng_6 {
+    (_:X _:A _:B) :fib _:Y.
+}
+
+# query
+(_:X1 _:X2 _:X3 _:X91 _:X283 _:X3674) log:npn (_:bng_7 _:bng_7 0).
+
+_:bng_7 {
+    [] rdf:value 1; :fibonacci _:X1.
+    [] rdf:value 2; :fibonacci _:X2.
+    [] rdf:value 3; :fibonacci _:X3.
+    [] rdf:value 91; :fibonacci _:X91.
+    [] rdf:value 283; :fibonacci _:X283.
+    [] rdf:value 3674; :fibonacci _:X3674.
+}
