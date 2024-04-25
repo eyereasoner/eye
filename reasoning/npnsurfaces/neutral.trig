@@ -5,17 +5,19 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
-# the negation of a neutral surface should now blow an inference fuse
-() log:npn (_:bng_1 false 1).
-() log:npn (_:bng_2 true 1).
+# a neutral surface
+() log:npn (_:bng_1 true 1).
 
 _:bng_1 {
-    () log:npn (_:bng_2 true 1).
-}
-
-_:bng_2 {
     :a :b :c.
     :d :e :f.
+}
+
+# the negation of a neutral surface does not blow an inference fuse
+() log:npn (_:bng_2 false 1).
+
+_:bng_2 {
+    () log:npn (_:bng_1 true 1).
 }
 
 # query
