@@ -1,7 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix http: <http://www.w3.org/2011/http#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -19,7 +18,11 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:rule [ a r:Fact; r:gives {skolem:bng_1 log:implies skolem:bng_1}].
+    r:rule [ a r:Fact; r:gives {{
+        :x :relGoal :y.
+    } => {
+        :x :relGoal :y.
+    }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -45,7 +48,20 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_124"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_125"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_2 log:implies skolem:bng_3}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel9 var:x_1.
+        var:x_2 :rel9 var:x_3.
+        var:x_4 :rel9 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel10 var:x_1.
+        var:x_2 :rel10 var:x_3.
+        var:x_4 :rel10 var:x_5.
+        var:x_0 :relGoal var:x_1.
+    }}].
 
 skolem:lemma3 a r:Inference;
     r:gives {
@@ -70,7 +86,19 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_118"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_119"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_4 log:implies skolem:bng_5}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel8 var:x_1.
+        var:x_2 :rel8 var:x_3.
+        var:x_4 :rel8 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel9 var:x_1.
+        var:x_2 :rel9 var:x_3.
+        var:x_4 :rel9 var:x_5.
+    }}].
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -95,7 +123,19 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_112"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_113"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_6 log:implies skolem:bng_7}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel7 var:x_1.
+        var:x_2 :rel7 var:x_3.
+        var:x_4 :rel7 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel8 var:x_1.
+        var:x_2 :rel8 var:x_3.
+        var:x_4 :rel8 var:x_5.
+    }}].
 
 skolem:lemma5 a r:Inference;
     r:gives {
@@ -120,7 +160,19 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_106"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_107"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_8 log:implies skolem:bng_9}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel6 var:x_1.
+        var:x_2 :rel6 var:x_3.
+        var:x_4 :rel6 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel7 var:x_1.
+        var:x_2 :rel7 var:x_3.
+        var:x_4 :rel7 var:x_5.
+    }}].
 
 skolem:lemma6 a r:Inference;
     r:gives {
@@ -145,7 +197,19 @@ skolem:lemma6 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_100"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_101"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_10 log:implies skolem:bng_11}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel5 var:x_1.
+        var:x_2 :rel5 var:x_3.
+        var:x_4 :rel5 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel6 var:x_1.
+        var:x_2 :rel6 var:x_3.
+        var:x_4 :rel6 var:x_5.
+    }}].
 
 skolem:lemma7 a r:Inference;
     r:gives {
@@ -170,7 +234,19 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_94"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_95"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_12 log:implies skolem:bng_13}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel4 var:x_1.
+        var:x_2 :rel4 var:x_3.
+        var:x_4 :rel4 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel5 var:x_1.
+        var:x_2 :rel5 var:x_3.
+        var:x_4 :rel5 var:x_5.
+    }}].
 
 skolem:lemma8 a r:Inference;
     r:gives {
@@ -195,7 +271,19 @@ skolem:lemma8 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_88"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_89"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_14 log:implies skolem:bng_15}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel3 var:x_1.
+        var:x_2 :rel3 var:x_3.
+        var:x_4 :rel3 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel4 var:x_1.
+        var:x_2 :rel4 var:x_3.
+        var:x_4 :rel4 var:x_5.
+    }}].
 
 skolem:lemma9 a r:Inference;
     r:gives {
@@ -220,7 +308,19 @@ skolem:lemma9 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#y"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_78"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_79"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_16 log:implies skolem:bng_17}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel2 var:x_1.
+        var:x_2 :rel2 var:x_3.
+        var:x_4 :rel2 var:x_5.
+    } => {
+        var:x_6 http:methodName "GET".
+        var:x_6 http:requestURI var:x_0.
+        var:x_6 http:resp var:x_7.
+        var:x_7 http:body var:x_1.
+        var:x_0 :rel3 var:x_1.
+        var:x_2 :rel3 var:x_3.
+        var:x_4 :rel3 var:x_5.
+    }}].
 
 skolem:lemma10 a r:Inference;
     r:gives {
@@ -243,7 +343,17 @@ skolem:lemma10 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_75"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_76"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_77"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. skolem:bng_18 log:implies skolem:bng_19}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 :rel1 var:x_1.
+    } => {
+        var:x_2 http:methodName "GET".
+        var:x_2 http:requestURI var:x_0.
+        var:x_2 http:resp var:x_3.
+        var:x_3 http:body var:x_1.
+        var:x_0 :rel2 var:x_1.
+        var:x_4 :rel2 var:x_5.
+        var:x_6 :rel2 var:x_7.
+    }}].
 
 skolem:lemma11 a r:Extraction;
     r:gives {
@@ -251,150 +361,3 @@ skolem:lemma11 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/lingua/restdesc.trig>].
 
-
-skolem:bng_1 {
-    :x :relGoal :y.
-}
-
-skolem:bng_2 {
-    var:x_0 :rel9 var:x_1.
-    var:x_2 :rel9 var:x_3.
-    var:x_4 :rel9 var:x_5.
-}
-
-skolem:bng_3 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel10 var:x_1.
-    var:x_2 :rel10 var:x_3.
-    var:x_4 :rel10 var:x_5.
-    var:x_0 :relGoal var:x_1.
-}
-
-skolem:bng_4 {
-    var:x_0 :rel8 var:x_1.
-    var:x_2 :rel8 var:x_3.
-    var:x_4 :rel8 var:x_5.
-}
-
-skolem:bng_5 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel9 var:x_1.
-    var:x_2 :rel9 var:x_3.
-    var:x_4 :rel9 var:x_5.
-}
-
-skolem:bng_6 {
-    var:x_0 :rel7 var:x_1.
-    var:x_2 :rel7 var:x_3.
-    var:x_4 :rel7 var:x_5.
-}
-
-skolem:bng_7 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel8 var:x_1.
-    var:x_2 :rel8 var:x_3.
-    var:x_4 :rel8 var:x_5.
-}
-
-skolem:bng_8 {
-    var:x_0 :rel6 var:x_1.
-    var:x_2 :rel6 var:x_3.
-    var:x_4 :rel6 var:x_5.
-}
-
-skolem:bng_9 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel7 var:x_1.
-    var:x_2 :rel7 var:x_3.
-    var:x_4 :rel7 var:x_5.
-}
-
-skolem:bng_10 {
-    var:x_0 :rel5 var:x_1.
-    var:x_2 :rel5 var:x_3.
-    var:x_4 :rel5 var:x_5.
-}
-
-skolem:bng_11 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel6 var:x_1.
-    var:x_2 :rel6 var:x_3.
-    var:x_4 :rel6 var:x_5.
-}
-
-skolem:bng_12 {
-    var:x_0 :rel4 var:x_1.
-    var:x_2 :rel4 var:x_3.
-    var:x_4 :rel4 var:x_5.
-}
-
-skolem:bng_13 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel5 var:x_1.
-    var:x_2 :rel5 var:x_3.
-    var:x_4 :rel5 var:x_5.
-}
-
-skolem:bng_14 {
-    var:x_0 :rel3 var:x_1.
-    var:x_2 :rel3 var:x_3.
-    var:x_4 :rel3 var:x_5.
-}
-
-skolem:bng_15 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel4 var:x_1.
-    var:x_2 :rel4 var:x_3.
-    var:x_4 :rel4 var:x_5.
-}
-
-skolem:bng_16 {
-    var:x_0 :rel2 var:x_1.
-    var:x_2 :rel2 var:x_3.
-    var:x_4 :rel2 var:x_5.
-}
-
-skolem:bng_17 {
-    var:x_6 http:methodName "GET".
-    var:x_6 http:requestURI var:x_0.
-    var:x_6 http:resp var:x_7.
-    var:x_7 http:body var:x_1.
-    var:x_0 :rel3 var:x_1.
-    var:x_2 :rel3 var:x_3.
-    var:x_4 :rel3 var:x_5.
-}
-
-skolem:bng_18 {
-    var:x_0 :rel1 var:x_1.
-}
-
-skolem:bng_19 {
-    var:x_2 http:methodName "GET".
-    var:x_2 http:requestURI var:x_0.
-    var:x_2 http:resp var:x_3.
-    var:x_3 http:body var:x_1.
-    var:x_0 :rel2 var:x_1.
-    var:x_4 :rel2 var:x_5.
-    var:x_6 :rel2 var:x_7.
-}

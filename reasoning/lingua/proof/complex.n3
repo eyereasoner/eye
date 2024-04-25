@@ -3,7 +3,6 @@
 @prefix complex: <https://eyereasoner.github.io/complex#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -39,14 +38,19 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0.20787957635177984 0.0)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1.5707963267948966 1.3169578969248166)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0.0 -1.3169578969248166)];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. skolem:bng_1 log:implies skolem:bng_1}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+        ((-1 0) (0.5 0)) complex:exponentiation var:x_0.
+        ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:x_1.
+        ((0 1) (0 1)) complex:exponentiation var:x_2.
+        ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:x_3.
+        (2 0) complex:asin var:x_4.
+        (2 0) complex:acos var:x_5.
+    } => {
+        ((-1 0) (0.5 0)) complex:exponentiation var:x_0.
+        ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:x_1.
+        ((0 1) (0 1)) complex:exponentiation var:x_2.
+        ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:x_3.
+        (2 0) complex:asin var:x_4.
+        (2 0) complex:acos var:x_5.
+    }}].
 
-
-skolem:bng_1 {
-    ((-1 0) (0.5 0)) complex:exponentiation var:x_0.
-    ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:x_1.
-    ((0 1) (0 1)) complex:exponentiation var:x_2.
-    ((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:x_3.
-    (2 0) complex:asin var:x_4.
-    (2 0) complex:acos var:x_5.
-}

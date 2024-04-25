@@ -22,7 +22,11 @@ skolem:lemma1 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#green"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. skolem:bng_1 log:implies skolem:bng_2}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :is var:x_1.
+    } => {
+        var:x_0 :is var:x_1.
+    }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -33,7 +37,11 @@ skolem:lemma2 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#nice"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. skolem:bng_1 log:implies skolem:bng_2}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :is var:x_1.
+    } => {
+        var:x_0 :is var:x_1.
+    }}].
 
 skolem:lemma3 a r:Inference;
     r:gives {
@@ -44,7 +52,14 @@ skolem:lemma3 a r:Inference;
         skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_3 log:implies skolem:bng_4}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Car.
+        () log:nand {
+            var:x_0 :is :blue.
+        }.
+    } => {
+        var:x_0 :is :green.
+    }}].
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -55,7 +70,14 @@ skolem:lemma4 a r:Inference;
         skolem:lemma7
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_5 log:implies skolem:bng_6}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 :is :green.
+        () log:nand {
+            var:x_0 :is :pretty.
+        }.
+    } => {
+        var:x_0 :is :nice.
+    }}].
 
 skolem:lemma5 a r:Extraction;
     r:gives {
@@ -65,75 +87,37 @@ skolem:lemma5 a r:Extraction;
 
 skolem:lemma6 a r:Inference;
     r:gives {
-        () log:nand skolem:bng_7.
+        () log:nand {
+            :beetle :is :blue.
+        }.
     };
     r:evidence (
         skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_8 log:implies skolem:bng_9}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Car.
+    } => {
+        () log:nand {
+            var:x_0 :is :blue.
+        }.
+    }}].
 
 skolem:lemma7 a r:Inference;
     r:gives {
-        () log:nand skolem:bng_10.
+        () log:nand {
+            :beetle :is :pretty.
+        }.
     };
     r:evidence (
         skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_8 log:implies skolem:bng_11}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Car.
+    } => {
+        () log:nand {
+            var:x_0 :is :pretty.
+        }.
+    }}].
 
-
-skolem:bng_1 {
-    var:x_0 :is var:x_1.
-}
-
-skolem:bng_2 {
-    var:x_0 :is var:x_1.
-}
-
-skolem:bng_3 {
-    var:x_0 a :Car.
-    () log:nand skolem:bng_12.
-}
-
-skolem:bng_4 {
-    var:x_0 :is :green.
-}
-
-skolem:bng_5 {
-    var:x_0 :is :green.
-    () log:nand skolem:bng_13.
-}
-
-skolem:bng_6 {
-    var:x_0 :is :nice.
-}
-
-skolem:bng_7 {
-    :beetle :is :blue.
-}
-
-skolem:bng_8 {
-    var:x_0 a :Car.
-}
-
-skolem:bng_9 {
-    () log:nand skolem:bng_12.
-}
-
-skolem:bng_10 {
-    :beetle :is :pretty.
-}
-
-skolem:bng_11 {
-    () log:nand skolem:bng_13.
-}
-
-skolem:bng_12 {
-    var:x_0 :is :blue.
-}
-
-skolem:bng_13 {
-    var:x_0 :is :pretty.
-}

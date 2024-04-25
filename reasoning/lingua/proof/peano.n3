@@ -3,7 +3,6 @@
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -23,15 +22,11 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:s (:s 0))];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:s (:s (:s (:s (:s 0)))))];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s (:s 0))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. skolem:bng_1 log:implies skolem:bng_2}].
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        ((:s 0) (:s (:s 0))) :multiply var:x_0.
+        (var:x_0 (:s (:s (:s 0)))) :add var:x_1.
+        var:x_1 :factorial var:x_2.
+    } => {
+        var:x_1 :factorial var:x_2.
+    }}].
 
-
-skolem:bng_1 {
-    ((:s 0) (:s (:s 0))) :multiply var:x_0.
-    (var:x_0 (:s (:s (:s 0)))) :add var:x_1.
-    var:x_1 :factorial var:x_2.
-}
-
-skolem:bng_2 {
-    var:x_1 :factorial var:x_2.
-}

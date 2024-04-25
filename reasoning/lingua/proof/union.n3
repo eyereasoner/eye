@@ -4,58 +4,58 @@
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        :result :is skolem:bng_1.
+        :result :is {
+            :A :B :C.
+            :A :X :C.
+            :D :E :F.
+            :A :Y :C.
+        }.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :result :is skolem:bng_1.
+        :result :is {
+            :A :B :C.
+            :A :X :C.
+            :D :E :F.
+            :A :Y :C.
+        }.
     };
     r:evidence (
-        [ a r:Fact; r:gives {(skolem:bng_2 skolem:bng_3) graph:union skolem:bng_1}]
+        [ a r:Fact; r:gives {({
+            :A :B :C.
+            :A :X :C.
+            :D :E :F.
+        } {
+            :A :Y :C.
+            :A :B :C.
+        }) graph:union {
+            :A :B :C.
+            :A :X :C.
+            :D :E :F.
+            :A :Y :C.
+        }}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo skolem:bng_1];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. skolem:bng_4 log:implies skolem:bng_5}].
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :A :B :C.
+        :A :X :C.
+        :D :E :F.
+        :A :Y :C.
+    }];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        ({
+            :A :B :C.
+            :A :X :C.
+            :D :E :F.
+        } {
+            :A :Y :C.
+            :A :B :C.
+        }) graph:union var:x_0.
+    } => {
+        :result :is var:x_0.
+    }}].
 
-
-skolem:bng_1 {
-    :A :B :C.
-    :A :X :C.
-    :D :E :F.
-    :A :Y :C.
-}
-
-skolem:bng_2 {
-    :A :B :C.
-    :A :X :C.
-    :D :E :F.
-}
-
-skolem:bng_3 {
-    :A :Y :C.
-    :A :B :C.
-}
-
-skolem:bng_4 {
-    (skolem:bng_2 skolem:bng_3) graph:union var:x_0.
-}
-
-skolem:bng_5 {
-    :result :is var:x_0.
-}
-
-skolem:bng_2 {
-    :A :B :C.
-    :A :X :C.
-    :D :E :F.
-}
-
-skolem:bng_3 {
-    :A :Y :C.
-    :A :B :C.
-}

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.1 (2024-04-24)').
+version_info('EYE v10.5.2 (2024-04-25)').
 
 license_info('MIT License
 
@@ -3926,6 +3926,7 @@ w3 :-
     ;   true
     ).
 w3 :-
+    retractall(flag(lingua)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -5211,20 +5212,16 @@ eam(Recursion) :-
         ),
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
-            )
-        ->  (   flag(rdfsurfaces)
-            ->  conj_list(Prem, Lst),
-                Lst = [_|Lst2],
-                (   select(call(_), Lst2, Lst3)
-                ->  true
-                ;   Lst3 = Lst2
-                ),
-                conj_list(Prem2, Lst3)
+            ),
+            Prem \= '<http://www.w3.org/2000/10/swap/log#npn>'([], [_, true, 1])
+        ->  (   Prem = ('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), call(_), Prem2)
+            ->  true
             ;   Prem2 = Prem
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   retractall(flag(lingua)),
+                with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
