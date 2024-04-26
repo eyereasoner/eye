@@ -18,11 +18,10 @@ skolem:lemma1 a r:Inference;
         skolem:lemma2
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#beautiful"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 :is var:x_1.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 :is :beautiful.
     } => {
-        var:x_0 :is var:x_1.
+        var:x_0 :is :beautiful.
     }}].
 
 skolem:lemma2 a r:Inference;
