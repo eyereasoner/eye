@@ -17,11 +17,10 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        :test :is var:x_0.
+    r:rule [ a r:Fact; r:gives {{
+        :test :is true.
     } => {
-        :test :is var:x_0.
+        :test :is true.
     }}].
 
 skolem:lemma2 a r:Inference;
