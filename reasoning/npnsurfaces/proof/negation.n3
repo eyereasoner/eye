@@ -5,12 +5,14 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        :test :is true.
+        :a :b :c.
+        :d :e :f.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :test :is true.
+        :a :b :c.
+        :d :e :f.
     };
     r:evidence (
         skolem:lemma2
@@ -20,7 +22,8 @@ skolem:lemma1 a r:Inference;
         :a :b :c.
         :d :e :f.
     } => {
-        :test :is true.
+        :a :b :c.
+        :d :e :f.
     }}].
 
 skolem:lemma2 a r:Inference;
