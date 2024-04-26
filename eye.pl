@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.2 (2024-04-25)').
+version_info('EYE v10.5.3 (2024-04-26)').
 
 license_info('MIT License
 
@@ -569,24 +569,6 @@ gre(Argus) :-
             fail
         ;   true
         )
-    ;   true
-    ),
-
-    % npnsurfaces
-    (   '<http://www.w3.org/2000/10/swap/log#npn>'(_, _)
-    ->  retractall(flag(npnsurfaces)),
-        assertz(flag(npnsurfaces)),
-
-        % convert to rdfsurfaces
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#npn>'(V, [P, N, I]),
-                (   I > 0
-                ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nand>'([], N), G)
-                ;   (   I =:= 0
-                    ->  conj_append(P, '<http://www.w3.org/2000/10/swap/log#nans>'([], N), G)
-                    ;   conj_append(P, '<http://www.w3.org/2000/10/swap/log#nano>'([], N), G)
-                    )
-                )), '<http://www.w3.org/2000/10/swap/log#nand>'(V, G), '<void>'))
     ;   true
     ),
 
@@ -5212,8 +5194,7 @@ eam(Recursion) :-
         ),
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
-            ),
-            Prem \= '<http://www.w3.org/2000/10/swap/log#npn>'([], [_, true, 1])
+            )
         ->  (   Prem = ('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), call(_), Prem2)
             ->  true
             ;   Prem2 = Prem
@@ -12595,6 +12576,26 @@ getterm(A, edge(A, B)) :-
     ;   true
     ),
     !.
+getterm('<http://www.w3.org/2000/10/swap/log#npn>'(V, O), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G)) :-
+    getterm(V, W),
+    getterm(O, T),
+    T = [P, false, _],
+    !,
+    getterm(P, G).
+getterm('<http://www.w3.org/2000/10/swap/log#npn>'(V, O), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G)) :-
+    !,
+    getterm(V, W),
+    getterm(O, T),
+    T = [P, N, I],
+    getterm(P, Pt),
+    getterm(N, Nt),
+    (   I > 0
+    ->  conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nand>'([], Nt), G)
+    ;   (   I =:= 0
+        ->  conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nans>'([], Nt), G)
+        ;   conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nano>'([], Nt), G)
+        )
+    ).
 getterm(A, B) :-
     graph(A, _),
     !,
