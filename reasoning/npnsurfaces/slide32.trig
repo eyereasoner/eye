@@ -1,0 +1,17 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:Ghent a :City.
+
+(_:x) log:npn (_:bng_1 _:bng_2 1).
+
+_:bng_1 {
+    _:x a :City.
+}
+
+_:bng_2 {
+    _:x a :HumanCommunity.
+}
+
+# query
+(_:x) log:npn (_:bng_2 _:bng_2 0).
