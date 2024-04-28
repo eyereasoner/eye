@@ -1,15 +1,42 @@
 ------------
-RDF Surfaces
+RDF surfaces
 ------------
 
-See https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
-and https://github.com/w3c-cg/rdfsurfaces
+RDF surfaces are declared using log:npn "not (positve and negative)"
 
-The top level surface is an implicit positive surface with implicit graffiti.
+    (graffiti) log:npn (_:bng_1 _:bng_2).
 
-log:nand is a negative surface used to express NAND based logic:
-- negation is a log:nand
-- disjunction is a log:nand containing only log:nand's
-- forward implication is a log:nand containing a log:nand
-- backward implication is a log:nand containing a log:nano (not an only)
-- query is a log:nand containing a log:nans (not answer)
+    _:bng_1 {
+        triples
+    }
+
+    _:bng_2 {
+        triples
+    }
+
+Declaring a positive surface:
+
+    # the triples in _:bng_2 are true
+    # (graffiti) log:npn (true _:bng_2).
+
+Declaring a negative surface:
+
+    # the triples in _:bng_1 are false
+    (graffiti) log:npn (_:bng_1 false).
+
+Declaring an implication:
+
+    # the triples in _:bng_1 imply the triples in _:bng_2
+    (graffiti) log:npn (_:bng_1 _:bng_2).
+
+Declaring a component:
+
+    # the triple in _:bng_2 is implied  by the triples in _:bng_1
+    (graffiti) log:npn (_:bng_1 _:bng_2).
+    _:bng_2 a log:Component.
+
+Declaring a query:
+
+    # the question triples in _:bng_1 give the answer triples in _:bng_2
+    (graffiti) log:npn (_:bng_1 _:bng_2).
+    _:bng_2 a log:Answer.

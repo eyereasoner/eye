@@ -14,11 +14,10 @@
 #:xxx :bbb :yyy.
 
 # the following codex should entail :xxx a :aaa.
-(_:y) log:nand _:bng_1.
+(_:y) log:npn (_:bng_1 _:bng_2).
 
 _:bng_1 {
     :xxx :bbb _:y.
-    () log:nand _:bng_2.
 }
 
 _:bng_2 {
@@ -26,23 +25,22 @@ _:bng_2 {
 }
 
 # owl:allValuseFrom description logic
-(_:a skolem:b _:c) log:nand _:bng_3.
+(_:a skolem:b _:c) log:npn (_:bng_3 _:bng_4).
 
 _:bng_3 {
     _:a owl:onProperty skolem:b.
     _:a owl:allValuesFrom _:c.
-    () log:nand _:bng_4.
 }
 
 _:bng_4 {
-    (_:x _:y) log:nand _:bng_5.
-    (_:x) log:nand _:bng_7.
+    (_:x _:y) log:npn (_:bng_5 false).
+    (_:x) log:npn (_:bng_7 false).
 }
 
 _:bng_5 {
     _:x a _:a.
     _:x skolem:b _:y.
-    () log:nand _:bng_6.
+    () log:npn (_:bng_6 false).
 }
 
 _:bng_6 {
@@ -50,13 +48,13 @@ _:bng_6 {
 }
 
 _:bng_7 {
-    (_:y) log:nand _:bng_8.
-    () log:nand _:bng_10.
+    (_:y) log:npn (_:bng_8 false).
+    () log:npn (_:bng_10 false).
 }
 
 _:bng_8 {
     _:x skolem:b _:y.
-    () log:nand _:bng_9.
+    () log:npn (_:bng_9 false).
 }
 
 _:bng_9 {
@@ -68,13 +66,9 @@ _:bng_10 {
 }
 
 # query
-(_:s _:o) log:nand _:bng_11.
+(_:x) log:npn (_:bng_11 _:bng_11).
+_:bng_11 a log:Answer.
 
 _:bng_11 {
-    _:s a _:o.
-    () log:nans _:bng_12.
-}
-
-_:bng_12 {
-    _:s a _:o.
+    _:x a :aaa.
 }

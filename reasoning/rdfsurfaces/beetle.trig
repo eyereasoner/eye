@@ -11,12 +11,11 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(_:A) log:nand _:bng_1.
+(_:A) log:npn (_:bng_1 _:bng_2).
 
 _:bng_1 {
     _:A a :Car.
-    () log:nand _:bng_2.
-    () log:nand _:bng_3.
+    () log:npn (_:bng_3 false).
 }
 
 _:bng_2 {
@@ -28,11 +27,10 @@ _:bng_3 {
 }
 
 # green things are beautiful
-(_:A) log:nand _:bng_4.
+(_:A) log:npn (_:bng_4 _:bng_5).
 
 _:bng_4 {
     _:A :is :green.
-    () log:nand _:bng_5.
 }
 
 _:bng_5 {
@@ -40,11 +38,10 @@ _:bng_5 {
 }
 
 # blue things are beautiful
-(_:A) log:nand _:bng_6.
+(_:A) log:npn (_:bng_6 _:bng_7).
 
 _:bng_6 {
     _:A :is :blue.
-    () log:nand _:bng_7.
 }
 
 _:bng_7 {
@@ -52,13 +49,9 @@ _:bng_7 {
 }
 
 # query
-(_:S _:O) log:nand _:bng_8.
+(_:A) log:npn (_:bng_8 _:bng_8).
+_:bng_8 a log:Answer.
 
 _:bng_8 {
-    _:S :is _:O.
-    () log:nans _:bng_9.
-}
-
-_:bng_9 {
-    _:S :is _:O.
+    :beetle :is :beautiful.
 }
