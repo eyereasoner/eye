@@ -8,13 +8,15 @@
 @prefix : <http://example.org/#>.
 
 # add
-(_:A) log:npn (true _:bng_1 -1).
+(_:A) log:npn (true _:bng_1).
+_:bng_1 a log:Component.
 
 _:bng_1 {
     (_:A 0) :add _:A.
 }
 
-(_:A _:B _:C) log:npn (_:bng_2 _:bng_3 -1).
+(_:A _:B _:C) log:npn (_:bng_2 _:bng_3).
+_:bng_3 a log:Component.
 
 _:bng_2 {
     (_:A _:B) :add _:C.
@@ -25,13 +27,15 @@ _:bng_3 {
 }
 
 # multiply
-(_:A) log:npn (true _:bng_4 -1).
+(_:A) log:npn (true _:bng_4).
+_:bng_4 a log:Component.
 
 _:bng_4 {
     (_:A 0) :multiply 0.
 }
 
-(_:A _:B _:C _:D) log:npn (_:bng_5 _:bng_6 -1).
+(_:A _:B _:C _:D) log:npn (_:bng_5 _:bng_6).
+_:bng_6 a log:Component.
 
 _:bng_5 {
     (_:A _:B) :multiply _:D.
@@ -43,7 +47,8 @@ _:bng_6 {
 }
 
 # factorial
-(_:A _:B) log:npn (_:bng_7 _:bng_8 -1).
+(_:A _:B) log:npn (_:bng_7 _:bng_8).
+_:bng_8 a log:Component.
 
 _:bng_7 {
     (_:A (:s 0)) :fac _:B.
@@ -53,13 +58,15 @@ _:bng_8 {
     _:A :factorial _:B.
 }
 
-(_:A) log:npn (true _:bng_9 -1).
+(_:A) log:npn (true _:bng_9).
+_:bng_9 a log:Component.
 
 _:bng_9 {
     (0 _:A) :fac _:A.
 }
 
-(_:A _:B _:C _:D) log:npn (_:bng_10 _:bng_11 -1).
+(_:A _:B _:C _:D) log:npn (_:bng_10 _:bng_11).
+_:bng_11 a log:Component.
 
 _:bng_10 {
     (_:B (:s _:A)) :multiply _:D.
@@ -71,7 +78,8 @@ _:bng_11 {
 }
 
 # query
-(_:A _:B _:C) log:npn (_:bng_12 _:bng_12 0).
+(_:A _:B _:C) log:npn (_:bng_12 _:bng_12).
+_:bng_12 a log:Answer.
 
 _:bng_12 {
     ((:s 0) (:s (:s 0))) :add _:A.

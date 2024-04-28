@@ -5,7 +5,7 @@ NPN surfaces
 NPN surface stands for Not (Positive & Negative) surface.
 NPN surfaces are declared as
 
-    (graffiti) log:npn (_:bng_1 _:bng_2 int).
+    (graffiti) log:npn (_:bng_1 _:bng_2).
 
     _:bng_1 {
         triples
@@ -23,16 +23,18 @@ with explicit scoping via graffiti and using RDF TriG syntax.
 
 Declaring a positive surface:
 
-    (graffiti) log:npn (true _:bng_2 1).
+    (graffiti) log:npn (true _:bng_2).
 
 Declaring a negative surface:
 
-    (graffiti) log:npn (_:bng_1 false 1).
+    (graffiti) log:npn (_:bng_1 false).
 
 Declaring a query:
 
-    (graffiti) log:npn (_:bng_1 _:bng_2 0).
+    (graffiti) log:npn (_:bng_1 _:bng_2).
+    _:bng_2 a log:Answer.
 
 Declaring a component (conclusion triple of a backwardf rule):
 
-    (graffiti) log:npn (_:bng_1 _:bng_2 -1).
+    (graffiti) log:npn (_:bng_1 _:bng_2).
+    _:bng_2 a log:Component.

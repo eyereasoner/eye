@@ -9,7 +9,8 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
-(_:X _:Y) log:npn (_:bng_1 _:bng_2 -1).
+(_:X _:Y) log:npn (_:bng_1 _:bng_2).
+_:bng_2 a log:Component.
 
 _:bng_1 {
     (_:X 0 1) :fib _:Y.
@@ -19,19 +20,22 @@ _:bng_2 {
     _:X :fibonacci _:Y.
 }
 
-(_:A _:B) log:npn (true _:bng_3 -1).
+(_:A _:B) log:npn (true _:bng_3).
+_:bng_3 a log:Component.
 
 _:bng_3 {
     (0 _:A _:B) :fib _:A.
 }
 
-(_:A _:B) log:npn (true _:bng_4 -1).
+(_:A _:B) log:npn (true _:bng_4).
+_:bng_4 a log:Component.
 
 _:bng_4 {
     (1 _:A _:B) :fib _:B.
 }
 
-(_:A _:B _:C _:D _:X _:Y) log:npn (_:bng_5 _:bng_6 -1).
+(_:A _:B _:C _:D _:X _:Y) log:npn (_:bng_5 _:bng_6).
+_:bng_6 a log:Component.
 
 _:bng_5 {
     _:X math:greaterThan 1.
@@ -45,7 +49,8 @@ _:bng_6 {
 }
 
 # query
-(_:X1 _:X2 _:X3 _:X91 _:X283 _:X3674) log:npn (_:bng_7 _:bng_7 0).
+(_:X1 _:X2 _:X3 _:X91 _:X283 _:X3674) log:npn (_:bng_7 _:bng_7).
+_:bng_7 a log:Answer.
 
 _:bng_7 {
     [] rdf:value 1; :fibonacci _:X1.

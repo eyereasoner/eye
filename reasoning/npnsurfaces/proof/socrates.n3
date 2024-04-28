@@ -20,12 +20,11 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma3
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Socrates"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Human"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 a var:x_1.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Human"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        :Socrates a var:x_0.
     } => {
-        var:x_0 a var:x_1.
+        :Socrates a var:x_0.
     }}].
 
 skolem:lemma2 a r:Inference;
@@ -35,12 +34,11 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma4
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Socrates"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Mortal"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 a var:x_1.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Mortal"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        :Socrates a var:x_0.
     } => {
-        var:x_0 a var:x_1.
+        :Socrates a var:x_0.
     }}].
 
 skolem:lemma3 a r:Extraction;

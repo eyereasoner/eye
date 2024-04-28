@@ -6,10 +6,10 @@
 @prefix : <http://example.org/#>.
 
 # a negative surface with a negative surface
-() log:npn (_:bng_1 false 1).
+() log:npn (_:bng_1 false).
 
 _:bng_1 {
-    () log:npn (_:bng_2 false 1).
+    () log:npn (_:bng_2 false).
 }
 
 _:bng_2 {
@@ -18,4 +18,10 @@ _:bng_2 {
 }
 
 # query
-() log:npn (_:bng_2 _:bng_2 0).
+() log:npn (_:bng_3 _:bng_3).
+_:bng_3 a log:Answer.
+
+_:bng_3 {
+    :a :b :c.
+    :d :e :f.
+}
