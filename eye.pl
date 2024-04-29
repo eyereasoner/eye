@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.5 (2024-04-29)').
+version_info('EYE v10.5.6 (2024-04-29)').
 
 license_info('MIT License
 
@@ -12582,16 +12582,6 @@ getterm(A, edge(A, B)) :-
     ->  throw(malformed_edge_extra_reifies(A, B, C))
     ;   true
     ),
-    !.
-getterm('<http://www.w3.org/2000/10/swap/log#nand>'(V, O), '<http://www.w3.org/2000/10/swap/log#nano>'(W, T)) :-
-    getterm(V, W),
-    getterm(O, T),
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(T, '<http://www.w3.org/2000/10/swap/log#Component>'),
-    !.
-getterm('<http://www.w3.org/2000/10/swap/log#nand>'(V, O), '<http://www.w3.org/2000/10/swap/log#nans>'(W, T)) :-
-    getterm(V, W),
-    getterm(O, T),
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(T, '<http://www.w3.org/2000/10/swap/log#Answer>'),
     !.
 getterm(A, B) :-
     graph(A, _),
