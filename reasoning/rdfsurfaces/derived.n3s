@@ -1,0 +1,32 @@
+# ------------
+# Derived rule
+# ------------
+#
+# Proving a derived rule.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:Alice a :Cat.
+:Minka a :Cat.
+:Charly a :Dog.
+
+(_:cat) log:nand {
+    _:cat a :Cat.
+    () log:nand {
+        (_:dog) log:nand {
+            _:dog a :Dog.
+            () log:nand {
+                :test :is true.
+            }.
+        }.
+    }.
+}.
+
+# query
+() log:nand {
+    :test :is true.
+    () log:nans {
+        :test :is true.
+    }.
+}.

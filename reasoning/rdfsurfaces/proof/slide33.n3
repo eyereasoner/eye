@@ -1,9 +1,9 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix : <http://example.org/#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix owl: <http://www.w3.org/2002/07/owl#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -19,11 +19,10 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#xxx"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        var:x_0 a :aaa.
+    r:rule [ a r:Fact; r:gives {{
+        :xxx a :aaa.
     } => {
-        var:x_0 a :aaa.
+        :xxx a :aaa.
     }}].
 
 skolem:lemma2 a r:Inference;
@@ -33,24 +32,24 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma3
         skolem:lemma4
-        [ a r:Fact; r:gives {(skolem:node_2) log:nand {
-            :xxx :bbb skolem:node_2.
+        [ a r:Fact; r:gives {(skolem:e_y_1) log:nand {
+            :xxx :bbb skolem:e_y_1.
             () log:nand {
-                skolem:node_2 a :ccc.
+                skolem:e_y_1 a :ccc.
             }.
         }}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#aaa"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#bbb"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#ccc"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/#xxx"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s#aaa"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s#bbb"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s#ccc"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s#xxx"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
         var:x_0 owl:onProperty var:x_1.
         var:x_0 owl:allValuesFrom var:x_2.
-        (skolem:node_2) log:nand {
-            var:x_3 var:x_1 skolem:node_2.
+        (skolem:e_y_1) log:nand {
+            var:x_3 var:x_1 skolem:e_y_1.
             () log:nand {
-                skolem:node_2 a var:x_2.
+                skolem:e_y_1 a var:x_2.
             }.
         }.
     } => {
@@ -61,11 +60,11 @@ skolem:lemma3 a r:Extraction;
     r:gives {
         :aaa owl:onProperty :bbb.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.trig>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s>].
 
 skolem:lemma4 a r:Extraction;
     r:gives {
         :aaa owl:allValuesFrom :ccc.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.trig>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/slide33.n3s>].
 

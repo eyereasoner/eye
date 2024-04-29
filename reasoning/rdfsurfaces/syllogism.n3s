@@ -1,5 +1,5 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example.org/#>.
+@prefix : <#>.
 
 # Examples from "Neeltje Komt Dinsdag In Evakostuum" , M.C. Gomperts
 
@@ -8,40 +8,30 @@
 ## Syllogism 1 : Camestres
 
 # All cats are mammals
-(_:Cat) log:nand _:bng_1.
-
-_:bng_1 {
+(_:Cat) log:nand {
     _:Cat a :Cat.
-    () log:nand _:bng_2.
-}
-
-_:bng_2 {
-    _:Cat a :Mammal.
-}
+    () log:nand {
+        _:Cat a :Mammal.
+    }.
+}.
 
 # No bird is a mammal
-(_:Bird) log:nand _:bng_3.
-
-_:bng_3 {
+(_:Bird) log:nand {
     _:Bird a :Bird.
     _:Bird a :Mammal.
-}
+}.
 
 # IMPLIES: Bird is not a Cat
 
 ## Syllogism 2 : Datasi
 
 # All cats are feline
-(_:Cat) log:nand _:bng_4.
-
-_:bng_4 {
+(_:Cat) log:nand {
     _:Cat a :Cat.
-    () log:nand _:bng_5.
-}
-
-_:bng_5 {
-    _:Cat a :Feline.
-}
+    () log:nand {
+        _:Cat a :Feline.
+    }.
+}.
 
 # Some cats are white
 _:X a :Cat , :White.
@@ -51,54 +41,39 @@ _:X a :Cat , :White.
 # Syllogism 3 : Ferio
 
 # No muslim is a christian
-(_:M) log:nand _:bng_6.
-
-_:bng_6 {
+(_:M) log:nand {
     _:M a :Muslim.
     _:M a :Christian.
-}
+}.
 
 # Some worshippers are muslim
 _:P a :Worshipper , :Muslim.
 
 # IMPLIES : Some worshipper is not a christian 
 
-() log:nand _:bng_7.
-
-_:bng_7 {
+() log:nand {
     # 1
-    () log:nand _:bng_8.
+    () log:nand {
+        :Tweety a :Cat.
+    }.
 
     # 2 
     _:X a :White, :Feline.
 
     # 3
-    () log:nand _:bng_9.
+    () log:nand {
+        _:P a :Christian.
+    }.
 
-    () log:nand _:bng_10.
-}
-
-_:bng_8 {
-    :Tweety a :Cat.
-}
-
-_:bng_9 {
-    _:P a :Christian.
-}
-
-_:bng_10 {
-    :test :is true.
-}
+    () log:nand {
+        :test :is true.
+    }.
+}.
 
 # Test
-() log:nand _:bng_11.
-
-_:bng_11 {
+() log:nand {
     :test :is true.
-    () log:nand _:bng_12.
-}
-
-_:bng_12 a log:Answer.
-_:bng_12 {
-    :test :is true.
-}
+    () log:nans {
+        :test :is true.
+    }.
+}.

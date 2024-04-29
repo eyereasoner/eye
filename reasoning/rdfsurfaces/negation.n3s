@@ -6,28 +6,19 @@
 @prefix : <http://example.org/#>.
 
 # a negative surface with a negative surface
-() log:nand _:bng_1.
-
-_:bng_1 {
-    () log:nand _:bng_2.
-}
-
-_:bng_2 {
-    :a :b :c.
-    :d :e :f.
-}
+() log:nand {
+    () log:nand {
+        :a :b :c.
+        :d :e :f.
+    }.
+}.
 
 # query
-() log:nand _:bng_3.
-
-_:bng_3 {
+() log:nand {
     :a :b :c.
     :d :e :f.
-    () log:nand _:bng_4.
-}
-
-_:bng_4 a log:Answer.
-_:bng_4 {
-    :a :b :c.
-    :d :e :f.
-}
+    () log:nans {
+        :a :b :c.
+        :d :e :f.
+    }.
+}.
