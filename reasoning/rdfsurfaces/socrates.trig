@@ -11,11 +11,12 @@
 :Socrates a :Human.
 :Human rdfs:subClassOf :Mortal.
 
-(_:A _:B _:S) log:npn (_:bng_1 _:bng_2).
+(_:A _:B _:S) log:nand _:bng_1.
 
 _:bng_1 {
     _:A rdfs:subClassOf _:B.
     _:S a _:A.
+    () log:nand _:bng_2.
 }
 
 _:bng_2 {
@@ -23,9 +24,14 @@ _:bng_2 {
 }
 
 # query
-(_:O) log:npn (_:bng_3 _:bng_3).
-_:bng_3 a log:Answer.
+() log:nand _:bng_3.
+_:bng_4 a log:Answer.
 
 _:bng_3 {
-    :Socrates a _:O.
+    :Socrates a :Mortal.
+    () log:nand _:bng_4.
+}
+
+_:bng_4 {
+    :Socrates a :Mortal.
 }

@@ -15,24 +15,10 @@ skolem:lemma1 a r:Inference;
         :d :e :f.
     };
     r:evidence (
-        skolem:lemma2
-        skolem:lemma2
+        [ a r:Fact; r:gives true]
     );
-    r:rule [ a r:Fact; r:gives {{
-        :a :b :c.
-        :d :e :f.
-    } => {
+    r:rule [ a r:Fact; r:gives {true => {
         :a :b :c.
         :d :e :f.
     }}].
-
-skolem:lemma2 a r:Inference;
-    r:gives {
-        :a :b :c.
-        :d :e :f.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:rule [].
 

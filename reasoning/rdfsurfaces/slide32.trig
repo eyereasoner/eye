@@ -3,10 +3,11 @@
 
 :Ghent a :City.
 
-(_:x) log:npn (_:bng_1 _:bng_2).
+(_:x) log:nand _:bng_1.
 
 _:bng_1 {
     _:x a :City.
+    () log:nand _:bng_2.
 }
 
 _:bng_2 {
@@ -14,9 +15,14 @@ _:bng_2 {
 }
 
 # query
-(_:x) log:npn (_:bng_3 _:bng_3).
-_:bng_3 a log:Answer.
+(_:x) log:nand _:bng_3.
+_:bng_4 a log:Answer.
 
 _:bng_3 {
+    _:x a :HumanCommunity.
+    () log:nand _:bng_4.
+}
+
+_:bng_4 {
     _:x a :HumanCommunity.
 }

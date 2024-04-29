@@ -17,33 +17,31 @@ skolem:lemma1 a r:Inference;
     };
     r:evidence (
         skolem:lemma2
+        skolem:lemma3
+        skolem:lemma4
+        skolem:lemma5
     );
     r:rule [ a r:Fact; r:gives {{
-        :test :is true.
+        () log:nand {
+            :Tweety a :Cat.
+        }.
+        skolem:node_11 a :White.
+        skolem:node_11 a :Feline.
+        () log:nand {
+            skolem:node_15 a :Christian.
+        }.
     } => {
         :test :is true.
     }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :test :is true.
-    };
-    r:evidence (
-        skolem:lemma3
-        skolem:lemma4
-        skolem:lemma5
-        skolem:lemma6
-    );
-    r:rule [].
-
-skolem:lemma3 a r:Inference;
-    r:gives {
         () log:nand {
             :Tweety a :Cat.
         }.
     };
     r:evidence (
-        skolem:lemma7
+        skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Tweety"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
@@ -54,36 +52,36 @@ skolem:lemma3 a r:Inference;
         }.
     }}].
 
-skolem:lemma4 a r:Extraction;
+skolem:lemma3 a r:Extraction;
     r:gives {
-        skolem:node_17 a :White.
+        skolem:node_11 a :White.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.trig>].
 
-skolem:lemma5 a r:Inference;
+skolem:lemma4 a r:Inference;
     r:gives {
-        skolem:node_17 a :Feline.
+        skolem:node_11 a :Feline.
     };
     r:evidence (
-        skolem:lemma8
+        skolem:lemma7
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_17"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_11"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Cat.
     } => {
         var:x_0 a :Feline.
     }}].
 
-skolem:lemma6 a r:Inference;
+skolem:lemma5 a r:Inference;
     r:gives {
         () log:nand {
-            skolem:node_23 a :Christian.
+            skolem:node_15 a :Christian.
         }.
     };
     r:evidence (
-        skolem:lemma9
+        skolem:lemma8
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#node_15"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Muslim.
     } => {
@@ -92,21 +90,21 @@ skolem:lemma6 a r:Inference;
         }.
     }}].
 
-skolem:lemma7 a r:Extraction;
+skolem:lemma6 a r:Extraction;
     r:gives {
         :Tweety a :Bird.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.trig>].
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma7 a r:Extraction;
     r:gives {
-        skolem:node_17 a :Cat.
+        skolem:node_11 a :Cat.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.trig>].
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
-        skolem:node_23 a :Muslim.
+        skolem:node_15 a :Muslim.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/syllogism.trig>].
 

@@ -1,9 +1,3 @@
-# --------------
-# Beetle example
-# --------------
-#
-# See https://en.wikipedia.org/wiki/Disjunction_elimination
-
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
@@ -11,11 +5,12 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(_:A) log:npn (_:bng_1 _:bng_2).
+(_:A) log:nand _:bng_1.
 
 _:bng_1 {
     _:A a :Car.
-    () log:npn (_:bng_3 false).
+    () log:nand _:bng_2.
+    () log:nand _:bng_3.
 }
 
 _:bng_2 {
@@ -27,11 +22,12 @@ _:bng_3 {
 }
 
 # green things are nice or pretty
-(_:A) log:npn (_:bng_4 _:bng_5).
+(_:A) log:nand _:bng_4.
 
 _:bng_4 {
     _:A :is :green.
-    () log:npn (_:bng_6 false).
+    () log:nand _:bng_5.
+    () log:nand _:bng_6.
 }
 
 _:bng_5 {
@@ -43,11 +39,12 @@ _:bng_6 {
 }
 
 # pretty things are pretty 1 or pretty 2
-(_:A) log:npn (_:bng_7 _:bng_8).
+(_:A) log:nand _:bng_7.
 
 _:bng_7 {
     _:A :is :pretty.
-    () log:npn (_:bng_9 false).
+    () log:nand _:bng_8.
+    () log:nand _:bng_9.
 }
 
 _:bng_8 {
@@ -59,11 +56,12 @@ _:bng_9 {
 }
 
 # nice things are nice 1 or nice 2
-(_:A) log:npn (_:bng_10 _:bng_11).
+(_:A) log:nand _:bng_10.
 
 _:bng_10 {
     _:A :is :nice.
-    () log:npn (_:bng_12 false).
+    () log:nand _:bng_11.
+    () log:nand _:bng_12.
 }
 
 _:bng_11 {
@@ -75,11 +73,12 @@ _:bng_12 {
 }
 
 # pretty 1 things are pretty 11 or pretty 12
-(_:A) log:npn (_:bng_13 _:bng_14).
+(_:A) log:nand _:bng_13.
 
 _:bng_13 {
     _:A :is :pretty1.
-    () log:npn (_:bng_15 false).
+    () log:nand _:bng_14.
+    () log:nand _:bng_15.
 }
 
 _:bng_14 {
@@ -91,11 +90,12 @@ _:bng_15 {
 }
 
 # pretty 2 things are pretty 21 or pretty 22
-(_:A) log:npn (_:bng_16 _:bng_17).
+(_:A) log:nand _:bng_16.
 
 _:bng_16 {
     _:A :is :pretty2.
-    () log:npn (_:bng_18 false).
+    () log:nand _:bng_17.
+    () log:nand _:bng_18.
 }
 
 _:bng_17 {
@@ -107,11 +107,12 @@ _:bng_18 {
 }
 
 # nice 1 things are nice 11 or nice 12
-(_:A) log:npn (_:bng_19 _:bng_20).
+(_:A) log:nand _:bng_19.
 
 _:bng_19 {
     _:A :is :nice1.
-    () log:npn (_:bng_21 false).
+    () log:nand _:bng_20.
+    () log:nand _:bng_21.
 }
 
 _:bng_20 {
@@ -123,11 +124,12 @@ _:bng_21 {
 }
 
 # nice 2 things are nice 21 or nice 22
-(_:A) log:npn (_:bng_22 _:bng_23).
+(_:A) log:nand _:bng_22.
 
 _:bng_22 {
     _:A :is :nice2.
-    () log:npn (_:bng_24 false).
+    () log:nand _:bng_23.
+    () log:nand _:bng_24.
 }
 
 _:bng_23 {
@@ -139,23 +141,23 @@ _:bng_24 {
 }
 
 # pretty or nice or blue things are beautiful
-(_:A) log:npn (_:bng_25 false).
+(_:A) log:nand _:bng_25.
 
 _:bng_25 {
-    () log:npn (_:bng_26 false).
-    () log:npn (_:bng_36 false).
+    () log:nand _:bng_26.
+    () log:nand _:bng_36.
 }
 
 _:bng_26 {
-    () log:npn (_:bng_27 false).
-    () log:npn (_:bng_28 false).
-    () log:npn (_:bng_29 false).
-    () log:npn (_:bng_30 false).
-    () log:npn (_:bng_31 false).
-    () log:npn (_:bng_32 false).
-    () log:npn (_:bng_33 false).
-    () log:npn (_:bng_34 false).
-    () log:npn (_:bng_35 false).
+    () log:nand _:bng_27.
+    () log:nand _:bng_28.
+    () log:nand _:bng_29.
+    () log:nand _:bng_30.
+    () log:nand _:bng_31.
+    () log:nand _:bng_32.
+    () log:nand _:bng_33.
+    () log:nand _:bng_34.
+    () log:nand _:bng_35.
 }
 
 _:bng_27 {
@@ -198,9 +200,14 @@ _:bng_36 {
 }
 
 # query
-(_:A) log:npn (_:bng_37 _:bng_37).
-_:bng_37 a log:Answer.
+(_:S _:O) log:nand _:bng_37.
+_:bng_38 a log:Answer.
 
 _:bng_37 {
-    :beetle :is :beautiful.
+    _:S :is _:O.
+    () log:nand _:bng_38.
+}
+
+_:bng_38 {
+    _:S :is _:O.
 }

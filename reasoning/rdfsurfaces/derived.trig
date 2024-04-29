@@ -11,18 +11,20 @@
 :Minka a :Cat.
 :Charly a :Dog.
 
-(_:cat) log:npn (_:bng_1 _:bng_2).
+(_:cat) log:nand _:bng_1.
 
 _:bng_1 {
     _:cat a :Cat.
+    () log:nand _:bng_2.
 }
 
 _:bng_2 {
-    (_:dog) log:npn (_:bng_3 _:bng_4).
+    (_:dog) log:nand _:bng_3.
 }
 
 _:bng_3 {
     _:dog a :Dog.
+    () log:nand _:bng_4.
 }
 
 _:bng_4 {
@@ -30,9 +32,14 @@ _:bng_4 {
 }
 
 # query
-() log:npn (_:bng_5 _:bng_5).
-_:bng_5 a log:Answer.
+() log:nand _:bng_5.
+_:bng_6 a log:Answer.
 
 _:bng_5 {
+    :test :is true.
+    () log:nand _:bng_6.
+}
+
+_:bng_6 {
     :test :is true.
 }

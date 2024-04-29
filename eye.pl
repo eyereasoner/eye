@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.4 (2024-04-28)').
+version_info('EYE v10.5.5 (2024-04-29)').
 
 license_info('MIT License
 
@@ -195,7 +195,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#npn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -438,10 +437,6 @@ gre(Argus) :-
         ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj),
             atomic(Subj),
             atomic(Obj)
-        ;   '<http://www.w3.org/2000/10/swap/log#npn>'(_, Obj),
-            getlist(Obj, [Obj1, Obj2]),
-            atomic(Obj1),
-            atomic(Obj2)
         ;   '<http://www.w3.org/2000/10/swap/log#nand>'(_, Obj),
             atomic(Obj)
         ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
@@ -587,9 +582,7 @@ gre(Argus) :-
     ),
 
     % rdfsurfaces
-    (   (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
-        ;   '<http://www.w3.org/2000/10/swap/log#npn>'(_, _)
-        )
+    (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
 
@@ -12590,26 +12583,16 @@ getterm(A, edge(A, B)) :-
     ;   true
     ),
     !.
-getterm('<http://www.w3.org/2000/10/swap/log#npn>'(V, O), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G)) :-
+getterm('<http://www.w3.org/2000/10/swap/log#nand>'(V, O), '<http://www.w3.org/2000/10/swap/log#nano>'(W, T)) :-
     getterm(V, W),
     getterm(O, T),
-    T = [P, false],
-    !,
-    getterm(P, G).
-getterm('<http://www.w3.org/2000/10/swap/log#npn>'(V, O), '<http://www.w3.org/2000/10/swap/log#nand>'(W, G)) :-
-    !,
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(T, '<http://www.w3.org/2000/10/swap/log#Component>'),
+    !.
+getterm('<http://www.w3.org/2000/10/swap/log#nand>'(V, O), '<http://www.w3.org/2000/10/swap/log#nans>'(W, T)) :-
     getterm(V, W),
     getterm(O, T),
-    T = [P, N],
-    getterm(P, Pt),
-    getterm(N, Nt),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Nt, '<http://www.w3.org/2000/10/swap/log#Answer>')
-    ->  conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nans>'([], Nt), G)
-    ;   (       '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Nt, '<http://www.w3.org/2000/10/swap/log#Component>')
-        ->  conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nano>'([], Nt), G)
-        ;   conj_append(Pt, '<http://www.w3.org/2000/10/swap/log#nand>'([], Nt), G)
-        )
-    ).
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(T, '<http://www.w3.org/2000/10/swap/log#Answer>'),
+    !.
 getterm(A, B) :-
     graph(A, _),
     !,
