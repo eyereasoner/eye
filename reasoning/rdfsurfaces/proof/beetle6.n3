@@ -54,7 +54,7 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Car.
-        () log:nand {
+        () log:onNegativeSurface {
             var:x_0 :is :blue.
         }.
     } => {
@@ -72,7 +72,7 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 :is :green.
-        () log:nand {
+        () log:onNegativeSurface {
             var:x_0 :is :pretty.
         }.
     } => {
@@ -87,7 +87,7 @@ skolem:lemma5 a r:Extraction;
 
 skolem:lemma6 a r:Inference;
     r:gives {
-        () log:nand {
+        () log:onNegativeSurface {
             :beetle :is :blue.
         }.
     };
@@ -98,14 +98,14 @@ skolem:lemma6 a r:Inference;
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Car.
     } => {
-        () log:nand {
+        () log:onNegativeSurface {
             var:x_0 :is :blue.
         }.
     }}].
 
 skolem:lemma7 a r:Inference;
     r:gives {
-        () log:nand {
+        () log:onNegativeSurface {
             :beetle :is :pretty.
         }.
     };
@@ -116,7 +116,7 @@ skolem:lemma7 a r:Inference;
     r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
         var:x_0 a :Car.
     } => {
-        () log:nand {
+        () log:onNegativeSurface {
             var:x_0 :is :pretty.
         }.
     }}].

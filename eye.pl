@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.7 (2024-04-30)').
+version_info('EYE v10.5.8 (2024-04-30)').
 
 license_info('MIT License
 
@@ -194,7 +194,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#nand>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -437,7 +437,7 @@ gre(Argus) :-
         ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj),
             atomic(Subj),
             atomic(Obj)
-        ;   '<http://www.w3.org/2000/10/swap/log#nand>'(_, Obj),
+        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Obj),
             atomic(Obj)
         ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
         )
@@ -582,50 +582,31 @@ gre(Argus) :-
     ),
 
     % rdfsurfaces
-    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)),
-        getsurface(B, C),
-        assertz('<http://www.w3.org/2000/10/swap/log#nand>'(A, C)),
-        fail
-    ;   true
-    ),
-    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(A, B)),
-        getsurface(B, C),
-        assertz('<http://www.w3.org/2000/10/swap/log#nano>'(A, C)),
-        fail
-    ;   true
-    ),
-    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(A, B)),
-        getsurface(B, C),
-        assertz('<http://www.w3.org/2000/10/swap/log#nans>'(A, C)),
-        fail
-    ;   true
-    ),
-
-    (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
+    (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
 
         % assert positive surfaces
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'([], '<http://www.w3.org/2000/10/swap/log#nand>'([], G)),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)),
                 \+call(G)
                 ), G, '<void>')),
 
         % simplify negative surfaces
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, H), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                 getlist(Z, Zl),
                 is_list(Zl),
                 is_graph(H),
                 conj_list(H, M),
                 list_to_set(M, T),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(W, O), T, N),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
                 getlist(W, Wl),
                 is_list(Wl),
                 is_graph(O),
@@ -635,49 +616,49 @@ gre(Argus) :-
                 ;   length(K, I),
                     I > 1,
                     conj_list(F, N),
-                    conj_list(C, ['<http://www.w3.org/2000/10/swap/log#nand>'([], F)|K])
+                    conj_list(C, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], F)|K])
                 ),
                 findvars(H, R, beta),
                 intersection(Zl, R, X),
                 findvars(O, S, beta),
                 intersection(Wl, S, Y),
                 append([Vl, X, Y], U)
-                ), '<http://www.w3.org/2000/10/swap/log#nand>'(U, C), '<void>')),
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<void>')),
 
         % resolve negative surfaces
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 findall(1,
-                    (   member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B)
+                    (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
                     ),
                     O
                 ),
                 length(O, E),
                 length(B, D),
                 memberchk(E, [0, 2, D]),
-                '<http://www.w3.org/2000/10/swap/log#nand>'(W, F),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F),
                 getlist(W, Wl),
                 is_list(Wl),
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
-                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), N),
-                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), N),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), N),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(U, C), J, [P]),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), J, [P]),
                 getlist(U, Ul),
                 is_list(Ul),
                 is_graph(C),
-                (   select('<http://www.w3.org/2000/10/swap/log#nand>'(Z, Q), B, A),
-                    M = ['<http://www.w3.org/2000/10/swap/log#nand>'(Ul, C)|A],
+                (   select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, Q), B, A),
+                    M = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Ul, C)|A],
                     conj_list(Q, R),
                     memberchk(P, R)
                 ;   select(Q, B, A),
@@ -687,20 +668,20 @@ gre(Argus) :-
                 ),
                 list_to_set(M, T),
                 conj_list(H, T),
-                ground('<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H))
-                ), '<http://www.w3.org/2000/10/swap/log#nand>'(Vl, H), '<void>')),
+                ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H))
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
 
         % convert negative surfaces to forward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
-                select('<http://www.w3.org/2000/10/swap/log#nand>'(_, H), B, K),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), B, K),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
@@ -711,15 +692,15 @@ gre(Argus) :-
 
         % convert negative surfaces to forward contrapositive rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), B),
-                \+member('<http://www.w3.org/2000/10/swap/log#nans>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), B),
+                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 \+member(exopred(_, _, _), B),
                 (   length(B, O),
                     O =< 2
@@ -735,7 +716,7 @@ gre(Argus) :-
                     ),
                     Z
                 ),
-                E = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, T),
+                E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
                 find_graffiti([R], D),
                 append(Vl, D, U),
                 makevars([R, E], [Q, S], beta(U)),
@@ -745,13 +726,13 @@ gre(Argus) :-
 
         % convert negative surfaces to backward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#nano>'(_, T), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, T), B, K),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
@@ -768,16 +749,16 @@ gre(Argus) :-
 
         % convert negative surfaces to universal statements
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 Vl \= [],
                 is_graph(G),
                 conj_list(G, [G]),
-                (   G = '<http://www.w3.org/2000/10/swap/log#nand>'(Z, H)
+                (   G = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H)
                 ->  is_list(Z)
                 ;   Z = [],
-                    H = '<http://www.w3.org/2000/10/swap/log#nand>'([], G)
+                    H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)
                 ),
                 findvars(H, R, beta),
                 intersection(Z, R, X),
@@ -802,13 +783,13 @@ gre(Argus) :-
 
         % convert negative surfaces to answer rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 getlist(V, Vl),
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#nans>'(_, H), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, H), B, K),
                 conj_list(I, K),
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
@@ -825,26 +806,26 @@ gre(Argus) :-
 
         % blow inference fuse
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#nand>'(V, G),
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
                 call((
                     getlist(V, Vl),
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
-                    \+member('<http://www.w3.org/2000/10/swap/log#nano>'(_, _), L),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), L),
                     makevars(G, H, beta(Vl)),
-                    (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, false),
+                    (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                         J = true
                     ;   catch(call(H), _, false),
                         J = H
                     ),
-                    (   H = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
-                    ->  I = '<http://www.w3.org/2000/10/swap/log#nand>'(_, C)
+                    (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C)
+                    ->  I = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, C)
                     ;   I = H
                     )
                 )),
                 J,
-                '<http://www.w3.org/2000/10/swap/log#nand>'(_, I)
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
                 ), false, '<void>'))
     ;   true
     ),
@@ -5221,7 +5202,7 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   Prem = ('<http://www.w3.org/2000/10/swap/log#nand>'(_, _), call(_), Prem2)
+        ->  (   Prem = ('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), call(_), Prem2)
             ->  true
             ;   Prem2 = Prem
             ),
@@ -12624,29 +12605,6 @@ getconj(A, B) :-
     !,
     conjoin(D, B).
 getconj(A, A).
-
-getsurface(A, A) :-
-    var(A),
-    !.
-getsurface([], []) :-
-    !.
-getsurface([A|B], [C|D]) :-
-    getsurface(A, C),
-    !,
-    getsurface(B, D).
-getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nand>'(A, C)) :-
-    !,
-    getsurface(B, C).
-getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nano>'(A, C)) :-
-    !,
-    getsurface(B, C).
-getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nans>'(A, C)) :-
-    !,
-    getsurface(B, C).
-getsurface(A, B) :-
-    A =.. [C|D],
-    getsurface(D, E),
-    B =.. [C|E].
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),

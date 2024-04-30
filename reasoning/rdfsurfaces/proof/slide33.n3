@@ -32,9 +32,9 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma3
         skolem:lemma4
-        [ a r:Fact; r:gives {(skolem:e_y_1) log:nand {
+        [ a r:Fact; r:gives {(skolem:e_y_1) log:onNegativeSurface {
             :xxx :bbb skolem:e_y_1.
-            () log:nand {
+            () log:onNegativeSurface {
                 skolem:e_y_1 a :ccc.
             }.
         }}]
@@ -42,18 +42,19 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#aaa"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#bbb"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#ccc"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/#xxx"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_y_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/#xxx"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
         var:x_0 owl:onProperty var:x_1.
         var:x_0 owl:allValuesFrom var:x_2.
-        (skolem:e_y_1) log:nand {
-            var:x_3 var:x_1 skolem:e_y_1.
-            () log:nand {
-                skolem:e_y_1 a var:x_2.
+        (var:x_3) log:onNegativeSurface {
+            var:x_4 var:x_1 var:x_3.
+            () log:onNegativeSurface {
+                var:x_3 a var:x_2.
             }.
         }.
     } => {
-        var:x_3 a var:x_0.
+        var:x_4 a var:x_0.
     }}].
 
 skolem:lemma3 a r:Extraction;
