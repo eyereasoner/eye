@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.6 (2024-04-29)').
+version_info('EYE v10.5.7 (2024-04-30)').
 
 license_info('MIT License
 
@@ -582,6 +582,25 @@ gre(Argus) :-
     ),
 
     % rdfsurfaces
+    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B)),
+        getsurface(B, C),
+        assertz('<http://www.w3.org/2000/10/swap/log#nand>'(A, C)),
+        fail
+    ;   true
+    ),
+    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(A, B)),
+        getsurface(B, C),
+        assertz('<http://www.w3.org/2000/10/swap/log#nano>'(A, C)),
+        fail
+    ;   true
+    ),
+    (   retract('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(A, B)),
+        getsurface(B, C),
+        assertz('<http://www.w3.org/2000/10/swap/log#nans>'(A, C)),
+        fail
+    ;   true
+    ),
+
     (   '<http://www.w3.org/2000/10/swap/log#nand>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
@@ -12605,6 +12624,29 @@ getconj(A, B) :-
     !,
     conjoin(D, B).
 getconj(A, A).
+
+getsurface(A, A) :-
+    var(A),
+    !.
+getsurface([], []) :-
+    !.
+getsurface([A|B], [C|D]) :-
+    getsurface(A, C),
+    !,
+    getsurface(B, D).
+getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nand>'(A, C)) :-
+    !,
+    getsurface(B, C).
+getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nano>'(A, C)) :-
+    !,
+    getsurface(B, C).
+getsurface('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(A, B), '<http://www.w3.org/2000/10/swap/log#nans>'(A, C)) :-
+    !,
+    getsurface(B, C).
+getsurface(A, B) :-
+    A =.. [C|D],
+    getsurface(D, E),
+    B =.. [C|E].
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),

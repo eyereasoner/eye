@@ -11,12 +11,12 @@
 :Minka a :Cat.
 :Charly a :Dog.
 
-(_:cat) log:nand {
+(_:cat) log:onNegativeSurface {
     _:cat a :Cat.
-    () log:nand {
-        (_:dog) log:nand {
+    () log:onNegativeSurface {
+        (_:dog) log:onNegativeSurface {
             _:dog a :Dog.
-            () log:nand {
+            () log:onNegativeSurface {
                 :test :is true.
             }.
         }.
@@ -24,9 +24,9 @@
 }.
 
 # query
-() log:nand {
+() log:onNegativeSurface {
     :test :is true.
-    () log:nans {
+    () log:onNegativeAnswerSurface {
         :test :is true.
     }.
 }.

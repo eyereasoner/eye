@@ -6,18 +6,18 @@
 @prefix : <http://example.org/#>.
 
 # a negative surface with a negative surface
-() log:nand {
-    () log:nand {
+() log:onNegativeSurface {
+    () log:onNegativeSurface {
         :a :b :c.
         :d :e :f.
     }.
 }.
 
 # query
-() log:nand {
+() log:onNegativeSurface {
     :a :b :c.
     :d :e :f.
-    () log:nans {
+    () log:onNegativeAnswerSurface {
         :a :b :c.
         :d :e :f.
     }.
