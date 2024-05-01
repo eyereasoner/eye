@@ -9,37 +9,51 @@
 
 # add
 (_:A) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(_:A 0) :add _:A}.
+    () log:onNegativeComponentSurface {
+        (_:A 0) :add _:A.
+    }.
 }.
 
 (_:A _:B _:C) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(_:A (:s _:B)) :add (:s _:C)}.
+    () log:onNegativeComponentSurface {
+        (_:A (:s _:B)) :add (:s _:C).
+    }.
     (_:A _:B) :add _:C.
 }.
 
 # multiply
 (_:A) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(_:A 0) :multiply 0}.
+    () log:onNegativeComponentSurface {
+        (_:A 0) :multiply 0.
+    }.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(_:A (:s _:B)) :multiply _:C}.
+    () log:onNegativeComponentSurface {
+        (_:A (:s _:B)) :multiply _:C.
+    }.
     (_:A _:B) :multiply _:D.
     (_:A _:D) :add _:C.
 }.
 
 # factorial
 (_:A _:B) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {_:A :factorial _:B}.
+    () log:onNegativeComponentSurface {
+        _:A :factorial _:B.
+    }.
     (_:A (:s 0)) :fac _:B.
 }.
 
 (_:A) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(0 _:A) :fac _:A}.
+    () log:onNegativeComponentSurface {
+        (0 _:A) :fac _:A.
+    }.
 }.
 
 (_:A _:B _:C _:D) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {((:s _:A) _:B) :fac _:C}.
+    () log:onNegativeComponentSurface {
+        ((:s _:A) _:B) :fac _:C.
+    }.
     (_:B (:s _:A)) :multiply _:D.
     (_:A _:D) :fac _:C.
 }.

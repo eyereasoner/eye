@@ -9,20 +9,28 @@
 @prefix : <http://example.org/#>.
 
 (_:X _:Y) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {_:X :fibonacci _:Y}.
+    () log:onNegativeComponentSurface {
+        _:X :fibonacci _:Y.
+    }.
     (_:X 0 1) :fib _:Y.
 }.
 
 (_:A _:B) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(0 _:A _:B) :fib _:A}.
+    () log:onNegativeComponentSurface {
+        (0 _:A _:B) :fib _:A.
+    }.
 }.
 
 (_:A _:B) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(1 _:A _:B) :fib _:B}.
+    () log:onNegativeComponentSurface {
+        (1 _:A _:B) :fib _:B.
+    }.
 }.
 
 (_:A _:B _:C _:D _:X _:Y) log:onNegativeSurface {
-    () log:onNegativeComponentSurface {(_:X _:A _:B) :fib _:Y}.
+    () log:onNegativeComponentSurface {
+        (_:X _:A _:B) :fib _:Y.
+    }.
     _:X math:greaterThan 1.
     (_:X 1) math:difference _:C.
     (_:A _:B) math:sum _:D.
