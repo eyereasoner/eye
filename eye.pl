@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.8 (2024-04-30)').
+version_info('EYE v10.5.9 (2024-05-01)').
 
 license_info('MIT License
 
@@ -2118,7 +2118,7 @@ tr_split([A|B], [A|C], D) :-
     tr_split(B, C, D).
 
 ttl_n3p(literal(type(A, B)), C) :-
-    memberchk(A, ['http://www.w3.org/2001/XMLSchema#integer', 'http://www.w3.org/2001/XMLSchema#long', 'http://www.w3.org/2001/XMLSchema#decimal', 'http://www.w3.org/2001/XMLSchema#double']),
+    memberchk(A, ['http://www.w3.org/2001/XMLSchema#integer', 'http://www.w3.org/2001/XMLSchema#long', 'http://www.w3.org/2001/XMLSchema#double']),
     atom_number(B, C),
     !.
 ttl_n3p(literal(type('http://www.w3.org/2001/XMLSchema#boolean', A)), A) :-
@@ -2454,7 +2454,7 @@ pathitem(Atom, []) -->
 pathitem(Number, [], L1, L2) :-
     literal(Atom, type(Type), L1, L2),
     nb_getval(fdepth, 0),
-    memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#long>\'', '\'<http://www.w3.org/2001/XMLSchema#decimal>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
+    memberchk(Type, ['\'<http://www.w3.org/2001/XMLSchema#integer>\'', '\'<http://www.w3.org/2001/XMLSchema#long>\'', '\'<http://www.w3.org/2001/XMLSchema#double>\'']),
     sub_atom(Atom, 1, _, 1, A),
     atom_codes(A, NumB),
     numeral(NumB, NumC),
