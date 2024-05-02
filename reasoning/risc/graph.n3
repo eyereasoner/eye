@@ -1,0 +1,39 @@
+# ----------------------
+# Traversing Graph Paths
+# ----------------------
+#
+# See https://en.wikipedia.org/wiki/Graph_traversal
+
+@prefix : <http://example.org/#>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# path if oneway
+{
+    ?A :path ?B.
+} <= {
+    ?A :oneway ?B.
+}.
+
+# path if oneway and path
+{
+    ?A :path ?C.
+} <= {
+    ?A :oneway ?B.
+    ?B :path ?C.
+}.
+
+# query
+($ $) <= {
+    ?A :path :nantes.
+}.

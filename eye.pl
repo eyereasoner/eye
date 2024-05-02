@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.5.9 (2024-05-01)').
+version_info('EYE v10.6.0 (2024-05-02)').
 
 license_info('MIT License
 
@@ -830,6 +830,55 @@ gre(Argus) :-
     ;   true
     ),
 
+    % risc - rules implying a set of possible conclusions
+    (   '<http://www.w3.org/2000/10/swap/log#implies>'(_, S),
+        nonvar(S),
+        S = set(_)
+    ->  retractall(flag(risc)),
+        assertz(flag(risc)),
+
+        % resolution
+        assertz(implies((
+                implies(A, set(B), _),
+                nonvar(B),
+                select(C, B, D),
+                implies(C, E, _),
+                E \= set(_)
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([E|D])), '<void>')),
+
+        % factoring
+        assertz(implies((
+                implies(A, set(B), _),
+                nonvar(B),
+                list_to_set(B, [C])
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(A, C), '<void>')),
+
+        % contrapositive
+        assertz(implies((
+                implies(A, set(B), _),
+                nonvar(B),
+                (   B = []
+                ->  conj_list(A, L),
+                    select('<http://www.w3.org/2000/10/swap/log#implies>'(F, set([])), L, M),
+                    conj_list(E, M)
+                ;   select(C, B, D),
+                    E = ('<http://www.w3.org/2000/10/swap/log#implies>'(C, set([])), A),
+                    F = set(D)
+                )), '<http://www.w3.org/2000/10/swap/log#implies>'(E, F), '<void>')),
+
+        % double negation
+        assertz(implies((
+                implies('<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])), set([]), _)
+                ), A, '<void>')),
+
+        % inference fuse
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#implies>'(A, set([])),
+                A
+                ), false, '<void>'))
+    ;   true
+    ),
+
     % set engine values
     (   implies(_, Conc, _),
         (   var(Conc)
@@ -888,7 +937,8 @@ gre(Argus) :-
         \+flag('pass-only-new'),
         \+flag(strings),
         \+flag(lingua),
-        \+flag(rdfsurfaces)
+        \+flag(rdfsurfaces),
+        \+flag(risc)
     ->  throw(halt(0))
     ;   true
     ),
@@ -2020,6 +2070,17 @@ tr_n3p([':-'(Y, X)|Z], Src, query) :-
         writeln('.')
     ),
     tr_n3p(Z, Src, query).
+tr_n3p([':-'(set([]), X)|Z], Src, Mode) :-
+    !,
+    (   \+flag('limited-answer', _),
+        flag(nope)
+    ->  write(query(X, X)),
+        writeln('.')
+    ;   djiti_answer(answer(X), A),
+        write(implies(X, A, Src)),
+        writeln('.')
+    ),
+    tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) :-
     \+ (atomic(X), atomic(Y)),
     !,
@@ -5547,7 +5608,10 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ),
     (   conj_list(B, D)
     ->  true
-    ;   D = B
+    ;   (   B = set(D)
+        ->  true
+        ;   D = B
+        )
     ),
     forall(
         member(E, D),
@@ -7335,18 +7399,23 @@ userInput(A, B) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#implies>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
+    (   nonvar(Y),
+        Y = set([Z])
+    ->  true
+    ;   Z = Y
+    ),
     implies(U, V, _),
-    unify(U, A),
-    unify(V, B),
-    (   commonvars(A, B, [])
-    ->  labelvars(B, 0, _, avar)
+    unify(U, X),
+    unify(V, Z),
+    (   commonvars(X, Z, [])
+    ->  labelvars(Z, 0, _, avar)
     ;   true
     ),
-    (   var(B)
+    (   var(Z)
     ->  true
-    ;   B \= answer(_, _, _),
-        B \= (answer(_, _, _), _)
+    ;   Z \= answer(_, _, _),
+        Z \= (answer(_, _, _), _)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
