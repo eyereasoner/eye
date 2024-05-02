@@ -1,0 +1,102 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :angers :path :nantes.
+        :lemans :path :nantes.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :angers :path :nantes.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 :path :nantes.
+    } => {
+        var:x_0 :path :nantes.
+    }}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :lemans :path :nantes.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 :path :nantes.
+    } => {
+        var:x_0 :path :nantes.
+    }}].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :angers :path :nantes.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :oneway var:x_1.
+    } => {
+        var:x_0 :path var:x_1.
+    }}].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :lemans :path :nantes.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        var:x_0 :path var:x_1.
+        var:x_1 :path var:x_2.
+    } => {
+        var:x_0 :path var:x_2.
+    }}].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :angers :oneway :nantes.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/graph.n3s>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        :lemans :path :angers.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :oneway var:x_1.
+    } => {
+        var:x_0 :path var:x_1.
+    }}].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        :lemans :oneway :angers.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/rdfsurfaces/graph.n3s>].
+
