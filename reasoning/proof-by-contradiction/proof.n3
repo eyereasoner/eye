@@ -8,16 +8,12 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        {
-            :x :saying :C.
-        } :provedBy :contradiction.
+        :x :saying :C.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        {
-            :x :saying :C.
-        } :provedBy :contradiction.
+        :x :saying :C.
     };
     r:evidence (
         skolem:lemma2
@@ -58,9 +54,7 @@ skolem:lemma3 a r:Extraction;
             {
                 var:x_0 => ($ $).
             } log:call var:x_0.
-        } => {
-            var:x_0 :provedBy :contradiction.
-        }.
+        } => var:x_0.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contradiction/test.n3>].
 
