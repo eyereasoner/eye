@@ -11,7 +11,7 @@
     ?S :saying :C.
 }.
 
-# adding the negation of the query
+# adding the negation of what you want to prove
 {
     ?X :saying :C.
 } => ($ $).
@@ -21,6 +21,6 @@
     {
         ?P => ($ $).
     } log:call ?P.
-} => {
+} log:query {
     ?P :provedBy :contradiction.
 }.

@@ -25,9 +25,9 @@ $).
     ?S :saying :C.
 }.
 
-# disjunction elimination
+# proof by cases
 {
     true => ($ ?A ?B $).
     ?A => ?C.
     ?B => ?C.
-} => ?C.
+} log:query ?C.
