@@ -1,17 +1,36 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://eyereasoner.github.io/eye/reasoning#>.
 
+# saying A or saying B
+true => ($
+    {?S :saying :A}
+    {?S :saying :B}
+$).
+
 # saying A means saying C
-{?S :saying :A} => {?S :saying :C}.
-{?S :not_saying :C} => {?S :not_saying :A}.
+{
+    ?S :saying :A.
+} => {
+    ?S :saying :C.
+}.
 
 # saying B means saying C
-{?S :saying :B} => {?S :saying :C}.
-{?S :not_saying :C} => {?S :not_saying :B}.
+{
+    ?S :saying :B.
+} => {
+    ?S :saying :C.
+}.
 
-# saying A or saying B
-{?S :not_saying :A} => {?S :saying :B}.
-{?S :not_saying :B} => {?S :saying :A}.
+# disjunction elimination
+{
+    true => ($ ?A ?B $).
+    ?A => ?C.
+    ?B => ?C.
+} => ?C.
 
-# assuming the negation of the query so that it can be discharged when the query succeeds
-:anon :not_saying :C.
+# query
+{
+    ?S :saying :C.
+} log:query {
+    ?S :saying :C.
+}.

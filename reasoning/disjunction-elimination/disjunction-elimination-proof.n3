@@ -1,97 +1,74 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <https://eyereasoner.github.io/eye/reasoning#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        :anon :saying :C.
+        @forSome var:x_0. var:x_0 :saying :C.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :anon :saying :C.
+        @forSome var:x_0. var:x_0 :saying :C.
     };
     r:evidence (
         skolem:lemma2
     );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]];
     r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :anon :saying :C.
+        @forSome var:x_0. var:x_0 :saying :C.
     };
     r:evidence (
-        skolem:lemma4
+        [ a r:Fact; r:gives {@forSome var:x_0. true => ($ {
+            var:x_0 :saying :A.
+        } {
+            var:x_0 :saying :B.
+        } $)}]
+        [ a r:Fact; r:gives {@forSome var:x_0. {
+            var:x_0 :saying :A.
+        } => {
+            var:x_0 :saying :C.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_0. {
+            var:x_0 :saying :B.
+        } => {
+            var:x_0 :saying :C.
+        }}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning#anon"]];
-    r:rule skolem:lemma5.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_0 :saying :C.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_0 :saying :A.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_0 :saying :B.
+    }];
+    r:rule skolem:lemma4.
 
 skolem:lemma3 a r:Extraction;
     r:gives {
-        {
-            :anon :saying :C.
-        } => {
-            :anon :saying :C.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/disjunction-elimination/disjunction-elimination-query.n3>].
-
-skolem:lemma4 a r:Inference;
-    r:gives {
-        :anon :saying :A.
-    };
-    r:evidence (
-        skolem:lemma6
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning#anon"]];
-    r:rule skolem:lemma7.
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
         @forAll var:x_0. {
-            var:x_0 :saying :A.
+            var:x_0 :saying :C.
         } => {
             var:x_0 :saying :C.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/disjunction-elimination/disjunction-elimination.n3>].
 
-skolem:lemma6 a r:Inference;
+skolem:lemma4 a r:Extraction;
     r:gives {
-        :anon :not_saying :B.
-    };
-    r:evidence (
-        skolem:lemma8
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning#anon"]];
-    r:rule skolem:lemma9.
-
-skolem:lemma7 a r:Extraction;
-    r:gives {
-        @forAll var:x_0. {
-            var:x_0 :not_saying :B.
-        } => {
-            var:x_0 :saying :A.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/disjunction-elimination/disjunction-elimination.n3>].
-
-skolem:lemma8 a r:Extraction;
-    r:gives {
-        :anon :not_saying :C.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/disjunction-elimination/disjunction-elimination.n3>].
-
-skolem:lemma9 a r:Extraction;
-    r:gives {
-        @forAll var:x_0. {
-            var:x_0 :not_saying :C.
-        } => {
-            var:x_0 :not_saying :B.
-        }.
+        @forAll var:x_0, var:x_1, var:x_2. {
+            true => ($ var:x_0 var:x_1 $).
+            var:x_0 => var:x_2.
+            var:x_1 => var:x_2.
+        } => var:x_2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/disjunction-elimination/disjunction-elimination.n3>].
 
