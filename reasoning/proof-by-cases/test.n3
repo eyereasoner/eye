@@ -1,10 +1,14 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <https://eyereasoner.github.io/eye/reasoning#>.
+@prefix : <http://example.org/#>.
 
 # saying A or saying B
 true => ($
-    {?S :saying :A}
-    {?S :saying :B}
+    {
+        ?S :saying :A.
+    }
+    {
+        ?S :saying :B.
+    }
 $).
 
 # saying A means saying C
@@ -27,10 +31,3 @@ $).
     ?A => ?C.
     ?B => ?C.
 } => ?C.
-
-# query
-{
-    ?S :saying :C.
-} log:query {
-    ?S :saying :C.
-}.

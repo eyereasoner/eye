@@ -1,0 +1,69 @@
+
+.. list-table:: Proof
+   :widths: 2 70 20 20
+   :header-rows: 1
+
+   * - Step
+     - Formula
+     - Justification
+     - Bindings
+   * - 1
+     - ...
+     - parsing <test.n3>
+     - 
+   * - 2
+     - :x :saying :A .
+     - erasure from step 1
+     - 
+   * - 3
+     - ...
+     - parsing <test.n3>
+     - 
+   * - 4
+     - @forAll var:x_0 . { var:x_0 :saying :A . } => {var:x_0 :saying :C . } .
+     - erasure from step 3
+     - 
+   * - 5
+     - :x :saying :C .
+     - rule from step 4 applied to steps (2,)
+     - {'x_0': u'<http://example.org/#x>'}
+   * - 6
+     - { :x :saying :C . } => {{ { :x :saying :C . } => [ <http://www.w3.org/2002/07/owl#oneOf> () ] . } log:call {:x :saying :C . } . } .
+     - built-in Axiom log:implies
+     - 
+   * - 7
+     - { { :x :saying :C . } => [ <http://www.w3.org/2002/07/owl#oneOf> () ] . } log:call {:x :saying :C . } .
+     - rule from step 6 applied to steps (5,)
+     - {}
+   * - 8
+     - ...
+     - parsing <test.n3>
+     - 
+   * - 9
+     - @forAll :x_0 . { { :x_0 => [ <http://www.w3.org/2002/07/owl#oneOf> () ] . } log:call :x_0 . } => {:x_0 <http://example.org/#provedBy> <http://example.org/#contradiction> . } .
+     - erasure from step 8
+     - 
+   * - 10
+     - { :x :saying :C . } :provedBy :contradiction .
+     - rule from step 9 applied to steps (7,)
+     - {'x_0': '{x saying C}'}
+   * - 11
+     - ...
+     - parsing <query.n3>
+     - 
+   * - 12
+     - @forAll var:x_0 . { var:x_0 :provedBy :contradiction . } => {var:x_0 :provedBy :contradiction . } .
+     - erasure from step 11
+     - 
+   * - 13
+     - { :x :saying :C . } :provedBy :contradiction .
+     - rule from step 12 applied to steps (10,)
+     - {'x_0': '{x saying C}'}
+   * - 14
+     - { :x :saying :C . } :provedBy :contradiction .
+     - conjoining steps (13,)
+     - 
+
+
+Conclusion::
+
