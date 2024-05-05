@@ -1,54 +1,77 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        @forSome var:x_0. var:x_0 :saying :C.
+        :x :saying :C.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        @forSome var:x_0. var:x_0 :saying :C.
+        :x :saying :C.
     };
     r:evidence (
-        [ a r:Fact; r:gives {@forSome var:x_0. true => ($ {
-            var:x_0 :saying :A.
+        [ a r:Fact; r:gives {{
+            :x a :Person.
+        } => ($ {
+            :x :saying :A.
         } {
-            var:x_0 :saying :B.
+            :x :saying :B.
         } $)}]
-        [ a r:Fact; r:gives {@forSome var:x_0. {
-            var:x_0 :saying :A.
+        skolem:lemma2
+        [ a r:Fact; r:gives {{
+            :x :saying :A.
         } => {
-            var:x_0 :saying :C.
+            :x :saying :C.
         }}]
-        [ a r:Fact; r:gives {@forSome var:x_0. {
-            var:x_0 :saying :B.
+        [ a r:Fact; r:gives {{
+            :x :saying :B.
         } => {
-            var:x_0 :saying :C.
+            :x :saying :C.
         }}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        var:x_0 :saying :C.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        :x :saying :C.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        var:x_0 :saying :A.
+        :x a :Person.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        var:x_0 :saying :B.
+        :x :saying :A.
     }];
-    r:rule skolem:lemma2.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :x :saying :B.
+    }];
+    r:rule skolem:lemma3.
 
-skolem:lemma2 a r:Extraction;
+skolem:lemma2 a r:Inference;
     r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            true => ($ var:x_0 var:x_1 $).
-            var:x_0 => var:x_2.
-            var:x_1 => var:x_2.
-        } => var:x_2.
+        {
+            :x a :Person.
+        } log:call true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule [ a r:Fact; r:gives {true => {
+        {
+            :x a :Person.
+        } log:call true.
+    }}].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 => ($ var:x_1 var:x_2 $).
+            var:x_0 log:call true.
+            var:x_1 => var:x_3.
+            var:x_2 => var:x_3.
+        } => var:x_3.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-exhaustion/test.n3>].
 

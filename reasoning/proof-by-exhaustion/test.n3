@@ -1,8 +1,13 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
+# x is a person
+:x a :Person.
+
 # saying A or saying B
-true => ($
+{
+    ?S a :Person.
+} => ($
     {
         ?S :saying :A.
     } {
@@ -26,7 +31,8 @@ $).
 
 # proof by exhaustion
 {
-    true => ($ ?A ?B $).
+    ?P => ($ ?A ?B $).
+    ?P log:call true.
     ?A => ?C.
     ?B => ?C.
 } log:query ?C.
