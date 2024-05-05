@@ -1,0 +1,66 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :x :saying :B.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :x :saying :B.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :x :saying :A.
+        } => ($ {
+            :x :saying :B.
+        } {
+            :x :saying :C.
+        } $)}]
+        skolem:lemma2
+        [ a r:Fact; r:gives {{
+            :x :saying :C.
+        } => ($ $)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :x :saying :B.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :x :saying :A.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :x :saying :C.
+    }];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        {
+            :x :saying :A.
+        } log:call true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule [ a r:Fact; r:gives {true => {
+        {
+            :x :saying :A.
+        } log:call true.
+    }}].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 => ($ var:x_1 var:x_2 $).
+            var:x_0 log:call true.
+            var:x_2 => ($ $).
+        } => var:x_1.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
+
