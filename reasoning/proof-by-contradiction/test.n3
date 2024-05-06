@@ -14,11 +14,11 @@
 # adding the negation of what you want to prove
 {
     ?X :saying :C.
-} => ($ $).
+} log:clause ($ $).
 
 # proof by contradiction
 {
     {
-        ?P => ($ $).
+        ?P log:clause ($ $).
     } log:call ?P.
-} =>> ?P.
+} log:query ?P.
