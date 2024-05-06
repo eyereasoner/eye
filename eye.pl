@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.0 (2024-05-03)').
+version_info('EYE v10.7.1 (2024-05-06)').
 
 license_info('MIT License
 
@@ -2769,6 +2769,9 @@ uri(Name) -->
 verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
     !.
+verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
+    ['=', gt_gt],
+    !.
 verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', []) -->
     ['='],
     !.
@@ -4691,6 +4694,10 @@ wp(':-') :-
     \+flag('no-qnames'),
     !,
     write('<=').
+wp('<http://www.w3.org/2000/10/swap/log#query>') :-
+    \+flag('no-qnames'),
+    !,
+    write('=>>').
 wp(X) :-
     (   prolog_sym(Y, X, _),
         X \= true,
