@@ -35,7 +35,7 @@ skolem:lemma2 a r:Inference;
     r:gives {
         {
             :x :saying :A.
-        } log:clause ($ {
+        } log:sequent ($ {
             :x :saying :B.
         } {
             :x :saying :C.
@@ -66,16 +66,16 @@ skolem:lemma4 a r:Extraction;
     r:gives {
         {
             :x :saying :C.
-        } log:clause ($ $).
+        } log:sequent ($ $).
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
 
 skolem:lemma5 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 log:clause ($ var:x_1 var:x_2 $).
+            var:x_0 log:sequent ($ var:x_1 var:x_2 $).
             var:x_0 log:call true.
-            var:x_2 log:clause ($ $).
+            var:x_2 log:sequent ($ $).
         } => var:x_1.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
@@ -85,7 +85,7 @@ skolem:lemma6 a r:Extraction;
         @forSome var:x_0. {
             {
                 var:x_0 :saying :A.
-            } log:clause ($ {
+            } log:sequent ($ {
                 var:x_0 :saying :B.
             } {
                 var:x_0 :saying :C.

@@ -47,7 +47,7 @@ skolem:lemma2 a r:Inference;
     r:gives {
         {
             :x a :Person.
-        } log:clause ($ {
+        } log:sequent ($ {
             :x :saying :A.
         } {
             :x :saying :B.
@@ -77,7 +77,7 @@ skolem:lemma3 a r:Inference;
 skolem:lemma4 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
-            var:x_0 log:clause ($ var:x_1 var:x_2 $).
+            var:x_0 log:sequent ($ var:x_1 var:x_2 $).
             var:x_0 log:call true.
             var:x_1 => var:x_3.
             var:x_2 => var:x_3.
@@ -90,7 +90,7 @@ skolem:lemma5 a r:Extraction;
         @forSome var:x_0. {
             {
                 var:x_0 a :Person.
-            } log:clause ($ {
+            } log:sequent ($ {
                 var:x_0 :saying :A.
             } {
                 var:x_0 :saying :B.

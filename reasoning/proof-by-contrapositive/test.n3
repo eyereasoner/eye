@@ -7,12 +7,12 @@
 # x not saying C
 {
     :x :saying :C.
-} log:clause ($ $).
+} log:sequent ($ $).
 
 # saying A means saying B or saying C
 {
     ?S :saying :A.
-} log:clause ($
+} log:sequent ($
     {
         ?S :saying :B.
     } {
@@ -22,13 +22,13 @@ $).
 
 # proof by contrapositive
 {
-    ?P log:clause ($ ?A ?B $).
+    ?P log:sequent ($ ?A ?B $).
     ?P log:call true.
-    ?A log:clause ($ $).
+    ?A log:sequent ($ $).
 } log:query ?B.
 
 {
-    ?P log:clause ($ ?A ?B $).
+    ?P log:sequent ($ ?A ?B $).
     ?P log:call true.
-    ?B log:clause ($ $).
+    ?B log:sequent ($ $).
 } log:query ?A.
