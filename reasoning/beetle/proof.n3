@@ -2,7 +2,6 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
@@ -17,85 +16,37 @@ skolem:lemma1 a r:Inference;
     };
     r:evidence (
         skolem:lemma2
-        skolem:lemma3
-        [ a r:Fact; r:gives {{
-            :beetle :is :blue.
-        } => {
-            :beetle :is :beautiful.
-        }}]
-        [ a r:Fact; r:gives {{
-            :beetle :is :green.
-        } => {
-            :beetle :is :beautiful.
-        }}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
-        :beetle :is :beautiful.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :beetle a :Car.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :beetle :is :blue.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :beetle :is :green.
-    }];
-    r:rule skolem:lemma4.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        {
-            :beetle a :Car.
-        } log:sequent ($ {
-            :beetle :is :blue.
-        } {
-            :beetle :is :green.
-        } $).
+        :beetle :is :beautiful.
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
+        skolem:lemma4
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule skolem:lemma5.
-
-skolem:lemma3 a r:Inference;
-    r:gives {
-        {
-            :beetle a :Car.
-        } log:call true.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:rule [ a r:Fact; r:gives {true => {
-        {
-            :beetle a :Car.
-        } log:call true.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Car.
+    } => {
+        var:x_0 :is :beautiful.
     }}].
 
-skolem:lemma4 a r:Extraction;
+skolem:lemma3 a r:Extraction;
     r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
-            var:x_0 log:sequent ($ var:x_1 var:x_2 $).
-            var:x_0 log:call true.
-            var:x_1 => var:x_3.
-            var:x_2 => var:x_3.
-        } => var:x_3.
+        @forAll var:x_0. {
+            var:x_0 :is :beautiful.
+        } => {
+            var:x_0 :is :beautiful.
+        }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/test.n3>].
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma4 a r:Extraction;
     r:gives {
-        @forSome var:x_0. {
-            {
-                var:x_0 a :Car.
-            } log:sequent ($ {
-                var:x_0 :is :blue.
-            } {
-                var:x_0 :is :green.
-            } $).
-        } <= true.
+        :beetle a :Car.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/test.n3>].
 

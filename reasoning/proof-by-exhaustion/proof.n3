@@ -16,8 +16,14 @@ skolem:lemma1 a r:Inference;
         :x :saying :C.
     };
     r:evidence (
+        [ a r:Fact; r:gives {{
+            :x a :Person.
+        } => ($ {
+            :x :saying :A.
+        } {
+            :x :saying :B.
+        } $)}]
         skolem:lemma2
-        skolem:lemma3
         [ a r:Fact; r:gives {{
             :x :saying :A.
         } => {
@@ -41,25 +47,9 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :x :saying :B.
     }];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
-    r:gives {
-        {
-            :x a :Person.
-        } log:sequent ($ {
-            :x :saying :A.
-        } {
-            :x :saying :B.
-        } $).
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#x"]];
-    r:rule skolem:lemma5.
-
-skolem:lemma3 a r:Inference;
     r:gives {
         {
             :x a :Person.
@@ -74,28 +64,14 @@ skolem:lemma3 a r:Inference;
         } log:call true.
     }}].
 
-skolem:lemma4 a r:Extraction;
+skolem:lemma3 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
-            var:x_0 log:sequent ($ var:x_1 var:x_2 $).
+            var:x_0 => ($ var:x_1 var:x_2 $).
             var:x_0 log:call true.
             var:x_1 => var:x_3.
             var:x_2 => var:x_3.
         } => var:x_3.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-exhaustion/test.n3>].
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
-        @forSome var:x_0. {
-            {
-                var:x_0 a :Person.
-            } log:sequent ($ {
-                var:x_0 :saying :A.
-            } {
-                var:x_0 :saying :B.
-            } $).
-        } <= true.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-exhaustion/test.n3>].
 

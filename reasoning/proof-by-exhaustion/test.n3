@@ -7,7 +7,7 @@
 # persons are saying A or saying B
 {
     ?S a :Person.
-} log:sequent ($
+} => ($
     {
         ?S :saying :A.
     } {
@@ -31,7 +31,7 @@ $).
 
 # proof by exhaustion
 {
-    ?P log:sequent ($ ?A ?B $).
+    ?P => ($ ?A ?B $).
     ?P log:call true.
     ?A => ?C.
     ?B => ?C.

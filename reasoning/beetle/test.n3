@@ -7,7 +7,7 @@
 # all cars are green or blue
 {
     ?S a :Car.
-} log:sequent ($
+} => ($
     {
         ?S :is :green.
     } {
@@ -29,10 +29,32 @@ $).
     ?S :is :beautiful.
 }.
 
-# proof by exhaustion
+# resolution
 {
-    ?P log:sequent ($ ?A ?B $).
-    ?P log:call true.
+    ?P => ($ ?A ?B $).
     ?A => ?C.
+} => {
+    ?P => ($ ?C ?B $).
+}.
+
+{
+    ?P => ($ ?A ?B $).
     ?B => ?C.
-} log:query ?C.
+} => {
+    ?P => ($ ?A ?C $).
+}.
+
+# factoring
+{
+    ?P => ($ ?A ?B $).
+    ?A log:isomorphic ?B.
+} => {
+    ?P => ?A.
+}.
+
+# query
+{
+    ?S :is :beautiful.
+} log:query {
+    ?S :is :beautiful.
+}.

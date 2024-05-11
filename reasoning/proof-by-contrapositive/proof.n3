@@ -16,9 +16,17 @@ skolem:lemma1 a r:Inference;
         :x :saying :B.
     };
     r:evidence (
+        [ a r:Fact; r:gives {{
+            :x :saying :A.
+        } => ($ {
+            :x :saying :B.
+        } {
+            :x :saying :C.
+        } $)}]
         skolem:lemma2
-        skolem:lemma3
-        skolem:lemma4
+        [ a r:Fact; r:gives {{
+            :x :saying :C.
+        } => ($ $)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :x :saying :B.
@@ -29,25 +37,9 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :x :saying :C.
     }];
-    r:rule skolem:lemma5.
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
-    r:gives {
-        {
-            :x :saying :A.
-        } log:sequent ($ {
-            :x :saying :B.
-        } {
-            :x :saying :C.
-        } $).
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#x"]];
-    r:rule skolem:lemma6.
-
-skolem:lemma3 a r:Inference;
     r:gives {
         {
             :x :saying :A.
@@ -62,35 +54,13 @@ skolem:lemma3 a r:Inference;
         } log:call true.
     }}].
 
-skolem:lemma4 a r:Extraction;
-    r:gives {
-        {
-            :x :saying :C.
-        } log:sequent ($ $).
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
-
-skolem:lemma5 a r:Extraction;
+skolem:lemma3 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 log:sequent ($ var:x_1 var:x_2 $).
+            var:x_0 => ($ var:x_1 var:x_2 $).
             var:x_0 log:call true.
-            var:x_2 log:sequent ($ $).
+            var:x_2 => ($ $).
         } => var:x_1.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
-
-skolem:lemma6 a r:Extraction;
-    r:gives {
-        @forSome var:x_0. {
-            {
-                var:x_0 :saying :A.
-            } log:sequent ($ {
-                var:x_0 :saying :B.
-            } {
-                var:x_0 :saying :C.
-            } $).
-        } <= true.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/test.n3>].
 
