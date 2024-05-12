@@ -1,0 +1,38 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+{
+    ?S a :Car.
+} log:impliesOneOf (
+    {
+        ?S :is :green.
+    } {
+        ?S :is :blue.
+    }
+).
+
+# green things are beautiful
+{
+    ?S :is :green.
+} => {
+    ?S :is :beautiful.
+}.
+
+# blue things are beautiful
+{
+    ?S :is :blue.
+} => {
+    ?S :is :beautiful.
+}.
+
+# proof by exhaustion
+{
+    ?P log:impliesOneOf (?A ?B).
+    ?P log:call true.
+    ?A => ?C.
+    ?B => ?C.
+} log:query ?C.

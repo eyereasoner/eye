@@ -1,0 +1,24 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# x saying A
+:x :saying :A.
+
+# saying A means saying C
+{
+    ?S :saying :A.
+} => {
+    ?S :saying :C.
+}.
+
+# adding the negation of what you want to prove
+{
+    ?X :saying :C.
+} log:impliesOneOf ().
+
+# proof by contradiction
+{
+    {
+        ?P log:impliesOneOf ().
+    } log:call ?P.
+} log:query ?P.

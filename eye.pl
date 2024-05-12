@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.2 (2024-05-06)').
+version_info('EYE v10.7.3 (2024-05-12)').
 
 license_info('MIT License
 
@@ -192,6 +192,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -5330,13 +5331,7 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     (   \+atomic(A)
     ;   \+atomic(B)
     ),
-    (   conj_list(B, D)
-    ->  true
-    ;   (   B = set(D)
-        ->  true
-        ;   D = B
-        )
-    ),
+    conj_list(B, D),
     forall(
         member(E, D),
         (   unify(E, F),
@@ -5353,6 +5348,13 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ;   Z = '<>'
     ),
     makevars(implies(A, B, Z), C, zeta).
+djiti_fact('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'(A, B), C) :-
+    nonvar(B),
+    (   \+atomic(A)
+    ;   \+atomic(B)
+    ),
+    !,
+    makevars('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'(A, B), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
     !,
     makevars((A, B), (C, E), eta),
@@ -7124,22 +7126,17 @@ userInput(A, B) :-
     ).
 
 '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y) :-
-    (   nonvar(Y),
-        Y = set([Z])
-    ->  true
-    ;   Z = Y
-    ),
     implies(U, V, _),
     unify(U, X),
-    unify(V, Z),
-    (   commonvars(X, Z, [])
-    ->  labelvars(Z, 0, _, avar)
+    unify(V, Y),
+    (   commonvars(X, Y, [])
+    ->  labelvars(Y, 0, _, avar)
     ;   true
     ),
-    (   var(Z)
+    (   var(Y)
     ->  true
-    ;   Z \= answer(_, _, _),
-        Z \= (answer(_, _, _), _)
+    ;   Y \= answer(_, _, _),
+        Y \= (answer(_, _, _), _)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
