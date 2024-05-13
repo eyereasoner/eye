@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.3 (2024-05-12)').
+version_info('EYE v10.7.4 (2024-05-13)').
 
 license_info('MIT License
 
@@ -5331,7 +5331,10 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     (   \+atomic(A)
     ;   \+atomic(B)
     ),
-    conj_list(B, D),
+    (   conj_list(B, D)
+    ->  true
+    ;   D = B
+    ),
     forall(
         member(E, D),
         (   unify(E, F),
