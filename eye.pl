@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.4 (2024-05-13)').
+version_info('EYE v10.7.5 (2024-05-14)').
 
 license_info('MIT License
 
@@ -192,7 +192,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -2769,6 +2768,9 @@ uri(Name) -->
 
 verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
+    !.
+verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
+    ['=', gt_gt],
     !.
 verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', []) -->
     ['='],
@@ -5351,13 +5353,6 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     ;   Z = '<>'
     ),
     makevars(implies(A, B, Z), C, zeta).
-djiti_fact('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'(A, B), C) :-
-    nonvar(B),
-    (   \+atomic(A)
-    ;   \+atomic(B)
-    ),
-    !,
-    makevars('<http://www.w3.org/2000/10/swap/log#impliesOneOf>'(A, B), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
     !,
     makevars((A, B), (C, E), eta),
