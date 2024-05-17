@@ -1,0 +1,21 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://example.org/#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+(_:bng_1 _:bng_2) log:explain ((var:X 5) (var:Y 3)).
+(_:bng_3 _:bng_3) log:explain ().
+[] rdf:value 5; :moreInterestingThan 3 .
+
+_:bng_1 {
+    var:X math:greaterThan var:Y.
+}
+
+_:bng_2 {
+    var:X :moreInterestingThan var:Y.
+}
+
+_:bng_3 {
+    [] rdf:value 5; :moreInterestingThan 3.
+}

@@ -1,0 +1,61 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+(_:bng_1 _:bng_2) log:explain ((var:A :paris) (var:B :orleans)).
+(_:bng_1 _:bng_2) log:explain ((var:A :paris) (var:B :chartres)).
+(_:bng_1 _:bng_2) log:explain ((var:A :paris) (var:B :amiens)).
+(_:bng_1 _:bng_2) log:explain ((var:A :orleans) (var:B :blois)).
+(_:bng_1 _:bng_2) log:explain ((var:A :orleans) (var:B :bourges)).
+(_:bng_1 _:bng_2) log:explain ((var:A :blois) (var:B :tours)).
+(_:bng_1 _:bng_2) log:explain ((var:A :chartres) (var:B :lemans)).
+(_:bng_1 _:bng_2) log:explain ((var:A :lemans) (var:B :angers)).
+(_:bng_1 _:bng_2) log:explain ((var:A :lemans) (var:B :tours)).
+(_:bng_1 _:bng_2) log:explain ((var:A :angers) (var:B :nantes)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :orleans) (var:C :blois)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :orleans) (var:C :bourges)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :chartres) (var:C :lemans)).
+(_:bng_3 _:bng_4) log:explain ((var:A :orleans) (var:B :blois) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :chartres) (var:B :lemans) (var:C :angers)).
+(_:bng_3 _:bng_4) log:explain ((var:A :chartres) (var:B :lemans) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :lemans) (var:B :angers) (var:C :nantes)).
+(_:bng_5 _:bng_5) log:explain ((var:A :angers)).
+:angers :path :nantes.
+(_:bng_5 _:bng_5) log:explain ((var:A :lemans)).
+:lemans :path :nantes.
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :orleans) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :chartres) (var:C :angers)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :chartres) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :chartres) (var:B :lemans) (var:C :nantes)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :blois) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :lemans) (var:C :angers)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :lemans) (var:C :tours)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :lemans) (var:C :nantes)).
+(_:bng_3 _:bng_4) log:explain ((var:A :chartres) (var:B :angers) (var:C :nantes)).
+(_:bng_5 _:bng_5) log:explain ((var:A :chartres)).
+:chartres :path :nantes.
+(_:bng_5 _:bng_5) log:explain ((var:A :paris)).
+:paris :path :nantes.
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :chartres) (var:C :nantes)).
+(_:bng_3 _:bng_4) log:explain ((var:A :paris) (var:B :angers) (var:C :nantes)).
+
+_:bng_1 {
+    var:A :oneway var:B.
+}
+
+_:bng_2 {
+    var:A :path var:B.
+}
+
+_:bng_3 {
+    var:A :path var:B.
+    var:B :path var:C.
+}
+
+_:bng_4 {
+    var:A :path var:C.
+}
+
+_:bng_5 {
+    var:A :path :nantes.
+}

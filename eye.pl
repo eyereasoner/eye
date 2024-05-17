@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.7 (2024-05-16)').
+version_info('EYE v10.7.8 (2024-05-17)').
 
 license_info('MIT License
 
@@ -428,7 +428,7 @@ gre(Argus) :-
     ),
     args(Args),
 
-    % rdflingua
+    % holographs
     (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj),
             atomic(Subj),
             atomic(Obj)
@@ -442,8 +442,15 @@ gre(Argus) :-
             atomic(Obj)
         ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
         )
-    ->  retractall(flag(rdflingua)),
-        assertz(flag(rdflingua)),
+    ->  retractall(flag(holographs)),
+        assertz(flag(holographs)),
+
+        % configure
+        (   \+flag(nope)
+        ->  assertz(flag(nope)),
+            assertz(flag(explain))
+        ;   true
+        ),
 
         % create named graphs
         (   quad(triple(_, _, _), G),
@@ -529,8 +536,13 @@ gre(Argus) :-
                 ground([A, B]),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
-                makevars([A, B, U], [Q, I, X], beta(U))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<void>')),
+                makevars([A, B, U], [Q, I, X], beta(U)),
+                (   flag(explain),
+                    I \= false
+                ->  zip_list(U, X, W),
+                    conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
+                ;   F = I
+                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
 
         % create backward rules
         assertz(implies((
@@ -538,7 +550,12 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U)),
-                C = ':-'(I, Q),
+                (   flag(explain)
+                ->  zip_list(U, X, W),
+                    conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
+                ;   F = Q
+                ),
+                C = ':-'(I, F),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -555,7 +572,12 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, J, U], [Q, I, X], beta(U)),
-                C = implies(Q, I, '<>'),
+                (   flag(explain)
+                ->  zip_list(U, X, W),
+                    conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
+                ;   F = Q
+                ),
+                C = implies(F, I, '<void>'),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -563,7 +585,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<void>')),
+                )), true, '<>')),
 
         % create universal statements
         (   pred(P),
@@ -888,7 +910,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdflingua),
+        \+flag(holographs),
         \+flag(rdfsurfaces)
     ->  throw(halt(0))
     ;   true
@@ -3939,7 +3961,7 @@ w3 :-
     ;   true
     ).
 w3 :-
-    retractall(flag(rdflingua)),
+    retractall(flag(holographs)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -4585,7 +4607,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
-    \+flag(rdflingua),
+    \+flag(holographs),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4829,7 +4851,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(rdflingua),
+    ->  (   flag(holographs),
             nb_getval(keep_ng, true)
         ->  (   graph(N, X)
             ->  true
@@ -4843,7 +4865,7 @@ wg(X) :-
             ;   true
             ),
             wt(N)
-        ;   (   flag(rdflingua)
+        ;   (   flag(holographs)
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
@@ -4883,7 +4905,7 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
-    \+flag(rdflingua),
+    \+flag(holographs),
     !,
     write('=>').
 wp(':-') :-
@@ -4914,7 +4936,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag(rdflingua),
+    (   flag(holographs),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
@@ -5232,7 +5254,7 @@ eam(Recursion) :-
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   retractall(flag(rdflingua)),
+            ;   retractall(flag(holographs)),
                 with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
