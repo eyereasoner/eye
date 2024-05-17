@@ -1,7 +1,0 @@
-#!/bin/bash
-for file in *.trig
-do
-    echo $file
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope --trig https://eyereasoner.github.io/eye/reasoning/rdflingua/$file --output output/$file
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --trig https://eyereasoner.github.io/eye/reasoning/rdflingua/$file --output proof/${file%.trig}.n3
-done
