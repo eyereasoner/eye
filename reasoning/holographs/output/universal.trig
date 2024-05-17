@@ -1,7 +1,41 @@
 @prefix : <http://example.org/#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 :pat a rdfs:Resource.
 :bob :loves skolem:t_0.
 skolem:t_0 :is :lonely.
+
+# explanation
+(_:bng_1 log:isImpliedBy true) log:explain ((var:X :pat)).
+(_:bng_2 log:query _:bng_2) log:explain ().
+(_:bng_3 log:isImpliedBy _:bng_4) log:explain ((var:A :bob) (var:B skolem:t_0)).
+(_:bng_5 log:isImpliedBy _:bng_4) log:explain ((var:A :bob) (var:B skolem:t_0)).
+(_:bng_6 log:query _:bng_6) log:explain ((var:X skolem:t_0)).
+
+_:bng_1 {
+    var:X a rdfs:Resource.
+}
+
+_:bng_2 {
+    :pat a rdfs:Resource.
+}
+
+_:bng_3 {
+    var:A :loves var:B.
+}
+
+_:bng_4 {
+    (var:A) log:skolem var:B.
+}
+
+_:bng_5 {
+    var:B :is :lonely.
+}
+
+_:bng_6 {
+    :bob :loves var:X.
+    var:X :is :lonely.
+}

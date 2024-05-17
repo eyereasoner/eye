@@ -1,3 +1,23 @@
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 
 :Socrates a :Mortal.
+
+# explanation
+(_:bng_1 log:implies _:bng_2) log:explain ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
+(_:bng_3 log:query _:bng_3) log:explain ((var:S :Socrates)).
+
+_:bng_1 {
+    var:A rdfs:subClassOf var:B.
+    var:S a var:A.
+}
+
+_:bng_2 {
+    var:S a var:B.
+}
+
+_:bng_3 {
+    var:S a :Mortal.
+}

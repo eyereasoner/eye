@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.8 (2024-05-17)').
+version_info('EYE v10.7.9 (2024-05-17)').
 
 license_info('MIT License
 
@@ -447,8 +447,7 @@ gre(Argus) :-
 
         % configure
         (   \+flag(nope)
-        ->  assertz(flag(nope)),
-            assertz(flag(explain))
+        ->  assertz(flag(nope))
         ;   true
         ),
 
@@ -537,12 +536,9 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U)),
-                (   flag(explain),
-                    I \= false
-                ->  zip_list(U, X, W),
-                    conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
-                ;   F = I
-                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
+                zip_list(U, X, W),
+                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#implies>', B], W)), F)
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
 
         % create backward rules
         assertz(implies((
@@ -550,11 +546,8 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U)),
-                (   flag(explain)
-                ->  zip_list(U, X, W),
-                    conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
-                ;   F = Q
-                ),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [B, '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', A], W)), F),
                 C = ':-'(I, F),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
@@ -572,11 +565,8 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, J, U], [Q, I, X], beta(U)),
-                (   flag(explain)
-                ->  zip_list(U, X, W),
-                    conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, B], W)), F)
-                ;   F = Q
-                ),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#query>', B], W)), F),
                 C = implies(F, I, '<void>'),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
@@ -3943,7 +3933,46 @@ w3 :-
         fail
     ;   true
     ),
-    (   answer(B1, B2, B3),
+    (   \+flag(holographs),
+        answer(B1, B2, B3),
+        relabel([B1, B2, B3], [C1, C2, C3]),
+        djiti_answer(answer(C), answer(C1, C2, C3)),
+        indent,
+        (   flag('n3p-output')
+        ->  makeblank(C, Ca),
+            exo_pred(Ca, Cb),
+            writeq(Cb)
+        ;   wt(C)
+        ),
+        ws(C),
+        write('.'),
+        nl,
+        cnt(output_statements),
+        fail
+    ;   true
+    ),
+    (   flag(holographs),
+        answer(B1, B2, B3),
+        B1 \= '<http://www.w3.org/2000/10/swap/log#explain>',
+        relabel([B1, B2, B3], [C1, C2, C3]),
+        djiti_answer(answer(C), answer(C1, C2, C3)),
+        indent,
+        (   flag('n3p-output')
+        ->  makeblank(C, Ca),
+            exo_pred(Ca, Cb),
+            writeq(Cb)
+        ;   wt(C)
+        ),
+        ws(C),
+        write('.'),
+        nl,
+        cnt(output_statements),
+        fail
+    ;   flag(holographs),
+        nl,
+        writeln('# explanation'),
+        answer(B1, B2, B3),
+        B1 = '<http://www.w3.org/2000/10/swap/log#explain>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -4314,7 +4343,8 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground')
+        \+flag('pass-all-ground'),
+        \+flag(holographs)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
