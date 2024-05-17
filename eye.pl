@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.9 (2024-05-17)').
+version_info('EYE v10.7.10 (2024-05-17)').
 
 license_info('MIT License
 
@@ -536,9 +536,11 @@ gre(Argus) :-
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B, U], [Q, I, X], beta(U)),
-                zip_list(U, X, W),
-                conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#implies>', B], W)), F)
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
+                (   B \= false
+                ->  zip_list(U, X, W),
+                    conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#implies>', B], W)), F)
+                ;   F = I
+                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
 
         % create backward rules
         assertz(implies((
