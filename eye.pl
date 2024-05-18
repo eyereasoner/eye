@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.11 (2024-05-18)').
+version_info('EYE v10.7.12 (2024-05-18)').
 
 license_info('MIT License
 
@@ -535,7 +535,11 @@ gre(Argus) :-
                 ground([A, B]),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
-                makevars([A, B, U], [Q, I, X], beta(U)),
+                (   B = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ->  makevars([A, U], [Q, X], beta(U)),
+                    I = B
+                ;   makevars([A, B, U], [Q, I, X], beta(U))
+                ),
                 (   B \= false,
                     conj_list(B, L),
                     \+last(L, remember(_))
