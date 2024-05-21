@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.13 (2024-05-21)').
+version_info('EYE v10.7.14 (2024-05-21)').
 
 license_info('MIT License
 
@@ -455,7 +455,8 @@ gre(Argus) :-
         (   quad(triple(_, _, _), G),
             findall(C,
                 (   retract(quad(triple(S, P, O), G)),
-                    C =.. [P, S, O]
+                    C =.. [P, S, O],
+                    dynify(C)
                 ),
                 D
             ),
@@ -13314,7 +13315,8 @@ regexp_wildcard([A|B], [A|C]) :-
     regexp_wildcard(B, C).
 
 fm(A) :-
-    (   A = !
+    (   nonvar(A),
+        A = !
     ->  true
     ;   format(user_error, '*** ~q~n', [A]),
         flush_output(user_error)

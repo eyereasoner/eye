@@ -1,0 +1,34 @@
+# --------------------------
+# Scoped Negation As Failure
+# --------------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Alice :loves :Bob.
+:Bob a :Person.
+
+# rule
+_:bng_1 log:implies _:bng_2.
+
+_:bng_1 {
+    var:SCOPE log:notIncludes _:bng_3.
+    var:X a :Person.
+}
+
+_:bng_2 {
+  :Alice :hates :Nobody.
+}
+
+_:bng_3 {
+    :Alice :hates var:X.
+}
+
+# query
+_:bng_4 log:query _:bng_4.
+
+_:bng_4 {
+    var:s :hates var:o.
+}
