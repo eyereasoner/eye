@@ -2,7 +2,9 @@
 Logic integrated in RDF graphs
 ------------------------------
 
-Lingua supports reasoning with forward rules described in RDF as
+Lingua is logic integrated in RDF graphs to support reasoning with
+
+1/ forward rules
 
     _:bng_1 log:implies _:bng_2.
 
@@ -14,10 +16,7 @@ Lingua supports reasoning with forward rules described in RDF as
         RDF triples
     }
 
-A forward rule with log:implies false is an inference fuse.
-
-
-Lingua also supports reasoning with backward rules described in RDF as
+2/ backward rules
 
     _:bng_1 log:isImpliedBy _:bng_2.
 
@@ -29,8 +28,7 @@ Lingua also supports reasoning with backward rules described in RDF as
         RDF triples
     }
 
-
-Lingua also supports querying with queries described in RDF as
+3/ queries
 
     _:bng_1 log:query _:bng_2.
 
@@ -42,6 +40,16 @@ Lingua also supports querying with queries described in RDF as
         RDF triples
     }
 
+
+The _:bng_i are called blank node graphs.
+
+A forward rule with log:implies false is an inference fuse.
+
+    _:bng_1 log:implies false.
+
+    _:bng_1 {
+        RDF triples
+    }
 
 The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
 variables that are interpreted as universally quantified variables except for
