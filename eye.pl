@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.14 (2024-05-21)').
+version_info('EYE v10.7.15 (2024-05-22)').
 
 license_info('MIT License
 
@@ -428,7 +428,7 @@ gre(Argus) :-
     ),
     args(Args),
 
-    % lingua
+    % gehl
     (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj),
             atomic(Subj),
             atomic(Obj)
@@ -442,8 +442,8 @@ gre(Argus) :-
             atomic(Obj)
         ;   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)
         )
-    ->  retractall(flag(lingua)),
-        assertz(flag(lingua)),
+    ->  retractall(flag(gehl)),
+        assertz(flag(gehl)),
 
         % configure
         (   \+flag(nope)
@@ -909,7 +909,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(lingua),
+        \+flag(gehl),
         \+flag(surfaces)
     ->  throw(halt(0))
     ;   true
@@ -3942,7 +3942,7 @@ w3 :-
         fail
     ;   true
     ),
-    (   \+flag(lingua),
+    (   \+flag(gehl),
         answer(B1, B2, B3),
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
@@ -3960,7 +3960,7 @@ w3 :-
         fail
     ;   true
     ),
-    (   flag(lingua),
+    (   flag(gehl),
         answer(B1, B2, B3),
         B1 \= '<http://www.w3.org/2000/10/swap/log#explain>',
         relabel([B1, B2, B3], [C1, C2, C3]),
@@ -3977,7 +3977,7 @@ w3 :-
         nl,
         cnt(output_statements),
         fail
-    ;   flag(lingua),
+    ;   flag(gehl),
         nl,
         writeln('# explanation'),
         answer(B1, B2, B3),
@@ -3999,7 +3999,7 @@ w3 :-
     ;   true
     ).
 w3 :-
-    retractall(flag(lingua)),
+    retractall(flag(gehl)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -4353,7 +4353,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground'),
-        \+flag(lingua)
+        \+flag(gehl)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
@@ -4646,7 +4646,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
-    \+flag(lingua),
+    \+flag(gehl),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4890,7 +4890,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(lingua),
+    ->  (   flag(gehl),
             nb_getval(keep_ng, true)
         ->  (   graph(N, X)
             ->  true
@@ -4904,7 +4904,7 @@ wg(X) :-
             ;   true
             ),
             wt(N)
-        ;   (   flag(lingua)
+        ;   (   flag(gehl)
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
@@ -4944,7 +4944,7 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
-    \+flag(lingua),
+    \+flag(gehl),
     !,
     write('=>').
 wp(':-') :-
@@ -4975,7 +4975,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag(lingua),
+    (   flag(gehl),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
@@ -5293,7 +5293,7 @@ eam(Recursion) :-
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   retractall(flag(lingua)),
+            ;   retractall(flag(gehl)),
                 with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')

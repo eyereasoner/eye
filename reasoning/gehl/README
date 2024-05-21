@@ -1,10 +1,14 @@
-------------------------------
-Logic integrated in RDF graphs
-------------------------------
+---------------------------------
+Gehl graphs expressing Horn logic
+---------------------------------
 
-Lingua is logic integrated in RDF graphs to support reasoning with
+Gehl graphs express Horn logic in RDF as follows:
 
-1/ forward rules
+- facts
+
+    RDF triples
+
+- implications
 
     _:bng_1 log:implies _:bng_2.
 
@@ -16,19 +20,19 @@ Lingua is logic integrated in RDF graphs to support reasoning with
         RDF triples
     }
 
-2/ backward rules
+- components
 
     _:bng_1 log:isImpliedBy _:bng_2.
 
     _:bng_1 {
-        RDF triples
+        RDF triple
     }
 
     _:bng_2 {
         RDF triples
     }
 
-3/ queries
+- queries
 
     _:bng_1 log:query _:bng_2.
 
