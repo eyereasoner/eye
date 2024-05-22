@@ -10,121 +10,121 @@
 @prefix : <http://example.org/#>.
 
 # meta-interpreter rules
-_:mi_rule1_head log:isImpliedBy true.
+_:bng_1 log:isImpliedBy true.
 
-_:mi_rule1_head {
+_:bng_1 {
     () :mi ().
 }
 
-_:mi_rule2_head log:isImpliedBy _:mi_rule2_body.
+_:bng_2 log:isImpliedBy _:bng_3.
 
-_:mi_rule2_head {
+_:bng_2 {
     () :mi var:A.
 }
 
-_:mi_rule2_body {
+_:bng_3 {
     var:A list:firstRest (var:G var:Gs).
     () :headBody (var:G var:Goals var:Gs).
     () :mi var:Goals.
 }
 
 # general head-body rules
-_:hb_rule1_head log:isImpliedBy true.
+_:bng_4 log:isImpliedBy true.
 
-_:hb_rule1_head {
-    () :headBody (_:hb_rule1_head_graph1 var:Rs var:Rs).
+_:bng_4 {
+    () :headBody (_:bng_5 var:Rs var:Rs).
 }
 
-_:hb_rule1_head_graph1 {
+_:bng_5 {
     () :mi ().
 }
 
-_:hb_rule2_head log:isImpliedBy _:hb_rule2_body.
+_:bng_6 log:isImpliedBy _:bng_7.
 
-_:hb_rule2_head {
-    () :headBody (_:hb_rule2_head_graph1 var:B var:Rs).
+_:bng_6 {
+    () :headBody (_:bng_8 var:B var:Rs).
 }
 
-_:hb_rule2_head_graph1 {
+_:bng_8 {
     () :mi var:A.
 }
 
-_:hb_rule2_body {
+_:bng_7 {
     var:A list:firstRest (var:G var:Gs).
-    var:B list:firstRest (_:hb_rule2_body_graph1 var:C).
-    var:C list:firstRest (_:hb_rule2_body_graph2 var:Rs).
+    var:B list:firstRest (_:bng_9 var:C).
+    var:C list:firstRest (_:bng_10 var:Rs).
 }
 
-_:hb_rule2_body_graph1 {
+_:bng_9 {
     () :headBody (var:G var:Goals var:Gs).
 }
 
-_:hb_rule2_body_graph2 {
+_:bng_10 {
     () :mi var:Goals.
 }
 
-_:hb_rule3_head log:isImpliedBy _:hb_rule3_body.
+_:bng_11 log:isImpliedBy _:bng_12.
 
-_:hb_rule3_head {
-    () :headBody (_:hb_rule3_head_graph1 var:Rs var:Rs).
+_:bng_11 {
+    () :headBody (_:bng_13 var:Rs var:Rs).
 }
 
-_:hb_rule3_head_graph1 {
+_:bng_13 {
     () :headBody (var:Head var:Goals0 var:Goals).
 }
 
-_:hb_rule3_body {
+_:bng_12 {
     () :headBody (var:Head var:Goals0 var:Goals).
 }
 
 # natnum head-body rules
-_:natnum_hb_rule1_head log:isImpliedBy true.
+_:bng_14 log:isImpliedBy true.
 
-_:natnum_hb_rule1_head {
-    () :headBody (_:natnum_hb_rule1_head_graph1 var:Rs var:Rs).
+_:bng_14 {
+    () :headBody (_:bng_15 var:Rs var:Rs).
 }
 
-_:natnum_hb_rule1_head_graph1 {
+_:bng_15 {
     () :natnum (0).
 }
 
-_:natnum_hb_rule2_head log:isImpliedBy _:natnum_hb_rule2_body.
+_:bng_16 log:isImpliedBy _:bng_17.
 
-_:natnum_hb_rule2_head {
-    () :headBody (_:natnum_hb_rule2_head_graph1 var:A var:Rs).
+_:bng_16 {
+    () :headBody (_:bng_18 var:A var:Rs).
 }
 
-_:natnum_hb_rule2_head_graph1 {
+_:bng_18 {
     () :natnum (:s var:X).
 }
 
-_:natnum_hb_rule2_body {
-    var:A list:firstRest (_:natnum_hb_rule2_body_graph1 var:Rs).
+_:bng_17 {
+    var:A list:firstRest (_:bng_19 var:Rs).
 }
 
-_:natnum_hb_rule2_body_graph1 {
+_:bng_19 {
     () :natnum var:X.
 }
 
 # query
-_:question log:query _:answer.
+_:bng_20 log:query _:bng_21.
 
-_:question {
-    () :mi (_:question_graph1).
+_:bng_20 {
+    () :mi (_:bng_22).
 }
 
-_:question_graph1 {
-    () :mi (_:question_graph2).
+_:bng_22 {
+    () :mi (_:bng_23).
 }
 
-_:question_graph2 {
-    () :mi (_:question_graph3).
+_:bng_23 {
+    () :mi (_:bng_24).
 }
 
-_:question_graph3 {
+_:bng_24 {
     () :natnum (:s (:s (:s (:s (:s (0)))))).
 }
 
-_:answer {
+_:bng_21 {
     () :natnum (:s (:s (:s (:s (:s (0)))))).
 }
