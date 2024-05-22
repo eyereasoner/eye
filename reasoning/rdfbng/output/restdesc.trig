@@ -1,374 +1,385 @@
-@prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix http: <http://www.w3.org/2011/http#>.
 
-:x :relGoal :y.
+# answer
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    :x :relGoal :y.
+}
 
 # explanation
-(_:bng_1 log:implies _:bng_2) log:explain ((var:a1 :x) (var:b1 :y) (var:request _:sk_99) (var:resp _:sk_100) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_105) (var:resp _:sk_106)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_107) (var:resp _:sk_108)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_109) (var:resp _:sk_110)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_115) (var:resp _:sk_116)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_117) (var:resp _:sk_118)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_119) (var:resp _:sk_120)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_121) (var:resp _:sk_122)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_123) (var:resp _:sk_124)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_125) (var:resp _:sk_126)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_127) (var:resp _:sk_128)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_129) (var:resp _:sk_130)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_131) (var:resp _:sk_132)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_133) (var:resp _:sk_134)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_135) (var:resp _:sk_136)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_137) (var:resp _:sk_138)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_139) (var:resp _:sk_140)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_141) (var:resp _:sk_142)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_143) (var:resp _:sk_144)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_145) (var:resp _:sk_146)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_147) (var:resp _:sk_148)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_149) (var:resp _:sk_150)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_151) (var:resp _:sk_152)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_153) (var:resp _:sk_154)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_155) (var:resp _:sk_156)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_157) (var:resp _:sk_158)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_159) (var:resp _:sk_160)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_101) (var:b2 _:sk_102) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 _:sk_103) (var:b2 _:sk_104) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_113) (var:resp _:sk_114)).
-(_:bng_19 log:query _:bng_19) log:explain ().
-(_:bng_1 log:implies _:bng_2) log:explain ((var:a1 :x) (var:b1 :y) (var:request _:sk_99) (var:resp _:sk_100) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_3 log:implies _:bng_4) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_5 log:implies _:bng_6) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_7 log:implies _:bng_8) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_9 log:implies _:bng_10) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_11 log:implies _:bng_12) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_13 log:implies _:bng_14) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_15 log:implies _:bng_16) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_101) (var:b3 _:sk_102) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_103) (var:b3 _:sk_104) (var:request _:sk_99) (var:resp _:sk_100)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_101) (var:b1 _:sk_102) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_111) (var:resp _:sk_112)).
-(_:bng_17 log:implies _:bng_18) log:explain ((var:a1 _:sk_103) (var:b1 _:sk_104) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_113) (var:resp _:sk_114)).
+(true log:implies _:bng_1) log:explain ().
+(_:bng_2 log:implies _:bng_3) log:explain ((var:a1 :x) (var:b1 :y) (var:request _:sk_102) (var:resp _:sk_103) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_108) (var:resp _:sk_109)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_110) (var:resp _:sk_111)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_112) (var:resp _:sk_113)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_118) (var:resp _:sk_119)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_120) (var:resp _:sk_121)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_122) (var:resp _:sk_123)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_124) (var:resp _:sk_125)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_126) (var:resp _:sk_127)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_128) (var:resp _:sk_129)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_130) (var:resp _:sk_131)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_132) (var:resp _:sk_133)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_134) (var:resp _:sk_135)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_136) (var:resp _:sk_137)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_138) (var:resp _:sk_139)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_140) (var:resp _:sk_141)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_142) (var:resp _:sk_143)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_144) (var:resp _:sk_145)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_146) (var:resp _:sk_147)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_148) (var:resp _:sk_149)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_150) (var:resp _:sk_151)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_152) (var:resp _:sk_153)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_154) (var:resp _:sk_155)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_156) (var:resp _:sk_157)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_158) (var:resp _:sk_159)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_160) (var:resp _:sk_161)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_162) (var:resp _:sk_163)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_104) (var:b2 _:sk_105) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 _:sk_106) (var:b2 _:sk_107) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_116) (var:resp _:sk_117)).
+(_:bng_20 log:query _:bng_20) log:explain ().
+(_:bng_2 log:implies _:bng_3) log:explain ((var:a1 :x) (var:b1 :y) (var:request _:sk_102) (var:resp _:sk_103) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_4 log:implies _:bng_5) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_6 log:implies _:bng_7) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_8 log:implies _:bng_9) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_10 log:implies _:bng_11) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_12 log:implies _:bng_13) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_14 log:implies _:bng_15) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_16 log:implies _:bng_17) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_104) (var:b3 _:sk_105) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 :x) (var:b1 :y) (var:a2 :x) (var:b2 :y) (var:a3 _:sk_106) (var:b3 _:sk_107) (var:request _:sk_102) (var:resp _:sk_103)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_104) (var:b1 _:sk_105) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_114) (var:resp _:sk_115)).
+(_:bng_18 log:implies _:bng_19) log:explain ((var:a1 _:sk_106) (var:b1 _:sk_107) (var:a2 :x) (var:b2 :y) (var:a3 :x) (var:b3 :y) (var:request _:sk_116) (var:resp _:sk_117)).
 
 _:bng_1 {
-    var:a1 :rel1 var:b1.
+    :x :rel1 :y.
 }
 
 _:bng_2 {
+    var:a1 :rel1 var:b1.
+}
+
+_:bng_3 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel2 var:b1.
-    var:a2 :rel2 var:b2.
-    var:a3 :rel2 var:b3.
-}
-
-_:bng_3 {
     var:a1 :rel2 var:b1.
     var:a2 :rel2 var:b2.
     var:a3 :rel2 var:b3.
 }
 
 _:bng_4 {
+    var:a1 :rel2 var:b1.
+    var:a2 :rel2 var:b2.
+    var:a3 :rel2 var:b3.
+}
+
+_:bng_5 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel3 var:b1.
-    var:a2 :rel3 var:b2.
-    var:a3 :rel3 var:b3.
-}
-
-_:bng_5 {
     var:a1 :rel3 var:b1.
     var:a2 :rel3 var:b2.
     var:a3 :rel3 var:b3.
 }
 
 _:bng_6 {
+    var:a1 :rel3 var:b1.
+    var:a2 :rel3 var:b2.
+    var:a3 :rel3 var:b3.
+}
+
+_:bng_7 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel4 var:b1.
-    var:a2 :rel4 var:b2.
-    var:a3 :rel4 var:b3.
-}
-
-_:bng_7 {
     var:a1 :rel4 var:b1.
     var:a2 :rel4 var:b2.
     var:a3 :rel4 var:b3.
 }
 
 _:bng_8 {
+    var:a1 :rel4 var:b1.
+    var:a2 :rel4 var:b2.
+    var:a3 :rel4 var:b3.
+}
+
+_:bng_9 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel5 var:b1.
-    var:a2 :rel5 var:b2.
-    var:a3 :rel5 var:b3.
-}
-
-_:bng_9 {
     var:a1 :rel5 var:b1.
     var:a2 :rel5 var:b2.
     var:a3 :rel5 var:b3.
 }
 
 _:bng_10 {
+    var:a1 :rel5 var:b1.
+    var:a2 :rel5 var:b2.
+    var:a3 :rel5 var:b3.
+}
+
+_:bng_11 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel6 var:b1.
-    var:a2 :rel6 var:b2.
-    var:a3 :rel6 var:b3.
-}
-
-_:bng_11 {
     var:a1 :rel6 var:b1.
     var:a2 :rel6 var:b2.
     var:a3 :rel6 var:b3.
 }
 
 _:bng_12 {
+    var:a1 :rel6 var:b1.
+    var:a2 :rel6 var:b2.
+    var:a3 :rel6 var:b3.
+}
+
+_:bng_13 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel7 var:b1.
-    var:a2 :rel7 var:b2.
-    var:a3 :rel7 var:b3.
-}
-
-_:bng_13 {
     var:a1 :rel7 var:b1.
     var:a2 :rel7 var:b2.
     var:a3 :rel7 var:b3.
 }
 
 _:bng_14 {
+    var:a1 :rel7 var:b1.
+    var:a2 :rel7 var:b2.
+    var:a3 :rel7 var:b3.
+}
+
+_:bng_15 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
     var:resp http:body var:b1.
-    var:a1 :rel8 var:b1.
-    var:a2 :rel8 var:b2.
-    var:a3 :rel8 var:b3.
-}
-
-_:bng_15 {
     var:a1 :rel8 var:b1.
     var:a2 :rel8 var:b2.
     var:a3 :rel8 var:b3.
 }
 
 _:bng_16 {
+    var:a1 :rel8 var:b1.
+    var:a2 :rel8 var:b2.
+    var:a3 :rel8 var:b3.
+}
+
+_:bng_17 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
@@ -378,13 +389,13 @@ _:bng_16 {
     var:a3 :rel9 var:b3.
 }
 
-_:bng_17 {
+_:bng_18 {
     var:a1 :rel9 var:b1.
     var:a2 :rel9 var:b2.
     var:a3 :rel9 var:b3.
 }
 
-_:bng_18 {
+_:bng_19 {
     var:request http:methodName "GET".
     var:request http:requestURI var:a1.
     var:request http:resp var:resp.
@@ -395,6 +406,6 @@ _:bng_18 {
     var:a1 :relGoal var:b1.
 }
 
-_:bng_19 {
+_:bng_20 {
     :x :relGoal :y.
 }

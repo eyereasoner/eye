@@ -1,10 +1,16 @@
-@prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
-:test :for :PolicyX.
-:test :is true.
+# answer
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    :test :for :PolicyX.
+    :test :is true.
+}
 
 # explanation
 (true log:implies _:bng_1) log:explain ().

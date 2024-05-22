@@ -1,9 +1,14 @@
-@prefix : <http://example.org/#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
-(1000 3.141592653839793) :pi true.
+# answer
+[] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> true; log:implies _:bng_0.
+
+_:bng_0 {
+    (1000 3.141592653839793) :pi true.
+}
 
 # explanation
 (_:bng_1 log:isImpliedBy true) log:explain ((var:N 1000) (var:P 0.035398163459948236) (var:S -1)).

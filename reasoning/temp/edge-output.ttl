@@ -1,4 +1,5 @@
 @prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 
 :s :p <<( :a :b :c )>>.
 :s :p << :d :e :f >>.
@@ -18,5 +19,10 @@
 << :m2 | :liz :marriedTo :richard >> :to 2001 .
 << :r | :a :b _:e_x_1 >> :c :d.
 << :r | :a :b _:e_y_1 >> :c :d.
+# answer
+[] rdf:value true; <http://www.w3.org/2000/10/swap/log#implies> _:bng_0.
+
+_:bng_0 {
+}
 
 # explanation

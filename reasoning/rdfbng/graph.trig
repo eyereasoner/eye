@@ -4,21 +4,26 @@
 #
 # Examples of graph based reasoning.
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
 # French roads
-:paris :oneway :orleans.
-:paris :oneway :chartres.
-:paris :oneway :amiens.
-:orleans :oneway :blois.
-:orleans :oneway :bourges.
-:blois :oneway :tours.
-:chartres :oneway :lemans.
-:lemans :oneway :angers.
-:lemans :oneway :tours.
-:angers :oneway :nantes.
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    :paris :oneway :orleans.
+    :paris :oneway :chartres.
+    :paris :oneway :amiens.
+    :orleans :oneway :blois.
+    :orleans :oneway :bourges.
+    :blois :oneway :tours.
+    :chartres :oneway :lemans.
+    :lemans :oneway :angers.
+    :lemans :oneway :tours.
+    :angers :oneway :nantes.
+}
 
 # oneway subproperty of path
 _:bng_1 log:implies _:bng_2.

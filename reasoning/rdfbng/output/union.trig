@@ -1,9 +1,14 @@
-@prefix : <http://example.org/#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-:result :is _:bng_1.
+# answer
+[] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> true; log:implies _:bng_0.
+
+_:bng_0 {
+    :result :is _:bng_1.
+}
 
 # explanation
 (_:bng_2 log:query _:bng_3) log:explain ((var:U _:bng_1)).

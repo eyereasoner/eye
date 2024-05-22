@@ -4,14 +4,19 @@
 #
 # Infer that Socrates is mortal.
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
 # facts
-:Socrates a :Human.
-:Human rdfs:subClassOf :Mortal.
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    :Socrates a :Human.
+    :Human rdfs:subClassOf :Mortal.
+}
 
 # rdfs subclass
 _:bng_1 log:implies _:bng_2.

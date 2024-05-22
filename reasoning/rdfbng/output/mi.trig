@@ -1,9 +1,14 @@
-@prefix : <http://example.org/#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
-() :natnum (:s (:s (:s (:s (:s (0)))))).
+# answer
+[] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> true; log:implies _:bng_0.
+
+_:bng_0 {
+    () :natnum (:s (:s (:s (:s (:s (0)))))).
+}
 
 # explanation
 (_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:A (_:bng_3)) (var:G _:bng_3) (var:Gs ()) (var:B (_:bng_4 _:bng_5)) (var:Goals var:all_0) (var:C (_:bng_5)) (var:Rs ())).

@@ -1,14 +1,19 @@
-@prefix complex: <https://eyereasoner.github.io/complex#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix complex: <https://eyereasoner.github.io/complex#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
-((-1 0) ("0.5"^^<http://www.w3.org/2001/XMLSchema#decimal> 0)) complex:exponentiation (6.123233995736766e-17 1.0).
-(("2.718281828459045"^^<http://www.w3.org/2001/XMLSchema#decimal> 0) (0 "3.141592653589793"^^<http://www.w3.org/2001/XMLSchema#decimal>)) complex:exponentiation (-1.0 1.2246467991473532e-16).
-((0 1) (0 1)) complex:exponentiation (0.20787957635076193 0.0).
-(("2.718281828459045"^^<http://www.w3.org/2001/XMLSchema#decimal> 0) ("-1.57079632679"^^<http://www.w3.org/2001/XMLSchema#decimal> 0)) complex:exponentiation (0.20787957635177984 0.0).
-(2 0) complex:asin (1.5707963267948966 1.3169578969248166).
-(2 0) complex:acos (0.0 -1.3169578969248166).
+# answer
+[] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> true; log:implies _:bng_0.
+
+_:bng_0 {
+    ((-1 0) ("0.5"^^<http://www.w3.org/2001/XMLSchema#decimal> 0)) complex:exponentiation (6.123233995736766e-17 1.0).
+    (("2.718281828459045"^^<http://www.w3.org/2001/XMLSchema#decimal> 0) (0 "3.141592653589793"^^<http://www.w3.org/2001/XMLSchema#decimal>)) complex:exponentiation (-1.0 1.2246467991473532e-16).
+    ((0 1) (0 1)) complex:exponentiation (0.20787957635076193 0.0).
+    (("2.718281828459045"^^<http://www.w3.org/2001/XMLSchema#decimal> 0) ("-1.57079632679"^^<http://www.w3.org/2001/XMLSchema#decimal> 0)) complex:exponentiation (0.20787957635177984 0.0).
+    (2 0) complex:asin (1.5707963267948966 1.3169578969248166).
+    (2 0) complex:acos (0.0 -1.3169578969248166).
+}
 
 # explanation
 (_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:X -1) (var:Y 0) (var:T 0.0) (var:Tp 3.141592653589793)).

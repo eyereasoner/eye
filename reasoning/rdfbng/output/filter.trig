@@ -1,25 +1,38 @@
-@prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 
-:result :is ("Huey" "Dewey").
+# answer
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    :result :is ("Huey" "Dewey").
+}
 
 # explanation
-(_:bng_1 log:query _:bng_2) log:explain ((var:param var:all_1) (var:where _:bng_3) (var:filteredParams ("Huey" "Dewey")) (var:scope ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/filter.trig>) 1))).
+(true log:implies _:bng_1) log:explain ().
+(_:bng_2 log:query _:bng_3) log:explain ((var:param var:all_4) (var:where _:bng_4) (var:filteredParams ("Huey" "Dewey")) (var:scope ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/filter.trig>) 1))).
 
 _:bng_1 {
+    :Let :param "Huey".
+    :Let :param "Dewey".
+    :Let :param "Louie".
+}
+
+_:bng_2 {
     :Let :where (var:param var:where).
     (var:param var:where var:filteredParams) log:collectAllIn var:scope.
     var:filteredParams list:length 2.
 }
 
-_:bng_2 {
+_:bng_3 {
     :result :is var:filteredParams.
 }
 
-_:bng_3 {
-    :Let :param var:all_1.
-    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> var:all_1; string:lessThan "Louie".
+_:bng_4 {
+    :Let :param var:all_4.
+    [] rdf:value var:all_4; string:lessThan "Louie".
 }

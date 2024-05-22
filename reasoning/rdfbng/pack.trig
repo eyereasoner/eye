@@ -4,7 +4,7 @@
 #
 # See https://github.com/Dexagod/DataPack?tab=readme-ov-file#package-modeling
 
-@prefix : <https://example.org/ns/example#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix pack: <https://example.org/ns/package#>.
 @prefix sign: <https://example.org/ns/signature#>.
 @prefix pol: <https://example.org/ns/policy#>.
@@ -12,8 +12,13 @@
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
 
-[] pack:package _:bng_1 .
+[] rdf:value true; log:implies _:bng_0.
+
+_:bng_0 {
+    [] pack:package _:bng_1 .
+}
 
 _:bng_1 {
     [] pack:content _:bng_2 ;
