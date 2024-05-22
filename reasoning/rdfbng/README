@@ -4,11 +4,7 @@ RDF Blank Node Graphs
 
 RDFBNG graphs express Horn logic in RDF as follows:
 
-- facts
-
-    RDF triples
-
-- implications
+1/ implications
 
     _:bng_1 log:implies _:bng_2.
 
@@ -20,7 +16,23 @@ RDFBNG graphs express Horn logic in RDF as follows:
         RDF triples
     }
 
-- components
+2/ background graphs
+
+    [] rdf:value true; log:implies _:bng_1.
+
+    _:bng_1 {
+        RDF triples
+    }
+
+3/ inference fuses
+
+    _:bng_1 log:implies false.
+
+    _:bng_1 {
+        RDF triples
+    }
+
+4/ components
 
     _:bng_1 log:isImpliedBy _:bng_2.
 
@@ -32,7 +44,7 @@ RDFBNG graphs express Horn logic in RDF as follows:
         RDF triples
     }
 
-- queries
+5/ queries
 
     _:bng_1 log:query _:bng_2.
 
@@ -44,9 +56,6 @@ RDFBNG graphs express Horn logic in RDF as follows:
         RDF triples
     }
 
-
-An implication with log:implies false is an inference fuse.
-
 The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
 variables that are interpreted as universally quantified variables except for
 forward rule conclusion-only variables which are interpreted as existentially
@@ -55,3 +64,5 @@ quantified variables.
 Literal subjects are described as
 
     [] rdf:value "aha"; :p :o.
+
+Self reference throws a term_cannot_contain_itself/2 exception.
