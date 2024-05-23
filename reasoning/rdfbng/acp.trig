@@ -2,23 +2,18 @@
 # Access control policy example
 # -----------------------------
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
-[] rdf:value true; log:implies _:bng_0.
+:test1 :policy :PolicyX;
+    :has :A, :B, :C.
 
-_:bng_0 {
-    :test1 :policy :PolicyX;
-        :has :A, :B, :C.
-
-    :PolicyX a :Policy;
-        :allOf :A, :B;
-        :anyOf :C;
-        :noneOf :D.
-}
+:PolicyX a :Policy;
+    :allOf :A, :B;
+    :anyOf :C;
+    :noneOf :D.
 
 _:bng_1 log:isImpliedBy _:bng_2.
 

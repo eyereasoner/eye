@@ -1,29 +1,19 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    [] rdf:value "hello world"; :sha512 "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f".
-}
+[] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> "hello world"; :sha512 "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f".
 
 # explanation
-(true log:implies _:bng_1) log:explain ().
-(_:bng_2 log:query _:bng_3) log:explain ((var:X "hello world") (var:Y "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f")).
+(_:bng_1 log:query _:bng_2) log:explain ((var:X "hello world") (var:Y "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f")).
 
 _:bng_1 {
-    :Let :param "hello world".
-}
-
-_:bng_2 {
     :Let :param var:X.
     var:X crypto:sha512 var:Y.
 }
 
-_:bng_3 {
+_:bng_2 {
     var:X :sha512 var:Y.
 }

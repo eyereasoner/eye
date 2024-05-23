@@ -1,15 +1,11 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    [] rdf:value 5; :moreInterestingThan 3 .
-}
+[] rdf:value 5; :moreInterestingThan 3 .
 
 # explanation
 (_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:X 5) (var:Y 3)).

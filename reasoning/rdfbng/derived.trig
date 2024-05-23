@@ -4,19 +4,14 @@
 #
 # Proving a derived rule.
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix string: <http://www.w3.org/2000/10/swap/string#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :Alice a :Cat.
-    :Minka a :Cat.
-    :Charly a :Dog.
-}
+:Alice a :Cat.
+:Minka a :Cat.
+:Charly a :Dog.
 
 _:bng_1 log:implies _:bng_2.
 

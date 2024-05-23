@@ -1,47 +1,37 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example.org/#>.
+@prefix : <https://example.org/ns/example#>.
 @prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix pack: <https://example.org/ns/package#>.
 @prefix sign: <https://example.org/ns/signature#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
-}
+:Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
 
 # explanation
-(true log:implies _:bng_1) log:explain ().
-(_:bng_2 log:query var:C) log:explain ((var:S _:node_3) (var:O _:bng_3) (var:N _:node_5) (var:C _:bng_4)).
+(_:bng_1 log:query var:C) log:explain ((var:S _:bn_1) (var:O _:bng_2) (var:N _:bn_2) (var:C _:bng_3)).
 
 _:bng_1 {
-    _:node_3 pack:package _:bng_3.
+    var:S pack:package var:O.
+    var:O log:includes _:bng_4.
 }
 
 _:bng_2 {
-    var:S pack:package var:O.
-    var:O log:includes _:bng_5.
+    _:bn_2 pack:content _:bng_3.
+    _:bn_2 pack:origin :Endpoint.
+    _:bn_2 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
+    _:bn_2 pack:hasContentSignature _:bn_4.
+    _:bn_4 a sign:Signature.
+    _:bn_4 sign:issuer :Alice.
+    _:bn_4 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
+    _:bn_4 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
 }
 
 _:bng_3 {
-    _:node_5 pack:content _:bng_4.
-    _:node_5 pack:origin :Endpoint.
-    _:node_5 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime.
-    _:node_7 a sign:Signature.
-    _:node_7 sign:issuer :Alice.
-    _:node_7 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime.
-    _:node_7 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us".
-    _:node_5 pack:hasContentSignature _:node_7.
-}
-
-_:bng_4 {
     :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime.
 }
 
-_:bng_5 {
+_:bng_4 {
     var:N pack:content var:C.
 }

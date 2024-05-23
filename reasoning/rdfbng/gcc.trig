@@ -6,22 +6,18 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
-[] rdf:value true; log:implies _:bng_0.
+(0 0) :and 0.
+(0 1) :and 0.
+(1 0) :and 0.
+(1 1) :and 1.
 
-_:bng_0 {
-    (0 0) :and 0.
-    (0 1) :and 0.
-    (1 0) :and 0.
-    (1 1) :and 1.
+(0 0) :or 0.
+(0 1) :or 1.
+(1 0) :or 1.
+(1 1) :or 1.
 
-    (0 0) :or 0.
-    (0 1) :or 1.
-    (1 0) :or 1.
-    (1 1) :or 1.
-
-    [] rdf:value 0; :inv 1.
-    [] rdf:value 1; :inv 0.
-}
+[] rdf:value 0; :inv 1.
+[] rdf:value 1; :inv 0.
 
 _:bng_1 log:isImpliedBy true.
 

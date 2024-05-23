@@ -2,18 +2,13 @@
 # Scoped Negation As Failure
 # --------------------------
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
 # facts
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :Alice :loves :Bob.
-    :Bob a :Person.
-}
+:Alice :loves :Bob.
+:Bob a :Person.
 
 # rule
 _:bng_1 log:implies _:bng_2.

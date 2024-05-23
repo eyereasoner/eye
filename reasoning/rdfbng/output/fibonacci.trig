@@ -1,19 +1,15 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    [] rdf:value 0; :fibonacci 0 .
-    [] rdf:value 1; :fibonacci 1 .
-    [] rdf:value 6; :fibonacci 8 .
-    [] rdf:value 91; :fibonacci 4660046610375530309 .
-    [] rdf:value 283; :fibonacci 62232491515607091882574410635924603070626544377175485625797 .
-}
+[] rdf:value 0; :fibonacci 0 .
+[] rdf:value 1; :fibonacci 1 .
+[] rdf:value 6; :fibonacci 8 .
+[] rdf:value 91; :fibonacci 4660046610375530309 .
+[] rdf:value 283; :fibonacci 62232491515607091882574410635924603070626544377175485625797 .
 
 # explanation
 (_:bng_1 log:isImpliedBy true) log:explain ((var:A 0) (var:B 1)).

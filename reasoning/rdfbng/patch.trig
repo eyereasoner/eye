@@ -11,18 +11,15 @@
 @prefix : <http://example.org/#>.
 
 # sample data
-_:bng_0 {
-    :pers001 :familyName "Garcia".
-    :pers001 :givenName "Claudia".
-    :pers002 :familyName "Cardinale".
-    :pers002 :givenName "Claudia".
-}
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Claudia".
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
 
 # patch rule
 _:bng_1 log:implies true.
 
 _:bng_1 {
-    [] rdf:value true; log:becomes _:bng_0.
     var:person :familyName "Garcia".
     _:bng_2 log:becomes _:bng_3.
 }

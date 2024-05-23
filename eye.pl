@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.16 (2024-05-22)').
+version_info('EYE v10.7.17 (2024-05-23)').
 
 license_info('MIT License
 
@@ -3962,19 +3962,10 @@ w3 :-
     ),
     (   flag(rdfbng),
         writeln('# answer'),
-        write('[] '),
-        wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
-        write(' true; '),
-        wp('<http://www.w3.org/2000/10/swap/log#implies>'),
-        writeln(' _:bng_0.'),
-        nl,
-        writeln('_:bng_0 {'),
-        indentation(4),
         answer(B1, B2, B3),
         B1 \= '<http://www.w3.org/2000/10/swap/log#explain>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
-        indent,
         (   flag('n3p-output')
         ->  makeblank(C, Ca),
             exo_pred(Ca, Cb),
@@ -3987,9 +3978,6 @@ w3 :-
         cnt(output_statements),
         fail
     ;   flag(rdfbng),
-        indentation(-4),
-        indent,
-        writeln('}'),
         nl,
         writeln('# explanation'),
         answer(B1, B2, B3),

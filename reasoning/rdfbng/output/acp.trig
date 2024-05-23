@@ -1,96 +1,78 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :test :for :PolicyX.
-    :test :is true.
-}
+:test :for :PolicyX.
+:test :is true.
 
 # explanation
-(true log:implies _:bng_1) log:explain ().
-(_:bng_2 log:isImpliedBy _:bng_3) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_3) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1))).
-(_:bng_4 log:isImpliedBy _:bng_5) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_4) (var:List (:C)) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1)) (var:L 1)).
-(_:bng_6 log:isImpliedBy _:bng_7) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_5) (var:List ()) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1)) (var:L 0)).
-(_:bng_8 log:query _:bng_9) log:explain ((var:Pol :PolicyX)).
+(_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_0) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1))).
+(_:bng_3 log:isImpliedBy _:bng_4) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_1) (var:List (:C)) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1)) (var:L 1)).
+(_:bng_5 log:isImpliedBy _:bng_6) log:explain ((var:Test :test1) (var:Pol :PolicyX) (var:Field var:all_2) (var:List ()) (var:X ((<https://eyereasoner.github.io/eye/reasoning/rdfbng/acp.trig>) 1)) (var:L 0)).
+(_:bng_7 log:query _:bng_8) log:explain ((var:Pol :PolicyX)).
 
 _:bng_1 {
-    :test1 :policy :PolicyX.
-    :test1 :has :A.
-    :test1 :has :B.
-    :test1 :has :C.
-    :PolicyX a :Policy.
-    :PolicyX :allOf :A.
-    :PolicyX :allOf :B.
-    :PolicyX :anyOf :C.
-    :PolicyX :noneOf :D.
-}
-
-_:bng_2 {
     var:Pol :pass :allOfTest.
 }
 
-_:bng_3 {
+_:bng_2 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (_:bng_10 _:bng_11) log:forAllIn var:X.
+    (_:bng_9 _:bng_10) log:forAllIn var:X.
 }
 
-_:bng_4 {
+_:bng_3 {
     var:Pol :pass :anyOfTest.
 }
 
-_:bng_5 {
+_:bng_4 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (var:Field _:bng_12 var:List) log:collectAllIn var:X.
+    (var:Field _:bng_11 var:List) log:collectAllIn var:X.
     var:List list:length var:L.
     (var:L) log:notEqualTo (0).
 }
 
-_:bng_6 {
+_:bng_5 {
     var:Pol :pass :noneOfTest.
 }
 
-_:bng_7 {
+_:bng_6 {
     var:Test :policy var:Pol.
     var:Pol a :Policy.
-    (var:Field _:bng_13 var:List) log:collectAllIn var:X.
+    (var:Field _:bng_12 var:List) log:collectAllIn var:X.
     var:List list:length var:L.
     (var:L) log:equalTo (0).
 }
 
-_:bng_8 {
+_:bng_7 {
     var:Pol a :Policy.
     var:Pol :pass :allOfTest.
     var:Pol :pass :anyOfTest.
     var:Pol :pass :noneOfTest.
 }
 
-_:bng_9 {
+_:bng_8 {
     :test :for var:Pol.
     :test :is true.
 }
 
-_:bng_10 {
+_:bng_9 {
     var:Pol :allOf var:Field.
 }
 
-_:bng_11 {
+_:bng_10 {
     var:Test :has var:Field.
 }
 
-_:bng_12 {
+_:bng_11 {
     var:Pol :anyOf var:Field.
     var:Test :has var:Field.
 }
 
-_:bng_13 {
+_:bng_12 {
     var:Pol :noneOf var:Field.
     var:Test :has var:Field.
 }

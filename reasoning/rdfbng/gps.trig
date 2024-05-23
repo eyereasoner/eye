@@ -19,20 +19,12 @@
 # the future state, and allows to carry adaptive pathway management based
 # on the predicted future state.
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix gps: <https://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
-
-# background graph: current state as practical example
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :i1 :location :Gent.
-}
 
 # find paths in the state space from initial state to goal state within limits
 _:bng_1 log:isImpliedBy _:bng_2.
@@ -135,6 +127,9 @@ _:bng_15 {
     var:A list:firstRest (var:C var:D).
     var:D gps:stagecount var:B.
 }
+
+# current state as practical example
+:i1 :location :Gent.
 
 # map of Belgium
 _:bng_16 log:isImpliedBy _:bng_17.

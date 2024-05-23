@@ -5,25 +5,10 @@
 # Turing completeness test case.
 # See http://en.wikipedia.org/wiki/Prolog#Turing_completeness
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
-
-# a Turing machine to add 1 to a binary number
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :add1 :start 0.
-
-    (0 0 0 :right) :tape 0.
-    (0 1 1 :right) :tape 0.
-    (0 "#" "#" :left) :tape 1.
-    (1 0 1 :stop) :tape :halt.
-    (1 1 0 :left) :tape 1.
-    (1 "#" 1 :stop) :tape :halt.
-}
 
 # interpreter for Turing machine
 _:bng_1 log:isImpliedBy _:bng_2.
@@ -148,6 +133,16 @@ _:bng_22 {
     var:Tail :reverse var:R.
     (var:R (var:Head)) list:append var:Reverse.
 }
+
+# a Turing machine to add 1 to a binary number
+:add1 :start 0.
+
+(0 0 0 :right) :tape 0.
+(0 1 1 :right) :tape 0.
+(0 "#" "#" :left) :tape 1.
+(1 0 1 :stop) :tape :halt.
+(1 1 0 :left) :tape 1.
+(1 "#" 1 :stop) :tape :halt.
 
 # query
 _:bng_23 log:query _:bng_23.

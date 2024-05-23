@@ -1,14 +1,9 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    _:bng_1 log:implies false.
-    _:bng_2 log:implies false.
-}
+_:bng_1 log:implies false.
+_:bng_2 log:implies false.
 
 # explanation
 (_:bng_3 log:query _:bng_3) log:explain ((var:P log:complement) (var:C log:complement) (var:S log:complement) (var:O log:complement)).

@@ -1,44 +1,32 @@
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 # answer
-[] rdf:value true; log:implies _:bng_0.
-
-_:bng_0 {
-    :test :is true.
-}
+:test :is true.
 
 # explanation
-(true log:implies _:bng_1) log:explain ().
-(_:bng_2 log:implies _:bng_3) log:explain ((var:cat :Alice) (var:dog _:sk_6)).
-(_:bng_2 log:implies _:bng_3) log:explain ((var:cat :Minka) (var:dog var:all_11)).
-(_:bng_4 log:implies _:bng_5) log:explain ((var:dog :Charly)).
-(_:bng_6 log:query _:bng_6) log:explain ((var:result true)).
+(_:bng_1 log:implies _:bng_2) log:explain ((var:cat :Alice) (var:dog _:sk_3)).
+(_:bng_1 log:implies _:bng_2) log:explain ((var:cat :Minka) (var:dog var:all_8)).
+(_:bng_3 log:implies _:bng_4) log:explain ((var:dog :Charly)).
+(_:bng_5 log:query _:bng_5) log:explain ((var:result true)).
 
 _:bng_1 {
-    :Alice a :Cat.
-    :Minka a :Cat.
-    :Charly a :Dog.
-}
-
-_:bng_2 {
     var:cat a :Cat.
 }
 
-_:bng_3 {
-    _:bng_4 log:implies _:bng_5.
+_:bng_2 {
+    _:bng_3 log:implies _:bng_4.
 }
 
-_:bng_4 {
+_:bng_3 {
     var:dog a :Dog.
 }
 
-_:bng_5 {
+_:bng_4 {
     :test :is true.
 }
 
-_:bng_6 {
+_:bng_5 {
     :test :is var:result.
 }
