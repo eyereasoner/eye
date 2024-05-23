@@ -1,0 +1,42 @@
+----------
+Horn logic
+----------
+
+1/ implications (aka forward rules)
+
+    (
+        RDF 3-tuples
+    ) holog:implies (
+        RDF 3-tuples
+    ).
+
+2/ components (aka backward rules)
+
+    (
+        RDF 3-tuple
+    ) holog:isImpliedBy (
+        RDF 3-tuples
+    ).
+
+3/ queries (aka filter rules)
+
+    (
+        RDF 3-tuples
+    ) holog:query (
+        RDF 3-tuples
+    ).
+
+The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
+variables that are interpreted as universally quantified variables except for
+forward rule conclusion-only variables which are interpreted as existentially
+quantified variables.
+
+Inference fuses are expressed as implications implying false
+
+    (
+        RDF 3-tuples
+    ) holog:implies false.
+
+Literal subjects are described as
+
+    [] rdf:value "aha"; :p :o.

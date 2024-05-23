@@ -1,0 +1,30 @@
+# ------------------
+# Socrates Inference
+# ------------------
+#
+# Infer that Socrates is mortal.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix holog: <http://www.w3.org/2000/10/swap/holog#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Socrates a :Human.
+:Human rdfs:subClassOf :Mortal.
+
+# rdfs subclass
+(
+    (var:A rdfs:subClassOf var:B)
+    (var:S rdf:type var:A)
+) holog:implies (
+    (var:S rdf:type var:B)
+).
+
+# query
+(
+    (var:S rdf:type :Mortal)
+) holog:query (
+    (var:S rdf:type :Mortal)
+).
