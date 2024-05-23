@@ -4,7 +4,7 @@ RDF Blank Node Graphs
 
 RDF Blank Node Graphs express Horn logic in RDF as follows:
 
-1/ implications
+1/ implications (aka forward rules)
 
     _:bng_1 log:implies _:bng_2.
 
@@ -16,23 +16,7 @@ RDF Blank Node Graphs express Horn logic in RDF as follows:
         RDF triples
     }
 
-2/ background graphs
-
-    [] rdf:value true; log:implies _:bng_1.
-
-    _:bng_1 {
-        RDF triples
-    }
-
-3/ inference fuses
-
-    _:bng_1 log:implies false.
-
-    _:bng_1 {
-        RDF triples
-    }
-
-4/ components
+2/ components (aka backward rules)
 
     _:bng_1 log:isImpliedBy _:bng_2.
 
@@ -44,7 +28,7 @@ RDF Blank Node Graphs express Horn logic in RDF as follows:
         RDF triples
     }
 
-5/ queries
+3/ queries (aka filter rules)
 
     _:bng_1 log:query _:bng_2.
 
@@ -60,6 +44,14 @@ The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
 variables that are interpreted as universally quantified variables except for
 forward rule conclusion-only variables which are interpreted as existentially
 quantified variables.
+
+Inference fuses are expressed as implications implying false
+
+    _:bng_1 log:implies false.
+
+    _:bng_1 {
+        RDF triples
+    }
 
 Literal subjects are described as
 
