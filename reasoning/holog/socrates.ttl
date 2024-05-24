@@ -6,7 +6,7 @@
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix holog: <http://www.w3.org/2000/10/swap/holog#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
@@ -15,16 +15,16 @@
 :Human rdfs:subClassOf :Mortal.
 
 # rdfs subclass
-(
+(log:conjoin
     (var:A rdfs:subClassOf var:B)
     (var:S rdf:type var:A)
-) holog:implies (
+) log:implies (log:conjoin
     (var:S rdf:type var:B)
 ).
 
 # query
-(
+(log:conjoin
     (var:S rdf:type :Mortal)
-) holog:query (
+) log:query (log:conjoin
     (var:S rdf:type :Mortal)
 ).

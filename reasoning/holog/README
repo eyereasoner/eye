@@ -4,25 +4,25 @@ Horn logic
 
 1/ implications (aka forward rules)
 
-    (
+    (log:conjoin
         RDF 3-tuples
-    ) holog:implies (
+    ) holog:implies (log:conjoin
         RDF 3-tuples
     ).
 
 2/ components (aka backward rules)
 
-    (
+    (log:conjoin
         RDF 3-tuple
-    ) holog:isImpliedBy (
+    ) holog:component (log:conjoin
         RDF 3-tuples
     ).
 
 3/ queries (aka filter rules)
 
-    (
+    (log:conjoin
         RDF 3-tuples
-    ) holog:query (
+    ) holog:query (log:conjoin
         RDF 3-tuples
     ).
 
@@ -33,7 +33,7 @@ quantified variables.
 
 Inference fuses are expressed as implications implying false
 
-    (
+    (log:conjoin
         RDF 3-tuples
     ) holog:implies false.
 

@@ -6,7 +6,7 @@
 
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix holog: <http://www.w3.org/2000/10/swap/holog#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
@@ -23,19 +23,19 @@
 [] rdf:value 0; :inv 1.
 [] rdf:value 1; :inv 0.
 
-(
+(log:conjoin
     ((var:D 0 var:Q) :dff var:Q)
-) holog:isImpliedBy (
+) log:component (log:conjoin
 ).
 
-(
+(log:conjoin
     ((var:D 1 var:Q) :dff var:D)
-) holog:isImpliedBy (
+) log:component (log:conjoin
 ).
 
-(
+(log:conjoin
     ((var:A var:B) :neta var:Q)
-) holog:isImpliedBy (
+) log:component (log:conjoin
     ((var:A var:B) :and var:T1)
     (var:A :inv var:NA)
     (var:B :inv var:NB)
@@ -43,9 +43,9 @@
     ((var:T1 var:T2) :or var:Q)
 ).
 
-(
+(log:conjoin
     ((var:A var:B var:C) :netb (var:Q1 var:Q2))
-) holog:isImpliedBy (
+) log:component (log:conjoin
     ((var:A var:C) :and var:T1)
     (var:C :inv var:NC)
     ((var:B var:NC) :and var:T2)
@@ -55,9 +55,9 @@
     ((var:T2 var:T3) :or var:Q2)
 ).
 
-(
+(log:conjoin
     ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
-) holog:isImpliedBy (
+) log:component (log:conjoin
     ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
     ((var:Qa var:Qb) :neta var:D3)
     ((var:D1 var:C var:Qa) :dff var:Za)
@@ -65,14 +65,14 @@
     ((var:D3 var:C var:Qc) :dff var:Zc)
 ).
 
-(
+(log:conjoin
     ((() var:S) :testgcc ())
-) holog:isImpliedBy (
+) log:component (log:conjoin
 ).
 
-(
+(log:conjoin
     ((var:Cc var:S) :testgcc var:Nc)
-) holog:isImpliedBy (
+) log:component (log:conjoin
     (var:Cc list:firstRest (var:C var:Cs))
     (var:Nc list:firstRest (var:N var:Ns))
     ((var:C var:S) :gcc var:N)
@@ -80,8 +80,8 @@
 ).
 
 # query
-(
+(log:conjoin
     (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)
-) holog:query (
+) log:query (log:conjoin
     (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)
 ).

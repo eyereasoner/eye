@@ -1,0 +1,26 @@
+@prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+
+# answer
+:Alice :hates :Nobody.
+
+# explanation
+(log:conjoin
+    ((log:conjoin
+        (var:SCOPE log:notIncludes (log:conjoin
+            (:Alice :hates var:X)
+        ))
+        (var:X rdf:type :Person)
+    ) log:implies (log:conjoin
+        (:Alice :hates :Nobody)
+    ))
+) log:explain ((var:SCOPE ((<https://eyereasoner.github.io/eye/reasoning/holog/snaf.ttl>) 1)) (var:X :Bob)).
+(log:conjoin
+    ((log:conjoin
+        (var:s :hates var:o)
+    ) log:query (log:conjoin
+        (var:s :hates var:o)
+    ))
+) log:explain ((var:s :Alice) (var:o :Nobody)).

@@ -1,12 +1,25 @@
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix holog: <http://www.w3.org/2000/10/swap/holog#>.
 
 # answer
 :Socrates a :Mortal.
 
 # explanation
-(((var:A rdfs:subClassOf var:B) (var:S rdf:type var:A)) holog:implies ((var:S rdf:type var:B))) holog:explain ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
-(((var:S rdf:type :Mortal)) holog:query ((var:S rdf:type :Mortal))) holog:explain ((var:S :Socrates)).
+(log:conjoin
+    ((log:conjoin
+        (var:A rdfs:subClassOf var:B)
+        (var:S rdf:type var:A)
+    ) log:implies (log:conjoin
+        (var:S rdf:type var:B)
+    ))
+) log:explain ((var:A :Human) (var:B :Mortal) (var:S :Socrates)).
+(log:conjoin
+    ((log:conjoin
+        (var:S rdf:type :Mortal)
+    ) log:query (log:conjoin
+        (var:S rdf:type :Mortal)
+    ))
+) log:explain ((var:S :Socrates)).

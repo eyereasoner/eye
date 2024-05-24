@@ -1,44 +1,367 @@
 @prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix holog: <http://www.w3.org/2000/10/swap/holog#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
 # answer
 ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
 
 # explanation
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 0) (var:C 0) (var:T1 0) (var:NC 1) (var:B 0) (var:T2 0) (var:NA 1) (var:T3 0) (var:Q1 0) (var:Q2 0)).
-((((var:A var:B) :neta var:Q)) holog:isImpliedBy (((var:A var:B) :and var:T1) (var:A :inv var:NA) (var:B :inv var:NB) ((var:NA var:NB) :and var:T2) ((var:T1 var:T2) :or var:Q))) holog:explain ((var:A 0) (var:B 0) (var:T1 0) (var:NA 1) (var:NB 1) (var:T2 1) (var:Q 1)).
-((((var:D 1 var:Q) :dff var:D)) holog:isImpliedBy ()) holog:explain ((var:D 0) (var:Q 0)).
-((((var:D 1 var:Q) :dff var:D)) holog:isImpliedBy ()) holog:explain ((var:D 1) (var:Q 0)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 0) (var:Qb 0) (var:Qc 0) (var:D1 0) (var:D2 0) (var:D3 1) (var:C 1) (var:Za 0) (var:Zb 0) (var:Zc 1)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 0) (var:C 1) (var:T1 0) (var:NC 0) (var:B 0) (var:T2 0) (var:NA 1) (var:T3 1) (var:Q1 0) (var:Q2 1)).
-((((var:D 1 var:Q) :dff var:D)) holog:isImpliedBy ()) holog:explain ((var:D 1) (var:Q 1)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 0) (var:Qb 0) (var:Qc 1) (var:D1 0) (var:D2 1) (var:D3 1) (var:C 1) (var:Za 0) (var:Zb 1) (var:Zc 1)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 0) (var:C 1) (var:T1 0) (var:NC 0) (var:B 1) (var:T2 0) (var:NA 1) (var:T3 1) (var:Q1 0) (var:Q2 1)).
-((((var:A var:B) :neta var:Q)) holog:isImpliedBy (((var:A var:B) :and var:T1) (var:A :inv var:NA) (var:B :inv var:NB) ((var:NA var:NB) :and var:T2) ((var:T1 var:T2) :or var:Q))) holog:explain ((var:A 0) (var:B 1) (var:T1 0) (var:NA 1) (var:NB 0) (var:T2 0) (var:Q 0)).
-((((var:D 1 var:Q) :dff var:D)) holog:isImpliedBy ()) holog:explain ((var:D 0) (var:Q 1)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 0) (var:Qb 1) (var:Qc 1) (var:D1 0) (var:D2 1) (var:D3 0) (var:C 1) (var:Za 0) (var:Zb 1) (var:Zc 0)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 0) (var:C 0) (var:T1 0) (var:NC 1) (var:B 1) (var:T2 1) (var:NA 1) (var:T3 0) (var:Q1 1) (var:Q2 1)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 0) (var:Qb 1) (var:Qc 0) (var:D1 1) (var:D2 1) (var:D3 0) (var:C 1) (var:Za 1) (var:Zb 1) (var:Zc 0)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 1) (var:C 0) (var:T1 0) (var:NC 1) (var:B 1) (var:T2 1) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 1)).
-((((var:A var:B) :neta var:Q)) holog:isImpliedBy (((var:A var:B) :and var:T1) (var:A :inv var:NA) (var:B :inv var:NB) ((var:NA var:NB) :and var:T2) ((var:T1 var:T2) :or var:Q))) holog:explain ((var:A 1) (var:B 1) (var:T1 1) (var:NA 0) (var:NB 0) (var:T2 0) (var:Q 1)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 1) (var:Qb 1) (var:Qc 0) (var:D1 1) (var:D2 1) (var:D3 1) (var:C 1) (var:Za 1) (var:Zb 1) (var:Zc 1)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 1) (var:C 1) (var:T1 1) (var:NC 0) (var:B 1) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 0)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 1) (var:Qb 1) (var:Qc 1) (var:D1 1) (var:D2 0) (var:D3 1) (var:C 1) (var:Za 1) (var:Zb 0) (var:Zc 1)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 1) (var:C 1) (var:T1 1) (var:NC 0) (var:B 0) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 0)).
-((((var:A var:B) :neta var:Q)) holog:isImpliedBy (((var:A var:B) :and var:T1) (var:A :inv var:NA) (var:B :inv var:NB) ((var:NA var:NB) :and var:T2) ((var:T1 var:T2) :or var:Q))) holog:explain ((var:A 1) (var:B 0) (var:T1 0) (var:NA 0) (var:NB 1) (var:T2 0) (var:Q 0)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 1) (var:Qb 0) (var:Qc 1) (var:D1 1) (var:D2 0) (var:D3 0) (var:C 1) (var:Za 1) (var:Zb 0) (var:Zc 0)).
-((((var:A var:B var:C) :netb (var:Q1 var:Q2))) holog:isImpliedBy (((var:A var:C) :and var:T1) (var:C :inv var:NC) ((var:B var:NC) :and var:T2) (var:A :inv var:NA) ((var:NA var:C) :and var:T3) ((var:T1 var:T2) :or var:Q1) ((var:T2 var:T3) :or var:Q2))) holog:explain ((var:A 1) (var:C 0) (var:T1 0) (var:NC 1) (var:B 0) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 0) (var:Q2 0)).
-((((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))) holog:isImpliedBy (((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2)) ((var:Qa var:Qb) :neta var:D3) ((var:D1 var:C var:Qa) :dff var:Za) ((var:D2 var:C var:Qb) :dff var:Zb) ((var:D3 var:C var:Qc) :dff var:Zc))) holog:explain ((var:Qa 1) (var:Qb 0) (var:Qc 0) (var:D1 0) (var:D2 0) (var:D3 0) (var:C 1) (var:Za 0) (var:Zb 0) (var:Zc 0)).
-((((() var:S) :testgcc ())) holog:isImpliedBy ()) holog:explain ((var:S (0 0 1))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1)) (var:C 1) (var:Cs ()) (var:Nc ((0 0 1))) (var:N (0 0 1)) (var:Ns ()) (var:S (0 0 0))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1)) (var:C 1) (var:Cs (1)) (var:Nc ((0 0 0) (0 0 1))) (var:N (0 0 0)) (var:Ns ((0 0 1))) (var:S (1 0 0))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1)) (var:C 1) (var:Cs (1 1)) (var:Nc ((1 0 0) (0 0 0) (0 0 1))) (var:N (1 0 0)) (var:Ns ((0 0 0) (0 0 1))) (var:S (1 0 1))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1)) (var:C 1) (var:Cs (1 1 1)) (var:Nc ((1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 0 1)) (var:Ns ((1 0 0) (0 0 0) (0 0 1))) (var:S (1 1 1))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1)) (var:Nc ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 1 1)) (var:Ns ((1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (1 1 0))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1)) (var:Nc ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 1 0)) (var:Ns ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 1 0))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1)) (var:Nc ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 1 0)) (var:Ns ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 1 1))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1 1)) (var:Nc ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 1 1)) (var:Ns ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 0 1))).
-((((var:Cc var:S) :testgcc var:Nc)) holog:isImpliedBy ((var:Cc list:firstRest (var:C var:Cs)) (var:Nc list:firstRest (var:N var:Ns)) ((var:C var:S) :gcc var:N) ((var:Cs var:N) :testgcc var:Ns))) holog:explain ((var:Cc (1 1 1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1 1 1)) (var:Nc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 0 1)) (var:Ns ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 0 0))).
-(((((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)) holog:query ((((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q))) holog:explain ((var:Q ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 0) (var:C 0) (var:T1 0) (var:NC 1) (var:B 0) (var:T2 0) (var:NA 1) (var:T3 0) (var:Q1 0) (var:Q2 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B) :neta var:Q)
+    ) log:component (log:conjoin
+        ((var:A var:B) :and var:T1)
+        (var:A :inv var:NA)
+        (var:B :inv var:NB)
+        ((var:NA var:NB) :and var:T2)
+        ((var:T1 var:T2) :or var:Q)
+    ))
+) log:explain ((var:A 0) (var:B 0) (var:T1 0) (var:NA 1) (var:NB 1) (var:T2 1) (var:Q 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:D 1 var:Q) :dff var:D)
+    ) log:component true)
+) log:explain ((var:D 0) (var:Q 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:D 1 var:Q) :dff var:D)
+    ) log:component true)
+) log:explain ((var:D 1) (var:Q 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 0) (var:Qb 0) (var:Qc 0) (var:D1 0) (var:D2 0) (var:D3 1) (var:C 1) (var:Za 0) (var:Zb 0) (var:Zc 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 0) (var:C 1) (var:T1 0) (var:NC 0) (var:B 0) (var:T2 0) (var:NA 1) (var:T3 1) (var:Q1 0) (var:Q2 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:D 1 var:Q) :dff var:D)
+    ) log:component true)
+) log:explain ((var:D 1) (var:Q 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 0) (var:Qb 0) (var:Qc 1) (var:D1 0) (var:D2 1) (var:D3 1) (var:C 1) (var:Za 0) (var:Zb 1) (var:Zc 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 0) (var:C 1) (var:T1 0) (var:NC 0) (var:B 1) (var:T2 0) (var:NA 1) (var:T3 1) (var:Q1 0) (var:Q2 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B) :neta var:Q)
+    ) log:component (log:conjoin
+        ((var:A var:B) :and var:T1)
+        (var:A :inv var:NA)
+        (var:B :inv var:NB)
+        ((var:NA var:NB) :and var:T2)
+        ((var:T1 var:T2) :or var:Q)
+    ))
+) log:explain ((var:A 0) (var:B 1) (var:T1 0) (var:NA 1) (var:NB 0) (var:T2 0) (var:Q 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:D 1 var:Q) :dff var:D)
+    ) log:component true)
+) log:explain ((var:D 0) (var:Q 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 0) (var:Qb 1) (var:Qc 1) (var:D1 0) (var:D2 1) (var:D3 0) (var:C 1) (var:Za 0) (var:Zb 1) (var:Zc 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 0) (var:C 0) (var:T1 0) (var:NC 1) (var:B 1) (var:T2 1) (var:NA 1) (var:T3 0) (var:Q1 1) (var:Q2 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 0) (var:Qb 1) (var:Qc 0) (var:D1 1) (var:D2 1) (var:D3 0) (var:C 1) (var:Za 1) (var:Zb 1) (var:Zc 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 1) (var:C 0) (var:T1 0) (var:NC 1) (var:B 1) (var:T2 1) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B) :neta var:Q)
+    ) log:component (log:conjoin
+        ((var:A var:B) :and var:T1)
+        (var:A :inv var:NA)
+        (var:B :inv var:NB)
+        ((var:NA var:NB) :and var:T2)
+        ((var:T1 var:T2) :or var:Q)
+    ))
+) log:explain ((var:A 1) (var:B 1) (var:T1 1) (var:NA 0) (var:NB 0) (var:T2 0) (var:Q 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 1) (var:Qb 1) (var:Qc 0) (var:D1 1) (var:D2 1) (var:D3 1) (var:C 1) (var:Za 1) (var:Zb 1) (var:Zc 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 1) (var:C 1) (var:T1 1) (var:NC 0) (var:B 1) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 1) (var:Qb 1) (var:Qc 1) (var:D1 1) (var:D2 0) (var:D3 1) (var:C 1) (var:Za 1) (var:Zb 0) (var:Zc 1)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 1) (var:C 1) (var:T1 1) (var:NC 0) (var:B 0) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 1) (var:Q2 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B) :neta var:Q)
+    ) log:component (log:conjoin
+        ((var:A var:B) :and var:T1)
+        (var:A :inv var:NA)
+        (var:B :inv var:NB)
+        ((var:NA var:NB) :and var:T2)
+        ((var:T1 var:T2) :or var:Q)
+    ))
+) log:explain ((var:A 1) (var:B 0) (var:T1 0) (var:NA 0) (var:NB 1) (var:T2 0) (var:Q 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 1) (var:Qb 0) (var:Qc 1) (var:D1 1) (var:D2 0) (var:D3 0) (var:C 1) (var:Za 1) (var:Zb 0) (var:Zc 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:A var:B var:C) :netb (var:Q1 var:Q2))
+    ) log:component (log:conjoin
+        ((var:A var:C) :and var:T1)
+        (var:C :inv var:NC)
+        ((var:B var:NC) :and var:T2)
+        (var:A :inv var:NA)
+        ((var:NA var:C) :and var:T3)
+        ((var:T1 var:T2) :or var:Q1)
+        ((var:T2 var:T3) :or var:Q2)
+    ))
+) log:explain ((var:A 1) (var:C 0) (var:T1 0) (var:NC 1) (var:B 0) (var:T2 0) (var:NA 0) (var:T3 0) (var:Q1 0) (var:Q2 0)).
+(log:conjoin
+    ((log:conjoin
+        ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))
+    ) log:component (log:conjoin
+        ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))
+        ((var:Qa var:Qb) :neta var:D3)
+        ((var:D1 var:C var:Qa) :dff var:Za)
+        ((var:D2 var:C var:Qb) :dff var:Zb)
+        ((var:D3 var:C var:Qc) :dff var:Zc)
+    ))
+) log:explain ((var:Qa 1) (var:Qb 0) (var:Qc 0) (var:D1 0) (var:D2 0) (var:D3 0) (var:C 1) (var:Za 0) (var:Zb 0) (var:Zc 0)).
+(log:conjoin
+    ((log:conjoin
+        ((() var:S) :testgcc ())
+    ) log:component true)
+) log:explain ((var:S (0 0 1))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1)) (var:C 1) (var:Cs ()) (var:Nc ((0 0 1))) (var:N (0 0 1)) (var:Ns ()) (var:S (0 0 0))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1)) (var:C 1) (var:Cs (1)) (var:Nc ((0 0 0) (0 0 1))) (var:N (0 0 0)) (var:Ns ((0 0 1))) (var:S (1 0 0))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1)) (var:C 1) (var:Cs (1 1)) (var:Nc ((1 0 0) (0 0 0) (0 0 1))) (var:N (1 0 0)) (var:Ns ((0 0 0) (0 0 1))) (var:S (1 0 1))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1)) (var:C 1) (var:Cs (1 1 1)) (var:Nc ((1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 0 1)) (var:Ns ((1 0 0) (0 0 0) (0 0 1))) (var:S (1 1 1))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1)) (var:Nc ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 1 1)) (var:Ns ((1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (1 1 0))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1)) (var:Nc ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (1 1 0)) (var:Ns ((1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 1 0))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1)) (var:Nc ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 1 0)) (var:Ns ((1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 1 1))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1 1)) (var:Nc ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 1 1)) (var:Ns ((0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 0 1))).
+(log:conjoin
+    ((log:conjoin
+        ((var:Cc var:S) :testgcc var:Nc)
+    ) log:component (log:conjoin
+        (var:Cc list:firstRest (var:C var:Cs))
+        (var:Nc list:firstRest (var:N var:Ns))
+        ((var:C var:S) :gcc var:N)
+        ((var:Cs var:N) :testgcc var:Ns)
+    ))
+) log:explain ((var:Cc (1 1 1 1 1 1 1 1 1)) (var:C 1) (var:Cs (1 1 1 1 1 1 1 1)) (var:Nc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:N (0 0 1)) (var:Ns ((0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))) (var:S (0 0 0))).
+(log:conjoin
+    ((log:conjoin
+        (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)
+    ) log:query (log:conjoin
+        (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)
+    ))
+) log:explain ((var:Q ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)))).
