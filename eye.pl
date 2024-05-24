@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.7.17 (2024-05-23)').
+version_info('EYE v10.8.0 (2024-05-24)').
 
 license_info('MIT License
 
@@ -191,6 +191,9 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/holog#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/holog#isImpliedBy>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/holog#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
@@ -427,6 +430,93 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+
+    % holog
+    (   (   '<http://www.w3.org/2000/10/swap/holog#implies>'(_, _)
+        ;   '<http://www.w3.org/2000/10/swap/holog#isImpliedBy>'(_, _)
+        ;   '<http://www.w3.org/2000/10/swap/holog#query>'(_, _)
+        )
+    ->  retractall(flag(holog)),
+        assertz(flag(holog)),
+
+        % configure
+        (   \+flag(nope)
+        ->  assertz(flag(nope))
+        ;   true
+        ),
+
+        % create forward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/holog#implies>'(Ah, Bh),
+                lott_conj(Ah, A),
+                lott_conj(Bh, B),
+                ground([A, B]),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                (   B = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ->  makevars([A, U], [Q, X], beta(U)),
+                    I = B
+                ;   makevars([A, B, U], [Q, I, X], beta(U))
+                ),
+                (   B \= false,
+                    conj_list(B, L),
+                    \+last(L, remember(_))
+                ->  zip_list(U, X, W),
+                    conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/holog#explain>', [Ah, '<http://www.w3.org/2000/10/swap/holog#implies>', Bh], W)), F)
+                ;   F = I
+                ),
+                C = implies(Q, F, '<void>'),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<void>')),
+
+        % create backward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/holog#isImpliedBy>'(Bh, Ah),
+                lott_conj(Ah, A),
+                lott_conj(Bh, B),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, B, U], [Q, I, X], beta(U)),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/holog#explain>', [Bh, '<http://www.w3.org/2000/10/swap/holog#isImpliedBy>', Ah], W)), F),
+                C = ':-'(I, F),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<void>')),
+
+        % create queries
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/holog#query>'(Ah, Bh),
+                lott_conj(Ah, A),
+                lott_conj(Bh, B),
+                djiti_answer(answer(B), J),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, J, U], [Q, I, X], beta(U)),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/holog#explain>', [Ah, '<http://www.w3.org/2000/10/swap/holog#query>', Bh], W)), F),
+                C = implies(F, I, '<void>'),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<void>'))
+    ;   true
+    ),
 
     % rdfbng
     (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj),
@@ -909,6 +999,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
+        \+flag(holog),
         \+flag(rdfbng),
         \+flag(rdfsurfaces)
     ->  throw(halt(0))
@@ -1043,6 +1134,14 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
+
+lott_conj([], true).
+lott_conj([[S, P, O]], X) :-
+    !,
+    X =.. [P, S, O].
+lott_conj([[S, P, O]|R], (X, Y)) :-
+    X =.. [P, S, O],
+    lott_conj(R, Y).
 
 %
 % command line options
@@ -3942,7 +4041,8 @@ w3 :-
         fail
     ;   true
     ),
-    (   \+flag(rdfbng),
+    (   \+flag(holog),
+        \+flag(rdfbng),
         answer(B1, B2, B3),
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
@@ -3960,9 +4060,12 @@ w3 :-
         fail
     ;   true
     ),
-    (   flag(rdfbng),
+    (   (   flag(holog)
+        ;   flag(rdfbng)
+        ),
         writeln('# answer'),
         answer(B1, B2, B3),
+        B1 \= '<http://www.w3.org/2000/10/swap/holog#explain>',
         B1 \= '<http://www.w3.org/2000/10/swap/log#explain>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
@@ -3977,11 +4080,15 @@ w3 :-
         nl,
         cnt(output_statements),
         fail
-    ;   flag(rdfbng),
+    ;   (   flag(holog)
+        ;   flag(rdfbng)
+        ),
         nl,
         writeln('# explanation'),
         answer(B1, B2, B3),
-        B1 = '<http://www.w3.org/2000/10/swap/log#explain>',
+        (   B1 = '<http://www.w3.org/2000/10/swap/holog#explain>'
+        ;   B1 = '<http://www.w3.org/2000/10/swap/log#explain>'
+        ),
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3999,6 +4106,7 @@ w3 :-
     ;   true
     ).
 w3 :-
+    retractall(flag(holog)),
     retractall(flag(rdfbng)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
@@ -4353,6 +4461,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground'),
+        \+flag(holog),
         \+flag(rdfbng)
     ->  write('?U_'),
         write(Y)
@@ -4646,6 +4755,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
+    \+flag(holog),
     \+flag(rdfbng),
     (   flag(nope)
     ->  U = X
@@ -4944,6 +5054,7 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
+    \+flag(holog),
     \+flag(rdfbng),
     !,
     write('=>').
@@ -4975,7 +5086,9 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag(rdfbng),
+    (   (   flag(holog)
+        ;   flag(rdfbng)
+        ),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
@@ -5293,7 +5406,8 @@ eam(Recursion) :-
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   retractall(flag(rdfbng)),
+            ;   retractall(flag(holog)),
+                retractall(flag(rdfbng)),
                 with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
