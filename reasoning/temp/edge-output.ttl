@@ -1,4 +1,5 @@
 @prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 
 :s :p <<( :a :b :c )>>.
 :s :p << :d :e :f >>.
@@ -8,9 +9,12 @@
 << :y | :s :p :o >> :j :k.
 << :y | :s :p :o >> :l :m.
 << :y | :s :p :o >> :l :n.
-<< :r | :u :v :w >> :y :z.
-<< :u :v :w >> :y :z.
-<< :u :v :w >> :y :z.
+:r rdf:reifies <<( :u :v :w )>>.
+_:e_s_1 rdf:reifies <<( :u :v :w )>>.
+_:e_t_1 rdf:reifies <<( :u :v :w )>>.
+:r :y :z.
+_:e_s_1 :y :z.
+_:e_t_1 :y :z.
 :liz :marriedTo :richard.
 << :m1 | :liz :marriedTo :richard >> :from 1964 .
 << :m2 | :liz :marriedTo :richard >> :from 1980 .
@@ -18,6 +22,3 @@
 << :m2 | :liz :marriedTo :richard >> :to 2001 .
 << :r | :a :b _:e_x_1 >> :c :d.
 << :r | :a :b _:e_y_1 >> :c :d.
-# answer
-
-# explanation
