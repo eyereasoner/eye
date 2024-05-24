@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.8.0 (2024-05-24)').
+version_info('EYE v10.8.1 (2024-05-24)').
 
 license_info('MIT License
 
@@ -444,6 +444,49 @@ gre(Argus) :-
         ->  assertz(flag(nope))
         ;   true
         ),
+
+        % create types
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
+            ground([X, Y]),
+            getterm(X, Z),
+            (   Z = X
+            ->  true
+            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
+                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
+            ),
+            fail
+        ;   true
+        ),
+
+        % create terms
+        (   pred(P),
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            X =.. [P, _, _],
+            call(X),
+            ground(X),
+            getterm(X, Y),
+            (   Y = X
+            ->  true
+            ;   retract(X),
+                assertz(Y)
+            ),
+            fail
+        ;   true
+        ),
+
+        % remove rdf lists
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)),
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)),
+
+        % remove rdf values
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(_, _)),
+
+        % remove rdf reifiers
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _)),
 
         % create forward rules
         assertz(implies((
