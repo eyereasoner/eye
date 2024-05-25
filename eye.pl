@@ -193,7 +193,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
@@ -12382,104 +12381,6 @@ getlist(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(D))
     ).
-
-getterm(A, A) :-
-    var(A),
-    !.
-getterm(A, B) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(A, B),
-    !.
-getterm([], []) :-
-    !.
-getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
-    !.
-getterm(['<http://www.w3.org/2000/10/swap/log#conjoin>'], true) :-
-    !.
-getterm(['<http://www.w3.org/2000/10/swap/log#conjoin>', A], B) :-
-    getterm(A, C),
-    !,
-    lott_conj([C], B).
-getterm(['<http://www.w3.org/2000/10/swap/log#conjoin>', A|B], (C, D)) :-
-    getterm(A, E),
-    !,
-    lott_conj([E], C),
-    getterm(B, F),
-    lott_conj(F, D).
-getterm([A|B], [C|D]) :-
-    getterm(A, C),
-    !,
-    getterm(B, D).
-getterm(A, [B|C]) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, E),
-        E \= D
-    ->  throw(malformed_list_extra_first(A, D, E))
-    ;   true
-    ),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, F),
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, G),
-            G \= F
-        ->  throw(malformed_list_extra_rest(A, F, G))
-        ;   true
-        )
-    ->  true
-    ;   throw(malformed_list_no_rest(A))
-    ),
-    !,
-    getterm(D, B),
-    (   getterm(F, C),
-        is_list(C)
-    ->  true
-    ;   throw(malformed_list_invalid_rest(F))
-    ).
-getterm(graph(A, B), graph(A, C)) :-
-    graph(A, B),
-    !,
-    getterm(B, D),
-    conjify(D, C).
-getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
-    getconj(A, D),
-    D \= A,
-    !,
-    getterm(D, E),
-    conjify(E, C).
-getterm(edge(A, B), edge(A, B)) :-
-    (   edge(A, C),
-        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
-    ->  throw(malformed_edge_extra_reifies(A, B, C))
-    ;   assertz(edge(A, B))
-    ),
-    !.
-getterm(A, edge(A, B)) :-
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, B),
-    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, C),
-        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
-    ->  throw(malformed_edge_extra_reifies(A, B, C))
-    ;   true
-    ),
-    !.
-getterm(A, B) :-
-    graph(A, _),
-    !,
-    getconj(A, C),
-    getterm(C, D),
-    conjify(D, B).
-getterm(A, B) :-
-    A =.. [C|D],
-    getterm(D, E),
-    B =.. [C|E].
-
-getconj(A, B) :-
-    nonvar(A),
-    findall(C,
-        (   graph(A, C)
-        ),
-        D
-    ),
-    D \= [],
-    !,
-    conjoin(D, B).
-getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
