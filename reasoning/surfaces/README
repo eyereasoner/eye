@@ -10,16 +10,16 @@ The top level surface is an implicit positive surface with implicit graffiti.
 log:not is a negative surface to express:
 
 - negation:
-    graffiti log:not (log:and 3-terms).
+    (graffiti) log:not (log:and spo-terms).
 
 - disjunction:
-    graffiti log:not (log:and log:not 3-terms).
+    (graffiti) log:not (log:and spo-terms only containing (graffiti) log:not (log:and spo-terms)).
 
 - implication:
-    graffiti log:not (log:and 3-terms containing a graffiti log:not (log:and 3-term)).
+    (graffiti) log:not (log:and spo-terms containing a (graffiti) log:not (log:and spo-terms)).
 
 - component:
-    graffiti log:not (log:and 3-terms containing a graffiti log:not (log:component 3-term)).
+    (graffiti) log:not (log:and spo-terms containing a (graffiti) log:not (log:component spo-term)).
 
 - query:
-    graffiti log:not (log:and 3-terms containing a graffiti log:not (log:answer 3-terms)).
+    (graffiti) log:not (log:and spo-terms containing a (graffiti) log:not (log:answer spo-terms)).

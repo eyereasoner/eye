@@ -1,0 +1,47 @@
+# --------------
+# Beetle example
+# --------------
+#
+# See https://en.wikipedia.org/wiki/Disjunction_elimination
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+(_:A) log:not (log:and
+    _:A rdf:type :Car
+    () log:not (log:and
+        _:A :is :green
+    )
+    () log:not (log:and
+        _:A :is :blue
+    )
+).
+
+# green things are beautiful
+(_:A) log:not (log:and
+    _:A :is :green
+    () log:not (log:and
+        _:A :is :beautiful
+    )
+).
+
+# blue things are beautiful
+(_:A) log:not (log:and
+    _:A :is :blue
+    () log:not (log:and
+        _:A :is :beautiful
+    )
+).
+
+# query
+(_:S) log:not (log:and
+    _:S :is :beautiful
+    () log:not (log:answer
+        _:S :is :beautiful
+    )
+).
