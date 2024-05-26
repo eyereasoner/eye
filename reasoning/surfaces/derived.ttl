@@ -1,0 +1,33 @@
+# ------------
+# Derived rule
+# ------------
+#
+# Proving a derived rule.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:Alice a :Cat.
+:Minka a :Cat.
+:Charly a :Dog.
+
+(_:cat) log:not (log:and
+    _:cat rdf:type :Cat
+    () log:not (log:and
+        (_:dog) log:not (log:and
+            _:dog rdf:type :Dog
+            () log:not (log:and
+                :test :is true
+            )
+        )
+    )
+).
+
+# query
+() log:not (log:and
+    :test :is true
+    () log:not (log:answer
+        :test :is true
+    )
+).
