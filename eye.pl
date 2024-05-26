@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.9.0 (2024-05-26)').
+version_info('EYE v10.9.1 (2024-05-26)').
 
 license_info('MIT License
 
@@ -12504,7 +12504,7 @@ getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C], ans(D)) :-
     getterm([A, B, C], E),
     !,
     lott_conj(E, D).
-getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C|D], ans(E, F)) :-
+getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C|D], ans((E, F))) :-
     getterm([A, B, C], G),
     !,
     lott_conj(G, E),
