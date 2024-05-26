@@ -1,0 +1,45 @@
+# ----------------------
+# Traversing Graph Paths
+# ----------------------
+#
+# See https://en.wikipedia.org/wiki/Graph_traversal
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# oneway subproperty of path
+(_:A _:B) log:not (log:and
+    _:A :oneway _:B
+    () log:not (log:and
+        _:A :path _:B
+    )
+).
+
+# path transitive property
+(_:A _:B _:C) log:not (log:and
+    _:A :path _:B
+    _:B :path _:C
+    () log:not (log:and
+        _:A :path _:C
+    )
+).
+
+# query
+(_:A) log:not (log:and
+    _:A :path :nantes
+    () log:not (log:answer
+        _:A :path :nantes
+    )
+).
