@@ -1,0 +1,56 @@
+# -----------------
+# Fibonacci numbers
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Fibonacci_number
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+(_:X _:Y) log:not (log:and
+    () log:not (log:component
+        _:X :fibonacci _:Y
+    )
+    (_:X 0 1) :fib _:Y
+).
+
+(_:A _:B) log:not (log:and
+    () log:not (log:component
+        (0 _:A _:B) :fib _:A
+    )
+).
+
+(_:A _:B) log:not (log:and
+    () log:not (log:component
+        (1 _:A _:B) :fib _:B
+    )
+).
+
+(_:A _:B _:C _:D _:X _:Y) log:not (log:and
+    () log:not (log:component
+        (_:X _:A _:B) :fib _:Y
+    )
+    _:X math:greaterThan 1
+    (_:X 1) math:difference _:C
+    (_:A _:B) math:sum _:D
+    (_:C _:B _:D) :fib _:Y
+).
+
+# query
+(_:F1 _:F2 _:F3 _:F91 _:F283 _:F3674) log:not (log:and
+    1 :fibonacci _:F1
+    2 :fibonacci _:F2
+    3 :fibonacci _:F3
+    91 :fibonacci _:F91
+    283 :fibonacci _:F283
+    3674 :fibonacci _:F3674
+    () log:not (log:answer
+        1 :fibonacci _:F1
+        2 :fibonacci _:F2
+        3 :fibonacci _:F3
+        91 :fibonacci _:F91
+        283 :fibonacci _:F283
+        3674 :fibonacci _:F3674
+    )
+).
