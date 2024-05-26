@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.9.1 (2024-05-26)').
+version_info('EYE v10.9.2 (2024-05-26)').
 
 license_info('MIT License
 
@@ -12514,11 +12514,15 @@ getterm(['<http://www.w3.org/2000/10/swap/log#component>', A, B, C], comp(D)) :-
     getterm([A, B, C], E),
     !,
     lott_conj(E, D).
-getterm([A|B], [C|D]) :-
+getterm([A|B], Z) :-
     getterm(A, C),
     !,
-    getterm(B, D).
-getterm(A, [B|C]) :-
+    getterm(B, D),
+    (   member(C, ['<http://www.w3.org/2000/10/swap/log#and>', '<http://www.w3.org/2000/10/swap/log#answer>', '<http://www.w3.org/2000/10/swap/log#component>'])
+    ->  getterm([C|D], Z)
+    ;   Z = [C|D]
+    ).
+getterm(A, Z) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
     (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, E),
         E \= D
@@ -12540,6 +12544,10 @@ getterm(A, [B|C]) :-
         is_list(C)
     ->  true
     ;   throw(malformed_list_invalid_rest(F))
+    ),
+    (   member(B, ['<http://www.w3.org/2000/10/swap/log#and>', '<http://www.w3.org/2000/10/swap/log#answer>', '<http://www.w3.org/2000/10/swap/log#component>'])
+    ->  getterm([B|C], Z)
+    ;   Z = [B|C]
     ).
 getterm(graph(A, B), graph(A, C)) :-
     graph(A, B),
