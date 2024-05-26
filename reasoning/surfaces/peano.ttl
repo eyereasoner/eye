@@ -1,0 +1,71 @@
+# ----------------
+# Peano arithmetic
+# ----------------
+#
+# See https://en.wikipedia.org/wiki/Peano_axioms
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# add
+(_:A) log:not (log:and
+    () log:not (log:component
+        (_:A 0) :add _:A
+    )
+).
+
+(_:A _:B _:C) log:not (log:and
+    () log:not (log:component
+        (_:A (:s _:B)) :add (:s _:C)
+    )
+    (_:A _:B) :add _:C
+).
+
+# multiply
+(_:A) log:not (log:and
+    () log:not (log:component
+        (_:A 0) :multiply 0
+    )
+).
+
+(_:A _:B _:C _:D) log:not (log:and
+    () log:not (log:component
+        (_:A (:s _:B)) :multiply _:C
+    )
+    (_:A _:B) :multiply _:D
+    (_:A _:D) :add _:C
+).
+
+# factorial
+(_:A _:B) log:not (log:and
+    () log:not (log:component
+        _:A :factorial _:B
+    )
+    (_:A (:s 0)) :fac _:B
+).
+
+(_:A) log:not (log:and
+    () log:not (log:component
+        (0 _:A) :fac _:A
+    )
+).
+
+(_:A _:B _:C _:D) log:not (log:and
+    () log:not (log:component
+        ((:s _:A) _:B) :fac _:C
+    )
+    (_:B (:s _:A)) :multiply _:D
+    (_:A _:D) :fac _:C
+).
+
+# question
+(_:A _:B _:C) log:not (log:and
+    ((:s 0) (:s (:s 0))) :add _:A
+    (_:A (:s (:s 0))) :multiply _:B
+    _:B :factorial _:C
+    () log:not (log:answer
+        ((:s 0) (:s (:s 0))) :add _:A
+        (_:A (:s (:s 0))) :multiply _:B
+        _:B :factorial _:C
+    )
+).
