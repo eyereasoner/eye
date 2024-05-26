@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.8.3 (2024-05-25)').
+version_info('EYE v10.9.0 (2024-05-26)').
 
 license_info('MIT License
 
@@ -193,8 +193,10 @@ eye
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#not>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
@@ -427,6 +429,64 @@ gre(Argus) :-
     ;   true
     ),
     args(Args),
+
+    % rdfsurfacesrdf
+    (   '<http://www.w3.org/2000/10/swap/log#not>'(_, _)
+    ->  retractall(flag(rdfsurfacesrdf)),
+        assertz(flag(rdfsurfacesrdf)),
+
+        % configure
+        (   \+flag(nope)
+        ->  assertz(flag(nope))
+        ;   true
+        ),
+
+        % create types
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
+            ground([X, Y]),
+            getterm(X, Z),
+            (   Z = X
+            ->  true
+            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
+                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
+            ),
+            fail
+        ;   true
+        ),
+
+        % create terms
+        (   pred(P),
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            X =.. [P, _, _],
+            call(X),
+            ground(X),
+            getterm(X, Y),
+            (   Y = X
+            ->  true
+            ;   retract(X),
+                assertz(Y),
+                dynify(Y)
+            ),
+            fail
+        ;   true
+        ),
+
+        % remove rdf lists
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)),
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)),
+
+        % remove rdf values
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(_, _)),
+
+        % remove rdf reifiers
+        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _))
+
+    ;   true
+    ),
 
     % rdfsurfaces
     (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
@@ -734,6 +794,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
+        \+flag(rdfsurfacesrdf),
         \+flag(rdfsurfaces)
     ->  throw(halt(0))
     ;   true
@@ -869,12 +930,22 @@ gre(Argus) :-
     ).
 
 lott_conj([], true).
-lott_conj([[S, P, O]], X) :-
+lott_conj([S, P, O], X) :-
     !,
-    X =.. [P, S, O].
-lott_conj([[S, P, O]|R], (X, Y)) :-
-    X =.. [P, S, O],
+    lott_conv(P, O, Pc, Oc),
+    X =.. [Pc, S, Oc].
+lott_conj([S, P, O|R], (X, Y)) :-
+    lott_conv(P, O, Pc, Oc),
+    X =.. [Pc, S, Oc],
     lott_conj(R, Y).
+
+lott_conv('<http://www.w3.org/2000/10/swap/log#not>', ans(A), '<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>', A) :-
+    !.
+lott_conv('<http://www.w3.org/2000/10/swap/log#not>', comp(A), '<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>', A) :-
+    !.
+lott_conv('<http://www.w3.org/2000/10/swap/log#not>', A, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', A) :-
+    !.
+lott_conv(P, O, P, O).
 
 %
 % command line options
@@ -1913,7 +1984,7 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
-    Y \= ['\'<http://www.w3.org/2000/10/swap/log#conjoin>\''|_],
+    Y \= ['\'<http://www.w3.org/2000/10/swap/log#answer>\''|_],
     \+ (atomic(X), atomic(Y)),
     !,
     djiti_answer(answer(Y), A),
@@ -3793,6 +3864,7 @@ w3 :-
     ;   true
     ).
 w3 :-
+    retractall(flag(rdfsurfacesrdf)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -4092,7 +4164,8 @@ wt(X) :-
 
 wt0(!) :-
     !,
-    write('true '),
+    wm(true),
+    write(' '),
     wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
 wt0(:-) :-
@@ -4144,7 +4217,8 @@ wt0(X) :-
     atom_concat(allv, Y, X),
     !,
     (   \+flag('no-qvars'),
-        \+flag('pass-all-ground')
+        \+flag('pass-all-ground'),
+        \+flag(rdfsurfacesrdf)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
@@ -4300,7 +4374,10 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        write('.'),
+        (   flag(rdfsurfacesrdf)
+        ->  true
+        ;   write('.')
+        ),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4437,6 +4514,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
+    \+flag(rdfsurfacesrdf),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4613,11 +4691,23 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   wg(S),
+    ;   (   flag(rdfsurfacesrdf),
+            nb_getval(indentation, I),
+            I > 0
+        ->  write('('),
+            wg(S)
+        ;   wm(S)
+        ),
         write(' '),
         wp(P),
         write(' '),
-        wg(O)
+        (   flag(rdfsurfacesrdf),
+            nb_getval(indentation, I),
+            I > 0
+        ->  wg(O),
+            write(')')
+        ;   wg(O)
+        )
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4625,7 +4715,7 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   wg(S),
+    ;   wm(S),
         write(' '),
         wg(P),
         write(' '),
@@ -4680,64 +4770,58 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(rdfbng),
-            nb_getval(keep_ng, true)
-        ->  (   graph(N, X)
+    ->  (   flag(rdfsurfacesrdf)
+        ->  write('('),
+            wp('<http://www.w3.org/2000/10/swap/log#and>')
+        ;   write('{')
+        ),
+        indentation(4),
+        (   flag(strings)
+        ->  true
+        ;   (   flag('no-beautified-output')
             ->  true
-            ;   gensym('bng_', Y),
-                nb_getval(var_ns, Sns),
-                atomic_list_concat(['<', Sns, Y, '>'], N),
-                assertz(graph(N, X))
-            ),
-            (   \+keep_ng(graph(N, X))
-            ->  assertz(keep_ng(graph(N, X)))
-            ;   true
-            ),
-            wt(N)
-        ;   (   flag(rdfbng)
-            ->  nb_setval(keep_ng, true)
-            ;   true
-            ),
-            write('{'),
-            indentation(4),
-            (   flag(strings)
+            ;   nl,
+                indent
+            )
+        ),
+        nb_getval(fdepth, D),
+        E is D+1,
+        nb_setval(fdepth, E),
+        wt(X),
+        nb_setval(fdepth, D),
+        indentation(-4),
+        (   flag(strings)
+        ->  true
+        ;   (   flag('no-beautified-output')
             ->  true
-            ;   (   flag('no-beautified-output')
+            ;   (   flag(rdfsurfacesrdf)
                 ->  true
-                ;   nl,
-                    indent
-                )
-            ),
-            nb_getval(fdepth, D),
-            E is D+1,
-            nb_setval(fdepth, E),
-            wt(X),
-            nb_setval(fdepth, D),
-            indentation(-4),
-            (   flag(strings)
-            ->  true
-            ;   (   flag('no-beautified-output')
-                ->  true
-                ;   write('.'),
-                    nl,
-                    indent
-                )
-            ),
-            write('}')
+                ;   write('.')
+                ),
+                nl,
+                indent
+            )
+        ),
+        (   flag(rdfsurfacesrdf)
+        ->  write(')')
+        ;   write('}')
         )
     ;   wt(X)
     ).
 
 wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     \+flag('no-qnames'),
+    \+ (flag(rdfsurfacesrdf), nb_getval(indentation, I), I > 0),
     !,
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
+    \+flag(rdfsurfacesrdf),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
+    \+flag(rdfsurfacesrdf),
     !,
     write('<=').
 wp(X) :-
@@ -4762,6 +4846,17 @@ wl([X|Y]) :-
     write(' '),
     wg(X),
     wl(Y).
+
+wm(A) :-
+    (   flag(rdfsurfacesrdf),
+        raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
+    ->  write('[] '),
+        wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
+        write(' '),
+        wt(A),
+        write(';')
+    ;   wg(A)
+    ).
 
 wq([], _) :-
     !.
@@ -5071,7 +5166,8 @@ eam(Recursion) :-
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   retractall(flag(rdfsurfacesrdf)),
+                with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
@@ -12381,6 +12477,122 @@ getlist(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(D))
     ).
+
+getterm(A, A) :-
+    var(A),
+    !.
+getterm(A, B) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(A, B),
+    !.
+getterm([], []) :-
+    !.
+getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
+    !.
+getterm(['<http://www.w3.org/2000/10/swap/log#and>'], true) :-
+    !.
+getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C], D) :-
+    getterm([A, B, C], E),
+    !,
+    lott_conj(E, D).
+getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D], (E, F)) :-
+    getterm([A, B, C], G),
+    !,
+    lott_conj(G, E),
+    getterm(D, H),
+    lott_conj(H, F).
+getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C], ans(D)) :-
+    getterm([A, B, C], E),
+    !,
+    lott_conj(E, D).
+getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C|D], ans(E, F)) :-
+    getterm([A, B, C], G),
+    !,
+    lott_conj(G, E),
+    getterm(D, H),
+    lott_conj(H, F).
+getterm(['<http://www.w3.org/2000/10/swap/log#component>', A, B, C], comp(D)) :-
+    getterm([A, B, C], E),
+    !,
+    lott_conj(E, D).
+getterm([A|B], [C|D]) :-
+    getterm(A, C),
+    !,
+    getterm(B, D).
+getterm(A, [B|C]) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, E),
+        E \= D
+    ->  throw(malformed_list_extra_first(A, D, E))
+    ;   true
+    ),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, F),
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, G),
+            G \= F
+        ->  throw(malformed_list_extra_rest(A, F, G))
+        ;   true
+        )
+    ->  true
+    ;   throw(malformed_list_no_rest(A))
+    ),
+    !,
+    getterm(D, B),
+    (   getterm(F, C),
+        is_list(C)
+    ->  true
+    ;   throw(malformed_list_invalid_rest(F))
+    ).
+getterm(graph(A, B), graph(A, C)) :-
+    graph(A, B),
+    !,
+    getterm(B, D),
+    conjify(D, C).
+getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+    getconj(A, D),
+    D \= A,
+    !,
+    getterm(D, E),
+    conjify(E, C).
+getterm(edge(A, B), edge(A, B)) :-
+    (   edge(A, C),
+        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
+    ->  throw(malformed_edge_extra_reifies(A, B, C))
+    ;   assertz(edge(A, B))
+    ),
+    !.
+getterm(A, edge(A, B)) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, B),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(A, C),
+        '<http://www.w3.org/2000/10/swap/log#notIsomorphic>'(C, B)
+    ->  throw(malformed_edge_extra_reifies(A, B, C))
+    ;   true
+    ),
+    !.
+getterm(A, B) :-
+    graph(A, _),
+    !,
+    getconj(A, C),
+    getterm(C, D),
+    conjify(D, B).
+getterm('<http://www.w3.org/2000/10/swap/log#not>'(A, B), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(C, D)) :-
+    !,
+    getterm(A, C),
+    getterm(B, D).
+getterm(A, B) :-
+    A =.. [C|D],
+    getterm(D, E),
+    B =.. [C|E].
+
+getconj(A, B) :-
+    nonvar(A),
+    findall(C,
+        (   graph(A, C)
+        ),
+        D
+    ),
+    D \= [],
+    !,
+    conjoin(D, B).
+getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
