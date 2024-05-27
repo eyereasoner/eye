@@ -1,0 +1,40 @@
+# --------------------
+# Universal statements
+# --------------------
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# \Every x: type(x, Resource)
+(_:x) log:not (log:and
+    () log:not (log:and
+        _:x rdf:type rdfs:Resource
+    )
+).
+
+# Everybody loves somebody who is lonely
+(_:A) log:not (log:and
+    (_:B) log:not (log:and
+        _:A :loves _:B
+        _:B :is :lonely
+    )
+).
+
+# query
+() log:not (log:and
+    :Pat rdf:type rdfs:Resource
+    () log:not (log:answer
+        :Pat rdf:type rdfs:Resource
+    )
+).
+
+(_:x) log:not (log:and
+    :bob :loves _:x
+    _:x :is :lonely
+    () log:not (log:answer
+        :bob :loves _:x
+        _:x :is :lonely
+    )
+).

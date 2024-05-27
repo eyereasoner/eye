@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.9.2 (2024-05-26)').
+version_info('EYE v10.9.3 (2024-05-27)').
 
 license_info('MIT License
 
@@ -4694,8 +4694,7 @@ wt2(X) :-
     ;   (   flag(rdfsurfacesrdf),
             nb_getval(indentation, I),
             I > 0
-        ->  write('('),
-            wg(S)
+        ->  wg(S)
         ;   wm(S)
         ),
         write(' '),
@@ -4704,8 +4703,7 @@ wt2(X) :-
         (   flag(rdfsurfacesrdf),
             nb_getval(indentation, I),
             I > 0
-        ->  wg(O),
-            write(')')
+        ->  wg(O)
         ;   wg(O)
         )
     ).

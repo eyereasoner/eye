@@ -1,0 +1,38 @@
+# ------------
+# pack example
+# ------------
+#
+# See https://github.com/Dexagod/DataPack?tab=readme-ov-file#package-modeling
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix pack: <https://example.org/ns/package#>.
+@prefix sign: <https://example.org/ns/signature#>.
+@prefix pol: <https://example.org/ns/policy#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:pack1 pack:package (log:and
+    _:bn1 pack:content (log:and
+        :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime
+    )
+    _:bn1 pack:origin :Endpoint
+    _:bn1 pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime
+    _:bn1 pack:hasContentSignature _:bn2
+    _:bn2 rdf:type sign:Signature
+    _:bn2 sign:issuer :Alice
+    _:bn2 sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime
+    _:bn2 sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us"
+).
+
+# query
+(_:S _:O _:N _:C) log:not (log:and
+    _:S pack:package _:O
+    _:O log:includes (log:and
+        _:N pack:content _:C
+    )
+    () log:not (log:answer
+        _:N pack:content _:C
+    )
+).
