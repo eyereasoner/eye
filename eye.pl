@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.9.3 (2024-05-27)').
+version_info('EYE v10.10.0 (2024-05-29)').
 
 license_info('MIT License
 
@@ -198,6 +198,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#not>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
@@ -701,7 +702,7 @@ gre(Argus) :-
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
                 append(Vl, D, U),
-                makevars(implies(I, J, '<>'), C, beta(U)),
+                makevars(implies(I, J, '<void>'), C, beta(U)),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -710,6 +711,17 @@ gre(Argus) :-
                     retractall(brake)
                 ;   true
                 )), true, '<void>')),
+
+        % convert query surface
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
+                getlist(V, Vl),
+                is_list(Vl),
+                is_graph(G),
+                conj_list(G, L),
+                append(L, ['<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'([], G)], M),
+                conj_list(H, M)
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
 
         % blow inference fuse
         assertz(implies((
