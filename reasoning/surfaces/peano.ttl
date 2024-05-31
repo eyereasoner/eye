@@ -59,13 +59,8 @@
 ).
 
 # question
-(_:A _:B _:C) log:onNegativeSurface (log:and
+(_:A _:B _:C) log:onQuerySurface (log:and
     ((:s 0) (:s (:s 0))) :add _:A
     (_:A (:s (:s 0))) :multiply _:B
     _:B :factorial _:C
-    () log:onNegativeAnswerSurface (log:and
-        ((:s 0) (:s (:s 0))) :add _:A
-        (_:A (:s (:s 0))) :multiply _:B
-        _:B :factorial _:C
-    )
 ).

@@ -71,9 +71,6 @@
 ).
 
 # query
-(_:WHO _:WHAT) log:onNegativeSurface (log:and
+(_:WHO _:WHAT) log:onQuerySurface (log:and
     _:WHO :isPrescribed _:WHAT
-    () log:onNegativeAnswerSurface (log:and
-        _:WHO :isPrescribed _:WHAT
-    )
 ).

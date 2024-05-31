@@ -23,18 +23,11 @@
 ).
 
 # query
-() log:onNegativeSurface (log:and
+() log:onQuerySurface (log:and
     :Pat rdf:type rdfs:Resource
-    () log:onNegativeAnswerSurface (log:and
-        :Pat rdf:type rdfs:Resource
-    )
 ).
 
-(_:x) log:onNegativeSurface (log:and
+(_:x) log:onQuerySurface (log:and
     :bob :loves _:x
     _:x :is :lonely
-    () log:onNegativeAnswerSurface (log:and
-        :bob :loves _:x
-        _:x :is :lonely
-    )
 ).
