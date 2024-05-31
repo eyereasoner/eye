@@ -9,16 +9,16 @@
 @prefix : <http://example.org/#>.
 
 # interpreter for Univeral Turing Machine
-(_:OutTape _:Machine _:I) log:not (log:and
-    () log:not (log:component
+(_:OutTape _:Machine _:I) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         () :compute _:OutTape
     )
     _:Machine :start _:I
     (_:I () "#" ()) :find _:OutTape
 ).
 
-(_:List _:OutTape _:Head _:Tail _:Machine _:I) log:not (log:and
-    () log:not (log:component
+(_:List _:OutTape _:Head _:Tail _:Machine _:I) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         _:List :compute _:OutTape
     )
     _:List list:firstRest (_:Head _:Tail)
@@ -26,8 +26,8 @@
     (_:I () _:Head _:Tail) :find _:OutTape
 ).
 
-(_:State _:Left _:Cell _:Right _:OutTape _:Write _:Move _:Next _:A _:B _:C) log:not (log:and
-    () log:not (log:component
+(_:State _:Left _:Cell _:Right _:OutTape _:Write _:Move _:Next _:A _:B _:C) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:State _:Left _:Cell _:Right) :find _:OutTape
     )
     (_:State _:Cell _:Write _:Move) :tape _:Next
@@ -35,8 +35,8 @@
     (_:Next _:A _:B _:C) :continue _:OutTape
 ).
 
-(_:Left _:Cell _:Right _:OutTape _:R _:List) log:not (log:and
-    () log:not (log:component
+(_:Left _:Cell _:Right _:OutTape _:R _:List) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:halt _:Left _:Cell _:Right) :continue _:OutTape
     )
     _:Left :reverse _:R
@@ -44,57 +44,57 @@
     (_:R _:List) list:append _:OutTape
 ).
 
-(_:State _:Left _:Cell _:Right _:OutTape) log:not (log:and
-    () log:not (log:component
+(_:State _:Left _:Cell _:Right _:OutTape) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:State _:Left _:Cell _:Right) :continue _:OutTape
     )
     (_:State _:Left _:Cell _:Right) :find _:OutTape
 ).
 
-(_:Cell _:Right _:L) log:not (log:and
-    () log:not (log:component
+(_:Cell _:Right _:L) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:left () _:Cell _:Right () "#" _:L) :move true
     )
     _:L list:firstRest (_:Cell _:Right)
 ).
 
-(_:List _:Cell _:Right _:Tail _:Head _:L) log:not (log:and
-    () log:not (log:component
+(_:List _:Cell _:Right _:Tail _:Head _:L) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:left _:List _:Cell _:Right _:Tail _:Head _:L) :move true
     )
     _:List list:firstRest (_:Head _:Tail)
     _:L list:firstRest (_:Cell _:Right)
 ).
 
-(_:Left _:Cell _:Right) log:not (log:and
-    () log:not (log:component
+(_:Left _:Cell _:Right) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:stop _:Left _:Cell _:Right _:Left _:Cell _:Right) :move true
     )
 ).
 
-(_:Left _:Cell _:L) log:not (log:and
-    () log:not (log:component
+(_:Left _:Cell _:L) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:right _:Left _:Cell () _:L "#" ()) :move true
     )
     _:L list:firstRest (_:Cell _:Left)
 ).
 
-(_:Left _:Cell _:List _:L _:Head _:Tail) log:not (log:and
-    () log:not (log:component
+(_:Left _:Cell _:List _:L _:Head _:Tail) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (:right _:Left _:Cell _:List _:L _:Head _:Tail) :move true
     )
     _:List list:firstRest (_:Head _:Tail)
     _:L list:firstRest (_:Cell _:Left)
 ).
 
-() log:not (log:and
-    () log:not (log:component
+() log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         () :reverse ()
     )
 ).
 
-(_:List _:Reverse _:Head _:Tail _:R) log:not (log:and
-    () log:not (log:component
+(_:List _:Reverse _:Head _:Tail _:R) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         _:List :reverse _:Reverse
     )
     _:List list:firstRest (_:Head _:Tail)
@@ -113,12 +113,12 @@
 (1 "#" 1 :stop) :tape :halt.
 
 # query
-() log:not (log:and
+() log:onNegativeSurface (log:and
     (1 0 1 0 0 1) :compute (1 0 1 0 1 0 "#")
     (1 0 1 1 1 1) :compute (1 1 0 0 0 0 "#")
     (1 1 1 1 1 1) :compute (1 0 0 0 0 0 0 "#")
     () :compute (1 "#")
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         :test :is true
     )
 ).

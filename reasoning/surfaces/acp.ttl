@@ -18,7 +18,7 @@
     :noneOf :D .
 
 
-(_:Pol _:Test _:Field _:X) log:not (log:and
+(_:Pol _:Test _:Field _:X) log:onNegativeSurface (log:and
     _:Test :policy _:Pol
 
     _:Pol rdf:type :Policy
@@ -32,12 +32,12 @@
         )
     ) log:forAllIn _:X
 
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:Pol :pass :allOfTest
     )
 ) .
 
-(_:Pol _:Test _:Field _:List _:L _:X) log:not (log:and
+(_:Pol _:Test _:Field _:List _:L _:X) log:onNegativeSurface (log:and
     _:Test :policy _:Pol
 
     _:Pol rdf:type :Policy
@@ -55,12 +55,12 @@
 
     _:L log:notEqualTo 0
 
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:Pol :pass :anyOfTest
     )
 ) .
 
-(_:Pol _:Test _:Field _:List _:L _:X) log:not (log:and
+(_:Pol _:Test _:Field _:List _:L _:X) log:onNegativeSurface (log:and
     _:Test :policy _:Pol
 
     _:Pol rdf:type :Policy
@@ -78,27 +78,27 @@
 
     _:L log:equalTo 0
 
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:Pol :pass :noneOfTest
     )
 ) .
 
-(_:Pol) log:not (log:and
+(_:Pol) log:onNegativeSurface (log:and
     _:Pol rdf:type :Policy
 
     _:Pol :pass :allOfTest
     _:Pol :pass :anyOfTest
     _:Pol :pass :noneOfTest
 
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         :test :is true
     )
 ) .
 
 # query
-(_:S) log:not (log:and
+(_:S) log:onNegativeSurface (log:and
     _:S :is true
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         _:S :is true
     )
 ) .

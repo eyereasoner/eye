@@ -12,36 +12,36 @@
 :beetle a :Car.
 
 # all cars are green or blue
-(_:A) log:not (log:and
+(_:A) log:onNegativeSurface (log:and
     _:A rdf:type :Car
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:A :is :green
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:A :is :blue
     )
 ).
 
 # green things are beautiful
-(_:A) log:not (log:and
+(_:A) log:onNegativeSurface (log:and
     _:A :is :green
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:A :is :beautiful
     )
 ).
 
 # blue things are beautiful
-(_:A) log:not (log:and
+(_:A) log:onNegativeSurface (log:and
     _:A :is :blue
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:A :is :beautiful
     )
 ).
 
 # query
-(_:S) log:not (log:and
+(_:S) log:onNegativeSurface (log:and
     _:S :is :beautiful
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         _:S :is :beautiful
     )
 ).

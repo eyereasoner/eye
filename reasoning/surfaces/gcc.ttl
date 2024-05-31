@@ -23,20 +23,20 @@
 [] rdf:value 0; :inv 1.
 [] rdf:value 1; :inv 0.
 
-(_:D _:Q) log:not (log:and
-    () log:not (log:component
+(_:D _:Q) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:D 0 _:Q) :dff _:Q
     )
 ).
 
-(_:D _:Q) log:not (log:and
-    () log:not (log:component
+(_:D _:Q) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:D 1 _:Q) :dff _:D
     )
 ).
 
-(_:A _:B _:Q _:T1 _:NA _:NB _:T2) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:Q _:T1 _:NA _:NB _:T2) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A _:B) :neta _:Q
     )
     (_:A _:B) :and _:T1
@@ -46,8 +46,8 @@
     (_:T1 _:T2) :or _:Q
 ).
 
-(_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:C _:Q1 _:Q2 _:T1 _:NC _:T2 _:NA _:T3) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A _:B _:C) :netb (_:Q1 _:Q2)
     )
     (_:A _:C) :and _:T1
@@ -59,8 +59,8 @@
     (_:T2 _:T3) :or _:Q2
 ).
 
-(_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3) log:not (log:and
-    () log:not (log:component
+(_:C _:Qa _:Qb _:Qc _:Za _:Zb _:Zc _:D1 _:D2 _:D3) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:C (_:Qa _:Qb _:Qc)) :gcc (_:Za _:Zb _:Zc)
     )
     (_:Qa _:Qb _:Qc) :netb (_:D1 _:D2)
@@ -70,14 +70,14 @@
     (_:D3 _:C _:Qc) :dff _:Zc
 ).
 
-(_:S) log:not (log:and
-    () log:not (log:component
+(_:S) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (() _:S) :testgcc ()
     )
 ).
 
-(_:Cc _:S _:Nc _:C _:Cs _:N _:Ns) log:not (log:and
-    () log:not (log:component
+(_:Cc _:S _:Nc _:C _:Cs _:N _:Ns) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:Cc _:S) :testgcc _:Nc
     )
     _:Cc list:firstRest (_:C _:Cs)
@@ -87,9 +87,9 @@
 ).
 
 # query
-(_:Q) log:not (log:and
+(_:Q) log:onNegativeSurface (log:and
     ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc _:Q
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc _:Q
     )
 ).

@@ -8,11 +8,11 @@
 # patient Ann
 :Ann :has :Fever.
 
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Ann :has :AllergyForAspirin
 ).
 
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Ann :has :ActivePepticUlcerDisease
 ).
 
@@ -20,60 +20,60 @@
 :Joe :has :AcuteMyocardialInfarction.
 :Joe :has :AllergyForAspirin.
 
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Joe :has :ActivePepticUlcerDisease
 ).
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Joe :has :SevereAsthma
 ).
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Joe :has :ChronicObstructivePulmonaryDisease
 ).
 
 # medication prescription logic
-(_:WHO) log:not (log:and
+(_:WHO) log:onNegativeSurface (log:and
     _:WHO :has :Fever
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :AllergyForAspirin
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :ActivePepticUlcerDisease
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :isPrescribed :aspirinHighDose
     )
 ).
 
-(_:WHO) log:not (log:and
+(_:WHO) log:onNegativeSurface (log:and
     _:WHO :has :AcuteMyocardialInfarction
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :AllergyForAspirin
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :ActivePepticUlcerDisease
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :isPrescribed :aspirinLowDose
     )
 ).
 
-(_:WHO) log:not (log:and
+(_:WHO) log:onNegativeSurface (log:and
     _:WHO :has :AcuteMyocardialInfarction
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :SevereAsthma
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :has :ChronicObstructivePulmonaryDisease
     )
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:WHO :isPrescribed :betaBlocker
     )
 ).
 
 # query
-(_:WHO _:WHAT) log:not (log:and
+(_:WHO _:WHAT) log:onNegativeSurface (log:and
     _:WHO :isPrescribed _:WHAT
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         _:WHO :isPrescribed _:WHAT
     )
 ).

@@ -15,8 +15,8 @@
     _:x10 _:x11 _:x12 _:x13 _:x14 _:x15 _:x16 _:x17 _:x18 _:x19
     _:x20 _:x21 _:x22 _:x23 _:x24 _:x25 _:x26 _:x27 _:x28 _:x29
     _:x30 _:x31 _:x32 _:x33 _:x34
-) log:not (log:and
-    () log:not (log:component
+) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         _:x0 :easter (_:x34 _:x32)
     )
     (_:x0 19) math:remainder _:x1
@@ -56,11 +56,11 @@
 ).
 
 # question
-(_:x0 _:x1 _:x2 _:x3) log:not (log:and
+(_:x0 _:x1 _:x2 _:x3) log:onNegativeSurface (log:and
     30 log:repeat _:x0
     (2021 _:x0) math:sum _:x1
     _:x1 :easter (_:x2 _:x3)
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         _:x1 :easter (_:x2 _:x3)
     )
 ).

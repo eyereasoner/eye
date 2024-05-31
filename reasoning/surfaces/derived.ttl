@@ -12,12 +12,12 @@
 :Minka a :Cat.
 :Charly a :Dog.
 
-(_:cat) log:not (log:and
+(_:cat) log:onNegativeSurface (log:and
     _:cat rdf:type :Cat
-    () log:not (log:and
-        (_:dog) log:not (log:and
+    () log:onNegativeSurface (log:and
+        (_:dog) log:onNegativeSurface (log:and
             _:dog rdf:type :Dog
-            () log:not (log:and
+            () log:onNegativeSurface (log:and
                 :test :is true
             )
         )
@@ -25,9 +25,9 @@
 ).
 
 # query
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :test :is true
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         :test :is true
     )
 ).

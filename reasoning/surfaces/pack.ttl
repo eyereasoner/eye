@@ -27,12 +27,12 @@
 ).
 
 # query
-(_:S _:O _:N _:C) log:not (log:and
+(_:S _:O _:N _:C) log:onNegativeSurface (log:and
     _:S pack:package _:O
     _:O log:includes (log:and
         _:N pack:content _:C
     )
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         _:N pack:content _:C
     )
 ).

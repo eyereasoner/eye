@@ -11,17 +11,17 @@
 
 :Ghent a :City.
 
-(_:S) log:not (log:and
+(_:S) log:onNegativeSurface (log:and
     _:S rdf:type :City
-    () log:not (log:and
+    () log:onNegativeSurface (log:and
         _:S rdf:type :HumanCommunity
     )
 ).
 
 # query
-() log:not (log:and
+() log:onNegativeSurface (log:and
     :Ghent rdf:type :HumanCommunity
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         :Ghent rdf:type :HumanCommunity
     )
 ).

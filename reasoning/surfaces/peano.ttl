@@ -8,28 +8,28 @@
 @prefix : <http://example.org/#>.
 
 # add
-(_:A) log:not (log:and
-    () log:not (log:component
+(_:A) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A 0) :add _:A
     )
 ).
 
-(_:A _:B _:C) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:C) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A (:s _:B)) :add (:s _:C)
     )
     (_:A _:B) :add _:C
 ).
 
 # multiply
-(_:A) log:not (log:and
-    () log:not (log:component
+(_:A) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A 0) :multiply 0
     )
 ).
 
-(_:A _:B _:C _:D) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:C _:D) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:A (:s _:B)) :multiply _:C
     )
     (_:A _:B) :multiply _:D
@@ -37,21 +37,21 @@
 ).
 
 # factorial
-(_:A _:B) log:not (log:and
-    () log:not (log:component
+(_:A _:B) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         _:A :factorial _:B
     )
     (_:A (:s 0)) :fac _:B
 ).
 
-(_:A) log:not (log:and
-    () log:not (log:component
+(_:A) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (0 _:A) :fac _:A
     )
 ).
 
-(_:A _:B _:C _:D) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:C _:D) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         ((:s _:A) _:B) :fac _:C
     )
     (_:B (:s _:A)) :multiply _:D
@@ -59,11 +59,11 @@
 ).
 
 # question
-(_:A _:B _:C) log:not (log:and
+(_:A _:B _:C) log:onNegativeSurface (log:and
     ((:s 0) (:s (:s 0))) :add _:A
     (_:A (:s (:s 0))) :multiply _:B
     _:B :factorial _:C
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         ((:s 0) (:s (:s 0))) :add _:A
         (_:A (:s (:s 0))) :multiply _:B
         _:B :factorial _:C

@@ -18,11 +18,11 @@
 ).
 
 #query
-(_:G1 _:G2 _:U) log:not (log:and
+(_:G1 _:G2 _:U) log:onNegativeSurface (log:and
     :graph1 :is _:G1
     :graph2 :is _:G2
     (_:G1 _:G2) graph:union _:U
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         :result :is _:U
     )
 ).

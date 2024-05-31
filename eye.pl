@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.10.0 (2024-05-29)').
+version_info('EYE v10.11.0 (2024-05-31)').
 
 license_info('MIT License
 
@@ -196,7 +196,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#not>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onQuerySurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
@@ -432,7 +431,8 @@ gre(Argus) :-
     args(Args),
 
     % rdfsurfacesrdf
-    (   '<http://www.w3.org/2000/10/swap/log#not>'(_, _)
+    (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Lott),
+        getlist(Lott, ['<http://www.w3.org/2000/10/swap/log#and>'|_])
     ->  retractall(flag(rdfsurfacesrdf)),
         assertz(flag(rdfsurfacesrdf)),
 
@@ -944,20 +944,10 @@ gre(Argus) :-
 lott_conj([], true).
 lott_conj([S, P, O], X) :-
     !,
-    lott_conv(P, O, Pc, Oc),
-    X =.. [Pc, S, Oc].
+    X =.. [P, S, O].
 lott_conj([S, P, O|R], (X, Y)) :-
-    lott_conv(P, O, Pc, Oc),
-    X =.. [Pc, S, Oc],
+    X =.. [P, S, O],
     lott_conj(R, Y).
-
-lott_conv('<http://www.w3.org/2000/10/swap/log#not>', ans(A), '<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>', A) :-
-    !.
-lott_conv('<http://www.w3.org/2000/10/swap/log#not>', comp(A), '<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>', A) :-
-    !.
-lott_conv('<http://www.w3.org/2000/10/swap/log#not>', A, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', A) :-
-    !.
-lott_conv(P, O, P, O).
 
 %
 % command line options
@@ -12510,25 +12500,11 @@ getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D], (E, F)) :-
     lott_conj(G, E),
     getterm(D, H),
     lott_conj(H, F).
-getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C], ans(D)) :-
-    getterm([A, B, C], E),
-    !,
-    lott_conj(E, D).
-getterm(['<http://www.w3.org/2000/10/swap/log#answer>', A, B, C|D], ans((E, F))) :-
-    getterm([A, B, C], G),
-    !,
-    lott_conj(G, E),
-    getterm(D, H),
-    lott_conj(H, F).
-getterm(['<http://www.w3.org/2000/10/swap/log#component>', A, B, C], comp(D)) :-
-    getterm([A, B, C], E),
-    !,
-    lott_conj(E, D).
 getterm([A|B], Z) :-
     getterm(A, C),
     !,
     getterm(B, D),
-    (   member(C, ['<http://www.w3.org/2000/10/swap/log#and>', '<http://www.w3.org/2000/10/swap/log#answer>', '<http://www.w3.org/2000/10/swap/log#component>'])
+    (   C = '<http://www.w3.org/2000/10/swap/log#and>'
     ->  getterm([C|D], Z)
     ;   Z = [C|D]
     ).
@@ -12555,7 +12531,7 @@ getterm(A, Z) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(F))
     ),
-    (   member(B, ['<http://www.w3.org/2000/10/swap/log#and>', '<http://www.w3.org/2000/10/swap/log#answer>', '<http://www.w3.org/2000/10/swap/log#component>'])
+    (   B = '<http://www.w3.org/2000/10/swap/log#and>'
     ->  getterm([B|C], Z)
     ;   Z = [B|C]
     ).
@@ -12591,10 +12567,6 @@ getterm(A, B) :-
     getconj(A, C),
     getterm(C, D),
     conjify(D, B).
-getterm('<http://www.w3.org/2000/10/swap/log#not>'(A, B), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(C, D)) :-
-    !,
-    getterm(A, C),
-    getterm(B, D).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),

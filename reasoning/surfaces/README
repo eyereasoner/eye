@@ -7,19 +7,10 @@ and https://github.com/w3c-cg/rdfsurfaces
 
 The top level surface is an implicit positive surface with implicit graffiti.
 
-log:not is a negative surface to express:
+A negative surface is expressed as (graffiti) log:onNegativeSurface (log:and spo-items).
+- disjunction: all spo-terms are (graffiti) log:onNegativeSurface (log:and spo-items)
+- implication: some spo-terms are (graffiti) log:onNegativeSurface (log:and spo-items)
+- component: one spo-term is (graffiti) log:onNegativeComponentSurface (log:and spo-item)
+- query: one spo-term is (graffiti) log:onNegativeAnswerSurface (log:and spo-items)
 
-- negation:
-    (graffiti) log:not (log:and spoterms).
-
-- disjunction:
-    (graffiti) log:not (log:and spoterms that are all (graffiti) log:not (log:and spoterms)).
-
-- implication:
-    (graffiti) log:not (log:and spoterms one of which is (graffiti) log:not (log:and spoterms)).
-
-- component:
-    (graffiti) log:not (log:and spoterms one of which is (graffiti) log:not (log:component spoterm)).
-
-- query:
-    (graffiti) log:not (log:and spoterms one of which is (graffiti) log:not (log:answer spoterms)).
+A query surface is expressed as (graffiti) log:onQuerySurface (log:and spo-items).

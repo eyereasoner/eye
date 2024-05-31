@@ -8,27 +8,27 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
-(_:X _:Y) log:not (log:and
-    () log:not (log:component
+(_:X _:Y) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         _:X :fibonacci _:Y
     )
     (_:X 0 1) :fib _:Y
 ).
 
-(_:A _:B) log:not (log:and
-    () log:not (log:component
+(_:A _:B) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (0 _:A _:B) :fib _:A
     )
 ).
 
-(_:A _:B) log:not (log:and
-    () log:not (log:component
+(_:A _:B) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (1 _:A _:B) :fib _:B
     )
 ).
 
-(_:A _:B _:C _:D _:X _:Y) log:not (log:and
-    () log:not (log:component
+(_:A _:B _:C _:D _:X _:Y) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
         (_:X _:A _:B) :fib _:Y
     )
     _:X math:greaterThan 1
@@ -38,14 +38,14 @@
 ).
 
 # query
-(_:F1 _:F2 _:F3 _:F91 _:F283 _:F3674) log:not (log:and
+(_:F1 _:F2 _:F3 _:F91 _:F283 _:F3674) log:onNegativeSurface (log:and
     1 :fibonacci _:F1
     2 :fibonacci _:F2
     3 :fibonacci _:F3
     91 :fibonacci _:F91
     283 :fibonacci _:F283
     3674 :fibonacci _:F3674
-    () log:not (log:answer
+    () log:onNegativeAnswerSurface (log:and
         1 :fibonacci _:F1
         2 :fibonacci _:F2
         3 :fibonacci _:F3
