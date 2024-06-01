@@ -147,8 +147,10 @@
         (log:and
             _:X dqc:r _:Y
             _:N dqc:alice (_:X _:Z)
-            (_:Z _:Y) dqc:bob _:M) _:L
-        ) log:collectAllIn _:S
+            (_:Z _:Y) dqc:bob _:M
+        )
+        _:L
+    ) log:collectAllIn _:S
     _:L list:length _:I
     (_:I 2) math:remainder 1
     () log:onNegativeSurface (log:and
