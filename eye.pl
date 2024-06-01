@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.0 (2024-05-31)').
+version_info('EYE v10.11.1 (2024-06-01)').
 
 license_info('MIT License
 
@@ -431,7 +431,9 @@ gre(Argus) :-
     args(Args),
 
     % rdfsurfacesrdf
-    (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Lott),
+    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Lott)
+        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, Lott)
+        ),
         getlist(Lott, ['<http://www.w3.org/2000/10/swap/log#and>'|_])
     ->  retractall(flag(rdfsurfacesrdf)),
         assertz(flag(rdfsurfacesrdf)),
@@ -490,7 +492,9 @@ gre(Argus) :-
     ),
 
     % rdfsurfaces
-    (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
+        )
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
 
