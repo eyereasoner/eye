@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.1 (2024-06-01)').
+version_info('EYE v10.11.2 (2024-06-01)').
 
 license_info('MIT License
 
@@ -3870,7 +3870,6 @@ w3 :-
     ;   true
     ).
 w3 :-
-    retractall(flag(rdfsurfacesrdf)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -5170,8 +5169,7 @@ eam(Recursion) :-
             ),
             (   flag('n3p-output')
             ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   retractall(flag(rdfsurfacesrdf)),
-                with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
