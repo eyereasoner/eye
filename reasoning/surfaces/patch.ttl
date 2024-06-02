@@ -1,0 +1,31 @@
+# -------------
+# Patch example
+# -------------
+#
+# Patching RDF data.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# sample data
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Claudia".
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
+
+# patch surface
+(_:person) log:onNegativeSurface (log:and
+    _:person :familyName "Garcia"
+    (log:and
+        _:person :givenName "Claudia"
+    ) log:becomes (log:and
+        _:person :givenName "Alex"
+    )
+    () log:onNegativeSurface true
+).
+
+# query
+(_:person _:familyName _:givenName) log:onQuerySurface (log:and
+    _:person :familyName _:familyName
+    _:person :givenName _:givenName
+).
