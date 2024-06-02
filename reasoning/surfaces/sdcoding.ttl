@@ -23,143 +23,143 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
 @prefix list: <http://www.w3.org/2000/10/swap/list#> .
 @prefix math: <http://www.w3.org/2000/10/swap/math#> .
-@prefix dqc: <http://eyereasoner.github.io/eye/reasoning/dqc#>.
+@prefix : <http://example.org/#>.
 
 # |R) = |0, 0) + |1, 1)
-[] rdf:value false;  dqc:r false.
-[] rdf:value true;  dqc:r true.
+[] rdf:value false;  :r false.
+[] rdf:value true;  :r true.
 
 # |S) = |0, 1) + |1, 0)
-[] rdf:value false;  dqc:s true.
-[] rdf:value true;  dqc:s false.
+[] rdf:value false;  :s true.
+[] rdf:value true;  :s false.
 
 # |U) = |0, 0) + |1, 0) + |1, 1)
-[] rdf:value false;  dqc:u false.
-[] rdf:value true;  dqc:u false.
-[] rdf:value true;  dqc:u true.
+[] rdf:value false;  :u false.
+[] rdf:value true;  :u false.
+[] rdf:value true;  :u true.
 
 # |V ) = |0, 0) + |0, 1) + |1, 0)
-[] rdf:value false;  dqc:v false.
-[] rdf:value false;  dqc:v true.
-[] rdf:value true;  dqc:v false.
+[] rdf:value false;  :v false.
+[] rdf:value false;  :v true.
+[] rdf:value true;  :v false.
 
 # ID |0) = |0)
-[] rdf:value false;  dqc:id false.
+[] rdf:value false;  :id false.
 
 # ID |1) = |1)
-[] rdf:value true;  dqc:id true.
+[] rdf:value true;  :id true.
 
 # G |0) = |1)
-[] rdf:value false;  dqc:g true.
+[] rdf:value false;  :g true.
 
 # G |1) = |0)
-[] rdf:value true;  dqc:g false.
+[] rdf:value true;  :g false.
 
 # K |0) = |0)
-[] rdf:value false;  dqc:k false.
+[] rdf:value false;  :k false.
 
 # K |1) = |0) + |1)
-[] rdf:value true;  dqc:k false.
-[] rdf:value true;  dqc:k true.
+[] rdf:value true;  :k false.
+[] rdf:value true;  :k true.
 
 # KG
 (_:X _:Y _:Z) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        _:X dqc:kg _:Y
+        _:X :kg _:Y
     )
-    _:X dqc:g _:Z
-    _:Z dqc:k _:Y
+    _:X :g _:Z
+    _:Z :k _:Y
 ).
 
 # GK
 (_:X _:Y _:Z) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        _:X dqc:gk _:Y
+        _:X :gk _:Y
     )
-    _:X dqc:k _:Z
-    _:Z dqc:g _:Y
+    _:X :k _:Z
+    _:Z :g _:Y
 ).
 
 # Alice
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        0 dqc:alice (_:X _:Y)
+        0 :alice (_:X _:Y)
     )
-    _:X dqc:id _:Y
+    _:X :id _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        1 dqc:alice (_:X _:Y)
+        1 :alice (_:X _:Y)
     )
-    _:X dqc:g _:Y
+    _:X :g _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        2 dqc:alice (_:X _:Y)
+        2 :alice (_:X _:Y)
     )
-    _:X dqc:k _:Y
+    _:X :k _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        3 dqc:alice (_:X _:Y)
+        3 :alice (_:X _:Y)
     )
-    _:X dqc:kg _:Y
+    _:X :kg _:Y
 ).
 
 # Bob
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        (_:X _:Y) dqc:bob 0
+        (_:X _:Y) :bob 0
     )
-    _:X dqc:gk _:Y
+    _:X :gk _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        (_:X _:Y) dqc:bob 1
+        (_:X _:Y) :bob 1
     )
-    _:X dqc:k _:Y
+    _:X :k _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        (_:X _:Y) dqc:bob 2
+        (_:X _:Y) :bob 2
     )
-    _:X dqc:g _:Y
+    _:X :g _:Y
 ).
 
 (_:X _:Y) log:onNegativeSurface (log:and
     () log:onNegativeComponentSurface (log:and
-        (_:X _:Y) dqc:bob 3
+        (_:X _:Y) :bob 3
     )
-    _:X dqc:id _:Y
+    _:X :id _:Y
 ).
 
 # superdense coding
 (_:N _:A _:B _:M _:X _:Y _:Z _:L _:S _:I) log:onNegativeSurface (log:and
-    _:N dqc:alice _:A
-    _:B dqc:bob _:M
+    _:N :alice _:A
+    _:B :bob _:M
     (
         1
         (log:and
-            _:X dqc:r _:Y
-            _:N dqc:alice (_:X _:Z)
-            (_:Z _:Y) dqc:bob _:M
+            _:X :r _:Y
+            _:N :alice (_:X _:Z)
+            (_:Z _:Y) :bob _:M
         )
         _:L
     ) log:collectAllIn _:S
     _:L list:length _:I
     (_:I 2) math:remainder 1
     () log:onNegativeSurface (log:and
-        _:N dqc:sdcoding _:M
+        _:N :sdcoding _:M
     )
 ).
 
 # query
 (_:N _:M) log:onQuerySurface (log:and
-    _:N dqc:sdcoding _:M
+    _:N :sdcoding _:M
 ).
 
