@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.2 (2024-06-01)').
+version_info('EYE v10.11.3 (2024-06-02)').
 
 license_info('MIT License
 
@@ -7178,6 +7178,14 @@ userInput(A, B) :-
             nonvar(B)
         ),
         (   forall(A, B)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#graffiti>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   term_variables(A, B)
         )
     ).
 

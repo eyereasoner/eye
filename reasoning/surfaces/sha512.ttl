@@ -1,0 +1,15 @@
+# --------------
+# Crypto example
+# --------------
+
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:Let :param "hello world".
+
+# query
+(_:X _:Y) log:onQuerySurface (log:and
+    :Let :param _:X
+    _:X crypto:sha512 _:Y
+).

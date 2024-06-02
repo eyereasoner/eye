@@ -1,0 +1,90 @@
+# ------------------
+# Partial evaluation
+# ------------------
+#
+# See https://arxiv.org/pdf/cs/0202012.pdf:
+# Program specialisation aims at improving the overall performance of programs by
+# performing source to source transformations. rdf:type common approach, known as partial
+# evaluation is to guide the transformation by partial knowledge about the input. In
+# contrast to ordinary evaluation, partial evaluation is processing rdf:type given program
+# P along with only part of its input, called the static input. The remaining part
+# of the input, called the dynamic input, will only be known at some later point in
+# time (which we call runtime). Given the static input S, the partial evaluator then
+# produces rdf:type specialised version PS of P which, when given the dynamic input D,
+# produces the same output as the original program P. The program PS is also called
+# the residual program.
+#
+# See also https://www.sciencedirect.com/science/article/pii/0304397582901116:
+# Mixed computation is processing of an incomplete information. Its product are a
+# partially processed information and rdf:type so-called residual program destined to
+# complete in sequel the processing of the remaining information. Many kinds of
+# practical work with programs are nothing more but obtaining rdf:type residual program.
+# We demonstrate, as an example, the application of mixed computation to compilation.
+# Under computational approach mixed computation generalizes the operational semantics
+# of rdf:type language by inclusion of steps which generate residual program instructions.
+# Under transformational approach the residual program is obtained as rdf:type result of a
+# series of so-called basic transformations of the program text. We argue that the
+# transformational approach is more fundamental, for it allows to describe mixed
+# computation in all its variety and moreover, to relate mixed computation to other
+# kinds of program manipulation: execution, optimization, macroprocessing, synthesis.
+# Such an integrated approach leads us to rdf:type transformational machine concept.
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix schema: <http://schema.org/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+# schema data
+foaf:yahooChatID rdfs:subPropertyOf foaf:nick.
+schema:LifestyleModification rdfs:subClassOf schema:MedicalTherapy.
+
+# rdfs logic
+(_:P _:Q _:S _:O) log:onNegativeSurface (log:and
+    _:P rdfs:subPropertyOf _:Q
+    _:S _:P _:O
+    () log:onNegativeSurface (log:and
+        _:S _:Q _:O
+    )
+).
+
+(_:C _:D _:X) log:onNegativeSurface (log:and
+    _:C rdfs:subClassOf _:D
+    _:X rdf:type _:C
+    () log:onNegativeSurface (log:and
+        _:X rdf:type _:D
+    )
+).
+
+# query
+(_:S _:P _:O _:A _:G _:H _:I _:J _:K _:B _:C _:U _:V) log:onNegativeSurface (log:and
+    _:S _:P _:O
+    _:P log:notEqualTo log:onNegativeSurface
+    _:A log:onNegativeSurface _:G
+    _:G log:notIncludes (log:and
+        _:U log:onNegativeAnswerSurface _:V
+    )
+    (
+        _:G
+        (log:and
+            _:G log:graffiti _:A
+        )
+    ) graph:union _:H
+    (
+        _:H
+        (log:and
+            _:S _:P _:O
+            _:G log:graffiti _:B
+        )
+    ) graph:difference _:I
+    _:G graph:length _:J
+    _:I graph:length _:K
+    _:J math:greaterThan _:K
+    _:B log:graffiti _:C
+    () log:onNegativeAnswerSurface (log:and
+        _:C log:onNegativeSurface _:I
+    )
+).

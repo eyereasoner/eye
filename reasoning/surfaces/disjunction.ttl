@@ -1,0 +1,97 @@
+# -------------------
+# Disjunction example
+# -------------------
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C0
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C1
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C2
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C1
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C11
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C12
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C2
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C21
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C22
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C11
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C111
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C112
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C12
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C121
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C122
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C21
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C211
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C212
+    )
+).
+
+(_:S) log:onNegativeSurface (log:and
+    _:S rdf:type :C22
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C221
+    )
+    () log:onNegativeSurface (log:and
+        _:S rdf:type :C222
+    )
+).
+
+# data
+:abc a :C0.
+
+() log:onNegativeSurface (log:and
+    :abc rdf:type :C1
+).
+
+() log:onNegativeSurface (log:and
+    :abc rdf:type :C21
+).
+
+() log:onNegativeSurface (log:and
+    :abc rdf:type :C221
+).
+
+# query
+(_:A _:B) log:onQuerySurface (log:and
+    _:A rdf:type _:B
+).
