@@ -8,21 +8,21 @@ and https://github.com/w3c-cg/rdfsurfaces
 The top level surface is an implicit positive surface with implicit graffiti.
 
 A negative surface is expressed as
-    (graffiti) log:onNegativeSurface (log:and spo-args).
+    (graffiti) log:onNegativeSurface (log:and spo*).
 
 which is classical negation with the following special cases:
 
-    - disjunction: all spo-args are
-        (graffiti) log:onNegativeSurface (log:and spo-args)
+    - disjunction: all spo* are
+        (graffiti) log:onNegativeSurface (log:and spo*)
 
-    - implication: some spo-args are
-        (graffiti) log:onNegativeSurface (log:and spo-args)
+    - implication: some spo* are
+        (graffiti) log:onNegativeSurface (log:and spo*)
 
     - component: one spo-arg is
-        (graffiti) log:onNegativeComponentSurface (log:and spo-arg)
+        (graffiti) log:onNegativeComponentSurface (log:and spo)
 
     - query: one spo-arg is
-        (graffiti) log:onNegativeAnswerSurface (log:and spo-args)
+        (graffiti) log:onNegativeAnswerSurface (log:and spo*)
 
 A query surface is expressed as
-    (graffiti) log:onQuerySurface (log:and spo-args).
+    (graffiti) log:onQuerySurface (log:and spo*).
