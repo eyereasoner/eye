@@ -62,6 +62,6 @@ When running the EYE reasoner on this script the result should be:
 
 - https://github.com/eyereasoner/rdfsurfaces-tests
 
-### RDF Surfaces expressed in RDF 1.0
+## RDF Surfaces expressed in RDF 1.0
 
 - https://github.com/eyereasoner/eye/tree/master/reasoning/surfaces
