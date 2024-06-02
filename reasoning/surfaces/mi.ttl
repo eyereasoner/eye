@@ -1,0 +1,104 @@
+# ----------------
+# Meta-interpreter
+# ----------------
+#
+# Inspired by https://www.metalevel.at/acomip/
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix : <http://example.org/#>.
+
+() log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :mi ()
+    )
+).
+
+(_:A _:G _:Gs _:Goals) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :mi _:A
+    )
+    _:A list:firstRest (_:G _:Gs)
+    () :headBody (_:G _:Goals _:Gs)
+    () :mi _:Goals
+).
+
+(_:Rs) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :headBody (
+            (log:and
+                () :mi ()
+            ) _:Rs _:Rs
+        )
+    )
+).
+
+(_:A _:B _:Rs _:G _:Gs _:Goals _:C) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :headBody ((log:and() :mi _:A) _:B _:Rs)
+    )
+    _:A list:firstRest (_:G _:Gs)
+    _:B list:firstRest (
+        (log:and
+            () :headBody (_:G _:Goals _:Gs)
+        ) _:C
+     )
+    _:C list:firstRest (
+        (log:and
+            () :mi _:Goals
+        ) _:Rs
+    )
+).
+
+(_:Head _:Goals0 _:Goals _:Rs) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :headBody (
+            (log:and
+                () :headBody (_:Head _:Goals0 _:Goals)
+            ) _:Rs _:Rs
+        )
+    )
+    () :headBody (_:Head _:Goals0 _:Goals)
+).
+
+(_:Rs) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :headBody (
+            (log:and
+                () :natnum (0)
+            ) _:Rs _:Rs
+        )
+    )
+).
+
+(_:X _:A _:Rs) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        () :headBody (
+            (log:and
+                () :natnum (:s _:X)
+            ) _:A _:Rs
+        )
+    )
+    _:A list:firstRest (
+        (log:and
+            () :natnum _:X
+        ) _:Rs
+    )
+).
+
+# query
+() log:onQuerySurface (log:and
+    () :mi (
+        (log:and
+            () :mi (
+                (log:and
+                    () :mi (
+                        (log:and
+                            () :natnum (:s (:s (:s (:s (:s (0))))))
+                        )
+                    )
+                )
+            )
+        )
+    )
+).
