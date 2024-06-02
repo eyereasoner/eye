@@ -1,0 +1,23 @@
+# ---------------------
+# Backward rule example
+# ---------------------
+#
+# See https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# something is more interesting if it is greater
+(_:X _:Y) log:onNegativeSurface (log:and
+    () log:onNegativeComponentSurface (log:and
+        _:X :moreInterestingThan _:Y
+    )
+    _:X math:greaterThan _:Y
+).
+
+# query
+() log:onQuerySurface (log:and
+    5 :moreInterestingThan 3
+).
