@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.4 (2024-06-03)').
+version_info('EYE v10.11.5 (2024-06-03)').
 
 license_info('MIT License
 
@@ -12474,11 +12474,18 @@ getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C], D) :-
     !,
     lott_conj(E, D).
 getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D], (E, F)) :-
+    (   length(D, N),
+        0 is N mod 3
+    ->  true
+    ;   throw(malformed_graph_term(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D]))
+    ),
     getterm([A, B, C], G),
     !,
     lott_conj(G, E),
     getterm(D, H),
     lott_conj(H, F).
+getterm(['<http://www.w3.org/2000/10/swap/log#and>'|A], _) :-
+    throw(malformed_graph_term(['<http://www.w3.org/2000/10/swap/log#and>'|A])).
 getterm([A|B], Z) :-
     getterm(A, C),
     !,
