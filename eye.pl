@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.5 (2024-06-03)').
+version_info('EYE v10.11.6 (2024-06-03)').
 
 license_info('MIT License
 
@@ -6647,14 +6647,7 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   (   getlist(A, C)
-            ->  true
-            ;   conj_list(A, D),
-                (   ground(D)
-                ->  distinct(D, C)
-                ;   C = D
-                )
-            ),
+        (   getlist(A, C),
             length(C, B)
         )
     ).
