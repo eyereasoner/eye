@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.3 (2024-06-02)').
+version_info('EYE v10.11.4 (2024-06-03)').
 
 license_info('MIT License
 
@@ -430,30 +430,15 @@ gre(Argus) :-
     ),
     args(Args),
 
-    % rdfsurfacesrdf
-    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Lott)
-        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, Lott)
-        ),
-        getlist(Lott, ['<http://www.w3.org/2000/10/swap/log#and>'|_])
-    ->  retractall(flag(rdfsurfacesrdf)),
-        assertz(flag(rdfsurfacesrdf)),
-
-        % configure
-        (   \+flag(nope)
-        ->  assertz(flag(nope))
-        ;   true
-        ),
-
-        % create types
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
-            ground([X, Y]),
-            getterm(X, Z),
-            (   Z = X
-            ->  true
-            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
-                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
-            ),
-            fail
+    % rdfsurfaces
+    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Su)
+        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, Su)
+        )
+    ->  retractall(flag(rdfsurfaces)),
+        assertz(flag(rdfsurfaces)),
+        (   getlist(Su, ['<http://www.w3.org/2000/10/swap/log#and>'|_])
+        ->  retractall(flag(rdfsurfacesrdf)),
+            assertz(flag(rdfsurfacesrdf))
         ;   true
         ),
 
@@ -481,22 +466,6 @@ gre(Argus) :-
         % remove rdf lists
         retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)),
         retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)),
-
-        % remove rdf values
-        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(_, _)),
-
-        % remove rdf reifiers
-        retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>'(_, _))
-
-    ;   true
-    ),
-
-    % rdfsurfaces
-    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
-        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
-        )
-    ->  retractall(flag(rdfsurfaces)),
-        assertz(flag(rdfsurfaces)),
 
         % assert positive surfaces
         assertz(implies((
