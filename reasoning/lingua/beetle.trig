@@ -1,0 +1,59 @@
+# --------------
+# Beetle example
+# --------------
+#
+# See https://en.wikipedia.org/wiki/Disjunction_elimination
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+(_:A) log:onNegativeSurface _:bng_1.
+
+_:bng_1 {
+    _:A a :Car.
+    () log:onNegativeSurface _:bng_2.
+    () log:onNegativeSurface _:bng_3.
+}
+
+_:bng_2 {
+    _:A :is :green.
+}
+
+_:bng_3 {
+    _:A :is :blue.
+}
+
+# green things are beautiful
+(_:A) log:onNegativeSurface _:bng_4.
+
+_:bng_4 {
+    _:A :is :green.
+    () log:onNegativeSurface _:bng_5.
+}
+
+_:bng_5 {
+    _:A :is :beautiful.
+}
+
+# blue things are beautiful
+(_:A) log:onNegativeSurface _:bng_6.
+
+_:bng_6 {
+    _:A :is :blue.
+    () log:onNegativeSurface _:bng_7.
+}
+
+_:bng_7 {
+    _:A :is :beautiful.
+}
+
+# query
+(_:S _:O) log:onQuerySurface _:bng_8.
+
+_:bng_8 {
+    _:S :is _:O.
+}
