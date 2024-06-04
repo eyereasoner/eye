@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.11.6 (2024-06-03)').
+version_info('EYE v10.12.0 (2024-06-04)').
 
 license_info('MIT License
 
@@ -430,15 +430,72 @@ gre(Argus) :-
     ),
     args(Args),
 
-    % rdfsurfaces
-    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Su)
-        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, Su)
+    % lingua
+    (   (   '<http://www.w3.org/2000/10/swap/log#implies>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#query>'(Subj, Obj),
+            atomic(Subj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Obj),
+            atomic(Obj)
+        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, Obj),
+            atomic(Obj)
         )
-    ->  retractall(flag(rdfsurfaces)),
-        assertz(flag(rdfsurfaces)),
-        (   getlist(Su, ['<http://www.w3.org/2000/10/swap/log#and>'|_])
-        ->  retractall(flag(rdfsurfacesrdf)),
-            assertz(flag(rdfsurfacesrdf))
+    ->  retractall(flag(lingua)),
+        assertz(flag(lingua)),
+
+        % configure
+        (   \+flag(nope)
+        ->  assertz(flag(nope))
+        ;   true
+        ),
+
+        % create named graphs
+        (   quad(triple(_, _, _), G),
+            findall(C,
+                (   retract(quad(triple(S, P, O), G)),
+                    C =.. [P, S, O],
+                    dynify(C)
+                ),
+                D
+            ),
+            D \= [],
+            conjoin(D, E),
+            (   contains(G, E)
+            ->  throw(term_cannot_contain_itself(G, E))
+            ;   true
+            ),
+            assertz(graph(G, E)),
+            fail
+        ;   true
+        ),
+
+        % move rdf lists and values
+        (   graph(A, B),
+            conj_list(B, C),
+            move_rdf(C, D),
+            conj_list(E, D),
+            E \= B,
+            retract(graph(A, B)),
+            assertz(graph(A, E)),
+            fail
+        ;   true
+        ),
+
+        % create types
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
+            ground([X, Y]),
+            getterm(X, Z),
+            (   Z = X
+            ->  true
+            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
+                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
+            ),
+            fail
         ;   true
         ),
 
@@ -449,6 +506,7 @@ gre(Argus) :-
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            P \= quad,
             X =.. [P, _, _],
             call(X),
             ground(X),
@@ -456,8 +514,7 @@ gre(Argus) :-
             (   Y = X
             ->  true
             ;   retract(X),
-                assertz(Y),
-                dynify(Y)
+                assertz(Y)
             ),
             fail
         ;   true
@@ -466,6 +523,89 @@ gre(Argus) :-
         % remove rdf lists
         retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _)),
         retractall('<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(_, _)),
+
+        % remove rdf named graphs
+        retractall(graph(_, _)),
+
+        % create forward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
+                ground([A, B]),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                (   B = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                ->  makevars([A, U], [Q, X], beta(U)),
+                    I = B
+                ;   makevars([A, B, U], [Q, I, X], beta(U))
+                ),
+                (   B \= false,
+                    conj_list(B, L),
+                    \+last(L, remember(_))
+                ->  zip_list(U, X, W),
+                    conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#implies>', B], W)), F)
+                ;   F = I
+                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<void>')),
+
+        % create backward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(B, A),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, B, U], [Q, I, X], beta(U)),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [B, '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', A], W)), F),
+                C = ':-'(I, F),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<void>')),
+
+        % create queries
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
+                djiti_answer(answer(B), J),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, J, U], [Q, I, X], beta(U)),
+                zip_list(U, X, W),
+                conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#explain>', [A, '<http://www.w3.org/2000/10/swap/log#query>', B], W)), F),
+                C = implies(F, I, '<void>'),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<void>')),
+
+        % create universal statements
+        (   pred(P),
+            \+atom_concat('<http://www.w3.org/2000/10/swap/', _, P),
+            X =.. [P, _, _],
+            call(X),
+            findvars(X, V, alpha),
+            V \= [],
+            list_to_set(V, U),
+            makevars(X, Y, beta(U)),
+            retract(X),
+            assertz(Y),
+            fail
+        ;   true
+        )
+    ;   true
+    ),
+
+    % rdfsurfaces
+    (   (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
+        ;   '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(_, _)
+        )
+    ->  retractall(flag(rdfsurfaces)),
+        assertz(flag(rdfsurfaces)),
 
         % assert positive surfaces
         assertz(implies((
@@ -501,6 +641,7 @@ gre(Argus) :-
                 ),
                 findvars(H, R, beta),
                 intersection(Zl, R, X),
+                X = [],
                 findvars(O, S, beta),
                 intersection(Wl, S, Y),
                 append([Vl, X, Y], U)
@@ -779,7 +920,7 @@ gre(Argus) :-
         \+query(_, _),
         \+flag('pass-only-new'),
         \+flag(strings),
-        \+flag(rdfsurfacesrdf),
+        \+flag(lingua),
         \+flag(rdfsurfaces)
     ->  throw(halt(0))
     ;   true
@@ -913,14 +1054,6 @@ gre(Argus) :-
         flush_output(user_error)
     ;   true
     ).
-
-lott_conj([], true).
-lott_conj([S, P, O], X) :-
-    !,
-    X =.. [P, S, O].
-lott_conj([S, P, O|R], (X, Y)) :-
-    X =.. [P, S, O],
-    lott_conj(R, Y).
 
 %
 % command line options
@@ -1959,7 +2092,6 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
-    Y \= ['\'<http://www.w3.org/2000/10/swap/log#answer>\''|_],
     \+ (atomic(X), atomic(Y)),
     !,
     djiti_answer(answer(Y), A),
@@ -3821,7 +3953,46 @@ w3 :-
         fail
     ;   true
     ),
-    (   answer(B1, B2, B3),
+    (   \+flag(lingua),
+        answer(B1, B2, B3),
+        relabel([B1, B2, B3], [C1, C2, C3]),
+        djiti_answer(answer(C), answer(C1, C2, C3)),
+        indent,
+        (   flag('n3p-output')
+        ->  makeblank(C, Ca),
+            exo_pred(Ca, Cb),
+            writeq(Cb)
+        ;   wt(C)
+        ),
+        ws(C),
+        write('.'),
+        nl,
+        cnt(output_statements),
+        fail
+    ;   true
+    ),
+    (   flag(lingua),
+        writeln('# answer'),
+        answer(B1, B2, B3),
+        B1 \= '<http://www.w3.org/2000/10/swap/log#explain>',
+        relabel([B1, B2, B3], [C1, C2, C3]),
+        djiti_answer(answer(C), answer(C1, C2, C3)),
+        (   flag('n3p-output')
+        ->  makeblank(C, Ca),
+            exo_pred(Ca, Cb),
+            writeq(Cb)
+        ;   wt(C)
+        ),
+        ws(C),
+        write('.'),
+        nl,
+        cnt(output_statements),
+        fail
+    ;   flag(lingua),
+        nl,
+        writeln('# explanation'),
+        answer(B1, B2, B3),
+        B1 = '<http://www.w3.org/2000/10/swap/log#explain>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -4192,7 +4363,7 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground'),
-        \+flag(rdfsurfacesrdf)
+        \+flag(lingua)
     ->  write('?U_'),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
@@ -4348,10 +4519,7 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        (   flag(rdfsurfacesrdf)
-        ->  true
-        ;   write('.')
-        ),
+        write('.'),
         (   flag(strings)
         ->  write(' ')
         ;   (   flag('no-beautified-output')
@@ -4488,7 +4656,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
-    \+flag(rdfsurfacesrdf),
+    \+flag(lingua),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4665,21 +4833,11 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   (   flag(rdfsurfacesrdf),
-            nb_getval(indentation, I),
-            I > 0
-        ->  wg(S)
-        ;   wm(S)
-        ),
+    ;   wm(S),
         write(' '),
         wp(P),
         write(' '),
-        (   flag(rdfsurfacesrdf),
-            nb_getval(indentation, I),
-            I > 0
-        ->  wg(O)
-        ;   wg(O)
-        )
+        wg(O)
     ).
 
 wtn(exopred(P, S, O)) :-
@@ -4742,58 +4900,65 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(rdfsurfacesrdf)
-        ->  write('('),
-            wp('<http://www.w3.org/2000/10/swap/log#and>')
-        ;   write('{')
-        ),
-        indentation(4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+    ->  (   flag(lingua),
+            nb_getval(keep_ng, true)
+        ->  (   graph(N, X)
             ->  true
-            ;   nl,
-                indent
-            )
-        ),
-        nb_getval(fdepth, D),
-        E is D+1,
-        nb_setval(fdepth, E),
-        wt(X),
-        nb_setval(fdepth, D),
-        indentation(-4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+            ;   gensym('bng_', Y),
+                nb_getval(var_ns, Sns),
+                atomic_list_concat(['<', Sns, Y, '>'], N),
+                assertz(graph(N, X))
+            ),
+            (   \+keep_ng(graph(N, X))
+            ->  assertz(keep_ng(graph(N, X)))
+            ;   true
+            ),
+            wt(N)
+        ;   (   flag(lingua)
+            ->  nb_setval(keep_ng, true)
+            ;   true
+            ),
+            write('{'),
+            indentation(4),
+            (   flag(strings)
             ->  true
-            ;   (   flag(rdfsurfacesrdf)
+            ;   (   flag('no-beautified-output')
                 ->  true
-                ;   write('.')
-                ),
-                nl,
-                indent
-            )
-        ),
-        (   flag(rdfsurfacesrdf)
-        ->  write(')')
-        ;   write('}')
+                ;   nl,
+                    indent
+                )
+            ),
+            nb_getval(fdepth, D),
+            E is D+1,
+            nb_setval(fdepth, E),
+            wt(X),
+            nb_setval(fdepth, D),
+            indentation(-4),
+            (   flag(strings)
+            ->  true
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   write('.'),
+                    nl,
+                    indent
+                )
+            ),
+            write('}')
         )
     ;   wt(X)
     ).
 
 wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     \+flag('no-qnames'),
-    \+ (flag(rdfsurfacesrdf), nb_getval(indentation, I), I > 0),
     !,
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
-    \+flag(rdfsurfacesrdf),
+    \+flag(lingua),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
-    \+flag(rdfsurfacesrdf),
     !,
     write('<=').
 wp(X) :-
@@ -4820,7 +4985,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag(rdfsurfacesrdf),
+    (   flag(lingua),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
@@ -6647,7 +6812,14 @@ djiti_assertz(A) :-
     when(
         (   nonvar(A)
         ),
-        (   getlist(A, C),
+        (   (   getlist(A, C)
+            ->  true
+            ;   conj_list(A, D),
+                (   ground(D)
+                ->  distinct(D, C)
+                ;   C = D
+                )
+            ),
             length(C, B)
         )
     ).
@@ -7140,14 +7312,6 @@ userInput(A, B) :-
             nonvar(B)
         ),
         (   forall(A, B)
-        )
-    ).
-
-'<http://www.w3.org/2000/10/swap/log#graffiti>'(A, B) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   term_variables(A, B)
         )
     ).
 
@@ -12460,34 +12624,11 @@ getterm([], []) :-
     !.
 getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
     !.
-getterm(['<http://www.w3.org/2000/10/swap/log#and>'], true) :-
-    !.
-getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C], D) :-
-    getterm([A, B, C], E),
-    !,
-    lott_conj(E, D).
-getterm(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D], (E, F)) :-
-    (   length(D, N),
-        0 is N mod 3
-    ->  true
-    ;   throw(malformed_graph_term(['<http://www.w3.org/2000/10/swap/log#and>', A, B, C|D]))
-    ),
-    getterm([A, B, C], G),
-    !,
-    lott_conj(G, E),
-    getterm(D, H),
-    lott_conj(H, F).
-getterm(['<http://www.w3.org/2000/10/swap/log#and>'|A], _) :-
-    throw(malformed_graph_term(['<http://www.w3.org/2000/10/swap/log#and>'|A])).
-getterm([A|B], Z) :-
+getterm([A|B], [C|D]) :-
     getterm(A, C),
     !,
-    getterm(B, D),
-    (   C = '<http://www.w3.org/2000/10/swap/log#and>'
-    ->  getterm([C|D], Z)
-    ;   Z = [C|D]
-    ).
-getterm(A, Z) :-
+    getterm(B, D).
+getterm(A, [B|C]) :-
     '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
     (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, E),
         E \= D
@@ -12509,10 +12650,6 @@ getterm(A, Z) :-
         is_list(C)
     ->  true
     ;   throw(malformed_list_invalid_rest(F))
-    ),
-    (   B = '<http://www.w3.org/2000/10/swap/log#and>'
-    ->  getterm([B|C], Z)
-    ;   Z = [B|C]
     ).
 getterm(graph(A, B), graph(A, C)) :-
     graph(A, B),

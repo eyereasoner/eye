@@ -1,0 +1,163 @@
+@prefix : <http://example.org/#>.
+@prefix gps: <https://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+# answer
+:i1 gps:path ((:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99).
+:i1 gps:path ((:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801).
+
+# explanation
+(_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Gent)).
+(_:bng_3 log:isImpliedBy true) log:explain ().
+(_:bng_4 log:isImpliedBy _:bng_5) log:explain ((var:A (:map-BE)) (var:C :map-BE) (var:D ()) (var:B 1)).
+(_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Brugge)).
+(_:bng_4 log:isImpliedBy _:bng_5) log:explain ((var:A (:map-BE :map-BE)) (var:C :map-BE) (var:D (:map-BE)) (var:B 1)).
+(_:bng_6 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Brugge)).
+(_:bng_7 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Brugge)).
+(_:bng_8 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Brugge)).
+(_:bng_9 log:isImpliedBy _:bng_10) log:explain ((var:Goal _:bng_11) (var:Maps (:map-BE :map-BE)) (var:Path (:drive_gent_brugge :drive_brugge_oostende)) (var:Duration 2400.0) (var:Cost 0.01) (var:Belief 0.9408) (var:Comfort 0.99) (var:MaxDuration 5000.0) (var:MaxCost 5.0) (var:MinBelief 0.2) (var:MinComfort 0.4) (var:MaxStagecount 1)).
+(_:bng_12 log:isImpliedBy _:bng_13) log:explain ((var:Map :map-BE) (var:From _:bng_14) (var:Transition true) (var:To _:bng_11) (var:Action :drive_brugge_oostende) (var:Duration_n 900.0) (var:Cost_n 0.004) (var:Belief_n 0.98) (var:Comfort_n 1.0) (var:Maps_s (:map-BE)) (var:Maps_t (:map-BE :map-BE)) (var:Stagecount 1) (var:MaxStagecount 1) (var:Duration_s 1500.0) (var:Duration_t 2400.0) (var:MaxDuration 5000.0) (var:Cost_s 0.006) (var:Cost_t 0.01) (var:MaxCost 5.0) (var:Belief_s 0.96) (var:Belief_t 0.9408) (var:MinBelief 0.2) (var:Comfort_s 0.99) (var:Comfort_t 0.99) (var:MinComfort 0.4) (var:Path_s (:drive_gent_brugge)) (var:Path_t (:drive_gent_brugge :drive_brugge_oostende)) (var:Goal _:bng_11) (var:Path (:drive_gent_brugge :drive_brugge_oostende)) (var:Duration 2400.0) (var:Cost 0.01) (var:Belief 0.9408) (var:Comfort 0.99)).
+(_:bng_12 log:isImpliedBy _:bng_13) log:explain ((var:Map :map-BE) (var:From _:bng_15) (var:Transition true) (var:To _:bng_14) (var:Action :drive_gent_brugge) (var:Duration_n 1500.0) (var:Cost_n 0.006) (var:Belief_n 0.96) (var:Comfort_n 0.99) (var:Maps_s ()) (var:Maps_t (:map-BE)) (var:Stagecount 1) (var:MaxStagecount 1) (var:Duration_s 0.0) (var:Duration_t 1500.0) (var:MaxDuration 5000.0) (var:Cost_s 0.0) (var:Cost_t 0.006) (var:MaxCost 5.0) (var:Belief_s 1.0) (var:Belief_t 0.96) (var:MinBelief 0.2) (var:Comfort_s 1.0) (var:Comfort_t 0.99) (var:MinComfort 0.4) (var:Path_s ()) (var:Path_t (:drive_gent_brugge)) (var:Goal _:bng_11) (var:Path (:drive_gent_brugge :drive_brugge_oostende)) (var:Duration 2400.0) (var:Cost 0.01) (var:Belief 0.9408) (var:Comfort 0.99)).
+(_:bng_16 log:isImpliedBy _:bng_17) log:explain ((var:Goal _:bng_11) (var:Path (:drive_gent_brugge :drive_brugge_oostende)) (var:Duration 2400.0) (var:Cost 0.01) (var:Belief 0.9408) (var:Comfort 0.99) (var:MaxDuration 5000.0) (var:MaxCost 5.0) (var:MinBelief 0.2) (var:MinComfort 0.4) (var:MaxStagecount 1)).
+(_:bng_18 log:query _:bng_19) log:explain ((var:S :i1) (var:PATH (:drive_gent_brugge :drive_brugge_oostende)) (var:DURATION 2400.0) (var:COST 0.01) (var:BELIEF 0.9408) (var:COMFORT 0.99)).
+(_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Oostende)).
+(_:bng_4 log:isImpliedBy _:bng_5) log:explain ((var:A (:map-BE :map-BE :map-BE)) (var:C :map-BE) (var:D (:map-BE :map-BE)) (var:B 1)).
+(_:bng_6 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Oostende)).
+(_:bng_7 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Oostende)).
+(_:bng_8 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Oostende)).
+(_:bng_6 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Gent)).
+(_:bng_1 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Kortrijk)).
+(_:bng_6 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Kortrijk)).
+(_:bng_7 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Kortrijk)).
+(_:bng_9 log:isImpliedBy _:bng_10) log:explain ((var:Goal _:bng_11) (var:Maps (:map-BE :map-BE :map-BE)) (var:Path (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Duration 4100.0) (var:Cost 0.018000000000000002) (var:Belief 0.903168) (var:Comfort 0.9801) (var:MaxDuration 5000.0) (var:MaxCost 5.0) (var:MinBelief 0.2) (var:MinComfort 0.4) (var:MaxStagecount 1)).
+(_:bng_12 log:isImpliedBy _:bng_13) log:explain ((var:Map :map-BE) (var:From _:bng_14) (var:Transition true) (var:To _:bng_11) (var:Action :drive_brugge_oostende) (var:Duration_n 900.0) (var:Cost_n 0.004) (var:Belief_n 0.98) (var:Comfort_n 1.0) (var:Maps_s (:map-BE :map-BE)) (var:Maps_t (:map-BE :map-BE :map-BE)) (var:Stagecount 1) (var:MaxStagecount 1) (var:Duration_s 3200.0) (var:Duration_t 4100.0) (var:MaxDuration 5000.0) (var:Cost_s 0.014) (var:Cost_t 0.018000000000000002) (var:MaxCost 5.0) (var:Belief_s 0.9216) (var:Belief_t 0.903168) (var:MinBelief 0.2) (var:Comfort_s 0.9801) (var:Comfort_t 0.9801) (var:MinComfort 0.4) (var:Path_s (:drive_gent_kortrijk :drive_kortrijk_brugge)) (var:Path_t (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Goal _:bng_11) (var:Path (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Duration 4100.0) (var:Cost 0.018000000000000002) (var:Belief 0.903168) (var:Comfort 0.9801)).
+(_:bng_12 log:isImpliedBy _:bng_13) log:explain ((var:Map :map-BE) (var:From _:bng_20) (var:Transition true) (var:To _:bng_14) (var:Action :drive_kortrijk_brugge) (var:Duration_n 1600.0) (var:Cost_n 0.007) (var:Belief_n 0.96) (var:Comfort_n 0.99) (var:Maps_s (:map-BE)) (var:Maps_t (:map-BE :map-BE)) (var:Stagecount 1) (var:MaxStagecount 1) (var:Duration_s 1600.0) (var:Duration_t 3200.0) (var:MaxDuration 5000.0) (var:Cost_s 0.007) (var:Cost_t 0.014) (var:MaxCost 5.0) (var:Belief_s 0.96) (var:Belief_t 0.9216) (var:MinBelief 0.2) (var:Comfort_s 0.99) (var:Comfort_t 0.9801) (var:MinComfort 0.4) (var:Path_s (:drive_gent_kortrijk)) (var:Path_t (:drive_gent_kortrijk :drive_kortrijk_brugge)) (var:Goal _:bng_11) (var:Path (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Duration 4100.0) (var:Cost 0.018000000000000002) (var:Belief 0.903168) (var:Comfort 0.9801)).
+(_:bng_12 log:isImpliedBy _:bng_13) log:explain ((var:Map :map-BE) (var:From _:bng_15) (var:Transition true) (var:To _:bng_20) (var:Action :drive_gent_kortrijk) (var:Duration_n 1600.0) (var:Cost_n 0.007) (var:Belief_n 0.96) (var:Comfort_n 0.99) (var:Maps_s ()) (var:Maps_t (:map-BE)) (var:Stagecount 1) (var:MaxStagecount 1) (var:Duration_s 0.0) (var:Duration_t 1600.0) (var:MaxDuration 5000.0) (var:Cost_s 0.0) (var:Cost_t 0.007) (var:MaxCost 5.0) (var:Belief_s 1.0) (var:Belief_t 0.96) (var:MinBelief 0.2) (var:Comfort_s 1.0) (var:Comfort_t 0.99) (var:MinComfort 0.4) (var:Path_s ()) (var:Path_t (:drive_gent_kortrijk)) (var:Goal _:bng_11) (var:Path (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Duration 4100.0) (var:Cost 0.018000000000000002) (var:Belief 0.903168) (var:Comfort 0.9801)).
+(_:bng_16 log:isImpliedBy _:bng_17) log:explain ((var:Goal _:bng_11) (var:Path (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:Duration 4100.0) (var:Cost 0.018000000000000002) (var:Belief 0.903168) (var:Comfort 0.9801) (var:MaxDuration 5000.0) (var:MaxCost 5.0) (var:MinBelief 0.2) (var:MinComfort 0.4) (var:MaxStagecount 1)).
+(_:bng_18 log:query _:bng_19) log:explain ((var:S :i1) (var:PATH (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende)) (var:DURATION 4100.0) (var:COST 0.018000000000000002) (var:BELIEF 0.903168) (var:COMFORT 0.9801)).
+(_:bng_4 log:isImpliedBy _:bng_5) log:explain ((var:A (:map-BE :map-BE :map-BE :map-BE)) (var:C :map-BE) (var:D (:map-BE :map-BE :map-BE)) (var:B 1)).
+(_:bng_8 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Kortrijk)).
+(_:bng_7 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Gent)).
+(_:bng_8 log:isImpliedBy _:bng_2) log:explain ((var:S :i1) (var:L :Gent)).
+
+_:bng_1 {
+    :map-BE gps:description (_:bng_21 true _:bng_22 :drive_gent_brugge 1500.0 0.006 0.96 0.99).
+}
+
+_:bng_2 {
+    var:S :location var:L.
+}
+
+_:bng_3 {
+    () gps:stagecount 1.
+}
+
+_:bng_4 {
+    var:A gps:stagecount var:B.
+}
+
+_:bng_5 {
+    var:A list:firstRest (var:C var:D).
+    var:D gps:stagecount var:B.
+}
+
+_:bng_6 {
+    :map-BE gps:description (_:bng_21 true _:bng_23 :drive_gent_kortrijk 1600.0 0.007 0.96 0.99).
+}
+
+_:bng_7 {
+    :map-BE gps:description (_:bng_23 true _:bng_22 :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99).
+}
+
+_:bng_8 {
+    :map-BE gps:description (_:bng_22 true _:bng_24 :drive_brugge_oostende 900.0 0.004 0.98 1.0).
+}
+
+_:bng_9 {
+    () gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_10 {
+    var:Goal log:call true.
+}
+
+_:bng_11 {
+    :i1 :location :Oostende.
+}
+
+_:bng_12 {
+    () gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_13 {
+    var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n).
+    (var:Maps_s (var:Map)) list:append var:Maps_t.
+    var:Maps_t gps:stagecount var:Stagecount.
+    var:Stagecount math:notGreaterThan var:MaxStagecount.
+    (var:Duration_s var:Duration_n) math:sum var:Duration_t.
+    var:Duration_t math:notGreaterThan var:MaxDuration.
+    (var:Cost_s var:Cost_n) math:sum var:Cost_t.
+    var:Cost_t math:notGreaterThan var:MaxCost.
+    (var:Belief_s var:Belief_n) math:product var:Belief_t.
+    var:Belief_t math:notLessThan var:MinBelief.
+    (var:Comfort_s var:Comfort_n) math:product var:Comfort_t.
+    var:Comfort_t math:notLessThan var:MinComfort.
+    (var:Path_s (var:Action)) list:append var:Path_t.
+    var:From log:becomes var:To.
+    _:bng_25 log:callWithCleanup _:bng_26.
+}
+
+_:bng_14 {
+    :i1 :location :Brugge.
+}
+
+_:bng_15 {
+    :i1 :location :Gent.
+}
+
+_:bng_16 {
+    () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_17 {
+    () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_18 {
+    () gps:findpath (_:bng_24 var:PATH var:DURATION var:COST var:BELIEF var:COMFORT (5000.0 5.0 0.2 0.4 1)).
+}
+
+_:bng_19 {
+    var:S gps:path (var:PATH var:DURATION var:COST var:BELIEF var:COMFORT).
+}
+
+_:bng_20 {
+    :i1 :location :Kortrijk.
+}
+
+_:bng_21 {
+    var:S :location :Gent.
+}
+
+_:bng_22 {
+    var:S :location :Brugge.
+}
+
+_:bng_23 {
+    var:S :location :Kortrijk.
+}
+
+_:bng_24 {
+    var:S :location :Oostende.
+}
+
+_:bng_25 {
+    () gps:findpaths (var:Maps_t var:Goal var:Path_t var:Duration_t var:Cost_t var:Belief_t var:Comfort_t var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_26 {
+    var:To log:becomes var:From.
+}

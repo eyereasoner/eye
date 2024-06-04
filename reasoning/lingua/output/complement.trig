@@ -1,0 +1,32 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+# answer
+_:bng_1 log:implies false.
+_:bng_2 log:implies false.
+
+# explanation
+(_:bng_3 log:query _:bng_3) log:explain ((var:P log:complement) (var:C log:complement) (var:S log:complement) (var:O log:complement)).
+(_:bng_3 log:query _:bng_3) log:explain ((var:P var:P) (var:C var:C) (var:S var:S) (var:O var:O)).
+
+_:bng_1 {
+    log:complement log:complement log:complement.
+    log:complement log:complement log:complement.
+    log:complement log:complement log:complement.
+}
+
+_:bng_2 {
+    var:P log:complement var:C.
+    var:S var:P var:O.
+    var:S var:C var:O.
+}
+
+_:bng_3 {
+    _:bng_4 log:implies false.
+}
+
+_:bng_4 {
+    var:P log:complement var:C.
+    var:S var:P var:O.
+    var:S var:C var:O.
+}

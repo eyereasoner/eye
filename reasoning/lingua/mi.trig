@@ -1,0 +1,130 @@
+# ----------------
+# Meta-interpreter
+# ----------------
+#
+# Inspired by https://www.metalevel.at/acomip/
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# meta-interpreter rules
+_:bng_1 log:isImpliedBy true.
+
+_:bng_1 {
+    () :mi ().
+}
+
+_:bng_2 log:isImpliedBy _:bng_3.
+
+_:bng_2 {
+    () :mi var:A.
+}
+
+_:bng_3 {
+    var:A list:firstRest (var:G var:Gs).
+    () :headBody (var:G var:Goals var:Gs).
+    () :mi var:Goals.
+}
+
+# general head-body rules
+_:bng_4 log:isImpliedBy true.
+
+_:bng_4 {
+    () :headBody (_:bng_5 var:Rs var:Rs).
+}
+
+_:bng_5 {
+    () :mi ().
+}
+
+_:bng_6 log:isImpliedBy _:bng_7.
+
+_:bng_6 {
+    () :headBody (_:bng_8 var:B var:Rs).
+}
+
+_:bng_8 {
+    () :mi var:A.
+}
+
+_:bng_7 {
+    var:A list:firstRest (var:G var:Gs).
+    var:B list:firstRest (_:bng_9 var:C).
+    var:C list:firstRest (_:bng_10 var:Rs).
+}
+
+_:bng_9 {
+    () :headBody (var:G var:Goals var:Gs).
+}
+
+_:bng_10 {
+    () :mi var:Goals.
+}
+
+_:bng_11 log:isImpliedBy _:bng_12.
+
+_:bng_11 {
+    () :headBody (_:bng_13 var:Rs var:Rs).
+}
+
+_:bng_13 {
+    () :headBody (var:Head var:Goals0 var:Goals).
+}
+
+_:bng_12 {
+    () :headBody (var:Head var:Goals0 var:Goals).
+}
+
+# natnum head-body rules
+_:bng_14 log:isImpliedBy true.
+
+_:bng_14 {
+    () :headBody (_:bng_15 var:Rs var:Rs).
+}
+
+_:bng_15 {
+    () :natnum (0).
+}
+
+_:bng_16 log:isImpliedBy _:bng_17.
+
+_:bng_16 {
+    () :headBody (_:bng_18 var:A var:Rs).
+}
+
+_:bng_18 {
+    () :natnum (:s var:X).
+}
+
+_:bng_17 {
+    var:A list:firstRest (_:bng_19 var:Rs).
+}
+
+_:bng_19 {
+    () :natnum var:X.
+}
+
+# query
+_:bng_20 log:query _:bng_21.
+
+_:bng_20 {
+    () :mi (_:bng_22).
+}
+
+_:bng_22 {
+    () :mi (_:bng_23).
+}
+
+_:bng_23 {
+    () :mi (_:bng_24).
+}
+
+_:bng_24 {
+    () :natnum (:s (:s (:s (:s (:s (0)))))).
+}
+
+_:bng_21 {
+    () :natnum (:s (:s (:s (:s (:s (0)))))).
+}

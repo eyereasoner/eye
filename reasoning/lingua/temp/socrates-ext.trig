@@ -1,0 +1,34 @@
+# ------------------
+# Socrates Inference
+# ------------------
+#
+# Infer that Socrates is mortal and that that is a conclusion
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Socrates a :Human.
+:Human rdfs:subClassOf :Mortal.
+
+# rdfs subclass
+_:bng_1 log:implies _:bng_2.
+
+_:bng_1 {
+    var:A rdfs:subClassOf var:B.
+    var:S a var:A.
+}
+
+_:bng_2 {
+    var:S a var:B.
+    _:bng_2 a rdfs:Resource.
+}
+
+# query
+_:bng_3 log:query _:bng_3.
+
+_:bng_3 {
+    var:S a :Mortal.
+}
