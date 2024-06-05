@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.13.0 (2024-06-05)').
+version_info('EYE v10.13.1 (2024-06-05)').
 
 license_info('MIT License
 
@@ -437,7 +437,7 @@ gre(Argus) :-
         assertz(flag(rdfsurfaces)),
         (   flag(nope)
         ->  true
-        ;   retractall(flag(nope)),
+        ;   assertz(flag(nope)),
             assertz(flag(explain))
         ),
 
