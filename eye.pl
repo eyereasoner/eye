@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.13.1 (2024-06-05)').
+version_info('EYE v10.13.2 (2024-06-06)').
 
 license_info('MIT License
 
@@ -346,7 +346,6 @@ argv([Arg|Argvs], [U, V|Argus]) :-
     argv(Argvs, Argus).
 argv([Arg|Argvs], [Arg|Argus]) :-
     argv(Argvs, Argus).
-
 
 % ------------------------------
 % GRE (Generic Reasoning Engine)
@@ -2037,7 +2036,6 @@ rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-
 rename('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\'', ':-') :-
     !.
 rename(A, A).
-
 
 %
 % N3 parser
@@ -5016,7 +5014,6 @@ indentation(C) :-
     nb_getval(indentation, A),
     B is A+C,
     nb_setval(indentation, B).
-
 
 % ----------------------------
 % EAM (Euler Abstract Machine)
@@ -12379,13 +12376,6 @@ getcodes(A, B) :-
     nonvar(A),
     with_output_to_chars(wg(A), C),
     escape_codes(C, B).
-
-map(_, [], []) :-
-    !.
-map(A, [B|C], [D|E]) :-
-    F =.. [A, B, D],
-    call(F),
-    map(A, C, E).
 
 remember(A) :-
     \+call(A),
