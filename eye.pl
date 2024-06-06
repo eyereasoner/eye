@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.13.2 (2024-06-06)').
+version_info('EYE v10.13.3 (2024-06-06)').
 
 license_info('MIT License
 
@@ -554,7 +554,7 @@ gre(Argus) :-
                 findvars(S, W, beta),
                 makevars(S, I, beta(W)),
                 (   flag(explain)
-                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), I)), Ie)
+                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Q], I)), Ie)
                 ;   Ie = I
                 )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, Ie), '<void>')),
 
@@ -591,7 +591,7 @@ gre(Argus) :-
                 findvars(S, W, beta),
                 makevars(S, I, beta(W)),
                 (   flag(explain)
-                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G))), Ie)
+                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Q], I)), Ie)
                 ;   Ie = I
                 )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, Ie), '<void>')),
 
@@ -608,7 +608,11 @@ gre(Argus) :-
                 conjify(R, S),
                 find_graffiti([R], D),
                 append(Vl, D, U),
-                makevars(':-'(T, S), C, beta(U)),
+                (   flag(explain)
+                ->  conj_append(S, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), S], T)), Se)
+                ;   Se = S
+                ),
+                makevars(':-'(T, Se), C, beta(U)),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -642,7 +646,11 @@ gre(Argus) :-
                 ),
                 conj_list(S, Y),
                 append(Vl, X, U),
-                makevars(':-'(M, S), C, beta(U)),
+                (   flag(explain)
+                ->  conj_append(S, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), S], M)), Se)
+                ;   Se = S
+                ),
+                makevars(':-'(M, Se), C, beta(U)),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -665,7 +673,11 @@ gre(Argus) :-
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
                 append(Vl, D, U),
-                makevars(implies(I, J, '<void>'), C, beta(U)),
+                (   flag(explain)
+                ->  conj_append(J, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), I], H)), Je)
+                ;   Je = J
+                ),
+                makevars(implies(I, Je, '<void>'), C, beta(U)),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -683,8 +695,13 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 append(L, ['<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'([], G)], M),
-                conj_list(H, M)
-                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
+                conj_list(H, M),
+                (   flag(explain)
+                ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
+                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H)))
+                ;   true
+                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
 
         % blow inference fuse
         assertz(implies((
@@ -3822,6 +3839,7 @@ w3 :-
         ),
         ws(C),
         write('.'),
+        nl,
         nl,
         cnt(output_statements),
         fail
