@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.13.3 (2024-06-06)').
+version_info('EYE v10.13.4 (2024-06-06)').
 
 license_info('MIT License
 
@@ -698,7 +698,7 @@ gre(Argus) :-
                 conj_list(H, M),
                 (   flag(explain)
                 ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                                    '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
                                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H)))
                 ;   true
                 )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
