@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.13.5 (2024-06-07)').
+version_info('EYE v10.13.6 (2024-06-08)').
 
 license_info('MIT License
 
@@ -611,11 +611,12 @@ gre(Argus) :-
                 conjify(R, S),
                 find_graffiti([R], D),
                 append(Vl, D, U),
+                makevars([T, S], [Tu, Su], beta(U)),
                 (   flag(explain)
-                ->  conj_append(S, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), S], T)), Se)
-                ;   Se = S
+                ->  conj_append(Su, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Su], Tu)), Se)
+                ;   Se = Su
                 ),
-                makevars(':-'(T, Se), C, beta(U)),
+                C = ':-'(Tu, Se),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -649,11 +650,12 @@ gre(Argus) :-
                 ),
                 conj_list(S, Y),
                 append(Vl, X, U),
+                makevars([M, S], [Mu, Su], beta(U)),
                 (   flag(explain)
-                ->  conj_append(S, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), S], M)), Se)
-                ;   Se = S
+                ->  conj_append(Su, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Su], Mu)), Se)
+                ;   Se = Su
                 ),
-                makevars(':-'(M, Se), C, beta(U)),
+                C = ':-'(Mu, Se),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -676,11 +678,12 @@ gre(Argus) :-
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
                 append(Vl, D, U),
+                makevars([I, J], [Iu, Ju], beta(U)),
                 (   flag(explain)
-                ->  conj_append(J, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), I], H)), Je)
-                ;   Je = J
+                ->  conj_append(Ju, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Iu], H)), Je)
+                ;   Je = Ju
                 ),
-                makevars(implies(I, Je, '<void>'), C, beta(U)),
+                C = implies(Iu, Je, '<void>'),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
