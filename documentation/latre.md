@@ -7,5 +7,5 @@
 - queries use a topward arrow `=^`
 - only `?x` quickvars in rules and queries
 - only `_:x` blank nodes in data and quads
-- quantified `var:` variables in proofs
+- quantified `var:x` variables in proofs
 - `.ltr` file extension and is +/- `.n3`
