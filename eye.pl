@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.15.0 (2024-06-10)').
+version_info('EYE v10.15.1 (2024-06-10)').
 
 license_info('MIT License
 
@@ -4788,9 +4788,13 @@ eam(Recursion) :-
         (   (   Conc = false
             ;   Conc = answer(false, void, void)
             )
-        ->  (   flag('n3p-output')
-            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false)))
-            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, false)))
+        ->  (   Prem = (_, call(_), Prem2)
+            ->  true
+            ;   Prem2 = Prem
+            ),
+            (   flag('n3p-output')
+            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
+            ;   with_output_to(atom(PN3), wt('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
             ),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
@@ -11821,6 +11825,19 @@ makevar(A, B, F) :-
     ;   Dt = [Ds, Do],
         B = exopred(Dh, Ds, Do)
     ).
+
+checkvars(A) :-
+    atomic(A),
+    !.
+checkvars([]) :-
+    !.
+checkvars([A|B]) :-
+    !,
+    checkvars(A),
+    checkvars(B).
+checkvars(A) :-
+    A =.. C,
+    checkvars(C).
 
 findvars(A, B, Z) :-
     atomic(A),
