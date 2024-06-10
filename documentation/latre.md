@@ -10,6 +10,6 @@
 
 ## variables
 
-- only `_:x` blank nodes in data and quads
-- only `?x` quickvars in rules and queries
+- `_:x` blank nodes in data and quads
+- `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
