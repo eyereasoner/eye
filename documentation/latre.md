@@ -10,7 +10,7 @@
 
 ## variables
 
-- `_:x` blank nodes in data and quads
+- `_:x` blank nodes in triples and quads
 - `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
 
