@@ -4,9 +4,9 @@
 
 ## triptych
 
-- backward rules use a **l**eft arrow `<=`
-- queries use a **t**opward arrow `=^`
-- forward rules use a **r**ight arrow `=>`
+- backward rules use a left arrow `<=`
+- forward rules use a right arrow `=>`
+- queries use a topward arrow `=^`
 
 ## variables
 
