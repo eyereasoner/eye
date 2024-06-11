@@ -1,12 +1,12 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
-# language to reason - latre
+# language to reason - ltr
 
 ## triptych
 
 - backward rules use a left arrow `<=`
 - forward rules use a right arrow `=>`
-- queries use a topward arrow `=^`
+- queries use a triangle arrow `|>`
 
 ## variables
 
@@ -27,7 +27,7 @@
 {?A rdfs:subClassOf ?B. ?S a ?A} => {?S a ?B}.
 
 # query
-{?S a ?B} =^ {?S a ?B}.
+{?S a ?B} |> {?S a ?B}.
 ```
 
 gives answer

@@ -2,17 +2,17 @@
 @prefix : <http://example.org/#>.
 
 # blank-node graphs
-_:bn1 {
+_:bng_1 {
     :s :p _:x.
 }
 
-_:bn2 {
+_:bng_2 {
     :a :b :c.
     :d :e _:x.
 }
 
 # additional quad
-:s :p :o _:bn1.
+:s :p :o _:bng_1.
 
 # named graph
 :g {
@@ -24,6 +24,6 @@ _:bn2 {
 {
     ?S ?P ?O ?G.
     ?G log:rawType log:LabeledBlankNode.
-} log:query {
+} |> {
     ?S ?P ?O ?G.
 }.
