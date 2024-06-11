@@ -1,17 +1,17 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
-# language to reason - ltr
+# language to reason - ltr (elter)
 
 ## triptych
 
 - backward rules use a left arrow `<=`
 - forward rules use a right arrow `=>`
-- queries use a triangle arrow `|>`
+- queries use a triangular arrow `|>`
 
 ## variables
 
-- `_:x` blank nodes in triples and quads
-- `?x` quickvars in rules and queries
+- only `_:x` blank nodes in triples and quads
+- only `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
 
 ## Socrates example
