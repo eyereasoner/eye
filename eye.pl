@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.0 (2024-06-11)').
+version_info('EYE v10.16.1 (2024-06-11)').
 
 license_info('MIT License
 
@@ -2051,6 +2051,8 @@ ttl_n3p(node(A), B) :-
     !,
     nb_getval(var_ns, Sns),
     atomic_list_concat(['<', Sns, 'node_', A, '>'], B).
+ttl_n3p('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil', []) :-
+    !.
 ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
@@ -5947,8 +5949,10 @@ djiti_assertz(A) :-
     ),
     E = C.
 
-'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#firstRest>'([A|B], [A, B]) :-
-    \+flag(restricted).
+'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#firstRest>'(A, [B, C]) :-
+    \+flag(restricted),
+    getlist(A, D),
+    D = [B|C].
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#format>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], literal(C, type('<http://www.w3.org/2001/XMLSchema#string>'))) :-
     \+flag(restricted),
@@ -6552,7 +6556,9 @@ djiti_assertz(A) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/list#firstRest>'([A|B], [A, B]).
+'<http://www.w3.org/2000/10/swap/list#firstRest>'(A, [B, C]) :-
+    getlist(A, D),
+    D = [B|C].
 
 '<http://www.w3.org/2000/10/swap/list#in>'(A, B) :-
     when(
