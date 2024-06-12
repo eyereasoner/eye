@@ -17,16 +17,16 @@
      - 
    * - 3
      - ...
-     - parsing <socrates-query.n3>
+     - parsing <socrates.n3>
      - 
    * - 4
-     - @forAll :x_0 . { soc:Socrates a :x_0 . } => {soc:Socrates a :x_0 . } .
+     - @forAll :x_0, :x_1 . { :x_0 a :x_1 . } => {:x_0 a :x_1 . } .
      - erasure from step 3
      - 
    * - 5
      - :Socrates a :Human .
      - rule from step 4 applied to steps (2,)
-     - {'x_0': u'<http://example.org/socrates#Human>'}
+     - {'x_0': u'<http://example.org/socrates#Socrates>', 'x_1': u'<http://example.org/socrates#Human>'}
    * - 6
      - ...
      - parsing <socrates.n3>
@@ -50,7 +50,7 @@
    * - 11
      - :Socrates a :Mortal .
      - rule from step 4 applied to steps (10,)
-     - {'x_0': u'<http://example.org/socrates#Mortal>'}
+     - {'x_0': u'<http://example.org/socrates#Socrates>', 'x_1': u'<http://example.org/socrates#Mortal>'}
    * - 12
      - :Socrates a :Human, :Mortal .
      - conjoining steps (5, 11)
@@ -59,9 +59,3 @@
 
 Conclusion::
 
-  @prefix : <http://example.org/socrates#> .
-  
-  :Socrates     a :Human,
-  :Mortal .
-  
-  
