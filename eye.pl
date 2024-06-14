@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.4 (2024-06-14)').
+version_info('EYE v10.16.5 (2024-06-15)').
 
 license_info('MIT License
 
@@ -2014,7 +2014,10 @@ tr_tr(A, B) :-
         E = [V, G],
         is_list(V),
         is_graph(G),
-        F =.. [C, V, G]
+        conj_list(G, Gl),
+        list_to_set(Gl, Gs),
+        conj_list(Gc, Gs),
+        F =.. [C, V, Gc]
     ->  tr_graffiti(F, B)
     ;   B =.. [C|E]
     ).
