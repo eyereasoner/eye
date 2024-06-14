@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.2 (2024-06-11)').
+version_info('EYE v10.16.3 (2024-06-14)').
 
 license_info('MIT License
 
@@ -4194,7 +4194,10 @@ wt0(X) :-
                 )
             ;   memberchk(X, L)
             )
-        ->  write('?U_')
+        ->  (   \+flag(rdfsurfaces)
+            ->  write('?U_')
+            ;   write('_:E_')
+            )
         ;   write('_:sk_')
         ),
         write(Y)
@@ -4207,7 +4210,10 @@ wt0(X) :-
     !,
     (   \+flag('no-qvars'),
         \+flag('pass-all-ground')
-    ->  write('?U_'),
+    ->  (   \+flag(rdfsurfaces)
+        ->  write('?U_')
+        ;   write('_:E_')
+        ),
         write(Y)
     ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#all_', Y, '>'], Z),
         wt0(Z)
