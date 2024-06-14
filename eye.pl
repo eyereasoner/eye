@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.3 (2024-06-14)').
+version_info('EYE v10.16.4 (2024-06-14)').
 
 license_info('MIT License
 
@@ -2010,7 +2010,36 @@ tr_tr(edge(N, triple(A, B, C)), edge(N, triple(D, E, F))) :-
 tr_tr(A, B) :-
     A =.. [C|D],
     tr_tr(D, E),
-    B =.. [C|E].
+    (   regex('^\'<.*#on.*Surface>\'$', C, _),
+        E = [V, G],
+        is_list(V),
+        is_graph(G),
+        F =.. [C, V, G]
+    ->  tr_graffiti(F, B)
+    ;   B =.. [C|E]
+    ).
+
+tr_graffiti(A, B) :-
+    A =.. [C, D, E],
+    tr_tr(D, T),
+    tr_tr(E, R),
+    findall([G, H],
+        (   member(G, T),
+            (   sub_atom(G, _, 2, 0, '>\'')
+            ->  sub_atom(G, 0, _, 2, I),
+                atomic_list_concat([I, '_'], J),
+                gensym(J, K),
+                atomic_list_concat([K, '>\''], H)
+            ;   atomic_list_concat([G, '_'], I),
+                gensym(I, H)
+            )
+        ),
+        L
+    ),
+    couple(_, M, L),
+    sort(M, N),
+    makevar(R, O, L),
+    B =.. [C, N, O].
 
 tr_split([], [], []) :-
     !.
