@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.6 (2024-06-15)').
+version_info('EYE v10.16.7 (2024-06-15)').
 
 license_info('MIT License
 
@@ -484,31 +484,6 @@ gre(Argus) :-
                                     '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)))
                 ;   true
                 )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<void>')),
-
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                getlist(V, Vl),
-                is_list(Vl),
-                is_graph(G),
-                conj_list(G, L),
-                list_to_set(L, B),
-                findall(1,
-                    (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
-                    ),
-                    O
-                ),
-                length(O, E),
-                length(B, E),
-                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], H), B, K),
-                member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], I), K),
-                '<http://www.w3.org/2000/10/swap/log#isomorphic>'(H, I),
-                conj_list(J, K),
-                (   flag(explain)
-                ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, J)))
-                ;   true
-                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, J), '<void>')),
 
         % resolve negative surfaces
         assertz(implies((
@@ -4192,6 +4167,7 @@ wr(Y) :-
 we(X) :-
     nl,
     w3,
+    writeln('# inference fuse'),
     wt(X),
     write('.'),
     nl.
