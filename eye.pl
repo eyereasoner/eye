@@ -4195,7 +4195,7 @@ we(X) :-
     wt(X),
     write('.'),
     nl.
-        
+
 wt(X) :-
     var(X),
     !,
