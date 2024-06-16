@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.8 (2024-06-15)').
+version_info('EYE v10.16.9 (2024-06-16)').
 
 license_info('MIT License
 
@@ -12069,7 +12069,11 @@ dynify(A) :-
     length(C, N),
     (   current_predicate(B/N)
     ->  true
-    ;   dynamic(B/N)
+    ;   dynamic(B/N),
+        (   flag(intermediate, Out)
+        ->  format(Out, ':- dynamic(\'~w\'/~w).~n', [B, N])
+        ;   true
+        )
     ),
     dynify(C).
 
