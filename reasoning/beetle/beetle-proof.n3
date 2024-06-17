@@ -3,6 +3,7 @@
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -73,7 +74,7 @@ skolem:lemma6 a r:Inference;
         } => {
             {
                 var:x_1 :is :beautiful.
-            } :or {
+            } log:or {
                 var:x_1 :is :beautiful.
             }.
         }.
@@ -84,7 +85,7 @@ skolem:lemma6 a r:Inference;
         } => {
             {
                 var:x_1 :is :green.
-            } :or {
+            } log:or {
                 var:x_1 :is :blue.
             }.
         }}]
@@ -120,7 +121,7 @@ skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => {
-                var:x_1 :or var:x_1.
+                var:x_1 log:or var:x_1.
             }.
         } => {
             var:x_0 => var:x_1.
@@ -132,13 +133,13 @@ skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 => {
-                var:x_1 :or var:x_2.
+                var:x_1 log:or var:x_2.
             }.
             var:x_1 => var:x_3.
             var:x_2 => var:x_4.
         } => {
             var:x_0 => {
-                var:x_3 :or var:x_4.
+                var:x_3 log:or var:x_4.
             }.
         }.
     };

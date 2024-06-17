@@ -3,6 +3,7 @@
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -82,7 +83,7 @@ skolem:lemma7 a r:Inference;
         } => {
             {
                 :beetle :is :green.
-            } :or {
+            } log:or {
                 :beetle :is :blue.
             }.
         }}]
@@ -113,7 +114,7 @@ skolem:lemma8 a r:Inference;
         } => {
             {
                 :beetle :is :nice.
-            } :or {
+            } log:or {
                 :beetle :is :pretty.
             }.
         }}]
@@ -134,7 +135,7 @@ skolem:lemma9 a r:Inference;
     r:gives {
         {
             :beetle :is :blue.
-        } :not true.
+        } log:not true.
     };
     r:evidence (
         [ a r:Fact; r:gives {{
@@ -156,9 +157,9 @@ skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 => {
-                var:x_1 :or var:x_2.
+                var:x_1 log:or var:x_2.
             }.
-            var:x_2 :not true.
+            var:x_2 log:not true.
         } => {
             var:x_0 => var:x_1.
         }.
@@ -169,7 +170,7 @@ skolem:lemma11 a r:Inference;
     r:gives {
         {
             :beetle :is :pretty.
-        } :not true.
+        } log:not true.
     };
     r:evidence (
         [ a r:Fact; r:gives {{
@@ -191,7 +192,7 @@ skolem:lemma12 a r:Inference;
     r:gives {
         {
             :beetle :is :beautiful.
-        } :not true.
+        } log:not true.
     };
     r:evidence (
         skolem:lemma6
@@ -203,9 +204,9 @@ skolem:lemma13 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => var:x_1.
-            var:x_1 :not true.
+            var:x_1 log:not true.
         } => {
-            var:x_0 :not true.
+            var:x_0 log:not true.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol.n3>].
@@ -217,7 +218,7 @@ skolem:lemma14 a r:Extraction;
         } => {
             {
                 var:x_0 :is :beautiful.
-            } :not true.
+            } log:not true.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle6.n3>].

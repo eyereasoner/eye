@@ -3,25 +3,24 @@
 # ---------------------------
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix : <http://example.org/#>.
 
 # resolution
 {
     ?A => {
-        ?B :or ?C.
+        ?B log:or ?C.
     }.
     ?B => ?D.
     ?C => ?E.
 } => {
     ?A => {
-        ?D :or ?E.
+        ?D log:or ?E.
     }.
 }.
 
 # factoring
 {
     ?A => {
-        ?B :or ?B.
+        ?B log:or ?B.
     }.
 } => {
     ?A => ?B.
@@ -30,31 +29,31 @@
 # negation
 {
     ?A => ?B.
-    ?B :not true.
+    ?B log:not true.
 } => {
-    ?A :not true.
+    ?A log:not true.
 }.
 
 {
     ?A => {
-        ?B :or ?C.
+        ?B log:or ?C.
     }.
-    ?B :not true.
+    ?B log:not true.
 } => {
     ?A => ?C.
 }.
 
 {
     ?A => {
-        ?B :or ?C.
+        ?B log:or ?C.
     }.
-    ?C :not true.
+    ?C log:not true.
 } => {
     ?A => ?B.
 }.
 
 # blow a fuse
 {
-    ?A :not true.
+    ?A log:not true.
     ?A log:call true.
 } => false.

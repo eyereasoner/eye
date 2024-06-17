@@ -1,3 +1,4 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
 # beetle is a car
@@ -9,7 +10,7 @@
 } => {
     {
         ?A :is :green.
-    } :or {
+    } log:or {
         ?A :is :blue.
     }.
 }.
@@ -20,7 +21,7 @@
 } => {
     {
         ?A :is :nice.
-    } :or {
+    } log:or {
         ?A :is :pretty.
     }.
 }.
@@ -38,7 +39,7 @@
 } => {
     {
         ?A :is :beautiful.
-    } :not true.
+    } log:not true.
 }.
 
 # blue things are beautiful
