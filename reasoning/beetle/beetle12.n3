@@ -170,15 +170,15 @@
 }.
 
 # blow a fuse
-#{
-#    ?A :not true.
-#    ?A log:call true.
-#} => false.
+{
+    ?A :not true.
+    ?A log:call true.
+} => false.
 
 # should blow an inference fuse when the following lines are uncommented
-{
-    ?X :is :beautiful.
-} :not true.
+#{
+#    ?X :is :beautiful.
+#} :not true.
 
 # query
 {
