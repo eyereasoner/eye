@@ -1,0 +1,47 @@
+@prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+{
+    ?U_0 => {
+        ?U_1 :or ?U_2.
+    }.
+    ?U_1 => ?U_3.
+    ?U_2 => ?U_4.
+} => {
+    ?U_0 => {
+        ?U_3 :or ?U_4.
+    }.
+}.
+{
+    ?U_5 => {
+        ?U_6 :or ?U_6.
+    }.
+} => {
+    ?U_5 => ?U_6.
+}.
+{
+    ?U_7 => ?U_8.
+    ?U_8 :not true.
+} => {
+    ?U_7 :not true.
+}.
+{
+    ?U_9 => {
+        ?U_10 :or ?U_11.
+    }.
+    ?U_10 :not true.
+} => {
+    ?U_9 => ?U_11.
+}.
+{
+    ?U_12 => {
+        ?U_13 :or ?U_14.
+    }.
+    ?U_14 :not true.
+} => {
+    ?U_12 => ?U_13.
+}.
+{
+    ?U_15 :not true.
+    ?U_15 log:call true.
+} => false.

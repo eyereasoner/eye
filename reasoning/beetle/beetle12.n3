@@ -1,4 +1,3 @@
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
 # beetle is a car
@@ -146,39 +145,6 @@
 } => {
    ?A :is :beautiful.
 }.
-
-# resolution
-{
-    ?A => {
-        ?B :or ?C.
-    }.
-    ?B => ?D.
-    ?C => ?E.
-} => {
-    ?A => {
-        ?D :or ?E.
-    }.
-}.
-
-# factoring
-{
-    ?A => {
-        ?B :or ?B.
-    }.
-} => {
-    ?A => ?B.
-}.
-
-# blow a fuse
-{
-    ?A :not true.
-    ?A log:call true.
-} => false.
-
-# should blow an inference fuse when the following lines are uncommented
-#{
-#    ?X :is :beautiful.
-#} :not true.
 
 # query
 {
