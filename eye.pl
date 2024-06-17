@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.9 (2024-06-16)').
+version_info('EYE v10.16.10 (2024-06-17)').
 
 license_info('MIT License
 
@@ -434,17 +434,12 @@ gre(Argus) :-
         )
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
-        (   flag(nope)
-        ->  true
-        ;   assertz(flag(nope)),
-            assertz(flag(explain))
-        ),
 
         % assert positive surfaces
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], G)),
                 \+call(G)
-                ), G, '<void>')),
+                ), G, '<>')),
 
         % simplify negative surfaces
         assertz(implies((
@@ -477,13 +472,8 @@ gre(Argus) :-
                 X = [],
                 findvars(O, S, beta),
                 intersection(Wl, S, Y),
-                append([Vl, X, Y], U),
-                (   flag(explain)
-                ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C)))
-                ;   true
-                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<void>')),
+                append([Vl, X, Y], U)
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, C), '<>')),
 
         % resolve negative surfaces
         assertz(implies((
@@ -531,13 +521,8 @@ gre(Argus) :-
                 ),
                 list_to_set(M, T),
                 conj_list(H, T),
-                ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H)),
-                (   flag(explain)
-                ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
-                                    ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, F)],
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H)))
-                ;   true
-                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
+                ground('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H))
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<>')),
 
         % convert negative surfaces to forward rules
         assertz(implies((
@@ -555,11 +540,8 @@ gre(Argus) :-
                 append(Vl, D, U),
                 makevars([R, H], [Q, S], beta(U)),
                 findvars(S, W, beta),
-                makevars(S, I, beta(W)),
-                (   flag(explain)
-                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Q], I)), Ie)
-                ;   Ie = I
-                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, Ie), '<void>')),
+                makevars(S, I, beta(W))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to forward contrapositive rules
         assertz(implies((
@@ -592,11 +574,8 @@ gre(Argus) :-
                 append(Vl, D, U),
                 makevars([R, E], [Q, S], beta(U)),
                 findvars(S, W, beta),
-                makevars(S, I, beta(W)),
-                (   flag(explain)
-                ->  conj_append(I, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Q], I)), Ie)
-                ;   Ie = I
-                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, Ie), '<void>')),
+                makevars(S, I, beta(W))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to backward rules
         assertz(implies((
@@ -622,11 +601,7 @@ gre(Argus) :-
                 find_graffiti([R], D),
                 append(Vl, D, U),
                 makevars([T, S], [Tu, Su], beta(U)),
-                (   flag(explain)
-                ->  conj_append(Su, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Su], Tu)), Se)
-                ;   Se = Su
-                ),
-                C = ':-'(Tu, Se),
+                C = ':-'(Tu, Su),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -634,7 +609,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<void>')),
+                )), true, '<>')),
 
         % convert negative surfaces to universal statements
         assertz(implies((
@@ -661,11 +636,7 @@ gre(Argus) :-
                 conj_list(S, Y),
                 append(Vl, X, U),
                 makevars([M, S], [Mu, Su], beta(U)),
-                (   flag(explain)
-                ->  conj_append(Su, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Su], Mu)), Se)
-                ;   Se = Su
-                ),
-                C = ':-'(Mu, Se),
+                C = ':-'(Mu, Su),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -673,7 +644,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<void>')),
+                )), true, '<>')),
 
         % convert negative surfaces to answer rules
         assertz(implies((
@@ -689,11 +660,7 @@ gre(Argus) :-
                 find_graffiti(K, D),
                 append(Vl, D, U),
                 makevars([I, J], [Iu, Ju], beta(U)),
-                (   flag(explain)
-                ->  conj_append(Ju, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G), Iu], H)), Je)
-                ;   Je = Ju
-                ),
-                C = implies(Iu, Je, '<void>'),
+                C = implies(Iu, Ju, '<>'),
                 copy_term_nat(C, CC),
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
@@ -701,7 +668,7 @@ gre(Argus) :-
                     assertz(C),
                     retractall(brake)
                 ;   true
-                )), true, '<void>')),
+                )), true, '<>')),
 
         % convert query surface
         assertz(implies((
@@ -711,13 +678,8 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 append(L, ['<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'([], G)], M),
-                conj_list(H, M),
-                (   flag(explain)
-                ->  remember(answer('<http://www.w3.org/2000/10/swap/log#explains>',
-                                    '<http://www.w3.org/2000/10/swap/log#onQuerySurface>'(V, G),
-                                    '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H)))
-                ;   true
-                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<void>')),
+                conj_list(H, M)
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vl, H), '<>')),
 
         % blow inference fuse
         assertz(implies((
@@ -741,7 +703,7 @@ gre(Argus) :-
                 )),
                 J,
                 '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
-                ), false, '<void>'))
+                ), false, '<>'))
     ;   true
     ),
 
@@ -3856,7 +3818,6 @@ w3 :-
     ;   true
     ),
     (   answer(B1, B2, B3),
-        B1 \= '<http://www.w3.org/2000/10/swap/log#explains>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3868,28 +3829,6 @@ w3 :-
         ),
         ws(C),
         write('.'),
-        nl,
-        cnt(output_statements),
-        fail
-    ;   true
-    ),
-    (   flag(explain),
-        nl,
-        writeln('# explanation'),
-        answer(B1, B2, B3),
-        B1 = '<http://www.w3.org/2000/10/swap/log#explains>',
-        relabel([B1, B2, B3], [C1, C2, C3]),
-        djiti_answer(answer(C), answer(C1, C2, C3)),
-        indent,
-        (   flag('n3p-output')
-        ->  makeblank(C, Ca),
-            exo_pred(Ca, Cb),
-            writeq(Cb)
-        ;   wt(C)
-        ),
-        ws(C),
-        write('.'),
-        nl,
         nl,
         cnt(output_statements),
         fail
@@ -3985,9 +3924,6 @@ wi('<>', _, rule(_, _, A), _) :-    % wi(Source, Premise, Conclusion, Rule)
     assertz(nonl),
     wr(A),
     retract(nonl).
-wi('<void>', _, _, _) :-
-    write('[]'),
-    !.
 wi(A, B, C, Rule) :-
     term_index(B-C, Ind),
     (   lemma(Cnt, A, B, C, Ind, Rule)
