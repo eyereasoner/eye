@@ -36,23 +36,38 @@
     ?A :is :beautiful.
 }.
 
-# should blow an inference fuse when the following lines are uncommented
-#{
-#    ?X :is :beautiful.
-#} :not true.
-
-# disjunction elimination
+# resolution
 {
-    ?A :or ?B.
-    ?A => ?C.
-    ?B => ?C.
-} => ?C.
+    ?A => {
+        ?B :or ?C.
+    }.
+    ?B => ?D.
+    ?C => ?E.
+} => {
+    ?A => {
+        ?D :or ?E.
+    }.
+}.
+
+# factoring
+{
+    ?A => {
+        ?B :or ?B.
+    }.
+} => {
+    ?A => ?B.
+}.
 
 # blow a fuse
 {
     ?A :not true.
     ?A log:call true.
 } => false.
+
+# should blow an inference fuse when the following lines are uncommented
+#{
+#    ?X :is :beautiful.
+#} :not true.
 
 # query
 {

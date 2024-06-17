@@ -1,0 +1,601 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :beetle :is :beautiful.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :beetle :is :beautiful.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#beautiful"]];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :beetle :is :beautiful.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle12.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        :beetle a :Car.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle12.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :Car.
+        } => {
+            var:x_0 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_0 a :Car.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_0 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        @forAll var:x_1. {
+            var:x_1 a :Car.
+        } => {
+            {
+                var:x_1 :is :beautiful.
+            } :or {
+                var:x_1 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_1. {
+            var:x_1 a :Car.
+        } => {
+            {
+                var:x_1 :is :green.
+            } :or {
+                var:x_1 :is :blue.
+            }.
+        }}]
+        skolem:lemma8
+        [ a r:Fact; r:gives {@forSome var:x_1. {
+            var:x_1 :is :blue.
+        } => {
+            var:x_1 :is :beautiful.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_1 a :Car.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_1 :is :green.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_1 :is :blue.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_1 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_1 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 => {
+                var:x_1 :or var:x_1.
+            }.
+        } => {
+            var:x_0 => var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle12.n3>].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        @forAll var:x_2. {
+            var:x_2 :is :green.
+        } => {
+            var:x_2 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_2 :is :green.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_2 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 => {
+                var:x_1 :or var:x_2.
+            }.
+            var:x_1 => var:x_3.
+            var:x_2 => var:x_4.
+        } => {
+            var:x_0 => {
+                var:x_3 :or var:x_4.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle12.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        @forAll var:x_3. {
+            var:x_3 :is :green.
+        } => {
+            {
+                var:x_3 :is :beautiful.
+            } :or {
+                var:x_3 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_3. {
+            var:x_3 :is :green.
+        } => {
+            {
+                var:x_3 :is :nice.
+            } :or {
+                var:x_3 :is :pretty.
+            }.
+        }}]
+        skolem:lemma11
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_3 :is :green.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_3 :is :nice.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_3 :is :pretty.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_3 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_3 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        @forAll var:x_4. {
+            var:x_4 :is :nice.
+        } => {
+            var:x_4 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_4 :is :nice.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_4 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        @forAll var:x_5. {
+            var:x_5 :is :pretty.
+        } => {
+            var:x_5 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_5 :is :pretty.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_5 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        @forAll var:x_6. {
+            var:x_6 :is :nice.
+        } => {
+            {
+                var:x_6 :is :beautiful.
+            } :or {
+                var:x_6 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_6. {
+            var:x_6 :is :nice.
+        } => {
+            {
+                var:x_6 :is :nice1.
+            } :or {
+                var:x_6 :is :nice2.
+            }.
+        }}]
+        skolem:lemma15
+        skolem:lemma16
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_6 :is :nice.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_6 :is :nice1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_6 :is :nice2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_6 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_6 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        @forAll var:x_7. {
+            var:x_7 :is :pretty.
+        } => {
+            {
+                var:x_7 :is :beautiful.
+            } :or {
+                var:x_7 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_7. {
+            var:x_7 :is :pretty.
+        } => {
+            {
+                var:x_7 :is :pretty1.
+            } :or {
+                var:x_7 :is :pretty2.
+            }.
+        }}]
+        skolem:lemma17
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_7 :is :pretty.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_7 :is :pretty1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_7 :is :pretty2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_7 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_7 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        @forAll var:x_8. {
+            var:x_8 :is :nice1.
+        } => {
+            var:x_8 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma19
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_8 :is :nice1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_8 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        @forAll var:x_9. {
+            var:x_9 :is :nice2.
+        } => {
+            var:x_9 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_9 :is :nice2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_9 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        @forAll var:x_10. {
+            var:x_10 :is :pretty1.
+        } => {
+            var:x_10 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma21
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_10 :is :pretty1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_10 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        @forAll var:x_11. {
+            var:x_11 :is :pretty2.
+        } => {
+            var:x_11 :is :beautiful.
+        }.
+    };
+    r:evidence (
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_11 :is :pretty2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_11 :is :beautiful.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        @forAll var:x_12. {
+            var:x_12 :is :nice1.
+        } => {
+            {
+                var:x_12 :is :beautiful.
+            } :or {
+                var:x_12 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_12. {
+            var:x_12 :is :nice1.
+        } => {
+            {
+                var:x_12 :is :nice11.
+            } :or {
+                var:x_12 :is :nice12.
+            }.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_12. {
+            var:x_12 :is :nice11.
+        } => {
+            var:x_12 :is :beautiful.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_12. {
+            var:x_12 :is :nice12.
+        } => {
+            var:x_12 :is :beautiful.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_12 :is :nice1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_12 :is :nice11.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_12 :is :nice12.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_12 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_12 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        @forAll var:x_13. {
+            var:x_13 :is :nice2.
+        } => {
+            {
+                var:x_13 :is :beautiful.
+            } :or {
+                var:x_13 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_13. {
+            var:x_13 :is :nice2.
+        } => {
+            {
+                var:x_13 :is :nice21.
+            } :or {
+                var:x_13 :is :nice22.
+            }.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_13. {
+            var:x_13 :is :nice21.
+        } => {
+            var:x_13 :is :beautiful.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_13. {
+            var:x_13 :is :nice22.
+        } => {
+            var:x_13 :is :beautiful.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_13 :is :nice2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_13 :is :nice21.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_13 :is :nice22.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_13 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_13 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        @forAll var:x_14. {
+            var:x_14 :is :pretty1.
+        } => {
+            {
+                var:x_14 :is :beautiful.
+            } :or {
+                var:x_14 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_14. {
+            var:x_14 :is :pretty1.
+        } => {
+            {
+                var:x_14 :is :pretty11.
+            } :or {
+                var:x_14 :is :pretty12.
+            }.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_14. {
+            var:x_14 :is :pretty11.
+        } => {
+            var:x_14 :is :beautiful.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_14. {
+            var:x_14 :is :pretty12.
+        } => {
+            var:x_14 :is :beautiful.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_14 :is :pretty1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_14 :is :pretty11.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_14 :is :pretty12.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_14 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_14 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        @forAll var:x_15. {
+            var:x_15 :is :pretty2.
+        } => {
+            {
+                var:x_15 :is :beautiful.
+            } :or {
+                var:x_15 :is :beautiful.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {@forSome var:x_15. {
+            var:x_15 :is :pretty2.
+        } => {
+            {
+                var:x_15 :is :pretty21.
+            } :or {
+                var:x_15 :is :pretty22.
+            }.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_15. {
+            var:x_15 :is :pretty21.
+        } => {
+            var:x_15 :is :beautiful.
+        }}]
+        [ a r:Fact; r:gives {@forSome var:x_15. {
+            var:x_15 :is :pretty22.
+        } => {
+            var:x_15 :is :beautiful.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        var:x_15 :is :pretty2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        var:x_15 :is :pretty21.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        var:x_15 :is :pretty22.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        var:x_15 :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        var:x_15 :is :beautiful.
+    }];
+    r:rule skolem:lemma9.
+
