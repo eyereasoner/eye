@@ -1,0 +1,62 @@
+# --------------
+# Beetle example
+# --------------
+#
+# See https://en.wikipedia.org/wiki/Disjunction_elimination
+# See https://en.wikipedia.org/wiki/Negation
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# beetle is a car
+:beetle a :Car.
+
+# all cars are green or blue
+{
+    ?A a :Car.
+} => {
+    {
+        ?A :is :green.
+    } :or {
+        ?A :is :blue.
+    }.
+}.
+
+# green things are beautiful
+{
+    ?A :is :green.
+} => {
+    ?A :is :beautiful.
+}.
+
+# blue things are beautiful
+{
+    ?A :is :blue.
+} => {
+    ?A :is :beautiful.
+}.
+
+# should blow an inference fuse when the following lines are uncommented
+#{
+#    ?X :is :beautiful.
+#} :not true.
+
+# disjunction elimination
+{
+    ?A :or ?B.
+    ?A => ?C.
+    ?B => ?C.
+} => ?C.
+
+# blow a fuse
+{
+    ?A :not true.
+    ?A log:call true.
+} => false.
+
+# query
+{
+    ?S :is ?O.
+} |> {
+    ?S :is ?O.
+}.
