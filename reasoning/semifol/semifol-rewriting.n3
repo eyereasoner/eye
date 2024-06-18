@@ -13,6 +13,18 @@
 }.
 
 {
+    ?A log:or {
+        ?B log:or ?C.
+    }.
+} => {
+    true => {
+        ?B log:or {
+            ?A log:or ?C.
+        }.
+    }.
+}.
+
+{
     {
         ?A log:not true.
     } log:not true.
