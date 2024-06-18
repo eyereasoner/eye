@@ -4,7 +4,7 @@
 
 - backward rules use a left arrow `<=`
 - forward rules use a right arrow `=>`
-- queries use a topward arrow `⇑`
+- queries use an upwards arrow `⇑`
 
 ## variables
 
