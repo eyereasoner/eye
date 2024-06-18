@@ -11,3 +11,11 @@
         ?A log:or ?B.
     }.
 }.
+
+{
+    {
+        ?A log:not true.
+    } log:not true.
+} => {
+    true => ?A.
+}.
