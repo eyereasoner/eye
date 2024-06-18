@@ -2,9 +2,9 @@
 
 ## triptych
 
-- backward rules use a left arrow `<=`
-- forward rules use a right arrow `=>`
-- queries use an upwards arrow `⇑`
+- backward rules use a leftwards double arrow `<=`
+- forward rules use a rightwards double arrow `=>`
+- queries use an upwards double arrow `⇑`
 
 ## variables
 
