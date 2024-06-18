@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.10 (2024-06-17)').
+version_info('EYE v10.16.11 (2024-06-18)').
 
 license_info('MIT License
 
@@ -2833,7 +2833,7 @@ verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
     !.
 verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
-    ['|', '>'],
+    ['⇑'],
     !.
 verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', []) -->
     ['='],
@@ -3678,6 +3678,7 @@ punctuation(0'<, '<').
 punctuation(0'>, '>').
 punctuation(0'$, '$').
 punctuation(0'|, '|').
+punctuation(0'⇑, '⇑').
 
 skip_line(-1, _, -1) :-
     !.
