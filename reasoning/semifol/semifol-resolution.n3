@@ -1,10 +1,9 @@
-# ---------------------------
-# Semifol rules -- Jos De Roo
-# ---------------------------
+# ------------------
+# Semifol resolution
+# ------------------
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-# resolution
 {
     ?A => {
         ?B log:or ?C.
@@ -17,16 +16,6 @@
     }.
 }.
 
-# factoring
-{
-    ?A => {
-        ?B log:or ?B.
-    }.
-} => {
-    ?A => ?B.
-}.
-
-# negation
 {
     ?A => ?B.
     ?B log:not true.
@@ -52,8 +41,10 @@
     ?A => ?B.
 }.
 
-# blow a fuse
 {
-    ?A log:not true.
-    ?A log:call true.
-} => false.
+    ?A => {
+        ?B log:or ?B.
+    }.
+} => {
+    ?A => ?B.
+}.

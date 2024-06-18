@@ -1,0 +1,19 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+{
+    :A a :Deer.
+} log:or {
+    :A a :Wolf.
+}.
+
+{
+    :A a :Wolf.
+} log:not true.  
+
+# query
+{
+    ?S a ?O.
+} |> {
+    ?S a ?O.
+}.
