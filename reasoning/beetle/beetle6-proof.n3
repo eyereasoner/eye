@@ -138,20 +138,9 @@ skolem:lemma9 a r:Inference;
         } log:not true.
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            :beetle :is :blue.
-        } => {
-            :beetle :is :beautiful.
-        }}]
-        skolem:lemma12
+        [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :beetle :is :blue.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :beetle :is :beautiful.
-    }];
-    r:rule skolem:lemma13.
+    r:rule skolem:lemma12.
 
 skolem:lemma10 a r:Extraction;
     r:gives {
@@ -173,12 +162,49 @@ skolem:lemma11 a r:Inference;
         } log:not true.
     };
     r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule skolem:lemma13.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        true => {
+            {
+                :beetle :is :blue.
+            } log:not true.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :beetle :is :blue.
+        } => {
+            :beetle :is :beautiful.
+        }}]
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :beetle :is :blue.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :beetle :is :beautiful.
+    }];
+    r:rule skolem:lemma15.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        true => {
+            {
+                :beetle :is :pretty.
+            } log:not true.
+        }.
+    };
+    r:evidence (
         [ a r:Fact; r:gives {{
             :beetle :is :pretty.
         } => {
             :beetle :is :beautiful.
         }}]
-        skolem:lemma12
+        skolem:lemma14
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :beetle :is :pretty.
@@ -186,9 +212,9 @@ skolem:lemma11 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :beetle :is :beautiful.
     }];
-    r:rule skolem:lemma13.
+    r:rule skolem:lemma15.
 
-skolem:lemma12 a r:Inference;
+skolem:lemma14 a r:Inference;
     r:gives {
         {
             :beetle :is :beautiful.
@@ -198,20 +224,22 @@ skolem:lemma12 a r:Inference;
         skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
-    r:rule skolem:lemma14.
+    r:rule skolem:lemma16.
 
-skolem:lemma13 a r:Extraction;
+skolem:lemma15 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => var:x_1.
             var:x_1 log:not true.
         } => {
-            var:x_0 log:not true.
+            true => {
+                var:x_0 log:not true.
+            }.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-resolution.n3>].
 
-skolem:lemma14 a r:Extraction;
+skolem:lemma16 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             var:x_0 a :Car.

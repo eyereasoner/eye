@@ -4,6 +4,7 @@
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
+# asserted or
 {
     ?A log:or ?B.
 } => {
@@ -12,6 +13,7 @@
     }.
 }.
 
+# asserted nested or
 {
     ?A log:or {
         ?B log:or ?C.
@@ -24,6 +26,7 @@
     }.
 }.
 
+# double negation
 {
     {
         ?A log:not true.
@@ -31,3 +34,16 @@
 } => {
     true => ?A.
 }.
+
+# erase
+{
+    ?A => ?B.
+    ?B log:includes {
+        ?A log:not true.
+    }.
+    {
+        ?A => ?B.
+    } log:becomes {
+        ?A log:not true.
+    }.
+} => true.

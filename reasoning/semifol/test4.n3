@@ -1,0 +1,19 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# ~(A . ~(B . ~A)) = ~A whatever B is
+{
+    :A a :AA.
+} => {
+    :B a :BB.
+    {
+        :A a :AA.
+    } log:not true.
+}.
+
+# query
+{
+    ?S ?P ?O.
+} ⇑ {
+    ?S ?P ?O.
+}.
