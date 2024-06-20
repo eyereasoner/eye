@@ -7,15 +7,19 @@
     <> log:imports <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-fuse.n3>.
 } => true.
 
+# ~(A . ~(B . ~A)) = ~A whatever B is
 {
+    :A a :AA.
+} => {
+    #:B a :BB.
     {
-        :A a :Wolf.
+        :A a :AA.
     } log:not true.
-} log:not true.
+}.
 
 # query
 {
-    ?S a ?O.
+    ?S ?P ?O.
 } ⇑ {
-    ?S a ?O.
+    ?S ?P ?O.
 }.

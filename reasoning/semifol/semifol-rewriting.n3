@@ -38,12 +38,10 @@
 # erase
 {
     ?A => ?B.
+    ?A log:notEqualTo true.
     ?B log:includes {
         ?A log:not true.
     }.
-    {
-        ?A => ?B.
-    } log:becomes {
-        ?A log:not true.
-    }.
-} => true.
+} => {
+    ?A log:not true.
+}.
