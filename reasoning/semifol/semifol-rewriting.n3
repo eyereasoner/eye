@@ -34,14 +34,3 @@
 } => {
     true => ?A.
 }.
-
-# erasure
-{
-    ?A => ?B.
-    ?A log:notEqualTo true.
-    ?B log:includes {
-        ?A log:not true.
-    }.
-} => {
-    ?A log:not true.
-}.
