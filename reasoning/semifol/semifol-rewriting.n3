@@ -4,7 +4,7 @@
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-# asserted or
+# disjunction
 {
     ?A log:or ?B.
 } => {
@@ -13,7 +13,7 @@
     }.
 }.
 
-# asserted nested or
+# nested disjunction
 {
     ?A log:or {
         ?B log:or ?C.
@@ -35,7 +35,7 @@
     true => ?A.
 }.
 
-# erase
+# erasure
 {
     ?A => ?B.
     ?A log:notEqualTo true.
