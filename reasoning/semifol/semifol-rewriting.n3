@@ -34,3 +34,12 @@
 } => {
     true => ?A.
 }.
+
+# not A or B
+{
+    {
+        ?A log:not true.
+    } log:or ?B.
+} => {
+    ?A => ?B.
+}.
