@@ -1,0 +1,29 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# ~(A . ~(B . ~A)) = ~A whatever B is
+# rewrite as ~A v (B . ~A) = (~A v B) . (~A v ~A)
+{
+    {
+        :A a :AA.
+    } log:not true.
+} log:or {
+    :B a :BB.
+}.
+
+{
+    {
+        :A a :AA.
+    } log:not true.
+} log:or {
+    {
+        :A a :AA.
+    } log:not true.
+}.
+
+# query
+{
+    ?S log:not ?O.
+} ⇑ {
+    ?S log:not ?O.
+}.
