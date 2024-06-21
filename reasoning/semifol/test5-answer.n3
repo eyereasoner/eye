@@ -1,0 +1,17 @@
+@prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:Joe a :Runner.
+:Vic a :Runner.
+:Ray a :Runner.
+:Tom a :Runner.
+:Vic a :Winner.
+{
+    :Joe a :Winner.
+} log:not true.
+{
+    :Ray a :Winner.
+} log:not true.
+{
+    :Tom a :Winner.
+} log:not true.
