@@ -58,19 +58,15 @@ skolem:lemma4 a r:Inference;
 skolem:lemma5 a r:Extraction;
     r:gives {
         {
-            {
-                :A a :Wolf.
-            } log:not true.
-        } log:not true.
+            :A a :Wolf.
+        } log:or false.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test2.n3>].
 
 skolem:lemma6 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            {
-                var:x_0 log:not true.
-            } log:not true.
+            var:x_0 log:or false.
         } => {
             true => var:x_0.
         }.

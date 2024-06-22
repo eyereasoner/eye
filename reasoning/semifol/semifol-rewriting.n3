@@ -13,6 +13,18 @@
     }.
 }.
 
+{
+    false log:or ?A.
+} => {
+    true => ?A.
+}.
+
+{
+    ?A log:or false.
+} => {
+    true => ?A.
+}.
+
 # nested disjunction
 {
     ?A log:or {
@@ -24,22 +36,4 @@
             ?A log:or ?C.
         }.
     }.
-}.
-
-# double negation
-{
-    {
-        ?A log:not true.
-    } log:not true.
-} => {
-    true => ?A.
-}.
-
-# not A or B
-{
-    {
-        ?A log:not true.
-    } log:or ?B.
-} => {
-    ?A => ?B.
 }.
