@@ -39,7 +39,7 @@ skolem:lemma3 a r:Extraction;
             var:x_0 a var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test1.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test1.n3>].
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -49,7 +49,9 @@ skolem:lemma4 a r:Inference;
     };
     r:evidence (
         skolem:lemma5
-        skolem:lemma6
+        [ a r:Fact; r:gives {{
+            :A a :Wolf.
+        } => false}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
@@ -58,7 +60,7 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :A a :Wolf.
     }];
-    r:rule skolem:lemma7.
+    r:rule skolem:lemma6.
 
 skolem:lemma5 a r:Inference;
     r:gives {
@@ -71,7 +73,7 @@ skolem:lemma5 a r:Inference;
         }.
     };
     r:evidence (
-        skolem:lemma8
+        skolem:lemma7
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :A a :Deer.
@@ -79,30 +81,22 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :A a :Wolf.
     }];
-    r:rule skolem:lemma9.
+    r:rule skolem:lemma8.
 
 skolem:lemma6 a r:Extraction;
-    r:gives {
-        {
-            :A a :Wolf.
-        } log:not true.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test1.n3>].
-
-skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 => {
                 var:x_1 log:or var:x_2.
             }.
-            var:x_2 log:not true.
+            var:x_2 => false.
         } => {
             var:x_0 => var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-resolution.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-resolution.n3>].
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma7 a r:Extraction;
     r:gives {
         {
             :A a :Deer.
@@ -110,9 +104,9 @@ skolem:lemma8 a r:Extraction;
             :A a :Wolf.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test1.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test1.n3>].
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 log:or var:x_1.
@@ -122,5 +116,5 @@ skolem:lemma9 a r:Extraction;
             }.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-rewriting.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-rewriting.n3>].
 

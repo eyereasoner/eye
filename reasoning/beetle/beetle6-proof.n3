@@ -135,7 +135,7 @@ skolem:lemma9 a r:Inference;
     r:gives {
         {
             :beetle :is :blue.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         [ a r:Fact; r:gives true]
@@ -148,18 +148,18 @@ skolem:lemma10 a r:Extraction;
             var:x_0 => {
                 var:x_1 log:or var:x_2.
             }.
-            var:x_2 log:not true.
+            var:x_2 => false.
         } => {
             var:x_0 => var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-resolution.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-resolution.n3>].
 
 skolem:lemma11 a r:Inference;
     r:gives {
         {
             :beetle :is :pretty.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         [ a r:Fact; r:gives true]
@@ -171,7 +171,7 @@ skolem:lemma12 a r:Inference;
         true => {
             {
                 :beetle :is :blue.
-            } log:not true.
+            } => false.
         }.
     };
     r:evidence (
@@ -195,7 +195,7 @@ skolem:lemma13 a r:Inference;
         true => {
             {
                 :beetle :is :pretty.
-            } log:not true.
+            } => false.
         }.
     };
     r:evidence (
@@ -218,7 +218,7 @@ skolem:lemma14 a r:Inference;
     r:gives {
         {
             :beetle :is :beautiful.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         skolem:lemma6
@@ -230,14 +230,14 @@ skolem:lemma15 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => var:x_1.
-            var:x_1 log:not true.
+            var:x_1 => false.
         } => {
             true => {
-                var:x_0 log:not true.
+                var:x_0 => false.
             }.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/semifol-resolution.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-resolution.n3>].
 
 skolem:lemma16 a r:Extraction;
     r:gives {
@@ -246,7 +246,7 @@ skolem:lemma16 a r:Extraction;
         } => {
             {
                 var:x_0 :is :beautiful.
-            } log:not true.
+            } => false.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/beetle/beetle6.n3>].

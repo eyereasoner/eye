@@ -11,7 +11,7 @@
 } => {
     {
         ?Y a :Winner.
-    } log:not true.
+    } => false.
 }.
 
 # It is impossible that both X and Y are winners
@@ -37,4 +37,14 @@
     ?S ?P ?O.
 } ⇑ {
     ?S ?P ?O.
+}.
+
+{
+    {
+        ?S a :Winner.
+    } => false.
+} ⇑ {
+    {
+        ?S a :Winner.
+    } => false.
 }.

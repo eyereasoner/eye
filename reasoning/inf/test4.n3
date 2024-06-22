@@ -12,12 +12,16 @@
 # Rex is not a bird...
 {
     :Rex a :Bird.
-} log:not true.
+} => false.
 
 # ..then Rex is not a chicken
 # query
 {
-    ?S log:not ?O.
+    {
+        :Rex a ?O
+    } => false.
 } ⇑ {
-    ?S log:not ?O.
+    {
+        :Rex a ?O
+    } => false.
 }.

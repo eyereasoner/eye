@@ -1,9 +1,9 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -22,13 +22,13 @@ skolem:proof a r:Proof, r:Conjunction;
         :Vic a :Winner.
         {
             :Joe a :Winner.
-        } log:not true.
+        } => false.
         {
             :Ray a :Winner.
-        } log:not true.
+        } => false.
         {
             :Tom a :Winner.
-        } log:not true.
+        } => false.
     }.
 
 skolem:lemma1 a r:Inference;
@@ -95,55 +95,43 @@ skolem:lemma6 a r:Inference;
     r:gives {
         {
             :Joe a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         skolem:lemma15
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#not"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :Joe a :Winner.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo true];
-    r:rule skolem:lemma10.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Joe"]];
+    r:rule skolem:lemma16.
 
 skolem:lemma7 a r:Inference;
     r:gives {
         {
             :Ray a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
-        skolem:lemma16
+        skolem:lemma17
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#not"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :Ray a :Winner.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo true];
-    r:rule skolem:lemma10.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ray"]];
+    r:rule skolem:lemma16.
 
 skolem:lemma8 a r:Inference;
     r:gives {
         {
             :Tom a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
-        skolem:lemma17
+        skolem:lemma18
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#not"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :Tom a :Winner.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo true];
-    r:rule skolem:lemma10.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Tom"]];
+    r:rule skolem:lemma16.
 
 skolem:lemma9 a r:Extraction;
     r:gives {
         :Joe a :Runner.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma10 a r:Extraction;
     r:gives {
@@ -153,37 +141,37 @@ skolem:lemma10 a r:Extraction;
             var:x_1 var:x_0 var:x_2.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma11 a r:Extraction;
     r:gives {
         :Vic a :Runner.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma12 a r:Extraction;
     r:gives {
         :Ray a :Runner.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma13 a r:Extraction;
     r:gives {
         :Tom a :Runner.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma14 a r:Extraction;
     r:gives {
         :Vic a :Winner.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 
 skolem:lemma15 a r:Inference;
     r:gives {
         {
             :Joe a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         skolem:lemma11
@@ -193,13 +181,27 @@ skolem:lemma15 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Vic"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Joe"]];
-    r:rule skolem:lemma18.
+    r:rule skolem:lemma19.
 
-skolem:lemma16 a r:Inference;
+skolem:lemma16 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                var:x_0 a :Winner.
+            } => false.
+        } => {
+            {
+                var:x_0 a :Winner.
+            } => false.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
+
+skolem:lemma17 a r:Inference;
     r:gives {
         {
             :Ray a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         skolem:lemma11
@@ -209,13 +211,13 @@ skolem:lemma16 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Vic"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Ray"]];
-    r:rule skolem:lemma18.
+    r:rule skolem:lemma19.
 
-skolem:lemma17 a r:Inference;
+skolem:lemma18 a r:Inference;
     r:gives {
         {
             :Tom a :Winner.
-        } log:not true.
+        } => false.
     };
     r:evidence (
         skolem:lemma11
@@ -225,9 +227,9 @@ skolem:lemma17 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Vic"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Tom"]];
-    r:rule skolem:lemma18.
+    r:rule skolem:lemma19.
 
-skolem:lemma18 a r:Extraction;
+skolem:lemma19 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 a :Runner.
@@ -237,8 +239,8 @@ skolem:lemma18 a r:Extraction;
         } => {
             {
                 var:x_1 a :Winner.
-            } log:not true.
+            } => false.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/semifol/test5.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test5.n3>].
 

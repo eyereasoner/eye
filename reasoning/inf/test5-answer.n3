@@ -1,5 +1,4 @@
 @prefix : <http://example.org/#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 :Joe a :Runner.
 :Vic a :Runner.
@@ -8,10 +7,10 @@
 :Vic a :Winner.
 {
     :Joe a :Winner.
-} log:not true.
+} => false.
 {
     :Ray a :Winner.
-} log:not true.
+} => false.
 {
     :Tom a :Winner.
-} log:not true.
+} => false.

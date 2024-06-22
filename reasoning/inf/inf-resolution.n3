@@ -1,6 +1,6 @@
-# ------------------
-# Semifol resolution
-# ------------------
+# --------------
+# INF resolution
+# --------------
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
@@ -19,10 +19,10 @@
 
 {
     ?A => ?B.
-    ?B log:not true.
+    ?B => false.
 } => {
     true => {
-        ?A log:not true.
+        ?A => false.
     }.
 }.
 
@@ -30,7 +30,7 @@
     ?A => {
         ?B log:or ?C.
     }.
-    ?B log:not true.
+    ?B => false.
 } => {
     ?A => ?C.
 }.
@@ -39,7 +39,7 @@
     ?A => {
         ?B log:or ?C.
     }.
-    ?C log:not true.
+    ?C => false.
 } => {
     ?A => ?B.
 }.
