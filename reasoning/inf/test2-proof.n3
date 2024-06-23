@@ -55,13 +55,16 @@ skolem:lemma4 a r:Inference;
     }];
     r:rule skolem:lemma6.
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma5 a r:Inference;
     r:gives {
         {
             :A a :Wolf.
         } log:or false.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test2.n3>].
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule skolem:lemma7.
 
 skolem:lemma6 a r:Extraction;
     r:gives {
@@ -72,4 +75,14 @@ skolem:lemma6 a r:Extraction;
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        true => {
+            {
+                :A a :Wolf.
+            } log:or false.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test2.n3>].
 
