@@ -48,7 +48,13 @@ skolem:lemma4 a r:Inference;
         }.
     };
     r:evidence (
-        skolem:lemma5
+        [ a r:Fact; r:gives {true => {
+            {
+                :A a :Deer.
+            } log:or {
+                :A a :Wolf.
+            }.
+        }}]
         [ a r:Fact; r:gives {{
             :A a :Wolf.
         } => false}]
@@ -60,30 +66,9 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :A a :Wolf.
     }];
-    r:rule skolem:lemma6.
+    r:rule skolem:lemma5.
 
-skolem:lemma5 a r:Inference;
-    r:gives {
-        true => {
-            {
-                :A a :Deer.
-            } log:or {
-                :A a :Wolf.
-            }.
-        }.
-    };
-    r:evidence (
-        skolem:lemma7
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :A a :Deer.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :A a :Wolf.
-    }];
-    r:rule skolem:lemma8.
-
-skolem:lemma6 a r:Extraction;
+skolem:lemma5 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 => {
@@ -94,27 +79,5 @@ skolem:lemma6 a r:Extraction;
             var:x_0 => var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-resolution.n3>].
-
-skolem:lemma7 a r:Extraction;
-    r:gives {
-        {
-            :A a :Deer.
-        } log:or {
-            :A a :Wolf.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test1.n3>].
-
-skolem:lemma8 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1. {
-            var:x_0 log:or var:x_1.
-        } => {
-            true => {
-                var:x_0 log:or var:x_1.
-            }.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf-rewriting.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
 

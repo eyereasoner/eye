@@ -1,8 +1,30 @@
-# --------------
-# INF resolution
-# --------------
-
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# rewrite disjunction
+{
+    false log:or ?A.
+} => {
+    true => ?A.
+}.
+
+{
+    ?A log:or false.
+} => {
+    true => ?A.
+}.
+
+# rewrite nested disjunction
+{
+    ?A log:or {
+        ?B log:or ?C.
+    }.
+} => {
+    true => {
+        ?B log:or {
+            ?A log:or ?C.
+        }.
+    }.
+}.
 
 # resolution
 {
