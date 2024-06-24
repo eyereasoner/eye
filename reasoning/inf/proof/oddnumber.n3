@@ -4,8 +4,6 @@
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -27,9 +25,9 @@ skolem:proof a r:Proof, r:Conjunction;
         10 a :NaturalNumber.
         9 a :NaturalNumber.
         8 a :NaturalNumber.
+        7 a :NaturalNumber.
         10 a :EvenNumber.
         8 a :EvenNumber.
-        7 a :NaturalNumber.
         6 a :NaturalNumber.
         6 a :EvenNumber.
         5 a :NaturalNumber.
@@ -76,35 +74,35 @@ skolem:lemma3 a r:Inference;
 
 skolem:lemma4 a r:Inference;
     r:gives {
-        10 a :EvenNumber.
+        7 a :NaturalNumber.
     };
     r:evidence (
         skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#NaturalNumber"]];
+    r:rule skolem:lemma17.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        10 a :EvenNumber.
+    };
+    r:evidence (
+        skolem:lemma21
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 10];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#EvenNumber"]];
     r:rule skolem:lemma17.
 
-skolem:lemma5 a r:Inference;
+skolem:lemma6 a r:Inference;
     r:gives {
         8 a :EvenNumber.
     };
     r:evidence (
-        skolem:lemma21
+        skolem:lemma22
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#EvenNumber"]];
-    r:rule skolem:lemma17.
-
-skolem:lemma6 a r:Inference;
-    r:gives {
-        7 a :NaturalNumber.
-    };
-    r:evidence (
-        skolem:lemma22
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#NaturalNumber"]];
     r:rule skolem:lemma17.
 
 skolem:lemma7 a r:Inference;
@@ -250,26 +248,6 @@ skolem:lemma19 a r:Inference;
 
 skolem:lemma20 a r:Inference;
     r:gives {
-        10 a :EvenNumber.
-    };
-    r:evidence (
-        skolem:lemma33
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 10];
-    r:rule skolem:lemma34.
-
-skolem:lemma21 a r:Inference;
-    r:gives {
-        8 a :EvenNumber.
-    };
-    r:evidence (
-        skolem:lemma35
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
-    r:rule skolem:lemma34.
-
-skolem:lemma22 a r:Inference;
-    r:gives {
         7 a :NaturalNumber.
     };
     r:evidence (
@@ -281,12 +259,44 @@ skolem:lemma22 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 7];
     r:rule skolem:lemma32.
 
+skolem:lemma21 a r:Inference;
+    r:gives {
+        10 a :EvenNumber.
+    };
+    r:evidence (
+        skolem:lemma33
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 10];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        {
+            var:x_0 a :OddNumber.
+        } => ().
+    } => {
+        var:x_0 a :EvenNumber.
+    }}].
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        8 a :EvenNumber.
+    };
+    r:evidence (
+        skolem:lemma34
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        {
+            var:x_0 a :OddNumber.
+        } => ().
+    } => {
+        var:x_0 a :EvenNumber.
+    }}].
+
 skolem:lemma23 a r:Inference;
     r:gives {
         6 a :NaturalNumber.
     };
     r:evidence (
-        skolem:lemma22
+        skolem:lemma20
         [ a r:Fact; r:gives {(7 -1) math:sum 6}]
         [ a r:Fact; r:gives {6 math:greaterThan 0}]
     );
@@ -299,10 +309,16 @@ skolem:lemma24 a r:Inference;
         6 a :EvenNumber.
     };
     r:evidence (
-        skolem:lemma36
+        skolem:lemma35
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
-    r:rule skolem:lemma34.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        {
+            var:x_0 a :OddNumber.
+        } => ().
+    } => {
+        var:x_0 a :EvenNumber.
+    }}].
 
 skolem:lemma25 a r:Inference;
     r:gives {
@@ -335,10 +351,16 @@ skolem:lemma27 a r:Inference;
         4 a :EvenNumber.
     };
     r:evidence (
-        skolem:lemma37
+        skolem:lemma36
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
-    r:rule skolem:lemma34.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        {
+            var:x_0 a :OddNumber.
+        } => ().
+    } => {
+        var:x_0 a :EvenNumber.
+    }}].
 
 skolem:lemma28 a r:Inference;
     r:gives {
@@ -371,10 +393,16 @@ skolem:lemma30 a r:Inference;
         2 a :EvenNumber.
     };
     r:evidence (
-        skolem:lemma38
+        skolem:lemma37
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
-    r:rule skolem:lemma34.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        {
+            var:x_0 a :OddNumber.
+        } => ().
+    } => {
+        var:x_0 a :EvenNumber.
+    }}].
 
 skolem:lemma31 a r:Inference;
     r:gives {
@@ -412,103 +440,9 @@ skolem:lemma33 a r:Inference;
         [ a r:Fact; r:gives {(10 2) math:remainder 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 10];
-    r:rule skolem:lemma39.
+    r:rule skolem:lemma38.
 
 skolem:lemma34 a r:Inference;
-    r:gives {
-        @forAll var:x_80. {
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        } => {
-            var:x_80 a :EvenNumber.
-        }.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives {@forSome var:x_80. {
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-            {
-                var:x_80 a :EvenNumber.
-            } => ().
-        } => ()}]
-        [ a r:Fact; r:gives {@forSome var:x_80. {
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-            {
-                var:x_80 a :EvenNumber.
-            } => ().
-        } graph:list ({
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        } {
-            {
-                var:x_80 a :EvenNumber.
-            } => ().
-        })}]
-        [ a r:Fact; r:gives {@forSome var:x_80. ({
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        } {
-            {
-                var:x_80 a :EvenNumber.
-            } => ().
-        }) list:select ({
-            {
-                var:x_80 a :EvenNumber.
-            } => ().
-        } ({
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        }))}]
-        [ a r:Fact; r:gives {@forSome var:x_80. {
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        } graph:list ({
-            {
-                var:x_80 a :OddNumber.
-            } => ().
-        })}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        {
-            var:x_80 a :OddNumber.
-        } => ().
-        {
-            var:x_80 a :EvenNumber.
-        } => ().
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
-        {
-            var:x_80 a :OddNumber.
-        } => ().
-    } {
-        {
-            var:x_80 a :EvenNumber.
-        } => ().
-    })];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        var:x_80 a :EvenNumber.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
-        {
-            var:x_80 a :OddNumber.
-        } => ().
-    })];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
-        {
-            var:x_80 a :OddNumber.
-        } => ().
-    }];
-    r:rule skolem:lemma40.
-
-skolem:lemma35 a r:Inference;
     r:gives {
         {
             8 a :OddNumber.
@@ -519,9 +453,9 @@ skolem:lemma35 a r:Inference;
         [ a r:Fact; r:gives {(8 2) math:remainder 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
-    r:rule skolem:lemma39.
+    r:rule skolem:lemma38.
 
-skolem:lemma36 a r:Inference;
+skolem:lemma35 a r:Inference;
     r:gives {
         {
             6 a :OddNumber.
@@ -532,9 +466,9 @@ skolem:lemma36 a r:Inference;
         [ a r:Fact; r:gives {(6 2) math:remainder 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
-    r:rule skolem:lemma39.
+    r:rule skolem:lemma38.
 
-skolem:lemma37 a r:Inference;
+skolem:lemma36 a r:Inference;
     r:gives {
         {
             4 a :OddNumber.
@@ -545,9 +479,9 @@ skolem:lemma37 a r:Inference;
         [ a r:Fact; r:gives {(4 2) math:remainder 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
-    r:rule skolem:lemma39.
+    r:rule skolem:lemma38.
 
-skolem:lemma38 a r:Inference;
+skolem:lemma37 a r:Inference;
     r:gives {
         {
             2 a :OddNumber.
@@ -558,9 +492,9 @@ skolem:lemma38 a r:Inference;
         [ a r:Fact; r:gives {(2 2) math:remainder 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
-    r:rule skolem:lemma39.
+    r:rule skolem:lemma38.
 
-skolem:lemma39 a r:Extraction;
+skolem:lemma38 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             var:x_0 a :NaturalNumber.
@@ -572,19 +506,4 @@ skolem:lemma39 a r:Extraction;
         }.
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/oddnumber.n3>].
-
-skolem:lemma40 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
-            var:x_0 => ().
-            var:x_0 graph:list var:x_1.
-            var:x_1 list:select ({
-                var:x_2 => ().
-            } var:x_3).
-            var:x_4 graph:list var:x_3.
-        } => {
-            var:x_4 => var:x_2.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
 
