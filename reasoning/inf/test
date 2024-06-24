@@ -1,11 +1,10 @@
 #!/bin/bash
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/inf/test1.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test1-answer.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/inf/test1.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test1-proof.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/inf/test2.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test2-answer.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/inf/test2.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test2-proof.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/inf/test3.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test3-answer.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/inf/test3.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test3-proof.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/inf/test4.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test4-answer.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/inf/test4.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test4-proof.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/inf/test5.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test5-answer.n3
-eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/inf/test5.n3 https://eyereasoner.github.io/eye/reasoning/inf/inf.n3 --output test5-proof.n3
+for f in *.n3
+do
+    if [ "$f" != "inf.n3" ]; then
+        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $f inf.n3 --output answer/$f
+        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $f inf.n3 --output answer/$f
+        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $f inf.n3 --output proof/$f
+        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $f inf.n3 --output proof/$f
+    fi
+done

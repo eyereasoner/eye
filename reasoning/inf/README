@@ -3,7 +3,6 @@ Implication Normal Form - INF
 -----------------------------
 
 Expressing knowledge as implications with disjunction in the conclusion.
-
 This is giving us FOL expressivity in N3 so that we have proofs in N3.
 
 
@@ -23,3 +22,20 @@ stating  that
 for all x1, ... , xk
 B1 or ... or Bm if A1 and ... and An.
 ]]
+
+Examples:
+--------
+# all cars are green or blue
+{
+    ?A a :Car.
+} => ({
+    ?A :is :green.
+} {
+    ?A :is :blue.
+}).
+
+# negation
+{
+    ?A a :Car.
+    ?A a :Horse.
+} => ().

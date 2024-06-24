@@ -3,6 +3,7 @@
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -10,22 +11,22 @@ skolem:proof a r:Proof, r:Conjunction;
     r:gives {
         {
             :Rex a :Bird.
-        } => false.
+        } => ().
         {
             :Rex a :Chicken.
-        } => false.
+        } => ().
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
         {
             :Rex a :Bird.
-        } => false.
+        } => ().
     };
     r:evidence (
         [ a r:Fact; r:gives {{
             :Rex a :Bird.
-        } => false}]
+        } => ()}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Bird"]];
     r:rule skolem:lemma3.
@@ -34,7 +35,7 @@ skolem:lemma2 a r:Inference;
     r:gives {
         {
             :Rex a :Chicken.
-        } => false.
+        } => ().
     };
     r:evidence (
         skolem:lemma4
@@ -47,33 +48,20 @@ skolem:lemma3 a r:Extraction;
         @forAll var:x_0. {
             {
                 :Rex a var:x_0.
-            } => false.
+            } => ().
         } => {
             {
                 :Rex a var:x_0.
-            } => false.
+            } => ().
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test4.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/rex.n3>].
 
 skolem:lemma4 a r:Inference;
     r:gives {
         {
             :Rex a :Chicken.
-        } => false.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:rule skolem:lemma5.
-
-skolem:lemma5 a r:Inference;
-    r:gives {
-        true => {
-            {
-                :Rex a :Chicken.
-            } => false.
-        }.
+        } => ().
     };
     r:evidence (
         [ a r:Fact; r:gives {{
@@ -83,7 +71,10 @@ skolem:lemma5 a r:Inference;
         }}]
         [ a r:Fact; r:gives {{
             :Rex a :Bird.
-        } => false}]
+        } list:isList false}]
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } => ()}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :Rex a :Chicken.
@@ -91,18 +82,17 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :Rex a :Bird.
     }];
-    r:rule skolem:lemma6.
+    r:rule skolem:lemma5.
 
-skolem:lemma6 a r:Extraction;
+skolem:lemma5 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => var:x_1.
-            var:x_1 => false.
+            var:x_1 list:isList false.
+            var:x_1 => ().
         } => {
-            true => {
-                var:x_0 => false.
-            }.
+            var:x_0 => ().
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
 

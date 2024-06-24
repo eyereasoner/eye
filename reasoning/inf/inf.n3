@@ -1,86 +1,63 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-# rewrite
+# resolution
 {
-    false log:or ?A.
-} => {
-    true => ?A.
-}.
-
-{
-    ?A log:or false.
-} => {
-    true => ?A.
-}.
-
-# reorder
-{
-    ?A log:or {
-        ?B log:or ?C.
-    }.
-} => {
-    true => {
-        ?C log:or ?B.
-    }.
-}.
-
-{
-    ?A log:or {
-        ?B log:or ?C.
-    }.
-} => {
-    true => {
-        ?B log:or {
-            ?A log:or ?C.
-        }.
-    }.
-}.
-
-# resolve
-{
-    ?A => {
-        ?B log:or ?C.
-    }.
-    ?B => ?D.
+    ?A => ?B.
+    ?B list:select (?C ?D).
     ?C => ?E.
+    ?E list:isList false.
+    ?G list:firstRest (?E ?D).
 } => {
-    ?A => {
-        ?D log:or ?E.
-    }.
+    ?A => ?G.
 }.
 
 {
     ?A => ?B.
-    ?B => false.
+    ?B list:select (?C ?D).
+    ?C => ().
 } => {
-    true => {
-        ?A => false.
-    }.
+    ?A => ?D.
 }.
 
+# factoring
 {
-    ?A => {
-        ?B log:or ?C.
-    }.
-    ?B => false.
+    ?A => ?B.
+    ?B list:removeDuplicates (?C).
 } => {
     ?A => ?C.
 }.
 
+# modus tollens
 {
-    ?A => {
-        ?B log:or ?C.
-    }.
-    ?C => false.
-} => {
     ?A => ?B.
+    ?B list:isList false.
+    ?B => ().
+} => {
+    ?A => ().
 }.
 
-# factor
+# contrapositive
 {
-    ?A => {
-        ?B log:or ?B.
-    }.
+    ?A => ().
+    ?A graph:list ?B.
+    ?B list:select ({ ?F => ()} ?M).
+    ?E graph:list ?M.
 } => {
-    ?A => ?B.
+    ?E => ?F.
 }.
+
+{
+    ?A => ?B.
+    ?B list:select (?C ?D).
+    ({?C => ()} ?A) graph:union ?E.
+} => {
+    ?E => ?D.
+}.
+
+# inference fuse
+{
+    ?A => ().
+    ?A log:call true.
+} => false.
