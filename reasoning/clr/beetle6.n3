@@ -13,11 +13,29 @@
     ?A :is :blue.
 }).
 
-# green things are beautiful
+# green things are nice or pretty
 {
     ?A :is :green.
+} => ({
+    ?A :is :nice.
+} {
+    ?A :is :pretty.
+}).
+
+# pretty things are beautiful
+{
+    ?A :is :pretty.
 } => {
     ?A :is :beautiful.
+}.
+
+# cars are not beautiful
+{
+    ?A a :Car.
+} => {
+    {
+        ?A :is :beautiful.
+    } => ().
 }.
 
 # blue things are beautiful
