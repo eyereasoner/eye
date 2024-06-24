@@ -13,6 +13,17 @@
     true => ?A.
 }.
 
+# reorder
+{
+    ?A log:or {
+        ?B log:or ?C.
+    }.
+} => {
+    true => {
+        ?C log:or ?B.
+    }.
+}.
+
 {
     ?A log:or {
         ?B log:or ?C.

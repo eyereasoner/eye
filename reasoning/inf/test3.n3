@@ -1,6 +1,10 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
+# data
+:abc a :C0.
+
+# implications
 {
     ?S a :C0.
 } => {
@@ -16,196 +20,26 @@
 }.
 
 {
-    ?S a :C1.
-} => {
-    {
-        ?S a :C11.
-    } log:or {
-        {
-            ?S a :C12.
-        } log:or {
-            ?S a :C13.
-        }.
-    }.
-}.
-
-{
-    ?S a :C2.
-} => {
-    {
-        ?S a :C21.
-    } log:or {
-        {
-            ?S a :C22.
-        } log:or {
-            ?S a :C23.
-        }.
-    }.
-}.
-
-
-{
-    ?S a :C3.
-} => {
-    {
-        ?S a :C31.
-    } log:or {
-        {
-            ?S a :C32.
-        } log:or {
-            ?S a :C33.
-        }.
-    }.
-}.
-
-{
-    ?S a :C11.
-} => {
-    {
-        ?S a :C111.
-    } log:or {
-        {
-            ?S a :C112.
-        } log:or {
-            ?S a :C113.
-        }.
-    }.
-}.
-
-{
-    ?S a :C12.
-} => {
-    {
-        ?S a :C121.
-    } log:or {
-        {
-            ?S a :C122.
-        } log:or {
-            ?S a :C123.
-        }.
-    }.
-}.
-
-{
-    ?S a :C13.
-} => {
-    {
-        ?S a :C131.
-    } log:or {
-        {
-            ?S a :C132.
-        } log:or {
-            ?S a :C133.
-        }.
-    }.
-}.
-
-{
-    ?S a :C21.
-} => {
-    {
-        ?S a :C211.
-    } log:or {
-        {
-            ?S a :C212.
-        } log:or {
-            ?S a :C213.
-        }.
-    }.
-}.
-
-{
-    ?S a :C22.
-} => {
-    {
-        ?S a :C221.
-    } log:or {
-        {
-            ?S a :C222.
-        } log:or {
-            ?S a :C223.
-        }.
-    }.
-}.
-
-{
-    ?S a :C23.
-} => {
-    {
-        ?S a :C231.
-    } log:or {
-        {
-            ?S a :C232.
-        } log:or {
-            ?S a :C233.
-        }.
-    }.
-}.
-
-{
-    ?S a :C31.
-} => {
-    {
-        ?S a :C311.
-    } log:or {
-        {
-            ?S a :C312.
-        } log:or {
-            ?S a :C313.
-        }.
-    }.
-}.
-
-{
-    ?S a :C32.
-} => {
-    {
-        ?S a :C321.
-    } log:or {
-        {
-            ?S a :C322.
-        } log:or {
-            ?S a :C323.
-        }.
-    }.
-}.
-
-{
-    ?S a :C33.
-} => {
-    {
-        ?S a :C331.
-    } log:or {
-        {
-            ?S a :C332.
-        } log:or {
-            ?S a :C333.
-        }.
-    }.
-}.
-
-# data
-:abc a :C0.
-
-{
     :abc a :C1.
-} => false.
+} => {
+    :test :is true.
+}.
 
 {
     :abc a :C2.
-} => false.
+} => {
+    :test :is true.
+}.
 
 {
-    :abc a :C32.
-} => false.
-
-{
-    :abc a :C33.
-} => false.
+    :abc a :C3.
+} => {
+    :test :is true.
+}.
 
 # query
 {
-    ?S a ?O.
+    ?S :is ?O.
 } ⇑ {
-    ?S a ?O.
+    ?S :is ?O.
 }.

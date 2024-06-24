@@ -7,97 +7,120 @@
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
-    r:component skolem:lemma2;
-    r:component skolem:lemma3;
     r:gives {
-        :abc a :C0.
-        :abc a :C3.
-        :abc a :C31.
+        :test :is true.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :abc a :C0.
+        :test :is true.
     };
     r:evidence (
-        skolem:lemma4
+        skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#abc"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C0"]];
-    r:rule skolem:lemma5.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#test"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo true];
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :abc a :C3.
-    };
-    r:evidence (
-        skolem:lemma6
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#abc"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C3"]];
-    r:rule skolem:lemma5.
-
-skolem:lemma3 a r:Inference;
-    r:gives {
-        :abc a :C31.
-    };
-    r:evidence (
-        skolem:lemma7
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#abc"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#C31"]];
-    r:rule skolem:lemma5.
-
-skolem:lemma4 a r:Extraction;
-    r:gives {
-        :abc a :C0.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test3.n3>].
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1. {
-            var:x_0 a var:x_1.
-        } => {
-            var:x_0 a var:x_1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test3.n3>].
-
-skolem:lemma6 a r:Inference;
-    r:gives {
-        :abc a :C3.
-    };
-    r:evidence (
-        skolem:lemma4
-    );
-    r:rule skolem:lemma8.
-
-skolem:lemma7 a r:Inference;
-    r:gives {
-        :abc a :C31.
+        :test :is true.
     };
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:rule skolem:lemma9.
+    r:rule skolem:lemma4.
 
-skolem:lemma8 a r:Inference;
+skolem:lemma3 a r:Extraction;
     r:gives {
-        {
-            :abc a :C0.
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
         } => {
-            :abc a :C3.
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test3.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        true => {
+            :test :is true.
         }.
     };
     r:evidence (
-        skolem:lemma10
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :test :is true.
+    }];
+    r:rule skolem:lemma6.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        true => {
+            {
+                :test :is true.
+            } log:or {
+                :test :is true.
+            }.
+        }.
+    };
+    r:evidence (
+        skolem:lemma7
+        [ a r:Fact; r:gives {{
+            :abc a :C3.
+        } => {
+            :test :is true.
+        }}]
         [ a r:Fact; r:gives {{
             :abc a :C2.
-        } => false}]
+        } => {
+            :test :is true.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :abc a :C3.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :abc a :C2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :test :is true.
+    }];
+    r:rule skolem:lemma8.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 => {
+                var:x_1 log:or var:x_1.
+            }.
+        } => {
+            var:x_0 => var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        true => {
+            {
+                :abc a :C3.
+            } log:or {
+                :abc a :C2.
+            }.
+        }.
+    };
+    r:evidence (
+        skolem:lemma9
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :abc a :C0.
+        :abc a :C1.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :abc a :C2.
@@ -105,34 +128,29 @@ skolem:lemma8 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :abc a :C3.
     }];
-    r:rule skolem:lemma11.
+    r:rule skolem:lemma10.
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 => {
+                var:x_1 log:or var:x_2.
+            }.
+            var:x_1 => var:x_3.
+            var:x_2 => var:x_4.
+        } => {
+            var:x_0 => {
+                var:x_3 log:or var:x_4.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
 
 skolem:lemma9 a r:Inference;
     r:gives {
-        true => {
-            :abc a :C31.
-        }.
-    };
-    r:evidence (
-        skolem:lemma12
-        [ a r:Fact; r:gives {{
-            :abc a :C33.
-        } => false}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :abc a :C31.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :abc a :C33.
-    }];
-    r:rule skolem:lemma13.
-
-skolem:lemma10 a r:Inference;
-    r:gives {
         {
-            :abc a :C0.
-        } => {
+            :abc a :C1.
+        } log:or {
             {
                 :abc a :C2.
             } log:or {
@@ -141,140 +159,12 @@ skolem:lemma10 a r:Inference;
         }.
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            :abc a :C0.
-        } => {
-            {
-                :abc a :C1.
-            } log:or {
-                {
-                    :abc a :C2.
-                } log:or {
-                    :abc a :C3.
-                }.
-            }.
-        }}]
-        [ a r:Fact; r:gives {{
-            :abc a :C1.
-        } => false}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :abc a :C0.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :abc a :C1.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        {
-            :abc a :C2.
-        } log:or {
-            :abc a :C3.
-        }.
-    }];
-    r:rule skolem:lemma11.
-
-skolem:lemma11 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 => {
-                var:x_1 log:or var:x_2.
-            }.
-            var:x_1 => false.
-        } => {
-            var:x_0 => var:x_2.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
-
-skolem:lemma12 a r:Inference;
-    r:gives {
-        true => {
-            {
-                :abc a :C31.
-            } log:or {
-                :abc a :C33.
-            }.
-        }.
-    };
-    r:evidence (
-        skolem:lemma14
-        [ a r:Fact; r:gives {{
-            :abc a :C32.
-        } => false}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :abc a :C32.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        {
-            :abc a :C31.
-        } log:or {
-            :abc a :C33.
-        }.
-    }];
-    r:rule skolem:lemma11.
-
-skolem:lemma13 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 => {
-                var:x_1 log:or var:x_2.
-            }.
-            var:x_2 => false.
-        } => {
-            var:x_0 => var:x_1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
-
-skolem:lemma14 a r:Inference;
-    r:gives {
-        true => {
-            {
-                :abc a :C32.
-            } log:or {
-                {
-                    :abc a :C31.
-                } log:or {
-                    :abc a :C33.
-                }.
-            }.
-        }.
-    };
-    r:evidence (
-        skolem:lemma15
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :abc a :C31.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :abc a :C32.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :abc a :C33.
-    }];
-    r:rule skolem:lemma16.
-
-skolem:lemma15 a r:Inference;
-    r:gives {
-        {
-            :abc a :C31.
-        } log:or {
-            {
-                :abc a :C32.
-            } log:or {
-                :abc a :C33.
-            }.
-        }.
-    };
-    r:evidence (
-        skolem:lemma6
+        skolem:lemma11
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#abc"]];
-    r:rule skolem:lemma17.
+    r:rule skolem:lemma12.
 
-skolem:lemma16 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 log:or {
@@ -282,26 +172,30 @@ skolem:lemma16 a r:Extraction;
             }.
         } => {
             true => {
-                var:x_1 log:or {
-                    var:x_0 log:or var:x_2.
-                }.
+                var:x_2 log:or var:x_1.
             }.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/inf.n3>].
 
-skolem:lemma17 a r:Extraction;
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        :abc a :C0.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/inf/test3.n3>].
+
+skolem:lemma12 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            var:x_0 a :C3.
+            var:x_0 a :C0.
         } => {
             {
-                var:x_0 a :C31.
+                var:x_0 a :C1.
             } log:or {
                 {
-                    var:x_0 a :C32.
+                    var:x_0 a :C2.
                 } log:or {
-                    var:x_0 a :C33.
+                    var:x_0 a :C3.
                 }.
             }.
         }.
