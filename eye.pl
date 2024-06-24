@@ -6562,6 +6562,12 @@ djiti_assertz(A) :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#isList>'(A, B) :-
+    (   getlist(A, _)
+    ->  B = true
+    ;   B = false
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#iterate>'(A, [B, C]) :-
     when(
         (   nonvar(A)
@@ -6688,6 +6694,15 @@ djiti_assertz(A) :-
         ),
         (   getlist(A, C),
             C = [_|B]
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#select>'(A, [B, C]) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, D),
+            select(B, D, C)
         )
     ).
 

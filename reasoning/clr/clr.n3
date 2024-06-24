@@ -1,0 +1,63 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+
+# resolution
+{
+    ?A => ?B.
+    ?B list:select (?C ?D).
+    ?C => ?E.
+    ?E list:isList false.
+    ?G list:firstRest (?E ?D).
+} => {
+    ?A => ?G.
+}.
+
+{
+    ?A => ?B.
+    ?B list:select (?C ?D).
+    ?C => ().
+} => {
+    ?A => ?D.
+}.
+
+# factoring
+{
+    ?A => ?B.
+    ?B list:removeDuplicates (?C).
+} => {
+    ?A => ?C.
+}.
+
+# modus tollens
+{
+    ?A => ?B.
+    ?B list:isList false.
+    ?B => ().
+} => {
+    ?A => ().
+}.
+
+# contrapositive
+{
+    ?A => ().
+    ?A graph:list ?B.
+    ?B list:select ({ ?F => ()} ?M).
+    ?E graph:list ?M.
+} => {
+    ?E => ?F.
+}.
+
+{
+    ?A => ?B.
+    ?B list:select (?C ?D).
+    ({?C => ()} ?A) graph:union ?E.
+} => {
+    ?E => ?D.
+}.
+
+# inference fuse
+{
+    ?A => ().
+    ?A log:call true.
+} => false.

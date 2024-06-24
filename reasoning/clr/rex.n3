@@ -1,0 +1,27 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# Modus tollens example.
+# If X is a chicken, then X is a bird
+{
+    ?X a :Chicken.
+} => {
+    ?X a :Bird.
+}.
+
+# Rex is not a bird...
+{
+    :Rex a :Bird.
+} => ().
+
+# ..then Rex is not a chicken
+# query
+{
+    {
+        :Rex a ?O
+    } => ().
+} ⇑ {
+    {
+        :Rex a ?O
+    } => ().
+}.

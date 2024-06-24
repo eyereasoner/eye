@@ -1,0 +1,1491 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/ns#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :fu :is {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :fu :is {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    }];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :fu :is {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }.
+    };
+    r:evidence (
+        skolem:lemma4
+        [ a r:Fact; r:gives {{
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+            skolem:bn_65 :tag :valid.
+        } graph:list ({
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+        } {
+            skolem:bn_65 :tag :valid.
+        })}]
+        skolem:lemma5
+        [ a r:Fact; r:gives {({
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        } true) graph:union {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_65 :package {
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        }.
+        skolem:bn_65 :tag :valid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_65 :package {
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        }.
+    } {
+        skolem:bn_65 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    } true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    }];
+    r:rule skolem:lemma6.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            :fu :is var:x_0.
+        } => {
+            :fu :is var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :data {
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+            skolem:bn_65 :tag :valid.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+        } {
+            skolem:bn_65 :tag :valid.
+        }) :unpack ({
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        } true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+        } {
+            skolem:bn_65 :tag :valid.
+        }) list:firstRest ({
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+        } ({
+            skolem:bn_65 :tag :valid.
+        }))}]
+        [ a r:Fact; r:gives {({
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        } true) list:firstRest ({
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        } (true))}]
+        skolem:lemma7
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_65 :package {
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        }.
+    } {
+        skolem:bn_65 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_65 :package {
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_65 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    } true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (true)];
+    r:rule skolem:lemma9.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 :data var:x_1.
+            var:x_1 graph:list var:x_2.
+            var:x_2 :unpack var:x_3.
+            var:x_3 graph:union var:x_4.
+        } => {
+            :fu :is var:x_4.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_65 :package {
+                skolem:bn_97 :content {
+                    :a :b skolem:e_c_148.
+                    skolem:bn_113 :package {
+                        skolem:bn_121 :content {
+                            :u :v skolem:e_c_164.
+                            skolem:bn_125 :package {
+                                skolem:bn_127 :content {
+                                    :x :y skolem:e_c_168.
+                                }.
+                                skolem:bn_127 :usable_until :yesterday.
+                            }.
+                            skolem:bn_125 :tag :invalid.
+                        }.
+                        skolem:bn_121 :usable_until :tomorrow.
+                        skolem:bn_121 :p :o.
+                    }.
+                    skolem:bn_113 :tag :valid.
+                }.
+                skolem:bn_97 :usable_until :next_week.
+            }.
+        } :unpack {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        } log:includes {
+            skolem:bn_97 :content {
+                :a :b skolem:e_c_148.
+                skolem:bn_113 :package {
+                    skolem:bn_121 :content {
+                        :u :v skolem:e_c_164.
+                        skolem:bn_125 :package {
+                            skolem:bn_127 :content {
+                                :x :y skolem:e_c_168.
+                            }.
+                            skolem:bn_127 :usable_until :yesterday.
+                        }.
+                        skolem:bn_125 :tag :invalid.
+                    }.
+                    skolem:bn_121 :usable_until :tomorrow.
+                    skolem:bn_121 :p :o.
+                }.
+                skolem:bn_113 :tag :valid.
+            }.
+            skolem:bn_97 :usable_until :next_week.
+        }}]
+        [ a r:Fact; r:gives {(:tomorrow :next_week) list:member :next_week}]
+        [ a r:Fact; r:gives {{
+            :a :b skolem:e_c_148.
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+            skolem:bn_113 :tag :valid.
+        } graph:list ({
+            :a :b skolem:e_c_148.
+        } {
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        })}]
+        skolem:lemma10
+        [ a r:Fact; r:gives {({
+            :a :b skolem:e_c_148.
+        } {
+            :u :v skolem:e_c_164.
+        } true) graph:union {
+            :a :b skolem:e_c_148.
+            :u :v skolem:e_c_164.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        skolem:bn_97 :content {
+            :a :b skolem:e_c_148.
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+            skolem:bn_113 :tag :valid.
+        }.
+        skolem:bn_97 :usable_until :next_week.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_97"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :a :b skolem:e_c_148.
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+        skolem:bn_113 :tag :valid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#next_week"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+    } {
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+    } {
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+    } {
+        :u :v skolem:e_c_164.
+    } true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo {
+        :a :b skolem:e_c_148.
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_65"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_65 :tag :valid.
+        }) :unpack (true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_65 :tag :valid.
+        }) list:firstRest ({
+            skolem:bn_65 :tag :valid.
+        } ())}]
+        [ a r:Fact; r:gives {(true) list:firstRest (true ())}]
+        skolem:lemma12
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_65 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_65 :tag :valid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:rule skolem:lemma9.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+            var:x_0 :unpack var:x_3.
+        } <= {
+            var:x_0 list:firstRest (var:x_1 var:x_2).
+            var:x_3 list:firstRest (var:x_4 var:x_5).
+            var:x_1 :unpack var:x_4.
+            var:x_2 :unpack var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        ({
+            :a :b skolem:e_c_148.
+        } {
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        }) :unpack ({
+            :a :b skolem:e_c_148.
+        } {
+            :u :v skolem:e_c_164.
+        } true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            :a :b skolem:e_c_148.
+        } {
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        }) list:firstRest ({
+            :a :b skolem:e_c_148.
+        } ({
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        }))}]
+        [ a r:Fact; r:gives {({
+            :a :b skolem:e_c_148.
+        } {
+            :u :v skolem:e_c_164.
+        } true) list:firstRest ({
+            :a :b skolem:e_c_148.
+        } ({
+            :u :v skolem:e_c_164.
+        } true))}]
+        skolem:lemma14
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+    } {
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+    } {
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :a :b skolem:e_c_148.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+    } {
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :a :b skolem:e_c_148.
+    } {
+        :u :v skolem:e_c_164.
+    } true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :a :b skolem:e_c_148.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } true)];
+    r:rule skolem:lemma9.
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. @forSome var:x_7. {
+            {
+                var:x_7 :package var:x_0.
+            } :unpack var:x_6.
+        } <= {
+            var:x_0 log:includes {
+                var:x_1 :content var:x_2.
+                var:x_1 :usable_until var:x_3.
+            }.
+            (:tomorrow :next_week) list:member var:x_3.
+            var:x_2 graph:list var:x_4.
+            var:x_4 :unpack var:x_5.
+            var:x_5 graph:union var:x_6.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_65 :tag :valid.
+        } :unpack true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_65"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#valid"]];
+    r:rule skolem:lemma16.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        () :unpack ().
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule skolem:lemma17.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        {
+            :a :b skolem:e_c_148.
+        } :unpack {
+            :a :b skolem:e_c_148.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :a :b skolem:e_c_148.
+        } log:rawType log:Formula}]
+        [ a r:Fact; r:gives {log:Formula log:notEqualTo rdf:List}]
+        [ a r:Fact; r:gives {{
+            :a :b skolem:e_c_148.
+        } log:notIncludes {
+            _:sk_0 :package _:sk_1.
+        }}]
+        [ a r:Fact; r:gives {{
+            :a :b skolem:e_c_148.
+        } log:notIncludes {
+            _:sk_2 :tag _:sk_3.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :a :b skolem:e_c_148.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#Formula"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:rule skolem:lemma18.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        }) :unpack ({
+            :u :v skolem:e_c_164.
+        } true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } {
+            skolem:bn_113 :tag :valid.
+        }) list:firstRest ({
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } ({
+            skolem:bn_113 :tag :valid.
+        }))}]
+        [ a r:Fact; r:gives {({
+            :u :v skolem:e_c_164.
+        } true) list:firstRest ({
+            :u :v skolem:e_c_164.
+        } (true))}]
+        skolem:lemma19
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+    } {
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_113 :package {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (true)];
+    r:rule skolem:lemma9.
+
+skolem:lemma16 a r:Extraction;
+    r:gives {
+        @forSome var:x_0, var:x_1. {
+            {
+                var:x_0 :tag var:x_1.
+            } :unpack true.
+        } <= true.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma17 a r:Extraction;
+    r:gives {
+        {
+            () :unpack ().
+        } <= true.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma18 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+            var:x_0 :unpack var:x_0.
+        } <= {
+            var:x_0 log:rawType var:x_1.
+            var:x_1 log:notEqualTo rdf:List.
+            var:x_0 log:notIncludes {
+                var:x_2 :package var:x_3.
+            }.
+            var:x_0 log:notIncludes {
+                var:x_4 :tag var:x_5.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_113 :package {
+                skolem:bn_121 :content {
+                    :u :v skolem:e_c_164.
+                    skolem:bn_125 :package {
+                        skolem:bn_127 :content {
+                            :x :y skolem:e_c_168.
+                        }.
+                        skolem:bn_127 :usable_until :yesterday.
+                    }.
+                    skolem:bn_125 :tag :invalid.
+                }.
+                skolem:bn_121 :usable_until :tomorrow.
+                skolem:bn_121 :p :o.
+            }.
+        } :unpack {
+            :u :v skolem:e_c_164.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+            skolem:bn_121 :p :o.
+        } log:includes {
+            skolem:bn_121 :content {
+                :u :v skolem:e_c_164.
+                skolem:bn_125 :package {
+                    skolem:bn_127 :content {
+                        :x :y skolem:e_c_168.
+                    }.
+                    skolem:bn_127 :usable_until :yesterday.
+                }.
+                skolem:bn_125 :tag :invalid.
+            }.
+            skolem:bn_121 :usable_until :tomorrow.
+        }}]
+        [ a r:Fact; r:gives {(:tomorrow :next_week) list:member :tomorrow}]
+        [ a r:Fact; r:gives {{
+            :u :v skolem:e_c_164.
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+            skolem:bn_125 :tag :invalid.
+        } graph:list ({
+            :u :v skolem:e_c_164.
+        } {
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        })}]
+        skolem:lemma21
+        [ a r:Fact; r:gives {({
+            :u :v skolem:e_c_164.
+        } true true) graph:union {
+            :u :v skolem:e_c_164.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        skolem:bn_121 :content {
+            :u :v skolem:e_c_164.
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+            skolem:bn_125 :tag :invalid.
+        }.
+        skolem:bn_121 :usable_until :tomorrow.
+        skolem:bn_121 :p :o.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_121"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :u :v skolem:e_c_164.
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+        skolem:bn_125 :tag :invalid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#tomorrow"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } {
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+    } {
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } true true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo {
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_113"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_113 :tag :valid.
+        }) :unpack (true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_113 :tag :valid.
+        }) list:firstRest ({
+            skolem:bn_113 :tag :valid.
+        } ())}]
+        [ a r:Fact; r:gives {(true) list:firstRest (true ())}]
+        skolem:lemma22
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_113 :tag :valid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_113 :tag :valid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:rule skolem:lemma9.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        ({
+            :u :v skolem:e_c_164.
+        } {
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        }) :unpack ({
+            :u :v skolem:e_c_164.
+        } true true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            :u :v skolem:e_c_164.
+        } {
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        }) list:firstRest ({
+            :u :v skolem:e_c_164.
+        } ({
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        }))}]
+        [ a r:Fact; r:gives {({
+            :u :v skolem:e_c_164.
+        } true true) list:firstRest ({
+            :u :v skolem:e_c_164.
+        } (true true))}]
+        skolem:lemma23
+        skolem:lemma24
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } {
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+    } {
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+    } {
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :u :v skolem:e_c_164.
+    } true true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (true true)];
+    r:rule skolem:lemma9.
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_113 :tag :valid.
+        } :unpack true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_113"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#valid"]];
+    r:rule skolem:lemma16.
+
+skolem:lemma23 a r:Inference;
+    r:gives {
+        {
+            :u :v skolem:e_c_164.
+        } :unpack {
+            :u :v skolem:e_c_164.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :u :v skolem:e_c_164.
+        } log:rawType log:Formula}]
+        [ a r:Fact; r:gives {log:Formula log:notEqualTo rdf:List}]
+        [ a r:Fact; r:gives {{
+            :u :v skolem:e_c_164.
+        } log:notIncludes {
+            _:sk_0 :package _:sk_1.
+        }}]
+        [ a r:Fact; r:gives {{
+            :u :v skolem:e_c_164.
+        } log:notIncludes {
+            _:sk_2 :tag _:sk_3.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :u :v skolem:e_c_164.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#Formula"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:rule skolem:lemma18.
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        }) :unpack (true true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } {
+            skolem:bn_125 :tag :invalid.
+        }) list:firstRest ({
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } ({
+            skolem:bn_125 :tag :invalid.
+        }))}]
+        [ a r:Fact; r:gives {(true true) list:firstRest (true (true))}]
+        skolem:lemma25
+        skolem:lemma26
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+    } {
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_125 :package {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (true true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (true)];
+    r:rule skolem:lemma9.
+
+skolem:lemma25 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_125 :package {
+                skolem:bn_127 :content {
+                    :x :y skolem:e_c_168.
+                }.
+                skolem:bn_127 :usable_until :yesterday.
+            }.
+        } :unpack true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        } log:includes {
+            skolem:bn_127 :content {
+                :x :y skolem:e_c_168.
+            }.
+            skolem:bn_127 :usable_until :yesterday.
+        }}]
+        [ a r:Fact; r:gives {(:yesterday :last_week) list:member :yesterday}]
+        [ a r:Fact; r:gives {{
+            :x :y skolem:e_c_168.
+        } graph:list ({
+            :x :y skolem:e_c_168.
+        })}]
+        skolem:lemma27
+        [ a r:Fact; r:gives {({
+            :x :y skolem:e_c_168.
+        }) graph:union {
+            :x :y skolem:e_c_168.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        skolem:bn_127 :content {
+            :x :y skolem:e_c_168.
+        }.
+        skolem:bn_127 :usable_until :yesterday.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_127"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :x :y skolem:e_c_168.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#yesterday"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ({
+        :x :y skolem:e_c_168.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :x :y skolem:e_c_168.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo {
+        :x :y skolem:e_c_168.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_125"]];
+    r:rule skolem:lemma28.
+
+skolem:lemma26 a r:Inference;
+    r:gives {
+        ({
+            skolem:bn_125 :tag :invalid.
+        }) :unpack (true).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            skolem:bn_125 :tag :invalid.
+        }) list:firstRest ({
+            skolem:bn_125 :tag :invalid.
+        } ())}]
+        [ a r:Fact; r:gives {(true) list:firstRest (true ())}]
+        skolem:lemma29
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        skolem:bn_125 :tag :invalid.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        skolem:bn_125 :tag :invalid.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (true)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:rule skolem:lemma9.
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        ({
+            :x :y skolem:e_c_168.
+        }) :unpack ({
+            :x :y skolem:e_c_168.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {({
+            :x :y skolem:e_c_168.
+        }) list:firstRest ({
+            :x :y skolem:e_c_168.
+        } ())}]
+        [ a r:Fact; r:gives {({
+            :x :y skolem:e_c_168.
+        }) list:firstRest ({
+            :x :y skolem:e_c_168.
+        } ())}]
+        skolem:lemma30
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ({
+        :x :y skolem:e_c_168.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :x :y skolem:e_c_168.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :x :y skolem:e_c_168.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :x :y skolem:e_c_168.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:rule skolem:lemma9.
+
+skolem:lemma28 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. @forSome var:x_7. {
+            {
+                var:x_7 :package var:x_0.
+            } :unpack true.
+        } <= {
+            var:x_0 log:includes {
+                var:x_1 :content var:x_2.
+                var:x_1 :usable_until var:x_3.
+            }.
+            (:yesterday :last_week) list:member var:x_3.
+            var:x_2 graph:list var:x_4.
+            var:x_4 :unpack var:x_5.
+            var:x_5 graph:union var:x_6.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/unpack.n3>].
+
+skolem:lemma29 a r:Inference;
+    r:gives {
+        {
+            skolem:bn_125 :tag :invalid.
+        } :unpack true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_125"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/ns#invalid"]];
+    r:rule skolem:lemma16.
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        {
+            :x :y skolem:e_c_168.
+        } :unpack {
+            :x :y skolem:e_c_168.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :x :y skolem:e_c_168.
+        } log:rawType log:Formula}]
+        [ a r:Fact; r:gives {log:Formula log:notEqualTo rdf:List}]
+        [ a r:Fact; r:gives {{
+            :x :y skolem:e_c_168.
+        } log:notIncludes {
+            _:sk_0 :package _:sk_1.
+        }}]
+        [ a r:Fact; r:gives {{
+            :x :y skolem:e_c_168.
+        } log:notIncludes {
+            _:sk_2 :tag _:sk_3.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :x :y skolem:e_c_168.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/log#Formula"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:rule skolem:lemma18.
+

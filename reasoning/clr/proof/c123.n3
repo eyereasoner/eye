@@ -1,0 +1,354 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#test"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo true];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/c123.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        :abc a :C0.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/c123.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        {
+            :abc a :C0.
+        } => {
+            :test :is true.
+        }.
+    };
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :test :is true.
+        }) list:removeDuplicates ({
+            :test :is true.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :abc a :C0.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :test :is true.
+    } {
+        :test :is true.
+    } {
+        :test :is true.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :test :is true.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        {
+            :abc a :C0.
+        } => ({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :test :is true.
+        }).
+    };
+    r:evidence (
+        skolem:lemma8
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :abc a :C3.
+        }) list:select ({
+            :abc a :C3.
+        } ({
+            :test :is true.
+        } {
+            :test :is true.
+        }))}]
+        [ a r:Fact; r:gives {{
+            :abc a :C3.
+        } => {
+            :test :is true.
+        }}]
+        [ a r:Fact; r:gives {{
+            :test :is true.
+        } list:isList false}]
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :test :is true.
+        }) list:firstRest ({
+            :test :is true.
+        } ({
+            :test :is true.
+        } {
+            :test :is true.
+        }))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :abc a :C0.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :test :is true.
+    } {
+        :test :is true.
+    } {
+        :abc a :C3.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :abc a :C3.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :test :is true.
+    } {
+        :test :is true.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :test :is true.
+    } {
+        :test :is true.
+    } {
+        :test :is true.
+    })];
+    r:rule skolem:lemma9.
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 => var:x_1.
+            var:x_1 list:removeDuplicates (var:x_2).
+        } => {
+            var:x_0 => var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/clr.n3>].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        {
+            :abc a :C0.
+        } => ({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :abc a :C3.
+        }).
+    };
+    r:evidence (
+        skolem:lemma10
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }) list:select ({
+            :abc a :C2.
+        } ({
+            :test :is true.
+        } {
+            :abc a :C3.
+        }))}]
+        [ a r:Fact; r:gives {{
+            :abc a :C2.
+        } => {
+            :test :is true.
+        }}]
+        [ a r:Fact; r:gives {{
+            :test :is true.
+        } list:isList false}]
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :test :is true.
+        } {
+            :abc a :C3.
+        }) list:firstRest ({
+            :test :is true.
+        } ({
+            :test :is true.
+        } {
+            :abc a :C3.
+        }))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :abc a :C0.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :test :is true.
+    } {
+        :abc a :C2.
+    } {
+        :abc a :C3.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :abc a :C2.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :test :is true.
+    } {
+        :abc a :C3.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :test :is true.
+    } {
+        :test :is true.
+    } {
+        :abc a :C3.
+    })];
+    r:rule skolem:lemma9.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+            var:x_0 => var:x_1.
+            var:x_1 list:select (var:x_2 var:x_3).
+            var:x_2 => var:x_4.
+            var:x_4 list:isList false.
+            var:x_5 list:firstRest (var:x_4 var:x_3).
+        } => {
+            var:x_0 => var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/clr.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        {
+            :abc a :C0.
+        } => ({
+            :test :is true.
+        } {
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :abc a :C0.
+        } => ({
+            :abc a :C1.
+        } {
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        })}]
+        [ a r:Fact; r:gives {({
+            :abc a :C1.
+        } {
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }) list:select ({
+            :abc a :C1.
+        } ({
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }))}]
+        [ a r:Fact; r:gives {{
+            :abc a :C1.
+        } => {
+            :test :is true.
+        }}]
+        [ a r:Fact; r:gives {{
+            :test :is true.
+        } list:isList false}]
+        [ a r:Fact; r:gives {({
+            :test :is true.
+        } {
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }) list:firstRest ({
+            :test :is true.
+        } ({
+            :abc a :C2.
+        } {
+            :abc a :C3.
+        }))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :abc a :C0.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :abc a :C1.
+    } {
+        :abc a :C2.
+    } {
+        :abc a :C3.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :abc a :C1.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :abc a :C2.
+    } {
+        :abc a :C3.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ({
+        :test :is true.
+    } {
+        :abc a :C2.
+    } {
+        :abc a :C3.
+    })];
+    r:rule skolem:lemma9.
+

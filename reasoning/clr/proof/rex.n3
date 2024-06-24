@@ -1,0 +1,98 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        {
+            :Rex a :Bird.
+        } => ().
+        {
+            :Rex a :Chicken.
+        } => ().
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        {
+            :Rex a :Bird.
+        } => ().
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } => ()}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Bird"]];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        {
+            :Rex a :Chicken.
+        } => ().
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Chicken"]];
+    r:rule skolem:lemma3.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                :Rex a var:x_0.
+            } => ().
+        } => {
+            {
+                :Rex a var:x_0.
+            } => ().
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/rex.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        {
+            :Rex a :Chicken.
+        } => ().
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :Rex a :Chicken.
+        } => {
+            :Rex a :Bird.
+        }}]
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } list:isList false}]
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } => ()}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :Rex a :Chicken.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :Rex a :Bird.
+    }];
+    r:rule skolem:lemma5.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 => var:x_1.
+            var:x_1 list:isList false.
+            var:x_1 => ().
+        } => {
+            var:x_0 => ().
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/clr/clr.n3>].
+
