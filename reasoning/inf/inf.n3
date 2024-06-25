@@ -2,7 +2,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-# resolution a
+# resolution A (proof by cases)
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -13,7 +13,7 @@
     ?A => ?G.
 }.
 
-# resolution b
+# resolution B (proof by cases)
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -22,7 +22,7 @@
     ?A => ?D.
 }.
 
-# resolution c
+# resolution C (modus tollens)
 {
     ?A => ?B.
     ?B list:isList false.
@@ -31,7 +31,7 @@
     ?A => ().
 }.
 
-# rewriting a
+# rewriting A (factoring)
 {
     ?A => ?B.
     ?B list:removeDuplicates (?C).
@@ -39,7 +39,7 @@
     ?A => ?C.
 }.
 
-# rewriting b
+# rewriting B (contrapositive)
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -48,7 +48,7 @@
     ?E => ?D.
 }.
 
-# rewriting c
+# rewriting C (contrapositive)
 {
     ?A => ().
     ?A graph:list ?B.
