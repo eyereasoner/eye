@@ -57,23 +57,14 @@ skolem:lemma5 a r:Inference;
         :i a :B.
     };
     r:evidence (
-        skolem:lemma6
+        [ a r:Fact; r:gives {{
+            :i a :D.
+        } => ()}]
         skolem:lemma3
     );
-    r:rule skolem:lemma7.
+    r:rule skolem:lemma6.
 
 skolem:lemma6 a r:Inference;
-    r:gives {
-        {
-            :i a :D.
-        } => ().
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:rule skolem:lemma8.
-
-skolem:lemma7 a r:Inference;
     r:gives {
         {
             {
@@ -85,7 +76,7 @@ skolem:lemma7 a r:Inference;
         }.
     };
     r:evidence (
-        skolem:lemma9
+        skolem:lemma7
         [ a r:Fact; r:gives {({
             :i a :B.
         }) list:removeDuplicates ({
@@ -104,76 +95,9 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :i a :B.
     }];
-    r:rule skolem:lemma10.
+    r:rule skolem:lemma8.
 
-skolem:lemma8 a r:Inference;
-    r:gives {
-        true => {
-            {
-                :i a :D.
-            } => ().
-        }.
-    };
-    r:evidence (
-        [ a r:Fact; r:gives {{
-            {
-                {
-                    :i a :D.
-                } => ().
-            } => ().
-        } => ()}]
-        [ a r:Fact; r:gives {{
-            {
-                {
-                    :i a :D.
-                } => ().
-            } => ().
-        } graph:list ({
-            {
-                {
-                    :i a :D.
-                } => ().
-            } => ().
-        })}]
-        [ a r:Fact; r:gives {({
-            {
-                {
-                    :i a :D.
-                } => ().
-            } => ().
-        }) list:select ({
-            {
-                {
-                    :i a :D.
-                } => ().
-            } => ().
-        } ())}]
-        [ a r:Fact; r:gives {true graph:list ()}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        {
-            {
-                :i a :D.
-            } => ().
-        } => ().
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
-        {
-            {
-                :i a :D.
-            } => ().
-        } => ().
-    })];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        {
-            :i a :D.
-        } => ().
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
-    r:rule skolem:lemma11.
-
-skolem:lemma9 a r:Inference;
+skolem:lemma7 a r:Inference;
     r:gives {
         {
             {
@@ -185,7 +109,7 @@ skolem:lemma9 a r:Inference;
         }).
     };
     r:evidence (
-        skolem:lemma12
+        skolem:lemma9
         [ a r:Fact; r:gives {({
             :i a :B.
         } {
@@ -228,9 +152,9 @@ skolem:lemma9 a r:Inference;
         } => ().
         :i a :A.
     }];
-    r:rule skolem:lemma13.
+    r:rule skolem:lemma10.
 
-skolem:lemma10 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 => var:x_1.
@@ -241,22 +165,7 @@ skolem:lemma10 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
 
-skolem:lemma11 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
-            var:x_0 => ().
-            var:x_0 graph:list var:x_1.
-            var:x_1 list:select ({
-                var:x_2 => ().
-            } var:x_3).
-            var:x_4 graph:list var:x_3.
-        } => {
-            var:x_4 => var:x_2.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
-
-skolem:lemma12 a r:Inference;
+skolem:lemma9 a r:Inference;
     r:gives {
         {
             :i a :A.
@@ -311,9 +220,9 @@ skolem:lemma12 a r:Inference;
     } {
         :i a :D.
     })];
-    r:rule skolem:lemma14.
+    r:rule skolem:lemma11.
 
-skolem:lemma13 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 => var:x_1.
@@ -327,7 +236,7 @@ skolem:lemma13 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
 
-skolem:lemma14 a r:Extraction;
+skolem:lemma11 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             var:x_0 => var:x_1.
