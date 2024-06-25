@@ -1,0 +1,57 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :we :are :happy.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :we :are :happy.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :we :are :happy.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :This :is :working.
+        } => {
+            :we :are :happy.
+        }}]
+        [ a r:Fact; r:gives {{
+            :we :are :happy.
+        } list:isList false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :we :are :happy.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#This"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        {
+            var:x_0 :is :working.
+        } => var:x_1.
+        var:x_1 list:isList false.
+    } => var:x_1}].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        {
+            :we :are :happy.
+        } => {
+            :we :are :happy.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/universal_6_d.n3>].
+
