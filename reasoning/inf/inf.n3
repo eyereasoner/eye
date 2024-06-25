@@ -2,7 +2,7 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-# resolution
+# resolution a
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -13,7 +13,7 @@
     ?A => ?G.
 }.
 
-# resolution bis
+# resolution b
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -22,15 +22,7 @@
     ?A => ?D.
 }.
 
-# factoring
-{
-    ?A => ?B.
-    ?B list:removeDuplicates (?C).
-} => {
-    ?A => ?C.
-}.
-
-# modus tollens
+# resolution c
 {
     ?A => ?B.
     ?B list:isList false.
@@ -39,7 +31,24 @@
     ?A => ().
 }.
 
-# contrapositive
+# rewriting a
+{
+    ?A => ?B.
+    ?B list:removeDuplicates (?C).
+} => {
+    ?A => ?C.
+}.
+
+# rewriting b
+{
+    ?A => ?B.
+    ?B list:select (?C ?D).
+    ({?C => ()} ?A) graph:union ?E.
+} => {
+    ?E => ?D.
+}.
+
+# rewriting c
 {
     ?A => ().
     ?A graph:list ?B.
@@ -47,15 +56,6 @@
     ?E graph:list ?M.
 } => {
     ?E => ?F.
-}.
-
-# contrapositive bis
-{
-    ?A => ?B.
-    ?B list:select (?C ?D).
-    ({?C => ()} ?A) graph:union ?E.
-} => {
-    ?E => ?D.
 }.
 
 # inference fuse
