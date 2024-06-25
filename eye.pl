@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.13 (2024-06-24)').
+version_info('EYE v10.16.14 (2024-06-25)').
 
 license_info('MIT License
 
@@ -756,15 +756,6 @@ gre(Argus) :-
         ),
         writeln(Out, 'end_of_file.'),
         close(Out)
-    ;   true
-    ),
-    (   \+implies(_, answer(_, _, _), _),
-        \+implies(_, (answer(_, _, _), _), _),
-        \+query(_, _),
-        \+flag('pass-only-new'),
-        \+flag(strings),
-        \+flag(rdfsurfaces)
-    ->  throw(halt(0))
     ;   true
     ),
     (   pfx('r:', _)
@@ -2831,6 +2822,9 @@ uri(Name) -->
 
 verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
+    !.
+verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
+    ['|', '^', '|'],
     !.
 verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
     ['⇑'],
