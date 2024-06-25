@@ -43,7 +43,7 @@
 {
     ?A => ?B.
     ?B list:select (?C ?D).
-    ({?C => ()} ?A) graph:union ?E.
+    ({ ?C => () } ?A) graph:union ?E.
 } => {
     ?E => ?D.
 }.
@@ -52,7 +52,7 @@
 {
     ?A => ().
     ?A graph:list ?B.
-    ?B list:select ({ ?F => ()} ?M).
+    ?B list:select ({ ?F => () } ?M).
     ?E graph:list ?M.
 } => {
     ?E => ?F.
