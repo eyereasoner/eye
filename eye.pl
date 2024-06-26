@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.14 (2024-06-25)').
+version_info('EYE v10.16.15 (2024-06-26)').
 
 license_info('MIT License
 
@@ -6807,6 +6807,14 @@ userInput(A, B) :-
             ;   true
             )
         )
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#isBuiltin>'(X, Y) :-
+    nonvar(X),
+    (   X =.. [P, _, _],
+        atom_concat('<http://www.w3.org/2000/10/swap/', _, P)
+    ->  Y = true
+    ;   Y = false
     ).
 
 '<http://www.w3.org/2000/10/swap/log#bound>'(X, Y) :-

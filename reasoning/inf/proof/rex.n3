@@ -4,6 +4,8 @@
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -24,12 +26,10 @@ skolem:lemma1 a r:Inference;
         } => ().
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            :Rex a :Bird.
-        } => ()}]
+        skolem:lemma3
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Bird"]];
-    r:rule skolem:lemma3.
+    r:rule skolem:lemma4.
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -38,12 +38,23 @@ skolem:lemma2 a r:Inference;
         } => ().
     };
     r:evidence (
-        skolem:lemma4
+        skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Chicken"]];
-    r:rule skolem:lemma3.
+    r:rule skolem:lemma4.
 
-skolem:lemma3 a r:Extraction;
+skolem:lemma3 a r:Inference;
+    r:gives {
+        {
+            :Rex a :Bird.
+        } => ().
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:rule skolem:lemma6.
+
+skolem:lemma4 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             {
@@ -57,7 +68,7 @@ skolem:lemma3 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/rex.n3>].
 
-skolem:lemma4 a r:Inference;
+skolem:lemma5 a r:Inference;
     r:gives {
         {
             :Rex a :Chicken.
@@ -72,9 +83,7 @@ skolem:lemma4 a r:Inference;
         [ a r:Fact; r:gives {{
             :Rex a :Bird.
         } list:isList false}]
-        [ a r:Fact; r:gives {{
-            :Rex a :Bird.
-        } => ()}]
+        skolem:lemma3
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :Rex a :Chicken.
@@ -82,9 +91,47 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
         :Rex a :Bird.
     }];
-    r:rule skolem:lemma5.
+    r:rule skolem:lemma7.
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma6 a r:Inference;
+    r:gives {
+        true => {
+            {
+                :Rex a :Bird.
+            } => ().
+        }.
+    };
+    r:evidence (
+        skolem:lemma3
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } graph:list ({
+            :Rex a :Bird.
+        })}]
+        [ a r:Fact; r:gives {({
+            :Rex a :Bird.
+        }) list:select ({
+            :Rex a :Bird.
+        } ())}]
+        [ a r:Fact; r:gives {{
+            :Rex a :Bird.
+        } log:isBuiltin false}]
+        [ a r:Fact; r:gives {true graph:list ()}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :Rex a :Bird.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :Rex a :Bird.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :Rex a :Bird.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
+    r:rule skolem:lemma8.
+
+skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 => var:x_1.
@@ -92,6 +139,22 @@ skolem:lemma5 a r:Extraction;
             var:x_1 => ().
         } => {
             var:x_0 => ().
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 => ().
+            var:x_0 graph:list var:x_1.
+            var:x_1 list:select (var:x_2 var:x_3).
+            var:x_2 log:isBuiltin false.
+            var:x_4 graph:list var:x_3.
+        } => {
+            var:x_4 => {
+                var:x_2 => ().
+            }.
         }.
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].

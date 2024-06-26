@@ -52,10 +52,13 @@
 {
     ?A => ().
     ?A graph:list ?B.
-    ?B list:select ({ ?F => () } ?M).
+    ?B list:select (?C ?M).
+    ?C log:isBuiltin false.
     ?E graph:list ?M.
 } => {
-    ?E => ?F.
+    ?E => {
+        ?C => ().
+    }.
 }.
 
 # inference fuse

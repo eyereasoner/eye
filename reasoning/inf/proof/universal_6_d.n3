@@ -1,7 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/#>.
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
@@ -25,25 +24,11 @@ skolem:lemma2 a r:Inference;
         :we :are :happy.
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            :This :is :working.
-        } => {
-            :we :are :happy.
-        }}]
-        [ a r:Fact; r:gives {{
-            :we :are :happy.
-        } list:isList false}]
+        skolem:lemma4
+        skolem:lemma5
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :we :are :happy.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#This"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        {
-            var:x_0 :is :working.
-        } => var:x_1.
-        var:x_1 list:isList false.
-    } => var:x_1}].
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Extraction;
     r:gives {
@@ -52,6 +37,45 @@ skolem:lemma3 a r:Extraction;
         } => {
             :we :are :happy.
         }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/universal_6_d.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        _:sk_0 :is :working.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:rule skolem:lemma7.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :This :is :working.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#This"]];
+    r:rule skolem:lemma7.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :is :working.
+            :This :is :working.
+        } => {
+            :we :are :happy.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/universal_6_d.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forSome var:x_0. {
+            var:x_0 :is :working.
+        } <= true.
     };
     r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/universal_6_d.n3>].
 
