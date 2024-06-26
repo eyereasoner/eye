@@ -1,0 +1,25 @@
+--------
+Sequents
+--------
+
+Expressing knowledge as implications with disjunction in the conclusion.
+This is giving us FOL expressivity in N3 so that we have proofs in N3.
+
+See https://en.wikipedia.org/wiki/Sequent
+
+Examples:
+--------
+# all cars are green or blue
+{
+    ?A a :Car.
+} => ({
+    ?A :is :green.
+} {
+    ?A :is :blue.
+}).
+
+# negation
+{
+    ?A a :Car.
+    ?A a :Horse.
+} => ().

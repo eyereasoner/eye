@@ -9,41 +9,31 @@
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
-    r:component skolem:lemma2;
     r:gives {
-        :i a :A.
-        :i a :B.
+        :A a :Deer.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :i a :A.
+        :A a :Deer.
     };
     r:evidence (
-        skolem:lemma3
+        skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#i"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#A"]];
-    r:rule skolem:lemma4.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#A"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Deer"]];
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :i a :B.
+        :A a :Deer.
     };
     r:evidence (
-        skolem:lemma5
+        [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#i"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#B"]];
     r:rule skolem:lemma4.
 
 skolem:lemma3 a r:Extraction;
-    r:gives {
-        :i a :A.
-    };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/abc.n3>].
-
-skolem:lemma4 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 a var:x_1.
@@ -51,88 +41,69 @@ skolem:lemma4 a r:Extraction;
             var:x_0 a var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/abc.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/sequents/deer.n3>].
 
-skolem:lemma5 a r:Inference;
+skolem:lemma4 a r:Inference;
     r:gives {
-        :i a :B.
-    };
-    r:evidence (
-        skolem:lemma3
-    );
-    r:rule skolem:lemma6.
-
-skolem:lemma6 a r:Inference;
-    r:gives {
-        {
-            :i a :A.
-        } => {
-            :i a :B.
+        true => {
+            :A a :Deer.
         }.
     };
     r:evidence (
-        skolem:lemma7
+        skolem:lemma5
         [ a r:Fact; r:gives {({
-            :i a :B.
+            :A a :Deer.
         }) list:removeDuplicates ({
-            :i a :B.
+            :A a :Deer.
         })}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :i a :A.
-    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
-        :i a :B.
+        :A a :Deer.
     })];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :i a :B.
+        :A a :Deer.
     }];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma6.
 
-skolem:lemma7 a r:Inference;
+skolem:lemma5 a r:Inference;
     r:gives {
-        {
-            :i a :A.
-        } => ({
-            :i a :B.
+        true => ({
+            :A a :Deer.
         }).
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            :i a :A.
-        } => ({
-            :i a :B.
+        [ a r:Fact; r:gives {true => ({
+            :A a :Deer.
         } {
-            :i a :C.
+            :A a :Wolf.
         })}]
         [ a r:Fact; r:gives {({
-            :i a :B.
+            :A a :Deer.
         } {
-            :i a :C.
+            :A a :Wolf.
         }) list:select ({
-            :i a :C.
+            :A a :Wolf.
         } ({
-            :i a :B.
+            :A a :Deer.
         }))}]
-        skolem:lemma9
+        skolem:lemma7
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :i a :A.
-    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo true];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
-        :i a :B.
+        :A a :Deer.
     } {
-        :i a :C.
+        :A a :Wolf.
     })];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :i a :C.
+        :A a :Wolf.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
-        :i a :B.
+        :A a :Deer.
     })];
-    r:rule skolem:lemma10.
+    r:rule skolem:lemma8.
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma6 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 => var:x_1.
@@ -141,20 +112,20 @@ skolem:lemma8 a r:Extraction;
             var:x_0 => var:x_2.
         }.
     };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/sequents/sequents.n3>].
 
-skolem:lemma9 a r:Inference;
+skolem:lemma7 a r:Inference;
     r:gives {
         {
-            :i a :C.
+            :A a :Wolf.
         } => ().
     };
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:rule skolem:lemma11.
+    r:rule skolem:lemma9.
 
-skolem:lemma10 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             var:x_0 => var:x_1.
@@ -164,47 +135,47 @@ skolem:lemma10 a r:Extraction;
             var:x_0 => var:x_3.
         }.
     };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/sequents/sequents.n3>].
 
-skolem:lemma11 a r:Inference;
+skolem:lemma9 a r:Inference;
     r:gives {
         true => {
             {
-                :i a :C.
+                :A a :Wolf.
             } => ().
         }.
     };
     r:evidence (
-        skolem:lemma9
+        skolem:lemma7
         [ a r:Fact; r:gives {{
-            :i a :C.
+            :A a :Wolf.
         } graph:list ({
-            :i a :C.
+            :A a :Wolf.
         })}]
         [ a r:Fact; r:gives {({
-            :i a :C.
+            :A a :Wolf.
         }) list:select ({
-            :i a :C.
+            :A a :Wolf.
         } ())}]
         [ a r:Fact; r:gives {{
-            :i a :C.
+            :A a :Wolf.
         } log:isBuiltin false}]
         [ a r:Fact; r:gives {true graph:list ()}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :i a :C.
+        :A a :Wolf.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
-        :i a :C.
+        :A a :Wolf.
     })];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :i a :C.
+        :A a :Wolf.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
-    r:rule skolem:lemma12.
+    r:rule skolem:lemma10.
 
-skolem:lemma12 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 => ().
@@ -218,5 +189,5 @@ skolem:lemma12 a r:Extraction;
             }.
         }.
     };
-    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/inf/inf.n3>].
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/sequents/sequents.n3>].
 
