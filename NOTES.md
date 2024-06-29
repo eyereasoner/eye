@@ -2,8 +2,8 @@
 
 ## chips
 - construction of Horn logic integrated programs
-- the Prolog code of the EYE reasoner eye.pl
-- the Notation3 examples and test cases **/*.n3
+- the Prolog code of the EYE reasoner [eye.pl](./eye.pl)
+- the Notation3 examples and test cases `**/*.n3`
 
 ## triptych
 
