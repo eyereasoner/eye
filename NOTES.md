@@ -1,5 +1,10 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
+## chips
+- construction of Horn logic integrated programs
+- the Prolog code of the EYE reasoner eye.pl
+- the Notation3 examples and test cases **/*.n3
+
 ## triptych
 
 - backward rules use a leftwards double arrow `<=`
