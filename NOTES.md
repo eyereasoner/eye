@@ -1,11 +1,4 @@
-![EYE](https://josd.github.io/images/eye.png)
-
-## triholo
-- triptych Horn logic
-- the Prolog code of the EYE reasoner [eye.pl](./eye.pl)
-- the Notation3 examples and test cases `**/*.n3`
-
-## triptych
+## ulr (euler)
 
 - backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
