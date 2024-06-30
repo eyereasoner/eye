@@ -1,7 +1,7 @@
 ## ulr (euler)
 
-- backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
+- backward rules use a leftwards double arrow `<=`
 - queries use an upwards double arrow `|^|`
 
 ## variables
