@@ -1,8 +1,8 @@
 ## ulr-wards
 
-- queries use an __u__pwards double arrow `|^|`
-- backward rules use a __l__eftwards double arrow `<=`
-- forward rules use a __r__ightwards double arrow `=>`
+- queries use an **u**pwards double arrow `|^|`
+- backward rules use a **l**eftwards double arrow `<=`
+- forward rules use a **r**ightwards double arrow `=>`
 
 ## variables
 
