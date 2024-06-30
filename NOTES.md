@@ -1,7 +1,7 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
 ## chops
-- compositional Horn logic programs
+- controlled Horn logic programs
 - the Prolog code of the EYE reasoner [eye.pl](./eye.pl)
 - the Notation3 examples and test cases `**/*.n3`
 
