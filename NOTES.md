@@ -1,7 +1,7 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
 ## chips
-- construction of integrated Horn logic programs
+- constructing Horn logic integrated platforms
 - the Prolog code of the EYE reasoner [eye.pl](./eye.pl)
 - the Notation3 examples and test cases `**/*.n3`
 
