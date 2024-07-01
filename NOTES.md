@@ -1,4 +1,4 @@
-## ulr-wards (from euler)
+## reasoning ulr-wards (from euler)
 
 - queries use an **u**p**wards** double arrow `|^|`
 - backward rules use a **l**eft**wards** double arrow `<=`
