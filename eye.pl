@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.15 (2024-06-26)').
+version_info('EYE v10.16.16 (2024-07-01)').
 
 license_info('MIT License
 
@@ -736,6 +736,7 @@ gre(Argus) :-
     nb_getval(input_statements, SC),
     (   flag(image, File)
     ->  assertz(argi(Argus)),
+        retractall(flag(quiet)),
         retractall(flag(image, _)),
         assertz(flag('quantify', Sns)),
         retractall(input_statements(_)),
