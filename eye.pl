@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.17 (2024-07-03)').
+version_info('EYE v10.16.18 (2024-07-03)').
 
 license_info('MIT License
 
@@ -151,6 +151,7 @@ eye
 :- dynamic(pfx/2).
 :- dynamic(pred/1).
 :- dynamic(prfstep/7).              % prfstep(Conclusion_triple, Premise, Premise_index, Conclusion, Rule, Chaining, Source)
+:- dynamic(pverb/1).
 :- dynamic(qevar/3).
 :- dynamic(quad/2).
 :- dynamic(query/2).
@@ -1641,6 +1642,12 @@ n3_n3p(Argument, Mode) :-
     ),
     (   flag(intermediate, Out)
     ->  forall(
+            (   pverb(Pverb)
+            ),
+            (   format(Out, ':- dynamic(\'~w\'/2).~n', [Pverb])
+            )
+        ),
+        forall(
             (   pfx(Pp, Pu),
                 \+wpfx(Pp)
             ),
@@ -2546,7 +2553,19 @@ propertylist(Subject, Triples) -->
     }.
 propertylist(Subject, [Triple|Triples]) -->
     verb(Item, Triples1),
-    {   prolog_verb(Item, Verb)
+    {   (   flag(intermediate, _),
+            sub_atom(Item, 1, _, 1, Pverb),
+            sub_atom(Pverb, 0, 1, _, '<'),
+            sub_atom(Pverb, _, 1, 0, '>'),
+            (   \+current_predicate(Pverb/2)
+            ;   Pverb = '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'
+            ;   Pverb = '<http://www.w3.org/2000/01/rdf-schema#subClassOf>'
+            ),
+            \+pverb(Pverb)
+        ->  assertz(pverb(Pverb))
+        ;   true
+        ),
+        prolog_verb(Item, Verb)
     },
     !,
     object(Object, Triples2),
@@ -11985,11 +12004,7 @@ dynify(A) :-
     length(C, N),
     (   current_predicate(B/N)
     ->  true
-    ;   dynamic(B/N),
-        (   flag(intermediate, Out)
-        ->  format(Out, ':- dynamic(\'~w\'/~w).~n', [B, N])
-        ;   true
-        )
+    ;   dynamic(B/N)
     ),
     dynify(C).
 
