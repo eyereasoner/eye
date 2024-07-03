@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.16 (2024-07-01)').
+version_info('EYE v10.16.17 (2024-07-03)').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
-    --n3p-output                    reasoner output in n3p
     --no-beautified-output          no beautified output
     --no-bnode-relabeling           no relabeling of blank nodes in triple or graph terms
     --no-distinct-input             no distinct triples in the input
@@ -395,10 +394,7 @@ gre(Argus) :-
     ;   version_info(Version),
         (   flag(quiet)
         ->  true
-        ;   (   flag('n3p-output')
-            ->  format('% Processed by ~w~n', [Version])
-            ;   format('# Processed by ~w~n', [Version])
-            )
+        ;   format('# Processed by ~w~n', [Version])
         ),
         findall(Argij,
             (   argi(Argij)
@@ -408,10 +404,7 @@ gre(Argus) :-
         append(Argil, Argi),
         (   flag(quiet)
         ->  true
-        ;   (   flag('n3p-output')
-            ->  format('% eye~@~@~n~n', [w0(Argi), w1(Argus)])
-            ;   format('# eye~@~@~n~n', [w0(Argi), w1(Argus)])
-            ),
+        ;   format('# eye~@~@~n~n', [w0(Argi), w1(Argus)]),
             flush_output
         )
     ),
@@ -756,7 +749,9 @@ gre(Argus) :-
         ;   true
         ),
         writeln(Out, 'end_of_file.'),
-        close(Out)
+        flush_output(Out),
+        close(Out),
+        throw(halt(0))
     ;   true
     ),
     (   pfx('r:', _)
@@ -849,10 +844,7 @@ gre(Argus) :-
         ;   flag(quiet)
         )
     ->  true
-    ;   (   flag('n3p-output')
-        ->  format('% ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n% ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
-        ;   format('# ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n# ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
-        )
+    ;   format('# ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n# ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
     ),
     (   flag(quiet)
     ->  true
@@ -973,11 +965,6 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     ),
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
-    opts(Argus, Args).
-opts(['--n3p-output'|Argus], Args) :-
-    !,
-    retractall(flag('n3p-output')),
-    assertz(flag('n3p-output')),
     opts(Argus, Args).
 opts(['--no-beautified-output'|Argus], Args) :-
     !,
@@ -3749,20 +3736,13 @@ wh :-
     ).
 
 w2 :-
-    (   flag('n3p-output')
-    ->  true
-    ;   wh,
-        nl
-    ),
+    wh,
+    nl,
     forall(
         pass_only_new(Zn),
         (   indent,
             relabel(Zn, Zr),
-            (   flag('n3p-output')
-            ->  makeblank(Zr, Zs),
-                writeq(Zs)
-            ;   wt(Zr)
-            ),
+            wt(Zr),
             ws(Zr),
             write('.'),
             nl,
@@ -3776,10 +3756,7 @@ w2 :-
     ).
 
 w3 :-
-    (   flag('n3p-output')
-    ->  true
-    ;   wh
-    ),
+    wh,
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -3795,12 +3772,7 @@ w3 :-
         nb_setval(wn, N),
         relabel(A, B),
         indent,
-        (   flag('n3p-output')
-        ->  makeblank(B, Ba),
-            exo_pred(Ba, Bb),
-            writeq(Bb)
-        ;   wt(B)
-        ),
+        wt(B),
         ws(B),
         write('.'),
         nl,
@@ -3817,12 +3789,7 @@ w3 :-
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
-        (   flag('n3p-output')
-        ->  makeblank(C, Ca),
-            exo_pred(Ca, Cb),
-            writeq(Cb)
-        ;   wt(C)
-        ),
+        wt(C),
         ws(C),
         write('.'),
         nl,
@@ -4884,10 +4851,7 @@ ws(X) :-
     (   \+number(Z),
         Z \= rdiv(_, _)
     ->  true
-    ;   (   \+flag('n3p-output')
-        ->  write(' ')
-        ;   true
-        )
+    ;   write(' ')
     ).
 
 wst :-
@@ -5092,10 +5056,7 @@ eam(Recursion) :-
             ->  true
             ;   Prem2 = Prem
             ),
-            (   flag('n3p-output')
-            ->  with_output_to(atom(PN3), writeq('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ;   with_output_to(atom(PN3), we('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false)))
-            ),
+            with_output_to(atom(PN3), we('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false))),
             (   flag('ignore-inference-fuse')
             ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
                 fail

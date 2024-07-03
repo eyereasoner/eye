@@ -25,7 +25,6 @@ Each data input should be one of:
 or, one of the more advanced inputs:
 
 - `--n3p <uri>` : the path or URL to a N3P prolog file (that can be generated with the `--intermediate` flag)
-- `--n3p-output` : request the output serialized as N3P prolog
 - `--proof <uri>` : the path or URL to N3 proof lemmas 
 - `--image <file>` : generate from the input file a new reasoner image (see Image below)
 
