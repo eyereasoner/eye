@@ -1,0 +1,12 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://eexample.org/#>.
+
+{(0 ?Y) :prod 0} <= {true log:callWithCut true}.
+{(?X ?Y) :prod ?Z} <= {(?X 2) math:remainder 0. ((?X 2)!math:integerQuotient (?Y ?Y)!math:sum) :prod ?Z}.
+{(?X ?Y) :prod ?Z} <= {(?X 2) math:remainder 1. (((?X 2)!math:integerQuotient (?Y ?Y)!math:sum)!:prod ?Y) math:sum ?Z}.
+
+# query
+{(3 0) :prod ?Z} |^| {(3 0) :prod ?Z}.
+{(5 6) :prod ?Z} |^| {(5 6) :prod ?Z}.
+{(238 13) :prod ?Z} |^| {(238 13) :prod ?Z}.
