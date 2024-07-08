@@ -1,0 +1,51 @@
+# Translated from https://hanslen.github.io/2016/05/02/AI-problem-N-queens-problem-%E2%80%93-solved-in-prolog/
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://eexample.org/#>.
+
+{?N :queens ?Qs} <= {
+    (1 ?N) :range ?Us.
+    (?Us ()) :queens3 ?Qs.
+}.
+
+{(() ?Qs) :queens3 ?Qs} <= true.
+
+{(?Us ?Ps) :queens3 ?Qs} <= {
+    ?Us list:select (?Q ?Us1).
+    ({?Q :attack ?Ps} false true) log:ifThenElseIn ?SCOPE.
+    ?QPs list:firstRest (?Q ?Ps).
+    (?Us1 ?QPs) :queens3 ?Qs.
+}.
+
+{(?J ?J) :range (?J)} <= true.
+{(?I ?J) :range ?INs} <= {
+    ?INs list:firstRest (?I ?Ns).
+    ?I math:lessThan ?J.
+    (?I 1) math:sum ?I1.
+    (?I1 ?J) :range ?Ns.
+}.
+
+{?Q :attack ?Qs} <= {
+    (?Q 1) :attack3 ?Qs.
+}.
+
+{(?X ?N) :attack3 ?YYs} <= {
+    ?YYs list:firstRest (?Y ?Ys).
+    (?Y ?N) math:sum ?X.
+}.
+
+{(?X ?N) :attack3 ?YYs} <= {
+    ?YYs list:firstRest (?Y ?Ys).
+    (?Y ?N) math:difference ?X.
+}.
+
+{(?X ?N) :attack3 ?YYs} <= {
+    ?YYs list:firstRest (?Y ?Ys).
+    (?N 1) math:sum ?N1.
+    (?X ?N1) :attack3 ?Ys
+}.
+
+# query
+{8 :queens ?Qs} |^| {8 :queens ?Qs}.
