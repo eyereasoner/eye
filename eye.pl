@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.19 (2024-07-05)').
+version_info('EYE v10.16.20 (2024-07-09)').
 
 license_info('MIT License
 
@@ -546,7 +546,10 @@ gre(Argus) :-
                 list_to_set(L, B),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeComponentSurface>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
-                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, H), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H), B, K),
+                (   H \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], _)
+                ;   X = []
+                ),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
