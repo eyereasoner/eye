@@ -1,0 +1,33 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# i element of A
+:i a :A.
+
+# i is not an element of C
+{
+    :i a :C.
+} => ().
+
+# i is not an element of D
+{
+    :i a :D.
+} => ().
+
+# all A are B or C or D
+{
+    ?S a :A.
+} => ({
+    ?S a :B.
+} {
+    ?S a :C.
+} {
+    ?S a :D.
+}).
+
+# query
+{
+    ?S a ?C.
+} |^| {
+    ?S a ?C.
+}.

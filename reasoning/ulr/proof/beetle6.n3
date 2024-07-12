@@ -1,0 +1,258 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :beetle :is :green.
+        :beetle :is :nice.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :beetle :is :green.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#green"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :beetle :is :nice.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#nice"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :beetle :is :green.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:rule skolem:lemma7.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/ulr/beetle6.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :beetle :is :nice.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:rule skolem:lemma8.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :beetle a :Car.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/ulr/beetle6.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        {
+            :beetle a :Car.
+        } => {
+            :beetle :is :green.
+        }.
+    };
+    r:evidence (
+        skolem:lemma9
+        [ a r:Fact; r:gives {({
+            :beetle :is :green.
+        }) list:removeDuplicates ({
+            :beetle :is :green.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :beetle a :Car.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :beetle :is :green.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :beetle :is :green.
+    }];
+    r:rule skolem:lemma10.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        {
+            :beetle :is :green.
+        } => {
+            :beetle :is :nice.
+        }.
+    };
+    r:evidence (
+        skolem:lemma11
+        [ a r:Fact; r:gives {({
+            :beetle :is :nice.
+        }) list:removeDuplicates ({
+            :beetle :is :nice.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :beetle :is :green.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :beetle :is :nice.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :beetle :is :nice.
+    }];
+    r:rule skolem:lemma10.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        {
+            :beetle a :Car.
+        } => ({
+            :beetle :is :green.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :beetle a :Car.
+        } => ({
+            :beetle :is :beautiful.
+        } {
+            :beetle :is :green.
+        })}]
+        [ a r:Fact; r:gives {({
+            :beetle :is :beautiful.
+        } {
+            :beetle :is :green.
+        }) list:select ({
+            :beetle :is :beautiful.
+        } ({
+            :beetle :is :green.
+        }))}]
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :beetle a :Car.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :beetle :is :beautiful.
+    } {
+        :beetle :is :green.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :beetle :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :beetle :is :green.
+    })];
+    r:rule skolem:lemma13.
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 => var:x_1.
+            var:x_1 list:removeDuplicates (var:x_2).
+        } => {
+            var:x_0 => var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/ulr/ulr.n3>].
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        {
+            :beetle :is :green.
+        } => ({
+            :beetle :is :nice.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :beetle :is :green.
+        } => ({
+            :beetle :is :beautiful.
+        } {
+            :beetle :is :nice.
+        })}]
+        [ a r:Fact; r:gives {({
+            :beetle :is :beautiful.
+        } {
+            :beetle :is :nice.
+        }) list:select ({
+            :beetle :is :beautiful.
+        } ({
+            :beetle :is :nice.
+        }))}]
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :beetle :is :green.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :beetle :is :beautiful.
+    } {
+        :beetle :is :nice.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :beetle :is :beautiful.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :beetle :is :nice.
+    })];
+    r:rule skolem:lemma13.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        {
+            :beetle :is :beautiful.
+        } => ().
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#beetle"]];
+    r:rule skolem:lemma14.
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 => var:x_1.
+            var:x_1 list:select (var:x_2 var:x_3).
+            var:x_2 => ().
+        } => {
+            var:x_0 => var:x_3.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/ulr/ulr.n3>].
+
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :Car.
+        } => {
+            {
+                var:x_0 :is :beautiful.
+            } => ().
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/reasoning/ulr/beetle6.n3>].
+
