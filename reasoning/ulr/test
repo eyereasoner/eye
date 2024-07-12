@@ -2,9 +2,9 @@
 for f in *.n3
 do
     if [ "$f" != "ulr.n3" ]; then
-        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $f ulr.n3 --output answer/$f
-        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope $f ulr.n3 --output answer/$f
-        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $f ulr.n3 --output proof/$f
-        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 $f ulr.n3 --output proof/$f
+        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/ulr/$f https://eyereasoner.github.io/eye/reasoning/ulr/ulr.n3 --output answer/$f
+        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope https://eyereasoner.github.io/eye/reasoning/ulr/$f https://eyereasoner.github.io/eye/reasoning/ulr/ulr.n3 --output answer/$f
+        echo + eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/ulr/$f https://eyereasoner.github.io/eye/reasoning/ulr/ulr.n3 --output proof/$f
+        eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. https://eyereasoner.github.io/eye/reasoning/ulr/$f https://eyereasoner.github.io/eye/reasoning/ulr/ulr.n3 --output proof/$f
     fi
 done
