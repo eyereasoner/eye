@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.20 (2024-07-09)').
+version_info('EYE v10.16.21 (2024-07-12)').
 
 license_info('MIT License
 
@@ -486,6 +486,27 @@ gre(Argus) :-
                 find_graffiti(Vv, Vc),
                 conj_list(Gc, Gr)
                 ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Vc, Gc), '<>')),
+
+        % simplify disjunctive negative surfaces
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                is_graph(G),
+                conj_list(G, Gl),
+                Gl = ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, H), _|_],
+                forall(
+                    member(M, Gl),
+                    M = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, _)
+                ),
+                is_graph(H),
+                conj_list(H, Hl),
+                member(Hm, Hl),
+                forall(
+                    member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, J), Gl),
+                    (   is_graph(J),
+                        conj_list(J, Jl),
+                        member(Hm, Jl)
+                    )
+                )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, Hm)), '<>')),
 
         % resolve negative surfaces
         assertz(implies((
