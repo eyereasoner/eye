@@ -1,5 +1,4 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
-@prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
 @prefix time: <http://www.w3.org/2000/10/swap/time#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -7,22 +6,21 @@
 
 :patH :birthDay "1944-08-21"^^xsd:date.
 :josD :birthDay "1956-01-10"^^xsd:date.
+:vicR :birthDay "2015-10-26"^^xsd:date.
 
-(_:S _:A _:B _:D _:YB _:YD _:AD) log:onNegativeSurface {
+(_:S _:A _:B _:D _:F) log:onNegativeSurface {
     () log:onNegativeQuestionSurface {
         _:S :ageAbove _:A.
     }.
     _:S :birthDay _:B.
     "" time:localTime _:D.
-    (_:B) func:year-from-date _:YB.
-    (_:D) func:year-from-dateTime _:YD.
-    (_:YD _:YB) math:difference _:AD.
-    _:AD math:greaterThan _:A.
+    (_:D _:B) math:difference _:F.
+    _:F math:greaterThan _:A.
 }.
 
 (_:S) log:onNegativeSurface {
-    _:S :ageAbove 75.
+    _:S :ageAbove "P18Y"^^xsd:duration.
     () log:onNegativeAnswerSurface {
-        _:S :ageAbove 75.
+        _:S :ageAbove "P18Y"^^xsd:duration.
     }.
 }.
