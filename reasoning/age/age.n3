@@ -6,21 +6,23 @@
 @prefix : <https://example.org/#>.
 
 :patH :birthDay "1944-08-21"^^xsd:date.
+:josD :birthDay "1956-01-10"^^xsd:date.
 
-(_:S _:A _:B _:D _:YB _:YD) log:onNegativeSurface {
+(_:S _:A _:B _:D _:YB _:YD _:AD) log:onNegativeSurface {
     () log:onNegativeQuestionSurface {
-        _:S :age _:A.
+        _:S :ageAbove _:A.
     }.
     _:S :birthDay _:B.
     "" time:localTime _:D.
     (_:B) func:year-from-date _:YB.
     (_:D) func:year-from-dateTime _:YD.
-    (_:YD _:YB) math:difference _:A.
+    (_:YD _:YB) math:difference _:AD.
+    _:AD math:greaterThan _:A.
 }.
 
-(_:S _:A) log:onNegativeSurface {
-    _:S :age _:A.
+(_:S) log:onNegativeSurface {
+    _:S :ageAbove 75.
     () log:onNegativeAnswerSurface {
-        _:S :age _:A.
+        _:S :ageAbove 75.
     }.
 }.
