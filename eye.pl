@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.21 (2024-07-12)').
+version_info('EYE v10.16.22 (2024-07-14)').
 
 license_info('MIT License
 
