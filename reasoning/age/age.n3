@@ -4,10 +4,12 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://example.org/#>.
 
+# person data
 :patH :birthDay "1944-08-21"^^xsd:date.
 :josD :birthDay "1956-01-10"^^xsd:date.
 :vicR :birthDay "2015-10-26"^^xsd:date.
 
+# is the age of a person above some duration?
 (_:S _:A _:B _:D _:F) log:onNegativeSurface {
     () log:onNegativeQuestionSurface {
         _:S :ageAbove _:A.
@@ -18,6 +20,7 @@
     _:F math:greaterThan _:A.
 }.
 
+# query for the persons above 18
 (_:S) log:onNegativeSurface {
     _:S :ageAbove "P18Y"^^xsd:duration.
     () log:onNegativeAnswerSurface {
