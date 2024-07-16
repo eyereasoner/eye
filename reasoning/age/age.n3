@@ -1,13 +1,10 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix time: <http://www.w3.org/2000/10/swap/time#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://example.org/#>.
 
 # person data
 :patH :birthDay "1944-08-21"^^xsd:date.
-:josD :birthDay "1956-01-10"^^xsd:date.
-:vicR :birthDay "2015-10-26"^^xsd:date.
 
 # is the age of a person above some duration?
 { ?S :ageAbove ?A } <= {
@@ -17,9 +14,9 @@
     ?F math:greaterThan ?A.
 }.
 
-# query for the persons above 18
+# query
 {
-    ?S :ageAbove "P18Y"^^xsd:duration.
-} |^| {
-    ?S :ageAbove "P18Y"^^xsd:duration.
+    ?S :ageAbove "P75Y"^^xsd:duration.
+} =^ {
+    ?S :ageAbove "P75Y"^^xsd:duration.
 }.
