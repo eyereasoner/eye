@@ -10,20 +10,16 @@
 :vicR :birthDay "2015-10-26"^^xsd:date.
 
 # is the age of a person above some duration?
-(_:S _:A _:B _:D _:F) log:onNegativeSurface {
-    () log:onNegativeQuestionSurface {
-        _:S :ageAbove _:A.
-    }.
-    _:S :birthDay _:B.
-    "" time:localTime _:D.
-    (_:D _:B) math:difference _:F.
-    _:F math:greaterThan _:A.
+{ ?S :ageAbove ?A } <= {
+    ?S :birthDay ?B.
+    "" time:localTime ?D.
+    (?D ?B) math:difference ?F.
+    ?F math:greaterThan ?A.
 }.
 
 # query for the persons above 18
-(_:S) log:onNegativeSurface {
-    _:S :ageAbove "P18Y"^^xsd:duration.
-    () log:onNegativeAnswerSurface {
-        _:S :ageAbove "P18Y"^^xsd:duration.
-    }.
+{
+    ?S :ageAbove "P18Y"^^xsd:duration.
+} |^| {
+    ?S :ageAbove "P18Y"^^xsd:duration.
 }.

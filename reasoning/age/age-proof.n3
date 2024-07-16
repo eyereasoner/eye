@@ -1,0 +1,106 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://example.org/#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :patH :ageAbove "P18Y"^^xsd:duration.
+        :josD :ageAbove "P18Y"^^xsd:duration.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :patH :ageAbove "P18Y"^^xsd:duration.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#patH"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :josD :ageAbove "P18Y"^^xsd:duration.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#josD"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :patH :ageAbove "P18Y"^^xsd:duration.
+    };
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives {"" time:localTime "2024-07-16T11:09:51.129Z"^^xsd:dateTime}]
+        [ a r:Fact; r:gives {("2024-07-16T11:09:51.129Z"^^xsd:dateTime "1944-08-21"^^xsd:date) math:difference 2521537791.1289997}]
+        [ a r:Fact; r:gives {2521537791.1289997 math:greaterThan "P18Y"^^xsd:duration}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#patH"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1944-08-21"^^xsd:date];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2024-07-16T11:09:51.129Z"^^xsd:dateTime];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2521537791.1289997];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "P18Y"^^xsd:duration];
+    r:rule skolem:lemma7.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :ageAbove "P18Y"^^xsd:duration.
+        } => {
+            var:x_0 :ageAbove "P18Y"^^xsd:duration.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/age/age.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :josD :ageAbove "P18Y"^^xsd:duration.
+    };
+    r:evidence (
+        skolem:lemma8
+        [ a r:Fact; r:gives {"" time:localTime "2024-07-16T11:09:51.129Z"^^xsd:dateTime}]
+        [ a r:Fact; r:gives {("2024-07-16T11:09:51.129Z"^^xsd:dateTime "1956-01-10"^^xsd:date) math:difference 2162200191.1289997}]
+        [ a r:Fact; r:gives {2162200191.1289997 math:greaterThan "P18Y"^^xsd:duration}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#josD"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1956-01-10"^^xsd:date];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2024-07-16T11:09:51.129Z"^^xsd:dateTime];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2162200191.1289997];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "P18Y"^^xsd:duration];
+    r:rule skolem:lemma7.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :patH :birthDay "1944-08-21"^^xsd:date.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/age/age.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            var:x_0 :ageAbove var:x_4.
+        } <= {
+            var:x_0 :birthDay var:x_1.
+            "" time:localTime var:x_2.
+            (var:x_2 var:x_1) math:difference var:x_3.
+            var:x_3 math:greaterThan var:x_4.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/age/age.n3>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        :josD :birthDay "1956-01-10"^^xsd:date.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/age/age.n3>].
+
