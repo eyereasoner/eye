@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.23 (2024-07-16)').
+version_info('EYE v10.16.24 (2024-07-18)').
 
 license_info('MIT License
 
@@ -4290,6 +4290,8 @@ wt0(X) :-
     ->  true
     ;   (   \+flag('no-qnames'),
             atom(X),
+            atom_codes(X, Y),
+            intersection(Y, [0'!, 0'$, 0'&, 0'', 0'(, 0'), 0'*, 0'+, 0',, 0';, 0'=], []),
             (   sub_atom(X, I, 1, J, '#')
             ->  J > 1,
                 sub_atom(X, 0, I, _, C),
