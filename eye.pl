@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.24 (2024-07-18)').
+version_info('EYE v10.16.25 (2024-07-22)').
 
 license_info('MIT License
 
@@ -7904,7 +7904,13 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   max_list(X, Y)
+        (   findall(A,
+                (   member(B, X),
+                    getnumber(B, A)
+                ),
+                Z
+            ),
+            max_list(Z, Y)
         )
     ).
 
@@ -7928,7 +7934,13 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   min_list(X, Y)
+        (   findall(A,
+                (   member(B, X),
+                    getnumber(B, A)
+                ),
+                Z
+            ),
+            min_list(Z, Y)
         )
     ).
 
