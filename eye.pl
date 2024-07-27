@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.16.25 (2024-07-22)').
+version_info('EYE v10.16.26 (2024-07-27)').
 
 license_info('MIT License
 
@@ -377,6 +377,7 @@ gre(Argus) :-
     nb_setval(output_statements, 0),
     nb_setval(current_scope, '<>'),
     nb_setval(wn, 0),
+    nb_setval(cc, 0),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -5140,7 +5141,17 @@ eam(Recursion) :-
                 labelvars(Concc, 0, _, avar),
                 \+cc(Concc),
                 assertz(cc(Concc))
-            ;   (   flag('no-ucall')
+            ;   (   flag(rdfsurfaces),
+                    catch(call(Concd), _, fail)
+                ->  cnt(cc),
+                    nb_getval(cc, CC),
+                    (   CC > 100000
+                    ->  retract(implies(Prem, Conc, Src))
+                    ;   true
+                    )
+                ;   true
+                ),
+                (   flag('no-ucall')
                 ->  \+catch(call(Concd), _, fail)
                 ;   \+catch(ucall(Concd), _, fail)
                 )
