@@ -1,6 +1,6 @@
 # Second Eye of Euler - SEE
 
-Independent run of the EYE reasoning cases using ISO standard Prolog
+Second source implementation of eye/reasoning using standard prolog engines.
 
 ## Install [trealla](https://github.com/trealla-prolog/trealla#building) and run
 ```
