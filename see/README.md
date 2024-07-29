@@ -1,6 +1,6 @@
 # Second Eye of Euler - SEE
 
-independent run of EYE cases
+Independent run of the EYE reasoning cases
 
 ## Install [trealla](https://github.com/trealla-prolog/trealla#building) and run
 ```
