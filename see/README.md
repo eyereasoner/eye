@@ -1,6 +1,6 @@
 # Second Eye of Euler - SEE
 
-Looking at eye/reasoning from a standard prolog perspective.
+Looking at [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) from a standard prolog perspective.
 
 ## Install [trealla](https://github.com/trealla-prolog/trealla#building) and run
 ```
