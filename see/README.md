@@ -1,8 +1,8 @@
 # Second Eye of Euler - SEE
 
-- Looking at [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) cases from a [standard prolog](https://www.scryer.pl/) perspective.
-- Using web predicates an_iri/n as interfaces.
-- Using sequents to express first order logic.
+- Looking at [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) from a [standard prolog](https://www.scryer.pl/) perspective
+- Using web predicates your_iri/n as interfaces
+- Using sequents to express first order logic
 
 ## Install [trealla](https://github.com/trealla-prolog/trealla#building) and run
 ```
