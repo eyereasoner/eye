@@ -1,6 +1,6 @@
 # Second Eye of Euler - SEE
 
-- Looking at [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) from a [standard prolog](https://www.scryer.pl/) perspective
+- Looking at the [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) cases from a [standard prolog](https://www.scryer.pl/) perspective
 - Using web predicates `'your_iri'/n` as dialogical lingua
 - Using [sequents](https://github.com/eyereasoner/eye/blob/master/see/beetle6.pl) to express First Order Logic
 
