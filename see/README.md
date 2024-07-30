@@ -1,3 +1,4 @@
+$('#readme').insertBefore('.file-navigation');
 # Second Eye of Euler - SEE
 
 - Looking at [eye/reasoning](https://github.com/eyereasoner/eye/tree/master/reasoning) from a [standard prolog](https://www.scryer.pl/) perspective
