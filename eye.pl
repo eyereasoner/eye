@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.17.0 (2024-07-31)').
+version_info('EYE v10.17.1 (2024-07-31)').
 
 license_info('MIT License
 
@@ -2438,13 +2438,11 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
-pathitem(fterm(Functor, Args), Triples) -->
-    ['('],
-    uri(Functor),
-    ['|'],
+pathitem(fterm(List), Triples) -->
+    ['(', '|'],
     !,
-    pathlist(Args, Triples),
-    [')'].
+    pathlist(List, Triples),
+    ['|', ')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -4356,6 +4354,11 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
+wt1(fterm(X)) :-
+    !,
+    write('(|'),
+    wl(X),
+    write(' |)').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -4395,13 +4398,6 @@ wt2((X, Y)) :-
         ),
         wt(Y)
     ).
-wt2(fterm(X, Y)) :-
-    !,
-    write('('),
-    wg(X),
-    write(' |'),
-    wl(Y),
-    write(')').
 wt2([X|Y]) :-
     !,
     (   flag('rdf-list-output')
