@@ -7,7 +7,7 @@
 # all cars are green or blue
 {
     ?A a :Car.
-} => ({
+} log:sequent ({
     ?A :is :green.
 } {
     ?A :is :blue.
@@ -16,7 +16,7 @@
 # green things are nice or pretty
 {
     ?A :is :green.
-} => ({
+} log:sequent ({
     ?A :is :nice.
 } {
     ?A :is :pretty.
@@ -35,7 +35,7 @@
 } => {
     {
         ?A :is :beautiful.
-    } => ().
+    } log:sequent ().
 }.
 
 # blue things are beautiful
