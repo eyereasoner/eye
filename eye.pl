@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.17.1 (2024-07-31)').
+version_info('EYE v10.17.2 (2024-08-01)').
 
 license_info('MIT License
 
@@ -12335,25 +12335,31 @@ raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
     !.
+raw_type(fterm(_), '<http://www.w3.org/2000/10/swap/log#FunctionalTerm>') :-
+    !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
     B \= ':',
     C >= 2,
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#UnlabeledBlankNode>') :-
+    atom(A),
     nb_getval(var_ns, B),
     sub_atom(A, 1, _, _, B),
     sub_atom(A, _, 3, _, '#bn'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#LabeledBlankNode>') :-
+    atom(A),
     nb_getval(var_ns, B),
     sub_atom(A, 1, _, _, B),
     sub_atom(A, _, 3, _, '#e_'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#SkolemIRI>') :-
+    atom(A),
     sub_atom(A, _, 19, _, '/.well-known/genid/'),
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForSome>') :-
+    atom(A),
     sub_atom(A, 1, _, _, 'http://www.w3.org/2000/10/swap/var#qe_'),
     !.
 raw_type(_, '<http://www.w3.org/2000/10/swap/log#Other>').
