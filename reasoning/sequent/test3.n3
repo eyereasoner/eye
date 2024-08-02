@@ -1,0 +1,29 @@
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# A
+# ~(A & B & ~C & ~D)
+# A => ~D
+# B V D
+# ~C
+:test a :A .
+
+{
+    :test a :A .
+    :test a :B .
+} log:sequent (
+    { :test a :C } 
+    { :test a :D }
+) .
+
+{ 
+    :test a :A .
+    :test a :D .
+} log:sequent () .
+
+true log:sequent (
+    { :test a :B } 
+    { :test a :D }
+) . 
+
+{ :test a :C } log:sequent () .
