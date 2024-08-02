@@ -71,6 +71,15 @@
     }.
 }.
 
+# rewriting D (double negation)
+{
+    {
+        ?A log:sequent ().
+    } log:sequent ().
+} => {
+    true => ?A.
+}.
+
 # inference fuse
 {
     ?A log:sequent ().
