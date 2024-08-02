@@ -1,0 +1,86 @@
+** ERROR ** eam ** inference_fuse(
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :Apple :is :Blue.
+        :test :is true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :Apple :is :Blue.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:Apple"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:Blue"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:test"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo true];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        :Apple :is :Blue.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequent/test1.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequent/test1.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :test :is true.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:Apple"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :is :Blue.
+        } => {
+            :test :is true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequent/test1.n3>].
+
+# inference fuse
+{
+    {
+        :Apple :is :Blue.
+    } log:sequent ().
+    {
+        :Apple :is :Blue.
+    } log:call true.
+} => false.
+)
