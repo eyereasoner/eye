@@ -1,18 +1,18 @@
 ## delta
 
-- queries use an upwards double arrow `=^` as shorthand for `log:query`
-- backward rules use a leftwards double arrow `<=` as shorthand for `log:isImpliedBy`
-- forward rules use a rightwards double arrow `=>` as shorthand for `log:implies`
+- queries use an upwards double arrow `=^`
+- backward rules use a leftwards double arrow `<=`
+- forward rules use a rightwards double arrow `=>`
 
 ```
--------------------------        -----------------------
-Euler who lost both e'yes        Hawking-Hertog triptych
--------------------------        -----------------------
+------------------------    -----------------------
+Euler who lost both eyes    Hawking-Hertog triptych
+------------------------    -----------------------
 
-           eye                        observership
-            u                          /        \
-           =^                         /          \
-      l <= eye => r              origin ------- evolution
+           eye                   observership
+            u                     /        \
+           =^                    /          \
+      l <= eye => r         origin ------- evolution
 ```
 
 ## variables
