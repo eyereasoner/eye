@@ -5,12 +5,12 @@
 - forward rules use a rightwards double arrow `=>` as shorthand for `log:implies`
 
 ```
-    delta       ulr (euler who lost 2 e'yes)       Hertog triptych
+euler who lost both e'yes        Hawking-Hertog triptych
 
-                          eye                        observership
-                           u                          /        \
-      =^                  =^                         /          \
-    <=  =>           l <= eye => r              origin ------- evolution
+        eye                           observership
+         u                             /        \
+        =^                            /          \
+   l <= eye => r                 origin ------- evolution
 ```
 
 ## variables
