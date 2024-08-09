@@ -476,6 +476,7 @@ gre(Argus) :-
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, Gl),
+                \+find_universality(Gl, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), Gl),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), Gl),
                 makevars([Vl, Gl], [Vv, Gv], beta(Vl)),
@@ -515,6 +516,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
+                \+find_universality(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
@@ -533,6 +535,7 @@ gre(Argus) :-
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
+                \+find_universality(N, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
@@ -562,6 +565,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
+                \+find_universality(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H), B, K),
                 (   H \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], _)
@@ -583,6 +587,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
+                \+find_universality(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 \+member(exopred(_, _, _), B),
@@ -616,14 +621,7 @@ gre(Argus) :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T), B, K),
-                conj_list(T, [T]),
-                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), K),
-                \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), K),
-                findvars(T, Tv, beta),
-                findvars(K, Kv, beta),
-                member(Tm, Tv),
-                \+member(Tm, Kv),
+                find_universality(B, T, K),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
@@ -717,6 +715,7 @@ gre(Argus) :-
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
+                    \+find_universality(L, _, _),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                         J = true
@@ -12287,6 +12286,16 @@ find_graffiti(A, B) :-
 find_graffiti(A, B) :-
     A =.. C,
     find_graffiti(C, B).
+
+find_universality(B, T, K) :-
+    select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T), B, K),
+    conj_list(T, [T]),
+    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), K),
+    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), K),
+    findvars(T, Tv, beta),
+    findvars(K, Kv, beta),
+    member(Tm, Tv),
+    \+member(Tm, Kv).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
