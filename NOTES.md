@@ -15,6 +15,6 @@
 
 ## variables
 
-only `_:x` blank nodes in triples and quads
-only `?x` quickvars in rules and queries
-quantified `var:x` variables in proofs
+- only `_:x` blank nodes in triples and quads
+- only `?x` quickvars in rules and queries
+- quantified `var:x` variables in proofs
