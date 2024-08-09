@@ -5,14 +5,14 @@
 - forward rules use a rightwards double arrow `=>`
 
 ```
-------------------------    -----------------------
-Euler who lost both eyes    Hawking-Hertog triptych
-------------------------    -----------------------
+--------------------    -----------------------
+Euler lost both eyes    Hawking Hertog triptych
+--------------------    -----------------------
 
-           eye                   observership
-            u                     /        \
-           =^                    /          \
-      l <= eye => r         origin ------- evolution
+        eye                  observership
+         u                    /        \
+        =^                   /          \
+   l <= eye => r        origin ------- evolution
 ```
 
 ## variables
