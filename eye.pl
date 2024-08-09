@@ -620,16 +620,10 @@ gre(Argus) :-
                 conj_list(T, [T]),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), K),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), K),
-                (   makevars([V, G], [Vv, Gv], beta(V)),
-                    '<http://www.w3.org/2000/10/swap/prag#tactic>'(
-                        edge(_, triple(Vv, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>', Gv)),
-                        '<http://www.w3.org/2000/10/swap/prag#topdown>'
-                    )
-                ;   findvars(T, Tv, beta),
-                    findvars(K, Kv, beta),
-                    member(Tm, Tv),
-                    \+member(Tm, Kv)
-                ),
+                findvars(T, Tv, beta),
+                findvars(K, Kv, beta),
+                member(Tm, Tv),
+                \+member(Tm, Kv),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
@@ -640,7 +634,7 @@ gre(Argus) :-
                 labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
                 ->  assertz(cc(CC)),
-                    assertz(C), fm(C),
+                    assertz(C),
                     retractall(brake)
                 ;   true
                 )), true, '<>')),
