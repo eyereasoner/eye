@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.18.3 (2024-08-11)').
+version_info('EYE v10.18.4 (2024-08-11)').
 
 license_info('MIT License
 
@@ -5177,6 +5177,7 @@ djiti_assertz(A) :-
 %
 
 prepare_builtins :-
+    % log:onNegativeSurface
     (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
@@ -5319,15 +5320,16 @@ prepare_builtins :-
                 list_to_set(L, B),
                 \+find_universality(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
-                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                 (   H \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], _)
-                ;   X = []
+                ;   Z = []
                 ),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
-                makevars([R, H], [Q, S], beta(U))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, S), '<>')),
+                makevars([R, H], [Q, S], beta(U)),
+                makevars(S, I, beta(Z))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to forward contrapositive rules
         assertz(implies((
@@ -5358,8 +5360,9 @@ prepare_builtins :-
                 E = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, T),
                 find_graffiti([R], D),
                 append(Vl, D, U),
-                makevars([R, E], [Q, S], beta(U))
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, S), '<>')),
+                makevars([R, E], [Q, S], beta(U)),
+                makevars(S, I, beta(Z))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to backward rules
         assertz(implies((
