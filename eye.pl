@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.18.4 (2024-08-11)').
+version_info('EYE v10.18.5 (2024-08-12)').
 
 license_info('MIT License
 
@@ -5229,7 +5229,7 @@ prepare_builtins :-
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, Gl),
-                \+find_universality(Gl, _, _),
+                \+find_component(Gl, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), Gl),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), Gl),
                 makevars([Vl, Gl], [Vv, Gv], beta(Vl)),
@@ -5269,7 +5269,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
@@ -5288,7 +5288,7 @@ prepare_builtins :-
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
-                \+find_universality(N, _, _),
+                \+find_component(N, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
@@ -5318,7 +5318,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                 (   H \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], _)
@@ -5339,7 +5339,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 \+member(exopred(_, _, _), B),
@@ -5372,7 +5372,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                find_universality(B, T, K),
+                find_component(B, T, K),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
@@ -5455,7 +5455,7 @@ prepare_builtins :-
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
-                    \+find_universality(L, _, _),
+                    \+find_component(L, _, _),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                         J = true
@@ -12271,15 +12271,18 @@ find_graffiti(A, B) :-
     A =.. C,
     find_graffiti(C, B).
 
-find_universality(B, T, K) :-
+find_component(B, T, K) :-
     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T), B, K),
     conj_list(T, [T]),
     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), K),
     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), K),
-    findvars(T, Tv, beta),
-    findvars(K, Kv, beta),
-    member(Tm, Tv),
-    \+member(Tm, Kv).
+    (   T =.. [P, _, _],
+        '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(P, '<http://www.w3.org/2000/10/swap/log#Component>')
+    ;   findvars(T, Tv, beta),
+        findvars(K, Kv, beta),
+        member(Tm, Tv),
+        \+member(Tm, Kv)
+    ).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
