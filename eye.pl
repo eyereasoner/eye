@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.18.6 (2024-08-12)').
+version_info('EYE v10.19.0 (2024-08-12)').
 
 license_info('MIT License
 
@@ -2115,10 +2115,10 @@ pathitem(set(Distinct), Triples) -->
     },
     ['$', ')'].
 pathitem(fterm(List), Triples) -->
-    ['(', '|'],
+    [lsb_pipe],
     !,
     pathlist(List, Triples),
-    ['|', ')'].
+    [pipe_rsb].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -2765,8 +2765,18 @@ token(0'{, In, C, lb_pipe) :-
     !,
     get_code(In, _),
     get_code(In, C).
+token(0'[, In, C, lsb_pipe) :-
+    peek_code(In, 0'|),
+    !,
+    get_code(In, _),
+    get_code(In, C).
 token(0'|, In, C, pipe_rb) :-
     peek_code(In, 0'}),
+    !,
+    get_code(In, _),
+    get_code(In, C).
+token(0'|, In, C, pipe_rsb) :-
+    peek_code(In, 0']),
     !,
     get_code(In, _),
     get_code(In, C).
@@ -4032,9 +4042,9 @@ wt1(set(X)) :-
     write(' $)').
 wt1(fterm(X)) :-
     !,
-    write('(|'),
+    write('[|'),
     wl(X),
-    write(' |)').
+    write(' |]').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
