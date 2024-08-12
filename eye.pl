@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.18.5 (2024-08-12)').
+version_info('EYE v10.18.6 (2024-08-12)').
 
 license_info('MIT License
 
@@ -5432,6 +5432,19 @@ prepare_builtins :-
                 conj_list(G, L),
                 list_to_set(L, B),
                 select('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, H), B, K),
+                (   conj_list(H, [H]),
+                    findvars(H, [], beta),
+                    findall(1,
+                        (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gf),
+                            conj_list(Gf, Lf),
+                            select('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), Lf, _)
+                        ),
+                        [1]
+                    )
+                ->  retractall(flag('limited-answer', _)),
+                    assertz(flag('limited-answer', 1))
+                ;   true
+                ),
                 conj_list(I, K),
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
