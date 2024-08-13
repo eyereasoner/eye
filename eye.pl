@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.0 (2024-08-12)').
+version_info('EYE v10.19.1 (2024-08-13)').
 
 license_info('MIT License
 
@@ -3504,6 +3504,27 @@ w2 :-
         )
     ).
 
+w4 :-
+    open_null_stream(Ws),
+    tell(Ws),
+    nb_getval(wn, Wn),
+    w3,
+    retractall(pfx(_, _)),
+    retractall(wpfx(_)),
+    nb_setval(wn, Wn),
+    nb_setval(output_statements, 0),
+    nb_setval(lemma_cursor, 0),
+    forall(
+        apfx(Pfx, Uri),
+        assertz(pfx(Pfx, Uri))
+    ),
+    told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ),
+    w3.
+
 w3 :-
     wh,
     nb_setval(fdepth, 0),
@@ -4893,7 +4914,7 @@ eam(Recursion) :-
             AnswerCount >= AnswerLimit
         ->  (   flag(strings)
             ->  true
-            ;   w3
+            ;   w4
             )
         ;   retract(brake),
             fail
@@ -4913,25 +4934,7 @@ eam(Recursion) :-
             ->  true
             ;   (   flag('pass-only-new')
                 ->  true
-                ;   open_null_stream(Ws),
-                    tell(Ws),
-                    nb_getval(wn, Wn),
-                    w3,
-                    retractall(pfx(_, _)),
-                    retractall(wpfx(_)),
-                    nb_setval(wn, Wn),
-                    nb_setval(output_statements, 0),
-                    nb_setval(lemma_cursor, 0),
-                    forall(
-                        apfx(Pfx, Uri),
-                        assertz(pfx(Pfx, Uri))
-                    ),
-                    told,
-                    (   flag('output', Output)
-                    ->  tell(Output)
-                    ;   true
-                    ),
-                    w3
+                ;   w4
                 )
             )
         ;   true
