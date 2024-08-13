@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.1 (2024-08-13)').
+version_info('EYE v10.19.2 (2024-08-13)').
 
 license_info('MIT License
 
@@ -2114,11 +2114,6 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
-pathitem(fterm(List), Triples) -->
-    [lsb_pipe],
-    !,
-    pathlist(List, Triples),
-    [pipe_rsb].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -2765,18 +2760,8 @@ token(0'{, In, C, lb_pipe) :-
     !,
     get_code(In, _),
     get_code(In, C).
-token(0'[, In, C, lsb_pipe) :-
-    peek_code(In, 0'|),
-    !,
-    get_code(In, _),
-    get_code(In, C).
 token(0'|, In, C, pipe_rb) :-
     peek_code(In, 0'}),
-    !,
-    get_code(In, _),
-    get_code(In, C).
-token(0'|, In, C, pipe_rsb) :-
-    peek_code(In, 0']),
     !,
     get_code(In, _),
     get_code(In, C).
@@ -4061,11 +4046,6 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
-wt1(fterm(X)) :-
-    !,
-    write('[|'),
-    wl(X),
-    write(' |]').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -12336,8 +12316,6 @@ raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<
 raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
-    !.
-raw_type(fterm(_), '<http://www.w3.org/2000/10/swap/log#FunctionalTerm>') :-
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
