@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.18.2 (2024-08-10)').
+version_info('EYE v10.19.2 (2024-08-13)').
 
 license_info('MIT License
 
@@ -2114,11 +2114,6 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
-pathitem(fterm(List), Triples) -->
-    ['(', '|'],
-    !,
-    pathlist(List, Triples),
-    ['|', ')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -3494,6 +3489,27 @@ w2 :-
         )
     ).
 
+w4 :-
+    open_null_stream(Ws),
+    tell(Ws),
+    nb_getval(wn, Wn),
+    w3,
+    retractall(pfx(_, _)),
+    retractall(wpfx(_)),
+    nb_setval(wn, Wn),
+    nb_setval(output_statements, 0),
+    nb_setval(lemma_cursor, 0),
+    forall(
+        apfx(Pfx, Uri),
+        assertz(pfx(Pfx, Uri))
+    ),
+    told,
+    (   flag('output', Output)
+    ->  tell(Output)
+    ;   true
+    ),
+    w3.
+
 w3 :-
     wh,
     nb_setval(fdepth, 0),
@@ -4030,11 +4046,6 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
-wt1(fterm(X)) :-
-    !,
-    write('(|'),
-    wl(X),
-    write(' |)').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -4883,7 +4894,7 @@ eam(Recursion) :-
             AnswerCount >= AnswerLimit
         ->  (   flag(strings)
             ->  true
-            ;   w3
+            ;   w4
             )
         ;   retract(brake),
             fail
@@ -4903,25 +4914,7 @@ eam(Recursion) :-
             ->  true
             ;   (   flag('pass-only-new')
                 ->  true
-                ;   open_null_stream(Ws),
-                    tell(Ws),
-                    nb_getval(wn, Wn),
-                    w3,
-                    retractall(pfx(_, _)),
-                    retractall(wpfx(_)),
-                    nb_setval(wn, Wn),
-                    nb_setval(output_statements, 0),
-                    nb_setval(lemma_cursor, 0),
-                    forall(
-                        apfx(Pfx, Uri),
-                        assertz(pfx(Pfx, Uri))
-                    ),
-                    told,
-                    (   flag('output', Output)
-                    ->  tell(Output)
-                    ;   true
-                    ),
-                    w3
+                ;   w4
                 )
             )
         ;   true
@@ -5177,6 +5170,7 @@ djiti_assertz(A) :-
 %
 
 prepare_builtins :-
+    % log:onNegativeSurface
     (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
@@ -5228,7 +5222,7 @@ prepare_builtins :-
                 is_list(Vl),
                 is_graph(G),
                 conj_list(G, Gl),
-                \+find_universality(Gl, _, _),
+                \+find_component(Gl, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), Gl),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), Gl),
                 makevars([Vl, Gl], [Vv, Gv], beta(Vl)),
@@ -5268,7 +5262,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 findall(1,
                     (   member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B)
@@ -5287,7 +5281,7 @@ prepare_builtins :-
                 is_graph(F),
                 conj_list(F, K),
                 list_to_set(K, N),
-                \+find_universality(N, _, _),
+                \+find_component(N, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), N),
                 length(N, 2),
                 makevars(N, J, beta(Wl)),
@@ -5317,18 +5311,17 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
-                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(X, H), B, K),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
                 (   H \= '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], _)
-                ;   X = []
+                ;   Z = []
                 ),
                 conj_list(R, K),
                 find_graffiti(K, D),
                 append(Vl, D, U),
                 makevars([R, H], [Q, S], beta(U)),
-                findvars(S, W, beta),
-                makevars(S, I, beta(W))
+                makevars(S, I, beta(Z))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to forward contrapositive rules
@@ -5339,7 +5332,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                \+find_universality(B, _, _),
+                \+find_component(B, _, _),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), B),
                 \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
                 \+member(exopred(_, _, _), B),
@@ -5361,8 +5354,7 @@ prepare_builtins :-
                 find_graffiti([R], D),
                 append(Vl, D, U),
                 makevars([R, E], [Q, S], beta(U)),
-                findvars(S, W, beta),
-                makevars(S, I, beta(W))
+                makevars(S, I, beta(Z))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % convert negative surfaces to backward rules
@@ -5373,7 +5365,7 @@ prepare_builtins :-
                 is_graph(G),
                 conj_list(G, L),
                 list_to_set(L, B),
-                find_universality(B, T, K),
+                find_component(B, T, K),
                 conj_list(R, K),
                 conjify(R, S),
                 find_graffiti([R], D),
@@ -5433,6 +5425,19 @@ prepare_builtins :-
                 conj_list(G, L),
                 list_to_set(L, B),
                 select('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, H), B, K),
+                (   conj_list(H, [H]),
+                    findvars(H, [], beta),
+                    findall(1,
+                        (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, Gf),
+                            conj_list(Gf, Lf),
+                            select('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), Lf, _)
+                        ),
+                        [1]
+                    )
+                ->  retractall(flag('limited-answer', _)),
+                    assertz(flag('limited-answer', 1))
+                ;   true
+                ),
                 conj_list(I, K),
                 djiti_answer(answer(H), J),
                 find_graffiti(K, D),
@@ -5456,7 +5461,7 @@ prepare_builtins :-
                     is_list(Vl),
                     is_graph(G),
                     conj_list(G, L),
-                    \+find_universality(L, _, _),
+                    \+find_component(L, _, _),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                         J = true
@@ -12272,15 +12277,18 @@ find_graffiti(A, B) :-
     A =.. C,
     find_graffiti(C, B).
 
-find_universality(B, T, K) :-
+find_component(B, T, K) :-
     select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'([], T), B, K),
     conj_list(T, [T]),
     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _), K),
     \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), K),
-    findvars(T, Tv, beta),
-    findvars(K, Kv, beta),
-    member(Tm, Tv),
-    \+member(Tm, Kv).
+    (   T =.. [P, _, _],
+        '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(P, '<http://www.w3.org/2000/10/swap/log#Component>')
+    ;   findvars(T, Tv, beta),
+        findvars(K, Kv, beta),
+        member(Tm, Tv),
+        \+member(Tm, Kv)
+    ).
 
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#ForAll>') :-
     var(A),
@@ -12308,8 +12316,6 @@ raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<
 raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
-    !.
-raw_type(fterm(_), '<http://www.w3.org/2000/10/swap/log#FunctionalTerm>') :-
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
