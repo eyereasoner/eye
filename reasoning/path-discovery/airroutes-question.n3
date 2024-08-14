@@ -1,0 +1,32 @@
+@prefix nepo: <http://neptune.aws.com/ontology/airroutes/>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# connectivity
+{(?from ?to ?visited ?max) :route (?from ?to)} <= {
+    ?visited list:length ?length.
+    ?length math:notGreaterThan ?max.
+    ?from nepo:hasOutboundRouteTo ?to.
+    ?visited list:notMember ?to.
+}.
+
+{(?from ?to ?visited ?max) :route ?route} <= {
+    ?visited list:length ?length.
+    ?length math:notGreaterThan ?max.
+    ?from nepo:hasOutboundRouteTo ?via.
+    ?visited list:notMember ?via.
+    ?newVisited list:firstRest (?from ?visited).
+    (?via ?to ?newVisited ?max) :route ?newRoute.
+    ((?from) ?newRoute) list:append ?route.
+}.
+
+# find all the airports you would have to fly through to get from MHT to HEL
+{
+    ?source nepo:IATA "MHT".
+    ?destination nepo:IATA "HEL".
+    (?source ?destination () 2) :route ?airports.
+    (?iata {?airports list:member ?airport. ?airport nepo:IATA ?iata} ?route) log:collectAllIn ?scope.
+} =^ {
+    ("MHT" "HEL") :route ?route}.

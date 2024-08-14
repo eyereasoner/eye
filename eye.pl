@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.2 (2024-08-13)').
+version_info('EYE v10.19.3 (2024-08-14)').
 
 license_info('MIT License
 
@@ -4012,7 +4012,9 @@ wt0(X) :-
             ;   assertz(apfx(E, D))
             ),
             K is J-1,
-            sub_atom(X, _, K, 1, F)
+            sub_atom(X, _, K, 1, F),
+            \+sub_atom(F, _, 1, _, '/'),
+            \+sub_atom(F, _, 1, 0, '.')
         ->  atom_concat(E, F, W),
             assertz(wtcache(X, W))
         ;   (   \+flag(strings),
