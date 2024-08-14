@@ -106,3 +106,25 @@ Run the image on new data:
 ```
 swipl -x test.pvm --nope --quiet --pass newdata.n3
 ```
+
+### Stack limits
+
+When processing a very large knowledge base the reasoner can reach the 1 GB stack limit. Two options are available to increase this stack limit.
+
+_Build an eye image with a larger stack limit_
+
+In `install.sh` on the line that starts with `swipl` change this into:
+
+```
+swipl --stack-limit=4G
+```
+
+for a 4 GB stack limit. Rerun the `./install.sh` to create a new eye image.
+
+_Run eye from source_
+
+```
+swipl --stack-limit=4G -f ~/github.com/eyereasoner/eye/eye.pl -g main -- "$@"
+```
+
+where `"$@"` can be replaced with the usual eye options and arguments.
