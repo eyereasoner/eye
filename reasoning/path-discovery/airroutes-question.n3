@@ -19,7 +19,7 @@
     ?visited list:notMember ?via.
     ?newVisited list:firstRest (?from ?visited).
     (?via ?to ?newVisited ?max) :route ?newRoute.
-    ((?from) ?newRoute) list:append ?route.
+    ?route list:firstRest (?from ?newRoute).
 }.
 
 # find all the airports you would have to fly through to get from MHT to HEL
