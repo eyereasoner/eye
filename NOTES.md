@@ -1,4 +1,4 @@
-## delta
+## arrows
 
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
