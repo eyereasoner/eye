@@ -1,3 +1,4 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix nepo: <http://neptune.aws.com/ontology/airroutes/>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -22,11 +23,12 @@
     ?route list:firstRest (?from ?newRoute).
 }.
 
-# find all the airports you would have to fly through to get from MHT to HEL
+# find all the airports you would have to fly through to get from London Heathrow Airport to Helsinki Vantaa Airport
 {
-    ?source nepo:IATA "MHT".
-    ?destination nepo:IATA "HEL".
+    ?source rdfs:label "London Heathrow Airport".
+    ?destination rdfs:label "Helsinki Vantaa Airport".
     (?source ?destination () 2) :route ?airports.
-    (?iata {?airports list:member ?airport. ?airport nepo:IATA ?iata} ?route) log:collectAllIn ?scope.
+    (?city {?airports list:member ?airport. ?airport rdfs:label ?city} ?route) log:collectAllIn ?scope.
 } =^ {
-    ("MHT" "HEL") :route ?route}.
+    :discovered :airroute ?route.
+}.
