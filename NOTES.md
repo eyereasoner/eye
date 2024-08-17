@@ -8,7 +8,7 @@
 --------------------    -----------------------
 Euler lost both eyes    Hawking Hertog triptych
 --------------------    -----------------------
-
+                              Heisenberg
         eye                  observership
          u                    /        \
         =^                   /          \
