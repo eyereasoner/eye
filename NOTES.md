@@ -6,7 +6,7 @@
 - backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
 
-:cheese: variables
+:warning: variables
 
 - only `_:x` blank nodes in triples and quads
 - only `?x` quickvars in rules and queries
