@@ -4,18 +4,17 @@
 - backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
 
-> [!NOTE]
-> The name delta is inspired by these 2 deltas:
-> ```
-> --------------------    -----------------------
-> Euler lost both eyes    Hawking Hertog triptych
-> --------------------    -----------------------
->
->         eye                  observership
->          u                    /        \
->         =^                   /          \
->    l <= eye => r        origin ------- evolution
-> ```
+:information_source: The name delta is inspired by these 2 deltas:
+```
+--------------------    -----------------------
+Euler lost both eyes    Hawking Hertog triptych
+--------------------    -----------------------
+
+        eye                  observership
+         u                    /        \
+        =^                   /          \
+   l <= eye => r        origin ------- evolution
+```
 
 ## variables
 
