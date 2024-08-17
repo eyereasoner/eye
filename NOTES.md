@@ -1,8 +1,13 @@
 # Delta
 
+## logical rules and queries
+
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
+
+:abacus: Algorithms are constructed using logical rules and queries,
+with backward rules (including built-ins) providing control.
 
 :information_source: The name delta is inspired by these 2 deltas:
 ```
