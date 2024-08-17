@@ -1,6 +1,7 @@
 # Delta
 
-:abacus: Algorithms are constructed using logical rules and queries, with backward rules (including built-ins) providing control.
+:abacus: Algorithms are constructed using logical rules and queries, 
+with backward rules (including built-ins) providing control.
 
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
