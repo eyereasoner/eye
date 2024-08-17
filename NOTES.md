@@ -14,12 +14,10 @@
 
 :information_source: The name delta is inspired by these 2 deltas:
 ```
---------------------    -----------------------
-Euler lost both eyes    Hawking Hertog triptych
---------------------    -----------------------
-
         eye                  observership
          u                    /        \
         =^                   /          \
    l <= eye => r        origin ------- evolution
+
+Euler lost both eyes    Hawking-Hertog triptych
 ```
