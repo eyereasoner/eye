@@ -1,4 +1,4 @@
-## arrows
+# Delta
 
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
@@ -8,7 +8,7 @@
 --------------------    -----------------------
 Euler lost both eyes    Hawking Hertog triptych
 --------------------    -----------------------
-                              Heisenberg
+
         eye                  observership
          u                    /        \
         =^                   /          \
