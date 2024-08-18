@@ -14,12 +14,11 @@
 
 :information_source: The arrows form a triptych like in
 ```
-        eye                  observership
-         u                    /        \
-        =^                   /          \
-   l <= eye => r        origin ------- evolution
-```
-```
+        eye                 observership
+         u                   /        \
+        =^                  /          \
+   l <= eye => r        origin ------ evolution
+
 Euler lost both eyes    Hawking-Hertog triptych
 ```
 
