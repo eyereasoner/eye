@@ -18,7 +18,7 @@
          u                   /        \
         =^                  /          \
    l <= eye => r        origin ------ evolution
-
+____________________    _______________________
 Euler lost both eyes    Hawking-Hertog triptych
 ```
 
