@@ -19,7 +19,7 @@
         =^                /          \
    l <= eye => r      origin ------ evolution
 
-Euler lost both eyes  Hawking-Hertog triptych
+__Euler lost both eyes__  __Hawking-Hertog triptych__
 ```
 
 :information_source: SAGE originates from [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner by Ruben Verborgh and Jos De Roo](https://josd.github.io/Papers/EYE.pdf)
