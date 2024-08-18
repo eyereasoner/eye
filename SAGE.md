@@ -1,4 +1,4 @@
-# Delta
+# Special-purpose Algorithms on Generic-purpose Engines - SAGE
 
 :abacus: Algorithms are constructed using logical rules and queries,  
 with backward rules (including built-ins) providing control.
@@ -13,7 +13,7 @@ with backward rules (including built-ins) providing control.
 - only `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
 
-:information_source: The name delta is inspired by these 2 deltas:
+:information_source: The arrows form a triptych like in
 ```
         eye                  observership
          u                    /        \
