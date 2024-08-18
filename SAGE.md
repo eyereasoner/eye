@@ -1,7 +1,6 @@
-# Special-purpose Algorithms on Generic-purpose Engines - SAGE
+## Special-purpose Algorithms on Generic-purpose Engines - SAGE
 
-:abacus: Algorithms are constructed using logical rules and queries,  
-with backward rules (including built-ins) providing control.
+:abacus: Algorithms are constructed using logical rules and queries, with backward rules (including built-ins) providing control.
 
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
