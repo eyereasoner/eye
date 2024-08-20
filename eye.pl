@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.3 (2024-08-14)').
+version_info('EYE v10.19.4 (2024-08-20)').
 
 license_info('MIT License
 
@@ -5172,7 +5172,14 @@ djiti_assertz(A) :-
 %
 
 prepare_builtins :-
-    % log:onNegativeSurface
+    % rdflists
+    (   clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), true)
+    ->  retractall(flag(rdflists)),
+        assertz(flag(rdflistss))
+    ;   true
+    ),
+
+    % rdfsurfaces
     (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
     ->  retractall(flag(rdfsurfaces)),
         assertz(flag(rdfsurfaces)),
@@ -12410,6 +12417,10 @@ getbool(true, true).
 
 getlist(A, A) :-
     var(A),
+    !.
+getlist(A, A) :-
+    is_list(A),
+    \+flag(rdflists),
     !.
 getlist(set(A), A) :-
     !.
