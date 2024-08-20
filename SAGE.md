@@ -18,18 +18,64 @@
     [ccd](https://github.com/eyereasoner/eye/tree/master/reasoning/ccd),
     [nbbn](https://github.com/eyereasoner/eye/tree/master/reasoning/nbbn),
     [swet](https://github.com/eyereasoner/eye/tree/master/reasoning/swet)
-- control systems: [acp](https://github.com/eyereasoner/eye/tree/master/reasoning/acp), [cs](https://github.com/eyereasoner/eye/tree/master/reasoning/cs), [steps](https://github.com/eyereasoner/eye/tree/master/reasoning/steps)
-- description logic: [bmt](https://github.com/eyereasoner/eye/tree/master/reasoning/bmt), [dt](https://github.com/eyereasoner/eye/tree/master/reasoning/dt), [edt](https://github.com/eyereasoner/eye/tree/master/reasoning/edt), [entail](https://github.com/eyereasoner/eye/tree/master/reasoning/entail), [gedcom](https://github.com/eyereasoner/eye/tree/master/reasoning/gedcom), [h2o](https://github.com/eyereasoner/eye/tree/master/reasoning/h2o), [RDF plus OWL](reasoning/rpo/) ([source](https://github.com/eyereasoner/eye/tree/master/reasoning/rpo))
-- ershovian compilation: [preduction](https://github.com/eyereasoner/eye/tree/master/reasoning/preduction)
-- extensible imaging: [lldm](https://github.com/eyereasoner/eye/tree/master/reasoning/lldm)
-- graph computation: [graph](https://github.com/eyereasoner/eye/tree/master/reasoning/graph), [path-discovery](https://github.com/eyereasoner/eye/tree/master/reasoning/path-discovery)
-- logic programming: [4color](https://github.com/eyereasoner/eye/tree/master/reasoning/4color), [beetle](https://github.com/eyereasoner/eye/tree/master/reasoning/beetle), [dp](https://github.com/eyereasoner/eye/tree/master/reasoning/dp), [diamond-property](https://github.com/eyereasoner/eye/tree/master/reasoning/diamond-property), [gcc](https://github.com/eyereasoner/eye/tree/master/reasoning/gcc), [hanoi](https://github.com/eyereasoner/eye/tree/master/reasoning/hanoi), [lee](https://github.com/eyereasoner/eye/tree/master/reasoning/lee), [n-queens](https://github.com/eyereasoner/eye/tree/master/reasoning/n-queens), [socrates](https://github.com/eyereasoner/eye/tree/master/reasoning/socrates), [witch](https://github.com/eyereasoner/eye/tree/master/reasoning/witch), [zebra](https://github.com/eyereasoner/eye/tree/master/reasoning/zebra)
-- markovian networks: [mmln](https://github.com/eyereasoner/eye/tree/master/reasoning/mmln)
-- mathematical reasoning: [ackermann](https://github.com/eyereasoner/eye/tree/master/reasoning/ackermann), [eulers-identity](https://github.com/eyereasoner/eye/tree/master/reasoning/eulers-identity), [fibonacci](https://github.com/eyereasoner/eye/tree/master/reasoning/fibonacci), [padovan](https://github.com/eyereasoner/eye/tree/master/reasoning/padovan), [peano](https://github.com/eyereasoner/eye/tree/master/reasoning/peano), [peasant-multiplication](https://github.com/eyereasoner/eye/tree/master/reasoning/peasant-multiplication), [peasant-power](https://github.com/eyereasoner/eye/tree/master/reasoning/peasant-power), [pi](https://github.com/eyereasoner/eye/tree/master/reasoning/pi), [polygon](https://github.com/eyereasoner/eye/tree/master/reasoning/polygon), [tak](https://github.com/eyereasoner/eye/tree/master/reasoning/tak)
-- neural networks: [fcm](https://github.com/eyereasoner/eye/tree/master/reasoning/fcm), [fgcm](https://github.com/eyereasoner/eye/tree/master/reasoning/fgcm)
-- quantum computation: [dqc](https://github.com/eyereasoner/eye/tree/master/reasoning/dqc)
-- universal machines: [turing](https://github.com/eyereasoner/eye/tree/master/reasoning/turing), [usm](https://github.com/eyereasoner/eye/tree/master/reasoning/usm)
-- workflow composers: [gps](https://github.com/eyereasoner/eye/tree/master/reasoning/gps), [map](https://github.com/eyereasoner/eye/tree/master/reasoning/map), [resto](https://github.com/eyereasoner/eye/tree/master/reasoning/resto), [restpath](https://github.com/eyereasoner/eye/tree/master/reasoning/restpath), [twf](https://github.com/eyereasoner/eye/tree/master/reasoning/twf)
+- control systems:
+    [acp](https://github.com/eyereasoner/eye/tree/master/reasoning/acp),
+    [cs](https://github.com/eyereasoner/eye/tree/master/reasoning/cs),
+    [steps](https://github.com/eyereasoner/eye/tree/master/reasoning/steps)
+- description logic: 
+    bmt](https://github.com/eyereasoner/eye/tree/master/reasoning/bmt),
+    [dt](https://github.com/eyereasoner/eye/tree/master/reasoning/dt),
+    [edt](https://github.com/eyereasoner/eye/tree/master/reasoning/edt),
+    [entail](https://github.com/eyereasoner/eye/tree/master/reasoning/entail),
+    [gedcom](https://github.com/eyereasoner/eye/tree/master/reasoning/gedcom),
+    [h2o](https://github.com/eyereasoner/eye/tree/master/reasoning/h2o),
+    [RDF plus OWL](reasoning/rpo/) ([source](https://github.com/eyereasoner/eye/tree/master/reasoning/rpo))
+- ershovian compilation:
+    [preduction](https://github.com/eyereasoner/eye/tree/master/reasoning/preduction)
+- extensible imaging:
+    [lldm](https://github.com/eyereasoner/eye/tree/master/reasoning/lldm)
+- graph computation:
+    [graph](https://github.com/eyereasoner/eye/tree/master/reasoning/graph),
+    [path-discovery](https://github.com/eyereasoner/eye/tree/master/reasoning/path-discovery)
+- logic programming:
+    [4color](https://github.com/eyereasoner/eye/tree/master/reasoning/4color),
+    [beetle](https://github.com/eyereasoner/eye/tree/master/reasoning/beetle),
+    [dp](https://github.com/eyereasoner/eye/tree/master/reasoning/dp),
+    [diamond-property](https://github.com/eyereasoner/eye/tree/master/reasoning/diamond-property),
+    [gcc](https://github.com/eyereasoner/eye/tree/master/reasoning/gcc),
+    [hanoi](https://github.com/eyereasoner/eye/tree/master/reasoning/hanoi),
+    [lee](https://github.com/eyereasoner/eye/tree/master/reasoning/lee),
+    [n-queens](https://github.com/eyereasoner/eye/tree/master/reasoning/n-queens),
+    [socrates](https://github.com/eyereasoner/eye/tree/master/reasoning/socrates),
+    [witch](https://github.com/eyereasoner/eye/tree/master/reasoning/witch),
+    [zebra](https://github.com/eyereasoner/eye/tree/master/reasoning/zebra)
+- markovian networks:
+    [mmln](https://github.com/eyereasoner/eye/tree/master/reasoning/mmln)
+- mathematical reasoning:
+    [ackermann](https://github.com/eyereasoner/eye/tree/master/reasoning/ackermann),
+    [eulers-identity](https://github.com/eyereasoner/eye/tree/master/reasoning/eulers-identity),
+    [fibonacci](https://github.com/eyereasoner/eye/tree/master/reasoning/fibonacci),
+    [padovan](https://github.com/eyereasoner/eye/tree/master/reasoning/padovan),
+    [peano](https://github.com/eyereasoner/eye/tree/master/reasoning/peano),
+    [peasant-multiplication](https://github.com/eyereasoner/eye/tree/master/reasoning/peasant-multiplication),
+    [peasant-power](https://github.com/eyereasoner/eye/tree/master/reasoning/peasant-power),
+    [pi](https://github.com/eyereasoner/eye/tree/master/reasoning/pi),
+    [polygon](https://github.com/eyereasoner/eye/tree/master/reasoning/polygon),
+    [tak](https://github.com/eyereasoner/eye/tree/master/reasoning/tak)
+- neural networks:
+    [fcm](https://github.com/eyereasoner/eye/tree/master/reasoning/fcm),
+    [fgcm](https://github.com/eyereasoner/eye/tree/master/reasoning/fgcm)
+- quantum computation:
+    [dqc](https://github.com/eyereasoner/eye/tree/master/reasoning/dqc)
+- universal machines:
+    [turing](https://github.com/eyereasoner/eye/tree/master/reasoning/turing),
+    [usm](https://github.com/eyereasoner/eye/tree/master/reasoning/usm)
+- workflow composers:
+    [gps](https://github.com/eyereasoner/eye/tree/master/reasoning/gps),
+    [map](https://github.com/eyereasoner/eye/tree/master/reasoning/map),
+    [resto](https://github.com/eyereasoner/eye/tree/master/reasoning/resto),
+    [restpath](https://github.com/eyereasoner/eye/tree/master/reasoning/restpath),
+    [twf](https://github.com/eyereasoner/eye/tree/master/reasoning/twf)
 
 :information_source: The arrows form a triptych like in
 ```
