@@ -23,7 +23,7 @@
     [cs](https://github.com/eyereasoner/eye/tree/master/reasoning/cs),
     [steps](https://github.com/eyereasoner/eye/tree/master/reasoning/steps)
 - description logic: 
-    bmt](https://github.com/eyereasoner/eye/tree/master/reasoning/bmt),
+    [bmt](https://github.com/eyereasoner/eye/tree/master/reasoning/bmt),
     [dt](https://github.com/eyereasoner/eye/tree/master/reasoning/dt),
     [edt](https://github.com/eyereasoner/eye/tree/master/reasoning/edt),
     [entail](https://github.com/eyereasoner/eye/tree/master/reasoning/entail),
