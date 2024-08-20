@@ -6,13 +6,13 @@
 - backward rules use a leftwards double arrow `<=`
 - forward rules use a rightwards double arrow `=>`
 
-:warning: variables
+:warning: __variables__
 
 - only `_:x` blank nodes in triples and quads
 - only `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
 
-:seedling: examples and test cases
+:seedling: __examples and test cases__
 
 - bayesian networks:
     [ccd](https://github.com/eyereasoner/eye/tree/master/reasoning/ccd),
