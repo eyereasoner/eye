@@ -80,12 +80,12 @@
 :bulb: __The arrows form a triptych like in__
 
 ```
-        eye                 observership
-         u                   /        \
-        =^                  /          \
-   l <= eye => r        origin ------ evolution
+        eye                     observership
+         u                       /        \
+        =^                      /          \
+   l <= eye => r            origin ------ evolution
 
-Euler lost both eyes    Hawking-Hertog triptych
+Euler lost both eyes        Hawking-Hertog triptych
 ```
 
 :information_source: __SAGE originates from__ [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner by Ruben Verborgh and Jos De Roo](https://josd.github.io/Papers/EYE.pdf)
