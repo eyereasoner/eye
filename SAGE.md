@@ -77,7 +77,7 @@
     [restpath](https://github.com/eyereasoner/eye/tree/master/reasoning/restpath),
     [twf](https://github.com/eyereasoner/eye/tree/master/reasoning/twf)
 
-:eye: __The arrows form a triptych like in__
+:bulb: __The arrows form a triptych like in__
 
 ```
         eye                 observership
@@ -88,6 +88,6 @@
 Euler lost both eyes    Hawking-Hertog triptych
 ```
 
-:bulb: __SAGE originates from__ [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner by Ruben Verborgh and Jos De Roo](https://josd.github.io/Papers/EYE.pdf)
+:information_source: __SAGE originates from__ [Drawing Conclusions from Linked Data on the Web: The EYE Reasoner by Ruben Verborgh and Jos De Roo](https://josd.github.io/Papers/EYE.pdf)
 
 > In the future, reasoners could have a large impact on software. A few decades ago, software took over many jobs from hardware: calculations that used to be hardwired became soft-wired as lines of code. Although some highly optimized calculations still happen in hardware, most are now performed with special-purpose software on generic-purpose hardware. Similarly, reasoners will start rewiring software for specific situations. EYE already does this when performing rule-based Web service composition. In the end, this opens the door to automatically customized software processes. What software once did for hardware, reasoning might one day do for software.
