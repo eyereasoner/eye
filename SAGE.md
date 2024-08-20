@@ -12,7 +12,7 @@
 - only `?x` quickvars in rules and queries
 - quantified `var:x` variables in proofs
 
-:bricks: __examples and test cases__
+:globe_with_meridians: __examples and test cases__
 
 - bayesian networks:
     [ccd](https://github.com/eyereasoner/eye/tree/master/reasoning/ccd),
@@ -77,7 +77,7 @@
     [restpath](https://github.com/eyereasoner/eye/tree/master/reasoning/restpath),
     [twf](https://github.com/eyereasoner/eye/tree/master/reasoning/twf)
 
-:globe_with_meridians: __The arrows form a triptych like in__
+:information_source: __The arrows form a triptych like in__
 
 ```
         eye                 observership
