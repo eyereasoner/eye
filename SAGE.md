@@ -77,7 +77,7 @@
     [restpath](https://github.com/eyereasoner/eye/tree/master/reasoning/restpath),
     [twf](https://github.com/eyereasoner/eye/tree/master/reasoning/twf)
 
-:atom: __The arrows form a triptych like in__
+:basecamp: __The arrows form a triptych like in__
 
 ```
         eye                 observership
