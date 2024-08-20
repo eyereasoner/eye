@@ -1,6 +1,6 @@
 # Special-purpose Algorithms on Generic-purpose Engines - SAGE
 
-:abacus: Algorithms are constructed using logical rules and queries, with backward rules (including built-ins) providing control.
+:abacus: __Algorithms are constructed using logical rules and queries, with backward rules (including built-ins) providing control.__
 
 - queries use an upwards double arrow `=^`
 - backward rules use a leftwards double arrow `<=`
@@ -29,7 +29,7 @@
     [entail](https://github.com/eyereasoner/eye/tree/master/reasoning/entail),
     [gedcom](https://github.com/eyereasoner/eye/tree/master/reasoning/gedcom),
     [h2o](https://github.com/eyereasoner/eye/tree/master/reasoning/h2o),
-    [RDF plus OWL](reasoning/rpo/) ([source](https://github.com/eyereasoner/eye/tree/master/reasoning/rpo))
+    [RDF plus OWL](https://github.com/eyereasoner/eye/tree/master/reasoning/rpo)
 - ershovian compilation:
     [preduction](https://github.com/eyereasoner/eye/tree/master/reasoning/preduction)
 - extensible imaging:
