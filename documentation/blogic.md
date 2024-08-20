@@ -42,8 +42,11 @@ The listing `socrates.n3s` below implements the Socrate example in RDF surfaces:
 } .
 
 # Define what to send to the output
-(_:S _:O) log:onQuerySurface {
+(_:S _:O) log:onNegativeSurface {
     _:S a _:O .
+    (_:S _:O) log:onNegativeAnswerSurface {
+        _:S a _:O .
+    } .
 } .
 ```
 
