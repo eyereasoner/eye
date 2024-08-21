@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.4 (2024-08-20)').
+version_info('EYE v10.19.5 (2024-08-22)').
 
 license_info('MIT License
 
@@ -5471,6 +5471,7 @@ prepare_builtins :-
                     is_graph(G),
                     conj_list(G, L),
                     \+find_component(L, _, _),
+                    \+member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), L),
                     makevars(G, H, beta(Vl)),
                     (   H = '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, false),
                         J = true
