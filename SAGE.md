@@ -1,4 +1,4 @@
-# Special-purpose Algorithms on Generic-purpose Engines - SAGE
+# Special-purpose Algorithms running on Generic-purpose Engines - SAGE
 
 :abacus: __Algorithms are constructed using logical rules and queries, with backward rules (including built-ins) providing control.__
 
