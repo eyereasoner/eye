@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.5 (2024-08-22)').
+version_info('EYE v10.19.6 (2024-08-24)').
 
 license_info('MIT License
 
@@ -1287,8 +1287,7 @@ n3_n3p(Argument, Mode) :-
     open(Tmp_p, write, Ws, [encoding(utf8)]),
     tell(Ws),
     catch(
-        (   repeat,
-            tokens(In, Tokens),
+        (   tokens(In, Tokens),
             phrase(document(Triples), Tokens, Rest),
             (   Rest = []
             ->  true
@@ -1308,9 +1307,13 @@ n3_n3p(Argument, Mode) :-
                     TriplesNext2
                 ),
                 nb_setval(semantics, TriplesNext2)
-            ;   tr_n3p(Triples, Src, Mode)
-            ),
-            Tokens = []
+            ;   (   Mode = entail,
+                    Triples = []
+                ->  write(query(true, true)),
+                    writeln('.')
+                ;   tr_n3p(Triples, Src, Mode)
+                )
+            )
         ),
         Exc2,
         (   (   Mode = semantics
