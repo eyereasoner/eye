@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.6 (2024-08-24)').
+version_info('EYE v10.19.7 (2024-08-24)').
 
 license_info('MIT License
 
@@ -4310,6 +4310,32 @@ wt2(':-'(X, Y)) :-
     assertz(rule_uvar(R)),
     wg(X),
     write(' <= '),
+    wg(Y),
+    retract(rule_uvar(U)),
+    (   U \= [],
+        retract(rule_uvar(V)),
+        append(U, V, W)
+    ->  assertz(rule_uvar(W))
+    ;   true
+    ),
+    (   nb_getval(fdepth, 0)
+    ->  retract(ncllit)
+    ;   true
+    ),
+    !.
+wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
+    (   rule_uvar(R)
+    ->  true
+    ;   R = [],
+        cnt(rn)
+    ),
+    (   nb_getval(fdepth, 0)
+    ->  assertz(ncllit)
+    ;   true
+    ),
+    assertz(rule_uvar(R)),
+    wg(X),
+    write(' =^ '),
     wg(Y),
     retract(rule_uvar(U)),
     (   U \= [],
