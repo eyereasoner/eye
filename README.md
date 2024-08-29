@@ -2,6 +2,8 @@
 
 ![EYE](https://josd.github.io/images/eye.png)
 
+[![DOI](https://zenodo.org/badge/185797683.svg)](https://zenodo.org/doi/10.5281/zenodo.12398545)
+
 EYE is a reasoning engine supporting the [Semantic Web layers](http://www.w3.org/DesignIssues/diagrams/sweb-stack/2006a) and implementing [Notation3](https://w3c.github.io/N3/spec/).
 
 EYE performs _forward_ and _backward chaining_ along Euler paths.  Forward chaining is applied for rules using `=>` in Notation3 and backward chaining is applied for rules using `<=` in Notation3 which one can imagine as user defined built-ins. Euler paths are roughly "don't step in your own steps" which is inspired by what [Leonhard Euler](https://en.wikipedia.org/wiki/Leonhard_Euler) discovered in 1736 for the [Königsberg Bridge Problem](http://mathworld.wolfram.com/KoenigsbergBridgeProblem.html). 
