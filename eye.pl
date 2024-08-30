@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.7 (2024-08-24)').
+version_info('EYE v10.19.8 (2024-08-30)').
 
 license_info('MIT License
 
@@ -8331,7 +8331,8 @@ userInput(A, B) :-
     when(
         (   ground(A)
         ),
-        (   sub_atom(A, 0, B, 0, _)
+        (   escape_atom(A, C),
+            sub_atom(C, 0, B, 0, _)
         )
     ).
 
@@ -8385,7 +8386,8 @@ userInput(A, B) :-
         (   ground([X, Search, Replace])
         ),
         (   (   atomic_list_concat(['(', Search, ')'], Se),
-                regex(Se, X, [S|_])
+                regex(Se, X, [St|_]),
+                escape_atom(S, St)
             ->  (   sub_atom(Search, 0, 1, _, '^')
                 ->  atom_concat(S, T, X),
                     atom_concat(Replace, T, Y)
@@ -8421,7 +8423,8 @@ userInput(A, B) :-
         (   ground([X, Y])
         ),
         (   regex(Y, X, [W|_]),
-            atom_string(Z, W)
+            atom_string(V, W),
+            escape_atom(Z, V)
         )
     ).
 
@@ -11918,6 +11921,18 @@ lookup(A, B, C) :-
     atomic_list_concat([B, '_tabl_entry_', I], A),
     assertz(tabl(A, B, C)).
 
+escape_atom(A, B) :-
+    ground(A),
+    !,
+    atom_codes(A, C),
+    escape_codes(D, C),
+    atom_codes(B, D).
+escape_atom(A, B) :-
+    ground(B),
+    atom_codes(B, C),
+    escape_codes(C, D),
+    atom_codes(A, D).
+
 escape_codes([], []) :-
     !.
 escape_codes([0'\t|A], [0'\\, 0't|B]) :-
@@ -13080,12 +13095,8 @@ uuid(UUID) :-
             ~`0t~16r~12+', [A, B, C, D, E]).
 
 regex(Pattern, String, List) :-
-    atom_codes(Pattern, PatternC),
-    escape_codes(PatC, PatternC),
-    atom_codes(Pat, PatC),
-    atom_codes(String, StringC),
-    escape_codes(StrC, StringC),
-    atom_codes(Str, StrC),
+    escape_atom(Pattern, Pat),
+    escape_atom(String, Str),
     re_matchsub(Pat, Str, Dict, []),
     findall(Value,
         (   get_dict(Key, Dict, Value),
