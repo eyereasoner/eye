@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.19.8 (2024-08-30)').
+version_info('EYE v10.19.9 (2024-09-01)').
 
 license_info('MIT License
 
@@ -8194,7 +8194,9 @@ userInput(A, B) :-
     when(
         (   ground([X, Y])
         ),
-        (   sub_atom(X, _, _, _, Y)
+        (   escape_atom(X, Xe),
+            escape_atom(Y, Ye),
+            sub_atom(Xe, _, _, _, Ye)
         )
     ).
 
@@ -8202,8 +8204,10 @@ userInput(A, B) :-
     when(
         (   ground([X, Y])
         ),
-        (   downcase_atom(X, U),
-            downcase_atom(Y, V),
+        (   escape_atom(X, Xe),
+            escape_atom(Y, Ye),
+            downcase_atom(Xe, U),
+            downcase_atom(Ye, V),
             sub_atom(U, _, _, _, V)
         )
     ).
@@ -8212,8 +8216,10 @@ userInput(A, B) :-
     when(
         (   ground([X, Y])
         ),
-        (   downcase_atom(X, R),
-            downcase_atom(Y, S),
+        (   escape_atom(X, Xe),
+            escape_atom(Y, Ye),
+            downcase_atom(Xe, R),
+            downcase_atom(Ye, S),
             normalize_space(atom(U), R),
             normalize_space(atom(V), S),
             sub_atom(U, _, _, _, V)
@@ -8224,7 +8230,9 @@ userInput(A, B) :-
     when(
         (   ground([X, Y])
         ),
-        (   sub_atom(X, _, _, 0, Y)
+        (   escape_atom(X, Xe),
+            escape_atom(Y, Ye),
+            sub_atom(Xe, _, _, 0, Ye)
         )
     ).
 
@@ -8241,11 +8249,13 @@ userInput(A, B) :-
     when(
         (   ground([A, B])
         ),
-        (   atom_codes(A, D),
+        (   escape_atom(A, Ae),
+            atom_codes(Ae, D),
             subst([[[0'%, 0's], [0'~, 0'w]]], D, E),
             preformat(B, F),
             format_to_chars(E, F, G),
-            atom_codes(C, G)
+            atom_codes(Ce, G),
+            escape_atom(C, Ce)
         )
     ).
 
@@ -8340,7 +8350,9 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   downcase_atom(X, Y)
+        (   escape_atom(X, Xe),
+            downcase_atom(Xe, Ye),
+            escape_atom(Y, Ye)
         )
     ).
 
@@ -8474,7 +8486,9 @@ userInput(A, B) :-
             ),
             (   H < 0
             ->  D = ''
-            ;   sub_atom(A, G, H, _, D)
+            ;   escape_atom(A, Ae),
+                escape_atom(D, De),
+                sub_atom(Ae, G, H, _, De)
             )
         )
     ).
@@ -8493,7 +8507,9 @@ userInput(A, B) :-
             ),
             (   H < 0
             ->  D = []
-            ;   sub_atom(A, G, H, _, D)
+            ;   escape_atom(A, Ae),
+                escape_atom(D, De),
+                sub_atom(Ae, G, H, _, De)
             )
         )
     ).
@@ -8502,7 +8518,9 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   upcase_atom(X, Y)
+        (   escape_atom(X, Xe),
+            upcase_atom(Xe, Ye),
+            escape_atom(Y, Ye)
         )
     ).
 
@@ -12504,6 +12522,9 @@ getlist(A, [B|C]) :-
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
     !.
+getstring(literal(A, B), literal(C, B)) :-
+    !,
+    escape_atom(A, C).
 getstring(A, A).
 
 getcodes(literal(A, _), B) :-
@@ -12523,8 +12544,9 @@ remember(_).
 
 preformat([], []) :-
     !.
-preformat([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], [A|D]) :-
+preformat([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], [C|D]) :-
     !,
+    escape_atom(A, C),
     preformat(B, D).
 preformat([A|B], [A|D]) :-
     preformat(B, D).
