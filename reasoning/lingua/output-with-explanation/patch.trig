@@ -1,0 +1,26 @@
+@prefix : <https://eyereasoner.github.io/eye/reasoning/lingua/patch.trig#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+:pers001 :familyName "Garcia".
+:pers001 :givenName "Alex".
+:pers002 :familyName "Cardinale".
+:pers002 :givenName "Claudia".
+
+#
+# lingua explanation
+#
+
+_:bng_1 log:explains true.
+
+_:bng_1 {
+    :pers001 :familyName "Garcia".
+    _:bng_2 log:becomes _:bng_3.
+}
+
+_:bng_2 {
+    :pers001 :givenName "Claudia".
+}
+
+_:bng_3 {
+    :pers001 :givenName "Alex".
+}

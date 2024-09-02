@@ -1,0 +1,302 @@
+@prefix : <https://eyereasoner.github.io/eye/reasoning/lingua/gps.trig#>.
+@prefix gps: <http://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+:i1 gps:path ((:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99).
+:i1 gps:path ((:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801).
+
+#
+# lingua explanation
+#
+
+_:bng_1 log:explains _:bng_2.
+_:bng_3 log:explains _:bng_4.
+_:bng_5 log:explains _:bng_2.
+_:bng_6 log:explains _:bng_7.
+_:bng_5 log:explains _:bng_8.
+_:bng_5 log:explains _:bng_9.
+_:bng_5 log:explains _:bng_10.
+_:bng_11 log:explains _:bng_12.
+_:bng_13 log:explains _:bng_14.
+_:bng_15 log:explains _:bng_16.
+_:bng_16 log:explains _:bng_17.
+_:bng_17 log:explains _:bng_18.
+_:bng_19 log:explains _:bng_2.
+_:bng_20 log:explains _:bng_21.
+_:bng_19 log:explains _:bng_8.
+_:bng_19 log:explains _:bng_9.
+_:bng_19 log:explains _:bng_10.
+_:bng_1 log:explains _:bng_8.
+_:bng_22 log:explains _:bng_2.
+_:bng_22 log:explains _:bng_8.
+_:bng_22 log:explains _:bng_9.
+_:bng_11 log:explains _:bng_23.
+_:bng_24 log:explains _:bng_25.
+_:bng_26 log:explains _:bng_27.
+_:bng_28 log:explains _:bng_29.
+_:bng_29 log:explains _:bng_30.
+_:bng_30 log:explains _:bng_31.
+_:bng_32 log:explains _:bng_33.
+_:bng_22 log:explains _:bng_10.
+_:bng_1 log:explains _:bng_9.
+_:bng_1 log:explains _:bng_10.
+
+_:bng_5 {
+    :i1 :location :Brugge.
+}
+
+_:bng_1 {
+    :i1 :location :Gent.
+}
+
+_:bng_19 {
+    :i1 :location :Oostende.
+}
+
+_:bng_22 {
+    :i1 :location :Kortrijk.
+}
+
+_:bng_2 {
+    :map-BE gps:description (_:bng_1 true _:bng_5 :drive_gent_brugge "1500.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.006"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+}
+
+_:bng_3 {
+    (:map-BE) list:firstRest (:map-BE ()).
+    () gps:stagecount 1.
+}
+
+_:bng_4 {
+    (:map-BE) gps:stagecount 1.
+}
+
+_:bng_6 {
+    (:map-BE :map-BE) list:firstRest (:map-BE (:map-BE)).
+    (:map-BE) gps:stagecount 1.
+}
+
+_:bng_7 {
+    (:map-BE :map-BE) gps:stagecount 1.
+}
+
+_:bng_8 {
+    :map-BE gps:description (_:bng_1 true _:bng_22 :drive_gent_kortrijk "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+}
+
+_:bng_9 {
+    :map-BE gps:description (_:bng_22 true _:bng_5 :drive_kortrijk_brugge "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+}
+
+_:bng_10 {
+    :map-BE gps:description (_:bng_5 true _:bng_19 :drive_brugge_oostende "900.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.004"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.98"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+}
+
+_:bng_11 {
+    _:bng_19 log:call true.
+}
+
+_:bng_12 {
+    () gps:findpaths ((:map-BE :map-BE) _:bng_19 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_13 {
+    :map-BE gps:description (_:bng_5 true _:bng_19 :drive_brugge_oostende "900.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.004"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.98"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+    ((:map-BE) (:map-BE)) list:append (:map-BE :map-BE).
+    (:map-BE :map-BE) gps:stagecount 1 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1; math:notGreaterThan 1 .
+    (1500.0 "900.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 2400.0 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 2400.0; math:notGreaterThan "5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.006 "0.004"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 0.01 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.01; math:notGreaterThan "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.96 "0.98"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.9408 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.9408; math:notLessThan "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.99 "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.99 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.99; math:notLessThan "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ((:drive_gent_brugge) (:drive_brugge_oostende)) list:append (:drive_gent_brugge :drive_brugge_oostende).
+    _:bng_5 log:becomes _:bng_19.
+    _:bng_12 log:callWithCleanup _:bng_34.
+}
+
+_:bng_14 {
+    () gps:findpaths ((:map-BE) _:bng_19 (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_15 {
+    :map-BE gps:description (_:bng_1 true _:bng_5 :drive_gent_brugge "1500.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.006"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+    (() (:map-BE)) list:append (:map-BE).
+    (:map-BE) gps:stagecount 1 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1; math:notGreaterThan 1 .
+    ("0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1500.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 1500.0 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1500.0; math:notGreaterThan "5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.006"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 0.006 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.006; math:notGreaterThan "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.96 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.96; math:notLessThan "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.99 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.99; math:notLessThan "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (() (:drive_gent_brugge)) list:append (:drive_gent_brugge).
+    _:bng_1 log:becomes _:bng_5.
+    _:bng_14 log:callWithCleanup _:bng_35.
+}
+
+_:bng_16 {
+    () gps:findpaths (() _:bng_19 () "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_17 {
+    () gps:findpath (_:bng_19 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_18 {
+    :i1 gps:path ((:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99).
+}
+
+_:bng_20 {
+    (:map-BE :map-BE :map-BE) list:firstRest (:map-BE (:map-BE :map-BE)).
+    (:map-BE :map-BE) gps:stagecount 1.
+}
+
+_:bng_21 {
+    (:map-BE :map-BE :map-BE) gps:stagecount 1.
+}
+
+_:bng_23 {
+    () gps:findpaths ((:map-BE :map-BE :map-BE) _:bng_19 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_24 {
+    :map-BE gps:description (_:bng_5 true _:bng_19 :drive_brugge_oostende "900.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.004"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.98"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+    ((:map-BE :map-BE) (:map-BE)) list:append (:map-BE :map-BE :map-BE).
+    (:map-BE :map-BE :map-BE) gps:stagecount 1 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1; math:notGreaterThan 1 .
+    (3200.0 "900.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 4100.0 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 4100.0; math:notGreaterThan "5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.014 "0.004"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 0.018000000000000002 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.018000000000000002; math:notGreaterThan "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.9216 "0.98"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.903168 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.903168; math:notLessThan "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.9801 "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.9801 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.9801; math:notLessThan "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ((:drive_gent_kortrijk :drive_kortrijk_brugge) (:drive_brugge_oostende)) list:append (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende).
+    _:bng_5 log:becomes _:bng_19.
+    _:bng_23 log:callWithCleanup _:bng_34.
+}
+
+_:bng_25 {
+    () gps:findpaths ((:map-BE :map-BE) _:bng_19 (:drive_gent_kortrijk :drive_kortrijk_brugge) 3200.0 0.014 0.9216 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_26 {
+    :map-BE gps:description (_:bng_22 true _:bng_5 :drive_kortrijk_brugge "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+    ((:map-BE) (:map-BE)) list:append (:map-BE :map-BE).
+    (:map-BE :map-BE) gps:stagecount 1 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1; math:notGreaterThan 1 .
+    (1600.0 "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 3200.0 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 3200.0; math:notGreaterThan "5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.007 "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 0.014 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.014; math:notGreaterThan "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.96 "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.9216 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.9216; math:notLessThan "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (0.99 "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.9801 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.9801; math:notLessThan "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ((:drive_gent_kortrijk) (:drive_kortrijk_brugge)) list:append (:drive_gent_kortrijk :drive_kortrijk_brugge).
+    _:bng_22 log:becomes _:bng_5.
+    _:bng_25 log:callWithCleanup _:bng_36.
+}
+
+_:bng_27 {
+    () gps:findpaths ((:map-BE) _:bng_19 (:drive_gent_kortrijk) 1600.0 0.007 0.96 0.99 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_28 {
+    :map-BE gps:description (_:bng_1 true _:bng_22 :drive_gent_kortrijk "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>).
+    (() (:map-BE)) list:append (:map-BE).
+    (:map-BE) gps:stagecount 1 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1; math:notGreaterThan 1 .
+    ("0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1600.0"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 1600.0 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 1600.0; math:notGreaterThan "5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.007"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:sum 0.007 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.007; math:notGreaterThan "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.96"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.96 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.96; math:notLessThan "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    ("1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.99"^^<http://www.w3.org/2001/XMLSchema#decimal>) math:product 0.99 .
+    [] <http://www.w3.org/1999/02/22-rdf-syntax-ns#value> 0.99; math:notLessThan "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal>.
+    (() (:drive_gent_kortrijk)) list:append (:drive_gent_kortrijk).
+    _:bng_1 log:becomes _:bng_22.
+    _:bng_27 log:callWithCleanup _:bng_37.
+}
+
+_:bng_29 {
+    () gps:findpaths (() _:bng_19 () "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "1.0"^^<http://www.w3.org/2001/XMLSchema#decimal> (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_30 {
+    () gps:findpath (_:bng_19 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_31 {
+    :i1 gps:path ((:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801).
+}
+
+_:bng_32 {
+    (:map-BE :map-BE :map-BE :map-BE) list:firstRest (:map-BE (:map-BE :map-BE :map-BE)).
+    (:map-BE :map-BE :map-BE) gps:stagecount 1.
+}
+
+_:bng_33 {
+    (:map-BE :map-BE :map-BE :map-BE) gps:stagecount 1.
+}
+
+_:bng_1 {
+    :i1 :location :Gent.
+}
+
+_:bng_5 {
+    :i1 :location :Brugge.
+}
+
+_:bng_22 {
+    :i1 :location :Kortrijk.
+}
+
+_:bng_19 {
+    :i1 :location :Oostende.
+}
+
+_:bng_12 {
+    () gps:findpaths ((:map-BE :map-BE) _:bng_19 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_34 {
+    _:bng_19 log:becomes _:bng_5.
+}
+
+_:bng_14 {
+    () gps:findpaths ((:map-BE) _:bng_19 (:drive_gent_brugge) 1500.0 0.006 0.96 0.99 (:drive_gent_brugge :drive_brugge_oostende) 2400.0 0.01 0.9408 0.99 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_35 {
+    _:bng_5 log:becomes _:bng_1.
+}
+
+_:bng_23 {
+    () gps:findpaths ((:map-BE :map-BE :map-BE) _:bng_19 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_25 {
+    () gps:findpaths ((:map-BE :map-BE) _:bng_19 (:drive_gent_kortrijk :drive_kortrijk_brugge) 3200.0 0.014 0.9216 0.9801 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_36 {
+    _:bng_5 log:becomes _:bng_22.
+}
+
+_:bng_27 {
+    () gps:findpaths ((:map-BE) _:bng_19 (:drive_gent_kortrijk) 1600.0 0.007 0.96 0.99 (:drive_gent_kortrijk :drive_kortrijk_brugge :drive_brugge_oostende) 4100.0 0.018000000000000002 0.903168 0.9801 ("5000.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "5.0"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.2"^^<http://www.w3.org/2001/XMLSchema#decimal> "0.4"^^<http://www.w3.org/2001/XMLSchema#decimal> 1)).
+}
+
+_:bng_37 {
+    _:bng_22 log:becomes _:bng_1.
+}
