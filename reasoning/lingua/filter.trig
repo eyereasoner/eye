@@ -1,0 +1,34 @@
+# ------------
+# Filter query
+# ------------
+
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX string: <http://www.w3.org/2000/10/swap/string#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX var: <http://www.w3.org/2000/10/swap/var#>
+PREFIX : <#>
+
+# facts
+:Let :param "Huey".
+:Let :param "Dewey".
+:Let :param "Louie".
+
+# query
+_:bng_1 log:query _:bng_2.
+
+GRAPH _:bng_1 {
+    :Let :where (var:param var:where).
+    (var:param var:where var:filteredParams) log:collectAllIn var:scope.
+    var:filteredParams list:length 2.
+}
+
+GRAPH _:bng_2 {
+    :result :is var:filteredParams.
+}
+
+:Let :where (var:param _:bng_3).
+
+GRAPH _:bng_3 {
+    :Let :param var:param.
+    var:param string:lessThan "Louie".
+}

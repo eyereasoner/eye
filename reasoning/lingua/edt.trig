@@ -1,0 +1,45 @@
+# ----------------------
+# Extended Deep Taxonomy
+# ----------------------
+#
+# See https://web.archive.org/web/20220119222608/http://responder.ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
+#
+# It is taking the depth as the number of elements in the classes.
+# It is closer to reality e.g. an ontology with 300000 classes (like SNOMED-CT)
+# and 100000 individuals belonging to those classes (like patients having
+# observations, diseases, treatments, ...).
+
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX var: <http://www.w3.org/2000/10/swap/var#>
+PREFIX edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>
+
+# assuming lingua explanations
+[] log:explanation [].
+
+# importing
+_:bng_1 log:implies true.
+
+GRAPH _:bng_1 {
+    <> log:imports <https://eyereasoner.github.io/eye/reasoning/edt/test-facts.ttl>.
+    <> log:imports <https://eyereasoner.github.io/eye/reasoning/edt/test-dl.ttl>.
+}
+
+# rdfs subclass rule
+_:bng_2 log:isImpliedBy _:bng_3.
+
+GRAPH _:bng_2 {
+    var:X a var:D.
+}
+
+GRAPH _:bng_3 {
+    var:C rdfs:subClassOf var:D.
+    var:X a var:C.
+}
+
+# query
+_:bng_4 log:query _:bng_4.
+
+GRAPH _:bng_4 {
+    edt:i100000 a edt:N100000.
+}

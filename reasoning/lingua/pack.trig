@@ -1,0 +1,44 @@
+# ------------
+# pack example
+# ------------
+#
+# See https://github.com/Dexagod/DataPack?tab=readme-ov-file#package-modeling
+
+PREFIX : <https://example.org/ns/example#>
+PREFIX pack: <https://example.org/ns/package#>
+PREFIX sign: <https://example.org/ns/signature#>
+PREFIX pol: <https://example.org/ns/policy#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX var: <http://www.w3.org/2000/10/swap/var#>
+
+[] pack:package _:bng_1 .
+
+GRAPH _:bng_1 {
+    [] pack:content _:bng_2 ;
+        pack:origin :Endpoint ;
+        pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime ;
+        pack:hasContentSignature [
+            a sign:Signature ;
+            sign:issuer :Alice ;
+            sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime ;
+            sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us"
+        ] .
+}
+
+GRAPH _:bng_2 {
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime .
+}
+
+# query
+_:bng_3 log:query var:C.
+
+GRAPH _:bng_3 {
+    var:S pack:package var:O.
+    var:O log:includes _:bng_4.
+}
+
+GRAPH _:bng_4 {
+    var:N pack:content var:C.
+}
