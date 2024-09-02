@@ -2,7 +2,6 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix time: <http://www.w3.org/2000/10/swap/time#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 
 :patH :ageAbove "P80Y"^^xsd:duration.
@@ -15,9 +14,9 @@ _:bng_1 log:explains _:bng_2.
 
 _:bng_1 {
     :patH :birthDay "1944-08-21"^^xsd:date.
-    [] rdf:value ""; time:localTime "2024-09-02T22:50:01.643Z"^^xsd:dateTime.
-    ("2024-09-02T22:50:01.643Z"^^xsd:dateTime "1944-08-21"^^xsd:date) math:difference 2525727001.6429996 .
-    [] rdf:value 2525727001.6429996; math:greaterThan "P80Y"^^xsd:duration.
+    [] rdf:value "2024-08-21T00:00:00.0Z"^^xsd:dateTime; log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
+    ("2024-08-21T00:00:00.0Z"^^xsd:dateTime "1944-08-21"^^xsd:date) math:difference 2524608000.0 .
+    [] rdf:value 2524608000.0; math:greaterThan "P80Y"^^xsd:duration.
 }
 
 _:bng_2 {

@@ -24,7 +24,8 @@ GRAPH _:bng_1 {
 
 GRAPH _:bng_2 {
     var:S :birthDay var:B.
-    [] rdf:value ""; time:localTime var:D.
+    #[] rdf:value ""; time:localTime var:D.
+    var:D log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
     (var:D var:B) math:difference var:F.
     var:F math:greaterThan var:A.
 }
