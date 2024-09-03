@@ -41,7 +41,6 @@ skolem:lemma2 a r:Inference;
         [ a r:Fact; r:gives {((1 2 3 4 6 9 10 11 13)) func:reverse (13 11 10 9 6 4 3 2 1)}]
         [ a r:Fact; r:gives {((13 11 10 9 6) (4 3 2 1)) list:append (13 11 10 9 6 4 3 2 1)}]
         skolem:lemma4
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         skolem:lemma5
         [ a r:Fact; r:gives {((13 11 10 9 6)) func:reverse (6 9 10 11 13)}]
@@ -110,7 +109,6 @@ skolem:lemma6 a r:Inference;
         [ a r:Fact; r:gives {((6 9 10 11 13)) func:reverse (13 11 10 9 6)}]
         [ a r:Fact; r:gives {((13 11 10 9) (6)) list:append (13 11 10 9 6)}]
         skolem:lemma11
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         skolem:lemma12
         [ a r:Fact; r:gives {((13 11 10 9)) func:reverse (9 10 11 13)}]
@@ -129,17 +127,16 @@ skolem:lemma6 a r:Inference;
 skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+            var:x_3 seq:punctuate var:x_0.
+        } <= {
             var:x_0 e:firstRest (var:x_1 var:x_2).
             (var:x_3) func:reverse var:x_4.
             (var:x_5 var:x_6) list:append var:x_4.
             var:x_6 seq:check true.
-            true.
             true log:callWithCut true.
             var:x_6 seq:format var:x_1.
             (var:x_5) func:reverse var:x_7.
             var:x_7 seq:punctuate var:x_2.
-        } => {
-            var:x_3 seq:punctuate var:x_0.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/seq/seq_components.n3>].
@@ -214,7 +211,6 @@ skolem:lemma13 a r:Inference;
         [ a r:Fact; r:gives {((9 10 11 13)) func:reverse (13 11 10 9)}]
         [ a r:Fact; r:gives {((13) (11 10 9)) list:append (13 11 10 9)}]
         skolem:lemma17
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         skolem:lemma18
         [ a r:Fact; r:gives {((13)) func:reverse (13)}]
@@ -303,7 +299,6 @@ skolem:lemma19 a r:Inference;
         [ a r:Fact; r:gives {((13)) func:reverse (13)}]
         [ a r:Fact; r:gives {(() (13)) list:append (13)}]
         skolem:lemma22
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         skolem:lemma23
         [ a r:Fact; r:gives {(()) func:reverse ()}]

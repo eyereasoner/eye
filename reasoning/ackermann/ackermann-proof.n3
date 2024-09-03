@@ -273,7 +273,6 @@ skolem:lemma14 a r:Inference;
         (0 3 2) :ackermann 4 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(3 1) math:sum 4}]
     );
@@ -299,7 +298,6 @@ skolem:lemma16 a r:Inference;
         (0 9 2) :ackermann 10 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(9 1) math:sum 10}]
     );
@@ -313,7 +311,6 @@ skolem:lemma17 a r:Inference;
         (1 5 2) :ackermann 7 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(5 2) math:sum 7}]
     );
@@ -327,7 +324,6 @@ skolem:lemma18 a r:Inference;
         (1 10 2) :ackermann 12 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(10 2) math:sum 12}]
     );
@@ -341,7 +337,6 @@ skolem:lemma19 a r:Inference;
         (2 5 2) :ackermann 10 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(5 2) math:product 10}]
     );
@@ -355,7 +350,6 @@ skolem:lemma20 a r:Inference;
         (2 12 2) :ackermann 24 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(12 2) math:product 24}]
     );
@@ -462,11 +456,10 @@ skolem:lemma25 a r:Inference;
 skolem:lemma26 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. @forSome var:x_2. {
-            true.
+            (0 var:x_0 var:x_2) :ackermann var:x_1.
+        } <= {
             true log:callWithCut true.
             (var:x_0 1) math:sum var:x_1.
-        } => {
-            (0 var:x_0 var:x_2) :ackermann var:x_1.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/ackermann/ackermann.n3>].
@@ -474,11 +467,10 @@ skolem:lemma26 a r:Extraction;
 skolem:lemma27 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
-            true.
+            (1 var:x_0 var:x_1) :ackermann var:x_2.
+        } <= {
             true log:callWithCut true.
             (var:x_0 var:x_1) math:sum var:x_2.
-        } => {
-            (1 var:x_0 var:x_1) :ackermann var:x_2.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/ackermann/ackermann.n3>].
@@ -486,11 +478,10 @@ skolem:lemma27 a r:Extraction;
 skolem:lemma28 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
-            true.
+            (2 var:x_0 var:x_1) :ackermann var:x_2.
+        } <= {
             true log:callWithCut true.
             (var:x_0 var:x_1) math:product var:x_2.
-        } => {
-            (2 var:x_0 var:x_1) :ackermann var:x_2.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/ackermann/ackermann.n3>].
@@ -519,7 +510,6 @@ skolem:lemma30 a r:Inference;
         (2 64 2) :ackermann 128 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(64 2) math:product 128}]
     );
@@ -565,7 +555,6 @@ skolem:lemma33 a r:Inference;
         (2 65536 2) :ackermann 131072 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(65536 2) math:product 131072}]
     );
@@ -655,7 +644,6 @@ skolem:lemma38 a r:Inference;
         (2 32 2) :ackermann 64 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(32 2) math:product 64}]
     );
@@ -688,7 +676,6 @@ skolem:lemma40 a r:Inference;
         (2 32768 2) :ackermann 65536 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(32768 2) math:product 65536}]
     );
@@ -759,7 +746,6 @@ skolem:lemma44 a r:Inference;
         (2 8 2) :ackermann 16 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(8 2) math:product 16}]
     );
@@ -792,7 +778,6 @@ skolem:lemma46 a r:Inference;
         (2 16 2) :ackermann 32 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(16 2) math:product 32}]
     );
@@ -825,7 +810,6 @@ skolem:lemma48 a r:Inference;
         (2 16384 2) :ackermann 32768 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(16384 2) math:product 32768}]
     );
@@ -839,7 +823,6 @@ skolem:lemma49 a r:Inference;
         (4 0 2) :ackermann 1 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
@@ -870,7 +853,6 @@ skolem:lemma51 a r:Inference;
         (2 2 2) :ackermann 4 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(2 2) math:product 4}]
     );
@@ -884,7 +866,6 @@ skolem:lemma52 a r:Inference;
         (2 4 2) :ackermann 8 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(4 2) math:product 8}]
     );
@@ -898,7 +879,6 @@ skolem:lemma53 a r:Inference;
         (5 0 2) :ackermann 1 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
@@ -929,7 +909,6 @@ skolem:lemma55 a r:Inference;
         (2 8192 2) :ackermann 16384 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(8192 2) math:product 16384}]
     );
@@ -943,7 +922,6 @@ skolem:lemma56 a r:Extraction;
         @forSome var:x_0, var:x_1. {
             (var:x_0 0 var:x_1) :ackermann 1.
         } <= {
-            true.
             true log:callWithCut true.
         }.
     };
@@ -954,7 +932,6 @@ skolem:lemma57 a r:Inference;
         (3 0 2) :ackermann 1 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
@@ -966,7 +943,6 @@ skolem:lemma58 a r:Inference;
         (2 1 2) :ackermann 2 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(1 2) math:product 2}]
     );
@@ -999,7 +975,6 @@ skolem:lemma60 a r:Inference;
         (2 4096 2) :ackermann 8192 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(4096 2) math:product 8192}]
     );
@@ -1032,7 +1007,6 @@ skolem:lemma62 a r:Inference;
         (2 2048 2) :ackermann 4096 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(2048 2) math:product 4096}]
     );
@@ -1065,7 +1039,6 @@ skolem:lemma64 a r:Inference;
         (2 1024 2) :ackermann 2048 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(1024 2) math:product 2048}]
     );
@@ -1098,7 +1071,6 @@ skolem:lemma66 a r:Inference;
         (2 512 2) :ackermann 1024 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(512 2) math:product 1024}]
     );
@@ -1131,7 +1103,6 @@ skolem:lemma68 a r:Inference;
         (2 256 2) :ackermann 512 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(256 2) math:product 512}]
     );
@@ -1145,7 +1116,6 @@ skolem:lemma69 a r:Inference;
         (2 128 2) :ackermann 256 .
     };
     r:evidence (
-        [ a r:Fact; r:gives true]
         [ a r:Fact; r:gives {true log:callWithCut true}]
         [ a r:Fact; r:gives {(128 2) math:product 256}]
     );

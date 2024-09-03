@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.0 (2024-09-03)').
+version_info('EYE v10.20.1 (2024-09-03)').
 
 license_info('MIT License
 
@@ -12398,7 +12398,9 @@ conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), 
     !.
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.
-conjify('<http://www.w3.org/2000/10/swap/log#callWithCut>'(A, _), (A, !)) :-
+conjify('<http://www.w3.org/2000/10/swap/log#callWithCut>'(true, true), !) :-
+    !.
+conjify('<http://www.w3.org/2000/10/swap/log#callWithCut>'(A, true), (A, !)) :-
     !.
 conjify(A, A).
 
