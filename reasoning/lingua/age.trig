@@ -4,13 +4,13 @@
 #
 # Is the age of a person above some duration?
 
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX time: <http://www.w3.org/2000/10/swap/time#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # person data
 :patH :birthDay "1944-08-21"^^xsd:date.
@@ -18,11 +18,11 @@ PREFIX : <#>
 # is the age of a person above some duration?
 _:bng_1 log:isImpliedBy _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     var:S :ageAbove var:A.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:S :birthDay var:B.
     #[] rdf:value ""; time:localTime var:D.
     var:D log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
@@ -33,7 +33,7 @@ GRAPH _:bng_2 {
 # query
 _:bng_3 log:query _:bng_3.
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:S :ageAbove "P80Y"^^xsd:duration.
 }
 

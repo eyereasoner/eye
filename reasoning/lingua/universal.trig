@@ -2,49 +2,49 @@
 # Universal statements
 # --------------------
 
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # \Every x: type(x, Resource
 _:bng_1 log:isImpliedBy true.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     var:X a rdfs:Resource.
 }
 
 # Everybody loves somebody who is lonely
 _:bng_2 log:isImpliedBy _:bng_3.
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:A :loves var:B.
 }
 
-GRAPH _:bng_3 {
+_:bng_3 {
     (var:A) log:skolem var:B.
 }
 
 _:bng_4 log:isImpliedBy _:bng_5.
 
-GRAPH _:bng_4 {
+_:bng_4 {
     var:B :is :lonely.
 }
 
-GRAPH _:bng_5 {
+_:bng_5 {
     (var:A) log:skolem var:B.
 }
 
 # queries
 _:bng_6 log:query _:bng_6.
 
-GRAPH _:bng_6 {
+_:bng_6 {
     :pat a rdfs:Resource.
 }
 
 _:bng_7 log:query _:bng_7.
 
-GRAPH _:bng_7 {
+_:bng_7 {
     :bob :loves var:X.
     var:X :is :lonely.
 }

@@ -9,10 +9,10 @@
 # and 100000 individuals belonging to those classes (like patients having
 # observations, diseases, treatments, ...).
 
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>.
 
 # assuming lingua explanations
 [] log:explanation [].
@@ -20,7 +20,7 @@ PREFIX edt: <http://eulersharp.sourceforge.net/2009/12dtb/test#>
 # importing
 _:bng_1 log:implies true.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     <> log:imports <https://eyereasoner.github.io/eye/reasoning/edt/test-facts.ttl>.
     <> log:imports <https://eyereasoner.github.io/eye/reasoning/edt/test-dl.ttl>.
 }
@@ -28,11 +28,11 @@ GRAPH _:bng_1 {
 # rdfs subclass rule
 _:bng_2 log:isImpliedBy _:bng_3.
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:X a var:D.
 }
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:C rdfs:subClassOf var:D.
     var:X a var:C.
 }
@@ -40,6 +40,6 @@ GRAPH _:bng_3 {
 # query
 _:bng_4 log:query _:bng_4.
 
-GRAPH _:bng_4 {
+_:bng_4 {
     edt:i100000 a edt:N5000.
 }

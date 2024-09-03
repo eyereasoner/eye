@@ -4,20 +4,20 @@
 #
 # See https://en.wikipedia.org/wiki/Complex_number.
 
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX complex: <http://eyereasoner.github.io/complex#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix complex: <http://eyereasoner.github.io/complex#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # exponentiation
 _:bng_1 log:isImpliedBy _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     ((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F).
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     (var:A var:B) complex:polar (var:R var:T).
     (var:R var:C) math:exponentiation var:Z1.
     var:D math:negation var:Z2.
@@ -36,11 +36,11 @@ GRAPH _:bng_2 {
 # asin
 _:bng_3 log:isImpliedBy _:bng_4.
 
-GRAPH _:bng_3 {
+_:bng_3 {
     (var:A var:B) complex:asin (var:C var:D).
 }
 
-GRAPH _:bng_4 {
+_:bng_4 {
     (1 var:A) math:sum var:Z1.
     (var:Z1 2) math:exponentiation var:Z2.
     (var:B 2) math:exponentiation var:Z3.
@@ -65,11 +65,11 @@ GRAPH _:bng_4 {
 # acos
 _:bng_5 log:isImpliedBy _:bng_6.
 
-GRAPH _:bng_5 {
+_:bng_5 {
     (var:A var:B) complex:acos (var:C var:D).
 }
 
-GRAPH _:bng_6 {
+_:bng_6 {
     (1 var:A) math:sum var:Z1.
     (var:Z1 2) math:exponentiation var:Z2.
     (var:B 2) math:exponentiation var:Z3.
@@ -95,11 +95,11 @@ GRAPH _:bng_6 {
 # polar
 _:bng_7 log:isImpliedBy _:bng_8.
 
-GRAPH _:bng_7 {
+_:bng_7 {
     (var:X var:Y) complex:polar(var:R var:Tp).
 }
 
-GRAPH _:bng_8 {
+_:bng_8 {
     (var:X 2) math:exponentiation var:Z1.
     (var:Y 2) math:exponentiation var:Z2.
     (var:Z1 var:Z2) math:sum var:Z3.
@@ -113,11 +113,11 @@ GRAPH _:bng_8 {
 # dial
 _:bng_9 log:isImpliedBy _:bng_10.
 
-GRAPH _:bng_9 {
+_:bng_9 {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-GRAPH _:bng_10 {
+_:bng_10 {
     var:X math:notLessThan 0.
     var:Y math:notLessThan 0.
     (0 var:T) math:sum var:Tp.
@@ -125,11 +125,11 @@ GRAPH _:bng_10 {
 
 _:bng_11 log:isImpliedBy _:bng_12.
 
-GRAPH _:bng_11 {
+_:bng_11 {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-GRAPH _:bng_12 {
+_:bng_12 {
     var:X math:lessThan 0.
     var:Y math:notLessThan 0.
     (3.141592653589793 var:T) math:difference var:Tp.
@@ -137,11 +137,11 @@ GRAPH _:bng_12 {
 
 _:bng_13 log:isImpliedBy _:bng_14.
 
-GRAPH _:bng_13 {
+_:bng_13 {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-GRAPH _:bng_14 {
+_:bng_14 {
     var:X math:lessThan 0.
     var:Y math:lessThan 0.
     (3.141592653589793 var:T) math:sum var:Tp.
@@ -149,11 +149,11 @@ GRAPH _:bng_14 {
 
 _:bng_15 log:isImpliedBy _:bng_16.
 
-GRAPH _:bng_15 {
+_:bng_15 {
     (var:X var:Y var:T) complex:dial var:Tp.
 }
 
-GRAPH _:bng_16 {
+_:bng_16 {
     var:X math:notLessThan 0.
     var:Y math:lessThan 0.
     (3.141592653589793 2) math:product var:Z1.
@@ -163,7 +163,7 @@ GRAPH _:bng_16 {
 # query
 _:bng_17 log:query _:bng_17.
 
-GRAPH _:bng_17 {
+_:bng_17 {
     ((-1 0) (0.5 0)) complex:exponentiation var:C1.
     ((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2.
     ((0 1) (0 1)) complex:exponentiation var:C3.

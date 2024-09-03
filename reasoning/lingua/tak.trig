@@ -4,35 +4,35 @@
 #
 # See https://en.wikipedia.org/wiki/Tak_(function)
 
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # tak backward rules
 _:bng_1 log:isImpliedBy _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     (var:X var:Y var:Z) :tak var:Z.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     _:bng_3 log:call true.
     [] rdf:value true; log:callWithCut true.
 }
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:X math:notGreaterThan var:Y.
 }
 
 _:bng_4 log:isImpliedBy _:bng_5.
 
-GRAPH _:bng_4 {
+_:bng_4 {
     (var:X var:Y var:Z) :tak var:A.
 }
 
-GRAPH _:bng_5 {
+_:bng_5 {
     (var:X 1) math:difference var:X1.
     (var:X1 var:Y var:Z) :tak var:A1.
     (var:Y 1) math:difference var:Y1.
@@ -45,6 +45,6 @@ GRAPH _:bng_5 {
 # query
 _:bng_6 log:query _:bng_6.
 
-GRAPH _:bng_6 {
+_:bng_6 {
     (18 13 8) :tak var:A.
 }

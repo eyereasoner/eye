@@ -4,10 +4,10 @@
 #
 # Proving a derived rule.
 
-PREFIX string: <http://www.w3.org/2000/10/swap/string#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 :Alice a :Cat.
 :Minka a :Cat.
@@ -15,25 +15,25 @@ PREFIX : <#>
 
 _:bng_1 log:implies _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     var:cat a :Cat.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     _:bng_3 log:implies _:bng_4.
 }
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:dog a :Dog.
 }
 
-GRAPH _:bng_4 {
+_:bng_4 {
     :test :is true.
 }
 
 # query
 _:bng_5 log:query _:bng_5.
 
-GRAPH _:bng_5 {
+_:bng_5 {
     :test :is var:result.
 }

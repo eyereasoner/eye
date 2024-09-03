@@ -4,20 +4,20 @@
 #
 # See https://en.wikipedia.org/wiki/Date_of_Easter
 
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX math: <http://www.w3.org/2000/10/swap/math#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # calculate easter day
 _:bng_1 log:isImpliedBy _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     var:x0 :easter (var:x34 var:x32).
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     (var:x0 19) math:remainder var:x1.
     (var:x0 100) math:integerQuotient var:x2.
     (var:x0 100) math:remainder var:x3.
@@ -57,12 +57,12 @@ GRAPH _:bng_2 {
 # query
 _:bng_3 log:query _:bng_4.
 
-GRAPH _:bng_3 {
+_:bng_3 {
     [] rdf:value 27; log:repeat var:x0.
     (2024 var:x0) math:sum var:x1.
     var:x1 :easter (var:x2 var:x3).
 }
 
-GRAPH _:bng_4 {
+_:bng_4 {
     var:x1 :easter (var:x2 var:x3).
 }

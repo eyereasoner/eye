@@ -4,11 +4,11 @@
 #
 # Patching RDF data.
 
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX solid: <http://www.w3.org/ns/solid/terms#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # sample data
 :pers001 :familyName "Garcia".
@@ -19,23 +19,23 @@ PREFIX : <#>
 # patch rule
 _:bng_1 log:implies true.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     var:person :familyName "Garcia".
     _:bng_2 log:becomes _:bng_3.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:person :givenName "Claudia".
 }
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:person :givenName "Alex".
 }
 
 # query
 _:bng_4 log:query _:bng_4.
 
-GRAPH _:bng_4 {
+_:bng_4 {
     var:person :familyName var:fname.
     var:person :givenName var:gname.
 }

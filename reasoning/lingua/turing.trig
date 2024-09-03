@@ -5,30 +5,30 @@
 # Turing completeness test case.
 # See http://en.wikipedia.org/wiki/Prolog#Turing_completeness
 
-PREFIX list: <http://www.w3.org/2000/10/swap/list#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 # interpreter for Turing machine
 _:bng_1 log:isImpliedBy _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     () :compute var:OutTape.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:Machine :start var:I.
     (var:I () "#" ()) :find var:OutTape.
 }
 
 _:bng_3 log:isImpliedBy _:bng_4.
 
-GRAPH _:bng_3 {
+_:bng_3 {
     var:List :compute var:OutTape.
 }
 
-GRAPH _:bng_4 {
+_:bng_4 {
     var:List list:firstRest (var:Head var:Tail).
     var:Machine :start var:I.
     (var:I () var:Head var:Tail) :find var:OutTape.
@@ -36,11 +36,11 @@ GRAPH _:bng_4 {
 
 _:bng_5 log:isImpliedBy _:bng_6.
 
-GRAPH _:bng_5 {
+_:bng_5 {
     (var:State var:Left var:Cell var:Right) :find var:OutTape.
 }
 
-GRAPH _:bng_6 {
+_:bng_6 {
     (var:State var:Cell var:Write var:Move) :tape var:Next.
     (var:Move var:Left var:Write var:Right var:A var:B var:C) :move true.
     (var:Next var:A var:B var:C) :continue var:OutTape.
@@ -48,11 +48,11 @@ GRAPH _:bng_6 {
 
 _:bng_7 log:isImpliedBy _:bng_8.
 
-GRAPH _:bng_7 {
+_:bng_7 {
     (:halt var:Left var:Cell var:Right) :continue var:OutTape.
 }
 
-GRAPH _:bng_8 {
+_:bng_8 {
     var:Left :reverse var:R.
     var:List list:firstRest (var:Cell var:Right).
     (var:R var:List) list:append var:OutTape.
@@ -60,75 +60,75 @@ GRAPH _:bng_8 {
 
 _:bng_9 log:isImpliedBy _:bng_10.
 
-GRAPH _:bng_9 {
+_:bng_9 {
     (var:State var:Left var:Cell var:Right) :continue var:OutTape.
 }
 
-GRAPH _:bng_10 {
+_:bng_10 {
     (var:State var:Left var:Cell var:Right) :find var:OutTape.
 }
 
 _:bng_11 log:isImpliedBy _:bng_12.
 
-GRAPH _:bng_11 {
+_:bng_11 {
     (:left () var:Cell var:Right () "#" var:L) :move true.
 }
 
-GRAPH _:bng_12 {
+_:bng_12 {
     var:L list:firstRest (var:Cell var:Right).
 }
 
 _:bng_13 log:isImpliedBy _:bng_14.
 
-GRAPH _:bng_13 {
+_:bng_13 {
     (:left var:List var:Cell var:Right var:Tail var:Head var:L) :move true.
 }
 
-GRAPH _:bng_14 {
+_:bng_14 {
     var:List list:firstRest (var:Head var:Tail).
     var:L list:firstRest (var:Cell var:Right).
 }
 
 _:bng_15 log:isImpliedBy true.
 
-GRAPH _:bng_15 {
+_:bng_15 {
     (:stop var:Left var:Cell var:Right var:Left var:Cell var:Right) :move true.
 }
 
 _:bng_16 log:isImpliedBy _:bng_17.
 
-GRAPH _:bng_16 {
+_:bng_16 {
     (:right var:Left var:Cell () var:L "#" ()) :move true.
 }
 
-GRAPH _:bng_17 {
+_:bng_17 {
     var:L list:firstRest (var:Cell var:Left).
 }
 
 _:bng_18 log:isImpliedBy _:bng_19.
 
-GRAPH _:bng_18 {
+_:bng_18 {
     (:right var:Left var:Cell var:List var:L var:Head var:Tail) :move true.
 }
 
-GRAPH _:bng_19 {
+_:bng_19 {
     var:List list:firstRest (var:Head var:Tail).
     var:L list:firstRest (var:Cell var:Left).
 }
 
 _:bng_20 log:isImpliedBy true.
 
-GRAPH _:bng_20 {
+_:bng_20 {
     () :reverse ().
 }
 
 _:bng_21 log:isImpliedBy _:bng_22.
 
-GRAPH _:bng_21 {
+_:bng_21 {
     var:List :reverse var:Reverse.
 }
 
-GRAPH _:bng_22 {
+_:bng_22 {
     var:List list:firstRest (var:Head var:Tail).
     var:Tail :reverse var:R.
     (var:R (var:Head)) list:append var:Reverse.
@@ -147,7 +147,7 @@ GRAPH _:bng_22 {
 # query
 _:bng_23 log:query _:bng_23.
 
-GRAPH _:bng_23 {
+_:bng_23 {
     (1 0 1 0 0 1) :compute var:A1.
     (1 0 1 1 1 1) :compute var:A2.
     (1 1 1 1 1 1) :compute var:A3.

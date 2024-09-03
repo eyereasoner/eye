@@ -2,21 +2,21 @@
 # Crypto example
 # --------------
 
-PREFIX crypto: <http://www.w3.org/2000/10/swap/crypto#>
-PREFIX log: <http://www.w3.org/2000/10/swap/log#>
-PREFIX var: <http://www.w3.org/2000/10/swap/var#>
-PREFIX : <#>
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
 
 :Let :param "hello world".
 
 # query
 _:bng_1 log:query _:bng_2.
 
-GRAPH _:bng_1 {
+_:bng_1 {
     :Let :param var:X.
     var:X crypto:sha512 var:Y.
 }
 
-GRAPH _:bng_2 {
+_:bng_2 {
     var:X :sha512 var:Y.
 }
