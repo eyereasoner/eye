@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.1 (2024-09-03)').
+version_info('EYE v10.20.2 (2024-09-04)').
 
 license_info('MIT License
 
@@ -8516,8 +8516,10 @@ userInput(A, B) :-
         (   escape_atom(A, Ae),
             atom_codes(Ae, D),
             subst([[[0'%, 0's], [0'~, 0'w]]], D, E),
+            subst([[[0'%, 0'2, 0's], [0' , 0'~, 0'w]]], E, I),  % workaround and should be solves in format_to_chars/3
+            atom_codes(J, I),
             preformat(B, F),
-            format_to_chars(E, F, G),
+            format_to_chars(J, F, G),
             atom_codes(Ce, G),
             escape_atom(C, Ce)
         )
@@ -8689,7 +8691,9 @@ userInput(A, B) :-
         ),
         (   preformat(SearchList, SearchList2),
             preformat(ReplaceList, ReplaceList2),
-            replace(SearchList2, ReplaceList2, X, Z),
+            escape_atom(X, Xe),
+            replace(SearchList2, ReplaceList2, Xe, Ze),
+            escape_atom(Z, Ze),
             atom_string(Y, Z)
         )
     ).
@@ -11795,7 +11799,9 @@ replace([], [], X, X) :-
     !.
 replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
     atomic_list_concat(['(', Search, ')'], Scap),
-    scrape(X, Scap, Scrape),
+    escape_atom(Xe, X),
+    escape_atom(Scape, Scap),
+    scrape(Xe, Scape, Scrape),
     atom_codes(Replace, RC),
     srlist(Scrape, RC, Subst),
     atom_codes(X, XC),
