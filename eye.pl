@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.4 (2024-09-04)').
+version_info('EYE v10.20.5 (2024-09-04)').
 
 license_info('MIT License
 
@@ -135,6 +135,7 @@ eye
 :- dynamic(got_unique/2).
 :- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
 :- dynamic(graph/2).
+:- dynamic(graphid/1).
 :- dynamic(hash_value/2).
 :- dynamic(implies/3).              % implies(Premise, Conclusion, Source)
 :- dynamic(input_statements/1).
@@ -1013,6 +1014,7 @@ args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
     args(Args).
+
 args(['--trig', Argument|Args]) :-
     !,
     absolute_uri(Argument, Arg),
@@ -1099,7 +1101,11 @@ args(['--trig', Argument|Args]) :-
             ttl_n3p(O, Object),
             G = H:_,
             ttl_n3p(H, Graph),
-            assertz(quad(triple(Subject, Predicate, Object), Graph))
+            assertz(quad(triple(Subject, Predicate, Object), Graph)),
+            (   \+graphid(Graph)
+            ->  assertz(graphid(Graph))
+            ;   true
+            )
         )
     ),
     length(Triples, SC),
@@ -5285,6 +5291,12 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
+djiti_fact(quad(T, G), quad(T, G)) :-
+    !,
+    (   \+graphid(G)
+    ->  assertz(graphid(G))
+    ;   true
+    ).
 djiti_fact('<http://www.w3.org/2000/10/swap/log#dcg>'(_, literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))), B) :-
     !,
     read_term_from_atom(A, C, []),
@@ -5335,8 +5347,8 @@ prepare_builtins :-
         ;   true
         ),
 
-        % create named graphs
-        (   quad(triple(_, _, _), G),
+        % create trig graphs
+        (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
                     C =.. [P, S, O]
@@ -11801,9 +11813,8 @@ replace([], [], X, X) :-
     !.
 replace([Search|SearchRest], [Replace|ReplaceRest], X, Y) :-
     atomic_list_concat(['(', Search, ')'], Scap),
-    escape_atom(Xe, X),
     escape_atom(Scape, Scap),
-    scrape(Xe, Scape, Scrape),
+    scrape(X, Scape, Scrape),
     atom_codes(Replace, RC),
     srlist(Scrape, RC, Subst),
     atom_codes(X, XC),
@@ -13465,6 +13476,7 @@ regex(Pattern, String, List) :-
     escape_atom(Pattern, Pat),
     escape_atom(String, Str),
     re_matchsub(Pat, Str, Dict, []),
+    nonvar(Dict),
     findall(Value,
         (   get_dict(Key, Dict, Value),
             Key \== 0
