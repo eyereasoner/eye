@@ -2,7 +2,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
-# blank-node graphs
+# blank node graphs
 _:bng_1 {
     :s :p _:x.
 }
@@ -21,10 +21,21 @@ _:bng_2 {
     :x :y :z.
 }
 
+# derive trig graph
+{
+    ?G graph:term ?T.
+    ?T graph:member {
+        :a :b :c.
+    }.
+} => {
+    ?H graph:term {
+        :a :b :c.
+    }.
+}.
+
 # query
 {
     ?G graph:term ?T.
-    ?G log:rawType log:LabeledBlankNode.
 } =^ {
     ?G graph:term ?T.
 }.

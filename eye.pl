@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.5 (2024-09-04)').
+version_info('EYE v10.20.6 (2024-09-04)').
 
 license_info('MIT License
 
@@ -194,6 +194,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/graph#term>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#explains>'/2).
@@ -964,10 +965,8 @@ args(['--n3p', Argument|Args]) :-
 args(['--pass'|Args]) :-
     !,
     assertz(implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>')),
-    assertz(implies(quad(triple(S, P, O), G), answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass>')),
     (   flag(intermediate, Out)
-    ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>')),
-        portray_clause(Out, implies(quad(triple(S, P, O), G), answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
+    ->  portray_clause(Out, implies(exopred(P, S, O), answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass>'))
     ;   true
     ),
     args(Args).
@@ -979,17 +978,13 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies((quad(triple(S, P, O), G), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
-            answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
     ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies((quad(triple(S, P, O), G), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
-            answer(quad, triple(S, P, O), G), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
+            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
     args(Args).
@@ -5298,6 +5293,12 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         )
     ).
 djiti_fact(quad(T, G), quad(T, G)) :-
+    !,
+    (   \+graphid(G)
+    ->  assertz(graphid(G))
+    ;   true
+    ).
+djiti_fact('<http://www.w3.org/2000/10/swap/graph#term>'(G, T), graph(G, T)) :-
     !,
     (   \+graphid(G)
     ->  assertz(graphid(G))
