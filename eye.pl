@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.3 (2024-09-04)').
+version_info('EYE v10.20.4 (2024-09-04)').
 
 license_info('MIT License
 
@@ -8767,7 +8767,8 @@ userInput(A, B) :-
         (   ground([A, B])
         ),
         (   getint(B, I),
-            sub_atom(A, 0, E, 0, _),
+            escape_atom(A, Ae),
+            sub_atom(Ae, 0, E, 0, _),
             J is E-I+1,
             (   I < 1
             ->  G is 0,
@@ -8776,9 +8777,8 @@ userInput(A, B) :-
                 H is J
             ),
             (   H < 0
-            ->  D = []
-            ;   escape_atom(A, Ae),
-                escape_atom(D, De),
+            ->  D = ''
+            ;   escape_atom(D, De),
                 sub_atom(Ae, G, H, _, De)
             )
         )
@@ -9186,7 +9186,7 @@ userInput(A, B) :-
                 H is J
             ),
             (   H < 0
-            ->  D = []
+            ->  D = ''
             ;   sub_atom(A, G, H, _, D)
             )
         )
