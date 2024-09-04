@@ -1,3 +1,4 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
@@ -22,8 +23,8 @@ _:bng_2 {
 
 # query
 {
-    ?S ?P ?O ?G.
+    ?G graph:term ?T.
     ?G log:rawType log:LabeledBlankNode.
 } =^ {
-    ?S ?P ?O ?G.
+    ?G graph:term ?T.
 }.

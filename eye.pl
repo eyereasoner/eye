@@ -86,6 +86,7 @@ eye
     --strings                       output log:outputString objects on stdout
     --tactic limited-answer <nr>    give only a limited number of answers
     --tactic linear-select          select each rule only once
+    --trig-output                   output as TriG data
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
@@ -835,6 +836,11 @@ opts(['--tactic', 'linear-select'|Argus], Args) :-
 opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
+opts(['--trig-output'|Argus], Args) :-
+    !,
+    retractall(flag('lingua')),
+    assertz(flag('lingua')),
+    opts(Argus, Args).
 opts(['--version'|_], _) :-
     !,
     throw(halt(0)).
