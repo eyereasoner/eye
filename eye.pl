@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.7 (2024-09-05)').
+version_info('EYE v10.20.8 (2024-09-05)').
 
 license_info('MIT License
 
@@ -4363,6 +4363,7 @@ wt2(':-'(X, Y)) :-
     ),
     !.
 wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
+    \+flag(lingua),
     (   rule_uvar(R)
     ->  true
     ;   R = [],
@@ -4583,8 +4584,14 @@ wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
+    \+flag(lingua),
     !,
     write('<=').
+wp('<http://www.w3.org/2000/10/swap/log#query>') :-
+    \+flag('no-qnames'),
+    \+flag(lingua),
+    !,
+    write('=^').
 wp(X) :-
     (   prolog_sym(Y, X, _),
         X \= true,
@@ -12321,6 +12328,9 @@ quant(answer('<http://www.w3.org/2000/10/swap/log#implies>', _, _), allv) :-
 quant(answer(':-', _, _), allv) :-
     !.
 quant(answer('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>', _, _), allv) :-
+    !.
+quant(_-answer('<http://www.w3.org/2000/10/swap/log#implies>', _, _), avar) :-
+    flag(lingua),
     !.
 quant(_, some).
 
