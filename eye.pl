@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.8 (2024-09-05)').
+version_info('EYE v10.20.9 (2024-09-06)').
 
 license_info('MIT License
 
@@ -978,13 +978,17 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#query>'(A, C),
+            answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
     ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
-            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
+            answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+        portray_clause(Out, implies('<http://www.w3.org/2000/10/swap/log#query>'(A, C),
+            answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
     args(Args).
@@ -1643,6 +1647,8 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
     \+ (atomic(X), atomic(Y)),
     !,
+    write('\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)),
+    writeln('.'),
     djiti_answer(answer(Y), A),
     write(implies(X, A, Src)),
     writeln('.'),
