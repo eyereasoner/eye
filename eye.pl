@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.20.9 (2024-09-06)').
+version_info('EYE v10.20.10 (2024-09-07)').
 
 license_info('MIT License
 
@@ -194,7 +194,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/graph#is>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/graph#statement>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#explains>'/2).
@@ -5311,7 +5311,7 @@ djiti_fact(quad(T, G), quad(T, G)) :-
     ->  assertz(graphid(G))
     ;   true
     ).
-djiti_fact('<http://www.w3.org/2000/10/swap/graph#is>'(G, T), graph(G, T)) :-
+djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(G, T), graph(G, T)) :-
     !,
     (   \+graphid(G)
     ->  assertz(graphid(G))
@@ -6807,7 +6807,7 @@ prepare_builtins :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/graph#is>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/graph#statement>'(A, B) :-
     graph(A, B).
 
 '<http://www.w3.org/2000/10/swap/graph#length>'(A, B) :-
