@@ -1,0 +1,15 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+_:bng_1 log:query _:bng_2.
+
+_:bng_1 {
+    var:myLdes <https://w3id.org/tree#member> var:dataset.
+    var:dataset a <https://example.org/ns/pack/Dataset>.
+    var:dataset <https://example.org/ns/pack/contains> var:ContentGraph.
+}
+
+_:bng_2 {
+    var:dataset graph:statement var:ContentGraph.
+}
