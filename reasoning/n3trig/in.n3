@@ -17,12 +17,12 @@ _:bng_2 {
 
 # derive trig graph
 {
-    ?G graph:statement ?T.
-    ?T graph:member {
+    ?G graph:content ?C.
+    ?C graph:member {
         :a :b :c.
     }.
 } => {
-    ?H graph:statement {
+    ?H graph:content {
         :u :v :w.
         :x :y :z.
     }.
@@ -30,7 +30,7 @@ _:bng_2 {
 
 # query
 {
-    ?G graph:statement ?T.
+    ?G graph:content ?C.
 } =^ {
-    ?G graph:statement ?T.
+    ?G graph:content ?C.
 }.
