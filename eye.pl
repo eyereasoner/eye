@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.2 (2024-09-09)').
+version_info('EYE v10.22.3 (2024-09-09)').
 
 license_info('MIT License
 
@@ -4394,6 +4394,9 @@ wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
     ;   true
     ),
     !.
+wt2('<http://www.w3.org/2000/10/swap/graph#namedGraph>'(X, Y)) :-
+    !,
+    wt2(graph(X, Y)).
 wt2(quad(triple(S, P, O), G)) :-
     !,
     wg(S),

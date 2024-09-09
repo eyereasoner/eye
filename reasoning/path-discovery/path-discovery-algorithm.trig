@@ -1,0 +1,69 @@
+# --------------
+# Path discovery
+# --------------
+#
+# See https://aws.amazon.com/blogs/database/build-and-deploy-knowledge-graphs-faster-with-rdf-and-opencypher/
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix nepo: <http://neptune.aws.com/ontology/airroutes/>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <urn:example:>.
+
+# get airroutes
+# importing
+_:bng_1 log:implies true.
+
+_:bng_1 {
+    <> log:imports <https://eyereasoner.github.io/eye/reasoning/path-discovery/path-discovery-data.ttl>.
+}
+
+# connectivity
+_:bng_2 log:isImpliedBy _:bng_3.
+
+_:bng_2 {
+    (var:from var:to var:visited var:length var:max) :route (var:from var:to).
+}
+
+_:bng_3 {
+    var:length math:notGreaterThan var:max.
+    var:from nepo:hasOutboundRouteTo var:to.
+    var:visited list:notMember var:to.
+}
+
+_:bng_4 log:isImpliedBy _:bng_5.
+
+_:bng_4 {
+    (var:from var:to var:visited var:length var:max) :route var:route.
+}
+
+_:bng_5 {
+    var:length math:notGreaterThan var:max.
+    var:from nepo:hasOutboundRouteTo var:via.
+    var:visited list:notMember var:via.
+    var:newVisited list:firstRest (var:from var:visited).
+    (var:length 1) math:sum var:newLength.
+    (var:via var:to var:newVisited var:newLength var:max) :route var:newRoute.
+    var:route list:firstRest (var:from var:newRoute).
+}
+
+# find routes from Manchester-Boston Regional Airport to Helsinki Vantaa Airport with at most 2 stopovers
+_:bng_6 log:query _:bng_7.
+
+_:bng_6 {
+    var:source rdfs:label "Manchester-Boston Regional Airport".
+    var:destination rdfs:label "Helsinki Vantaa Airport".
+    (var:source var:destination () 0 2) :route var:airports.
+    (var:city _:bng_8 var:route) log:collectAllIn var:scope.
+}
+
+_:bng_8 {
+    var:airports list:member var:airport.
+    var:airport rdfs:label var:city.
+}
+
+_:bng_7 {
+    :discovered :airroute var:route.
+}
