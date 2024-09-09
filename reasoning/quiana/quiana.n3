@@ -1,0 +1,18 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# forall phi, x: says(Einstein, phi) => believes(x, phi)
+{ ?x :believes ?phi } <= { :Einstein :says ?phi }.
+
+# forall phi: says(Einstein, phi) => phi
+{ :Einstein :says ?phi } => ?phi.
+
+# says(Einstein, not (forall x: glitters(x) => gold(x)))
+:Einstein :says { { ?x a :glitter } => { ?x :notNecessarilyA :gold } }.
+
+# example
+:northStar a :glitter.
+
+# query
+{ :Fabian :believes ?what } =^ { :Fabian :believes ?what }.
+{ ?x :notNecessarilyA ?what } =^ { ?x :notNecessarilyA ?what }.
