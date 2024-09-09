@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.3 (2024-09-09)').
+version_info('EYE v10.22.4 (2024-09-09)').
 
 license_info('MIT License
 
@@ -3565,16 +3565,22 @@ w3 :-
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
         labelvars(C, 0, _, avar),
-        wt(C),
-        ws(C),
-        (   (   C = graph(_, _)
-            ;   C = exopred(graph, _, _)
+        (   C = '<http://www.w3.org/2000/10/swap/graph#namedGraph>'(X, Y)
+        ->  (   \+keep_ng(graph(X, Y))
+            ->  assertz(keep_ng(graph(X, Y)))
+            ;   true
             )
-        ->  true
-        ;   write('.')
+        ;   wt(C),
+            ws(C),
+            (   (   C = graph(_, _)
+                ;   C = exopred(graph, _, _)
+                )
+            ->  true
+            ;   write('.')
+            ),
+            nl,
+            cnt(output_statements)
         ),
-        nl,
-        cnt(output_statements),
         fail
     ;   true
     ),
@@ -4394,9 +4400,6 @@ wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
     ;   true
     ),
     !.
-wt2('<http://www.w3.org/2000/10/swap/graph#namedGraph>'(X, Y)) :-
-    !,
-    wt2(graph(X, Y)).
 wt2(quad(triple(S, P, O), G)) :-
     !,
     wg(S),
