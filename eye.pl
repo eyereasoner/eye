@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.0 (2024-09-09)').
+version_info('EYE v10.22.1 (2024-09-09)').
 
 license_info('MIT License
 
@@ -839,8 +839,8 @@ opts(['--tactic', Tactic|_], _) :-
     throw(not_supported_tactic(Tactic)).
 opts(['--trig-output'|Argus], Args) :-
     !,
-    retractall(flag('lingua')),
-    assertz(flag('lingua')),
+    retractall(flag('trig-output')),
+    assertz(flag('trig-output')),
     opts(Argus, Args).
 opts(['--version'|_], _) :-
     !,
@@ -3599,7 +3599,6 @@ w3 :-
     ).
 
 w3 :-
-    retractall(flag(lingua)),
     (   prfstep(answer(_, _, _), _, _, _, _, _, _),
         !,
         nb_setval(empty_gives, false),
@@ -4260,7 +4259,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
-    \+flag(lingua),
+    \+flag('trig-output'),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4369,7 +4368,7 @@ wt2(':-'(X, Y)) :-
     ),
     !.
 wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
-    \+flag(lingua),
+    \+flag('trig-output'),
     (   rule_uvar(R)
     ->  true
     ;   R = [],
@@ -4531,7 +4530,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag(lingua),
+    ->  (   flag('trig-output'),
             nb_getval(keep_ng, true)
         ->  (   graph(N, X)
             ->  true
@@ -4545,7 +4544,7 @@ wg(X) :-
             ;   true
             ),
             wt(N)
-        ;   (   flag(lingua)
+        ;   (   flag('trig-output')
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
@@ -4585,17 +4584,17 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
-    \+flag(lingua),
+    \+flag('trig-output'),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
-    \+flag(lingua),
+    \+flag('trig-output'),
     !,
     write('<=').
 wp('<http://www.w3.org/2000/10/swap/log#query>') :-
     \+flag('no-qnames'),
-    \+flag(lingua),
+    \+flag('trig-output'),
     !,
     write('=^').
 wp(X) :-
@@ -4622,7 +4621,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag(lingua),
+    (   flag('trig-output'),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),

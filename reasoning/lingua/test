@@ -1,6 +1,6 @@
 #!/bin/bash
 for file in *.trig
 do
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --output output/$file
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --output output-with-explanation/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --trig-output --output output/$file
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --trig-output --output output-with-explanation/$file
 done
