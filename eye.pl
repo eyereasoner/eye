@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.1 (2024-09-09)').
+version_info('EYE v10.22.2 (2024-09-09)').
 
 license_info('MIT License
 
@@ -7575,33 +7575,6 @@ userInput(A, B) :-
     ->  true
     ;   Y \= answer(_, _, _),
         Y \= (answer(_, _, _), _)
-    ).
-
-'<http://www.w3.org/2000/10/swap/log#imports>'(_, X) :-
-    \+flag(restricted),
-    when(
-        (   nonvar(X)
-        ),
-        (   (   scope(X)
-            ->  true
-            ;   sub_atom(X, 0, 1, _, '<'),
-                sub_atom(X, _, 1, 0, '>'),
-                sub_atom(X, 1, _, 1, Z),
-                catch(
-                    args(['--turtle', Z]),
-                    _,
-                    (   catch(
-                            args(['--n3', Z]),
-                            Exc,
-                            (   format(user_error, '** ERROR ** ~w **~n', [Exc]),
-                                flush_output(user_error),
-                                fail
-                            )
-                        )
-                    )
-                )
-            )
-        )
     ).
 
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
