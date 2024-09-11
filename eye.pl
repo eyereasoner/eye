@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.4 (2024-09-09)').
+version_info('EYE v10.22.5 (2024-09-11)').
 
 license_info('MIT License
 
@@ -380,6 +380,7 @@ gre(Argus) :-
     ),
     nb_setval(output_statements, 0),
     nb_setval(current_scope, '<>'),
+    nb_setval(doc_nr, 0),
     nb_setval(wn, 0),
     opts(Argus, Args),
     (   Args = []
@@ -1022,6 +1023,7 @@ args(['--query', Arg|Args]) :-
 
 args(['--trig', Argument|Args]) :-
     !,
+    cnt(doc_nr),
     absolute_uri(Argument, Arg),
     atomic_list_concat(['<', Arg, '>'], R),
     assertz(scope(R)),
@@ -1778,7 +1780,8 @@ ttl_n3p(literal(A), literal(E, type('<http://www.w3.org/2001/XMLSchema#string>')
 ttl_n3p(node(A), B) :-
     !,
     nb_getval(var_ns, Sns),
-    atomic_list_concat(['<', Sns, 'node_', A, '>'], B).
+    nb_getval(doc_nr, Dnr),
+    atomic_list_concat(['<', Sns, 'node_', A, '_', Dnr, '>'], B).
 ttl_n3p('http://www.w3.org/1999/02/22-rdf-syntax-ns#nil', []) :-
     !.
 ttl_n3p(A, B) :-
