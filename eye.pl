@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.22.5 (2024-09-11)').
+version_info('EYE v10.22.6 (2024-09-12)').
 
 license_info('MIT License
 
@@ -5379,7 +5379,13 @@ prepare_builtins :-
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
-                    C =.. [P, S, O]
+                    C =.. [P, S, O],
+                    (   sub_atom(G, _, 19, _, '/.well-known/genid/'),
+                        nb_getval(var_ns, Sns),
+                        \+sub_atom(G, 1, _, _, Sns)
+                    ->  djiti_assertz(C)
+                    ;   true
+                    )
                 ),
                 D
             ),
