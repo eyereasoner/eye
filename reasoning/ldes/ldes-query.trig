@@ -2,9 +2,12 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix ex: <http://example.org/ex#>.
 
+# query1
 <https://eyereasoner.github.io/.well-known/genid/25d126a7-9dda-4f50-81b4-049dc9a0885d#bng_0> {
     _:bng_1 log:query _:bng_2.
+    _:bng_3 log:query _:bng_2.
 }
 
 _:bng_1 {
@@ -17,4 +20,13 @@ _:bng_1 {
 
 _:bng_2 {
     var:node graph:namedGraph var:ContentGraph.
+}
+
+_:bng_3 {
+    var:node graph:namedGraph var:ContentGraph.
+    var:ContentGraph graph:member _:bng_4.
+}
+
+_:bng_4 {
+    var:pol a ex:Policy.
 }
