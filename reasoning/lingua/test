@@ -1,6 +1,47 @@
 #!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[93m"
+NORMAL="\e[0;39m"
+
+OK=0
+FAILED=0
+
+echo -e "${YELLOW}-------------------${NORMAL}"
+echo -e "${YELLOW}Running lingua/test${NORMAL}"
+echo -e "${YELLOW}-------------------${NORMAL}"
+echo ""
+
+pad () {
+    [ "$#" -gt 1 ]
+    [ -n "$2" ]
+    printf "%$2.${2#-}s" "$1"
+}
+
+begin=$(($(date +%s)))
 for file in *.trig
 do
+    echo -en "$(pad "${file}" -24)"
+    start=$(($(date +%s%N)/1000000))
     eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --nope --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --trig-output --output output/$file
     eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --wcache https://eyereasoner.github.io/eye/reasoning .. --trig https://eyereasoner.github.io/eye/reasoning/lingua/$file --trig-output --output output-with-explanation/$file
+    end=$(($(date +%s%N)/1000000))
+    echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
+    if [[ $(git diff */$file | wc -l) -eq 0 ]]; then
+        echo -e "${GREEN}OK${NORMAL}"
+        ((OK++))
+    else
+        echo -e "${RED}FAILED${NORMAL}"
+        ((FAILED++))
+    fi
 done
+end=$(($(date +%s)))
+echo ""
+
+echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+if [[ ${FAILED} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi
