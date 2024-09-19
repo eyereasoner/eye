@@ -1,0 +1,9 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix ex: <http://example.org/ex#>.
+
+{
+    ?node graph:namedGraph ?ContentGraph.
+    ?ContentGraph graph:member { ?pol a ex:Policy }.
+} => {
+    ?node graph:namedGraph ?ContentGraph.
+}.
