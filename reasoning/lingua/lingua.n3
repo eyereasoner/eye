@@ -10,7 +10,7 @@
     ?A log:implies ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:quickvar (?E ?F).
+    (?C ?D) log:copy (?E ?F).
 } => {
     ?E => ?F.
 }.
@@ -20,7 +20,7 @@
     ?A log:isImpliedBy ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:quickvar (?E ?F).
+    (?C ?D) log:copy (?E ?F).
 } => {
     ?E <= ?F.
 }.
@@ -30,7 +30,7 @@
     ?A log:query ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:quickvar (?E ?F).
+    (?C ?D) log:copy (?E ?F).
 } => {
     ?E =^ ?F.
 }.

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.23.1 (2024-09-22)').
+version_info('EYE v10.23.2 (2024-09-22)').
 
 license_info('MIT License
 
@@ -5329,7 +5329,10 @@ prepare_builtins :-
             fail
         ;   true
         )
-    ;   true
+    ;   forall(
+            retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
+            assertz(':-'(A, B))
+        )
     ),
 
     % rdfsurfaces
@@ -7231,8 +7234,10 @@ userInput(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#semantics>'(A, C),
     '<http://www.w3.org/2000/10/swap/log#n3String>'(C, B).
 
-'<http://www.w3.org/2000/10/swap/log#copy>'(X, Y) :-
-    copy_term_nat(X, Y).
+'<http://www.w3.org/2000/10/swap/log#copy>'(A, B) :-
+    findvars(A, V, alpha),
+    list_to_set(V, U),
+    makevars(A, B, beta(U)).
 
 '<http://www.w3.org/2000/10/swap/log#dtlit>'([A, B], C) :-
     when(
@@ -7604,11 +7609,6 @@ userInput(A, B) :-
             sub_atom(C, 0, _, 1, B)
         )
     ).
-
-'<http://www.w3.org/2000/10/swap/log#quickvar>'(A, B) :-
-        findvars(A, V, alpha),
-        list_to_set(V, U),
-        makevars(A, B, beta(U)).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
