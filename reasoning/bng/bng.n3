@@ -10,9 +10,8 @@
     ?A log:implies ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:copy (?E ?F).
 } => {
-    ?E => ?F.
+    ?C => ?D.
 }.
 
 # create backward rules
@@ -20,9 +19,8 @@
     ?A log:isImpliedBy ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:copy (?E ?F).
 } => {
-    ?E <= ?F.
+    ?C <= ?D.
 }.
 
 # create queries
@@ -30,7 +28,6 @@
     ?A log:query ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
-    (?C ?D) log:copy (?E ?F).
 } => {
-    ?E =^ ?F.
+    ?C =^ ?D.
 }.

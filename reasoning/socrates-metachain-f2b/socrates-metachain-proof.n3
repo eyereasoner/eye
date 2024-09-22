@@ -71,10 +71,10 @@ skolem:lemma6 a r:Extraction;
 skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_2 a var:x_1.
-        } <= {
             var:x_0 rdfs:subClassOf var:x_1.
             var:x_2 a var:x_0.
+        } => {
+            var:x_2 a var:x_1.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/socrates-metachain-f2b/socrates.n3>].
