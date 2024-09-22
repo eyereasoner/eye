@@ -7,7 +7,7 @@
 
 # create forward rules
 {
-    ?A => ?B.
+    ?A log:implies ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
     (?C ?D) log:quickvar (?E ?F).
@@ -27,7 +27,7 @@
 
 # create queries
 {
-    ?A =^ ?B.
+    ?A log:query ?B.
     ?A graph:namedGraph ?C.
     ?B graph:namedGraph ?D.
     (?C ?D) log:quickvar (?E ?F).
