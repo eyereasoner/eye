@@ -18,7 +18,11 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:rule skolem:lemma3.
+    r:rule [ a r:Fact; r:gives {{
+        5 :moreInterestingThan 3.
+    } => {
+        5 :moreInterestingThan 3.
+    }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -29,19 +33,9 @@ skolem:lemma2 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 3];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma3.
 
 skolem:lemma3 a r:Extraction;
-    r:gives {
-        {
-            5 :moreInterestingThan 3.
-        } => {
-            5 :moreInterestingThan 3.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward/backward.n3>].
-
-skolem:lemma4 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 :moreInterestingThan var:x_1.

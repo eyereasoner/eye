@@ -3,8 +3,8 @@
 @prefix : <http://example.org/#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -26,7 +26,15 @@ skolem:lemma1 a r:Inference;
         skolem:lemma4
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#t_0"]];
-    r:rule skolem:lemma5.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        :pat a rdfs:Resource.
+        :bob :loves var:x_0.
+        var:x_0 :is :lonely.
+    } => {
+        :pat a rdfs:Resource.
+        :bob :loves var:x_0.
+        var:x_0 :is :lonely.
+    }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -36,7 +44,7 @@ skolem:lemma2 a r:Inference;
         [ a r:Fact; r:gives true]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#pat"]];
-    r:rule skolem:lemma6.
+    r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Inference;
     r:gives {
@@ -47,7 +55,7 @@ skolem:lemma3 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#t_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#bob"]];
-    r:rule skolem:lemma7.
+    r:rule skolem:lemma6.
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -58,23 +66,9 @@ skolem:lemma4 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#t_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#bob"]];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma7.
 
 skolem:lemma5 a r:Extraction;
-    r:gives {
-        @forAll var:x_0. {
-            :pat a rdfs:Resource.
-            :bob :loves var:x_0.
-            var:x_0 :is :lonely.
-        } => {
-            :pat a rdfs:Resource.
-            :bob :loves var:x_0.
-            var:x_0 :is :lonely.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/universal/universal.n3>].
-
-skolem:lemma6 a r:Extraction;
     r:gives {
         @forSome var:x_0. {
             var:x_0 a rdfs:Resource.
@@ -82,7 +76,7 @@ skolem:lemma6 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/universal/universal.n3>].
 
-skolem:lemma7 a r:Extraction;
+skolem:lemma6 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 :loves var:x_1.
@@ -92,7 +86,7 @@ skolem:lemma7 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/universal/universal.n3>].
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma7 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_1 :is :lonely.

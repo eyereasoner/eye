@@ -22,18 +22,26 @@ skolem:lemma1 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Socrates"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/socrates#Human"]];
-    r:rule skolem:lemma4.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 a var:x_1.
+    } => {
+        var:x_0 a var:x_1.
+    }}].
 
 skolem:lemma2 a r:Inference;
     r:gives {
         :Socrates a :Mortal.
     };
     r:evidence (
-        skolem:lemma5
+        skolem:lemma4
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Socrates"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/socrates#Mortal"]];
-    r:rule skolem:lemma4.
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 a var:x_1.
+    } => {
+        var:x_0 a var:x_1.
+    }}].
 
 skolem:lemma3 a r:Extraction;
     r:gives {
@@ -41,36 +49,26 @@ skolem:lemma3 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/socrates/socrates.n3>].
 
-skolem:lemma4 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1. {
-            var:x_0 a var:x_1.
-        } => {
-            var:x_0 a var:x_1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/socrates/socrates.n3>].
-
-skolem:lemma5 a r:Inference;
+skolem:lemma4 a r:Inference;
     r:gives {
         :Socrates a :Mortal.
     };
     r:evidence (
-        skolem:lemma6
+        skolem:lemma5
         skolem:lemma3
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/socrates#Human"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/socrates#Mortal"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/socrates#Socrates"]];
-    r:rule skolem:lemma7.
+    r:rule skolem:lemma6.
 
-skolem:lemma6 a r:Extraction;
+skolem:lemma5 a r:Extraction;
     r:gives {
         :Human rdfs:subClassOf :Mortal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/socrates/socrates.n3>].
 
-skolem:lemma7 a r:Extraction;
+skolem:lemma6 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             var:x_0 rdfs:subClassOf var:x_1.

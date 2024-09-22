@@ -1,0 +1,36 @@
+# --------------------
+# Lingua -- Jos De Roo
+# --------------------
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# create forward rules
+{
+    ?A => ?B.
+    ?A graph:namedGraph ?C.
+    ?B graph:namedGraph ?D.
+    (?C ?D) log:quickvar (?E ?F).
+} => {
+    ?E => ?F.
+}.
+
+# create backward rules
+{
+    ?A log:isImpliedBy ?B.
+    ?A graph:namedGraph ?C.
+    ?B graph:namedGraph ?D.
+    (?C ?D) log:quickvar (?E ?F).
+} => {
+    ?E <= ?F.
+}.
+
+# create queries
+{
+    ?A =^ ?B.
+    ?A graph:namedGraph ?C.
+    ?B graph:namedGraph ?D.
+    (?C ?D) log:quickvar (?E ?F).
+} => {
+    ?E =^ ?F.
+}.

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.23.0 (2024-09-19)').
+version_info('EYE v10.23.1 (2024-09-22)').
 
 license_info('MIT License
 
@@ -196,7 +196,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#explains>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
@@ -1782,8 +1781,6 @@ ttl_n3p(A, B) :-
     atomic_list_concat(['<', A, '>'], B).
 
 rename('\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>\'', []) :-
-    !.
-rename('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\'', ':-') :-
     !.
 rename(A, A).
 
@@ -3557,7 +3554,6 @@ w3 :-
     ;   true
     ),
     (   answer(B1, B2, B3),
-        B1 \= '<http://www.w3.org/2000/10/swap/log#explains>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3579,25 +3575,6 @@ w3 :-
             cnt(output_statements)
         ),
         fail
-    ;   true
-    ),
-    (   answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)
-    ->  nl,
-        writeln('#'),
-        writeln('# lingua explanation'),
-        writeln('#'),
-        nl,
-        (   answer('<http://www.w3.org/2000/10/swap/log#explains>', S, O),
-            labelvars('<http://www.w3.org/2000/10/swap/log#explains>'(S, O), 0, _, avar),
-            indent,
-            wt('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
-            ws('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
-            write('.'),
-            nl,
-            cnt(output_statements),
-            fail
-        ;   true
-        )
     ;   true
     ).
 
@@ -5272,6 +5249,13 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
+djiti_fact('<http://www.w3.org/2000/10/swap/log#query>'(A, B), C) :-
+    \+atomic(A),
+    \+atomic(B),
+    djiti_answer(answer(B), D),
+    \+implies(A, D, '<>'),
+    !,
+    makevars(implies(A, D, '<>'), C, zeta).
 djiti_fact(quad(T, G), quad(T, G)) :-
     !,
     (   \+graphid(G)
@@ -5325,7 +5309,8 @@ prepare_builtins :-
 
     % trig
     (   quad(triple(_, _, _), _)
-    ->  (   graphid(G),
+    ->  % create trig graphs
+        (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
                     C =.. [P, S, O]
@@ -5333,12 +5318,14 @@ prepare_builtins :-
                 D
             ),
             D \= [],
-            conjoin(D, E),
+            move_rdf(D, C),
+            conjoin(C, E),
             (   contains(G, E)
             ->  throw(term_cannot_contain_itself(G, E))
             ;   true
             ),
-            assertz(graph(G, E)),
+            getterm(E, F),
+            assertz(graph(G, F)),
             fail
         ;   true
         )
@@ -7617,6 +7604,11 @@ userInput(A, B) :-
             sub_atom(C, 0, _, 1, B)
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/log#quickvar>'(A, B) :-
+        findvars(A, V, alpha),
+        list_to_set(V, U),
+        makevars(A, B, beta(U)).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
@@ -12640,6 +12632,48 @@ getlist(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(D))
     ).
+
+getterm(A, A) :-
+    var(A),
+    !.
+getterm(A, B) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'(A, B),
+    !.
+getterm([], []) :-
+    !.
+getterm('<http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>', []) :-
+    !.
+getterm([A|B], [C|D]) :-
+    getterm(A, C),
+    !,
+    getterm(B, D).
+getterm(A, [B|C]) :-
+    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, D2),
+        D2 \= D
+    ->  throw(malformed_list_extra_first(A, D, D2))
+    ;   true
+    ),
+    (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E),
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>'(A, E2),
+            E2 \= E
+        ->  throw(malformed_list_extra_rest(A, E, E2))
+        ;   true
+        )
+    ->  true
+    ;   throw(malformed_list_no_rest(A))
+    ),
+    !,
+    getterm(D, B),
+    (   getterm(E, C),
+        is_list(C)
+    ->  true
+    ;   throw(malformed_list_invalid_rest(E))
+    ).
+getterm(A, B) :-
+    A =.. [C|D],
+    getterm(D, E),
+    B =.. [C|E].
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
