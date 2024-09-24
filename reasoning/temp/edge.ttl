@@ -1,28 +1,19 @@
-@base <http://example.org/> .
-
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix : <http://example.org/#> .
 
 :s :p <<( :a :b :c )>> .
 :s :p << :d :e :f >> .
-:s :p << :x | :g :h :i >> .
-# :s :p << :x | :g2 :h2 :i2 >> .                # throws a malformed_edge_extra_reifies/3 exception
+:s :p << :g :h :i ~ :x >> .
 
 :s :p :o {| :j :k |} .
-:s :p :o {| :y | :j :k |} .
-:s :p :o {| :y | :j :k; :l :m |} .
-:s :p :o {| :y | :j :k; :l :m, :n |} .
 
 :r rdf:reifies <<( :u :v :w )>>; :y :z .
-# :r rdf:reifies <<( :u2 :v2 :w2 )>>; :y :z .   # throws a malformed_edge_extra_reifies/3 exception
 _:s rdf:reifies <<( :u :v :w )>>; :y :z .
 _:t rdf:reifies <<( :u :v :w )>>; :y :z .
 
-# from https://lists.w3.org/Archives/Public/public-rdf-star-wg/2024Apr/0137.html
 :liz :marriedTo :richard
-    {| <#m1> | :from 1964; :to 1975 |}
-    {| <#m2> | :from 1980; :to 2001 |} .
+    {| :from 1964; :to 1975 |}
+    {| :from 1980; :to 2001 |} .
 
-# from https://lists.w3.org/Archives/Public/public-rdf-star-wg/2024Apr/0147.html
-<< :r | :a :b _:x >> :c :d .
-<< :r | :a :b _:y >> :c :d .
+<< :a :b _:x ~ :r >> :c :d .
+<< :a :b _:y ~ :r >> :c :d .

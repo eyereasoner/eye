@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.23.3 (2024-09-23)').
+version_info('EYE v10.23.4 (2024-09-25)').
 
 license_info('MIT License
 
@@ -1914,8 +1914,8 @@ dtlang(type(T)) -->
     [].
 
 edgename(N) -->
+    ['~'],
     expression(N, []),
-    ['|'],
     !.
 edgename(N) -->
     {   gensym('bne_', B),
@@ -2139,13 +2139,15 @@ pathitem(triple(S, P, O), []) -->
     verb(P, []),
     object(O, []),
     [rp_gt_gt].
-pathitem(edge(N, triple(S, P, O)), []) -->
+pathitem(edge(N, triple(S, P, O)), T) -->
     [lt_lt],
     !,
+    subject(S, Ts),
+    verb(P, Tp),
+    object(O, To),
+    {   append([Ts, Tp, To], T)
+    },
     edgename(N),
-    subject(S, []),
-    verb(P, []),
-    object(O, []),
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
@@ -3408,6 +3410,7 @@ punctuation(0'<, '<').
 punctuation(0'>, '>').
 punctuation(0'$, '$').
 punctuation(0'|, '|').
+punctuation(0'~, '~').
 
 skip_line(-1, _, -1) :-
     !.
@@ -4391,16 +4394,16 @@ wt2(graph(X, Y)) :-
 wt2(edge(N, triple(S, P, O))) :-
     !,
     write('<< '),
-    (   findvar(N, beta)
-    ->  true
-    ;   wg(N),
-        write(' | ')
-    ),
     wg(S),
     write(' '),
     wp(P),
     write(' '),
     wg(O),
+    (   findvar(N, beta)
+    ->  true
+    ;   write(' ~ '),
+        wg(N)
+    ),
     write(' >>').
 wt2(is(O, T)) :-
     !,
