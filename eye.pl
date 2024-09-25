@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.0 (2024-09-25)').
+version_info('EYE v10.24.1 (2024-09-25)').
 
 license_info('MIT License
 
@@ -1792,9 +1792,9 @@ rename(A, A).
 %
 
 annotation(edge(N, Triple), Triples) -->
+    edgename(N),
     [lb_pipe],
     !,
-    edgename(N),
     propertylist(edge(N, Triple), Triples1),
     {   (   Triples1 \= []
         ->  true
@@ -1806,6 +1806,11 @@ annotation(edge(N, Triple), Triples) -->
     annotation(edge(_, Triple), Triples2),
     {   append(Triples1, Triples2, Triples)
     }.
+annotation(edge(N, Triple), Triples) -->
+    ['~'],
+    expression(N, []),
+    !,
+    annotation(edge(_, Triple), Triples).
 annotation(_, []) -->
     [].
 
@@ -2139,7 +2144,7 @@ pathitem(triple(S, P, O), []) -->
     verb(P, []),
     object(O, []),
     [rp_gt_gt].
-pathitem(edge(N, triple(S, P, O)), ['\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>\''(N, triple(S, P, O))|T]) -->
+pathitem(edge(N, triple(S, P, O)), T) -->
     [lt_lt],
     !,
     subject(S, Ts),
