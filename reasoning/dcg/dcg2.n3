@@ -3,8 +3,8 @@
 
 [] log:dcg
     "sentence('<http://example.org#s>'(NP, VP)) --> noun_phrase(NP), verb_phrase(VP)",
-    "noun_phrase(edge(_, triple(D, '<http://example.org#np>', N))) --> det(D), noun(N)",
-    "verb_phrase(edge(_, triple(V, '<http://example.org#vp>', NP))) --> verb(V), noun_phrase(NP)",
+    "noun_phrase(triple(D, '<http://example.org#np>', N)) --> det(D), noun(N)",
+    "verb_phrase(triple(V, '<http://example.org#vp>', NP)) --> verb(V), noun_phrase(NP)",
     "det('<http://example.org#the>') --> [the]",
     "det('<http://example.org#a>') --> [a]",
     "noun('<http://example.org#cat>') --> [cat]",
