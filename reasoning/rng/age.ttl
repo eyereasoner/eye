@@ -1,0 +1,33 @@
+# -----------
+# Age checker
+# -----------
+#
+# Is the age of a person above some duration?
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# person data
+:patH :birthDay "1944-08-21"^^xsd:date.
+
+# is the age of a person above some duration?
+[ log:backwardConclusion
+    <<( var:S :ageAbove var:A )>> ;
+  log:premis
+    <<( var:S :birthDay var:B )>> ,
+    <<( var:D log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime )>> ,
+    <<( (var:D var:B) math:difference var:F )>> ,
+    <<( var:F math:greaterThan var:A )>>
+].
+
+# query
+[ log:premis
+    <<( var:S :ageAbove "P80Y"^^xsd:duration )>> ;
+  log:queryConclusion
+    <<( var:S :ageAbove "P80Y"^^xsd:duration )>>
+].

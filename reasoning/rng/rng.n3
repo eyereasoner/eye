@@ -1,0 +1,39 @@
+# ---------------------------------
+# RDF N3 Graphs - RNG -- Jos De Roo
+# ---------------------------------
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# create forward rules
+{
+    ?A log:premis ?B.
+    ({?S ?P ?O} {?A log:forwardConclusion <<( ?S ?P ?O )>>} ?C) log:collectAllIn ?SCOPE.
+    ?C graph:union ?D.
+    ({?S ?P ?O} {?A log:premis <<( ?S ?P ?O )>>} ?E) log:collectAllIn ?SCOPE.
+    ?E graph:union ?F.
+} => {
+    ?F => ?D.
+}.
+
+# create backward rules
+{
+    ?A log:premis ?B.
+    ({?S ?P ?O} {?A log:backwardConclusion <<( ?S ?P ?O )>>} ?C) log:collectAllIn ?SCOPE.
+    ?C graph:union ?D.
+    ({?S ?P ?O} {?A log:premis <<( ?S ?P ?O )>>} ?E) log:collectAllIn ?SCOPE.
+    ?E graph:union ?F.
+} => {
+    ?D <= ?F.
+}.
+
+# create queries
+{
+    ?A log:premis ?B.
+    ({?S ?P ?O} {?A log:queryConclusion <<( ?S ?P ?O )>>} ?C) log:collectAllIn ?SCOPE.
+    ?C graph:union ?D.
+    ({?S ?P ?O} {?A log:premis <<( ?S ?P ?O )>>} ?E) log:collectAllIn ?SCOPE.
+    ?E graph:union ?F.
+} => {
+    ?F =^ ?D.
+}.
