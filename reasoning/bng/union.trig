@@ -22,12 +22,12 @@ _:bng_2 {
 _:bng_3 log:query _:bng_4.
 
 _:bng_3 {
-    _:bng_1 graph:namedGraph var:g1.
-    _:bng_2 graph:namedGraph var:g2.
-    (var:g1 var:g2) graph:union var:U.
+    _:bng_1 graph:namedGraph var:G.
+    _:bng_2 graph:namedGraph var:H.
+    (var:G var:H) graph:union var:U.
 }
 
 _:bng_4 {
-    :result :is _:bng_5.
-    _:bng_5 graph:namedGraph var:U.
+    :result :is var:R.
+    var:R graph:namedGraph var:U.
 }
