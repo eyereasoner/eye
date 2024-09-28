@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.1 (2024-09-25)').
+version_info('EYE v10.24.2 (2024-09-29)').
 
 license_info('MIT License
 
@@ -192,7 +192,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'/2).
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/graph#namedGraph>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/graph#statement>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
@@ -3566,7 +3566,7 @@ w3 :-
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
         labelvars(C, 0, _, avar),
-        (   C = '<http://www.w3.org/2000/10/swap/graph#namedGraph>'(X, Y)
+        (   C = '<http://www.w3.org/2000/10/swap/graph#statement>'(X, Y)
         ->  (   \+keep_ng(graph(X, Y))
             ->  assertz(keep_ng(graph(X, Y)))
             ;   true
@@ -5270,7 +5270,7 @@ djiti_fact(quad(T, G), quad(T, G)) :-
     ->  assertz(graphid(G))
     ;   true
     ).
-djiti_fact('<http://www.w3.org/2000/10/swap/graph#namedGraph>'(A, B), graph(A, B)) :-
+djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(A, B), graph(A, B)) :-
     !,
     (   \+graphid(A)
     ->  assertz(graphid(A))
@@ -6632,7 +6632,7 @@ prepare_builtins :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/graph#namedGraph>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/graph#statement>'(A, B) :-
     graph(A, B).
 
 '<http://www.w3.org/2000/10/swap/graph#difference>'(A, B) :-

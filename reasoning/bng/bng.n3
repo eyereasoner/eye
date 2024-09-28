@@ -8,8 +8,8 @@
 # create forward rules
 {
     ?A log:implies ?B.
-    ?A graph:namedGraph ?C.
-    ?B graph:namedGraph ?D.
+    ?A graph:statement ?C.
+    ?B graph:statement ?D.
 } => {
     ?C => ?D.
 }.
@@ -17,8 +17,8 @@
 # create backward rules
 {
     ?A log:isImpliedBy ?B.
-    ?A graph:namedGraph ?C.
-    ?B graph:namedGraph ?D.
+    ?A graph:statement ?C.
+    ?B graph:statement ?D.
 } => {
     ?C <= ?D.
 }.
@@ -26,8 +26,8 @@
 # create queries
 {
     ?A log:query ?B.
-    ?A graph:namedGraph ?C.
-    ?B graph:namedGraph ?D.
+    ?A graph:statement ?C.
+    ?B graph:statement ?D.
 } => {
     ?C =^ ?D.
 }.
