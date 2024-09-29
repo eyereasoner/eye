@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.2 (2024-09-29)').
+version_info('EYE v10.24.3 (2024-09-29)').
 
 license_info('MIT License
 
@@ -5308,6 +5308,8 @@ djiti_assertz(A) :-
 %
 
 prepare_builtins :-
+    nb_setval(prepare, true),
+
     % rdflists
     (   clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), true)
     ->  retractall(flag(rdflists)),
@@ -5651,7 +5653,8 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, I)
                 ), false, '<>'))
     ;   true
-    ).
+    ),
+    nb_setval(prepare, false).
 
 '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#avg>'(A, B) :-
     \+flag(restricted),
@@ -6633,7 +6636,13 @@ prepare_builtins :-
     ).
 
 '<http://www.w3.org/2000/10/swap/graph#statement>'(A, B) :-
-    graph(A, B).
+    (   nonvar(A)
+    ->  (   member(A, [true, false])
+        ->  B = A
+        ;   getterm(A, B)
+        )
+    ;   graph(A, B)
+    ).
 
 '<http://www.w3.org/2000/10/swap/graph#difference>'(A, B) :-
     when(
@@ -12677,10 +12686,42 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
+getterm(graph(A, B), graph(A, C)) :-
+    nb_getval(prepare, false),
+    graph(A, B),
+    !,
+    getterm(B, D),
+    conjify(D, C).
+getterm(graph(A, B), '<http://www.w3.org/2000/10/swap/log#equalTo>'(B, C)) :-
+    nb_getval(prepare, false),
+    getconj(A, D),
+    D \= A,
+    !,
+    getterm(D, E),
+    conjify(E, C).
+getterm(A, B) :-
+    nb_getval(prepare, false),
+    graph(A, _),
+    !,
+    getconj(A, C),
+    getterm(C, D),
+    conjify(D, B).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
     B =.. [C|E].
+
+getconj(A, B) :-
+    nonvar(A),
+    findall(C,
+        (   graph(A, C)
+        ),
+        D
+    ),
+    D \= [],
+    !,
+    conjoin(D, B).
+getconj(A, A).
 
 getstring(A, B) :-
     '<http://www.w3.org/2000/10/swap/log#uri>'(A, B),
