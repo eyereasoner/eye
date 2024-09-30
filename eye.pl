@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.4 (2024-09-30)').
+version_info('EYE v10.24.5 (2024-09-30)').
 
 license_info('MIT License
 
@@ -3984,6 +3984,7 @@ wt0(X) :-
             )
         ->  (   (   sub_atom(Y, 0, 2, _, 'e_')
                 ;   sub_atom(Y, 0, 3, _, 'bn_')
+                ;   sub_atom(Y, 0, 5, _, 'node_')
                 )
             ->  write('_:')
             ;   sub_atom(Y, 0, 2, _, Z),
@@ -5347,6 +5348,40 @@ prepare_builtins :-
             ),
             getterm(E, F),
             assertz(graph(G, F)),
+            fail
+        ;   true
+        ),
+
+        % create types
+        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
+            ground([X, Y]),
+            getterm(X, Z),
+            (   Z = X
+            ->  true
+            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
+                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
+            ),
+            fail
+        ;   true
+        ),
+
+        % create terms
+        (   pred(P),
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= quad,
+            X =.. [P, _, _],
+            call(X),
+            ground(X),
+            getterm(X, Y),
+            (   Y = X
+            ->  true
+            ;   retract(X),
+                assertz(Y)
+            ),
             fail
         ;   true
         )
@@ -12457,7 +12492,7 @@ findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
         (   sub_atom(A, _, 4, _, '#bn_')
-        ;   sub_atom(A, _, 4, _, '#e_')
+        ;   sub_atom(A, _, 3, _, '#e_')
         )
     ;   sub_atom(A, 0, _, _, some)
     ;   atom_concat('<http://www.w3.org/2000/10/swap/var#', _, A)
