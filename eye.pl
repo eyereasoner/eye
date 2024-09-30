@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.3 (2024-09-29)').
+version_info('EYE v10.24.4 (2024-09-30)').
 
 license_info('MIT License
 
@@ -3891,7 +3891,7 @@ wt(X) :-
 
 wt0(!) :-
     !,
-    wg(true),
+    wm(true),
     write(' '),
     wp('<http://www.w3.org/2000/10/swap/log#callWithCut>'),
     write(' true').
@@ -4449,7 +4449,7 @@ wt2(X) :-
     ->  write('"'),
         writeq(X),
         write('"')
-    ;   wg(S),
+    ;   wm(S),
         write(' '),
         wp(P),
         write(' '),
@@ -4461,7 +4461,7 @@ wtn(exopred(P, S, O)) :-
     (   atom(P)
     ->  X =.. [P, S, O],
         wt2(X)
-    ;   wg(S),
+    ;   wm(S),
         write(' '),
         wg(P),
         write(' '),
@@ -4583,6 +4583,17 @@ wl([X|Y]) :-
     write(' '),
     wg(X),
     wl(Y).
+
+wm(A) :-
+    (   graph(_, _),
+        raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
+    ->  write('[] '),
+        wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
+        write(' '),
+        wt(A),
+        write(';')
+    ;   wg(A)
+    ).
 
 wq([], _) :-
     !.
