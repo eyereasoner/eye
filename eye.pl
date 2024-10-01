@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.5 (2024-09-30)').
+version_info('EYE v10.24.6 (2024-10-01)').
 
 license_info('MIT License
 
@@ -12491,9 +12491,7 @@ findvar(A, epsilon) :-
 findvar(A, zeta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/'),
-        (   sub_atom(A, _, 4, _, '#bn_')
-        ;   sub_atom(A, _, 3, _, '#e_')
-        )
+        sub_atom(A, _, 4, _, '#bn_')
     ;   sub_atom(A, 0, _, _, some)
     ;   atom_concat('<http://www.w3.org/2000/10/swap/var#', _, A)
     ;   sub_atom(A, 0, _, _, avar)
