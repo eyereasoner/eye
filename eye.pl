@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.6 (2024-10-01)').
+version_info('EYE v10.24.7 (2024-10-01)').
 
 license_info('MIT License
 
@@ -5335,7 +5335,8 @@ prepare_builtins :-
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
-                    C =.. [P, S, O]
+                    C =.. [P, S, O],
+                    dynify(C)
                 ),
                 D
             ),
@@ -5366,21 +5367,26 @@ prepare_builtins :-
         ),
 
         % create terms
-        (   pred(P),
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+        (   (   pred(P)
+            ;   P = '<http://www.w3.org/2000/10/swap/log#implies>'
+            ),
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
-            P \= quad,
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
             X =.. [P, _, _],
             call(X),
             ground(X),
             getterm(X, Y),
             (   Y = X
             ->  true
-            ;   retract(X),
-                assertz(Y)
+            ;   (   X =.. ['<http://www.w3.org/2000/10/swap/log#implies>', S, O]
+                ->  retract(implies(S, O, _))
+                ;   retract(X)
+                ),
+                assertz(Y),
+                dynify(Y)
             ),
             fail
         ;   true
