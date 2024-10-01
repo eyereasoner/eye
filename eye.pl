@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.7 (2024-10-01)').
+version_info('EYE v10.24.8 (2024-10-01)').
 
 license_info('MIT License
 
@@ -5343,50 +5343,28 @@ prepare_builtins :-
             D \= [],
             move_rdf(D, C),
             conjoin(C, E),
-            (   contains(G, E)
-            ->  throw(term_cannot_contain_itself(G, E))
-            ;   true
-            ),
             getterm(E, F),
             assertz(graph(G, F)),
             fail
         ;   true
         ),
 
-        % create types
-        (   '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y),
-            ground([X, Y]),
-            getterm(X, Z),
-            (   Z = X
-            ->  true
-            ;   retract('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, Y)),
-                assertz('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(Z, Y))
-            ),
-            fail
-        ;   true
-        ),
-
         % create terms
-        (   (   pred(P)
-            ;   P = '<http://www.w3.org/2000/10/swap/log#implies>'
-            ),
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+        (   pred(P),
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
             P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= quad,
             X =.. [P, _, _],
             call(X),
             ground(X),
             getterm(X, Y),
             (   Y = X
             ->  true
-            ;   (   X =.. ['<http://www.w3.org/2000/10/swap/log#implies>', S, O]
-                ->  retract(implies(S, O, _))
-                ;   retract(X)
-                ),
-                assertz(Y),
-                dynify(Y)
+            ;   retract(X),
+                assertz(Y)
             ),
             fail
         ;   true
@@ -12330,14 +12308,6 @@ atomify(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), A) :-
     atom(A),
     !.
 atomify(A, A).
-
-contains(X, X) :-
-    !.
-contains(X, Term) :-
-    compound(Term),
-    arg(_, Term, Arg),
-    contains(X, Arg),
-    !.
 
 commonvars('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, _), B, C) :-
     !,
