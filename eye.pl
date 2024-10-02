@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.9 (2024-10-02)').
+version_info('EYE v10.24.10 (2024-10-02)').
 
 license_info('MIT License
 
@@ -86,6 +86,7 @@ eye
     --strings                       output log:outputString objects on stdout
     --tactic limited-answer <nr>    give only a limited number of answers
     --tactic linear-select          select each rule only once
+    --trig-output                   output as TriG data
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
@@ -836,6 +837,11 @@ opts(['--tactic', 'linear-select'|Argus], Args) :-
 opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
+opts(['--trig-output'|Argus], Args) :-
+    !,
+    retractall(flag('trig-output')),
+    assertz(flag('trig-output')),
+    opts(Argus, Args).
 opts(['--version'|_], _) :-
     !,
     throw(halt(0)).
@@ -4248,6 +4254,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
+    \+flag('trig-output'),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4356,6 +4363,7 @@ wt2(':-'(X, Y)) :-
     ),
     !.
 wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
+    \+flag('trig-output'),
     (   rule_uvar(R)
     ->  true
     ;   R = [],
@@ -4517,32 +4525,51 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  write('{'),
-        indentation(4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+    ->  (   flag('trig-output'),
+            nb_getval(keep_ng, true)
+        ->  (   graph(N, X)
             ->  true
-            ;   nl,
-                indent
-            )
-        ),
-        nb_getval(fdepth, D),
-        E is D+1,
-        nb_setval(fdepth, E),
-        wt(X),
-        nb_setval(fdepth, D),
-        indentation(-4),
-        (   flag(strings)
-        ->  true
-        ;   (   flag('no-beautified-output')
+            ;   gensym('bng_', Y),
+                nb_getval(var_ns, Sns),
+                atomic_list_concat(['<', Sns, Y, '>'], N),
+                assertz(graph(N, X))
+            ),
+            (   \+keep_ng(graph(N, X))
+            ->  assertz(keep_ng(graph(N, X)))
+            ;   true
+            ),
+            wt(N)
+        ;   (   flag('trig-output')
+            ->  nb_setval(keep_ng, true)
+            ;   true
+            ),
+            write('{'),
+            indentation(4),
+            (   flag(strings)
             ->  true
-            ;   write('.'),
-                nl,
-                indent
-            )
-        ),
-        write('}')
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   nl,
+                    indent
+                )
+            ),
+            nb_getval(fdepth, D),
+            E is D+1,
+            nb_setval(fdepth, E),
+            wt(X),
+            nb_setval(fdepth, D),
+            indentation(-4),
+            (   flag(strings)
+            ->  true
+            ;   (   flag('no-beautified-output')
+                ->  true
+                ;   write('.'),
+                    nl,
+                    indent
+                )
+            ),
+            write('}')
+        )
     ;   wt(X)
     ).
 
@@ -4552,14 +4579,17 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
+    \+flag('trig-output'),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
+    \+flag('trig-output'),
     !,
     write('<=').
 wp('<http://www.w3.org/2000/10/swap/log#query>') :-
     \+flag('no-qnames'),
+    \+flag('trig-output'),
     !,
     write('=^').
 wp(X) :-
@@ -4586,7 +4616,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   graph(_, _),
+    (   flag('trig-output'),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
