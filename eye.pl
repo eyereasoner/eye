@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.8 (2024-10-01)').
+version_info('EYE v10.24.9 (2024-10-02)').
 
 license_info('MIT License
 
@@ -12209,6 +12209,8 @@ labelvars('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C, C, D) :-
     nonvar(A),
     nonvar(B),
     !.
+labelvars(':-'(_, _), C, C, _) :-
+    !.
 labelvars((A, B), C, D, Q) :-
     !,
     labelvars(A, C, E, Q),
@@ -12218,7 +12220,6 @@ labelvars([A|B], C, D, Q) :-
     labelvars(A, C, E, Q),
     labelvars(B, E, D, Q).
 labelvars(A, B, C, Q) :-
-    nonvar(A),
     functor(A, _, D),
     labelvars(0, D, A, B, C, Q).
 

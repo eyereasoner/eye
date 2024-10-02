@@ -1,0 +1,29 @@
+# slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+:Ghent a :City.
+
+(_:x) log:onNegativeSurface _:bng_1.
+
+_:bng_1 {
+    _:x a :City.
+    () log:onNegativeSurface _:bng_2.
+}
+
+_:bng_2 {
+    _:x a :HumanCommunity.
+}
+
+# query
+() log:onNegativeSurface _:bng_3.
+
+_:bng_3 {
+    :Ghent a :HumanCommunity.
+    () log:onNegativeAnswerSurface _:bng_4.
+}
+
+_:bng_4 {
+    :Ghent a :HumanCommunity.
+}
