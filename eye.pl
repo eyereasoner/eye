@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.11 (2024-10-02)').
+version_info('EYE v10.24.12 (2024-10-03)').
 
 license_info('MIT License
 
@@ -3521,6 +3521,20 @@ w4 :-
     tell(Ws),
     nb_getval(wn, Wn),
     w3,
+    forall(
+        retract(keep_ng(NG)),
+        (   nl,
+            wt(NG),
+            nl
+        )
+    ),
+    forall(
+        retract(keep_ng(NG)),
+        (   nl,
+            wt(NG),
+            nl
+        )
+    ),
     retractall(pfx(_, _)),
     retractall(wpfx(_)),
     nb_setval(wn, Wn),
@@ -3535,7 +3549,21 @@ w4 :-
     ->  tell(Output)
     ;   true
     ),
-    w3.
+    w3,
+    forall(
+        retract(keep_ng(NG)),
+        (   nl,
+            wt(NG),
+            nl
+        )
+    ),
+    forall(
+        retract(keep_ng(NG)),
+        (   nl,
+            wt(NG),
+            nl
+        )
+    ).
 
 w3 :-
     wh,
@@ -5029,53 +5057,7 @@ eam(Recursion) :-
             ->  true
             ;   (   flag('pass-only-new')
                 ->  true
-                ;   open_null_stream(Ws),
-                    tell(Ws),
-                    nb_getval(wn, Wn),
-                    w3,
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   nl,
-                            wt(NG),
-                            nl
-                        )
-                    ),
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   nl,
-                            wt(NG),
-                            nl
-                        )
-                    ),
-                    retractall(pfx(_, _)),
-                    retractall(wpfx(_)),
-                    nb_setval(wn, Wn),
-                    nb_setval(output_statements, 0),
-                    nb_setval(lemma_cursor, 0),
-                    forall(
-                        apfx(Pfx, Uri),
-                        assertz(pfx(Pfx, Uri))
-                    ),
-                    told,
-                    (   flag('output', Output)
-                    ->  tell(Output)
-                    ;   true
-                    ),
-                    w3,
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   nl,
-                            wt(NG),
-                            nl
-                        )
-                    ),
-                    forall(
-                        retract(keep_ng(NG)),
-                        (   nl,
-                            wt(NG),
-                            nl
-                        )
-                    )
+                ;   w4
                 )
             )
         ;   true
