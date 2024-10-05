@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.12 (2024-10-03)').
+version_info('EYE v10.24.13 (2024-10-05)').
 
 license_info('MIT License
 
@@ -5267,7 +5267,10 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#implies>'(A, B), C) :-
     makevars(implies(A, B, Z), C, zeta).
 djiti_fact(':-'(A, B), ':-'(C, D)) :-
     !,
-    makevars((A, B), (C, E), zeta),
+    (   nb_getval(trig, true)
+    ->  makevars((A, B), (C, E), zeta)
+    ;   makevars((A, B), (C, E), eta)
+    ),
     copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(E, C), F),
     (   flag(nope)
     ->  D = E
@@ -5333,6 +5336,7 @@ djiti_assertz(A) :-
 
 prepare_builtins :-
     nb_setval(prepare, true),
+    nb_setval(trig, false),
 
     % rdflists
     (   clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), true)
@@ -5344,6 +5348,7 @@ prepare_builtins :-
     % trig
     (   quad(triple(_, _, _), _)
     ->  % create trig graphs
+        nb_setval(trig, true),
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
