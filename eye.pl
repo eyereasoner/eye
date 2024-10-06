@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.14 (2024-10-05)').
+version_info('EYE v10.24.15 (2024-10-06)').
 
 license_info('MIT License
 
@@ -5383,7 +5383,33 @@ prepare_builtins :-
             ),
             fail
         ;   true
-        )
+        ),
+
+        % create forward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D), '<>')),
+
+        % create backward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)), (C:-D), '<>')),
+
+        % create queries
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
+                ), '<http://www.w3.org/2000/10/swap/log#query>'(C, D), '<>')),
+
+        % create rdfsurfaces
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, C)
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, C), '<>'))
     ;   forall(
             retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
             assertz(':-'(A, B))
