@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.15 (2024-10-06)').
+version_info('EYE v10.24.16 (2024-10-07)').
 
 license_info('MIT License
 
@@ -7782,32 +7782,35 @@ userInput(A, B) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#skolem>'(Y, X) :-
+'<http://www.w3.org/2000/10/swap/log#skolem>'(X, Y) :-
     when(
-        (   nonvar(X)
-        ;   ground(Y)
+        (   ground(X)
+        ;   nonvar(Y)
         ),
-        (   (   is_list(Y),
-                length(Y, I),
+        (   (   is_list(X),
+                length(X, I),
                 I < 8
-            ->  Z =.. [tuple, X|Y]
-            ;   Z = tuple(X, Y)
+            ->  Z =.. [tuple, Y|X]
+            ;   Z = tuple(Y, X)
             ),
             (   call(Z)
             ->  true
-            ;   var(X),
+            ;   var(Y),
                 nb_getval(tuple, M),
                 N is M+1,
                 nb_setval(tuple, N),
                 atom_number(A, N),
-                nb_getval(var_ns, Sns),
-                atomic_list_concat(['<', Sns, 't_', A, '>'], X),
+                (   X = [literal('skolem-genid', _), literal(Genid, _)|_]
+                ->  atomic_list_concat(['https://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns)
+                ;   nb_getval(var_ns, Sns)
+                ),
+                atomic_list_concat(['<', Sns, 't_', A, '>'], Y),
                 assertz(Z)
             )
         )
     ),
-    (   \+keep_skolem(X)
-    ->  assertz(keep_skolem(X))
+    (   \+keep_skolem(Y)
+    ->  assertz(keep_skolem(Y))
     ;   true
     ).
 
