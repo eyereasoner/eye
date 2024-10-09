@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.16 (2024-10-07)').
+version_info('EYE v10.24.17 (2024-10-09)').
 
 license_info('MIT License
 
@@ -5285,9 +5285,9 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#query>'(A, B), C) :-
     \+atomic(A),
     \+atomic(B),
     djiti_answer(answer(B), D),
-    \+implies(A, D, '<>'),
-    !,
-    makevars(implies(A, D, '<>'), C, zeta).
+    makevars(implies(A, D, '<>'), C, zeta),
+    \+C,
+    !.
 djiti_fact(quad(T, G), quad(T, G)) :-
     !,
     (   \+graphid(G)
@@ -5396,7 +5396,8 @@ prepare_builtins :-
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)), (C:-D), '<>')),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
+                ), (C:-D), '<>')),
 
         % create queries
         assertz(implies((
