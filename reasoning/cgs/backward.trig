@@ -1,0 +1,29 @@
+# ---------------------
+# Backward rule example
+# ---------------------
+#
+# See https://www.w3.org/2000/10/swap/doc/tutorial-1.pdf page 17
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# something is more interesting if it is greater
+_:cgs_1 log:isImpliedBy _:cgs_2.
+
+_:cgs_1 {
+    var:X :moreInterestingThan var:Y.
+}
+
+_:cgs_2 {
+    var:X math:greaterThan var:Y.
+}
+
+# query
+_:cgs_3 log:query _:cgs_3.
+
+_:cgs_3 {
+    [] rdf:value 5; :moreInterestingThan 3.
+}

@@ -1,0 +1,51 @@
+# ----------------------
+# Traversing graph paths
+# ----------------------
+#
+# Examples of graph based reasoning.
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# French roads
+:paris :oneway :orleans.
+:paris :oneway :chartres.
+:paris :oneway :amiens.
+:orleans :oneway :blois.
+:orleans :oneway :bourges.
+:blois :oneway :tours.
+:chartres :oneway :lemans.
+:lemans :oneway :angers.
+:lemans :oneway :tours.
+:angers :oneway :nantes.
+
+# oneway subproperty of path
+_:cgs_1 log:implies _:cgs_2.
+
+_:cgs_1 {
+    var:A :oneway var:B.
+}
+
+_:cgs_2 {
+    var:A :path var:B.
+}
+
+# path transitive property
+_:cgs_3 log:implies _:cgs_4.
+
+_:cgs_3 {
+    var:A :path var:B.
+    var:B :path var:C.
+}
+
+_:cgs_4 {
+    var:A :path var:C.
+ }
+
+# query
+_:cgs_5 log:query _:cgs_5.
+
+_:cgs_5 {
+    var:A :path :nantes.
+}

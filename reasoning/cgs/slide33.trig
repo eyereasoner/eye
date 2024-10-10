@@ -1,0 +1,84 @@
+# ----------------------------
+# RDF surfaces slide33 example
+# ----------------------------
+#
+# slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <#>.
+
+# owl restriction
+:aaa owl:onProperty :bbb.
+:aaa owl:allValuesFrom :ccc.
+
+# the following 2 triples should entail :yyy a :ccc.
+#:xxx a :aaa.
+#:xxx :bbb :yyy.
+
+# the following codex should entail :xxx a :aaa.
+(_:y) log:onNegativeSurface _:cgs_1.
+
+_:cgs_1 {
+    :xxx :bbb _:y.
+    () log:onNegativeSurface _:cgs_2.
+}
+
+_:cgs_2 {
+    _:y a :ccc.
+}
+
+# owl:allValuseFrom description logic
+(_:a skolem:b _:c) log:onNegativeSurface _:cgs_3.
+
+_:cgs_3 {
+    _:a owl:onProperty skolem:b.
+    _:a owl:allValuesFrom _:c.
+    () log:onNegativeSurface _:cgs_4.
+}
+
+_:cgs_4 {
+    (_:x _:y) log:onNegativeSurface _:cgs_5.
+    (_:x) log:onNegativeSurface _:cgs_7.
+}
+
+_:cgs_5 {
+    _:x a _:a.
+    _:x skolem:b _:y.
+    () log:onNegativeSurface _:cgs_6.
+}
+
+_:cgs_6 {
+    _:y a _:c.
+}
+
+_:cgs_7 {
+    (_:y) log:onNegativeSurface _:cgs_8.
+    () log:onNegativeSurface _:cgs_10.
+}
+
+_:cgs_8 {
+    _:x skolem:b _:y.
+    () log:onNegativeSurface _:cgs_9.
+}
+
+_:cgs_9 {
+    _:y a _:c.
+}
+
+_:cgs_10 {
+    _:x a _:a.
+}
+
+# query
+() log:onNegativeSurface _:cgs_11.
+
+_:cgs_11 {
+    :xxx a :aaa.
+    () log:onNegativeAnswerSurface _:cgs_12.
+}
+
+_:cgs_12 {
+    :xxx a :aaa.
+}

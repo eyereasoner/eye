@@ -1,0 +1,39 @@
+# ------------
+# Derived rule
+# ------------
+#
+# Proving a derived rule.
+
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+:Alice a :Cat.
+:Minka a :Cat.
+:Charly a :Dog.
+
+_:cgs_1 log:implies _:cgs_2.
+
+_:cgs_1 {
+    var:cat a :Cat.
+}
+
+_:cgs_2 {
+    _:cgs_3 log:implies _:cgs_4.
+}
+
+_:cgs_3 {
+    var:dog a :Dog.
+}
+
+_:cgs_4 {
+    :test :is true.
+}
+
+# query
+_:cgs_5 log:query _:cgs_5.
+
+_:cgs_5 {
+    :test :is var:result.
+}

@@ -1,0 +1,60 @@
+# --------------
+# Qiana examples
+# --------------
+#
+# See https://github.com/dig-team/Qiana
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+# forall phi, x: says(Einstein, phi) => believes(x, phi)
+_:cgs_1 log:isImpliedBy _:cgs_2.
+
+_:cgs_1 {
+    var:x :believes var:phi.
+}
+
+_:cgs_2 {
+    :Einstein :says var:phi.
+}
+
+# forall phi: says(Einstein, phi) => phi
+_:cgs_3 log:implies var:phi.
+
+_:cgs_3 {
+    :Einstein :says var:phi.
+}
+
+# says(Einstein, not (forall x: glitters(x) => gold(x)))
+:Einstein :says _:cgs_5.
+
+_:cgs_5 {
+    _:cgs_6 log:implies _:cgs_7.
+}
+
+_:cgs_6 {
+    var:x a :glitter.
+}
+
+_:cgs_7 {
+    var:x :notNecessarilyA :gold.
+}
+
+# example
+:northStar a :glitter.
+
+# query
+_:cgs_8 log:query _:cgs_8.
+
+_:cgs_8 {
+    :Fabian :believes var:what.
+    var:what graph:statement var:content.
+}
+
+_:cgs_9 log:query _:cgs_9.
+
+_:cgs_9 {
+    var:x :notNecessarilyA var:what.
+}

@@ -1,0 +1,44 @@
+# ---------
+# Issue 118
+# ---------
+#
+# See https://github.com/eyereasoner/eye/issues/118
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/d983461b-11b7-4e52-89c1-328e91bf1de1#>.
+@prefix : <#>.
+
+:s :value 1 .
+:s :copy skolem:bn_5.
+
+_:cgs_1 log:implies _:cgs_2.
+
+_:cgs_1 {
+    var:s :value var:value.
+}
+
+_:cgs_2 {
+    var:s a :Success.
+}
+
+_:cgs_3 log:implies _:cgs_4.
+
+_:cgs_3 {
+    :s :copy var:o.
+}
+
+_:cgs_4 {
+    _:cgs_5 log:isImpliedBy _:cgs_6.
+}
+
+_:cgs_5 {
+    var:o :value var:value.
+}
+
+_:cgs_6 {
+    :s :value var:value.
+}
+
+# query
+_:cgs_2 log:query _:cgs_2.

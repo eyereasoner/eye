@@ -1,0 +1,89 @@
+# -----------------------------
+# Access control policy example
+# -----------------------------
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+:test1 :policy :PolicyX;
+    :has :A, :B, :C.
+
+:PolicyX a :Policy;
+    :allOf :A, :B;
+    :anyOf :C;
+    :noneOf :D.
+
+_:cgs_1 log:isImpliedBy _:cgs_2.
+
+_:cgs_1 {
+    var:Pol :pass :allOfTest.
+}
+
+_:cgs_2 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (_:cgs_3 _:cgs_4) log:forAllIn var:X.
+}
+
+_:cgs_3 {
+    var:Pol :allOf var:Field.
+}
+
+_:cgs_4 {
+    var:Test :has var:Field.
+}
+
+_:cgs_5 log:isImpliedBy _:cgs_6.
+
+_:cgs_5 {
+    var:Pol :pass :anyOfTest.
+}
+
+_:cgs_6 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:cgs_7 var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    (var:L) log:notEqualTo (0).
+}
+
+_:cgs_7 {
+    var:Pol :anyOf var:Field.
+    var:Test :has var:Field.
+}
+
+_:cgs_8 log:isImpliedBy _:cgs_9.
+
+_:cgs_8 {
+    var:Pol :pass :noneOfTest.
+}
+
+_:cgs_9 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:cgs_10 var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    (var:L) log:equalTo (0).
+}
+
+_:cgs_10 {
+    var:Pol :noneOf var:Field.
+    var:Test :has var:Field.
+}
+
+# query
+_:cgs_11 log:query _:cgs_12.
+
+_:cgs_11 {
+    var:Pol a :Policy.
+    var:Pol :pass :allOfTest.
+    var:Pol :pass :anyOfTest.
+    var:Pol :pass :noneOfTest.
+}
+
+_:cgs_12 {
+    :test :for var:Pol.
+    :test :is true.
+}

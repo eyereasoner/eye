@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.17 (2024-10-09)').
+version_info('EYE v10.24.18 (2024-10-10)').
 
 license_info('MIT License
 
@@ -177,6 +177,7 @@ eye
 :- dynamic(tuple/8).
 :- dynamic(unify/2).
 :- dynamic(uuid/2).
+:- dynamic(void/2).
 :- dynamic(wcache/2).
 :- dynamic(wpfx/1).
 :- dynamic(wtcache/2).
@@ -381,6 +382,7 @@ gre(Argus) :-
     nb_setval(current_scope, '<>'),
     nb_setval(doc_nr, 0),
     nb_setval(wn, 0),
+    nb_setval(prepare, false),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -5294,6 +5296,9 @@ djiti_fact(quad(T, G), quad(T, G)) :-
     ->  assertz(graphid(G))
     ;   true
     ).
+djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(A, B), void(A, B)) :-
+    atomic(B),
+    !.
 djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(A, B), graph(A, B)) :-
     !,
     (   \+graphid(A)
