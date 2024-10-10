@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.18 (2024-10-10)').
+version_info('EYE v10.24.19 (2024-10-11)').
 
 license_info('MIT License
 
@@ -12247,6 +12247,7 @@ labelvars(A, B, C) :-
 
 labelvars(A, B, C, D) :-
     var(A),
+    nonvar(D),
     !,
     atom_number(E, B),
     atomic_list_concat([D, E], A),      % failing when A is an attributed variable
