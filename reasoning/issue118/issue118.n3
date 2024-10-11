@@ -1,0 +1,15 @@
+@prefix : <http:/example.org/>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/d983461b-11b7-4e52-89c1-328e91bf1de1#>.
+
+:s :value 1 .
+:s :copy skolem:bn_5.
+
+{ ?s :value ?value } => { ?s a :Success } .
+
+{
+    :s :copy ?o
+}
+=> 
+{
+    { ?o :value ?value } <= { :s :value ?value }
+} .

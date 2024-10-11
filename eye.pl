@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.19 (2024-10-11)').
+version_info('EYE v10.24.20 (2024-10-11)').
 
 license_info('MIT License
 
@@ -2158,9 +2158,12 @@ pathitem(edge(N, triple(S, P, O)), T) -->
     subject(S, Ts),
     verb(P, Tp),
     object(O, To),
-    {   append([Ts, Tp, To], T)
-    },
     edgename(N),
+    {   (   flag('trig-output')
+        ->  append([['\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>\''(N, triple(S, P, O))], Ts, Tp, To], T)
+        ;   append([Ts, Tp, To], T)
+        )
+    },
     [gt_gt].
 pathitem(Node, []) -->
     ['{'],
@@ -5402,7 +5405,7 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
-                ), (C:-D), '<>')),
+                ), ':-'(C, D), '<>')),
 
         % create queries
         assertz(implies((
@@ -5697,7 +5700,6 @@ prepare_builtins :-
                 makevars([I, J], [Iu, Ju], beta(U)),
                 C = implies(Iu, Ju, '<>'),
                 copy_term_nat(C, CC),
-                labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
                 ->  assertz(cc(CC)),
                     assertz(C),
@@ -12247,7 +12249,6 @@ labelvars(A, B, C) :-
 
 labelvars(A, B, C, D) :-
     var(A),
-    nonvar(D),
     !,
     atom_number(E, B),
     atomic_list_concat([D, E], A),      % failing when A is an attributed variable

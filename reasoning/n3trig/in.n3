@@ -1,3 +1,4 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
@@ -28,9 +29,18 @@ _:bng_2 {
     }.
 }.
 
-# query
-{
-    ?G graph:statement ?C.
-} =^ {
-    ?G graph:statement ?C.
-}.
+# occurences
+:s :p << :d :e :f >> .
+:s :p << :g :h :i ~ :x >> .
+
+<< :a :b _:x ~ :r >> :c :d .
+<< :a :b _:y ~ :r >> :c :d .
+
+<< :s :p [ :q1 "A" ; :q2 "B" ] ~ :x >> .
+
+# annotations
+:s :p :o {| :j :k |} .
+
+:liz :marriedTo :richard
+    {| :from 1964; :to 1975 |}
+    {| :from 1980; :to 2001 |} .
