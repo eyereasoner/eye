@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.20 (2024-10-11)').
+version_info('EYE v10.24.21 (2024-10-12)').
 
 license_info('MIT License
 
@@ -5351,10 +5351,7 @@ prepare_builtins :-
 
     % quads
     (   quad(triple(_, _, _), _)
-    ->  retractall(flag(quads)),
-        assertz(flag(quads)),
-
-        % create trig graphs
+    ->  % create trig graphs
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
@@ -5628,7 +5625,6 @@ prepare_builtins :-
                 makevars([T, S], [Tu, Su], beta(U)),
                 C = ':-'(Tu, Su),
                 copy_term_nat(C, CC),
-                labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
                 ->  assertz(cc(CC)),
                     assertz(C),
@@ -5663,7 +5659,6 @@ prepare_builtins :-
                 makevars([M, S], [Mu, Su], beta(U)),
                 C = ':-'(Mu, Su),
                 copy_term_nat(C, CC),
-                labelvars(CC, 0, _, avar),
                 (   \+cc(CC)
                 ->  assertz(cc(CC)),
                     assertz(C),
