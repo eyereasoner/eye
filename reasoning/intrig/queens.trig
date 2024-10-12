@@ -1,0 +1,117 @@
+# -------------
+# Queens puzzle
+# -------------
+#
+# See https://en.wikipedia.org/wiki/Eight_queens_puzzle
+# Translated from https://hanslen.github.io/2016/05/02/AI-problem-N-queens-problem-%E2%80%93-solved-in-prolog/
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <#>.
+
+_:bng_1 log:isImpliedBy _:bng_2.
+
+_:bng_1 {
+    var:N :queens var:Qs.
+}
+
+_:bng_2 {
+    (1 var:N) :range var:Us.
+    (var:Us ()) :queens3 var:Qs.
+}
+
+_:bng_3 log:isImpliedBy true.
+
+_:bng_3 {
+    (() var:Qs) :queens3 var:Qs.
+}
+
+_:bng_4 log:isImpliedBy _:bng_5.
+
+_:bng_4 {
+    (var:Us var:Ps) :queens3 var:Qs.
+}
+
+_:bng_5 {
+    var:Us list:select (var:Q var:Us1).
+    (_:bng_6 false true) log:ifThenElseIn var:SCOPE.
+    var:QPs list:firstRest (var:Q var:Ps).
+    (var:Us1 var:QPs) :queens3 var:Qs.
+}
+
+_:bng_6 {
+    var:Q :attack var:Ps.
+}
+
+_:bng_7 log:isImpliedBy true.
+
+_:bng_7 {
+    (var:J var:J) :range (var:J).
+}
+
+_:bng_8 log:isImpliedBy _:bng_9.
+
+_:bng_8 {
+    (var:I var:J) :range var:INs.
+}
+
+_:bng_9 {
+    var:INs list:firstRest (var:I var:Ns).
+    var:I math:lessThan var:J.
+    (var:I 1) math:sum var:I1.
+    (var:I1 var:J) :range var:Ns.
+}
+
+_:bng_10 log:isImpliedBy _:bng_11.
+
+_:bng_10 {
+    var:Q :attack var:Qs.
+}
+
+_:bng_11 {
+    (var:Q 1) :attack3 var:Qs.
+}
+
+_:bng_12 log:isImpliedBy _:bng_13.
+
+_:bng_12 {
+    (var:X var:N) :attack3 var:YYs.
+}
+
+_:bng_13 {
+    var:YYs list:firstRest (var:Y var:Ys).
+    (var:Y var:N) math:sum var:X.
+}
+
+_:bng_14 log:isImpliedBy _:bng_15.
+
+_:bng_14 {
+    (var:X var:N) :attack3 var:YYs.
+}
+
+_:bng_15 {
+    var:YYs list:firstRest (var:Y var:Ys).
+    (var:Y var:N) math:difference var:X.
+}
+
+_:bng_16 log:isImpliedBy _:bng_17.
+
+_:bng_16 {
+    (var:X var:N) :attack3 var:YYs.
+}
+
+_:bng_17 {
+    var:YYs list:firstRest (var:Y var:Ys).
+    (var:N 1) math:sum var:N1.
+    (var:X var:N1) :attack3 var:Ys
+}
+
+# query
+_:bng_18 log:query _:bng_18.
+
+_:bng_18 {
+    [] rdf:value 8; :queens var:Qs.
+}
