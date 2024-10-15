@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.21 (2024-10-12)').
+version_info('EYE v10.24.22 (2024-10-15)').
 
 license_info('MIT License
 
@@ -5299,6 +5299,10 @@ djiti_fact(quad(T, G), quad(T, G)) :-
     ->  assertz(graphid(G))
     ;   true
     ).
+djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(A, _), _) :-
+    graphid(A),
+    !,
+    fail.
 djiti_fact('<http://www.w3.org/2000/10/swap/graph#statement>'(A, B), void(A, B)) :-
     atomic(B),
     !.
