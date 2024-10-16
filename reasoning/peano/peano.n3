@@ -1,37 +1,40 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix functor: <http://www.w3.org/2000/10/swap/functor#>.
 @prefix : <http://example.org/#>.
+
+# functional terms are lists where the first element belongs to the functor: namespace
 
 # add
 {(?A 0) :add ?A} <= true.
 
-{(?A (:s ?B)) :add (:s ?C)} <= {
+{(?A (functor:s ?B)) :add (functor:s ?C)} <= {
     (?A ?B) :add ?C.
 }.
 
 # multiply
 {(?A 0) :multiply 0} <= true.
 
-{(?A (:s ?B)) :multiply ?C} <= {
+{(?A (functor:s ?B)) :multiply ?C} <= {
     (?A ?B) :multiply ?D.
     (?A ?D) :add ?C.
 }.
 
 # factorial
 {?A :factorial ?B} <= {
-    (?A (:s 0)) :fac ?B.
+    (?A (functor:s 0)) :fac ?B.
 }.
 
 {(0 ?A) :fac ?A} <= true.
 
-{((:s ?A) ?B) :fac ?C} <= {
-    (?B (:s ?A)) :multiply ?D.
+{((functor:s ?A) ?B) :fac ?C} <= {
+    (?B (functor:s ?A)) :multiply ?D.
     (?A ?D) :fac ?C.
 }.
 
 # query
 {
-    ((:s 0) (:s (:s 0))) :multiply ?A.
-    (?A (:s (:s (:s 0)))) :add ?B.
+    ((functor:s 0) (functor:s (functor:s 0))) :multiply ?A.
+    (?A (functor:s (functor:s (functor:s 0)))) :add ?B.
     ?B :factorial ?C.
 } =^ {
     ?B :factorial ?C.
