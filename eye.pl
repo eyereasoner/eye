@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.22 (2024-10-15)').
+version_info('EYE v10.24.23 (2024-10-16)').
 
 license_info('MIT License
 
@@ -6965,6 +6965,9 @@ prepare_builtins :-
             C = [_|B]
         )
     ).
+
+'<http://www.w3.org/2000/10/swap/list#reverse>'(A, B) :-
+    reverse(A, B).
 
 '<http://www.w3.org/2000/10/swap/list#select>'(A, [B, C]) :-
     when(
