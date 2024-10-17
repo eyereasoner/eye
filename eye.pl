@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.25.1 (2024-10-17)').
+version_info('EYE v10.25.2 (2024-10-17)').
 
 license_info('MIT License
 
@@ -119,7 +119,6 @@ eye
 :- dynamic(cc/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
-:- dynamic(edge/2).
 :- dynamic(evar/3).
 :- dynamic(exopred/3).              % exopred(Predicate, Subject, Object)
 :- dynamic(fact/1).
@@ -160,6 +159,7 @@ eye
 :- dynamic(query/2).
 :- dynamic(quvar/3).
 :- dynamic(recursion/1).
+:- dynamic(reifiedtriple/4).
 :- dynamic(retwist/3).
 :- dynamic(rule_uvar/1).
 :- dynamic(scope/1).
@@ -1700,7 +1700,7 @@ tr_tr(A, B) :-
 tr_tr(A, A) :-
     number(A),
     !.
-tr_tr(edge(N, triple(A, B, C)), edge(N, triple(D, E, F))) :-
+tr_tr(reifiedtriple(A, B, C, N), reifiedtriple(D, E, F, N)) :-
     G =.. [B, A, C],
     \+sub_atom(B, 0, _, _, '_e_'),
     !,
@@ -1799,11 +1799,11 @@ rename(A, A).
 % inspired by http://code.google.com/p/km-rdf/wiki/Henry
 %
 
-annotation(edge(N, Triple), Triples) -->
-    edgename(N),
+annotation(reifiedtriple(S, P, O, N), Triples) -->
+    reifiedtriplename(N),
     [lb_pipe],
     !,
-    propertylist(edge(N, Triple), Triples1),
+    propertylist(reifiedtriple(S, P, O, N), Triples1),
     {   (   Triples1 \= []
         ->  true
         ;   nb_getval(line_number, Ln),
@@ -1811,14 +1811,14 @@ annotation(edge(N, Triple), Triples) -->
         )
     },
     [pipe_rb],
-    annotation(edge(_, Triple), Triples2),
+    annotation(reifiedtriple(S, P, O, _), Triples2),
     {   append(Triples1, Triples2, Triples)
     }.
-annotation(edge(N, Triple), Triples) -->
+annotation(reifiedtriple(S, P, O, N), Triples) -->
     ['~'],
     expression(N, []),
     !,
-    annotation(edge(_, Triple), Triples).
+    annotation(reifiedtriple(S, P, O, _), Triples).
 annotation(_, []) -->
     [].
 
@@ -1926,11 +1926,11 @@ dtlang(type(T)) -->
     },
     [].
 
-edgename(N) -->
+reifiedtriplename(N) -->
     ['~'],
     expression(N, []),
     !.
-edgename(N) -->
+reifiedtriplename(N) -->
     {   gensym('bne_', B),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -2011,11 +2011,11 @@ objecttail(Subject, Verb, [Triple|Triples]) -->
     !,
     object(Object, Triples1),
     {   (   Verb = isof(Vrb)
-        ->  Edge = edge(_, triple(Object, Vrb, Subject))
-        ;   Edge = edge(_, triple(Subject, Verb, Object))
+        ->  Reifiedtriple = reifiedtriple(Object, Vrb, Subject, _)
+        ;   Reifiedtriple = reifiedtriple(Subject, Verb, Object, _)
         )
     },
-    annotation(Edge, Triples2),
+    annotation(Reifiedtriple, Triples2),
     objecttail(Subject, Verb, Triples3),
     {   append([Triples1, Triples2, Triples3], Triples),
         (   Verb = isof(V)
@@ -2152,13 +2152,13 @@ pathitem(triple(S, P, O), []) -->
     verb(P, []),
     object(O, []),
     [rp_gt_gt].
-pathitem(edge(N, triple(S, P, O)), T) -->
+pathitem(reifiedtriple(S, P, O, N), T) -->
     [lt_lt],
     !,
     subject(S, Ts),
     verb(P, Tp),
     object(O, To),
-    edgename(N),
+    reifiedtriplename(N),
     {   (   flag('trig-output')
         ->  append([['\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>\''(N, triple(S, P, O))], Ts, Tp, To], T)
         ;   append([Ts, Tp, To], T)
@@ -2320,11 +2320,11 @@ propertylist(Subject, [Triple|Triples]) -->
     !,
     object(Object, Triples2),
     {   (   Verb = isof(Vrb)
-        ->  Edge = edge(_, triple(Object, Vrb, Subject))
-        ;   Edge = edge(_, triple(Subject, Verb, Object))
+        ->  Reifiedtriple = reifiedtriple(Object, Vrb, Subject, _)
+        ;   Reifiedtriple = reifiedtriple(Subject, Verb, Object, _)
         )
     },
-    annotation(Edge, Triples3),
+    annotation(Reifiedtriple, Triples3),
     objecttail(Subject, Verb, Triples4),
     propertylisttail(Subject, Triples5),
     {   append([Triples1, Triples2, Triples3, Triples4, Triples5], Triples),
@@ -3776,10 +3776,10 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     write(' '),
     (   C = rule(_, _, Rl),
         Rl =.. [P, S, O],
-        '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
+        '<http://www.w3.org/2000/10/swap/reason#source>'(reifiedtriple(S, P, O, _), Src)
     ->  wt(Src)
     ;   (   C =.. [P, S, O],
-            '<http://www.w3.org/2000/10/swap/reason#source>'(edge(_, triple(S, P, O)), Src)
+            '<http://www.w3.org/2000/10/swap/reason#source>'(reifiedtriple(S, P, O, _), Src)
         ->  wt(Src)
         ;   wt(A)
         )
@@ -4438,20 +4438,6 @@ wt2(graph(X, Y)) :-
     nb_setval(keep_ng, false),
     retractall(keep_ng(graph(X, Y))),
     wg(Y).
-wt2(edge(N, triple(S, P, O))) :-
-    !,
-    write('<< '),
-    wg(S),
-    write(' '),
-    wp(P),
-    write(' '),
-    wg(O),
-    (   findvar(N, beta)
-    ->  true
-    ;   write(' ~ '),
-        wg(N)
-    ),
-    write(' >>').
 wt2(is(O, T)) :-
     !,
     (   number(T),
@@ -4518,6 +4504,20 @@ wtn(triple(S, P, O)) :-
     write(' '),
     wg(O),
     write(' )>>').
+wtn(reifiedtriple(S, P, O, N)) :-
+    !,
+    write('<< '),
+    wg(S),
+    write(' '),
+    wp(P),
+    write(' '),
+    wg(O),
+    (   findvar(N, beta)
+    ->  true
+    ;   write(' ~ '),
+        wg(N)
+    ),
+    write(' >>').
 wtn(X) :-
     X =.. [B|C],
     (   atom(B),

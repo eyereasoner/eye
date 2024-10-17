@@ -4,34 +4,34 @@
 # add
 {(?A 0) :add ?A} <= true.
 
-{(?A <<( :s func:args (?B) )>>) :add <<( :s func:args (?C) )>>} <= {
+{(?A << :s func:args (?B) >>) :add << :s func:args (?C) >>} <= {
     (?A ?B) :add ?C.
 }.
 
 # multiply
 {(?A 0) :multiply 0} <= true.
 
-{(?A <<( :s func:args (?B) )>>) :multiply ?C} <= {
+{(?A << :s func:args (?B) >>) :multiply ?C} <= {
     (?A ?B) :multiply ?D.
     (?A ?D) :add ?C.
 }.
 
 # factorial
 {?A :factorial ?B} <= {
-    (?A <<( :s func:args (0) )>>) :fac ?B.
+    (?A << :s func:args (0) >>) :fac ?B.
 }.
 
 {(0 ?A) :fac ?A} <= true.
 
-{(<<( :s func:args (?A) )>> ?B) :fac ?C} <= {
-    (?B <<( :s func:args (?A) )>>) :multiply ?D.
+{(<< :s func:args (?A) >> ?B) :fac ?C} <= {
+    (?B << :s func:args (?A) >>) :multiply ?D.
     (?A ?D) :fac ?C.
 }.
 
 # query
 {
-    (<<( :s func:args (0) )>> <<( :s func:args (<<( :s func:args (0) )>>) )>>) :multiply ?A.
-    (?A <<( :s func:args (<<( :s func:args (<<( :s func:args (0) )>>) )>>) )>>) :add ?B.
+    (<< :s func:args (0) >> << :s func:args (<< :s func:args (0) >>) >>) :multiply ?A.
+    (?A << :s func:args (<< :s func:args (<< :s func:args (0) >>) >>) >>) :add ?B.
     ?B :factorial ?C.
 } =^ {
     ?B :factorial ?C.
