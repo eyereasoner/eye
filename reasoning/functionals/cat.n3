@@ -1,0 +1,9 @@
+@prefix : <http://example.org/#>.
+
+:sample :is (^ :sentence (^ :nounphrase (^ :determiner "the") (^ :noun "cat")) (^ :verbphrase (^ :verb "eats") (^ :nounphrase (^ :determiner "a") (^ :noun "bat")))).
+
+# query
+{   :sample :is (^ :sentence ?np (^ :verbphrase (^ :verb ?v) ?np2)).     
+} =^ {
+    :result :is ?v.
+}.
