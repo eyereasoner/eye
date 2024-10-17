@@ -2,16 +2,14 @@
 # Example from https://shs.hal.science/halshs-04148373/document
 # Using term logic http://intrologic.stanford.edu/chapters/chapter_11.html
 
-@prefix functor: <http://www.w3.org/2000/10/swap/functor#>.
 @prefix : <urn:example:>.
 
 # some x is a good cobbler
-# functional terms are lists where the first element belongs to the functor: namespace
-_:x :is (functor:good :Cobbler).
+_:x :is (^ :good :Cobbler).
 
 # is there some x which is good at some y
 {
-    ?x :is (functor:good ?y).
+    ?x :is (^ :good ?y).
 } =^ {
     :test :is true.
 }.

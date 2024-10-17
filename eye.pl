@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.24.23 (2024-10-16)').
+version_info('EYE v10.25.0 (2024-10-17)').
 
 license_info('MIT License
 
@@ -2140,6 +2140,11 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
+pathitem(functional(List), Triples) -->
+    ['(', '^'],
+    !,
+    pathlist(List, Triples),
+    [')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -4122,6 +4127,11 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
+wt1(functional(X)) :-
+    !,
+    write('(^'),
+    wl(X),
+    write(')').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
