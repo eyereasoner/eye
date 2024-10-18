@@ -1,0 +1,37 @@
+# ----------------------------
+# RDF surfaces slide32 example
+# ----------------------------
+#
+# slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://example.org/#>.
+
+:Ghent a :City.
+
+# a city is a human community
+(_:x) log:onNegativeSurface <<
+    log:conjunction log:isFunctorOf (
+        << _:x a :City >>
+        << () log:onNegativeSurface <<
+                log:conjunction log:isFunctorOf (
+                    << _:x a :HumanCommunity >>
+                )
+            >>
+        >>
+    )
+>>.
+
+# query: is Ghent a human community?
+() log:onNegativeSurface <<
+    log:conjunction log:isFunctorOf (
+        << :Ghent a :HumanCommunity >>
+        << () log:onNegativeAnswerSurface <<
+                log:conjunction log:isFunctorOf (
+                    << :Ghent a :HumanCommunity >>
+                )
+            >>
+        >>
+    )
+>>.

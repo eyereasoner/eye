@@ -2,8 +2,8 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://eexample.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -23,39 +23,27 @@ skolem:lemma1 a r:Inference;
         skolem:lemma4
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        (3 0) :prod var:x_0.
-    } => {
-        (3 0) :prod var:x_0.
-    }}].
+    r:rule skolem:lemma5.
 
 skolem:lemma2 a r:Inference;
     r:gives {
         (5 6) :prod 30 .
     };
     r:evidence (
-        skolem:lemma5
+        skolem:lemma6
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 30];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        (5 6) :prod var:x_0.
-    } => {
-        (5 6) :prod var:x_0.
-    }}].
+    r:rule skolem:lemma7.
 
 skolem:lemma3 a r:Inference;
     r:gives {
         (238 13) :prod 3094 .
     };
     r:evidence (
-        skolem:lemma6
+        skolem:lemma8
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3094];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        (238 13) :prod var:x_0.
-    } => {
-        (238 13) :prod var:x_0.
-    }}].
+    r:rule skolem:lemma9.
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -66,7 +54,7 @@ skolem:lemma4 a r:Inference;
         [ a r:Fact; r:gives {(3 2) math:remainder 1}]
         [ a r:Fact; r:gives {(3 2) math:integerQuotient 1}]
         [ a r:Fact; r:gives {(0 0) math:sum 0}]
-        skolem:lemma7
+        skolem:lemma10
         [ a r:Fact; r:gives {(0 0) math:sum 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
@@ -75,9 +63,19 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 0];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma5 a r:Inference;
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            (3 0) :prod var:x_0.
+        } => {
+            (3 0) :prod var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
+
+skolem:lemma6 a r:Inference;
     r:gives {
         (5 6) :prod 30 .
     };
@@ -86,7 +84,7 @@ skolem:lemma5 a r:Inference;
         [ a r:Fact; r:gives {(5 2) math:remainder 1}]
         [ a r:Fact; r:gives {(5 2) math:integerQuotient 2}]
         [ a r:Fact; r:gives {(6 6) math:sum 12}]
-        skolem:lemma9
+        skolem:lemma12
         [ a r:Fact; r:gives {(24 6) math:sum 30}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
@@ -95,9 +93,19 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 6];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 24];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 30];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma6 a r:Inference;
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            (5 6) :prod var:x_0.
+        } => {
+            (5 6) :prod var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
+
+skolem:lemma8 a r:Inference;
     r:gives {
         (238 13) :prod 3094 .
     };
@@ -106,16 +114,26 @@ skolem:lemma6 a r:Inference;
         [ a r:Fact; r:gives {(238 2) math:remainder 0}]
         [ a r:Fact; r:gives {(238 2) math:integerQuotient 119}]
         [ a r:Fact; r:gives {(13 13) math:sum 26}]
-        skolem:lemma10
+        skolem:lemma13
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 238];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 119];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 26];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 13];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 3094];
-    r:rule skolem:lemma11.
+    r:rule skolem:lemma14.
 
-skolem:lemma7 a r:Inference;
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            (238 13) :prod var:x_0.
+        } => {
+            (238 13) :prod var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
+
+skolem:lemma10 a r:Inference;
     r:gives {
         (1 0) :prod 0 .
     };
@@ -124,7 +142,7 @@ skolem:lemma7 a r:Inference;
         [ a r:Fact; r:gives {(1 2) math:remainder 1}]
         [ a r:Fact; r:gives {(1 2) math:integerQuotient 0}]
         [ a r:Fact; r:gives {(0 0) math:sum 0}]
-        skolem:lemma12
+        skolem:lemma15
         [ a r:Fact; r:gives {(0 0) math:sum 0}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -133,9 +151,9 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 0];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma11 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             (var:x_0 var:x_2) :prod var:x_5.
@@ -150,7 +168,7 @@ skolem:lemma8 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
 
-skolem:lemma9 a r:Inference;
+skolem:lemma12 a r:Inference;
     r:gives {
         (2 12) :prod 24 .
     };
@@ -159,16 +177,16 @@ skolem:lemma9 a r:Inference;
         [ a r:Fact; r:gives {(2 2) math:remainder 0}]
         [ a r:Fact; r:gives {(2 2) math:integerQuotient 1}]
         [ a r:Fact; r:gives {(12 12) math:sum 24}]
-        skolem:lemma13
+        skolem:lemma16
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 24];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 12];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 24];
-    r:rule skolem:lemma11.
+    r:rule skolem:lemma14.
 
-skolem:lemma10 a r:Inference;
+skolem:lemma13 a r:Inference;
     r:gives {
         (119 26) :prod 3094 .
     };
@@ -177,7 +195,7 @@ skolem:lemma10 a r:Inference;
         [ a r:Fact; r:gives {(119 2) math:remainder 1}]
         [ a r:Fact; r:gives {(119 2) math:integerQuotient 59}]
         [ a r:Fact; r:gives {(26 26) math:sum 52}]
-        skolem:lemma14
+        skolem:lemma17
         [ a r:Fact; r:gives {(3068 26) math:sum 3094}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 119];
@@ -186,9 +204,9 @@ skolem:lemma10 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 26];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 3068];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 3094];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma11 a r:Extraction;
+skolem:lemma14 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             (var:x_0 var:x_2) :prod var:x_4.
@@ -202,7 +220,7 @@ skolem:lemma11 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
 
-skolem:lemma12 a r:Inference;
+skolem:lemma15 a r:Inference;
     r:gives {
         (0 0) :prod 0 .
     };
@@ -210,9 +228,9 @@ skolem:lemma12 a r:Inference;
         [ a r:Fact; r:gives true]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
-    r:rule skolem:lemma15.
+    r:rule skolem:lemma18.
 
-skolem:lemma13 a r:Inference;
+skolem:lemma16 a r:Inference;
     r:gives {
         (1 24) :prod 24 .
     };
@@ -221,7 +239,7 @@ skolem:lemma13 a r:Inference;
         [ a r:Fact; r:gives {(1 2) math:remainder 1}]
         [ a r:Fact; r:gives {(1 2) math:integerQuotient 0}]
         [ a r:Fact; r:gives {(24 24) math:sum 48}]
-        skolem:lemma16
+        skolem:lemma19
         [ a r:Fact; r:gives {(0 24) math:sum 24}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -230,9 +248,9 @@ skolem:lemma13 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 24];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 24];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma14 a r:Inference;
+skolem:lemma17 a r:Inference;
     r:gives {
         (59 52) :prod 3068 .
     };
@@ -241,7 +259,7 @@ skolem:lemma14 a r:Inference;
         [ a r:Fact; r:gives {(59 2) math:remainder 1}]
         [ a r:Fact; r:gives {(59 2) math:integerQuotient 29}]
         [ a r:Fact; r:gives {(52 52) math:sum 104}]
-        skolem:lemma17
+        skolem:lemma20
         [ a r:Fact; r:gives {(3016 52) math:sum 3068}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 59];
@@ -250,9 +268,9 @@ skolem:lemma14 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 52];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 3016];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 3068];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma15 a r:Extraction;
+skolem:lemma18 a r:Extraction;
     r:gives {
         @forSome var:x_0. {
             (0 var:x_0) :prod 0.
@@ -260,7 +278,7 @@ skolem:lemma15 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/peasant-multiplication/peasant-multiplication.n3>].
 
-skolem:lemma16 a r:Inference;
+skolem:lemma19 a r:Inference;
     r:gives {
         (0 48) :prod 0 .
     };
@@ -268,9 +286,9 @@ skolem:lemma16 a r:Inference;
         [ a r:Fact; r:gives true]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 48];
-    r:rule skolem:lemma15.
+    r:rule skolem:lemma18.
 
-skolem:lemma17 a r:Inference;
+skolem:lemma20 a r:Inference;
     r:gives {
         (29 104) :prod 3016 .
     };
@@ -279,7 +297,7 @@ skolem:lemma17 a r:Inference;
         [ a r:Fact; r:gives {(29 2) math:remainder 1}]
         [ a r:Fact; r:gives {(29 2) math:integerQuotient 14}]
         [ a r:Fact; r:gives {(104 104) math:sum 208}]
-        skolem:lemma18
+        skolem:lemma21
         [ a r:Fact; r:gives {(2912 104) math:sum 3016}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 29];
@@ -288,9 +306,9 @@ skolem:lemma17 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 104];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 2912];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 3016];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma18 a r:Inference;
+skolem:lemma21 a r:Inference;
     r:gives {
         (14 208) :prod 2912 .
     };
@@ -299,16 +317,16 @@ skolem:lemma18 a r:Inference;
         [ a r:Fact; r:gives {(14 2) math:remainder 0}]
         [ a r:Fact; r:gives {(14 2) math:integerQuotient 7}]
         [ a r:Fact; r:gives {(208 208) math:sum 416}]
-        skolem:lemma19
+        skolem:lemma22
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 14];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 7];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 416];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 208];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 2912];
-    r:rule skolem:lemma11.
+    r:rule skolem:lemma14.
 
-skolem:lemma19 a r:Inference;
+skolem:lemma22 a r:Inference;
     r:gives {
         (7 416) :prod 2912 .
     };
@@ -317,7 +335,7 @@ skolem:lemma19 a r:Inference;
         [ a r:Fact; r:gives {(7 2) math:remainder 1}]
         [ a r:Fact; r:gives {(7 2) math:integerQuotient 3}]
         [ a r:Fact; r:gives {(416 416) math:sum 832}]
-        skolem:lemma20
+        skolem:lemma23
         [ a r:Fact; r:gives {(2496 416) math:sum 2912}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
@@ -326,9 +344,9 @@ skolem:lemma19 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 416];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 2496];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 2912];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma20 a r:Inference;
+skolem:lemma23 a r:Inference;
     r:gives {
         (3 832) :prod 2496 .
     };
@@ -337,7 +355,7 @@ skolem:lemma20 a r:Inference;
         [ a r:Fact; r:gives {(3 2) math:remainder 1}]
         [ a r:Fact; r:gives {(3 2) math:integerQuotient 1}]
         [ a r:Fact; r:gives {(832 832) math:sum 1664}]
-        skolem:lemma21
+        skolem:lemma24
         [ a r:Fact; r:gives {(1664 832) math:sum 2496}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
@@ -346,9 +364,9 @@ skolem:lemma20 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 832];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1664];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 2496];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma21 a r:Inference;
+skolem:lemma24 a r:Inference;
     r:gives {
         (1 1664) :prod 1664 .
     };
@@ -357,7 +375,7 @@ skolem:lemma21 a r:Inference;
         [ a r:Fact; r:gives {(1 2) math:remainder 1}]
         [ a r:Fact; r:gives {(1 2) math:integerQuotient 0}]
         [ a r:Fact; r:gives {(1664 1664) math:sum 3328}]
-        skolem:lemma22
+        skolem:lemma25
         [ a r:Fact; r:gives {(0 1664) math:sum 1664}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -366,9 +384,9 @@ skolem:lemma21 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1664];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1664];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma11.
 
-skolem:lemma22 a r:Inference;
+skolem:lemma25 a r:Inference;
     r:gives {
         (0 3328) :prod 0 .
     };
@@ -376,5 +394,5 @@ skolem:lemma22 a r:Inference;
         [ a r:Fact; r:gives true]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3328];
-    r:rule skolem:lemma15.
+    r:rule skolem:lemma18.
 

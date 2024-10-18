@@ -2,8 +2,8 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/ns#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -31,17 +31,7 @@ skolem:lemma1 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 "#")];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        (1 0 1 0 0 1) :compute var:x_0.
-        (1 0 1 1 1 1) :compute var:x_1.
-        (1 1 1 1 1 1) :compute var:x_2.
-        () :compute var:x_3.
-    } => {
-        (1 0 1 0 0 1) :compute var:x_0.
-        (1 0 1 1 1 1) :compute var:x_1.
-        (1 1 1 1 1 1) :compute var:x_2.
-        () :compute var:x_3.
-    }}].
+    r:rule skolem:lemma6.
 
 skolem:lemma2 a r:Inference;
     r:gives {
@@ -49,8 +39,8 @@ skolem:lemma2 a r:Inference;
     };
     r:evidence (
         [ a r:Fact; r:gives {(1 0 1 0 0 1) list:firstRest (1 (0 1 0 0 1))}]
-        skolem:lemma6
         skolem:lemma7
+        skolem:lemma8
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 0 1 0 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
@@ -58,7 +48,7 @@ skolem:lemma2 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#add1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma9.
 
 skolem:lemma3 a r:Inference;
     r:gives {
@@ -66,8 +56,8 @@ skolem:lemma3 a r:Inference;
     };
     r:evidence (
         [ a r:Fact; r:gives {(1 0 1 1 1 1) list:firstRest (1 (0 1 1 1 1))}]
-        skolem:lemma6
-        skolem:lemma9
+        skolem:lemma7
+        skolem:lemma10
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 0 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
@@ -75,7 +65,7 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#add1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma9.
 
 skolem:lemma4 a r:Inference;
     r:gives {
@@ -83,8 +73,8 @@ skolem:lemma4 a r:Inference;
     };
     r:evidence (
         [ a r:Fact; r:gives {(1 1 1 1 1 1) list:firstRest (1 (1 1 1 1 1))}]
-        skolem:lemma6
-        skolem:lemma10
+        skolem:lemma7
+        skolem:lemma11
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
@@ -92,35 +82,51 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/ns#add1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma9.
 
 skolem:lemma5 a r:Inference;
     r:gives {
         () :compute (1 "#").
     };
     r:evidence (
-        skolem:lemma6
-        skolem:lemma11
+        skolem:lemma7
+        skolem:lemma12
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/ns#add1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 "#")];
-    r:rule skolem:lemma12.
+    r:rule skolem:lemma13.
 
 skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            (1 0 1 0 0 1) :compute var:x_0.
+            (1 0 1 1 1 1) :compute var:x_1.
+            (1 1 1 1 1 1) :compute var:x_2.
+            () :compute var:x_3.
+        } => {
+            (1 0 1 0 0 1) :compute var:x_0.
+            (1 0 1 1 1 1) :compute var:x_1.
+            (1 1 1 1 1 1) :compute var:x_2.
+            () :compute var:x_3.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
+
+skolem:lemma7 a r:Extraction;
     r:gives {
         :add1 :start 0 .
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma7 a r:Inference;
+skolem:lemma8 a r:Inference;
     r:gives {
         (0 () 1 (0 1 0 0 1)) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma13
         skolem:lemma14
         skolem:lemma15
+        skolem:lemma16
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -133,9 +139,9 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 0 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma9 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             var:x_0 :compute var:x_5.
@@ -147,14 +153,14 @@ skolem:lemma8 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma9 a r:Inference;
+skolem:lemma10 a r:Inference;
     r:gives {
         (0 () 1 (0 1 1 1 1)) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma17
+        skolem:lemma14
         skolem:lemma18
+        skolem:lemma19
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -167,16 +173,16 @@ skolem:lemma9 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma10 a r:Inference;
+skolem:lemma11 a r:Inference;
     r:gives {
         (0 () 1 (1 1 1 1 1)) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma19
+        skolem:lemma14
         skolem:lemma20
+        skolem:lemma21
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -189,16 +195,16 @@ skolem:lemma10 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma11 a r:Inference;
+skolem:lemma12 a r:Inference;
     r:gives {
         (0 () "#" ()) :find (1 "#").
     };
     r:evidence (
-        skolem:lemma21
         skolem:lemma22
         skolem:lemma23
+        skolem:lemma24
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -211,9 +217,9 @@ skolem:lemma11 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma12 a r:Extraction;
+skolem:lemma13 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             () :compute var:x_2.
@@ -224,13 +230,13 @@ skolem:lemma12 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma13 a r:Extraction;
+skolem:lemma14 a r:Extraction;
     r:gives {
         (0 1 1 :right) :tape 0 .
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma14 a r:Inference;
+skolem:lemma15 a r:Inference;
     r:gives {
         (:right () 1 (0 1 0 0 1) (1) 0 (1 0 0 1)) :move true.
     };
@@ -244,23 +250,23 @@ skolem:lemma14 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma15 a r:Inference;
+skolem:lemma16 a r:Inference;
     r:gives {
         (0 (1) 0 (1 0 0 1)) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma25
+        skolem:lemma26
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 0 0 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma16 a r:Extraction;
+skolem:lemma17 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10. {
             (var:x_0 var:x_5 var:x_1 var:x_6) :find var:x_10.
@@ -272,7 +278,7 @@ skolem:lemma16 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma17 a r:Inference;
+skolem:lemma18 a r:Inference;
     r:gives {
         (:right () 1 (0 1 1 1 1) (1) 0 (1 1 1 1)) :move true.
     };
@@ -286,23 +292,23 @@ skolem:lemma17 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma18 a r:Inference;
+skolem:lemma19 a r:Inference;
     r:gives {
         (0 (1) 0 (1 1 1 1)) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma27
+        skolem:lemma28
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma19 a r:Inference;
+skolem:lemma20 a r:Inference;
     r:gives {
         (:right () 1 (1 1 1 1 1) (1) 1 (1 1 1 1)) :move true.
     };
@@ -316,29 +322,29 @@ skolem:lemma19 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma20 a r:Inference;
+skolem:lemma21 a r:Inference;
     r:gives {
         (0 (1) 1 (1 1 1 1)) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma28
+        skolem:lemma29
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma21 a r:Extraction;
+skolem:lemma22 a r:Extraction;
     r:gives {
         (0 "#" "#" :left) :tape 1 .
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma22 a r:Inference;
+skolem:lemma23 a r:Inference;
     r:gives {
         (:left () "#" () () "#" ("#")) :move true.
     };
@@ -348,23 +354,23 @@ skolem:lemma22 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma30.
 
-skolem:lemma23 a r:Inference;
+skolem:lemma24 a r:Inference;
     r:gives {
         (1 () "#" ("#")) :continue (1 "#").
     };
     r:evidence (
-        skolem:lemma30
+        skolem:lemma31
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma24 a r:Extraction;
+skolem:lemma25 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             (:right var:x_5 var:x_4 var:x_0 var:x_3 var:x_1 var:x_2) :move true.
@@ -375,14 +381,14 @@ skolem:lemma24 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma25 a r:Inference;
+skolem:lemma26 a r:Inference;
     r:gives {
         (0 (1) 0 (1 0 0 1)) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma31
         skolem:lemma32
         skolem:lemma33
+        skolem:lemma34
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -395,9 +401,9 @@ skolem:lemma25 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma26 a r:Extraction;
+skolem:lemma27 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             (var:x_0 var:x_1 var:x_2 var:x_3) :continue var:x_4.
@@ -407,14 +413,14 @@ skolem:lemma26 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma27 a r:Inference;
+skolem:lemma28 a r:Inference;
     r:gives {
         (0 (1) 0 (1 1 1 1)) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma31
-        skolem:lemma34
+        skolem:lemma32
         skolem:lemma35
+        skolem:lemma36
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -427,16 +433,16 @@ skolem:lemma27 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma28 a r:Inference;
+skolem:lemma29 a r:Inference;
     r:gives {
         (0 (1) 1 (1 1 1 1)) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma36
+        skolem:lemma14
         skolem:lemma37
+        skolem:lemma38
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -449,9 +455,9 @@ skolem:lemma28 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma29 a r:Extraction;
+skolem:lemma30 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             (:left () var:x_1 var:x_2 () "#" var:x_0) :move true.
@@ -461,14 +467,14 @@ skolem:lemma29 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma30 a r:Inference;
+skolem:lemma31 a r:Inference;
     r:gives {
         (1 () "#" ("#")) :find (1 "#").
     };
     r:evidence (
-        skolem:lemma38
         skolem:lemma39
         skolem:lemma40
+        skolem:lemma41
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/ns#halt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -481,15 +487,15 @@ skolem:lemma30 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma31 a r:Extraction;
+skolem:lemma32 a r:Extraction;
     r:gives {
         (0 0 0 :right) :tape 0 .
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma32 a r:Inference;
+skolem:lemma33 a r:Inference;
     r:gives {
         (:right (1) 0 (1 0 0 1) (0 1) 1 (0 0 1)) :move true.
     };
@@ -503,23 +509,23 @@ skolem:lemma32 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma33 a r:Inference;
+skolem:lemma34 a r:Inference;
     r:gives {
         (0 (0 1) 1 (0 0 1)) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma42
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma34 a r:Inference;
+skolem:lemma35 a r:Inference;
     r:gives {
         (:right (1) 0 (1 1 1 1) (0 1) 1 (1 1 1)) :move true.
     };
@@ -533,23 +539,23 @@ skolem:lemma34 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma35 a r:Inference;
+skolem:lemma36 a r:Inference;
     r:gives {
         (0 (0 1) 1 (1 1 1)) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma42
+        skolem:lemma43
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma36 a r:Inference;
+skolem:lemma37 a r:Inference;
     r:gives {
         (:right (1) 1 (1 1 1 1) (1 1) 1 (1 1 1)) :move true.
     };
@@ -563,29 +569,29 @@ skolem:lemma36 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma37 a r:Inference;
+skolem:lemma38 a r:Inference;
     r:gives {
         (0 (1 1) 1 (1 1 1)) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma43
+        skolem:lemma44
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma38 a r:Extraction;
+skolem:lemma39 a r:Extraction;
     r:gives {
         (1 "#" 1 :stop) :tape :halt.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma39 a r:Inference;
+skolem:lemma40 a r:Inference;
     r:gives {
         (:stop () 1 ("#") () 1 ("#")) :move true.
     };
@@ -595,14 +601,14 @@ skolem:lemma39 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("#")];
-    r:rule skolem:lemma44.
+    r:rule skolem:lemma45.
 
-skolem:lemma40 a r:Inference;
+skolem:lemma41 a r:Inference;
     r:gives {
         (:halt () 1 ("#")) :continue (1 "#").
     };
     r:evidence (
-        skolem:lemma45
+        skolem:lemma46
         [ a r:Fact; r:gives {(1 "#") list:firstRest (1 ("#"))}]
         [ a r:Fact; r:gives {(() (1 "#")) list:append (1 "#")}]
     );
@@ -612,16 +618,16 @@ skolem:lemma40 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 "#")];
-    r:rule skolem:lemma46.
+    r:rule skolem:lemma47.
 
-skolem:lemma41 a r:Inference;
+skolem:lemma42 a r:Inference;
     r:gives {
         (0 (0 1) 1 (0 0 1)) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma47
+        skolem:lemma14
         skolem:lemma48
+        skolem:lemma49
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -634,16 +640,16 @@ skolem:lemma41 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma42 a r:Inference;
+skolem:lemma43 a r:Inference;
     r:gives {
         (0 (0 1) 1 (1 1 1)) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma49
+        skolem:lemma14
         skolem:lemma50
+        skolem:lemma51
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -656,16 +662,16 @@ skolem:lemma42 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma43 a r:Inference;
+skolem:lemma44 a r:Inference;
     r:gives {
         (0 (1 1) 1 (1 1 1)) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma51
+        skolem:lemma14
         skolem:lemma52
+        skolem:lemma53
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -678,9 +684,9 @@ skolem:lemma43 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma44 a r:Extraction;
+skolem:lemma45 a r:Extraction;
     r:gives {
         @forSome var:x_0, var:x_1, var:x_2. {
             (:stop var:x_0 var:x_1 var:x_2 var:x_0 var:x_1 var:x_2) :move true.
@@ -688,16 +694,16 @@ skolem:lemma44 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma45 a r:Inference;
+skolem:lemma46 a r:Inference;
     r:gives {
         () :reverse ().
     };
     r:evidence (
         [ a r:Fact; r:gives true]
     );
-    r:rule skolem:lemma53.
+    r:rule skolem:lemma54.
 
-skolem:lemma46 a r:Extraction;
+skolem:lemma47 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             (:halt var:x_0 var:x_3 var:x_4) :continue var:x_5.
@@ -709,7 +715,7 @@ skolem:lemma46 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma47 a r:Inference;
+skolem:lemma48 a r:Inference;
     r:gives {
         (:right (0 1) 1 (0 0 1) (1 0 1) 0 (0 1)) :move true.
     };
@@ -723,23 +729,23 @@ skolem:lemma47 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma48 a r:Inference;
+skolem:lemma49 a r:Inference;
     r:gives {
         (0 (1 0 1) 0 (0 1)) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma54
+        skolem:lemma55
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma49 a r:Inference;
+skolem:lemma50 a r:Inference;
     r:gives {
         (:right (0 1) 1 (1 1 1) (1 0 1) 1 (1 1)) :move true.
     };
@@ -753,23 +759,23 @@ skolem:lemma49 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma50 a r:Inference;
+skolem:lemma51 a r:Inference;
     r:gives {
         (0 (1 0 1) 1 (1 1)) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma55
+        skolem:lemma56
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma51 a r:Inference;
+skolem:lemma52 a r:Inference;
     r:gives {
         (:right (1 1) 1 (1 1 1) (1 1 1) 1 (1 1)) :move true.
     };
@@ -783,23 +789,23 @@ skolem:lemma51 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma52 a r:Inference;
+skolem:lemma53 a r:Inference;
     r:gives {
         (0 (1 1 1) 1 (1 1)) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma56
+        skolem:lemma57
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma53 a r:Extraction;
+skolem:lemma54 a r:Extraction;
     r:gives {
         {
             () :reverse ().
@@ -807,14 +813,14 @@ skolem:lemma53 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma54 a r:Inference;
+skolem:lemma55 a r:Inference;
     r:gives {
         (0 (1 0 1) 0 (0 1)) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma31
-        skolem:lemma57
+        skolem:lemma32
         skolem:lemma58
+        skolem:lemma59
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -827,16 +833,16 @@ skolem:lemma54 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma55 a r:Inference;
+skolem:lemma56 a r:Inference;
     r:gives {
         (0 (1 0 1) 1 (1 1)) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma59
+        skolem:lemma14
         skolem:lemma60
+        skolem:lemma61
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -849,16 +855,16 @@ skolem:lemma55 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma56 a r:Inference;
+skolem:lemma57 a r:Inference;
     r:gives {
         (0 (1 1 1) 1 (1 1)) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma61
+        skolem:lemma14
         skolem:lemma62
+        skolem:lemma63
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -871,9 +877,9 @@ skolem:lemma56 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma57 a r:Inference;
+skolem:lemma58 a r:Inference;
     r:gives {
         (:right (1 0 1) 0 (0 1) (0 1 0 1) 0 (1)) :move true.
     };
@@ -887,23 +893,23 @@ skolem:lemma57 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma58 a r:Inference;
+skolem:lemma59 a r:Inference;
     r:gives {
         (0 (0 1 0 1) 0 (1)) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma63
+        skolem:lemma64
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma59 a r:Inference;
+skolem:lemma60 a r:Inference;
     r:gives {
         (:right (1 0 1) 1 (1 1) (1 1 0 1) 1 (1)) :move true.
     };
@@ -917,23 +923,23 @@ skolem:lemma59 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma60 a r:Inference;
+skolem:lemma61 a r:Inference;
     r:gives {
         (0 (1 1 0 1) 1 (1)) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma64
+        skolem:lemma65
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma61 a r:Inference;
+skolem:lemma62 a r:Inference;
     r:gives {
         (:right (1 1 1) 1 (1 1) (1 1 1 1) 1 (1)) :move true.
     };
@@ -947,30 +953,30 @@ skolem:lemma61 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma62 a r:Inference;
+skolem:lemma63 a r:Inference;
     r:gives {
         (0 (1 1 1 1) 1 (1)) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma65
+        skolem:lemma66
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma63 a r:Inference;
+skolem:lemma64 a r:Inference;
     r:gives {
         (0 (0 1 0 1) 0 (1)) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma31
-        skolem:lemma66
+        skolem:lemma32
         skolem:lemma67
+        skolem:lemma68
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -983,16 +989,16 @@ skolem:lemma63 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma64 a r:Inference;
+skolem:lemma65 a r:Inference;
     r:gives {
         (0 (1 1 0 1) 1 (1)) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma68
+        skolem:lemma14
         skolem:lemma69
+        skolem:lemma70
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1005,16 +1011,16 @@ skolem:lemma64 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma65 a r:Inference;
+skolem:lemma66 a r:Inference;
     r:gives {
         (0 (1 1 1 1) 1 (1)) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma70
+        skolem:lemma14
         skolem:lemma71
+        skolem:lemma72
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1027,9 +1033,9 @@ skolem:lemma65 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma66 a r:Inference;
+skolem:lemma67 a r:Inference;
     r:gives {
         (:right (0 1 0 1) 0 (1) (0 0 1 0 1) 1 ()) :move true.
     };
@@ -1043,23 +1049,23 @@ skolem:lemma66 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 1 0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma67 a r:Inference;
+skolem:lemma68 a r:Inference;
     r:gives {
         (0 (0 0 1 0 1) 1 ()) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma72
+        skolem:lemma73
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma68 a r:Inference;
+skolem:lemma69 a r:Inference;
     r:gives {
         (:right (1 1 0 1) 1 (1) (1 1 1 0 1) 1 ()) :move true.
     };
@@ -1073,23 +1079,23 @@ skolem:lemma68 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 0 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma69 a r:Inference;
+skolem:lemma70 a r:Inference;
     r:gives {
         (0 (1 1 1 0 1) 1 ()) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma73
+        skolem:lemma74
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma70 a r:Inference;
+skolem:lemma71 a r:Inference;
     r:gives {
         (:right (1 1 1 1) 1 (1) (1 1 1 1 1) 1 ()) :move true.
     };
@@ -1103,30 +1109,30 @@ skolem:lemma70 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 1 1)];
-    r:rule skolem:lemma24.
+    r:rule skolem:lemma25.
 
-skolem:lemma71 a r:Inference;
+skolem:lemma72 a r:Inference;
     r:gives {
         (0 (1 1 1 1 1) 1 ()) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma74
+        skolem:lemma75
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma72 a r:Inference;
+skolem:lemma73 a r:Inference;
     r:gives {
         (0 (0 0 1 0 1) 1 ()) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma75
+        skolem:lemma14
         skolem:lemma76
+        skolem:lemma77
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1139,16 +1145,16 @@ skolem:lemma72 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma73 a r:Inference;
+skolem:lemma74 a r:Inference;
     r:gives {
         (0 (1 1 1 0 1) 1 ()) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma77
+        skolem:lemma14
         skolem:lemma78
+        skolem:lemma79
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1161,16 +1167,16 @@ skolem:lemma73 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma74 a r:Inference;
+skolem:lemma75 a r:Inference;
     r:gives {
         (0 (1 1 1 1 1) 1 ()) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma13
-        skolem:lemma79
+        skolem:lemma14
         skolem:lemma80
+        skolem:lemma81
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1183,9 +1189,9 @@ skolem:lemma74 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma75 a r:Inference;
+skolem:lemma76 a r:Inference;
     r:gives {
         (:right (0 0 1 0 1) 1 () (1 0 0 1 0 1) "#" ()) :move true.
     };
@@ -1195,23 +1201,23 @@ skolem:lemma75 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 0 0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 0 1 0 1)];
-    r:rule skolem:lemma81.
+    r:rule skolem:lemma82.
 
-skolem:lemma76 a r:Inference;
+skolem:lemma77 a r:Inference;
     r:gives {
         (0 (1 0 0 1 0 1) "#" ()) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma82
+        skolem:lemma83
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 0 0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma77 a r:Inference;
+skolem:lemma78 a r:Inference;
     r:gives {
         (:right (1 1 1 0 1) 1 () (1 1 1 1 0 1) "#" ()) :move true.
     };
@@ -1221,23 +1227,23 @@ skolem:lemma77 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 1 1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 1 1 0 1)];
-    r:rule skolem:lemma81.
+    r:rule skolem:lemma82.
 
-skolem:lemma78 a r:Inference;
+skolem:lemma79 a r:Inference;
     r:gives {
         (0 (1 1 1 1 0 1) "#" ()) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma83
+        skolem:lemma84
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma79 a r:Inference;
+skolem:lemma80 a r:Inference;
     r:gives {
         (:right (1 1 1 1 1) 1 () (1 1 1 1 1 1) "#" ()) :move true.
     };
@@ -1247,23 +1253,23 @@ skolem:lemma79 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 1 1 1 1)];
-    r:rule skolem:lemma81.
+    r:rule skolem:lemma82.
 
-skolem:lemma80 a r:Inference;
+skolem:lemma81 a r:Inference;
     r:gives {
         (0 (1 1 1 1 1 1) "#" ()) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma84
+        skolem:lemma85
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma81 a r:Extraction;
+skolem:lemma82 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2. {
             (:right var:x_2 var:x_1 () var:x_0 "#" ()) :move true.
@@ -1273,14 +1279,14 @@ skolem:lemma81 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma82 a r:Inference;
+skolem:lemma83 a r:Inference;
     r:gives {
         (0 (1 0 0 1 0 1) "#" ()) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma21
-        skolem:lemma85
+        skolem:lemma22
         skolem:lemma86
+        skolem:lemma87
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1293,16 +1299,16 @@ skolem:lemma82 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma83 a r:Inference;
+skolem:lemma84 a r:Inference;
     r:gives {
         (0 (1 1 1 1 0 1) "#" ()) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma21
-        skolem:lemma87
+        skolem:lemma22
         skolem:lemma88
+        skolem:lemma89
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1315,16 +1321,16 @@ skolem:lemma83 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma84 a r:Inference;
+skolem:lemma85 a r:Inference;
     r:gives {
         (0 (1 1 1 1 1 1) "#" ()) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma21
-        skolem:lemma89
+        skolem:lemma22
         skolem:lemma90
+        skolem:lemma91
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
@@ -1337,9 +1343,9 @@ skolem:lemma84 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma85 a r:Inference;
+skolem:lemma86 a r:Inference;
     r:gives {
         (:left (1 0 0 1 0 1) "#" () (0 0 1 0 1) 1 ("#")) :move true.
     };
@@ -1353,23 +1359,23 @@ skolem:lemma85 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma86 a r:Inference;
+skolem:lemma87 a r:Inference;
     r:gives {
         (1 (0 0 1 0 1) 1 ("#")) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma92
+        skolem:lemma93
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma87 a r:Inference;
+skolem:lemma88 a r:Inference;
     r:gives {
         (:left (1 1 1 1 0 1) "#" () (1 1 1 0 1) 1 ("#")) :move true.
     };
@@ -1383,23 +1389,23 @@ skolem:lemma87 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma88 a r:Inference;
+skolem:lemma89 a r:Inference;
     r:gives {
         (1 (1 1 1 0 1) 1 ("#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma93
+        skolem:lemma94
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma89 a r:Inference;
+skolem:lemma90 a r:Inference;
     r:gives {
         (:left (1 1 1 1 1 1) "#" () (1 1 1 1 1) 1 ("#")) :move true.
     };
@@ -1413,23 +1419,23 @@ skolem:lemma89 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma90 a r:Inference;
+skolem:lemma91 a r:Inference;
     r:gives {
         (1 (1 1 1 1 1) 1 ("#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma94
+        skolem:lemma95
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ("#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma91 a r:Extraction;
+skolem:lemma92 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             (:left var:x_0 var:x_4 var:x_5 var:x_2 var:x_1 var:x_3) :move true.
@@ -1440,14 +1446,14 @@ skolem:lemma91 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma92 a r:Inference;
+skolem:lemma93 a r:Inference;
     r:gives {
         (1 (0 0 1 0 1) 1 ("#")) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma95
         skolem:lemma96
         skolem:lemma97
+        skolem:lemma98
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1460,16 +1466,16 @@ skolem:lemma92 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma93 a r:Inference;
+skolem:lemma94 a r:Inference;
     r:gives {
         (1 (1 1 1 0 1) 1 ("#")) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma98
+        skolem:lemma96
         skolem:lemma99
+        skolem:lemma100
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1482,16 +1488,16 @@ skolem:lemma93 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma94 a r:Inference;
+skolem:lemma95 a r:Inference;
     r:gives {
         (1 (1 1 1 1 1) 1 ("#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma100
+        skolem:lemma96
         skolem:lemma101
+        skolem:lemma102
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1504,15 +1510,15 @@ skolem:lemma94 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma95 a r:Extraction;
+skolem:lemma96 a r:Extraction;
     r:gives {
         (1 1 0 :left) :tape 1 .
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma96 a r:Inference;
+skolem:lemma97 a r:Inference;
     r:gives {
         (:left (0 0 1 0 1) 0 ("#") (0 1 0 1) 0 (0 "#")) :move true.
     };
@@ -1526,23 +1532,23 @@ skolem:lemma96 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ("#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma97 a r:Inference;
+skolem:lemma98 a r:Inference;
     r:gives {
         (1 (0 1 0 1) 0 (0 "#")) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma102
+        skolem:lemma103
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0 1 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma98 a r:Inference;
+skolem:lemma99 a r:Inference;
     r:gives {
         (:left (1 1 1 0 1) 0 ("#") (1 1 0 1) 1 (0 "#")) :move true.
     };
@@ -1556,23 +1562,23 @@ skolem:lemma98 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ("#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma99 a r:Inference;
+skolem:lemma100 a r:Inference;
     r:gives {
         (1 (1 1 0 1) 1 (0 "#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma103
+        skolem:lemma104
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma100 a r:Inference;
+skolem:lemma101 a r:Inference;
     r:gives {
         (:left (1 1 1 1 1) 0 ("#") (1 1 1 1) 1 (0 "#")) :move true.
     };
@@ -1586,30 +1592,30 @@ skolem:lemma100 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ("#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma101 a r:Inference;
+skolem:lemma102 a r:Inference;
     r:gives {
         (1 (1 1 1 1) 1 (0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma104
+        skolem:lemma105
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma102 a r:Inference;
+skolem:lemma103 a r:Inference;
     r:gives {
         (1 (0 1 0 1) 0 (0 "#")) :find (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma105
         skolem:lemma106
         skolem:lemma107
+        skolem:lemma108
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/ns#halt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1622,16 +1628,16 @@ skolem:lemma102 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma103 a r:Inference;
+skolem:lemma104 a r:Inference;
     r:gives {
         (1 (1 1 0 1) 1 (0 "#")) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma108
+        skolem:lemma96
         skolem:lemma109
+        skolem:lemma110
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1644,16 +1650,16 @@ skolem:lemma103 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma104 a r:Inference;
+skolem:lemma105 a r:Inference;
     r:gives {
         (1 (1 1 1 1) 1 (0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma110
+        skolem:lemma96
         skolem:lemma111
+        skolem:lemma112
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1666,15 +1672,15 @@ skolem:lemma104 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma105 a r:Extraction;
+skolem:lemma106 a r:Extraction;
     r:gives {
         (1 0 1 :stop) :tape :halt.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma106 a r:Inference;
+skolem:lemma107 a r:Inference;
     r:gives {
         (:stop (0 1 0 1) 1 (0 "#") (0 1 0 1) 1 (0 "#")) :move true.
     };
@@ -1684,14 +1690,14 @@ skolem:lemma106 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (0 1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma44.
+    r:rule skolem:lemma45.
 
-skolem:lemma107 a r:Inference;
+skolem:lemma108 a r:Inference;
     r:gives {
         (:halt (0 1 0 1) 1 (0 "#")) :continue (1 0 1 0 1 0 "#").
     };
     r:evidence (
-        skolem:lemma112
+        skolem:lemma113
         [ a r:Fact; r:gives {(1 0 "#") list:firstRest (1 (0 "#"))}]
         [ a r:Fact; r:gives {((1 0 1 0) (1 0 "#")) list:append (1 0 1 0 1 0 "#")}]
     );
@@ -1701,9 +1707,9 @@ skolem:lemma107 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 1 0 1 0 "#")];
-    r:rule skolem:lemma46.
+    r:rule skolem:lemma47.
 
-skolem:lemma108 a r:Inference;
+skolem:lemma109 a r:Inference;
     r:gives {
         (:left (1 1 0 1) 0 (0 "#") (1 0 1) 1 (0 0 "#")) :move true.
     };
@@ -1717,23 +1723,23 @@ skolem:lemma108 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma109 a r:Inference;
+skolem:lemma110 a r:Inference;
     r:gives {
         (1 (1 0 1) 1 (0 0 "#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma113
+        skolem:lemma114
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma110 a r:Inference;
+skolem:lemma111 a r:Inference;
     r:gives {
         (:left (1 1 1 1) 0 (0 "#") (1 1 1) 1 (0 0 "#")) :move true.
     };
@@ -1747,29 +1753,29 @@ skolem:lemma110 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma111 a r:Inference;
+skolem:lemma112 a r:Inference;
     r:gives {
         (1 (1 1 1) 1 (0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma114
+        skolem:lemma115
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma112 a r:Inference;
+skolem:lemma113 a r:Inference;
     r:gives {
         (0 1 0 1) :reverse (1 0 1 0).
     };
     r:evidence (
         [ a r:Fact; r:gives {(0 1 0 1) list:firstRest (0 (1 0 1))}]
-        skolem:lemma115
+        skolem:lemma116
         [ a r:Fact; r:gives {((1 0 1) (0)) list:append (1 0 1 0)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (0 1 0 1)];
@@ -1777,16 +1783,16 @@ skolem:lemma112 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1 0)];
-    r:rule skolem:lemma116.
+    r:rule skolem:lemma117.
 
-skolem:lemma113 a r:Inference;
+skolem:lemma114 a r:Inference;
     r:gives {
         (1 (1 0 1) 1 (0 0 "#")) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma117
+        skolem:lemma96
         skolem:lemma118
+        skolem:lemma119
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1799,16 +1805,16 @@ skolem:lemma113 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma114 a r:Inference;
+skolem:lemma115 a r:Inference;
     r:gives {
         (1 (1 1 1) 1 (0 0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma119
+        skolem:lemma96
         skolem:lemma120
+        skolem:lemma121
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1821,15 +1827,15 @@ skolem:lemma114 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma115 a r:Inference;
+skolem:lemma116 a r:Inference;
     r:gives {
         (1 0 1) :reverse (1 0 1).
     };
     r:evidence (
         [ a r:Fact; r:gives {(1 0 1) list:firstRest (1 (0 1))}]
-        skolem:lemma121
+        skolem:lemma122
         [ a r:Fact; r:gives {((1 0) (1)) list:append (1 0 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1 0 1)];
@@ -1837,9 +1843,9 @@ skolem:lemma115 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 0)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 1)];
-    r:rule skolem:lemma116.
+    r:rule skolem:lemma117.
 
-skolem:lemma116 a r:Extraction;
+skolem:lemma117 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 :reverse var:x_4.
@@ -1851,7 +1857,7 @@ skolem:lemma116 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/turing/turing.n3>].
 
-skolem:lemma117 a r:Inference;
+skolem:lemma118 a r:Inference;
     r:gives {
         (:left (1 0 1) 0 (0 0 "#") (0 1) 1 (0 0 0 "#")) :move true.
     };
@@ -1865,23 +1871,23 @@ skolem:lemma117 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma118 a r:Inference;
+skolem:lemma119 a r:Inference;
     r:gives {
         (1 (0 1) 1 (0 0 0 "#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma122
+        skolem:lemma123
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma119 a r:Inference;
+skolem:lemma120 a r:Inference;
     r:gives {
         (:left (1 1 1) 0 (0 0 "#") (1 1) 1 (0 0 0 "#")) :move true.
     };
@@ -1895,29 +1901,29 @@ skolem:lemma119 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma120 a r:Inference;
+skolem:lemma121 a r:Inference;
     r:gives {
         (1 (1 1) 1 (0 0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma123
+        skolem:lemma124
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma121 a r:Inference;
+skolem:lemma122 a r:Inference;
     r:gives {
         (0 1) :reverse (1 0).
     };
     r:evidence (
         [ a r:Fact; r:gives {(0 1) list:firstRest (0 (1))}]
-        skolem:lemma124
+        skolem:lemma125
         [ a r:Fact; r:gives {((1) (0)) list:append (1 0)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (0 1)];
@@ -1925,16 +1931,16 @@ skolem:lemma121 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0)];
-    r:rule skolem:lemma116.
+    r:rule skolem:lemma117.
 
-skolem:lemma122 a r:Inference;
+skolem:lemma123 a r:Inference;
     r:gives {
         (1 (0 1) 1 (0 0 0 "#")) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma125
+        skolem:lemma96
         skolem:lemma126
+        skolem:lemma127
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1947,16 +1953,16 @@ skolem:lemma122 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma123 a r:Inference;
+skolem:lemma124 a r:Inference;
     r:gives {
         (1 (1 1) 1 (0 0 0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma127
+        skolem:lemma96
         skolem:lemma128
+        skolem:lemma129
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -1969,15 +1975,15 @@ skolem:lemma123 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma124 a r:Inference;
+skolem:lemma125 a r:Inference;
     r:gives {
         (1) :reverse (1).
     };
     r:evidence (
         [ a r:Fact; r:gives {(1) list:firstRest (1 ())}]
-        skolem:lemma45
+        skolem:lemma46
         [ a r:Fact; r:gives {(() (1)) list:append (1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1)];
@@ -1985,9 +1991,9 @@ skolem:lemma124 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1)];
-    r:rule skolem:lemma116.
+    r:rule skolem:lemma117.
 
-skolem:lemma125 a r:Inference;
+skolem:lemma126 a r:Inference;
     r:gives {
         (:left (0 1) 0 (0 0 0 "#") (1) 0 (0 0 0 0 "#")) :move true.
     };
@@ -2001,23 +2007,23 @@ skolem:lemma125 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 0 0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma126 a r:Inference;
+skolem:lemma127 a r:Inference;
     r:gives {
         (1 (1) 0 (0 0 0 0 "#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma129
+        skolem:lemma130
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 1 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma127 a r:Inference;
+skolem:lemma128 a r:Inference;
     r:gives {
         (:left (1 1) 0 (0 0 0 "#") (1) 1 (0 0 0 0 "#")) :move true.
     };
@@ -2031,30 +2037,30 @@ skolem:lemma127 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 0 0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma128 a r:Inference;
+skolem:lemma129 a r:Inference;
     r:gives {
         (1 (1) 1 (0 0 0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma130
+        skolem:lemma131
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma129 a r:Inference;
+skolem:lemma130 a r:Inference;
     r:gives {
         (1 (1) 0 (0 0 0 0 "#")) :find (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma105
-        skolem:lemma131
+        skolem:lemma106
         skolem:lemma132
+        skolem:lemma133
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/ns#halt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -2067,16 +2073,16 @@ skolem:lemma129 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma130 a r:Inference;
+skolem:lemma131 a r:Inference;
     r:gives {
         (1 (1) 1 (0 0 0 0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma133
+        skolem:lemma96
         skolem:lemma134
+        skolem:lemma135
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -2089,9 +2095,9 @@ skolem:lemma130 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma131 a r:Inference;
+skolem:lemma132 a r:Inference;
     r:gives {
         (:stop (1) 1 (0 0 0 0 "#") (1) 1 (0 0 0 0 "#")) :move true.
     };
@@ -2101,14 +2107,14 @@ skolem:lemma131 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 0 0 0 "#")];
-    r:rule skolem:lemma44.
+    r:rule skolem:lemma45.
 
-skolem:lemma132 a r:Inference;
+skolem:lemma133 a r:Inference;
     r:gives {
         (:halt (1) 1 (0 0 0 0 "#")) :continue (1 1 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma124
+        skolem:lemma125
         [ a r:Fact; r:gives {(1 0 0 0 0 "#") list:firstRest (1 (0 0 0 0 "#"))}]
         [ a r:Fact; r:gives {((1) (1 0 0 0 0 "#")) list:append (1 1 0 0 0 0 "#")}]
     );
@@ -2118,9 +2124,9 @@ skolem:lemma132 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 0 0 0 0 "#")];
-    r:rule skolem:lemma46.
+    r:rule skolem:lemma47.
 
-skolem:lemma133 a r:Inference;
+skolem:lemma134 a r:Inference;
     r:gives {
         (:left (1) 0 (0 0 0 0 "#") () 1 (0 0 0 0 0 "#")) :move true.
     };
@@ -2134,30 +2140,30 @@ skolem:lemma133 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (0 0 0 0 "#")];
-    r:rule skolem:lemma91.
+    r:rule skolem:lemma92.
 
-skolem:lemma134 a r:Inference;
+skolem:lemma135 a r:Inference;
     r:gives {
         (1 () 1 (0 0 0 0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma135
+        skolem:lemma136
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma135 a r:Inference;
+skolem:lemma136 a r:Inference;
     r:gives {
         (1 () 1 (0 0 0 0 0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma95
-        skolem:lemma136
+        skolem:lemma96
         skolem:lemma137
+        skolem:lemma138
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -2170,9 +2176,9 @@ skolem:lemma135 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma136 a r:Inference;
+skolem:lemma137 a r:Inference;
     r:gives {
         (:left () 0 (0 0 0 0 0 "#") () "#" (0 0 0 0 0 0 "#")) :move true.
     };
@@ -2182,30 +2188,30 @@ skolem:lemma136 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 0 0 0 0 "#")];
-    r:rule skolem:lemma29.
+    r:rule skolem:lemma30.
 
-skolem:lemma137 a r:Inference;
+skolem:lemma138 a r:Inference;
     r:gives {
         (1 () "#" (0 0 0 0 0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma138
+        skolem:lemma139
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (1 0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "#"];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma26.
+    r:rule skolem:lemma27.
 
-skolem:lemma138 a r:Inference;
+skolem:lemma139 a r:Inference;
     r:gives {
         (1 () "#" (0 0 0 0 0 0 "#")) :find (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma38
-        skolem:lemma139
+        skolem:lemma39
         skolem:lemma140
+        skolem:lemma141
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/ns#halt"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
@@ -2218,9 +2224,9 @@ skolem:lemma138 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo (0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma16.
+    r:rule skolem:lemma17.
 
-skolem:lemma139 a r:Inference;
+skolem:lemma140 a r:Inference;
     r:gives {
         (:stop () 1 (0 0 0 0 0 0 "#") () 1 (0 0 0 0 0 0 "#")) :move true.
     };
@@ -2230,14 +2236,14 @@ skolem:lemma139 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma44.
+    r:rule skolem:lemma45.
 
-skolem:lemma140 a r:Inference;
+skolem:lemma141 a r:Inference;
     r:gives {
         (:halt () 1 (0 0 0 0 0 0 "#")) :continue (1 0 0 0 0 0 0 "#").
     };
     r:evidence (
-        skolem:lemma45
+        skolem:lemma46
         [ a r:Fact; r:gives {(1 0 0 0 0 0 0 "#") list:firstRest (1 (0 0 0 0 0 0 "#"))}]
         [ a r:Fact; r:gives {(() (1 0 0 0 0 0 0 "#")) list:append (1 0 0 0 0 0 0 "#")}]
     );
@@ -2247,5 +2253,5 @@ skolem:lemma140 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (0 0 0 0 0 0 "#")];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 0 0 0 0 0 0 "#")];
-    r:rule skolem:lemma46.
+    r:rule skolem:lemma47.
 

@@ -2,9 +2,9 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -25,15 +25,7 @@ skolem:lemma1 a r:Inference;
         skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#PolicyX"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
-        var:x_0 a :Policy.
-        var:x_0 :pass :allOfTest.
-        var:x_0 :pass :anyOfTest.
-        var:x_0 :pass :noneOfTest.
-    } => {
-        :test :for var:x_0.
-        :test :is true.
-    }}].
+    r:rule skolem:lemma6.
 
 skolem:lemma2 a r:Extraction;
     r:gives {
@@ -46,7 +38,7 @@ skolem:lemma3 a r:Inference;
         :PolicyX :pass :allOfTest.
     };
     r:evidence (
-        skolem:lemma6
+        skolem:lemma7
         skolem:lemma2
         [ a r:Fact; r:gives {({
             :PolicyX :allOf _:sk_0.
@@ -58,14 +50,14 @@ skolem:lemma3 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#PolicyX"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/acp/acp.n3>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-    r:rule skolem:lemma7.
+    r:rule skolem:lemma8.
 
 skolem:lemma4 a r:Inference;
     r:gives {
         :PolicyX :pass :anyOfTest.
     };
     r:evidence (
-        skolem:lemma6
+        skolem:lemma7
         skolem:lemma2
         [ a r:Fact; r:gives {(_:sk_0 {
             :PolicyX :anyOf _:sk_0.
@@ -80,14 +72,14 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (:C)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 1];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma9.
 
 skolem:lemma5 a r:Inference;
     r:gives {
         :PolicyX :pass :noneOfTest.
     };
     r:evidence (
-        skolem:lemma6
+        skolem:lemma7
         skolem:lemma2
         [ a r:Fact; r:gives {(_:sk_0 {
             :PolicyX :noneOf _:sk_0.
@@ -102,15 +94,29 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 0];
-    r:rule skolem:lemma9.
+    r:rule skolem:lemma10.
 
 skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :Policy.
+            var:x_0 :pass :allOfTest.
+            var:x_0 :pass :anyOfTest.
+            var:x_0 :pass :noneOfTest.
+        } => {
+            :test :for var:x_0.
+            :test :is true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/acp/acp.n3>].
+
+skolem:lemma7 a r:Extraction;
     r:gives {
         :test1 :policy :PolicyX.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/acp/acp.n3>].
 
-skolem:lemma7 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             var:x_1 :pass :allOfTest.
@@ -126,7 +132,7 @@ skolem:lemma7 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/acp/acp.n3>].
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma9 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             var:x_1 :pass :anyOfTest.
@@ -143,7 +149,7 @@ skolem:lemma8 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/acp/acp.n3>].
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
             var:x_1 :pass :noneOfTest.

@@ -21,26 +21,18 @@ skolem:lemma1 a r:Inference;
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ghent"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#City"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 a var:x_1.
-    } => {
-        var:x_0 a var:x_1.
-    }}].
+    r:rule skolem:lemma4.
 
 skolem:lemma2 a r:Inference;
     r:gives {
         :Ghent a :HumanCommunity.
     };
     r:evidence (
-        skolem:lemma4
+        skolem:lemma5
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ghent"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#HumanCommunity"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 a var:x_1.
-    } => {
-        var:x_0 a var:x_1.
-    }}].
+    r:rule skolem:lemma4.
 
 skolem:lemma3 a r:Extraction;
     r:gives {
@@ -48,7 +40,17 @@ skolem:lemma3 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/slide32/slide32.n3>].
 
-skolem:lemma4 a r:Inference;
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 a var:x_1.
+        } => {
+            var:x_0 a var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/slide32/slide32.n3>].
+
+skolem:lemma5 a r:Inference;
     r:gives {
         :Ghent a :HumanCommunity.
     };
@@ -56,9 +58,9 @@ skolem:lemma4 a r:Inference;
         skolem:lemma3
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ghent"]];
-    r:rule skolem:lemma5.
+    r:rule skolem:lemma6.
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma6 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             var:x_0 a :City.
