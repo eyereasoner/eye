@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.26.1 (2024-10-18)').
+version_info('EYE v10.26.2 (2024-10-18)').
 
 license_info('MIT License
 
@@ -5361,10 +5361,8 @@ prepare_builtins :-
     ;   true
     ),
 
-    % rdfstar
-    (   (   quad(triple(_, _, _), _)
-        ;   flag(rdfstar)
-        )
+    % rdfquads
+    (   quad(triple(_, _, _), _)
     ->  % create trig graphs
         (   graphid(G),
             findall(C,
@@ -5381,38 +5379,8 @@ prepare_builtins :-
             assertz(graph(G, F)),
             fail
         ;   true
-        ),
-
-        % create forward rules
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D), '<>')),
-
-        % create backward rules
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), ':-'(C, D), '<>')),
-
-        % create queries
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#query>'(C, D), '<>')),
-
-        % create rdfsurfaces
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B),
-                getterm(B, C)
-                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, C), '<>'))
-    ;   forall(
-            retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
-            assertz(':-'(A, B))
         )
+    ;   true
     ),
 
     % rdfsurfaces
@@ -12751,17 +12719,6 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
-getterm(reifiedtriple('<http://www.w3.org/2000/10/swap/log#conjunction>', '<http://www.w3.org/2000/10/swap/log#isFunctorOf>', A, _), B) :-
-    !,
-    findall(C,
-        (   member(reifiedtriple(S, P, O, _), A),
-            D =.. [P, S, O],
-            getterm(D, C)
-        ),
-        E
-    ),
-    conj_list(F, E),
-    conjify(F, B).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),

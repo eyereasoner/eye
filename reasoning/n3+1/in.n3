@@ -29,7 +29,7 @@ _:bng_2 {
     }.
 }.
 
-# occurences
+# reifiedtriples
 :s :p << :d :e :f >> .
 :s :p << :g :h :i ~ :x >> .
 
@@ -44,3 +44,10 @@ _:bng_2 {
 :liz :marriedTo :richard
     {| :from 1964; :to 1975 |}
     {| :from 1980; :to 2001 |} .
+
+# functional term
+:ann a (~ :good :Poet).
+
+# query
+{ ?S ?P ?O } =^ { ?S ?P ?O }.
+{ ?S => ?O } =^ { ?S => ?O }.
