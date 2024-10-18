@@ -6,11 +6,11 @@
 @prefix : <urn:example:>.
 
 # some x is a good cobbler
-_:x a << :good log:isFunctorOf (:Cobbler) >>.
+_:x a (~ :good :Cobbler).
 
 # is there some x which is good at some y
 {
-    ?x a << :good log:isFunctorOf (?y) >>.
+    ?x a (~ :good ?y).
 } =^ {
     :test :is true.
 }.

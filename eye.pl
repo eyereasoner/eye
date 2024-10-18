@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.26.0 (2024-10-18)').
+version_info('EYE v10.26.1 (2024-10-18)').
 
 license_info('MIT License
 
@@ -2134,6 +2134,11 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
+pathitem(functional(List), Triples) -->
+    ['(', '~'],
+    !,
+    pathlist(List, Triples),
+    [')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -4122,6 +4127,11 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
+wt1(functional(X)) :-
+    !,
+    write('(~'),
+    wl(X),
+    write(')').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -12571,6 +12581,8 @@ raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<
 raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
+    !.
+raw_type(functional(_), '<http://www.w3.org/2000/10/swap/log#Functional>') :-
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
