@@ -1,17 +1,10 @@
 @prefix : <http://example.org/#>.
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 :s :p << :d :e :f >>.
 :s :p << :g :h :i ~ :x >>.
 :s :p :o.
-_:bne_20 rdf:reifies <<( :d :e :f )>>.
-:x rdf:reifies <<( :g :h :i )>>.
-:r rdf:reifies <<( :a :b _:e_x_1 )>>.
-:r rdf:reifies <<( :a :b _:e_y_1 )>>.
-:x rdf:reifies <<( :s :p _:bn_1 )>>.
 << :a :b _:e_x_1 ~ :r >> :c :d.
 << :a :b _:e_y_1 ~ :r >> :c :d.
 _:bn_1 :q1 "A".
@@ -23,22 +16,14 @@ _:bn_1 :q2 "B".
 << :liz :marriedTo :richard >> :to 1975 .
 << :liz :marriedTo :richard >> :to 2001 .
 :ann a (~ :good :Poet).
-_:bng_1 log:implies _:bng_2.
-
-_:bng_1 {
-    _:sk_1 graph:statement _:sk_2.
-    _:sk_2 graph:member _:bng_3.
-}
-
-_:bng_2 {
-    var:x_0 graph:statement _:sk_0.
-}
-
-_:bng_3 {
-    :a :b :c.
-}
-
-_:sk_0 {
-    :u :v :w.
-    :x :y :z.
-}
+{
+    ?U_1 graph:statement ?U_2.
+    ?U_2 graph:member {
+        :a :b :c.
+    }.
+} => {
+    var:x_0 graph:statement {
+        :u :v :w.
+        :x :y :z.
+    }.
+}.
