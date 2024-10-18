@@ -36,14 +36,14 @@ RDF star supports reasoning with backward rules described in RDF e.g.
 
 RDF star supports querying with queries described in RDF e.g.
 
-    # query: is the age of a person above some duration?
+    # is the age of a person above 80 years?
     <<
         log:conjunction log:isFunctorOf (
-            << var:S :ageAbove "P75Y"^^xsd:duration >>
+            << var:S :ageAbove "P80Y"^^xsd:duration >>
         )
     >> log:query <<
         log:conjunction log:isFunctorOf (
-            << var:S :ageAbove "P75Y"^^xsd:duration >>
+            << var:S :ageAbove "P80Y"^^xsd:duration >>
         )
     >>.
 
