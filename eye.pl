@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.26.2 (2024-10-18)').
+version_info('EYE v10.26.3 (2024-10-18)').
 
 license_info('MIT License
 
@@ -78,6 +78,7 @@ eye
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
     --rdf-list-output               output lists as RDF lists
+    --rdf-star-output               output as RDF star data
     --restricted                    restricting to core built-ins
     --rule-histogram                output rule histogram info on stderr
     --skolem-genid <genid>          use <genid> in Skolem IRIs
@@ -86,7 +87,6 @@ eye
     --strings                       output log:outputString objects on stdout
     --tactic limited-answer <nr>    give only a limited number of answers
     --tactic linear-select          select each rule only once
-    --trig-output                   output as TriG data
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
@@ -838,10 +838,10 @@ opts(['--tactic', 'linear-select'|Argus], Args) :-
 opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
-opts(['--trig-output'|Argus], Args) :-
+opts(['--rdf-star-output'|Argus], Args) :-
     !,
-    retractall(flag('trig-output')),
-    assertz(flag('trig-output')),
+    retractall(flag('rdf-star-output')),
+    assertz(flag('rdf-star-output')),
     opts(Argus, Args).
 opts(['--version'|_], _) :-
     !,
@@ -2161,7 +2161,7 @@ pathitem(reifiedtriple(S, P, O, N), T) -->
     verb(P, Tp),
     object(O, To),
     reifiedtriplename(N),
-    {   (   flag('trig-output')
+    {   (   flag('rdf-star-output')
         ->  append([['\'<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>\''(N, triple(S, P, O))], Ts, Tp, To], T)
         ;   append([Ts, Tp, To], T)
         )
@@ -4297,7 +4297,10 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     wt(X),
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
-    \+flag('trig-output'),
+    (   retract(flag('rdf-star-output'))
+    ->  assertz(flag('no-rdf-star-output'))
+    ;   true
+    ),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4378,6 +4381,10 @@ wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     ->  retract(rule_uvar(_))
     ;   true
     ),
+    (   retract(flag('no-rdf-star-output'))
+    ->  assertz(flag('rdf-star-output'))
+    ;   true
+    ),
     !.
 wt2(':-'(X, Y)) :-
     (   rule_uvar(R)
@@ -4406,7 +4413,10 @@ wt2(':-'(X, Y)) :-
     ),
     !.
 wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
-    \+flag('trig-output'),
+    (   retract(flag('rdf-star-output'))
+    ->  assertz(flag('no-rdf-star-output'))
+    ;   true
+    ),
     (   rule_uvar(R)
     ->  true
     ;   R = [],
@@ -4429,6 +4439,11 @@ wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
     ),
     (   nb_getval(fdepth, 0)
     ->  retract(ncllit)
+    ;   true
+    ),
+    !,
+    (   retract(flag('no-rdf-star-output'))
+    ->  assertz(flag('rdf-star-output'))
     ;   true
     ),
     !.
@@ -4522,7 +4537,8 @@ wtn(reifiedtriple(S, P, O, N)) :-
     wp(P),
     write(' '),
     wg(O),
-    (   findvar(N, beta)
+    (   \+flag('rdf-star-output'),
+        findvar(N, beta)
     ->  true
     ;   write(' ~ '),
         wg(N)
@@ -4568,7 +4584,7 @@ wg(X) :-
             ;   F = ':-'
             )
         )
-    ->  (   flag('trig-output'),
+    ->  (   flag('rdf-star-output'),
             nb_getval(keep_ng, true)
         ->  (   graph(N, X)
             ->  true
@@ -4582,7 +4598,7 @@ wg(X) :-
             ;   true
             ),
             wt(N)
-        ;   (   flag('trig-output')
+        ;   (   flag('rdf-star-output')
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
@@ -4622,17 +4638,14 @@ wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
-    \+flag('trig-output'),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
-    \+flag('trig-output'),
     !,
     write('<=').
 wp('<http://www.w3.org/2000/10/swap/log#query>') :-
     \+flag('no-qnames'),
-    \+flag('trig-output'),
     !,
     write('=^').
 wp(X) :-
@@ -4659,7 +4672,7 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag('trig-output'),
+    (   flag('rdf-star-output'),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),

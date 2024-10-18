@@ -1,21 +1,29 @@
 @prefix : <http://example.org/#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-:s :p << :d :e :f >>.
+_:e_g_1 :h _:e_i_1.
+:s :p << :d :e :f ~ _:bne_21 >>.
 :s :p << :g :h :i ~ :x >>.
 :s :p :o.
+_:bne_21 rdf:reifies <<( :d :e :f )>>.
+:x rdf:reifies <<( :g :h :i )>>.
+:r rdf:reifies <<( :a :b _:e_x_1 )>>.
+:r rdf:reifies <<( :a :b _:e_y_1 )>>.
+:x rdf:reifies <<( :s :p _:bn_1 )>>.
 << :a :b _:e_x_1 ~ :r >> :c :d.
 << :a :b _:e_y_1 ~ :r >> :c :d.
 _:bn_1 :q1 "A".
 _:bn_1 :q2 "B".
-<< :s :p :o >> :j :k.
+<< :s :p :o ~ _:bne_28 >> :j :k.
 :liz :marriedTo :richard.
-<< :liz :marriedTo :richard >> :from 1964 .
-<< :liz :marriedTo :richard >> :from 1980 .
-<< :liz :marriedTo :richard >> :to 1975 .
-<< :liz :marriedTo :richard >> :to 2001 .
-:ann a (~ :good :Poet).
+<< :liz :marriedTo :richard ~ _:bne_31 >> :from 1964 .
+<< :liz :marriedTo :richard ~ _:bne_34 >> :from 1980 .
+<< :liz :marriedTo :richard ~ _:bne_31 >> :to 1975 .
+<< :liz :marriedTo :richard ~ _:bne_34 >> :to 2001 .
+(~ :s (~ :s 0)) a :PeanoNumber.
+:tom a (~ :good :Pilot).
 {
     ?U_1 graph:statement ?U_2.
     ?U_2 graph:member {
@@ -27,3 +35,18 @@ _:bn_1 :q2 "B".
         :x :y :z.
     }.
 }.
+
+_:e_g_1 {
+    :s :p _:e_x_1.
+    :s :p :o.
+}
+
+_:e_i_1 {
+    :a :b :c.
+    :d :e _:e_x_1.
+}
+
+_:sk_0 {
+    :u :v :w.
+    :x :y :z.
+}

@@ -3,18 +3,21 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
+# triple with blank node graphs
+_:g :h _:i.
+
 # blank node graphs
-_:bng_1 {
+_:g {
     :s :p _:x.
 }
 
-_:bng_2 {
+_:i {
     :a :b :c.
     :d :e _:x.
 }
 
 # additional quad
-:s :p :o _:bng_1.
+:s :p :o _:g.
 
 # derive trig graph
 {
@@ -45,9 +48,11 @@ _:bng_2 {
     {| :from 1964; :to 1975 |}
     {| :from 1980; :to 2001 |} .
 
-# functional term
-:ann a (~ :good :Poet).
+# functional terms
+(~ :s (~ :s 0)) a :PeanoNumber.
+:tom a (~ :good :Pilot).
 
 # query
 { ?S ?P ?O } =^ { ?S ?P ?O }.
+{ ?S graph:statement ?O } =^ { ?S graph:statement ?O }.
 { ?S => ?O } =^ { ?S => ?O }.
