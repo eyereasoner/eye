@@ -52,7 +52,21 @@ _:i {
 (~ :s (~ :s 0)) a :PeanoNumber.
 :tom a (~ :good :Pilot).
 
-# query
-{ ?S ?P ?O } =^ { ?S ?P ?O }.
-{ ?S graph:statement ?O } =^ { ?S graph:statement ?O }.
-{ ?S => ?O } =^ { ?S => ?O }.
+# queries
+{
+    ?S ?P ?O.
+} =^ {
+    ?S ?P ?O.
+}.
+
+{
+    ?S graph:statement ?O.
+} =^ {
+    ?S graph:statement ?O.
+}.
+
+{
+    ?S => ?O.
+} =^ {
+    ?S => ?O.
+}.
