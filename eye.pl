@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.26.3 (2024-10-18)').
+version_info('EYE v10.26.4 (2024-10-20)').
 
 license_info('MIT License
 
@@ -7263,7 +7263,11 @@ userInput(A, B) :-
             ->  Quiet = '--quiet'
             ;   Quiet = ''
             ),
-            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            (   flag('no-bnode-relabeling')
+            ->  Nobnr = '--no-bnode-relabeling'
+            ;   Nobnr = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Nobnr, Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
