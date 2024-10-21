@@ -1,6 +1,19 @@
 @prefix : <urn:example:>.
 
-:q :isPossibilityIn :w1.
 :p :isPossibilityIn :w1.
+:q :isPossibilityIn :w1.
 :p :isPossibilityIn :w2.
+:q :isPossibilityIn :w2.
+:p :isPossibilityIn :w3.
+:p :isNecessityIn :w1.
+:p :isNecessityIn :w2.
 :p :isNecessityIn :w3.
+{
+    :p :isPossibilityIn :w1.
+} :isNecessityIn :w3.
+{
+    :p :isPossibilityIn :w2.
+} :isNecessityIn :w3.
+{
+    :p :isPossibilityIn :w3.
+} :isNecessityIn :w3.
