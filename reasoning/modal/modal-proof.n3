@@ -1,0 +1,196 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        :q :isPossibilityIn :w1.
+        :p :isPossibilityIn :w1.
+        :p :isPossibilityIn :w2.
+        :p :isNecessityIn :w3.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :q :isPossibilityIn :w1.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:q"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w1"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :p :isPossibilityIn :w1.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w1"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :p :isPossibilityIn :w2.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w2"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :p :isNecessityIn :w3.
+    };
+    r:evidence (
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:rule skolem:lemma10.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :q :isPossibilityIn :w1.
+    };
+    r:evidence (
+        skolem:lemma11
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:q"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :isPossibilityIn var:x_1.
+        } => {
+            var:x_0 :isPossibilityIn var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :p :isPossibilityIn :w1.
+    };
+    r:evidence (
+        skolem:lemma14
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :p :isPossibilityIn :w2.
+    };
+    r:evidence (
+        skolem:lemma16
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        :p :isNecessityIn :w3.
+    };
+    r:evidence (
+        skolem:lemma15
+        [ a r:Fact; r:gives {({
+            _:sk_0 :isAccessibleFrom :w3.
+        } {
+            :p :isTrueIn _:sk_0.
+        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:p"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:rule skolem:lemma17.
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :isNecessityIn var:x_1.
+        } => {
+            var:x_0 :isNecessityIn var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        :w2 :isAccessibleFrom :w1.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        :q :isTrueIn :w2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_2 :isPossibilityIn var:x_1.
+        } <= {
+            var:x_0 :isAccessibleFrom var:x_1.
+            var:x_2 :isTrueIn var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        :w3 :isAccessibleFrom :w1.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma15 a r:Extraction;
+    r:gives {
+        :p :isTrueIn :w3.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma16 a r:Extraction;
+    r:gives {
+        :w3 :isAccessibleFrom :w2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+
+skolem:lemma17 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 :isNecessityIn var:x_1.
+        } <= {
+            var:x_0 :isTrueIn var:x_1.
+            ({
+                var:x_2 :isAccessibleFrom var:x_1.
+            } {
+                var:x_0 :isTrueIn var:x_2.
+            }) log:forAllIn var:x_3.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/modal/modal.n3>].
+

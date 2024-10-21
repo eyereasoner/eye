@@ -1,0 +1,28 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+:w2 :isAccessibleFrom :w1.
+:w3 :isAccessibleFrom :w1, :w2.
+
+# define which propositions are true in each world
+:p :isTrueIn :w1.
+:q :isTrueIn :w2.
+:p :isTrueIn :w3.
+
+# define necessity operator □P
+{ ?P :isNecessityIn ?World } <= {
+    ?P :isTrueIn ?World.
+    (   { ?AccessibleWorld :isAccessibleFrom ?World }
+        { ?P :isTrueIn ?AccessibleWorld }
+    ) log:forAllIn ?Scope.
+}.
+
+# define possibility operator ◇P
+{ ?P :isPossibilityIn ?World } <= {
+    ?AccessibleWorld :isAccessibleFrom ?World.
+    ?P :isTrueIn ?AccessibleWorld.
+}.
+
+# query
+{ ?P :isNecessityIn ?World } =^ { ?P :isNecessityIn ?World }.
+{ ?P :isPossibilityIn ?World } =^ { ?P :isPossibilityIn ?World }.
