@@ -1,7 +1,5 @@
 @prefix : <http://example.org/#>.
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
-@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 _:e_g_1 :h _:e_i_1.
 :s :p << :d :e :f ~ _:bne_21 >>.
@@ -22,19 +20,6 @@ _:bn_1 :q2 "B".
 << :liz :marriedTo :richard ~ _:bne_34 >> :from 1980 .
 << :liz :marriedTo :richard ~ _:bne_31 >> :to 1975 .
 << :liz :marriedTo :richard ~ _:bne_34 >> :to 2001 .
-(~ :s (~ :s 0)) a :PeanoNumber.
-:tom a (~ :good :Pilot).
-{
-    ?U_1 graph:statement ?U_2.
-    ?U_2 graph:member {
-        :a :b :c.
-    }.
-} => {
-    var:x_0 graph:statement {
-        :u :v :w.
-        :x :y :z.
-    }.
-}.
 
 _:e_g_1 {
     :s :p _:e_x_1.
