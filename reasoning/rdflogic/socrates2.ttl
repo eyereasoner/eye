@@ -1,0 +1,28 @@
+# ------------------
+# Socrates inference
+# ------------------
+#
+# Infer that Socrates is a mortal
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Socrates rdf:type :Human.
+:Human rdfs:subClassOf :Mortal.
+
+# subclass rule
+<< log:conjunction log:isFunctorOf _:bnl_1 >> log:implies << log:conjunction log:isFunctorOf _:bnl_2 >>.
+
+_:bnl_1 rdf:first << var:A rdfs:subClassOf var:B >>; rdf:rest _:bnl_3.
+_:bnl_3 rdf:first << var:S rdf:type var:A >>; rdf:rest rdf:nil.
+
+_:bnl_2 rdf:first << var:S rdf:type var:B >>; rdf:rest rdf:nil.
+
+# query
+<< log:conjunction log:isFunctorOf _:bnl_4 >> log:query << log:conjunction log:isFunctorOf _:bnl_4 >>.
+
+_:bnl_4 rdf:first << :Socrates rdf:type :Mortal >>; rdf:rest rdf:nil.
