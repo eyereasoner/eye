@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.27.5 (2024-10-23)').
+version_info('EYE v10.27.6 (2024-10-23)').
 
 license_info('MIT License
 
@@ -1090,7 +1090,12 @@ args(['--trig', Argument|Args]) :-
             ttl_n3p(P, Predicate),
             ttl_n3p(O, Object),
             Triple =.. [Predicate, Subject, Object],
-            djiti_assertz(Triple),
+            dynify(Triple),
+            (   \+flag('no-distinct-input'),
+                call(Triple)
+            ->  true
+            ;   djiti_assertz(Triple)
+            ),
             (   flag(intermediate, Out)
             ->  format(Out, '~q.~n', [Triple])
             ;   true
@@ -1108,7 +1113,11 @@ args(['--trig', Argument|Args]) :-
             ttl_n3p(O, Object),
             G = H:_,
             ttl_n3p(H, Graph),
-            assertz(quad(triple(Subject, Predicate, Object), Graph)),
+            (   \+flag('no-distinct-input'),
+                quad(triple(Subject, Predicate, Object), Graph)
+            ->  true
+            ;   assertz(quad(triple(Subject, Predicate, Object), Graph))
+            ),
             (   \+graphid(Graph)
             ->  assertz(graphid(Graph))
             ;   true
