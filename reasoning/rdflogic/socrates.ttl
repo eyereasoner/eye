@@ -16,23 +16,23 @@
 
 # subclass rule
 <<
-    log:conjunction log:term (
+    log:conjunction log:isFunctorOf (
         << var:A rdfs:subClassOf var:B >>
         << var:S rdf:type var:A >>
     )
 >> log:implies <<
-    log:conjunction log:term (
+    log:conjunction log:isFunctorOf (
         << var:S rdf:type var:B >>
     )
 >>.
 
 # query
 <<
-    log:conjunction log:term (
+    log:conjunction log:isFunctorOf (
         << :Socrates rdf:type :Mortal >>
     )
 >> log:query <<
-    log:conjunction log:term (
+    log:conjunction log:isFunctorOf (
         << :Socrates rdf:type :Mortal >>
     )
 >>.

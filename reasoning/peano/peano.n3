@@ -4,34 +4,34 @@
 # add
 {(?A 0) :add ?A} <= true.
 
-{(?A << :s log:term (?B) >>) :add << :s log:term (?C) >>} <= {
+{(?A << :s log:isFunctorOf (?B) >>) :add << :s log:isFunctorOf (?C) >>} <= {
     (?A ?B) :add ?C.
 }.
 
 # multiply
 {(?A 0) :multiply 0} <= true.
 
-{(?A << :s log:term (?B) >>) :multiply ?C} <= {
+{(?A << :s log:isFunctorOf (?B) >>) :multiply ?C} <= {
     (?A ?B) :multiply ?D.
     (?A ?D) :add ?C.
 }.
 
 # factorial
 {?A :factorial ?B} <= {
-    (?A << :s log:term (0) >>) :fac ?B.
+    (?A << :s log:isFunctorOf (0) >>) :fac ?B.
 }.
 
 {(0 ?A) :fac ?A} <= true.
 
-{(<< :s log:term (?A) >> ?B) :fac ?C} <= {
-    (?B << :s log:term (?A) >>) :multiply ?D.
+{(<< :s log:isFunctorOf (?A) >> ?B) :fac ?C} <= {
+    (?B << :s log:isFunctorOf (?A) >>) :multiply ?D.
     (?A ?D) :fac ?C.
 }.
 
 # query
 {
-    (<< :s log:term (0) >> << :s log:term (<< :s log:term (0) >>) >>) :multiply ?A.
-    (?A << :s log:term (<< :s log:term (<< :s log:term (0) >>) >>) >>) :add ?B.
+    (<< :s log:isFunctorOf (0) >> << :s log:isFunctorOf (<< :s log:isFunctorOf (0) >>) >>) :multiply ?A.
+    (?A << :s log:isFunctorOf (<< :s log:isFunctorOf (<< :s log:isFunctorOf (0) >>) >>) >>) :add ?B.
     ?B :factorial ?C.
 } =^ {
     ?B :factorial ?C.
