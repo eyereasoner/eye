@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.27.2 (2024-10-23)').
+version_info('EYE v10.27.3 (2024-10-23)').
 
 license_info('MIT License
 
@@ -5105,6 +5105,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   djiti_assertz(Dn),
             (   flag('pass-only-new'),
                 Dn \= answer(_, _, _),
+                (   Dn = '<http://www.w3.org/2000/10/swap/log#implies>'(K, _),
+                    conj_list(K, L)
+                ->  \+last(L, getterm(_, _))
+                ;   true
+                ),
                 \+pass_only_new(Dn)
             ->  assertz(pass_only_new(Dn))
             ;   true
@@ -5141,6 +5146,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   djiti_assertz(Cn),
                 (   flag('pass-only-new'),
                     Cn \= answer(_, _, _),
+                    (   Cn = '<http://www.w3.org/2000/10/swap/log#implies>'(K, _),
+                        conj_list(K, L)
+                    ->  \+last(L, getterm(_, _))
+                    ;   true
+                    ),
                     \+pass_only_new(Cn)
                 ->  assertz(pass_only_new(Cn))
                 ;   true
