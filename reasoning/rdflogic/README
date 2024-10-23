@@ -8,12 +8,12 @@ RDF logic supports reasoning with forward rules described in RDF e.g.
 
     # subclass rule
     <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:A rdfs:subClassOf var:B >>
             << var:S rdf:type var:A >>
         )
     >> log:implies <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:S rdf:type var:B >>
         )
     >>.
@@ -22,11 +22,11 @@ RDF logic supports reasoning with backward rules described in RDF e.g.
 
     # calculate the age of a person
     <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:S :ageAbove var:A >>
         )
     >> log:isImpliedBy <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:S :birthDay var:B >>
             << "" time:localTime var:D >>
             << (var:D var:B) math:difference var:F >>
@@ -38,11 +38,11 @@ RDF logic supports querying with queries described in RDF e.g.
 
     # query: is the age of a person above some duration?
     <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:S :ageAbove "P75Y"^^xsd:duration >>
         )
     >> log:query <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << var:S :ageAbove "P75Y"^^xsd:duration >>
         )
     >>.
@@ -51,10 +51,10 @@ RDF logic supports reasoning with rdfsurfaces described in RDF as
 
     # a city is a human community
     (_:x) log:onNegativeSurface <<
-        log:conjunction log:isFunctorOf (
+        log:conjunction log:term (
             << _:x a :City >>
             << () log:onNegativeSurface <<
-                    log:conjunction log:isFunctorOf (
+                    log:conjunction log:term (
                         << _:x a :HumanCommunity >>
                     )
                 >>

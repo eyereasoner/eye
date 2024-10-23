@@ -12,10 +12,10 @@
 
 # a city is a human community
 (_:x) log:onNegativeSurface <<
-    log:conjunction log:isFunctorOf (
+    log:conjunction log:term (
         << _:x a :City >>
         << () log:onNegativeSurface <<
-                log:conjunction log:isFunctorOf (
+                log:conjunction log:term (
                     << _:x a :HumanCommunity >>
                 )
             >>
@@ -25,10 +25,10 @@
 
 # query: is Ghent a human community?
 () log:onNegativeSurface <<
-    log:conjunction log:isFunctorOf (
+    log:conjunction log:term (
         << :Ghent a :HumanCommunity >>
         << () log:onNegativeAnswerSurface <<
-                log:conjunction log:isFunctorOf (
+                log:conjunction log:term (
                     << :Ghent a :HumanCommunity >>
                 )
             >>
