@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.27.4 (2024-10-23)').
+version_info('EYE v10.27.5 (2024-10-23)').
 
 license_info('MIT License
 
@@ -12771,15 +12771,16 @@ getterm(reifiedtriple(S, P, O, N), reifiedtriple(S, P, O, N)) :-
     !.
 getterm(reifiedtriple('<http://www.w3.org/2000/10/swap/log#conjunction>', '<http://www.w3.org/2000/10/swap/log#isFunctorOf>', A, _), B) :-
     !,
-    findall(C,
-        (   member(reifiedtriple(S, P, O, _), A),
-            D =.. [P, S, O],
-            getterm(D, C)
+    getterm(A, C),
+    findall(D,
+        (   member(reifiedtriple(S, P, O, _), C),
+            E =.. [P, S, O],
+            getterm(E, D)
         ),
-        E
+        F
     ),
-    conj_list(F, E),
-    conjify(F, B).
+    conj_list(G, F),
+    conjify(G, B).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),
