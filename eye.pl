@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.27.6 (2024-10-23)').
+version_info('EYE v10.27.7 (2024-10-24)').
 
 license_info('MIT License
 
@@ -203,6 +203,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#univ>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -1650,8 +1651,8 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
     !,
-    (   X \= reifiedtriple(_, _, _, _),
-        Y \= reifiedtriple(_, _, _, _)
+    (   \+atomic(X),
+        \+atomic(Y)
     ->  djiti_answer(answer(Y), A),
         write(implies(X, A, Src)),
         writeln('.')
@@ -5319,8 +5320,8 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         )
     ).
 djiti_fact('<http://www.w3.org/2000/10/swap/log#query>'(A, B), C) :-
-    A \= reifiedtriple(_, _, _, _),
-    B \= reifiedtriple(_, _, _, _),
+    \+atomic(A),
+    \+atomic(B),
     djiti_answer(answer(B), D),
     makevars(implies(A, D, '<>'), C, zeta),
     \+C,
@@ -5384,9 +5385,7 @@ prepare_builtins :-
     ),
 
     % rdfstar
-    (   (   quad(triple(_, _, _), _)
-        ;   flag(rdfstar)
-        )
+    (   quad(triple(_, _, _), _)
     ->  % create trig graphs
         (   graphid(G),
             findall(C,
@@ -5403,39 +5402,43 @@ prepare_builtins :-
             assertz(graph(G, F)),
             fail
         ;   true
-        ),
-
-        % create forward rules
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D), '<>')),
-
-        % create backward rules
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), ':-'(C, D), '<>')),
-
-        % create queries
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
-                getterm(A, C),
-                getterm(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#query>'(C, D), '<>')),
-
-        % create rdfsurfaces
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B),
-                getterm(B, C)
-                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, C), '<>'))
-    ;   forall(
-            retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
-            assertz(':-'(A, B))
         )
+    ;   true
     ),
+
+    % create forward rules
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
+            atomic(A),
+            atomic(B),
+            getterm(A, C),
+            getterm(B, D)
+            ), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D), '<>')),
+
+    % create backward rules
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
+            atomic(A),
+            atomic(B),
+            getterm(A, C),
+            getterm(B, D)
+            ), ':-'(C, D), '<>')),
+
+    % create queries
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
+            atomic(A),
+            atomic(B),
+            getterm(A, C),
+            getterm(B, D)
+            ), '<http://www.w3.org/2000/10/swap/log#query>'(C, D), '<>')),
+
+    % create rdfsurfaces
+    assertz(implies((
+            '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B),
+            atomic(B),
+            getterm(B, C)
+            ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, C), '<>')),
 
     % rdfsurfaces
     (   '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(_, _)
@@ -12778,18 +12781,18 @@ getterm(A, [B|C]) :-
 getterm(reifiedtriple(S, P, O, N), reifiedtriple(S, P, O, N)) :-
     var(P),
     !.
-getterm(reifiedtriple('<http://www.w3.org/2000/10/swap/log#conjunction>', '<http://www.w3.org/2000/10/swap/log#isFunctorOf>', A, _), B) :-
+getterm(A, B) :-
+    '<http://www.w3.org/2000/10/swap/log#univ>'(A, C),
+    getterm(C, ['<http://www.w3.org/2000/10/swap/log#triple>', S, P, O]),
     !,
-    getterm(A, C),
-    findall(D,
-        (   member(reifiedtriple(S, P, O, _), C),
-            E =.. [P, S, O],
-            getterm(E, D)
-        ),
-        F
-    ),
-    conj_list(G, F),
-    conjify(G, B).
+    B =.. [P, S, O].
+getterm(A, B) :-
+    '<http://www.w3.org/2000/10/swap/log#univ>'(A, C),
+    getterm(C, ['<http://www.w3.org/2000/10/swap/log#conjunction>'|D]),
+    !,
+    getterm(D, E),
+    conj_list(F, E),
+    conjify(F, B).
 getterm(A, B) :-
     A =.. [C|D],
     getterm(D, E),

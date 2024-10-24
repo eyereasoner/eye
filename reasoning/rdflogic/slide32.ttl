@@ -11,27 +11,21 @@
 :Ghent a :City.
 
 # a city is a human community
-(_:x) log:onNegativeSurface <<
-    log:conjunction log:isFunctorOf (
-        << _:x a :City >>
-        << () log:onNegativeSurface <<
-                log:conjunction log:isFunctorOf (
-                    << _:x a :HumanCommunity >>
-                )
-            >>
-        >>
-    )
->>.
+(_:x) log:onNegativeSurface [ log:univ (log:conjunction
+    [ log:univ (log:triple _:x a :City)]
+    [ log:univ (log:triple () log:onNegativeSurface
+        [ log:univ (log:conjunction
+            [ log:univ (log:triple _:x a :HumanCommunity)]
+        )]
+    )]
+)].
 
 # query: is Ghent a human community?
-() log:onNegativeSurface <<
-    log:conjunction log:isFunctorOf (
-        << :Ghent a :HumanCommunity >>
-        << () log:onNegativeAnswerSurface <<
-                log:conjunction log:isFunctorOf (
-                    << :Ghent a :HumanCommunity >>
-                )
-            >>
-        >>
-    )
->>.
+(_:x) log:onNegativeSurface [ log:univ (log:conjunction
+    [ log:univ (log:triple :Ghent a :HumanCommunity)]
+    [ log:univ (log:triple () log:onNegativeAnswerSurface
+        [ log:univ (log:conjunction
+            [ log:univ (log:triple :Ghent a :HumanCommunity)]
+        )]
+    )]
+)].

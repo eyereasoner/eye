@@ -7,45 +7,33 @@ Using RDF to describe logic rules and queries.
 RDF logic supports reasoning with forward rules described in RDF e.g.
 
     # subclass rule
-    <<
-        log:conjunction log:isFunctorOf (
-            << var:A rdfs:subClassOf var:B >>
-            << var:S rdf:type var:A >>
-        )
-    >> log:implies <<
-        log:conjunction log:isFunctorOf (
-            << var:S rdf:type var:B >>
-        )
-    >>.
+    [ log:univ (log:conjunction
+        [ log:univ (log:triple var:A rdfs:subClassOf var:B)]
+        [ log:univ (log:triple var:S rdf:type var:A)]
+    )] log:implies [ log:univ (log:conjunction
+        [ log:univ (log:triple var:S rdf:type var:B )]
+    )].
 
 RDF logic supports reasoning with backward rules described in RDF e.g.
 
     # calculate the age of a person
-    <<
-        log:conjunction log:isFunctorOf (
-            << var:S :ageAbove var:A >>
-        )
-    >> log:isImpliedBy <<
-        log:conjunction log:isFunctorOf (
-            << var:S :birthDay var:B >>
-            << "" time:localTime var:D >>
-            << (var:D var:B) math:difference var:F >>
-            << var:F math:greaterThan var:A >>
-        )
-    >>.
+    [ log:univ (log:conjunction
+        [ log:univ (log:triple var:S :ageAbove var:A)]
+    )] log:isImpliedBy [ log:univ (log:conjunction
+        [ log:univ (log:triple var:S :birthDay var:B)]
+        [ log:univ (log:triple "" time:localTime var:D)]
+        [ log:univ (log:triple (var:D var:B) math:difference var:F)]
+        [ log:univ (log:triple var:F math:greaterThan var:A)]
+    )].
 
 RDF logic supports querying with queries described in RDF e.g.
 
     # query: is the age of a person above some duration?
-    <<
-        log:conjunction log:isFunctorOf (
-            << var:S :ageAbove "P75Y"^^xsd:duration >>
-        )
-    >> log:query <<
-        log:conjunction log:isFunctorOf (
-            << var:S :ageAbove "P75Y"^^xsd:duration >>
-        )
-    >>.
+    [ log:univ (log:conjunction
+        [ log:univ (log:triple var:S :ageAbove "P80Y"^^xsd:duration)]
+    )] log:query [ log:univ (log:conjunction
+        [ log:univ (log:triple var:S :ageAbove "P80Y"^^xsd:duration)]
+    )].
 
 RDF logic supports reasoning with rdfsurfaces described in RDF as
 
