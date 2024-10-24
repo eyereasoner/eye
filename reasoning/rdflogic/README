@@ -38,17 +38,17 @@ RDF logic supports querying with queries described in RDF e.g.
 RDF logic supports reasoning with rdfsurfaces described in RDF as
 
     # a city is a human community
-    (_:x) log:onNegativeSurface <<
-        log:conjunction log:isFunctorOf (
-            << _:x a :City >>
-            << () log:onNegativeSurface <<
-                    log:conjunction log:isFunctorOf (
-                        << _:x a :HumanCommunity >>
-                    )
-                >>
-            >>
-        )
-    >>.
+    (_:x) log:onNegativeSurface [ log:univ (log:conjunction
+        [ log:univ (log:triple _:x a :City)]
+        [ log:univ (log:triple () log:onNegativeSurface
+            [ log:univ (log:conjunction
+                [ log:univ (log:triple _:x a :HumanCommunity)]
+            )]
+        )]
+    )].
+
+The log:univ predicate is like the Prolog "univ" operator and is used
+to convert between a term and its list representation (functor args).
 
 The var: prefix is <http://www.w3.org/2000/10/swap/var#> and is used for
 variables that are interpreted as universally quantified variables except for
