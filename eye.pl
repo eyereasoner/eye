@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.27.7 (2024-10-24)').
+version_info('EYE v10.27.8 (2024-10-26)').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
-    --no-beautified-output          no beautified output
     --no-bnode-relabeling           no relabeling of blank nodes in triple or graph terms
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -693,11 +692,6 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     ),
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
-    opts(Argus, Args).
-opts(['--no-beautified-output'|Argus], Args) :-
-    !,
-    retractall(flag('no-beautified-output')),
-    assertz(flag('no-beautified-output')),
     opts(Argus, Args).
 opts(['--no-bnode-relabeling'|Argus], Args) :-
     !,
@@ -4163,11 +4157,8 @@ wt2((X, Y)) :-
         write('.'),
         (   flag(strings)
         ->  write(' ')
-        ;   (   flag('no-beautified-output')
-            ->  write(' ')
-            ;   nl,
-                indent
-            )
+        ;   nl,
+            indent
         ),
         wt(Y)
     ).
@@ -4602,32 +4593,56 @@ wg(X) :-
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
-            write('{'),
-            indentation(4),
-            (   flag(strings)
-            ->  true
-            ;   (   flag('no-beautified-output')
+            (   flag(rdflogic)
+            ->  write('[ '),
+                wp('<http://www.w3.org/2000/10/swap/log#univ>'),
+                write(' ('),
+                wp('<http://www.w3.org/2000/10/swap/log#conjunction>'),
+                indentation(4),
+                nl,
+                conj_list(X, Xl),
+                forall(
+                    member(M, Xl),
+                    (   M =.. [P, S, O],
+                        indent,
+                        write('[ '),
+                        wp('<http://www.w3.org/2000/10/swap/log#univ>'),
+                        write(' ('),
+                        wp('<http://www.w3.org/2000/10/swap/log#triple>'),
+                        write(' '),
+                        wt(S),
+                        write(' '),
+                        wp(P),
+                        write(' '),
+                        wt(O),
+                        write(')]'),
+                        nl
+                    )
+                ),
+                indentation(-4),
+                indent,
+                write(')]')
+            ;   write('{'),
+                indentation(4),
+                (   flag(strings)
                 ->  true
                 ;   nl,
                     indent
-                )
-            ),
-            nb_getval(fdepth, D),
-            E is D+1,
-            nb_setval(fdepth, E),
-            wt(X),
-            nb_setval(fdepth, D),
-            indentation(-4),
-            (   flag(strings)
-            ->  true
-            ;   (   flag('no-beautified-output')
+                ),
+                nb_getval(fdepth, D),
+                E is D+1,
+                nb_setval(fdepth, E),
+                wt(X),
+                nb_setval(fdepth, D),
+                indentation(-4),
+                (   flag(strings)
                 ->  true
                 ;   write('.'),
                     nl,
                     indent
-                )
-            ),
-            write('}')
+                ),
+                write('}')
+            )
         )
     ;   wt(X)
     ).
@@ -5381,6 +5396,13 @@ prepare_builtins :-
     (   clause('<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(_, _), true)
     ->  retractall(flag(rdflists)),
         assertz(flag(rdflists))
+    ;   true
+    ),
+
+    % rdflogic
+    (   clause('<http://www.w3.org/2000/10/swap/log#univ>'(_, _), true)
+    ->  retractall(flag(rdflogic)),
+        assertz(flag(rdflogic))
     ;   true
     ),
 
@@ -7858,6 +7880,13 @@ userInput(A, B) :-
     ->  tell(Output)
     ;   true
     ).
+
+'<http://www.w3.org/2000/10/swap/log#univ>'(X, Y) :-
+    (   var(X)
+    ;   \+atomic(X),
+        var(Y)
+    ),
+    X =.. Y.
 
 '<http://www.w3.org/2000/10/swap/log#uri>'(X, Y) :-
     when(
