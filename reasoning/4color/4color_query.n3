@@ -3,9 +3,7 @@
 @prefix : <https://eyereasoner.github.io/eye/reasoning/4color#>.
 
 {
-    ((?PLACE ?COLOR) {?PLACE :neighbours ?NEIGHBOURS} ?LIST) log:collectAllIn ?SCOPE.
-    (?LIST) func:reverse ?PLACES.
-    ?PLACES :places true.
+    :mapEU :color ?PLACES.
 } => {
-    ?PLACES :coloring true.
+    :mapEU :color ?PLACES.
 }.

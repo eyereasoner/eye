@@ -2,6 +2,12 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://eyereasoner.github.io/eye/reasoning/4color#>.
 
+{ ?MAP :color ?PLACES } <= {
+    ((?PLACE ?X) { ?PLACE :neighbours ?Y } ?PLACES) log:collectAllIn ?SCOPE.
+    ?PLACES :places true.
+    true log:callWithCut true.
+}.
+
 {() :places true} <= true.
 
 {?PLACES :places true} <= {
