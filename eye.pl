@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.1 (2024-10-27)').
+version_info('EYE v10.28.2 (2024-10-29)').
 
 license_info('MIT License
 
@@ -201,6 +201,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#proves>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -3606,6 +3607,7 @@ w3 :-
     ;   true
     ),
     (   answer(B1, B2, B3),
+        B1 \= '<http://www.w3.org/2000/10/swap/log#proves>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3627,6 +3629,25 @@ w3 :-
             cnt(output_statements)
         ),
         fail
+    ;   true
+    ),
+    (   answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)
+    ->  nl,
+        writeln('#'),
+        writeln('# rdfproof'),
+        writeln('#'),
+        nl,
+        (   answer('<http://www.w3.org/2000/10/swap/log#proves>', S, O),
+            labelvars('<http://www.w3.org/2000/10/swap/log#proves>'(S, O), 0, _, avar),
+            indent,
+            wt('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
+            ws('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
+            write('.'),
+            nl,
+            cnt(output_statements),
+            fail
+        ;   true
+        )
     ;   true
     ).
 
@@ -5362,7 +5383,14 @@ prepare_builtins :-
 
     % rdftrig
     (   quad(triple(_, _, _), _)
-    ->  % create trig graphs
+    ->  (   \+flag(nope)
+        ->  assertz(flag(nope)),
+            retractall(flag(proves)),
+            assertz(flag(proves))
+        ;   true
+        ),
+
+        % create trig graphs
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
@@ -5407,30 +5435,61 @@ prepare_builtins :-
 
         % create forward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#implies>'(C, D), '<>')),
+                '<http://www.w3.org/2000/10/swap/log#implies>'(An, Bn),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
+                ground([A, B]),
+                conj_list(B, L),
+                \+last(L, answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, B], [Q, I], beta(U)),
+                (   flag(proves),
+                    Q \= true,
+                    I \= false
+                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#proves>', Q, I), F)
+                ;   F = I
+                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
 
         % create backward rules
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
-                ), ':-'(C, D), '<>')),
+                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, B], [Q, I], beta(U)),
+                (   flag(proves),
+                    Q \= true,
+                    Q \= !
+                ->  conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', Q, I)), F)
+                ;   F = Q
+                ),
+                C = ':-'(I, F),
+                copy_term_nat(C, CC),
+                labelvars(CC, 0, _, avar),
+                (   \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(C),
+                    retractall(brake)
+                ;   true
+                )), true, '<>')),
 
         % create queries
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#query>'(A, B),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(A, C),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, D)
-                ), '<http://www.w3.org/2000/10/swap/log#query>'(C, D), '<>')),
-
-        % create rdfsurfaces
-        assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, B),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(B, C)
-                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(A, C), '<>'))
+                '<http://www.w3.org/2000/10/swap/log#query>'(An, Bn),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
+                (   flag(proves),
+                    A \= B
+                ->  F = ('<http://www.w3.org/2000/10/swap/log#proves>'(A, B), B)
+                ;   F = B
+                ),
+                djiti_answer(answer(F), J),
+                findvars([A, F], V, alpha),
+                list_to_set(V, U),
+                makevars([A, J], [Q, I], beta(U))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>'))
     ;   forall(
             retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
             assertz(':-'(A, B))
