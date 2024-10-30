@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.2 (2024-10-29)').
+version_info('EYE v10.28.3 (2024-10-30)').
 
 license_info('MIT License
 
@@ -4034,6 +4034,12 @@ wt0(X) :-
     nb_getval(var_ns, Sns),
     atom(X),
     sub_atom(X, 1, I, _, Sns),
+    (   graph(X, G),
+        flag('rdf-trig-output'),
+        \+keep_ng(graph(X, G))
+    ->  assertz(keep_ng(graph(X, G)))
+    ;   true
+    ),
     J is I+1,
     sub_atom(X, J, _, 1, Y),
     (   getlist(X, M)
@@ -5447,7 +5453,7 @@ prepare_builtins :-
                 (   flag(proves),
                     Q \= true,
                     I \= false
-                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#proves>', Q, I), F)
+                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#implies>'(An, Bn), Q], I), F)
                 ;   F = I
                 )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
 
@@ -5462,7 +5468,7 @@ prepare_builtins :-
                 (   flag(proves),
                     Q \= true,
                     Q \= !
-                ->  conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', Q, I)), F)
+                ->  conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), Q], I)), F)
                 ;   F = Q
                 ),
                 C = ':-'(I, F),
@@ -5482,7 +5488,7 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
                 (   flag(proves),
                     A \= B
-                ->  F = ('<http://www.w3.org/2000/10/swap/log#proves>'(A, B), B)
+                ->  F = ('<http://www.w3.org/2000/10/swap/log#proves>'(['<http://www.w3.org/2000/10/swap/log#query>'(An, Bn), A], B), B)
                 ;   F = B
                 ),
                 djiti_answer(answer(F), J),
