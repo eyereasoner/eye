@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.4 (2024-10-30)').
+version_info('EYE v10.28.5 (2024-10-30)').
 
 license_info('MIT License
 
@@ -1697,6 +1697,7 @@ tr_tr(A, B) :-
     !,
     (   atom_concat('_', C, A),
         (   sub_atom(C, 0, _, _, 'bn_')
+        ;   sub_atom(C, 0, _, _, 'bng_')
         ;   sub_atom(C, 0, _, _, 'e_')
         )
     ->  nb_getval(var_ns, Sns),
@@ -2533,7 +2534,10 @@ symbol(Name) -->
         ->  nb_getval(var_ns, Sns),
             (   flag('pass-all-ground')
             ->  atomic_list_concat(['\'<', Sns, Label, '>\''], Name)
-            ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
+            ;   (   atom_concat('bng_', _, S)
+                ->  atomic_list_concat(['\'<', Sns, S, '>\''], Name)
+                ;   atomic_list_concat(['\'<', Sns, 'e_', S, '>\''], Name)
+                )
             )
         ;   atom_concat('_e_', S, Name)
         )
@@ -4055,6 +4059,7 @@ wt0(X) :-
             )
         ->  (   (   sub_atom(Y, 0, 2, _, 'e_')
                 ;   sub_atom(Y, 0, 3, _, 'bn_')
+                ;   sub_atom(Y, 0, 3, _, 'bng_')
                 ;   sub_atom(Y, 0, 5, _, 'node_')
                 )
             ->  write('_:')
