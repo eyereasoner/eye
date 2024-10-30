@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.3 (2024-10-30)').
+version_info('EYE v10.28.4 (2024-10-30)').
 
 license_info('MIT License
 
@@ -5462,32 +5462,19 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
-                findvars([A, B], V, alpha),
-                list_to_set(V, U),
-                makevars([A, B], [Q, I], beta(U)),
                 (   flag(proves),
-                    Q \= true,
-                    Q \= !
-                ->  conj_append(Q, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), Q], I)), F)
-                ;   F = Q
-                ),
-                C = ':-'(I, F),
-                copy_term_nat(C, CC),
-                labelvars(CC, 0, _, avar),
-                (   \+cc(CC)
-                ->  assertz(cc(CC)),
-                    assertz(C),
-                    retractall(brake)
-                ;   true
-                )), true, '<>')),
+                    A \= true,
+                    A \= !
+                ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), A], B)), C)
+                ;   C = A
+                )), ':-'(B, C), '<>')),
 
         % create queries
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#query>'(An, Bn),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
-                (   flag(proves),
-                    A \= B
+                (   flag(proves)
                 ->  F = ('<http://www.w3.org/2000/10/swap/log#proves>'(['<http://www.w3.org/2000/10/swap/log#query>'(An, Bn), A], B), B)
                 ;   F = B
                 ),
