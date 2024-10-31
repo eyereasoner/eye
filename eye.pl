@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.5 (2024-10-30)').
+version_info('EYE v10.28.6 (2024-10-31)').
 
 license_info('MIT License
 
@@ -128,6 +128,7 @@ eye
 :- dynamic(got_dq/0).
 :- dynamic(got_head/0).
 :- dynamic(got_labelvars/3).
+:- dynamic(got_ng/0).
 :- dynamic(got_pi/0).
 :- dynamic(got_random/3).
 :- dynamic(got_sq/0).
@@ -3538,18 +3539,23 @@ w4 :-
     w3,
     forall(
         retract(keep_ng(NG)),
-        (   nl,
+        (   assertz(got_ng(NG)),
+            nl,
             wt(NG),
             nl
         )
     ),
     forall(
         retract(keep_ng(NG)),
-        (   nl,
-            wt(NG),
-            nl
+        (   (   got_ng(NG)
+            ->  true
+            ;   nl,
+                wt(NG),
+                nl
+            )
         )
     ),
+    retractall(got_ng(_)),
     retractall(pfx(_, _)),
     retractall(wpfx(_)),
     nb_setval(wn, Wn),
@@ -3567,16 +3573,20 @@ w4 :-
     w3,
     forall(
         retract(keep_ng(NG)),
-        (   nl,
+        (   assertz(got_ng(NG)),
+            nl,
             wt(NG),
             nl
         )
     ),
     forall(
         retract(keep_ng(NG)),
-        (   nl,
-            wt(NG),
-            nl
+        (   (   got_ng(NG)
+            ->  true
+            ;   nl,
+                wt(NG),
+                nl
+            )
         )
     ).
 
