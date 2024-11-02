@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.6 (2024-10-31)').
+version_info('EYE v10.28.7 (2024-11-02)').
 
 license_info('MIT License
 
@@ -3648,7 +3648,7 @@ w3 :-
     (   answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)
     ->  nl,
         writeln('#'),
-        writeln('# rdfproof'),
+        writeln('# reasongraphs'),
         writeln('#'),
         nl,
         (   answer('<http://www.w3.org/2000/10/swap/log#proves>', S, O),
