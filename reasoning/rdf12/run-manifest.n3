@@ -50,8 +50,9 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
-    ?TEST a rdft:TestTurtlePositiveSyntax;
-        mf:action ?ACTION.
+    ?TEST a ?TPS.
+    (rdft:TestNTriplesPositiveSyntax rdft:TestNQuadsPositiveSyntax rdft:TestTurtlePositiveSyntax rdft:TestTrigPositiveSyntax) list:member ?TPS.
+    ?TEST mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
     ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
     ?CMD e:exec 0.
@@ -71,8 +72,9 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
-    ?TEST a rdft:TestTurtleNegativeSyntax;
-        mf:action ?ACTION.
+    ?TEST a ?TNS.
+    (rdft:TestNTriplesNegativeSyntax rdft:TestNQuadsNegativeSyntax rdft:TestTurtleNegativeSyntax rdft:TestTrigNegativeSyntax) list:member ?TNS.
+    ?TEST mf:action ?ACTION.
     ?ACTION log:uri ?ACT.
     ("eye --quiet --nope " ?ACT " 2>&1 | grep ERROR | wc -l > out.txt") string:concatenation ?CMD.
     ?CMD e:exec 0.
@@ -92,9 +94,10 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
-    ?TEST a rdft:TestTurtleEval;
-        mf:action ?ACTION;
-        mf:result ?RESULT.
+    ?TEST a ?TE.
+    (rdft:TestTurtleEval rdft:TestTrigEval) list:member ?TE.
+    ?TEST mf:action ?ACTION.
+    ?TEST mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
     ("eye --quiet --nope " ?ACT " --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
@@ -115,9 +118,10 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
-    ?TEST a rdft:TestTurtleNegativeEval;
-        mf:action ?ACTION;
-        mf:result ?RESULT.
+    ?TEST a ?TNE.
+    (rdft:TestTurtleNegativeEval rdft:TestTrigNegativeEval) list:member ?TNE.
+    ?TEST mf:action ?ACTION.
+    ?TEST mf:result ?RESULT.
     ?ACTION log:uri ?ACT.
     ?RESULT log:uri ?RES.
     ("eye --quiet --nope " ?ACT " --entail " ?RES " 2>/dev/null | grep 'true.' | wc -l > out.txt") string:concatenation ?CMD.
