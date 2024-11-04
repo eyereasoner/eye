@@ -50,6 +50,8 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
+    ?MANIFEST mf:entries ?ENTRIES.
+    ?ENTRIES list:member ?TEST.
     ?TEST a ?TPS.
     (rdft:TestNTriplesPositiveSyntax rdft:TestNQuadsPositiveSyntax rdft:TestTurtlePositiveSyntax rdft:TestTrigPositiveSyntax) list:member ?TPS.
     ?TEST mf:action ?ACTION.
@@ -72,6 +74,8 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
+    ?MANIFEST mf:entries ?ENTRIES.
+    ?ENTRIES list:member ?TEST.
     ?TEST a ?TNS.
     (rdft:TestNTriplesNegativeSyntax rdft:TestNQuadsNegativeSyntax rdft:TestTurtleNegativeSyntax rdft:TestTrigNegativeSyntax) list:member ?TNS.
     ?TEST mf:action ?ACTION.
@@ -94,6 +98,8 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
+    ?MANIFEST mf:entries ?ENTRIES.
+    ?ENTRIES list:member ?TEST.
     ?TEST a ?TE.
     (rdft:TestTurtleEval rdft:TestTrigEval) list:member ?TE.
     ?TEST mf:action ?ACTION.
@@ -118,6 +124,8 @@
             dc:date ?DATE ];
         earl:mode earl:automatic ] .
 } <= {
+    ?MANIFEST mf:entries ?ENTRIES.
+    ?ENTRIES list:member ?TEST.
     ?TEST a ?TNE.
     (rdft:TestTurtleNegativeEval rdft:TestTrigNegativeEval) list:member ?TNE.
     ?TEST mf:action ?ACTION.
