@@ -4,34 +4,34 @@
 # add
 {(?A 0) :add ?A} <= true.
 
-{(?A (:s ?B)) :add (:s ?C)} <= {
+{(?A ^(:s ?B)) :add ^(:s ?C)} <= {
     (?A ?B) :add ?C.
 }.
 
 # multiply
 {(?A 0) :multiply 0} <= true.
 
-{(?A (:s ?B)) :multiply ?C} <= {
+{(?A ^(:s ?B)) :multiply ?C} <= {
     (?A ?B) :multiply ?D.
     (?A ?D) :add ?C.
 }.
 
 # factorial
 {?A :factorial ?B} <= {
-    (?A (:s 0)) :fac ?B.
+    (?A ^(:s 0)) :fac ?B.
 }.
 
 {(0 ?A) :fac ?A} <= true.
 
-{((:s ?A) ?B) :fac ?C} <= {
-    (?B (:s ?A)) :multiply ?D.
+{(^(:s ?A) ?B) :fac ?C} <= {
+    (?B ^(:s ?A)) :multiply ?D.
     (?A ?D) :fac ?C.
 }.
 
 # query
 {
-    ((:s 0) (:s (:s 0))) :multiply ?A.
-    (?A (:s (:s (:s 0)))) :add ?B.
+    (^(:s 0) ^(:s ^(:s 0))) :multiply ?A.
+    (?A ^(:s ^(:s ^(:s 0)))) :add ?B.
     ?B :factorial ?C.
 } =^ {
     ?B :factorial ?C.

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.28.9 (2024-11-04)').
+version_info('EYE v10.29.0 (2024-11-05)').
 
 license_info('MIT License
 
@@ -2148,6 +2148,11 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
+pathitem(compound_term(List), Triples) -->
+    [caret_lb],
+    !,
+    pathlist(List, Triples),
+    [')'].
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -2821,6 +2826,11 @@ token(0'@, In, C, atname(Name)) :-
     !.
 token(0'^, In, C, caret_caret) :-
     peek_code(In, 0'^),
+    !,
+    get_code(In, _),
+    get_code(In, C).
+token(0'^, In, C, caret_lb) :-
+    peek_code(In, 0'(),
     !,
     get_code(In, _),
     get_code(In, C).
@@ -4169,6 +4179,12 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
+wt1(compound_term([X|Y])) :-
+    !,
+    write('^('),
+    wt(X),
+    wl(Y),
+    write(')').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
@@ -12676,6 +12692,8 @@ raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
     !.
+raw_type(compound_term(_), '<http://www.w3.org/2000/10/swap/log#Compound>') :-
+    !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
     B \= ':',
@@ -12773,6 +12791,8 @@ getlist(A, A) :-
     \+flag(rdflists),
     !.
 getlist(set(A), A) :-
+    !.
+getlist(compound_term(A), A) :-
     !.
 getlist([], []) :-
     !.
