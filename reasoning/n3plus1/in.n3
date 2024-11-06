@@ -1,5 +1,6 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
@@ -49,7 +50,14 @@ _:i {
     {| :from 1980; :to 2001 |} .
 
 # compound terms
-:sss :ppp ^(:fff :aaa :bbb :ccc).
+:i :j ^(:f :a :b :c).
+
+{
+    (:g :d :e) list:compound ?C.
+    ?E list:compound ?C.
+} => {
+    ?E :k ?C.
+}.
 
 # queries
 {

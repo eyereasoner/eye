@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.29.0 (2024-11-05)').
+version_info('EYE v10.29.1 (2024-11-06)').
 
 license_info('MIT License
 
@@ -6902,6 +6902,15 @@ prepare_builtins :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#compound>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ;   nonvar(B)
+        ),
+        (   B = compound_term(A)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#first>'(A, B) :-
     when(
         (   nonvar(A)
@@ -12791,8 +12800,6 @@ getlist(A, A) :-
     \+flag(rdflists),
     !.
 getlist(set(A), A) :-
-    !.
-getlist(compound_term(A), A) :-
     !.
 getlist([], []) :-
     !.
