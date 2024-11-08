@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.0 (2024-11-07)').
+version_info('EYE v10.30.1 (2024-11-08)').
 
 license_info('MIT License
 
@@ -92,7 +92,6 @@ eye
 <data>
     [--n3] <uri>                    N3 triples and rules
     --n3p <uri>                     N3P intermediate
-    --prolog <uri>                  Prolog code
     --proof <uri>                   N3 proof lemmas
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
@@ -346,7 +345,7 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--prolog', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--trig', '--turtle']),
+    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--trig', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -512,23 +511,14 @@ gre(Argus) :-
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
-    ;   (   member('--prolog', Args)
-        ->  (   query(Q),
-                Q,
-                write_term(Q, [numbervars(true), quoted(true), double_quotes(true)]),
-                write('.\n'),
-                fail
-            ;   true
-            )
-        ;   catch(eam(0), Exc3,
-                (   (   Exc3 = halt(0)
-                    ->  true
-                    ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                        flush_output(user_error),
-                        (   Exc3 = inference_fuse(_)
-                        ->  nb_setval(exit_code, 2)
-                        ;   nb_setval(exit_code, 3)
-                        )
+    ;   catch(eam(0), Exc3,
+            (   (   Exc3 = halt(0)
+                ->  true
+                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                    flush_output(user_error),
+                    (   Exc3 = inference_fuse(_)
+                    ->  nb_setval(exit_code, 2)
+                    ;   nb_setval(exit_code, 3)
                     )
                 )
             )
@@ -865,7 +855,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--prolog', '--proof', '--query', '--trig', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -999,37 +989,6 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
-    args(Args).
-args(['--prolog', Argument|Args]) :-
-    !,
-    absolute_uri(Argument, Arg),
-    (   wcacher(Arg, File)
-    ->  (   flag(quiet)
-        ->  true
-        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
-            flush_output(user_error)
-        )
-    ;   (   flag(quiet)
-        ->  true
-        ;   format(user_error, 'GET ~w ', [Arg]),
-            flush_output(user_error)
-        ),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  http_open(Arg, In, []),
-            set_stream(In, encoding(utf8))
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
-            ;   File = Arg
-            )
-        )
-    ),
-    consult(File),
     args(Args).
 args(['--proof', Arg|Args]) :-
     !,
