@@ -1,0 +1,10 @@
+@prefix : <http://example.org/#>.
+
+# query
+{
+    ((:s 0) (:s (:s 0))) :multiply ?A.
+    (?A (:s (:s (:s 0)))) :add ?B.
+    ?B :factorial ?C.
+} => {
+    ?B :factorial ?C.
+}.
