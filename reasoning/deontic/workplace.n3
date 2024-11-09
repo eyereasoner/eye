@@ -1,0 +1,41 @@
+@prefix : <urn:example:>.
+
+# Define basic deontic predicates
+:workplace_policy :obliged :log_off_at_end_of_shift.
+:workplace_policy :permitted :work_related_task.
+:workplace_policy :forbidden :access_social_media.
+
+# Facts about what an employee is doing
+:alice :does :log_off_at_end_of_shift.
+:bob :does :work_related_task.
+:carol :does :access_social_media.
+
+# Rules to check if an action complies with deontic logic
+{
+    ?Person :does ?Action.
+    :workplace_policy :obliged ?Action
+} => {
+    ?Person :is_fulfilling_an_obligation ?Action.
+}.
+
+{
+    ?Person :does ?Action.
+    :workplace_policy :permitted ?Action
+} => {
+    ?Person :is_doing_a_permitted_action ?Action.
+}.
+
+{
+    ?Person :does ?Action.
+    :workplace_policy :forbidden ?Action
+} => {
+    ?Person :is_violating_a_prohibition ?Action.
+}.
+
+# Query to test if everyone complies with deontic logic
+{
+    ?Person :does ?Action.
+    ?Person ?P ?Action.
+} =^ {
+    ?Person ?P ?Action.
+}.
