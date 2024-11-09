@@ -1,27 +1,6 @@
-# ------------
-# Filter query
-# ------------
-
-@prefix list: <http://www.w3.org/2000/10/swap/list#>.
-@prefix string: <http://www.w3.org/2000/10/swap/string#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
 # facts
 :Let :param "Huey".
 :Let :param "Dewey".
 :Let :param "Louie".
-
-# query
-{
-    :Let :where (?param ?where).
-    (?param ?where ?filteredParams) log:collectAllIn ?scope.
-    ?filteredParams list:length 2.
-} =^ {
-    :result :is ?filteredParams.
-}.
-
-:Let :where (?param {
-    :Let :param ?param.
-    ?param string:lessThan "Louie".
-}).
