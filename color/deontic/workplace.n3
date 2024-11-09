@@ -31,11 +31,3 @@
 } => {
     ?Person :is_violating_a_prohibition ?Action.
 }.
-
-# Query to test if everyone complies with deontic logic
-{
-    ?Person :does ?Action.
-    ?Person ?P ?Action.
-} =^ {
-    ?Person ?P ?Action.
-}.
