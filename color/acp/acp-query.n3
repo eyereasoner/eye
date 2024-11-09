@@ -1,0 +1,12 @@
+@prefix : <http://example.org/#>.
+
+# query
+{
+    ?Pol a :Policy.
+    ?Pol :pass :allOfTest.
+    ?Pol :pass :anyOfTest.
+    ?Pol :pass :noneOfTest.
+} => {
+    :test :for ?Pol.
+    :test :is true.
+}.

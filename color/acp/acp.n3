@@ -41,14 +41,3 @@
     ?List list:length ?L.
     ?L log:equalTo 0.
 }.
-
-# query
-{
-    ?Pol a :Policy.
-    ?Pol :pass :allOfTest.
-    ?Pol :pass :anyOfTest.
-    ?Pol :pass :noneOfTest.
-} =^ {
-    :test :for ?Pol.
-    :test :is true.
-}.
