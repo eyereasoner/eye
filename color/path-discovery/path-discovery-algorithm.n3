@@ -1,8 +1,6 @@
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix nepo: <http://neptune.aws.com/ontology/airroutes/>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
 # connectivity
@@ -20,14 +18,4 @@
     (?length 1) math:sum ?newLength.
     (?via ?to ?newVisited ?newLength ?max) :route ?newRoute.
     ?route list:firstRest (?from ?newRoute).
-}.
-
-# find routes from Manchester-Boston Regional Airport to Helsinki Vantaa Airport with at most 2 stopovers
-{
-    ?source rdfs:label "Manchester-Boston Regional Airport".
-    ?destination rdfs:label "Helsinki Vantaa Airport".
-    (?source ?destination () 0 2) :route ?airports.
-    (?city {?airports list:member ?airport. ?airport rdfs:label ?city} ?route) log:collectAllIn ?scope.
-} =^ {
-    :discovered :airroute ?route.
 }.
