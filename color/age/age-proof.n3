@@ -3,19 +3,19 @@
 @prefix : <https://example.org/#>.
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        :patH :ageAbove "P75Y"^^xsd:duration.
+        :patH :ageAbove "P80Y"^^xsd:duration.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :patH :ageAbove "P75Y"^^xsd:duration.
+        :patH :ageAbove "P80Y"^^xsd:duration.
     };
     r:evidence (
         skolem:lemma2
@@ -25,27 +25,27 @@ skolem:lemma1 a r:Inference;
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :patH :ageAbove "P75Y"^^xsd:duration.
+        :patH :ageAbove "P80Y"^^xsd:duration.
     };
     r:evidence (
         skolem:lemma4
-        [ a r:Fact; r:gives {"" time:localTime "2024-11-09T22:55:46.629Z"^^xsd:dateTime}]
-        [ a r:Fact; r:gives {("2024-11-09T22:55:46.629Z"^^xsd:dateTime "1944-08-21"^^xsd:date) math:difference 2531602546.6289997}]
-        [ a r:Fact; r:gives {2531602546.6289997 math:greaterThan "P75Y"^^xsd:duration}]
+        [ a r:Fact; r:gives {"2024-08-21T00:00:00.0Z"^^xsd:dateTime log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime}]
+        [ a r:Fact; r:gives {("2024-08-21T00:00:00.0Z"^^xsd:dateTime "1944-08-21"^^xsd:date) math:difference 2524608000.0}]
+        [ a r:Fact; r:gives {2524608000.0 math:greaterThan "P80Y"^^xsd:duration}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#patH"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1944-08-21"^^xsd:date];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2024-11-09T22:55:46.629Z"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2531602546.6289997];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "P75Y"^^xsd:duration];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2524608000.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "P80Y"^^xsd:duration];
     r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            var:x_0 :ageAbove "P75Y"^^xsd:duration.
+            var:x_0 :ageAbove "P80Y"^^xsd:duration.
         } => {
-            var:x_0 :ageAbove "P75Y"^^xsd:duration.
+            var:x_0 :ageAbove "P80Y"^^xsd:duration.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/age/age-query.n3>].
@@ -62,7 +62,7 @@ skolem:lemma5 a r:Extraction;
             var:x_0 :ageAbove var:x_4.
         } <= {
             var:x_0 :birthDay var:x_1.
-            "" time:localTime var:x_2.
+            var:x_2 log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
             (var:x_2 var:x_1) math:difference var:x_3.
             var:x_3 math:greaterThan var:x_4.
         }.

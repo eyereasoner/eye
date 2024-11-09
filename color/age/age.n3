@@ -1,6 +1,7 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix time: <http://www.w3.org/2000/10/swap/time#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://example.org/#>.
 
 # person data
@@ -9,7 +10,8 @@
 # is the age of a person above some duration?
 { ?S :ageAbove ?A } <= {
     ?S :birthDay ?B.
-    "" time:localTime ?D.
+    #"" time:localTime ?D.
+    ?D log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
     (?D ?B) math:difference ?F.
     ?F math:greaterThan ?A.
 }.
