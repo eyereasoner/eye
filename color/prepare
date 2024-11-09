@@ -1,0 +1,19 @@
+#!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+NORMAL="\e[0;39m"
+
+echo -e "${YELLOW}Running eye/color/prepare${NORMAL}"
+echo ""
+
+for dir in */
+do
+    pushd "${dir}" > /dev/null
+    if [ -f ./prepare ]; then
+        echo -e "${YELLOW}${dir}${NORMAL}"
+        ./prepare
+    fi
+    popd  > /dev/null
+done

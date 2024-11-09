@@ -1,0 +1,423 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix ex: <http://example.org/#>.
+@prefix http: <http://www.w3.org/2011/http#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:relGoal <https://eyereasoner.github.io/eye/color/restpath/y>.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:relGoal <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        _:sk_52 http:methodName "GET".
+        _:sk_52 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_52 http:resp _:sk_53.
+        _:sk_53 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel10 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel10 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel10 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:relGoal <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma4
+        skolem:lemma4
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_52"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_53"]];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        {
+            <https://eyereasoner.github.io/eye/color/restpath/x> ex:relGoal <https://eyereasoner.github.io/eye/color/restpath/y>.
+        } => {
+            <https://eyereasoner.github.io/eye/color/restpath/x> ex:relGoal <https://eyereasoner.github.io/eye/color/restpath/y>.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/goal.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        _:sk_46 http:methodName "GET".
+        _:sk_46 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_46 http:resp _:sk_47.
+        _:sk_47 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel9 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel9 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel9 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma6
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_46"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_47"]];
+    r:rule skolem:lemma7.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel9 var:x_1.
+            var:x_2 ex:rel9 var:x_3.
+            var:x_4 ex:rel9 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel10 var:x_1.
+            var:x_2 ex:rel10 var:x_3.
+            var:x_4 ex:rel10 var:x_5.
+            var:x_0 ex:relGoal var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        _:sk_40 http:methodName "GET".
+        _:sk_40 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_40 http:resp _:sk_41.
+        _:sk_41 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel8 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel8 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel8 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma8
+        skolem:lemma8
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_40"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_41"]];
+    r:rule skolem:lemma9.
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel8 var:x_1.
+            var:x_2 ex:rel8 var:x_3.
+            var:x_4 ex:rel8 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel9 var:x_1.
+            var:x_2 ex:rel9 var:x_3.
+            var:x_4 ex:rel9 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        _:sk_34 http:methodName "GET".
+        _:sk_34 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_34 http:resp _:sk_35.
+        _:sk_35 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel7 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel7 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel7 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma10
+        skolem:lemma10
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_34"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_35"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel7 var:x_1.
+            var:x_2 ex:rel7 var:x_3.
+            var:x_4 ex:rel7 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel8 var:x_1.
+            var:x_2 ex:rel8 var:x_3.
+            var:x_4 ex:rel8 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        _:sk_28 http:methodName "GET".
+        _:sk_28 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_28 http:resp _:sk_29.
+        _:sk_29 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel6 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel6 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel6 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma12
+        skolem:lemma12
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_28"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_29"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel6 var:x_1.
+            var:x_2 ex:rel6 var:x_3.
+            var:x_4 ex:rel6 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel7 var:x_1.
+            var:x_2 ex:rel7 var:x_3.
+            var:x_4 ex:rel7 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        _:sk_22 http:methodName "GET".
+        _:sk_22 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_22 http:resp _:sk_23.
+        _:sk_23 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel5 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel5 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel5 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma14
+        skolem:lemma14
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_23"]];
+    r:rule skolem:lemma15.
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel5 var:x_1.
+            var:x_2 ex:rel5 var:x_3.
+            var:x_4 ex:rel5 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel6 var:x_1.
+            var:x_2 ex:rel6 var:x_3.
+            var:x_4 ex:rel6 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        _:sk_16 http:methodName "GET".
+        _:sk_16 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_16 http:resp _:sk_17.
+        _:sk_17 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel4 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel4 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel4 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma16
+        skolem:lemma16
+        skolem:lemma16
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_17"]];
+    r:rule skolem:lemma17.
+
+skolem:lemma15 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel4 var:x_1.
+            var:x_2 ex:rel4 var:x_3.
+            var:x_4 ex:rel4 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel5 var:x_1.
+            var:x_2 ex:rel5 var:x_3.
+            var:x_4 ex:rel5 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        _:sk_6 http:methodName "GET".
+        _:sk_6 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_6 http:resp _:sk_7.
+        _:sk_7 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel3 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel3 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel3 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:evidence (
+        skolem:lemma18
+        skolem:lemma18
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:rule skolem:lemma19.
+
+skolem:lemma17 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel3 var:x_1.
+            var:x_2 ex:rel3 var:x_3.
+            var:x_4 ex:rel3 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel4 var:x_1.
+            var:x_2 ex:rel4 var:x_3.
+            var:x_4 ex:rel4 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        _:sk_0 http:methodName "GET".
+        _:sk_0 http:requestURI <https://eyereasoner.github.io/eye/color/restpath/x>.
+        _:sk_0 http:resp _:sk_1.
+        _:sk_1 http:body <https://eyereasoner.github.io/eye/color/restpath/y>.
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel2 <https://eyereasoner.github.io/eye/color/restpath/y>.
+        _:sk_2 ex:rel2 _:sk_3.
+        _:sk_4 ex:rel2 _:sk_5.
+    };
+    r:evidence (
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/x"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color/restpath/y"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+    r:rule skolem:lemma21.
+
+skolem:lemma19 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. @forSome var:x_6, var:x_7. {
+            var:x_0 ex:rel2 var:x_1.
+            var:x_2 ex:rel2 var:x_3.
+            var:x_4 ex:rel2 var:x_5.
+        } => {
+            var:x_6 http:methodName "GET".
+            var:x_6 http:requestURI var:x_0.
+            var:x_6 http:resp var:x_7.
+            var:x_7 http:body var:x_1.
+            var:x_0 ex:rel3 var:x_1.
+            var:x_2 ex:rel3 var:x_3.
+            var:x_4 ex:rel3 var:x_5.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+
+skolem:lemma20 a r:Extraction;
+    r:gives {
+        <https://eyereasoner.github.io/eye/color/restpath/x> ex:rel1 <https://eyereasoner.github.io/eye/color/restpath/y>.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/initial.n3>].
+
+skolem:lemma21 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. @forSome var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+            var:x_0 ex:rel1 var:x_1.
+        } => {
+            var:x_2 http:methodName "GET".
+            var:x_2 http:requestURI var:x_0.
+            var:x_2 http:resp var:x_3.
+            var:x_3 http:body var:x_1.
+            var:x_0 ex:rel2 var:x_1.
+            var:x_4 ex:rel2 var:x_5.
+            var:x_6 ex:rel2 var:x_7.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/restpath/path-9-3.n3>].
+

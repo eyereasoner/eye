@@ -1,0 +1,941 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/eye/color#>.
+@prefix ccd: <https://eyereasoner.github.io/eye/color/ccd#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:component skolem:lemma12;
+    r:component skolem:lemma13;
+    r:component skolem:lemma14;
+    r:component skolem:lemma15;
+    r:component skolem:lemma16;
+    r:component skolem:lemma17;
+    r:gives {
+        (:input1 "abc") ccd:model (:output1 2 3).
+        (:input1 "xyz") ccd:model (:output1 2 1).
+        (:input2 40) ccd:model (:output1 3 0).
+        (:input2 60) ccd:model (:output1 2 4).
+        (:input3 (0 1)) ccd:model (:output1 2 2).
+        (:input3 (2 3)) ccd:model (:output1 1 3).
+        (:input4 :v1) ccd:model (:output1 2 0).
+        (:input4 :v2) ccd:model (:output1 1 1).
+        (:input4 :v4) ccd:model (:output1 1 1).
+        (:input4 :v3) ccd:model (:output1 1 2).
+        (:input5 "b") ccd:model (:output1 2 0).
+        (:input5 "c") ccd:model (:output1 0 3).
+        (:input5 "a") ccd:model (:output1 1 1).
+        (:input10 ("abc" 40)) ccd:model (:output1 1 0).
+        (:input10 ("xyz" 60)) ccd:model (:output1 1 1).
+        (:input10 ("abc" 60)) ccd:model (:output1 1 2).
+        (:input10 ("xyz" 40)) ccd:model (:output1 1 0).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (:input1 "abc") ccd:model (:output1 2 3).
+    };
+    r:evidence (
+        skolem:lemma18
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_0 :input1 "abc".
+            _:sk_0 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_0 :input1 "abc".
+            _:sk_0 :output1 0.
+        } (1 1 1))}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "abc"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 3];
+    r:rule skolem:lemma19.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        (:input1 "xyz") ccd:model (:output1 2 1).
+    };
+    r:evidence (
+        skolem:lemma20
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_1 :input1 "xyz".
+            _:sk_1 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_1 :input1 "xyz".
+            _:sk_1 :output1 0.
+        } (1))}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "xyz"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
+    r:rule skolem:lemma19.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        (:input2 40) ccd:model (:output1 3 0).
+    };
+    r:evidence (
+        skolem:lemma21
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_2 :input2 40 .
+            _:sk_2 :output1 1.
+        } (1 1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_2 :input2 40 .
+            _:sk_2 :output1 0.
+        } ())}]
+        [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 40];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
+    r:rule skolem:lemma19.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        (:input2 60) ccd:model (:output1 2 4).
+    };
+    r:evidence (
+        skolem:lemma22
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_3 :input2 60 .
+            _:sk_3 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_3 :input2 60 .
+            _:sk_3 :output1 0.
+        } (1 1 1 1))}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {(1 1 1 1) math:sum 4}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 60];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 4];
+    r:rule skolem:lemma19.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        (:input3 (0 1)) ccd:model (:output1 2 2).
+    };
+    r:evidence (
+        skolem:lemma23
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_4 :input3 (0 1).
+            _:sk_4 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_4 :input3 (0 1).
+            _:sk_4 :output1 0.
+        } (1 1))}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (0 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 2];
+    r:rule skolem:lemma19.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        (:input3 (2 3)) ccd:model (:output1 1 3).
+    };
+    r:evidence (
+        skolem:lemma24
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_5 :input3 (2 3).
+            _:sk_5 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_5 :input3 (2 3).
+            _:sk_5 :output1 0.
+        } (1 1 1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 3)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 3];
+    r:rule skolem:lemma19.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        (:input4 :v1) ccd:model (:output1 2 0).
+    };
+    r:evidence (
+        skolem:lemma25
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_6 :input4 :v1.
+            _:sk_6 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_6 :input4 :v1.
+            _:sk_6 :output1 0.
+        } ())}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
+    r:rule skolem:lemma19.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        (:input4 :v2) ccd:model (:output1 1 1).
+    };
+    r:evidence (
+        skolem:lemma26
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_7 :input4 :v2.
+            _:sk_7 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_7 :input4 :v2.
+            _:sk_7 :output1 0.
+        } (1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
+    r:rule skolem:lemma19.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        (:input4 :v4) ccd:model (:output1 1 1).
+    };
+    r:evidence (
+        skolem:lemma27
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_8 :input4 :v4.
+            _:sk_8 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_8 :input4 :v4.
+            _:sk_8 :output1 0.
+        } (1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
+    r:rule skolem:lemma19.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        (:input4 :v3) ccd:model (:output1 1 2).
+    };
+    r:evidence (
+        skolem:lemma28
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_9 :input4 :v3.
+            _:sk_9 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_9 :input4 :v3.
+            _:sk_9 :output1 0.
+        } (1 1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 2];
+    r:rule skolem:lemma19.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        (:input5 "b") ccd:model (:output1 2 0).
+    };
+    r:evidence (
+        skolem:lemma29
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_10 :input5 "b".
+            _:sk_10 :output1 1.
+        } (1 1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_10 :input5 "b".
+            _:sk_10 :output1 0.
+        } ())}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "b"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
+    r:rule skolem:lemma19.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        (:input5 "c") ccd:model (:output1 0 3).
+    };
+    r:evidence (
+        skolem:lemma30
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_11 :input5 "c".
+            _:sk_11 :output1 1.
+        } ())}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_11 :input5 "c".
+            _:sk_11 :output1 0.
+        } (1 1 1))}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+        [ a r:Fact; r:gives {(1 1 1) math:sum 3}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "c"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 3];
+    r:rule skolem:lemma19.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        (:input5 "a") ccd:model (:output1 1 1).
+    };
+    r:evidence (
+        skolem:lemma31
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_12 :input5 "a".
+            _:sk_12 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_12 :input5 "a".
+            _:sk_12 :output1 0.
+        } (1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "a"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_12"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
+    r:rule skolem:lemma19.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        (:input10 ("abc" 40)) ccd:model (:output1 1 0).
+    };
+    r:evidence (
+        skolem:lemma32
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_13 :input10 ("abc" 40).
+            _:sk_13 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_13 :input10 ("abc" 40).
+            _:sk_13 :output1 0.
+        } ())}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("abc" 40)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_13"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
+    r:rule skolem:lemma19.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        (:input10 ("xyz" 60)) ccd:model (:output1 1 1).
+    };
+    r:evidence (
+        skolem:lemma33
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_14 :input10 ("xyz" 60).
+            _:sk_14 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_14 :input10 ("xyz" 60).
+            _:sk_14 :output1 0.
+        } (1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("xyz" 60)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_14"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 1];
+    r:rule skolem:lemma19.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        (:input10 ("abc" 60)) ccd:model (:output1 1 2).
+    };
+    r:evidence (
+        skolem:lemma34
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_15 :input10 ("abc" 60).
+            _:sk_15 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_15 :input10 ("abc" 60).
+            _:sk_15 :output1 0.
+        } (1 1))}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {(1 1) math:sum 2}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("abc" 60)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_15"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 2];
+    r:rule skolem:lemma19.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        (:input10 ("xyz" 40)) ccd:model (:output1 1 0).
+    };
+    r:evidence (
+        skolem:lemma35
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_16 :input10 ("xyz" 40).
+            _:sk_16 :output1 1.
+        } (1))}]
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1) e:findall (1 {
+            _:sk_16 :input10 ("xyz" 40).
+            _:sk_16 :output1 0.
+        } ())}]
+        [ a r:Fact; r:gives {(1) math:sum 1}]
+        [ a r:Fact; r:gives {() math:sum 0}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#output1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("xyz" 40)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/ccd/train_data.n3> <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3> <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_16"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 0];
+    r:rule skolem:lemma19.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        (:input1 "abc") ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
+        skolem:lemma36
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "abc"];
+    r:rule skolem:lemma37.
+
+skolem:lemma19 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {
+            (var:x_0 var:x_1) ccd:output var:x_2.
+            var:x_3 e:findall (1 {
+                var:x_4 var:x_0 var:x_1.
+                var:x_4 var:x_2 1.
+            } var:x_5).
+            var:x_3 e:findall (1 {
+                var:x_4 var:x_0 var:x_1.
+                var:x_4 var:x_2 0.
+            } var:x_6).
+            var:x_5 math:sum var:x_7.
+            var:x_6 math:sum var:x_8.
+        } => {
+            (var:x_0 var:x_1) ccd:model (var:x_2 var:x_7 var:x_8).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_query.n3>].
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        (:input1 "xyz") ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input1}]
+        skolem:lemma38
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "xyz"];
+    r:rule skolem:lemma37.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        (:input2 40) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
+        skolem:lemma39
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 40];
+    r:rule skolem:lemma37.
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        (:input2 60) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input2}]
+        skolem:lemma40
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 60];
+    r:rule skolem:lemma37.
+
+skolem:lemma23 a r:Inference;
+    r:gives {
+        (:input3 (0 1)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
+        skolem:lemma41
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (0 1)];
+    r:rule skolem:lemma37.
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        (:input3 (2 3)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input3}]
+        skolem:lemma42
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (2 3)];
+    r:rule skolem:lemma37.
+
+skolem:lemma25 a r:Inference;
+    r:gives {
+        (:input4 :v1) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+        skolem:lemma43
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v1"]];
+    r:rule skolem:lemma37.
+
+skolem:lemma26 a r:Inference;
+    r:gives {
+        (:input4 :v2) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v2"]];
+    r:rule skolem:lemma37.
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        (:input4 :v4) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+        skolem:lemma45
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v4"]];
+    r:rule skolem:lemma37.
+
+skolem:lemma28 a r:Inference;
+    r:gives {
+        (:input4 :v3) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input4}]
+        skolem:lemma46
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#v3"]];
+    r:rule skolem:lemma37.
+
+skolem:lemma29 a r:Inference;
+    r:gives {
+        (:input5 "b") ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+        skolem:lemma47
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "b"];
+    r:rule skolem:lemma37.
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        (:input5 "c") ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+        skolem:lemma48
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "c"];
+    r:rule skolem:lemma37.
+
+skolem:lemma31 a r:Inference;
+    r:gives {
+        (:input5 "a") ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input5}]
+        skolem:lemma49
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "a"];
+    r:rule skolem:lemma37.
+
+skolem:lemma32 a r:Inference;
+    r:gives {
+        (:input10 ("abc" 40)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+        skolem:lemma50
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("abc" 40)];
+    r:rule skolem:lemma37.
+
+skolem:lemma33 a r:Inference;
+    r:gives {
+        (:input10 ("xyz" 60)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+        skolem:lemma51
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("xyz" 60)];
+    r:rule skolem:lemma37.
+
+skolem:lemma34 a r:Inference;
+    r:gives {
+        (:input10 ("abc" 60)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+        skolem:lemma52
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("abc" 60)];
+    r:rule skolem:lemma37.
+
+skolem:lemma35 a r:Inference;
+    r:gives {
+        (:input10 ("xyz" 40)) ccd:output :output1.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:input1 :input2 :input3 :input4 :input5 :input10) list:member :input10}]
+        skolem:lemma53
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/color#input10"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("xyz" 40)];
+    r:rule skolem:lemma37.
+
+skolem:lemma36 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :input1 "abc".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma37 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            (:input1 :input2 :input3 :input4 :input5 :input10) list:member var:x_0.
+            var:x_1 var:x_0 var:x_2.
+        } => {
+            (var:x_0 var:x_2) ccd:output :output1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_rules.n3>].
+
+skolem:lemma38 a r:Extraction;
+    r:gives {
+        skolem:bn_4 :input1 "xyz".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma39 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :input2 40 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma40 a r:Extraction;
+    r:gives {
+        skolem:bn_4 :input2 60 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma41 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :input3 (0 1).
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma42 a r:Extraction;
+    r:gives {
+        skolem:bn_2 :input3 (2 3).
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma43 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :input4 :v1.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma44 a r:Extraction;
+    r:gives {
+        skolem:bn_2 :input4 :v2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma45 a r:Extraction;
+    r:gives {
+        skolem:bn_5 :input4 :v4.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma46 a r:Extraction;
+    r:gives {
+        skolem:bn_6 :input4 :v3.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma47 a r:Extraction;
+    r:gives {
+        skolem:bn_1 :input5 "b".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma48 a r:Extraction;
+    r:gives {
+        skolem:bn_2 :input5 "c".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma49 a r:Extraction;
+    r:gives {
+        skolem:bn_3 :input5 "a".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma50 a r:Inference;
+    r:gives {
+        skolem:bn_1 :input10 ("abc" 40).
+    };
+    r:evidence (
+        skolem:lemma36
+        skolem:lemma39
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "abc"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 40];
+    r:rule skolem:lemma54.
+
+skolem:lemma51 a r:Inference;
+    r:gives {
+        skolem:bn_4 :input10 ("xyz" 60).
+    };
+    r:evidence (
+        skolem:lemma38
+        skolem:lemma40
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "xyz"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 60];
+    r:rule skolem:lemma54.
+
+skolem:lemma52 a r:Inference;
+    r:gives {
+        skolem:bn_5 :input10 ("abc" 60).
+    };
+    r:evidence (
+        skolem:lemma55
+        skolem:lemma56
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_5"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "abc"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 60];
+    r:rule skolem:lemma54.
+
+skolem:lemma53 a r:Inference;
+    r:gives {
+        skolem:bn_8 :input10 ("xyz" 40).
+    };
+    r:evidence (
+        skolem:lemma57
+        skolem:lemma58
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#bn_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "xyz"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 40];
+    r:rule skolem:lemma54.
+
+skolem:lemma54 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 :input1 var:x_1.
+            var:x_0 :input2 var:x_2.
+        } => {
+            var:x_0 :input10 (var:x_1 var:x_2).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/background_rules.n3>].
+
+skolem:lemma55 a r:Extraction;
+    r:gives {
+        skolem:bn_5 :input1 "abc".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma56 a r:Extraction;
+    r:gives {
+        skolem:bn_5 :input2 60 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma57 a r:Extraction;
+    r:gives {
+        skolem:bn_8 :input1 "xyz".
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+
+skolem:lemma58 a r:Extraction;
+    r:gives {
+        skolem:bn_8 :input2 40 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/ccd/train_data.n3>].
+

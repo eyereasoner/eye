@@ -1,0 +1,11 @@
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix p: <https://eyereasoner.github.io/eye/color/preduction#>.
+@prefix : <https://eyereasoner.github.io/eye/color#>.
+
+{
+    {?A :accept true} <= ?B.
+    {{?A :accept true} <= ?B} p:preduce ?C.
+    ?C e:graphMember {?S ?P ?O}.
+} => {
+    ?S ?P ?O.
+}.

@@ -1,0 +1,28 @@
+# ------------------
+# Generating test dl
+# ------------------
+
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix : <https://eyereasoner.github.io/eye/color#>.
+
+# graph generation
+{(?F ?N) :graphgen true} <= {
+    ("open" ?F "write" ?FD) e:derive true.
+    ("tell" ?FD) e:derive true.
+    ("format" "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.~n" ()) e:derive true.
+    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) e:derive true.
+    ("between" 1 ?N ?I) e:derive true.
+    ("_I-1" ?I) e:calculate ?J.
+    ("format" ":N~d rdfs:subClassOf :N~d.~n" (?J ?I)) e:derive true.
+    ("format" ":N~d rdfs:subClassOf :I~d.~n" (?J ?I)) e:derive true.
+    ("format" ":N~d rdfs:subClassOf :J~d.~n" (?J ?I)) e:derive true.
+    ("fail") e:derive true.
+}.
+{(?F ?N) :graphgen true} <= {
+    ("told") e:derive true.
+}.
+
+# immediate goal
+true <= {
+    ("test-dl.ttl" 100000) :graphgen true.
+}.
