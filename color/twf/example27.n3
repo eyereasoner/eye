@@ -8,6 +8,6 @@
 :taskA2 a :Completed .
 
 { ?task a :CompositeTask . 
-  ({ ?task :subtask ?subtask } { ?subtask a :Completed }) log:forAllIn _:x . 
+  ({ ?task :subtask ?subtask } { ?subtask a :Completed }) log:forAllIn ?SCOPE . 
 
 } => { ?task a :Completed } .

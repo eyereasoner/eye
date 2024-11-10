@@ -7,6 +7,6 @@
 :taskB a :Completed .
 
 { ?workflow a :Workflow.
-  (?task { ?workflow :includes ?task . ?task a :Completed } ?completed) log:collectAllIn _:x .
+  (?task { ?workflow :includes ?task . ?task a :Completed } ?completed) log:collectAllIn ?SCOPE .
 
 } => { ?workflow :completed ?completed } .

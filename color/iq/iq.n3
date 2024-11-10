@@ -6,11 +6,11 @@
 
 @prefix : <http://example.org/test#>.
 
-{?x :loves _:y} <= true.
+#?x :loves _:y.
 
-_:x :says {_:x :knows :Albert}.
+#_:x :says {_:x :knows :Albert}.
 
-{_:x :knows :Albert} => {_:x :knows :Kurt}.
+#{_:x :knows :Albert} => {_:x :knows :Kurt}.
 
 {:e :p :a} => {:e :q :b}.
 {{?x :p :a} => {?x :q :b}} => {{?x :r :c} => {?x :s :d}}.

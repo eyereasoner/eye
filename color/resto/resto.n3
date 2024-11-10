@@ -17,11 +17,12 @@
 {   ?user a foaf:Person.
 }
 =>
-{   _:request http:methodName "GET";
+{   ?request http:methodName "GET";
         http:requestURI (?user);
-        http:resp [ http:body _:address ].
-    ?user foaf:based_near _:address.
-    _:address a con:Address.
+        http:resp ?resp.
+    ?resp http:body ?address.
+    ?user foaf:based_near ?address.
+    ?address a con:Address.
 }.
 
 #The Location API, takes the address and outputs a geo-location
@@ -33,12 +34,13 @@
 {   ?address a con:Address.
 }
 =>
-{   _:request http:methodName "GET";
+{   ?request http:methodName "GET";
         http:requestURI ("?location= " ?address);
-        http:resp [ http:body _:location ].
-    _:location a geo:Point;
-        geo:lat _:lat;
-        geo:long _:long.
+        http:resp ?resp.
+    ?resp http:body ?location.
+    ?location a geo:Point;
+        geo:lat ?lat;
+        geo:long ?long.
 }.
 
 #The Temperature API, takes the location and outputs a Temperature
@@ -51,10 +53,12 @@
         geo:long ?long.
 }
 =>
-{   _:request http:methodName "GET";
+{   ?request http:methodName "GET";
         http:requestURI ("CurrentTemperature?lat=" ?lat "&long=" ?long);
-        http:resp [ http:body _:temperature ].
-    ?location meteo:temperature [ meteo:celsius _:temperature ].
+        http:resp ?resp.
+    ?resp http:body ?temperature.
+    ?location meteo:temperature ?temp.
+    ?temp meteo:celsius ?temperature.
 }.
 
 #The Pressure API, takes the location and outputs a Pressure
@@ -67,10 +71,12 @@
         geo:long ?long.
 }
 =>
-{   _:request http:methodName "GET";
+{   ?request http:methodName "GET";
         http:requestURI ("CurrentPressure?lat=" ?lat "&long=" ?long);
-        http:resp [ http:body _:pressure ].
-    ?location meteo:pressure [ meteo:millibar _:pressure ].
+        http:resp ?resp.
+    ?resp http:body ?pressure.
+    ?location meteo:pressure ?pres.
+    ?pres meteo:millibar ?pressure.
         #There is no meteo:pressure/meteo:millibar, just added it for the
         #sake of the example
 }.
@@ -91,14 +97,15 @@
         resto:hasDate ?date.
 }
 =>
-{   _:request http:methodName "POST";
+{   ?request http:methodName "POST";
         http:requestURI ?appointmentList;
-        http:body (?appointment _:restaurant _:outside);
-        http:resp [ http:body ?appointment ].
-    ?appointment resto:isAt _:restaurant.
-    _:restaurant a resto:Restaurant;
-        resto:reservationList _:reservations.
-    _:place resto:isOutside _:outside.
+        http:body (?appointment ?restaurant ?outside);
+        http:resp ?resp.
+    ?resp http:body ?appointment.
+    ?appointment resto:isAt ?restaurant.
+    ?restaurant a resto:Restaurant;
+        resto:reservationList ?reservations.
+    ?place resto:isOutside ?outside.
 }.
 
 #The Restaurant API, takes the reservation request and outputs a reservation
@@ -110,11 +117,13 @@
     ?day resto:hasDate ?date.
 }
 =>
-{   _:request http:methodName "POST";
+{   ?request http:methodName "POST";
         http:requestURI ?reservations;
         http:body (?date ?outside);
-        http:resp [ http:body _:reservation ].
-    ?restaurant resto:hasReservation _:reservation.
-    _:reservation resto:onDate ?date;
-        resto:place [ resto:isOutside ?outside ] .
+        http:resp ?resp.
+    ?resp http:body ?reservation.
+    ?restaurant resto:hasReservation ?reservation.
+    ?reservation resto:onDate ?date;
+        resto:place ?pl.
+    ?pl resto:isOutside ?outside.
 }.

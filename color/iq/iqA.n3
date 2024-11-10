@@ -1,18 +1,8 @@
 @prefix : <http://example.org/test#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
-_:sk_0 :loves _:e_y_1.
-_:e_x_1 :says {
-    _:e_x_3 :knows :Albert.
-}.
 :s :p :o.
 :s :pp {
     :s :ppp :ooo.
-}.
-{
-    ?U_1 :knows :Albert.
-} => {
-    var:x_0 :knows :Kurt.
 }.
 {
     :e :p :a.
@@ -21,41 +11,38 @@ _:e_x_1 :says {
 }.
 {
     {
-        ?U_5 :p :a.
+        ?U_2 :p :a.
     } => {
-        ?U_5 :q :b.
+        ?U_2 :q :b.
     }.
 } => {
     {
-        ?U_5 :r :c.
+        ?U_2 :r :c.
     } => {
-        ?U_5 :s :d.
+        ?U_2 :s :d.
     }.
 }.
 {
-    ?U_2 :p :o.
+    ?U_0 :p :o.
 } => {
-    ?U_2 :pp {
-        ?U_2 :ppp :ooo.
+    ?U_0 :pp {
+        ?U_0 :ppp :ooo.
     }.
 }.
 {
-    ?U_3 :p :o.
+    ?U_1 :p :o.
 } => {
     {
         {
-            ?U_3 :p2 ?U_6.
+            ?U_1 :p2 ?U_3.
         } => {
-            ?U_3 :p3 ?U_6.
+            ?U_1 :p3 ?U_3.
         }.
     } => {
         {
-            ?U_3 :p4 ?U_6.
+            ?U_1 :p4 ?U_3.
         } => {
-            ?U_3 :p5 ?U_6.
+            ?U_1 :p5 ?U_3.
         }.
     }.
 }.
-{
-    ?U_4 :loves _:e_y_1.
-} <= true.
