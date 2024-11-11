@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.1 (2024-11-08)').
+version_info('EYE v10.30.2 (2024-11-11)').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
-    --no-bnode-relabeling           no relabeling of blank nodes in triple or graph terms
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -697,8 +696,6 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     opts(Argus, Args).
 opts(['--no-bnode-relabeling'|Argus], Args) :-
     !,
-    retractall(flag('no-bnode-relabeling')),
-    assertz(flag('no-bnode-relabeling')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -2518,15 +2515,11 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   flag('no-bnode-relabeling')
-        ->  D = 0
-        ;   nb_getval(fdepth, D)
-        ),
-        (   evar(Label, S, D)
+        (   evar(Label, S, 0)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, D))
+            assertz(evar(Label, S, 0))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
@@ -7372,11 +7365,7 @@ userInput(A, B) :-
             ->  Quiet = '--quiet'
             ;   Quiet = ''
             ),
-            (   flag('no-bnode-relabeling')
-            ->  Nobnr = '--no-bnode-relabeling'
-            ;   Nobnr = ''
-            ),
-            append([A1, A2, ['--nope', Quiet, Nobnr, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),

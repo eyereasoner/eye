@@ -53,11 +53,12 @@ EYE sees the rule <code>P =&gt; C</code> as <code>P &amp; &tilde;C =&gt; C</code
 like a world wide welding machine transforming data into proofs:</p>
 <p><img src="https://www.w3.org/DesignIssues/diagrams/sweb-bus.png" width="480" height="400" alt="PDB"/></p>
 
-<h2 id="eye-color">EYE color</h2>
-<p>color stands for "condition logic reasoning" with the following assumptions: 
+<h2 id="eye-color">EYE Color</h2>
+<p>Color stands for "condition logic reasoning" with the following assumptions:
 <ul>
-<li>RDF data can only have blank nodes with global scope</li>
-<li>N3 rules can only have quickvars with rule scope</li>
+<li>N3 rules can only have quickvars and they have rule scope</li>
+<li>Quickvars are interpreted universally except for forward rule conclusion-only variables which are interpreted existentially</li>
+<li>Blank nodes are interpreted existentially and have document scope</li>
 </ul>
 </p>
 
