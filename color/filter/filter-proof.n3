@@ -18,55 +18,28 @@ skolem:lemma1 a r:Inference;
         :result :is ("Huey" "Dewey").
     };
     r:evidence (
-        skolem:lemma2
         [ a r:Fact; r:gives {(_:sk_0 {
             :Let :param _:sk_0.
             _:sk_0 string:lessThan "Louie".
         } ("Huey" "Dewey")) log:collectAllIn ((<https://eyereasoner.github.io/eye/color/filter/filter.n3>) 1)}]
         [ a r:Fact; r:gives {("Huey" "Dewey") list:length 2}]
     );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/filter/filter.n3>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
-        :Let :param _:sk_0.
-        _:sk_0 string:lessThan "Louie".
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/color/filter/filter.n3>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ("Huey" "Dewey")];
-    r:rule skolem:lemma3.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("Huey" "Dewey")];
+    r:rule skolem:lemma2.
 
-skolem:lemma2 a r:Inference;
+skolem:lemma2 a r:Extraction;
     r:gives {
-        :Let :where (_:sk_0 {
-            :Let :param _:sk_0.
-            _:sk_0 string:lessThan "Louie".
-        }).
-    };
-    r:evidence (
-        [ a r:Fact; r:gives true]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-    r:rule skolem:lemma4.
-
-skolem:lemma3 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
-            :Let :where (var:x_0 var:x_1).
-            (var:x_0 var:x_1 var:x_2) log:collectAllIn var:x_3.
-            var:x_2 list:length 2.
-        } => {
-            :result :is var:x_2.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/filter/filter-query.n3>].
-
-skolem:lemma4 a r:Extraction;
-    r:gives {
-        @forSome var:x_0. {
-            :Let :where (var:x_0 {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            (var:x_0 {
                 :Let :param var:x_0.
                 var:x_0 string:lessThan "Louie".
-            }).
-        } <= true.
+            } var:x_1) log:collectAllIn var:x_2.
+            var:x_1 list:length 2.
+        } => {
+            :result :is var:x_1.
+        }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/filter/filter-query.n3>].
 

@@ -5,14 +5,8 @@
 
 # query
 {
-    :Let :where (?param ?where).
-    (?param ?where ?filteredParams) log:collectAllIn ?scope.
+    (?param { :Let :param ?param. ?param string:lessThan "Louie" } ?filteredParams) log:collectAllIn ?scope.
     ?filteredParams list:length 2.
-} =^ {
+} => {
     :result :is ?filteredParams.
 }.
-
-:Let :where (?param {
-    :Let :param ?param.
-    ?param string:lessThan "Louie".
-}).
