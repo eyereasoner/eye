@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.2 (2024-11-11)').
+version_info('EYE v10.30.3 (2024-11-13)').
 
 license_info('MIT License
 
@@ -6454,8 +6454,10 @@ prepare_builtins :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   sort(0, @=<, A, C),
-            sort(0, @=<, B, C)
+        (   getlist(A, C),
+            getlist(B, D),
+            sort(0, @=<, C, E),
+            sort(0, @=<, D, E)
         )
     ).
 
@@ -6971,7 +6973,8 @@ prepare_builtins :-
     when(
         (   nonvar(A)
         ),
-        (   nth0(B, A, C)
+        (   getlist(A, D),
+            nth0(B, D, C)
         )
     ).
 
@@ -6980,8 +6983,10 @@ prepare_builtins :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   sort(0, @=<, A, C),
-            sort(0, @=<, B, C)
+        (   getlist(A, C),
+            getlist(B, D),
+            sort(0, @=<, C, E),
+            sort(0, @=<, D, E)
         )
     ).
 
@@ -7002,10 +7007,11 @@ prepare_builtins :-
         (   nonvar(A),
             nonvar(B)
         ),
-        (   selectchk(B, A, D),
-            (   \+member(B, D)
-            ->  C = D
-            ;   '<http://www.w3.org/2000/10/swap/list#remove>'([D, B], C)
+        (   getlist(A, D),
+            selectchk(B, D, E),
+            (   \+member(B, E)
+            ->  C = E
+            ;   '<http://www.w3.org/2000/10/swap/list#remove>'([E, B], C)
             )
         )
     ).
@@ -7014,8 +7020,9 @@ prepare_builtins :-
     when(
         (   nonvar(A)
         ),
-        (   nth0(B, A, D),
-            selectchk(D, A, C)
+        (   getlist(A, D),
+            nth0(B, D, E),
+            selectchk(E, D, C)
         )
     ).
 
@@ -7038,7 +7045,13 @@ prepare_builtins :-
     ).
 
 '<http://www.w3.org/2000/10/swap/list#reverse>'(A, B) :-
-    reverse(A, B).
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, C),
+            reverse(C, B)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/list#select>'(A, [B, C]) :-
     when(
@@ -7068,7 +7081,8 @@ prepare_builtins :-
     when(
         (   nonvar(A)
         ),
-        (   sort(A, B)
+        (   getlist(A, C),
+            sort(C, B)
         )
     ).
 
@@ -7076,7 +7090,8 @@ prepare_builtins :-
     when(
         (   nonvar(A)
         ),
-        (   list_to_set(A, B)
+        (   getlist(A, C),
+            list_to_set(C, B)
         )
     ).
 
