@@ -15,19 +15,19 @@
     ?Person :does ?Action.
     :workplace_policy :obliged ?Action
 } => {
-    ?Person :is_fulfilling_an_obligation ?Action.
+    ?Person :complies (true :is_fulfilling_an_obligation ?Action).
 }.
 
 {
     ?Person :does ?Action.
     :workplace_policy :permitted ?Action
 } => {
-    ?Person :is_doing_a_permitted_action ?Action.
+    ?Person :complies (true :is_doing_a_permitted_action ?Action).
 }.
 
 {
     ?Person :does ?Action.
     :workplace_policy :forbidden ?Action
 } => {
-    ?Person :is_violating_a_prohibition ?Action.
+    ?Person :complies (false :is_violating_a_prohibition ?Action).
 }.

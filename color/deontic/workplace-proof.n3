@@ -8,208 +8,156 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:component skolem:lemma2;
     r:component skolem:lemma3;
-    r:component skolem:lemma4;
-    r:component skolem:lemma5;
-    r:component skolem:lemma6;
     r:gives {
-        :alice :does :log_off_at_end_of_shift.
-        :alice :is_fulfilling_an_obligation :log_off_at_end_of_shift.
-        :bob :does :work_related_task.
-        :bob :is_doing_a_permitted_action :work_related_task.
-        :carol :does :access_social_media.
-        :carol :is_violating_a_prohibition :access_social_media.
+        :alice :complies (true :is_fulfilling_an_obligation :log_off_at_end_of_shift).
+        :bob :complies (true :is_doing_a_permitted_action :work_related_task).
+        :carol :complies (false :is_violating_a_prohibition :access_social_media).
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :alice :does :log_off_at_end_of_shift.
+        :alice :complies (true :is_fulfilling_an_obligation :log_off_at_end_of_shift).
     };
     r:evidence (
-        skolem:lemma7
-        skolem:lemma7
+        skolem:lemma4
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:alice"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:log_off_at_end_of_shift"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:does"]];
-    r:rule skolem:lemma8.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (true :is_fulfilling_an_obligation :log_off_at_end_of_shift)];
+    r:rule skolem:lemma5.
 
 skolem:lemma2 a r:Inference;
     r:gives {
-        :alice :is_fulfilling_an_obligation :log_off_at_end_of_shift.
+        :bob :complies (true :is_doing_a_permitted_action :work_related_task).
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (true :is_doing_a_permitted_action :work_related_task)];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :carol :complies (false :is_violating_a_prohibition :access_social_media).
     };
     r:evidence (
         skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (false :is_violating_a_prohibition :access_social_media)];
+    r:rule skolem:lemma5.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :alice :complies (true :is_fulfilling_an_obligation :log_off_at_end_of_shift).
+    };
+    r:evidence (
+        skolem:lemma8
         skolem:lemma9
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:alice"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:log_off_at_end_of_shift"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:is_fulfilling_an_obligation"]];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma10.
 
-skolem:lemma3 a r:Inference;
+skolem:lemma5 a r:Extraction;
     r:gives {
-        :bob :does :work_related_task.
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :complies var:x_1.
+        } => {
+            var:x_0 :complies var:x_1.
+        }.
     };
-    r:evidence (
-        skolem:lemma10
-        skolem:lemma10
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:work_related_task"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:does"]];
-    r:rule skolem:lemma8.
-
-skolem:lemma4 a r:Inference;
-    r:gives {
-        :bob :is_doing_a_permitted_action :work_related_task.
-    };
-    r:evidence (
-        skolem:lemma10
-        skolem:lemma11
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:work_related_task"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:is_doing_a_permitted_action"]];
-    r:rule skolem:lemma8.
-
-skolem:lemma5 a r:Inference;
-    r:gives {
-        :carol :does :access_social_media.
-    };
-    r:evidence (
-        skolem:lemma12
-        skolem:lemma12
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:access_social_media"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:does"]];
-    r:rule skolem:lemma8.
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace-query.n3>].
 
 skolem:lemma6 a r:Inference;
     r:gives {
-        :carol :is_violating_a_prohibition :access_social_media.
+        :bob :complies (true :is_doing_a_permitted_action :work_related_task).
     };
     r:evidence (
+        skolem:lemma11
         skolem:lemma12
-        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:work_related_task"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :carol :complies (false :is_violating_a_prohibition :access_social_media).
+    };
+    r:evidence (
+        skolem:lemma14
+        skolem:lemma15
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:access_social_media"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:is_violating_a_prohibition"]];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma16.
 
-skolem:lemma7 a r:Extraction;
+skolem:lemma8 a r:Extraction;
     r:gives {
         :alice :does :log_off_at_end_of_shift.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma8 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_0 :does var:x_1.
-            var:x_0 var:x_2 var:x_1.
-        } => {
-            var:x_0 var:x_2 var:x_1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace-query.n3>].
-
-skolem:lemma9 a r:Inference;
-    r:gives {
-        :alice :is_fulfilling_an_obligation :log_off_at_end_of_shift.
-    };
-    r:evidence (
-        skolem:lemma7
-        skolem:lemma14
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:alice"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:log_off_at_end_of_shift"]];
-    r:rule skolem:lemma15.
-
-skolem:lemma10 a r:Extraction;
-    r:gives {
-        :bob :does :work_related_task.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
-
-skolem:lemma11 a r:Inference;
-    r:gives {
-        :bob :is_doing_a_permitted_action :work_related_task.
-    };
-    r:evidence (
-        skolem:lemma10
-        skolem:lemma16
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:work_related_task"]];
-    r:rule skolem:lemma17.
-
-skolem:lemma12 a r:Extraction;
-    r:gives {
-        :carol :does :access_social_media.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
-
-skolem:lemma13 a r:Inference;
-    r:gives {
-        :carol :is_violating_a_prohibition :access_social_media.
-    };
-    r:evidence (
-        skolem:lemma12
-        skolem:lemma18
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:access_social_media"]];
-    r:rule skolem:lemma19.
-
-skolem:lemma14 a r:Extraction;
+skolem:lemma9 a r:Extraction;
     r:gives {
         :workplace_policy :obliged :log_off_at_end_of_shift.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma15 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 :does var:x_1.
             :workplace_policy :obliged var:x_1.
         } => {
-            var:x_0 :is_fulfilling_an_obligation var:x_1.
+            var:x_0 :complies (true :is_fulfilling_an_obligation var:x_1).
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma16 a r:Extraction;
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        :bob :does :work_related_task.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
+
+skolem:lemma12 a r:Extraction;
     r:gives {
         :workplace_policy :permitted :work_related_task.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma17 a r:Extraction;
+skolem:lemma13 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 :does var:x_1.
             :workplace_policy :permitted var:x_1.
         } => {
-            var:x_0 :is_doing_a_permitted_action var:x_1.
+            var:x_0 :complies (true :is_doing_a_permitted_action var:x_1).
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma18 a r:Extraction;
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        :carol :does :access_social_media.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
+
+skolem:lemma15 a r:Extraction;
     r:gives {
         :workplace_policy :forbidden :access_social_media.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
 
-skolem:lemma19 a r:Extraction;
+skolem:lemma16 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
             var:x_0 :does var:x_1.
             :workplace_policy :forbidden var:x_1.
         } => {
-            var:x_0 :is_violating_a_prohibition var:x_1.
+            var:x_0 :complies (false :is_violating_a_prohibition var:x_1).
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/color/deontic/workplace.n3>].
