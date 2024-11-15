@@ -1,3 +1,4 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
 # Define basic deontic predicates
@@ -8,26 +9,34 @@
 # Facts about what an employee is doing
 :alice :does :log_off_at_end_of_shift.
 :bob :does :work_related_task.
+#:bob :does :log_off_at_end_of_shift.
 :carol :does :access_social_media.
 
 # Rules to check if an action complies with deontic logic
 {
-    ?Person :does ?Action.
-    :workplace_policy :obliged ?Action
+    ?Person :does :work_related_task.
+    ?Person :does :log_off_at_end_of_shift.
 } => {
-    ?Person :complies (true :is_fulfilling_an_obligation ?Action).
+    ?Person :complies true
 }.
 
 {
-    ?Person :does ?Action.
-    :workplace_policy :permitted ?Action
+    ?Person :does :work_related_task.
+    ?SCOPE log:notIncludes {
+        ?Person :does :log_off_at_end_of_shift.
+    }.
 } => {
-    ?Person :complies (true :is_doing_a_permitted_action ?Action).
+    ?Person :complies false
 }.
 
 {
-    ?Person :does ?Action.
-    :workplace_policy :forbidden ?Action
+    ?Person :does :log_off_at_end_of_shift.
 } => {
-    ?Person :complies (false :is_violating_a_prohibition ?Action).
+    ?Person :complies true
+}.
+
+{
+    ?Person :does :access_social_media.
+} => {
+    ?Person :complies false
 }.
