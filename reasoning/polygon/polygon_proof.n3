@@ -1,0 +1,243 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix polygon: <https://eyereasoner.github.io/eye/reasoning/polygon#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 7 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 2) ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)))}]
+        [ a r:Fact; r:gives {((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2)))}]
+        skolem:lemma4
+        [ a r:Fact; r:gives {(4 2) math:product 8}]
+        [ a r:Fact; r:gives {(2 6) math:product 12}]
+        [ a r:Fact; r:gives {(8 12) math:difference -4}]
+        [ a r:Fact; r:gives {(-4 2) math:quotient -2}]
+        [ a r:Fact; r:gives {(-2 9) math:sum 7}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 8];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 12];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo -4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo -2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo 7];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0.
+        } => {
+            ((4 2) (6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/polygon/polygon_query.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area 9 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((6 2) (7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((6 2) ((7 6) (4 6) (5 5) (5 3) (4 2)))}]
+        [ a r:Fact; r:gives {((7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2)))}]
+        skolem:lemma6
+        [ a r:Fact; r:gives {(6 6) math:product 36}]
+        [ a r:Fact; r:gives {(2 7) math:product 14}]
+        [ a r:Fact; r:gives {(36 14) math:difference 22}]
+        [ a r:Fact; r:gives {(22 2) math:quotient 11}]
+        [ a r:Fact; r:gives {(11 -2) math:sum 9}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((6 2) (7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo -2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 36];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 14];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo 22];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo 11];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo 9];
+    r:rule skolem:lemma5.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12. {
+            var:x_0 polygon:area var:x_12.
+        } <= {
+            var:x_0 e:firstRest ((var:x_1 var:x_2) var:x_3).
+            var:x_3 e:firstRest ((var:x_4 var:x_5) var:x_6).
+            var:x_3 polygon:area var:x_7.
+            (var:x_1 var:x_5) math:product var:x_8.
+            (var:x_2 var:x_4) math:product var:x_9.
+            (var:x_8 var:x_9) math:difference var:x_10.
+            (var:x_10 2) math:quotient var:x_11.
+            (var:x_11 var:x_7) math:sum var:x_12.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/polygon/polygon.n3>].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        ((7 6) (4 6) (5 5) (5 3) (4 2)) polygon:area -2 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((7 6) (4 6) (5 5) (5 3) (4 2)) e:firstRest ((7 6) ((4 6) (5 5) (5 3) (4 2)))}]
+        [ a r:Fact; r:gives {((4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 6) ((5 5) (5 3) (4 2)))}]
+        skolem:lemma7
+        [ a r:Fact; r:gives {(7 6) math:product 42}]
+        [ a r:Fact; r:gives {(6 4) math:product 24}]
+        [ a r:Fact; r:gives {(42 24) math:difference 18}]
+        [ a r:Fact; r:gives {(18 2) math:quotient 9}]
+        [ a r:Fact; r:gives {(9 -11) math:sum -2}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((7 6) (4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo -11];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 42];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 24];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo 18];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo -2];
+    r:rule skolem:lemma5.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        ((4 6) (5 5) (5 3) (4 2)) polygon:area -11 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((4 6) (5 5) (5 3) (4 2)) e:firstRest ((4 6) ((5 5) (5 3) (4 2)))}]
+        [ a r:Fact; r:gives {((5 5) (5 3) (4 2)) e:firstRest ((5 5) ((5 3) (4 2)))}]
+        skolem:lemma8
+        [ a r:Fact; r:gives {(4 5) math:product 20}]
+        [ a r:Fact; r:gives {(6 5) math:product 30}]
+        [ a r:Fact; r:gives {(20 30) math:difference -10}]
+        [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
+        [ a r:Fact; r:gives {(-5 -6) math:sum -11}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((4 6) (5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo -6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 20];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 30];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo -10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo -5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo -11];
+    r:rule skolem:lemma5.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        ((5 5) (5 3) (4 2)) polygon:area -6 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((5 5) (5 3) (4 2)) e:firstRest ((5 5) ((5 3) (4 2)))}]
+        [ a r:Fact; r:gives {((5 3) (4 2)) e:firstRest ((5 3) ((4 2)))}]
+        skolem:lemma9
+        [ a r:Fact; r:gives {(5 3) math:product 15}]
+        [ a r:Fact; r:gives {(5 5) math:product 25}]
+        [ a r:Fact; r:gives {(15 25) math:difference -10}]
+        [ a r:Fact; r:gives {(-10 2) math:quotient -5}]
+        [ a r:Fact; r:gives {(-5 -1) math:sum -6}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((5 5) (5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ((4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo -1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 25];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo -10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo -5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo -6];
+    r:rule skolem:lemma5.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        ((5 3) (4 2)) polygon:area -1 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {((5 3) (4 2)) e:firstRest ((5 3) ((4 2)))}]
+        [ a r:Fact; r:gives {((4 2)) e:firstRest ((4 2) ())}]
+        skolem:lemma10
+        [ a r:Fact; r:gives {(5 2) math:product 10}]
+        [ a r:Fact; r:gives {(3 4) math:product 12}]
+        [ a r:Fact; r:gives {(10 12) math:difference -2}]
+        [ a r:Fact; r:gives {(-2 2) math:quotient -1}]
+        [ a r:Fact; r:gives {(-1 0) math:sum -1}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((5 3) (4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((4 2))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 12];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_10"]; r:boundTo -2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_11"]; r:boundTo -1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_12"]; r:boundTo -1];
+    r:rule skolem:lemma5.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        ((4 2)) polygon:area 0 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (4 2)];
+    r:rule skolem:lemma11.
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forSome var:x_0. {
+            (var:x_0) polygon:area 0.
+        } <= true.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/polygon/polygon.n3>].
+

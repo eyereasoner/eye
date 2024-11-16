@@ -1,0 +1,238 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/try#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:gives {
+        :test1 a :PASS.
+        :test2 a :PASS.
+        :test3 a :PASS.
+        :test4 a :PASS.
+        :test5 a :PASS.
+        :test6 a :PASS.
+        :test7 a :PASS.
+        :test8 a :PASS.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :test1 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :a :b :c.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#a"]];
+    r:rule skolem:lemma9.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :test2 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :a :b :c.
+            :a :b :c.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#b"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#c"]];
+    r:rule skolem:lemma10.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :test3 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :a :b :c.
+            :a :b :c.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#b"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#c"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/try#a"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :test4 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :r :s :t.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :test5 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :d :e :f.
+            :r :s :t.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
+    r:rule skolem:lemma13.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        :test6 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :d :e :f.
+            :r :s :t.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
+    r:rule skolem:lemma14.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :test7 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :d :e :f.
+            :r :s :t.
+            :d :e :f.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
+    r:rule skolem:lemma15.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :test8 a :PASS.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :d :e :f.
+            :r :s :t.
+            :d :e :f.
+        } :p :o}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/try#e"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/try#s"]];
+    r:rule skolem:lemma16.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                var:x_0 :b :c.
+            } :p :o.
+        } => {
+            :test1 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            {
+                :a var:x_0 var:x_1.
+                :a var:x_0 var:x_1.
+            } :p :o.
+        } => {
+            :test2 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            {
+                :a var:x_0 var:x_1.
+                var:x_2 var:x_0 var:x_1.
+            } :p :o.
+        } => {
+            :test3 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                :r var:x_0 :t.
+            } :p :o.
+        } => {
+            :test4 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                :d :e :f.
+                :r var:x_0 :t.
+            } :p :o.
+        } => {
+            :test5 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                :d var:x_0 :f.
+                :r :s :t.
+            } :p :o.
+        } => {
+            :test6 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma15 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                :d :e :f.
+                :r :s :t.
+                :d var:x_0 :f.
+            } :p :o.
+        } => {
+            :test7 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+
+skolem:lemma16 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            {
+                :d var:x_0 :f.
+                :r var:x_1 :t.
+                :d :e :f.
+            } :p :o.
+        } => {
+            :test8 a :PASS.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/glass/testQ.n3>].
+

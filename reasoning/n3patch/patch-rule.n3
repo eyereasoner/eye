@@ -1,0 +1,13 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix solid: <http://www.w3.org/ns/solid/terms#>.
+@prefix ex: <http://www.example.org/terms#>.
+
+{   <https://eyereasoner.github.io/eye/reasoning/n3patch/patch.n3> log:semantics {
+        ?rename a solid:InsertDeletePatch;
+            solid:where ?where;
+            solid:inserts ?inserts;
+            solid:deletes ?deletes.
+    }.
+    ?where log:callWithCleanup true.
+    ?deletes log:becomes ?inserts.
+} => true.

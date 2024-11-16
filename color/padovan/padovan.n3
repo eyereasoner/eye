@@ -1,9 +1,0 @@
-@prefix math: <http://www.w3.org/2000/10/swap/math#>.
-@prefix : <https://eyereasoner.github.io/eye/color#>.
-
-{?X :padovan ?Y} <= {(?X 0 1 1) :pad ?Y}.
-
-{(0 ?A ?B ?C) :pad ?A} <= true.
-{(1 ?A ?B ?C) :pad ?B} <= true.
-{(2 ?A ?B ?C) :pad ?C} <= true.
-{(?X ?A ?B ?C) :pad ?Y} <= {?X math:greaterThan 2. ((?X 1)!math:difference ?B ?C (?A ?B)!math:sum) :pad ?Y}.

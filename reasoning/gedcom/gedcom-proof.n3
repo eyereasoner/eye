@@ -1,0 +1,728 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://www.agfa.com/w3c/euler/gedcom-facts#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix gc: <http://www.daml.org/2001/01/gedcom/gedcom#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:gives {
+        :Jos :testRelationship :Bart.
+        :Jos :testRelationship :Tom.
+        :Geert :testRelationship :Bart.
+        :Geert :testRelationship :Tom.
+        :Dirk :testRelationship :Bart.
+        :Dirk :testRelationship :Tom.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :Jos :testRelationship :Bart.
+    };
+    r:evidence (
+        skolem:lemma7
+        skolem:lemma8
+        skolem:lemma9
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :Jos :testRelationship :Tom.
+    };
+    r:evidence (
+        skolem:lemma7
+        skolem:lemma12
+        skolem:lemma13
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :Geert :testRelationship :Bart.
+    };
+    r:evidence (
+        skolem:lemma15
+        skolem:lemma8
+        skolem:lemma9
+        skolem:lemma16
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :Geert :testRelationship :Tom.
+    };
+    r:evidence (
+        skolem:lemma15
+        skolem:lemma12
+        skolem:lemma13
+        skolem:lemma17
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :Dirk :testRelationship :Bart.
+    };
+    r:evidence (
+        skolem:lemma18
+        skolem:lemma8
+        skolem:lemma9
+        skolem:lemma19
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        :Dirk :testRelationship :Tom.
+    };
+    r:evidence (
+        skolem:lemma18
+        skolem:lemma12
+        skolem:lemma13
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :Jos gc:mother :Maria.
+    };
+    r:evidence (
+        skolem:lemma21
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma23.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :Maria gc:daughter :Rita.
+    };
+    r:evidence (
+        skolem:lemma24
+        skolem:lemma25
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma26.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        :Rita gc:son :Bart.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma28
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:rule skolem:lemma29.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        :Bart gc:uncle :Jos.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma30
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 gc:mother var:x_1.
+            var:x_1 gc:daughter var:x_2.
+            var:x_2 gc:son var:x_3.
+            var:x_3 gc:uncle var:x_0.
+        } => {
+            var:x_0 :testRelationship var:x_3.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-filter.n3>].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        :Maria gc:daughter :Greta.
+    };
+    r:evidence (
+        skolem:lemma32
+        skolem:lemma33
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma26.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        :Greta gc:son :Tom.
+    };
+    r:evidence (
+        skolem:lemma34
+        skolem:lemma35
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:rule skolem:lemma29.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        :Tom gc:uncle :Jos.
+    };
+    r:evidence (
+        skolem:lemma34
+        skolem:lemma36
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        :Geert gc:mother :Maria.
+    };
+    r:evidence (
+        skolem:lemma37
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma23.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        :Bart gc:uncle :Geert.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma38
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        :Tom gc:uncle :Geert.
+    };
+    r:evidence (
+        skolem:lemma34
+        skolem:lemma39
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        :Dirk gc:mother :Maria.
+    };
+    r:evidence (
+        skolem:lemma40
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma23.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        :Bart gc:uncle :Dirk.
+    };
+    r:evidence (
+        skolem:lemma27
+        skolem:lemma41
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        :Tom gc:uncle :Dirk.
+    };
+    r:evidence (
+        skolem:lemma34
+        skolem:lemma42
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma31.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        :Jos gc:parent :Maria.
+    };
+    r:evidence (
+        skolem:lemma43
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma22 a r:Extraction;
+    r:gives {
+        :Maria gc:sex gc:Female.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma23 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 gc:parent var:x_1.
+            var:x_1 gc:sex gc:Female.
+        } => {
+            var:x_0 gc:mother var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        :Rita gc:parent :Maria.
+    };
+    r:evidence (
+        skolem:lemma46
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma25 a r:Extraction;
+    r:gives {
+        :Rita gc:sex gc:Female.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma26 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 gc:parent var:x_1.
+            var:x_0 gc:sex gc:Female.
+        } => {
+            var:x_1 gc:daughter var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        :Bart gc:parent :Rita.
+    };
+    r:evidence (
+        skolem:lemma47
+        skolem:lemma48
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Bart"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#gd"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma28 a r:Extraction;
+    r:gives {
+        :Bart gc:sex gc:Male.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma29 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 gc:parent var:x_1.
+            var:x_0 gc:sex gc:Male.
+        } => {
+            var:x_1 gc:son var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        :Rita gc:brother :Jos.
+    };
+    r:evidence (
+        skolem:lemma49
+        skolem:lemma50
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma31 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 gc:parent var:x_1.
+            var:x_1 gc:brother var:x_2.
+        } => {
+            var:x_0 gc:uncle var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma32 a r:Inference;
+    r:gives {
+        :Greta gc:parent :Maria.
+    };
+    r:evidence (
+        skolem:lemma52
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma33 a r:Extraction;
+    r:gives {
+        :Greta gc:sex gc:Female.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma34 a r:Inference;
+    r:gives {
+        :Tom gc:parent :Greta.
+    };
+    r:evidence (
+        skolem:lemma53
+        skolem:lemma54
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Tom"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#sd"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma35 a r:Extraction;
+    r:gives {
+        :Tom gc:sex gc:Male.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma36 a r:Inference;
+    r:gives {
+        :Greta gc:brother :Jos.
+    };
+    r:evidence (
+        skolem:lemma55
+        skolem:lemma50
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma37 a r:Inference;
+    r:gives {
+        :Geert gc:parent :Maria.
+    };
+    r:evidence (
+        skolem:lemma56
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma38 a r:Inference;
+    r:gives {
+        :Rita gc:brother :Geert.
+    };
+    r:evidence (
+        skolem:lemma57
+        skolem:lemma58
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma39 a r:Inference;
+    r:gives {
+        :Greta gc:brother :Geert.
+    };
+    r:evidence (
+        skolem:lemma59
+        skolem:lemma58
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma40 a r:Inference;
+    r:gives {
+        :Dirk gc:parent :Maria.
+    };
+    r:evidence (
+        skolem:lemma60
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Maria"]];
+    r:rule skolem:lemma45.
+
+skolem:lemma41 a r:Inference;
+    r:gives {
+        :Rita gc:brother :Dirk.
+    };
+    r:evidence (
+        skolem:lemma61
+        skolem:lemma62
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma42 a r:Inference;
+    r:gives {
+        :Greta gc:brother :Dirk.
+    };
+    r:evidence (
+        skolem:lemma63
+        skolem:lemma62
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma51.
+
+skolem:lemma43 a r:Extraction;
+    r:gives {
+        :Jos gc:childIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma44 a r:Extraction;
+    r:gives {
+        :Maria gc:spouseIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma45 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 gc:childIn var:x_1.
+            var:x_2 gc:spouseIn var:x_1.
+        } => {
+            var:x_0 gc:parent var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma46 a r:Extraction;
+    r:gives {
+        :Rita gc:childIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma47 a r:Extraction;
+    r:gives {
+        :Bart gc:childIn :gd.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma48 a r:Extraction;
+    r:gives {
+        :Rita gc:spouseIn :gd.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma49 a r:Inference;
+    r:gives {
+        :Rita gc:sibling :Jos.
+    };
+    r:evidence (
+        skolem:lemma46
+        skolem:lemma43
+        [ a r:Fact; r:gives {:Rita log:notEqualTo :Jos}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma50 a r:Extraction;
+    r:gives {
+        :Jos gc:sex gc:Male.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma51 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 gc:sibling var:x_1.
+            var:x_1 gc:sex gc:Male.
+        } => {
+            var:x_0 gc:brother var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+
+skolem:lemma52 a r:Extraction;
+    r:gives {
+        :Greta gc:childIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma53 a r:Extraction;
+    r:gives {
+        :Tom gc:childIn :sd.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma54 a r:Extraction;
+    r:gives {
+        :Greta gc:spouseIn :sd.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma55 a r:Inference;
+    r:gives {
+        :Greta gc:sibling :Jos.
+    };
+    r:evidence (
+        skolem:lemma52
+        skolem:lemma43
+        [ a r:Fact; r:gives {:Greta log:notEqualTo :Jos}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Jos"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma56 a r:Extraction;
+    r:gives {
+        :Geert gc:childIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma57 a r:Inference;
+    r:gives {
+        :Rita gc:sibling :Geert.
+    };
+    r:evidence (
+        skolem:lemma46
+        skolem:lemma56
+        [ a r:Fact; r:gives {:Rita log:notEqualTo :Geert}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma58 a r:Extraction;
+    r:gives {
+        :Geert gc:sex gc:Male.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma59 a r:Inference;
+    r:gives {
+        :Greta gc:sibling :Geert.
+    };
+    r:evidence (
+        skolem:lemma52
+        skolem:lemma56
+        [ a r:Fact; r:gives {:Greta log:notEqualTo :Geert}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Geert"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma60 a r:Extraction;
+    r:gives {
+        :Dirk gc:childIn :dp.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma61 a r:Inference;
+    r:gives {
+        :Rita gc:sibling :Dirk.
+    };
+    r:evidence (
+        skolem:lemma46
+        skolem:lemma60
+        [ a r:Fact; r:gives {:Rita log:notEqualTo :Dirk}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Rita"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma62 a r:Extraction;
+    r:gives {
+        :Dirk gc:sex gc:Male.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-facts.n3>].
+
+skolem:lemma63 a r:Inference;
+    r:gives {
+        :Greta gc:sibling :Dirk.
+    };
+    r:evidence (
+        skolem:lemma52
+        skolem:lemma60
+        [ a r:Fact; r:gives {:Greta log:notEqualTo :Dirk}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Greta"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#dp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/gedcom-facts#Dirk"]];
+    r:rule skolem:lemma64.
+
+skolem:lemma64 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 gc:childIn var:x_1.
+            var:x_2 gc:childIn var:x_1.
+            var:x_0 log:notEqualTo var:x_2.
+        } => {
+            var:x_0 gc:sibling var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gedcom/gedcom-relations.n3>].
+

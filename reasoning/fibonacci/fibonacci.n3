@@ -1,0 +1,8 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning#>.
+
+{?X :fibonacci ?Y} <= {(?X 0 1) :fib ?Y}.
+
+{(0 ?A ?B) :fib ?A} <= true.
+{(1 ?A ?B) :fib ?B} <= true.
+{(?X ?A ?B) :fib ?Y} <= {?X math:greaterThan 1. ((?X 1)!math:difference ?B (?A ?B)!math:sum) :fib ?Y}.

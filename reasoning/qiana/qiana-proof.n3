@@ -1,0 +1,203 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :Fabian :believes {
+            {
+                ?U_0 a :glitter.
+            } => {
+                ?U_0 :notNecessarilyA :gold.
+            }.
+        }.
+        :northStar :notNecessarilyA :gold.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        @forSome var:x_1. :Fabian :believes {
+            {
+                var:x_1 a :glitter.
+            } => {
+                var:x_1 :notNecessarilyA :gold.
+            }.
+        }.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            var:x_1 a :glitter.
+        } => {
+            var:x_1 :notNecessarilyA :gold.
+        }.
+    }];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :northStar :notNecessarilyA :gold.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:northStar"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:gold"]];
+    r:rule skolem:lemma6.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        @forSome var:x_1. :Fabian :believes {
+            {
+                var:x_1 a :glitter.
+            } => {
+                var:x_1 :notNecessarilyA :gold.
+            }.
+        }.
+    };
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            var:x_1 a :glitter.
+        } => {
+            var:x_1 :notNecessarilyA :gold.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            var:x_2 a :glitter.
+        } => {
+            var:x_2 :notNecessarilyA :gold.
+        }.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:Fabian"]];
+    r:rule skolem:lemma8.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            :Fabian :believes var:x_0.
+        } => {
+            :Fabian :believes var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana-query.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :northStar :notNecessarilyA :gold.
+    };
+    r:evidence (
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:northStar"]];
+    r:rule skolem:lemma10.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :notNecessarilyA var:x_1.
+        } => {
+            var:x_0 :notNecessarilyA var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana-query.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        @forSome var:x_2. :Einstein :says {
+            {
+                var:x_2 a :glitter.
+            } => {
+                var:x_2 :notNecessarilyA :gold.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. @forSome var:x_1. {
+            var:x_1 :believes var:x_0.
+        } <= {
+            :Einstein :says var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana.n3>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        :northStar a :glitter.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        @forAll var:x_3. {
+            var:x_3 a :glitter.
+        } => {
+            var:x_3 :notNecessarilyA :gold.
+        }.
+    };
+    r:evidence (
+        skolem:lemma12
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            var:x_3 a :glitter.
+        } => {
+            var:x_3 :notNecessarilyA :gold.
+        }.
+    }];
+    r:rule skolem:lemma13.
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forSome var:x_0. {
+            :Einstein :says {
+                {
+                    var:x_0 a :glitter.
+                } => {
+                    var:x_0 :notNecessarilyA :gold.
+                }.
+            }.
+        } <= true.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana.n3>].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        @forSome var:x_3. :Einstein :says {
+            {
+                var:x_3 a :glitter.
+            } => {
+                var:x_3 :notNecessarilyA :gold.
+            }.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives true]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]];
+    r:rule skolem:lemma11.
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            :Einstein :says var:x_0.
+        } => var:x_0.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/qiana/qiana.n3>].
+
