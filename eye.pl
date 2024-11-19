@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.3 (2024-11-13)').
+version_info('EYE v10.30.4 (2024-11-19)').
 
 license_info('MIT License
 
@@ -5521,7 +5521,10 @@ prepare_builtins :-
                 is_list(Zl),
                 is_graph(H),
                 conj_list(H, M),
-                list_to_set(M, T),
+                list_to_set(M, Ts),
+                (   T = Ts
+                ;   select(_, Ts, T)
+                ),
                 select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(W, O), T, N),
                 getlist(W, Wl),
                 is_list(Wl),
@@ -5580,6 +5583,26 @@ prepare_builtins :-
                         member(Hm, Jl)
                     )
                 )), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(U, Hm)), '<>')),
+
+        % simplify negative answer surfaces
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, G),
+                getlist(V, Vl),
+                is_list(Vl),
+                is_graph(G),
+                conj_list(G, L),
+                list_to_set(L, B),
+                member('<http://www.w3.org/2000/10/swap/log#onNegativeAnswerSurface>'(_, _), B),
+                select('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, H), B, K),
+                getlist(Z, Zl),
+                is_list(Zl),
+                is_graph(H),
+                conj_list(H, M),
+                list_to_set(M, J),
+                select(_, J, T),
+                conj_list(R, T),
+                conj_list(S, ['<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(Z, R)|K])
+                ), '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'(V, S), '<>')),
 
         % resolve negative surfaces
         assertz(implies((
