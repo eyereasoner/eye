@@ -66,7 +66,7 @@ skolem:lemma5 a r:Extraction;
             var:x_0 :complies var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace-query.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-query.n3>].
 
 skolem:lemma6 a r:Inference;
     r:gives {
@@ -84,19 +84,19 @@ skolem:lemma7 a r:Inference;
     };
     r:evidence (
         skolem:lemma12
-        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>) 1) log:notIncludes {
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3> <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>) 1) log:notIncludes {
             :bob :does :log_off_at_end_of_shift.
         }}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3> <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>) 1)];
     r:rule skolem:lemma13.
 
 skolem:lemma8 a r:Extraction;
     r:gives {
         :alice :does :log_off_at_end_of_shift.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
 
 skolem:lemma9 a r:Extraction;
     r:gives {
@@ -106,13 +106,13 @@ skolem:lemma9 a r:Extraction;
             var:x_0 :complies true.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
 
 skolem:lemma10 a r:Extraction;
     r:gives {
         :carol :does :access_social_media.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
 
 skolem:lemma11 a r:Extraction;
     r:gives {
@@ -122,13 +122,13 @@ skolem:lemma11 a r:Extraction;
             var:x_0 :complies false.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
 
 skolem:lemma12 a r:Extraction;
     r:gives {
         :bob :does :work_related_task.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
 
 skolem:lemma13 a r:Extraction;
     r:gives {
@@ -141,5 +141,5 @@ skolem:lemma13 a r:Extraction;
             var:x_0 :complies false.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/workplace.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
 
