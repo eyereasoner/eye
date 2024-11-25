@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.5 (2024-11-22)').
+version_info('EYE v10.30.6 (2024-11-25)').
 
 license_info('MIT License
 
@@ -72,6 +72,7 @@ eye
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
     --profile                       output profile info on stderr
+    --proof-explanation             output proof explanation using log:proves
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
@@ -764,6 +765,13 @@ opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
     assertz(flag(profile)),
+    opts(Argus, Args).
+opts(['--proof-explanation'|Argus], Args) :-
+    !,
+    retractall(flag(nope)),
+    assertz(flag(nope)),
+    retractall(flag('proof-explanation')),
+    assertz(flag('proof-explanation')),
     opts(Argus, Args).
 opts(['--quantify', Prefix|Argus], Args) :-
     !,
@@ -3650,11 +3658,11 @@ w3 :-
     (   answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)
     ->  nl,
         writeln('#'),
-        writeln('# RDF Proofs'),
+        writeln('# Proof Explanation'),
         writeln('#'),
-        nl,
         (   answer('<http://www.w3.org/2000/10/swap/log#proves>', S, O),
             labelvars('<http://www.w3.org/2000/10/swap/log#proves>'(S, O), 0, _, avar),
+            nl,
             indent,
             wt('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
             ws('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
@@ -4979,7 +4987,8 @@ eam(Recursion) :-
         ),
         ignore(Prem = true),
         (   flag(nope),
-            \+flag('rule-histogram')
+            \+flag('rule-histogram'),
+            \+flag('proof-explanation')
         ->  true
         ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc), Rule)
         ),
@@ -5079,6 +5088,12 @@ eam(Recursion) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
+        (   flag('proof-explanation'),
+            Concd \=answer(_, _, _),
+            Concd \= (answer(_, _, _), _)
+        ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#proves>', (Rule, Prem), Concd))
+        ;   true
+        ),
         (   (   Concs = answer(_, _, _)
             ;   Concs = (answer(_, _, _), _)
             )

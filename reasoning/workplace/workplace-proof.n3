@@ -1,145 +1,50 @@
-@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
-@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <urn:example:>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-skolem:proof a r:Proof, r:Conjunction;
-    r:component skolem:lemma1;
-    r:component skolem:lemma2;
-    r:component skolem:lemma3;
-    r:gives {
-        :alice :complies true.
-        :carol :complies false.
-        :bob :complies false.
+:alice :complies true.
+:carol :complies false.
+:bob :complies false.
+
+#
+# Proof Explanation
+#
+
+{
+    {
+        var:x_0 :does :log_off_at_end_of_shift.
+    } => {
+        var:x_0 :complies true.
     }.
+    :alice :does :log_off_at_end_of_shift.
+} log:proves {
+    :alice :complies true.
+}.
 
-skolem:lemma1 a r:Inference;
-    r:gives {
-        :alice :complies true.
-    };
-    r:evidence (
-        skolem:lemma4
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:alice"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo true];
-    r:rule skolem:lemma5.
+{
+    {
+        var:x_0 :does :access_social_media.
+    } => {
+        var:x_0 :complies false.
+    }.
+    :carol :does :access_social_media.
+} log:proves {
+    :carol :complies false.
+}.
 
-skolem:lemma2 a r:Inference;
-    r:gives {
-        :carol :complies false.
-    };
-    r:evidence (
-        skolem:lemma6
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo false];
-    r:rule skolem:lemma5.
-
-skolem:lemma3 a r:Inference;
-    r:gives {
-        :bob :complies false.
-    };
-    r:evidence (
-        skolem:lemma7
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo false];
-    r:rule skolem:lemma5.
-
-skolem:lemma4 a r:Inference;
-    r:gives {
-        :alice :complies true.
-    };
-    r:evidence (
-        skolem:lemma8
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:alice"]];
-    r:rule skolem:lemma9.
-
-skolem:lemma5 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1. {
-            var:x_0 :complies var:x_1.
-        } => {
-            var:x_0 :complies var:x_1.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-query.n3>].
-
-skolem:lemma6 a r:Inference;
-    r:gives {
-        :carol :complies false.
-    };
-    r:evidence (
-        skolem:lemma10
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:carol"]];
-    r:rule skolem:lemma11.
-
-skolem:lemma7 a r:Inference;
-    r:gives {
-        :bob :complies false.
-    };
-    r:evidence (
-        skolem:lemma12
-        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3> <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>) 1) log:notIncludes {
-            :bob :does :log_off_at_end_of_shift.
-        }}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:bob"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3> <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>) 1)];
-    r:rule skolem:lemma13.
-
-skolem:lemma8 a r:Extraction;
-    r:gives {
-        :alice :does :log_off_at_end_of_shift.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
-
-skolem:lemma9 a r:Extraction;
-    r:gives {
-        @forAll var:x_0. {
+{
+    {
+        var:x_0 :does :work_related_task.
+        var:x_1 log:notIncludes {
             var:x_0 :does :log_off_at_end_of_shift.
-        } => {
-            var:x_0 :complies true.
         }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
-
-skolem:lemma10 a r:Extraction;
-    r:gives {
-        :carol :does :access_social_media.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
-
-skolem:lemma11 a r:Extraction;
-    r:gives {
-        @forAll var:x_0. {
-            var:x_0 :does :access_social_media.
-        } => {
-            var:x_0 :complies false.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
-
-skolem:lemma12 a r:Extraction;
-    r:gives {
-        :bob :does :work_related_task.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>].
-
-skolem:lemma13 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1. {
-            var:x_0 :does :work_related_task.
-            var:x_1 log:notIncludes {
-                var:x_0 :does :log_off_at_end_of_shift.
-            }.
-        } => {
-            var:x_0 :complies false.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3>].
-
+    } => {
+        var:x_0 :complies false.
+    }.
+    :bob :does :work_related_task.
+    ((<https://eyereasoner.github.io/eye/reasoning/workplace/workplace.n3> <https://eyereasoner.github.io/eye/reasoning/workplace/workplace-data.ttl>) 1) log:notIncludes {
+        :bob :does :log_off_at_end_of_shift.
+    }.
+} log:proves {
+    :bob :complies false.
+}.
