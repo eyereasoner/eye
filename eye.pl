@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.6 (2024-11-25)').
+version_info('EYE v10.30.7 (2024-11-26)').
 
 license_info('MIT License
 
@@ -56,6 +56,7 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
+    --ether                         explain the reasoning using log:proves
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -72,7 +73,6 @@ eye
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
     --profile                       output profile info on stderr
-    --proof-explanation             output proof explanation using log:proves
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
     --random-seed                   create random seed for e:random built-in
@@ -424,7 +424,7 @@ gre(Argus) :-
     ;   true
     ),
     (   flag(intermediate, Out)
-    ->  format(Out, 'flag(\'quantify\', \'~w\').~n', [Sns])
+    ->  format(Out, 'flag(quantify, \'~w\').~n', [Sns])
     ;   true
     ),
     args(Args),
@@ -646,6 +646,13 @@ opts(['--debug-pvm'|Argus], Args) :-
     retractall(flag('debug-pvm')),
     assertz(flag('debug-pvm')),
     opts(Argus, Args).
+opts(['--ether'|Argus], Args) :-
+    !,
+    retractall(flag(nope)),
+    assertz(flag(nope)),
+    retractall(flag(ether)),
+    assertz(flag(ether)),
+    opts(Argus, Args).
 opts(['--help'|_], _) :-
     \+flag(image, _),
     \+flag('debug-pvm'),
@@ -669,11 +676,6 @@ opts(['--image', File|Argus], Args) :-
     retractall(flag(image, _)),
     assertz(flag(image, File)),
     opts(Argus, Args).
-opts(['--legacy'|Argus], Args) :-
-    !,
-    retractall(flag(legacy)),
-    assertz(flag(legacy)),
-    opts(Argus, Args).
 opts(['--license'|_], _) :-
     !,
     license_info(License),
@@ -694,9 +696,6 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     ),
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
-    opts(Argus, Args).
-opts(['--no-bnode-relabeling'|Argus], Args) :-
-    !,
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -766,16 +765,9 @@ opts(['--profile'|Argus], Args) :-
     retractall(flag(profile)),
     assertz(flag(profile)),
     opts(Argus, Args).
-opts(['--proof-explanation'|Argus], Args) :-
-    !,
-    retractall(flag(nope)),
-    assertz(flag(nope)),
-    retractall(flag('proof-explanation')),
-    assertz(flag('proof-explanation')),
-    opts(Argus, Args).
 opts(['--quantify', Prefix|Argus], Args) :-
     !,
-    assertz(flag('quantify', Prefix)),
+    assertz(flag(quantify, Prefix)),
     opts(Argus, Args).
 opts(['--quiet'|Argus], Args) :-
     !,
@@ -791,6 +783,11 @@ opts(['--rdf-list-output'|Argus], Args) :-
     !,
     retractall(flag('rdf-list-output')),
     assertz(flag('rdf-list-output')),
+    opts(Argus, Args).
+opts(['--rdf-trig-output'|Argus], Args) :-
+    !,
+    retractall(flag('rdf-trig-output')),
+    assertz(flag('rdf-trig-output')),
     opts(Argus, Args).
 opts(['--restricted'|Argus], Args) :-
     !,
@@ -840,11 +837,6 @@ opts(['--tactic', 'linear-select'|Argus], Args) :-
 opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
-opts(['--rdf-trig-output'|Argus], Args) :-
-    !,
-    retractall(flag('rdf-trig-output')),
-    assertz(flag('rdf-trig-output')),
-    opts(Argus, Args).
 opts(['--version'|_], _) :-
     !,
     throw(halt(0)).
@@ -860,7 +852,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--no-bnode-relabeling', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -3658,7 +3650,7 @@ w3 :-
     (   answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)
     ->  nl,
         writeln('#'),
-        writeln('# Proof Explanation'),
+        writeln('# Explain the reasoning'),
         writeln('#'),
         (   answer('<http://www.w3.org/2000/10/swap/log#proves>', S, O),
             labelvars('<http://www.w3.org/2000/10/swap/log#proves>'(S, O), 0, _, avar),
@@ -4089,7 +4081,7 @@ wt0(X) :-
             )
         ;   (   \+flag('no-qvars')
             ->  true
-            ;   flag('quantify', Prefix),
+            ;   flag(quantify, Prefix),
                 sub_atom(X, 1, _, _, Prefix)
             ),
             write('_:')
@@ -4104,14 +4096,14 @@ wt0(X) :-
     ),
     !.
 wt0(X) :-
-    flag('quantify', Prefix),
+    flag(quantify, Prefix),
     flag(nope),
     atom(X),
     sub_atom(X, 1, _, _, Prefix),
     !,
     (   getlist(X, M)
     ->  wt(M)
-    ;   '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, ['quantify', Prefix, X]),
+    ;   '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(Y, [quantify, Prefix, X]),
         wt0(Y)
     ).
 wt0(X) :-
@@ -4913,10 +4905,10 @@ wcf(A, _) :-
     write(B).
 wcf(A, _) :-
     atom(A),
-    flag('quantify', Prefix),
+    flag(quantify, Prefix),
     sub_atom(A, 1, _, _, Prefix),
     !,
-    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(B, ['quantify', Prefix, A]),
+    '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tuple>'(B, [quantify, Prefix, A]),
     wt0(B).
 wcf(A, B) :-
     atom(A),
@@ -4988,7 +4980,7 @@ eam(Recursion) :-
         ignore(Prem = true),
         (   flag(nope),
             \+flag('rule-histogram'),
-            \+flag('proof-explanation')
+            \+flag(ether)
         ->  true
         ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc), Rule)
         ),
@@ -5088,7 +5080,7 @@ eam(Recursion) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
-        (   flag('proof-explanation'),
+        (   flag(ether),
             Concd \=answer(_, _, _),
             Concd \= (answer(_, _, _), _)
         ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#proves>', (Rule, Prem), Concd))
