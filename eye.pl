@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.7 (2024-11-26)').
+version_info('EYE v10.30.8 (2024-11-26)').
 
 license_info('MIT License
 
@@ -697,6 +697,9 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
     opts(Argus, Args).
+opts(['--no-bnode-relabeling'|Argus], Args) :-
+    !,
+    opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
     retractall(flag('no-distinct-input')),
@@ -852,7 +855,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--no-bnode-relabeling', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
+    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
