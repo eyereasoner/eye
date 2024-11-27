@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.8 (2024-11-26)').
+version_info('EYE v10.30.9 (2024-11-27)').
 
 license_info('MIT License
 
@@ -4537,7 +4537,10 @@ wt2(X) :-
         write(' '),
         wp(P),
         write(' '),
-        wg(O)
+        (   prolog_sym(_, O, _)
+        ->  write(O)
+        ;   wg(O)
+        )
     ).
 
 wtn(exopred(P, S, O)) :-
