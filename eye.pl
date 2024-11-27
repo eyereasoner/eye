@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.9 (2024-11-27)').
+version_info('EYE v10.30.10 (2024-11-27)').
 
 license_info('MIT License
 
@@ -259,10 +259,15 @@ run :-
         Argil
     ),
     append(Argil, Argi),
+    version_info(Version),
+    (   member('--version', Argus)
+    ->  format(user_error, '~w~n', [Version]),
+        throw(halt(0))
+    ;   true
+    ),
     (   member('--quiet', Argus)
     ->  true
     ;   format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
-        version_info(Version),
         format(user_error, '~w~n', [Version]),
         (   current_prolog_flag(version_git, PVersion)
         ->  true
@@ -840,9 +845,6 @@ opts(['--tactic', 'linear-select'|Argus], Args) :-
 opts(['--tactic', Tactic|_], _) :-
     !,
     throw(not_supported_tactic(Tactic)).
-opts(['--version'|_], _) :-
-    !,
-    throw(halt(0)).
 opts(['--warn'|Argus], Args) :-
     !,
     retractall(flag(warn)),
@@ -7663,7 +7665,8 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            conj_list(X, A),
+            makevars(X, Z, gamma),
+            conj_list(Z, A),
             conj_list(Y, B),
             includes(A, B)
         )
@@ -7792,7 +7795,8 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            conj_list(X, A),
+            makevars(X, Z, gamma),
+            conj_list(Z, A),
             conj_list(Y, B),
             \+includes(A, B)
         )
@@ -12647,6 +12651,9 @@ findvar(A, beta) :-
     ;   sub_atom(A, 0, _, _, some)
     ;   sub_atom(A, 0, _, _, '_:')
     ).
+findvar(A, gamma) :-
+    !,
+    sub_atom(A, 0, _, _, some).
 findvar(A, delta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
@@ -13570,7 +13577,8 @@ fm(A) :-
 mf(A) :-
     forall(
         catch(A, _, fail),
-        (   portray_clause(user_error, A),
+        (   write(user_error, '*** '),
+            portray_clause(user_error, A),
             cnt(mf)
         )
     ),
