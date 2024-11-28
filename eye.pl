@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.10 (2024-11-27)').
+version_info('EYE v10.30.11 (2024-11-28)').
 
 license_info('MIT License
 
@@ -7665,8 +7665,7 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            makevars(X, Z, gamma),
-            conj_list(Z, A),
+            conj_list(X, A),
             conj_list(Y, B),
             includes(A, B)
         )
@@ -7795,8 +7794,7 @@ userInput(A, B) :-
             nonvar(Y)
         ),
         (   X \= [_, _],
-            makevars(X, Z, gamma),
-            conj_list(Z, A),
+            conj_list(X, A),
             conj_list(Y, B),
             \+includes(A, B)
         )
@@ -12651,9 +12649,6 @@ findvar(A, beta) :-
     ;   sub_atom(A, 0, _, _, some)
     ;   sub_atom(A, 0, _, _, '_:')
     ).
-findvar(A, gamma) :-
-    !,
-    sub_atom(A, 0, _, _, some).
 findvar(A, delta) :-
     !,
     (   sub_atom(A, _, 19, _, '/.well-known/genid/')
