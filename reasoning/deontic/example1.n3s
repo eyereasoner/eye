@@ -100,11 +100,11 @@
 
 # K axiom
 (_:Proposition1 _:Proposition2 _:World) log:onNegativeSurface {
+    _:Proposition1 :implies _:Proposition2.
+    _:Proposition1 :isObligatoryIn _:World.
     () log:onNegativeSurface {
         _:Proposition2 :isObligatoryIn _:World.
     }.
-    _:Proposition1 :implies _:Proposition2.
-    _:Proposition1 :isObligatoryIn _:World.
 }.
 
 # query
