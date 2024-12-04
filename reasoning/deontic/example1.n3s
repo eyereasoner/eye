@@ -46,13 +46,15 @@
     _:World a :PossibleWorld.
     _:Proposition a :Proposition.
     (   1
-        {   _:World :hasAccessTo _:AccessibleWorld.
+        {
+            _:World :hasAccessTo _:AccessibleWorld.
             _:Proposition :isTrueIn _:AccessibleWorld.
         }
         _:List
     ) log:collectAllIn _:Scope.
     (   1
-        {   _:World :hasAccessTo _:AccessibleWorld.
+        {
+            _:World :hasAccessTo _:AccessibleWorld.
         }
         _:List
     ) log:collectAllIn _:Scope.
@@ -77,7 +79,8 @@
     _:World a :PossibleWorld.
     _:Proposition a :Proposition.
     (   1
-        {   _:World :hasAccessTo _:AccessibleWorld.
+        {
+            _:World :hasAccessTo _:AccessibleWorld.
             _:Scope log:notIncludes {
                 _:Proposition :isTrueIn _:AccessibleWorld.
             }
@@ -85,23 +88,11 @@
         _:List
     ) log:collectAllIn _:Scope.
     (   1
-        {   _:World :hasAccessTo _:AccessibleWorld.
+        {
+            _:World :hasAccessTo _:AccessibleWorld.
         }
         _:List
     ) log:collectAllIn _:Scope.
-    () log:onNegativeSurface {
-        _:Proposition :isForbiddenIn _:World.
-    }.
-}.
-
-# a proposition P is forbidden in world W if P does not hold in any world accessible from W
-(_:Proposition _:World) log:onNegativeSurface {
-    _:World a :PossibleWorld.
-    _:Proposition a :Proposition.
-    (_:AccessibleWorld) log:onNegativeSurface {
-        _:World :hasAccessTo _:AccessibleWorld.
-        _:Proposition :isTrueIn _:AccessibleWorld.
-    }.
     () log:onNegativeSurface {
         _:Proposition :isForbiddenIn _:World.
     }.
