@@ -21,6 +21,9 @@
 :q :isTrueIn :w2.
 :p :isTrueIn :w3.
 
+# proposition implications
+:p :implies :r.
+
 # declare components
 :isObligatoryIn a log:Component.
 :isPermittedIn a log:Component.
@@ -94,6 +97,15 @@
         }
         _:List
     ) log:collectAllIn _:Scope.
+}.
+
+# K axiom
+(_:Proposition1 _:Proposition2 _:World) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:Proposition2 :isObligatoryIn _:World.
+    }.
+    _:Proposition1 :implies _:Proposition2.
+    _:Proposition1 :isObligatoryIn _:World.
 }.
 
 # query
