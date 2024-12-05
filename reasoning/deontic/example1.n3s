@@ -26,22 +26,6 @@
 (log:neg :p3) log:holdsIn :w3.
 (log:imp (log:pos :p1) (log:pos :p4)) log:holdsIn :w3.
 
-# accessibility is reflexive
-(_:W) log:onNegativeSurface {
-    () log:onNegativeSurface {
-        _:W log:hasAccessTo _:W.
-    }.
-}.
-
-# accessibility is transitive
-(_:W1 _:W2_:W3) log:onNegativeSurface {
-    _:W1 log:hasAccessTo _:W2.
-    _:W2 log:hasAccessTo _:W3.
-    () log:onNegativeSurface {
-        _:W1 log:hasAccessTo _:W3.
-    }.
-}.
-
 # a proposition P is obligatory in world W if P holds in all worlds accessible from W
 (_:P _:W1 _:W2 _:S) log:onNegativeSurface {
     _:W1 a log:PossibleWorld.
