@@ -1,14 +1,19 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
-:p1 :isPermittedIn :w1.
-:p1 :isPermittedIn :w2.
-:p1 :isPermittedIn :w3.
-:p2 :isPermittedIn :w1.
-:p2 :isPermittedIn :w2.
-:p1 :isObligatoryIn :w1.
-:p1 :isObligatoryIn :w2.
-:p1 :isObligatoryIn :w3.
-:p4 :isObligatoryIn :w1.
-:p4 :isObligatoryIn :w2.
-:p4 :isObligatoryIn :w3.
-:p3 :isForbiddenIn :w3.
+(log:pos :p1) log:isPermittedIn :w1.
+(log:pos :p2) log:isPermittedIn :w1.
+(log:pos :p1) log:isPermittedIn :w2.
+(log:pos :p2) log:isPermittedIn :w2.
+(log:pos :p3) log:isPermittedIn :w1.
+(log:pos :p1) log:isPermittedIn :w3.
+(log:pos :p2) log:isPermittedIn :w3.
+(log:pos :p1) log:isObligatoryIn :w1.
+(log:pos :p2) log:isObligatoryIn :w1.
+(log:pos :p1) log:isObligatoryIn :w2.
+(log:pos :p2) log:isObligatoryIn :w2.
+(log:pos :p1) log:isObligatoryIn :w3.
+(log:pos :p2) log:isObligatoryIn :w3.
+(log:pos :p4) log:isObligatoryIn :w3.
+(log:pos :p3) log:isForbiddenIn :w2.
+(log:pos :p3) log:isForbiddenIn :w3.

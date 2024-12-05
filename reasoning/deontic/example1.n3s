@@ -2,110 +2,102 @@
 @prefix : <urn:example:>.
 
 # set of possible worlds
-:w1 a :PossibleWorld.
-:w2 a :PossibleWorld.
-:w3 a :PossibleWorld.
-:w4 a :PossibleWorld.
-
-# set of propositions
-:p1 a :Proposition.
-:p2 a :Proposition.
-:p3 a :Proposition.
-:p4 a :Proposition.
+:w1 a log:PossibleWorld.
+:w2 a log:PossibleWorld.
+:w3 a log:PossibleWorld.
+:w4 a log:PossibleWorld.
 
 # accessibility relations between worlds
-:w1 :hasAccessTo :w2.
-:w1 :hasAccessTo :w3.
-:w2 :hasAccessTo :w3.
+:w1 log:hasAccessTo :w2.
+:w1 log:hasAccessTo :w3.
+:w2 log:hasAccessTo :w3.
 
 # propositions that are true in possible worlds
-:p1 :holdsIn :w1.
-:p1 :holdsIn :w2.
-:p2 :holdsIn :w2.
-:p1 :holdsIn :w3.
-(:not :p3) :holdsIn :w3.
+(log:pos :p1) log:holdsIn :w1.
+(log:pos :p2) log:holdsIn :w1.
+(log:pos :p3) log:holdsIn :w1.
 
-# proposition implications
-:p1 :implies :p4.
+(log:pos :p1) log:holdsIn :w2.
+(log:pos :p2) log:holdsIn :w2.
+(log:neg :p3) log:holdsIn :w2.
+
+(log:pos :p1) log:holdsIn :w3.
+(log:pos :p2) log:holdsIn :w3.
+(log:neg :p3) log:holdsIn :w3.
+(log:imp (log:pos :p1) (log:pos :p4)) log:holdsIn :w3.
 
 # accessibility is reflexive
-(_:World) log:onNegativeSurface {
-    _:World a :PossibleWorld.
+(_:W) log:onNegativeSurface {
     () log:onNegativeSurface {
-        _:World :hasAccessTo _:World.
+        _:W log:hasAccessTo _:W.
     }.
 }.
 
 # accessibility is transitive
-(_:World1 _:World2_:World3) log:onNegativeSurface {
-    _:World1 :hasAccessTo _:World2.
-    _:World2 :hasAccessTo _:World3.
+(_:W1 _:W2_:W3) log:onNegativeSurface {
+    _:W1 log:hasAccessTo _:W2.
+    _:W2 log:hasAccessTo _:W3.
     () log:onNegativeSurface {
-        _:World1 :hasAccessTo _:World3.
+        _:W1 log:hasAccessTo _:W3.
     }.
 }.
 
 # a proposition P is obligatory in world W if P holds in all worlds accessible from W
-(_:Proposition _:World _:AccessibleWorld _:Scope) log:onNegativeSurface {
-    _:Proposition a :Proposition.
-    _:World a :PossibleWorld.
-    ({ _:World :hasAccessTo _:AccessibleWorld } { _:Proposition :holdsIn _:AccessibleWorld }) log:forAllIn _:Scope.
+(_:P _:W1 _:W2 _:S) log:onNegativeSurface {
+    _:W1 a log:PossibleWorld.
+    (log:pos _:P) log:holdsIn _:W1.
+    ({ _:W1 log:hasAccessTo _:W2 } { (log:pos _:P) log:holdsIn _:W2 }) log:forAllIn _:S.
     () log:onNegativeSurface {
-        _:Proposition :isObligatoryIn _:World.
+        (log:pos _:P) log:isObligatoryIn _:W1.
     }.
 }.
 
 # a proposition P is permitted in world W if P holds in at least one world accessible from W
-(_:Proposition _:World _:AccessibleWorld) log:onNegativeSurface {
-    _:Proposition a :Proposition.
-    _:World a :PossibleWorld.
-    _:World :hasAccessTo _:AccessibleWorld.
-    _:Proposition :holdsIn _:AccessibleWorld.
+(_:P _:W1 _:W2) log:onNegativeSurface {
+    _:W1 log:hasAccessTo _:W2.
+    (log:pos _:P) log:holdsIn _:W2.
     () log:onNegativeSurface {
-        _:Proposition :isPermittedIn _:World.
+        (log:pos _:P) log:isPermittedIn _:W1.
     }.
 }.
 
 # a proposition P is forbidden in world W if P does not hold in any world accessible from W
-(_:Proposition _:World _:AccessibleWorld _:List _:Scope) log:onNegativeSurface {
-    _:Proposition a :Proposition.
-    _:World a :PossibleWorld.
-    ({ _:World :hasAccessTo _:AccessibleWorld } { (:not _:Proposition) :holdsIn _:AccessibleWorld }) log:forAllIn _:Scope.
+(_:P _:W1 _:W2 _:S) log:onNegativeSurface {
+    _:W1 a log:PossibleWorld.
+    (log:neg _:P) log:holdsIn _:W1.
+     ({ _:W1 log:hasAccessTo _:W2 } { (log:neg _:P) log:holdsIn _:W2 }) log:forAllIn _:S.
     () log:onNegativeSurface {
-        _:Proposition :isForbiddenIn _:World.
+        (log:pos _:P) log:isForbiddenIn _:W1.
     }.
 }.
 
 # K axiom
-(_:Proposition1 _:Proposition2 _:World) log:onNegativeSurface {
-    _:Proposition1 a :Proposition.
-    _:Proposition2 a :Proposition.
-    _:World a :PossibleWorld.
-    _:Proposition1 :implies _:Proposition2.
-    _:Proposition1 :isObligatoryIn _:World.
+(_:P1 _:P2 _:W) log:onNegativeSurface {
+    (log:imp (log:pos _:P1) (log:pos _:P2)) log:holdsIn _:W.
+    (log:pos _:P1) log:isObligatoryIn _:W.
     () log:onNegativeSurface {
-        _:Proposition2 :isObligatoryIn _:World.
+        (log:pos _:P2) log:isObligatoryIn _:W.
     }.
 }.
 
 # query
-(_:Proposition _:World) log:onNegativeSurface {
-    _:Proposition :isObligatoryIn _:World.
+(_:P _:W) log:onNegativeSurface {
+    _:P log:isObligatoryIn _:W.
     () log:onNegativeAnswerSurface {
-        _:Proposition :isObligatoryIn _:World.
+        _:P log:isObligatoryIn _:W.
     }.
 }.
 
-(_:Proposition _:World) log:onNegativeSurface {
-    _:Proposition :isPermittedIn _:World.
+(_:P _:W) log:onNegativeSurface {
+    _:P log:isPermittedIn _:W.
     () log:onNegativeAnswerSurface {
-        _:Proposition :isPermittedIn _:World.
+        _:P log:isPermittedIn _:W.
     }.
 }.
 
-(_:Proposition _:World) log:onNegativeSurface {
-    _:Proposition :isForbiddenIn _:World.
+(_:P _:W) log:onNegativeSurface {
+    _:P log:isForbiddenIn _:W.
     () log:onNegativeAnswerSurface {
-        _:Proposition :isForbiddenIn _:World.
+        _:P log:isForbiddenIn _:W.
     }.
 }.
