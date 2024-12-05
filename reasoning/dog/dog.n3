@@ -1,0 +1,15 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <urn:example:>.
+
+:alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5.
+:bob :hasDog :dog6, :dog7.
+
+{
+    ?Subject :hasDog ?Any.
+    (1 { ?Subject :hasDog ?Dog } ?List) log:collectAllIn ?Scope.
+    ?List math:sum ?Count.
+    ?Count math:greaterThan 4.
+} => {
+    ?Subject :mustHave :dogLicense.
+}.
