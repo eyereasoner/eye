@@ -1,3 +1,4 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
@@ -13,75 +14,76 @@
 :w3 log:hasAccessTo :w4.
 
 # propositions that are true in possible worlds
-(log:pos :p1) log:holdsIn :w1.
-(log:pos :p2) log:holdsIn :w1.
-(log:pos :p3) log:holdsIn :w1.
+{ :s1 :p1 :o1 } log:holdsIn :w1.
+{ :s2 :p2 :o2 } log:holdsIn :w1.
+{ :s3 :p3 :o3 } log:holdsIn :w1.
 
-(log:pos :p1) log:holdsIn :w2.
-(log:pos :p2) log:holdsIn :w2.
-(log:neg :p3) log:holdsIn :w2.
+{ :s1 :p1 :o1 } log:holdsIn :w2.
+{ :s2 :p2 :o2 } log:holdsIn :w2.
+{ () log:onNegativeSurface { :s3 :p3 :o3 } } log:holdsIn :w2.
+{ () log:onNegativeSurface { :s1 :p1 :o1. () log:onNegativeSurface { :s4 :p4 :o4 } } } log:holdsIn :w2.
 
-(log:pos :p1) log:holdsIn :w3.
-(log:pos :p2) log:holdsIn :w3.
-(log:neg :p3) log:holdsIn :w3.
-(log:imp (log:pos :p1) (log:pos :p4)) log:holdsIn :w3.
+{ :s1 :p1 :o1 } log:holdsIn :w3.
+{ :s2 :p2 :o2 } log:holdsIn :w3.
+{ () log:onNegativeSurface { :s3 :p3 :o3 } } log:holdsIn :w3.
 
-# a proposition P is obligatory in world W if P holds in all worlds accessible from W
-(_:P _:W1 _:W2 _:S) log:onNegativeSurface {
+# P is obligatory in world W if P holds in all worlds accessible from W
+(_:W1 _:P _:W2 _:Sc) log:onNegativeSurface {
     _:W1 a log:PossibleWorld.
-    (log:pos _:P) log:holdsIn _:W1.
-    ({ _:W1 log:hasAccessTo _:W2 } { (log:pos _:P) log:holdsIn _:W2 }) log:forAllIn _:S.
+    _:P log:holdsIn _:W1.
+    ({ _:W1 log:hasAccessTo _:W2 } { _:P log:holdsIn _:W2 }) log:forAllIn _:Sc.
     () log:onNegativeSurface {
-        (log:pos _:P) log:isObligatoryIn _:W1.
+        _:P log:isObligatoryIn _:W1.
     }.
 }.
 
-# a proposition P is permitted in world W if P holds in at least one world accessible from W
-(_:P _:W1 _:W2) log:onNegativeSurface {
+# P is permitted in world W if P holds in at least one world accessible from W
+(_:W1 _:W2 _:P) log:onNegativeSurface {
     _:W1 log:hasAccessTo _:W2.
-    (log:pos _:P) log:holdsIn _:W2.
+    _:P log:holdsIn _:W2.
     () log:onNegativeSurface {
-        (log:pos _:P) log:isPermittedIn _:W1.
+        _:P log:isPermittedIn _:W1.
     }.
 }.
 
-# a proposition P is forbidden in world W if P does not hold in any world accessible from W
-(_:P _:W1 _:W2 _:S) log:onNegativeSurface {
+# P is forbidden in world W if P does not hold in any world accessible from W
+(_:W1 _:P _:W2 _:Sc) log:onNegativeSurface {
     _:W1 a log:PossibleWorld.
-    (log:neg _:P) log:holdsIn _:W1.
-     ({ _:W1 log:hasAccessTo _:W2 } { (log:neg _:P) log:holdsIn _:W2 }) log:forAllIn _:S.
+    { () log:onNegativeSurface _:P } log:holdsIn _:W1.
+    ({ _:W1 log:hasAccessTo _:W2 } { { () log:onNegativeSurface _:P } log:holdsIn _:W2 }) log:forAllIn _:Sc.
     () log:onNegativeSurface {
-        (log:pos _:P) log:isForbiddenIn _:W1.
+        _:P log:isForbiddenIn _:W1.
     }.
 }.
 
 # K axiom
-(_:P1 _:P2 _:W) log:onNegativeSurface {
-    (log:imp (log:pos _:P1) (log:pos _:P2)) log:holdsIn _:W.
-    (log:pos _:P1) log:isObligatoryIn _:W.
+(_:W _:S1 _:P1 _:O1 _:S2 _:P2 _:O2) log:onNegativeSurface {
+    _:W a log:PossibleWorld.
+    { () log:onNegativeSurface { _:S1 _:P1 _:O1. () log:onNegativeSurface { _:S2 _:P2 _:O2 } } } log:holdsIn _:W.
+    { _:S1 _:P1 _:O1 } log:isObligatoryIn _:W.
     () log:onNegativeSurface {
-        (log:pos _:P2) log:isObligatoryIn _:W.
+        { _:S2 _:P2 _:O2 } log:isObligatoryIn _:W.
     }.
 }.
 
 # query
-(_:P _:W) log:onNegativeSurface {
-    _:P log:isObligatoryIn _:W.
+(_:Q _:W) log:onNegativeSurface {
+    _:Q log:isObligatoryIn _:W.
     () log:onNegativeAnswerSurface {
-        _:P log:isObligatoryIn _:W.
+        _:Q log:isObligatoryIn _:W.
     }.
 }.
 
-(_:P _:W) log:onNegativeSurface {
-    _:P log:isPermittedIn _:W.
+(_:Q _:W) log:onNegativeSurface {
+    _:Q log:isPermittedIn _:W.
     () log:onNegativeAnswerSurface {
-        _:P log:isPermittedIn _:W.
+        _:Q log:isPermittedIn _:W.
     }.
 }.
 
-(_:P _:W) log:onNegativeSurface {
-    _:P log:isForbiddenIn _:W.
+(_:Q _:W) log:onNegativeSurface {
+    _:Q log:isForbiddenIn _:W.
     () log:onNegativeAnswerSurface {
-        _:P log:isForbiddenIn _:W.
+        _:Q log:isForbiddenIn _:W.
     }.
 }.
