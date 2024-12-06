@@ -26,6 +26,10 @@
 { :s2 :p2 :o2 } log:holdsIn :w3.
 { () log:onNegativeSurface { :s3 :p3 :o3 } } log:holdsIn :w3.
 
+# adding the following blows an inference fuse
+#{ :s3 :p3 :o3 } log:holdsIn :w2.
+#{ :s3 :p3 :o3 } log:holdsIn :w3.
+
 # P is obligatory in world W if P holds in all worlds accessible from W
 (_:W1 _:P _:W2 _:Sc) log:onNegativeSurface {
     _:W1 a log:PossibleWorld.
@@ -63,6 +67,12 @@
     () log:onNegativeSurface {
         { _:S2 _:P2 _:O2 } log:isObligatoryIn _:W.
     }.
+}.
+
+# inconsistency detection
+(_:P _:W) log:onNegativeSurface {
+    _:P log:isObligatoryIn _:W.
+    _:P log:isForbiddenIn _:W.
 }.
 
 # query
