@@ -14,8 +14,6 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma6;
     r:component skolem:lemma7;
     r:component skolem:lemma8;
-    r:component skolem:lemma9;
-    r:component skolem:lemma10;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :adult.
@@ -33,14 +31,6 @@ skolem:proof a r:Proof, r:Conjunction;
         {
             :alcoholicBeverage :sellingTo :adult.
         } log:isPermittedIn :normativeWorld2.
-        {
-            :alcoholicBeverage :sellingTo :adult.
-        } log:isPermittedIn :observedWorld.
-        {
-            () log:onNegativeSurface {
-                :alcoholicBeverage :sellingTo :nonAdult.
-            }.
-        } log:isPermittedIn :observedWorld.
         {
             () log:onNegativeSurface {
                 :alcoholicBeverage :sellingTo :nonAdult.
@@ -66,7 +56,7 @@ skolem:lemma1 a r:Inference;
         } log:isPermittedIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma11
+        skolem:lemma9
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :alcoholicBeverage :sellingTo :adult.
@@ -87,7 +77,7 @@ skolem:lemma2 a r:Inference;
         } log:isPermittedIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma12
+        skolem:lemma10
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         () log:onNegativeSurface {
@@ -110,7 +100,7 @@ skolem:lemma3 a r:Inference;
         } log:isPermittedIn :normativeWorld2.
     };
     r:evidence (
-        skolem:lemma13
+        skolem:lemma11
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         () log:onNegativeSurface {
@@ -131,7 +121,7 @@ skolem:lemma4 a r:Inference;
         } log:isPermittedIn :normativeWorld2.
     };
     r:evidence (
-        skolem:lemma14
+        skolem:lemma12
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :alcoholicBeverage :sellingTo :adult.
@@ -146,20 +136,24 @@ skolem:lemma4 a r:Inference;
 skolem:lemma5 a r:Inference;
     r:gives {
         {
-            :alcoholicBeverage :sellingTo :adult.
-        } log:isPermittedIn :observedWorld.
+            () log:onNegativeSurface {
+                :alcoholicBeverage :sellingTo :nonAdult.
+            }.
+        } log:isObligatoryIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma15
+        skolem:lemma13
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :alcoholicBeverage :sellingTo :adult.
+        () log:onNegativeSurface {
+            :alcoholicBeverage :sellingTo :nonAdult.
+        }.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:observedWorld"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 log:isPermittedIn var:x_1.
+        var:x_0 log:isObligatoryIn var:x_1.
     } => {
-        var:x_0 log:isPermittedIn var:x_1.
+        var:x_0 log:isObligatoryIn var:x_1.
     }}].
 
 skolem:lemma6 a r:Inference;
@@ -168,56 +162,10 @@ skolem:lemma6 a r:Inference;
             () log:onNegativeSurface {
                 :alcoholicBeverage :sellingTo :nonAdult.
             }.
-        } log:isPermittedIn :observedWorld.
-    };
-    r:evidence (
-        skolem:lemma16
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        () log:onNegativeSurface {
-            :alcoholicBeverage :sellingTo :nonAdult.
-        }.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:observedWorld"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 log:isPermittedIn var:x_1.
-    } => {
-        var:x_0 log:isPermittedIn var:x_1.
-    }}].
-
-skolem:lemma7 a r:Inference;
-    r:gives {
-        {
-            () log:onNegativeSurface {
-                :alcoholicBeverage :sellingTo :nonAdult.
-            }.
-        } log:isObligatoryIn :normativeWorld1.
-    };
-    r:evidence (
-        skolem:lemma17
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        () log:onNegativeSurface {
-            :alcoholicBeverage :sellingTo :nonAdult.
-        }.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
-        var:x_0 log:isObligatoryIn var:x_1.
-    } => {
-        var:x_0 log:isObligatoryIn var:x_1.
-    }}].
-
-skolem:lemma8 a r:Inference;
-    r:gives {
-        {
-            () log:onNegativeSurface {
-                :alcoholicBeverage :sellingTo :nonAdult.
-            }.
         } log:isObligatoryIn :normativeWorld2.
     };
     r:evidence (
-        skolem:lemma18
+        skolem:lemma14
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         () log:onNegativeSurface {
@@ -231,14 +179,14 @@ skolem:lemma8 a r:Inference;
         var:x_0 log:isObligatoryIn var:x_1.
     }}].
 
-skolem:lemma9 a r:Inference;
+skolem:lemma7 a r:Inference;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :nonAdult.
         } log:isForbiddenIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma19
+        skolem:lemma15
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :alcoholicBeverage :sellingTo :nonAdult.
@@ -250,14 +198,14 @@ skolem:lemma9 a r:Inference;
         var:x_0 log:isForbiddenIn var:x_1.
     }}].
 
-skolem:lemma10 a r:Inference;
+skolem:lemma8 a r:Inference;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :nonAdult.
         } log:isForbiddenIn :normativeWorld2.
     };
     r:evidence (
-        skolem:lemma20
+        skolem:lemma16
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :alcoholicBeverage :sellingTo :nonAdult.
@@ -269,15 +217,15 @@ skolem:lemma10 a r:Inference;
         var:x_0 log:isForbiddenIn var:x_1.
     }}].
 
-skolem:lemma11 a r:Inference;
+skolem:lemma9 a r:Inference;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :adult.
         } log:isPermittedIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma21
-        skolem:lemma22
+        skolem:lemma17
+        skolem:lemma18
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
@@ -291,7 +239,7 @@ skolem:lemma11 a r:Inference;
         var:x_2 log:isPermittedIn var:x_0.
     }}].
 
-skolem:lemma12 a r:Inference;
+skolem:lemma10 a r:Inference;
     r:gives {
         {
             () log:onNegativeSurface {
@@ -300,8 +248,8 @@ skolem:lemma12 a r:Inference;
         } log:isPermittedIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma21
-        skolem:lemma23
+        skolem:lemma17
+        skolem:lemma19
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
@@ -309,6 +257,54 @@ skolem:lemma12 a r:Inference;
         () log:onNegativeSurface {
             :alcoholicBeverage :sellingTo :nonAdult.
         }.
+    }];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_1.
+    } => {
+        var:x_2 log:isPermittedIn var:x_0.
+    }}].
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        {
+            () log:onNegativeSurface {
+                :alcoholicBeverage :sellingTo :nonAdult.
+            }.
+        } log:isPermittedIn :normativeWorld2.
+    };
+    r:evidence (
+        skolem:lemma20
+        skolem:lemma21
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        () log:onNegativeSurface {
+            :alcoholicBeverage :sellingTo :nonAdult.
+        }.
+    }];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_1.
+    } => {
+        var:x_2 log:isPermittedIn var:x_0.
+    }}].
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        {
+            :alcoholicBeverage :sellingTo :adult.
+        } log:isPermittedIn :normativeWorld2.
+    };
+    r:evidence (
+        skolem:lemma22
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :alcoholicBeverage :sellingTo :adult.
     }];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
         var:x_0 log:hasAccessTo var:x_1.
@@ -323,109 +319,55 @@ skolem:lemma13 a r:Inference;
             () log:onNegativeSurface {
                 :alcoholicBeverage :sellingTo :nonAdult.
             }.
-        } log:isPermittedIn :normativeWorld2.
+        } log:isObligatoryIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma24
-        skolem:lemma25
+        skolem:lemma17
+        skolem:lemma19
+        [ a r:Fact; r:gives {({
+            :normativeWorld1 log:hasAccessTo _:sk_65.
+        } {
+            {
+                () log:onNegativeSurface {
+                    :alcoholicBeverage :sellingTo :nonAdult.
+                }.
+            } log:holdsIn _:sk_65.
+        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         () log:onNegativeSurface {
             :alcoholicBeverage :sellingTo :nonAdult.
         }.
     }];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_65"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
         var:x_0 log:hasAccessTo var:x_1.
-        var:x_2 log:holdsIn var:x_1.
+        var:x_2 log:holdsIn var:x_0.
+        ({
+            var:x_0 log:hasAccessTo var:x_3.
+        } {
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_2 log:isPermittedIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma14 a r:Inference;
     r:gives {
         {
-            :alcoholicBeverage :sellingTo :adult.
-        } log:isPermittedIn :normativeWorld2.
-    };
-    r:evidence (
-        skolem:lemma26
-        skolem:lemma22
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :alcoholicBeverage :sellingTo :adult.
-    }];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
-        var:x_0 log:hasAccessTo var:x_1.
-        var:x_2 log:holdsIn var:x_1.
-    } => {
-        var:x_2 log:isPermittedIn var:x_0.
-    }}].
-
-skolem:lemma15 a r:Inference;
-    r:gives {
-        {
-            :alcoholicBeverage :sellingTo :adult.
-        } log:isPermittedIn :observedWorld.
-    };
-    r:evidence (
-        skolem:lemma27
-        skolem:lemma28
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:observedWorld"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:observedWorld"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :alcoholicBeverage :sellingTo :adult.
-    }];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
-        var:x_0 log:hasAccessTo var:x_1.
-        var:x_2 log:holdsIn var:x_1.
-    } => {
-        var:x_2 log:isPermittedIn var:x_0.
-    }}].
-
-skolem:lemma16 a r:Inference;
-    r:gives {
-        {
             () log:onNegativeSurface {
                 :alcoholicBeverage :sellingTo :nonAdult.
             }.
-        } log:isPermittedIn :observedWorld.
+        } log:isObligatoryIn :normativeWorld2.
     };
     r:evidence (
-        skolem:lemma29
-        skolem:lemma23
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:observedWorld"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        () log:onNegativeSurface {
-            :alcoholicBeverage :sellingTo :nonAdult.
-        }.
-    }];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
-        var:x_0 log:hasAccessTo var:x_1.
-        var:x_2 log:holdsIn var:x_1.
-    } => {
-        var:x_2 log:isPermittedIn var:x_0.
-    }}].
-
-skolem:lemma17 a r:Inference;
-    r:gives {
-        {
-            () log:onNegativeSurface {
-                :alcoholicBeverage :sellingTo :nonAdult.
-            }.
-        } log:isObligatoryIn :normativeWorld1.
-    };
-    r:evidence (
+        skolem:lemma20
         skolem:lemma21
-        skolem:lemma23
         [ a r:Fact; r:gives {({
-            :normativeWorld1 log:hasAccessTo _:sk_66.
+            :normativeWorld2 log:hasAccessTo _:sk_66.
         } {
             {
                 () log:onNegativeSurface {
@@ -434,8 +376,8 @@ skolem:lemma17 a r:Inference;
             } log:holdsIn _:sk_66.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         () log:onNegativeSurface {
             :alcoholicBeverage :sellingTo :nonAdult.
@@ -455,19 +397,17 @@ skolem:lemma17 a r:Inference;
         var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
-skolem:lemma18 a r:Inference;
+skolem:lemma15 a r:Inference;
     r:gives {
         {
-            () log:onNegativeSurface {
-                :alcoholicBeverage :sellingTo :nonAdult.
-            }.
-        } log:isObligatoryIn :normativeWorld2.
+            :alcoholicBeverage :sellingTo :nonAdult.
+        } log:isForbiddenIn :normativeWorld1.
     };
     r:evidence (
-        skolem:lemma24
-        skolem:lemma25
+        skolem:lemma17
+        skolem:lemma19
         [ a r:Fact; r:gives {({
-            :normativeWorld2 log:hasAccessTo _:sk_67.
+            :normativeWorld1 log:hasAccessTo _:sk_67.
         } {
             {
                 () log:onNegativeSurface {
@@ -476,38 +416,40 @@ skolem:lemma18 a r:Inference;
             } log:holdsIn _:sk_67.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        () log:onNegativeSurface {
-            :alcoholicBeverage :sellingTo :nonAdult.
-        }.
+        :alcoholicBeverage :sellingTo :nonAdult.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_67"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
         var:x_0 log:hasAccessTo var:x_1.
-        var:x_2 log:holdsIn var:x_0.
+        {
+            () log:onNegativeSurface var:x_2.
+        } log:holdsIn var:x_0.
         ({
             var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_2 log:holdsIn var:x_3.
+            {
+                () log:onNegativeSurface var:x_2.
+            } log:holdsIn var:x_3.
         }) log:forAllIn var:x_4.
     } => {
-        var:x_2 log:isObligatoryIn var:x_0.
+        var:x_2 log:isForbiddenIn var:x_0.
     }}].
 
-skolem:lemma19 a r:Inference;
+skolem:lemma16 a r:Inference;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :nonAdult.
-        } log:isForbiddenIn :normativeWorld1.
+        } log:isForbiddenIn :normativeWorld2.
     };
     r:evidence (
+        skolem:lemma20
         skolem:lemma21
-        skolem:lemma23
         [ a r:Fact; r:gives {({
-            :normativeWorld1 log:hasAccessTo _:sk_68.
+            :normativeWorld2 log:hasAccessTo _:sk_68.
         } {
             {
                 () log:onNegativeSurface {
@@ -516,8 +458,8 @@ skolem:lemma19 a r:Inference;
             } log:holdsIn _:sk_68.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :alcoholicBeverage :sellingTo :nonAdult.
     }];
@@ -539,55 +481,13 @@ skolem:lemma19 a r:Inference;
         var:x_2 log:isForbiddenIn var:x_0.
     }}].
 
-skolem:lemma20 a r:Inference;
-    r:gives {
-        {
-            :alcoholicBeverage :sellingTo :nonAdult.
-        } log:isForbiddenIn :normativeWorld2.
-    };
-    r:evidence (
-        skolem:lemma24
-        skolem:lemma25
-        [ a r:Fact; r:gives {({
-            :normativeWorld2 log:hasAccessTo _:sk_69.
-        } {
-            {
-                () log:onNegativeSurface {
-                    :alcoholicBeverage :sellingTo :nonAdult.
-                }.
-            } log:holdsIn _:sk_69.
-        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:normativeWorld2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
-        :alcoholicBeverage :sellingTo :nonAdult.
-    }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_69"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
-        var:x_0 log:hasAccessTo var:x_1.
-        {
-            () log:onNegativeSurface var:x_2.
-        } log:holdsIn var:x_0.
-        ({
-            var:x_0 log:hasAccessTo var:x_3.
-        } {
-            {
-                () log:onNegativeSurface var:x_2.
-            } log:holdsIn var:x_3.
-        }) log:forAllIn var:x_4.
-    } => {
-        var:x_2 log:isForbiddenIn var:x_0.
-    }}].
-
-skolem:lemma21 a r:Extraction;
+skolem:lemma17 a r:Extraction;
     r:gives {
         :normativeWorld1 log:hasAccessTo :normativeWorld1.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
-skolem:lemma22 a r:Extraction;
+skolem:lemma18 a r:Extraction;
     r:gives {
         {
             :alcoholicBeverage :sellingTo :adult.
@@ -595,7 +495,7 @@ skolem:lemma22 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
-skolem:lemma23 a r:Extraction;
+skolem:lemma19 a r:Extraction;
     r:gives {
         {
             () log:onNegativeSurface {
@@ -605,13 +505,13 @@ skolem:lemma23 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
-skolem:lemma24 a r:Extraction;
+skolem:lemma20 a r:Extraction;
     r:gives {
         :normativeWorld2 log:hasAccessTo :normativeWorld2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
-skolem:lemma25 a r:Extraction;
+skolem:lemma21 a r:Extraction;
     r:gives {
         {
             () log:onNegativeSurface {
@@ -621,29 +521,9 @@ skolem:lemma25 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
-skolem:lemma26 a r:Extraction;
+skolem:lemma22 a r:Extraction;
     r:gives {
         :normativeWorld2 log:hasAccessTo :normativeWorld1.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
-
-skolem:lemma27 a r:Extraction;
-    r:gives {
-        :observedWorld log:hasAccessTo :observedWorld.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
-
-skolem:lemma28 a r:Extraction;
-    r:gives {
-        {
-            :alcoholicBeverage :sellingTo :adult.
-        } log:holdsIn :observedWorld.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
-
-skolem:lemma29 a r:Extraction;
-    r:gives {
-        :observedWorld log:hasAccessTo :normativeWorld1.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example2.n3s>].
 
