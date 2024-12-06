@@ -1,6 +1,7 @@
 # deontic logic example about not drinking and driving
 
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <urn:example:>.
 
 # accessibility relations between possible worlds
@@ -9,16 +10,16 @@
 
 # propositions that are true in possible worlds
 # normativeWorld1
-{ _:X :is :drinking } log:holdsIn :normativeWorld1.
-{ () log:onNegativeSurface { _:X :is :drinking, :driving } } log:holdsIn :normativeWorld1.
+{ var:driver :is :drinking } log:holdsIn :normativeWorld1.
+{ () log:onNegativeSurface { var:driver :is :drinking, :driving } } log:holdsIn :normativeWorld1.
 
 # normativeWorld2
-{ _:X :is :driving } log:holdsIn :normativeWorld2.
-{ () log:onNegativeSurface { _:X :is :drinking, :driving } } log:holdsIn :normativeWorld2.
+{ var:driver :is :driving } log:holdsIn :normativeWorld2.
+{ () log:onNegativeSurface { var:driver :is :drinking, :driving } } log:holdsIn :normativeWorld2.
 
 # observedWorld
 # the following will blow an inference fuse
-_:X :is :drinking, :driving.
+var:driver :is :drinking, :driving.
 
 # P is obligatory in world W if P holds in all worlds accessible from W
 (_:W1 _:W _:P _:W2 _:Sc) log:onNegativeSurface {
