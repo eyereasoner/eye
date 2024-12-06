@@ -1,0 +1,43 @@
+@prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+{
+    :alcoholicBeverage :sellingTo :adult.
+} log:isPermittedIn :normativeWorld1.
+{
+    () log:onNegativeSurface {
+        :alcoholicBeverage :sellingTo :nonAdult.
+    }.
+} log:isPermittedIn :normativeWorld1.
+{
+    () log:onNegativeSurface {
+        :alcoholicBeverage :sellingTo :nonAdult.
+    }.
+} log:isPermittedIn :normativeWorld2.
+{
+    :alcoholicBeverage :sellingTo :adult.
+} log:isPermittedIn :normativeWorld2.
+{
+    :alcoholicBeverage :sellingTo :adult.
+} log:isPermittedIn :observedWorld.
+{
+    () log:onNegativeSurface {
+        :alcoholicBeverage :sellingTo :nonAdult.
+    }.
+} log:isPermittedIn :observedWorld.
+{
+    () log:onNegativeSurface {
+        :alcoholicBeverage :sellingTo :nonAdult.
+    }.
+} log:isObligatoryIn :normativeWorld1.
+{
+    () log:onNegativeSurface {
+        :alcoholicBeverage :sellingTo :nonAdult.
+    }.
+} log:isObligatoryIn :normativeWorld2.
+{
+    :alcoholicBeverage :sellingTo :nonAdult.
+} log:isForbiddenIn :normativeWorld1.
+{
+    :alcoholicBeverage :sellingTo :nonAdult.
+} log:isForbiddenIn :normativeWorld2.
