@@ -1,13 +1,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <urn:example:>.
 
-# set of possible worlds
-:w1 a log:PossibleWorld.
-:w2 a log:PossibleWorld.
-:w3 a log:PossibleWorld.
-:w4 a log:PossibleWorld.
-
-# accessibility relations between worlds
+# accessibility relations between possible worlds
 :w1 log:hasAccessTo :w2.
 :w2 log:hasAccessTo :w3.
 :w3 log:hasAccessTo :w4.
@@ -31,8 +25,8 @@
 #{ :s3 :p3 :o3 } log:holdsIn :w3.
 
 # P is obligatory in world W if P holds in all worlds accessible from W
-(_:W1 _:P _:W2 _:Sc) log:onNegativeSurface {
-    _:W1 a log:PossibleWorld.
+(_:W1 _:W _:P _:W2 _:Sc) log:onNegativeSurface {
+    _:W1 log:hasAccessTo _:W.
     _:P log:holdsIn _:W1.
     ({ _:W1 log:hasAccessTo _:W2 } { _:P log:holdsIn _:W2 }) log:forAllIn _:Sc.
     () log:onNegativeSurface {
@@ -50,8 +44,8 @@
 }.
 
 # P is forbidden in world W if P does not hold in any world accessible from W
-(_:W1 _:P _:W2 _:Sc) log:onNegativeSurface {
-    _:W1 a log:PossibleWorld.
+(_:W1 _:W _:P _:W2 _:Sc) log:onNegativeSurface {
+    _:W1 log:hasAccessTo _:W.
     { () log:onNegativeSurface _:P } log:holdsIn _:W1.
     ({ _:W1 log:hasAccessTo _:W2 } { { () log:onNegativeSurface _:P } log:holdsIn _:W2 }) log:forAllIn _:Sc.
     () log:onNegativeSurface {
@@ -60,12 +54,12 @@
 }.
 
 # K axiom
-(_:W _:S1 _:P1 _:O1 _:S2 _:P2 _:O2) log:onNegativeSurface {
-    _:W a log:PossibleWorld.
-    { () log:onNegativeSurface { _:S1 _:P1 _:O1. () log:onNegativeSurface { _:S2 _:P2 _:O2 } } } log:holdsIn _:W.
-    { _:S1 _:P1 _:O1 } log:isObligatoryIn _:W.
+(_:W1 _:W _:S1 _:P1 _:O1 _:S2 _:P2 _:O2) log:onNegativeSurface {
+    _:W1 log:hasAccessTo _:W.
+    { () log:onNegativeSurface { _:S1 _:P1 _:O1. () log:onNegativeSurface { _:S2 _:P2 _:O2 } } } log:holdsIn _:W1.
+    { _:S1 _:P1 _:O1 } log:isObligatoryIn _:W1.
     () log:onNegativeSurface {
-        { _:S2 _:P2 _:O2 } log:isObligatoryIn _:W.
+        { _:S2 _:P2 _:O2 } log:isObligatoryIn _:W1.
     }.
 }.
 

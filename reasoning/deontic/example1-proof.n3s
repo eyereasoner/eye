@@ -543,32 +543,33 @@ skolem:lemma22 a r:Inference;
         } log:isObligatoryIn :w1.
     };
     r:evidence (
+        skolem:lemma29
         skolem:lemma38
-        skolem:lemma39
         [ a r:Fact; r:gives {({
-            :w1 log:hasAccessTo _:sk_62.
+            :w1 log:hasAccessTo _:sk_65.
         } {
             {
                 :s1 :p1 :o1.
-            } log:holdsIn _:sk_62.
+            } log:holdsIn _:sk_65.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :s1 :p1 :o1.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_62"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
-        var:x_1 log:holdsIn var:x_0.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_65"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_1 log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isObligatoryIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma23 a r:Inference;
@@ -578,32 +579,33 @@ skolem:lemma23 a r:Inference;
         } log:isObligatoryIn :w1.
     };
     r:evidence (
-        skolem:lemma38
-        skolem:lemma40
+        skolem:lemma29
+        skolem:lemma39
         [ a r:Fact; r:gives {({
-            :w1 log:hasAccessTo _:sk_63.
+            :w1 log:hasAccessTo _:sk_66.
         } {
             {
                 :s2 :p2 :o2.
-            } log:holdsIn _:sk_63.
+            } log:holdsIn _:sk_66.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :s2 :p2 :o2.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_63"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
-        var:x_1 log:holdsIn var:x_0.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_66"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_1 log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isObligatoryIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma24 a r:Inference;
@@ -613,32 +615,33 @@ skolem:lemma24 a r:Inference;
         } log:isObligatoryIn :w2.
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma34
         skolem:lemma30
         [ a r:Fact; r:gives {({
-            :w2 log:hasAccessTo _:sk_64.
+            :w2 log:hasAccessTo _:sk_67.
         } {
             {
                 :s1 :p1 :o1.
-            } log:holdsIn _:sk_64.
+            } log:holdsIn _:sk_67.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :s1 :p1 :o1.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_64"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
-        var:x_1 log:holdsIn var:x_0.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_67"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_1 log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isObligatoryIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma25 a r:Inference;
@@ -648,32 +651,33 @@ skolem:lemma25 a r:Inference;
         } log:isObligatoryIn :w2.
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma34
         skolem:lemma31
         [ a r:Fact; r:gives {({
-            :w2 log:hasAccessTo _:sk_65.
+            :w2 log:hasAccessTo _:sk_68.
         } {
             {
                 :s2 :p2 :o2.
-            } log:holdsIn _:sk_65.
+            } log:holdsIn _:sk_68.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :s2 :p2 :o2.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_65"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
-        var:x_1 log:holdsIn var:x_0.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_68"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_1 log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isObligatoryIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma26 a r:Inference;
@@ -685,36 +689,37 @@ skolem:lemma26 a r:Inference;
         } log:isObligatoryIn :w2.
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma34
         skolem:lemma32
         [ a r:Fact; r:gives {({
-            :w2 log:hasAccessTo _:sk_66.
+            :w2 log:hasAccessTo _:sk_69.
         } {
             {
                 () log:onNegativeSurface {
                     :s3 :p3 :o3.
                 }.
-            } log:holdsIn _:sk_66.
+            } log:holdsIn _:sk_69.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         () log:onNegativeSurface {
             :s3 :p3 :o3.
         }.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_66"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
-        var:x_1 log:holdsIn var:x_0.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_69"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
+        var:x_2 log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
-            var:x_1 log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+            var:x_2 log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isObligatoryIn var:x_0.
+        var:x_2 log:isObligatoryIn var:x_0.
     }}].
 
 skolem:lemma27 a r:Inference;
@@ -724,7 +729,7 @@ skolem:lemma27 a r:Inference;
         } log:isObligatoryIn :w2.
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma34
         [ a r:Fact; r:gives {{
             () log:onNegativeSurface {
                 :s1 :p1 :o1.
@@ -738,28 +743,29 @@ skolem:lemma27 a r:Inference;
         } log:isObligatoryIn :w2}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:p1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:s1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "urn:example:o1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "urn:example:p4"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "urn:example:s4"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ n3:uri "urn:example:o4"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
-        var:x_0 a log:PossibleWorld.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:p1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "urn:example:s1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "urn:example:o1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "urn:example:p4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ n3:uri "urn:example:s4"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ n3:uri "urn:example:o4"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        var:x_0 log:hasAccessTo var:x_1.
         {
             () log:onNegativeSurface {
-                var:x_2 var:x_1 var:x_3.
+                var:x_3 var:x_2 var:x_4.
                 () log:onNegativeSurface {
-                    var:x_5 var:x_4 var:x_6.
+                    var:x_6 var:x_5 var:x_7.
                 }.
             }.
         } log:holdsIn var:x_0.
         {
-            var:x_2 var:x_1 var:x_3.
+            var:x_3 var:x_2 var:x_4.
         } log:isObligatoryIn var:x_0.
     } => {
         {
-            var:x_5 var:x_4 var:x_6.
+            var:x_6 var:x_5 var:x_7.
         } log:isObligatoryIn var:x_0.
     }}].
 
@@ -770,38 +776,39 @@ skolem:lemma28 a r:Inference;
         } log:isForbiddenIn :w2.
     };
     r:evidence (
-        skolem:lemma41
+        skolem:lemma34
         skolem:lemma32
         [ a r:Fact; r:gives {({
-            :w2 log:hasAccessTo _:sk_67.
+            :w2 log:hasAccessTo _:sk_70.
         } {
             {
                 () log:onNegativeSurface {
                     :s3 :p3 :o3.
                 }.
-            } log:holdsIn _:sk_67.
+            } log:holdsIn _:sk_70.
         }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:w2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :s3 :p3 :o3.
     }];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_67"]];
-    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3. {
-        var:x_0 a log:PossibleWorld.
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_70"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+        var:x_0 log:hasAccessTo var:x_1.
         {
-            () log:onNegativeSurface var:x_1.
+            () log:onNegativeSurface var:x_2.
         } log:holdsIn var:x_0.
         ({
-            var:x_0 log:hasAccessTo var:x_2.
+            var:x_0 log:hasAccessTo var:x_3.
         } {
             {
-                () log:onNegativeSurface var:x_1.
-            } log:holdsIn var:x_2.
-        }) log:forAllIn var:x_3.
+                () log:onNegativeSurface var:x_2.
+            } log:holdsIn var:x_3.
+        }) log:forAllIn var:x_4.
     } => {
-        var:x_1 log:isForbiddenIn var:x_0.
+        var:x_2 log:isForbiddenIn var:x_0.
     }}].
 
 skolem:lemma29 a r:Extraction;
@@ -883,29 +890,17 @@ skolem:lemma37 a r:Extraction;
 
 skolem:lemma38 a r:Extraction;
     r:gives {
-        :w1 a log:PossibleWorld.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>].
-
-skolem:lemma39 a r:Extraction;
-    r:gives {
         {
             :s1 :p1 :o1.
         } log:holdsIn :w1.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>].
 
-skolem:lemma40 a r:Extraction;
+skolem:lemma39 a r:Extraction;
     r:gives {
         {
             :s2 :p2 :o2.
         } log:holdsIn :w1.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>].
-
-skolem:lemma41 a r:Extraction;
-    r:gives {
-        :w2 a log:PossibleWorld.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3s>].
 
