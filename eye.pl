@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.12 (2024-12-06)').
+version_info('EYE v10.30.13 (2024-12-07)').
 
 license_info('MIT License
 
@@ -2150,15 +2150,6 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
-pathitem(compound_term(Functor, Args), Triples) -->
-    ['('],
-    expression(Functor, T1),
-    [';'],
-    !,
-    pathlist(Args, T2),
-    [')'],
-    {   append(T1, T2, Triples)
-    }.
 pathitem(List, Triples) -->
     ['('],
     !,
@@ -4193,13 +4184,6 @@ wt1(X) :-
         write(' true')
     ).
 
-wt2(compound_term(X, Y)) :-
-    !,
-    write('('),
-    wt(X),
-    write(';'),
-    wl(Y),
-    write(')').
 wt2((X, Y)) :-
     !,
     (   atomic(X),
@@ -12733,8 +12717,6 @@ raw_type('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#epsilon>', '<
 raw_type((_, _), '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     !.
 raw_type(set(_), '<http://www.w3.org/2000/10/swap/log#Set>') :-
-    !.
-raw_type(compound_term(_, _), '<http://www.w3.org/2000/10/swap/log#Compound>') :-
     !.
 raw_type(A, '<http://www.w3.org/2000/10/swap/log#Formula>') :-
     functor(A, B, C),
