@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.13 (2024-12-07)').
+version_info('EYE v10.30.14 (2024-12-09)').
 
 license_info('MIT License
 
@@ -4523,7 +4523,8 @@ wt2(X) :-
         write(' '),
         wp(P),
         write(' '),
-        (   prolog_sym(_, O, _)
+        (   nonvar(O),
+            prolog_sym(_, O, _)
         ->  write(O)
         ;   wg(O)
         )
