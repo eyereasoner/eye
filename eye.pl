@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.14 (2024-12-09)').
+version_info('EYE v10.30.15 (2024-12-09)').
 
 license_info('MIT License
 
@@ -7849,6 +7849,67 @@ userInput(A, B) :-
 '<http://www.w3.org/2000/10/swap/log#repeat>'(A, B) :-
     C is A-1,
     between(0, C, B).
+
+'<http://www.w3.org/2000/10/swap/log#satisfiable>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   reset_gensym,
+            tmp_file(Tmp1),
+            open(Tmp1, write, Ws1, [encoding(utf8)]),
+            tell(Ws1),
+            (   flag('no-qnames')
+            ->  true
+            ;   forall(
+                    pfx(C, D),
+                    format('@prefix ~w ~w.~n', [C, D])
+                ),
+                nl
+            ),
+            labelvars(A, 0, _),
+            wt(A),
+            write('.'),
+            nl,
+            told,
+            (   flag('output', Output)
+            ->  tell(Output)
+            ;   true
+            ),
+            tmp_file(Tmp2),
+            !,
+            (   current_prolog_flag(windows, true)
+            ->  A1 = ['cmd.exe', '/C']
+            ;   A1 = []
+            ),
+            (   current_prolog_flag(argv, Argv),
+                append(Argu, ['--'|_], Argv)
+            ->  append(Argu, ['--'], A2)
+            ;   A2 = ['eye']
+            ),
+            (   flag(quiet)
+            ->  Quiet = '--quiet'
+            ;   Quiet = ''
+            ),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            findall([G, ' '],
+                (   member(G, A4)
+                ),
+                H
+            ),
+            flatten(H, I),
+            atomic_list_concat(I, J),
+            catch(
+                (   exec(J, _),
+                    B = true
+                ),
+                _,
+                (   B = false
+                )
+            ),
+            delete_file(Tmp1),
+            delete_file(Tmp2)
+        )
+    ).
 
 '<http://www.w3.org/2000/10/swap/log#semantics>'(X, Y) :-
     \+flag(restricted),
