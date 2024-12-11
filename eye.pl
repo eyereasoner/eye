@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v10.30.16 (2024-12-09)').
+version_info('EYE v10.30.17 (2024-12-11)').
 
 license_info('MIT License
 
@@ -7890,7 +7890,7 @@ userInput(A, B) :-
             ->  Quiet = '--quiet'
             ;   Quiet = ''
             ),
-            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2]], A4),
+            append([A1, A2, ['--nope', Quiet, Tmp1, '--pass-all', '>', Tmp2, '2> /dev/null']], A4),
             findall([G, ' '],
                 (   member(G, A4)
                 ),
