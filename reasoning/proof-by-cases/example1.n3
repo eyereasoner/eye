@@ -1,0 +1,40 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <urn:example:>.
+
+# closed set of possible cases
+(var:X) log:allPossibleCases (
+    { var:X a :Negative }
+    { var:X a :Zero }
+    { var:X a :Positive }
+).
+
+# theorems
+:theorem1 a :Theorem.
+:theorem2 a :Theorem.
+:theorem3 a :Theorem.
+
+# prove for possible cases
+{ ?X a :Negative } => { :theorem1 :isProvenFor ?X }.
+{ ?X a :Zero } => { :theorem1 :isProvenFor ?X }.
+{ ?X a :Positive } => { :theorem1 :isProvenFor ?X }.
+
+{ ?X a :Negative } => { :theorem2 :isProvenFor ?X }.
+{ ?X a :Positive } => { :theorem2 :isProvenFor ?X }.
+
+{ ?X a :Negative } => { :theorem3 :isProvenFor ?X }.
+{ ?X a :Zero } => { :theorem3 :isProvenFor ?X }.
+{ ?X a :Positive } => { :theorem3 :isProvenFor ?X }.
+
+# proof by cases
+{
+    (?X) log:allPossibleCases ?Y.
+    ?T a :Theorem.
+    (
+        { ?Y list:member { ?X a ?Z } }
+        { { ?X a ?Z } => { ?T :isProvenFor ?X } }
+    ) log:forAllIn ?SCOPE.
+} => {
+    ?T :isProvenFor ?X.
+}.

@@ -1,0 +1,170 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        @forSome var:X. :theorem1 :isProvenFor var:X.
+        @forSome var:X. :theorem3 :isProvenFor var:X.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        @forSome var:X. :theorem1 :isProvenFor var:X.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:theorem1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#X"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        @forSome var:X. :theorem3 :isProvenFor var:X.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:theorem3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#X"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        @forSome var:X. :theorem1 :isProvenFor var:X.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma7
+        [ a r:Fact; r:gives {@forSome var:X. ({
+            ({
+                var:X a :Negative.
+            } {
+                var:X a :Zero.
+            } {
+                var:X a :Positive.
+            }) list:member {
+                var:X a _:sk_0.
+            }.
+        } {
+            {
+                var:X a _:sk_0.
+            } => {
+                :theorem1 :isProvenFor var:X.
+            }.
+        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        var:X a :Negative.
+    } {
+        var:X a :Zero.
+    } {
+        var:X a :Positive.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#X"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:theorem1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:rule skolem:lemma8.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :isProvenFor var:x_1.
+        } => {
+            var:x_0 :isProvenFor var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1-query.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        @forSome var:X. :theorem3 :isProvenFor var:X.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma9
+        [ a r:Fact; r:gives {@forSome var:X. ({
+            ({
+                var:X a :Negative.
+            } {
+                var:X a :Zero.
+            } {
+                var:X a :Positive.
+            }) list:member {
+                var:X a _:sk_1.
+            }.
+        } {
+            {
+                var:X a _:sk_1.
+            } => {
+                :theorem3 :isProvenFor var:X.
+            }.
+        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        var:X a :Negative.
+    } {
+        var:X a :Zero.
+    } {
+        var:X a :Positive.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/2000/10/swap/var#X"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:theorem3"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:rule skolem:lemma8.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        @forSome var:X. (var:X) log:allPossibleCases ({
+            var:X a :Negative.
+        } {
+            var:X a :Zero.
+        } {
+            var:X a :Positive.
+        }).
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        :theorem1 a :Theorem.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            (var:x_0) log:allPossibleCases var:x_1.
+            var:x_2 a :Theorem.
+            ({
+                var:x_1 list:member {
+                    var:x_0 a var:x_3.
+                }.
+            } {
+                {
+                    var:x_0 a var:x_3.
+                } => {
+                    var:x_2 :isProvenFor var:x_0.
+                }.
+            }) log:forAllIn var:x_4.
+        } => {
+            var:x_2 :isProvenFor var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        :theorem3 a :Theorem.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/example1.n3>].
+
