@@ -1,0 +1,59 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :ground :is :wet.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :ground :is :wet.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:ground"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:wet"]];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :ground :is :wet.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            {
+                :ground :is :wet.
+            } => false.
+        } => false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :ground :is :wet.
+    }];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/example2-query.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            {
+                var:x_0 => false.
+            } => false.
+        } => var:x_0.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/example2.n3>].
+
