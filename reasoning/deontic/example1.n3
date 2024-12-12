@@ -9,15 +9,18 @@
 :w3 log:hasAccessTo :w4.
 
 # propositions that are true in possible worlds
+# possible world1
 { :s1 :p1 :o1 } log:holdsIn :w1.
 { :s2 :p2 :o2 } log:holdsIn :w1.
 { :s3 :p3 :o3 } log:holdsIn :w1.
 
+# possible world2
 { :s1 :p1 :o1 } log:holdsIn :w2.
 { :s2 :p2 :o2 } log:holdsIn :w2.
 { { :s3 :p3 :o3 } => false } log:holdsIn :w2.
 { { :s1 :p1 :o1 } => { :s4 :p4 :o4 } } log:holdsIn :w2.
 
+# possible world3
 { :s1 :p1 :o1 } log:holdsIn :w3.
 { :s2 :p2 :o2 } log:holdsIn :w3.
 { { :s3 :p3 :o3 } => false } log:holdsIn :w3.

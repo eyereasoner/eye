@@ -9,14 +9,14 @@
 :normativeWorld2 log:hasAccessTo :normativeWorld2, :normativeWorld1.
 
 # propositions that are true in possible worlds
-# normativeWorld1
+# normative world1
 { var:driver :is :drinking } log:holdsIn :normativeWorld1.
 { { var:driver :is :drinking, :driving } => false } log:holdsIn :normativeWorld1.
 
-# normativeWorld2
+# normative world2
 { var:driver :is :driving } log:holdsIn :normativeWorld2.
 { { var:driver :is :drinking, :driving } => false } log:holdsIn :normativeWorld2.
 
-# observedWorld
+# observed world
 # the following will blow an inference fuse
 var:driver :is :drinking, :driving.
