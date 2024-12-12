@@ -1,0 +1,21 @@
+# deontic logic example about not selling alcoholic beverages to non adults
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# accessibility relations between possible worlds
+:normativeWorld1 log:hasAccessTo :normativeWorld1, :normativeWorld2.
+:normativeWorld2 log:hasAccessTo :normativeWorld2, :normativeWorld1.
+
+# propositions that are true in possible worlds
+# normativeWorld1
+{ :alcoholicBeverage :sellingTo :adult } log:holdsIn :normativeWorld1.
+{ { :alcoholicBeverage :sellingTo :nonAdult } => false } log:holdsIn :normativeWorld1.
+
+# normativeWorld2
+{ { :alcoholicBeverage :sellingTo :nonAdult } => false } log:holdsIn :normativeWorld2.
+
+# observedWorld
+:alcoholicBeverage :sellingTo :adult.
+# the following will blow an inference fuse
+#:alcoholicBeverage :sellingTo :nonAdult.

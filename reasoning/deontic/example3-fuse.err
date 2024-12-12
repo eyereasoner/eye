@@ -10,10 +10,10 @@
     var:driver :is :drinking.
 } log:isPermittedIn :normativeWorld1.
 {
-    () log:onNegativeSurface {
+    {
         var:driver :is :drinking.
         var:driver :is :driving.
-    }.
+    } => false.
 } log:isPermittedIn :normativeWorld1.
 {
     var:driver :is :driving.
@@ -22,45 +22,23 @@
     var:driver :is :driving.
 } log:isPermittedIn :normativeWorld2.
 {
-    () log:onNegativeSurface {
+    {
         var:driver :is :drinking.
         var:driver :is :driving.
-    }.
+    } => false.
 } log:isPermittedIn :normativeWorld2.
 {
     var:driver :is :drinking.
 } log:isPermittedIn :normativeWorld2.
-{
-    () log:onNegativeSurface {
-        var:driver :is :drinking.
-        var:driver :is :driving.
-    }.
-} log:isObligatoryIn :normativeWorld1.
-{
-    () log:onNegativeSurface {
-        var:driver :is :drinking.
-        var:driver :is :driving.
-    }.
-} log:isObligatoryIn :normativeWorld2.
-{
-    var:driver :is :drinking.
-    var:driver :is :driving.
-} log:isForbiddenIn :normativeWorld1.
-{
-    var:driver :is :drinking.
-    var:driver :is :driving.
-} log:isForbiddenIn :normativeWorld2.
 # inference fuse
 {
     {
         var:driver :is :drinking.
         var:driver :is :driving.
+    } log:isForbiddenIn :normativeWorld1.
+    {
+        var:driver :is :drinking.
+        var:driver :is :driving.
     } log:call true.
-    () log:onNegativeSurface {
-        {
-            var:driver :is :drinking.
-            var:driver :is :driving.
-        } log:call true.
-    }.
 } => false.
 )

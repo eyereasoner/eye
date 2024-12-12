@@ -1,0 +1,44 @@
+# deontic logic
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+# P is obligatory in world W if P holds in all worlds accessible from W
+{
+    ?W1 log:hasAccessTo ?W.
+    ?P log:holdsIn ?W1.
+    ({ ?W1 log:hasAccessTo ?W2 } { ?P log:holdsIn ?W2 }) log:forAllIn ?Sc.
+} => {
+    ?P log:isObligatoryIn ?W1.
+}.
+
+# P is permitted in world W if P holds in at least one world accessible from W
+{
+    ?W1 log:hasAccessTo ?W2.
+    ?P log:holdsIn ?W2.
+} => {
+    ?P log:isPermittedIn ?W1.
+}.
+
+# P is forbidden in world W if P does not hold in any world accessible from W
+{
+    ?W1 log:hasAccessTo ?W.
+    { ?P => false } log:holdsIn ?W1.
+    ({ ?W1 log:hasAccessTo ?W2 } { { ?P => false } log:holdsIn ?W2 }) log:forAllIn ?Sc.
+} => {
+    ?P log:isForbiddenIn ?W1.
+}.
+
+# K axiom
+{
+    ?W1 log:hasAccessTo ?W.
+    { { ?S1 ?P1 ?O1. { ?S2 ?P2 ?O2 } => false } => false } log:holdsIn ?W1.
+    { ?S1 ?P1 ?O1 } log:isObligatoryIn ?W1.
+} => {
+    { ?S2 ?P2 ?O2 } log:isObligatoryIn ?W1.
+}.
+
+# inconsistency detection
+{
+    ?P log:isForbiddenIn ?W.
+    ?P log:call true.
+} => false.

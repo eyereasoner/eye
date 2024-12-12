@@ -5,27 +5,27 @@
     :alcoholicBeverage :sellingTo :adult.
 } log:isPermittedIn :normativeWorld1.
 {
-    () log:onNegativeSurface {
+    {
         :alcoholicBeverage :sellingTo :nonAdult.
-    }.
+    } => false.
 } log:isPermittedIn :normativeWorld1.
 {
-    () log:onNegativeSurface {
+    {
         :alcoholicBeverage :sellingTo :nonAdult.
-    }.
+    } => false.
 } log:isPermittedIn :normativeWorld2.
 {
     :alcoholicBeverage :sellingTo :adult.
 } log:isPermittedIn :normativeWorld2.
 {
-    () log:onNegativeSurface {
+    {
         :alcoholicBeverage :sellingTo :nonAdult.
-    }.
+    } => false.
 } log:isObligatoryIn :normativeWorld1.
 {
-    () log:onNegativeSurface {
+    {
         :alcoholicBeverage :sellingTo :nonAdult.
-    }.
+    } => false.
 } log:isObligatoryIn :normativeWorld2.
 {
     :alcoholicBeverage :sellingTo :nonAdult.

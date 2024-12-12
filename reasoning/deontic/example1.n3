@@ -1,0 +1,23 @@
+# deontic logic example
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# accessibility relations between possible worlds
+:w1 log:hasAccessTo :w2.
+:w2 log:hasAccessTo :w3.
+:w3 log:hasAccessTo :w4.
+
+# propositions that are true in possible worlds
+{ :s1 :p1 :o1 } log:holdsIn :w1.
+{ :s2 :p2 :o2 } log:holdsIn :w1.
+{ :s3 :p3 :o3 } log:holdsIn :w1.
+
+{ :s1 :p1 :o1 } log:holdsIn :w2.
+{ :s2 :p2 :o2 } log:holdsIn :w2.
+{ { :s3 :p3 :o3 } => false } log:holdsIn :w2.
+{ { :s1 :p1 :o1. { :s4 :p4 :o4 } => false } => false } log:holdsIn :w2.
+
+{ :s1 :p1 :o1 } log:holdsIn :w3.
+{ :s2 :p2 :o2 } log:holdsIn :w3.
+{ { :s3 :p3 :o3 } => false } log:holdsIn :w3.

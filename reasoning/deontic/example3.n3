@@ -1,0 +1,22 @@
+# deontic logic example about not drinking and driving
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <urn:example:>.
+
+# accessibility relations between possible worlds
+:normativeWorld1 log:hasAccessTo :normativeWorld1, :normativeWorld2.
+:normativeWorld2 log:hasAccessTo :normativeWorld2, :normativeWorld1.
+
+# propositions that are true in possible worlds
+# normativeWorld1
+{ var:driver :is :drinking } log:holdsIn :normativeWorld1.
+{ { var:driver :is :drinking, :driving } => false } log:holdsIn :normativeWorld1.
+
+# normativeWorld2
+{ var:driver :is :driving } log:holdsIn :normativeWorld2.
+{ { var:driver :is :drinking, :driving } => false } log:holdsIn :normativeWorld2.
+
+# observedWorld
+# the following will blow an inference fuse
+var:driver :is :drinking, :driving.
