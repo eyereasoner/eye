@@ -26,15 +26,8 @@ skolem:lemma2 a r:Inference;
         :ground :is :wet.
     };
     r:evidence (
-        [ a r:Fact; r:gives {{
-            {
-                :ground :is :wet.
-            } => false.
-        } => false}]
+        [ a r:Fact; r:gives true]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
-        :ground :is :wet.
-    }];
     r:rule skolem:lemma4.
 
 skolem:lemma3 a r:Extraction;
@@ -47,13 +40,33 @@ skolem:lemma3 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/example2-query.n3>].
 
-skolem:lemma4 a r:Extraction;
+skolem:lemma4 a r:Inference;
+    r:gives {
+        true => {
+            :ground :is :wet.
+        }.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            {
+                :ground :is :wet.
+            } => false.
+        } => false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :ground :is :wet.
+    }];
+    r:rule skolem:lemma5.
+
+skolem:lemma5 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             {
                 var:x_0 => false.
             } => false.
-        } => var:x_0.
+        } => {
+            true => var:x_0.
+        }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contrapositive/example2.n3>].
 
