@@ -1,0 +1,8 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# the ground is not wet
+{ :ground :is :wet } => false.
+
+# contrapositive of "if it is raining, then the ground is wet".
+{ { :ground :is :wet } => false } => { { :it :is :raining } => false }.
