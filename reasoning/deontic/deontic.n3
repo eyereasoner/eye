@@ -31,7 +31,7 @@
 # K axiom
 {
     ?W1 log:hasAccessTo ?W.
-    { { ?S1 ?P1 ?O1. { ?S2 ?P2 ?O2 } => false } => false } log:holdsIn ?W1.
+    { { ?S1 ?P1 ?O1 } => { ?S2 ?P2 ?O2 } } log:holdsIn ?W1.
     { ?S1 ?P1 ?O1 } log:isObligatoryIn ?W1.
 } => {
     { ?S2 ?P2 ?O2 } log:isObligatoryIn ?W1.

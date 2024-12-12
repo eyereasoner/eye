@@ -35,10 +35,9 @@ skolem:proof a r:Proof, r:Conjunction;
         {
             {
                 :s1 :p1 :o1.
-                {
-                    :s4 :p4 :o4.
-                } => false.
-            } => false.
+            } => {
+                :s4 :p4 :o4.
+            }.
         } log:isPermittedIn :w1.
         {
             :s1 :p1 :o1.
@@ -130,10 +129,9 @@ skolem:lemma4 a r:Inference;
         {
             {
                 :s1 :p1 :o1.
-                {
-                    :s4 :p4 :o4.
-                } => false.
-            } => false.
+            } => {
+                :s4 :p4 :o4.
+            }.
         } log:isPermittedIn :w1.
     };
     r:evidence (
@@ -142,10 +140,9 @@ skolem:lemma4 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         {
             :s1 :p1 :o1.
-            {
-                :s4 :p4 :o4.
-            } => false.
-        } => false.
+        } => {
+            :s4 :p4 :o4.
+        }.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:w1"]];
     r:rule skolem:lemma16.
@@ -378,10 +375,9 @@ skolem:lemma19 a r:Inference;
         {
             {
                 :s1 :p1 :o1.
-                {
-                    :s4 :p4 :o4.
-                } => false.
-            } => false.
+            } => {
+                :s4 :p4 :o4.
+            }.
         } log:isPermittedIn :w1.
     };
     r:evidence (
@@ -393,10 +389,9 @@ skolem:lemma19 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         {
             :s1 :p1 :o1.
-            {
-                :s4 :p4 :o4.
-            } => false.
-        } => false.
+        } => {
+            :s4 :p4 :o4.
+        }.
     }];
     r:rule skolem:lemma34.
 
@@ -612,10 +607,9 @@ skolem:lemma29 a r:Inference;
         [ a r:Fact; r:gives {{
             {
                 :s1 :p1 :o1.
-                {
-                    :s4 :p4 :o4.
-                } => false.
-            } => false.
+            } => {
+                :s4 :p4 :o4.
+            }.
         } log:holdsIn :w2}]
         [ a r:Fact; r:gives {{
             :s1 :p1 :o1.
@@ -717,10 +711,9 @@ skolem:lemma37 a r:Extraction;
         {
             {
                 :s1 :p1 :o1.
-                {
-                    :s4 :p4 :o4.
-                } => false.
-            } => false.
+            } => {
+                :s4 :p4 :o4.
+            }.
         } log:holdsIn :w2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/deontic/example1.n3>].
@@ -796,10 +789,9 @@ skolem:lemma45 a r:Extraction;
             {
                 {
                     var:x_3 var:x_2 var:x_4.
-                    {
-                        var:x_6 var:x_5 var:x_7.
-                    } => false.
-                } => false.
+                } => {
+                    var:x_6 var:x_5 var:x_7.
+                }.
             } log:holdsIn var:x_0.
             {
                 var:x_3 var:x_2 var:x_4.
