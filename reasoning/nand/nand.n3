@@ -16,9 +16,9 @@
         true
         { ?C log:equalTo { ?A => false } }
     ) log:ifThenElseIn ?SCOPE.
-    ?R graph:list ?B.
+    ?E graph:list ?B.
 } => {
-    ?R => ?C.
+    ?E => ?C.
 }.
 
 # resolution rule
@@ -33,7 +33,7 @@
         { ?M log:equalTo ?B }
         { ?M list:firstRest ({ ?D => false } ?B) }
     ) log:ifThenElseIn ?SCOPE.
-    ?R graph:list ?M.
+    ?E graph:list ?M.
 } => {
-    ?R => ?C.
+    ?E => ?C.
 }.
