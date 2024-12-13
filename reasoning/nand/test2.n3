@@ -1,0 +1,21 @@
+@prefix : <urn:example:> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+:P a :Test .
+:Q a :Test .
+
+# P & Q -> R
+{
+    :P a :Test .
+    :Q a :Test .
+    { :R a :Test } => false .
+} => false .
+
+# |= R
+{
+    :R a :Test .
+}
+=>
+{
+    :test :is true .
+} .
