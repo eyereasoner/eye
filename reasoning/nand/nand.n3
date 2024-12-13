@@ -12,9 +12,9 @@
     ?P => false.
     ?P graph:list ?L.
     ?L list:select (?A ?B).
-    (   { ?A log:notIsomorphic { ?X => false } }
+    (   { ?A log:equalTo { ?C => false } }
+        true
         { ?C log:equalTo { ?A => false } }
-        { ?A log:equalTo { ?C => false } }
     ) log:ifThenElseIn ?SCOPE.
     ?R graph:list ?B.
 } => {
