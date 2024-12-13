@@ -2,6 +2,8 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <urn:example:>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
@@ -71,21 +73,55 @@ skolem:lemma6 a r:Inference;
                 :P a :Test.
             } => false.
         } => false}]
+        [ a r:Fact; r:gives {{
+            {
+                :P a :Test.
+            } => false.
+        } graph:list ({
+            {
+                :P a :Test.
+            } => false.
+        })}]
+        [ a r:Fact; r:gives {({
+            {
+                :P a :Test.
+            } => false.
+        }) list:select ({
+            {
+                :P a :Test.
+            } => false.
+        } ())}]
+        [ a r:Fact; r:gives {true graph:list ()}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            :P a :Test.
+        } => false.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        {
+            :P a :Test.
+        } => false.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :P a :Test.
     }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ()];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo true];
     r:rule skolem:lemma7.
 
 skolem:lemma7 a r:Extraction;
     r:gives {
-        @forAll var:x_0. {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>.
-            {
-                var:x_0 => false.
-            } => false.
+            var:x_0 => false.
+            var:x_0 graph:list var:x_1.
+            var:x_1 list:select ({
+                var:x_2 => false.
+            } var:x_3).
+            var:x_4 graph:list var:x_3.
         } => {
-            true => var:x_0.
+            var:x_4 => var:x_2.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>].

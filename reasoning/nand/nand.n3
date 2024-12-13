@@ -10,15 +10,6 @@
 # contrapositive rules
 {
     <#nand> log:equalTo <#nand>.
-    {
-        ?P => false.
-    } => false.
-} => {
-    true => ?P.
-}.
-
-{
-    <#nand> log:equalTo <#nand>.
     ?P => false.
     ?P graph:list ?Q.
     ?Q list:select ({ ?A => false } ?B).
@@ -46,7 +37,10 @@
     ?L list:notMember { <#nand> log:equalTo <#nand> }.
     ?L list:select ({ ?C => false } ?M).
     ?C => ?E.
-    ?N list:firstRest ({ ?E => false } ?M).
+    (   { ?M list:member { ?E => false } }
+        { ?N log:equalTo ?M }
+        { ?N list:firstRest ({ ?E => false } ?M) }
+    ) log:ifThenElseIn ?SCOPE.
     ?F graph:list ?N.
 } => {
     ?F => ?B.

@@ -104,14 +104,28 @@ skolem:lemma5 a r:Inference;
         } ())}]
         skolem:lemma7
         [ a r:Fact; r:gives {({
-            {
-                :R a :Test.
-            } => false.
-        }) list:firstRest ({
-            {
-                :R a :Test.
-            } => false.
-        } ())}]
+            () list:member {
+                {
+                    :R a :Test.
+                } => false.
+            }.
+        } {
+            ({
+                {
+                    :R a :Test.
+                } => false.
+            }) log:equalTo ().
+        } {
+            ({
+                {
+                    :R a :Test.
+                } => false.
+            }) list:firstRest ({
+                {
+                    :R a :Test.
+                } => false.
+            } ()).
+        }) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/nand/test5.n3> <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>) 1)}]
         [ a r:Fact; r:gives {{
             {
                 :R a :Test.
@@ -145,12 +159,13 @@ skolem:lemma5 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo {
         :R a :Test.
     }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/nand/test5.n3> <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>) 1)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo ({
         {
             :R a :Test.
         } => false.
     })];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo {
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo {
         {
             :R a :Test.
         } => false.
@@ -290,7 +305,7 @@ skolem:lemma7 a r:Inference;
 
 skolem:lemma8 a r:Extraction;
     r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {
             <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>.
             var:x_0 => var:x_1.
             var:x_0 graph:list var:x_2.
@@ -301,12 +316,20 @@ skolem:lemma8 a r:Extraction;
                 var:x_3 => false.
             } var:x_4).
             var:x_3 => var:x_5.
-            var:x_6 list:firstRest ({
-                var:x_5 => false.
-            } var:x_4).
-            var:x_7 graph:list var:x_6.
+            ({
+                var:x_4 list:member {
+                    var:x_5 => false.
+                }.
+            } {
+                var:x_6 log:equalTo var:x_4.
+            } {
+                var:x_6 list:firstRest ({
+                    var:x_5 => false.
+                } var:x_4).
+            }) log:ifThenElseIn var:x_7.
+            var:x_8 graph:list var:x_6.
         } => {
-            var:x_7 => var:x_1.
+            var:x_8 => var:x_1.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>].
