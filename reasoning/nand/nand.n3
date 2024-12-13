@@ -6,41 +6,34 @@
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-# contrapositive rules
+# contrapositive rule
 {
     <#nand> log:equalTo <#nand>.
     ?P => false.
-    ?P graph:list ?Q.
-    ?Q list:select ({ ?A => false } ?B).
+    ?P graph:list ?L.
+    ?L list:select (?A ?B).
+    (   { ?A log:notIsomorphic { ?X => false } }
+        { ?C log:equalTo { ?A => false } }
+        { ?A log:equalTo { ?C => false } }
+    ) log:ifThenElseIn ?SCOPE.
     ?R graph:list ?B.
 } => {
-    ?R => ?A.
-}.
-
-{
-    <#nand> log:equalTo <#nand>.
-    ?P => false.
-    ?P graph:list ?Q.
-    ?Q list:select (?A ?B).
-    ?A log:notIsomorphic { ?X => false }.
-    ?R graph:list ?B.
-} => {
-    ?R => { ?A => false }.
+    ?R => ?C.
 }.
 
 # resolution rule
 {
     <#nand> log:equalTo <#nand>.
-    ?A => ?B.
-    ?A graph:list ?L.
+    ?P => ?C.
+    ?P graph:list ?L.
     ?L list:notMember { <#nand> log:equalTo <#nand> }.
-    ?L list:select ({ ?C => false } ?M).
-    ?C => ?E.
-    (   { ?M list:member { ?E => false } }
-        { ?N log:equalTo ?M }
-        { ?N list:firstRest ({ ?E => false } ?M) }
+    ?L list:select ({ ?A => false } ?B).
+    ?A => ?D.
+    (   { ?B list:member { ?D => false } }
+        { ?M log:equalTo ?B }
+        { ?M list:firstRest ({ ?D => false } ?B) }
     ) log:ifThenElseIn ?SCOPE.
-    ?F graph:list ?N.
+    ?R graph:list ?M.
 } => {
-    ?F => ?B.
+    ?R => ?C.
 }.
