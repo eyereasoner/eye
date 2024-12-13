@@ -1,9 +1,13 @@
+# ------------------------
+# NAND rules -- Jos De Roo
+# ------------------------
+
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
-# contrapositive
+# contrapositive rules
 {
     <#nand> log:equalTo <#nand>.
     {
@@ -34,16 +38,7 @@
     ?R => { ?A => false }.
 }.
 
-# factoring
-{
-    <#nand> log:equalTo <#nand>.
-    ?A => ?B.
-    ?B list:removeDuplicates (?C).
-} => {
-    ?A => ?C.
-}.
-
-# resolution
+# resolution rule
 {
     <#nand> log:equalTo <#nand>.
     ?A => ?B.

@@ -1,43 +1,45 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <urn:example:>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
-    r:component skolem:lemma2;
     r:gives {
-        :Q a :Test.
         :test :is true.
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :Q a :Test.
+        :test :is true.
     };
     r:evidence (
-        skolem:lemma3
+        skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.w3.org/1999/02/22-rdf-syntax-ns#type"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:Q"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:Test"]];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
     r:gives {
         :test :is true.
     };
     r:evidence (
-        skolem:lemma5
+        skolem:lemma4
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:is"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:test"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo true];
-    r:rule skolem:lemma4.
+    r:rule skolem:lemma5.
 
-skolem:lemma3 a r:Inference;
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        {
+            :test :is true.
+        } => {
+            :test :is true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/query.n3>].
+
+skolem:lemma4 a r:Inference;
     r:gives {
         :Q a :Test.
     };
@@ -46,24 +48,15 @@ skolem:lemma3 a r:Inference;
     );
     r:rule skolem:lemma6.
 
-skolem:lemma4 a r:Extraction;
+skolem:lemma5 a r:Extraction;
     r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
-            var:x_1 var:x_0 var:x_2.
+        {
+            :Q a :Test.
         } => {
-            var:x_1 var:x_0 var:x_2.
+            :test :is true.
         }.
     };
-    r:because [ a r:Parsing; r:source <http://eulersharp.sourceforge.net/2003/03swap/pass>].
-
-skolem:lemma5 a r:Inference;
-    r:gives {
-        :test :is true.
-    };
-    r:evidence (
-        skolem:lemma3
-    );
-    r:rule skolem:lemma7.
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/test4.n3>].
 
 skolem:lemma6 a r:Inference;
     r:gives {
@@ -82,19 +75,9 @@ skolem:lemma6 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
         :Q a :Test.
     }];
-    r:rule skolem:lemma8.
+    r:rule skolem:lemma7.
 
 skolem:lemma7 a r:Extraction;
-    r:gives {
-        {
-            :Q a :Test.
-        } => {
-            :test :is true.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/test4.n3>].
-
-skolem:lemma8 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>.
