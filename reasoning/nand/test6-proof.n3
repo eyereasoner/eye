@@ -53,7 +53,7 @@ skolem:lemma4 a r:Inference;
     );
     r:rule skolem:lemma8.
 
-skolem:lemma5 a r:Extraction;
+skolem:lemma5 a r:Inference;
     r:gives {
         {
             {
@@ -63,7 +63,110 @@ skolem:lemma5 a r:Extraction;
             :test :is true.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/test6.n3>].
+    r:evidence (
+        [ a r:Fact; r:gives {<https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>}]
+        skolem:lemma9
+        [ a r:Fact; r:gives {{
+            {
+                :test :is true.
+            } => false.
+            {
+                :P a :Test.
+            } => false.
+        } graph:list ({
+            {
+                :test :is true.
+            } => false.
+        } {
+            {
+                :P a :Test.
+            } => false.
+        })}]
+        [ a r:Fact; r:gives {({
+            {
+                :test :is true.
+            } => false.
+        } {
+            {
+                :P a :Test.
+            } => false.
+        }) list:select ({
+            {
+                :test :is true.
+            } => false.
+        } ({
+            {
+                :P a :Test.
+            } => false.
+        }))}]
+        [ a r:Fact; r:gives {({
+            {
+                {
+                    :test :is true.
+                } => false.
+            } log:equalTo {
+                {
+                    :test :is true.
+                } => false.
+            }.
+        } true {
+            {
+                :test :is true.
+            } log:equalTo {
+                {
+                    {
+                        :test :is true.
+                    } => false.
+                } => false.
+            }.
+        }) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/nand/test6.n3> <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>) 1)}]
+        [ a r:Fact; r:gives {{
+            {
+                :P a :Test.
+            } => false.
+        } graph:list ({
+            {
+                :P a :Test.
+            } => false.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            :test :is true.
+        } => false.
+        {
+            :P a :Test.
+        } => false.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        {
+            :test :is true.
+        } => false.
+    } {
+        {
+            :P a :Test.
+        } => false.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        {
+            :test :is true.
+        } => false.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        {
+            :P a :Test.
+        } => false.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/nand/test6.n3> <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo {
+        {
+            :P a :Test.
+        } => false.
+    }];
+    r:rule skolem:lemma10.
 
 skolem:lemma6 a r:Extraction;
     r:gives {
@@ -179,9 +282,101 @@ skolem:lemma8 a r:Inference;
         :Q a :Test.
         :R a :Test.
     }];
-    r:rule skolem:lemma9.
+    r:rule skolem:lemma10.
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma9 a r:Inference;
+    r:gives {
+        {
+            {
+                :test :is true.
+            } => false.
+            {
+                :P a :Test.
+            } => false.
+        } => false.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {<https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>}]
+        skolem:lemma5
+        [ a r:Fact; r:gives {{
+            :test :is true.
+        } log:notEqualTo false}]
+        [ a r:Fact; r:gives {{
+            {
+                :P a :Test.
+            } => false.
+        } graph:list ({
+            {
+                :P a :Test.
+            } => false.
+        })}]
+        [ a r:Fact; r:gives {({
+            {
+                :test :is true.
+            } => false.
+        } {
+            {
+                :P a :Test.
+            } => false.
+        }) list:firstRest ({
+            {
+                :test :is true.
+            } => false.
+        } ({
+            {
+                :P a :Test.
+            } => false.
+        }))}]
+        [ a r:Fact; r:gives {{
+            {
+                :test :is true.
+            } => false.
+            {
+                :P a :Test.
+            } => false.
+        } graph:list ({
+            {
+                :test :is true.
+            } => false.
+        } {
+            {
+                :P a :Test.
+            } => false.
+        })}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            :P a :Test.
+        } => false.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo {
+        :test :is true.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ({
+        {
+            :P a :Test.
+        } => false.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        {
+            :test :is true.
+        } => false.
+    } {
+        {
+            :P a :Test.
+        } => false.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        {
+            :test :is true.
+        } => false.
+        {
+            :P a :Test.
+        } => false.
+    }];
+    r:rule skolem:lemma11.
+
+skolem:lemma10 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. {
             <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>.
@@ -200,6 +395,23 @@ skolem:lemma9 a r:Extraction;
             var:x_6 graph:list var:x_3.
         } => {
             var:x_6 => var:x_4.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand> log:equalTo <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3#nand>.
+            var:x_0 => var:x_1.
+            var:x_1 log:notEqualTo false.
+            var:x_0 graph:list var:x_2.
+            var:x_3 list:firstRest ({
+                var:x_1 => false.
+            } var:x_2).
+            var:x_4 graph:list var:x_3.
+        } => {
+            var:x_4 => false.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/nand/nand.n3>].

@@ -21,6 +21,17 @@
     ?E => ?C.
 }.
 
+{
+    <#nand> log:equalTo <#nand>.
+    ?P => ?C.
+    ?C log:notEqualTo false.
+    ?P graph:list ?L.
+    ?M list:firstRest ({ ?C => false } ?L).
+    ?E graph:list ?M.
+} => {
+    ?E => false.
+}.
+
 # resolution rule
 {
     <#nand> log:equalTo <#nand>.
