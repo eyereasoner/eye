@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.0.0 (2024-12-14)').
+version_info('EYE v11.0.1 (2024-12-15)').
 
 license_info('MIT License
 
@@ -6623,6 +6623,17 @@ prepare_builtins :-
         ),
         (   getlist(B, C),
             member(A, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#intersection>'([A, B], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   getlist(A, D),
+            getlist(B, E),
+            intersection(D, E, C)
         )
     ).
 
