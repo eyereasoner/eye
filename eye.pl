@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.0.1 (2024-12-15)').
+version_info('EYE v11.0.2 (2024-12-17)').
 
 license_info('MIT License
 
@@ -6945,6 +6945,11 @@ userInput(A, B) :-
     ;   conj_append(A, B, C),
         copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
         istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#callWithDisjunction>'(A, B) :-
+    (   catch(call(A), _, fail)
+    ;   catch(call(B), _, fail)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B) :-
