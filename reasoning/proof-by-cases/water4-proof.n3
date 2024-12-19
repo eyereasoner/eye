@@ -1,0 +1,138 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :water :is :observable.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :water :is :observable.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:water"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:observable"]];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :water :is :observable.
+    };
+    r:evidence (
+        skolem:lemma4
+        [ a r:Fact; r:gives {({
+            ({
+                :water :is :solid.
+            } {
+                :water :is :liquid.
+            } {
+                :water :is :gas.
+            } {
+                :water :is :other.
+            }) list:member {
+                :water :is _:sk_0.
+            }.
+        } {
+            {
+                :water :is _:sk_0.
+            } => {
+                :water :is :observable.
+            }.
+        }) log:forAllIn ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :water :is :solid.
+    } {
+        :water :is :liquid.
+    } {
+        :water :is :gas.
+    } {
+        :water :is :other.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:water"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :is var:x_1.
+        } => {
+            var:x_0 :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4-query.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        (:water) log:allPossibleCases ({
+            :water :is :solid.
+        } {
+            :water :is :liquid.
+        } {
+            :water :is :gas.
+        } {
+            :water :is :other.
+        }).
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:water"]];
+    r:rule skolem:lemma7.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            (var:x_0) log:allPossibleCases var:x_1.
+            ({
+                var:x_1 list:member {
+                    var:x_0 :is var:x_2.
+                }.
+            } {
+                {
+                    var:x_0 :is var:x_2.
+                } => {
+                    var:x_0 :is :observable.
+                }.
+            }) log:forAllIn var:x_3.
+        } => {
+            var:x_0 :is :observable.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4.n3>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :water a :InorganicCompound.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :InorganicCompound.
+        } => {
+            (var:x_0) log:allPossibleCases ({
+                var:x_0 :is :solid.
+            } {
+                var:x_0 :is :liquid.
+            } {
+                var:x_0 :is :gas.
+            } {
+                var:x_0 :is :other.
+            }).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-cases/water4.n3>].
+
