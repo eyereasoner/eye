@@ -1,0 +1,13 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# query
+{
+    1000 log:repeat ?A.
+    (?A 2000) math:sum ?B.
+    ?B :kaprekar ?C.
+    { :recursion :count ?D } log:becomes { :recursion :count 0 }.
+} => {
+    (?B ?C) :recursionsNeeded ?D.
+}.

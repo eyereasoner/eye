@@ -1,0 +1,80 @@
+# Kaprekar's constant
+# see https://en.wikipedia.org/wiki/6174
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# recursion counter
+:recursion :count 0.
+
+# skip 0
+{ 0 :kaprekar 0 } <= {
+    true log:callWithCut true.
+}.
+
+# recursive case till 6174 is reached
+{ ?A :kaprekar ?B } <= {
+    :recursion :count ?N.
+    (?N 1) math:sum ?N1.
+    { :recursion :count ?N } log:becomes { :recursion :count ?N1 }.
+    ?A :numberToDigits ?C.
+    ?C :sort ?D.
+    ?D list:reverse ?E.
+    ?D :digitsToNumber ?F.
+    ?E :digitsToNumber ?G.
+    (?G ?F) math:difference ?H.
+    ?H math:notEqualTo 6174.
+    ?H :kaprekar ?B.
+}.
+
+# base case
+{?A :kaprekar 6174} <= true.
+
+# convert 4 digit number to digits
+{ ?A :numberToDigits (?B ?C ?D ?E) } <= {
+    (?A 1000) math:integerQuotient ?B.
+    (?A 1000) math:remainder ?F.
+    (?F 100) math:integerQuotient ?C.
+    (?F 100) math:remainder ?G.
+    (?G 10) math:integerQuotient ?D.
+    (?G 10) math:remainder ?E.
+}.
+
+# convert 4 digits to number
+{ (?A ?B ?C ?D) :digitsToNumber ?E} <= {
+    (?A 1000) math:product ?F.
+    (?B 100) math:product ?G.
+    (?C 10) math:product ?H.
+    (?F ?G ?H ?D) math:sum ?E.
+}.
+
+# base case: an empty list is already sorted
+() :sort ().
+
+# recursive case: split the list, sort the sublists and append them
+{ ?A :sort ?B } <= {
+    ?A list:firstRest (?C ?D).
+    (?C ?D) :split (?E ?F).
+    ?E :sort ?G.
+    ?F :sort ?H.
+    ?I list:firstRest (?C ?H).    
+    (?G ?I) list:append ?B.
+}.
+
+# split the list based on a pivot
+{ (?A ()) :split (() ()) } <= true.
+
+{ (?A ?B) :split (?C ?D) } <= {
+    ?B list:firstRest (?E ?F).
+    ?C list:firstRest (?E ?G).
+    ?E math:notGreaterThan ?A.
+    (?A ?F) :split (?G ?D).
+}.
+{ (?A ?B) :split (?C ?D) } <= {
+    ?B list:firstRest (?E ?F).
+    ?D list:firstRest (?E ?G).
+    ?E math:greaterThan ?A.
+    (?A ?F) :split (?C ?G).
+}.
