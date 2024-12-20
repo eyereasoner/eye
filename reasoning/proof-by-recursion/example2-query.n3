@@ -6,8 +6,7 @@
 {
     1000 log:repeat ?A.
     (?A 2000) math:sum ?B.
-    ?B :kaprekar ?C.
-    { :recursion :count ?D } log:becomes { :recursion :count 0 }.
+    ?B :kaprekar (0 ?C).
 } => {
-    (?B ?C) :recursionsNeeded ?D.
+    ?B :recursionCount ?C.
 }.

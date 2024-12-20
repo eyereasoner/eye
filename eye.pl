@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.1.0 (2024-12-18)').
+version_info('EYE v11.1.1 (2024-12-20)').
 
 license_info('MIT License
 
@@ -6943,6 +6943,17 @@ prepare_builtins :-
         )
     ).
 
+'<http://www.w3.org/2000/10/swap/list#intersection>'([A, B], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   getlist(A, D),
+            getlist(B, E),
+            intersection(D, E, C)
+        )
+    ).
+
 '<http://www.w3.org/2000/10/swap/list#isList>'(A, B) :-
     (   getlist(A, _)
     ->  B = true
@@ -7038,6 +7049,15 @@ prepare_builtins :-
         ),
         (   getlist(A, C),
             \+member(B, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#quicksort>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, C),
+            quicksort(C, B)
         )
     ).
 
@@ -7251,6 +7271,11 @@ userInput(A, B) :-
     ;   conj_append(A, B, C),
         copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B)), D),
         istep('<>', C, '<http://www.w3.org/2000/10/swap/log#callWithCleanup>'(A, B), D)
+    ).
+
+'<http://www.w3.org/2000/10/swap/log#callWithDisjunction>'(A, B) :-
+    (   catch(call(A), _, fail)
+    ;   catch(call(B), _, fail)
     ).
 
 '<http://www.w3.org/2000/10/swap/log#callWithOptional>'(A, B) :-
