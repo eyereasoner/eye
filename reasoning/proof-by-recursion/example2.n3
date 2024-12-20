@@ -10,8 +10,8 @@
 { ?A :kaprekar (?B ?C) } <= {
     ?A math:notEqualTo 0.
     ?A :numberToDigits ?D.
-    ?D list:quicksort ?E.
-    ?E list:reverse ?F.
+    (?D "=<") list:sort ?E.
+    (?D ">=") list:sort ?F.
     ?E :digitsToNumber ?G.
     ?F :digitsToNumber ?H.
     (?H ?G) math:difference ?I.

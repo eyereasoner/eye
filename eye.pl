@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.1.1 (2024-12-20)').
+version_info('EYE v11.1.2 (2024-12-20)').
 
 license_info('MIT License
 
@@ -7052,15 +7052,6 @@ prepare_builtins :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/list#quicksort>'(A, B) :-
-    when(
-        (   nonvar(A)
-        ),
-        (   getlist(A, C),
-            quicksort(C, B)
-        )
-    ).
-
 '<http://www.w3.org/2000/10/swap/list#remove>'([A, B], C) :-
     when(
         (   nonvar(A),
@@ -7136,6 +7127,16 @@ prepare_builtins :-
 '<http://www.w3.org/2000/10/swap/list#setNotEqualTo>'(A, B) :-
     \+'<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B).
 
+'<http://www.w3.org/2000/10/swap/list#sort>'([A, literal(B, type('<http://www.w3.org/2001/XMLSchema#string>'))], C) :-
+    when(
+        (   nonvar(A),
+            nonvar(B)
+        ),
+        (   getlist(A, D),
+            atom_concat('@', B, E),
+            sort(0, E, D, C)
+        )
+    ).
 '<http://www.w3.org/2000/10/swap/list#sort>'(A, B) :-
     when(
         (   nonvar(A)
@@ -11974,13 +11975,6 @@ srlist([], _, []).
 srlist([A|B], C, [[E, C]|D]) :-
     string_codes(A, E),
     srlist(B, C, D).
-
-quicksort([], []).
-quicksort([A|B], C) :-
-    split(A, B, D, E),
-    quicksort(D, F),
-    quicksort(E, G),
-    append(F, [A|G], C).
 
 split(_, [], [], []).
 split(A, [B|C], [B|D], E) :-
