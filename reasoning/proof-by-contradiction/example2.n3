@@ -1,0 +1,14 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# proof by contradiction
+{
+    10 log:repeat ?X.
+    {
+        { ?X math:notLessThan 0 } => { ?X a :Positive }.
+        { ?X a :Positive } => false.
+    } log:satisfiable false.
+} => {
+    ?X a :Positive.
+}.

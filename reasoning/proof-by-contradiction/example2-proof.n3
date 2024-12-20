@@ -1,0 +1,362 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <urn:example:>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:gives {
+        0 a :Positive.
+        1 a :Positive.
+        2 a :Positive.
+        3 a :Positive.
+        4 a :Positive.
+        5 a :Positive.
+        6 a :Positive.
+        7 a :Positive.
+        8 a :Positive.
+        9 a :Positive.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        0 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma11
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
+    r:rule skolem:lemma12.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        1 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:rule skolem:lemma12.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        2 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma14
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:rule skolem:lemma12.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        3 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:rule skolem:lemma12.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        4 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma16
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:rule skolem:lemma12.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        5 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma17
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:rule skolem:lemma12.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        6 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
+    r:rule skolem:lemma12.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        7 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma19
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:rule skolem:lemma12.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        8 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma20
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
+    r:rule skolem:lemma12.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        9 a :Positive.
+    };
+    r:evidence (
+        skolem:lemma21
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:rule skolem:lemma12.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        0 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 0}]
+        [ a r:Fact; r:gives {{
+            {
+                0 math:notLessThan 0.
+            } => {
+                0 a :Positive.
+            }.
+            {
+                0 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
+    r:rule skolem:lemma22.
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :Positive.
+        } => {
+            var:x_0 a :Positive.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contradiction/example2-query.n3>].
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        1 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 1}]
+        [ a r:Fact; r:gives {{
+            {
+                1 math:notLessThan 0.
+            } => {
+                1 a :Positive.
+            }.
+            {
+                1 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:rule skolem:lemma22.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        2 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 2}]
+        [ a r:Fact; r:gives {{
+            {
+                2 math:notLessThan 0.
+            } => {
+                2 a :Positive.
+            }.
+            {
+                2 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:rule skolem:lemma22.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        3 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 3}]
+        [ a r:Fact; r:gives {{
+            {
+                3 math:notLessThan 0.
+            } => {
+                3 a :Positive.
+            }.
+            {
+                3 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:rule skolem:lemma22.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        4 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 4}]
+        [ a r:Fact; r:gives {{
+            {
+                4 math:notLessThan 0.
+            } => {
+                4 a :Positive.
+            }.
+            {
+                4 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:rule skolem:lemma22.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        5 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 5}]
+        [ a r:Fact; r:gives {{
+            {
+                5 math:notLessThan 0.
+            } => {
+                5 a :Positive.
+            }.
+            {
+                5 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:rule skolem:lemma22.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        6 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 6}]
+        [ a r:Fact; r:gives {{
+            {
+                6 math:notLessThan 0.
+            } => {
+                6 a :Positive.
+            }.
+            {
+                6 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
+    r:rule skolem:lemma22.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        7 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 7}]
+        [ a r:Fact; r:gives {{
+            {
+                7 math:notLessThan 0.
+            } => {
+                7 a :Positive.
+            }.
+            {
+                7 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:rule skolem:lemma22.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        8 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 8}]
+        [ a r:Fact; r:gives {{
+            {
+                8 math:notLessThan 0.
+            } => {
+                8 a :Positive.
+            }.
+            {
+                8 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
+    r:rule skolem:lemma22.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        9 a :Positive.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {10 log:repeat 9}]
+        [ a r:Fact; r:gives {{
+            {
+                9 math:notLessThan 0.
+            } => {
+                9 a :Positive.
+            }.
+            {
+                9 a :Positive.
+            } => false.
+        } log:satisfiable false}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:rule skolem:lemma22.
+
+skolem:lemma22 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            10 log:repeat var:x_0.
+            {
+                {
+                    var:x_0 math:notLessThan 0.
+                } => {
+                    var:x_0 a :Positive.
+                }.
+                {
+                    var:x_0 a :Positive.
+                } => false.
+            } log:satisfiable false.
+        } => {
+            var:x_0 a :Positive.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proof-by-contradiction/example2.n3>].
+
