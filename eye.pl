@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.1.3 (2024-12-23)').
+version_info('EYE v11.1.4 (2024-12-23)').
 
 license_info('MIT License
 
@@ -56,7 +56,7 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
-    --explain                       explain the reasoning using log:proves
+    --explain                       explain the reasoning using log:explains
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -202,7 +202,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#proves>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#explains>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -3619,7 +3619,7 @@ w3 :-
     ;   true
     ),
     (   answer(B1, B2, B3),
-        B1 \= '<http://www.w3.org/2000/10/swap/log#proves>',
+        B1 \= '<http://www.w3.org/2000/10/swap/log#explains>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3643,17 +3643,17 @@ w3 :-
         fail
     ;   true
     ),
-    (   answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)
+    (   answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)
     ->  nl,
         writeln('#'),
         writeln('# Explain the reasoning'),
         writeln('#'),
-        (   answer('<http://www.w3.org/2000/10/swap/log#proves>', S, O),
-            labelvars('<http://www.w3.org/2000/10/swap/log#proves>'(S, O), 0, _, avar),
+        (   answer('<http://www.w3.org/2000/10/swap/log#explains>', S, O),
+            labelvars('<http://www.w3.org/2000/10/swap/log#explains>'(S, O), 0, _, avar),
             nl,
             indent,
-            wt('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
-            ws('<http://www.w3.org/2000/10/swap/log#proves>'(S, O)),
+            wt('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
+            ws('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
             write('.'),
             nl,
             cnt(output_statements),
@@ -5076,7 +5076,7 @@ eam(Recursion) :-
         (   flag(explain),
             Concd \=answer(_, _, _),
             Concd \= (answer(_, _, _), _)
-        ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#proves>', (Rule, Prem), Concd))
+        ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#explains>', (Rule, Prem), Concd))
         ;   true
         ),
         (   (   Concs = answer(_, _, _)
@@ -5470,14 +5470,14 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
                 ground([A, B]),
                 conj_list(B, L),
-                \+last(L, answer('<http://www.w3.org/2000/10/swap/log#proves>', _, _)),
+                \+last(L, answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, B], [Q, I], beta(U)),
                 (   flag(proves),
                     Q \= true,
                     I \= false
-                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#implies>'(An, Bn), Q], I), F)
+                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#implies>'(An, Bn), Q], I), F)
                 ;   F = I
                 )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
 
@@ -5489,7 +5489,7 @@ prepare_builtins :-
                 (   flag(proves),
                     A \= true,
                     A \= !
-                ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/log#proves>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), A], B)), C)
+                ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), A], B)), C)
                 ;   C = A
                 )), ':-'(B, C), '<>')),
 
@@ -5499,7 +5499,7 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
                 (   flag(proves)
-                ->  F = ('<http://www.w3.org/2000/10/swap/log#proves>'(['<http://www.w3.org/2000/10/swap/log#query>'(An, Bn), A], B), B)
+                ->  F = ('<http://www.w3.org/2000/10/swap/log#explains>'(['<http://www.w3.org/2000/10/swap/log#query>'(An, Bn), A], B), B)
                 ;   F = B
                 ),
                 djiti_answer(answer(F), J),
