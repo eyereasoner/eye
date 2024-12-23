@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.1.2 (2024-12-20)').
+version_info('EYE v11.1.3 (2024-12-23)').
 
 license_info('MIT License
 
@@ -56,7 +56,7 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
-    --ether                         explain the reasoning using log:proves
+    --explain                       explain the reasoning using log:proves
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -651,12 +651,12 @@ opts(['--debug-pvm'|Argus], Args) :-
     retractall(flag('debug-pvm')),
     assertz(flag('debug-pvm')),
     opts(Argus, Args).
-opts(['--ether'|Argus], Args) :-
+opts(['--explain'|Argus], Args) :-
     !,
     retractall(flag(nope)),
     assertz(flag(nope)),
-    retractall(flag(ether)),
-    assertz(flag(ether)),
+    retractall(flag(explain)),
+    assertz(flag(explain)),
     opts(Argus, Args).
 opts(['--help'|_], _) :-
     \+flag(image, _),
@@ -4973,7 +4973,7 @@ eam(Recursion) :-
         ignore(Prem = true),
         (   flag(nope),
             \+flag('rule-histogram'),
-            \+flag(ether)
+            \+flag(explain)
         ->  true
         ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc), Rule)
         ),
@@ -5073,7 +5073,7 @@ eam(Recursion) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
-        (   flag(ether),
+        (   flag(explain),
             Concd \=answer(_, _, _),
             Concd \= (answer(_, _, _), _)
         ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#proves>', (Rule, Prem), Concd))
