@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.1.4 (2024-12-23)').
+version_info('EYE v11.2.0 (2024-12-27)').
 
 license_info('MIT License
 
@@ -63,6 +63,7 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
+    --logic-program <pl-file>       run logic program <pl-file>
     --max-inferences <nr>           halt after maximum number of inferences
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -105,6 +106,10 @@ eye
     --pass-only-new                 output only new derived triples
     --query <n3-query>              output filtered with filter rules').
 
+:- op(1200, xfx, :=).
+
+:- dynamic((:=)/2).
+:- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
 :- dynamic(argi/1).
@@ -167,6 +172,7 @@ eye
 :- dynamic(semantics/2).
 :- dynamic(shellcache/2).
 :- dynamic(tabl/3).
+:- dynamic(step/3).
 :- dynamic(tmpfile/1).
 :- dynamic(tuple/2).
 :- dynamic(tuple/3).
@@ -292,11 +298,14 @@ run :-
     catch(gre(Argus), Exc,
         (   Exc = halt(0)
         ->  true
-        ;   (   flag('parse-only')
-            ->  true
-            ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
-                flush_output(user_error),
-                nb_setval(exit_code, 3)
+        ;   (   Exc = halt(N)
+            ->  nb_setval(exit_code, N)
+            ;   (   flag('parse-only')
+                ->  true
+                ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
+                    flush_output(user_error),
+                    nb_setval(exit_code, 3)
+                )
             )
         )
     ),
@@ -686,6 +695,38 @@ opts(['--license'|_], _) :-
     license_info(License),
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
+    throw(halt(0)).
+opts(['--logic-program', File|_], _) :-
+    consult(File),
+    nb_setval(closure, 0),
+    nb_setval(limit, -1),
+    nb_setval(fm, 0),
+    nb_setval(mf, 0),
+    (   (_ := _)
+    ->  format(":- op(1200, xfx, :=).~n~n", [])
+    ;   version_info(Version),
+        format("~w~n", [Version])
+    ),
+    forall(
+        (   (Conc := _),
+            Conc \= true,
+            Conc \= false
+        ),
+        (   functor(Conc, P, A),
+            dynamic(P/A)
+        )
+    ),
+    eam2,
+    nb_getval(fm, Fm),
+    (   Fm = 0
+    ->  true
+    ;   format(user_error, "*** fm=~w~n", [Fm])
+    ),
+    nb_getval(mf, Mf),
+    (   Mf = 0
+    ->  true
+    ;   format(user_error, "*** mf=~w~n", [Mf])
+    ),
     throw(halt(0)).
 opts(['--max-inferences', Lim|Argus], Args) :-
     !,
@@ -5248,6 +5289,90 @@ qstep(A, true) :-
     catch(clause(B, true), _, fail),
     \+prfstep(A, _, _, _, _, _, _).
 
+% ---------------------
+% EAM2 abstract machine
+% ---------------------
+%
+% 1/ select rule Conc := Prem
+% 2/ prove Prem and if it fails backtrack to 1/
+% 3/ if Conc = true assert answer(Prem)
+%    else if Conc = false stop with return code 2
+%    else if ~Conc assert Conc and retract brake
+% 4/ backtrack to 2/ and if it fails go to 5/
+% 5/ if brake
+%       if not stable start again at 1/
+%       else output answers, output steps and stop
+%    else assert brake and start again at 1/
+%
+eam2 :-
+    (   (Conc := Prem),     % 1/
+        copy_term((Conc := Prem), Rule),
+        Prem,               % 2/
+        (   Conc = true     % 3/
+        ->  (   \+answer(Prem)
+            ->  assertz(answer(Prem))
+            ;   true
+            )
+        ;   (   Conc = false
+            ->  format("% inference fuse, return code 2~n", []),
+                portray_clause(fuse(Prem)),
+                throw(halt(2))
+            ;   (   term_variables(Conc, [])
+                ->  Concl = Conc
+                ;   Concl = (Conc := true)
+                ),
+                \+Concl,
+                astep2(Concl),
+                assertz(step(Rule, Prem, Concl)),
+                retract(brake)
+            )
+        ),
+        fail                % 4/
+    ;   (   brake           % 5/
+        ->  (   nb_getval(closure, Closure),
+                nb_getval(limit, Limit),
+                Closure < Limit,
+                NewClosure is Closure+1,
+                nb_setval(closure, NewClosure),
+                eam2
+            ;   answer(Prem),
+                portray_clause(answer(Prem)),
+                fail
+            ;   (   step(_, _, _)
+                ->  format("~n%~n% Proof steps~n%~n~n", []),
+                    step(Rule, Prem, Conc),
+                    portray_clause(step(Rule, Prem, Conc)),
+                    fail
+                ;   true
+                )
+            ;   true
+            )
+        ;   assertz(brake),
+            eam2
+        )
+    ).
+
+% assert new step
+astep2((B, C)) :-
+    astep2(B),
+    astep2(C).
+astep2(A) :-
+    (   \+A
+    ->  assertz(A)
+    ;   true
+    ).
+
+% stable(+Level)
+%   fail if the deductive closure at Level is not yet stable
+stable(Level) :-
+    nb_getval(limit, Limit),
+    (   Limit < Level
+    ->  nb_setval(limit, Level)
+    ;   true
+    ),
+    nb_getval(closure, Closure),
+    Level =< Closure.
+
 %
 % DJITI (Deep Just In Time Indexing)
 %
@@ -9200,7 +9325,7 @@ userInput(A, B) :-
             ->  getbool(B, V)
             ;   V = B
             ),
-            inv(U, V)
+            invert(U, V)
         )
     ).
 
@@ -12303,8 +12428,8 @@ soft_cut(A, B, C) :-
     ;   catch(call(C), _, fail)
     ).
 
-inv(false, true).
-inv(true, false).
+invert(false, true).
+invert(true, false).
 
 +(A, B, C) :-
     plus(A, B, C).
