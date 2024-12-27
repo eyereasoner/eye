@@ -1,6 +1,6 @@
 % Mathematical library for derivatives
 
-'urn:example:derivative'(A, B, C) :-
+'<urn:example:derivative>'(A, B, C) :-
     derivative(A, B, C).
 
 derivative(U, X, Y) :-
@@ -106,7 +106,7 @@ s(A, B) :-
 s(A, A).
 
 % queries
-true := 'urn:example:derivative'((x+1)*((x^2+2)*(x^3+3)), x, _).
-true := 'urn:example:derivative'(x/x/x/x/x/x/x/x/x/x, x, _).
-true := 'urn:example:derivative'(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _).
-true := 'urn:example:derivative'(x*x*x*x*x*x*x*x*x*x, x, _).
+true := '<urn:example:derivative>'((x+1)*((x^2+2)*(x^3+3)), x, _).
+true := '<urn:example:derivative>'(x/x/x/x/x/x/x/x/x/x, x, _).
+true := '<urn:example:derivative>'(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _).
+true := '<urn:example:derivative>'(x*x*x*x*x*x*x*x*x*x, x, _).

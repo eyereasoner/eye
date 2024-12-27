@@ -1,11 +1,11 @@
-% Euler's identity
+% Euler>'s identity
 % See https://en.wikipedia.org/wiki/Euler%27s_identity
 
-'urn:example:complex:sum'([[A, B], [C, D]], [E, F]) :-
+'<urn:example:complex:sum>'([[A, B], [C, D]], [E, F]) :-
     E is A+C,
     F is B+D.
 
-'urn:example:complex:exponentiation'([[A, B], [C, D]], [E, F]) :-
+'<urn:example:complex:exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polar([A, B], [G, H]),
     E is G^C*exp(-D*H)*cos(D*log(G)+C*H),
     F is G^C*exp(-D*H)*sin(D*log(G)+C*H).
@@ -34,5 +34,5 @@ angular(A, B, C, D) :-
 
 % query
 true :=
-    'urn:example:complex:exponentiation'([[e, 0], [0, pi]], X),
-    'urn:example:complex:sum'([X, [1, 0]], _).
+    '<urn:example:complex:exponentiation>'([[e, 0], [0, pi]], X),
+    '<urn:example:complex:sum>'([X, [1, 0]], _).

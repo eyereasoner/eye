@@ -1,6 +1,6 @@
 % Mathematical library for solving equations
 
-'urn:example:equation'(A, B, C) :-
+'<urn:example:equation>'(A, B, C) :-
     findall(E,
         (   solve_equation(A, B, B=F),
             E is F
@@ -449,6 +449,6 @@ compound1(Term) :-
     !.
 
 % queries
-true := 'urn:example:equation'(x^2-3*x+2=0, x, _).
-true := 'urn:example:equation'(cos(x)*(1-2*sin(x))=0, x, _).
-true := 'urn:example:equation'(2^(2*x)-5*2^(x+1)+16=0, x, _).
+true := '<urn:example:equation>'(x^2-3*x+2=0, x, _).
+true := '<urn:example:equation>'(cos(x)*(1-2*sin(x))=0, x, _).
+true := '<urn:example:equation>'(2^(2*x)-5*2^(x+1)+16=0, x, _).

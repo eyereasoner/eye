@@ -3,7 +3,7 @@
 :- use_module(library(apply)).
 :- use_module(library(clpfd)).
 
-'urn:example:enigma1225'(Size, [Permutation, Board, Max]) :-
+'<urn:example:enigma1225>'(Size, [Permutation, Board, Max]) :-
     setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
     lastlist(Totals, Max),
     square(Size, Board, Max, _, Permutation).
@@ -208,4 +208,4 @@ lastlist_([X|Xs], _, Last) :-
     lastlist_(Xs, X, Last).
 
 % query
-true := 'urn:example:enigma1225'(8, _).
+true := '<urn:example:enigma1225>'(8, _).

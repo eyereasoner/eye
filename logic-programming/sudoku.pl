@@ -3,7 +3,7 @@
 :- use_module(library(apply)).
 :- use_module(library(clpfd)).
 
-'urn:example:sudoku'(Rows) :-
+'<urn:example:sudoku>'(Rows) :-
     length(Rows, 9),
     maplist(same_length(Rows), Rows),
     append(Rows, Vs),
@@ -23,7 +23,7 @@ blocks([N1, N2, N3|Ns1], [N4, N5, N6|Ns2], [N7, N8, N9|Ns3]) :-
 
 % query
 true :=
-    'urn:example:sudoku'([
+    '<urn:example:sudoku>'([
         [1, _, _, 8, _, 4, _, _, _],
         [_, 2, _, _, _, _, 4, 5, 6],
         [_, _, 3, 2, _, 5, _, _, _],

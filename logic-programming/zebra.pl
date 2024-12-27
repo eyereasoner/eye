@@ -1,8 +1,8 @@
 % Zebra Puzzle
 % Original code from https://github.com/DonaldKellett/Einsteins-Riddle-Prolog
 %
-% Einstein's Riddle.pl
-% A formulation of Einstein's Riddle (aka Zebra Puzzle) in Prolog (specifically, SWI-Prolog - see http://www.swi-prolog.org/) as appeared on Life International magazine 17/12/1962
+% Einstein>'s Riddle.pl
+% A formulation of Einstein>'s Riddle (aka Zebra Puzzle) in Prolog (specifically, SWI-Prolog - see http://www.swi-prolog.org/) as appeared on Life International magazine 17/12/1962
 % Source: https://en.wikipedia.org/wiki/Zebra_Puzzle
 
 % Modelling the problem:
@@ -13,8 +13,8 @@
 % Expected solution: if the problem is modelled correctly by this program then the only solution set should be:
 % WaterDrinker = norwegian, ZebraOwner = japanese.
 
-% 'urn:example:solve_zebra'/2 - The main predicate for solving the puzzle
-'urn:example:zebra'(WaterDrinker, ZebraOwner) :-
+% '<urn:example:solve_zebra>'/2 - The main predicate for solving the puzzle
+'<urn:example:zebra>'(WaterDrinker, ZebraOwner) :-
     length(Houses, 5),                                                          % 1. There are five houses.
     member(house(red, english, _, _, _), Houses),                               % 2. The Englishman lives in the red house.
     member(house(_, spanish, dog, _, _), Houses),                               % 3. The Spaniard owns the dog.
@@ -38,4 +38,4 @@ adjacent(A, B, List) :-
     nextto(B, A, List).
 
 % query
-true := 'urn:example:zebra'(_, _).
+true := '<urn:example:zebra>'(_, _).

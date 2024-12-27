@@ -2,7 +2,7 @@
 % See https://en.wikipedia.org/wiki/Ackermann_function
 
 % ackermann(x, y, z)
-'urn:example:ackermann'([A, B], C) :-
+'<urn:example:ackermann>'([A, B], C) :-
     D is B+3,
     ackermann(A, D, 2, E),
     C is E-3.
@@ -32,14 +32,14 @@ ackermann(A, B, C, D) :-
     ackermann(G, F, C, D).
 
 % queries
-true := 'urn:example:ackermann'([0, 6], _).
-true := 'urn:example:ackermann'([1, 2], _).
-true := 'urn:example:ackermann'([1, 7], _).
-true := 'urn:example:ackermann'([2, 2], _).
-true := 'urn:example:ackermann'([2, 9], _).
-true := 'urn:example:ackermann'([3, 4], _).
-true := 'urn:example:ackermann'([3, 14], _).
-true := 'urn:example:ackermann'([4, 0], _).
-true := 'urn:example:ackermann'([4, 1], _).
-true := 'urn:example:ackermann'([4, 2], _).
-true := 'urn:example:ackermann'([5, 0], _).
+true := '<urn:example:ackermann>'([0, 6], _).
+true := '<urn:example:ackermann>'([1, 2], _).
+true := '<urn:example:ackermann>'([1, 7], _).
+true := '<urn:example:ackermann>'([2, 2], _).
+true := '<urn:example:ackermann>'([2, 9], _).
+true := '<urn:example:ackermann>'([3, 4], _).
+true := '<urn:example:ackermann>'([3, 14], _).
+true := '<urn:example:ackermann>'([4, 0], _).
+true := '<urn:example:ackermann>'([4, 1], _).
+true := '<urn:example:ackermann>'([4, 2], _).
+true := '<urn:example:ackermann>'([5, 0], _).

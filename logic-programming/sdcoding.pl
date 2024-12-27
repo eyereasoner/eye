@@ -19,7 +19,7 @@
 % exhibit an interference effect: an answer is produced from the junction if it
 % occurs in one or the other branch but not both.
 
-:- dynamic('urn:example:sdcoding'/2).
+:- dynamic('<urn:example:sdcoding>'/2).
 
 % |R) = |0, 0) + |1, 1)
 r(false, false).
@@ -86,18 +86,18 @@ bob([X, Y], 3) :-
     id(X, Y).
 
 % superdense coding
-'urn:example:sdc'(N, M) :-
+'<urn:example:sdc>'(N, M) :-
     r(X, Y),
     alice(N, [X, B]),
     bob([B, Y], M),
-    (   'urn:example:sdcoding'(N, M)
-    ->  retract('urn:example:sdcoding'(N, M))
-    ;   assertz('urn:example:sdcoding'(N, M))
+    (   '<urn:example:sdcoding>'(N, M)
+    ->  retract('<urn:example:sdcoding>'(N, M))
+    ;   assertz('<urn:example:sdcoding>'(N, M))
     ).
 
 % superdense coding appearing an odd number of times
-'urn:example:sdconot'(N, M) :=
-    'urn:example:sdc'(N, M).
+'<urn:example:sdconot>'(N, M) :=
+    '<urn:example:sdc>'(N, M).
 
 % query
-true := 'urn:example:sdcoding'(_, _).
+true := '<urn:example:sdcoding>'(_, _).
