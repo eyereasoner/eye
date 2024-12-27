@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.0 (2024-12-27)').
+version_info('EYE v11.2.1 (2024-12-27)').
 
 license_info('MIT License
 
@@ -717,16 +717,6 @@ opts(['--logic-program', File|_], _) :-
         )
     ),
     eam2,
-    nb_getval(fm, Fm),
-    (   Fm = 0
-    ->  true
-    ;   format(user_error, "*** fm=~w~n", [Fm])
-    ),
-    nb_getval(mf, Mf),
-    (   Mf = 0
-    ->  true
-    ;   format(user_error, "*** mf=~w~n", [Mf])
-    ),
     throw(halt(0)).
 opts(['--max-inferences', Lim|Argus], Args) :-
     !,
@@ -5304,6 +5294,7 @@ qstep(A, true) :-
 %       else output answers, output steps and stop
 %    else assert brake and start again at 1/
 %
+
 eam2 :-
     (   (Conc := Prem),     % 1/
         copy_term((Conc := Prem), Rule),
