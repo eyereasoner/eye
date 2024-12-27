@@ -4,7 +4,7 @@
 
 '<urn:example:compute>'([], OutTape) :-
     start(_MACHINE, I),
-    find(I, [], "#", [ ], OutTape).
+    find(I, [], #, [ ], OutTape).
 '<urn:example:compute>'([Head|Tail], OutTape) :-
     start(_MACHINE, I),
     find(I, [], Head, Tail, OutTape).
@@ -20,10 +20,10 @@ continue(halt, Left, Cell, Right, OutTape) :-
 continue(State, Left, Cell, Right, OutTape) :-
     find(State, Left, Cell, Right, OutTape).
 
-move(l, [], Cell, Right, [], "#", [Cell|Right]).
+move(l, [], Cell, Right, [], #, [Cell|Right]).
 move(l, [Head|Tail], Cell, Right, Tail, Head, [Cell|Right]).
 move(s, Left, Cell, Right, Left, Cell, Right).
-move(r, Left, Cell, [], [Cell|Left], "#", [] ).
+move(r, Left, Cell, [], [Cell|Left], #, [] ).
 move(r, Left, Cell, [Head|Tail], [Cell|Left], Head, Tail).
 
 rev([], []).
@@ -37,10 +37,10 @@ start(add1, 0).
 
 t([0, 0, 0, r], 0).
 t([0, 1, 1, r], 0).
-t([0, "#", "#", l], 1).
+t([0, #, #, l], 1).
 t([1, 0, 1, s], halt).
 t([1, 1, 0, l], 1).
-t([1, "#", 1, s], halt).
+t([1, #, 1, s], halt).
 
 % queries
 true := '<urn:example:compute>'([1, 0, 1, 0, 0, 1], _).
