@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:queens>'(8, [4, 2, 7, 3, 6, 8, 5, 1])).
 answer('<urn:example:queens>'(8, [5, 2, 4, 7, 3, 8, 6, 1])).

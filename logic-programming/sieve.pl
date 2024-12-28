@@ -26,4 +26,4 @@ remove(P, [I|Is], [I|Nis]) :-
     remove(P, Is, Nis).
 
 % query
-true := '<urn:example:primes>'(1000, _).
+true :+ '<urn:example:primes>'(1000, _).

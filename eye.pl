@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.1 (2024-12-27)').
+version_info('EYE v11.2.2 (2024-12-28)').
 
 license_info('MIT License
 
@@ -106,9 +106,9 @@ eye
     --pass-only-new                 output only new derived triples
     --query <n3-query>              output filtered with filter rules').
 
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
-:- dynamic((:=)/2).
+:- dynamic((:+)/2).
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
@@ -702,13 +702,13 @@ opts(['--logic-program', File|_], _) :-
     nb_setval(limit, -1),
     nb_setval(fm, 0),
     nb_setval(mf, 0),
-    (   (_ := _)
-    ->  format(":- op(1200, xfx, :=).~n~n", [])
+    (   (_ :+ _)
+    ->  format(":- op(1200, xfx, :+).~n~n", [])
     ;   version_info(Version),
         format("~w~n", [Version])
     ),
     forall(
-        (   (Conc := _),
+        (   (Conc :+ _),
             Conc \= true,
             Conc \= false
         ),
@@ -5283,7 +5283,7 @@ qstep(A, true) :-
 % EAM2 abstract machine
 % ---------------------
 %
-% 1/ select rule Conc := Prem
+% 1/ select rule Conc :+ Prem
 % 2/ prove Prem and if it fails backtrack to 1/
 % 3/ if Conc = true assert answer(Prem)
 %    else if Conc = false stop with return code 2
@@ -5296,8 +5296,8 @@ qstep(A, true) :-
 %
 
 eam2 :-
-    (   (Conc := Prem),     % 1/
-        copy_term((Conc := Prem), Rule),
+    (   (Conc :+ Prem),     % 1/
+        copy_term((Conc :+ Prem), Rule),
         Prem,               % 2/
         (   Conc = true     % 3/
         ->  (   \+answer(Prem)
@@ -5310,7 +5310,7 @@ eam2 :-
                 throw(halt(2))
             ;   (   term_variables(Conc, [])
                 ->  Concl = Conc
-                ;   Concl = (Conc := true)
+                ;   Concl = (Conc :+ true)
                 ),
                 \+Concl,
                 astep2(Concl),

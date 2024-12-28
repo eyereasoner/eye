@@ -38,4 +38,4 @@ adjacent(A, B, List) :-
     nextto(B, A, List).
 
 % query
-true := '<urn:example:zebra>'(_, _).
+true :+ '<urn:example:zebra>'(_, _).

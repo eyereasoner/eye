@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:padovan>'(1, 1)).
 answer('<urn:example:padovan>'(2, 1)).

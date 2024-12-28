@@ -9,4 +9,4 @@
     '<urn:example:move>'(M, [C, B, A]).
 
 % query
-true := '<urn:example:move>'(14, [left, centre, right]).
+true :+ '<urn:example:move>'(14, [left, centre, right]).

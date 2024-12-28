@@ -84,14 +84,14 @@ angular(A, B, C, D) :-
     D is 2*pi-C.
 
 % queries
-true := '<urn:example:complex:quotient>'([[1, 0], [0, 1]], _).
-true := '<urn:example:complex:exponentiation>'([[-1, 0], [0.5, 0]], _).
-true := '<urn:example:complex:exponentiation>'([[e, 0], [0, pi]], _).
-true := '<urn:example:complex:log>'([[e, 0], [-1, 0]], _).
-true := '<urn:example:complex:log>'([[0, 1], [0, 1]], _).
-true := '<urn:example:complex:sin>'([1.570796326794897, 1.316957896924817], _).
-true := '<urn:example:complex:cos>'([0, -1.316957896924817], _).
-true := '<urn:example:complex:tan>'([1.338972522294493, 0.4023594781085251], _).
-true := '<urn:example:complex:asin>'([2, 0], _).
-true := '<urn:example:complex:acos>'([2, 0], _).
-true := '<urn:example:complex:atan>'([1, 2], _).
+true :+ '<urn:example:complex:quotient>'([[1, 0], [0, 1]], _).
+true :+ '<urn:example:complex:exponentiation>'([[-1, 0], [0.5, 0]], _).
+true :+ '<urn:example:complex:exponentiation>'([[e, 0], [0, pi]], _).
+true :+ '<urn:example:complex:log>'([[e, 0], [-1, 0]], _).
+true :+ '<urn:example:complex:log>'([[0, 1], [0, 1]], _).
+true :+ '<urn:example:complex:sin>'([1.570796326794897, 1.316957896924817], _).
+true :+ '<urn:example:complex:cos>'([0, -1.316957896924817], _).
+true :+ '<urn:example:complex:tan>'([1.338972522294493, 0.4023594781085251], _).
+true :+ '<urn:example:complex:asin>'([2, 0], _).
+true :+ '<urn:example:complex:acos>'([2, 0], _).
+true :+ '<urn:example:complex:atan>'([1, 2], _).

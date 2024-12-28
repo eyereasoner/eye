@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:fibonacci>'(1, 1)).
 answer('<urn:example:fibonacci>'(2, 1)).

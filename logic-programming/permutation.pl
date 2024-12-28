@@ -6,4 +6,4 @@
     '<urn:example:permutation>'(Cs, Bs).
 
 % query
-true := '<urn:example:permutation>'([1, 2, 3, 4], _).
+true :+ '<urn:example:permutation>'([1, 2, 3, 4], _).

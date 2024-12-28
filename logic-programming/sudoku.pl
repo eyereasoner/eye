@@ -22,7 +22,7 @@ blocks([N1, N2, N3|Ns1], [N4, N5, N6|Ns2], [N7, N8, N9|Ns3]) :-
     blocks(Ns1, Ns2, Ns3).
 
 % query
-true :=
+true :+
     '<urn:example:sudoku>'([
         [1, _, _, 8, _, 4, _, _, _],
         [_, 2, _, _, _, _, 4, 5, 6],

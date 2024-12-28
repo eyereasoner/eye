@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:complex:quotient>'([[1, 0], [0, 1]], [0, -1])).
 answer('<urn:example:complex:exponentiation>'([[-1, 0], [0.5, 0]], [6.123233995736766e-17, 1.0])).

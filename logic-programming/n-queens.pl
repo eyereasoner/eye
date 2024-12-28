@@ -31,4 +31,4 @@ attack(X, N, [_|Ys]) :-
     attack(X, N1, Ys).
 
 % query
-true := '<urn:example:queens>'(8,  _).
+true :+ '<urn:example:queens>'(8,  _).

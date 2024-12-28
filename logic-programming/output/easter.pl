@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:easter>'(2021, [4, 4])).
 answer('<urn:example:easter>'(2022, [4, 17])).

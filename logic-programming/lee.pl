@@ -65,4 +65,4 @@ path(A, B, [Wave|Waves], [B|Path]) :-
     path(A, B1, Waves, Path).
 
 % query
-true := '<urn:example:route>'([[1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]]], _).
+true :+ '<urn:example:route>'([[1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]]], _).

@@ -43,7 +43,7 @@ t([1, 1, 0, l], 1).
 t([1, #, 1, s], halt).
 
 % queries
-true := '<urn:example:compute>'([1, 0, 1, 0, 0, 1], _).
-true := '<urn:example:compute>'([1, 0, 1, 1, 1, 1], _).
-true := '<urn:example:compute>'([1, 1, 1, 1, 1, 1], _).
-true := '<urn:example:compute>'([], _).
+true :+ '<urn:example:compute>'([1, 0, 1, 0, 0, 1], _).
+true :+ '<urn:example:compute>'([1, 0, 1, 1, 1, 1], _).
+true :+ '<urn:example:compute>'([1, 1, 1, 1, 1, 1], _).
+true :+ '<urn:example:compute>'([], _).

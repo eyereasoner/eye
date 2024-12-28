@@ -19,15 +19,15 @@ padovan(A, B, C, D, E) :-
     B is E/C.
 
 % queries
-true := '<urn:example:padovan>'(1, _).
-true := '<urn:example:padovan>'(2, _).
-true := '<urn:example:padovan>'(3, _).
-true := '<urn:example:padovan>'(4, _).
-true := '<urn:example:padovan>'(5, _).
-true := '<urn:example:padovan>'(91, _).
-true := '<urn:example:padovan>'(283, _).
-true := '<urn:example:padovan>'(3674, _).
-true := '<urn:example:plastic_ratio>'(1, _).
-true := '<urn:example:plastic_ratio>'(10, _).
-true := '<urn:example:plastic_ratio>'(100, _).
-true := '<urn:example:plastic_ratio>'(1000, _).
+true :+ '<urn:example:padovan>'(1, _).
+true :+ '<urn:example:padovan>'(2, _).
+true :+ '<urn:example:padovan>'(3, _).
+true :+ '<urn:example:padovan>'(4, _).
+true :+ '<urn:example:padovan>'(5, _).
+true :+ '<urn:example:padovan>'(91, _).
+true :+ '<urn:example:padovan>'(283, _).
+true :+ '<urn:example:padovan>'(3674, _).
+true :+ '<urn:example:plastic_ratio>'(1, _).
+true :+ '<urn:example:plastic_ratio>'(10, _).
+true :+ '<urn:example:plastic_ratio>'(100, _).
+true :+ '<urn:example:plastic_ratio>'(1000, _).

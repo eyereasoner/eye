@@ -14,4 +14,4 @@ pi(A, B, C, D, E) :-
     pi(F, B, L, D, M).
 
 % query
-true := '<urn:example:pi>'(100000, _).
+true :+ '<urn:example:pi>'(100000, _).

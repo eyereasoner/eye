@@ -14,4 +14,4 @@
     '<urn:example:tak>'([A1, A2, A3], A).
 
 % query
-true := '<urn:example:tak>'([34, 13, 8], _).
+true :+ '<urn:example:tak>'([34, 13, 8], _).

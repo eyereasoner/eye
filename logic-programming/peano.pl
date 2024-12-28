@@ -22,7 +22,7 @@ fac(s(A), B, C) :-
     fac(A, D, C).
 
 % query
-true :=
+true :+
     '<urn:example:multiply>'(s(0), s(s(0)), A),
     '<urn:example:add>'(A, s(s(s(0))), B),
     '<urn:example:factorial>'(B, _).

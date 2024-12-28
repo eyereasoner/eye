@@ -117,9 +117,9 @@ divi(N, F, M, R, K) :-
 divi(N, _, M, N, M).
 
 % queries
-true := '<urn:example:primerange>'(0, 100, _).
-true := '<urn:example:primerange>'(1000000, 1000100, _).
-true := '<urn:example:totient>'(271, _).
-true := '<urn:example:totient>'(2718281, _).
-true := '<urn:example:totient>'(27182818284, _).
-true := '<urn:example:totient>'(271828182845904, _).
+true :+ '<urn:example:primerange>'(0, 100, _).
+true :+ '<urn:example:primerange>'(1000000, 1000100, _).
+true :+ '<urn:example:totient>'(271, _).
+true :+ '<urn:example:totient>'(2718281, _).
+true :+ '<urn:example:totient>'(27182818284, _).
+true :+ '<urn:example:totient>'(271828182845904, _).

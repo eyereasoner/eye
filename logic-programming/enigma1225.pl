@@ -208,4 +208,4 @@ lastlist_([X|Xs], _, Last) :-
     lastlist_(Xs, X, Last).
 
 % query
-true := '<urn:example:enigma1225>'(8, _).
+true :+ '<urn:example:enigma1225>'(8, _).

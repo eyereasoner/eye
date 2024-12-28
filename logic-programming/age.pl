@@ -12,4 +12,4 @@
     Tc =< T.
 
 % query
-true := '<urn:example:ageAbove>'(_, 80).
+true :+ '<urn:example:ageAbove>'(_, 80).

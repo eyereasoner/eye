@@ -44,7 +44,7 @@
     length(D, 0).
 
 % query
-true :=
+true :+
     '<urn:example:Policy>'(A),
     '<urn:example:pass>'(A, '<urn:example:allOfTest>'),
     '<urn:example:pass>'(A, '<urn:example:anyOfTest>'),

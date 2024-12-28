@@ -11,5 +11,5 @@
     Day is F rem 31+1.
 
 % query
-(true := '<urn:example:easter>'(Year, [_, _])) :-
+(true :+ '<urn:example:easter>'(Year, [_, _])) :-
     between(2021, 2050, Year).

@@ -11,11 +11,11 @@
 '<urn:example:oneway>'('<urn:example:lemans>', '<urn:example:tours>').
 '<urn:example:oneway>'('<urn:example:angers>', '<urn:example:nantes>').
 
-'<urn:example:path>'(A, B) :=
+'<urn:example:path>'(A, B) :+
     '<urn:example:oneway>'(A, B).
-'<urn:example:path>'(A, C) :=
+'<urn:example:path>'(A, C) :+
     '<urn:example:path>'(A, B),
     '<urn:example:path>'(B, C).
 
 % query
-true := '<urn:example:path>'(_, '<urn:example:nantes>').
+true :+ '<urn:example:path>'(_, '<urn:example:nantes>').

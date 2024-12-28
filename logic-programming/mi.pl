@@ -22,4 +22,4 @@ head_body_(sum(0, M, M), Rs, Rs).
 head_body_(sum(s(N), M, s(K)), [sum(N, M, K)|Rs], Rs).
 
 % query
-true := '<urn:example:mi>'(['<urn:example:mi>'(['<urn:example:factorial>'(s(s(s(s(s(0))))), _)], [])], []).
+true :+ '<urn:example:mi>'(['<urn:example:mi>'(['<urn:example:factorial>'(s(s(s(s(s(0))))), _)], [])], []).

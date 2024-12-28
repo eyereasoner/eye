@@ -1,4 +1,4 @@
-:- op(1200, xfx, :=).
+:- op(1200, xfx, :+).
 
 answer('<urn:example:ackermann>'([0, 6], 7)).
 answer('<urn:example:ackermann>'([1, 2], 4)).
