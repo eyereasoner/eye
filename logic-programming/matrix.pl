@@ -18,6 +18,8 @@
 % @license Artistic License 2.0
 % @copyright Fabrizio Riguzzi
 
+:- op(1200, xfx, :+).
+
 :- use_module(library(apply)).
 :- use_module(library(clpfd)).
 

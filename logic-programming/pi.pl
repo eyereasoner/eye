@@ -1,6 +1,8 @@
 % Calculate pi using Nilakantha series
 % See http://www.wikihow.com/Calculate-Pi
 
+:- op(1200, xfx, :+).
+
 '<urn:example:pi>'(A, B) :-
     pi(1, A, 0, C, 1),
     B is 3+4*C.

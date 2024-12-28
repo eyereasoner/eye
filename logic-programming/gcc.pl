@@ -1,6 +1,8 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
+:- op(1200, xfx, :+).
+
 '<urn:example:gcc>'([], _, []).
 '<urn:example:gcc>'([C|Cs], S, [N|Ns]) :-
     gcc(C, S, N),

@@ -1,5 +1,7 @@
 % Original at https://www.metalevel.at/sudoku/sudoku.pl
 
+:- op(1200, xfx, :+).
+
 :- use_module(library(apply)).
 :- use_module(library(clpfd)).
 

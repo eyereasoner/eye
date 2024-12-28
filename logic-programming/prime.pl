@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Prime_number
 
+:- op(1200, xfx, :+).
+
 '<urn:example:primerange>'(A, B, L) :-
     findall(I, (between(A, B, I), prime(I)), L).
 

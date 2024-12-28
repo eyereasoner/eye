@@ -1,6 +1,8 @@
 % Fast Fourier Transform
 % Code from the book "Clause and Effect" Chapter 10
 
+:- op(1200, xfx, :+).
+
 '<urn:example:fft>'(A, L) :-
     eval(p(A, w^0), X0, 8),
     eval(p(A, w^1), X1, 8),

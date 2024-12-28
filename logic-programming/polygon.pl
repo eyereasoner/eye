@@ -1,5 +1,7 @@
 % Calculating the area of a polygon
 
+:- op(1200, xfx, :+).
+
 '<urn:example:area>'([_], 0).
 '<urn:example:area>'([[A, B], [C, D]|E], F) :-
     '<urn:example:area>'([[C, D]|E], G),

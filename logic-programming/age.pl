@@ -1,5 +1,7 @@
 % age checker
 
+:- op(1200, xfx, :+).
+
 % person data
 '<urn:example:birthDay>'('<urn:example:patH>', [1944, 8, 21]).
 

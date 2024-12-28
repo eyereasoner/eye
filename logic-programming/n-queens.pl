@@ -1,5 +1,7 @@
 % n-queens example from https://hanslen.github.io/2016/05/02/AI-problem-N-queens-problem-%E2%80%93-solved-in-prolog/
 
+:- op(1200, xfx, :+).
+
 % queens(+N, -Queens): Queens is a solution to the N-queens problem
 '<urn:example:queens>'(N, Qs) :-
     range(1, N, Us),

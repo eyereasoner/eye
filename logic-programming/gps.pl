@@ -1,6 +1,8 @@
 % Goal driven Parallel Sequences -- Jos De Roo
 % See background paper https://arxiv.org/pdf/2010.12027.pdf
 
+:- op(1200, xfx, :+).
+
 % find paths in the state space from initial state to goal state within limits
 '<urn:example:findpath>'(_SCOPE, [Goal, Path, Duration, Cost, Belief, Comfort, Limits]) :-
     findpaths([], Goal, [], 0.0, 0.0, 1.0, 1.0, Path, Duration, Cost, Belief, Comfort, Limits).

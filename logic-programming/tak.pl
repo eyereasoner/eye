@@ -1,6 +1,8 @@
 % Takeuchi function
 % See https://en.wikipedia.org/wiki/Tak_(function)
 
+:- op(1200, xfx, :+).
+
 '<urn:example:tak>'([X, Y, Z], Z) :-
     X =< Y,
     !.

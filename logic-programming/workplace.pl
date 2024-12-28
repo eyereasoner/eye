@@ -1,5 +1,7 @@
 % Deontic Logic example
 
+:- op(1200, xfx, :+).
+
 % facts about what an employee is doing
 '<urn:example:does>'('<urn:example:alice>', '<urn:example:log_off_at_end_of_shift>').
 '<urn:example:does>'('<urn:example:bob>', '<urn:example:work_related_task>').

@@ -1,6 +1,8 @@
 % Deep taxonomy
 % See http://ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
+:- op(1200, xfx, :+).
+
 '<urn:example:N0>'('<urn:example:z>').
 
 '<urn:example:N1>'(A) :+ '<urn:example:N0>'(A).

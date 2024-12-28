@@ -2,7 +2,7 @@
 # check the command line
 if [ $# -lt 2 ] ; then
   echo "Missing release options and release message";
-  echo "usage: $(basename $0) [-Mmp] \"release message\""
+  echo "Usage: $(basename $0) [-Mmp] \"release message\""
   exit 1
 fi
 
@@ -23,7 +23,7 @@ done
 # if a flag is missing, show usage message
 if [ $OPTIND -eq 1 ]; then
   echo "No release options were passed: -M for major, -m for minor and -p for patch";
-  echo "usage: $(basename $0) [-Mmp] \"release message\""
+  echo "Usage: $(basename $0) [-Mmp] \"release message\""
   exit 1
 fi
 

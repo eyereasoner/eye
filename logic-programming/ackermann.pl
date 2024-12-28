@@ -1,6 +1,8 @@
 % Ackermann function
 % See https://en.wikipedia.org/wiki/Ackermann_function
 
+:- op(1200, xfx, :+).
+
 % ackermann(x, y, z)
 '<urn:example:ackermann>'([A, B], C) :-
     D is B+3,

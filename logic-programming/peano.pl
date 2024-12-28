@@ -1,6 +1,8 @@
 % Peano arithmetic
 % See https://en.wikipedia.org/wiki/Peano_axioms
 
+:- op(1200, xfx, :+).
+
 % add
 '<urn:example:add>'(A, 0, A).
 '<urn:example:add>'(A, s(B), s(C)) :-

@@ -1,5 +1,7 @@
 % Mathematical library for derivatives
 
+:- op(1200, xfx, :+).
+
 '<urn:example:derivative>'(A, B, C) :-
     derivative(A, B, C).
 

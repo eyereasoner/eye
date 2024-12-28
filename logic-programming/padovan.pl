@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Padovan_sequence
 
+:- op(1200, xfx, :+).
+
 '<urn:example:padovan>'(A, B) :-
     padovan(A, 0, 1, 1, B).
 

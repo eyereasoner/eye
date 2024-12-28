@@ -1,5 +1,7 @@
 % Access control policy example
 
+:- op(1200, xfx, :+).
+
 '<urn:example:policy>'('<urn:example:test1>', '<urn:example:PolicyX>').
 '<urn:example:has>'('<urn:example:test1>', '<urn:example:A>').
 '<urn:example:has>'('<urn:example:test1>', '<urn:example:B>').

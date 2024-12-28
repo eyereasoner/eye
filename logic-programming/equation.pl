@@ -1,5 +1,7 @@
 % Mathematical library for solving equations
 
+:- op(1200, xfx, :+).
+
 '<urn:example:equation>'(A, B, C) :-
     findall(E,
         (   solve_equation(A, B, B=F),

@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Fibonacci_number
 
+:- op(1200, xfx, :+).
+
 '<urn:example:fibonacci>'(A, B) :-
     fibonacci(A, 0, 1, B).
 

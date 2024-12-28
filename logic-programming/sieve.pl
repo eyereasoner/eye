@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 
+:- op(1200, xfx, :+).
+
 '<urn:example:primes>'(Limit, Ps) :-
     range(2, Limit, Is), 
     sift(Is, Ps).

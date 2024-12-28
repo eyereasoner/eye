@@ -1,6 +1,8 @@
 % Meta-interpretation
 % Original code from https://www.youtube.com/watch?v=nmBkU-l1zyc&t=1870s
 
+:- op(1200, xfx, :+).
+
 '<urn:example:mi>'([], []).
 '<urn:example:mi>'([G|Gs], []) :-
     head_body_(G, Goals, Gs),

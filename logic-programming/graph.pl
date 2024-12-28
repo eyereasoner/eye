@@ -1,5 +1,7 @@
 % Traversing graph paths
 
+:- op(1200, xfx, :+).
+
 '<urn:example:oneway>'('<urn:example:paris>', '<urn:example:orleans>').
 '<urn:example:oneway>'('<urn:example:paris>', '<urn:example:chartres>').
 '<urn:example:oneway>'('<urn:example:paris>', '<urn:example:amiens>').

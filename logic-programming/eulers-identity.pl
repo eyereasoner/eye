@@ -1,6 +1,8 @@
 % Euler>'s identity
 % See https://en.wikipedia.org/wiki/Euler%27s_identity
 
+:- op(1200, xfx, :+).
+
 '<urn:example:complex:sum>'([[A, B], [C, D]], [E, F]) :-
     E is A+C,
     F is B+D.

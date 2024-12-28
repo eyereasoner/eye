@@ -13,6 +13,8 @@
 % Expected solution: if the problem is modelled correctly by this program then the only solution set should be:
 % WaterDrinker = norwegian, ZebraOwner = japanese.
 
+:- op(1200, xfx, :+).
+
 % '<urn:example:solve_zebra>'/2 - The main predicate for solving the puzzle
 '<urn:example:zebra>'(WaterDrinker, ZebraOwner) :-
     length(Houses, 5),                                                          % 1. There are five houses.

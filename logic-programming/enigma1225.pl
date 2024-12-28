@@ -1,5 +1,7 @@
 % New Scientist puzzle Enigma 1225
 
+:- op(1200, xfx, :+).
+
 :- use_module(library(apply)).
 :- use_module(library(clpfd)).
 

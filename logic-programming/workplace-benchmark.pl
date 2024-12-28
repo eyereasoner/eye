@@ -1,5 +1,7 @@
 % Deontic Logic example benchmark
 
+:- op(1200, xfx, :+).
+
 :- dynamic('<urn:example:does>'/2).
 
 % facts about what employees are doing

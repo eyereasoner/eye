@@ -19,6 +19,8 @@
 % exhibit an interference effect: an answer is produced from the junction if it
 % occurs in one or the other branch but not both.
 
+:- op(1200, xfx, :+).
+
 :- dynamic('<urn:example:sdcoding>'/2).
 
 % |R) = |0, 0) + |1, 1)

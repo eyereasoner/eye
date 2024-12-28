@@ -1,6 +1,8 @@
 % multi-agent example
 % obligations, permissions and prohibitions depend on the roles, goals and interactions between agents
 
+:- op(1200, xfx, :+).
+
 :- dynamic('<urn:example:completed>'/1).
 
 % define agents

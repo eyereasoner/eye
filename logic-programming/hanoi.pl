@@ -1,6 +1,8 @@
 % Towers of Hanoi
 % See https://en.wikipedia.org/wiki/Tower_of_Hanoi
 
+:- op(1200, xfx, :+).
+
 '<urn:example:move>'(0, [_, _, _]) :-
     !.
 '<urn:example:move>'(N, [A, B, C]) :-

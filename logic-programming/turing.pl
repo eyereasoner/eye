@@ -1,7 +1,8 @@
 % See https://en.wikipedia.org/wiki/Universal_Turing_machine
 
-% interpreter for Univeral Turing Machine
+:- op(1200, xfx, :+).
 
+% interpreter for Univeral Turing Machine
 '<urn:example:compute>'([], OutTape) :-
     start(_MACHINE, I),
     find(I, [], #, [ ], OutTape).
@@ -32,7 +33,6 @@ rev([A|B], C) :-
     append(D, [A], C).
 
 % a Turing machine to add 1 to a binary number
-
 start(add1, 0).
 
 t([0, 0, 0, r], 0).

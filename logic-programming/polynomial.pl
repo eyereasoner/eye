@@ -1,6 +1,8 @@
 % Solving polynomial equations of degree 4
 % See http://alain.colmerauer.free.fr/alcol/ArchivesPublications/Equation4/Equation4.pdf
 
+:- op(1200, xfx, :+).
+
 % Liste des racines dun polynome
 '<urn:example:roots>'(P, L) :-
     findall(Z, racine(P, Z), L).
