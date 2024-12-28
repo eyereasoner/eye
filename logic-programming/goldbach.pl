@@ -42,5 +42,5 @@ has_factor(N, L) :-
 
 % query
 (true :+ '<urn:example:goldbach>'(N, [_, _])) :-
-    between(4, 10000, N),
+    between(1234567890, 1234567990, N),
     N mod 2 =:= 0.
