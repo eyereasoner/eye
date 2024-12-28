@@ -1,7 +1,14 @@
 % Crypo tests
 
+'<urn:example:sha>'(A, B, C) :-
+    atom_concat(sha, A, D),
+    sha_hash(B, E, [algorithm(D)]),
+    hash_atom(E, C).
+
+
 % queries
-true :+ '<http://www.w3.org/2000/10/swap/crypto#md5>'(literal('blargh', _), _).
-true :+ '<http://www.w3.org/2000/10/swap/crypto#sha>'(literal('blargh', _), _).
-true :+ '<http://www.w3.org/2000/10/swap/crypto#sha256>'(literal('blargh', _), _).
-true :+ '<http://www.w3.org/2000/10/swap/crypto#sha512>'(literal('blargh', _), _).
+true :+ '<urn:example:sha>'(1, 'blargh', _).
+true :+ '<urn:example:sha>'(224, 'blargh', _).
+true :+ '<urn:example:sha>'(256, 'blargh', _).
+true :+ '<urn:example:sha>'(384, 'blargh', _).
+true :+ '<urn:example:sha>'(512, 'blargh', _).

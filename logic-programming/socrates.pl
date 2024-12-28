@@ -1,9 +1,8 @@
 % Socrates is a mortal
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<urn:example:Socrates>', '<urn:example:Man>').
+'<urn:example:Human>'('<urn:example:Socrates>').
 
-'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, '<urn:example:Mortal>') :+
-    '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(X, '<urn:example:Man>').
+'<urn:example:Mortal>'(X) :+ '<urn:example:Human>'(X).
 
 % query
-true :+ '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, _).
+true :+ '<urn:example:Mortal>'(_).
