@@ -33,3 +33,101 @@
   answer('<urn:example:combination>'(4, [1, 2, 3, 4, 5], [1, 3, 4, 5])).
   answer('<urn:example:combination>'(4, [1, 2, 3, 4, 5], [2, 3, 4, 5])).
   answer('<urn:example:combination>'(5, [1, 2, 3, 4, 5], [1, 2, 3, 4, 5])).
+
+% proof steps
+  step((true:+'<urn:example:combination>'(0, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(0, [1, 2, 3, 4, 5], []),
+       true).
+  step((true:+'<urn:example:combination>'(1, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(1, [1, 2, 3, 4, 5], [1]),
+       true).
+  step((true:+'<urn:example:combination>'(1, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(1, [1, 2, 3, 4, 5], [2]),
+       true).
+  step((true:+'<urn:example:combination>'(1, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(1, [1, 2, 3, 4, 5], [3]),
+       true).
+  step((true:+'<urn:example:combination>'(1, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(1, [1, 2, 3, 4, 5], [4]),
+       true).
+  step((true:+'<urn:example:combination>'(1, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(1, [1, 2, 3, 4, 5], [5]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [1, 2]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [1, 3]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [1, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [1, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [2, 3]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [2, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [2, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [3, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [3, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(2, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(2, [1, 2, 3, 4, 5], [4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 2, 3]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 2, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 2, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 3, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 3, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [1, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [2, 3, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [2, 3, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [2, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(3, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(3, [1, 2, 3, 4, 5], [3, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(4, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(4, [1, 2, 3, 4, 5], [1, 2, 3, 4]),
+       true).
+  step((true:+'<urn:example:combination>'(4, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(4, [1, 2, 3, 4, 5], [1, 2, 3, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(4, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(4, [1, 2, 3, 4, 5], [1, 2, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(4, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(4, [1, 2, 3, 4, 5], [1, 3, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(4, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(4, [1, 2, 3, 4, 5], [2, 3, 4, 5]),
+       true).
+  step((true:+'<urn:example:combination>'(5, [1, 2, 3, 4, 5], _)),
+       '<urn:example:combination>'(5, [1, 2, 3, 4, 5], [1, 2, 3, 4, 5]),
+       true).

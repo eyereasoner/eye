@@ -58,6 +58,12 @@
   step(('<urn:example:path>'(A, B):+'<urn:example:path>'(A, C), '<urn:example:path>'(C, B)),
        ('<urn:example:path>'('<urn:example:lemans>', '<urn:example:angers>'), '<urn:example:path>'('<urn:example:angers>', '<urn:example:nantes>')),
        '<urn:example:path>'('<urn:example:lemans>', '<urn:example:nantes>')).
+  step((true:+'<urn:example:path>'(_, '<urn:example:nantes>')),
+       '<urn:example:path>'('<urn:example:angers>', '<urn:example:nantes>'),
+       true).
+  step((true:+'<urn:example:path>'(_, '<urn:example:nantes>')),
+       '<urn:example:path>'('<urn:example:lemans>', '<urn:example:nantes>'),
+       true).
   step(('<urn:example:path>'(A, B):+'<urn:example:path>'(A, C), '<urn:example:path>'(C, B)),
        ('<urn:example:path>'('<urn:example:paris>', '<urn:example:orleans>'), '<urn:example:path>'('<urn:example:orleans>', '<urn:example:tours>')),
        '<urn:example:path>'('<urn:example:paris>', '<urn:example:tours>')).
@@ -70,3 +76,9 @@
   step(('<urn:example:path>'(A, B):+'<urn:example:path>'(A, C), '<urn:example:path>'(C, B)),
        ('<urn:example:path>'('<urn:example:paris>', '<urn:example:lemans>'), '<urn:example:path>'('<urn:example:lemans>', '<urn:example:nantes>')),
        '<urn:example:path>'('<urn:example:paris>', '<urn:example:nantes>')).
+  step((true:+'<urn:example:path>'(_, '<urn:example:nantes>')),
+       '<urn:example:path>'('<urn:example:chartres>', '<urn:example:nantes>'),
+       true).
+  step((true:+'<urn:example:path>'(_, '<urn:example:nantes>')),
+       '<urn:example:path>'('<urn:example:paris>', '<urn:example:nantes>'),
+       true).

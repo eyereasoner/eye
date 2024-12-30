@@ -29,3 +29,21 @@
   step(('<urn:example:sanction>'(A):+'<urn:example:violation>'(B), '<urn:example:assigned>'(B, A)),
        ('<urn:example:violation>'('<urn:example:task1>'), '<urn:example:assigned>'('<urn:example:task1>', '<urn:example:agent2>')),
        '<urn:example:sanction>'('<urn:example:agent2>')).
+  step((true:+'<urn:example:obligation>'(_)),
+       '<urn:example:obligation>'('<urn:example:complete:task>'('<urn:example:agent2>',
+                                                                '<urn:example:task1>')),
+       true).
+  step((true:+'<urn:example:obligation>'(_)),
+       '<urn:example:obligation>'('<urn:example:escalate:task>'('<urn:example:agent1>',
+                                                                '<urn:example:task1>')),
+       true).
+  step((true:+'<urn:example:permission>'(_)),
+       '<urn:example:permission>'('<urn:example:execute:task>'('<urn:example:agent2>',
+                                                               '<urn:example:task1>')),
+       true).
+  step((true:+'<urn:example:violation>'(_)),
+       '<urn:example:violation>'('<urn:example:task1>'),
+       true).
+  step((true:+'<urn:example:sanction>'(_)),
+       '<urn:example:sanction>'('<urn:example:agent2>'),
+       true).
