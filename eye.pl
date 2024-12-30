@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.4 (2024-12-30)').
+version_info('EYE v11.2.5 (2024-12-30)').
 
 license_info('MIT License
 
@@ -5302,8 +5302,18 @@ eam2 :-
         (   Conc = true     % 3/
         ->  astep2((answer(Prem), step(Rule, Prem, true)))
         ;   (   Conc = false
-            ->  format("% inference fuse, return code 2~n", []),
+            ->  astep2(step(Rule, Prem, false)),
+                format("% inference fuse, return code 2~n", []),
                 portray_clause(user_output, fuse(Prem), [indent(2)]),
+                (   step(_, _, _)
+                ->  format("~n% proof steps~n", []),
+                    (   step(R, P, C),
+                        portray_clause(user_output, step(R, P, C), [indent(2)]),
+                        fail
+                    ;   true
+                    )
+                ;   true
+                ),
                 throw(halt(2))
             ;   (   term_variables(Conc, [])
                 ->  Concl = Conc
