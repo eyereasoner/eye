@@ -24,7 +24,7 @@ pad () {
 begin=$(($(date +%s)))
 for file in *.pl
 do
-    echo -en "$(pad "${file}" -24)"
+    echo -en "$(pad "${file}" -26)"
     start=$(($(date +%s%N)/1000000))
     eye --quiet --logic-program "${file}" > output/${file}
     end=$(($(date +%s%N)/1000000))

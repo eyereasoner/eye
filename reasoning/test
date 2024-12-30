@@ -25,7 +25,7 @@ begin=$(($(date +%s)))
 for dir in */
 do
     pushd "${dir}" > /dev/null
-    echo -en "$(pad "${file}${dir}" -24)"
+    echo -en "$(pad "${file}${dir}" -26)"
     start=$(($(date +%s%N)/1000000))
     ./test > /dev/null
     end=$(($(date +%s%N)/1000000))
