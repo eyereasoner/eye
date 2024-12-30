@@ -1,4 +1,4 @@
-% proof by contradiction
+% Proof by contradiction
 % See https://en.wikipedia.org/wiki/Proof_by_contradiction
 
 % facts

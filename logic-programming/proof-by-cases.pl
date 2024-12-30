@@ -1,4 +1,4 @@
-% proof by cases
+% Proof by cases
 % See https://en.wikipedia.org/wiki/Disjunction_elimination
 
 % water is an inorganic compound
