@@ -10005,9 +10005,14 @@
 '<urn:example:i9>'('<urn:example:i9>', '<urn:example:i96>').
 
 '<urn:example:cycle>'(A, [B, C, D, E, F, G, H, I, J, K, B]) :-
-    current_predicate(A/2),
-    atom_concat('<urn:example:', _, A),
-    A \= '<urn:example:cycle>',
+    findall(P,
+        (   current_predicate(P/2),
+            atom_concat('<urn:example:', _, P),
+            P \= '<urn:example:cycle>'
+        ),
+        L
+    ),
+    member(A, L),
     call(A, B, C),
     call(A, C, D),
     call(A, D, E),
