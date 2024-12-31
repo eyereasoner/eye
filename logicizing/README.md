@@ -1,4 +1,4 @@
-# Logic Programming
+# Logicizing
 
 - Using webized prolog which basically means that atoms can be IRIs.
 - Besides top-down reasoning with `conclusion :- premise` rules, it also does bottom-up reasoning with `conclusion :+ premise` rules.
@@ -8,7 +8,7 @@
 - Queries are posed as `true :+ premise` and answered as `answer(premise_inst)`.
 - Inference fuses are defined as `false :+ premise` and blown as `fuse(premise_inst)` with return code 2.
 
-## Rationale for bottom-up reasoning with `conclusion :+ premise` rules
+## Rationale for bottom-up reasoning
 
 - conclusion can be a conjunction
 - conclusion can be `false` to blow an inference fuse
