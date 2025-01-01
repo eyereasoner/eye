@@ -10012,7 +10012,8 @@
         ),
         L
     ),
-    member(A, L),
+    sort(L, M),
+    member(A, M),
     call(A, B, C),
     call(A, C, D),
     call(A, D, E),
