@@ -22,11 +22,11 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.5 (2024-12-30)').
+version_info('EYE v11.2.6 (2025-01-01)').
 
 license_info('MIT License
 
-Copyright (c) 2006-2023 Jos De Roo
+Copyright (c) 2006-2025 Jos De Roo
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
