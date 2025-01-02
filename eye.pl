@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.7 (2025-01-02)').
+version_info('EYE v11.2.8 (2025-01-02)').
 
 license_info('MIT License
 
@@ -63,7 +63,6 @@ eye
     --image <pvm-file>              output all <data> and all code to <pvm-file>
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
-    --logic-program <pl-file>       run logic program <pl-file>
     --max-inferences <nr>           halt after maximum number of inferences
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
@@ -90,6 +89,7 @@ eye
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
+    --wepl <pl-file>                run <pl-file>
 <data>
     [--n3] <uri>                    N3 triples and rules
     --n3p <uri>                     N3P intermediate
@@ -696,28 +696,6 @@ opts(['--license'|_], _) :-
     format(user_error, '~w~n', [License]),
     flush_output(user_error),
     throw(halt(0)).
-opts(['--logic-program', File|_], _) :-
-    consult(File),
-    nb_setval(closure, 0),
-    nb_setval(limit, -1),
-    nb_setval(fm, 0),
-    nb_setval(mf, 0),
-    (   (_ :+ _)
-    ->  format(":- op(1200, xfx, :+).~n~n", [])
-    ;   version_info(Version),
-        format("~w~n", [Version])
-    ),
-    forall(
-        (   (Conc :+ _),
-            Conc \= true,
-            Conc \= false
-        ),
-        (   functor(Conc, P, A),
-            dynamic(P/A)
-        )
-    ),
-    eam2,
-    throw(halt(0)).
 opts(['--max-inferences', Lim|Argus], Args) :-
     !,
     (   number(Lim)
@@ -887,6 +865,28 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     retractall(wcache(Arg, _)),
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
+opts(['--wepl', File|_], _) :-
+    consult(File),
+    nb_setval(closure, 0),
+    nb_setval(limit, -1),
+    nb_setval(fm, 0),
+    nb_setval(mf, 0),
+    (   (_ :+ _)
+    ->  format(":- op(1200, xfx, :+).~n~n", [])
+    ;   version_info(Version),
+        format("~w~n", [Version])
+    ),
+    forall(
+        (   (Conc :+ _),
+            Conc \= true,
+            Conc \= false
+        ),
+        (   functor(Conc, P, A),
+            dynamic(P/A)
+        )
+    ),
+    eam2,
+    throw(halt(0)).
 opts([Arg|_], _) :-
     \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
