@@ -19,13 +19,13 @@
 
 '<urn:example:run>'(A, B, C) :-
     sleep(B),
-    format('% ~w thinking for ~w seconds~n', [A, B]),
+    %format('% ~w thinking for ~w seconds~n', [A, B]),
     '<urn:example:pickup>'(A),
     sleep(C),
-    format('% ~w eating for ~w seconds~n', [A, C]),
+    %format('% ~w eating for ~w seconds~n', [A, C]),
     '<urn:example:putdown>'(A).
 
-'<urn:example:got>'('<urn:example:all>', '<urn:example:dinner>') :+
+'<urn:example:got>'('<urn:example:all>', '<urn:example:dinner>') :-
     thread_create('<urn:example:run>'('<urn:example:person1>', 0.1, 0.1), A, []),
     thread_create('<urn:example:run>'('<urn:example:person2>', 0.2, 0.2), B, []),
     thread_create('<urn:example:run>'('<urn:example:person3>', 0.15, 0.1), C, []),
