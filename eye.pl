@@ -22,11 +22,11 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.6 (2025-01-01)').
+version_info('EYE v11.2.7 (2025-01-02)').
 
 license_info('MIT License
 
-Copyright (c) 2006-2025 Jos De Roo
+Copyright 2006-2025 Jos De Roo, KNoWS office of IDLab, Ghent University - imec
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
