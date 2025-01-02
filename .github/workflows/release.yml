@@ -9,11 +9,17 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/')
     name: "Tagged Release"
     runs-on: "ubuntu-latest"
+    permissions:
+      contents: write
+      pull-requests: write
+      repository-projects: write
+      pages: write
+      issues: write
 
     steps:
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: "${{ secrets.GH_TOKEN }}"
+          repo_token: "${{ github.token }}"
           automatic_release_tag: "${{ github.ref_name }}"
           prerelease: false
           files: "*"
