@@ -1,6 +1,6 @@
-# Prolog with IRI atoms - Plato
+# Prolog with IRI atoms - plato
 
-- Besides top-down reasoning with `conclusion :- premise` rules, Plato also does bottom-up reasoning with `conclusion :+ premise` rules.
+- Besides top-down reasoning with `conclusion :- premise` rules, plato also does bottom-up reasoning with `conclusion :+ premise` rules.
 - Bottum-up reasoning can use `stable(n)` to fail if the deductive closure at level `n` is not yet stable.
 - Proofs steps are `step((conclusion :+ premise), premise_inst, conclusion_inst)` and `conclusion_inst` is asserted.
 - Variables are interpreted as universally quantified variables except for `conclusion :+ premise` conclusion-only variables which are interpreted existentially.
