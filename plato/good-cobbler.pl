@@ -8,4 +8,4 @@
 '<urn:example:is>'(_X, '<urn:example:good>'('<urn:example:Cobbler>')) :+ true.
 
 % is there some x which is good at some y
-true :+ ('<urn:example:is>'(_X, '<urn:example:good>'(_)) :+ true).
+true :+ '<urn:example:is>'(_X, '<urn:example:good>'(_Y)).

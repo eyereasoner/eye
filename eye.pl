@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.9 (2025-01-03)').
+version_info('EYE v11.2.10 (2025-01-03)').
 
 license_info('MIT License
 
@@ -789,13 +789,8 @@ opts(['--plato', File|_], _) :-
         format("~w~n", [Version])
     ),
     forall(
-        (   (Conc :+ _),
-            Conc \= true,
-            Conc \= false
-        ),
-        (   functor(Conc, P, A),
-            dynamic(P/A)
-        )
+        (Conc :+ _),
+        dynify(Conc)
     ),
     eam2,
     throw(halt(0)).
@@ -5315,12 +5310,9 @@ eam2 :-
                 ;   true
                 ),
                 throw(halt(2))
-            ;   (   term_variables(Conc, [])
-                ->  Concl = Conc
-                ;   Concl = (Conc :+ true)
-                ),
-                \+Concl,
-                astep2((Concl, step(Rule, Prem, Concl))),
+            ;   labelvars(Conc, 0, _),
+                \+Conc,
+                astep2((Conc, step(Rule, Prem, Conc))),
                 retract(brake)
             )
         ),
