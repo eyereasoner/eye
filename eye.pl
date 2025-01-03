@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.8 (2025-01-02)').
+version_info('EYE v11.2.9 (2025-01-03)').
 
 license_info('MIT License
 
@@ -72,6 +72,7 @@ eye
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
+    --plato <pl-file>               run Prolog with IRI atoms <pl-file>
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -89,7 +90,6 @@ eye
     --version                       show version info
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
-    --wepl <pl-file>                run <pl-file>
 <data>
     [--n3] <uri>                    N3 triples and rules
     --n3p <uri>                     N3P intermediate
@@ -690,6 +690,12 @@ opts(['--image', File|Argus], Args) :-
     retractall(flag(image, _)),
     assertz(flag(image, File)),
     opts(Argus, Args).
+opts(['--intermediate', File|Argus], Args) :-
+    !,
+    retractall(flag(intermediate, _)),
+    open(File, write, Out, [encoding(utf8)]),
+    assertz(flag(intermediate, Out)),
+    opts(Argus, Args).
 opts(['--license'|_], _) :-
     !,
     license_info(License),
@@ -771,12 +777,28 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
-opts(['--intermediate', File|Argus], Args) :-
-    !,
-    retractall(flag(intermediate, _)),
-    open(File, write, Out, [encoding(utf8)]),
-    assertz(flag(intermediate, Out)),
-    opts(Argus, Args).
+opts(['--plato', File|_], _) :-
+    consult(File),
+    nb_setval(closure, 0),
+    nb_setval(limit, -1),
+    nb_setval(fm, 0),
+    nb_setval(mf, 0),
+    (   (_ :+ _)
+    ->  format(":- op(1200, xfx, :+).~n~n", [])
+    ;   version_info(Version),
+        format("~w~n", [Version])
+    ),
+    forall(
+        (   (Conc :+ _),
+            Conc \= true,
+            Conc \= false
+        ),
+        (   functor(Conc, P, A),
+            dynamic(P/A)
+        )
+    ),
+    eam2,
+    throw(halt(0)).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
@@ -865,28 +887,6 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     retractall(wcache(Arg, _)),
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
-opts(['--wepl', File|_], _) :-
-    consult(File),
-    nb_setval(closure, 0),
-    nb_setval(limit, -1),
-    nb_setval(fm, 0),
-    nb_setval(mf, 0),
-    (   (_ :+ _)
-    ->  format(":- op(1200, xfx, :+).~n~n", [])
-    ;   version_info(Version),
-        format("~w~n", [Version])
-    ),
-    forall(
-        (   (Conc :+ _),
-            Conc \= true,
-            Conc \= false
-        ),
-        (   functor(Conc, P, A),
-            dynamic(P/A)
-        )
-    ),
-    eam2,
-    throw(halt(0)).
 opts([Arg|_], _) :-
     \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),

@@ -1,7 +1,6 @@
-# Webized Prolog
+# Prolog with IRI atoms - Plato
 
-- Webized Prolog basically means that atoms can be IRIs.
-- Besides top-down reasoning with `conclusion :- premise` rules, it also does bottom-up reasoning with `conclusion :+ premise` rules.
+- Besides top-down reasoning with `conclusion :- premise` rules, Plato also does bottom-up reasoning with `conclusion :+ premise` rules.
 - Bottum-up reasoning can use `stable(n)` to fail if the deductive closure at level `n` is not yet stable.
 - Proofs steps are `step((conclusion :+ premise), premise_inst, conclusion_inst)` and `conclusion_inst` is asserted.
 - Variables are interpreted as universally quantified variables except for `conclusion :+ premise` conclusion-only variables which are interpreted existentially.
@@ -13,7 +12,6 @@
 - conclusion can be a conjunction
 - conclusion can be `false` to blow an inference fuse
 - conclusion can be `true` to pose a query
-- conclusion can not be any other built-in
 - conclusion-only variables are existentials
 - generating proofs using `step/3` proof steps
 - avoiding loops that could occur with top-down reasoning
