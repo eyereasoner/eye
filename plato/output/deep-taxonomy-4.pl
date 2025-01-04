@@ -2,6 +2,7 @@
 
 % answers
   answer('<urn:example:prepare>'(1, 4)).
+  answer('<urn:example:N4>'('<urn:example:z>')).
 
 % proof steps
   step((true:+'<urn:example:prepare>'(1, 4)), '<urn:example:prepare>'(1, 4), true).
@@ -41,3 +42,6 @@
   step(('<urn:example:J4>'(A):+'<urn:example:N3>'(A)),
        '<urn:example:N3>'('<urn:example:z>'),
        '<urn:example:J4>'('<urn:example:z>')).
+  step((true:+'<urn:example:N4>'(_)),
+       '<urn:example:N4>'('<urn:example:z>'),
+       true).

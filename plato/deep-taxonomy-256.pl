@@ -29,4 +29,4 @@
 
 % queries
 true :+ '<urn:example:prepare>'(1, 256).
-true :+ '<urn:example:N8>'(_).
+true :+ '<urn:example:N256>'(_).

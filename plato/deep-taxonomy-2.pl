@@ -29,4 +29,4 @@
 
 % queries
 true :+ '<urn:example:prepare>'(1, 2).
-true :+ '<urn:example:N8>'(_).
+true :+ '<urn:example:N2>'(_).

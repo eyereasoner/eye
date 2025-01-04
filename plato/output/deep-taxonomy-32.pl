@@ -2,7 +2,7 @@
 
 % answers
   answer('<urn:example:prepare>'(1, 32)).
-  answer('<urn:example:N8>'('<urn:example:z>')).
+  answer('<urn:example:N32>'('<urn:example:z>')).
 
 % proof steps
   step((true:+'<urn:example:prepare>'(1, 32)), '<urn:example:prepare>'(1, 32), true).
@@ -294,6 +294,6 @@
   step(('<urn:example:J32>'(A):+'<urn:example:N31>'(A)),
        '<urn:example:N31>'('<urn:example:z>'),
        '<urn:example:J32>'('<urn:example:z>')).
-  step((true:+'<urn:example:N8>'(_)),
-       '<urn:example:N8>'('<urn:example:z>'),
+  step((true:+'<urn:example:N32>'(_)),
+       '<urn:example:N32>'('<urn:example:z>'),
        true).

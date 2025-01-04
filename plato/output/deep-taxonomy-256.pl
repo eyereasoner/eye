@@ -2,7 +2,7 @@
 
 % answers
   answer('<urn:example:prepare>'(1, 256)).
-  answer('<urn:example:N8>'('<urn:example:z>')).
+  answer('<urn:example:N256>'('<urn:example:z>')).
 
 % proof steps
   step((true:+'<urn:example:prepare>'(1, 256)),
@@ -2312,6 +2312,6 @@
   step(('<urn:example:J256>'(A):+'<urn:example:N255>'(A)),
        '<urn:example:N255>'('<urn:example:z>'),
        '<urn:example:J256>'('<urn:example:z>')).
-  step((true:+'<urn:example:N8>'(_)),
-       '<urn:example:N8>'('<urn:example:z>'),
+  step((true:+'<urn:example:N256>'(_)),
+       '<urn:example:N256>'('<urn:example:z>'),
        true).
