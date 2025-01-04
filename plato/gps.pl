@@ -50,7 +50,6 @@ becomes(A, B) :-
     forall(member(F, E), assertz(F)).
 
 % test data
-:- dynamic('<urn:example:location>'/2).
 
 % partial map of Belgium
 '<urn:example:description>'(
@@ -103,7 +102,7 @@ becomes(A, B) :-
 ).
 
 % current state
-'<urn:example:location>'('<urn:example:i1>', '<urn:example:gent>').
+'<urn:example:location>'('<urn:example:i1>', '<urn:example:gent>') :+ true.
 
 % query
 true :+

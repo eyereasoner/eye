@@ -2,8 +2,6 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:does>'/2).
-
 % facts about what employees are doing
 '<urn:example:prepare>'(X, Y) :-
     Z is Y//3,

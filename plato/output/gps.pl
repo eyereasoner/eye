@@ -28,6 +28,9 @@
                                   ])).
 
 % proof steps
+  step(('<urn:example:location>'('<urn:example:i1>', '<urn:example:gent>'):+true),
+       true,
+       '<urn:example:location>'('<urn:example:i1>', '<urn:example:gent>')).
   step((true:+'<urn:example:findpath>'('<urn:example:map_be>', ['<urn:example:location>'(_, '<urn:example:oostende>'), _, _, _, _, _, [5000.0, 5.0, 0.2, 0.4, 1]])),
        '<urn:example:findpath>'('<urn:example:map_be>',
                                 [ '<urn:example:location>'('<urn:example:i1>',

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.10 (2025-01-03)').
+version_info('EYE v11.2.11 (2025-01-04)').
 
 license_info('MIT License
 
@@ -789,8 +789,8 @@ opts(['--plato', File|_], _) :-
         format("~w~n", [Version])
     ),
     forall(
-        (Conc :+ _),
-        dynify(Conc)
+        (Conc :+ Prem),
+        dynify((Conc :+ Prem))
     ),
     eam2,
     throw(halt(0)).
@@ -5310,7 +5310,10 @@ eam2 :-
                 ;   true
                 ),
                 throw(halt(2))
-            ;   labelvars(Conc, 0, _),
+            ;   (   Conc \= (_ :+ _)
+                ->  labelvars(Conc, 0, _)
+                ;   true
+                ),
                 \+Conc,
                 astep2((Conc, step(Rule, Prem, Conc))),
                 retract(brake)
@@ -12651,7 +12654,9 @@ dynify([A|B]) :-
 dynify(A) :-
     A =.. [B|C],
     length(C, N),
-    (   current_predicate(B/N)
+    (   (   current_predicate(B/N)
+        ;   B = /
+        )
     ->  true
     ;   dynamic(B/N)
     ),

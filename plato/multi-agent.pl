@@ -3,8 +3,6 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:completed>'/1).
-
 % define agents
 '<urn:example:agent>'('<urn:example:agent1>').
 '<urn:example:agent>'('<urn:example:agent2>').

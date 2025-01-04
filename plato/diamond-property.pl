@@ -4,8 +4,6 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:not_r>'/2).
-
 '<urn:example:re>'(a, b), '<urn:example:re>'(a, c) :+ true.
 
 % equality axioms

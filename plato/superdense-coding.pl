@@ -21,8 +21,6 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:sdcoding>'/2).
-
 % |R) = |0, 0) + |1, 1)
 r(false, false).
 r(true, true).
