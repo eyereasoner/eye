@@ -1,1855 +1,2053 @@
 :- op(1200, xfx, :+).
 
 % answers
-  answer('<urn:example:collatz>'(1, 1)).
-  answer('<urn:example:collatz>'(2, 1)).
-  answer('<urn:example:collatz>'(3, 1)).
-  answer('<urn:example:collatz>'(4, 1)).
-  answer('<urn:example:collatz>'(5, 1)).
-  answer('<urn:example:collatz>'(6, 1)).
-  answer('<urn:example:collatz>'(7, 1)).
-  answer('<urn:example:collatz>'(8, 1)).
-  answer('<urn:example:collatz>'(9, 1)).
-  answer('<urn:example:collatz>'(10, 1)).
-  answer('<urn:example:collatz>'(11, 1)).
-  answer('<urn:example:collatz>'(12, 1)).
-  answer('<urn:example:collatz>'(13, 1)).
-  answer('<urn:example:collatz>'(14, 1)).
-  answer('<urn:example:collatz>'(15, 1)).
-  answer('<urn:example:collatz>'(16, 1)).
-  answer('<urn:example:collatz>'(17, 1)).
-  answer('<urn:example:collatz>'(18, 1)).
-  answer('<urn:example:collatz>'(19, 1)).
-  answer('<urn:example:collatz>'(20, 1)).
-  answer('<urn:example:collatz>'(21, 1)).
-  answer('<urn:example:collatz>'(22, 1)).
-  answer('<urn:example:collatz>'(23, 1)).
-  answer('<urn:example:collatz>'(24, 1)).
-  answer('<urn:example:collatz>'(25, 1)).
-  answer('<urn:example:collatz>'(26, 1)).
-  answer('<urn:example:collatz>'(27, 1)).
-  answer('<urn:example:collatz>'(28, 1)).
-  answer('<urn:example:collatz>'(29, 1)).
-  answer('<urn:example:collatz>'(30, 1)).
-  answer('<urn:example:collatz>'(31, 1)).
-  answer('<urn:example:collatz>'(32, 1)).
-  answer('<urn:example:collatz>'(33, 1)).
-  answer('<urn:example:collatz>'(34, 1)).
-  answer('<urn:example:collatz>'(35, 1)).
-  answer('<urn:example:collatz>'(36, 1)).
-  answer('<urn:example:collatz>'(37, 1)).
-  answer('<urn:example:collatz>'(38, 1)).
-  answer('<urn:example:collatz>'(39, 1)).
-  answer('<urn:example:collatz>'(40, 1)).
-  answer('<urn:example:collatz>'(41, 1)).
-  answer('<urn:example:collatz>'(42, 1)).
-  answer('<urn:example:collatz>'(43, 1)).
-  answer('<urn:example:collatz>'(44, 1)).
-  answer('<urn:example:collatz>'(45, 1)).
-  answer('<urn:example:collatz>'(46, 1)).
-  answer('<urn:example:collatz>'(47, 1)).
-  answer('<urn:example:collatz>'(48, 1)).
-  answer('<urn:example:collatz>'(49, 1)).
-  answer('<urn:example:collatz>'(50, 1)).
-  answer('<urn:example:collatz>'(51, 1)).
-  answer('<urn:example:collatz>'(52, 1)).
-  answer('<urn:example:collatz>'(53, 1)).
-  answer('<urn:example:collatz>'(54, 1)).
-  answer('<urn:example:collatz>'(55, 1)).
-  answer('<urn:example:collatz>'(56, 1)).
-  answer('<urn:example:collatz>'(57, 1)).
-  answer('<urn:example:collatz>'(58, 1)).
-  answer('<urn:example:collatz>'(59, 1)).
-  answer('<urn:example:collatz>'(60, 1)).
-  answer('<urn:example:collatz>'(61, 1)).
-  answer('<urn:example:collatz>'(62, 1)).
-  answer('<urn:example:collatz>'(63, 1)).
-  answer('<urn:example:collatz>'(64, 1)).
-  answer('<urn:example:collatz>'(65, 1)).
-  answer('<urn:example:collatz>'(66, 1)).
-  answer('<urn:example:collatz>'(67, 1)).
-  answer('<urn:example:collatz>'(68, 1)).
-  answer('<urn:example:collatz>'(69, 1)).
-  answer('<urn:example:collatz>'(70, 1)).
-  answer('<urn:example:collatz>'(71, 1)).
-  answer('<urn:example:collatz>'(72, 1)).
-  answer('<urn:example:collatz>'(73, 1)).
-  answer('<urn:example:collatz>'(74, 1)).
-  answer('<urn:example:collatz>'(75, 1)).
-  answer('<urn:example:collatz>'(76, 1)).
-  answer('<urn:example:collatz>'(77, 1)).
-  answer('<urn:example:collatz>'(78, 1)).
-  answer('<urn:example:collatz>'(79, 1)).
-  answer('<urn:example:collatz>'(80, 1)).
-  answer('<urn:example:collatz>'(81, 1)).
-  answer('<urn:example:collatz>'(82, 1)).
-  answer('<urn:example:collatz>'(83, 1)).
-  answer('<urn:example:collatz>'(84, 1)).
-  answer('<urn:example:collatz>'(85, 1)).
-  answer('<urn:example:collatz>'(86, 1)).
-  answer('<urn:example:collatz>'(87, 1)).
-  answer('<urn:example:collatz>'(88, 1)).
-  answer('<urn:example:collatz>'(89, 1)).
-  answer('<urn:example:collatz>'(90, 1)).
-  answer('<urn:example:collatz>'(91, 1)).
-  answer('<urn:example:collatz>'(92, 1)).
-  answer('<urn:example:collatz>'(93, 1)).
-  answer('<urn:example:collatz>'(94, 1)).
-  answer('<urn:example:collatz>'(95, 1)).
-  answer('<urn:example:collatz>'(96, 1)).
-  answer('<urn:example:collatz>'(97, 1)).
-  answer('<urn:example:collatz>'(98, 1)).
-  answer('<urn:example:collatz>'(99, 1)).
-  answer('<urn:example:collatz>'(100, 1)).
-  answer('<urn:example:collatz>'(101, 1)).
-  answer('<urn:example:collatz>'(102, 1)).
-  answer('<urn:example:collatz>'(103, 1)).
-  answer('<urn:example:collatz>'(104, 1)).
-  answer('<urn:example:collatz>'(105, 1)).
-  answer('<urn:example:collatz>'(106, 1)).
-  answer('<urn:example:collatz>'(107, 1)).
-  answer('<urn:example:collatz>'(108, 1)).
-  answer('<urn:example:collatz>'(109, 1)).
-  answer('<urn:example:collatz>'(110, 1)).
-  answer('<urn:example:collatz>'(111, 1)).
-  answer('<urn:example:collatz>'(112, 1)).
-  answer('<urn:example:collatz>'(113, 1)).
-  answer('<urn:example:collatz>'(114, 1)).
-  answer('<urn:example:collatz>'(115, 1)).
-  answer('<urn:example:collatz>'(116, 1)).
-  answer('<urn:example:collatz>'(117, 1)).
-  answer('<urn:example:collatz>'(118, 1)).
-  answer('<urn:example:collatz>'(119, 1)).
-  answer('<urn:example:collatz>'(120, 1)).
-  answer('<urn:example:collatz>'(121, 1)).
-  answer('<urn:example:collatz>'(122, 1)).
-  answer('<urn:example:collatz>'(123, 1)).
-  answer('<urn:example:collatz>'(124, 1)).
-  answer('<urn:example:collatz>'(125, 1)).
-  answer('<urn:example:collatz>'(126, 1)).
-  answer('<urn:example:collatz>'(127, 1)).
-  answer('<urn:example:collatz>'(128, 1)).
-  answer('<urn:example:collatz>'(129, 1)).
-  answer('<urn:example:collatz>'(130, 1)).
-  answer('<urn:example:collatz>'(131, 1)).
-  answer('<urn:example:collatz>'(132, 1)).
-  answer('<urn:example:collatz>'(133, 1)).
-  answer('<urn:example:collatz>'(134, 1)).
-  answer('<urn:example:collatz>'(135, 1)).
-  answer('<urn:example:collatz>'(136, 1)).
-  answer('<urn:example:collatz>'(137, 1)).
-  answer('<urn:example:collatz>'(138, 1)).
-  answer('<urn:example:collatz>'(139, 1)).
-  answer('<urn:example:collatz>'(140, 1)).
-  answer('<urn:example:collatz>'(141, 1)).
-  answer('<urn:example:collatz>'(142, 1)).
-  answer('<urn:example:collatz>'(143, 1)).
-  answer('<urn:example:collatz>'(144, 1)).
-  answer('<urn:example:collatz>'(145, 1)).
-  answer('<urn:example:collatz>'(146, 1)).
-  answer('<urn:example:collatz>'(147, 1)).
-  answer('<urn:example:collatz>'(148, 1)).
-  answer('<urn:example:collatz>'(149, 1)).
-  answer('<urn:example:collatz>'(150, 1)).
-  answer('<urn:example:collatz>'(151, 1)).
-  answer('<urn:example:collatz>'(152, 1)).
-  answer('<urn:example:collatz>'(153, 1)).
-  answer('<urn:example:collatz>'(154, 1)).
-  answer('<urn:example:collatz>'(155, 1)).
-  answer('<urn:example:collatz>'(156, 1)).
-  answer('<urn:example:collatz>'(157, 1)).
-  answer('<urn:example:collatz>'(158, 1)).
-  answer('<urn:example:collatz>'(159, 1)).
-  answer('<urn:example:collatz>'(160, 1)).
-  answer('<urn:example:collatz>'(161, 1)).
-  answer('<urn:example:collatz>'(162, 1)).
-  answer('<urn:example:collatz>'(163, 1)).
-  answer('<urn:example:collatz>'(164, 1)).
-  answer('<urn:example:collatz>'(165, 1)).
-  answer('<urn:example:collatz>'(166, 1)).
-  answer('<urn:example:collatz>'(167, 1)).
-  answer('<urn:example:collatz>'(168, 1)).
-  answer('<urn:example:collatz>'(169, 1)).
-  answer('<urn:example:collatz>'(170, 1)).
-  answer('<urn:example:collatz>'(171, 1)).
-  answer('<urn:example:collatz>'(172, 1)).
-  answer('<urn:example:collatz>'(173, 1)).
-  answer('<urn:example:collatz>'(174, 1)).
-  answer('<urn:example:collatz>'(175, 1)).
-  answer('<urn:example:collatz>'(176, 1)).
-  answer('<urn:example:collatz>'(177, 1)).
-  answer('<urn:example:collatz>'(178, 1)).
-  answer('<urn:example:collatz>'(179, 1)).
-  answer('<urn:example:collatz>'(180, 1)).
-  answer('<urn:example:collatz>'(181, 1)).
-  answer('<urn:example:collatz>'(182, 1)).
-  answer('<urn:example:collatz>'(183, 1)).
-  answer('<urn:example:collatz>'(184, 1)).
-  answer('<urn:example:collatz>'(185, 1)).
-  answer('<urn:example:collatz>'(186, 1)).
-  answer('<urn:example:collatz>'(187, 1)).
-  answer('<urn:example:collatz>'(188, 1)).
-  answer('<urn:example:collatz>'(189, 1)).
-  answer('<urn:example:collatz>'(190, 1)).
-  answer('<urn:example:collatz>'(191, 1)).
-  answer('<urn:example:collatz>'(192, 1)).
-  answer('<urn:example:collatz>'(193, 1)).
-  answer('<urn:example:collatz>'(194, 1)).
-  answer('<urn:example:collatz>'(195, 1)).
-  answer('<urn:example:collatz>'(196, 1)).
-  answer('<urn:example:collatz>'(197, 1)).
-  answer('<urn:example:collatz>'(198, 1)).
-  answer('<urn:example:collatz>'(199, 1)).
-  answer('<urn:example:collatz>'(200, 1)).
-  answer('<urn:example:collatz>'(201, 1)).
-  answer('<urn:example:collatz>'(202, 1)).
-  answer('<urn:example:collatz>'(203, 1)).
-  answer('<urn:example:collatz>'(204, 1)).
-  answer('<urn:example:collatz>'(205, 1)).
-  answer('<urn:example:collatz>'(206, 1)).
-  answer('<urn:example:collatz>'(207, 1)).
-  answer('<urn:example:collatz>'(208, 1)).
-  answer('<urn:example:collatz>'(209, 1)).
-  answer('<urn:example:collatz>'(210, 1)).
-  answer('<urn:example:collatz>'(211, 1)).
-  answer('<urn:example:collatz>'(212, 1)).
-  answer('<urn:example:collatz>'(213, 1)).
-  answer('<urn:example:collatz>'(214, 1)).
-  answer('<urn:example:collatz>'(215, 1)).
-  answer('<urn:example:collatz>'(216, 1)).
-  answer('<urn:example:collatz>'(217, 1)).
-  answer('<urn:example:collatz>'(218, 1)).
-  answer('<urn:example:collatz>'(219, 1)).
-  answer('<urn:example:collatz>'(220, 1)).
-  answer('<urn:example:collatz>'(221, 1)).
-  answer('<urn:example:collatz>'(222, 1)).
-  answer('<urn:example:collatz>'(223, 1)).
-  answer('<urn:example:collatz>'(224, 1)).
-  answer('<urn:example:collatz>'(225, 1)).
-  answer('<urn:example:collatz>'(226, 1)).
-  answer('<urn:example:collatz>'(227, 1)).
-  answer('<urn:example:collatz>'(228, 1)).
-  answer('<urn:example:collatz>'(229, 1)).
-  answer('<urn:example:collatz>'(230, 1)).
-  answer('<urn:example:collatz>'(231, 1)).
-  answer('<urn:example:collatz>'(232, 1)).
-  answer('<urn:example:collatz>'(233, 1)).
-  answer('<urn:example:collatz>'(234, 1)).
-  answer('<urn:example:collatz>'(235, 1)).
-  answer('<urn:example:collatz>'(236, 1)).
-  answer('<urn:example:collatz>'(237, 1)).
-  answer('<urn:example:collatz>'(238, 1)).
-  answer('<urn:example:collatz>'(239, 1)).
-  answer('<urn:example:collatz>'(240, 1)).
-  answer('<urn:example:collatz>'(241, 1)).
-  answer('<urn:example:collatz>'(242, 1)).
-  answer('<urn:example:collatz>'(243, 1)).
-  answer('<urn:example:collatz>'(244, 1)).
-  answer('<urn:example:collatz>'(245, 1)).
-  answer('<urn:example:collatz>'(246, 1)).
-  answer('<urn:example:collatz>'(247, 1)).
-  answer('<urn:example:collatz>'(248, 1)).
-  answer('<urn:example:collatz>'(249, 1)).
-  answer('<urn:example:collatz>'(250, 1)).
-  answer('<urn:example:collatz>'(251, 1)).
-  answer('<urn:example:collatz>'(252, 1)).
-  answer('<urn:example:collatz>'(253, 1)).
-  answer('<urn:example:collatz>'(254, 1)).
-  answer('<urn:example:collatz>'(255, 1)).
-  answer('<urn:example:collatz>'(256, 1)).
-  answer('<urn:example:collatz>'(257, 1)).
-  answer('<urn:example:collatz>'(258, 1)).
-  answer('<urn:example:collatz>'(259, 1)).
-  answer('<urn:example:collatz>'(260, 1)).
-  answer('<urn:example:collatz>'(261, 1)).
-  answer('<urn:example:collatz>'(262, 1)).
-  answer('<urn:example:collatz>'(263, 1)).
-  answer('<urn:example:collatz>'(264, 1)).
-  answer('<urn:example:collatz>'(265, 1)).
-  answer('<urn:example:collatz>'(266, 1)).
-  answer('<urn:example:collatz>'(267, 1)).
-  answer('<urn:example:collatz>'(268, 1)).
-  answer('<urn:example:collatz>'(269, 1)).
-  answer('<urn:example:collatz>'(270, 1)).
-  answer('<urn:example:collatz>'(271, 1)).
-  answer('<urn:example:collatz>'(272, 1)).
-  answer('<urn:example:collatz>'(273, 1)).
-  answer('<urn:example:collatz>'(274, 1)).
-  answer('<urn:example:collatz>'(275, 1)).
-  answer('<urn:example:collatz>'(276, 1)).
-  answer('<urn:example:collatz>'(277, 1)).
-  answer('<urn:example:collatz>'(278, 1)).
-  answer('<urn:example:collatz>'(279, 1)).
-  answer('<urn:example:collatz>'(280, 1)).
-  answer('<urn:example:collatz>'(281, 1)).
-  answer('<urn:example:collatz>'(282, 1)).
-  answer('<urn:example:collatz>'(283, 1)).
-  answer('<urn:example:collatz>'(284, 1)).
-  answer('<urn:example:collatz>'(285, 1)).
-  answer('<urn:example:collatz>'(286, 1)).
-  answer('<urn:example:collatz>'(287, 1)).
-  answer('<urn:example:collatz>'(288, 1)).
-  answer('<urn:example:collatz>'(289, 1)).
-  answer('<urn:example:collatz>'(290, 1)).
-  answer('<urn:example:collatz>'(291, 1)).
-  answer('<urn:example:collatz>'(292, 1)).
-  answer('<urn:example:collatz>'(293, 1)).
-  answer('<urn:example:collatz>'(294, 1)).
-  answer('<urn:example:collatz>'(295, 1)).
-  answer('<urn:example:collatz>'(296, 1)).
-  answer('<urn:example:collatz>'(297, 1)).
-  answer('<urn:example:collatz>'(298, 1)).
-  answer('<urn:example:collatz>'(299, 1)).
-  answer('<urn:example:collatz>'(300, 1)).
-  answer('<urn:example:collatz>'(301, 1)).
-  answer('<urn:example:collatz>'(302, 1)).
-  answer('<urn:example:collatz>'(303, 1)).
-  answer('<urn:example:collatz>'(304, 1)).
-  answer('<urn:example:collatz>'(305, 1)).
-  answer('<urn:example:collatz>'(306, 1)).
-  answer('<urn:example:collatz>'(307, 1)).
-  answer('<urn:example:collatz>'(308, 1)).
-  answer('<urn:example:collatz>'(309, 1)).
-  answer('<urn:example:collatz>'(310, 1)).
-  answer('<urn:example:collatz>'(311, 1)).
-  answer('<urn:example:collatz>'(312, 1)).
-  answer('<urn:example:collatz>'(313, 1)).
-  answer('<urn:example:collatz>'(314, 1)).
-  answer('<urn:example:collatz>'(315, 1)).
-  answer('<urn:example:collatz>'(316, 1)).
-  answer('<urn:example:collatz>'(317, 1)).
-  answer('<urn:example:collatz>'(318, 1)).
-  answer('<urn:example:collatz>'(319, 1)).
-  answer('<urn:example:collatz>'(320, 1)).
-  answer('<urn:example:collatz>'(321, 1)).
-  answer('<urn:example:collatz>'(322, 1)).
-  answer('<urn:example:collatz>'(323, 1)).
-  answer('<urn:example:collatz>'(324, 1)).
-  answer('<urn:example:collatz>'(325, 1)).
-  answer('<urn:example:collatz>'(326, 1)).
-  answer('<urn:example:collatz>'(327, 1)).
-  answer('<urn:example:collatz>'(328, 1)).
-  answer('<urn:example:collatz>'(329, 1)).
-  answer('<urn:example:collatz>'(330, 1)).
-  answer('<urn:example:collatz>'(331, 1)).
-  answer('<urn:example:collatz>'(332, 1)).
-  answer('<urn:example:collatz>'(333, 1)).
-  answer('<urn:example:collatz>'(334, 1)).
-  answer('<urn:example:collatz>'(335, 1)).
-  answer('<urn:example:collatz>'(336, 1)).
-  answer('<urn:example:collatz>'(337, 1)).
-  answer('<urn:example:collatz>'(338, 1)).
-  answer('<urn:example:collatz>'(339, 1)).
-  answer('<urn:example:collatz>'(340, 1)).
-  answer('<urn:example:collatz>'(341, 1)).
-  answer('<urn:example:collatz>'(342, 1)).
-  answer('<urn:example:collatz>'(343, 1)).
-  answer('<urn:example:collatz>'(344, 1)).
-  answer('<urn:example:collatz>'(345, 1)).
-  answer('<urn:example:collatz>'(346, 1)).
-  answer('<urn:example:collatz>'(347, 1)).
-  answer('<urn:example:collatz>'(348, 1)).
-  answer('<urn:example:collatz>'(349, 1)).
-  answer('<urn:example:collatz>'(350, 1)).
-  answer('<urn:example:collatz>'(351, 1)).
-  answer('<urn:example:collatz>'(352, 1)).
-  answer('<urn:example:collatz>'(353, 1)).
-  answer('<urn:example:collatz>'(354, 1)).
-  answer('<urn:example:collatz>'(355, 1)).
-  answer('<urn:example:collatz>'(356, 1)).
-  answer('<urn:example:collatz>'(357, 1)).
-  answer('<urn:example:collatz>'(358, 1)).
-  answer('<urn:example:collatz>'(359, 1)).
-  answer('<urn:example:collatz>'(360, 1)).
-  answer('<urn:example:collatz>'(361, 1)).
-  answer('<urn:example:collatz>'(362, 1)).
-  answer('<urn:example:collatz>'(363, 1)).
-  answer('<urn:example:collatz>'(364, 1)).
-  answer('<urn:example:collatz>'(365, 1)).
-  answer('<urn:example:collatz>'(366, 1)).
-  answer('<urn:example:collatz>'(367, 1)).
-  answer('<urn:example:collatz>'(368, 1)).
-  answer('<urn:example:collatz>'(369, 1)).
-  answer('<urn:example:collatz>'(370, 1)).
-  answer('<urn:example:collatz>'(371, 1)).
-  answer('<urn:example:collatz>'(372, 1)).
-  answer('<urn:example:collatz>'(373, 1)).
-  answer('<urn:example:collatz>'(374, 1)).
-  answer('<urn:example:collatz>'(375, 1)).
-  answer('<urn:example:collatz>'(376, 1)).
-  answer('<urn:example:collatz>'(377, 1)).
-  answer('<urn:example:collatz>'(378, 1)).
-  answer('<urn:example:collatz>'(379, 1)).
-  answer('<urn:example:collatz>'(380, 1)).
-  answer('<urn:example:collatz>'(381, 1)).
-  answer('<urn:example:collatz>'(382, 1)).
-  answer('<urn:example:collatz>'(383, 1)).
-  answer('<urn:example:collatz>'(384, 1)).
-  answer('<urn:example:collatz>'(385, 1)).
-  answer('<urn:example:collatz>'(386, 1)).
-  answer('<urn:example:collatz>'(387, 1)).
-  answer('<urn:example:collatz>'(388, 1)).
-  answer('<urn:example:collatz>'(389, 1)).
-  answer('<urn:example:collatz>'(390, 1)).
-  answer('<urn:example:collatz>'(391, 1)).
-  answer('<urn:example:collatz>'(392, 1)).
-  answer('<urn:example:collatz>'(393, 1)).
-  answer('<urn:example:collatz>'(394, 1)).
-  answer('<urn:example:collatz>'(395, 1)).
-  answer('<urn:example:collatz>'(396, 1)).
-  answer('<urn:example:collatz>'(397, 1)).
-  answer('<urn:example:collatz>'(398, 1)).
-  answer('<urn:example:collatz>'(399, 1)).
-  answer('<urn:example:collatz>'(400, 1)).
-  answer('<urn:example:collatz>'(401, 1)).
-  answer('<urn:example:collatz>'(402, 1)).
-  answer('<urn:example:collatz>'(403, 1)).
-  answer('<urn:example:collatz>'(404, 1)).
-  answer('<urn:example:collatz>'(405, 1)).
-  answer('<urn:example:collatz>'(406, 1)).
-  answer('<urn:example:collatz>'(407, 1)).
-  answer('<urn:example:collatz>'(408, 1)).
-  answer('<urn:example:collatz>'(409, 1)).
-  answer('<urn:example:collatz>'(410, 1)).
-  answer('<urn:example:collatz>'(411, 1)).
-  answer('<urn:example:collatz>'(412, 1)).
-  answer('<urn:example:collatz>'(413, 1)).
-  answer('<urn:example:collatz>'(414, 1)).
-  answer('<urn:example:collatz>'(415, 1)).
-  answer('<urn:example:collatz>'(416, 1)).
-  answer('<urn:example:collatz>'(417, 1)).
-  answer('<urn:example:collatz>'(418, 1)).
-  answer('<urn:example:collatz>'(419, 1)).
-  answer('<urn:example:collatz>'(420, 1)).
-  answer('<urn:example:collatz>'(421, 1)).
-  answer('<urn:example:collatz>'(422, 1)).
-  answer('<urn:example:collatz>'(423, 1)).
-  answer('<urn:example:collatz>'(424, 1)).
-  answer('<urn:example:collatz>'(425, 1)).
-  answer('<urn:example:collatz>'(426, 1)).
-  answer('<urn:example:collatz>'(427, 1)).
-  answer('<urn:example:collatz>'(428, 1)).
-  answer('<urn:example:collatz>'(429, 1)).
-  answer('<urn:example:collatz>'(430, 1)).
-  answer('<urn:example:collatz>'(431, 1)).
-  answer('<urn:example:collatz>'(432, 1)).
-  answer('<urn:example:collatz>'(433, 1)).
-  answer('<urn:example:collatz>'(434, 1)).
-  answer('<urn:example:collatz>'(435, 1)).
-  answer('<urn:example:collatz>'(436, 1)).
-  answer('<urn:example:collatz>'(437, 1)).
-  answer('<urn:example:collatz>'(438, 1)).
-  answer('<urn:example:collatz>'(439, 1)).
-  answer('<urn:example:collatz>'(440, 1)).
-  answer('<urn:example:collatz>'(441, 1)).
-  answer('<urn:example:collatz>'(442, 1)).
-  answer('<urn:example:collatz>'(443, 1)).
-  answer('<urn:example:collatz>'(444, 1)).
-  answer('<urn:example:collatz>'(445, 1)).
-  answer('<urn:example:collatz>'(446, 1)).
-  answer('<urn:example:collatz>'(447, 1)).
-  answer('<urn:example:collatz>'(448, 1)).
-  answer('<urn:example:collatz>'(449, 1)).
-  answer('<urn:example:collatz>'(450, 1)).
-  answer('<urn:example:collatz>'(451, 1)).
-  answer('<urn:example:collatz>'(452, 1)).
-  answer('<urn:example:collatz>'(453, 1)).
-  answer('<urn:example:collatz>'(454, 1)).
-  answer('<urn:example:collatz>'(455, 1)).
-  answer('<urn:example:collatz>'(456, 1)).
-  answer('<urn:example:collatz>'(457, 1)).
-  answer('<urn:example:collatz>'(458, 1)).
-  answer('<urn:example:collatz>'(459, 1)).
-  answer('<urn:example:collatz>'(460, 1)).
-  answer('<urn:example:collatz>'(461, 1)).
-  answer('<urn:example:collatz>'(462, 1)).
-  answer('<urn:example:collatz>'(463, 1)).
-  answer('<urn:example:collatz>'(464, 1)).
-  answer('<urn:example:collatz>'(465, 1)).
-  answer('<urn:example:collatz>'(466, 1)).
-  answer('<urn:example:collatz>'(467, 1)).
-  answer('<urn:example:collatz>'(468, 1)).
-  answer('<urn:example:collatz>'(469, 1)).
-  answer('<urn:example:collatz>'(470, 1)).
-  answer('<urn:example:collatz>'(471, 1)).
-  answer('<urn:example:collatz>'(472, 1)).
-  answer('<urn:example:collatz>'(473, 1)).
-  answer('<urn:example:collatz>'(474, 1)).
-  answer('<urn:example:collatz>'(475, 1)).
-  answer('<urn:example:collatz>'(476, 1)).
-  answer('<urn:example:collatz>'(477, 1)).
-  answer('<urn:example:collatz>'(478, 1)).
-  answer('<urn:example:collatz>'(479, 1)).
-  answer('<urn:example:collatz>'(480, 1)).
-  answer('<urn:example:collatz>'(481, 1)).
-  answer('<urn:example:collatz>'(482, 1)).
-  answer('<urn:example:collatz>'(483, 1)).
-  answer('<urn:example:collatz>'(484, 1)).
-  answer('<urn:example:collatz>'(485, 1)).
-  answer('<urn:example:collatz>'(486, 1)).
-  answer('<urn:example:collatz>'(487, 1)).
-  answer('<urn:example:collatz>'(488, 1)).
-  answer('<urn:example:collatz>'(489, 1)).
-  answer('<urn:example:collatz>'(490, 1)).
-  answer('<urn:example:collatz>'(491, 1)).
-  answer('<urn:example:collatz>'(492, 1)).
-  answer('<urn:example:collatz>'(493, 1)).
-  answer('<urn:example:collatz>'(494, 1)).
-  answer('<urn:example:collatz>'(495, 1)).
-  answer('<urn:example:collatz>'(496, 1)).
-  answer('<urn:example:collatz>'(497, 1)).
-  answer('<urn:example:collatz>'(498, 1)).
-  answer('<urn:example:collatz>'(499, 1)).
-  answer('<urn:example:collatz>'(500, 1)).
-  answer('<urn:example:collatz>'(501, 1)).
-  answer('<urn:example:collatz>'(502, 1)).
-  answer('<urn:example:collatz>'(503, 1)).
-  answer('<urn:example:collatz>'(504, 1)).
-  answer('<urn:example:collatz>'(505, 1)).
-  answer('<urn:example:collatz>'(506, 1)).
-  answer('<urn:example:collatz>'(507, 1)).
-  answer('<urn:example:collatz>'(508, 1)).
-  answer('<urn:example:collatz>'(509, 1)).
-  answer('<urn:example:collatz>'(510, 1)).
-  answer('<urn:example:collatz>'(511, 1)).
-  answer('<urn:example:collatz>'(512, 1)).
+  answer('<urn:example:collatz>'(1, 1, 1)).
+  answer('<urn:example:collatz>'(2, 1, 2)).
+  answer('<urn:example:collatz>'(3, 1, 8)).
+  answer('<urn:example:collatz>'(4, 1, 3)).
+  answer('<urn:example:collatz>'(5, 1, 6)).
+  answer('<urn:example:collatz>'(6, 1, 9)).
+  answer('<urn:example:collatz>'(7, 1, 17)).
+  answer('<urn:example:collatz>'(8, 1, 4)).
+  answer('<urn:example:collatz>'(9, 1, 20)).
+  answer('<urn:example:collatz>'(10, 1, 7)).
+  answer('<urn:example:collatz>'(11, 1, 15)).
+  answer('<urn:example:collatz>'(12, 1, 10)).
+  answer('<urn:example:collatz>'(13, 1, 10)).
+  answer('<urn:example:collatz>'(14, 1, 18)).
+  answer('<urn:example:collatz>'(15, 1, 18)).
+  answer('<urn:example:collatz>'(16, 1, 5)).
+  answer('<urn:example:collatz>'(17, 1, 13)).
+  answer('<urn:example:collatz>'(18, 1, 21)).
+  answer('<urn:example:collatz>'(19, 1, 21)).
+  answer('<urn:example:collatz>'(20, 1, 8)).
+  answer('<urn:example:collatz>'(21, 1, 8)).
+  answer('<urn:example:collatz>'(22, 1, 16)).
+  answer('<urn:example:collatz>'(23, 1, 16)).
+  answer('<urn:example:collatz>'(24, 1, 11)).
+  answer('<urn:example:collatz>'(25, 1, 24)).
+  answer('<urn:example:collatz>'(26, 1, 11)).
+  answer('<urn:example:collatz>'(27, 1, 112)).
+  answer('<urn:example:collatz>'(28, 1, 19)).
+  answer('<urn:example:collatz>'(29, 1, 19)).
+  answer('<urn:example:collatz>'(30, 1, 19)).
+  answer('<urn:example:collatz>'(31, 1, 107)).
+  answer('<urn:example:collatz>'(32, 1, 6)).
+  answer('<urn:example:collatz>'(33, 1, 27)).
+  answer('<urn:example:collatz>'(34, 1, 14)).
+  answer('<urn:example:collatz>'(35, 1, 14)).
+  answer('<urn:example:collatz>'(36, 1, 22)).
+  answer('<urn:example:collatz>'(37, 1, 22)).
+  answer('<urn:example:collatz>'(38, 1, 22)).
+  answer('<urn:example:collatz>'(39, 1, 35)).
+  answer('<urn:example:collatz>'(40, 1, 9)).
+  answer('<urn:example:collatz>'(41, 1, 110)).
+  answer('<urn:example:collatz>'(42, 1, 9)).
+  answer('<urn:example:collatz>'(43, 1, 30)).
+  answer('<urn:example:collatz>'(44, 1, 17)).
+  answer('<urn:example:collatz>'(45, 1, 17)).
+  answer('<urn:example:collatz>'(46, 1, 17)).
+  answer('<urn:example:collatz>'(47, 1, 105)).
+  answer('<urn:example:collatz>'(48, 1, 12)).
+  answer('<urn:example:collatz>'(49, 1, 25)).
+  answer('<urn:example:collatz>'(50, 1, 25)).
+  answer('<urn:example:collatz>'(51, 1, 25)).
+  answer('<urn:example:collatz>'(52, 1, 12)).
+  answer('<urn:example:collatz>'(53, 1, 12)).
+  answer('<urn:example:collatz>'(54, 1, 113)).
+  answer('<urn:example:collatz>'(55, 1, 113)).
+  answer('<urn:example:collatz>'(56, 1, 20)).
+  answer('<urn:example:collatz>'(57, 1, 33)).
+  answer('<urn:example:collatz>'(58, 1, 20)).
+  answer('<urn:example:collatz>'(59, 1, 33)).
+  answer('<urn:example:collatz>'(60, 1, 20)).
+  answer('<urn:example:collatz>'(61, 1, 20)).
+  answer('<urn:example:collatz>'(62, 1, 108)).
+  answer('<urn:example:collatz>'(63, 1, 108)).
+  answer('<urn:example:collatz>'(64, 1, 7)).
+  answer('<urn:example:collatz>'(65, 1, 28)).
+  answer('<urn:example:collatz>'(66, 1, 28)).
+  answer('<urn:example:collatz>'(67, 1, 28)).
+  answer('<urn:example:collatz>'(68, 1, 15)).
+  answer('<urn:example:collatz>'(69, 1, 15)).
+  answer('<urn:example:collatz>'(70, 1, 15)).
+  answer('<urn:example:collatz>'(71, 1, 103)).
+  answer('<urn:example:collatz>'(72, 1, 23)).
+  answer('<urn:example:collatz>'(73, 1, 116)).
+  answer('<urn:example:collatz>'(74, 1, 23)).
+  answer('<urn:example:collatz>'(75, 1, 15)).
+  answer('<urn:example:collatz>'(76, 1, 23)).
+  answer('<urn:example:collatz>'(77, 1, 23)).
+  answer('<urn:example:collatz>'(78, 1, 36)).
+  answer('<urn:example:collatz>'(79, 1, 36)).
+  answer('<urn:example:collatz>'(80, 1, 10)).
+  answer('<urn:example:collatz>'(81, 1, 23)).
+  answer('<urn:example:collatz>'(82, 1, 111)).
+  answer('<urn:example:collatz>'(83, 1, 111)).
+  answer('<urn:example:collatz>'(84, 1, 10)).
+  answer('<urn:example:collatz>'(85, 1, 10)).
+  answer('<urn:example:collatz>'(86, 1, 31)).
+  answer('<urn:example:collatz>'(87, 1, 31)).
+  answer('<urn:example:collatz>'(88, 1, 18)).
+  answer('<urn:example:collatz>'(89, 1, 31)).
+  answer('<urn:example:collatz>'(90, 1, 18)).
+  answer('<urn:example:collatz>'(91, 1, 93)).
+  answer('<urn:example:collatz>'(92, 1, 18)).
+  answer('<urn:example:collatz>'(93, 1, 18)).
+  answer('<urn:example:collatz>'(94, 1, 106)).
+  answer('<urn:example:collatz>'(95, 1, 106)).
+  answer('<urn:example:collatz>'(96, 1, 13)).
+  answer('<urn:example:collatz>'(97, 1, 119)).
+  answer('<urn:example:collatz>'(98, 1, 26)).
+  answer('<urn:example:collatz>'(99, 1, 26)).
+  answer('<urn:example:collatz>'(100, 1, 26)).
+  answer('<urn:example:collatz>'(101, 1, 26)).
+  answer('<urn:example:collatz>'(102, 1, 26)).
+  answer('<urn:example:collatz>'(103, 1, 88)).
+  answer('<urn:example:collatz>'(104, 1, 13)).
+  answer('<urn:example:collatz>'(105, 1, 39)).
+  answer('<urn:example:collatz>'(106, 1, 13)).
+  answer('<urn:example:collatz>'(107, 1, 101)).
+  answer('<urn:example:collatz>'(108, 1, 114)).
+  answer('<urn:example:collatz>'(109, 1, 114)).
+  answer('<urn:example:collatz>'(110, 1, 114)).
+  answer('<urn:example:collatz>'(111, 1, 70)).
+  answer('<urn:example:collatz>'(112, 1, 21)).
+  answer('<urn:example:collatz>'(113, 1, 13)).
+  answer('<urn:example:collatz>'(114, 1, 34)).
+  answer('<urn:example:collatz>'(115, 1, 34)).
+  answer('<urn:example:collatz>'(116, 1, 21)).
+  answer('<urn:example:collatz>'(117, 1, 21)).
+  answer('<urn:example:collatz>'(118, 1, 34)).
+  answer('<urn:example:collatz>'(119, 1, 34)).
+  answer('<urn:example:collatz>'(120, 1, 21)).
+  answer('<urn:example:collatz>'(121, 1, 96)).
+  answer('<urn:example:collatz>'(122, 1, 21)).
+  answer('<urn:example:collatz>'(123, 1, 47)).
+  answer('<urn:example:collatz>'(124, 1, 109)).
+  answer('<urn:example:collatz>'(125, 1, 109)).
+  answer('<urn:example:collatz>'(126, 1, 109)).
+  answer('<urn:example:collatz>'(127, 1, 47)).
+  answer('<urn:example:collatz>'(128, 1, 8)).
+  answer('<urn:example:collatz>'(129, 1, 122)).
+  answer('<urn:example:collatz>'(130, 1, 29)).
+  answer('<urn:example:collatz>'(131, 1, 29)).
+  answer('<urn:example:collatz>'(132, 1, 29)).
+  answer('<urn:example:collatz>'(133, 1, 29)).
+  answer('<urn:example:collatz>'(134, 1, 29)).
+  answer('<urn:example:collatz>'(135, 1, 42)).
+  answer('<urn:example:collatz>'(136, 1, 16)).
+  answer('<urn:example:collatz>'(137, 1, 91)).
+  answer('<urn:example:collatz>'(138, 1, 16)).
+  answer('<urn:example:collatz>'(139, 1, 42)).
+  answer('<urn:example:collatz>'(140, 1, 16)).
+  answer('<urn:example:collatz>'(141, 1, 16)).
+  answer('<urn:example:collatz>'(142, 1, 104)).
+  answer('<urn:example:collatz>'(143, 1, 104)).
+  answer('<urn:example:collatz>'(144, 1, 24)).
+  answer('<urn:example:collatz>'(145, 1, 117)).
+  answer('<urn:example:collatz>'(146, 1, 117)).
+  answer('<urn:example:collatz>'(147, 1, 117)).
+  answer('<urn:example:collatz>'(148, 1, 24)).
+  answer('<urn:example:collatz>'(149, 1, 24)).
+  answer('<urn:example:collatz>'(150, 1, 16)).
+  answer('<urn:example:collatz>'(151, 1, 16)).
+  answer('<urn:example:collatz>'(152, 1, 24)).
+  answer('<urn:example:collatz>'(153, 1, 37)).
+  answer('<urn:example:collatz>'(154, 1, 24)).
+  answer('<urn:example:collatz>'(155, 1, 86)).
+  answer('<urn:example:collatz>'(156, 1, 37)).
+  answer('<urn:example:collatz>'(157, 1, 37)).
+  answer('<urn:example:collatz>'(158, 1, 37)).
+  answer('<urn:example:collatz>'(159, 1, 55)).
+  answer('<urn:example:collatz>'(160, 1, 11)).
+  answer('<urn:example:collatz>'(161, 1, 99)).
+  answer('<urn:example:collatz>'(162, 1, 24)).
+  answer('<urn:example:collatz>'(163, 1, 24)).
+  answer('<urn:example:collatz>'(164, 1, 112)).
+  answer('<urn:example:collatz>'(165, 1, 112)).
+  answer('<urn:example:collatz>'(166, 1, 112)).
+  answer('<urn:example:collatz>'(167, 1, 68)).
+  answer('<urn:example:collatz>'(168, 1, 11)).
+  answer('<urn:example:collatz>'(169, 1, 50)).
+  answer('<urn:example:collatz>'(170, 1, 11)).
+  answer('<urn:example:collatz>'(171, 1, 125)).
+  answer('<urn:example:collatz>'(172, 1, 32)).
+  answer('<urn:example:collatz>'(173, 1, 32)).
+  answer('<urn:example:collatz>'(174, 1, 32)).
+  answer('<urn:example:collatz>'(175, 1, 81)).
+  answer('<urn:example:collatz>'(176, 1, 19)).
+  answer('<urn:example:collatz>'(177, 1, 32)).
+  answer('<urn:example:collatz>'(178, 1, 32)).
+  answer('<urn:example:collatz>'(179, 1, 32)).
+  answer('<urn:example:collatz>'(180, 1, 19)).
+  answer('<urn:example:collatz>'(181, 1, 19)).
+  answer('<urn:example:collatz>'(182, 1, 94)).
+  answer('<urn:example:collatz>'(183, 1, 94)).
+  answer('<urn:example:collatz>'(184, 1, 19)).
+  answer('<urn:example:collatz>'(185, 1, 45)).
+  answer('<urn:example:collatz>'(186, 1, 19)).
+  answer('<urn:example:collatz>'(187, 1, 45)).
+  answer('<urn:example:collatz>'(188, 1, 107)).
+  answer('<urn:example:collatz>'(189, 1, 107)).
+  answer('<urn:example:collatz>'(190, 1, 107)).
+  answer('<urn:example:collatz>'(191, 1, 45)).
+  answer('<urn:example:collatz>'(192, 1, 14)).
+  answer('<urn:example:collatz>'(193, 1, 120)).
+  answer('<urn:example:collatz>'(194, 1, 120)).
+  answer('<urn:example:collatz>'(195, 1, 120)).
+  answer('<urn:example:collatz>'(196, 1, 27)).
+  answer('<urn:example:collatz>'(197, 1, 27)).
+  answer('<urn:example:collatz>'(198, 1, 27)).
+  answer('<urn:example:collatz>'(199, 1, 120)).
+  answer('<urn:example:collatz>'(200, 1, 27)).
+  answer('<urn:example:collatz>'(201, 1, 19)).
+  answer('<urn:example:collatz>'(202, 1, 27)).
+  answer('<urn:example:collatz>'(203, 1, 40)).
+  answer('<urn:example:collatz>'(204, 1, 27)).
+  answer('<urn:example:collatz>'(205, 1, 27)).
+  answer('<urn:example:collatz>'(206, 1, 89)).
+  answer('<urn:example:collatz>'(207, 1, 89)).
+  answer('<urn:example:collatz>'(208, 1, 14)).
+  answer('<urn:example:collatz>'(209, 1, 40)).
+  answer('<urn:example:collatz>'(210, 1, 40)).
+  answer('<urn:example:collatz>'(211, 1, 40)).
+  answer('<urn:example:collatz>'(212, 1, 14)).
+  answer('<urn:example:collatz>'(213, 1, 14)).
+  answer('<urn:example:collatz>'(214, 1, 102)).
+  answer('<urn:example:collatz>'(215, 1, 102)).
+  answer('<urn:example:collatz>'(216, 1, 115)).
+  answer('<urn:example:collatz>'(217, 1, 27)).
+  answer('<urn:example:collatz>'(218, 1, 115)).
+  answer('<urn:example:collatz>'(219, 1, 53)).
+  answer('<urn:example:collatz>'(220, 1, 115)).
+  answer('<urn:example:collatz>'(221, 1, 115)).
+  answer('<urn:example:collatz>'(222, 1, 71)).
+  answer('<urn:example:collatz>'(223, 1, 71)).
+  answer('<urn:example:collatz>'(224, 1, 22)).
+  answer('<urn:example:collatz>'(225, 1, 53)).
+  answer('<urn:example:collatz>'(226, 1, 14)).
+  answer('<urn:example:collatz>'(227, 1, 14)).
+  answer('<urn:example:collatz>'(228, 1, 35)).
+  answer('<urn:example:collatz>'(229, 1, 35)).
+  answer('<urn:example:collatz>'(230, 1, 35)).
+  answer('<urn:example:collatz>'(231, 1, 128)).
+  answer('<urn:example:collatz>'(232, 1, 22)).
+  answer('<urn:example:collatz>'(233, 1, 84)).
+  answer('<urn:example:collatz>'(234, 1, 22)).
+  answer('<urn:example:collatz>'(235, 1, 128)).
+  answer('<urn:example:collatz>'(236, 1, 35)).
+  answer('<urn:example:collatz>'(237, 1, 35)).
+  answer('<urn:example:collatz>'(238, 1, 35)).
+  answer('<urn:example:collatz>'(239, 1, 53)).
+  answer('<urn:example:collatz>'(240, 1, 22)).
+  answer('<urn:example:collatz>'(241, 1, 22)).
+  answer('<urn:example:collatz>'(242, 1, 97)).
+  answer('<urn:example:collatz>'(243, 1, 97)).
+  answer('<urn:example:collatz>'(244, 1, 22)).
+  answer('<urn:example:collatz>'(245, 1, 22)).
+  answer('<urn:example:collatz>'(246, 1, 48)).
+  answer('<urn:example:collatz>'(247, 1, 48)).
+  answer('<urn:example:collatz>'(248, 1, 110)).
+  answer('<urn:example:collatz>'(249, 1, 48)).
+  answer('<urn:example:collatz>'(250, 1, 110)).
+  answer('<urn:example:collatz>'(251, 1, 66)).
+  answer('<urn:example:collatz>'(252, 1, 110)).
+  answer('<urn:example:collatz>'(253, 1, 110)).
+  answer('<urn:example:collatz>'(254, 1, 48)).
+  answer('<urn:example:collatz>'(255, 1, 48)).
+  answer('<urn:example:collatz>'(256, 1, 9)).
+  answer('<urn:example:collatz>'(257, 1, 123)).
+  answer('<urn:example:collatz>'(258, 1, 123)).
+  answer('<urn:example:collatz>'(259, 1, 123)).
+  answer('<urn:example:collatz>'(260, 1, 30)).
+  answer('<urn:example:collatz>'(261, 1, 30)).
+  answer('<urn:example:collatz>'(262, 1, 30)).
+  answer('<urn:example:collatz>'(263, 1, 79)).
+  answer('<urn:example:collatz>'(264, 1, 30)).
+  answer('<urn:example:collatz>'(265, 1, 123)).
+  answer('<urn:example:collatz>'(266, 1, 30)).
+  answer('<urn:example:collatz>'(267, 1, 22)).
+  answer('<urn:example:collatz>'(268, 1, 30)).
+  answer('<urn:example:collatz>'(269, 1, 30)).
+  answer('<urn:example:collatz>'(270, 1, 43)).
+  answer('<urn:example:collatz>'(271, 1, 43)).
+  answer('<urn:example:collatz>'(272, 1, 17)).
+  answer('<urn:example:collatz>'(273, 1, 30)).
+  answer('<urn:example:collatz>'(274, 1, 92)).
+  answer('<urn:example:collatz>'(275, 1, 92)).
+  answer('<urn:example:collatz>'(276, 1, 17)).
+  answer('<urn:example:collatz>'(277, 1, 17)).
+  answer('<urn:example:collatz>'(278, 1, 43)).
+  answer('<urn:example:collatz>'(279, 1, 43)).
+  answer('<urn:example:collatz>'(280, 1, 17)).
+  answer('<urn:example:collatz>'(281, 1, 43)).
+  answer('<urn:example:collatz>'(282, 1, 17)).
+  answer('<urn:example:collatz>'(283, 1, 61)).
+  answer('<urn:example:collatz>'(284, 1, 105)).
+  answer('<urn:example:collatz>'(285, 1, 105)).
+  answer('<urn:example:collatz>'(286, 1, 105)).
+  answer('<urn:example:collatz>'(287, 1, 43)).
+  answer('<urn:example:collatz>'(288, 1, 25)).
+  answer('<urn:example:collatz>'(289, 1, 30)).
+  answer('<urn:example:collatz>'(290, 1, 118)).
+  answer('<urn:example:collatz>'(291, 1, 118)).
+  answer('<urn:example:collatz>'(292, 1, 118)).
+  answer('<urn:example:collatz>'(293, 1, 118)).
+  answer('<urn:example:collatz>'(294, 1, 118)).
+  answer('<urn:example:collatz>'(295, 1, 56)).
+  answer('<urn:example:collatz>'(296, 1, 25)).
+  answer('<urn:example:collatz>'(297, 1, 74)).
+  answer('<urn:example:collatz>'(298, 1, 25)).
+  answer('<urn:example:collatz>'(299, 1, 118)).
+  answer('<urn:example:collatz>'(300, 1, 17)).
+  answer('<urn:example:collatz>'(301, 1, 17)).
+  answer('<urn:example:collatz>'(302, 1, 17)).
+  answer('<urn:example:collatz>'(303, 1, 43)).
+  answer('<urn:example:collatz>'(304, 1, 25)).
+  answer('<urn:example:collatz>'(305, 1, 38)).
+  answer('<urn:example:collatz>'(306, 1, 38)).
+  answer('<urn:example:collatz>'(307, 1, 38)).
+  answer('<urn:example:collatz>'(308, 1, 25)).
+  answer('<urn:example:collatz>'(309, 1, 25)).
+  answer('<urn:example:collatz>'(310, 1, 87)).
+  answer('<urn:example:collatz>'(311, 1, 87)).
+  answer('<urn:example:collatz>'(312, 1, 38)).
+  answer('<urn:example:collatz>'(313, 1, 131)).
+  answer('<urn:example:collatz>'(314, 1, 38)).
+  answer('<urn:example:collatz>'(315, 1, 38)).
+  answer('<urn:example:collatz>'(316, 1, 38)).
+  answer('<urn:example:collatz>'(317, 1, 38)).
+  answer('<urn:example:collatz>'(318, 1, 56)).
+  answer('<urn:example:collatz>'(319, 1, 56)).
+  answer('<urn:example:collatz>'(320, 1, 12)).
+  answer('<urn:example:collatz>'(321, 1, 25)).
+  answer('<urn:example:collatz>'(322, 1, 100)).
+  answer('<urn:example:collatz>'(323, 1, 100)).
+  answer('<urn:example:collatz>'(324, 1, 25)).
+  answer('<urn:example:collatz>'(325, 1, 25)).
+  answer('<urn:example:collatz>'(326, 1, 25)).
+  answer('<urn:example:collatz>'(327, 1, 144)).
+  answer('<urn:example:collatz>'(328, 1, 113)).
+  answer('<urn:example:collatz>'(329, 1, 51)).
+  answer('<urn:example:collatz>'(330, 1, 113)).
+  answer('<urn:example:collatz>'(331, 1, 25)).
+  answer('<urn:example:collatz>'(332, 1, 113)).
+  answer('<urn:example:collatz>'(333, 1, 113)).
+  answer('<urn:example:collatz>'(334, 1, 69)).
+  answer('<urn:example:collatz>'(335, 1, 69)).
+  answer('<urn:example:collatz>'(336, 1, 12)).
+  answer('<urn:example:collatz>'(337, 1, 113)).
+  answer('<urn:example:collatz>'(338, 1, 51)).
+  answer('<urn:example:collatz>'(339, 1, 51)).
+  answer('<urn:example:collatz>'(340, 1, 12)).
+  answer('<urn:example:collatz>'(341, 1, 12)).
+  answer('<urn:example:collatz>'(342, 1, 126)).
+  answer('<urn:example:collatz>'(343, 1, 126)).
+  answer('<urn:example:collatz>'(344, 1, 33)).
+  answer('<urn:example:collatz>'(345, 1, 126)).
+  answer('<urn:example:collatz>'(346, 1, 33)).
+  answer('<urn:example:collatz>'(347, 1, 126)).
+  answer('<urn:example:collatz>'(348, 1, 33)).
+  answer('<urn:example:collatz>'(349, 1, 33)).
+  answer('<urn:example:collatz>'(350, 1, 82)).
+  answer('<urn:example:collatz>'(351, 1, 82)).
+  answer('<urn:example:collatz>'(352, 1, 20)).
+  answer('<urn:example:collatz>'(353, 1, 126)).
+  answer('<urn:example:collatz>'(354, 1, 33)).
+  answer('<urn:example:collatz>'(355, 1, 33)).
+  answer('<urn:example:collatz>'(356, 1, 33)).
+  answer('<urn:example:collatz>'(357, 1, 33)).
+  answer('<urn:example:collatz>'(358, 1, 33)).
+  answer('<urn:example:collatz>'(359, 1, 51)).
+  answer('<urn:example:collatz>'(360, 1, 20)).
+  answer('<urn:example:collatz>'(361, 1, 46)).
+  answer('<urn:example:collatz>'(362, 1, 20)).
+  answer('<urn:example:collatz>'(363, 1, 46)).
+  answer('<urn:example:collatz>'(364, 1, 95)).
+  answer('<urn:example:collatz>'(365, 1, 95)).
+  answer('<urn:example:collatz>'(366, 1, 95)).
+  answer('<urn:example:collatz>'(367, 1, 46)).
+  answer('<urn:example:collatz>'(368, 1, 20)).
+  answer('<urn:example:collatz>'(369, 1, 20)).
+  answer('<urn:example:collatz>'(370, 1, 46)).
+  answer('<urn:example:collatz>'(371, 1, 46)).
+  answer('<urn:example:collatz>'(372, 1, 20)).
+  answer('<urn:example:collatz>'(373, 1, 20)).
+  answer('<urn:example:collatz>'(374, 1, 46)).
+  answer('<urn:example:collatz>'(375, 1, 46)).
+  answer('<urn:example:collatz>'(376, 1, 108)).
+  answer('<urn:example:collatz>'(377, 1, 64)).
+  answer('<urn:example:collatz>'(378, 1, 108)).
+  answer('<urn:example:collatz>'(379, 1, 59)).
+  answer('<urn:example:collatz>'(380, 1, 108)).
+  answer('<urn:example:collatz>'(381, 1, 108)).
+  answer('<urn:example:collatz>'(382, 1, 46)).
+  answer('<urn:example:collatz>'(383, 1, 46)).
+  answer('<urn:example:collatz>'(384, 1, 15)).
+  answer('<urn:example:collatz>'(385, 1, 33)).
+  answer('<urn:example:collatz>'(386, 1, 121)).
+  answer('<urn:example:collatz>'(387, 1, 121)).
+  answer('<urn:example:collatz>'(388, 1, 121)).
+  answer('<urn:example:collatz>'(389, 1, 121)).
+  answer('<urn:example:collatz>'(390, 1, 121)).
+  answer('<urn:example:collatz>'(391, 1, 121)).
+  answer('<urn:example:collatz>'(392, 1, 28)).
+  answer('<urn:example:collatz>'(393, 1, 59)).
+  answer('<urn:example:collatz>'(394, 1, 28)).
+  answer('<urn:example:collatz>'(395, 1, 77)).
+  answer('<urn:example:collatz>'(396, 1, 28)).
+  answer('<urn:example:collatz>'(397, 1, 28)).
+  answer('<urn:example:collatz>'(398, 1, 121)).
+  answer('<urn:example:collatz>'(399, 1, 121)).
+  answer('<urn:example:collatz>'(400, 1, 28)).
+  answer('<urn:example:collatz>'(401, 1, 20)).
+  answer('<urn:example:collatz>'(402, 1, 20)).
+  answer('<urn:example:collatz>'(403, 1, 20)).
+  answer('<urn:example:collatz>'(404, 1, 28)).
+  answer('<urn:example:collatz>'(405, 1, 28)).
+  answer('<urn:example:collatz>'(406, 1, 41)).
+  answer('<urn:example:collatz>'(407, 1, 41)).
+  answer('<urn:example:collatz>'(408, 1, 28)).
+  answer('<urn:example:collatz>'(409, 1, 41)).
+  answer('<urn:example:collatz>'(410, 1, 28)).
+  answer('<urn:example:collatz>'(411, 1, 134)).
+  answer('<urn:example:collatz>'(412, 1, 90)).
+  answer('<urn:example:collatz>'(413, 1, 90)).
+  answer('<urn:example:collatz>'(414, 1, 90)).
+  answer('<urn:example:collatz>'(415, 1, 134)).
+  answer('<urn:example:collatz>'(416, 1, 15)).
+  answer('<urn:example:collatz>'(417, 1, 134)).
+  answer('<urn:example:collatz>'(418, 1, 41)).
+  answer('<urn:example:collatz>'(419, 1, 41)).
+  answer('<urn:example:collatz>'(420, 1, 41)).
+  answer('<urn:example:collatz>'(421, 1, 41)).
+  answer('<urn:example:collatz>'(422, 1, 41)).
+  answer('<urn:example:collatz>'(423, 1, 33)).
+  answer('<urn:example:collatz>'(424, 1, 15)).
+  answer('<urn:example:collatz>'(425, 1, 59)).
+  answer('<urn:example:collatz>'(426, 1, 15)).
+  answer('<urn:example:collatz>'(427, 1, 54)).
+  answer('<urn:example:collatz>'(428, 1, 103)).
+  answer('<urn:example:collatz>'(429, 1, 103)).
+  answer('<urn:example:collatz>'(430, 1, 103)).
+  answer('<urn:example:collatz>'(431, 1, 41)).
+  answer('<urn:example:collatz>'(432, 1, 116)).
+  answer('<urn:example:collatz>'(433, 1, 28)).
+  answer('<urn:example:collatz>'(434, 1, 28)).
+  answer('<urn:example:collatz>'(435, 1, 28)).
+  answer('<urn:example:collatz>'(436, 1, 116)).
+  answer('<urn:example:collatz>'(437, 1, 116)).
+  answer('<urn:example:collatz>'(438, 1, 54)).
+  answer('<urn:example:collatz>'(439, 1, 54)).
+  answer('<urn:example:collatz>'(440, 1, 116)).
+  answer('<urn:example:collatz>'(441, 1, 28)).
+  answer('<urn:example:collatz>'(442, 1, 116)).
+  answer('<urn:example:collatz>'(443, 1, 54)).
+  answer('<urn:example:collatz>'(444, 1, 72)).
+  answer('<urn:example:collatz>'(445, 1, 72)).
+  answer('<urn:example:collatz>'(446, 1, 72)).
+  answer('<urn:example:collatz>'(447, 1, 98)).
+  answer('<urn:example:collatz>'(448, 1, 23)).
+  answer('<urn:example:collatz>'(449, 1, 116)).
+  answer('<urn:example:collatz>'(450, 1, 54)).
+  answer('<urn:example:collatz>'(451, 1, 54)).
+  answer('<urn:example:collatz>'(452, 1, 15)).
+  answer('<urn:example:collatz>'(453, 1, 15)).
+  answer('<urn:example:collatz>'(454, 1, 15)).
+  answer('<urn:example:collatz>'(455, 1, 41)).
+  answer('<urn:example:collatz>'(456, 1, 36)).
+  answer('<urn:example:collatz>'(457, 1, 129)).
+  answer('<urn:example:collatz>'(458, 1, 36)).
+  answer('<urn:example:collatz>'(459, 1, 129)).
+  answer('<urn:example:collatz>'(460, 1, 36)).
+  answer('<urn:example:collatz>'(461, 1, 36)).
+  answer('<urn:example:collatz>'(462, 1, 129)).
+  answer('<urn:example:collatz>'(463, 1, 129)).
+  answer('<urn:example:collatz>'(464, 1, 23)).
+  answer('<urn:example:collatz>'(465, 1, 36)).
+  answer('<urn:example:collatz>'(466, 1, 85)).
+  answer('<urn:example:collatz>'(467, 1, 85)).
+  answer('<urn:example:collatz>'(468, 1, 23)).
+  answer('<urn:example:collatz>'(469, 1, 23)).
+  answer('<urn:example:collatz>'(470, 1, 129)).
+  answer('<urn:example:collatz>'(471, 1, 129)).
+  answer('<urn:example:collatz>'(472, 1, 36)).
+  answer('<urn:example:collatz>'(473, 1, 36)).
+  answer('<urn:example:collatz>'(474, 1, 36)).
+  answer('<urn:example:collatz>'(475, 1, 28)).
+  answer('<urn:example:collatz>'(476, 1, 36)).
+  answer('<urn:example:collatz>'(477, 1, 36)).
+  answer('<urn:example:collatz>'(478, 1, 54)).
+  answer('<urn:example:collatz>'(479, 1, 54)).
+  answer('<urn:example:collatz>'(480, 1, 23)).
+  answer('<urn:example:collatz>'(481, 1, 49)).
+  answer('<urn:example:collatz>'(482, 1, 23)).
+  answer('<urn:example:collatz>'(483, 1, 23)).
+  answer('<urn:example:collatz>'(484, 1, 98)).
+  answer('<urn:example:collatz>'(485, 1, 98)).
+  answer('<urn:example:collatz>'(486, 1, 98)).
+  answer('<urn:example:collatz>'(487, 1, 142)).
+  answer('<urn:example:collatz>'(488, 1, 23)).
+  answer('<urn:example:collatz>'(489, 1, 49)).
+  answer('<urn:example:collatz>'(490, 1, 23)).
+  answer('<urn:example:collatz>'(491, 1, 142)).
+  answer('<urn:example:collatz>'(492, 1, 49)).
+  answer('<urn:example:collatz>'(493, 1, 49)).
+  answer('<urn:example:collatz>'(494, 1, 49)).
+  answer('<urn:example:collatz>'(495, 1, 98)).
+  answer('<urn:example:collatz>'(496, 1, 111)).
+  answer('<urn:example:collatz>'(497, 1, 23)).
+  answer('<urn:example:collatz>'(498, 1, 49)).
+  answer('<urn:example:collatz>'(499, 1, 49)).
+  answer('<urn:example:collatz>'(500, 1, 111)).
+  answer('<urn:example:collatz>'(501, 1, 111)).
+  answer('<urn:example:collatz>'(502, 1, 67)).
+  answer('<urn:example:collatz>'(503, 1, 67)).
+  answer('<urn:example:collatz>'(504, 1, 111)).
+  answer('<urn:example:collatz>'(505, 1, 62)).
+  answer('<urn:example:collatz>'(506, 1, 111)).
+  answer('<urn:example:collatz>'(507, 1, 36)).
+  answer('<urn:example:collatz>'(508, 1, 49)).
+  answer('<urn:example:collatz>'(509, 1, 49)).
+  answer('<urn:example:collatz>'(510, 1, 49)).
+  answer('<urn:example:collatz>'(511, 1, 62)).
+  answer('<urn:example:collatz>'(512, 1, 10)).
 
 % proof steps
-  step((true:+'<urn:example:collatz>'(1, 1)), '<urn:example:collatz>'(1, 1), true).
-  step((true:+'<urn:example:collatz>'(2, 1)), '<urn:example:collatz>'(2, 1), true).
-  step((true:+'<urn:example:collatz>'(3, 1)), '<urn:example:collatz>'(3, 1), true).
-  step((true:+'<urn:example:collatz>'(4, 1)), '<urn:example:collatz>'(4, 1), true).
-  step((true:+'<urn:example:collatz>'(5, 1)), '<urn:example:collatz>'(5, 1), true).
-  step((true:+'<urn:example:collatz>'(6, 1)), '<urn:example:collatz>'(6, 1), true).
-  step((true:+'<urn:example:collatz>'(7, 1)), '<urn:example:collatz>'(7, 1), true).
-  step((true:+'<urn:example:collatz>'(8, 1)), '<urn:example:collatz>'(8, 1), true).
-  step((true:+'<urn:example:collatz>'(9, 1)), '<urn:example:collatz>'(9, 1), true).
-  step((true:+'<urn:example:collatz>'(10, 1)), '<urn:example:collatz>'(10, 1), true).
-  step((true:+'<urn:example:collatz>'(11, 1)), '<urn:example:collatz>'(11, 1), true).
-  step((true:+'<urn:example:collatz>'(12, 1)), '<urn:example:collatz>'(12, 1), true).
-  step((true:+'<urn:example:collatz>'(13, 1)), '<urn:example:collatz>'(13, 1), true).
-  step((true:+'<urn:example:collatz>'(14, 1)), '<urn:example:collatz>'(14, 1), true).
-  step((true:+'<urn:example:collatz>'(15, 1)), '<urn:example:collatz>'(15, 1), true).
-  step((true:+'<urn:example:collatz>'(16, 1)), '<urn:example:collatz>'(16, 1), true).
-  step((true:+'<urn:example:collatz>'(17, 1)), '<urn:example:collatz>'(17, 1), true).
-  step((true:+'<urn:example:collatz>'(18, 1)), '<urn:example:collatz>'(18, 1), true).
-  step((true:+'<urn:example:collatz>'(19, 1)), '<urn:example:collatz>'(19, 1), true).
-  step((true:+'<urn:example:collatz>'(20, 1)), '<urn:example:collatz>'(20, 1), true).
-  step((true:+'<urn:example:collatz>'(21, 1)), '<urn:example:collatz>'(21, 1), true).
-  step((true:+'<urn:example:collatz>'(22, 1)), '<urn:example:collatz>'(22, 1), true).
-  step((true:+'<urn:example:collatz>'(23, 1)), '<urn:example:collatz>'(23, 1), true).
-  step((true:+'<urn:example:collatz>'(24, 1)), '<urn:example:collatz>'(24, 1), true).
-  step((true:+'<urn:example:collatz>'(25, 1)), '<urn:example:collatz>'(25, 1), true).
-  step((true:+'<urn:example:collatz>'(26, 1)), '<urn:example:collatz>'(26, 1), true).
-  step((true:+'<urn:example:collatz>'(27, 1)), '<urn:example:collatz>'(27, 1), true).
-  step((true:+'<urn:example:collatz>'(28, 1)), '<urn:example:collatz>'(28, 1), true).
-  step((true:+'<urn:example:collatz>'(29, 1)), '<urn:example:collatz>'(29, 1), true).
-  step((true:+'<urn:example:collatz>'(30, 1)), '<urn:example:collatz>'(30, 1), true).
-  step((true:+'<urn:example:collatz>'(31, 1)), '<urn:example:collatz>'(31, 1), true).
-  step((true:+'<urn:example:collatz>'(32, 1)), '<urn:example:collatz>'(32, 1), true).
-  step((true:+'<urn:example:collatz>'(33, 1)), '<urn:example:collatz>'(33, 1), true).
-  step((true:+'<urn:example:collatz>'(34, 1)), '<urn:example:collatz>'(34, 1), true).
-  step((true:+'<urn:example:collatz>'(35, 1)), '<urn:example:collatz>'(35, 1), true).
-  step((true:+'<urn:example:collatz>'(36, 1)), '<urn:example:collatz>'(36, 1), true).
-  step((true:+'<urn:example:collatz>'(37, 1)), '<urn:example:collatz>'(37, 1), true).
-  step((true:+'<urn:example:collatz>'(38, 1)), '<urn:example:collatz>'(38, 1), true).
-  step((true:+'<urn:example:collatz>'(39, 1)), '<urn:example:collatz>'(39, 1), true).
-  step((true:+'<urn:example:collatz>'(40, 1)), '<urn:example:collatz>'(40, 1), true).
-  step((true:+'<urn:example:collatz>'(41, 1)), '<urn:example:collatz>'(41, 1), true).
-  step((true:+'<urn:example:collatz>'(42, 1)), '<urn:example:collatz>'(42, 1), true).
-  step((true:+'<urn:example:collatz>'(43, 1)), '<urn:example:collatz>'(43, 1), true).
-  step((true:+'<urn:example:collatz>'(44, 1)), '<urn:example:collatz>'(44, 1), true).
-  step((true:+'<urn:example:collatz>'(45, 1)), '<urn:example:collatz>'(45, 1), true).
-  step((true:+'<urn:example:collatz>'(46, 1)), '<urn:example:collatz>'(46, 1), true).
-  step((true:+'<urn:example:collatz>'(47, 1)), '<urn:example:collatz>'(47, 1), true).
-  step((true:+'<urn:example:collatz>'(48, 1)), '<urn:example:collatz>'(48, 1), true).
-  step((true:+'<urn:example:collatz>'(49, 1)), '<urn:example:collatz>'(49, 1), true).
-  step((true:+'<urn:example:collatz>'(50, 1)), '<urn:example:collatz>'(50, 1), true).
-  step((true:+'<urn:example:collatz>'(51, 1)), '<urn:example:collatz>'(51, 1), true).
-  step((true:+'<urn:example:collatz>'(52, 1)), '<urn:example:collatz>'(52, 1), true).
-  step((true:+'<urn:example:collatz>'(53, 1)), '<urn:example:collatz>'(53, 1), true).
-  step((true:+'<urn:example:collatz>'(54, 1)), '<urn:example:collatz>'(54, 1), true).
-  step((true:+'<urn:example:collatz>'(55, 1)), '<urn:example:collatz>'(55, 1), true).
-  step((true:+'<urn:example:collatz>'(56, 1)), '<urn:example:collatz>'(56, 1), true).
-  step((true:+'<urn:example:collatz>'(57, 1)), '<urn:example:collatz>'(57, 1), true).
-  step((true:+'<urn:example:collatz>'(58, 1)), '<urn:example:collatz>'(58, 1), true).
-  step((true:+'<urn:example:collatz>'(59, 1)), '<urn:example:collatz>'(59, 1), true).
-  step((true:+'<urn:example:collatz>'(60, 1)), '<urn:example:collatz>'(60, 1), true).
-  step((true:+'<urn:example:collatz>'(61, 1)), '<urn:example:collatz>'(61, 1), true).
-  step((true:+'<urn:example:collatz>'(62, 1)), '<urn:example:collatz>'(62, 1), true).
-  step((true:+'<urn:example:collatz>'(63, 1)), '<urn:example:collatz>'(63, 1), true).
-  step((true:+'<urn:example:collatz>'(64, 1)), '<urn:example:collatz>'(64, 1), true).
-  step((true:+'<urn:example:collatz>'(65, 1)), '<urn:example:collatz>'(65, 1), true).
-  step((true:+'<urn:example:collatz>'(66, 1)), '<urn:example:collatz>'(66, 1), true).
-  step((true:+'<urn:example:collatz>'(67, 1)), '<urn:example:collatz>'(67, 1), true).
-  step((true:+'<urn:example:collatz>'(68, 1)), '<urn:example:collatz>'(68, 1), true).
-  step((true:+'<urn:example:collatz>'(69, 1)), '<urn:example:collatz>'(69, 1), true).
-  step((true:+'<urn:example:collatz>'(70, 1)), '<urn:example:collatz>'(70, 1), true).
-  step((true:+'<urn:example:collatz>'(71, 1)), '<urn:example:collatz>'(71, 1), true).
-  step((true:+'<urn:example:collatz>'(72, 1)), '<urn:example:collatz>'(72, 1), true).
-  step((true:+'<urn:example:collatz>'(73, 1)), '<urn:example:collatz>'(73, 1), true).
-  step((true:+'<urn:example:collatz>'(74, 1)), '<urn:example:collatz>'(74, 1), true).
-  step((true:+'<urn:example:collatz>'(75, 1)), '<urn:example:collatz>'(75, 1), true).
-  step((true:+'<urn:example:collatz>'(76, 1)), '<urn:example:collatz>'(76, 1), true).
-  step((true:+'<urn:example:collatz>'(77, 1)), '<urn:example:collatz>'(77, 1), true).
-  step((true:+'<urn:example:collatz>'(78, 1)), '<urn:example:collatz>'(78, 1), true).
-  step((true:+'<urn:example:collatz>'(79, 1)), '<urn:example:collatz>'(79, 1), true).
-  step((true:+'<urn:example:collatz>'(80, 1)), '<urn:example:collatz>'(80, 1), true).
-  step((true:+'<urn:example:collatz>'(81, 1)), '<urn:example:collatz>'(81, 1), true).
-  step((true:+'<urn:example:collatz>'(82, 1)), '<urn:example:collatz>'(82, 1), true).
-  step((true:+'<urn:example:collatz>'(83, 1)), '<urn:example:collatz>'(83, 1), true).
-  step((true:+'<urn:example:collatz>'(84, 1)), '<urn:example:collatz>'(84, 1), true).
-  step((true:+'<urn:example:collatz>'(85, 1)), '<urn:example:collatz>'(85, 1), true).
-  step((true:+'<urn:example:collatz>'(86, 1)), '<urn:example:collatz>'(86, 1), true).
-  step((true:+'<urn:example:collatz>'(87, 1)), '<urn:example:collatz>'(87, 1), true).
-  step((true:+'<urn:example:collatz>'(88, 1)), '<urn:example:collatz>'(88, 1), true).
-  step((true:+'<urn:example:collatz>'(89, 1)), '<urn:example:collatz>'(89, 1), true).
-  step((true:+'<urn:example:collatz>'(90, 1)), '<urn:example:collatz>'(90, 1), true).
-  step((true:+'<urn:example:collatz>'(91, 1)), '<urn:example:collatz>'(91, 1), true).
-  step((true:+'<urn:example:collatz>'(92, 1)), '<urn:example:collatz>'(92, 1), true).
-  step((true:+'<urn:example:collatz>'(93, 1)), '<urn:example:collatz>'(93, 1), true).
-  step((true:+'<urn:example:collatz>'(94, 1)), '<urn:example:collatz>'(94, 1), true).
-  step((true:+'<urn:example:collatz>'(95, 1)), '<urn:example:collatz>'(95, 1), true).
-  step((true:+'<urn:example:collatz>'(96, 1)), '<urn:example:collatz>'(96, 1), true).
-  step((true:+'<urn:example:collatz>'(97, 1)), '<urn:example:collatz>'(97, 1), true).
-  step((true:+'<urn:example:collatz>'(98, 1)), '<urn:example:collatz>'(98, 1), true).
-  step((true:+'<urn:example:collatz>'(99, 1)), '<urn:example:collatz>'(99, 1), true).
-  step((true:+'<urn:example:collatz>'(100, 1)),
-       '<urn:example:collatz>'(100, 1),
+  step((true:+'<urn:example:collatz>'(1, 1, _)),
+       '<urn:example:collatz>'(1, 1, 1),
        true).
-  step((true:+'<urn:example:collatz>'(101, 1)),
-       '<urn:example:collatz>'(101, 1),
+  step((true:+'<urn:example:collatz>'(2, 1, _)),
+       '<urn:example:collatz>'(2, 1, 2),
        true).
-  step((true:+'<urn:example:collatz>'(102, 1)),
-       '<urn:example:collatz>'(102, 1),
+  step((true:+'<urn:example:collatz>'(3, 1, _)),
+       '<urn:example:collatz>'(3, 1, 8),
        true).
-  step((true:+'<urn:example:collatz>'(103, 1)),
-       '<urn:example:collatz>'(103, 1),
+  step((true:+'<urn:example:collatz>'(4, 1, _)),
+       '<urn:example:collatz>'(4, 1, 3),
        true).
-  step((true:+'<urn:example:collatz>'(104, 1)),
-       '<urn:example:collatz>'(104, 1),
+  step((true:+'<urn:example:collatz>'(5, 1, _)),
+       '<urn:example:collatz>'(5, 1, 6),
        true).
-  step((true:+'<urn:example:collatz>'(105, 1)),
-       '<urn:example:collatz>'(105, 1),
+  step((true:+'<urn:example:collatz>'(6, 1, _)),
+       '<urn:example:collatz>'(6, 1, 9),
        true).
-  step((true:+'<urn:example:collatz>'(106, 1)),
-       '<urn:example:collatz>'(106, 1),
+  step((true:+'<urn:example:collatz>'(7, 1, _)),
+       '<urn:example:collatz>'(7, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(107, 1)),
-       '<urn:example:collatz>'(107, 1),
+  step((true:+'<urn:example:collatz>'(8, 1, _)),
+       '<urn:example:collatz>'(8, 1, 4),
        true).
-  step((true:+'<urn:example:collatz>'(108, 1)),
-       '<urn:example:collatz>'(108, 1),
+  step((true:+'<urn:example:collatz>'(9, 1, _)),
+       '<urn:example:collatz>'(9, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(109, 1)),
-       '<urn:example:collatz>'(109, 1),
+  step((true:+'<urn:example:collatz>'(10, 1, _)),
+       '<urn:example:collatz>'(10, 1, 7),
        true).
-  step((true:+'<urn:example:collatz>'(110, 1)),
-       '<urn:example:collatz>'(110, 1),
+  step((true:+'<urn:example:collatz>'(11, 1, _)),
+       '<urn:example:collatz>'(11, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(111, 1)),
-       '<urn:example:collatz>'(111, 1),
+  step((true:+'<urn:example:collatz>'(12, 1, _)),
+       '<urn:example:collatz>'(12, 1, 10),
        true).
-  step((true:+'<urn:example:collatz>'(112, 1)),
-       '<urn:example:collatz>'(112, 1),
+  step((true:+'<urn:example:collatz>'(13, 1, _)),
+       '<urn:example:collatz>'(13, 1, 10),
        true).
-  step((true:+'<urn:example:collatz>'(113, 1)),
-       '<urn:example:collatz>'(113, 1),
+  step((true:+'<urn:example:collatz>'(14, 1, _)),
+       '<urn:example:collatz>'(14, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(114, 1)),
-       '<urn:example:collatz>'(114, 1),
+  step((true:+'<urn:example:collatz>'(15, 1, _)),
+       '<urn:example:collatz>'(15, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(115, 1)),
-       '<urn:example:collatz>'(115, 1),
+  step((true:+'<urn:example:collatz>'(16, 1, _)),
+       '<urn:example:collatz>'(16, 1, 5),
        true).
-  step((true:+'<urn:example:collatz>'(116, 1)),
-       '<urn:example:collatz>'(116, 1),
+  step((true:+'<urn:example:collatz>'(17, 1, _)),
+       '<urn:example:collatz>'(17, 1, 13),
        true).
-  step((true:+'<urn:example:collatz>'(117, 1)),
-       '<urn:example:collatz>'(117, 1),
+  step((true:+'<urn:example:collatz>'(18, 1, _)),
+       '<urn:example:collatz>'(18, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(118, 1)),
-       '<urn:example:collatz>'(118, 1),
+  step((true:+'<urn:example:collatz>'(19, 1, _)),
+       '<urn:example:collatz>'(19, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(119, 1)),
-       '<urn:example:collatz>'(119, 1),
+  step((true:+'<urn:example:collatz>'(20, 1, _)),
+       '<urn:example:collatz>'(20, 1, 8),
        true).
-  step((true:+'<urn:example:collatz>'(120, 1)),
-       '<urn:example:collatz>'(120, 1),
+  step((true:+'<urn:example:collatz>'(21, 1, _)),
+       '<urn:example:collatz>'(21, 1, 8),
        true).
-  step((true:+'<urn:example:collatz>'(121, 1)),
-       '<urn:example:collatz>'(121, 1),
+  step((true:+'<urn:example:collatz>'(22, 1, _)),
+       '<urn:example:collatz>'(22, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(122, 1)),
-       '<urn:example:collatz>'(122, 1),
+  step((true:+'<urn:example:collatz>'(23, 1, _)),
+       '<urn:example:collatz>'(23, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(123, 1)),
-       '<urn:example:collatz>'(123, 1),
+  step((true:+'<urn:example:collatz>'(24, 1, _)),
+       '<urn:example:collatz>'(24, 1, 11),
        true).
-  step((true:+'<urn:example:collatz>'(124, 1)),
-       '<urn:example:collatz>'(124, 1),
+  step((true:+'<urn:example:collatz>'(25, 1, _)),
+       '<urn:example:collatz>'(25, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(125, 1)),
-       '<urn:example:collatz>'(125, 1),
+  step((true:+'<urn:example:collatz>'(26, 1, _)),
+       '<urn:example:collatz>'(26, 1, 11),
        true).
-  step((true:+'<urn:example:collatz>'(126, 1)),
-       '<urn:example:collatz>'(126, 1),
+  step((true:+'<urn:example:collatz>'(27, 1, _)),
+       '<urn:example:collatz>'(27, 1, 112),
        true).
-  step((true:+'<urn:example:collatz>'(127, 1)),
-       '<urn:example:collatz>'(127, 1),
+  step((true:+'<urn:example:collatz>'(28, 1, _)),
+       '<urn:example:collatz>'(28, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(128, 1)),
-       '<urn:example:collatz>'(128, 1),
+  step((true:+'<urn:example:collatz>'(29, 1, _)),
+       '<urn:example:collatz>'(29, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(129, 1)),
-       '<urn:example:collatz>'(129, 1),
+  step((true:+'<urn:example:collatz>'(30, 1, _)),
+       '<urn:example:collatz>'(30, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(130, 1)),
-       '<urn:example:collatz>'(130, 1),
+  step((true:+'<urn:example:collatz>'(31, 1, _)),
+       '<urn:example:collatz>'(31, 1, 107),
        true).
-  step((true:+'<urn:example:collatz>'(131, 1)),
-       '<urn:example:collatz>'(131, 1),
+  step((true:+'<urn:example:collatz>'(32, 1, _)),
+       '<urn:example:collatz>'(32, 1, 6),
        true).
-  step((true:+'<urn:example:collatz>'(132, 1)),
-       '<urn:example:collatz>'(132, 1),
+  step((true:+'<urn:example:collatz>'(33, 1, _)),
+       '<urn:example:collatz>'(33, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(133, 1)),
-       '<urn:example:collatz>'(133, 1),
+  step((true:+'<urn:example:collatz>'(34, 1, _)),
+       '<urn:example:collatz>'(34, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(134, 1)),
-       '<urn:example:collatz>'(134, 1),
+  step((true:+'<urn:example:collatz>'(35, 1, _)),
+       '<urn:example:collatz>'(35, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(135, 1)),
-       '<urn:example:collatz>'(135, 1),
+  step((true:+'<urn:example:collatz>'(36, 1, _)),
+       '<urn:example:collatz>'(36, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(136, 1)),
-       '<urn:example:collatz>'(136, 1),
+  step((true:+'<urn:example:collatz>'(37, 1, _)),
+       '<urn:example:collatz>'(37, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(137, 1)),
-       '<urn:example:collatz>'(137, 1),
+  step((true:+'<urn:example:collatz>'(38, 1, _)),
+       '<urn:example:collatz>'(38, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(138, 1)),
-       '<urn:example:collatz>'(138, 1),
+  step((true:+'<urn:example:collatz>'(39, 1, _)),
+       '<urn:example:collatz>'(39, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(139, 1)),
-       '<urn:example:collatz>'(139, 1),
+  step((true:+'<urn:example:collatz>'(40, 1, _)),
+       '<urn:example:collatz>'(40, 1, 9),
        true).
-  step((true:+'<urn:example:collatz>'(140, 1)),
-       '<urn:example:collatz>'(140, 1),
+  step((true:+'<urn:example:collatz>'(41, 1, _)),
+       '<urn:example:collatz>'(41, 1, 110),
        true).
-  step((true:+'<urn:example:collatz>'(141, 1)),
-       '<urn:example:collatz>'(141, 1),
+  step((true:+'<urn:example:collatz>'(42, 1, _)),
+       '<urn:example:collatz>'(42, 1, 9),
        true).
-  step((true:+'<urn:example:collatz>'(142, 1)),
-       '<urn:example:collatz>'(142, 1),
+  step((true:+'<urn:example:collatz>'(43, 1, _)),
+       '<urn:example:collatz>'(43, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(143, 1)),
-       '<urn:example:collatz>'(143, 1),
+  step((true:+'<urn:example:collatz>'(44, 1, _)),
+       '<urn:example:collatz>'(44, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(144, 1)),
-       '<urn:example:collatz>'(144, 1),
+  step((true:+'<urn:example:collatz>'(45, 1, _)),
+       '<urn:example:collatz>'(45, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(145, 1)),
-       '<urn:example:collatz>'(145, 1),
+  step((true:+'<urn:example:collatz>'(46, 1, _)),
+       '<urn:example:collatz>'(46, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(146, 1)),
-       '<urn:example:collatz>'(146, 1),
+  step((true:+'<urn:example:collatz>'(47, 1, _)),
+       '<urn:example:collatz>'(47, 1, 105),
        true).
-  step((true:+'<urn:example:collatz>'(147, 1)),
-       '<urn:example:collatz>'(147, 1),
+  step((true:+'<urn:example:collatz>'(48, 1, _)),
+       '<urn:example:collatz>'(48, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(148, 1)),
-       '<urn:example:collatz>'(148, 1),
+  step((true:+'<urn:example:collatz>'(49, 1, _)),
+       '<urn:example:collatz>'(49, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(149, 1)),
-       '<urn:example:collatz>'(149, 1),
+  step((true:+'<urn:example:collatz>'(50, 1, _)),
+       '<urn:example:collatz>'(50, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(150, 1)),
-       '<urn:example:collatz>'(150, 1),
+  step((true:+'<urn:example:collatz>'(51, 1, _)),
+       '<urn:example:collatz>'(51, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(151, 1)),
-       '<urn:example:collatz>'(151, 1),
+  step((true:+'<urn:example:collatz>'(52, 1, _)),
+       '<urn:example:collatz>'(52, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(152, 1)),
-       '<urn:example:collatz>'(152, 1),
+  step((true:+'<urn:example:collatz>'(53, 1, _)),
+       '<urn:example:collatz>'(53, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(153, 1)),
-       '<urn:example:collatz>'(153, 1),
+  step((true:+'<urn:example:collatz>'(54, 1, _)),
+       '<urn:example:collatz>'(54, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(154, 1)),
-       '<urn:example:collatz>'(154, 1),
+  step((true:+'<urn:example:collatz>'(55, 1, _)),
+       '<urn:example:collatz>'(55, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(155, 1)),
-       '<urn:example:collatz>'(155, 1),
+  step((true:+'<urn:example:collatz>'(56, 1, _)),
+       '<urn:example:collatz>'(56, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(156, 1)),
-       '<urn:example:collatz>'(156, 1),
+  step((true:+'<urn:example:collatz>'(57, 1, _)),
+       '<urn:example:collatz>'(57, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(157, 1)),
-       '<urn:example:collatz>'(157, 1),
+  step((true:+'<urn:example:collatz>'(58, 1, _)),
+       '<urn:example:collatz>'(58, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(158, 1)),
-       '<urn:example:collatz>'(158, 1),
+  step((true:+'<urn:example:collatz>'(59, 1, _)),
+       '<urn:example:collatz>'(59, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(159, 1)),
-       '<urn:example:collatz>'(159, 1),
+  step((true:+'<urn:example:collatz>'(60, 1, _)),
+       '<urn:example:collatz>'(60, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(160, 1)),
-       '<urn:example:collatz>'(160, 1),
+  step((true:+'<urn:example:collatz>'(61, 1, _)),
+       '<urn:example:collatz>'(61, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(161, 1)),
-       '<urn:example:collatz>'(161, 1),
+  step((true:+'<urn:example:collatz>'(62, 1, _)),
+       '<urn:example:collatz>'(62, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(162, 1)),
-       '<urn:example:collatz>'(162, 1),
+  step((true:+'<urn:example:collatz>'(63, 1, _)),
+       '<urn:example:collatz>'(63, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(163, 1)),
-       '<urn:example:collatz>'(163, 1),
+  step((true:+'<urn:example:collatz>'(64, 1, _)),
+       '<urn:example:collatz>'(64, 1, 7),
        true).
-  step((true:+'<urn:example:collatz>'(164, 1)),
-       '<urn:example:collatz>'(164, 1),
+  step((true:+'<urn:example:collatz>'(65, 1, _)),
+       '<urn:example:collatz>'(65, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(165, 1)),
-       '<urn:example:collatz>'(165, 1),
+  step((true:+'<urn:example:collatz>'(66, 1, _)),
+       '<urn:example:collatz>'(66, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(166, 1)),
-       '<urn:example:collatz>'(166, 1),
+  step((true:+'<urn:example:collatz>'(67, 1, _)),
+       '<urn:example:collatz>'(67, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(167, 1)),
-       '<urn:example:collatz>'(167, 1),
+  step((true:+'<urn:example:collatz>'(68, 1, _)),
+       '<urn:example:collatz>'(68, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(168, 1)),
-       '<urn:example:collatz>'(168, 1),
+  step((true:+'<urn:example:collatz>'(69, 1, _)),
+       '<urn:example:collatz>'(69, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(169, 1)),
-       '<urn:example:collatz>'(169, 1),
+  step((true:+'<urn:example:collatz>'(70, 1, _)),
+       '<urn:example:collatz>'(70, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(170, 1)),
-       '<urn:example:collatz>'(170, 1),
+  step((true:+'<urn:example:collatz>'(71, 1, _)),
+       '<urn:example:collatz>'(71, 1, 103),
        true).
-  step((true:+'<urn:example:collatz>'(171, 1)),
-       '<urn:example:collatz>'(171, 1),
+  step((true:+'<urn:example:collatz>'(72, 1, _)),
+       '<urn:example:collatz>'(72, 1, 23),
        true).
-  step((true:+'<urn:example:collatz>'(172, 1)),
-       '<urn:example:collatz>'(172, 1),
+  step((true:+'<urn:example:collatz>'(73, 1, _)),
+       '<urn:example:collatz>'(73, 1, 116),
        true).
-  step((true:+'<urn:example:collatz>'(173, 1)),
-       '<urn:example:collatz>'(173, 1),
+  step((true:+'<urn:example:collatz>'(74, 1, _)),
+       '<urn:example:collatz>'(74, 1, 23),
        true).
-  step((true:+'<urn:example:collatz>'(174, 1)),
-       '<urn:example:collatz>'(174, 1),
+  step((true:+'<urn:example:collatz>'(75, 1, _)),
+       '<urn:example:collatz>'(75, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(175, 1)),
-       '<urn:example:collatz>'(175, 1),
+  step((true:+'<urn:example:collatz>'(76, 1, _)),
+       '<urn:example:collatz>'(76, 1, 23),
        true).
-  step((true:+'<urn:example:collatz>'(176, 1)),
-       '<urn:example:collatz>'(176, 1),
+  step((true:+'<urn:example:collatz>'(77, 1, _)),
+       '<urn:example:collatz>'(77, 1, 23),
        true).
-  step((true:+'<urn:example:collatz>'(177, 1)),
-       '<urn:example:collatz>'(177, 1),
+  step((true:+'<urn:example:collatz>'(78, 1, _)),
+       '<urn:example:collatz>'(78, 1, 36),
        true).
-  step((true:+'<urn:example:collatz>'(178, 1)),
-       '<urn:example:collatz>'(178, 1),
+  step((true:+'<urn:example:collatz>'(79, 1, _)),
+       '<urn:example:collatz>'(79, 1, 36),
        true).
-  step((true:+'<urn:example:collatz>'(179, 1)),
-       '<urn:example:collatz>'(179, 1),
+  step((true:+'<urn:example:collatz>'(80, 1, _)),
+       '<urn:example:collatz>'(80, 1, 10),
        true).
-  step((true:+'<urn:example:collatz>'(180, 1)),
-       '<urn:example:collatz>'(180, 1),
+  step((true:+'<urn:example:collatz>'(81, 1, _)),
+       '<urn:example:collatz>'(81, 1, 23),
        true).
-  step((true:+'<urn:example:collatz>'(181, 1)),
-       '<urn:example:collatz>'(181, 1),
+  step((true:+'<urn:example:collatz>'(82, 1, _)),
+       '<urn:example:collatz>'(82, 1, 111),
        true).
-  step((true:+'<urn:example:collatz>'(182, 1)),
-       '<urn:example:collatz>'(182, 1),
+  step((true:+'<urn:example:collatz>'(83, 1, _)),
+       '<urn:example:collatz>'(83, 1, 111),
        true).
-  step((true:+'<urn:example:collatz>'(183, 1)),
-       '<urn:example:collatz>'(183, 1),
+  step((true:+'<urn:example:collatz>'(84, 1, _)),
+       '<urn:example:collatz>'(84, 1, 10),
        true).
-  step((true:+'<urn:example:collatz>'(184, 1)),
-       '<urn:example:collatz>'(184, 1),
+  step((true:+'<urn:example:collatz>'(85, 1, _)),
+       '<urn:example:collatz>'(85, 1, 10),
        true).
-  step((true:+'<urn:example:collatz>'(185, 1)),
-       '<urn:example:collatz>'(185, 1),
+  step((true:+'<urn:example:collatz>'(86, 1, _)),
+       '<urn:example:collatz>'(86, 1, 31),
        true).
-  step((true:+'<urn:example:collatz>'(186, 1)),
-       '<urn:example:collatz>'(186, 1),
+  step((true:+'<urn:example:collatz>'(87, 1, _)),
+       '<urn:example:collatz>'(87, 1, 31),
        true).
-  step((true:+'<urn:example:collatz>'(187, 1)),
-       '<urn:example:collatz>'(187, 1),
+  step((true:+'<urn:example:collatz>'(88, 1, _)),
+       '<urn:example:collatz>'(88, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(188, 1)),
-       '<urn:example:collatz>'(188, 1),
+  step((true:+'<urn:example:collatz>'(89, 1, _)),
+       '<urn:example:collatz>'(89, 1, 31),
        true).
-  step((true:+'<urn:example:collatz>'(189, 1)),
-       '<urn:example:collatz>'(189, 1),
+  step((true:+'<urn:example:collatz>'(90, 1, _)),
+       '<urn:example:collatz>'(90, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(190, 1)),
-       '<urn:example:collatz>'(190, 1),
+  step((true:+'<urn:example:collatz>'(91, 1, _)),
+       '<urn:example:collatz>'(91, 1, 93),
        true).
-  step((true:+'<urn:example:collatz>'(191, 1)),
-       '<urn:example:collatz>'(191, 1),
+  step((true:+'<urn:example:collatz>'(92, 1, _)),
+       '<urn:example:collatz>'(92, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(192, 1)),
-       '<urn:example:collatz>'(192, 1),
+  step((true:+'<urn:example:collatz>'(93, 1, _)),
+       '<urn:example:collatz>'(93, 1, 18),
        true).
-  step((true:+'<urn:example:collatz>'(193, 1)),
-       '<urn:example:collatz>'(193, 1),
+  step((true:+'<urn:example:collatz>'(94, 1, _)),
+       '<urn:example:collatz>'(94, 1, 106),
        true).
-  step((true:+'<urn:example:collatz>'(194, 1)),
-       '<urn:example:collatz>'(194, 1),
+  step((true:+'<urn:example:collatz>'(95, 1, _)),
+       '<urn:example:collatz>'(95, 1, 106),
        true).
-  step((true:+'<urn:example:collatz>'(195, 1)),
-       '<urn:example:collatz>'(195, 1),
+  step((true:+'<urn:example:collatz>'(96, 1, _)),
+       '<urn:example:collatz>'(96, 1, 13),
        true).
-  step((true:+'<urn:example:collatz>'(196, 1)),
-       '<urn:example:collatz>'(196, 1),
+  step((true:+'<urn:example:collatz>'(97, 1, _)),
+       '<urn:example:collatz>'(97, 1, 119),
        true).
-  step((true:+'<urn:example:collatz>'(197, 1)),
-       '<urn:example:collatz>'(197, 1),
+  step((true:+'<urn:example:collatz>'(98, 1, _)),
+       '<urn:example:collatz>'(98, 1, 26),
        true).
-  step((true:+'<urn:example:collatz>'(198, 1)),
-       '<urn:example:collatz>'(198, 1),
+  step((true:+'<urn:example:collatz>'(99, 1, _)),
+       '<urn:example:collatz>'(99, 1, 26),
        true).
-  step((true:+'<urn:example:collatz>'(199, 1)),
-       '<urn:example:collatz>'(199, 1),
+  step((true:+'<urn:example:collatz>'(100, 1, _)),
+       '<urn:example:collatz>'(100, 1, 26),
        true).
-  step((true:+'<urn:example:collatz>'(200, 1)),
-       '<urn:example:collatz>'(200, 1),
+  step((true:+'<urn:example:collatz>'(101, 1, _)),
+       '<urn:example:collatz>'(101, 1, 26),
        true).
-  step((true:+'<urn:example:collatz>'(201, 1)),
-       '<urn:example:collatz>'(201, 1),
+  step((true:+'<urn:example:collatz>'(102, 1, _)),
+       '<urn:example:collatz>'(102, 1, 26),
        true).
-  step((true:+'<urn:example:collatz>'(202, 1)),
-       '<urn:example:collatz>'(202, 1),
+  step((true:+'<urn:example:collatz>'(103, 1, _)),
+       '<urn:example:collatz>'(103, 1, 88),
        true).
-  step((true:+'<urn:example:collatz>'(203, 1)),
-       '<urn:example:collatz>'(203, 1),
+  step((true:+'<urn:example:collatz>'(104, 1, _)),
+       '<urn:example:collatz>'(104, 1, 13),
        true).
-  step((true:+'<urn:example:collatz>'(204, 1)),
-       '<urn:example:collatz>'(204, 1),
+  step((true:+'<urn:example:collatz>'(105, 1, _)),
+       '<urn:example:collatz>'(105, 1, 39),
        true).
-  step((true:+'<urn:example:collatz>'(205, 1)),
-       '<urn:example:collatz>'(205, 1),
+  step((true:+'<urn:example:collatz>'(106, 1, _)),
+       '<urn:example:collatz>'(106, 1, 13),
        true).
-  step((true:+'<urn:example:collatz>'(206, 1)),
-       '<urn:example:collatz>'(206, 1),
+  step((true:+'<urn:example:collatz>'(107, 1, _)),
+       '<urn:example:collatz>'(107, 1, 101),
        true).
-  step((true:+'<urn:example:collatz>'(207, 1)),
-       '<urn:example:collatz>'(207, 1),
+  step((true:+'<urn:example:collatz>'(108, 1, _)),
+       '<urn:example:collatz>'(108, 1, 114),
        true).
-  step((true:+'<urn:example:collatz>'(208, 1)),
-       '<urn:example:collatz>'(208, 1),
+  step((true:+'<urn:example:collatz>'(109, 1, _)),
+       '<urn:example:collatz>'(109, 1, 114),
        true).
-  step((true:+'<urn:example:collatz>'(209, 1)),
-       '<urn:example:collatz>'(209, 1),
+  step((true:+'<urn:example:collatz>'(110, 1, _)),
+       '<urn:example:collatz>'(110, 1, 114),
        true).
-  step((true:+'<urn:example:collatz>'(210, 1)),
-       '<urn:example:collatz>'(210, 1),
+  step((true:+'<urn:example:collatz>'(111, 1, _)),
+       '<urn:example:collatz>'(111, 1, 70),
        true).
-  step((true:+'<urn:example:collatz>'(211, 1)),
-       '<urn:example:collatz>'(211, 1),
+  step((true:+'<urn:example:collatz>'(112, 1, _)),
+       '<urn:example:collatz>'(112, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(212, 1)),
-       '<urn:example:collatz>'(212, 1),
+  step((true:+'<urn:example:collatz>'(113, 1, _)),
+       '<urn:example:collatz>'(113, 1, 13),
        true).
-  step((true:+'<urn:example:collatz>'(213, 1)),
-       '<urn:example:collatz>'(213, 1),
+  step((true:+'<urn:example:collatz>'(114, 1, _)),
+       '<urn:example:collatz>'(114, 1, 34),
        true).
-  step((true:+'<urn:example:collatz>'(214, 1)),
-       '<urn:example:collatz>'(214, 1),
+  step((true:+'<urn:example:collatz>'(115, 1, _)),
+       '<urn:example:collatz>'(115, 1, 34),
        true).
-  step((true:+'<urn:example:collatz>'(215, 1)),
-       '<urn:example:collatz>'(215, 1),
+  step((true:+'<urn:example:collatz>'(116, 1, _)),
+       '<urn:example:collatz>'(116, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(216, 1)),
-       '<urn:example:collatz>'(216, 1),
+  step((true:+'<urn:example:collatz>'(117, 1, _)),
+       '<urn:example:collatz>'(117, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(217, 1)),
-       '<urn:example:collatz>'(217, 1),
+  step((true:+'<urn:example:collatz>'(118, 1, _)),
+       '<urn:example:collatz>'(118, 1, 34),
        true).
-  step((true:+'<urn:example:collatz>'(218, 1)),
-       '<urn:example:collatz>'(218, 1),
+  step((true:+'<urn:example:collatz>'(119, 1, _)),
+       '<urn:example:collatz>'(119, 1, 34),
        true).
-  step((true:+'<urn:example:collatz>'(219, 1)),
-       '<urn:example:collatz>'(219, 1),
+  step((true:+'<urn:example:collatz>'(120, 1, _)),
+       '<urn:example:collatz>'(120, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(220, 1)),
-       '<urn:example:collatz>'(220, 1),
+  step((true:+'<urn:example:collatz>'(121, 1, _)),
+       '<urn:example:collatz>'(121, 1, 96),
        true).
-  step((true:+'<urn:example:collatz>'(221, 1)),
-       '<urn:example:collatz>'(221, 1),
+  step((true:+'<urn:example:collatz>'(122, 1, _)),
+       '<urn:example:collatz>'(122, 1, 21),
        true).
-  step((true:+'<urn:example:collatz>'(222, 1)),
-       '<urn:example:collatz>'(222, 1),
+  step((true:+'<urn:example:collatz>'(123, 1, _)),
+       '<urn:example:collatz>'(123, 1, 47),
        true).
-  step((true:+'<urn:example:collatz>'(223, 1)),
-       '<urn:example:collatz>'(223, 1),
+  step((true:+'<urn:example:collatz>'(124, 1, _)),
+       '<urn:example:collatz>'(124, 1, 109),
        true).
-  step((true:+'<urn:example:collatz>'(224, 1)),
-       '<urn:example:collatz>'(224, 1),
+  step((true:+'<urn:example:collatz>'(125, 1, _)),
+       '<urn:example:collatz>'(125, 1, 109),
        true).
-  step((true:+'<urn:example:collatz>'(225, 1)),
-       '<urn:example:collatz>'(225, 1),
+  step((true:+'<urn:example:collatz>'(126, 1, _)),
+       '<urn:example:collatz>'(126, 1, 109),
        true).
-  step((true:+'<urn:example:collatz>'(226, 1)),
-       '<urn:example:collatz>'(226, 1),
+  step((true:+'<urn:example:collatz>'(127, 1, _)),
+       '<urn:example:collatz>'(127, 1, 47),
        true).
-  step((true:+'<urn:example:collatz>'(227, 1)),
-       '<urn:example:collatz>'(227, 1),
+  step((true:+'<urn:example:collatz>'(128, 1, _)),
+       '<urn:example:collatz>'(128, 1, 8),
        true).
-  step((true:+'<urn:example:collatz>'(228, 1)),
-       '<urn:example:collatz>'(228, 1),
+  step((true:+'<urn:example:collatz>'(129, 1, _)),
+       '<urn:example:collatz>'(129, 1, 122),
        true).
-  step((true:+'<urn:example:collatz>'(229, 1)),
-       '<urn:example:collatz>'(229, 1),
+  step((true:+'<urn:example:collatz>'(130, 1, _)),
+       '<urn:example:collatz>'(130, 1, 29),
        true).
-  step((true:+'<urn:example:collatz>'(230, 1)),
-       '<urn:example:collatz>'(230, 1),
+  step((true:+'<urn:example:collatz>'(131, 1, _)),
+       '<urn:example:collatz>'(131, 1, 29),
        true).
-  step((true:+'<urn:example:collatz>'(231, 1)),
-       '<urn:example:collatz>'(231, 1),
+  step((true:+'<urn:example:collatz>'(132, 1, _)),
+       '<urn:example:collatz>'(132, 1, 29),
        true).
-  step((true:+'<urn:example:collatz>'(232, 1)),
-       '<urn:example:collatz>'(232, 1),
+  step((true:+'<urn:example:collatz>'(133, 1, _)),
+       '<urn:example:collatz>'(133, 1, 29),
        true).
-  step((true:+'<urn:example:collatz>'(233, 1)),
-       '<urn:example:collatz>'(233, 1),
+  step((true:+'<urn:example:collatz>'(134, 1, _)),
+       '<urn:example:collatz>'(134, 1, 29),
        true).
-  step((true:+'<urn:example:collatz>'(234, 1)),
-       '<urn:example:collatz>'(234, 1),
+  step((true:+'<urn:example:collatz>'(135, 1, _)),
+       '<urn:example:collatz>'(135, 1, 42),
        true).
-  step((true:+'<urn:example:collatz>'(235, 1)),
-       '<urn:example:collatz>'(235, 1),
+  step((true:+'<urn:example:collatz>'(136, 1, _)),
+       '<urn:example:collatz>'(136, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(236, 1)),
-       '<urn:example:collatz>'(236, 1),
+  step((true:+'<urn:example:collatz>'(137, 1, _)),
+       '<urn:example:collatz>'(137, 1, 91),
        true).
-  step((true:+'<urn:example:collatz>'(237, 1)),
-       '<urn:example:collatz>'(237, 1),
+  step((true:+'<urn:example:collatz>'(138, 1, _)),
+       '<urn:example:collatz>'(138, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(238, 1)),
-       '<urn:example:collatz>'(238, 1),
+  step((true:+'<urn:example:collatz>'(139, 1, _)),
+       '<urn:example:collatz>'(139, 1, 42),
        true).
-  step((true:+'<urn:example:collatz>'(239, 1)),
-       '<urn:example:collatz>'(239, 1),
+  step((true:+'<urn:example:collatz>'(140, 1, _)),
+       '<urn:example:collatz>'(140, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(240, 1)),
-       '<urn:example:collatz>'(240, 1),
+  step((true:+'<urn:example:collatz>'(141, 1, _)),
+       '<urn:example:collatz>'(141, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(241, 1)),
-       '<urn:example:collatz>'(241, 1),
+  step((true:+'<urn:example:collatz>'(142, 1, _)),
+       '<urn:example:collatz>'(142, 1, 104),
        true).
-  step((true:+'<urn:example:collatz>'(242, 1)),
-       '<urn:example:collatz>'(242, 1),
+  step((true:+'<urn:example:collatz>'(143, 1, _)),
+       '<urn:example:collatz>'(143, 1, 104),
        true).
-  step((true:+'<urn:example:collatz>'(243, 1)),
-       '<urn:example:collatz>'(243, 1),
+  step((true:+'<urn:example:collatz>'(144, 1, _)),
+       '<urn:example:collatz>'(144, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(244, 1)),
-       '<urn:example:collatz>'(244, 1),
+  step((true:+'<urn:example:collatz>'(145, 1, _)),
+       '<urn:example:collatz>'(145, 1, 117),
        true).
-  step((true:+'<urn:example:collatz>'(245, 1)),
-       '<urn:example:collatz>'(245, 1),
+  step((true:+'<urn:example:collatz>'(146, 1, _)),
+       '<urn:example:collatz>'(146, 1, 117),
        true).
-  step((true:+'<urn:example:collatz>'(246, 1)),
-       '<urn:example:collatz>'(246, 1),
+  step((true:+'<urn:example:collatz>'(147, 1, _)),
+       '<urn:example:collatz>'(147, 1, 117),
        true).
-  step((true:+'<urn:example:collatz>'(247, 1)),
-       '<urn:example:collatz>'(247, 1),
+  step((true:+'<urn:example:collatz>'(148, 1, _)),
+       '<urn:example:collatz>'(148, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(248, 1)),
-       '<urn:example:collatz>'(248, 1),
+  step((true:+'<urn:example:collatz>'(149, 1, _)),
+       '<urn:example:collatz>'(149, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(249, 1)),
-       '<urn:example:collatz>'(249, 1),
+  step((true:+'<urn:example:collatz>'(150, 1, _)),
+       '<urn:example:collatz>'(150, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(250, 1)),
-       '<urn:example:collatz>'(250, 1),
+  step((true:+'<urn:example:collatz>'(151, 1, _)),
+       '<urn:example:collatz>'(151, 1, 16),
        true).
-  step((true:+'<urn:example:collatz>'(251, 1)),
-       '<urn:example:collatz>'(251, 1),
+  step((true:+'<urn:example:collatz>'(152, 1, _)),
+       '<urn:example:collatz>'(152, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(252, 1)),
-       '<urn:example:collatz>'(252, 1),
+  step((true:+'<urn:example:collatz>'(153, 1, _)),
+       '<urn:example:collatz>'(153, 1, 37),
        true).
-  step((true:+'<urn:example:collatz>'(253, 1)),
-       '<urn:example:collatz>'(253, 1),
+  step((true:+'<urn:example:collatz>'(154, 1, _)),
+       '<urn:example:collatz>'(154, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(254, 1)),
-       '<urn:example:collatz>'(254, 1),
+  step((true:+'<urn:example:collatz>'(155, 1, _)),
+       '<urn:example:collatz>'(155, 1, 86),
        true).
-  step((true:+'<urn:example:collatz>'(255, 1)),
-       '<urn:example:collatz>'(255, 1),
+  step((true:+'<urn:example:collatz>'(156, 1, _)),
+       '<urn:example:collatz>'(156, 1, 37),
        true).
-  step((true:+'<urn:example:collatz>'(256, 1)),
-       '<urn:example:collatz>'(256, 1),
+  step((true:+'<urn:example:collatz>'(157, 1, _)),
+       '<urn:example:collatz>'(157, 1, 37),
        true).
-  step((true:+'<urn:example:collatz>'(257, 1)),
-       '<urn:example:collatz>'(257, 1),
+  step((true:+'<urn:example:collatz>'(158, 1, _)),
+       '<urn:example:collatz>'(158, 1, 37),
        true).
-  step((true:+'<urn:example:collatz>'(258, 1)),
-       '<urn:example:collatz>'(258, 1),
+  step((true:+'<urn:example:collatz>'(159, 1, _)),
+       '<urn:example:collatz>'(159, 1, 55),
        true).
-  step((true:+'<urn:example:collatz>'(259, 1)),
-       '<urn:example:collatz>'(259, 1),
+  step((true:+'<urn:example:collatz>'(160, 1, _)),
+       '<urn:example:collatz>'(160, 1, 11),
        true).
-  step((true:+'<urn:example:collatz>'(260, 1)),
-       '<urn:example:collatz>'(260, 1),
+  step((true:+'<urn:example:collatz>'(161, 1, _)),
+       '<urn:example:collatz>'(161, 1, 99),
        true).
-  step((true:+'<urn:example:collatz>'(261, 1)),
-       '<urn:example:collatz>'(261, 1),
+  step((true:+'<urn:example:collatz>'(162, 1, _)),
+       '<urn:example:collatz>'(162, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(262, 1)),
-       '<urn:example:collatz>'(262, 1),
+  step((true:+'<urn:example:collatz>'(163, 1, _)),
+       '<urn:example:collatz>'(163, 1, 24),
        true).
-  step((true:+'<urn:example:collatz>'(263, 1)),
-       '<urn:example:collatz>'(263, 1),
+  step((true:+'<urn:example:collatz>'(164, 1, _)),
+       '<urn:example:collatz>'(164, 1, 112),
        true).
-  step((true:+'<urn:example:collatz>'(264, 1)),
-       '<urn:example:collatz>'(264, 1),
+  step((true:+'<urn:example:collatz>'(165, 1, _)),
+       '<urn:example:collatz>'(165, 1, 112),
        true).
-  step((true:+'<urn:example:collatz>'(265, 1)),
-       '<urn:example:collatz>'(265, 1),
+  step((true:+'<urn:example:collatz>'(166, 1, _)),
+       '<urn:example:collatz>'(166, 1, 112),
        true).
-  step((true:+'<urn:example:collatz>'(266, 1)),
-       '<urn:example:collatz>'(266, 1),
+  step((true:+'<urn:example:collatz>'(167, 1, _)),
+       '<urn:example:collatz>'(167, 1, 68),
        true).
-  step((true:+'<urn:example:collatz>'(267, 1)),
-       '<urn:example:collatz>'(267, 1),
+  step((true:+'<urn:example:collatz>'(168, 1, _)),
+       '<urn:example:collatz>'(168, 1, 11),
        true).
-  step((true:+'<urn:example:collatz>'(268, 1)),
-       '<urn:example:collatz>'(268, 1),
+  step((true:+'<urn:example:collatz>'(169, 1, _)),
+       '<urn:example:collatz>'(169, 1, 50),
        true).
-  step((true:+'<urn:example:collatz>'(269, 1)),
-       '<urn:example:collatz>'(269, 1),
+  step((true:+'<urn:example:collatz>'(170, 1, _)),
+       '<urn:example:collatz>'(170, 1, 11),
        true).
-  step((true:+'<urn:example:collatz>'(270, 1)),
-       '<urn:example:collatz>'(270, 1),
+  step((true:+'<urn:example:collatz>'(171, 1, _)),
+       '<urn:example:collatz>'(171, 1, 125),
        true).
-  step((true:+'<urn:example:collatz>'(271, 1)),
-       '<urn:example:collatz>'(271, 1),
+  step((true:+'<urn:example:collatz>'(172, 1, _)),
+       '<urn:example:collatz>'(172, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(272, 1)),
-       '<urn:example:collatz>'(272, 1),
+  step((true:+'<urn:example:collatz>'(173, 1, _)),
+       '<urn:example:collatz>'(173, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(273, 1)),
-       '<urn:example:collatz>'(273, 1),
+  step((true:+'<urn:example:collatz>'(174, 1, _)),
+       '<urn:example:collatz>'(174, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(274, 1)),
-       '<urn:example:collatz>'(274, 1),
+  step((true:+'<urn:example:collatz>'(175, 1, _)),
+       '<urn:example:collatz>'(175, 1, 81),
        true).
-  step((true:+'<urn:example:collatz>'(275, 1)),
-       '<urn:example:collatz>'(275, 1),
+  step((true:+'<urn:example:collatz>'(176, 1, _)),
+       '<urn:example:collatz>'(176, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(276, 1)),
-       '<urn:example:collatz>'(276, 1),
+  step((true:+'<urn:example:collatz>'(177, 1, _)),
+       '<urn:example:collatz>'(177, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(277, 1)),
-       '<urn:example:collatz>'(277, 1),
+  step((true:+'<urn:example:collatz>'(178, 1, _)),
+       '<urn:example:collatz>'(178, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(278, 1)),
-       '<urn:example:collatz>'(278, 1),
+  step((true:+'<urn:example:collatz>'(179, 1, _)),
+       '<urn:example:collatz>'(179, 1, 32),
        true).
-  step((true:+'<urn:example:collatz>'(279, 1)),
-       '<urn:example:collatz>'(279, 1),
+  step((true:+'<urn:example:collatz>'(180, 1, _)),
+       '<urn:example:collatz>'(180, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(280, 1)),
-       '<urn:example:collatz>'(280, 1),
+  step((true:+'<urn:example:collatz>'(181, 1, _)),
+       '<urn:example:collatz>'(181, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(281, 1)),
-       '<urn:example:collatz>'(281, 1),
+  step((true:+'<urn:example:collatz>'(182, 1, _)),
+       '<urn:example:collatz>'(182, 1, 94),
        true).
-  step((true:+'<urn:example:collatz>'(282, 1)),
-       '<urn:example:collatz>'(282, 1),
+  step((true:+'<urn:example:collatz>'(183, 1, _)),
+       '<urn:example:collatz>'(183, 1, 94),
        true).
-  step((true:+'<urn:example:collatz>'(283, 1)),
-       '<urn:example:collatz>'(283, 1),
+  step((true:+'<urn:example:collatz>'(184, 1, _)),
+       '<urn:example:collatz>'(184, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(284, 1)),
-       '<urn:example:collatz>'(284, 1),
+  step((true:+'<urn:example:collatz>'(185, 1, _)),
+       '<urn:example:collatz>'(185, 1, 45),
        true).
-  step((true:+'<urn:example:collatz>'(285, 1)),
-       '<urn:example:collatz>'(285, 1),
+  step((true:+'<urn:example:collatz>'(186, 1, _)),
+       '<urn:example:collatz>'(186, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(286, 1)),
-       '<urn:example:collatz>'(286, 1),
+  step((true:+'<urn:example:collatz>'(187, 1, _)),
+       '<urn:example:collatz>'(187, 1, 45),
        true).
-  step((true:+'<urn:example:collatz>'(287, 1)),
-       '<urn:example:collatz>'(287, 1),
+  step((true:+'<urn:example:collatz>'(188, 1, _)),
+       '<urn:example:collatz>'(188, 1, 107),
        true).
-  step((true:+'<urn:example:collatz>'(288, 1)),
-       '<urn:example:collatz>'(288, 1),
+  step((true:+'<urn:example:collatz>'(189, 1, _)),
+       '<urn:example:collatz>'(189, 1, 107),
        true).
-  step((true:+'<urn:example:collatz>'(289, 1)),
-       '<urn:example:collatz>'(289, 1),
+  step((true:+'<urn:example:collatz>'(190, 1, _)),
+       '<urn:example:collatz>'(190, 1, 107),
        true).
-  step((true:+'<urn:example:collatz>'(290, 1)),
-       '<urn:example:collatz>'(290, 1),
+  step((true:+'<urn:example:collatz>'(191, 1, _)),
+       '<urn:example:collatz>'(191, 1, 45),
        true).
-  step((true:+'<urn:example:collatz>'(291, 1)),
-       '<urn:example:collatz>'(291, 1),
+  step((true:+'<urn:example:collatz>'(192, 1, _)),
+       '<urn:example:collatz>'(192, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(292, 1)),
-       '<urn:example:collatz>'(292, 1),
+  step((true:+'<urn:example:collatz>'(193, 1, _)),
+       '<urn:example:collatz>'(193, 1, 120),
        true).
-  step((true:+'<urn:example:collatz>'(293, 1)),
-       '<urn:example:collatz>'(293, 1),
+  step((true:+'<urn:example:collatz>'(194, 1, _)),
+       '<urn:example:collatz>'(194, 1, 120),
        true).
-  step((true:+'<urn:example:collatz>'(294, 1)),
-       '<urn:example:collatz>'(294, 1),
+  step((true:+'<urn:example:collatz>'(195, 1, _)),
+       '<urn:example:collatz>'(195, 1, 120),
        true).
-  step((true:+'<urn:example:collatz>'(295, 1)),
-       '<urn:example:collatz>'(295, 1),
+  step((true:+'<urn:example:collatz>'(196, 1, _)),
+       '<urn:example:collatz>'(196, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(296, 1)),
-       '<urn:example:collatz>'(296, 1),
+  step((true:+'<urn:example:collatz>'(197, 1, _)),
+       '<urn:example:collatz>'(197, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(297, 1)),
-       '<urn:example:collatz>'(297, 1),
+  step((true:+'<urn:example:collatz>'(198, 1, _)),
+       '<urn:example:collatz>'(198, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(298, 1)),
-       '<urn:example:collatz>'(298, 1),
+  step((true:+'<urn:example:collatz>'(199, 1, _)),
+       '<urn:example:collatz>'(199, 1, 120),
        true).
-  step((true:+'<urn:example:collatz>'(299, 1)),
-       '<urn:example:collatz>'(299, 1),
+  step((true:+'<urn:example:collatz>'(200, 1, _)),
+       '<urn:example:collatz>'(200, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(300, 1)),
-       '<urn:example:collatz>'(300, 1),
+  step((true:+'<urn:example:collatz>'(201, 1, _)),
+       '<urn:example:collatz>'(201, 1, 19),
        true).
-  step((true:+'<urn:example:collatz>'(301, 1)),
-       '<urn:example:collatz>'(301, 1),
+  step((true:+'<urn:example:collatz>'(202, 1, _)),
+       '<urn:example:collatz>'(202, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(302, 1)),
-       '<urn:example:collatz>'(302, 1),
+  step((true:+'<urn:example:collatz>'(203, 1, _)),
+       '<urn:example:collatz>'(203, 1, 40),
        true).
-  step((true:+'<urn:example:collatz>'(303, 1)),
-       '<urn:example:collatz>'(303, 1),
+  step((true:+'<urn:example:collatz>'(204, 1, _)),
+       '<urn:example:collatz>'(204, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(304, 1)),
-       '<urn:example:collatz>'(304, 1),
+  step((true:+'<urn:example:collatz>'(205, 1, _)),
+       '<urn:example:collatz>'(205, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(305, 1)),
-       '<urn:example:collatz>'(305, 1),
+  step((true:+'<urn:example:collatz>'(206, 1, _)),
+       '<urn:example:collatz>'(206, 1, 89),
        true).
-  step((true:+'<urn:example:collatz>'(306, 1)),
-       '<urn:example:collatz>'(306, 1),
+  step((true:+'<urn:example:collatz>'(207, 1, _)),
+       '<urn:example:collatz>'(207, 1, 89),
        true).
-  step((true:+'<urn:example:collatz>'(307, 1)),
-       '<urn:example:collatz>'(307, 1),
+  step((true:+'<urn:example:collatz>'(208, 1, _)),
+       '<urn:example:collatz>'(208, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(308, 1)),
-       '<urn:example:collatz>'(308, 1),
+  step((true:+'<urn:example:collatz>'(209, 1, _)),
+       '<urn:example:collatz>'(209, 1, 40),
        true).
-  step((true:+'<urn:example:collatz>'(309, 1)),
-       '<urn:example:collatz>'(309, 1),
+  step((true:+'<urn:example:collatz>'(210, 1, _)),
+       '<urn:example:collatz>'(210, 1, 40),
        true).
-  step((true:+'<urn:example:collatz>'(310, 1)),
-       '<urn:example:collatz>'(310, 1),
+  step((true:+'<urn:example:collatz>'(211, 1, _)),
+       '<urn:example:collatz>'(211, 1, 40),
        true).
-  step((true:+'<urn:example:collatz>'(311, 1)),
-       '<urn:example:collatz>'(311, 1),
+  step((true:+'<urn:example:collatz>'(212, 1, _)),
+       '<urn:example:collatz>'(212, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(312, 1)),
-       '<urn:example:collatz>'(312, 1),
+  step((true:+'<urn:example:collatz>'(213, 1, _)),
+       '<urn:example:collatz>'(213, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(313, 1)),
-       '<urn:example:collatz>'(313, 1),
+  step((true:+'<urn:example:collatz>'(214, 1, _)),
+       '<urn:example:collatz>'(214, 1, 102),
        true).
-  step((true:+'<urn:example:collatz>'(314, 1)),
-       '<urn:example:collatz>'(314, 1),
+  step((true:+'<urn:example:collatz>'(215, 1, _)),
+       '<urn:example:collatz>'(215, 1, 102),
        true).
-  step((true:+'<urn:example:collatz>'(315, 1)),
-       '<urn:example:collatz>'(315, 1),
+  step((true:+'<urn:example:collatz>'(216, 1, _)),
+       '<urn:example:collatz>'(216, 1, 115),
        true).
-  step((true:+'<urn:example:collatz>'(316, 1)),
-       '<urn:example:collatz>'(316, 1),
+  step((true:+'<urn:example:collatz>'(217, 1, _)),
+       '<urn:example:collatz>'(217, 1, 27),
        true).
-  step((true:+'<urn:example:collatz>'(317, 1)),
-       '<urn:example:collatz>'(317, 1),
+  step((true:+'<urn:example:collatz>'(218, 1, _)),
+       '<urn:example:collatz>'(218, 1, 115),
        true).
-  step((true:+'<urn:example:collatz>'(318, 1)),
-       '<urn:example:collatz>'(318, 1),
+  step((true:+'<urn:example:collatz>'(219, 1, _)),
+       '<urn:example:collatz>'(219, 1, 53),
        true).
-  step((true:+'<urn:example:collatz>'(319, 1)),
-       '<urn:example:collatz>'(319, 1),
+  step((true:+'<urn:example:collatz>'(220, 1, _)),
+       '<urn:example:collatz>'(220, 1, 115),
        true).
-  step((true:+'<urn:example:collatz>'(320, 1)),
-       '<urn:example:collatz>'(320, 1),
+  step((true:+'<urn:example:collatz>'(221, 1, _)),
+       '<urn:example:collatz>'(221, 1, 115),
        true).
-  step((true:+'<urn:example:collatz>'(321, 1)),
-       '<urn:example:collatz>'(321, 1),
+  step((true:+'<urn:example:collatz>'(222, 1, _)),
+       '<urn:example:collatz>'(222, 1, 71),
        true).
-  step((true:+'<urn:example:collatz>'(322, 1)),
-       '<urn:example:collatz>'(322, 1),
+  step((true:+'<urn:example:collatz>'(223, 1, _)),
+       '<urn:example:collatz>'(223, 1, 71),
        true).
-  step((true:+'<urn:example:collatz>'(323, 1)),
-       '<urn:example:collatz>'(323, 1),
+  step((true:+'<urn:example:collatz>'(224, 1, _)),
+       '<urn:example:collatz>'(224, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(324, 1)),
-       '<urn:example:collatz>'(324, 1),
+  step((true:+'<urn:example:collatz>'(225, 1, _)),
+       '<urn:example:collatz>'(225, 1, 53),
        true).
-  step((true:+'<urn:example:collatz>'(325, 1)),
-       '<urn:example:collatz>'(325, 1),
+  step((true:+'<urn:example:collatz>'(226, 1, _)),
+       '<urn:example:collatz>'(226, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(326, 1)),
-       '<urn:example:collatz>'(326, 1),
+  step((true:+'<urn:example:collatz>'(227, 1, _)),
+       '<urn:example:collatz>'(227, 1, 14),
        true).
-  step((true:+'<urn:example:collatz>'(327, 1)),
-       '<urn:example:collatz>'(327, 1),
+  step((true:+'<urn:example:collatz>'(228, 1, _)),
+       '<urn:example:collatz>'(228, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(328, 1)),
-       '<urn:example:collatz>'(328, 1),
+  step((true:+'<urn:example:collatz>'(229, 1, _)),
+       '<urn:example:collatz>'(229, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(329, 1)),
-       '<urn:example:collatz>'(329, 1),
+  step((true:+'<urn:example:collatz>'(230, 1, _)),
+       '<urn:example:collatz>'(230, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(330, 1)),
-       '<urn:example:collatz>'(330, 1),
+  step((true:+'<urn:example:collatz>'(231, 1, _)),
+       '<urn:example:collatz>'(231, 1, 128),
        true).
-  step((true:+'<urn:example:collatz>'(331, 1)),
-       '<urn:example:collatz>'(331, 1),
+  step((true:+'<urn:example:collatz>'(232, 1, _)),
+       '<urn:example:collatz>'(232, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(332, 1)),
-       '<urn:example:collatz>'(332, 1),
+  step((true:+'<urn:example:collatz>'(233, 1, _)),
+       '<urn:example:collatz>'(233, 1, 84),
        true).
-  step((true:+'<urn:example:collatz>'(333, 1)),
-       '<urn:example:collatz>'(333, 1),
+  step((true:+'<urn:example:collatz>'(234, 1, _)),
+       '<urn:example:collatz>'(234, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(334, 1)),
-       '<urn:example:collatz>'(334, 1),
+  step((true:+'<urn:example:collatz>'(235, 1, _)),
+       '<urn:example:collatz>'(235, 1, 128),
        true).
-  step((true:+'<urn:example:collatz>'(335, 1)),
-       '<urn:example:collatz>'(335, 1),
+  step((true:+'<urn:example:collatz>'(236, 1, _)),
+       '<urn:example:collatz>'(236, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(336, 1)),
-       '<urn:example:collatz>'(336, 1),
+  step((true:+'<urn:example:collatz>'(237, 1, _)),
+       '<urn:example:collatz>'(237, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(337, 1)),
-       '<urn:example:collatz>'(337, 1),
+  step((true:+'<urn:example:collatz>'(238, 1, _)),
+       '<urn:example:collatz>'(238, 1, 35),
        true).
-  step((true:+'<urn:example:collatz>'(338, 1)),
-       '<urn:example:collatz>'(338, 1),
+  step((true:+'<urn:example:collatz>'(239, 1, _)),
+       '<urn:example:collatz>'(239, 1, 53),
        true).
-  step((true:+'<urn:example:collatz>'(339, 1)),
-       '<urn:example:collatz>'(339, 1),
+  step((true:+'<urn:example:collatz>'(240, 1, _)),
+       '<urn:example:collatz>'(240, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(340, 1)),
-       '<urn:example:collatz>'(340, 1),
+  step((true:+'<urn:example:collatz>'(241, 1, _)),
+       '<urn:example:collatz>'(241, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(341, 1)),
-       '<urn:example:collatz>'(341, 1),
+  step((true:+'<urn:example:collatz>'(242, 1, _)),
+       '<urn:example:collatz>'(242, 1, 97),
        true).
-  step((true:+'<urn:example:collatz>'(342, 1)),
-       '<urn:example:collatz>'(342, 1),
+  step((true:+'<urn:example:collatz>'(243, 1, _)),
+       '<urn:example:collatz>'(243, 1, 97),
        true).
-  step((true:+'<urn:example:collatz>'(343, 1)),
-       '<urn:example:collatz>'(343, 1),
+  step((true:+'<urn:example:collatz>'(244, 1, _)),
+       '<urn:example:collatz>'(244, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(344, 1)),
-       '<urn:example:collatz>'(344, 1),
+  step((true:+'<urn:example:collatz>'(245, 1, _)),
+       '<urn:example:collatz>'(245, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(345, 1)),
-       '<urn:example:collatz>'(345, 1),
+  step((true:+'<urn:example:collatz>'(246, 1, _)),
+       '<urn:example:collatz>'(246, 1, 48),
        true).
-  step((true:+'<urn:example:collatz>'(346, 1)),
-       '<urn:example:collatz>'(346, 1),
+  step((true:+'<urn:example:collatz>'(247, 1, _)),
+       '<urn:example:collatz>'(247, 1, 48),
        true).
-  step((true:+'<urn:example:collatz>'(347, 1)),
-       '<urn:example:collatz>'(347, 1),
+  step((true:+'<urn:example:collatz>'(248, 1, _)),
+       '<urn:example:collatz>'(248, 1, 110),
        true).
-  step((true:+'<urn:example:collatz>'(348, 1)),
-       '<urn:example:collatz>'(348, 1),
+  step((true:+'<urn:example:collatz>'(249, 1, _)),
+       '<urn:example:collatz>'(249, 1, 48),
        true).
-  step((true:+'<urn:example:collatz>'(349, 1)),
-       '<urn:example:collatz>'(349, 1),
+  step((true:+'<urn:example:collatz>'(250, 1, _)),
+       '<urn:example:collatz>'(250, 1, 110),
        true).
-  step((true:+'<urn:example:collatz>'(350, 1)),
-       '<urn:example:collatz>'(350, 1),
+  step((true:+'<urn:example:collatz>'(251, 1, _)),
+       '<urn:example:collatz>'(251, 1, 66),
        true).
-  step((true:+'<urn:example:collatz>'(351, 1)),
-       '<urn:example:collatz>'(351, 1),
+  step((true:+'<urn:example:collatz>'(252, 1, _)),
+       '<urn:example:collatz>'(252, 1, 110),
        true).
-  step((true:+'<urn:example:collatz>'(352, 1)),
-       '<urn:example:collatz>'(352, 1),
+  step((true:+'<urn:example:collatz>'(253, 1, _)),
+       '<urn:example:collatz>'(253, 1, 110),
        true).
-  step((true:+'<urn:example:collatz>'(353, 1)),
-       '<urn:example:collatz>'(353, 1),
+  step((true:+'<urn:example:collatz>'(254, 1, _)),
+       '<urn:example:collatz>'(254, 1, 48),
        true).
-  step((true:+'<urn:example:collatz>'(354, 1)),
-       '<urn:example:collatz>'(354, 1),
+  step((true:+'<urn:example:collatz>'(255, 1, _)),
+       '<urn:example:collatz>'(255, 1, 48),
        true).
-  step((true:+'<urn:example:collatz>'(355, 1)),
-       '<urn:example:collatz>'(355, 1),
+  step((true:+'<urn:example:collatz>'(256, 1, _)),
+       '<urn:example:collatz>'(256, 1, 9),
        true).
-  step((true:+'<urn:example:collatz>'(356, 1)),
-       '<urn:example:collatz>'(356, 1),
+  step((true:+'<urn:example:collatz>'(257, 1, _)),
+       '<urn:example:collatz>'(257, 1, 123),
        true).
-  step((true:+'<urn:example:collatz>'(357, 1)),
-       '<urn:example:collatz>'(357, 1),
+  step((true:+'<urn:example:collatz>'(258, 1, _)),
+       '<urn:example:collatz>'(258, 1, 123),
        true).
-  step((true:+'<urn:example:collatz>'(358, 1)),
-       '<urn:example:collatz>'(358, 1),
+  step((true:+'<urn:example:collatz>'(259, 1, _)),
+       '<urn:example:collatz>'(259, 1, 123),
        true).
-  step((true:+'<urn:example:collatz>'(359, 1)),
-       '<urn:example:collatz>'(359, 1),
+  step((true:+'<urn:example:collatz>'(260, 1, _)),
+       '<urn:example:collatz>'(260, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(360, 1)),
-       '<urn:example:collatz>'(360, 1),
+  step((true:+'<urn:example:collatz>'(261, 1, _)),
+       '<urn:example:collatz>'(261, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(361, 1)),
-       '<urn:example:collatz>'(361, 1),
+  step((true:+'<urn:example:collatz>'(262, 1, _)),
+       '<urn:example:collatz>'(262, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(362, 1)),
-       '<urn:example:collatz>'(362, 1),
+  step((true:+'<urn:example:collatz>'(263, 1, _)),
+       '<urn:example:collatz>'(263, 1, 79),
        true).
-  step((true:+'<urn:example:collatz>'(363, 1)),
-       '<urn:example:collatz>'(363, 1),
+  step((true:+'<urn:example:collatz>'(264, 1, _)),
+       '<urn:example:collatz>'(264, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(364, 1)),
-       '<urn:example:collatz>'(364, 1),
+  step((true:+'<urn:example:collatz>'(265, 1, _)),
+       '<urn:example:collatz>'(265, 1, 123),
        true).
-  step((true:+'<urn:example:collatz>'(365, 1)),
-       '<urn:example:collatz>'(365, 1),
+  step((true:+'<urn:example:collatz>'(266, 1, _)),
+       '<urn:example:collatz>'(266, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(366, 1)),
-       '<urn:example:collatz>'(366, 1),
+  step((true:+'<urn:example:collatz>'(267, 1, _)),
+       '<urn:example:collatz>'(267, 1, 22),
        true).
-  step((true:+'<urn:example:collatz>'(367, 1)),
-       '<urn:example:collatz>'(367, 1),
+  step((true:+'<urn:example:collatz>'(268, 1, _)),
+       '<urn:example:collatz>'(268, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(368, 1)),
-       '<urn:example:collatz>'(368, 1),
+  step((true:+'<urn:example:collatz>'(269, 1, _)),
+       '<urn:example:collatz>'(269, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(369, 1)),
-       '<urn:example:collatz>'(369, 1),
+  step((true:+'<urn:example:collatz>'(270, 1, _)),
+       '<urn:example:collatz>'(270, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(370, 1)),
-       '<urn:example:collatz>'(370, 1),
+  step((true:+'<urn:example:collatz>'(271, 1, _)),
+       '<urn:example:collatz>'(271, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(371, 1)),
-       '<urn:example:collatz>'(371, 1),
+  step((true:+'<urn:example:collatz>'(272, 1, _)),
+       '<urn:example:collatz>'(272, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(372, 1)),
-       '<urn:example:collatz>'(372, 1),
+  step((true:+'<urn:example:collatz>'(273, 1, _)),
+       '<urn:example:collatz>'(273, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(373, 1)),
-       '<urn:example:collatz>'(373, 1),
+  step((true:+'<urn:example:collatz>'(274, 1, _)),
+       '<urn:example:collatz>'(274, 1, 92),
        true).
-  step((true:+'<urn:example:collatz>'(374, 1)),
-       '<urn:example:collatz>'(374, 1),
+  step((true:+'<urn:example:collatz>'(275, 1, _)),
+       '<urn:example:collatz>'(275, 1, 92),
        true).
-  step((true:+'<urn:example:collatz>'(375, 1)),
-       '<urn:example:collatz>'(375, 1),
+  step((true:+'<urn:example:collatz>'(276, 1, _)),
+       '<urn:example:collatz>'(276, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(376, 1)),
-       '<urn:example:collatz>'(376, 1),
+  step((true:+'<urn:example:collatz>'(277, 1, _)),
+       '<urn:example:collatz>'(277, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(377, 1)),
-       '<urn:example:collatz>'(377, 1),
+  step((true:+'<urn:example:collatz>'(278, 1, _)),
+       '<urn:example:collatz>'(278, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(378, 1)),
-       '<urn:example:collatz>'(378, 1),
+  step((true:+'<urn:example:collatz>'(279, 1, _)),
+       '<urn:example:collatz>'(279, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(379, 1)),
-       '<urn:example:collatz>'(379, 1),
+  step((true:+'<urn:example:collatz>'(280, 1, _)),
+       '<urn:example:collatz>'(280, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(380, 1)),
-       '<urn:example:collatz>'(380, 1),
+  step((true:+'<urn:example:collatz>'(281, 1, _)),
+       '<urn:example:collatz>'(281, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(381, 1)),
-       '<urn:example:collatz>'(381, 1),
+  step((true:+'<urn:example:collatz>'(282, 1, _)),
+       '<urn:example:collatz>'(282, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(382, 1)),
-       '<urn:example:collatz>'(382, 1),
+  step((true:+'<urn:example:collatz>'(283, 1, _)),
+       '<urn:example:collatz>'(283, 1, 61),
        true).
-  step((true:+'<urn:example:collatz>'(383, 1)),
-       '<urn:example:collatz>'(383, 1),
+  step((true:+'<urn:example:collatz>'(284, 1, _)),
+       '<urn:example:collatz>'(284, 1, 105),
        true).
-  step((true:+'<urn:example:collatz>'(384, 1)),
-       '<urn:example:collatz>'(384, 1),
+  step((true:+'<urn:example:collatz>'(285, 1, _)),
+       '<urn:example:collatz>'(285, 1, 105),
        true).
-  step((true:+'<urn:example:collatz>'(385, 1)),
-       '<urn:example:collatz>'(385, 1),
+  step((true:+'<urn:example:collatz>'(286, 1, _)),
+       '<urn:example:collatz>'(286, 1, 105),
        true).
-  step((true:+'<urn:example:collatz>'(386, 1)),
-       '<urn:example:collatz>'(386, 1),
+  step((true:+'<urn:example:collatz>'(287, 1, _)),
+       '<urn:example:collatz>'(287, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(387, 1)),
-       '<urn:example:collatz>'(387, 1),
+  step((true:+'<urn:example:collatz>'(288, 1, _)),
+       '<urn:example:collatz>'(288, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(388, 1)),
-       '<urn:example:collatz>'(388, 1),
+  step((true:+'<urn:example:collatz>'(289, 1, _)),
+       '<urn:example:collatz>'(289, 1, 30),
        true).
-  step((true:+'<urn:example:collatz>'(389, 1)),
-       '<urn:example:collatz>'(389, 1),
+  step((true:+'<urn:example:collatz>'(290, 1, _)),
+       '<urn:example:collatz>'(290, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(390, 1)),
-       '<urn:example:collatz>'(390, 1),
+  step((true:+'<urn:example:collatz>'(291, 1, _)),
+       '<urn:example:collatz>'(291, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(391, 1)),
-       '<urn:example:collatz>'(391, 1),
+  step((true:+'<urn:example:collatz>'(292, 1, _)),
+       '<urn:example:collatz>'(292, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(392, 1)),
-       '<urn:example:collatz>'(392, 1),
+  step((true:+'<urn:example:collatz>'(293, 1, _)),
+       '<urn:example:collatz>'(293, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(393, 1)),
-       '<urn:example:collatz>'(393, 1),
+  step((true:+'<urn:example:collatz>'(294, 1, _)),
+       '<urn:example:collatz>'(294, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(394, 1)),
-       '<urn:example:collatz>'(394, 1),
+  step((true:+'<urn:example:collatz>'(295, 1, _)),
+       '<urn:example:collatz>'(295, 1, 56),
        true).
-  step((true:+'<urn:example:collatz>'(395, 1)),
-       '<urn:example:collatz>'(395, 1),
+  step((true:+'<urn:example:collatz>'(296, 1, _)),
+       '<urn:example:collatz>'(296, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(396, 1)),
-       '<urn:example:collatz>'(396, 1),
+  step((true:+'<urn:example:collatz>'(297, 1, _)),
+       '<urn:example:collatz>'(297, 1, 74),
        true).
-  step((true:+'<urn:example:collatz>'(397, 1)),
-       '<urn:example:collatz>'(397, 1),
+  step((true:+'<urn:example:collatz>'(298, 1, _)),
+       '<urn:example:collatz>'(298, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(398, 1)),
-       '<urn:example:collatz>'(398, 1),
+  step((true:+'<urn:example:collatz>'(299, 1, _)),
+       '<urn:example:collatz>'(299, 1, 118),
        true).
-  step((true:+'<urn:example:collatz>'(399, 1)),
-       '<urn:example:collatz>'(399, 1),
+  step((true:+'<urn:example:collatz>'(300, 1, _)),
+       '<urn:example:collatz>'(300, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(400, 1)),
-       '<urn:example:collatz>'(400, 1),
+  step((true:+'<urn:example:collatz>'(301, 1, _)),
+       '<urn:example:collatz>'(301, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(401, 1)),
-       '<urn:example:collatz>'(401, 1),
+  step((true:+'<urn:example:collatz>'(302, 1, _)),
+       '<urn:example:collatz>'(302, 1, 17),
        true).
-  step((true:+'<urn:example:collatz>'(402, 1)),
-       '<urn:example:collatz>'(402, 1),
+  step((true:+'<urn:example:collatz>'(303, 1, _)),
+       '<urn:example:collatz>'(303, 1, 43),
        true).
-  step((true:+'<urn:example:collatz>'(403, 1)),
-       '<urn:example:collatz>'(403, 1),
+  step((true:+'<urn:example:collatz>'(304, 1, _)),
+       '<urn:example:collatz>'(304, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(404, 1)),
-       '<urn:example:collatz>'(404, 1),
+  step((true:+'<urn:example:collatz>'(305, 1, _)),
+       '<urn:example:collatz>'(305, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(405, 1)),
-       '<urn:example:collatz>'(405, 1),
+  step((true:+'<urn:example:collatz>'(306, 1, _)),
+       '<urn:example:collatz>'(306, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(406, 1)),
-       '<urn:example:collatz>'(406, 1),
+  step((true:+'<urn:example:collatz>'(307, 1, _)),
+       '<urn:example:collatz>'(307, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(407, 1)),
-       '<urn:example:collatz>'(407, 1),
+  step((true:+'<urn:example:collatz>'(308, 1, _)),
+       '<urn:example:collatz>'(308, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(408, 1)),
-       '<urn:example:collatz>'(408, 1),
+  step((true:+'<urn:example:collatz>'(309, 1, _)),
+       '<urn:example:collatz>'(309, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(409, 1)),
-       '<urn:example:collatz>'(409, 1),
+  step((true:+'<urn:example:collatz>'(310, 1, _)),
+       '<urn:example:collatz>'(310, 1, 87),
        true).
-  step((true:+'<urn:example:collatz>'(410, 1)),
-       '<urn:example:collatz>'(410, 1),
+  step((true:+'<urn:example:collatz>'(311, 1, _)),
+       '<urn:example:collatz>'(311, 1, 87),
        true).
-  step((true:+'<urn:example:collatz>'(411, 1)),
-       '<urn:example:collatz>'(411, 1),
+  step((true:+'<urn:example:collatz>'(312, 1, _)),
+       '<urn:example:collatz>'(312, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(412, 1)),
-       '<urn:example:collatz>'(412, 1),
+  step((true:+'<urn:example:collatz>'(313, 1, _)),
+       '<urn:example:collatz>'(313, 1, 131),
        true).
-  step((true:+'<urn:example:collatz>'(413, 1)),
-       '<urn:example:collatz>'(413, 1),
+  step((true:+'<urn:example:collatz>'(314, 1, _)),
+       '<urn:example:collatz>'(314, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(414, 1)),
-       '<urn:example:collatz>'(414, 1),
+  step((true:+'<urn:example:collatz>'(315, 1, _)),
+       '<urn:example:collatz>'(315, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(415, 1)),
-       '<urn:example:collatz>'(415, 1),
+  step((true:+'<urn:example:collatz>'(316, 1, _)),
+       '<urn:example:collatz>'(316, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(416, 1)),
-       '<urn:example:collatz>'(416, 1),
+  step((true:+'<urn:example:collatz>'(317, 1, _)),
+       '<urn:example:collatz>'(317, 1, 38),
        true).
-  step((true:+'<urn:example:collatz>'(417, 1)),
-       '<urn:example:collatz>'(417, 1),
+  step((true:+'<urn:example:collatz>'(318, 1, _)),
+       '<urn:example:collatz>'(318, 1, 56),
        true).
-  step((true:+'<urn:example:collatz>'(418, 1)),
-       '<urn:example:collatz>'(418, 1),
+  step((true:+'<urn:example:collatz>'(319, 1, _)),
+       '<urn:example:collatz>'(319, 1, 56),
        true).
-  step((true:+'<urn:example:collatz>'(419, 1)),
-       '<urn:example:collatz>'(419, 1),
+  step((true:+'<urn:example:collatz>'(320, 1, _)),
+       '<urn:example:collatz>'(320, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(420, 1)),
-       '<urn:example:collatz>'(420, 1),
+  step((true:+'<urn:example:collatz>'(321, 1, _)),
+       '<urn:example:collatz>'(321, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(421, 1)),
-       '<urn:example:collatz>'(421, 1),
+  step((true:+'<urn:example:collatz>'(322, 1, _)),
+       '<urn:example:collatz>'(322, 1, 100),
        true).
-  step((true:+'<urn:example:collatz>'(422, 1)),
-       '<urn:example:collatz>'(422, 1),
+  step((true:+'<urn:example:collatz>'(323, 1, _)),
+       '<urn:example:collatz>'(323, 1, 100),
        true).
-  step((true:+'<urn:example:collatz>'(423, 1)),
-       '<urn:example:collatz>'(423, 1),
+  step((true:+'<urn:example:collatz>'(324, 1, _)),
+       '<urn:example:collatz>'(324, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(424, 1)),
-       '<urn:example:collatz>'(424, 1),
+  step((true:+'<urn:example:collatz>'(325, 1, _)),
+       '<urn:example:collatz>'(325, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(425, 1)),
-       '<urn:example:collatz>'(425, 1),
+  step((true:+'<urn:example:collatz>'(326, 1, _)),
+       '<urn:example:collatz>'(326, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(426, 1)),
-       '<urn:example:collatz>'(426, 1),
+  step((true:+'<urn:example:collatz>'(327, 1, _)),
+       '<urn:example:collatz>'(327, 1, 144),
        true).
-  step((true:+'<urn:example:collatz>'(427, 1)),
-       '<urn:example:collatz>'(427, 1),
+  step((true:+'<urn:example:collatz>'(328, 1, _)),
+       '<urn:example:collatz>'(328, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(428, 1)),
-       '<urn:example:collatz>'(428, 1),
+  step((true:+'<urn:example:collatz>'(329, 1, _)),
+       '<urn:example:collatz>'(329, 1, 51),
        true).
-  step((true:+'<urn:example:collatz>'(429, 1)),
-       '<urn:example:collatz>'(429, 1),
+  step((true:+'<urn:example:collatz>'(330, 1, _)),
+       '<urn:example:collatz>'(330, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(430, 1)),
-       '<urn:example:collatz>'(430, 1),
+  step((true:+'<urn:example:collatz>'(331, 1, _)),
+       '<urn:example:collatz>'(331, 1, 25),
        true).
-  step((true:+'<urn:example:collatz>'(431, 1)),
-       '<urn:example:collatz>'(431, 1),
+  step((true:+'<urn:example:collatz>'(332, 1, _)),
+       '<urn:example:collatz>'(332, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(432, 1)),
-       '<urn:example:collatz>'(432, 1),
+  step((true:+'<urn:example:collatz>'(333, 1, _)),
+       '<urn:example:collatz>'(333, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(433, 1)),
-       '<urn:example:collatz>'(433, 1),
+  step((true:+'<urn:example:collatz>'(334, 1, _)),
+       '<urn:example:collatz>'(334, 1, 69),
        true).
-  step((true:+'<urn:example:collatz>'(434, 1)),
-       '<urn:example:collatz>'(434, 1),
+  step((true:+'<urn:example:collatz>'(335, 1, _)),
+       '<urn:example:collatz>'(335, 1, 69),
        true).
-  step((true:+'<urn:example:collatz>'(435, 1)),
-       '<urn:example:collatz>'(435, 1),
+  step((true:+'<urn:example:collatz>'(336, 1, _)),
+       '<urn:example:collatz>'(336, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(436, 1)),
-       '<urn:example:collatz>'(436, 1),
+  step((true:+'<urn:example:collatz>'(337, 1, _)),
+       '<urn:example:collatz>'(337, 1, 113),
        true).
-  step((true:+'<urn:example:collatz>'(437, 1)),
-       '<urn:example:collatz>'(437, 1),
+  step((true:+'<urn:example:collatz>'(338, 1, _)),
+       '<urn:example:collatz>'(338, 1, 51),
        true).
-  step((true:+'<urn:example:collatz>'(438, 1)),
-       '<urn:example:collatz>'(438, 1),
+  step((true:+'<urn:example:collatz>'(339, 1, _)),
+       '<urn:example:collatz>'(339, 1, 51),
        true).
-  step((true:+'<urn:example:collatz>'(439, 1)),
-       '<urn:example:collatz>'(439, 1),
+  step((true:+'<urn:example:collatz>'(340, 1, _)),
+       '<urn:example:collatz>'(340, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(440, 1)),
-       '<urn:example:collatz>'(440, 1),
+  step((true:+'<urn:example:collatz>'(341, 1, _)),
+       '<urn:example:collatz>'(341, 1, 12),
        true).
-  step((true:+'<urn:example:collatz>'(441, 1)),
-       '<urn:example:collatz>'(441, 1),
+  step((true:+'<urn:example:collatz>'(342, 1, _)),
+       '<urn:example:collatz>'(342, 1, 126),
        true).
-  step((true:+'<urn:example:collatz>'(442, 1)),
-       '<urn:example:collatz>'(442, 1),
+  step((true:+'<urn:example:collatz>'(343, 1, _)),
+       '<urn:example:collatz>'(343, 1, 126),
        true).
-  step((true:+'<urn:example:collatz>'(443, 1)),
-       '<urn:example:collatz>'(443, 1),
+  step((true:+'<urn:example:collatz>'(344, 1, _)),
+       '<urn:example:collatz>'(344, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(444, 1)),
-       '<urn:example:collatz>'(444, 1),
+  step((true:+'<urn:example:collatz>'(345, 1, _)),
+       '<urn:example:collatz>'(345, 1, 126),
        true).
-  step((true:+'<urn:example:collatz>'(445, 1)),
-       '<urn:example:collatz>'(445, 1),
+  step((true:+'<urn:example:collatz>'(346, 1, _)),
+       '<urn:example:collatz>'(346, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(446, 1)),
-       '<urn:example:collatz>'(446, 1),
+  step((true:+'<urn:example:collatz>'(347, 1, _)),
+       '<urn:example:collatz>'(347, 1, 126),
        true).
-  step((true:+'<urn:example:collatz>'(447, 1)),
-       '<urn:example:collatz>'(447, 1),
+  step((true:+'<urn:example:collatz>'(348, 1, _)),
+       '<urn:example:collatz>'(348, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(448, 1)),
-       '<urn:example:collatz>'(448, 1),
+  step((true:+'<urn:example:collatz>'(349, 1, _)),
+       '<urn:example:collatz>'(349, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(449, 1)),
-       '<urn:example:collatz>'(449, 1),
+  step((true:+'<urn:example:collatz>'(350, 1, _)),
+       '<urn:example:collatz>'(350, 1, 82),
        true).
-  step((true:+'<urn:example:collatz>'(450, 1)),
-       '<urn:example:collatz>'(450, 1),
+  step((true:+'<urn:example:collatz>'(351, 1, _)),
+       '<urn:example:collatz>'(351, 1, 82),
        true).
-  step((true:+'<urn:example:collatz>'(451, 1)),
-       '<urn:example:collatz>'(451, 1),
+  step((true:+'<urn:example:collatz>'(352, 1, _)),
+       '<urn:example:collatz>'(352, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(452, 1)),
-       '<urn:example:collatz>'(452, 1),
+  step((true:+'<urn:example:collatz>'(353, 1, _)),
+       '<urn:example:collatz>'(353, 1, 126),
        true).
-  step((true:+'<urn:example:collatz>'(453, 1)),
-       '<urn:example:collatz>'(453, 1),
+  step((true:+'<urn:example:collatz>'(354, 1, _)),
+       '<urn:example:collatz>'(354, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(454, 1)),
-       '<urn:example:collatz>'(454, 1),
+  step((true:+'<urn:example:collatz>'(355, 1, _)),
+       '<urn:example:collatz>'(355, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(455, 1)),
-       '<urn:example:collatz>'(455, 1),
+  step((true:+'<urn:example:collatz>'(356, 1, _)),
+       '<urn:example:collatz>'(356, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(456, 1)),
-       '<urn:example:collatz>'(456, 1),
+  step((true:+'<urn:example:collatz>'(357, 1, _)),
+       '<urn:example:collatz>'(357, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(457, 1)),
-       '<urn:example:collatz>'(457, 1),
+  step((true:+'<urn:example:collatz>'(358, 1, _)),
+       '<urn:example:collatz>'(358, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(458, 1)),
-       '<urn:example:collatz>'(458, 1),
+  step((true:+'<urn:example:collatz>'(359, 1, _)),
+       '<urn:example:collatz>'(359, 1, 51),
        true).
-  step((true:+'<urn:example:collatz>'(459, 1)),
-       '<urn:example:collatz>'(459, 1),
+  step((true:+'<urn:example:collatz>'(360, 1, _)),
+       '<urn:example:collatz>'(360, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(460, 1)),
-       '<urn:example:collatz>'(460, 1),
+  step((true:+'<urn:example:collatz>'(361, 1, _)),
+       '<urn:example:collatz>'(361, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(461, 1)),
-       '<urn:example:collatz>'(461, 1),
+  step((true:+'<urn:example:collatz>'(362, 1, _)),
+       '<urn:example:collatz>'(362, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(462, 1)),
-       '<urn:example:collatz>'(462, 1),
+  step((true:+'<urn:example:collatz>'(363, 1, _)),
+       '<urn:example:collatz>'(363, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(463, 1)),
-       '<urn:example:collatz>'(463, 1),
+  step((true:+'<urn:example:collatz>'(364, 1, _)),
+       '<urn:example:collatz>'(364, 1, 95),
        true).
-  step((true:+'<urn:example:collatz>'(464, 1)),
-       '<urn:example:collatz>'(464, 1),
+  step((true:+'<urn:example:collatz>'(365, 1, _)),
+       '<urn:example:collatz>'(365, 1, 95),
        true).
-  step((true:+'<urn:example:collatz>'(465, 1)),
-       '<urn:example:collatz>'(465, 1),
+  step((true:+'<urn:example:collatz>'(366, 1, _)),
+       '<urn:example:collatz>'(366, 1, 95),
        true).
-  step((true:+'<urn:example:collatz>'(466, 1)),
-       '<urn:example:collatz>'(466, 1),
+  step((true:+'<urn:example:collatz>'(367, 1, _)),
+       '<urn:example:collatz>'(367, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(467, 1)),
-       '<urn:example:collatz>'(467, 1),
+  step((true:+'<urn:example:collatz>'(368, 1, _)),
+       '<urn:example:collatz>'(368, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(468, 1)),
-       '<urn:example:collatz>'(468, 1),
+  step((true:+'<urn:example:collatz>'(369, 1, _)),
+       '<urn:example:collatz>'(369, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(469, 1)),
-       '<urn:example:collatz>'(469, 1),
+  step((true:+'<urn:example:collatz>'(370, 1, _)),
+       '<urn:example:collatz>'(370, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(470, 1)),
-       '<urn:example:collatz>'(470, 1),
+  step((true:+'<urn:example:collatz>'(371, 1, _)),
+       '<urn:example:collatz>'(371, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(471, 1)),
-       '<urn:example:collatz>'(471, 1),
+  step((true:+'<urn:example:collatz>'(372, 1, _)),
+       '<urn:example:collatz>'(372, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(472, 1)),
-       '<urn:example:collatz>'(472, 1),
+  step((true:+'<urn:example:collatz>'(373, 1, _)),
+       '<urn:example:collatz>'(373, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(473, 1)),
-       '<urn:example:collatz>'(473, 1),
+  step((true:+'<urn:example:collatz>'(374, 1, _)),
+       '<urn:example:collatz>'(374, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(474, 1)),
-       '<urn:example:collatz>'(474, 1),
+  step((true:+'<urn:example:collatz>'(375, 1, _)),
+       '<urn:example:collatz>'(375, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(475, 1)),
-       '<urn:example:collatz>'(475, 1),
+  step((true:+'<urn:example:collatz>'(376, 1, _)),
+       '<urn:example:collatz>'(376, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(476, 1)),
-       '<urn:example:collatz>'(476, 1),
+  step((true:+'<urn:example:collatz>'(377, 1, _)),
+       '<urn:example:collatz>'(377, 1, 64),
        true).
-  step((true:+'<urn:example:collatz>'(477, 1)),
-       '<urn:example:collatz>'(477, 1),
+  step((true:+'<urn:example:collatz>'(378, 1, _)),
+       '<urn:example:collatz>'(378, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(478, 1)),
-       '<urn:example:collatz>'(478, 1),
+  step((true:+'<urn:example:collatz>'(379, 1, _)),
+       '<urn:example:collatz>'(379, 1, 59),
        true).
-  step((true:+'<urn:example:collatz>'(479, 1)),
-       '<urn:example:collatz>'(479, 1),
+  step((true:+'<urn:example:collatz>'(380, 1, _)),
+       '<urn:example:collatz>'(380, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(480, 1)),
-       '<urn:example:collatz>'(480, 1),
+  step((true:+'<urn:example:collatz>'(381, 1, _)),
+       '<urn:example:collatz>'(381, 1, 108),
        true).
-  step((true:+'<urn:example:collatz>'(481, 1)),
-       '<urn:example:collatz>'(481, 1),
+  step((true:+'<urn:example:collatz>'(382, 1, _)),
+       '<urn:example:collatz>'(382, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(482, 1)),
-       '<urn:example:collatz>'(482, 1),
+  step((true:+'<urn:example:collatz>'(383, 1, _)),
+       '<urn:example:collatz>'(383, 1, 46),
        true).
-  step((true:+'<urn:example:collatz>'(483, 1)),
-       '<urn:example:collatz>'(483, 1),
+  step((true:+'<urn:example:collatz>'(384, 1, _)),
+       '<urn:example:collatz>'(384, 1, 15),
        true).
-  step((true:+'<urn:example:collatz>'(484, 1)),
-       '<urn:example:collatz>'(484, 1),
+  step((true:+'<urn:example:collatz>'(385, 1, _)),
+       '<urn:example:collatz>'(385, 1, 33),
        true).
-  step((true:+'<urn:example:collatz>'(485, 1)),
-       '<urn:example:collatz>'(485, 1),
+  step((true:+'<urn:example:collatz>'(386, 1, _)),
+       '<urn:example:collatz>'(386, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(486, 1)),
-       '<urn:example:collatz>'(486, 1),
+  step((true:+'<urn:example:collatz>'(387, 1, _)),
+       '<urn:example:collatz>'(387, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(487, 1)),
-       '<urn:example:collatz>'(487, 1),
+  step((true:+'<urn:example:collatz>'(388, 1, _)),
+       '<urn:example:collatz>'(388, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(488, 1)),
-       '<urn:example:collatz>'(488, 1),
+  step((true:+'<urn:example:collatz>'(389, 1, _)),
+       '<urn:example:collatz>'(389, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(489, 1)),
-       '<urn:example:collatz>'(489, 1),
+  step((true:+'<urn:example:collatz>'(390, 1, _)),
+       '<urn:example:collatz>'(390, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(490, 1)),
-       '<urn:example:collatz>'(490, 1),
+  step((true:+'<urn:example:collatz>'(391, 1, _)),
+       '<urn:example:collatz>'(391, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(491, 1)),
-       '<urn:example:collatz>'(491, 1),
+  step((true:+'<urn:example:collatz>'(392, 1, _)),
+       '<urn:example:collatz>'(392, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(492, 1)),
-       '<urn:example:collatz>'(492, 1),
+  step((true:+'<urn:example:collatz>'(393, 1, _)),
+       '<urn:example:collatz>'(393, 1, 59),
        true).
-  step((true:+'<urn:example:collatz>'(493, 1)),
-       '<urn:example:collatz>'(493, 1),
+  step((true:+'<urn:example:collatz>'(394, 1, _)),
+       '<urn:example:collatz>'(394, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(494, 1)),
-       '<urn:example:collatz>'(494, 1),
+  step((true:+'<urn:example:collatz>'(395, 1, _)),
+       '<urn:example:collatz>'(395, 1, 77),
        true).
-  step((true:+'<urn:example:collatz>'(495, 1)),
-       '<urn:example:collatz>'(495, 1),
+  step((true:+'<urn:example:collatz>'(396, 1, _)),
+       '<urn:example:collatz>'(396, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(496, 1)),
-       '<urn:example:collatz>'(496, 1),
+  step((true:+'<urn:example:collatz>'(397, 1, _)),
+       '<urn:example:collatz>'(397, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(497, 1)),
-       '<urn:example:collatz>'(497, 1),
+  step((true:+'<urn:example:collatz>'(398, 1, _)),
+       '<urn:example:collatz>'(398, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(498, 1)),
-       '<urn:example:collatz>'(498, 1),
+  step((true:+'<urn:example:collatz>'(399, 1, _)),
+       '<urn:example:collatz>'(399, 1, 121),
        true).
-  step((true:+'<urn:example:collatz>'(499, 1)),
-       '<urn:example:collatz>'(499, 1),
+  step((true:+'<urn:example:collatz>'(400, 1, _)),
+       '<urn:example:collatz>'(400, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(500, 1)),
-       '<urn:example:collatz>'(500, 1),
+  step((true:+'<urn:example:collatz>'(401, 1, _)),
+       '<urn:example:collatz>'(401, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(501, 1)),
-       '<urn:example:collatz>'(501, 1),
+  step((true:+'<urn:example:collatz>'(402, 1, _)),
+       '<urn:example:collatz>'(402, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(502, 1)),
-       '<urn:example:collatz>'(502, 1),
+  step((true:+'<urn:example:collatz>'(403, 1, _)),
+       '<urn:example:collatz>'(403, 1, 20),
        true).
-  step((true:+'<urn:example:collatz>'(503, 1)),
-       '<urn:example:collatz>'(503, 1),
+  step((true:+'<urn:example:collatz>'(404, 1, _)),
+       '<urn:example:collatz>'(404, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(504, 1)),
-       '<urn:example:collatz>'(504, 1),
+  step((true:+'<urn:example:collatz>'(405, 1, _)),
+       '<urn:example:collatz>'(405, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(505, 1)),
-       '<urn:example:collatz>'(505, 1),
+  step((true:+'<urn:example:collatz>'(406, 1, _)),
+       '<urn:example:collatz>'(406, 1, 41),
        true).
-  step((true:+'<urn:example:collatz>'(506, 1)),
-       '<urn:example:collatz>'(506, 1),
+  step((true:+'<urn:example:collatz>'(407, 1, _)),
+       '<urn:example:collatz>'(407, 1, 41),
        true).
-  step((true:+'<urn:example:collatz>'(507, 1)),
-       '<urn:example:collatz>'(507, 1),
+  step((true:+'<urn:example:collatz>'(408, 1, _)),
+       '<urn:example:collatz>'(408, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(508, 1)),
-       '<urn:example:collatz>'(508, 1),
+  step((true:+'<urn:example:collatz>'(409, 1, _)),
+       '<urn:example:collatz>'(409, 1, 41),
        true).
-  step((true:+'<urn:example:collatz>'(509, 1)),
-       '<urn:example:collatz>'(509, 1),
+  step((true:+'<urn:example:collatz>'(410, 1, _)),
+       '<urn:example:collatz>'(410, 1, 28),
        true).
-  step((true:+'<urn:example:collatz>'(510, 1)),
-       '<urn:example:collatz>'(510, 1),
+  step((true:+'<urn:example:collatz>'(411, 1, _)),
+       '<urn:example:collatz>'(411, 1, 134),
        true).
-  step((true:+'<urn:example:collatz>'(511, 1)),
-       '<urn:example:collatz>'(511, 1),
+  step((true:+'<urn:example:collatz>'(412, 1, _)),
+       '<urn:example:collatz>'(412, 1, 90),
        true).
-  step((true:+'<urn:example:collatz>'(512, 1)),
-       '<urn:example:collatz>'(512, 1),
+  step((true:+'<urn:example:collatz>'(413, 1, _)),
+       '<urn:example:collatz>'(413, 1, 90),
+       true).
+  step((true:+'<urn:example:collatz>'(414, 1, _)),
+       '<urn:example:collatz>'(414, 1, 90),
+       true).
+  step((true:+'<urn:example:collatz>'(415, 1, _)),
+       '<urn:example:collatz>'(415, 1, 134),
+       true).
+  step((true:+'<urn:example:collatz>'(416, 1, _)),
+       '<urn:example:collatz>'(416, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(417, 1, _)),
+       '<urn:example:collatz>'(417, 1, 134),
+       true).
+  step((true:+'<urn:example:collatz>'(418, 1, _)),
+       '<urn:example:collatz>'(418, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(419, 1, _)),
+       '<urn:example:collatz>'(419, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(420, 1, _)),
+       '<urn:example:collatz>'(420, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(421, 1, _)),
+       '<urn:example:collatz>'(421, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(422, 1, _)),
+       '<urn:example:collatz>'(422, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(423, 1, _)),
+       '<urn:example:collatz>'(423, 1, 33),
+       true).
+  step((true:+'<urn:example:collatz>'(424, 1, _)),
+       '<urn:example:collatz>'(424, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(425, 1, _)),
+       '<urn:example:collatz>'(425, 1, 59),
+       true).
+  step((true:+'<urn:example:collatz>'(426, 1, _)),
+       '<urn:example:collatz>'(426, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(427, 1, _)),
+       '<urn:example:collatz>'(427, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(428, 1, _)),
+       '<urn:example:collatz>'(428, 1, 103),
+       true).
+  step((true:+'<urn:example:collatz>'(429, 1, _)),
+       '<urn:example:collatz>'(429, 1, 103),
+       true).
+  step((true:+'<urn:example:collatz>'(430, 1, _)),
+       '<urn:example:collatz>'(430, 1, 103),
+       true).
+  step((true:+'<urn:example:collatz>'(431, 1, _)),
+       '<urn:example:collatz>'(431, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(432, 1, _)),
+       '<urn:example:collatz>'(432, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(433, 1, _)),
+       '<urn:example:collatz>'(433, 1, 28),
+       true).
+  step((true:+'<urn:example:collatz>'(434, 1, _)),
+       '<urn:example:collatz>'(434, 1, 28),
+       true).
+  step((true:+'<urn:example:collatz>'(435, 1, _)),
+       '<urn:example:collatz>'(435, 1, 28),
+       true).
+  step((true:+'<urn:example:collatz>'(436, 1, _)),
+       '<urn:example:collatz>'(436, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(437, 1, _)),
+       '<urn:example:collatz>'(437, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(438, 1, _)),
+       '<urn:example:collatz>'(438, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(439, 1, _)),
+       '<urn:example:collatz>'(439, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(440, 1, _)),
+       '<urn:example:collatz>'(440, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(441, 1, _)),
+       '<urn:example:collatz>'(441, 1, 28),
+       true).
+  step((true:+'<urn:example:collatz>'(442, 1, _)),
+       '<urn:example:collatz>'(442, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(443, 1, _)),
+       '<urn:example:collatz>'(443, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(444, 1, _)),
+       '<urn:example:collatz>'(444, 1, 72),
+       true).
+  step((true:+'<urn:example:collatz>'(445, 1, _)),
+       '<urn:example:collatz>'(445, 1, 72),
+       true).
+  step((true:+'<urn:example:collatz>'(446, 1, _)),
+       '<urn:example:collatz>'(446, 1, 72),
+       true).
+  step((true:+'<urn:example:collatz>'(447, 1, _)),
+       '<urn:example:collatz>'(447, 1, 98),
+       true).
+  step((true:+'<urn:example:collatz>'(448, 1, _)),
+       '<urn:example:collatz>'(448, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(449, 1, _)),
+       '<urn:example:collatz>'(449, 1, 116),
+       true).
+  step((true:+'<urn:example:collatz>'(450, 1, _)),
+       '<urn:example:collatz>'(450, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(451, 1, _)),
+       '<urn:example:collatz>'(451, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(452, 1, _)),
+       '<urn:example:collatz>'(452, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(453, 1, _)),
+       '<urn:example:collatz>'(453, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(454, 1, _)),
+       '<urn:example:collatz>'(454, 1, 15),
+       true).
+  step((true:+'<urn:example:collatz>'(455, 1, _)),
+       '<urn:example:collatz>'(455, 1, 41),
+       true).
+  step((true:+'<urn:example:collatz>'(456, 1, _)),
+       '<urn:example:collatz>'(456, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(457, 1, _)),
+       '<urn:example:collatz>'(457, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(458, 1, _)),
+       '<urn:example:collatz>'(458, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(459, 1, _)),
+       '<urn:example:collatz>'(459, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(460, 1, _)),
+       '<urn:example:collatz>'(460, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(461, 1, _)),
+       '<urn:example:collatz>'(461, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(462, 1, _)),
+       '<urn:example:collatz>'(462, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(463, 1, _)),
+       '<urn:example:collatz>'(463, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(464, 1, _)),
+       '<urn:example:collatz>'(464, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(465, 1, _)),
+       '<urn:example:collatz>'(465, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(466, 1, _)),
+       '<urn:example:collatz>'(466, 1, 85),
+       true).
+  step((true:+'<urn:example:collatz>'(467, 1, _)),
+       '<urn:example:collatz>'(467, 1, 85),
+       true).
+  step((true:+'<urn:example:collatz>'(468, 1, _)),
+       '<urn:example:collatz>'(468, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(469, 1, _)),
+       '<urn:example:collatz>'(469, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(470, 1, _)),
+       '<urn:example:collatz>'(470, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(471, 1, _)),
+       '<urn:example:collatz>'(471, 1, 129),
+       true).
+  step((true:+'<urn:example:collatz>'(472, 1, _)),
+       '<urn:example:collatz>'(472, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(473, 1, _)),
+       '<urn:example:collatz>'(473, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(474, 1, _)),
+       '<urn:example:collatz>'(474, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(475, 1, _)),
+       '<urn:example:collatz>'(475, 1, 28),
+       true).
+  step((true:+'<urn:example:collatz>'(476, 1, _)),
+       '<urn:example:collatz>'(476, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(477, 1, _)),
+       '<urn:example:collatz>'(477, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(478, 1, _)),
+       '<urn:example:collatz>'(478, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(479, 1, _)),
+       '<urn:example:collatz>'(479, 1, 54),
+       true).
+  step((true:+'<urn:example:collatz>'(480, 1, _)),
+       '<urn:example:collatz>'(480, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(481, 1, _)),
+       '<urn:example:collatz>'(481, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(482, 1, _)),
+       '<urn:example:collatz>'(482, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(483, 1, _)),
+       '<urn:example:collatz>'(483, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(484, 1, _)),
+       '<urn:example:collatz>'(484, 1, 98),
+       true).
+  step((true:+'<urn:example:collatz>'(485, 1, _)),
+       '<urn:example:collatz>'(485, 1, 98),
+       true).
+  step((true:+'<urn:example:collatz>'(486, 1, _)),
+       '<urn:example:collatz>'(486, 1, 98),
+       true).
+  step((true:+'<urn:example:collatz>'(487, 1, _)),
+       '<urn:example:collatz>'(487, 1, 142),
+       true).
+  step((true:+'<urn:example:collatz>'(488, 1, _)),
+       '<urn:example:collatz>'(488, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(489, 1, _)),
+       '<urn:example:collatz>'(489, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(490, 1, _)),
+       '<urn:example:collatz>'(490, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(491, 1, _)),
+       '<urn:example:collatz>'(491, 1, 142),
+       true).
+  step((true:+'<urn:example:collatz>'(492, 1, _)),
+       '<urn:example:collatz>'(492, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(493, 1, _)),
+       '<urn:example:collatz>'(493, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(494, 1, _)),
+       '<urn:example:collatz>'(494, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(495, 1, _)),
+       '<urn:example:collatz>'(495, 1, 98),
+       true).
+  step((true:+'<urn:example:collatz>'(496, 1, _)),
+       '<urn:example:collatz>'(496, 1, 111),
+       true).
+  step((true:+'<urn:example:collatz>'(497, 1, _)),
+       '<urn:example:collatz>'(497, 1, 23),
+       true).
+  step((true:+'<urn:example:collatz>'(498, 1, _)),
+       '<urn:example:collatz>'(498, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(499, 1, _)),
+       '<urn:example:collatz>'(499, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(500, 1, _)),
+       '<urn:example:collatz>'(500, 1, 111),
+       true).
+  step((true:+'<urn:example:collatz>'(501, 1, _)),
+       '<urn:example:collatz>'(501, 1, 111),
+       true).
+  step((true:+'<urn:example:collatz>'(502, 1, _)),
+       '<urn:example:collatz>'(502, 1, 67),
+       true).
+  step((true:+'<urn:example:collatz>'(503, 1, _)),
+       '<urn:example:collatz>'(503, 1, 67),
+       true).
+  step((true:+'<urn:example:collatz>'(504, 1, _)),
+       '<urn:example:collatz>'(504, 1, 111),
+       true).
+  step((true:+'<urn:example:collatz>'(505, 1, _)),
+       '<urn:example:collatz>'(505, 1, 62),
+       true).
+  step((true:+'<urn:example:collatz>'(506, 1, _)),
+       '<urn:example:collatz>'(506, 1, 111),
+       true).
+  step((true:+'<urn:example:collatz>'(507, 1, _)),
+       '<urn:example:collatz>'(507, 1, 36),
+       true).
+  step((true:+'<urn:example:collatz>'(508, 1, _)),
+       '<urn:example:collatz>'(508, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(509, 1, _)),
+       '<urn:example:collatz>'(509, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(510, 1, _)),
+       '<urn:example:collatz>'(510, 1, 49),
+       true).
+  step((true:+'<urn:example:collatz>'(511, 1, _)),
+       '<urn:example:collatz>'(511, 1, 62),
+       true).
+  step((true:+'<urn:example:collatz>'(512, 1, _)),
+       '<urn:example:collatz>'(512, 1, 10),
        true).
