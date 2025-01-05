@@ -5,10 +5,11 @@
 
 % prepare deep taxonomy
 '<urn:example:prepare>'(X, Y) :-
-    between(X, Y, Z),
-    atom_number(I, Z),
-    Z0 is Z-1,
-    atom_number(I0, Z0),
+    N is Y//3,
+    between(X, N, J),
+    atom_number(I, J),
+    J0 is J-1,
+    atom_number(I0, J0),
     atomic_list_concat(['<urn:example:N', I0, '>'], A),
     atomic_list_concat(['<urn:example:N', I, '>'], B),
     atomic_list_concat(['<urn:example:I', I, '>'], C),

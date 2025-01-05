@@ -4,22 +4,26 @@
 '<urn:example:prepare>'(X, Y) :-
     between(X, Y, N),
     atom_number(I, N),
-    atom_concat(alice, I, A),
-    (   \+'<urn:example:does>'(A, '<urn:example:log_off_at_end_of_shift>')
+    atomic_list_concat(['<urn:example:alice', I, '>'], A),
+    (   N mod 2 =:= 0,
+        \+'<urn:example:does>'(A, '<urn:example:log_off_at_end_of_shift>')
     ->  assertz('<urn:example:does>'(A, '<urn:example:log_off_at_end_of_shift>'))
     ;   true
     ),
-    atom_concat(bob, I, B),
-    (   \+'<urn:example:does>'(B, '<urn:example:work_related_task>')
+    atomic_list_concat(['<urn:example:bob', I, '>'], B),
+    (   N mod 4 =:= 0,
+        \+'<urn:example:does>'(B, '<urn:example:work_related_task>')
     ->  assertz('<urn:example:does>'(B, '<urn:example:work_related_task>'))
     ;   true
     ),
-    (   \+'<urn:example:does>'(B, '<urn:example:log_off_at_end_of_shift>')
+    (   N mod 8 =:= 0,
+        \+'<urn:example:does>'(B, '<urn:example:log_off_at_end_of_shift>')
     ->   assertz('<urn:example:does>'(B, '<urn:example:log_off_at_end_of_shift>'))
     ;   true
     ),
-    atom_concat(carol, I, C),
-    (   \+'<urn:example:does>'(C, '<urn:example:access_social_media>')
+    atomic_list_concat(['<urn:example:carol', I, '>'], I, C),
+    (   N mod 4 =:= 0,
+        \+'<urn:example:does>'(C, '<urn:example:access_social_media>')
     ->  assertz('<urn:example:does>'(C, '<urn:example:access_social_media>'))
     ;   true
     ),
