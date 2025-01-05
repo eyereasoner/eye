@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.2.11 (2025-01-04)').
+version_info('EYE v11.3.0 (2025-01-05)').
 
 license_info('MIT License
 
@@ -72,7 +72,7 @@ eye
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
-    --plato <pl-file>               run Prolog with IRI atoms <pl-file>
+    --plus <pl-file>                run prolog with bottom-up steps
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -777,7 +777,7 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
-opts(['--plato', File|_], _) :-
+opts(['--plus', File|_], _) :-
     consult(File),
     nb_setval(closure, 0),
     nb_setval(limit, -1),
