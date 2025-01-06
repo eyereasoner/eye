@@ -1,0 +1,121 @@
+@prefix : <urn:example:>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+true :obligation {
+    :agent2 :complete_task :task1.
+}.
+true :permission {
+    :agent2 :execute_task :task1.
+}.
+true :obligation {
+    :agent1 :escalate_task :task1.
+}.
+true :violation :task1.
+true :sanction :agent2.
+
+#
+# Explain the reasoning
+#
+
+{
+    {
+        var:x_0 :assigned var:x_1.
+    } => {
+        true :obligation {
+            var:x_1 :complete_task var:x_0.
+        }.
+    }.
+    :task1 :assigned :agent2.
+} log:explains {
+    true :obligation {
+        :agent2 :complete_task :task1.
+    }.
+}.
+
+{
+    {
+        var:x_0 :role :employee.
+        var:x_1 :assigned var:x_0.
+    } => {
+        true :permission {
+            var:x_0 :execute_task var:x_1.
+        }.
+    }.
+    :agent2 :role :employee.
+    :task1 :assigned :agent2.
+} log:explains {
+    true :permission {
+        :agent2 :execute_task :task1.
+    }.
+}.
+
+{
+    {
+        var:x_0 :role :manager.
+        var:x_1 :assigned var:x_2.
+        var:x_1 :deadline var:x_3.
+        true :current_time var:x_4.
+        var:x_4 math:greaterThan var:x_3.
+        ({
+            true :completed var:x_1.
+        } false true) log:ifThenElseIn var:x_5.
+    } => {
+        true :obligation {
+            var:x_0 :escalate_task var:x_1.
+        }.
+    }.
+    :agent1 :role :manager.
+    :task1 :assigned :agent2.
+    :task1 :deadline 10 .
+    true :current_time 15 .
+    15 math:greaterThan 10 .
+    ({
+        true :completed :task1.
+    } false true) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1).
+} log:explains {
+    true :obligation {
+        :agent1 :escalate_task :task1.
+    }.
+}.
+
+{
+    {
+        true :obligation {
+            var:x_0 :complete_task var:x_1.
+        }.
+        var:x_1 :deadline var:x_2.
+        true :current_time var:x_3.
+        var:x_3 math:greaterThan var:x_2.
+        ({
+            true :completed var:x_1.
+        } false true) log:ifThenElseIn var:x_4.
+    } => {
+        true :violation var:x_1.
+    }.
+    true :obligation {
+        :agent2 :complete_task :task1.
+    }.
+    :task1 :deadline 10 .
+    true :current_time 15 .
+    15 math:greaterThan 10 .
+    ({
+        true :completed :task1.
+    } false true) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1).
+} log:explains {
+    true :violation :task1.
+}.
+
+{
+    {
+        true :violation var:x_0.
+        var:x_0 :assigned var:x_1.
+    } => {
+        true :sanction var:x_1.
+    }.
+    true :violation :task1.
+    :task1 :assigned :agent2.
+} log:explains {
+    true :sanction :agent2.
+}.

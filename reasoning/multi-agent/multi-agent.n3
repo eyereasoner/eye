@@ -1,0 +1,109 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# define agents
+:agent1 a :Agent.
+:agent2 a :Agent.
+
+# define roles
+:agent1 :role :manager.
+:agent2 :role :employee.
+
+# define tasks and deadlines
+:task1 a :Task.
+:task1 :deadline 10.
+
+# current time
+true :current_time 15.
+
+# task assignment
+:task1 :assigned :agent2.
+
+# task reporting
+:task1 :reported :agent2.
+
+# obligations
+{
+    ?Manager :role :manager.
+    ?Employee :role :employee.
+    ?Task a ?Task.
+    ({ ?Task :assigned ?Employee } false true ) log:ifThenElseIn ?SCOPE.
+} => {
+    true :obligation { ?Manager :assign_task (?Employee ?Task) }.
+}.
+
+{
+    ?Task :assigned ?Employee.
+    ({ ?Task :reported ?Employee } false true ) log:ifThenElseIn ?SCOPE.
+} => {
+    true :obligation { ?Employee :report_progress ?Task }.
+}.
+
+{
+    ?Task :assigned ?Employee.
+} => {
+    true :obligation { ?Employee :complete_task ?Task }.
+}.
+
+{
+    ?Manager :role :manager.
+    ?Task :assigned ?Employee.
+    ?Task :deadline ?Time.
+    true :current_time ?T.
+    ?T math:greaterThan ?Time.
+    ({ true :completed ?Task } false true ) log:ifThenElseIn ?SCOPE.
+} => {
+    true :obligation { ?Manager :escalate_task ?Task }.
+}.
+
+# permissions
+{
+    ?Employee :role :employee.
+    ?Task :assigned ?Employee.
+} => {
+    true :permission { ?Employee :execute_task ?Task }.
+}.
+
+# prohibitions
+{
+    ({ ?Task :assigned ?Agent } false true ) log:ifThenElseIn ?SCOPE.
+} => {
+    true :prohibition { ?Agent :modify_task ?Task }.
+}.
+
+# conflict detection
+{
+    true :obligation ?Action.
+    true :prohibition ?Action.
+} => {
+    true :conflict ?Action.
+}.
+
+# resolve conflicts with priority
+{
+    ?Agent :role :manager.
+    true :conflict ?Action.
+    true :obligation ?Action.
+} => {
+    true :resolve_conflict ?Action.
+}.
+
+# violations
+{
+    true :obligation { ?Employee :complete_task ?Task }.
+    ?Task :deadline ?Time.
+    true :current_time ?T.
+    ?T math:greaterThan ?Time.
+    ({ true :completed ?Task } false true ) log:ifThenElseIn ?SCOPE.
+} => {
+    true :violation ?Task.
+}.
+
+# sanctions
+{
+    true :violation ?Task.
+    ?Task :assigned ?Employee.
+} => {
+    true :sanction ?Employee.
+}.

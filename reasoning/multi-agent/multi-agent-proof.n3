@@ -1,0 +1,316 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:gives {
+        true :obligation {
+            :agent2 :complete_task :task1.
+        }.
+        true :permission {
+            :agent2 :execute_task :task1.
+        }.
+        true :obligation {
+            :agent1 :escalate_task :task1.
+        }.
+        true :violation :task1.
+        true :sanction :agent2.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        true :obligation {
+            :agent2 :complete_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :agent2 :complete_task :task1.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        true :permission {
+            :agent2 :execute_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :agent2 :execute_task :task1.
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        true :obligation {
+            :agent1 :escalate_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :agent1 :escalate_task :task1.
+    }];
+    r:rule skolem:lemma7.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        true :violation :task1.
+    };
+    r:evidence (
+        skolem:lemma11
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        true :sanction :agent2.
+    };
+    r:evidence (
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:rule skolem:lemma14.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        true :obligation {
+            :agent2 :complete_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:rule skolem:lemma16.
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            true :obligation var:x_0.
+        } => {
+            true :obligation var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent-query.n3>].
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        true :permission {
+            :agent2 :execute_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma17
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:rule skolem:lemma18.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            true :permission var:x_0.
+        } => {
+            true :permission var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent-query.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        true :obligation {
+            :agent1 :escalate_task :task1.
+        }.
+    };
+    r:evidence (
+        skolem:lemma19
+        skolem:lemma15
+        skolem:lemma20
+        skolem:lemma21
+        [ a r:Fact; r:gives {15 math:greaterThan 10}]
+        [ a r:Fact; r:gives {({
+            true :completed :task1.
+        } false true) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:agent1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1)];
+    r:rule skolem:lemma22.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        true :violation :task1.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma20
+        skolem:lemma21
+        [ a r:Fact; r:gives {15 math:greaterThan 10}]
+        [ a r:Fact; r:gives {({
+            true :completed :task1.
+        } false true) log:ifThenElseIn ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>) 1)];
+    r:rule skolem:lemma23.
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            true :violation var:x_0.
+        } => {
+            true :violation var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent-query.n3>].
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        true :sanction :agent2.
+    };
+    r:evidence (
+        skolem:lemma11
+        skolem:lemma15
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:task1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "urn:example:agent2"]];
+    r:rule skolem:lemma24.
+
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            true :sanction var:x_0.
+        } => {
+            true :sanction var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent-query.n3>].
+
+skolem:lemma15 a r:Extraction;
+    r:gives {
+        :task1 :assigned :agent2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma16 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :assigned var:x_1.
+        } => {
+            true :obligation {
+                var:x_1 :complete_task var:x_0.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma17 a r:Extraction;
+    r:gives {
+        :agent2 :role :employee.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma18 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :role :employee.
+            var:x_1 :assigned var:x_0.
+        } => {
+            true :permission {
+                var:x_0 :execute_task var:x_1.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma19 a r:Extraction;
+    r:gives {
+        :agent1 :role :manager.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma20 a r:Extraction;
+    r:gives {
+        :task1 :deadline 10 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma21 a r:Extraction;
+    r:gives {
+        true :current_time 15 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma22 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5. {
+            var:x_0 :role :manager.
+            var:x_1 :assigned var:x_2.
+            var:x_1 :deadline var:x_3.
+            true :current_time var:x_4.
+            var:x_4 math:greaterThan var:x_3.
+            ({
+                true :completed var:x_1.
+            } false true) log:ifThenElseIn var:x_5.
+        } => {
+            true :obligation {
+                var:x_0 :escalate_task var:x_1.
+            }.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma23 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
+            true :obligation {
+                var:x_0 :complete_task var:x_1.
+            }.
+            var:x_1 :deadline var:x_2.
+            true :current_time var:x_3.
+            var:x_3 math:greaterThan var:x_2.
+            ({
+                true :completed var:x_1.
+            } false true) log:ifThenElseIn var:x_4.
+        } => {
+            true :violation var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
+skolem:lemma24 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            true :violation var:x_0.
+            var:x_0 :assigned var:x_1.
+        } => {
+            true :sanction var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/multi-agent/multi-agent.n3>].
+
