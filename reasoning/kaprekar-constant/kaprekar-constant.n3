@@ -1,0 +1,37 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# recursive case till 6174 is reached
+{ ?A :kaprekar (?B ?C) } <= {
+    ?A math:notEqualTo 0.
+    ?A :numberToDigits ?D.
+    (?D "=<") list:sort ?E.
+    (?D ">=") list:sort ?F.
+    ?E :digitsToNumber ?G.
+    ?F :digitsToNumber ?H.
+    (?H ?G) math:difference ?I.
+    (?B 1) math:sum ?J.
+    ({ ?I math:equalTo 6174 } { ?C log:equalTo ?J } { ?I :kaprekar (?J ?C) }) log:ifThenElseIn ?SCOPE.
+}.
+
+# convert 4 digit number to digits
+{ ?A :numberToDigits (?B ?C ?D ?E) } <= {
+    (?A 1000) math:integerQuotient ?B.
+    (?A 1000) math:remainder ?F.
+    (?F 100) math:integerQuotient ?C.
+    (?F 100) math:remainder ?G.
+    (?G 10) math:integerQuotient ?D.
+    (?G 10) math:remainder ?E.
+}.
+
+# convert 4 digits to number
+{ (?A ?B ?C ?D) :digitsToNumber ?E } <= {
+    ((?A 1000)!math:product (?B 100)!math:product (?C 10)!math:product ?D) math:sum ?E.
+}.
+
+# recursion count
+{ ?I :recursionCount ?J } <= {
+    ?I :kaprekar (0 ?J).
+}.
