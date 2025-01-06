@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.3.0 (2025-01-05)').
+version_info('EYE v11.4.0 (2025-01-06)').
 
 license_info('MIT License
 
@@ -72,7 +72,6 @@ eye
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
-    --plus <pl-file>                run prolog with bottom-up steps
     --profile                       output profile info on stderr
     --quantify <prefix>             quantify uris with <prefix> in the output
     --quiet                         quiet mode
@@ -777,23 +776,6 @@ opts(['--pass-only-new'|Argus], Args) :-
     retractall(flag('pass-only-new')),
     assertz(flag('pass-only-new')),
     opts(Argus, Args).
-opts(['--plus', File|_], _) :-
-    consult(File),
-    nb_setval(closure, 0),
-    nb_setval(limit, -1),
-    nb_setval(fm, 0),
-    nb_setval(mf, 0),
-    (   (_ :+ _)
-    ->  format(":- op(1200, xfx, :+).~n~n", [])
-    ;   version_info(Version),
-        format("~w~n", [Version])
-    ),
-    forall(
-        (Conc :+ Prem),
-        dynify((Conc :+ Prem))
-    ),
-    eam2,
-    throw(halt(0)).
 opts(['--profile'|Argus], Args) :-
     !,
     retractall(flag(profile)),
@@ -5273,101 +5255,6 @@ qstep(A, true) :-
     ),
     catch(clause(B, true), _, fail),
     \+prfstep(A, _, _, _, _, _, _).
-
-% ---------------------
-% EAM2 abstract machine
-% ---------------------
-%
-% 1/ select rule Conc :+ Prem
-% 2/ prove Prem and if it fails backtrack to 1/
-% 3/ if Conc = true assert answer(Prem)
-%    else if Conc = false stop with return code 2
-%    else if ~Conc assert Conc and retract brake
-% 4/ backtrack to 2/ and if it fails go to 5/
-% 5/ if brake
-%       if not stable start again at 1/
-%       else output answers, output steps and stop
-%    else assert brake and start again at 1/
-%
-
-eam2 :-
-    (   (Conc :+ Prem),     % 1/
-        copy_term((Conc :+ Prem), Rule),
-        Prem,               % 2/
-        (   Conc = true     % 3/
-        ->  astep2((answer(Prem), step(Rule, Prem, true)))
-        ;   (   Conc = false
-            ->  astep2(step(Rule, Prem, false)),
-                format("% inference fuse, return code 2~n", []),
-                portray_clause(user_output, fuse(Prem), [indent(2)]),
-                (   step(_, _, _)
-                ->  format("~n% proof steps~n", []),
-                    (   step(R, P, C),
-                        portray_clause(user_output, step(R, P, C), [indent(2)]),
-                        fail
-                    ;   true
-                    )
-                ;   true
-                ),
-                throw(halt(2))
-            ;   (   Conc \= (_ :+ _)
-                ->  labelvars(Conc, 0, _)
-                ;   true
-                ),
-                \+Conc,
-                astep2((Conc, step(Rule, Prem, Conc))),
-                retract(brake)
-            )
-        ),
-        fail                % 4/
-    ;   (   brake           % 5/
-        ->  (   nb_getval(closure, Closure),
-                nb_getval(limit, Limit),
-                Closure < Limit,
-                NewClosure is Closure+1,
-                nb_setval(closure, NewClosure),
-                eam2
-            ;   (   answer(_)
-                ->  format("% answers~n", []),
-                    answer(Prem),
-                    portray_clause(user_output, answer(Prem), [indent(2)]),
-                    fail
-                ;   fail
-                )
-            ;   (   step(_, _, _)
-                ->  format("~n% proof steps~n", []),
-                    step(Rule, Prem, Conc),
-                    portray_clause(user_output, step(Rule, Prem, Conc), [indent(2)]),
-                    fail
-                ;   true
-                )
-            ;   true
-            )
-        ;   assertz(brake),
-            eam2
-        )
-    ).
-
-% assert new step
-astep2((B, C)) :-
-    astep2(B),
-    astep2(C).
-astep2(A) :-
-    (   \+A
-    ->  assertz(A)
-    ;   true
-    ).
-
-% stable(+Level)
-%   fail if the deductive closure at Level is not yet stable
-stable(Level) :-
-    nb_getval(limit, Limit),
-    (   Limit < Level
-    ->  nb_setval(limit, Level)
-    ;   true
-    ),
-    nb_getval(closure, Closure),
-    Level =< Closure.
 
 %
 % DJITI (Deep Just In Time Indexing)
