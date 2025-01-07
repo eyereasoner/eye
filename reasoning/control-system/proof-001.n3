@@ -1,0 +1,105 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/cs#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :actuator1 :control1 26.08 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :actuator1 :control1 26.08 .
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/cs#actuator1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 26.08];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :actuator1 :control1 26.08 .
+    };
+    r:evidence (
+        skolem:lemma4
+        skolem:lemma5
+        skolem:lemma6
+        skolem:lemma7
+        [ a r:Fact; r:gives {(29 24) math:difference 5}]
+        [ a r:Fact; r:gives {(22 24) math:difference -2}]
+        [ a r:Fact; r:gives {(5.8 5) math:product 29.0}]
+        [ a r:Fact; r:gives {(7.3 5) math:quotient 1.46}]
+        [ a r:Fact; r:gives {(1.46 -2) math:product -2.92}]
+        [ a r:Fact; r:gives {(29.0 -2.92) math:sum 26.08}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 56967];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 22];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 24];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 29];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo -2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo 29.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 1.46];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo -2.92];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_9"]; r:boundTo 26.08];
+    r:rule skolem:lemma8.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :control1 var:x_1.
+        } => {
+            var:x_0 :control1 var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/query-001.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        :input3 :measurement3 56967 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/data-001.n3>].
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        :state3 :observation3 22 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/data-001.n3>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :output2 :measurement4 24 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/data-001.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        :output2 :target2 29 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/data-001.n3>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
+            :input3 :measurement3 var:x_0.
+            :state3 :observation3 var:x_1.
+            :output2 :measurement4 var:x_2.
+            :output2 :target2 var:x_3.
+            (var:x_3 var:x_2) math:difference var:x_4.
+            (var:x_1 var:x_2) math:difference var:x_5.
+            (5.8 var:x_4) math:product var:x_6.
+            (7.3 var:x_4) math:quotient var:x_7.
+            (var:x_7 var:x_5) math:product var:x_8.
+            (var:x_6 var:x_8) math:sum var:x_9.
+        } => {
+            :actuator1 :control1 var:x_9.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/control-system/rules-001.n3>].
+
