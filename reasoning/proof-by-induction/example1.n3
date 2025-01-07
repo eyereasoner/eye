@@ -1,0 +1,16 @@
+# Proving the sum of the first n natural numbers
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# base case: the sum of the first 0 numbers is 0.
+0 :sum 0.
+
+# recursive case: the sum of the first n numbers is the sum of the first n-1 numbers plus n.
+{ ?N :sum ?Sum } <= {
+    ?N math:greaterThan 0.
+    (?N 1) math:difference ?N1.
+    ?N1 :sum ?Sum1.
+    (?Sum1 ?N) math:sum ?Sum.
+}.
