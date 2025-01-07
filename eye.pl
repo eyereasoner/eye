@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.0 (2025-01-06)').
+version_info('EYE v11.4.1 (2025-01-07)').
 
 license_info('MIT License
 
@@ -56,7 +56,7 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
-    --explain                       explain the reasoning using log:explains
+    --explain                       output explanation
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -3653,9 +3653,7 @@ w3 :-
     ),
     (   answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)
     ->  nl,
-        writeln('#'),
-        writeln('# Explain the reasoning'),
-        writeln('#'),
+        write('# explanation'),
         (   answer('<http://www.w3.org/2000/10/swap/log#explains>', S, O),
             labelvars('<http://www.w3.org/2000/10/swap/log#explains>'(S, O), 0, _, avar),
             nl,
@@ -5082,6 +5080,8 @@ eam(Recursion) :-
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
         (   flag(explain),
+            conj_list(Prem, PremL),
+            \+member(getlist(_, _), PremL),
             Concd \=answer(_, _, _),
             Concd \= (answer(_, _, _), _)
         ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#explains>', (Rule, Prem), Concd))
