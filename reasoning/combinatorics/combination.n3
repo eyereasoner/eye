@@ -1,0 +1,14 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://example.org/#>.
+
+(0 ?A) :combination ().
+
+{ (?I ?As) :combination ?Bs } <= {
+    ?I math:greaterThan 0.
+    ?As list:select (?B ?Cs).
+    (?I 1) math:difference ?J.
+    (?J ?Cs) :combination ?Ds.
+    ?Es list:firstRest (?B ?Ds).
+    ?Es list:sort ?Bs.
+}.
