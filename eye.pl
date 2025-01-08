@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.1 (2025-01-07)').
+version_info('EYE v11.4.2 (2025-01-08)').
 
 license_info('MIT License
 
@@ -377,6 +377,7 @@ gre(Argus) :-
     ;   format(user_error, 'starting ~w [msec cputime] ~w [msec walltime]~n', [T0, T1]),
         flush_output(user_error)
     ),
+    assertz(recursion(-1)),
     nb_setval(entail_mode, false),
     nb_setval(exit_code, 0),
     nb_setval(indentation, 0),

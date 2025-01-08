@@ -39,16 +39,8 @@ true :is_prime 3.
 { true :is_prime ?P } <= {
     ?P math:greaterThan 3.
     (?P 2) math:remainder 1.
-    ?P :not_has_factor 3.
+    ({ ?P :has_factor 3 } false true) log:ifThenElseIn (?Context -1).
 }.
-
-{ ?P :not_has_factor ?F } <= {
-    ?P :has_factor ?F.
-    true log:callWithCut true.
-    false log:call false.
-}.
-
-{ ?P :not_has_factor ?F } <= true.
 
 { ?N :has_factor ?L } <= {
     (?N ?L) math:remainder 0.
