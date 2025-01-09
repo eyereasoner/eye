@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.2 (2025-01-08)').
+version_info('EYE v11.4.3 (2025-01-09)').
 
 license_info('MIT License
 
@@ -56,7 +56,6 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
-    --explain                       output explanation
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -207,7 +206,6 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#explains>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -659,13 +657,6 @@ opts(['--debug-pvm'|Argus], Args) :-
     !,
     retractall(flag('debug-pvm')),
     assertz(flag('debug-pvm')),
-    opts(Argus, Args).
-opts(['--explain'|Argus], Args) :-
-    !,
-    retractall(flag(nope)),
-    assertz(flag(nope)),
-    retractall(flag(explain)),
-    assertz(flag(explain)),
     opts(Argus, Args).
 opts(['--help'|_], _) :-
     \+flag(image, _),
@@ -3628,7 +3619,6 @@ w3 :-
     ;   true
     ),
     (   answer(B1, B2, B3),
-        B1 \= '<http://www.w3.org/2000/10/swap/log#explains>',
         relabel([B1, B2, B3], [C1, C2, C3]),
         djiti_answer(answer(C), answer(C1, C2, C3)),
         indent,
@@ -3650,23 +3640,6 @@ w3 :-
             cnt(output_statements)
         ),
         fail
-    ;   true
-    ),
-    (   answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)
-    ->  nl,
-        write('# explanation'),
-        (   answer('<http://www.w3.org/2000/10/swap/log#explains>', S, O),
-            labelvars('<http://www.w3.org/2000/10/swap/log#explains>'(S, O), 0, _, avar),
-            nl,
-            indent,
-            wt('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
-            ws('<http://www.w3.org/2000/10/swap/log#explains>'(S, O)),
-            write('.'),
-            nl,
-            cnt(output_statements),
-            fail
-        ;   true
-        )
     ;   true
     ).
 
@@ -4979,8 +4952,7 @@ eam(Recursion) :-
         ),
         ignore(Prem = true),
         (   flag(nope),
-            \+flag('rule-histogram'),
-            \+flag(explain)
+            \+flag('rule-histogram')
         ->  true
         ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc), Rule)
         ),
@@ -5080,14 +5052,6 @@ eam(Recursion) :-
         conj_list(Concs, Ls),
         conj_list(Conce, Le),
         astep(Src, Prem, Concd, Conce, Rule),
-        (   flag(explain),
-            conj_list(Prem, PremL),
-            \+member(getlist(_, _), PremL),
-            Concd \=answer(_, _, _),
-            Concd \= (answer(_, _, _), _)
-        ->  assertz(answer('<http://www.w3.org/2000/10/swap/log#explains>', (Rule, Prem), Concd))
-        ;   true
-        ),
         (   (   Concs = answer(_, _, _)
             ;   Concs = (answer(_, _, _), _)
             )
@@ -5422,14 +5386,7 @@ prepare_builtins :-
 
     % rdftrig
     (   quad(triple(_, _, _), _)
-    ->  (   \+flag(nope)
-        ->  assertz(flag(nope)),
-            retractall(flag(proves)),
-            assertz(flag(proves))
-        ;   true
-        ),
-
-        % create trig graphs
+    ->  % create trig graphs
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
@@ -5479,40 +5436,25 @@ prepare_builtins :-
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
                 ground([A, B]),
                 conj_list(B, L),
-                \+last(L, answer('<http://www.w3.org/2000/10/swap/log#explains>', _, _)),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
-                makevars([A, B], [Q, I], beta(U)),
-                (   flag(proves),
-                    Q \= true,
-                    I \= false
-                ->  conj_append(I, answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#implies>'(An, Bn), Q], I), F)
-                ;   F = I
-                )), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, F), '<>')),
+                makevars([A, B], [Q, I], beta(U))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
 
         % create backward rules
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
-                '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
-                (   flag(proves),
-                    A \= true,
-                    A \= !
-                ->  conj_append(A, remember(answer('<http://www.w3.org/2000/10/swap/log#explains>', ['<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(Bn, An), A], B)), C)
-                ;   C = A
-                )), ':-'(B, C), '<>')),
+                '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B)
+                ), ':-'(B, A), '<>')),
 
         % create queries
         assertz(implies((
                 '<http://www.w3.org/2000/10/swap/log#query>'(An, Bn),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
-                (   flag(proves)
-                ->  F = ('<http://www.w3.org/2000/10/swap/log#explains>'(['<http://www.w3.org/2000/10/swap/log#query>'(An, Bn), A], B), B)
-                ;   F = B
-                ),
-                djiti_answer(answer(F), J),
-                findvars([A, F], V, alpha),
+                djiti_answer(answer(B), J),
+                findvars([A, B], V, alpha),
                 list_to_set(V, U),
                 makevars([A, J], [Q, I], beta(U))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>'))
