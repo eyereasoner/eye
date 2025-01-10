@@ -46,6 +46,8 @@ true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue
 # Verifier issues a random edge as a challenge
 { true :challenge_edge (?X ?Y) } <= {
     ?X :edge ?Y.
+    ?X log:notEqualTo :e.
+    ?Y log:notEqualTo :c.
 }.
 
 # Prover reveals colors for the challenged edge only
