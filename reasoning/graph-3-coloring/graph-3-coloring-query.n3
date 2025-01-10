@@ -1,0 +1,11 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+{
+    true :permuted_coloring ?PermutedColoring.
+    true :challenge_edge ?Edge.
+    (?Edge ?PermutedColoring) :prover_response ?Response.
+    ?Response :verify_response ?Result.
+} => {
+    :test :is (?PermutedColoring ?Edge ?Response ?Result).
+}.
