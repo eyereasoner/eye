@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.3 (2025-01-09)').
+version_info('EYE v11.4.4 (2025-01-10)').
 
 license_info('MIT License
 
@@ -7000,6 +7000,15 @@ prepare_builtins :-
         ),
         (   getlist(A, C),
             \+member(B, C)
+        )
+    ).
+
+'<http://www.w3.org/2000/10/swap/list#permutation>'(A, B) :-
+    when(
+        (   nonvar(A)
+        ),
+        (   getlist(A, C),
+            permutation(C, B)
         )
     ).
 
