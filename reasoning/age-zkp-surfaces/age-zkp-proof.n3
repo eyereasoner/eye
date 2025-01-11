@@ -1,0 +1,81 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <https://example.org/#>.
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        :simulation1 :zeroKnowledgeProof (:Mary "proof failed: :Mary is less than 50 years and not entitled to work 80% per week" "9810cc6aa5a0b771840a0896f43e356ab88c55e37002fdaac482f505ae73d3f7").
+        :simulation1 :zeroKnowledgeProof (:Pat "proof verified: :Pat is more than 50 years old and entitled to work 80% per week" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+        :simulation1 :challengeProof (:Mary "Challenge failed: the proof is invalid" "adf23913cd97b2d831b54cf9109c111d205d8dfd777413235bdb1c7c91cf4007").
+        :simulation1 :challengeProof (:Pat "challenge successful: the proof is valid" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :simulation1 :zeroKnowledgeProof (:Mary "proof failed: :Mary is less than 50 years and not entitled to work 80% per week" "9810cc6aa5a0b771840a0896f43e356ab88c55e37002fdaac482f505ae73d3f7").
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:simulation1 :zeroKnowledgeProof (:Mary "proof failed: :Mary is less than 50 years and not entitled to work 80% per week" "9810cc6aa5a0b771840a0896f43e356ab88c55e37002fdaac482f505ae73d3f7")}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#simulation1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "proof failed: :Mary is less than 50 years and not entitled to work 80% per week"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "9810cc6aa5a0b771840a0896f43e356ab88c55e37002fdaac482f505ae73d3f7"];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        var:x_0 :zeroKnowledgeProof (:Mary var:x_1 var:x_2).
+    } => {
+        var:x_0 :zeroKnowledgeProof (:Mary var:x_1 var:x_2).
+    }}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :simulation1 :zeroKnowledgeProof (:Pat "proof verified: :Pat is more than 50 years old and entitled to work 80% per week" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:simulation1 :zeroKnowledgeProof (:Pat "proof verified: :Pat is more than 50 years old and entitled to work 80% per week" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c")}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#simulation1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "proof verified: :Pat is more than 50 years old and entitled to work 80% per week"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c"];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
+        var:x_0 :zeroKnowledgeProof (:Pat var:x_1 var:x_2).
+    } => {
+        var:x_0 :zeroKnowledgeProof (:Pat var:x_1 var:x_2).
+    }}].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :simulation1 :challengeProof (:Mary "Challenge failed: the proof is invalid" "adf23913cd97b2d831b54cf9109c111d205d8dfd777413235bdb1c7c91cf4007").
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:simulation1 :challengeProof (:Mary "Challenge failed: the proof is invalid" "adf23913cd97b2d831b54cf9109c111d205d8dfd777413235bdb1c7c91cf4007")}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#simulation1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "Challenge failed: the proof is invalid"];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :challengeProof (:Mary var:x_1 "adf23913cd97b2d831b54cf9109c111d205d8dfd777413235bdb1c7c91cf4007").
+    } => {
+        var:x_0 :challengeProof (:Mary var:x_1 "adf23913cd97b2d831b54cf9109c111d205d8dfd777413235bdb1c7c91cf4007").
+    }}].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :simulation1 :challengeProof (:Pat "challenge successful: the proof is valid" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:simulation1 :challengeProof (:Pat "challenge successful: the proof is valid" "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c")}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://example.org/#simulation1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "challenge successful: the proof is valid"];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
+        var:x_0 :challengeProof (:Pat var:x_1 "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    } => {
+        var:x_0 :challengeProof (:Pat var:x_1 "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    }}].
+
