@@ -38,7 +38,7 @@
     :simulation1 :date _:Date.
     :simulation1 :age _:Age.
     (_:Date _:BirthDay) math:difference _:Diff.
-    (_:Diff " " math:greaterThan " " _:Age) string:concatenation _:Str.
+    ({ _:Diff math:greaterThan _:Age }) string:concatenation _:Str.
     _:Str crypto:sha256 _:Hash.
     (
         { _:Diff math:greaterThan _:Age }
@@ -66,7 +66,7 @@
     :simulation1 :date _:Date.
     :simulation1 :age _:Age.
     (_:Date _:BirthDay) math:difference _:Diff.
-    (_:Diff " " math:greaterThan " " _:Age) string:concatenation _:Str.
+    ({ _:Diff math:greaterThan _:Age }) string:concatenation _:Str.
     _:Str crypto:sha256 _:ProofHash.
     (
         { _:Hash log:equalTo _:ProofHash }
@@ -108,8 +108,8 @@
 (   _:S
     _:Result
 ) log:onNegativeSurface {
-    _:S :challengeProof (:Pat _:Result "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+    _:S :challengeProof (:Pat _:Result "5611fb0dfa67e894917f81cf4b24577e4bc89c86c17423ba7fc28181eb368b3b").
     () log:onNegativeAnswerSurface {
-        _:S :challengeProof (:Pat _:Result "f27ef05269ce8786795b9aa75aa55c398808deb88b037a41913351ff3ab66c0c").
+        _:S :challengeProof (:Pat _:Result "5611fb0dfa67e894917f81cf4b24577e4bc89c86c17423ba7fc28181eb368b3b").
     }.
 }.
