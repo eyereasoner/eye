@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.4 (2025-01-10)').
+version_info('EYE v11.4.5 (2025-01-11)').
 
 license_info('MIT License
 
@@ -5002,15 +5002,23 @@ eam(Recursion) :-
         djiti_conc(Conc, Concd),
         (   Concd = ':-'(Head, Body)
         ->  \+clause(Head, Body)
-        ;   (   Concd = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-            ->  copy_term_nat(Concd, Concc),
-                labelvars(Concc, 0, _, avar),
-                \+cc(Concc),
-                assertz(cc(Concc))
-            ;   (   flag('no-ucall')
-                ->  \+catch(call(Concd), _, fail)
-                ;   \+catch(ucall(Concd), _, fail)
-                )
+        ;   conj_list(Concd, Concds),
+            findall(Concc,
+                (   member(Concdm, Concds),
+                    (   Concdm = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                    ->  copy_term_nat(Concdm, Concc),
+                        labelvars(Concc, 0, _, avar),
+                        \+cc(Concc),
+                        assertz(cc(Concc))
+                    ;   Concc = Concdm
+                    )
+                ),
+                Conccs
+            ),
+            conj_list(Concdc, Conccs),
+            (   flag('no-ucall')
+            ->  \+catch(call(Concdc), _, fail)
+            ;   \+catch(ucall(Concdc), _, fail)
             )
         ),
         (   flag('rule-histogram')
