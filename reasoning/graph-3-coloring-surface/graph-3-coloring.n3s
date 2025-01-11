@@ -1,0 +1,101 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# components
+:valid_coloring a log:Component.
+:conflict a log:Component.
+:permuted_coloring a log:Component.
+:challenge_edge a log:Component.
+:prover_response a log:Component.
+:verify_response a log:Component.
+
+# Graph definition
+:a :edge :b.
+:b :edge :c.
+:c :edge :d.
+:d :edge :e.
+:e :edge :a.
+:a :edge :c.
+:b :edge :d.
+
+# List of allowed colors
+true :color :red.
+true :color :blue.
+true :color :green.
+
+# Check if a coloring is valid for the entire graph (no two connected nodes have the same color)
+true :valid_coloring ().
+(_:L _:NC _:Rest _:SCOPE) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        true :valid_coloring _:L.
+    }.
+    _:L list:firstRest (_:NC _:Rest).
+    ({ _:NC :conflict _:Rest } false true) log:ifThenElseIn (_:SCOPE -1).
+    true :valid_coloring _:Rest.
+}.
+
+# Conflict check: verifies if neighbors have the same color
+(_:Node _:Color _:L _:Neighbor _:Any) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        (_:Node _:Color) :conflict _:L.
+    }.
+    _:L list:firstRest ((_:Neighbor _:Color) _:Any).
+    _:Node :edge _:Neighbor.
+}.
+
+(_:NC _:L _:Any _:Rest) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        _:NC :conflict _:L.
+    }.
+    _:L list:firstRest (_:Any _:Rest).
+    _:NC :conflict _:Rest.
+}.
+
+# Alice's secret valid coloring
+true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue)).
+
+# Prover generates a permuted version of the coloring (hides actual colors)
+(_:PermutedColoring _:SecretColoring) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        true :permuted_coloring _:PermutedColoring.
+    }.
+    true :alice_knows_coloring _:SecretColoring.
+    _:SecretColoring list:permutation _:PermutedColoring.
+}.
+
+# Verifier issues a random edge as a challenge
+(_:X _:Y) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        true :challenge_edge (_:X _:Y).
+    }.
+    _:X :edge _:Y.
+}.
+
+# Prover reveals colors for the challenged edge only
+(_:X _:Y _:PermutedColoring _:ColorX _:ColorY) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        ((_:X _:Y) _:PermutedColoring) :prover_response ((_:X _:ColorX) (_:Y _:ColorY)).
+    }.
+    _:PermutedColoring list:member (_:X _:ColorX).
+    _:PermutedColoring list:member (_:Y _:ColorY).
+}.
+
+# Verifier checks if revealed colors are different for the challenged edge
+(_:X _:ColorX _:Y _:ColorY _:Result _:SCOPE) log:onNegativeSurface {
+    () log:onNegativeSurface {
+        ((_:X _:ColorX) (_:Y _:ColorY)) :verify_response _:Result.
+    }.
+    ({ _:ColorX log:notEqualTo _:ColorY } { _:Result log:equalTo :valid } { _:Result log:equalTo :invalid })  log:ifThenElseIn (_:SCOPE -1).
+}.
+
+# query
+(_:PermutedColoring _:Edge _:Response _:Result) log:onNegativeSurface {
+    true :permuted_coloring _:PermutedColoring.
+    true :challenge_edge _:Edge.
+    (_:Edge _:PermutedColoring) :prover_response _:Response.
+    _:Response :verify_response _:Result.
+    () log:onNegativeAnswerSurface {
+        :test :is (_:PermutedColoring _:Edge _:Response _:Result).
+    }.
+}.
