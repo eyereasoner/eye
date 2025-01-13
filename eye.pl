@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.5 (2025-01-11)').
+version_info('EYE v11.4.6 (2025-01-13)').
 
 license_info('MIT License
 
@@ -5002,20 +5002,9 @@ eam(Recursion) :-
         djiti_conc(Conc, Concd),
         (   Concd = ':-'(Head, Body)
         ->  \+clause(Head, Body)
-        ;   conj_list(Concd, Concds),
-            findall(Concc,
-                (   member(Concdm, Concds),
-                    (   Concdm = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
-                    ->  copy_term_nat(Concdm, Concc),
-                        labelvars(Concc, 0, _, avar),
-                        \+cc(Concc),
-                        assertz(cc(Concc))
-                    ;   Concc = Concdm
-                    )
-                ),
-                Conccs
-            ),
-            conj_list(Concdc, Conccs),
+        ;   conj_list(Concd, Concda),
+            cc(Concda, Concdb),
+            conj_list(Concdc, Concdb),
             (   flag('no-ucall')
             ->  \+catch(call(Concdc), _, fail)
             ;   \+catch(ucall(Concdc), _, fail)
@@ -11776,6 +11765,19 @@ cflat([A|B], C) :-
 couple([], [], []).
 couple([A|B], [C|D], [[A, C]|E]) :-
     couple(B, D, E).
+
+cc([], []).
+cc([A|B], [C|D]) :-
+    (   A = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+    ->  copy_term_nat(A, C),
+        labelvars(C, 0, _, avar),
+        (   \+cc(C)
+        ->  assertz(cc(C))
+        ;   true
+        )
+    ;   C = A
+    ),
+    cc(B, D).
 
 move_rdf([], []).
 move_rdf(['<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>'(A, B)|C], D) :-
