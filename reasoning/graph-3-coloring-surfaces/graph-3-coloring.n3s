@@ -10,7 +10,7 @@
 :prover_response a log:Component.
 :verify_response a log:Component.
 
-# Graph definition
+# graph definition
 :a :edge :b.
 :b :edge :c.
 :c :edge :d.
@@ -19,12 +19,12 @@
 :a :edge :c.
 :b :edge :d.
 
-# List of allowed colors
+# list of allowed colors
 true :color :red.
 true :color :blue.
 true :color :green.
 
-# Check if a coloring is valid for the entire graph (no two connected nodes have the same color)
+# check if a coloring is valid for the entire graph (no two connected nodes have the same color)
 true :valid_coloring ().
 (_:L _:NC _:Rest _:SCOPE) log:onNegativeSurface {
     () log:onNegativeSurface {
@@ -35,7 +35,7 @@ true :valid_coloring ().
     true :valid_coloring _:Rest.
 }.
 
-# Conflict check: verifies if neighbors have the same color
+# conflict check: verifies if neighbors have the same color
 (_:Node _:Color _:L _:Neighbor _:Any) log:onNegativeSurface {
     () log:onNegativeSurface {
         (_:Node _:Color) :conflict _:L.
@@ -55,7 +55,7 @@ true :valid_coloring ().
 # Alice's secret valid coloring
 true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue)).
 
-# Prover generates a permuted version of the coloring (hides actual colors)
+# prover generates a permuted version of the coloring (hides actual colors)
 (_:PermutedColoring _:SecretColoring) log:onNegativeSurface {
     () log:onNegativeSurface {
         true :permuted_coloring _:PermutedColoring.
@@ -64,7 +64,7 @@ true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue
     _:SecretColoring list:permutation _:PermutedColoring.
 }.
 
-# Verifier issues a random edge as a challenge
+# verifier issues a random edge as a challenge
 (_:X _:Y) log:onNegativeSurface {
     () log:onNegativeSurface {
         true :challenge_edge (_:X _:Y).
@@ -72,7 +72,7 @@ true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue
     _:X :edge _:Y.
 }.
 
-# Prover reveals colors for the challenged edge only
+# prover reveals colors for the challenged edge only
 (_:X _:Y _:PermutedColoring _:ColorX _:ColorY) log:onNegativeSurface {
     () log:onNegativeSurface {
         ((_:X _:Y) _:PermutedColoring) :prover_response ((_:X _:ColorX) (_:Y _:ColorY)).
@@ -81,7 +81,7 @@ true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue
     _:PermutedColoring list:member (_:Y _:ColorY).
 }.
 
-# Verifier checks if revealed colors are different for the challenged edge
+# verifier checks if revealed colors are different for the challenged edge
 (_:X _:ColorX _:Y _:ColorY _:Result _:SCOPE) log:onNegativeSurface {
     () log:onNegativeSurface {
         ((_:X _:ColorX) (_:Y _:ColorY)) :verify_response _:Result.

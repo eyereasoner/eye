@@ -2,7 +2,7 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
 
-# Graph definition
+# graph definition
 :a :edge :b.
 :b :edge :c.
 :c :edge :d.
@@ -11,12 +11,12 @@
 :a :edge :c.
 :b :edge :d.
 
-# List of allowed colors
+# list of allowed colors
 true :color :red.
 true :color :blue.
 true :color :green.
 
-# Check if a coloring is valid for the entire graph (no two connected nodes have the same color)
+# check if a coloring is valid for the entire graph (no two connected nodes have the same color)
 true :valid_coloring ().
 { true :valid_coloring ?L } <= {
     ?L list:firstRest (?NC ?Rest).
@@ -24,7 +24,7 @@ true :valid_coloring ().
     true :valid_coloring ?Rest.
 }.
 
-# Conflict check: verifies if neighbors have the same color
+# conflict check: verifies if neighbors have the same color
 { (?Node ?Color) :conflict ?L } <= {
     ?L list:firstRest ((?Neighbor ?Color) ?Any).
     ?Noded :edge ?Neighbor.
@@ -37,24 +37,24 @@ true :valid_coloring ().
 # Alice's secret valid coloring
 true :alice_knows_coloring ((:a :red) (:b :blue) (:c :green) (:d :red) (:e :blue)).
 
-# Prover generates a permuted version of the coloring (hides actual colors)
+# prover generates a permuted version of the coloring (hides actual colors)
 { true :permuted_coloring ?PermutedColoring } <= {
     true :alice_knows_coloring ?SecretColoring.
     ?SecretColoring list:permutation ?PermutedColoring.
 }.
 
-# Verifier issues a random edge as a challenge
+# verifier issues a random edge as a challenge
 { true :challenge_edge (?X ?Y) } <= {
     ?X :edge ?Y.
 }.
 
-# Prover reveals colors for the challenged edge only
+# prover reveals colors for the challenged edge only
 { ((?X ?Y) ?PermutedColoring) :prover_response ((?X ?ColorX) (?Y ?ColorY)) } <= {
     ?PermutedColoring list:member (?X ?ColorX).
     ?PermutedColoring list:member (?Y ?ColorY).
 }.
 
-# Verifier checks if revealed colors are different for the challenged edge
+# verifier checks if revealed colors are different for the challenged edge
 { ((?X ?ColorX) (?Y ?ColorY)) :verify_response ?Result } <= {
     ({ ?ColorX log:notEqualTo ?ColorY } { ?Result log:equalTo :valid } { ?Result log:equalTo :invalid })  log:ifThenElseIn (?SCOPE -1).
 }.
