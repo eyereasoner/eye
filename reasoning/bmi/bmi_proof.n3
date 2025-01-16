@@ -14,8 +14,6 @@
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix physical: <http://eulersharp.sourceforge.net/2003/03swap/physicalResource#>.
-@prefix func: <http://www.w3.org/2007/rif-builtin-function#>.
-@prefix organism: <http://eulersharp.sourceforge.net/2003/03swap/organism#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -296,7 +294,7 @@ skolem:lemma6 a r:Inference;
         [ a r:Fact; r:gives {("2010-01-20T00:00:00+01:00"^^xsd:dateTime "2010-01-20T00:00:00+01:00"^^xsd:dateTime) e:max "2010-01-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-01-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-01-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-01-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-01-20T00:00:00+01:00"^^xsd:dateTime}]
-        skolem:lemma39
+        [ a r:Fact; r:gives {(i:adult3 "2010-01-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 23}]
         [ a r:Fact; r:gives {23 math:notLessThan 15}]
         [ a r:Fact; r:gives {("1.715"^^xsd:decimal 2) math:exponentiation 2.941225}]
         [ a r:Fact; r:gives {("45"^^xsd:decimal 2.941225) math:quotient 15.299747554165355}]
@@ -319,7 +317,7 @@ skolem:lemma6 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo 2.941225];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_16"]; r:boundTo 15.299747554165355];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
-    r:rule skolem:lemma40.
+    r:rule skolem:lemma39.
 
 skolem:lemma7 a r:Inference;
     r:gives {
@@ -339,7 +337,7 @@ skolem:lemma7 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 15.299747554165355];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "2010-01-20T00:00:00+01:00"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_3"]];
-    r:rule skolem:lemma41.
+    r:rule skolem:lemma40.
 
 skolem:lemma8 a r:Extraction;
     r:gives {
@@ -393,27 +391,27 @@ skolem:lemma11 a r:Inference;
         _:sk_1 event:basedOn i:lengthMeasurement4.
     };
     r:evidence (
+        skolem:lemma41
         skolem:lemma42
         skolem:lemma43
         skolem:lemma44
         skolem:lemma45
         skolem:lemma46
-        skolem:lemma47
         skolem:lemma14
+        skolem:lemma47
         skolem:lemma48
         skolem:lemma49
         skolem:lemma50
-        skolem:lemma51
         skolem:lemma13
+        skolem:lemma51
         skolem:lemma52
-        skolem:lemma53
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime) math:difference 0}]
         [ a r:Fact; r:gives {0 math:notGreaterThan "P10Y"^^xsd:duration}]
         [ a r:Fact; r:gives {0 math:notLessThan "-P7D"^^xsd:duration}]
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime) e:max "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
-        skolem:lemma54
+        [ a r:Fact; r:gives {(i:adult4 "2010-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 35}]
         [ a r:Fact; r:gives {35 math:notLessThan 15}]
         [ a r:Fact; r:gives {("1.76"^^xsd:decimal 2) math:exponentiation 3.0976}]
         [ a r:Fact; r:gives {("76"^^xsd:decimal 3.0976) math:quotient 24.535123966942148}]
@@ -436,7 +434,7 @@ skolem:lemma11 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo 3.0976];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_16"]; r:boundTo 24.535123966942148];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
-    r:rule skolem:lemma40.
+    r:rule skolem:lemma39.
 
 skolem:lemma12 a r:Inference;
     r:gives {
@@ -457,7 +455,7 @@ skolem:lemma12 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 24.535123966942148];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "2010-02-20T00:00:00+01:00"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_5"]];
-    r:rule skolem:lemma55.
+    r:rule skolem:lemma53.
 
 skolem:lemma13 a r:Extraction;
     r:gives {
@@ -481,27 +479,27 @@ skolem:lemma15 a r:Inference;
         _:sk_2 event:basedOn i:lengthMeasurement5.
     };
     r:evidence (
+        skolem:lemma54
+        skolem:lemma55
         skolem:lemma56
         skolem:lemma57
         skolem:lemma58
         skolem:lemma59
+        skolem:lemma18
         skolem:lemma60
         skolem:lemma61
-        skolem:lemma18
         skolem:lemma62
         skolem:lemma63
+        skolem:lemma17
         skolem:lemma64
         skolem:lemma65
-        skolem:lemma17
-        skolem:lemma66
-        skolem:lemma67
         [ a r:Fact; r:gives {("2011-02-20T00:00:00+01:00"^^xsd:dateTime "2011-02-20T00:00:00+01:00"^^xsd:dateTime) math:difference 0}]
         [ a r:Fact; r:gives {0 math:notGreaterThan "P10Y"^^xsd:duration}]
         [ a r:Fact; r:gives {0 math:notLessThan "-P7D"^^xsd:duration}]
         [ a r:Fact; r:gives {("2011-02-20T00:00:00+01:00"^^xsd:dateTime "2011-02-20T00:00:00+01:00"^^xsd:dateTime) e:max "2011-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2011-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2011-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2011-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2011-02-20T00:00:00+01:00"^^xsd:dateTime}]
-        skolem:lemma68
+        [ a r:Fact; r:gives {(i:adult5 "2011-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 15}]
         [ a r:Fact; r:gives {15 math:notLessThan 15}]
         [ a r:Fact; r:gives {("1.715"^^xsd:decimal 2) math:exponentiation 2.941225}]
         [ a r:Fact; r:gives {("54"^^xsd:decimal 2.941225) math:quotient 18.359697064998425}]
@@ -524,7 +522,7 @@ skolem:lemma15 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo 2.941225];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_16"]; r:boundTo 18.359697064998425];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_17"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
-    r:rule skolem:lemma40.
+    r:rule skolem:lemma39.
 
 skolem:lemma16 a r:Inference;
     r:gives {
@@ -545,7 +543,7 @@ skolem:lemma16 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 18.359697064998425];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "2011-02-20T00:00:00+01:00"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_4"]];
-    r:rule skolem:lemma69.
+    r:rule skolem:lemma66.
 
 skolem:lemma17 a r:Extraction;
     r:gives {
@@ -569,11 +567,16 @@ skolem:lemma19 a r:Inference;
         _:sk_7 event:basedOn i:lengthMeasurement1.
     };
     r:evidence (
-        skolem:lemma70
+        skolem:lemma67
         skolem:lemma21
-        skolem:lemma71
-        skolem:lemma72
-        skolem:lemma73
+        skolem:lemma68
+        skolem:lemma69
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+            i:adult1 human:hasLength i:lengthMeasurement1.
+            i:lengthMeasurement1 quant:hasUnit units:meter.
+            i:lengthMeasurement1 quant:hasValue "1.90"^^xsd:decimal.
+            i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
+        }}]
         [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
             i:adult1 human:hasLength i:lengthMeasurement1.
             i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
@@ -587,7 +590,7 @@ skolem:lemma19 a r:Inference;
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime) e:max "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-20T00:00:00+01:00"^^xsd:dateTime}]
-        skolem:lemma74
+        [ a r:Fact; r:gives {(i:adult1 "2010-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 67}]
         [ a r:Fact; r:gives {67 math:notLessThan 15}]
         [ a r:Fact; r:gives {("_weightValue/_lengthValue**2" "200"^^xsd:decimal "1.90"^^xsd:decimal) e:calculate 55.4016620498615}]
     );
@@ -607,7 +610,7 @@ skolem:lemma19 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_13"]; r:boundTo 67];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_14"]; r:boundTo 55.4016620498615];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
-    r:rule skolem:lemma75.
+    r:rule skolem:lemma70.
 
 skolem:lemma20 a r:Inference;
     r:gives {
@@ -627,7 +630,7 @@ skolem:lemma20 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 55.4016620498615];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "2010-02-20T00:00:00+01:00"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_11"]];
-    r:rule skolem:lemma76.
+    r:rule skolem:lemma71.
 
 skolem:lemma21 a r:Extraction;
     r:gives {
@@ -651,11 +654,16 @@ skolem:lemma23 a r:Inference;
         _:sk_9 event:basedOn i:lengthMeasurement2.
     };
     r:evidence (
-        skolem:lemma77
+        skolem:lemma72
         skolem:lemma25
-        skolem:lemma78
-        skolem:lemma79
-        skolem:lemma80
+        skolem:lemma73
+        skolem:lemma74
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
+            i:adult2 human:hasLength i:lengthMeasurement2.
+            i:lengthMeasurement2 quant:hasUnit units:meter.
+            i:lengthMeasurement2 quant:hasValue "2.05"^^xsd:decimal.
+            i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
+        }}]
         [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
             i:adult2 human:hasLength i:lengthMeasurement2.
             i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
@@ -669,7 +677,7 @@ skolem:lemma23 a r:Inference;
         [ a r:Fact; r:gives {("2010-02-25T00:00:00+01:00"^^xsd:dateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime) e:max "2010-02-25T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-25T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-25T00:00:00+01:00"^^xsd:dateTime}]
         [ a r:Fact; r:gives {("2010-02-25T00:00:00+01:00" xsd:dateTime) log:dtlit "2010-02-25T00:00:00+01:00"^^xsd:dateTime}]
-        skolem:lemma81
+        [ a r:Fact; r:gives {(i:adult2 "2010-02-25T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 44}]
         [ a r:Fact; r:gives {44 math:notLessThan 15}]
         [ a r:Fact; r:gives {("_weightValue/_lengthValue**2" "110"^^xsd:decimal "2.05"^^xsd:decimal) e:calculate 26.17489589530042}]
     );
@@ -689,7 +697,7 @@ skolem:lemma23 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_13"]; r:boundTo 44];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_14"]; r:boundTo 26.17489589530042];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_15"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_9"]];
-    r:rule skolem:lemma75.
+    r:rule skolem:lemma70.
 
 skolem:lemma24 a r:Inference;
     r:gives {
@@ -710,7 +718,7 @@ skolem:lemma24 a r:Inference;
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 26.17489589530042];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "2010-02-25T00:00:00+01:00"^^xsd:dateTime];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_10"]];
-    r:rule skolem:lemma82.
+    r:rule skolem:lemma75.
 
 skolem:lemma25 a r:Extraction;
     r:gives {
@@ -796,30 +804,7 @@ skolem:lemma38 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma39 a r:Inference;
-    r:gives {
-        (i:adult3 "2010-01-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 23 .
-    };
-    r:evidence (
-        skolem:lemma83
-        [ a r:Fact; r:gives {("2010-01-20T00:00:00+01:00"^^xsd:dateTime "1987-01-01T00:00:00+01:00"^^xsd:dateTime) math:difference 727488000}]
-        [ a r:Fact; r:gives {727488000 math:greaterThan 0}]
-        [ a r:Fact; r:gives {(727488000 "P1M"^^xsd:duration) math:integerQuotient 276}]
-        [ a r:Fact; r:gives {("P23Y0M" xsd:yearMonthDuration) log:dtlit 276}]
-        [ a r:Fact; r:gives {("P23Y0M" xsd:yearMonthDuration) log:dtlit "P23Y0M"^^xsd:yearMonthDuration}]
-        [ a r:Fact; r:gives {("P23Y0M"^^xsd:yearMonthDuration) func:years-from-duration 23}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3#adult3"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1987-01-01T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 727488000];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2010-01-20T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 276];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "P23Y0M"];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "P23Y0M"^^xsd:yearMonthDuration];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 23];
-    r:rule skolem:lemma84.
-
-skolem:lemma40 a r:Extraction;
+skolem:lemma39 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14, var:x_15, var:x_16. @forSome var:x_17. {
             var:x_0 physical:hasComplexity var:x_1.
@@ -857,7 +842,7 @@ skolem:lemma40 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
-skolem:lemma41 a r:Extraction;
+skolem:lemma40 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
             var:x_0 human:hasBodyMassIndex var:x_1.
@@ -873,102 +858,79 @@ skolem:lemma41 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
-skolem:lemma42 a r:Extraction;
+skolem:lemma41 a r:Extraction;
     r:gives {
         i:adult4 physical:hasComplexity i:body2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma43 a r:Extraction;
+skolem:lemma42 a r:Extraction;
     r:gives {
         i:body2 a humanbody:Body.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma44 a r:Extraction;
+skolem:lemma43 a r:Extraction;
     r:gives {
         i:body2 humanbody:hasLength i:length2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma45 a r:Extraction;
+skolem:lemma44 a r:Extraction;
     r:gives {
         i:body2 humanbody:hasWeight i:weight2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma46 a r:Extraction;
+skolem:lemma45 a r:Extraction;
     r:gives {
         i:length2 a humanbody:Length.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma47 a r:Extraction;
+skolem:lemma46 a r:Extraction;
     r:gives {
         i:length2 quant:hasMeasurement i:lengthMeasurement4.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma48 a r:Extraction;
+skolem:lemma47 a r:Extraction;
     r:gives {
         i:lengthMeasurement4 quant:hasValue "1.76"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma49 a r:Extraction;
+skolem:lemma48 a r:Extraction;
     r:gives {
         i:lengthMeasurement4 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma50 a r:Extraction;
+skolem:lemma49 a r:Extraction;
     r:gives {
         i:weight2 a humanbody:Weight.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma51 a r:Extraction;
+skolem:lemma50 a r:Extraction;
     r:gives {
         i:weight2 quant:hasMeasurement i:weightMeasurement4.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma52 a r:Extraction;
+skolem:lemma51 a r:Extraction;
     r:gives {
         i:weightMeasurement4 quant:hasValue "76"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma53 a r:Extraction;
+skolem:lemma52 a r:Extraction;
     r:gives {
         i:weightMeasurement4 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma54 a r:Inference;
-    r:gives {
-        (i:adult4 "2010-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 35 .
-    };
-    r:evidence (
-        skolem:lemma85
-        [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "1975-01-01T00:00:00+01:00"^^xsd:dateTime) math:difference 1108857600}]
-        [ a r:Fact; r:gives {1108857600 math:greaterThan 0}]
-        [ a r:Fact; r:gives {(1108857600 "P1M"^^xsd:duration) math:integerQuotient 421}]
-        [ a r:Fact; r:gives {("P35Y1M" xsd:yearMonthDuration) log:dtlit 421}]
-        [ a r:Fact; r:gives {("P35Y1M" xsd:yearMonthDuration) log:dtlit "P35Y1M"^^xsd:yearMonthDuration}]
-        [ a r:Fact; r:gives {("P35Y1M"^^xsd:yearMonthDuration) func:years-from-duration 35}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3#adult4"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1975-01-01T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1108857600];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2010-02-20T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 421];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "P35Y1M"];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "P35Y1M"^^xsd:yearMonthDuration];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 35];
-    r:rule skolem:lemma84.
-
-skolem:lemma55 a r:Extraction;
+skolem:lemma53 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
             var:x_0 human:hasBodyMassIndex var:x_1.
@@ -985,102 +947,79 @@ skolem:lemma55 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
-skolem:lemma56 a r:Extraction;
+skolem:lemma54 a r:Extraction;
     r:gives {
         i:adult5 physical:hasComplexity i:body3.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma57 a r:Extraction;
+skolem:lemma55 a r:Extraction;
     r:gives {
         i:body3 a humanbody:Body.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma58 a r:Extraction;
+skolem:lemma56 a r:Extraction;
     r:gives {
         i:body3 humanbody:hasLength i:length3.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma59 a r:Extraction;
+skolem:lemma57 a r:Extraction;
     r:gives {
         i:body3 humanbody:hasWeight i:weight3.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma60 a r:Extraction;
+skolem:lemma58 a r:Extraction;
     r:gives {
         i:length3 a humanbody:Length.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma61 a r:Extraction;
+skolem:lemma59 a r:Extraction;
     r:gives {
         i:length3 quant:hasMeasurement i:lengthMeasurement5.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma62 a r:Extraction;
+skolem:lemma60 a r:Extraction;
     r:gives {
         i:lengthMeasurement5 quant:hasValue "1.715"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma63 a r:Extraction;
+skolem:lemma61 a r:Extraction;
     r:gives {
         i:lengthMeasurement5 time:hasDateTime "2011-02-20T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma64 a r:Extraction;
+skolem:lemma62 a r:Extraction;
     r:gives {
         i:weight3 a humanbody:Weight.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma65 a r:Extraction;
+skolem:lemma63 a r:Extraction;
     r:gives {
         i:weight3 quant:hasMeasurement i:weightMeasurement5.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma66 a r:Extraction;
+skolem:lemma64 a r:Extraction;
     r:gives {
         i:weightMeasurement5 quant:hasValue "54"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma67 a r:Extraction;
+skolem:lemma65 a r:Extraction;
     r:gives {
         i:weightMeasurement5 time:hasDateTime "2011-02-20T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma68 a r:Inference;
-    r:gives {
-        (i:adult5 "2011-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 15 .
-    };
-    r:evidence (
-        skolem:lemma86
-        [ a r:Fact; r:gives {("2011-02-20T00:00:00+01:00"^^xsd:dateTime "1995-08-07T00:00:00+01:00"^^xsd:dateTime) math:difference 490406400}]
-        [ a r:Fact; r:gives {490406400 math:greaterThan 0}]
-        [ a r:Fact; r:gives {(490406400 "P1M"^^xsd:duration) math:integerQuotient 186}]
-        [ a r:Fact; r:gives {("P15Y6M" xsd:yearMonthDuration) log:dtlit 186}]
-        [ a r:Fact; r:gives {("P15Y6M" xsd:yearMonthDuration) log:dtlit "P15Y6M"^^xsd:yearMonthDuration}]
-        [ a r:Fact; r:gives {("P15Y6M"^^xsd:yearMonthDuration) func:years-from-duration 15}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3#adult5"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1995-08-07T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 490406400];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2011-02-20T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 186];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "P15Y6M"];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "P15Y6M"^^xsd:yearMonthDuration];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 15];
-    r:rule skolem:lemma84.
-
-skolem:lemma69 a r:Extraction;
+skolem:lemma66 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
             var:x_0 human:hasBodyMassIndex var:x_1.
@@ -1097,77 +1036,25 @@ skolem:lemma69 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
-skolem:lemma70 a r:Extraction;
+skolem:lemma67 a r:Extraction;
     r:gives {
         i:adult1 human:weighs i:weightMeasurement1.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma71 a r:Extraction;
+skolem:lemma68 a r:Extraction;
     r:gives {
         i:weightMeasurement1 quant:hasValue "200"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma72 a r:Extraction;
+skolem:lemma69 a r:Extraction;
     r:gives {
         i:weightMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma73 a r:Inference;
-    r:gives {
-        ((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
-            i:adult1 human:hasLength i:lengthMeasurement1.
-            i:lengthMeasurement1 quant:hasUnit units:meter.
-            i:lengthMeasurement1 quant:hasValue "1.90"^^xsd:decimal.
-            i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
-        }.
-    };
-    r:evidence (
-        skolem:lemma87
-        skolem:lemma22
-        skolem:lemma88
-        skolem:lemma89
-    );
-    r:rule [ a r:Fact; r:gives {{
-        i:adult1 human:hasLength i:lengthMeasurement1.
-        i:lengthMeasurement1 quant:hasUnit units:meter.
-        i:lengthMeasurement1 quant:hasValue "1.90"^^xsd:decimal.
-        i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
-    } => {
-        ((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
-            i:adult1 human:hasLength i:lengthMeasurement1.
-            i:lengthMeasurement1 quant:hasUnit units:meter.
-            i:lengthMeasurement1 quant:hasValue "1.90"^^xsd:decimal.
-            i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
-        }.
-    }}].
-
-skolem:lemma74 a r:Inference;
-    r:gives {
-        (i:adult1 "2010-02-20T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 67 .
-    };
-    r:evidence (
-        skolem:lemma90
-        [ a r:Fact; r:gives {("2010-02-20T00:00:00+01:00"^^xsd:dateTime "1943-01-01T00:00:00+01:00"^^xsd:dateTime) math:difference 2118700800}]
-        [ a r:Fact; r:gives {2118700800 math:greaterThan 0}]
-        [ a r:Fact; r:gives {(2118700800 "P1M"^^xsd:duration) math:integerQuotient 805}]
-        [ a r:Fact; r:gives {("P67Y1M" xsd:yearMonthDuration) log:dtlit 805}]
-        [ a r:Fact; r:gives {("P67Y1M" xsd:yearMonthDuration) log:dtlit "P67Y1M"^^xsd:yearMonthDuration}]
-        [ a r:Fact; r:gives {("P67Y1M"^^xsd:yearMonthDuration) func:years-from-duration 67}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3#adult1"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1943-01-01T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2118700800];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2010-02-20T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 805];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "P67Y1M"];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "P67Y1M"^^xsd:yearMonthDuration];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 67];
-    r:rule skolem:lemma84.
-
-skolem:lemma75 a r:Extraction;
+skolem:lemma70 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9, var:x_10, var:x_11, var:x_12, var:x_13, var:x_14. @forSome var:x_15. {
             var:x_0 human:weighs var:x_1.
@@ -1207,7 +1094,7 @@ skolem:lemma75 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3>].
 
-skolem:lemma76 a r:Extraction;
+skolem:lemma71 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
             var:x_0 human:hasBodyMassIndex var:x_1.
@@ -1223,77 +1110,25 @@ skolem:lemma76 a r:Extraction;
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
 
-skolem:lemma77 a r:Extraction;
+skolem:lemma72 a r:Extraction;
     r:gives {
         i:adult2 human:weighs i:weightMeasurement2.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma78 a r:Extraction;
+skolem:lemma73 a r:Extraction;
     r:gives {
         i:weightMeasurement2 quant:hasValue "110"^^xsd:decimal.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma79 a r:Extraction;
+skolem:lemma74 a r:Extraction;
     r:gives {
         i:weightMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 
-skolem:lemma80 a r:Inference;
-    r:gives {
-        ((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
-            i:adult2 human:hasLength i:lengthMeasurement2.
-            i:lengthMeasurement2 quant:hasUnit units:meter.
-            i:lengthMeasurement2 quant:hasValue "2.05"^^xsd:decimal.
-            i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
-        }.
-    };
-    r:evidence (
-        skolem:lemma91
-        skolem:lemma26
-        skolem:lemma92
-        skolem:lemma93
-    );
-    r:rule [ a r:Fact; r:gives {{
-        i:adult2 human:hasLength i:lengthMeasurement2.
-        i:lengthMeasurement2 quant:hasUnit units:meter.
-        i:lengthMeasurement2 quant:hasValue "2.05"^^xsd:decimal.
-        i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
-    } => {
-        ((<https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3> <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>) 1) e:optional {
-            i:adult2 human:hasLength i:lengthMeasurement2.
-            i:lengthMeasurement2 quant:hasUnit units:meter.
-            i:lengthMeasurement2 quant:hasValue "2.05"^^xsd:decimal.
-            i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
-        }.
-    }}].
-
-skolem:lemma81 a r:Inference;
-    r:gives {
-        (i:adult2 "2010-02-25T00:00:00+01:00"^^xsd:dateTime) time:calculatingAge 44 .
-    };
-    r:evidence (
-        skolem:lemma94
-        [ a r:Fact; r:gives {("2010-02-25T00:00:00+01:00"^^xsd:dateTime "1966-01-01T00:00:00+01:00"^^xsd:dateTime) math:difference 1393286400}]
-        [ a r:Fact; r:gives {1393286400 math:greaterThan 0}]
-        [ a r:Fact; r:gives {(1393286400 "P1M"^^xsd:duration) math:integerQuotient 529}]
-        [ a r:Fact; r:gives {("P44Y1M" xsd:yearMonthDuration) log:dtlit 529}]
-        [ a r:Fact; r:gives {("P44Y1M" xsd:yearMonthDuration) log:dtlit "P44Y1M"^^xsd:yearMonthDuration}]
-        [ a r:Fact; r:gives {("P44Y1M"^^xsd:yearMonthDuration) func:years-from-duration 44}]
-    );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3#adult2"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "1966-01-01T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1393286400];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2010-02-25T00:00:00+01:00"^^xsd:dateTime];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo 529];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo "P44Y1M"];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo "P44Y1M"^^xsd:yearMonthDuration];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo 44];
-    r:rule skolem:lemma84.
-
-skolem:lemma82 a r:Extraction;
+skolem:lemma75 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. @forSome var:x_4. {
             var:x_0 human:hasBodyMassIndex var:x_1.
@@ -1309,86 +1144,4 @@ skolem:lemma82 a r:Extraction;
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/weightStatus_rules.n3>].
-
-skolem:lemma83 a r:Extraction;
-    r:gives {
-        i:adult3 organism:hasBirthDateTime "1987-01-01T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma84 a r:Extraction;
-    r:gives {
-        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7. {
-            (var:x_0 var:x_2) time:calculatingAge var:x_7.
-        } <= {
-            var:x_0 organism:hasBirthDateTime var:x_1.
-            (var:x_2 var:x_1) math:difference var:x_3.
-            var:x_3 math:greaterThan 0 .
-            (var:x_3 "P1M"^^xsd:duration) math:integerQuotient var:x_4.
-            (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_4.
-            (var:x_5 xsd:yearMonthDuration) log:dtlit var:x_6.
-            (var:x_6) func:years-from-duration var:x_7.
-        }.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/age_rules_backward.n3>].
-
-skolem:lemma85 a r:Extraction;
-    r:gives {
-        i:adult4 organism:hasBirthDateTime "1975-01-01T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma86 a r:Extraction;
-    r:gives {
-        i:adult5 organism:hasBirthDateTime "1995-08-07T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma87 a r:Extraction;
-    r:gives {
-        i:adult1 human:hasLength i:lengthMeasurement1.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma88 a r:Extraction;
-    r:gives {
-        i:lengthMeasurement1 quant:hasValue "1.90"^^xsd:decimal.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma89 a r:Extraction;
-    r:gives {
-        i:lengthMeasurement1 time:hasDateTime "2010-02-20T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma90 a r:Extraction;
-    r:gives {
-        i:adult1 organism:hasBirthDateTime "1943-01-01T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma91 a r:Extraction;
-    r:gives {
-        i:adult2 human:hasLength i:lengthMeasurement2.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma92 a r:Extraction;
-    r:gives {
-        i:lengthMeasurement2 quant:hasValue "2.05"^^xsd:decimal.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma93 a r:Extraction;
-    r:gives {
-        i:lengthMeasurement2 time:hasDateTime "2010-02-25T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
-
-skolem:lemma94 a r:Extraction;
-    r:gives {
-        i:adult2 organism:hasBirthDateTime "1966-01-01T00:00:00+01:00"^^xsd:dateTime.
-    };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/bmi/bmi_instances.n3>].
 

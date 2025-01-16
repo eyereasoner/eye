@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.6 (2025-01-13)').
+version_info('EYE v11.4.7 (2025-01-16)').
 
 license_info('MIT License
 
@@ -50,6 +50,7 @@ help_info('Usage: eye <options>* <data>* <query>*
 eye
     swipl -g main eye.pl --
 <options>
+    --analytic-proof                proofs contain component lemmas
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
@@ -628,6 +629,11 @@ gre(Argus) :-
 
 opts([], []) :-
     !.
+opts(['--analytic-proof'|Argus], Args) :-
+    !,
+    retractall(flag('analytic-proof')),
+    assertz(flag('analytic-proof')),
+    opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
@@ -5176,12 +5182,15 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
     ).
 
 istep(Src, Prem, Conc, Rule) :-        % istep(Source, Premise, Conclusion, Rule)
-    copy_term_nat(Prem, Prec),
-    labelvars(Prec, 0, _),
-    term_index(Prec, Pnd),
-    (   \+prfstep(Conc, Prec, Pnd, Conc, Rule, backward, Src)
-    ->  assertz(prfstep(Conc, Prec, Pnd, Conc, Rule, backward, Src))
-    ;   true
+    (   \+flag('analytic-proof')
+    ->  true
+    ;   copy_term_nat(Prem, Prec),
+        labelvars(Prec, 0, _),
+        term_index(Prec, Pnd),
+        (   \+prfstep(Conc, Prec, Pnd, Conc, Rule, backward, Src)
+        ->  assertz(prfstep(Conc, Prec, Pnd, Conc, Rule, backward, Src))
+        ;   true
+        )
     ).
 
 pstep(Rule) :-
