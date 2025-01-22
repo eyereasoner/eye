@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.7 (2025-01-16)').
+version_info('EYE v11.4.8 (2025-01-22)').
 
 license_info('MIT License
 
@@ -11647,6 +11647,7 @@ vcall(A) :-
     ),
     (   B =.. [C, D, E],
         pred(C),
+        \+ (clause(B, F), F \= true),
         (   is_gl(D)
         ;   is_gl(E)
         )
