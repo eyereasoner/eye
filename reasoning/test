@@ -6,7 +6,7 @@ YELLOW="\e[33m"
 NORMAL="\e[0;39m"
 
 OK=0
-FAILED=0
+DIFF=0
 
 echo -e "${YELLOW}--------------------------------------${NORMAL}"
 echo -e "${YELLOW}eye reasoning examples and test cases${NORMAL}"
@@ -33,16 +33,16 @@ do
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else
-        echo -e "${RED}FAILED${NORMAL}"
-        ((FAILED++))
+        echo -e "${RED}DIFF${NORMAL}"
+        ((DIFF++))
     fi
     popd  > /dev/null
 done
 end=$(($(date +%s)))
 echo ""
 
-echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
-if [[ ${FAILED} -eq 0 ]]; then
+echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${DIFF} DIFF${NORMAL}"
+if [[ ${DIFF} -eq 0 ]]; then
     exit 0
 else
     exit 2
