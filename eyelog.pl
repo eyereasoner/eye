@@ -7,6 +7,7 @@
 :- dynamic(answer/1).
 :- dynamic(brake/0).
 :- dynamic(closure/1).
+:- dynamic(count/2).
 :- dynamic(limit/1).
 :- dynamic(step/3).
 
@@ -14,11 +15,16 @@
 main :-
     assertz(closure(0)),
     assertz(limit(-1)),
+    assertz(count(fm, 0)),
+    assertz(count(mf, 0)),
     (   (_ :+ _)
     ->  format(':- op(1200, xfx, :+).~n~n')
     ;   true
     ),
-    forall((Conc :+ Prem), dynify((Conc :+ Prem))),
+    forall(
+        (Conc :+ Prem),
+        dynify((Conc :+ Prem))
+    ),
     catch(run, E,
         (   (   E = halt(Exit)
             ->  true
@@ -26,6 +32,16 @@ main :-
                 Exit = 1
             )
         )
+    ),
+    count(fm, Fm),
+    (   Fm = 0
+    ->  true
+    ;   format(user_error, '*** fm=~w~n', [Fm])
+    ),
+    count(mf, Mf),
+    (   Mf = 0
+    ->  true
+    ;   format(user_error, '*** mf=~w~n', [Mf])
     ),
     ignore(Exit = 0),
     halt(Exit).
@@ -131,9 +147,15 @@ stable(Level) :-
 becomes(A, B) :-
     catch(A, _, fail),
     conj_list(A, C),
-    forall(member(D, C), retract(D)),
+    forall(
+        member(D, C),
+        retract(D)
+    ),
     conj_list(B, E),
-    forall(member(F, E), assertz(F)).
+    forall(
+        member(F, E),
+        assertz(F)
+    ).
 
 conj_list(true, []).
 conj_list(A, [A]) :-
@@ -164,3 +186,20 @@ dynify(A) :-
     ;   true
     ),
     dynify(C).
+
+% debugging tools
+fm(A) :-
+    format(user_error, '*** ~q~n', [A]),
+    count(fm, B),
+    C is B+1,
+    becomes(count(fm, B), count(fm, C)).
+
+mf(A) :-
+    forall(
+        catch(A, _, fail),
+        (   format(user_error, '*** ~q~n', [A]),
+            count(mf, B),
+            C is B+1,
+            becomes(count(mf, B), count(mf, C))
+        )
+    ).
