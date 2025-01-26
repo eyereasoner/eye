@@ -5295,8 +5295,7 @@ eam :-
                 NewClosure is Closure+1,
                 becomes(closure(Closure), closure(NewClosure)),
                 run
-            ;   
-                format(':- op(1200, xfx, :+).~n~n'),
+            ;   format(':- op(1200, xfx, :+).~n~n'),
                 answer(Prem),
                 portray_clause(answer(Prem)),
                 fail
