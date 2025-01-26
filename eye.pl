@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.4.8 (2025-01-22)').
+version_info('EYE v11.5.0 (2025-01-26)').
 
 license_info('MIT License
 
@@ -57,6 +57,7 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
+    --eyelog                        run eyelog webized prolog
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -120,6 +121,7 @@ eye
 :- dynamic(bref/2).
 :- dynamic(bvar/1).
 :- dynamic(cc/1).
+:- dynamic(closure/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
 :- dynamic(evar/3).
@@ -147,6 +149,7 @@ eye
 :- dynamic(keep_ng/1).
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
+:- dynamic(limit/1).
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
@@ -398,7 +401,8 @@ gre(Argus) :-
     nb_setval(wn, 0),
     nb_setval(prepare, false),
     opts(Argus, Args),
-    (   Args = []
+    (   \+memberchk('--eyelog', Argus),
+        Args = []
     ->  opts(['--help'], _)
     ;   true
     ),
@@ -524,7 +528,12 @@ gre(Argus) :-
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
-    ;   catch(eam(0), Exc3,
+    ;   catch(
+            (   flag(eyelog)
+            ->  eam
+            ;   eam(0)
+            ),
+            Exc3,
             (   (   Exc3 = halt(0)
                 ->  true
                 ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
@@ -663,6 +672,18 @@ opts(['--debug-pvm'|Argus], Args) :-
     !,
     retractall(flag('debug-pvm')),
     assertz(flag('debug-pvm')),
+    opts(Argus, Args).
+opts(['--eyelog', Program|Argus], Args) :-
+    !,
+    consult(Program),
+    retractall(flag(eyelog)),
+    assertz(flag(eyelog)),
+    assertz(closure(0)),
+    assertz(limit(-1)),
+    forall(
+        (Conc :+ Prem),
+        dynify((Conc :+ Prem))
+    ),
     opts(Argus, Args).
 opts(['--help'|_], _) :-
     \+flag(image, _),
@@ -5226,6 +5247,121 @@ qstep(A, true) :-
     ),
     catch(clause(B, true), _, fail),
     \+prfstep(A, _, _, _, _, _, _).
+
+% -----------------------
+% eyelog abstract machine
+% -----------------------
+%
+% 1/ select rule Conc :+ Prem
+% 2/ prove Prem and if it fails backtrack to 1/
+% 3/ if Conc = true assert answer(Prem)
+%    else if Conc = false stop with return code 2
+%    else if ~Conc assert Conc and retract brake
+% 4/ backtrack to 2/ and if it fails go to 5/
+% 5/ if brake
+%       if not stable start again at 1/
+%       else output answers + proof steps and stop
+%    else assert brake and start again at 1/
+%
+eam :-
+    (   (Conc :+ Prem),     % 1/
+        copy_term((Conc :+ Prem), Rule, _),
+        Prem,               % 2/
+        (   Conc = true     % 3/
+        ->  (   \+answer(Prem)
+            ->  assertz(answer(Prem)),
+                assertz(step(Rule, Prem, true))
+            ;   true
+            )
+        ;   (   Conc = false
+            ->  format('% inference fuse, return code 2~n'),
+                portray_clause(fuse(Prem)),
+                throw(halt(2))
+            ;   (   Conc \= (_ :+ _)
+                ->  skolemize(Conc, 0, _)
+                ;   true
+                ),
+                \+ Conc,
+                astep(Conc),
+                assertz(step(Rule, Prem, Conc)),
+                retract(brake)
+            )
+        ),
+        fail                % 4/
+    ;   (   brake           % 5/
+        ->  (   closure(Closure),
+                limit(Limit),
+                Closure < Limit,
+                NewClosure is Closure+1,
+                becomes(closure(Closure), closure(NewClosure)),
+                run
+            ;   
+                format(':- op(1200, xfx, :+).~n~n'),
+                answer(Prem),
+                portray_clause(answer(Prem)),
+                fail
+            ;   (   step(_, _, _)
+                ->  format('~n% proof steps~n'),
+                    step(Rule, Prem, Conc),
+                    portray_clause(step(Rule, Prem, Conc)),
+                    fail
+                ;   true
+                )
+            ;   true
+            )
+        ;   assertz(brake),
+            run
+        )
+    ).
+
+% assert new step
+astep((B, C)) :-
+    astep(B),
+    astep(C).
+astep(A) :-
+    (   \+ A
+    ->  assertz(A)
+    ;   true
+    ).
+
+% skolemize
+skolemize(Term, N0, N) :-
+    term_variables(Term, Vars),
+    skolemize_(Vars, N0, N).
+
+skolemize_([], N, N) :-
+    !.
+skolemize_([Sk|Vars], N0, N) :-
+    number_chars(N0, C0),
+    atom_chars(A0, C0),
+    atom_concat('sk_', A0, Sk),
+    N1 is N0+1,
+    skolemize_(Vars, N1, N).
+
+% stable(+Level)
+%   fail if the deductive closure at Level is not yet stable
+stable(Level) :-
+    limit(Limit),
+    (   Limit < Level
+    ->  becomes(limit(Limit), limit(Level))
+    ;   true
+    ),
+    closure(Closure),
+    Level =< Closure.
+
+% linear implication
+becomes(A, B) :-
+    catch(A, _, fail),
+    conj_list(A, C),
+    forall(
+        member(D, C),
+        retract(D)
+    ),
+    conj_list(B, E),
+    forall(
+        member(F, E),
+        assertz(F)
+    ).
 
 %
 % DJITI (Deep Just In Time Indexing)
