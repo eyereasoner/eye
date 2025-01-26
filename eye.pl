@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.0 (2025-01-26)').
+version_info('EYE v11.5.1 (2025-01-26)').
 
 license_info('MIT License
 
@@ -57,7 +57,6 @@ eye
     --debug-djiti                   output debug info about DJITI on stderr
     --debug-implies                 output debug info about implies on stderr
     --debug-pvm                     output debug info about PVM code on stderr
-    --eyelog                        run eyelog webized prolog
     --help                          show help info
     --hmac-key <key>                HMAC key used in e:hmac-sha built-in
     --ignore-inference-fuse         do not halt in case of inference fuse
@@ -91,7 +90,8 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
-    [--n3] <uri>                    N3 triples and rules
+    --eyelog <file>                 webized prolog
+    --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
     --trig <uri>                    TriG data
@@ -360,7 +360,8 @@ argv([], []) :-
 argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
-    memberchk(U, ['--csv-separator', '--hmac-key', '--image', '--max-inferences', '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--trig', '--turtle']),
+    memberchk(U, ['--csv-separator', '--eyelog', '--hmac-key', '--image', '--max-inferences',
+        '--n3', '--n3p', '--proof', '--quantify', '--query',  '--output', '--skolem-genid', '--tactic', '--trig', '--turtle']),
     !,
     sub_atom(Arg, _, E, 0, V),
     argv(Argvs, Argus).
@@ -401,8 +402,7 @@ gre(Argus) :-
     nb_setval(wn, 0),
     nb_setval(prepare, false),
     opts(Argus, Args),
-    (   \+memberchk('--eyelog', Argus),
-        Args = []
+    (   Args = []
     ->  opts(['--help'], _)
     ;   true
     ),
@@ -530,7 +530,13 @@ gre(Argus) :-
         profile(eam(0))
     ;   catch(
             (   flag(eyelog)
-            ->  eam
+            ->  assertz(closure(0)),
+                assertz(limit(-1)),
+                forall(
+                    (Conc :+ Prem),
+                    dynify((Conc :+ Prem))
+                ),
+                eam
             ;   eam(0)
             ),
             Exc3,
@@ -672,18 +678,6 @@ opts(['--debug-pvm'|Argus], Args) :-
     !,
     retractall(flag('debug-pvm')),
     assertz(flag('debug-pvm')),
-    opts(Argus, Args).
-opts(['--eyelog', Program|Argus], Args) :-
-    !,
-    consult(Program),
-    retractall(flag(eyelog)),
-    assertz(flag(eyelog)),
-    assertz(closure(0)),
-    assertz(limit(-1)),
-    forall(
-        (Conc :+ Prem),
-        dynify((Conc :+ Prem))
-    ),
     opts(Argus, Args).
 opts(['--help'|_], _) :-
     \+flag(image, _),
@@ -884,7 +878,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     assertz(wcache(Arg, File)),
     opts(Argus, Args).
 opts([Arg|_], _) :-
-    \+memberchk(Arg, ['--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
+    \+memberchk(Arg, ['--eyelog', '--entail', '--help', '--n3', '--n3p', '--not-entail', '--pass', '--pass-all', '--proof', '--query', '--trig', '--turtle']),
     sub_atom(Arg, 0, 2, _, '--'),
     !,
     throw(not_supported_option(Arg)).
@@ -898,6 +892,14 @@ args(['--entail', Arg|Args]) :-
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
+    args(Args).
+args(['--eyelog', Arg|Args]) :-
+    !,
+    consult(Arg),
+    retractall(flag(eyelog)),
+    assertz(flag(eyelog)),
+    retractall(flag(nope)),
+    assertz(flag(nope)),
     args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
@@ -1046,7 +1048,6 @@ args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
     args(Args).
-
 args(['--trig', Argument|Args]) :-
     !,
     cnt(doc_nr),
@@ -5276,7 +5277,7 @@ eam :-
         ;   (   Conc = false
             ->  format('% inference fuse, return code 2~n'),
                 portray_clause(fuse(Prem)),
-                throw(halt(2))
+                throw(inference_fuse(Prem))
             ;   (   Conc \= (_ :+ _)
                 ->  skolemize(Conc, 0, _)
                 ;   true
@@ -5294,7 +5295,7 @@ eam :-
                 Closure < Limit,
                 NewClosure is Closure+1,
                 becomes(closure(Closure), closure(NewClosure)),
-                run
+                eam
             ;   format(':- op(1200, xfx, :+).~n~n'),
                 answer(Prem),
                 portray_clause(answer(Prem)),
@@ -5309,7 +5310,7 @@ eam :-
             ;   true
             )
         ;   assertz(brake),
-            run
+            eam
         )
     ).
 
