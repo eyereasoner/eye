@@ -1,5 +1,7 @@
 % Basic Monadic Benchmark
 
+:- op(1200, xfx, :+).
+
 'urn:example:i0'('urn:example:i10', 'urn:example:i96').
 'urn:example:i0'('urn:example:i12', 'urn:example:i66').
 'urn:example:i0'('urn:example:i12', 'urn:example:i9').

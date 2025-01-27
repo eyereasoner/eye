@@ -1,4 +1,7 @@
-% query
+% gps query
+
+:- op(1200, xfx, :+).
+
 true :+
     '<urn:example:findpath>'(
         '<urn:example:map_be>',

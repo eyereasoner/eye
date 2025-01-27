@@ -1,5 +1,7 @@
 % Path discovery
 
+:- op(1200, xfx, :+).
+
 % connectivity
 '<urn:example:route>'([From, To, Visited, Length, Max], [From, To]) :-
     Length =< Max,

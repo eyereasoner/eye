@@ -1,5 +1,7 @@
 % calculate easter date
 
+:- op(1200, xfx, :+).
+
 '<urn:example:easter>'(Year, [Month, Day]) :-
     A is Year rem 19,
     B is Year//100,

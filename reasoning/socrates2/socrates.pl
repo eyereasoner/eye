@@ -1,5 +1,7 @@
 % Socrates inference
 
+:- op(1200, xfx, :+).
+
 % facts
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<urn:example:Socrates>', '<urn:example:Human>').
 '<http://www.w3.org/2000/01/rdf-schema#subClassOf>'('<urn:example:Human>', '<urn:example:Mortal>').

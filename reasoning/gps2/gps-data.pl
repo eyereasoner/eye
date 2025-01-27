@@ -1,5 +1,7 @@
 % test data: partial map of Belgium
 
+:- op(1200, xfx, :+).
+
 :- dynamic('<urn:example:location>'/2).
 
 '<urn:example:description>'(

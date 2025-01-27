@@ -1,5 +1,7 @@
 % Goldbach's_conjecture
 
+:- op(1200, xfx, :+).
+
 '<urn:example:goldbach>'(4, [2, 2]).
 '<urn:example:goldbach>'(N, L) :-
     0 =:= N rem 2,

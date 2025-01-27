@@ -1,5 +1,7 @@
 % Kaprekar's constant
 
+:- op(1200, xfx, :+).
+
 % recursive case till 6174 is reached
 '<urn:example:kaprekar-constant>'(A, B, C) :-
     A =\= 0,

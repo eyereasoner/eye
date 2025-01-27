@@ -1,5 +1,7 @@
 % Control Systems
 
+:- op(1200, xfx, :+).
+
 % measurements
 '<urn:example:measurement1>'('<urn:example:input1>', [6, 11]).
 '<urn:example:measurement1>'('<urn:example:disturbance2>', [45, 39]).

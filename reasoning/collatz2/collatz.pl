@@ -1,5 +1,7 @@
 % Collatz conjecture
 
+:- op(1200, xfx, :+).
+
 '<urn:example:collatz>'(N, L) :-
     collatz(N, 1, L).
 

@@ -1,5 +1,7 @@
 % Deontic Logic example
 
+:- op(1200, xfx, :+).
+
 % Facts about what employees are doing
 '<urn:example:prepare>'(X, Y) :-
     between(X, Y, N),

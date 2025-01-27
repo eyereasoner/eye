@@ -1,5 +1,7 @@
 % See https://en.wikipedia.org/wiki/Complex_number
 
+:- op(1200, xfx, :+).
+
 '<urn:example:sum>'([[A, B], [C, D]], [E, F]) :-
     E is A+C,
     F is B+D.
