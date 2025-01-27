@@ -1,7 +1,20 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <https://eyereasoner.github.io/eye/reasoning/cs#>.
 
-# forward rule
+# forward rules
+{
+    :input1 :measurement10 ?M1.
+    :input2 :measurement2 true.
+    :disturbance1 :measurement3 ?D1.
+    (?M1 19.6) math:product ?C1.        # proportial part
+    (10 ?C2) math:exponentiation ?D1.   # compensation part
+    (?C1 ?C2) math:difference ?C.       # simple feedforward control
+}
+=>
+{
+    :actuator1 :control1 ?C.
+}.
+
 {
     :input3 :measurement3 ?M3.
     :state3 :observation3 ?P3.
@@ -16,7 +29,7 @@
 }
 =>
 {
-    :actuator1 :control1 ?C.
+    :actuator2 :control1 ?C.
 }.
 
 # backward rules
