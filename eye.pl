@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.1 (2025-01-26)').
+version_info('EYE v11.5.2 (2025-01-27)').
 
 license_info('MIT License
 
@@ -7851,7 +7851,7 @@ userInput(A, B) :-
         retractall(wpfx(_)),
         \+ (C1 = [], \+flag('no-qnames')),
         numbervars(A),
-        with_output_to_chars(wt(A), C2),
+        with_output_to_chars((wt(A), ws(A), write('.')), C2),
         append(C1, C2, C),
         escape_codes(C, D),
         atom_codes(B, D),
