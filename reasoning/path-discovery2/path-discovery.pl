@@ -16,12 +16,12 @@
 
 % discover routes from source to destination with at most 2 stopovers
 '<urn:example:discover>'([SourceLabel, DestinationLabel], Route) :-
-    '<http://www.w3.org/2000/01/rdf-schema#label>'(Source, literal(SourceLabel, _)),
-    '<http://www.w3.org/2000/01/rdf-schema#label>'(Destination, literal(DestinationLabel, _)),
+    '<http://www.w3.org/2000/01/rdf-schema#label>'(Source, literal(SourceLabel, type('<http://www.w3.org/2001/XMLSchema#string>'))),
+    '<http://www.w3.org/2000/01/rdf-schema#label>'(Destination, literal(DestinationLabel, type('<http://www.w3.org/2001/XMLSchema#string>'))),
     '<urn:example:route>'([Source, Destination, [], 0, 2], Airports),
     findall(City,
         (   member(Airport, Airports),
-            '<http://www.w3.org/2000/01/rdf-schema#label>'(Airport, literal(City, _))
+            '<http://www.w3.org/2000/01/rdf-schema#label>'(Airport, literal(City, type('<http://www.w3.org/2001/XMLSchema#string>')))
         ),
         Route
     ).
