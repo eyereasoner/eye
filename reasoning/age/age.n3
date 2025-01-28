@@ -10,8 +10,7 @@
 # is the age of a person above some duration?
 { ?S :ageAbove ?A } <= {
     ?S :birthDay ?B.
-    #"" time:localTime ?D.
-    ?D log:equalTo "2024-08-21T00:00:00.0Z"^^xsd:dateTime.
+    "" time:localTime ?D.
     (?D ?B) math:difference ?F.
     ?F math:greaterThan ?A.
 }.
