@@ -1,44 +1,42 @@
 % Dijkstra's algorithm to find the shortest path
-% thanks to DeepSeek
+% Original from https://github.com/agx-r/Dijkstra-s-Algorithm
 
 :- op(1200, xfx, :+).
 
-:- use_module(library(sort)).
+:- discontiguous (:+)/2.
 
-% Facts: Define the graph as edges with weights
-'<urn:example:edge>'([a, b], 2).
-'<urn:example:edge>'([a, c], 4).
+:- dynamic('<urn:example:edge>'/2).
+
+% edges
+'<urn:example:edge>'([a, b], 4).
+'<urn:example:edge>'([a, c], 2).
 '<urn:example:edge>'([b, c], 1).
-'<urn:example:edge>'([b, d], 7).
-'<urn:example:edge>'([c, d], 3).
+'<urn:example:edge>'([b, d], 5).
+'<urn:example:edge>'([c, d], 8).
+'<urn:example:edge>'([c, e], 10).
+'<urn:example:edge>'([d, e], 2).
+'<urn:example:edge>'([d, f], 6).
+'<urn:example:edge>'([e, f], 3).
 
-% Dijkstra's algorithm to find the shortest path
-'<urn:example:shortest_path>'([Start, End], [Path, Cost]) :-
-    dijkstra([[Start, 0]], End, [], ReversedPath, Cost),
-    reverse(ReversedPath, Path).
+'<urn:example:edge>'([A, B], C) :+
+    '<urn:example:edge>'([B, A], C).
 
-dijkstra([[Node, Cost]|_], Node, Visited, [Node|Visited], Cost) :-
-    !.
-dijkstra([[Node, Cost]|RestPaths], End, Visited, Path, TotalCost) :-
-    findall([Neighbor, NewCost], 
-        (   '<urn:example:edge>'([Node, Neighbor], EdgeCost), 
-            \+ member(Neighbor, Visited), 
-            NewCost is Cost+EdgeCost
-        ), 
-        Neighbors
-    ),
-    append(RestPaths, Neighbors, AllPaths),
-    predsort(compare_paths, AllPaths, SortedPaths),
-    dijkstra(SortedPaths, End, [Node|Visited], Path, TotalCost).
+% Dijkstra's algorithm
+'<urn:example:dijkstra>'([Start, Goal], [Path, Cost]) :-
+    dijkstra([[0, Start]], Goal, [], RevPath, Cost),
+    reverse(RevPath, Path).
 
-% compare paths based on cost
-compare_paths(<, [_, Cost1], [_, Cost2]) :-
-    Cost1<Cost2,
-    !.
-compare_paths(>, [_, Cost1], [_, Cost2]) :-
-    Cost1>Cost2,
-    !.
-compare_paths(=, [_, Cost], [_, Cost]).
+dijkstra([[Cost, Goal|Path]|_], Goal, _, [Goal|Path], Cost).
+dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
+    findall([NewCost, Neighbor, Node|Path],
+        (   '<urn:example:edge>'([Node, Neighbor], Weight),
+            \+ member(Neighbor, Visited),
+            NewCost is Cost + Weight),
+        Neighbors),
+    append(Queue, Neighbors, NewQueue),
+    sort(NewQueue, SortedQueue),
+    dijkstra(SortedQueue, Goal, [Node|Visited], ResultPath, ResultCost).
 
 % query
-true :+ '<urn:example:shortest_path>'([a, d], [_, _]).
+%true :+ '<urn:example:dijkstra>'([a, d], [_, _]).
+true :+ '<urn:example:dijkstra>'([a, f], [_, _]).
