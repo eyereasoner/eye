@@ -38,5 +38,4 @@ dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
     dijkstra(SortedQueue, Goal, [Node|Visited], ResultPath, ResultCost).
 
 % query
-%true :+ '<urn:example:dijkstra>'([a, d], [_, _]).
 true :+ '<urn:example:dijkstra>'([a, f], [_, _]).
