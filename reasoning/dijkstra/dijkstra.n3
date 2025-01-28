@@ -1,0 +1,54 @@
+# Dijkstra's algorithm to find the shortest path
+# Original from https://github.com/agx-r/Dijkstra-s-Algorithm
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# edges
+(:a :b) :edge 4 .
+(:a :c) :edge 2 .
+(:b :c) :edge 1 .
+(:b :d) :edge 5 .
+(:c :d) :edge 8 .
+(:c :e) :edge 10 .
+(:d :e) :edge 2 .
+(:d :f) :edge 6 .
+(:e :f) :edge 3 .
+
+{
+    (?A ?B) :edge ?C.
+} => {
+    (?B ?A) :edge ?C.
+}.
+
+# Dijkstra's algorithm
+{ (?Start ?Goal) :dijkstra (?Path ?Cost) } <= {
+    (((0 ?Start)) ?Goal ()) :dijkstra2 (?RevPath ?Cost).
+    ?RevPath list:reverse ?Path.
+}.
+
+{ (?L1 ?Goal ?L2) :dijkstra2 (?L3 ?Cost) } <= {
+    ?L1 list:firstRest (?L4 ?L5).
+    ?L4 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Goal ?Path).
+}.
+
+{ (?L1 ?Goal ?Visited) :dijkstra2 (?ResultPath ?ResultCost) } <= {
+    ?L1 list:firstRest (?L2 ?Queue).
+    ?L2 list:firstRest (?Cost ?L3).
+    ?L3 list:firstRest (?Node ?Path).
+    (?L4 {
+        ?L4 list:firstRest (?NewCost ?L5).
+        ?L5 list:firstRest (?Neighbor ?L6).
+        ?L6 list:firstRest (?Node ?Path).
+        (?Node ?Neighbor) :edge ?Weight.
+        ?Visited list:notMember ?Neighbor.
+        (?Cost ?Weight) math:sum ?NewCost.
+    } ?Neighbors) log:collectAllIn ?SCOPE.
+    (?Queue ?Neighbors) list:append ?NewQueue.
+    ?NewQueue list:sort ?SortedQueue.
+    ?L7 list:firstRest (?Node ?Visited).
+    (?SortedQueue ?Goal ?L7) :dijkstra2 (?ResultPath ?ResultCost).
+}.

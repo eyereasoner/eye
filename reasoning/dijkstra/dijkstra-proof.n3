@@ -1,0 +1,111 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <urn:example:>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :b :d :e :f) 13).
+        (:a :f) :dijkstra ((:a :c :b :d :f) 14).
+        (:a :f) :dijkstra ((:a :b :d :e :f) 14).
+        (:a :f) :dijkstra ((:a :b :d :f) 15).
+        (:a :f) :dijkstra ((:a :c :e :f) 15).
+        (:a :f) :dijkstra ((:a :c :d :e :f) 15).
+        (:a :f) :dijkstra ((:a :c :d :f) 16).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :b :d :e :f) 13).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :c :b :d :e :f) 13)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :c :b :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 13];
+    r:rule skolem:lemma8.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :b :d :f) 14).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :c :b :d :f) 14)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :c :b :d :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 14];
+    r:rule skolem:lemma8.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :b :d :e :f) 14).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :b :d :e :f) 14)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :b :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 14];
+    r:rule skolem:lemma8.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :b :d :f) 15).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :b :d :f) 15)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :b :d :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 15];
+    r:rule skolem:lemma8.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :e :f) 15).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :c :e :f) 15)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :c :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 15];
+    r:rule skolem:lemma8.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :d :e :f) 15).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :c :d :e :f) 15)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :c :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 15];
+    r:rule skolem:lemma8.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        (:a :f) :dijkstra ((:a :c :d :f) 16).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(:a :f) :dijkstra ((:a :c :d :f) 16)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :c :d :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 16];
+    r:rule skolem:lemma8.
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            (:a :f) :dijkstra (var:x_0 var:x_1).
+        } => {
+            (:a :f) :dijkstra (var:x_0 var:x_1).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/dijkstra/dijkstra-query.n3>].
+

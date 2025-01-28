@@ -8,15 +8,15 @@
 :- dynamic('<urn:example:edge>'/2).
 
 % edges
-'<urn:example:edge>'([a, b], 4).
-'<urn:example:edge>'([a, c], 2).
-'<urn:example:edge>'([b, c], 1).
-'<urn:example:edge>'([b, d], 5).
-'<urn:example:edge>'([c, d], 8).
-'<urn:example:edge>'([c, e], 10).
-'<urn:example:edge>'([d, e], 2).
-'<urn:example:edge>'([d, f], 6).
-'<urn:example:edge>'([e, f], 3).
+'<urn:example:edge>'(['<urn:example:a>', '<urn:example:b>'], 4).
+'<urn:example:edge>'(['<urn:example:a>', '<urn:example:c>'], 2).
+'<urn:example:edge>'(['<urn:example:b>', '<urn:example:c>'], 1).
+'<urn:example:edge>'(['<urn:example:b>', '<urn:example:d>'], 5).
+'<urn:example:edge>'(['<urn:example:c>', '<urn:example:d>'], 8).
+'<urn:example:edge>'(['<urn:example:c>', '<urn:example:e>'], 10).
+'<urn:example:edge>'(['<urn:example:d>', '<urn:example:e>'], 2).
+'<urn:example:edge>'(['<urn:example:d>', '<urn:example:f>'], 6).
+'<urn:example:edge>'(['<urn:example:e>', '<urn:example:f>'], 3).
 
 '<urn:example:edge>'([A, B], C) :+
     '<urn:example:edge>'([B, A], C).
@@ -38,4 +38,4 @@ dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
     dijkstra(SortedQueue, Goal, [Node|Visited], ResultPath, ResultCost).
 
 % query
-true :+ '<urn:example:dijkstra>'([a, f], [_, _]).
+true :+ '<urn:example:dijkstra>'(['<urn:example:a>', '<urn:example:f>'], [_, _]).
