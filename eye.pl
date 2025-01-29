@@ -2223,10 +2223,17 @@ pathitem(Node, []) -->
     ['}'].
 
 pathlist([Node|Rest], Triples) -->
-    expression(Node, T),
+    expression(Node, Tn),
+    ['|'],
     !,
-    pathlist(Rest, Tail),
-    {   append(T, Tail, Triples)
+    pathitem(Rest, Tr),
+    {   append(Tn, Tr, Triples)
+    }.
+pathlist([Node|Rest], Triples) -->
+    expression(Node, Tn),
+    !,
+    pathlist(Rest, Tr),
+    {   append(Tn, Tr, Triples)
     }.
 pathlist([], []) -->
     [].
