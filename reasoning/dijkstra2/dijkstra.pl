@@ -5,31 +5,34 @@
 
 :- discontiguous (:+)/2.
 
-:- dynamic('<urn:example:edge>'/2).
+:- dynamic(edge/2).
+
+% context
+'<https://eyereasoner.github.io/ns#dijkstra>'(A, B) :- dijkstra(A, B).
 
 % edges
-'<urn:example:edge>'(['<urn:example:a>', '<urn:example:b>'], 4).
-'<urn:example:edge>'(['<urn:example:a>', '<urn:example:c>'], 2).
-'<urn:example:edge>'(['<urn:example:b>', '<urn:example:c>'], 1).
-'<urn:example:edge>'(['<urn:example:b>', '<urn:example:d>'], 5).
-'<urn:example:edge>'(['<urn:example:c>', '<urn:example:d>'], 8).
-'<urn:example:edge>'(['<urn:example:c>', '<urn:example:e>'], 10).
-'<urn:example:edge>'(['<urn:example:d>', '<urn:example:e>'], 2).
-'<urn:example:edge>'(['<urn:example:d>', '<urn:example:f>'], 6).
-'<urn:example:edge>'(['<urn:example:e>', '<urn:example:f>'], 3).
+edge([a, b], 4).
+edge([a, c], 2).
+edge([b, c], 1).
+edge([b, d], 5).
+edge([c, d], 8).
+edge([c, e], 10).
+edge([d, e], 2).
+edge([d, f], 6).
+edge([e, f], 3).
 
-'<urn:example:edge>'([A, B], C) :+
-    '<urn:example:edge>'([B, A], C).
+edge([A, B], C) :+
+    edge([B, A], C).
 
 % Dijkstra's algorithm
-'<urn:example:dijkstra>'([Start, Goal], [Path, Cost]) :-
+dijkstra([Start, Goal], [Path, Cost]) :-
     dijkstra([[0, Start]], Goal, [], RevPath, Cost),
     reverse(RevPath, Path).
 
 dijkstra([[Cost, Goal|Path]|_], Goal, _, [Goal|Path], Cost).
 dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
     findall([NewCost, Neighbor, Node|Path],
-        (   '<urn:example:edge>'([Node, Neighbor], Weight),
+        (   edge([Node, Neighbor], Weight),
             \+ member(Neighbor, Visited),
             NewCost is Cost + Weight),
         Neighbors),
@@ -38,4 +41,4 @@ dijkstra([[Cost, Node|Path]|Queue], Goal, Visited, ResultPath, ResultCost) :-
     dijkstra(SortedQueue, Goal, [Node|Visited], ResultPath, ResultCost).
 
 % query
-true :+ '<urn:example:dijkstra>'(['<urn:example:a>', '<urn:example:f>'], [_, _]).
+true :+ '<https://eyereasoner.github.io/ns#dijkstra>'([a, f], [_, _]).

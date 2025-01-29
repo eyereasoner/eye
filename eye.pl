@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.2 (2025-01-27)').
+version_info('EYE v11.5.3 (2025-01-29)').
 
 license_info('MIT License
 
@@ -5297,17 +5297,12 @@ eam :-
                 becomes(closure(Closure), closure(NewClosure)),
                 eam
             ;   format(':- op(1200, xfx, :+).~n~n'),
-                answer(Prem),
-                portray_clause(answer(Prem)),
-                fail
-            ;   (   step(_, _, _)
+                forall(answer(Prem), portray_clause(answer(Prem))),
+                (   step(_, _, _)
                 ->  format('~n% proof steps~n'),
-                    step(Rule, Prem, Conc),
-                    portray_clause(step(Rule, Prem, Conc)),
-                    fail
+                    forall(step(Rule, Prem, Conc), portray_clause(step(Rule, Prem, Conc)))
                 ;   true
                 )
-            ;   true
             )
         ;   assertz(brake),
             eam

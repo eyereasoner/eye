@@ -1,6 +1,6 @@
 :- op(1200, xfx, :+).
 
-answer('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<urn:example:z>', '<urn:example:N10000>')).
+answer('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(z, n10000)).
 
 % proof steps
-step((true:+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, '<urn:example:N10000>')), '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'('<urn:example:z>', '<urn:example:N10000>'), true).
+step((true:+'<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, n10000)), '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(z, n10000), true).
