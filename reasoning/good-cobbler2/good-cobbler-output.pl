@@ -1,7 +1,7 @@
 :- op(1200, xfx, :+).
 
-answer(('<urn:example:is>'(_, '<urn:example:good>'('<urn:example:Cobbler>')):+true)).
+answer(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, good(cobbler)):+true)).
 
 % proof steps
-step(('<urn:example:is>'(_, '<urn:example:good>'('<urn:example:Cobbler>')):+true), true, '<urn:example:is>'(sk_0, '<urn:example:good>'('<urn:example:Cobbler>'))).
-step((true:+('<urn:example:is>'(_, '<urn:example:good>'(_)):+true)), ('<urn:example:is>'(_, '<urn:example:good>'('<urn:example:Cobbler>')):+true), true).
+step(('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, good(cobbler)):+true), true, '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(sk_0, good(cobbler))).
+step((true:+('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, good(_)):+true)), ('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, good(cobbler)):+true), true).
