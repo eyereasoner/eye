@@ -1,3 +1,5 @@
+![EYE](https://josd.github.io/images/eye.png)
+
 # eyelog
 
 - Reasoning using webized prolog which basically means that atoms can be `<` `>` quoted IRIs.
