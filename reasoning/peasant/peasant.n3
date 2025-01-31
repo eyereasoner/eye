@@ -1,6 +1,12 @@
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix : <http://eexample.org/#>.
 
+# multiplication
 {(0 ?Y) :prod 0} <= true.
 {(?X ?Y) :prod ?Z} <= {?X math:notEqualTo 0. (?X 2) math:remainder 0. ((?X 2)!math:integerQuotient (?Y ?Y)!math:sum) :prod ?Z}.
 {(?X ?Y) :prod ?Z} <= {?X math:notEqualTo 0. (?X 2) math:remainder 1. (((?X 2)!math:integerQuotient (?Y ?Y)!math:sum)!:prod ?Y) math:sum ?Z}.
+
+# power
+{(?X 0) :pow 1} <= true.
+{(?X ?Y) :pow ?Z} <= {?Y math:notEqualTo 0. (?Y 2) math:remainder 0. ((?X ?X)!math:product (?Y 2)!math:integerQuotient) :pow ?Z}.
+{(?X ?Y) :pow ?Z} <= {?Y math:notEqualTo 0. (?Y 2) math:remainder 1. (((?X ?X)!math:product (?Y 2)!math:integerQuotient)!:pow ?X) math:product ?Z}.
