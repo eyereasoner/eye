@@ -2,17 +2,17 @@
 % See https://github.com/dig-team/Qiana
 
 % says(Einstein, not (forall x: glitters(x) => gold(x)))
-'<urn:example:says>'('<urn:example:Einstein>', ('<urn:example:notNecessarilyA>'(X, '<urn:example:gold>') :+ '<urn:example:glitter>'(X))).
+'<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(X, '<https://eyereasoner.github.io/ns#gold>') :+ '<https://eyereasoner.github.io/ns#glitter>'(X))).
 
 % example
-'<urn:example:glitter>'('<urn:example:northStar>').
+'<https://eyereasoner.github.io/ns#glitter>'('<https://eyereasoner.github.io/ns#northStar>').
 
 % forall phi, x: says(Einstein, phi) => believes(x, phi)
-'<urn:example:believes>'(_, Phi) :- '<urn:example:says>'('<urn:example:Einstein>', Phi).
+'<https://eyereasoner.github.io/ns#believes>'(_, Phi) :- '<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', Phi).
 
 % forall phi: says(Einstein, phi) => phi
-Phi :+ '<urn:example:says>'('<urn:example:Einstein>', Phi).
+Phi :+ '<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', Phi).
 
 % query
-true :+ '<urn:example:believes>'('<urn:example:Fabian>', _).
-true :+ '<urn:example:notNecessarilyA>'(_, _).
+true :+ '<https://eyereasoner.github.io/ns#believes>'('<https://eyereasoner.github.io/ns#Fabian>', _).
+true :+ '<https://eyereasoner.github.io/ns#notNecessarilyA>'(_, _).

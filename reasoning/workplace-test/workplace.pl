@@ -3,39 +3,39 @@
 :- op(1200, xfx, :+).
 
 % Facts about what employees are doing
-'<urn:example:prepare>'(X, Y) :-
+'<https://eyereasoner.github.io/ns#prepare>'(X, Y) :-
     between(X, Y, N),
     number_codes(N, J),
     atom_codes(I, J),
-    atom_concat('<urn:example:alice>', I, A),
-    assertz('<urn:example:does>'(A, '<urn:example:log_off_at_end_of_shift>')),
-    atom_concat('<urn:example:bob>', I, B),
-    assertz('<urn:example:does>'(B, '<urn:example:work_related_task>')),
-    assertz('<urn:example:does>'(B, '<urn:example:log_off_at_end_of_shift>')),
-    atom_concat('<urn:example:carol>', I, C),
-    assertz('<urn:example:does>'(C, '<urn:example:access_social_media>')),
+    atom_concat('<https://eyereasoner.github.io/ns#alice>', I, A),
+    assertz('<https://eyereasoner.github.io/ns#does>'(A, '<https://eyereasoner.github.io/ns#log_off_at_end_of_shift>')),
+    atom_concat('<https://eyereasoner.github.io/ns#bob>', I, B),
+    assertz('<https://eyereasoner.github.io/ns#does>'(B, '<https://eyereasoner.github.io/ns#work_related_task>')),
+    assertz('<https://eyereasoner.github.io/ns#does>'(B, '<https://eyereasoner.github.io/ns#log_off_at_end_of_shift>')),
+    atom_concat('<https://eyereasoner.github.io/ns#carol>', I, C),
+    assertz('<https://eyereasoner.github.io/ns#does>'(C, '<https://eyereasoner.github.io/ns#access_social_media>')),
     fail;
     true.
 
 % Rules to check if an action complies with deontic logic
-'<urn:example:complies>'(Person, true) :+
-    '<urn:example:does>'(Person, '<urn:example:work_related_task>'),
-    '<urn:example:does>'(Person, '<urn:example:log_off_at_end_of_shift>').
+'<https://eyereasoner.github.io/ns#complies>'(Person, true) :+
+    '<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#work_related_task>'),
+    '<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#log_off_at_end_of_shift>').
 
-'<urn:example:complies>'(Person, false) :+
-    '<urn:example:does>'(Person, '<urn:example:work_related_task>'),
+'<https://eyereasoner.github.io/ns#complies>'(Person, false) :+
+    '<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#work_related_task>'),
     stable(1),
-    \+'<urn:example:does>'(Person, '<urn:example:log_off_at_end_of_shift>').
+    \+'<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#log_off_at_end_of_shift>').
 
-'<urn:example:complies>'(Person, true) :+
-    '<urn:example:does>'(Person, '<urn:example:log_off_at_end_of_shift>').
+'<https://eyereasoner.github.io/ns#complies>'(Person, true) :+
+    '<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#log_off_at_end_of_shift>').
 
-'<urn:example:complies>'(Person, false) :+
-    '<urn:example:does>'(Person, '<urn:example:access_social_media>').
+'<https://eyereasoner.github.io/ns#complies>'(Person, false) :+
+    '<https://eyereasoner.github.io/ns#does>'(Person, '<https://eyereasoner.github.io/ns#access_social_media>').
 
 
 % prepare employee data
-true :+ '<urn:example:prepare>'(1, 5000).
+true :+ '<https://eyereasoner.github.io/ns#prepare>'(1, 5000).
 
 % Query to test if everyone complies with deontic logic
-true :+ '<urn:example:complies>'(_, _).
+true :+ '<https://eyereasoner.github.io/ns#complies>'(_, _).

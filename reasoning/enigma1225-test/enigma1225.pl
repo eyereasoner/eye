@@ -5,7 +5,7 @@
 
 :- use_module(library(apply)).
 
-'<urn:example:enigma1225>'(Size, [Permutation, Board, Max]) :-
+'<https://eyereasoner.github.io/ns#enigma1225>'(Size, [Permutation, Board, Max]) :-
     setof(Total, M^Freq^Perm^square(Size, M, Total, Freq, Perm), Totals),
     lastlist(Totals, Max),
     square(Size, Board, Max, _, Permutation).
@@ -224,4 +224,4 @@ lists_reform([[A|B]|C], [A|D], [B|E]) :-
     lists_reform(C, D, E).
 
 % query
-true :+ '<urn:example:enigma1225>'(8, _).
+true :+ '<https://eyereasoner.github.io/ns#enigma1225>'(8, _).

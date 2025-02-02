@@ -2,12 +2,12 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:move>'(0, [_, _, _]) :-
+'<https://eyereasoner.github.io/ns#move>'(0, [_, _, _]) :-
     !.
-'<urn:example:move>'(N, [A, B, C]) :-
+'<https://eyereasoner.github.io/ns#move>'(N, [A, B, C]) :-
     M is N-1,
-    '<urn:example:move>'(M, [A, C, B]),
-    '<urn:example:move>'(M, [C, B, A]).
+    '<https://eyereasoner.github.io/ns#move>'(M, [A, C, B]),
+    '<https://eyereasoner.github.io/ns#move>'(M, [C, B, A]).
 
 % query
-true :+ '<urn:example:move>'(14, [left, centre, right]).
+true :+ '<https://eyereasoner.github.io/ns#move>'(14, [left, centre, right]).

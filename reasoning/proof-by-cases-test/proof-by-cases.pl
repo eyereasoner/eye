@@ -2,40 +2,40 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:allPossibleCases>'/2).
+:- dynamic('<https://eyereasoner.github.io/ns#allPossibleCases>'/2).
 
 % context
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(A, B) :- type(A, B).
 
 % water is an inorganic compound
-type('<urn:example:water>', '<urn:example:InorganicCompound>').
+type('<https://eyereasoner.github.io/ns#water>', '<https://eyereasoner.github.io/ns#InorganicCompound>').
 
 % proof by cases
-type(A, '<urn:example:Observablee>') :-
-    '<urn:example:allPossibleCases>'(A, B),
+type(A, '<https://eyereasoner.github.io/ns#Observablee>') :-
+    '<https://eyereasoner.github.io/ns#allPossibleCases>'(A, B),
     forall(
         member(type(A, C), B),
-        (type(A, '<urn:example:Observablee>') :+ type(A, C))
+        (type(A, '<https://eyereasoner.github.io/ns#Observablee>') :+ type(A, C))
     ).
 
 % water is solid or liquid or gas
-'<urn:example:allPossibleCases>'(A,
+'<https://eyereasoner.github.io/ns#allPossibleCases>'(A,
         [
-            type(A, '<urn:example:Solid>'),
-            type(A, '<urn:example:Liquid>'),
-            type(A, '<urn:example:Gas>')
+            type(A, '<https://eyereasoner.github.io/ns#Solid>'),
+            type(A, '<https://eyereasoner.github.io/ns#Liquid>'),
+            type(A, '<https://eyereasoner.github.io/ns#Gas>')
         ]
-    ) :+ type(A, '<urn:example:InorganicCompound>').
+    ) :+ type(A, '<https://eyereasoner.github.io/ns#InorganicCompound>').
 
 % solid, liquid and gas things are Observablee
-type(A, '<urn:example:Observablee>') :+
-    type(A, '<urn:example:Solid>').
+type(A, '<https://eyereasoner.github.io/ns#Observablee>') :+
+    type(A, '<https://eyereasoner.github.io/ns#Solid>').
 
-type(A, '<urn:example:Observablee>') :+
-    type(A, '<urn:example:Liquid>').
+type(A, '<https://eyereasoner.github.io/ns#Observablee>') :+
+    type(A, '<https://eyereasoner.github.io/ns#Liquid>').
 
-type(A, '<urn:example:Observablee>') :+
-    type(A, '<urn:example:Gas>').
+type(A, '<https://eyereasoner.github.io/ns#Observablee>') :+
+    type(A, '<https://eyereasoner.github.io/ns#Gas>').
 
 % query
 true :+ '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(_, _).

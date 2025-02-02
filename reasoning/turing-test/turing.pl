@@ -4,10 +4,10 @@
 
 % interpreter for Univeral Turing Machine
 
-'<urn:example:compute>'([], OutTape) :-
+'<https://eyereasoner.github.io/ns#compute>'([], OutTape) :-
     start(_MACHINE, I),
     find(I, [], #, [ ], OutTape).
-'<urn:example:compute>'([Head|Tail], OutTape) :-
+'<https://eyereasoner.github.io/ns#compute>'([Head|Tail], OutTape) :-
     start(_MACHINE, I),
     find(I, [], Head, Tail, OutTape).
 
@@ -45,7 +45,7 @@ t([1, 1, 0, l], 1).
 t([1, #, 1, s], halt).
 
 % query
-true :+ '<urn:example:compute>'([1, 0, 1, 0, 0, 1], _).
-true :+ '<urn:example:compute>'([1, 0, 1, 1, 1, 1], _).
-true :+ '<urn:example:compute>'([1, 1, 1, 1, 1, 1], _).
-true :+ '<urn:example:compute>'([], _).
+true :+ '<https://eyereasoner.github.io/ns#compute>'([1, 0, 1, 0, 0, 1], _).
+true :+ '<https://eyereasoner.github.io/ns#compute>'([1, 0, 1, 1, 1, 1], _).
+true :+ '<https://eyereasoner.github.io/ns#compute>'([1, 1, 1, 1, 1, 1], _).
+true :+ '<https://eyereasoner.github.io/ns#compute>'([], _).

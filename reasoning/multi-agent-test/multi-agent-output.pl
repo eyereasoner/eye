@@ -1,14 +1,14 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:obligatory>'('<urn:example:complete:task>'('<urn:example:agent2>', '<urn:example:task1>'))).
-answer('<urn:example:obligatory>'('<urn:example:escalate:task>'('<urn:example:agent1>', '<urn:example:task1>'))).
-answer('<urn:example:permitted>'('<urn:example:execute:task>'('<urn:example:agent2>', '<urn:example:task1>'))).
-answer('<urn:example:violation>'('<urn:example:task1>')).
-answer('<urn:example:sanction>'('<urn:example:agent2>')).
+answer('<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#complete:task>'('<https://eyereasoner.github.io/ns#agent2>', '<https://eyereasoner.github.io/ns#task1>'))).
+answer('<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#escalate:task>'('<https://eyereasoner.github.io/ns#agent1>', '<https://eyereasoner.github.io/ns#task1>'))).
+answer('<https://eyereasoner.github.io/ns#permitted>'('<https://eyereasoner.github.io/ns#execute:task>'('<https://eyereasoner.github.io/ns#agent2>', '<https://eyereasoner.github.io/ns#task1>'))).
+answer('<https://eyereasoner.github.io/ns#violation>'('<https://eyereasoner.github.io/ns#task1>')).
+answer('<https://eyereasoner.github.io/ns#sanction>'('<https://eyereasoner.github.io/ns#agent2>')).
 
 % proof steps
-step((true:+'<urn:example:obligatory>'(_)), '<urn:example:obligatory>'('<urn:example:complete:task>'('<urn:example:agent2>', '<urn:example:task1>')), true).
-step((true:+'<urn:example:obligatory>'(_)), '<urn:example:obligatory>'('<urn:example:escalate:task>'('<urn:example:agent1>', '<urn:example:task1>')), true).
-step((true:+'<urn:example:permitted>'(_)), '<urn:example:permitted>'('<urn:example:execute:task>'('<urn:example:agent2>', '<urn:example:task1>')), true).
-step((true:+'<urn:example:violation>'(_)), '<urn:example:violation>'('<urn:example:task1>'), true).
-step((true:+'<urn:example:sanction>'(_)), '<urn:example:sanction>'('<urn:example:agent2>'), true).
+step((true:+'<https://eyereasoner.github.io/ns#obligatory>'(_)), '<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#complete:task>'('<https://eyereasoner.github.io/ns#agent2>', '<https://eyereasoner.github.io/ns#task1>')), true).
+step((true:+'<https://eyereasoner.github.io/ns#obligatory>'(_)), '<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#escalate:task>'('<https://eyereasoner.github.io/ns#agent1>', '<https://eyereasoner.github.io/ns#task1>')), true).
+step((true:+'<https://eyereasoner.github.io/ns#permitted>'(_)), '<https://eyereasoner.github.io/ns#permitted>'('<https://eyereasoner.github.io/ns#execute:task>'('<https://eyereasoner.github.io/ns#agent2>', '<https://eyereasoner.github.io/ns#task1>')), true).
+step((true:+'<https://eyereasoner.github.io/ns#violation>'(_)), '<https://eyereasoner.github.io/ns#violation>'('<https://eyereasoner.github.io/ns#task1>'), true).
+step((true:+'<https://eyereasoner.github.io/ns#sanction>'(_)), '<https://eyereasoner.github.io/ns#sanction>'('<https://eyereasoner.github.io/ns#agent2>'), true).

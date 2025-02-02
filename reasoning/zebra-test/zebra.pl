@@ -3,7 +3,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:zebra>'(WaterDrinker, ZebraOwner) :-
+'<https://eyereasoner.github.io/ns#zebra>'(WaterDrinker, ZebraOwner) :-
     length(Houses, 5),                                                          % 1. There are five houses.
     member(house(red, english, _, _, _), Houses),                               % 2. The Englishman lives in the red house.
     member(house(_, spanish, dog, _, _), Houses),                               % 3. The Spaniard owns the dog.
@@ -31,4 +31,4 @@ next_to(X, Y, [_|Zs]) :-
     next_to(X, Y, Zs).
 
 % query
-true :+ '<urn:example:zebra>'(_, _).
+true :+ '<https://eyereasoner.github.io/ns#zebra>'(_, _).

@@ -3,10 +3,10 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:gcc>'([], _, []).
-'<urn:example:gcc>'([C|Cs], S, [N|Ns]) :-
+'<https://eyereasoner.github.io/ns#gcc>'([], _, []).
+'<https://eyereasoner.github.io/ns#gcc>'([C|Cs], S, [N|Ns]) :-
     gcc(C, S, N),
-    '<urn:example:gcc>'(Cs, N, Ns).
+    '<https://eyereasoner.github.io/ns#gcc>'(Cs, N, Ns).
 
 gcc(C, [Qa, Qb, Qc], [Za, Zb, Zc]) :-
     neta(Qa, Qb, D1),
@@ -48,4 +48,4 @@ inv(0, 1).
 inv(1, 0).
 
 % query
-true :+ '<urn:example:gcc>'([1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 0, 0], _).
+true :+ '<https://eyereasoner.github.io/ns#gcc>'([1, 1, 1, 1, 1, 1, 1, 1, 1], [0, 0, 0], _).

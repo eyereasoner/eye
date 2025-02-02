@@ -5,7 +5,7 @@
 :- op(1200, xfx, :+).
 
 % find paths in the state space from initial state to goal state within limits
-'<urn:example:findpath>'(_SCOPE, [Goal, Path, Duration, Cost, Belief, Comfort, Limits]) :-
+'<https://eyereasoner.github.io/ns#findpath>'(_SCOPE, [Goal, Path, Duration, Cost, Belief, Comfort, Limits]) :-
     findpaths([], Goal, [], 0.0, 0.0, 1.0, 1.0, Path, Duration, Cost, Belief, Comfort, Limits).
 
 findpaths(_Maps, Goal, Path, Duration, Cost, Belief, Comfort, Path, Duration, Cost, Belief, Comfort, _Limits) :-
@@ -13,10 +13,10 @@ findpaths(_Maps, Goal, Path, Duration, Cost, Belief, Comfort, Path, Duration, Co
     !.
 findpaths(Maps_s, Goal, Path_s, Duration_s, Cost_s, Belief_s, Comfort_s, Path, Duration, Cost, Belief, Comfort, Limits) :-
     Limits = [MaxDuration, MaxCost, MinBelief, MinComfort, MaxStagecount],
-    clause('<urn:example:description>'(Map, [From, Transition, To, Action, Duration_n, Cost_n, Belief_n, Comfort_n]), Where),
+    clause('<https://eyereasoner.github.io/ns#description>'(Map, [From, Transition, To, Action, Duration_n, Cost_n, Belief_n, Comfort_n]), Where),
     From,
     Where,
-    '<urn:example:description>'(Map, [From, Transition, To, Action, Duration_n, Cost_n, Belief_n, Comfort_n]),
+    '<https://eyereasoner.github.io/ns#description>'(Map, [From, Transition, To, Action, Duration_n, Cost_n, Belief_n, Comfort_n]),
     append(Maps_s, [Map], Maps_t),
     stagecount(Maps_t, Stagecount),
     Stagecount =< MaxStagecount,

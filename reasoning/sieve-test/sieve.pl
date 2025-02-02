@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:primes>'(Limit, Ps) :-
+'<https://eyereasoner.github.io/ns#primes>'(Limit, Ps) :-
     range(2, Limit, Is),
     sift(Is, Ps).
 
@@ -28,4 +28,4 @@ remove(P, [I|Is], [I|Nis]) :-
     remove(P, Is, Nis).
 
 % query
-true :+ '<urn:example:primes>'(10000, _).
+true :+ '<https://eyereasoner.github.io/ns#primes>'(10000, _).

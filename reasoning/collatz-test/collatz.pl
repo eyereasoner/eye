@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:collatz>'(N, L) :-
+'<https://eyereasoner.github.io/ns#collatz>'(N, L) :-
     collatz(N, 1, L).
 
 collatz(N, N, [N]) :-
@@ -15,5 +15,5 @@ collatz(N0, N, [N0|J]) :-
     collatz(N1, N, J).
 
 % query
-(true :+ '<urn:example:collatz>'(N, _)) :-
+(true :+ '<https://eyereasoner.github.io/ns#collatz>'(N, _)) :-
     between(1, 10000, N).

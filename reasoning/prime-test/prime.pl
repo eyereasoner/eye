@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:primerange>'(A, B, L) :-
+'<https://eyereasoner.github.io/ns#primerange>'(A, B, L) :-
     findall(I, (between(A, B, I), prime(I)), L).
 
 prime(2).
@@ -32,7 +32,7 @@ factor(N, L) :-
 % for the argument N.
 %   (integer, integer) (+, ?)
 
-'<urn:example:totient>'(N, Phi) :-
+'<https://eyereasoner.github.io/ns#totient>'(N, Phi) :-
     prime_factors_mult(N, L),
     to_phi(L, Phi).
 
@@ -119,9 +119,9 @@ divi(N, F, M, R, K) :-
 divi(N, _, M, N, M).
 
 % query
-true :+ '<urn:example:primerange>'(0, 100, _).
-true :+ '<urn:example:primerange>'(1000000, 1000100, _).
-true :+ '<urn:example:totient>'(271, _).
-true :+ '<urn:example:totient>'(2718281, _).
-true :+ '<urn:example:totient>'(27182818284, _).
-true :+ '<urn:example:totient>'(271828182845904, _).
+true :+ '<https://eyereasoner.github.io/ns#primerange>'(0, 100, _).
+true :+ '<https://eyereasoner.github.io/ns#primerange>'(1000000, 1000100, _).
+true :+ '<https://eyereasoner.github.io/ns#totient>'(271, _).
+true :+ '<https://eyereasoner.github.io/ns#totient>'(2718281, _).
+true :+ '<https://eyereasoner.github.io/ns#totient>'(27182818284, _).
+true :+ '<https://eyereasoner.github.io/ns#totient>'(271828182845904, _).

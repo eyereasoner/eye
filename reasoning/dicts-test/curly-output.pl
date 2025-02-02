@@ -1,6 +1,6 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:test>'('Philip K Dick')).
+answer('<https://eyereasoner.github.io/ns#test>'('Philip K Dick')).
 
 % proof steps
-step((true:+'<urn:example:test>'(_)), '<urn:example:test>'('Philip K Dick'), true).
+step((true:+'<https://eyereasoner.github.io/ns#test>'(_)), '<https://eyereasoner.github.io/ns#test>'('Philip K Dick'), true).

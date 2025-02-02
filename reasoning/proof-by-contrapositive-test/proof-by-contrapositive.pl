@@ -3,11 +3,11 @@
 :- op(1200, xfx, :+).
 
 % the ground is not wet
-false :+ '<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>').
+false :+ '<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>').
 
 % if it is raining, then the ground is wet
-'<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>') :+
-    '<urn:example:is>'('<urn:example:it>', '<urn:example:raining>').
+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>') :+
+    '<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>').
 
 % proof by contrapositive
 (false :+ P) :+ (C :+ P), (false :+ C).

@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'urn:example:derivative'(A, B, C) :-
+'https://eyereasoner.github.io/ns#derivative'(A, B, C) :-
     derivative(A, B, C).
 
 derivative(U, X, Y) :-
@@ -108,7 +108,7 @@ s(A, B) :-
 s(A, A).
 
 % query
-true :+ 'urn:example:derivative'((x+1)*((x^2+2)*(x^3+3)), x, _).
-true :+ 'urn:example:derivative'(x/x/x/x/x/x/x/x/x/x, x, _).
-true :+ 'urn:example:derivative'(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _).
-true :+ 'urn:example:derivative'(x*x*x*x*x*x*x*x*x*x, x, _).
+true :+ 'https://eyereasoner.github.io/ns#derivative'((x+1)*((x^2+2)*(x^3+3)), x, _).
+true :+ 'https://eyereasoner.github.io/ns#derivative'(x/x/x/x/x/x/x/x/x/x, x, _).
+true :+ 'https://eyereasoner.github.io/ns#derivative'(log(log(log(log(log(log(log(log(log(log(x)))))))))), x, _).
+true :+ 'https://eyereasoner.github.io/ns#derivative'(x*x*x*x*x*x*x*x*x*x, x, _).

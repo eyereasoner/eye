@@ -3,8 +3,8 @@
 
 :- op(1200, xfx, :+).
 
-% '<urn:example:queens>'(+N, -Queens): Queens is a solution to the N-queens problem
-'<urn:example:queens>'(N, Qs) :-
+% '<https://eyereasoner.github.io/ns#queens>'(+N, -Queens): Queens is a solution to the N-queens problem
+'<https://eyereasoner.github.io/ns#queens>'(N, Qs) :-
     range(1, N, Us),
     queens(Us, [], Qs).
 
@@ -32,4 +32,4 @@ attack(X, N, [_|Ys]) :-
     attack(X, N1, Ys).
 
 % query
-true :+ '<urn:example:queens>'(8, _).
+true :+ '<https://eyereasoner.github.io/ns#queens>'(8, _).

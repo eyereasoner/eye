@@ -3,9 +3,9 @@
 :- op(1200, xfx, :+).
 
 true :+
-    '<urn:example:findpath>'(
-        '<urn:example:map_be>',
-        [   '<urn:example:location>'(_SUBJECT, '<urn:example:oostende>'),
+    '<https://eyereasoner.github.io/ns#findpath>'(
+        '<https://eyereasoner.github.io/ns#map_be>',
+        [   '<https://eyereasoner.github.io/ns#location>'(_SUBJECT, '<https://eyereasoner.github.io/ns#oostende>'),
             _PATH,
             _DURATION,
             _COST,

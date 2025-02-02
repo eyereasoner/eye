@@ -2,11 +2,11 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:sum>'([[A, B], [C, D]], [E, F]) :-
+'<https://eyereasoner.github.io/ns#sum>'([[A, B], [C, D]], [E, F]) :-
     E is A+C,
     F is B+D.
 
-'<urn:example:exponentiation>'([[A, B], [C, D]], [E, F]) :-
+'<https://eyereasoner.github.io/ns#exponentiation>'([[A, B], [C, D]], [E, F]) :-
     polar([A, B], [G, H]),
     E is G^C*exp(-D*H)*cos(D*log(G)+C*H),
     F is G^C*exp(-D*H)*sin(D*log(G)+C*H).
@@ -35,5 +35,5 @@ angular(A, B, C, D) :-
 
 % query
 true :+
-    '<urn:example:exponentiation>'([[2.718281828459045, 0], [0, pi]], Y),
-    '<urn:example:sum>'([Y, [1, 0]], _).
+    '<https://eyereasoner.github.io/ns#exponentiation>'([[2.718281828459045, 0], [0, pi]], Y),
+    '<https://eyereasoner.github.io/ns#sum>'([Y, [1, 0]], _).

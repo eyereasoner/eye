@@ -1,6 +1,6 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:mustHave>'('<urn:example:alice>', '<urn:example:dogLicense>')).
+answer('<https://eyereasoner.github.io/ns#mustHave>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dogLicense>')).
 
 % proof steps
-step((true:+'<urn:example:mustHave>'(_, _)), '<urn:example:mustHave>'('<urn:example:alice>', '<urn:example:dogLicense>'), true).
+step((true:+'<https://eyereasoner.github.io/ns#mustHave>'(_, _)), '<https://eyereasoner.github.io/ns#mustHave>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dogLicense>'), true).

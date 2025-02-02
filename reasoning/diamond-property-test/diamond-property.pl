@@ -4,31 +4,31 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:re>'(a, b), '<urn:example:re>'(a, c) :+ true.
+'<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#re>'(a, c) :+ true.
 
 % equality axioms
-'<urn:example:e>'(A, A) :+ '<urn:example:re>'(A, _).
-'<urn:example:e>'(A, A) :+ '<urn:example:re>'(_, A).
+'<https://eyereasoner.github.io/ns#e>'(A, A) :+ '<https://eyereasoner.github.io/ns#re>'(A, _).
+'<https://eyereasoner.github.io/ns#e>'(A, A) :+ '<https://eyereasoner.github.io/ns#re>'(_, A).
 
-'<urn:example:e>'(B, A) :+ '<urn:example:e>'(A, B).
-'<urn:example:not_e>'(B, A) :+ '<urn:example:not_e>'(A, B).
+'<https://eyereasoner.github.io/ns#e>'(B, A) :+ '<https://eyereasoner.github.io/ns#e>'(A, B).
+'<https://eyereasoner.github.io/ns#not_e>'(B, A) :+ '<https://eyereasoner.github.io/ns#not_e>'(A, B).
 
-'<urn:example:not_e>'(A, B) :+ '<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C).
-'<urn:example:not_e>'(B, C) :+ '<urn:example:e>'(A, B), '<urn:example:not_re>'(A, C).
+'<https://eyereasoner.github.io/ns#not_e>'(A, B) :+ '<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C).
+'<https://eyereasoner.github.io/ns#not_e>'(B, C) :+ '<https://eyereasoner.github.io/ns#e>'(A, B), '<https://eyereasoner.github.io/ns#not_re>'(A, C).
 
 % basic facts on re
-'<urn:example:re>'(A, B) :+ '<urn:example:e>'(A, B).
-'<urn:example:re>'(A, B) :+ '<urn:example:r>'(A, B).
+'<https://eyereasoner.github.io/ns#re>'(A, B) :+ '<https://eyereasoner.github.io/ns#e>'(A, B).
+'<https://eyereasoner.github.io/ns#re>'(A, B) :+ '<https://eyereasoner.github.io/ns#r>'(A, B).
 
-'<urn:example:r>'(A, B) :+ '<urn:example:re>'(A, B), '<urn:example:not_e>'(A, B).
-'<urn:example:e>'(A, B) :+ '<urn:example:re>'(A, B), '<urn:example:not_r>'(A, B).
+'<https://eyereasoner.github.io/ns#r>'(A, B) :+ '<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_e>'(A, B).
+'<https://eyereasoner.github.io/ns#e>'(A, B) :+ '<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_r>'(A, B).
 
 % DP
-'<urn:example:r>'(B, D), '<urn:example:r>'(C, D) :+ '<urn:example:r>'(A, B), '<urn:example:r>'(A, C).
+'<https://eyereasoner.github.io/ns#r>'(B, D), '<https://eyereasoner.github.io/ns#r>'(C, D) :+ '<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(A, C).
 
 % assuming the negation of the query so that it can be discharged when the query succeeds
-'<urn:example:not_re>'(c, A) :+ '<urn:example:re>'(b, A).
-'<urn:example:not_re>'(b, A) :+ '<urn:example:re>'(c, A).
+'<https://eyereasoner.github.io/ns#not_re>'(c, A) :+ '<https://eyereasoner.github.io/ns#re>'(b, A).
+'<https://eyereasoner.github.io/ns#not_re>'(b, A) :+ '<https://eyereasoner.github.io/ns#re>'(c, A).
 
 % query
-true :+ '<urn:example:re>'(b, A), '<urn:example:re>'(c, A).
+true :+ '<https://eyereasoner.github.io/ns#re>'(b, A), '<https://eyereasoner.github.io/ns#re>'(c, A).

@@ -1,44 +1,44 @@
 :- op(1200, xfx, :+).
 
-answer(('<urn:example:re>'(b, sk_0), '<urn:example:re>'(c, sk_0))).
+answer(('<https://eyereasoner.github.io/ns#re>'(b, sk_0), '<https://eyereasoner.github.io/ns#re>'(c, sk_0))).
 
 % proof steps
-step(('<urn:example:re>'(a, b), '<urn:example:re>'(a, c):+true), true, ('<urn:example:re>'(a, b), '<urn:example:re>'(a, c))).
-step(('<urn:example:re>'(a, b), '<urn:example:re>'(a, c):+true), true, ('<urn:example:re>'(a, b), '<urn:example:re>'(a, c))).
-step(('<urn:example:e>'(A, A):+'<urn:example:re>'(A, _)), '<urn:example:re>'(a, b), '<urn:example:e>'(a, a)).
-step(('<urn:example:e>'(A, A):+'<urn:example:re>'(_, A)), '<urn:example:re>'(a, b), '<urn:example:e>'(b, b)).
-step(('<urn:example:e>'(A, A):+'<urn:example:re>'(_, A)), '<urn:example:re>'(a, c), '<urn:example:e>'(c, c)).
-step(('<urn:example:re>'(A, B):+'<urn:example:e>'(A, B)), '<urn:example:e>'(a, a), '<urn:example:re>'(a, a)).
-step(('<urn:example:re>'(A, B):+'<urn:example:e>'(A, B)), '<urn:example:e>'(b, b), '<urn:example:re>'(b, b)).
-step(('<urn:example:re>'(A, B):+'<urn:example:e>'(A, B)), '<urn:example:e>'(c, c), '<urn:example:re>'(c, c)).
-step(('<urn:example:not_re>'(c, A):+'<urn:example:re>'(b, A)), '<urn:example:re>'(b, b), '<urn:example:not_re>'(c, b)).
-step(('<urn:example:not_re>'(b, A):+'<urn:example:re>'(c, A)), '<urn:example:re>'(c, c), '<urn:example:not_re>'(b, c)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(c, b), '<urn:example:re>'(a, b)), '<urn:example:not_e>'(c, a)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(c, b), '<urn:example:re>'(b, b)), '<urn:example:not_e>'(c, b)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(b, c), '<urn:example:re>'(a, c)), '<urn:example:not_e>'(b, a)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(b, c), '<urn:example:re>'(c, c)), '<urn:example:not_e>'(b, c)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_e>'(B, A)), '<urn:example:not_e>'(c, a), '<urn:example:not_e>'(a, c)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_e>'(B, A)), '<urn:example:not_e>'(b, a), '<urn:example:not_e>'(a, b)).
-step(('<urn:example:r>'(A, B):+'<urn:example:re>'(A, B), '<urn:example:not_e>'(A, B)), ('<urn:example:re>'(a, b), '<urn:example:not_e>'(a, b)), '<urn:example:r>'(a, b)).
-step(('<urn:example:r>'(A, B):+'<urn:example:re>'(A, B), '<urn:example:not_e>'(A, B)), ('<urn:example:re>'(a, c), '<urn:example:not_e>'(a, c)), '<urn:example:r>'(a, c)).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(a, b), '<urn:example:r>'(a, b)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(b, sk_0))).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(a, b), '<urn:example:r>'(a, b)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(b, sk_0))).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(a, b), '<urn:example:r>'(a, c)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(c, sk_0))).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(a, b), '<urn:example:r>'(a, c)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(c, sk_0))).
-step(('<urn:example:re>'(A, B):+'<urn:example:r>'(A, B)), '<urn:example:r>'(b, sk_0), '<urn:example:re>'(b, sk_0)).
-step(('<urn:example:re>'(A, B):+'<urn:example:r>'(A, B)), '<urn:example:r>'(c, sk_0), '<urn:example:re>'(c, sk_0)).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(b, sk_0)), ('<urn:example:r>'(sk_0, sk_0), '<urn:example:r>'(sk_0, sk_0))).
-step(('<urn:example:r>'(A, B), '<urn:example:r>'(C, B):+'<urn:example:r>'(D, A), '<urn:example:r>'(D, C)), ('<urn:example:r>'(b, sk_0), '<urn:example:r>'(b, sk_0)), ('<urn:example:r>'(sk_0, sk_0), '<urn:example:r>'(sk_0, sk_0))).
-step(('<urn:example:not_re>'(c, A):+'<urn:example:re>'(b, A)), '<urn:example:re>'(b, sk_0), '<urn:example:not_re>'(c, sk_0)).
-step(('<urn:example:not_re>'(b, A):+'<urn:example:re>'(c, A)), '<urn:example:re>'(c, sk_0), '<urn:example:not_re>'(b, sk_0)).
-step((true:+'<urn:example:re>'(b, A), '<urn:example:re>'(c, A)), ('<urn:example:re>'(b, sk_0), '<urn:example:re>'(c, sk_0)), true).
-step(('<urn:example:e>'(A, A):+'<urn:example:re>'(_, A)), '<urn:example:re>'(b, sk_0), '<urn:example:e>'(sk_0, sk_0)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(c, sk_0), '<urn:example:re>'(c, sk_0)), '<urn:example:not_e>'(c, c)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_re>'(A, C), '<urn:example:re>'(B, C)), ('<urn:example:not_re>'(b, sk_0), '<urn:example:re>'(b, sk_0)), '<urn:example:not_e>'(b, b)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:e>'(C, A), '<urn:example:not_re>'(C, B)), ('<urn:example:e>'(b, b), '<urn:example:not_re>'(b, sk_0)), '<urn:example:not_e>'(b, sk_0)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:e>'(C, A), '<urn:example:not_re>'(C, B)), ('<urn:example:e>'(c, c), '<urn:example:not_re>'(c, sk_0)), '<urn:example:not_e>'(c, sk_0)).
-step(('<urn:example:re>'(A, B):+'<urn:example:e>'(A, B)), '<urn:example:e>'(sk_0, sk_0), '<urn:example:re>'(sk_0, sk_0)).
-step(('<urn:example:r>'(A, B):+'<urn:example:re>'(A, B), '<urn:example:not_e>'(A, B)), ('<urn:example:re>'(b, b), '<urn:example:not_e>'(b, b)), '<urn:example:r>'(b, b)).
-step(('<urn:example:r>'(A, B):+'<urn:example:re>'(A, B), '<urn:example:not_e>'(A, B)), ('<urn:example:re>'(c, c), '<urn:example:not_e>'(c, c)), '<urn:example:r>'(c, c)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_e>'(B, A)), '<urn:example:not_e>'(b, sk_0), '<urn:example:not_e>'(sk_0, b)).
-step(('<urn:example:not_e>'(A, B):+'<urn:example:not_e>'(B, A)), '<urn:example:not_e>'(c, sk_0), '<urn:example:not_e>'(sk_0, c)).
+step(('<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#re>'(a, c):+true), true, ('<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#re>'(a, c))).
+step(('<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#re>'(a, c):+true), true, ('<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#re>'(a, c))).
+step(('<https://eyereasoner.github.io/ns#e>'(A, A):+'<https://eyereasoner.github.io/ns#re>'(A, _)), '<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#e>'(a, a)).
+step(('<https://eyereasoner.github.io/ns#e>'(A, A):+'<https://eyereasoner.github.io/ns#re>'(_, A)), '<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#e>'(b, b)).
+step(('<https://eyereasoner.github.io/ns#e>'(A, A):+'<https://eyereasoner.github.io/ns#re>'(_, A)), '<https://eyereasoner.github.io/ns#re>'(a, c), '<https://eyereasoner.github.io/ns#e>'(c, c)).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(A, B)), '<https://eyereasoner.github.io/ns#e>'(a, a), '<https://eyereasoner.github.io/ns#re>'(a, a)).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(A, B)), '<https://eyereasoner.github.io/ns#e>'(b, b), '<https://eyereasoner.github.io/ns#re>'(b, b)).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(A, B)), '<https://eyereasoner.github.io/ns#e>'(c, c), '<https://eyereasoner.github.io/ns#re>'(c, c)).
+step(('<https://eyereasoner.github.io/ns#not_re>'(c, A):+'<https://eyereasoner.github.io/ns#re>'(b, A)), '<https://eyereasoner.github.io/ns#re>'(b, b), '<https://eyereasoner.github.io/ns#not_re>'(c, b)).
+step(('<https://eyereasoner.github.io/ns#not_re>'(b, A):+'<https://eyereasoner.github.io/ns#re>'(c, A)), '<https://eyereasoner.github.io/ns#re>'(c, c), '<https://eyereasoner.github.io/ns#not_re>'(b, c)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(c, b), '<https://eyereasoner.github.io/ns#re>'(a, b)), '<https://eyereasoner.github.io/ns#not_e>'(c, a)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(c, b), '<https://eyereasoner.github.io/ns#re>'(b, b)), '<https://eyereasoner.github.io/ns#not_e>'(c, b)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(b, c), '<https://eyereasoner.github.io/ns#re>'(a, c)), '<https://eyereasoner.github.io/ns#not_e>'(b, a)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(b, c), '<https://eyereasoner.github.io/ns#re>'(c, c)), '<https://eyereasoner.github.io/ns#not_e>'(b, c)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_e>'(B, A)), '<https://eyereasoner.github.io/ns#not_e>'(c, a), '<https://eyereasoner.github.io/ns#not_e>'(a, c)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_e>'(B, A)), '<https://eyereasoner.github.io/ns#not_e>'(b, a), '<https://eyereasoner.github.io/ns#not_e>'(a, b)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B):+'<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_e>'(A, B)), ('<https://eyereasoner.github.io/ns#re>'(a, b), '<https://eyereasoner.github.io/ns#not_e>'(a, b)), '<https://eyereasoner.github.io/ns#r>'(a, b)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B):+'<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_e>'(A, B)), ('<https://eyereasoner.github.io/ns#re>'(a, c), '<https://eyereasoner.github.io/ns#not_e>'(a, c)), '<https://eyereasoner.github.io/ns#r>'(a, c)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(a, b), '<https://eyereasoner.github.io/ns#r>'(a, b)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(b, sk_0))).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(a, b), '<https://eyereasoner.github.io/ns#r>'(a, b)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(b, sk_0))).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(a, b), '<https://eyereasoner.github.io/ns#r>'(a, c)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(c, sk_0))).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(a, b), '<https://eyereasoner.github.io/ns#r>'(a, c)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(c, sk_0))).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#r>'(A, B)), '<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#re>'(b, sk_0)).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#r>'(A, B)), '<https://eyereasoner.github.io/ns#r>'(c, sk_0), '<https://eyereasoner.github.io/ns#re>'(c, sk_0)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(b, sk_0)), ('<https://eyereasoner.github.io/ns#r>'(sk_0, sk_0), '<https://eyereasoner.github.io/ns#r>'(sk_0, sk_0))).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B), '<https://eyereasoner.github.io/ns#r>'(C, B):+'<https://eyereasoner.github.io/ns#r>'(D, A), '<https://eyereasoner.github.io/ns#r>'(D, C)), ('<https://eyereasoner.github.io/ns#r>'(b, sk_0), '<https://eyereasoner.github.io/ns#r>'(b, sk_0)), ('<https://eyereasoner.github.io/ns#r>'(sk_0, sk_0), '<https://eyereasoner.github.io/ns#r>'(sk_0, sk_0))).
+step(('<https://eyereasoner.github.io/ns#not_re>'(c, A):+'<https://eyereasoner.github.io/ns#re>'(b, A)), '<https://eyereasoner.github.io/ns#re>'(b, sk_0), '<https://eyereasoner.github.io/ns#not_re>'(c, sk_0)).
+step(('<https://eyereasoner.github.io/ns#not_re>'(b, A):+'<https://eyereasoner.github.io/ns#re>'(c, A)), '<https://eyereasoner.github.io/ns#re>'(c, sk_0), '<https://eyereasoner.github.io/ns#not_re>'(b, sk_0)).
+step((true:+'<https://eyereasoner.github.io/ns#re>'(b, A), '<https://eyereasoner.github.io/ns#re>'(c, A)), ('<https://eyereasoner.github.io/ns#re>'(b, sk_0), '<https://eyereasoner.github.io/ns#re>'(c, sk_0)), true).
+step(('<https://eyereasoner.github.io/ns#e>'(A, A):+'<https://eyereasoner.github.io/ns#re>'(_, A)), '<https://eyereasoner.github.io/ns#re>'(b, sk_0), '<https://eyereasoner.github.io/ns#e>'(sk_0, sk_0)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(c, sk_0), '<https://eyereasoner.github.io/ns#re>'(c, sk_0)), '<https://eyereasoner.github.io/ns#not_e>'(c, c)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_re>'(A, C), '<https://eyereasoner.github.io/ns#re>'(B, C)), ('<https://eyereasoner.github.io/ns#not_re>'(b, sk_0), '<https://eyereasoner.github.io/ns#re>'(b, sk_0)), '<https://eyereasoner.github.io/ns#not_e>'(b, b)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(C, A), '<https://eyereasoner.github.io/ns#not_re>'(C, B)), ('<https://eyereasoner.github.io/ns#e>'(b, b), '<https://eyereasoner.github.io/ns#not_re>'(b, sk_0)), '<https://eyereasoner.github.io/ns#not_e>'(b, sk_0)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(C, A), '<https://eyereasoner.github.io/ns#not_re>'(C, B)), ('<https://eyereasoner.github.io/ns#e>'(c, c), '<https://eyereasoner.github.io/ns#not_re>'(c, sk_0)), '<https://eyereasoner.github.io/ns#not_e>'(c, sk_0)).
+step(('<https://eyereasoner.github.io/ns#re>'(A, B):+'<https://eyereasoner.github.io/ns#e>'(A, B)), '<https://eyereasoner.github.io/ns#e>'(sk_0, sk_0), '<https://eyereasoner.github.io/ns#re>'(sk_0, sk_0)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B):+'<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_e>'(A, B)), ('<https://eyereasoner.github.io/ns#re>'(b, b), '<https://eyereasoner.github.io/ns#not_e>'(b, b)), '<https://eyereasoner.github.io/ns#r>'(b, b)).
+step(('<https://eyereasoner.github.io/ns#r>'(A, B):+'<https://eyereasoner.github.io/ns#re>'(A, B), '<https://eyereasoner.github.io/ns#not_e>'(A, B)), ('<https://eyereasoner.github.io/ns#re>'(c, c), '<https://eyereasoner.github.io/ns#not_e>'(c, c)), '<https://eyereasoner.github.io/ns#r>'(c, c)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_e>'(B, A)), '<https://eyereasoner.github.io/ns#not_e>'(b, sk_0), '<https://eyereasoner.github.io/ns#not_e>'(sk_0, b)).
+step(('<https://eyereasoner.github.io/ns#not_e>'(A, B):+'<https://eyereasoner.github.io/ns#not_e>'(B, A)), '<https://eyereasoner.github.io/ns#not_e>'(c, sk_0), '<https://eyereasoner.github.io/ns#not_e>'(sk_0, c)).

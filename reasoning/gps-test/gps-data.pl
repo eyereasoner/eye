@@ -2,50 +2,50 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:location>'/2).
+:- dynamic('<https://eyereasoner.github.io/ns#location>'/2).
 
-'<urn:example:description>'(
-    '<urn:example:map_be>',
-    [   '<urn:example:location>'(S, '<urn:example:gent>'),
+'<https://eyereasoner.github.io/ns#description>'(
+    '<https://eyereasoner.github.io/ns#map_be>',
+    [   '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#gent>'),
         true,
-        '<urn:example:location>'(S, '<urn:example:brugge>'),
-        '<urn:example:drive_gent_brugge>',
+        '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#brugge>'),
+        '<https://eyereasoner.github.io/ns#drive_gent_brugge>',
         1500.0,
         0.006,
         0.96,
         0.99
     ]
 ).
-'<urn:example:description>'(
-    '<urn:example:map_be>',
-    [   '<urn:example:location>'(S, '<urn:example:gent>'),
+'<https://eyereasoner.github.io/ns#description>'(
+    '<https://eyereasoner.github.io/ns#map_be>',
+    [   '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#gent>'),
         true,
-        '<urn:example:location>'(S, '<urn:example:kortrijk>'),
-        '<urn:example:drive_gent_kortrijk>',
+        '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#kortrijk>'),
+        '<https://eyereasoner.github.io/ns#drive_gent_kortrijk>',
         1600.0,
         0.007,
         0.96,
         0.99
     ]
 ).
-'<urn:example:description>'(
-    '<urn:example:map_be>',
-    [   '<urn:example:location>'(S, '<urn:example:kortrijk>'),
+'<https://eyereasoner.github.io/ns#description>'(
+    '<https://eyereasoner.github.io/ns#map_be>',
+    [   '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#kortrijk>'),
         true,
-        '<urn:example:location>'(S, '<urn:example:brugge>'),
-        '<urn:example:drive_kortrijk_brugge>',
+        '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#brugge>'),
+        '<https://eyereasoner.github.io/ns#drive_kortrijk_brugge>',
         1600.0,
         0.007,
         0.96,
         0.99
     ]
 ).
-'<urn:example:description>'(
-    '<urn:example:map_be>',
-    [   '<urn:example:location>'(S, '<urn:example:brugge>'),
+'<https://eyereasoner.github.io/ns#description>'(
+    '<https://eyereasoner.github.io/ns#map_be>',
+    [   '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#brugge>'),
         true,
-        '<urn:example:location>'(S, '<urn:example:oostende>'),
-        '<urn:example:drive_brugge_oostende>',
+        '<https://eyereasoner.github.io/ns#location>'(S, '<https://eyereasoner.github.io/ns#oostende>'),
+        '<https://eyereasoner.github.io/ns#drive_brugge_oostende>',
         900.0,
         0.004,
         0.98,
@@ -54,4 +54,4 @@
 ).
 
 % current state
-'<urn:example:location>'('<urn:example:i1>', '<urn:example:gent>').
+'<https://eyereasoner.github.io/ns#location>'('<https://eyereasoner.github.io/ns#i1>', '<https://eyereasoner.github.io/ns#gent>').

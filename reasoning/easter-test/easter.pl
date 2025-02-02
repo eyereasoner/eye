@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:easter>'(Year, [Month, Day]) :-
+'<https://eyereasoner.github.io/ns#easter>'(Year, [Month, Day]) :-
     A is Year rem 19,
     B is Year//100,
     C is Year rem 100,
@@ -13,5 +13,5 @@
     Day is F rem 31+1.
 
 % query
-(true :+ '<urn:example:easter>'(Year, [_, _])) :-
+(true :+ '<https://eyereasoner.github.io/ns#easter>'(Year, [_, _])) :-
     between(2021, 2050, Year).

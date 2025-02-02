@@ -1,4 +1,4 @@
-@prefix : <urn:example:>.
+@prefix : <https://eyereasoner.github.io/ns#>.
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
@@ -18,7 +18,7 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma2
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:Socrates"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/ns#Socrates"]];
     r:rule skolem:lemma3.
 
 skolem:lemma2 a r:Inference;
@@ -39,7 +39,7 @@ skolem:lemma2 a r:Inference;
             } => false.
         } log:satisfiable false}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "urn:example:Socrates"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/ns#Socrates"]];
     r:rule skolem:lemma5.
 
 skolem:lemma3 a r:Extraction;

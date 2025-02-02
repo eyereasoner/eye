@@ -66,21 +66,21 @@ bob([X, Y], 2) :-
 bob([X, Y], 3) :-
     id(X, Y).
 
-:- dynamic('<urn:example:sdcoding>'/2).
+:- dynamic('<https://eyereasoner.github.io/ns#sdcoding>'/2).
 
 % superdense coding
-'<urn:example:sdc>'(N, M) :-
+'<https://eyereasoner.github.io/ns#sdc>'(N, M) :-
     r(X, Y),
     alice(N, [X, B]),
     bob([B, Y], M),
-    (   '<urn:example:sdcoding>'(N, M)
-    ->  retract('<urn:example:sdcoding>'(N, M))
-    ;   assertz('<urn:example:sdcoding>'(N, M))
+    (   '<https://eyereasoner.github.io/ns#sdcoding>'(N, M)
+    ->  retract('<https://eyereasoner.github.io/ns#sdcoding>'(N, M))
+    ;   assertz('<https://eyereasoner.github.io/ns#sdcoding>'(N, M))
     ).
 
 % superdense coding appearing an odd number of times
-'<urn:example:sdconot>'(N, M) :+
-    '<urn:example:sdc>'(N, M).
+'<https://eyereasoner.github.io/ns#sdconot>'(N, M) :+
+    '<https://eyereasoner.github.io/ns#sdc>'(N, M).
 
 % query
-true :+ '<urn:example:sdcoding>'(_, _).
+true :+ '<https://eyereasoner.github.io/ns#sdcoding>'(_, _).

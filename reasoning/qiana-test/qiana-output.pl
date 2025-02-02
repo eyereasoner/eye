@@ -1,10 +1,10 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:believes>'('<urn:example:Fabian>', ('<urn:example:notNecessarilyA>'(A, '<urn:example:gold>'):+'<urn:example:glitter>'(A)))).
-answer('<urn:example:notNecessarilyA>'('<urn:example:northStar>', '<urn:example:gold>')).
+answer('<https://eyereasoner.github.io/ns#believes>'('<https://eyereasoner.github.io/ns#Fabian>', ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(A, '<https://eyereasoner.github.io/ns#gold>'):+'<https://eyereasoner.github.io/ns#glitter>'(A)))).
+answer('<https://eyereasoner.github.io/ns#notNecessarilyA>'('<https://eyereasoner.github.io/ns#northStar>', '<https://eyereasoner.github.io/ns#gold>')).
 
 % proof steps
-step((A:+'<urn:example:says>'('<urn:example:Einstein>', A)), '<urn:example:says>'('<urn:example:Einstein>', ('<urn:example:notNecessarilyA>'(B, '<urn:example:gold>'):+'<urn:example:glitter>'(B))), ('<urn:example:notNecessarilyA>'(B, '<urn:example:gold>'):+'<urn:example:glitter>'(B))).
-step((true:+'<urn:example:believes>'('<urn:example:Fabian>', _)), '<urn:example:believes>'('<urn:example:Fabian>', ('<urn:example:notNecessarilyA>'(A, '<urn:example:gold>'):+'<urn:example:glitter>'(A))), true).
-step(('<urn:example:notNecessarilyA>'(A, '<urn:example:gold>'):+'<urn:example:glitter>'(A)), '<urn:example:glitter>'('<urn:example:northStar>'), '<urn:example:notNecessarilyA>'('<urn:example:northStar>', '<urn:example:gold>')).
-step((true:+'<urn:example:notNecessarilyA>'(_, _)), '<urn:example:notNecessarilyA>'('<urn:example:northStar>', '<urn:example:gold>'), true).
+step((A:+'<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', A)), '<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(B, '<https://eyereasoner.github.io/ns#gold>'):+'<https://eyereasoner.github.io/ns#glitter>'(B))), ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(B, '<https://eyereasoner.github.io/ns#gold>'):+'<https://eyereasoner.github.io/ns#glitter>'(B))).
+step((true:+'<https://eyereasoner.github.io/ns#believes>'('<https://eyereasoner.github.io/ns#Fabian>', _)), '<https://eyereasoner.github.io/ns#believes>'('<https://eyereasoner.github.io/ns#Fabian>', ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(A, '<https://eyereasoner.github.io/ns#gold>'):+'<https://eyereasoner.github.io/ns#glitter>'(A))), true).
+step(('<https://eyereasoner.github.io/ns#notNecessarilyA>'(A, '<https://eyereasoner.github.io/ns#gold>'):+'<https://eyereasoner.github.io/ns#glitter>'(A)), '<https://eyereasoner.github.io/ns#glitter>'('<https://eyereasoner.github.io/ns#northStar>'), '<https://eyereasoner.github.io/ns#notNecessarilyA>'('<https://eyereasoner.github.io/ns#northStar>', '<https://eyereasoner.github.io/ns#gold>')).
+step((true:+'<https://eyereasoner.github.io/ns#notNecessarilyA>'(_, _)), '<https://eyereasoner.github.io/ns#notNecessarilyA>'('<https://eyereasoner.github.io/ns#northStar>', '<https://eyereasoner.github.io/ns#gold>'), true).

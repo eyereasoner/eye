@@ -3,7 +3,7 @@
 :- op(1200, xfx, :+).
 
 % ackermann(x, y, z)
-'<urn:example:ackermann>'([A, B], C) :-
+'<https://eyereasoner.github.io/ns#ackermann>'([A, B], C) :-
     D is B+3,
     ackermann(A, D, 2, E),
     C is E-3.
@@ -33,14 +33,14 @@ ackermann(A, B, C, D) :-
     ackermann(G, F, C, D).
 
 % query
-true :+ '<urn:example:ackermann>'([0, 6], _).
-true :+ '<urn:example:ackermann>'([1, 2], _).
-true :+ '<urn:example:ackermann>'([1, 7], _).
-true :+ '<urn:example:ackermann>'([2, 2], _).
-true :+ '<urn:example:ackermann>'([2, 9], _).
-true :+ '<urn:example:ackermann>'([3, 4], _).
-true :+ '<urn:example:ackermann>'([3, 14], _).
-true :+ '<urn:example:ackermann>'([4, 0], _).
-true :+ '<urn:example:ackermann>'([4, 1], _).
-true :+ '<urn:example:ackermann>'([4, 2], _).
-true :+ '<urn:example:ackermann>'([5, 0], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([0, 6], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([1, 2], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([1, 7], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([2, 2], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([2, 9], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([3, 4], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([3, 14], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([4, 0], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([4, 1], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([4, 2], _).
+true :+ '<https://eyereasoner.github.io/ns#ackermann>'([5, 0], _).

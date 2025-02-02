@@ -2,45 +2,45 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:goldbach>'(4, [2, 2]).
-'<urn:example:goldbach>'(N, L) :-
+'<https://eyereasoner.github.io/ns#goldbach>'(4, [2, 2]).
+'<https://eyereasoner.github.io/ns#goldbach>'(N, L) :-
     0 =:= N rem 2,
     N > 4,
-    '<urn:example:goldb>'(N, L, 3).
+    '<https://eyereasoner.github.io/ns#goldb>'(N, L, 3).
 
-'<urn:example:goldb>'(N, [P, Q], P) :-
+'<https://eyereasoner.github.io/ns#goldb>'(N, [P, Q], P) :-
     Q is N-P,
-    '<urn:example:is_prime>'(Q),
+    '<https://eyereasoner.github.io/ns#is_prime>'(Q),
     !.
-'<urn:example:goldb>'(N, L, P) :-
+'<https://eyereasoner.github.io/ns#goldb>'(N, L, P) :-
     P < N,
-    '<urn:example:next_prime>'(P, P1),
-    '<urn:example:goldb>'(N, L, P1).
+    '<https://eyereasoner.github.io/ns#next_prime>'(P, P1),
+    '<https://eyereasoner.github.io/ns#goldb>'(N, L, P1).
 
-'<urn:example:next_prime>'(P, P1) :-
+'<https://eyereasoner.github.io/ns#next_prime>'(P, P1) :-
     P1 is P+2,
-    '<urn:example:is_prime>'(P1),
+    '<https://eyereasoner.github.io/ns#is_prime>'(P1),
     !.
-'<urn:example:next_prime>'(P, P1) :-
+'<https://eyereasoner.github.io/ns#next_prime>'(P, P1) :-
     P2 is P+2,
-    '<urn:example:next_prime>'(P2, P1).
+    '<https://eyereasoner.github.io/ns#next_prime>'(P2, P1).
 
-'<urn:example:is_prime>'(2).
-'<urn:example:is_prime>'(3).
-'<urn:example:is_prime>'(P) :-
+'<https://eyereasoner.github.io/ns#is_prime>'(2).
+'<https://eyereasoner.github.io/ns#is_prime>'(3).
+'<https://eyereasoner.github.io/ns#is_prime>'(P) :-
     P > 3,
     1 =:= P rem 2,
-    \+'<urn:example:has_factor>'(P, 3).
+    \+'<https://eyereasoner.github.io/ns#has_factor>'(P, 3).
 
-'<urn:example:has_factor>'(N, L) :-
+'<https://eyereasoner.github.io/ns#has_factor>'(N, L) :-
     0 =:= N rem L,
     !.
-'<urn:example:has_factor>'(N, L) :-
+'<https://eyereasoner.github.io/ns#has_factor>'(N, L) :-
     L*L <  N,
     L2 is L+2,
-    '<urn:example:has_factor>'(N, L2).
+    '<https://eyereasoner.github.io/ns#has_factor>'(N, L2).
 
 % query
-(true :+ '<urn:example:goldbach>'(N, [_, _])) :-
+(true :+ '<https://eyereasoner.github.io/ns#goldbach>'(N, [_, _])) :-
     between(2, 36, I),
     N is 2^I.

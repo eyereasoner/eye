@@ -3,87 +3,87 @@
 
 :- op(1200, xfx, :+).
 
-:- dynamic('<urn:example:completed>'/1).
+:- dynamic('<https://eyereasoner.github.io/ns#completed>'/1).
 
 % define agents
-'<urn:example:agent>'('<urn:example:agent1>').
-'<urn:example:agent>'('<urn:example:agent2>').
+'<https://eyereasoner.github.io/ns#agent>'('<https://eyereasoner.github.io/ns#agent1>').
+'<https://eyereasoner.github.io/ns#agent>'('<https://eyereasoner.github.io/ns#agent2>').
 
 % define roles
-'<urn:example:role>'('<urn:example:agent1>', '<urn:example:manager>').
-'<urn:example:role>'('<urn:example:agent2>', '<urn:example:employee>').
+'<https://eyereasoner.github.io/ns#role>'('<https://eyereasoner.github.io/ns#agent1>', '<https://eyereasoner.github.io/ns#manager>').
+'<https://eyereasoner.github.io/ns#role>'('<https://eyereasoner.github.io/ns#agent2>', '<https://eyereasoner.github.io/ns#employee>').
 
 % define tasks and deadlines
-'<urn:example:task>'('<urn:example:task1>').
-'<urn:example:deadline>'('<urn:example:task1>', 10).  % Deadline at time 10
+'<https://eyereasoner.github.io/ns#task>'('<https://eyereasoner.github.io/ns#task1>').
+'<https://eyereasoner.github.io/ns#deadline>'('<https://eyereasoner.github.io/ns#task1>', 10).  % Deadline at time 10
 
 % current time
-'<urn:example:time:current>'(15).
+'<https://eyereasoner.github.io/ns#time:current>'(15).
 
 % task assignment
-'<urn:example:assigned>'('<urn:example:task1>', '<urn:example:agent2>').
+'<https://eyereasoner.github.io/ns#assigned>'('<https://eyereasoner.github.io/ns#task1>', '<https://eyereasoner.github.io/ns#agent2>').
 
 % task reporting
-'<urn:example:reported>'('<urn:example:task1>', '<urn:example:agent2>').
+'<https://eyereasoner.github.io/ns#reported>'('<https://eyereasoner.github.io/ns#task1>', '<https://eyereasoner.github.io/ns#agent2>').
 
 % obligations
-'<urn:example:obligatory>'('<urn:example:assign:task>'(Manager, Employee, Task)) :-
-    '<urn:example:role>'(Manager, '<urn:example:manager>'),
-    '<urn:example:role>'(Employee, '<urn:example:employee>'),
-    '<urn:example:task>'(Task),
-    \+'<urn:example:assigned>'(Task, Employee).
+'<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#assign:task>'(Manager, Employee, Task)) :-
+    '<https://eyereasoner.github.io/ns#role>'(Manager, '<https://eyereasoner.github.io/ns#manager>'),
+    '<https://eyereasoner.github.io/ns#role>'(Employee, '<https://eyereasoner.github.io/ns#employee>'),
+    '<https://eyereasoner.github.io/ns#task>'(Task),
+    \+'<https://eyereasoner.github.io/ns#assigned>'(Task, Employee).
 
-'<urn:example:obligatory>'('<urn:example:report:progress>'(Employee, Task)) :-
-    '<urn:example:assigned>'(Task, Employee),
-    \+'<urn:example:reported>'(Task, Employee).
+'<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#report:progress>'(Employee, Task)) :-
+    '<https://eyereasoner.github.io/ns#assigned>'(Task, Employee),
+    \+'<https://eyereasoner.github.io/ns#reported>'(Task, Employee).
 
-'<urn:example:obligatory>'('<urn:example:complete:task>'(Employee, Task)) :-
-    '<urn:example:assigned>'(Task, Employee).
+'<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#complete:task>'(Employee, Task)) :-
+    '<https://eyereasoner.github.io/ns#assigned>'(Task, Employee).
 
-'<urn:example:obligatory>'('<urn:example:escalate:task>'(Manager, Task)) :-
-    '<urn:example:role>'(Manager, '<urn:example:manager>'),
-    '<urn:example:assigned>'(Task, _Employee),
-    '<urn:example:deadline>'(Task, Time),
-    '<urn:example:time:current>'(T),
+'<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#escalate:task>'(Manager, Task)) :-
+    '<https://eyereasoner.github.io/ns#role>'(Manager, '<https://eyereasoner.github.io/ns#manager>'),
+    '<https://eyereasoner.github.io/ns#assigned>'(Task, _Employee),
+    '<https://eyereasoner.github.io/ns#deadline>'(Task, Time),
+    '<https://eyereasoner.github.io/ns#time:current>'(T),
     T >= Time,
-    \+'<urn:example:completed>'(Task).
+    \+'<https://eyereasoner.github.io/ns#completed>'(Task).
 
 % permissions
-'<urn:example:permitted>'('<urn:example:execute:task>'(Employee, Task)) :-
-    '<urn:example:role>'(Employee, '<urn:example:employee>'),
-    '<urn:example:assigned>'(Task, Employee).
+'<https://eyereasoner.github.io/ns#permitted>'('<https://eyereasoner.github.io/ns#execute:task>'(Employee, Task)) :-
+    '<https://eyereasoner.github.io/ns#role>'(Employee, '<https://eyereasoner.github.io/ns#employee>'),
+    '<https://eyereasoner.github.io/ns#assigned>'(Task, Employee).
 
 % prohibitions
-'<urn:example:forbidden>'('<urn:example:modify:task>'(Agent, Task)) :-
-    \+'<urn:example:assigned>'(Agent, Task).
+'<https://eyereasoner.github.io/ns#forbidden>'('<https://eyereasoner.github.io/ns#modify:task>'(Agent, Task)) :-
+    \+'<https://eyereasoner.github.io/ns#assigned>'(Agent, Task).
 
 % conflict detection
-'<urn:example:conflict>'(Action) :-
-    '<urn:example:obligatory>'(Action),
-    '<urn:example:forbidden>'(Action).
+'<https://eyereasoner.github.io/ns#conflict>'(Action) :-
+    '<https://eyereasoner.github.io/ns#obligatory>'(Action),
+    '<https://eyereasoner.github.io/ns#forbidden>'(Action).
 
 % resolve conflicts with priority
-'<urn:example:resolve:conflict>'(Action) :-
-    '<urn:example:role>'(_Agent, '<urn:example:manager>'),
-    '<urn:example:conflict>'(Action),
-    '<urn:example:obligatory>'(Action).
+'<https://eyereasoner.github.io/ns#resolve:conflict>'(Action) :-
+    '<https://eyereasoner.github.io/ns#role>'(_Agent, '<https://eyereasoner.github.io/ns#manager>'),
+    '<https://eyereasoner.github.io/ns#conflict>'(Action),
+    '<https://eyereasoner.github.io/ns#obligatory>'(Action).
 
 % violations
-'<urn:example:violation>'(Task) :-
-    '<urn:example:obligatory>'('<urn:example:complete:task>'(_Employee, Task)),
-    '<urn:example:time:current>'(T),
-    '<urn:example:deadline>'(Task, Time),
+'<https://eyereasoner.github.io/ns#violation>'(Task) :-
+    '<https://eyereasoner.github.io/ns#obligatory>'('<https://eyereasoner.github.io/ns#complete:task>'(_Employee, Task)),
+    '<https://eyereasoner.github.io/ns#time:current>'(T),
+    '<https://eyereasoner.github.io/ns#deadline>'(Task, Time),
     T > Time,
-    \+'<urn:example:completed>'(Task).
+    \+'<https://eyereasoner.github.io/ns#completed>'(Task).
 
 % sanctions
-'<urn:example:sanction>'(Employee) :-
-    '<urn:example:violation>'(Task),
-    '<urn:example:assigned>'(Task, Employee).
+'<https://eyereasoner.github.io/ns#sanction>'(Employee) :-
+    '<https://eyereasoner.github.io/ns#violation>'(Task),
+    '<https://eyereasoner.github.io/ns#assigned>'(Task, Employee).
 
 % query
-true :+ '<urn:example:obligatory>'(_Action).
-true :+ '<urn:example:permitted>'(_Action).
-true :+ '<urn:example:forbidden>'(_Action).
-true :+ '<urn:example:violation>'(_Task).
-true :+ '<urn:example:sanction>'(_Employee).
+true :+ '<https://eyereasoner.github.io/ns#obligatory>'(_Action).
+true :+ '<https://eyereasoner.github.io/ns#permitted>'(_Action).
+true :+ '<https://eyereasoner.github.io/ns#forbidden>'(_Action).
+true :+ '<https://eyereasoner.github.io/ns#violation>'(_Task).
+true :+ '<https://eyereasoner.github.io/ns#sanction>'(_Employee).

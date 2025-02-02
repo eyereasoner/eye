@@ -1,9 +1,9 @@
 :- op(1200, xfx, :+).
 
-answer((false:+'<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>'))).
-answer((false:+'<urn:example:is>'('<urn:example:it>', '<urn:example:raining>'))).
+answer((false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>'))).
+answer((false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>'))).
 
 % proof steps
-step(((false:+A):+(B:+A), (false:+B)), (('<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>'):+'<urn:example:is>'('<urn:example:it>', '<urn:example:raining>')), (false:+'<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>'))), (false:+'<urn:example:is>'('<urn:example:it>', '<urn:example:raining>'))).
-step((true:+(false:+_)), (false:+'<urn:example:is>'('<urn:example:ground>', '<urn:example:wet>')), true).
-step((true:+(false:+_)), (false:+'<urn:example:is>'('<urn:example:it>', '<urn:example:raining>')), true).
+step(((false:+A):+(B:+A), (false:+B)), (('<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>'):+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>')), (false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>'))), (false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>'))).
+step((true:+(false:+_)), (false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>')), true).
+step((true:+(false:+_)), (false:+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>')), true).

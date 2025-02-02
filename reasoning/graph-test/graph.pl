@@ -2,22 +2,22 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:oneway>'('<urn:example:paris>', '<urn:example:orleans>').
-'<urn:example:oneway>'('<urn:example:paris>', '<urn:example:chartres>').
-'<urn:example:oneway>'('<urn:example:paris>', '<urn:example:amiens>').
-'<urn:example:oneway>'('<urn:example:orleans>', '<urn:example:blois>').
-'<urn:example:oneway>'('<urn:example:orleans>', '<urn:example:bourges>').
-'<urn:example:oneway>'('<urn:example:blois>', '<urn:example:tours>').
-'<urn:example:oneway>'('<urn:example:chartres>', '<urn:example:lemans>').
-'<urn:example:oneway>'('<urn:example:lemans>', '<urn:example:angers>').
-'<urn:example:oneway>'('<urn:example:lemans>', '<urn:example:tours>').
-'<urn:example:oneway>'('<urn:example:angers>', '<urn:example:nantes>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#paris>', '<https://eyereasoner.github.io/ns#orleans>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#paris>', '<https://eyereasoner.github.io/ns#chartres>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#paris>', '<https://eyereasoner.github.io/ns#amiens>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#orleans>', '<https://eyereasoner.github.io/ns#blois>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#orleans>', '<https://eyereasoner.github.io/ns#bourges>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#blois>', '<https://eyereasoner.github.io/ns#tours>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#chartres>', '<https://eyereasoner.github.io/ns#lemans>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#lemans>', '<https://eyereasoner.github.io/ns#angers>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#lemans>', '<https://eyereasoner.github.io/ns#tours>').
+'<https://eyereasoner.github.io/ns#oneway>'('<https://eyereasoner.github.io/ns#angers>', '<https://eyereasoner.github.io/ns#nantes>').
 
-'<urn:example:path>'(A, B) :+
-    '<urn:example:oneway>'(A, B).
-'<urn:example:path>'(A, C) :+
-    '<urn:example:path>'(A, B),
-    '<urn:example:path>'(B, C).
+'<https://eyereasoner.github.io/ns#path>'(A, B) :+
+    '<https://eyereasoner.github.io/ns#oneway>'(A, B).
+'<https://eyereasoner.github.io/ns#path>'(A, C) :+
+    '<https://eyereasoner.github.io/ns#path>'(A, B),
+    '<https://eyereasoner.github.io/ns#path>'(B, C).
 
 % query
-true :+ '<urn:example:path>'(_, '<urn:example:nantes>').
+true :+ '<https://eyereasoner.github.io/ns#path>'(_, '<https://eyereasoner.github.io/ns#nantes>').

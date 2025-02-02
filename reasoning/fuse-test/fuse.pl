@@ -2,9 +2,9 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:color>'('<urn:example:stone>', '<urn:example:black>').
-'<urn:example:color>'('<urn:example:stone>', '<urn:example:white>').
+'<https://eyereasoner.github.io/ns#color>'('<https://eyereasoner.github.io/ns#stone>', '<https://eyereasoner.github.io/ns#black>').
+'<https://eyereasoner.github.io/ns#color>'('<https://eyereasoner.github.io/ns#stone>', '<https://eyereasoner.github.io/ns#white>').
 
 false :+
-    '<urn:example:color>'(X, '<urn:example:black>'),
-    '<urn:example:color>'(X, '<urn:example:white>').
+    '<https://eyereasoner.github.io/ns#color>'(X, '<https://eyereasoner.github.io/ns#black>'),
+    '<https://eyereasoner.github.io/ns#color>'(X, '<https://eyereasoner.github.io/ns#white>').

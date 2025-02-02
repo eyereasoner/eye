@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:test>'(V) :-
+'<https://eyereasoner.github.io/ns#test>'(V) :-
     Item = {
         author:'Philip K Dick',
         works:[
@@ -17,4 +17,4 @@
     Author = author:V.
 
 % query
-true :+ '<urn:example:test>'(_).
+true :+ '<https://eyereasoner.github.io/ns#test>'(_).

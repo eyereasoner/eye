@@ -1,6 +1,6 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:got>'('<urn:example:all>', '<urn:example:dinner>')).
+answer('<https://eyereasoner.github.io/ns#got>'('<https://eyereasoner.github.io/ns#all>', '<https://eyereasoner.github.io/ns#dinner>')).
 
 % proof steps
-step((true:+'<urn:example:got>'('<urn:example:all>', '<urn:example:dinner>')), '<urn:example:got>'('<urn:example:all>', '<urn:example:dinner>'), true).
+step((true:+'<https://eyereasoner.github.io/ns#got>'('<https://eyereasoner.github.io/ns#all>', '<https://eyereasoner.github.io/ns#dinner>')), '<https://eyereasoner.github.io/ns#got>'('<https://eyereasoner.github.io/ns#all>', '<https://eyereasoner.github.io/ns#dinner>'), true).

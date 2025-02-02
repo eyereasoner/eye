@@ -1,6 +1,6 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:zebra>'(norwegian, japanese)).
+answer('<https://eyereasoner.github.io/ns#zebra>'(norwegian, japanese)).
 
 % proof steps
-step((true:+'<urn:example:zebra>'(_, _)), '<urn:example:zebra>'(norwegian, japanese), true).
+step((true:+'<https://eyereasoner.github.io/ns#zebra>'(_, _)), '<https://eyereasoner.github.io/ns#zebra>'(norwegian, japanese), true).

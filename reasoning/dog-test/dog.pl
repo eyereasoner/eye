@@ -2,19 +2,19 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:hasDog>'('<urn:example:alice>', '<urn:example:dog1>').
-'<urn:example:hasDog>'('<urn:example:alice>', '<urn:example:dog2>').
-'<urn:example:hasDog>'('<urn:example:alice>', '<urn:example:dog3>').
-'<urn:example:hasDog>'('<urn:example:alice>', '<urn:example:dog4>').
-'<urn:example:hasDog>'('<urn:example:alice>', '<urn:example:dog5>').
-'<urn:example:hasDog>'('<urn:example:bob>', '<urn:example:dog6>').
-'<urn:example:hasDog>'('<urn:example:bob>', '<urn:example:dog7>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dog1>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dog2>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dog3>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dog4>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#alice>', '<https://eyereasoner.github.io/ns#dog5>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#bob>', '<https://eyereasoner.github.io/ns#dog6>').
+'<https://eyereasoner.github.io/ns#hasDog>'('<https://eyereasoner.github.io/ns#bob>', '<https://eyereasoner.github.io/ns#dog7>').
 
-'<urn:example:mustHave>'(Subject, '<urn:example:dogLicense>') :-
-    '<urn:example:hasDog>'(Subject, _),
-    findall(Dog, '<urn:example:hasDog>'(Subject, Dog), List),
+'<https://eyereasoner.github.io/ns#mustHave>'(Subject, '<https://eyereasoner.github.io/ns#dogLicense>') :-
+    '<https://eyereasoner.github.io/ns#hasDog>'(Subject, _),
+    findall(Dog, '<https://eyereasoner.github.io/ns#hasDog>'(Subject, Dog), List),
     length(List, Count),
     Count > 4.
 
 % query
-true :+ '<urn:example:mustHave>'(_, _).
+true :+ '<https://eyereasoner.github.io/ns#mustHave>'(_, _).

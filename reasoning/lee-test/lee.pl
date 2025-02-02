@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'<urn:example:route>'([Source, Destination, Obstacles], Path) :-
+'<https://eyereasoner.github.io/ns#route>'([Source, Destination, Obstacles], Path) :-
     waves(Destination, [[Source], []], Obstacles, Waves),
     path(Source, Destination, Waves, Path).
 
@@ -66,4 +66,4 @@ path(A, B, [Wave|Waves], [B|Path]) :-
     path(A, B1, Waves, Path).
 
 % query
-true :+ '<urn:example:route>'([[1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]]], _).
+true :+ '<https://eyereasoner.github.io/ns#route>'([[1, 1], [9, 8], [[[2, 3], [4, 5]], [[6, 6], [8, 8]]]], _).

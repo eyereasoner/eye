@@ -3,13 +3,13 @@
 # ------------------------
 
 @prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
-@prefix : <urn:example:>.
+@prefix : <https://eyereasoner.github.io/ns#>.
 
 # workplace data generation
 {(?F ?N) :gen true} <= {
     ("open" ?F "write" ?FD) e:derive true.
     ("tell" ?FD) e:derive true.
-    ("format" "@prefix : <urn:example:>.~n~n" ()) e:derive true.
+    ("format" "@prefix : <https://eyereasoner.github.io/ns#>.~n~n" ()) e:derive true.
     ("between" 1 ?N ?I) e:derive true.
     ("format" ":alice~d :does :log_off_at_end_of_shift.~n" (?I)) e:derive true.
     ("format" ":bob~d :does :work_related_task.~n" (?I)) e:derive true.

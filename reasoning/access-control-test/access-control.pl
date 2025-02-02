@@ -1,43 +1,43 @@
 % Access control policy example
 
-'<urn:example:policy>'('<urn:example:test1>', '<urn:example:PolicyX>').
-'<urn:example:has>'('<urn:example:test1>', '<urn:example:A>').
-'<urn:example:has>'('<urn:example:test1>', '<urn:example:B>').
-'<urn:example:has>'('<urn:example:test1>', '<urn:example:C>').
-'<urn:example:Policy>'('<urn:example:PolicyX>').
-'<urn:example:allOf>'('<urn:example:PolicyX>', '<urn:example:A>').
-'<urn:example:allOf>'('<urn:example:PolicyX>', '<urn:example:B>').
-'<urn:example:anyOf>'('<urn:example:PolicyX>', '<urn:example:C>').
-'<urn:example:noneOf>'('<urn:example:PolicyX>', '<urn:example:D>').
+'<https://eyereasoner.github.io/ns#policy>'('<https://eyereasoner.github.io/ns#test1>', '<https://eyereasoner.github.io/ns#PolicyX>').
+'<https://eyereasoner.github.io/ns#has>'('<https://eyereasoner.github.io/ns#test1>', '<https://eyereasoner.github.io/ns#A>').
+'<https://eyereasoner.github.io/ns#has>'('<https://eyereasoner.github.io/ns#test1>', '<https://eyereasoner.github.io/ns#B>').
+'<https://eyereasoner.github.io/ns#has>'('<https://eyereasoner.github.io/ns#test1>', '<https://eyereasoner.github.io/ns#C>').
+'<https://eyereasoner.github.io/ns#Policy>'('<https://eyereasoner.github.io/ns#PolicyX>').
+'<https://eyereasoner.github.io/ns#allOf>'('<https://eyereasoner.github.io/ns#PolicyX>', '<https://eyereasoner.github.io/ns#A>').
+'<https://eyereasoner.github.io/ns#allOf>'('<https://eyereasoner.github.io/ns#PolicyX>', '<https://eyereasoner.github.io/ns#B>').
+'<https://eyereasoner.github.io/ns#anyOf>'('<https://eyereasoner.github.io/ns#PolicyX>', '<https://eyereasoner.github.io/ns#C>').
+'<https://eyereasoner.github.io/ns#noneOf>'('<https://eyereasoner.github.io/ns#PolicyX>', '<https://eyereasoner.github.io/ns#D>').
 
-'<urn:example:pass>'(A, '<urn:example:allOfTest>') :-
-    '<urn:example:policy>'(B, A),
-    '<urn:example:Policy>'(A),
+'<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#allOfTest>') :-
+    '<https://eyereasoner.github.io/ns#policy>'(B, A),
+    '<https://eyereasoner.github.io/ns#Policy>'(A),
     \+ (
-        '<urn:example:allOf>'(A, C),
-        \+ '<urn:example:has>'(B, C)
+        '<https://eyereasoner.github.io/ns#allOf>'(A, C),
+        \+ '<https://eyereasoner.github.io/ns#has>'(B, C)
     ).
 
-'<urn:example:pass>'(A, '<urn:example:anyOfTest>') :-
-    '<urn:example:policy>'(B, A),
-    '<urn:example:Policy>'(A),
+'<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#anyOfTest>') :-
+    '<https://eyereasoner.github.io/ns#policy>'(B, A),
+    '<https://eyereasoner.github.io/ns#Policy>'(A),
     findall(C,
         (
-            '<urn:example:anyOf>'(A, C),
-            '<urn:example:has>'(B, C)
+            '<https://eyereasoner.github.io/ns#anyOf>'(A, C),
+            '<https://eyereasoner.github.io/ns#has>'(B, C)
         ),
         D
     ),
     length(D, E),
     E \= 0.
 
-'<urn:example:pass>'(A, '<urn:example:noneOfTest>') :-
-    '<urn:example:policy>'(B, A),
-     '<urn:example:Policy>'(A),
+'<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#noneOfTest>') :-
+    '<https://eyereasoner.github.io/ns#policy>'(B, A),
+     '<https://eyereasoner.github.io/ns#Policy>'(A),
     findall(C,
         (
-            '<urn:example:noneOf>'(A, C),
-            '<urn:example:has>'(B, C)
+            '<https://eyereasoner.github.io/ns#noneOf>'(A, C),
+            '<https://eyereasoner.github.io/ns#has>'(B, C)
         ),
         D
     ),
@@ -45,7 +45,7 @@
 
 % query
 true :+
-    '<urn:example:Policy>'(A),
-    '<urn:example:pass>'(A, '<urn:example:allOfTest>'),
-    '<urn:example:pass>'(A, '<urn:example:anyOfTest>'),
-    '<urn:example:pass>'(A, '<urn:example:noneOfTest>').
+    '<https://eyereasoner.github.io/ns#Policy>'(A),
+    '<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#allOfTest>'),
+    '<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#anyOfTest>'),
+    '<https://eyereasoner.github.io/ns#pass>'(A, '<https://eyereasoner.github.io/ns#noneOfTest>').
