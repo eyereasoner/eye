@@ -22,11 +22,9 @@
     sleep(B),
     %format('% ~q thinking for ~w seconds~n', [A, B]),
     '<https://eyereasoner.github.io/ns#pickup>'(A),
-    format('% ~q thinking and picking up~n', [A]),
     sleep(C),
     %format('% ~q eating for ~w seconds~n', [A, C]),
-    '<https://eyereasoner.github.io/ns#putdown>'(A),
-    format('% ~q eating and putting down~n', [A]).
+    '<https://eyereasoner.github.io/ns#putdown>'(A).
 
 '<https://eyereasoner.github.io/ns#got>'('<https://eyereasoner.github.io/ns#all>', '<https://eyereasoner.github.io/ns#dinner>') :-
     thread_create('<https://eyereasoner.github.io/ns#run>'('<https://eyereasoner.github.io/ns#person1>', 0.1, 0.1), A, []),
