@@ -13,6 +13,6 @@
 % forall phi: says(Einstein, phi) => phi
 Phi :+ '<urn:example:says>'('<urn:example:Einstein>', Phi).
 
-% queries
+% query
 true :+ '<urn:example:believes>'('<urn:example:Fabian>', _).
 true :+ '<urn:example:notNecessarilyA>'(_, _).
