@@ -20,10 +20,10 @@
 
 '<https://eyereasoner.github.io/ns#run>'(A, B, C) :-
     sleep(B),
-    %format('% ~w thinking for ~w seconds~n', [A, B]),
+    format('% ~q thinking for ~w seconds~n', [A, B]),
     '<https://eyereasoner.github.io/ns#pickup>'(A),
     sleep(C),
-    %format('% ~w eating for ~w seconds~n', [A, C]),
+    format('% ~q eating for ~w seconds~n', [A, C]),
     '<https://eyereasoner.github.io/ns#putdown>'(A).
 
 '<https://eyereasoner.github.io/ns#got>'('<https://eyereasoner.github.io/ns#all>', '<https://eyereasoner.github.io/ns#dinner>') :-
