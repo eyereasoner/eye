@@ -1,6 +1,6 @@
 ![EYE](https://josd.github.io/images/eye.png)
 
-# eyelog
+# The eye --prolog switch
 
 - Reasoning using webized prolog which basically means that atoms can be `<` `>` quoted IRIs.
 - Besides top-down reasoning with `conclusion :- premise` rules, it also does bottom-up reasoning with `conclusion :+ premise` rules.
