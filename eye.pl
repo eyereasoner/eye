@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.5 (2025-02-03)').
+version_info('EYE v11.5.6 (2025-02-04)').
 
 license_info('MIT License
 
@@ -69,7 +69,6 @@ eye
     --no-numerals                   no numerals in the output
     --no-qnames                     no qnames in the output
     --no-qvars                      no qvars in the output
-    --no-steps                      no proof steps for --prolog
     --no-ucall                      no extended unifier for forward rules
     --nope                          no proof explanation
     --output <file>                 write reasoner output to <file>
@@ -423,6 +422,11 @@ gre(Argus) :-
     ->  opts(['--help'], _)
     ;   true
     ),
+    (   memberchk('--prolog', Args)
+    ->  retractall(flag(prolog)),
+        assertz(flag(prolog))
+    ;   true
+    ),
     (   flag('skolem-genid', Genid)
     ->  true
     ;   uuid(Genid)
@@ -774,11 +778,6 @@ opts(['--no-qvars'|Argus], Args) :-
     retractall(flag('no-qvars')),
     assertz(flag('no-qvars')),
     opts(Argus, Args).
-opts(['--no-steps'|Argus], Args) :-
-    !,
-    retractall(flag('no-steps')),
-    assertz(flag('no-steps')),
-    opts(Argus, Args).
 opts(['--no-ucall'|Argus], Args) :-
     !,
     retractall(flag('no-ucall')),
@@ -932,10 +931,6 @@ args(['--entail', Arg|Args]) :-
 args(['--prolog', Arg|Args]) :-
     !,
     consult(Arg),
-    retractall(flag(prolog)),
-    assertz(flag(prolog)),
-    retractall(flag(nope)),
-    assertz(flag(nope)),
     args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
@@ -1163,9 +1158,10 @@ args(['--trig', Argument|Args]) :-
             ->  format(Out, '~q.~n', [Triple])
             ;   true
             ),
-            (   flag(nope)
-            ->  true
-            ;   assertz(prfstep(Triple, true, _, Triple, _, forward, R))
+            (   \+flag(nope),
+                \+flag(prolog)
+            ->  assertz(prfstep(Triple, true, _, Triple, _, forward, R))
+            ;   true
             )
         )
     ),
@@ -5035,7 +5031,7 @@ eam :-
                 eam
             ;   format(':- op(1200, xfx, :+).~n~n'),
                 forall(answer(Prem), portray_clause(answer(Prem))),
-                (   \+flag('no-steps'),
+                (   \+flag('nope'),
                     step(_, _, _)
                 ->  format('~n% proof steps~n'),
                     forall(step(Rule, Prem, Conc), portray_clause(step(Rule, Prem, Conc)))
