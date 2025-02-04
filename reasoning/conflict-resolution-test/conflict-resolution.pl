@@ -8,37 +8,40 @@
 '<https://eyereasoner.github.io/ns#accessControl>'(User, Resource, Decision) :-
     access_control(User, Resource, Decision).
 
-% Define the users and their roles
+% users and their roles
 user_role(john, admin).
 user_role(jane, it_staff).
 user_role(bob, employee).
 
-% Define the resources and their confidentiality
+% resources and their confidentiality
 resource_confidentiality(report1, confidential).
 resource_confidentiality(report2, non_confidential).
 
-% Define the departments
+% departments
 user_department(john, hr).
 user_department(jane, it).
 user_department(bob, finance).
 
-% Policy 1: Allow access if the user is an admin
+% policy 1: allow access if the user is an admin
 policy(allow, User, _) :+
     user_role(User, admin).
 
-% Policy 2: Deny access if the resource is confidential
+% policy 2: deny access if the resource is confidential
 policy(deny, _, Resource) :+
     resource_confidentiality(Resource, confidential).
 
-% Policy 3: Allow access if the user is in the IT department
+% policy 3: allow access if the user is in the IT department
 policy(allow, User, _) :+
     user_department(User, it).
 
-% Conflict resolution: Deny takes precedence over allow
+% conflict resolution: deny takes precedence over allow
 resolve_conflict(Policies, Decision) :-
-    member(deny, Policies) -> Decision = deny ; Decision = allow.
+    (   member(deny, Policies)
+    ->  Decision = deny
+    ;   Decision = allow
+    ).
 
-% Main access control rule
+% main access control rule
 access_control(User, Resource, Decision) :-
     findall(Policy, policy(Policy, User, Resource), Policies),
     resolve_conflict(Policies, Decision).
