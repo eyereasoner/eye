@@ -2,8 +2,8 @@
 
 :- op(1200, xfx, :+).
 
-:- discontiguous (:+)/2.
-:- discontiguous user_permission/3.
+:- discontiguous((:+)/2).
+:- discontiguous(user_permission/3).
 
 :- dynamic(user_permission/3).
 

@@ -3,7 +3,7 @@
 
 :- op(1200, xfx, :+).
 
-:- discontiguous (:+)/2.
+:- discontiguous((:+)/2).
 
 :- dynamic(edge/2).
 
