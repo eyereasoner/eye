@@ -4,6 +4,8 @@
 
 :- discontiguous((:+)/2).
 
+:- dynamic(policy/3).
+
 % context
 '<https://eyereasoner.github.io/ns#accessControl>'(User, Resource, Decision) :-
     access_control(User, Resource, Decision).
