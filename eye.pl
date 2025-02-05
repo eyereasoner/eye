@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.6 (2025-02-04)').
+version_info('EYE v11.5.7 (2025-02-05)').
 
 license_info('MIT License
 
@@ -92,7 +92,6 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
-    --prolog <file>                 webized prolog
     --proof <uri>                   N3 proof lemmas
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
@@ -367,7 +366,6 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--max-inferences',
             '--n3',
             '--n3p',
-            '--prolog',
             '--proof',
             '--quantify',
             '--query',
@@ -420,11 +418,6 @@ gre(Argus) :-
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
-    ;   true
-    ),
-    (   memberchk('--prolog', Args)
-    ->  retractall(flag(prolog)),
-        assertz(flag(prolog))
     ;   true
     ),
     (   flag('skolem-genid', Genid)
@@ -549,18 +542,7 @@ gre(Argus) :-
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
-    ;   catch(
-            (   flag(prolog)
-            ->  assertz(closure(0)),
-                assertz(limit(-1)),
-                forall(
-                    (Conc :+ Prem),
-                    dynify((Conc :+ Prem))
-                ),
-                eam
-            ;   eam(0)
-            ),
-            Exc3,
+    ;   catch(eam(0), Exc3,
             (   (   Exc3 = halt(0)
                 ->  true
                 ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
@@ -907,7 +889,6 @@ opts([Arg|_], _) :-
             '--not-entail',
             '--pass',
             '--pass-all',
-            '--prolog',
             '--proof',
             '--query',
             '--trig',
@@ -927,10 +908,6 @@ args(['--entail', Arg|Args]) :-
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
-    args(Args).
-args(['--prolog', Arg|Args]) :-
-    !,
-    consult(Arg),
     args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
@@ -1158,8 +1135,7 @@ args(['--trig', Argument|Args]) :-
             ->  format(Out, '~q.~n', [Triple])
             ;   true
             ),
-            (   \+flag(nope),
-                \+flag(prolog)
+            (   \+flag(nope)
             ->  assertz(prfstep(Triple, true, _, Triple, _, forward, R))
             ;   true
             )
@@ -4981,116 +4957,6 @@ indentation(C) :-
     nb_getval(indentation, A),
     B is A+C,
     nb_setval(indentation, B).
-
-% --------------------
-% eye abstract machine
-% --------------------
-%
-% 1/ select rule Conc :+ Prem
-% 2/ prove Prem and if it fails backtrack to 1/
-% 3/ if Conc = true assert answer(Prem)
-%    else if Conc = false stop with return code 2
-%    else if ~Conc assert Conc and retract brake
-% 4/ backtrack to 2/ and if it fails go to 5/
-% 5/ if brake
-%       if not stable start again at 1/
-%       else output answers + proof steps and stop
-%    else assert brake and start again at 1/
-%
-eam :-
-    (   (Conc :+ Prem),     % 1/
-        copy_term((Conc :+ Prem), Rule, _),
-        Prem,               % 2/
-        (   Conc = true     % 3/
-        ->  (   \+answer(Prem)
-            ->  assertz(answer(Prem)),
-                assertz(step(Rule, Prem, true))
-            ;   true
-            )
-        ;   (   Conc = false
-            ->  format('% inference fuse, return code 2~n'),
-                portray_clause(fuse(Prem)),
-                throw(inference_fuse(Prem))
-            ;   (   Conc \= (_ :+ _)
-                ->  skolemize(Conc, 0, _)
-                ;   true
-                ),
-                \+ Conc,
-                astep(Conc),
-                assertz(step(Rule, Prem, Conc)),
-                retract(brake)
-            )
-        ),
-        fail                % 4/
-    ;   (   brake           % 5/
-        ->  (   closure(Closure),
-                limit(Limit),
-                Closure < Limit,
-                NewClosure is Closure+1,
-                becomes(closure(Closure), closure(NewClosure)),
-                eam
-            ;   format(':- op(1200, xfx, :+).~n~n'),
-                forall(answer(Prem), portray_clause(answer(Prem))),
-                (   \+flag('nope'),
-                    step(_, _, _)
-                ->  format('~n% proof steps~n'),
-                    forall(step(Rule, Prem, Conc), portray_clause(step(Rule, Prem, Conc)))
-                ;   true
-                )
-            )
-        ;   assertz(brake),
-            eam
-        )
-    ).
-
-% assert new step
-astep((B, C)) :-
-    astep(B),
-    astep(C).
-astep(A) :-
-    (   \+ A
-    ->  assertz(A)
-    ;   true
-    ).
-
-% skolemize
-skolemize(Term, N0, N) :-
-    term_variables(Term, Vars),
-    skolemize_(Vars, N0, N).
-
-skolemize_([], N, N) :-
-    !.
-skolemize_([Sk|Vars], N0, N) :-
-    number_chars(N0, C0),
-    atom_chars(A0, C0),
-    atom_concat('sk_', A0, Sk),
-    N1 is N0+1,
-    skolemize_(Vars, N1, N).
-
-% stable(+Level)
-%   fail if the deductive closure at Level is not yet stable
-stable(Level) :-
-    limit(Limit),
-    (   Limit < Level
-    ->  becomes(limit(Limit), limit(Level))
-    ;   true
-    ),
-    closure(Closure),
-    Level =< Closure.
-
-% linear implication
-becomes(A, B) :-
-    catch(A, _, fail),
-    conj_list(A, C),
-    forall(
-        member(D, C),
-        retract(D)
-    ),
-    conj_list(B, E),
-    forall(
-        member(F, E),
-        assertz(F)
-    ).
 
 % ----------------------------
 % EAM (Euler Abstract Machine)
