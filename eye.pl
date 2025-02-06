@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.7 (2025-02-05)').
+version_info('EYE v11.5.8 (2025-02-06)').
 
 license_info('MIT License
 
@@ -2247,7 +2247,7 @@ pathtail(Node, PNode, [Triple|Triples]) -->
     !,
     pathitem(Item, Triples2),
     {   prolog_verb(Item, Verb),
-        gensym('bn_', S),
+        gensym('e_', S),
         (   (   nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
@@ -2290,7 +2290,7 @@ pathtail(Node, PNode, [Triple|Triples]) -->
     !,
     pathitem(Item, Triples2),
     {   prolog_verb(Item, Verb),
-        gensym('bn_', S),
+        gensym('e_', S),
         (   (   nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
             )
