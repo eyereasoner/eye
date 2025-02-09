@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.5.9 (2025-02-08)').
+version_info('EYE v11.6.0 (2025-02-09)').
 
 license_info('MIT License
 
@@ -1357,16 +1357,7 @@ n3_n3p(Argument, Mode) :-
             (   Mode = semantics
             ->  nb_getval(semantics, TriplesPrev),
                 append(TriplesPrev, Triples, TriplesNext),
-                findall(Tr,
-                    (   member(Triple, TriplesNext),
-                        (   Triple = ':-'(Head, Body)
-                        ->  Tr = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Body, Head)
-                        ;   Tr = Triple
-                        )
-                    ),
-                    TriplesNext2
-                ),
-                nb_setval(semantics, TriplesNext2)
+                nb_setval(semantics, TriplesNext)
             ;   (   Mode = entail,
                     Triples = []
                 ->  write(query(true, true)),
