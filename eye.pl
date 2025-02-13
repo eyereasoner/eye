@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.6.0 (2025-02-09)').
+version_info('EYE v11.6.1 (2025-02-13)').
 
 license_info('MIT License
 
@@ -1011,7 +1011,7 @@ args(['--pass-all'|Args]) :-
     !,
     assertz(implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true), \+implies(A, C, '<>')),
+    assertz(implies(('<http://www.w3.org/2000/10/swap/log#implies>'(A, C), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
