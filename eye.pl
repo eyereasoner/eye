@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.6.2 (2025-02-13)').
+version_info('EYE v11.6.3 (2025-02-14)').
 
 license_info('MIT License
 
@@ -5030,10 +5030,10 @@ eam(Recursion) :-
         ),
         cnt(tp),
         djiti_conc(Conc, Concd),
-        (   Concd = ':-'(Head, Body)
+        conj_list(Concd, Concda),
+        (   select(':-'(Head, Body), Concda, _)
         ->  \+clause(Head, Body)
-        ;   conj_list(Concd, Concda),
-            cc(Concda, Concdb),
+        ;   cc(Concda, Concdb),
             conj_list(Concdc, Concdb),
             (   flag('no-ucall')
             ->  \+catch(call(Concdc), _, fail)
