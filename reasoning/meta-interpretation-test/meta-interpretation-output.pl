@@ -1,0 +1,6 @@
+:- op(1200, xfx, :+).
+
+answer('<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#factorial>'(s(s(s(s(s(0))))), s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))], [])], [])).
+
+% proof steps
+step((true:+'<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#factorial>'(s(s(s(s(s(0))))), _)], [])], [])), '<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#mi>'(['<https://eyereasoner.github.io/ns#factorial>'(s(s(s(s(s(0))))), s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))], [])], []), true).

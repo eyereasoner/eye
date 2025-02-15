@@ -1,0 +1,16 @@
+% Proof by contrapositive
+
+:- op(1200, xfx, :+).
+
+% the ground is not wet
+false :+ '<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>').
+
+% if it is raining, then the ground is wet
+'<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#ground>', '<https://eyereasoner.github.io/ns#wet>') :+
+    '<https://eyereasoner.github.io/ns#is>'('<https://eyereasoner.github.io/ns#it>', '<https://eyereasoner.github.io/ns#raining>').
+
+% proof by contrapositive
+(false :+ P) :+ (C :+ P), (false :+ C).
+
+% query
+true :+ (false :+ _).
