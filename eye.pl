@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.1 (2025-02-16)').
+version_info('EYE v11.7.2 (2025-02-16)').
 
 license_info('MIT License
 
@@ -550,15 +550,17 @@ gre(Argus) :-
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
     ;   catch(
-            (   flag(prolog)
-            ->  assertz(closure(0)),
-                assertz(limit(-1)),
-                forall(
-                    (Conc :+ Prem),
-                    dynify((Conc :+ Prem))
-                ),
-                eam
-            ;   eam(0)
+            (   eam(0),
+                (   flag(prolog)
+                ->  assertz(closure(0)),
+                    assertz(limit(-1)),
+                    forall(
+                        (Conc :+ Prem),
+                        dynify((Conc :+ Prem))
+                    ),
+                    eam
+                ;   true
+                )
             ),
             Exc3,
             (   (   Exc3 = halt(0)
