@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.2 (2025-02-16)').
+version_info('EYE v11.7.3 (2025-02-17)').
 
 license_info('MIT License
 
@@ -11952,7 +11952,7 @@ cc([A|B], [C|D]) :-
         labelvars(C, 0, _, avar),
         (   \+cc(C)
         ->  assertz(cc(C))
-        ;   true
+        ;   \+graph(_, _)
         )
     ;   C = A
     ),
