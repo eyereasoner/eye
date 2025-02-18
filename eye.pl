@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.3 (2025-02-17)').
+version_info('EYE v11.7.4 (2025-02-18)').
 
 license_info('MIT License
 
@@ -5561,7 +5561,10 @@ prepare_builtins :-
 
     % rdftrig
     (   quad(triple(_, _, _), _)
-    ->  % create trig graphs
+    ->  retractall(flag(rdfpackages)),
+        assertz(flag(rdfpackages)),
+
+        % create trig graphs
         (   graphid(G),
             findall(C,
                 (   quad(triple(S, P, O), G),
@@ -11952,7 +11955,7 @@ cc([A|B], [C|D]) :-
         labelvars(C, 0, _, avar),
         (   \+cc(C)
         ->  assertz(cc(C))
-        ;   \+graph(_, _)
+        ;   \+flag(rdfpackages)
         )
     ;   C = A
     ),
