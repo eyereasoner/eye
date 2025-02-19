@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.5 (2025-02-19)').
+version_info('EYE v11.7.6 (2025-02-19)').
 
 license_info('MIT License
 
@@ -7805,7 +7805,7 @@ userInput(A, B) :-
     when(
         (   nonvar(Y)
         ),
-        (   call(Y)
+        (   catch(call(Y), _, fail)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#includes>'(X, Y) :-
@@ -7934,7 +7934,7 @@ userInput(A, B) :-
     when(
         (   nonvar(Y)
         ),
-        (   \+call(Y)
+        (   \+catch(call(Y), _, fail)
         )
     ).
 '<http://www.w3.org/2000/10/swap/log#notIncludes>'(X, Y) :-
