@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.4 (2025-02-18)').
+version_info('EYE v11.7.5 (2025-02-19)').
 
 license_info('MIT License
 
@@ -92,7 +92,7 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
-    --prolog <file>                 webized prolog
+    --pl3 <file>                    webized prolog
     --proof <uri>                   N3 proof lemmas
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
@@ -367,7 +367,7 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--max-inferences',
             '--n3',
             '--n3p',
-            '--prolog',
+            '--pl3',
             '--proof',
             '--quantify',
             '--query',
@@ -422,9 +422,9 @@ gre(Argus) :-
     ->  opts(['--help'], _)
     ;   true
     ),
-    (   memberchk('--prolog', Args)
-    ->  retractall(flag(prolog)),
-        assertz(flag(prolog))
+    (   memberchk('--pl3', Args)
+    ->  retractall(flag(pl3)),
+        assertz(flag(pl3))
     ;   true
     ),
     (   flag('skolem-genid', Genid)
@@ -551,7 +551,7 @@ gre(Argus) :-
         profile(eam(0))
     ;   catch(
             (   eam(0),
-                (   flag(prolog)
+                (   flag(pl3)
                 ->  assertz(closure(0)),
                     assertz(limit(-1)),
                     forall(
@@ -909,7 +909,7 @@ opts([Arg|_], _) :-
             '--not-entail',
             '--pass',
             '--pass-all',
-            '--prolog',
+            '--pl3',
             '--proof',
             '--query',
             '--trig',
@@ -930,7 +930,7 @@ args(['--entail', Arg|Args]) :-
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--prolog', Arg|Args]) :-
+args(['--pl3', Arg|Args]) :-
     !,
     consult(Arg),
     args(Args).
@@ -1161,7 +1161,7 @@ args(['--trig', Argument|Args]) :-
             ;   true
             ),
             (   \+flag(nope),
-                \+flag(prolog)
+                \+flag(pl3)
             ->  assertz(prfstep(Triple, true, _, Triple, _, forward, R))
             ;   true
             )
