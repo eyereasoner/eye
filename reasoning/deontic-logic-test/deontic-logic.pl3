@@ -8,11 +8,6 @@
 :- discontiguous('<urn:knows:permitted>'/1).
 :- discontiguous('<urn:knows:forbidden>'/1).
 
-:- dynamic('<urn:knows:not>'/1).
-:- dynamic('<urn:knows:obligatory>'/1).
-:- dynamic('<urn:knows:permitted>'/1).
-:- dynamic('<urn:knows:forbidden>'/1).
-
 % deontic logic rules
 '<urn:knows:obligatory>'(A) :+ '<urn:knows:not>'('<urn:knows:permitted>'(B)), negation(B, A).
 '<urn:knows:permitted>'(A) :+ '<urn:knows:not>'('<urn:knows:obligatory>'(B)), negation(B, A).

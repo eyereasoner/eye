@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.6 (2025-02-19)').
+version_info('EYE v11.7.7 (2025-02-20)').
 
 license_info('MIT License
 
@@ -5000,10 +5000,10 @@ indentation(C) :-
 %    else assert brake and start again at 1/
 %
 eam :-
-    (   (Conc :+ Prem),     % 1/
+    (   (Conc :+ Prem),                     % 1/
         copy_term((Conc :+ Prem), Rule, _),
-        Prem,               % 2/
-        (   Conc = true     % 3/
+        catch(call(Prem), _, fail),         % 2/
+        (   Conc = true                     % 3/
         ->  (   \+answer(Prem)
             ->  assertz(answer(Prem)),
                 assertz(step(Rule, Prem, true))
@@ -5017,14 +5017,14 @@ eam :-
                 ->  skolemize(Conc, 0, _)
                 ;   true
                 ),
-                \+ Conc,
+                \+catch(call(Conc), _, fail),
                 astep(Conc),
                 assertz(step(Rule, Prem, Conc)),
                 retract(brake)
             )
         ),
-        fail                % 4/
-    ;   (   brake           % 5/
+        fail                                % 4/
+    ;   (   brake                           % 5/
         ->  (   closure(Closure),
                 limit(Limit),
                 Closure < Limit,
@@ -12685,11 +12685,11 @@ dynify([A|B]) :-
 dynify(A) :-
     A =.. [B|C],
     length(C, N),
-    (   (   current_predicate(B/N)
-        ;   B = /
-        )
-    ->  true
-    ;   dynamic(B/N)
+    (   \+predicate_property(A, built_in),
+        \+predicate_property(A, imported_from(_)),
+        B \= /
+    ->  dynamic(B/N)
+    ;   true
     ),
     dynify(C).
 

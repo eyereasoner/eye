@@ -2,7 +2,7 @@
 
 :- op(1200, xfx, :+).
 
-'https://eyereasoner.github.io/ns#equation'(A, B, C) :-
+'<https://eyereasoner.github.io/ns#equation>'(A, B, C) :-
     findall(E,
         (   solve_equation(A, B, B=F),
             E is F
@@ -451,6 +451,6 @@ compound1(Term) :-
     !.
 
 % query
-true :+ 'https://eyereasoner.github.io/ns#equation'(x^2-3*x+2=0, x, _).
-true :+ 'https://eyereasoner.github.io/ns#equation'(cos(x)*(1-2*sin(x))=0, x, _).
-true :+ 'https://eyereasoner.github.io/ns#equation'(2^(2*x)-5*2^(x+1)+16=0, x, _).
+true :+ '<https://eyereasoner.github.io/ns#equation>'(x^2-3*x+2=0, x, _).
+true :+ '<https://eyereasoner.github.io/ns#equation>'(cos(x)*(1-2*sin(x))=0, x, _).
+true :+ '<https://eyereasoner.github.io/ns#equation>'(2^(2*x)-5*2^(x+1)+16=0, x, _).
