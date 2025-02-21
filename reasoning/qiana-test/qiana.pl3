@@ -1,6 +1,9 @@
 % Qiana examples
 % See https://github.com/dig-team/Qiana
 
+:- op(1200, xfx, :+).
+:- style_check(-discontiguous).
+
 % says(Einstein, not (forall x: glitters(x) => gold(x)))
 '<https://eyereasoner.github.io/ns#says>'('<https://eyereasoner.github.io/ns#Einstein>', ('<https://eyereasoner.github.io/ns#notNecessarilyA>'(X, '<https://eyereasoner.github.io/ns#gold>') :+ '<https://eyereasoner.github.io/ns#glitter>'(X))).
 

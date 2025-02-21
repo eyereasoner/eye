@@ -1,6 +1,7 @@
 % lubm rules
 
 :- op(1200, xfx, :+).
+:- style_check(-discontiguous).
 
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(A, '<http://www.example.org/Employee>') :+ '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(A, '<http://www.example.org/AdministrativeStaff>').
 '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>'(A, '<http://www.example.org/Person>') :+ '<http://www.example.org/advisor>'(A, _).

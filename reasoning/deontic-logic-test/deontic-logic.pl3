@@ -1,12 +1,7 @@
 % deontic logic example
 
 :- op(1200, xfx, :+).
-
-:- discontiguous((:+)/2).
-:- discontiguous('<urn:knows:not>'/1).
-:- discontiguous('<urn:knows:obligatory>'/1).
-:- discontiguous('<urn:knows:permitted>'/1).
-:- discontiguous('<urn:knows:forbidden>'/1).
+:- style_check(-discontiguous).
 
 % deontic logic rules
 '<urn:knows:obligatory>'(A) :+ '<urn:knows:not>'('<urn:knows:permitted>'(B)), negation(B, A).

@@ -1,0 +1,17 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+# path is a tabled predicate
+[] log:table :path.
+
+# graph
+:a :road :b.
+:a :road :c.
+:b :road :d.
+:c :road :d.
+
+# rules
+{ ?X :path ?Y } <= { ?X :path ?Z. ?Z :path ?Y }.
+
+{ ?X :path ?Y } <= { ?X :road ?Y }.
+{ ?X :path ?Y } <= { ?Y :road ?X }.

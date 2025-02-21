@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.7.7 (2025-02-20)').
+version_info('EYE v11.8.0 (2025-02-21)').
 
 license_info('MIT License
 
@@ -211,6 +211,7 @@ eye
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#table>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
 %
@@ -546,6 +547,10 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
+    (   '<http://www.w3.org/2000/10/swap/log#table>'(_, Tbl)
+    ->  table(Tbl/2)
+    ;   true
+    ),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))

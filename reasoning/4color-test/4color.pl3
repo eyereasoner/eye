@@ -1,5 +1,8 @@
 % See https://en.wikipedia.org/wiki/Four_color_theorem
 
+:- op(1200, xfx, :+).
+:- style_check(-discontiguous).
+
 '<https://eyereasoner.github.io/ns#colors>'(_Map, Places) :-
     findall([Place, _], '<https://eyereasoner.github.io/ns#neighbours>'(Place, _), Places),
     places(Places),

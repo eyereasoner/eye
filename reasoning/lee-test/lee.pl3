@@ -1,6 +1,7 @@
 % Lee routing for VLSI circuits
 
 :- op(1200, xfx, :+).
+:- style_check(-discontiguous).
 
 '<https://eyereasoner.github.io/ns#route>'([Source, Destination, Obstacles], Path) :-
     waves(Destination, [[Source], []], Obstacles, Waves),

@@ -1,9 +1,7 @@
 % Healthcare access control
 
 :- op(1200, xfx, :+).
-
-:- discontiguous((:+)/2).
-:- discontiguous(user_permission/3).
+:- style_check(-discontiguous).
 
 % context
 '<https://eyereasoner.github.io/ns#userPermission>'(User, Permission, Patient) :-

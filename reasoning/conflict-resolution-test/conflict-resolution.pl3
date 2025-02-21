@@ -1,8 +1,7 @@
 % policy conflict resolution example
 
 :- op(1200, xfx, :+).
-
-:- discontiguous((:+)/2).
+:- style_check(-discontiguous).
 
 % context
 '<https://eyereasoner.github.io/ns#accessControl>'(User, Resource, Decision) :-
