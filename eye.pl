@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.8.0 (2025-02-21)').
+version_info('EYE v11.8.1 (2025-02-21)').
 
 license_info('MIT License
 
@@ -92,7 +92,7 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
-    --pl3 <file>                    webized prolog
+    --pl3 <uri>                     webized prolog
     --proof <uri>                   N3 proof lemmas
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
@@ -935,10 +935,6 @@ args(['--entail', Arg|Args]) :-
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
     args(Args).
-args(['--pl3', Arg|Args]) :-
-    !,
-    consult(Arg),
-    args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
@@ -1058,6 +1054,47 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
+    args(Args).
+args(['--pl3', Argument|Args]) :-
+    !,
+    cnt(doc_nr),
+    absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   wcacher(Arg, File)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+            flush_output(user_error)
+        ),
+        open(File, read, In, [encoding(utf8)])
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w ', [Arg]),
+            flush_output(user_error)
+        ),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            File = Arg
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    load_files(File, [stream(In)]),
+    close(In),
     args(Args).
 args(['--proof', Arg|Args]) :-
     !,
