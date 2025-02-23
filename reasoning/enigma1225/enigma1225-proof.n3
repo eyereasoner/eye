@@ -1,0 +1,35 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        8 :enigma1225 ((2 1 4 3 6 5 8 7) ((1 1 2 3 4 5 6 7) (1 1 3 2 5 4 7 6) (3 2 8 8 9 10 11 12) (2 3 8 8 10 9 12 11) (5 4 10 9 13 13 14 15) (4 5 9 10 13 13 15 14) (7 6 12 11 15 14 16 16) (6 7 11 12 14 15 16 16)) 544).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        8 :enigma1225 ((2 1 4 3 6 5 8 7) ((1 1 2 3 4 5 6 7) (1 1 3 2 5 4 7 6) (3 2 8 8 9 10 11 12) (2 3 8 8 10 9 12 11) (5 4 10 9 13 13 14 15) (4 5 9 10 13 13 15 14) (7 6 12 11 15 14 16 16) (6 7 11 12 14 15 16 16)) 544).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./enigma1225.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {8 :enigma1225 ((2 1 4 3 6 5 8 7) ((1 1 2 3 4 5 6 7) (1 1 3 2 5 4 7 6) (3 2 8 8 9 10 11 12) (2 3 8 8 10 9 12 11) (5 4 10 9 13 13 14 15) (4 5 9 10 13 13 15 14) (7 6 12 11 15 14 16 16) (6 7 11 12 14 15 16 16)) 544)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((2 1 4 3 6 5 8 7) ((1 1 2 3 4 5 6 7) (1 1 3 2 5 4 7 6) (3 2 8 8 9 10 11 12) (2 3 8 8 10 9 12 11) (5 4 10 9 13 13 14 15) (4 5 9 10 13 13 15 14) (7 6 12 11 15 14 16 16) (6 7 11 12 14 15 16 16)) 544)];
+    r:rule skolem:lemma2.
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            ("consult" "./enigma1225.pl") log:herbrand true.
+            8 :enigma1225 var:x_0.
+        } => {
+            8 :enigma1225 var:x_0.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/enigma1225/enigma1225-query.n3>].
+
