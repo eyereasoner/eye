@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.8.1 (2025-02-21)').
+version_info('EYE v11.8.2 (2025-02-23)').
 
 license_info('MIT License
 
@@ -547,10 +547,6 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
-    (   '<http://www.w3.org/2000/10/swap/log#table>'(_, Tbl)
-    ->  table(Tbl/2)
-    ;   true
-    ),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
@@ -1771,6 +1767,11 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
     ;   write('\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)),
         writeln('.')
     ),
+    tr_n3p(Z, Src, Mode).
+tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#table>\''(_, Y)|Z], Src, Mode) :-
+    !,
+    sub_atom(Y, 1, _, 1, T),
+    table(T/2),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>\''(X, Y)|Z], Src, Mode) :-
     !,

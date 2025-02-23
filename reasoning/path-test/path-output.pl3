@@ -1,36 +1,36 @@
 :- op(1200, xfx, :+).
 
-answer('<urn:example:path>'('<urn:example:a>', '<urn:example:a>')).
-answer('<urn:example:path>'('<urn:example:a>', '<urn:example:d>')).
-answer('<urn:example:path>'('<urn:example:a>', '<urn:example:c>')).
-answer('<urn:example:path>'('<urn:example:a>', '<urn:example:b>')).
-answer('<urn:example:path>'('<urn:example:d>', '<urn:example:a>')).
 answer('<urn:example:path>'('<urn:example:d>', '<urn:example:d>')).
 answer('<urn:example:path>'('<urn:example:d>', '<urn:example:c>')).
 answer('<urn:example:path>'('<urn:example:d>', '<urn:example:b>')).
-answer('<urn:example:path>'('<urn:example:c>', '<urn:example:a>')).
+answer('<urn:example:path>'('<urn:example:d>', '<urn:example:a>')).
 answer('<urn:example:path>'('<urn:example:c>', '<urn:example:d>')).
 answer('<urn:example:path>'('<urn:example:c>', '<urn:example:c>')).
 answer('<urn:example:path>'('<urn:example:c>', '<urn:example:b>')).
-answer('<urn:example:path>'('<urn:example:b>', '<urn:example:a>')).
+answer('<urn:example:path>'('<urn:example:c>', '<urn:example:a>')).
 answer('<urn:example:path>'('<urn:example:b>', '<urn:example:d>')).
 answer('<urn:example:path>'('<urn:example:b>', '<urn:example:c>')).
 answer('<urn:example:path>'('<urn:example:b>', '<urn:example:b>')).
+answer('<urn:example:path>'('<urn:example:b>', '<urn:example:a>')).
+answer('<urn:example:path>'('<urn:example:a>', '<urn:example:d>')).
+answer('<urn:example:path>'('<urn:example:a>', '<urn:example:c>')).
+answer('<urn:example:path>'('<urn:example:a>', '<urn:example:b>')).
+answer('<urn:example:path>'('<urn:example:a>', '<urn:example:a>')).
 
 % proof steps
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:a>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:d>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:c>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:b>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:d>', '<urn:example:a>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:d>', '<urn:example:d>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:d>', '<urn:example:c>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:d>', '<urn:example:b>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:c>', '<urn:example:a>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:d>', '<urn:example:a>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:c>', '<urn:example:d>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:c>', '<urn:example:c>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:c>', '<urn:example:b>'), true).
-step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:b>', '<urn:example:a>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:c>', '<urn:example:a>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:b>', '<urn:example:d>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:b>', '<urn:example:c>'), true).
 step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:b>', '<urn:example:b>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:b>', '<urn:example:a>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:d>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:c>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:b>'), true).
+step((true:+'<urn:example:path>'(_, _)), '<urn:example:path>'('<urn:example:a>', '<urn:example:a>'), true).
