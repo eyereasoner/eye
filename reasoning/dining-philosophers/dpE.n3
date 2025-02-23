@@ -1,7 +1,7 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <https://eyereasoner.github.io/eye/reasoning#>.
-@prefix e: <http://eulersharp.sourceforge.net/2003/03swap/log-rules#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
@@ -27,24 +27,24 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {("thread_create" {
             :person1 :run (0.1 0.1).
-        } skolem:t_0 ()) e:derive true}]
+        } skolem:t_0 ()) log:herbrand true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person2 :run (0.2 0.2).
-        } skolem:t_1 ()) e:derive true}]
+        } skolem:t_1 ()) log:herbrand true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person3 :run (0.3 0.3).
-        } skolem:t_2 ()) e:derive true}]
+        } skolem:t_2 ()) log:herbrand true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person4 :run (0.25 0.2).
-        } skolem:t_3 ()) e:derive true}]
+        } skolem:t_3 ()) log:herbrand true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person5 :run (0.025 0.1).
-        } skolem:t_4 ()) e:derive true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_0 true) e:derive true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_1 true) e:derive true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_2 true) e:derive true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_3 true) e:derive true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_4 true) e:derive true}]
+        } skolem:t_4 ()) log:herbrand true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_0 true) log:herbrand true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_1 true) log:herbrand true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_2 true) log:herbrand true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_3 true) log:herbrand true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_4 true) log:herbrand true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo skolem:t_0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo skolem:t_1];
@@ -73,24 +73,24 @@ skolem:lemma4 a r:Extraction;
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
             ("thread_create" {
                 :person1 :run (0.1 0.1).
-            } var:x_0 ()) e:derive true.
+            } var:x_0 ()) log:herbrand true.
             ("thread_create" {
                 :person2 :run (0.2 0.2).
-            } var:x_1 ()) e:derive true.
+            } var:x_1 ()) log:herbrand true.
             ("thread_create" {
                 :person3 :run (0.3 0.3).
-            } var:x_2 ()) e:derive true.
+            } var:x_2 ()) log:herbrand true.
             ("thread_create" {
                 :person4 :run (0.25 0.2).
-            } var:x_3 ()) e:derive true.
+            } var:x_3 ()) log:herbrand true.
             ("thread_create" {
                 :person5 :run (0.025 0.1).
-            } var:x_4 ()) e:derive true.
-            ("thread_join" var:x_0 var:x_5) e:derive true.
-            ("thread_join" var:x_1 var:x_6) e:derive true.
-            ("thread_join" var:x_2 var:x_7) e:derive true.
-            ("thread_join" var:x_3 var:x_8) e:derive true.
-            ("thread_join" var:x_4 var:x_9) e:derive true.
+            } var:x_4 ()) log:herbrand true.
+            ("thread_join" var:x_0 var:x_5) log:herbrand true.
+            ("thread_join" var:x_1 var:x_6) log:herbrand true.
+            ("thread_join" var:x_2 var:x_7) log:herbrand true.
+            ("thread_join" var:x_3 var:x_8) log:herbrand true.
+            ("thread_join" var:x_4 var:x_9) log:herbrand true.
         } => {
             :all :got :dinner.
         }.

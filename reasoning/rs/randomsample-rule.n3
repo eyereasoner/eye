@@ -10,9 +10,9 @@
     ?L math:memberCount ?C.
     ?S e:findall (
         ?T
-        {   ("between" 1 ?N ?I) e:derive true.
+        {   ("between" 1 ?N ?I) log:herbrand true.
             (?C) e:random ?J.
-            ("nth0" ?J ?L ?T) e:derive true.
+            ("nth0" ?J ?L ?T) log:herbrand true.
         }
         ?B
     ).

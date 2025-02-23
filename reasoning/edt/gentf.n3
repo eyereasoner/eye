@@ -7,15 +7,15 @@
 
 # graph generation
 {(?F ?N) :graphgen true} <= {
-    ("open" ?F "write" ?FD) e:derive true.
-    ("tell" ?FD) e:derive true.
-    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) e:derive true.
-    ("between" 1 ?N ?I) e:derive true.
-    ("format" ":i~d a :N0.~n" (?I)) e:derive true.
-    ("fail") e:derive true.
+    ("open" ?F "write" ?FD) log:herbrand true.
+    ("tell" ?FD) log:herbrand true.
+    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) log:herbrand true.
+    ("between" 1 ?N ?I) log:herbrand true.
+    ("format" ":i~d a :N0.~n" (?I)) log:herbrand true.
+    ("fail") log:herbrand true.
 }.
 {(?F ?N) :graphgen true} <= {
-    ("told") e:derive true.
+    ("told") log:herbrand true.
 }.
 
 # immediate goal

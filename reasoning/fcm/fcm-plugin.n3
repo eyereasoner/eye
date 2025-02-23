@@ -12,7 +12,7 @@
 {   ?SCOPE e:call {
         ("if_then_else"
             {
-                ("nb_getval" "fnet" "done") e:derive true.
+                ("nb_getval" "fnet" "done") log:herbrand true.
             }
             true
             {
@@ -29,12 +29,12 @@
                                     }
                                     true
                                     {
-                                        ("assertz" {(?X) fcm:fm true}) e:derive true.
+                                        ("assertz" {(?X) fcm:fm true}) log:herbrand true.
                                     }
-                                ) e:derive true.
-                                ("assertz" {?X fcm:pi (?Y ?Z)}) e:derive true.
+                                ) log:herbrand true.
+                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:herbrand true.
                             }
-                        ) e:derive true.
+                        ) log:herbrand true.
                         ("forall"
                             {
                                 (?X ?Y) fl:sigma ?V6.
@@ -46,21 +46,21 @@
                                     }
                                     true
                                     {
-                                        ("assertz" {(?X) fcm:fs true}) e:derive true.
+                                        ("assertz" {(?X) fcm:fs true}) log:herbrand true.
                                     }
-                                ) e:derive true.
+                                ) log:herbrand true.
                                 ("if_then_else"
                                     {
                                         (?Y) fcm:fs true.
                                     }
                                     true
                                     {
-                                        ("assertz" {(?Y) fcm:fs true}) e:derive true.
+                                        ("assertz" {(?Y) fcm:fs true}) log:herbrand true.
                                     }
-                                ) e:derive true.
+                                ) log:herbrand true.
                             }
-                        ) e:derive true.
-                        ("between" 1 20 ?J) e:derive true.
+                        ) log:herbrand true.
+                        ("between" 1 20 ?J) log:herbrand true.
                         (?X) fcm:fm true.
                         (?Y) fcm:fs true.
                         ("findall"
@@ -71,7 +71,7 @@
                                 ("(2*_M-1)*(2*_W-1)" ?M ?W) e:calculate ?I.
                             }
                             ?L
-                        ) e:derive true.
+                        ) log:herbrand true.
                         ("if_then_else"
                             {
                                 ?L log:equalTo ().
@@ -80,18 +80,18 @@
                             {
                                 ?L math:sum ?S.
                                 ("1/(1+exp(-_S))" ?S) e:calculate ?Z.
-                                ("retractall" {?X fcm:pi (?Y ?V1)}) e:derive true.
-                                ("assertz" {?X fcm:pi (?Y ?Z)}) e:derive true.
+                                ("retractall" {?X fcm:pi (?Y ?V1)}) log:herbrand true.
+                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:herbrand true.
                             }
-                        ) e:derive true.
-                        ("fail") e:derive true.
+                        ) log:herbrand true.
+                        ("fail") log:herbrand true.
                     }
                     {
-                        ("nb_setval" "fnet" "done") e:derive true.
+                        ("nb_setval" "fnet" "done") log:herbrand true.
                     }
-                ) e:derive true.
+                ) log:herbrand true.
             }
-        ) e:derive true.
+        ) log:herbrand true.
         ?A fcm:pi (?B ?U).
         ("if_then_else"
             {
@@ -103,6 +103,6 @@
             {
                 ?C log:equalTo ?U.
             }
-        ) e:derive true.
+        ) log:herbrand true.
     }
 }.
