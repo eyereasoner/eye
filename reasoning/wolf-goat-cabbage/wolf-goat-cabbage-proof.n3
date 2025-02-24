@@ -1,0 +1,344 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:component skolem:lemma12;
+    r:component skolem:lemma13;
+    r:component skolem:lemma14;
+    r:component skolem:lemma15;
+    r:component skolem:lemma16;
+    r:component skolem:lemma17;
+    r:component skolem:lemma18;
+    r:component skolem:lemma19;
+    r:component skolem:lemma20;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "goat" "goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "goat" "goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "wolf" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "wolf" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "goat" "goat" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "goat" "cabbage" "wolf" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "goat" "cabbage" "cabbage" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat" "goat" "goat") a :Solution.
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "nothing" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "wolf" "wolf" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "wolf" "cabbage" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat" "goat" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "nothing" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "goat" "goat" "goat" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "cabbage" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "cabbage" "cabbage" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "nothing" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+        ("goat" "nothing" "nothing" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 7) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") 7) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 7) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") 7) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        ("goat" "goat" "goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "goat" "goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "goat" "goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "goat" "goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        ("goat" "goat" "goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "goat" "goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "goat" "goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "goat" "goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "wolf" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "wolf" "wolf" "goat" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "wolf" "wolf" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "wolf" "wolf" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "wolf" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "wolf" "cabbage" "goat" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "wolf" "cabbage" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "wolf" "cabbage" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "goat" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "goat" "goat" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "goat" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "goat" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "wolf" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "cabbage" "wolf" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "cabbage" "wolf" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "cabbage" "wolf" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "cabbage" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "cabbage" "cabbage" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "cabbage" "cabbage" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "cabbage" "cabbage" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat" "goat" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat" "goat" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat" "goat" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "goat" "goat" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "nothing" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "nothing" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "nothing" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "wolf" "goat" "cabbage" "nothing" "nothing" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "wolf" "wolf" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "wolf" "wolf" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "wolf" "wolf" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "wolf" "wolf" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "wolf" "cabbage" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "wolf" "cabbage" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "wolf" "cabbage" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "wolf" "cabbage" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat" "goat" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat" "goat" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat" "goat" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "goat" "goat" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "nothing" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "nothing" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "nothing" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "wolf" "nothing" "nothing" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "goat" "goat" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "goat" "goat" "goat" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "goat" "goat" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "goat" "goat" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "cabbage" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "cabbage" "wolf" "goat" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "cabbage" "wolf" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "cabbage" "wolf" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "cabbage" "cabbage" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "cabbage" "cabbage" "cabbage" "goat" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "cabbage" "cabbage" "cabbage" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "cabbage" "cabbage" "cabbage" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "nothing" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "nothing" "nothing" "wolf" "goat" "cabbage" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "nothing" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "nothing" "nothing" "wolf" "goat" "cabbage" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        ("goat" "nothing" "nothing" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 10 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("goat" "nothing" "nothing" "nothing" "cabbage" "goat" "wolf" "nothing" "goat") 9) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("solution" ("w" "w" "w" "w") ("goat" "nothing" "nothing" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("goat" "nothing" "nothing" "nothing" "cabbage" "goat" "wolf" "nothing" "goat")];
+    r:rule skolem:lemma21.
+
+skolem:lemma21 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            ("consult" "./wolf-goat-cabbage.pl") log:herbrandInterpretation true.
+            ("between" 1 10 var:x_0) log:herbrandInterpretation true.
+            ("length" var:x_1 var:x_0) log:herbrandInterpretation true.
+            ("solution" ("w" "w" "w" "w") var:x_1) log:herbrandInterpretation true.
+        } => {
+            var:x_1 a :Solution.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/wolf-goat-cabbage/wolf-goat-cabbage-query.n3>].
+
