@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.3 (2025-02-24)').
+version_info('EYE v11.9.4 (2025-02-24)').
 
 license_info('MIT License
 
@@ -137,6 +137,7 @@ eye
 :- dynamic(got_pi/0).
 :- dynamic(got_random/3).
 :- dynamic(got_sq/0).
+:- dynamic(got_table/1).
 :- dynamic(got_unique/2).
 :- dynamic(got_wi/5).               % got_wi(Source, Premise, Premise_index, Conclusion, Rule)
 :- dynamic(graph/2).
@@ -540,6 +541,10 @@ gre(Argus) :-
     nb_setval(lemma_count, 0),
     nb_setval(lemma_cursor, 0),
     nb_setval(answer_count, 0),
+    forall(
+        got_table(Tbl),
+        table(Tbl)
+    ),
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
@@ -1708,7 +1713,10 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#table>\''(_, Y)|Z], Src, Mode) :-
     !,
     sub_atom(Y, 1, _, 1, T),
-    table(T/2),
+    (   \+got_table(T/2)
+    ->  assertz(got_table(T/2))
+    ;   true
+    ),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://eulersharp.sourceforge.net/2003/03swap/log-rules#tactic>\''(X, Y)|Z], Src, Mode) :-
     !,
