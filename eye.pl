@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.2 (2025-02-24)').
+version_info('EYE v11.9.3 (2025-02-24)').
 
 license_info('MIT License
 
@@ -7122,13 +7122,21 @@ prepare_builtins :-
 
 '<http://www.w3.org/2000/10/swap/list#setEqualTo>'(A, B) :-
     when(
-        (   nonvar(A),
-            nonvar(B)
+        (   nonvar(A)
+        ;   nonvar(B)
         ),
-        (   getlist(A, C),
-            getlist(B, D),
-            sort(C, E),
-            sort(D, E)
+        (   nonvar(A),
+            getlist(A, C)
+        ->  (   nonvar(B)
+            ->  getlist(B, D),
+                sort(C, E),
+                sort(D, E)
+            ;   list_to_set(C, E),
+                B = set(E)
+            )
+        ;   getlist(B, D),
+            list_to_set(D, E),
+            A = set(E)
         )
     ).
 
