@@ -1,9 +1,6 @@
 % Gray Code Counter
 % Code from the book "Clause and Effect" Chapter 8
 
-:- op(1200, xfx, :+).
-:- style_check(-discontiguous).
-
 '<https://eyereasoner.github.io/ns#gcc>'([[], _], []).
 '<https://eyereasoner.github.io/ns#gcc>'([[C|Cs], S], [N|Ns]) :-
     gcc(C, S, N),
