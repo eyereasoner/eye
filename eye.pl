@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.1 (2025-02-23)').
+version_info('EYE v11.9.2 (2025-02-24)').
 
 license_info('MIT License
 
@@ -7413,11 +7413,6 @@ userInput(A, B) :-
     ),
     E = C.
 
-'<http://www.w3.org/2000/10/swap/log#compoundTerm>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
-    \+flag(restricted),
-    atomify(B, D),
-    read_term_from_atom(A, C, [variables(D)]).
-
 '<http://www.w3.org/2000/10/swap/log#conclusion>'(A, B) :-
     when(
         (   nonvar(A)
@@ -7559,10 +7554,15 @@ userInput(A, B) :-
 '<http://www.w3.org/2000/10/swap/log#herbrand>'(A, B) :-
     \+flag(restricted),
     atomify(A, C),
-    D =.. C,
-    (   B = true
-    ->  catch(call(D), _, fail)
-    ;   \+catch(call(D), _, fail)
+    (   nonvar(B),
+        memberchk(B, [true, false])
+    ->  D =.. C,
+        (   B = true
+        ->  catch(call(D), _, fail)
+        ;   \+catch(call(D), _, fail)
+        )
+    ;   C = [D|E],
+        read_term_from_atom(D, B, [variables(E)])
     ).
 
 '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, B) :-
