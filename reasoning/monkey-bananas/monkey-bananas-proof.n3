@@ -1,0 +1,88 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives {
+        ("go(loc3)" "push(loc1)" "climb_on" "grab") a :Solution.
+        ("go(loc1)" "go(loc3)" "push(loc1)" "climb_on" "grab") a :Solution.
+        ("go(loc3)" "push(loc1)" "climb_on" "grab" "climb_off") a :Solution.
+        ("go(loc3)" "push(loc2)" "push(loc1)" "climb_on" "grab") a :Solution.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ("go(loc3)" "push(loc1)" "climb_on" "grab") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./monkey-bananas.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 5 4) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("go(loc3)" "push(loc1)" "climb_on" "grab") 4) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("plan" ("go(loc3)" "push(loc1)" "climb_on" "grab")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("go(loc3)" "push(loc1)" "climb_on" "grab")];
+    r:rule skolem:lemma5.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        ("go(loc1)" "go(loc3)" "push(loc1)" "climb_on" "grab") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./monkey-bananas.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 5 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("go(loc1)" "go(loc3)" "push(loc1)" "climb_on" "grab") 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("plan" ("go(loc1)" "go(loc3)" "push(loc1)" "climb_on" "grab")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("go(loc1)" "go(loc3)" "push(loc1)" "climb_on" "grab")];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        ("go(loc3)" "push(loc1)" "climb_on" "grab" "climb_off") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./monkey-bananas.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 5 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("go(loc3)" "push(loc1)" "climb_on" "grab" "climb_off") 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("plan" ("go(loc3)" "push(loc1)" "climb_on" "grab" "climb_off")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("go(loc3)" "push(loc1)" "climb_on" "grab" "climb_off")];
+    r:rule skolem:lemma5.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        ("go(loc3)" "push(loc2)" "push(loc1)" "climb_on" "grab") a :Solution.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./monkey-bananas.pl") log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("between" 1 5 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("length" ("go(loc3)" "push(loc2)" "push(loc1)" "climb_on" "grab") 5) log:herbrandInterpretation true}]
+        [ a r:Fact; r:gives {("plan" ("go(loc3)" "push(loc2)" "push(loc1)" "climb_on" "grab")) log:herbrandInterpretation true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ("go(loc3)" "push(loc2)" "push(loc1)" "climb_on" "grab")];
+    r:rule skolem:lemma5.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            ("consult" "./monkey-bananas.pl") log:herbrandInterpretation true.
+            ("between" 1 5 var:x_0) log:herbrandInterpretation true.
+            ("length" var:x_1 var:x_0) log:herbrandInterpretation true.
+            ("plan" var:x_1) log:herbrandInterpretation true.
+        } => {
+            var:x_1 a :Solution.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/monkey-bananas/monkey-bananas-query.n3>].
+

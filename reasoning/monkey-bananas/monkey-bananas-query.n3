@@ -1,0 +1,11 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+{
+    ("consult" "./monkey-bananas.pl") log:herbrandInterpretation true.
+    ("between" 1 5 ?I) log:herbrandInterpretation true.
+    ("length" ?L ?I) log:herbrandInterpretation true.
+    ("plan" ?L) log:herbrandInterpretation true.
+} => {
+    ?L a :Solution.
+}.
