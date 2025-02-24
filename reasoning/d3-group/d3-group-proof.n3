@@ -1,0 +1,178 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:component skolem:lemma12;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b" "reflection_c") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_c") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_a") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_b" "reflection_c") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_b") :validGroup true.
+        ("identity" "rotation_120" "rotation_240" "reflection_c") :validGroup true.
+        ("identity" "rotation_120" "rotation_240") :validGroup true.
+        ("identity" "reflection_a") :validGroup true.
+        ("identity" "reflection_b") :validGroup true.
+        ("identity" "reflection_c") :validGroup true.
+        ("identity") :validGroup true.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b" "reflection_c") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b" "reflection_c") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b" "reflection_c")];
+    r:rule skolem:lemma13.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_b")];
+    r:rule skolem:lemma13.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_c") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_c") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_a" "reflection_c")];
+    r:rule skolem:lemma13.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_a") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_a") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_a")];
+    r:rule skolem:lemma13.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_b" "reflection_c") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_b" "reflection_c") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_b" "reflection_c")];
+    r:rule skolem:lemma13.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_b") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_b") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_b")];
+    r:rule skolem:lemma13.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240" "reflection_c") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240" "reflection_c") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240" "reflection_c")];
+    r:rule skolem:lemma13.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        ("identity" "rotation_120" "rotation_240") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "rotation_120" "rotation_240") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "rotation_120" "rotation_240")];
+    r:rule skolem:lemma13.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        ("identity" "reflection_a") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "reflection_a") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "reflection_a")];
+    r:rule skolem:lemma13.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        ("identity" "reflection_b") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "reflection_b") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "reflection_b")];
+    r:rule skolem:lemma13.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        ("identity" "reflection_c") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity" "reflection_c") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity" "reflection_c")];
+    r:rule skolem:lemma13.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        ("identity") :validGroup true.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./d3-group.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("identity") :validGroup true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ("identity")];
+    r:rule skolem:lemma13.
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            ("consult" "./d3-group.pl") log:herbrand true.
+            var:x_0 :validGroup true.
+        } => {
+            var:x_0 :validGroup true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/d3-group/d3-group-query.n3>].
+
