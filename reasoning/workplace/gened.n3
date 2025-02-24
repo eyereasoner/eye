@@ -7,18 +7,18 @@
 
 # workplace data generation
 {(?F ?N) :gen true} <= {
-    ("open" ?F "write" ?FD) log:herbrand true.
-    ("tell" ?FD) log:herbrand true.
-    ("format" "@prefix : <https://eyereasoner.github.io/ns#>.~n~n" ()) log:herbrand true.
-    ("between" 1 ?N ?I) log:herbrand true.
-    ("format" ":alice~d :does :log_off_at_end_of_shift.~n" (?I)) log:herbrand true.
-    ("format" ":bob~d :does :work_related_task.~n" (?I)) log:herbrand true.
-    ("format" ":bob~d :does :log_off_at_end_of_shift.~n" (?I)) log:herbrand true.
-    ("format" ":carol~d :does :access_social_media.~n" (?I)) log:herbrand true.
-    ("fail") log:herbrand true.
+    ("open" ?F "write" ?FD) log:herbrandInterpretation true.
+    ("tell" ?FD) log:herbrandInterpretation true.
+    ("format" "@prefix : <https://eyereasoner.github.io/ns#>.~n~n" ()) log:herbrandInterpretation true.
+    ("between" 1 ?N ?I) log:herbrandInterpretation true.
+    ("format" ":alice~d :does :log_off_at_end_of_shift.~n" (?I)) log:herbrandInterpretation true.
+    ("format" ":bob~d :does :work_related_task.~n" (?I)) log:herbrandInterpretation true.
+    ("format" ":bob~d :does :log_off_at_end_of_shift.~n" (?I)) log:herbrandInterpretation true.
+    ("format" ":carol~d :does :access_social_media.~n" (?I)) log:herbrandInterpretation true.
+    ("fail") log:herbrandInterpretation true.
 }.
 {(?F ?N) :gen true} <= {
-    ("told") log:herbrand true.
+    ("told") log:herbrandInterpretation true.
 }.
 
 # immediate goal

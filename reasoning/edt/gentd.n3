@@ -7,19 +7,19 @@
 
 # graph generation
 {(?F ?N) :graphgen true} <= {
-    ("open" ?F "write" ?FD) log:herbrand true.
-    ("tell" ?FD) log:herbrand true.
-    ("format" "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.~n" ()) log:herbrand true.
-    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) log:herbrand true.
-    ("between" 1 ?N ?I) log:herbrand true.
+    ("open" ?F "write" ?FD) log:herbrandInterpretation true.
+    ("tell" ?FD) log:herbrandInterpretation true.
+    ("format" "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.~n" ()) log:herbrandInterpretation true.
+    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) log:herbrandInterpretation true.
+    ("between" 1 ?N ?I) log:herbrandInterpretation true.
     ("_I-1" ?I) e:calculate ?J.
-    ("format" ":N~d rdfs:subClassOf :N~d.~n" (?J ?I)) log:herbrand true.
-    ("format" ":N~d rdfs:subClassOf :I~d.~n" (?J ?I)) log:herbrand true.
-    ("format" ":N~d rdfs:subClassOf :J~d.~n" (?J ?I)) log:herbrand true.
-    ("fail") log:herbrand true.
+    ("format" ":N~d rdfs:subClassOf :N~d.~n" (?J ?I)) log:herbrandInterpretation true.
+    ("format" ":N~d rdfs:subClassOf :I~d.~n" (?J ?I)) log:herbrandInterpretation true.
+    ("format" ":N~d rdfs:subClassOf :J~d.~n" (?J ?I)) log:herbrandInterpretation true.
+    ("fail") log:herbrandInterpretation true.
 }.
 {(?F ?N) :graphgen true} <= {
-    ("told") log:herbrand true.
+    ("told") log:herbrandInterpretation true.
 }.
 
 # immediate goal

@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.4 (2025-02-24)').
+version_info('EYE v11.9.5 (2025-02-24)').
 
 license_info('MIT License
 
@@ -4011,7 +4011,7 @@ wt0(:-) :-
 wt0(fail) :-
     !,
     write('("fail") '),
-    wp('<http://www.w3.org/2000/10/swap/log#herbrand>'),
+    wp('<http://www.w3.org/2000/10/swap/log#herbrandInterpretation>'),
     write(' true').
 wt0([]) :-
     !,
@@ -7567,19 +7567,19 @@ userInput(A, B) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#herbrand>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/log#herbrandInterpretation>'(A, B) :-
     \+flag(restricted),
     atomify(A, C),
-    (   nonvar(B),
-        memberchk(B, [true, false])
-    ->  D =.. C,
-        (   B = true
-        ->  catch(call(D), _, fail)
-        ;   \+catch(call(D), _, fail)
-        )
-    ;   C = [D|E],
-        read_term_from_atom(D, B, [variables(E)])
+    D =.. C,
+    (   B = true
+    ->  catch(call(D), _, fail)
+    ;   \+catch(call(D), _, fail)
     ).
+
+'<http://www.w3.org/2000/10/swap/log#herbrandTerm>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
+    \+flag(restricted),
+    atomify(B, D),
+    read_term_from_atom(A, C, [variables(D)]).
 
 '<http://www.w3.org/2000/10/swap/log#ifThenElseIn>'(A, B) :-
     \+flag(restricted),
@@ -12601,13 +12601,13 @@ conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([lite
         '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
     !,
     D =.. [A|B].
-conjify('<http://www.w3.org/2000/10/swap/log#herbrand>'([literal(when, type('<http://www.w3.org/2001/XMLSchema#string>')),
-        '<http://www.w3.org/2000/10/swap/log#herbrand>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
+conjify('<http://www.w3.org/2000/10/swap/log#herbrandInterpretation>'([literal(when, type('<http://www.w3.org/2001/XMLSchema#string>')),
+        '<http://www.w3.org/2000/10/swap/log#herbrandInterpretation>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
     !,
     D =.. [A|B].
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.
-conjify('<http://www.w3.org/2000/10/swap/log#herbrand>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
+conjify('<http://www.w3.org/2000/10/swap/log#herbrandInterpretation>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), !) :-
     !.

@@ -16,7 +16,7 @@ skolem:lemma1 a r:Inference;
         "ingirumimusnocteetconsumimurigni" a :Palindrome.
     };
     r:evidence (
-        [ a r:Fact; r:gives {("atom_codes" "ingirumimusnocteetconsumimurigni" (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)) log:herbrand true}]
+        [ a r:Fact; r:gives {("atom_codes" "ingirumimusnocteetconsumimurigni" (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)) log:herbrandInterpretation true}]
         [ a r:Fact; r:gives {((105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)) :palindrome true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (105 110 103 105 114 117 109 105 109 117 115 110 111 99 116 101 101 116 99 111 110 115 117 109 105 109 117 114 105 103 110 105)];
@@ -25,7 +25,7 @@ skolem:lemma1 a r:Inference;
 skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            ("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) log:herbrand true.
+            ("atom_codes" "ingirumimusnocteetconsumimurigni" var:x_0) log:herbrandInterpretation true.
             (var:x_0) :palindrome true.
         } => {
             "ingirumimusnocteetconsumimurigni" a :Palindrome.
