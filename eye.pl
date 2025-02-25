@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.6 (2025-02-25)').
+version_info('EYE v11.9.7 (2025-02-25)').
 
 license_info('MIT License
 
@@ -154,6 +154,7 @@ eye
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
 :- dynamic(nonl/0).
+:- dynamic(no_scope/0).
 :- dynamic(ns/2).
 :- dynamic(parsed_as_n3/2).
 :- dynamic(pass_only_new/1).
@@ -1692,10 +1693,14 @@ tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#implies>\''(X, Y)|Z], Src, Mode) 
 tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     !,
     tr_tr(Y, U),
+    (   got_table(_)
+    ->  V = setup_call_cleanup(assertz(no_scope), X, retract(no_scope))
+    ;   V = X
+    ),
     (   atomic(X),
         atomic(Y)
-    ->  write('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\''(U, X))
-    ;   write(':-'(U, X))
+    ->  write('\'<http://www.w3.org/2000/10/swap/log#isImpliedBy>\''(U, V))
+    ;   write(':-'(U, V))
     ),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
@@ -11642,6 +11647,9 @@ cnt(A, I) :-
     ;   true
     ).
 
+within_scope(_) :-
+    no_scope,
+    !.
 within_scope([A, B]) :-
     (   var(B)
     ->  B = 1
