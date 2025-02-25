@@ -13,7 +13,7 @@
     ?SCOPE e:call {
         ("if_then_else"
             {
-                ("nb_getval" "fnet" "done") log:herbrandInterpretation true.
+                ("nb_getval" "fnet" "done") log:herbrandModel true.
             }
             true
             {
@@ -23,15 +23,15 @@
                         () fgcm:expandClosureGsigma true.
                         (?UnknownVar) fgcm:handleUnknownVariables true.
                         (?A 1) fgcm:iterate ?IterationsNeeded.
-                        ("nb_setval" "IterationsNeeded" ?IterationsNeeded) log:herbrandInterpretation true.
+                        ("nb_setval" "IterationsNeeded" ?IterationsNeeded) log:herbrandModel true.
                     }
                     {
-                        ("nb_setval" "fnet" "done") log:herbrandInterpretation true.
+                        ("nb_setval" "fnet" "done") log:herbrandModel true.
                     }
-                ) log:herbrandInterpretation true
+                ) log:herbrandModel true
             }
-        ) log:herbrandInterpretation true.
-        ("nb_getval" "IterationsNeeded" ?IterationsNeeded) log:herbrandInterpretation true.
+        ) log:herbrandModel true.
+        ("nb_getval" "IterationsNeeded" ?IterationsNeeded) log:herbrandModel true.
         ?A fgcm:gpi (?B ?MembershipLower ?MembershipUpper ?IterationsNeeded).
         ("if_then_else"
             {
@@ -45,7 +45,7 @@
                 ?C1 log:equalTo ?MembershipLower.
                 ?C2 log:equalTo ?MembershipUpper.
             }
-        ) log:herbrandInterpretation true.
+        ) log:herbrandModel true.
     }
 }.
 
@@ -54,7 +54,7 @@
     ?SCOPE e:call {
         ("if_then_else"
             {
-                ("nb_getval" "fnet" "done") log:herbrandInterpretation true.
+                ("nb_getval" "fnet" "done") log:herbrandModel true.
             }
             true
             {
@@ -64,15 +64,15 @@
                         () fgcm:expandClosureGsigma true.
                         (?UnknownVar) fgcm:handleUnknownVariables true.
                         (?A 1) fgcm:iterate ?IterationsNeeded.
-                        ("nb_setval" "IterationsNeeded" ?IterationsNeeded) log:herbrandInterpretation true.
+                        ("nb_setval" "IterationsNeeded" ?IterationsNeeded) log:herbrandModel true.
                     }
                     {
-                        ("nb_setval" "fnet" "done") log:herbrandInterpretation true.
+                        ("nb_setval" "fnet" "done") log:herbrandModel true.
                     }
-                ) log:herbrandInterpretation true
+                ) log:herbrandModel true
             }
-        ) log:herbrandInterpretation true.
-        ("nb_getval" "IterationsNeeded" ?IterationsNeeded) log:herbrandInterpretation true.
+        ) log:herbrandModel true.
+        ("nb_getval" "IterationsNeeded" ?IterationsNeeded) log:herbrandModel true.
         ?A fgcm:gpi (?B ?MembershipLower ?MembershipUpper ?IterationsNeeded).
         ("if_then_else"
             {
@@ -84,7 +84,7 @@
             {
                 (?MembershipLower ?MembershipUpper) fgcm:whitenize ?C.
             }
-        ) log:herbrandInterpretation true.
+        ) log:herbrandModel true.
     }
 }.
 
@@ -105,12 +105,12 @@
                 }
                 true
                 {
-                    ("assertz" {(?X) fgcm:fm true}) log:herbrandInterpretation true.
+                    ("assertz" {(?X) fgcm:fm true}) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
-            ("assertz" {?X fgcm:gpi (?Y ?Z ?Q 0)}) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
+            ("assertz" {?X fgcm:gpi (?Y ?Z ?Q 0)}) log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #Setup model
@@ -127,32 +127,32 @@
                 }
                 true
                 {
-                    ("assertz" {(?X) fgcm:fs true}) log:herbrandInterpretation true.
+                    ("assertz" {(?X) fgcm:fs true}) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
             ("if_then_else"
                 {
                     (?Y) fgcm:fs true.
                 }
                 true
                 {
-                    ("assertz" {(?Y) fgcm:fs true}) log:herbrandInterpretation true.
+                    ("assertz" {(?Y) fgcm:fs true}) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 {(?UnknownVar) fgcm:handleUnknownVariables true} <= {
     ("if_then_else"
         {
-            ("=" ?UnknownVar true) log:herbrandInterpretation true.
+            ("=" ?UnknownVar true) log:herbrandModel true.
         }
         {
             () fgcm:assignUnknownVariables true.
         }
         true
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #If variable value unknown, initialize value as [0,1]
@@ -171,11 +171,11 @@
                 }
                 true
                 {
-                    ("assertz" {?Observable fgcm:gpi (?Node 0.0 1.0 0)}) log:herbrandInterpretation true.
+                    ("assertz" {?Observable fgcm:gpi (?Node 0.0 1.0 0)}) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #Calculates the sum of a list of tuples. eg [(1,1),(2,3)] = (3,4)
@@ -197,7 +197,7 @@
 {
     ("if_then_else"
         {
-            ("=<" ?NbIterations 1000) log:herbrandInterpretation true.
+            ("=<" ?NbIterations 1000) log:herbrandModel true.
         }
         {
             ("_NbIterations-1" ?NbIterations) e:calculate ?PrevNbIterations.
@@ -210,26 +210,26 @@
                 {
                     (?PrevNbIterations ?NbIterations) fgcm:refresh true.
                     (?A ?NbIterations) fgcm:getNodes ?NodesCurrentValue.
-                    ("=" ?Epsilon 0.001) log:herbrandInterpretation true.
+                    ("=" ?Epsilon 0.001) log:herbrandModel true.
                     ("if_then_else"
                         {
                             (?NodesPreviousValue ?NodesCurrentValue ?Epsilon) fgcm:differenceBelowEpsilon true.
                         }
                         {
-                            ("=" ?IterationsNeeded ?NbIterations) log:herbrandInterpretation true.
+                            ("=" ?IterationsNeeded ?NbIterations) log:herbrandModel true.
                         }
                         {
                             ("_NbIterations+1" ?NbIterations) e:calculate ?NewNbIterations.
                             (?A ?NewNbIterations) fgcm:iterate ?IterationsNeeded.
                         }
-                    ) log:herbrandInterpretation true.
+                    ) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
         }
         {
-            ("throw" "Maximum number of iterations (1000) reached") log:herbrandInterpretation true.
+            ("throw" "Maximum number of iterations (1000) reached") log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #Calculates nodes for one iteration. Once all nodes have been processed, method fails.
@@ -256,11 +256,11 @@
             ("_TempEdgeUpper*_TempMembershipLower" ?TempEdgeUpper ?TempMembershipLower) e:calculate ?ProductUL.
             ("_TempEdgeUpper*_TempMembershipUpper" ?TempEdgeUpper ?TempMembershipUpper) e:calculate ?ProductUU.
 
-            ("min_list" (?ProductLL ?ProductLU ?ProductUL ?ProductUU) ?MinProduct) log:herbrandInterpretation true.
-            ("max_list" (?ProductLL ?ProductLU ?ProductUL ?ProductUU) ?MaxProduct) log:herbrandInterpretation true.
+            ("min_list" (?ProductLL ?ProductLU ?ProductUL ?ProductUU) ?MinProduct) log:herbrandModel true.
+            ("max_list" (?ProductLL ?ProductLU ?ProductUL ?ProductUU) ?MaxProduct) log:herbrandModel true.
         }
         ?L
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 
     ("if_then_else"
         {
@@ -271,10 +271,10 @@
             (?L (0 0)) fgcm:tupleSum (?S1 ?S2).
             ("1/(1+exp(-_S1))" ?S1) e:calculate ?Z1.
             ("1/(1+exp(-_S2))" ?S2) e:calculate ?Z2.
-            ("assertz" {?Observable fgcm:gpi (?Node ?Z1 ?Z2 ?NbIterations)}) log:herbrandInterpretation true.
+            ("assertz" {?Observable fgcm:gpi (?Node ?Z1 ?Z2 ?NbIterations)}) log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
-    ("fail") log:herbrandInterpretation true.
+    ) log:herbrandModel true.
+    ("fail") log:herbrandModel true.
 }.
 
 #If node has been given a new value current iteration, nothing happens
@@ -291,7 +291,7 @@
                     ?Observable fgcm:gpi (?Node ?MembershipLower ?MembershipUpper ?Cur).
                 }
                 {
-                    ("retractall" {?Observable fgcm:gpi (?Node ?V1 ?V2 ?Prev)}) log:herbrandInterpretation true.
+                    ("retractall" {?Observable fgcm:gpi (?Node ?V1 ?V2 ?Prev)}) log:herbrandModel true.
                 }
                 {
                     ("if_then_else"
@@ -299,17 +299,17 @@
                             ?Observable fgcm:gpi (?Node ?MembershipLower ?MembershipUpper ?Prev).
                         }
                         {
-                            ("assertz" {?Observable fgcm:gpi (?Node ?MembershipLower ?MembershipUpper ?Cur)}) log:herbrandInterpretation true.
-                            ("retractall" {?Observable fgcm:gpi (?Node ?V1 ?V2 ?Prev)}) log:herbrandInterpretation true.
+                            ("assertz" {?Observable fgcm:gpi (?Node ?MembershipLower ?MembershipUpper ?Cur)}) log:herbrandModel true.
+                            ("retractall" {?Observable fgcm:gpi (?Node ?V1 ?V2 ?Prev)}) log:herbrandModel true.
                         }
                         {
                         }
-                    ) log:herbrandInterpretation true.
+                    ) log:herbrandModel true.
                 }
-            ) log:herbrandInterpretation true.
+            ) log:herbrandModel true.
 
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #Retrieves all nodes of given iteration
@@ -321,7 +321,7 @@
             ?A fgcm:gpi (?V1 ?MembershipLower ?MembershipUpper ?NbIterations).
         }
         ?Nodes #Sequence of nodes will be the same every iteration so no need to remember which node belongs to which lower & upper membership
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 }.
 
 #Returns true if difference between two given lists is less than given epsilon
@@ -331,8 +331,8 @@
     ?H2s e:firstRest ((?H2LowerMembership ?H2UpperMembership) ()).
     (?H1LowerMembership ?H2LowerMembership) fgcm:absoluteSubtraction ?LowerSubtraction.
     (?H1UpperMembership ?H2UpperMembership) fgcm:absoluteSubtraction ?UpperSubtraction.
-    ("=<" ?LowerSubtraction ?Epsilon) log:herbrandInterpretation true.
-    ("=<" ?UpperSubtraction ?Epsilon) log:herbrandInterpretation true.
+    ("=<" ?LowerSubtraction ?Epsilon) log:herbrandModel true.
+    ("=<" ?UpperSubtraction ?Epsilon) log:herbrandModel true.
 }.
 
 {(?H1s ?H2s ?Epsilon) fgcm:differenceBelowEpsilon ?Result} <=
@@ -345,16 +345,16 @@
     (?H1UpperMembership ?H2UpperMembership) fgcm:absoluteSubtraction ?UpperSubtraction.
     ("if_then_else"
         {
-            ("=<" ?LowerSubtraction ?Epsilon) log:herbrandInterpretation true.
-            ("=<" ?UpperSubtraction ?Epsilon) log:herbrandInterpretation true.
+            ("=<" ?LowerSubtraction ?Epsilon) log:herbrandModel true.
+            ("=<" ?UpperSubtraction ?Epsilon) log:herbrandModel true.
         }
         {
             (?T1 ?T2 ?Epsilon) fgcm:differenceBelowEpsilon ?Result.
         }
         {
-            ("=" ?Result false) log:herbrandInterpretation true.
+            ("=" ?Result false) log:herbrandModel true.
         }
-    ) log:herbrandInterpretation true.
+    ) log:herbrandModel true.
 
 }.
 
