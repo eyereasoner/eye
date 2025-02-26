@@ -82,7 +82,7 @@ skolem:lemma1 a r:Inference;
     };
     r:evidence (
         [ a r:Fact; r:gives {("consult" "./evolutionary-algorithm.pl") log:herbrand true}]
-        [ a r:Fact; r:gives {("seed(_S)" 12) log:getTerm "seed(12)"}]
+        [ a r:Fact; r:gives {("seed(_S)" 12) log:term "seed(12)"}]
         [ a r:Fact; r:gives {("set_random" "seed(12)") log:herbrand true}]
         [ a r:Fact; r:gives {"METHINKS IT IS LIKE A WEASEL" :solve true}]
     );
@@ -93,7 +93,7 @@ skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
             ("consult" "./evolutionary-algorithm.pl") log:herbrand true.
-            ("seed(_S)" 12) log:getTerm var:x_0.
+            ("seed(_S)" 12) log:term var:x_0.
             ("set_random" var:x_0) log:herbrand true.
             "METHINKS IT IS LIKE A WEASEL" :solve true.
         } => {
