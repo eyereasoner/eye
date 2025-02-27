@@ -18,7 +18,7 @@ skolem:lemma1 a r:Inference;
         (2 1 7 5 8 6 4 3) :hamiltonianPath true.
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./hamiltonian-path.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("consult" "./hamiltonian-path.pl") log:core true}]
         [ a r:Fact; r:gives {(2 1 7 5 8 6 4 3) :hamiltonianPath true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (2 1 7 5 8 6 4 3)];
@@ -29,7 +29,7 @@ skolem:lemma2 a r:Inference;
         (2 7 5 8 6 4 3 1) :hamiltonianPath true.
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./hamiltonian-path.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("consult" "./hamiltonian-path.pl") log:core true}]
         [ a r:Fact; r:gives {(2 7 5 8 6 4 3 1) :hamiltonianPath true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (2 7 5 8 6 4 3 1)];
@@ -38,7 +38,7 @@ skolem:lemma2 a r:Inference;
 skolem:lemma3 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            ("consult" "./hamiltonian-path.pl") log:herbrand true.
+            ("consult" "./hamiltonian-path.pl") log:core true.
             var:x_0 :hamiltonianPath true.
         } => {
             var:x_0 :hamiltonianPath true.

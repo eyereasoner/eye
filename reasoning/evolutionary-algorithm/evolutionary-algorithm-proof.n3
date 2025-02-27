@@ -81,9 +81,9 @@ skolem:lemma1 a r:Inference;
         "METHINKS IT IS LIKE A WEASEL" :solve true.
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./evolutionary-algorithm.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("consult" "./evolutionary-algorithm.pl") log:core true}]
         [ a r:Fact; r:gives {("seed(_S)" 12) log:term "seed(12)"}]
-        [ a r:Fact; r:gives {("set_random" "seed(12)") log:herbrand true}]
+        [ a r:Fact; r:gives {("set_random" "seed(12)") log:core true}]
         [ a r:Fact; r:gives {"METHINKS IT IS LIKE A WEASEL" :solve true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "seed(12)"];
@@ -92,9 +92,9 @@ skolem:lemma1 a r:Inference;
 skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            ("consult" "./evolutionary-algorithm.pl") log:herbrand true.
+            ("consult" "./evolutionary-algorithm.pl") log:core true.
             ("seed(_S)" 12) log:term var:x_0.
-            ("set_random" var:x_0) log:herbrand true.
+            ("set_random" var:x_0) log:core true.
             "METHINKS IT IS LIKE A WEASEL" :solve true.
         } => {
             "METHINKS IT IS LIKE A WEASEL" :solve true.

@@ -9,36 +9,36 @@
 
 {?P :pickup true} <= {
     ?P :chopstick (?L ?R).
-    ("mutex_lock" ?L) log:herbrand true.
-    ("mutex_lock" ?R) log:herbrand true.
+    ("mutex_lock" ?L) log:core true.
+    ("mutex_lock" ?R) log:core true.
 }.
 
 {?P :putdown true} <= {
     ?P :chopstick (?L ?R).
-    ("mutex_unlock" ?R) log:herbrand true.
-    ("mutex_unlock" ?L) log:herbrand true.
+    ("mutex_unlock" ?R) log:core true.
+    ("mutex_unlock" ?L) log:core true.
 }.
 
 {?P :run (?T ?S)} <= {
-    ("sleep" ?T) log:herbrand true.
-    #("format" "# ~w thinking for ~w seconds~n" (?P ?T)) log:herbrand true.
+    ("sleep" ?T) log:core true.
+    #("format" "# ~w thinking for ~w seconds~n" (?P ?T)) log:core true.
     ?P :pickup true.
-    ("sleep" ?S) log:herbrand true.
-    #("format" "# ~w eating for ~w seconds~n" (?P ?S)) log:herbrand true.
+    ("sleep" ?S) log:core true.
+    #("format" "# ~w eating for ~w seconds~n" (?P ?S)) log:core true.
     ?P :putdown true.
 }.
 
 {
-    ("thread_create" {:person1 :run (0.100 0.100)} ?A ()) log:herbrand true.
-    ("thread_create" {:person2 :run (0.200 0.200)} ?B ()) log:herbrand true.
-    ("thread_create" {:person3 :run (0.300 0.300)} ?C ()) log:herbrand true.
-    ("thread_create" {:person4 :run (0.250 0.200)} ?D ()) log:herbrand true.
-    ("thread_create" {:person5 :run (0.025 0.100)} ?E ()) log:herbrand true.
-    ("thread_join" ?A ?F) log:herbrand true.
-    ("thread_join" ?B ?G) log:herbrand true.
-    ("thread_join" ?C ?H) log:herbrand true.
-    ("thread_join" ?D ?I) log:herbrand true.
-    ("thread_join" ?E ?J) log:herbrand true.
+    ("thread_create" {:person1 :run (0.100 0.100)} ?A ()) log:core true.
+    ("thread_create" {:person2 :run (0.200 0.200)} ?B ()) log:core true.
+    ("thread_create" {:person3 :run (0.300 0.300)} ?C ()) log:core true.
+    ("thread_create" {:person4 :run (0.250 0.200)} ?D ()) log:core true.
+    ("thread_create" {:person5 :run (0.025 0.100)} ?E ()) log:core true.
+    ("thread_join" ?A ?F) log:core true.
+    ("thread_join" ?B ?G) log:core true.
+    ("thread_join" ?C ?H) log:core true.
+    ("thread_join" ?D ?I) log:core true.
+    ("thread_join" ?E ?J) log:core true.
 } => {
     :all :got :dinner.
 }.

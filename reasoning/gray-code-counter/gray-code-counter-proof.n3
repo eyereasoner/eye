@@ -16,7 +16,7 @@ skolem:lemma1 a r:Inference;
         ((1 1 1 1 1 1 1 1 1) (0 0 0)) :gcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1)).
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./gray-code-counter.pl") log:herbrand true}]
+        [ a r:Fact; r:gives {("consult" "./gray-code-counter.pl") log:core true}]
         [ a r:Fact; r:gives {((1 1 1 1 1 1 1 1 1) (0 0 0)) :gcc ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((0 0 1) (0 1 1) (0 1 0) (1 1 0) (1 1 1) (1 0 1) (1 0 0) (0 0 0) (0 0 1))];
@@ -25,7 +25,7 @@ skolem:lemma1 a r:Inference;
 skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            ("consult" "./gray-code-counter.pl") log:herbrand true.
+            ("consult" "./gray-code-counter.pl") log:core true.
             ((1 1 1 1 1 1 1 1 1) (0 0 0)) :gcc var:x_0.
         } => {
             ((1 1 1 1 1 1 1 1 1) (0 0 0)) :gcc var:x_0.
