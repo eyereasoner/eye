@@ -3,9 +3,10 @@
 @prefix : <https://eyereasoner.github.io/ns#>.
 
 {
+    ("consult" "./collatz.pl") log:core true.
     10000 log:repeat ?N0.
     (?N0 1) math:sum ?N.
-    ?N :collatz (1 ?M).
+    ?N :collatz ?M.
 } => {
-    ?N :collatz (1 ?M).
+    ?N :collatz ?M.
 }.
