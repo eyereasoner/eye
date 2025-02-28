@@ -1,17 +1,21 @@
 % Newton-Raphson method
 
-% function f(X) = X^2 - 2
-f(X, Y) :- Y is X*X - 2.
+% functions
+f(1, X, Y) :- Y is X*X - 2.
+f(2, X, Y) :- Y is log(X) - 1.
+f(3, X, Y) :- Y is sin(X).
 
-% derivative f'(X) = 2X
-f_derivative(X, Y) :- Y is 2*X.
+% function derivatives
+fd(1, X, Y) :- Y is 2*X.
+fd(2, X, Y) :- Y is 1/X.
+fd(3, X, Y) :- Y is cos(X).
 
 % Newton-Raphson iteration
-'<https://eyereasoner.github.io/ns#findRoot>'([X, Tolerance], Root) :-
-    f(X, FX),
-    f_derivative(X, FDX),
+'<https://eyereasoner.github.io/ns#findRoot>'([N, X, Tolerance], Root) :-
+    f(N, X, FX),
+    fd(N, X, FDX),
     (   abs(FX) < Tolerance
     ->  Root = X
     ;   NewX is X - FX/FDX,
-        '<https://eyereasoner.github.io/ns#findRoot>'([NewX, Tolerance], Root)
+        '<https://eyereasoner.github.io/ns#findRoot>'([N, NewX, Tolerance], Root)
     ).
