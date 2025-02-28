@@ -3,7 +3,8 @@
 @prefix : <https://eyereasoner.github.io/ns#>.
 
 {
-    37 log:repeat ?I.
+   ("consult" "./goldbach.pl") log:core true.
+     37 log:repeat ?I.
     (2 ?I) math:exponentiation ?N.
     (?N 2) math:remainder 0.
     ?N :goldbach (?P1 ?P2).
