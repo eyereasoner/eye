@@ -1,0 +1,52 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :joe :is _:sk_0.
+        ("good(_X)" :Cobbler) log:term _:sk_0.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :joe :is _:sk_0.
+        ("good(_X)" :Cobbler) log:term _:sk_0.
+    };
+    r:evidence (
+        skolem:lemma2
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/ns#joe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "https://eyereasoner.github.io/ns#Cobbler"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        :joe :is skolem:e_2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/good-cobbler/cobbler.n3>].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        ("good(_X)" :Cobbler) log:term skolem:e_2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/good-cobbler/cobbler.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. @forSome var:x_3. {
+            var:x_0 :is var:x_1.
+            ("good(_X)" var:x_2) log:term var:x_1.
+        } => {
+            var:x_0 :is var:x_3.
+            ("good(_X)" var:x_2) log:term var:x_3.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/good-cobbler/cobbler-query.n3>].
+
