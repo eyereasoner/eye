@@ -1,0 +1,263 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:gives {
+        "-a" :propositionProver "+to_be # -to_be".
+        "-a & -a" :propositionProver "-a".
+        "-a" :propositionProver "+b # -a".
+        "-a & -b" :propositionProver "-b & -a".
+        "-a" :propositionProver "-b # (+b & -a)".
+        "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+        "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+        "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        "-a" :propositionProver "+to_be # -to_be".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a" :propositionProver "+to_be # -to_be".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a" :propositionProver "+to_be # -to_be".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        "-a & -a" :propositionProver "-a".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a & -a" :propositionProver "-a".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a & -a" :propositionProver "-a".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a & -a" :propositionProver "-a".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        "-a" :propositionProver "+b # -a".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a" :propositionProver "+b # -a".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+b # -a".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a" :propositionProver "+b # -a".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        "-a & -b" :propositionProver "-b & -a".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a & -b" :propositionProver "-b & -a".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a & -b" :propositionProver "-b & -a".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a & -b" :propositionProver "-b & -a".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        "-a" :propositionProver "-b # (+b & -a)".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a" :propositionProver "-b # (+b & -a)".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "-b # (+b & -a)".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a" :propositionProver "-b # (+b & -a)".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+        }}]
+        [ a r:Fact; r:gives {{
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {{
+            "-a" :propositionProver "+to_be # -to_be".
+            "-a & -a" :propositionProver "-a".
+            "-a" :propositionProver "+b # -a".
+            "-a & -b" :propositionProver "-b & -a".
+            "-a" :propositionProver "-b # (+b & -a)".
+            "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+            "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } graph:member {
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        }}]
+        [ a r:Fact; r:gives {{
+            "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+        } log:call true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+    }];
+    r:rule skolem:lemma9.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            ("consult" "./proposition-prover.pl") log:core true.
+            {
+                "-a" :propositionProver "+to_be # -to_be".
+                "-a & -a" :propositionProver "-a".
+                "-a" :propositionProver "+b # -a".
+                "-a & -b" :propositionProver "-b & -a".
+                "-a" :propositionProver "-b # (+b & -a)".
+                "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+                "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+                "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+            } graph:member var:x_0.
+            var:x_0 log:call true.
+        } => var:x_0.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/proposition-prover/proposition-prover-query.n3>].
+
