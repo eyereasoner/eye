@@ -31,7 +31,7 @@ skolem:lemma1 a r:Inference;
         "-a" :propositionProver "+to_be # -to_be".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -58,7 +58,7 @@ skolem:lemma2 a r:Inference;
         "-a & -a" :propositionProver "-a".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -85,7 +85,7 @@ skolem:lemma3 a r:Inference;
         "-a" :propositionProver "+b # -a".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -112,7 +112,7 @@ skolem:lemma4 a r:Inference;
         "-a & -b" :propositionProver "-b & -a".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -139,7 +139,7 @@ skolem:lemma5 a r:Inference;
         "-a" :propositionProver "-b # (+b & -a)".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -166,7 +166,7 @@ skolem:lemma6 a r:Inference;
         "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -193,7 +193,7 @@ skolem:lemma7 a r:Inference;
         "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -220,7 +220,7 @@ skolem:lemma8 a r:Inference;
         "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:core true}]
+        [ a r:Fact; r:gives {("consult" "./proposition-prover.pl") log:program true}]
         [ a r:Fact; r:gives {{
             "-a" :propositionProver "+to_be # -to_be".
             "-a & -a" :propositionProver "-a".
@@ -245,7 +245,7 @@ skolem:lemma8 a r:Inference;
 skolem:lemma9 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            ("consult" "./proposition-prover.pl") log:core true.
+            ("consult" "./proposition-prover.pl") log:program true.
             {
                 "-a" :propositionProver "+to_be # -to_be".
                 "-a & -a" :propositionProver "-a".

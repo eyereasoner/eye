@@ -7,18 +7,18 @@
 
 # workplace data generation
 {(?F ?N) :gen true} <= {
-    ("open" ?F "write" ?FD) log:core true.
-    ("tell" ?FD) log:core true.
-    ("format" "@prefix : <https://eyereasoner.github.io/ns#>.~n~n" ()) log:core true.
-    ("between" 1 ?N ?I) log:core true.
-    ("format" ":alice~d :does :log_off_at_end_of_shift.~n" (?I)) log:core true.
-    ("format" ":bob~d :does :work_related_task.~n" (?I)) log:core true.
-    ("format" ":bob~d :does :log_off_at_end_of_shift.~n" (?I)) log:core true.
-    ("format" ":carol~d :does :access_social_media.~n" (?I)) log:core true.
-    ("fail") log:core true.
+    ("open" ?F "write" ?FD) log:program true.
+    ("tell" ?FD) log:program true.
+    ("format" "@prefix : <https://eyereasoner.github.io/ns#>.~n~n" ()) log:program true.
+    ("between" 1 ?N ?I) log:program true.
+    ("format" ":alice~d :does :log_off_at_end_of_shift.~n" (?I)) log:program true.
+    ("format" ":bob~d :does :work_related_task.~n" (?I)) log:program true.
+    ("format" ":bob~d :does :log_off_at_end_of_shift.~n" (?I)) log:program true.
+    ("format" ":carol~d :does :access_social_media.~n" (?I)) log:program true.
+    ("fail") log:program true.
 }.
 {(?F ?N) :gen true} <= {
-    ("told") log:core true.
+    ("told") log:program true.
 }.
 
 # immediate goal

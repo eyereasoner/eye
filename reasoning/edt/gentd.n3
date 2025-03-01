@@ -7,19 +7,19 @@
 
 # graph generation
 {(?F ?N) :graphgen true} <= {
-    ("open" ?F "write" ?FD) log:core true.
-    ("tell" ?FD) log:core true.
-    ("format" "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.~n" ()) log:core true.
-    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) log:core true.
-    ("between" 1 ?N ?I) log:core true.
+    ("open" ?F "write" ?FD) log:program true.
+    ("tell" ?FD) log:program true.
+    ("format" "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.~n" ()) log:program true.
+    ("format" "@prefix : <http://eulersharp.sourceforge.net/2009/12dtb/test#>.~n~n" ()) log:program true.
+    ("between" 1 ?N ?I) log:program true.
     ("_I-1" ?I) e:calculate ?J.
-    ("format" ":N~d rdfs:subClassOf :N~d.~n" (?J ?I)) log:core true.
-    ("format" ":N~d rdfs:subClassOf :I~d.~n" (?J ?I)) log:core true.
-    ("format" ":N~d rdfs:subClassOf :J~d.~n" (?J ?I)) log:core true.
-    ("fail") log:core true.
+    ("format" ":N~d rdfs:subClassOf :N~d.~n" (?J ?I)) log:program true.
+    ("format" ":N~d rdfs:subClassOf :I~d.~n" (?J ?I)) log:program true.
+    ("format" ":N~d rdfs:subClassOf :J~d.~n" (?J ?I)) log:program true.
+    ("fail") log:program true.
 }.
 {(?F ?N) :graphgen true} <= {
-    ("told") log:core true.
+    ("told") log:program true.
 }.
 
 # immediate goal

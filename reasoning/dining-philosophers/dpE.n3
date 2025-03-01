@@ -27,24 +27,24 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         [ a r:Fact; r:gives {("thread_create" {
             :person1 :run (0.1 0.1).
-        } skolem:t_0 ()) log:core true}]
+        } skolem:t_0 ()) log:program true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person2 :run (0.2 0.2).
-        } skolem:t_1 ()) log:core true}]
+        } skolem:t_1 ()) log:program true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person3 :run (0.3 0.3).
-        } skolem:t_2 ()) log:core true}]
+        } skolem:t_2 ()) log:program true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person4 :run (0.25 0.2).
-        } skolem:t_3 ()) log:core true}]
+        } skolem:t_3 ()) log:program true}]
         [ a r:Fact; r:gives {("thread_create" {
             :person5 :run (0.025 0.1).
-        } skolem:t_4 ()) log:core true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_0 true) log:core true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_1 true) log:core true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_2 true) log:core true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_3 true) log:core true}]
-        [ a r:Fact; r:gives {("thread_join" skolem:t_4 true) log:core true}]
+        } skolem:t_4 ()) log:program true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_0 true) log:program true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_1 true) log:program true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_2 true) log:program true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_3 true) log:program true}]
+        [ a r:Fact; r:gives {("thread_join" skolem:t_4 true) log:program true}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo skolem:t_0];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo skolem:t_1];
@@ -73,24 +73,24 @@ skolem:lemma4 a r:Extraction;
         @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8, var:x_9. {
             ("thread_create" {
                 :person1 :run (0.1 0.1).
-            } var:x_0 ()) log:core true.
+            } var:x_0 ()) log:program true.
             ("thread_create" {
                 :person2 :run (0.2 0.2).
-            } var:x_1 ()) log:core true.
+            } var:x_1 ()) log:program true.
             ("thread_create" {
                 :person3 :run (0.3 0.3).
-            } var:x_2 ()) log:core true.
+            } var:x_2 ()) log:program true.
             ("thread_create" {
                 :person4 :run (0.25 0.2).
-            } var:x_3 ()) log:core true.
+            } var:x_3 ()) log:program true.
             ("thread_create" {
                 :person5 :run (0.025 0.1).
-            } var:x_4 ()) log:core true.
-            ("thread_join" var:x_0 var:x_5) log:core true.
-            ("thread_join" var:x_1 var:x_6) log:core true.
-            ("thread_join" var:x_2 var:x_7) log:core true.
-            ("thread_join" var:x_3 var:x_8) log:core true.
-            ("thread_join" var:x_4 var:x_9) log:core true.
+            } var:x_4 ()) log:program true.
+            ("thread_join" var:x_0 var:x_5) log:program true.
+            ("thread_join" var:x_1 var:x_6) log:program true.
+            ("thread_join" var:x_2 var:x_7) log:program true.
+            ("thread_join" var:x_3 var:x_8) log:program true.
+            ("thread_join" var:x_4 var:x_9) log:program true.
         } => {
             :all :got :dinner.
         }.
