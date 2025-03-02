@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.11 (2025-03-02)').
+version_info('EYE v11.9.12 (2025-03-02)').
 
 license_info('MIT License
 
@@ -7895,6 +7895,11 @@ userInput(A, B) :-
     ;   \+catch(call(D), _, fail)
     ).
 
+'<http://www.w3.org/2000/10/swap/log#programTerm>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
+    \+flag(restricted),
+    atomify(B, D),
+    read_term_from_atom(A, C, [variables(D)]).
+
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
         (   nonvar(A)
@@ -8073,11 +8078,6 @@ userInput(A, B) :-
     ->  assertz(keep_skolem(Y))
     ;   true
     ).
-
-'<http://www.w3.org/2000/10/swap/log#term>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
-    \+flag(restricted),
-    atomify(B, D),
-    read_term_from_atom(A, C, [variables(D)]).
 
 '<http://www.w3.org/2000/10/swap/log#trace>'(X, Y) :-
     tell(user_error),
