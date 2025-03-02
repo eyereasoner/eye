@@ -1,7 +1,7 @@
 % Kaprekar's constant
 
 % recursive case till 6174 is reached
-'<https://eyereasoner.github.io/ns#kaprekar-constant>'(A, B, C) :-
+'<https://eyereasoner.github.io/ns#kaprekar-constant>'(A, [B, C]) :-
     A =\= 0,
     '<https://eyereasoner.github.io/ns#numberToDigits>'(A, D),
     keysort(D, E),
@@ -12,7 +12,7 @@
     J is B+1,
     (   I =:= 6174
     ->  C = J
-    ;   '<https://eyereasoner.github.io/ns#kaprekar-constant>'(I, J, C)
+    ;   '<https://eyereasoner.github.io/ns#kaprekar-constant>'(I, [J, C])
     ).
 
 % convert 4 digit number to digits
@@ -30,4 +30,4 @@
 
 % recursion count
 '<https://eyereasoner.github.io/ns#recursionCount>'(I, J) :-
-    '<https://eyereasoner.github.io/ns#kaprekar-constant>'(I, 0, J).
+    '<https://eyereasoner.github.io/ns#kaprekar-constant>'(I, [0, J]).
