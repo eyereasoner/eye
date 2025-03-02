@@ -2,7 +2,8 @@
 @prefix : <https://eyereasoner.github.io/ns#>.
 
 {
-    10000 log:repeat ?I.
+    ("consult" "./kaprekar-constant.pl") log:program true.
+    ("between" 0 9999 ?I) log:program true.
     ?I :recursionCount ?N.
 } => {
     ?I :recursionCount ?N.
