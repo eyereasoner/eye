@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.12 (2025-03-02)').
+version_info('EYE v11.9.13 (2025-03-03)').
 
 license_info('MIT License
 
@@ -5173,8 +5173,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                 ->  \+last(L, getterm(_, _))
                 ;   true
                 ),
-                \+pass_only_new(Dn)
-            ->  assertz(pass_only_new(Dn))
+                copy_term_nat(Dn, CC),
+                numbervars(CC),
+                \+cc(CC)
+            ->  assertz(cc(CC)),
+                assertz(pass_only_new(Dn))
             ;   true
             ),
             (   flag(nope)
@@ -5204,6 +5207,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
             ;   true
             ),
             (   Cn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
+                Cn \= ':-'(_, _),
                 catch(call(Cn), _, fail)
             ->  true
             ;   djiti_assertz(Cn),
@@ -5214,8 +5218,11 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
                     ->  \+last(L, getterm(_, _))
                     ;   true
                     ),
-                    \+pass_only_new(Cn)
-                ->  assertz(pass_only_new(Cn))
+                    copy_term_nat(Cn, CC),
+                    numbervars(CC),
+                    \+cc(CC)
+                ->  assertz(cc(CC)),
+                    assertz(pass_only_new(Cn))
                 ;   true
                 ),
                 (   flag(nope)
@@ -5303,6 +5310,10 @@ djiti_answer(answer(A), answer(A, void, void)) :-
     !.
 djiti_answer(A, A).
 
+djiti_conc((A, B), (C, D)) :-
+    djiti_conc(A, C),
+    djiti_conc(B, D),
+    !.
 djiti_conc(':-'(exopred(P, S, O), B), ':-'(A, B)) :-
     !,
     A =.. [P, S, O].
