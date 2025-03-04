@@ -7,7 +7,7 @@ if [ $# -lt 2 ] ; then
 fi
 
 # change working directory
-pushd ~/github.com/eyereasoner/eye
+pushd ~/github.com/eyereasoner/eye > /dev/null
 
 # the following is adapted from https://gist.github.com/codezninja/c227d9c65b09d2be2d99abbfcfa8774a
 while getopts "Mmp" Option
@@ -82,4 +82,5 @@ git push origin $RELEASE
 # cleanup temporary files
 rm /tmp/eye.zip
 rm -fr /tmp/eye
-popd
+
+popd > /dev/null
