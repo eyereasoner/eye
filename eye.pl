@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.13 (2025-03-03)').
+version_info('EYE v11.9.14 (2025-03-04)').
 
 license_info('MIT License
 
@@ -120,6 +120,7 @@ eye
 :- dynamic(bref/2).
 :- dynamic(bvar/1).
 :- dynamic(cc/1).
+:- dynamic(ccd/1).
 :- dynamic(closure/1).
 :- dynamic(cpred/1).
 :- dynamic(data_fuse/0).
@@ -5059,8 +5060,11 @@ eam(Recursion) :-
         cnt(tp),
         djiti_conc(Conc, Concd),
         conj_list(Concd, Concda),
-        (   select(':-'(Head, Body), Concda, _)
-        ->  \+clause(Head, Body)
+        (   select(':-'(Head, Body), Concda, _),
+            copy_term_nat(':-'(Head, Body), CC),
+            numbervars(CC)
+        ->  \+ccd(CC),
+            assertz(ccd(CC))
         ;   cc(Concda, Concdb),
             conj_list(Concdc, Concdb),
             (   flag('no-ucall')
@@ -5096,7 +5100,9 @@ eam(Recursion) :-
         findall([D, F],
             (   member([D, D], Lc),
                 unify(D, F),
-                (   F = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                (   (   F = '<http://www.w3.org/2000/10/swap/log#implies>'(_, _)
+                    ;   F = ':-'(_, _)
+                    )
                 ->  true
                 ;   catch(\+F, _, true)
                 )
@@ -5163,6 +5169,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ;   true
         ),
         (   Dn \= '<http://www.w3.org/2000/10/swap/log#implies>'(_, _),
+            Dn \= ':-'(_, _),
             catch(call(Dn), _, fail)
         ->  true
         ;   djiti_assertz(Dn),
@@ -5197,6 +5204,7 @@ astep(A, B, Cd, Cn, Rule) :-        % astep(Source, Premise, Conclusion, Conclus
         ->  true
         ;   functor(Cn, P, N),
             (   \+pred(P),
+                P \= ':-',
                 P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#finalize>',
                 P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#relabel>',
                 P \= '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>',
