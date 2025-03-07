@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.9.14 (2025-03-04)').
+version_info('EYE v11.10.0 (2025-03-07)').
 
 license_info('MIT License
 
@@ -2187,7 +2187,7 @@ pathitem(Subject, Triples) -->
 pathitem(Node, Triples) -->
     ['['],
     !,
-    {   gensym('bn_', S),
+    {   gensym('e_', S),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
             ;   flag('pass-all-ground')
