@@ -1,0 +1,12 @@
+# shell command example
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# query
+{
+    10000 log:repeat ?N.
+    "curl -s -H accept:text/turtle https://eyereasoner.github.io/eye/reasoning/n3patch/patched-data.ttl" log:shell ?Out.
+} => {
+    :test :is (?N ?Out).
+}.
