@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.10.0 (2025-03-07)').
+version_info('EYE v11.11.0 (2025-03-11)').
 
 license_info('MIT License
 
@@ -90,6 +90,7 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
+    --arvol <uri>                   webized prolog
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
@@ -364,6 +365,7 @@ argv([Arg|Argvs], [U, V|Argus]) :-
     sub_atom(Arg, B, 1, E, '='),
     sub_atom(Arg, 0, B, _, U),
     memberchk(U, [
+            '--arvol',
             '--csv-separator',
             '--hmac-key',
             '--image',
@@ -422,6 +424,11 @@ gre(Argus) :-
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
+    ;   true
+    ),
+    (   memberchk('--arvol', Args)
+    ->  retractall(flag(arvol)),
+        assertz(flag(arvol))
     ;   true
     ),
     (   flag('skolem-genid', Genid)
@@ -550,7 +557,20 @@ gre(Argus) :-
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
-    ;   catch(eam(0), Exc3,
+    ;   catch(
+            (   eam(0),
+                (   flag(arvol)
+                ->  assertz(closure(0)),
+                    assertz(limit(-1)),
+                    forall(
+                        (Conc :+ Prem),
+                        dynify((Conc :+ Prem))
+                    ),
+                    eam
+                ;   true
+                )
+            ),
+            Exc3,
             (   (   Exc3 = halt(0)
                 ->  true
                 ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
@@ -890,6 +910,7 @@ opts(['--wcache', Argument, File|Argus], Args) :-
     opts(Argus, Args).
 opts([Arg|_], _) :-
     \+memberchk(Arg, [
+            '--arvol',
             '--entail',
             '--help',
             '--n3',
@@ -911,6 +932,47 @@ opts([Arg|Argus], [Arg|Args]) :-
 
 args([]) :-
     !.
+args(['--arvol', Argument|Args]) :-
+    !,
+    cnt(doc_nr),
+    absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   wcacher(Arg, File)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+            flush_output(user_error)
+        ),
+        open(File, read, In, [encoding(utf8)])
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, 'GET ~w ', [Arg]),
+            flush_output(user_error)
+        ),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            File = Arg
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    load_files(File, [stream(In)]),
+    close(In),
+    args(Args).
 args(['--entail', Arg|Args]) :-
     !,
     nb_setval(entail_mode, true),
@@ -1143,7 +1205,8 @@ args(['--trig', Argument|Args]) :-
             ->  format(Out, '~q.~n', [Triple])
             ;   true
             ),
-            (   \+flag(nope)
+            (   \+flag(nope),
+                \+flag(arvol)
             ->  assertz(prfstep(Triple, true, _, Triple, _, forward, R))
             ;   true
             )
@@ -4977,6 +5040,121 @@ indentation(C) :-
     nb_getval(indentation, A),
     B is A+C,
     nb_setval(indentation, B).
+
+% --------------------
+% eye arvol abstract machine
+% --------------------
+%
+% 1/ select rule Conc :+ Prem
+% 2/ prove Prem and if it fails backtrack to 1/
+% 3/ if Conc = true assert answer(Prem)
+%    else if Conc = false stop with return code 2
+%    else if ~Conc assert Conc and retract brake
+% 4/ backtrack to 2/ and if it fails go to 5/
+% 5/ if brake
+%       if not stable start again at 1/
+%       else output answers + proof steps and stop
+%    else assert brake and start again at 1/
+%
+eam :-
+    (   (Conc :+ Prem),                     % 1/
+        copy_term((Conc :+ Prem), Rule),
+        catch(call(Prem), _, fail),         % 2/
+        (   Conc = true                     % 3/
+        ->  (   \+answer(Prem)
+            ->  assertz(answer(Prem))
+            ;   true
+            )
+        ;   (   Conc = false
+            ->  format(':- op(1200, xfx, :+).~n~n'),
+                portray_clause(fuse(Prem)),
+                (   step(_, _, _),
+                    nl
+                ->  forall(step(R, P, C), portray_clause(step(R, P, C)))
+                ;   true
+                ),
+                !,
+                fail
+            ;   (   Conc \= (_ :+ _)
+                ->  skolemize(Conc, 0, _)
+                ;   true
+                ),
+                \+catch(call(Conc), _, fail),
+                astep(Conc),
+                astep(step(Rule, Prem, Conc)),
+                retract(brake)
+            )
+        ),
+        fail                                % 4/
+    ;   (   brake                           % 5/
+        ->  (   closure(Closure),
+                limit(Limit),
+                Closure < Limit,
+                NewClosure is Closure+1,
+                becomes(closure(Closure), closure(NewClosure)),
+                eam
+            ;   format(':- op(1200, xfx, :+).~n~n'),
+                forall(answer(Prem), portray_clause(answer(Prem))),
+                (   \+flag('nope'),
+                    step(_, _, _),
+                    nl
+                ->  forall(step(Rule, Prem, Conc), portray_clause(step(Rule, Prem, Conc)))
+                ;   true
+                )
+            )
+        ;   assertz(brake),
+            eam
+        )
+    ).
+
+% assert new step
+astep((B, C)) :-
+    astep(B),
+    astep(C).
+astep(A) :-
+    (   \+ A
+    ->  assertz(A)
+    ;   true
+    ).
+
+% skolemize
+skolemize(Term, N0, N) :-
+    term_variables(Term, Vars),
+    skolemize_(Vars, N0, N).
+
+skolemize_([], N, N) :-
+    !.
+skolemize_([Sk|Vars], N0, N) :-
+    number_chars(N0, C0),
+    atom_chars(A0, C0),
+    atom_concat('sk_', A0, Sk),
+    N1 is N0+1,
+    skolemize_(Vars, N1, N).
+
+% stable(+Level)
+%   fail if the deductive closure at Level is not yet stable
+stable(Level) :-
+    limit(Limit),
+    (   Limit < Level
+    ->  becomes(limit(Limit), limit(Level))
+    ;   true
+    ),
+    closure(Closure),
+    Level =< Closure.
+
+% linear implication
+becomes(A, B) :-
+    catch(A, _, fail),
+    conj_list(A, C),
+    forall(
+        member(D, C),
+        retract(D)
+    ),
+    conj_list(B, E),
+    forall(
+        member(F, E),
+        assertz(F)
+    ).
 
 % ----------------------------
 % EAM (Euler Abstract Machine)
