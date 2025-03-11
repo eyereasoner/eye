@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.11.0 (2025-03-11)').
+version_info('EYE v11.11.1 (2025-03-11)').
 
 license_info('MIT License
 
@@ -177,7 +177,7 @@ eye
 :- dynamic(semantics/2).
 :- dynamic(shellcache/2).
 :- dynamic(tabl/3).
-:- dynamic(step/3).
+:- dynamic(step/2).
 :- dynamic(tmpfile/1).
 :- dynamic(tuple/2).
 :- dynamic(tuple/3).
@@ -5041,24 +5041,23 @@ indentation(C) :-
     B is A+C,
     nb_setval(indentation, B).
 
-% --------------------
-% eye arvol abstract machine
-% --------------------
+% -----------------
+% eye arvol machine
+% -----------------
 %
 % 1/ select rule Conc :+ Prem
 % 2/ prove Prem and if it fails backtrack to 1/
 % 3/ if Conc = true assert answer(Prem)
-%    else if Conc = false stop with return code 2
+%    else if Conc = false output fuse and steps
 %    else if ~Conc assert Conc and retract brake
 % 4/ backtrack to 2/ and if it fails go to 5/
 % 5/ if brake
 %       if not stable start again at 1/
-%       else output answers + proof steps and stop
+%       else output answers andsteps and stop
 %    else assert brake and start again at 1/
 %
 eam :-
     (   (Conc :+ Prem),                     % 1/
-        copy_term((Conc :+ Prem), Rule),
         catch(call(Prem), _, fail),         % 2/
         (   Conc = true                     % 3/
         ->  (   \+answer(Prem)
@@ -5068,9 +5067,12 @@ eam :-
         ;   (   Conc = false
             ->  format(':- op(1200, xfx, :+).~n~n'),
                 portray_clause(fuse(Prem)),
-                (   step(_, _, _),
+                (   step(_, _),
                     nl
-                ->  forall(step(R, P, C), portray_clause(step(R, P, C)))
+                ->  forall(
+                        step(P, C),
+                        portray_clause(step(P, C))
+                    )
                 ;   true
                 ),
                 !,
@@ -5081,7 +5083,7 @@ eam :-
                 ),
                 \+catch(call(Conc), _, fail),
                 astep(Conc),
-                astep(step(Rule, Prem, Conc)),
+                astep(step(Prem, Conc)),
                 retract(brake)
             )
         ),
@@ -5094,11 +5096,17 @@ eam :-
                 becomes(closure(Closure), closure(NewClosure)),
                 eam
             ;   format(':- op(1200, xfx, :+).~n~n'),
-                forall(answer(Prem), portray_clause(answer(Prem))),
+                forall(
+                    answer(Prem),
+                    portray_clause(answer(Prem))
+                ),
                 (   \+flag('nope'),
-                    step(_, _, _),
+                    step(_, _),
                     nl
-                ->  forall(step(Rule, Prem, Conc), portray_clause(step(Rule, Prem, Conc)))
+                ->  forall(
+                        step(P, C),
+                        portray_clause(step(P, C))
+                    )
                 ;   true
                 )
             )
