@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.11.3 (2025-03-12)').
+version_info('EYE v11.11.4 (2025-03-12)').
 
 license_info('MIT License
 
@@ -244,7 +244,7 @@ run :-
     nb_setval(mf, 0),
     current_prolog_flag(version_data, swi(SV, _, _, _)),
     (   SV < 8
-    ->  format(user_error, '** ERROR ** EYE requires at least swipl version 8 **~n', []),
+    ->  format(user_error, "** ERROR ** EYE requires at least swipl version 8 **~n", []),
         flush_output(user_error),
         throw(halt(1))
     ;   true
@@ -273,14 +273,14 @@ run :-
     append(Argil, Argi),
     version_info(Version),
     (   member('--version', Argus)
-    ->  format(user_error, '~w~n', [Version]),
+    ->  format(user_error, "~w~n", [Version]),
         throw(halt(0))
     ;   true
     ),
     (   member('--quiet', Argus)
     ->  true
-    ;   format(user_error, 'eye~@~@~n', [w0(Argi), w1(Argus)]),
-        format(user_error, '~w~n', [Version]),
+    ;   format(user_error, "eye~@~@~n", [w0(Argi), w1(Argus)]),
+        format(user_error, "~w~n", [Version]),
         (   current_prolog_flag(version_git, PVersion)
         ->  true
         ;   current_prolog_flag(version_data, swi(Major, Minor, Patch, Options)),
@@ -289,7 +289,7 @@ run :-
             ;   atomic_list_concat([Major, '.', Minor, '.', Patch], PVersion)
             )
         ),
-        format(user_error, 'SWI-Prolog version ~w~n', [PVersion]),
+        format(user_error, "SWI-Prolog version ~w~n", [PVersion]),
         flush_output(user_error)
     ),
     (   retract(prolog_file_type(qlf, qlf))
@@ -308,7 +308,7 @@ run :-
             ->  nb_setval(exit_code, N)
             ;   (   flag('parse-only')
                 ->  true
-                ;   format(user_error, '** ERROR ** gre ** ~w~n', [Exc]),
+                ;   format(user_error, "** ERROR ** gre ** ~w~n", [Exc]),
                     flush_output(user_error),
                     nb_setval(exit_code, 3)
                 )
@@ -347,13 +347,13 @@ run :-
     nb_getval(fm, Fm),
     (   Fm = 0
     ->  true
-    ;   format(user_error, '*** fm=~w~n', [Fm]),
+    ;   format(user_error, "*** fm=~w~n", [Fm]),
         flush_output(user_error)
     ),
     nb_getval(mf, Mf),
     (   Mf = 0
     ->  true
-    ;   format(user_error, '*** mf=~w~n', [Mf]),
+    ;   format(user_error, "*** mf=~w~n", [Mf]),
         flush_output(user_error)
     ),
     nb_getval(exit_code, EC),
@@ -398,7 +398,7 @@ gre(Argus) :-
     statistics(walltime, [T1, _]),
     (   member('--quiet', Argus)
     ->  true
-    ;   format(user_error, 'starting ~w [msec cputime] ~w [msec walltime]~n', [T0, T1]),
+    ;   format(user_error, "starting ~w [msec cputime] ~w [msec walltime]~n", [T0, T1]),
         flush_output(user_error)
     ),
     assertz(recursion(-1)),
@@ -445,7 +445,7 @@ gre(Argus) :-
     ;   version_info(Version),
         (   flag(quiet)
         ->  true
-        ;   format('# Processed by ~w~n', [Version])
+        ;   format("# Processed by ~w~n", [Version])
         ),
         findall(Argij,
             (   argi(Argij)
@@ -455,7 +455,7 @@ gre(Argus) :-
         append(Argil, Argi),
         (   flag(quiet)
         ->  true
-        ;   format('# eye~@~@~n~n', [w0(Argi), w1(Argus)]),
+        ;   format("# eye~@~@~n~n", [w0(Argi), w1(Argus)]),
             flush_output
         )
     ),
@@ -467,7 +467,7 @@ gre(Argus) :-
     ;   true
     ),
     (   flag(intermediate, Out)
-    ->  format(Out, 'flag(quantify, \'~w\').~n', [Sns])
+    ->  format(Out, "flag(quantify, '~w').~n", [Sns])
     ;   true
     ),
     args(Args),
@@ -495,7 +495,7 @@ gre(Argus) :-
     statistics(walltime, [_, T3]),
     (   flag(quiet)
     ->  true
-    ;   format(user_error, 'networking ~w [msec cputime] ~w [msec walltime]~n', [T2, T3]),
+    ;   format(user_error, "networking ~w [msec cputime] ~w [msec walltime]~n", [T2, T3]),
         flush_output(user_error)
     ),
     nb_getval(input_statements, SC),
@@ -575,13 +575,16 @@ gre(Argus) :-
             (   (   Exc3 = halt(0)
                 ->  true
                 ;   (   \+flag(arvol)
-                    ->  format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                    ->  format(user_error, "** ERROR ** eam ** ~w~n", [Exc3]),
                         flush_output(user_error)
                     ;   true
                     ),
-                    (   Exc3 = inference_fuse(_)
-                    ->  nb_setval(exit_code, 2)
-                    ;   nb_setval(exit_code, 3)
+                    (   Exc3 = halt(Exit)
+                    ->  nb_setval(exit_code, Exit)
+                    ;   (   Exc3 = inference_fuse(_)
+                        ->  nb_setval(exit_code, 2)
+                        ;   nb_setval(exit_code, 3)
+                        )
                     )
                 )
             )
@@ -616,7 +619,7 @@ gre(Argus) :-
     statistics(walltime, [_, T5]),
     (   flag(quiet)
     ->  true
-    ;   format(user_error, 'reasoning ~w [msec cputime] ~w [msec walltime]~n', [T4, T5]),
+    ;   format(user_error, "reasoning ~w [msec cputime] ~w [msec walltime]~n", [T4, T5]),
         flush_output(user_error)
     ),
     nb_getval(input_statements, Inp),
@@ -636,11 +639,11 @@ gre(Argus) :-
         ;   flag(quiet)
         )
     ->  true
-    ;   format('# ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n# ENDS~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
+    ;   format("# ~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n# ENDS~n~n", [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed])
     ),
     (   flag(quiet)
     ->  true
-    ;   format(user_error, '~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n', [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed]),
+    ;   format(user_error, "~w in=~d out=~d ent=~d step=~w brake=~w inf=~w sec=~3d inf/sec=~w~n~n", [Stamp, Inp, Outp, Ent, Step, Brake, Inf, Cpu, Speed]),
         flush_output(user_error)
     ),
     (   flag('rule-histogram')
@@ -657,18 +660,18 @@ gre(Argus) :-
         ),
         sort(CntRl, CntRs),
         reverse(CntRs, CntRr),
-        format(user_error, '>>> rule histogram TR=~w <<<~n', [TR]),
+        format(user_error, ">>> rule histogram TR=~w <<<~n", [TR]),
         forall(
             member(RCnt, CntRr),
             (   (   last(RCnt, '<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)),
                     conj_append(X, pstep(_), Z),
                     catch(clause(Y, Z), _, fail)
-                ->  format(user_error, 'TC=~w TP=~w for component ~w~n', RCnt)
-                ;   format(user_error, 'TC=~w TP=~w for rule ~w~n', RCnt)
+                ->  format(user_error, "TC=~w TP=~w for component ~w~n", RCnt)
+                ;   format(user_error, "TC=~w TP=~w for rule ~w~n", RCnt)
                 )
             )
         ),
-        format(user_error, '~n', []),
+        format(user_error, "~n", []),
         flush_output(user_error)
     ;   true
     ).
@@ -719,7 +722,7 @@ opts(['--help'|_], _) :-
     \+flag('debug-pvm'),
     !,
     help_info(Help),
-    format(user_error, '~w~n', [Help]),
+    format(user_error, "~w~n", [Help]),
     flush_output(user_error),
     throw(halt(0)).
 opts(['--hmac-key', Key|Argus], Args) :-
@@ -746,7 +749,7 @@ opts(['--intermediate', File|Argus], Args) :-
 opts(['--license'|_], _) :-
     !,
     license_info(License),
-    format(user_error, '~w~n', [License]),
+    format(user_error, "~w~n", [License]),
     flush_output(user_error),
     throw(halt(0)).
 opts(['--max-inferences', Lim|Argus], Args) :-
@@ -754,7 +757,7 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     (   number(Lim)
     ->  Limit = Lim
     ;   catch(atom_number(Lim, Limit), Exc,
-            (   format(user_error, '** ERROR ** max-inferences ** ~w~n', [Exc]),
+            (   format(user_error, "** ERROR ** max-inferences ** ~w~n", [Exc]),
                 flush_output(user_error),
                 flush_output,
                 throw(halt(1))
@@ -883,7 +886,7 @@ opts(['--tactic', 'limited-answer', Lim|Argus], Args) :-
     (   number(Lim)
     ->  Limit = Lim
     ;   catch(atom_number(Lim, Limit), Exc,
-            (   format(user_error, '** ERROR ** limited-answer ** ~w~n', [Exc]),
+            (   format(user_error, "** ERROR ** limited-answer ** ~w~n", [Exc]),
                 flush_output(user_error),
                 flush_output,
                 throw(halt(1))
@@ -945,13 +948,13 @@ args(['--arvol', Argument|Args]) :-
     (   wcacher(Arg, File)
     ->  (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
             flush_output(user_error)
         ),
         open(File, read, In, [encoding(utf8)])
     ;   (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w ', [Arg]),
+        ;   format(user_error, "GET ~w ", [Arg]),
             flush_output(user_error)
         ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
@@ -1011,13 +1014,13 @@ args(['--n3p', Argument|Args]) :-
     (   wcacher(Arg, File)
     ->  (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
             flush_output(user_error)
         ),
         open(File, read, In, [encoding(utf8)])
     ;   (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w ', [Arg]),
+        ;   format(user_error, "GET ~w ", [Arg]),
             flush_output(user_error)
         ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
@@ -1067,8 +1070,8 @@ args(['--n3p', Argument|Args]) :-
     (   flag(quiet)
     ->  true
     ;   (   SC =\= 0
-        ->  format(user_error, 'SC=~w~n', [SC])
-        ;   format(user_error, '~n', [])
+        ->  format(user_error, "SC=~w~n", [SC])
+        ;   format(user_error, "~n", [])
         ),
         flush_output(user_error)
     ),
@@ -1143,13 +1146,13 @@ args(['--trig', Argument|Args]) :-
     (   wcacher(Arg, File)
     ->  (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
             flush_output(user_error)
         ),
         open(File, read, In, [encoding(utf8)])
     ;   (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w ', [Arg]),
+        ;   format(user_error, "GET ~w ", [Arg]),
             flush_output(user_error)
         ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
@@ -1206,7 +1209,7 @@ args(['--trig', Argument|Args]) :-
             ;   djiti_assertz(Triple)
             ),
             (   flag(intermediate, Out)
-            ->  format(Out, '~q.~n', [Triple])
+            ->  format(Out, "~q.~n", [Triple])
             ;   true
             ),
             (   \+flag(nope),
@@ -1240,7 +1243,7 @@ args(['--trig', Argument|Args]) :-
     nb_setval(input_statements, Inp),
     (   flag(quiet)
     ->  true
-    ;   format(user_error, 'SC=~w~n', [SC]),
+    ;   format(user_error, "SC=~w~n", [SC]),
         flush_output(user_error)
     ),
     args(Args).
@@ -1257,7 +1260,7 @@ n3pin(Rt, In, File, Mode) :-
         ;   call(Rg)
         ),
         (   flag(intermediate, Out)
-        ->  format(Out, '~q.~n', [Rt])
+        ->  format(Out, "~q.~n", [Rt])
         ;   true
         )
     ;   dynify(Rt),
@@ -1336,7 +1339,7 @@ n3pin(Rt, In, File, Mode) :-
                 ->  djiti_assertz(Rt),
                     (   flag(intermediate, Out),
                         Rt \= scount(_)
-                    ->  format(Out, '~q.~n', [Rt])
+                    ->  format(Out, "~q.~n", [Rt])
                     ;   true
                     ),
                     (   Rt \= flag(_, _),
@@ -1367,13 +1370,13 @@ n3_n3p(Argument, Mode) :-
     (   wcacher(Arg, File)
     ->  (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w FROM ~w ', [Arg, File]),
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
             flush_output(user_error)
         ),
         open(File, read, In, [encoding(utf8)])
     ;   (   flag(quiet)
         ->  true
-        ;   format(user_error, 'GET ~w ', [Arg]),
+        ;   format(user_error, "GET ~w ", [Arg]),
             flush_output(user_error)
         ),
         (   (   sub_atom(Arg, 0, 5, _, 'http:')
@@ -1461,8 +1464,8 @@ n3_n3p(Argument, Mode) :-
             ;   true
             ),
             (   wcacher(Arg, File)
-            ->  format(user_error, '** ERROR ** ~w FROM ~w ** ~w~n', [Arg, File, Exc2])
-            ;   format(user_error, '** ERROR ** ~w ** ~w~n', [Arg, Exc2])
+            ->  format(user_error, "** ERROR ** ~w FROM ~w ** ~w~n", [Arg, File, Exc2])
+            ;   format(user_error, "** ERROR ** ~w ** ~w~n", [Arg, Exc2])
             ),
             flush_output(user_error),
             nb_setval(exit_code, 1),
@@ -1501,7 +1504,7 @@ n3_n3p(Argument, Mode) :-
     ->  forall(
             (   pverb(Pverb)
             ),
-            (   format(Out, ':- dynamic(\'~w\'/2).~n', [Pverb])
+            (   format(Out, ":- dynamic('~w'/2).~n", [Pverb])
             )
         ),
         forall(
@@ -1648,7 +1651,7 @@ n3_n3p(Argument, Mode) :-
     nb_setval(input_statements, Inp),
     (   flag(quiet)
     ->  true
-    ;   format(user_error, 'SC=~w~n', [SC]),
+    ;   format(user_error, "SC=~w~n", [SC]),
         flush_output(user_error)
     ),
     !.
@@ -3595,8 +3598,8 @@ w0([A|B]) :-
     (   \+sub_atom(A, 1, _, _, '"'),
         sub_atom(A, _, 1, _, ' '),
         \+sub_atom(A, _, _, 1, '"')
-    ->  format(' "~w"', [A])
-    ;   format(' ~w', [A])
+    ->  format(" \"~w\"", [A])
+    ;   format(" ~w", [A])
     ),
     w0(B).
 
@@ -3606,8 +3609,8 @@ w1([A|B]) :-
     (   \+sub_atom(A, 1, _, _, '"'),
         sub_atom(A, _, 1, _, ' '),
         \+sub_atom(A, _, _, 1, '"')
-    ->  format(' "~w"', [A])
-    ;   format(' ~w', [A])
+    ->  format(" \"~w\"", [A])
+    ;   format(" ~w", [A])
     ),
     w1(B).
 
@@ -3624,7 +3627,7 @@ wh :-
             (   pfx(A, B),
                 \+wpfx(A)
             ),
-            (   format('@prefix ~w ~w.~n', [A, B]),
+            (   format("@prefix ~w ~w.~n", [A, B]),
                 assertz(wpfx(A)),
                 nb_setval(wpfx, true)
             )
@@ -4398,7 +4401,7 @@ wt2(rdiv(X, Y)) :-
     ->  write('"')
     ;   true
     ),
-    format('~g', [rdiv(X, Y)]),
+    format("~g", [rdiv(X, Y)]),
     (   flag('no-numerals')
     ->  write('"^^'),
         wt0('<http://www.w3.org/2001/XMLSchema#decimal>')
@@ -5061,14 +5064,14 @@ indentation(C) :-
 %    else assert brake and start again at 1/
 %
 eam :-
-    (   (Conc :+ Prem),                     % 1/
+    (   (Conc :+ Prem),                         % 1/
         copy_term((Conc :+ Prem), Rule),
-        catch(call(Prem), _, fail),         % 2/
-        (   Conc = true                     % 3/
+        Prem,                                   % 2/
+        (   Conc = true                         % 3/
         ->  aconj(answer(Prem)),
             aconj(step(Rule, Prem, Conc))
         ;   (   Conc = false
-            ->  format(':- op(1200, xfx, :+).~n~n'),
+            ->  format(":- op(1200, xfx, :+).~n~n", []),
                 portray_clause(fuse(Prem)),
                 (   step(_, _, _),
                     nl
@@ -5078,32 +5081,31 @@ eam :-
                     )
                 ;   true
                 ),
-                throw(inference_fuse(Prem))
+                throw(halt(2))
             ;   (   Conc \= (_ :+ _)
                 ->  skolemize(Conc, 0, _)
                 ;   true
                 ),
-                \+catch(call(Conc), _, fail),
+                \+ Conc,
                 aconj(Conc),
                 aconj(step(Rule, Prem, Conc)),
                 retract(brake)
             )
         ),
-        fail                                % 4/
-    ;   (   brake                           % 5/
+        fail                                    % 4/
+    ;   (   brake                               % 5/
         ->  (   closure(Closure),
                 limit(Limit),
                 Closure < Limit,
                 NewClosure is Closure+1,
                 becomes(closure(Closure), closure(NewClosure)),
                 eam
-            ;   format(':- op(1200, xfx, :+).~n~n'),
+            ;   format(":- op(1200, xfx, :+).~n~n", []),
                 forall(
                     answer(P),
                     portray_clause(answer(P))
                 ),
-                (   \+flag('nope'),
-                    step(_, _, _),
+                (   step(_, _, _),
                     nl
                 ->  forall(
                         step(R, P, C),
@@ -5182,7 +5184,7 @@ becomes(A, B) :-
 eam(Recursion) :-
     (   cnt(tr),
         (   flag(debug)
-        ->  format(user_error, 'eam/1 entering recursion ~w~n', [Recursion]),
+        ->  format(user_error, "eam/1 entering recursion ~w~n", [Recursion]),
             flush_output(user_error)
         ;   true
         ),
@@ -5204,7 +5206,7 @@ eam(Recursion) :-
         ;   copy_term_nat('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc), Rule)
         ),
         (   flag(debug)
-        ->  format(user_error, '. eam/1 selecting rule ~q~n', [implies(Prem, Conc, Src)]),
+        ->  format(user_error, ". eam/1 selecting rule ~q~n", [implies(Prem, Conc, Src)]),
             flush_output(user_error)
         ;   true
         ),
@@ -5231,7 +5233,7 @@ eam(Recursion) :-
             ),
             with_output_to(atom(PN3), we('<http://www.w3.org/2000/10/swap/log#implies>'(Prem2, false))),
             (   flag('ignore-inference-fuse')
-            ->  format(user_error, '** ERROR ** eam ** ~w~n', [inference_fuse(PN3)]),
+            ->  format(user_error, "** ERROR ** eam ** ~w~n", [inference_fuse(PN3)]),
                 fail
             ;   throw(inference_fuse(PN3))
             )
@@ -5279,7 +5281,7 @@ eam(Recursion) :-
         ;   true
         ),
         (   flag(debug)
-        ->  format(user_error, '... eam/1 assert step ~q~n', [Concd]),
+        ->  format(user_error, "... eam/1 assert step ~q~n", [Concd]),
             flush_output(user_error)
         ;   true
         ),
@@ -6175,7 +6177,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -6195,7 +6197,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('@prefix ~w ~w.~n', [E, F])
+                    format("@prefix ~w ~w.~n", [E, F])
                 ),
                 nl
             ),
@@ -6318,7 +6320,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -6338,7 +6340,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('@prefix ~w ~w.~n', [E, F])
+                    format("@prefix ~w ~w.~n", [E, F])
                 ),
                 nl
             ),
@@ -6433,7 +6435,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -6453,7 +6455,7 @@ prepare_builtins :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('@prefix ~w ~w.~n', [E, F])
+                    format("@prefix ~w ~w.~n", [E, F])
                 ),
                 nl
             ),
@@ -6521,7 +6523,7 @@ prepare_builtins :-
         labelvars([Ac, Bc, Ec], 0, _),
         (   fact('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#findall>'(Sc, [Ac, Bc, G]))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+            ->  format(user_error, "** WARNING ** conflicting_findall_answers ~w VERSUS ~w~n", [[A, B, G], [A, B, E]]),
                 flush_output(user_error)
             ;   true
             )
@@ -7544,7 +7546,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -7564,7 +7566,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('@prefix ~w ~w.~n', [E, F])
+                    format("@prefix ~w ~w.~n", [E, F])
                 ),
                 nl
             ),
@@ -7631,7 +7633,7 @@ userInput(A, B) :-
         labelvars([Ac, Bc, Ec], 0, _),
         (   fact('<http://www.w3.org/2000/10/swap/log#collectAllIn>'([Ac, Bc, G], Sc))
         ->  (   E \= G
-            ->  format(user_error, '** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n', [[A, B, G], [A, B, E]]),
+            ->  format(user_error, "** WARNING ** conflicting_collectAllIn_answers ~w VERSUS ~w~n", [[A, B, G], [A, B, E]]),
                 flush_output(user_error)
             ;   true
             )
@@ -7653,7 +7655,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -7795,7 +7797,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -7815,7 +7817,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(E, F),
-                    format('@prefix ~w ~w.~n', [E, F])
+                    format("@prefix ~w ~w.~n", [E, F])
                 ),
                 nl
             ),
@@ -8138,7 +8140,7 @@ userInput(A, B) :-
             ->  true
             ;   forall(
                     pfx(C, D),
-                    format('@prefix ~w ~w.~n', [C, D])
+                    format("@prefix ~w ~w.~n", [C, D])
                 ),
                 nl
             ),
@@ -8200,7 +8202,7 @@ userInput(A, B) :-
                 catch(
                     n3_n3p(Z, semantics),
                     Exc,
-                    (   format(user_error, '** ERROR ** ~w **~n', [Exc]),
+                    (   format(user_error, "** ERROR ** ~w **~n", [Exc]),
                         flush_output(user_error),
                         fail
                     )
@@ -11838,7 +11840,7 @@ cnt(A) :-
     nb_setval(A, C),
     (   flag('debug-cnt'),
         C mod 10000 =:= 0
-    ->  format(user_error, '~w = ~w~n', [A, C]),
+    ->  format(user_error, "~w = ~w~n", [A, C]),
         flush_output(user_error)
     ;   true
     ).
@@ -11849,7 +11851,7 @@ cnt(A, I) :-
     nb_setval(A, C),
     (   flag('debug-cnt'),
         C mod 10000 =:= 0
-    ->  format(user_error, '~w = ~w~n', [A, C]),
+    ->  format(user_error, "~w = ~w~n", [A, C]),
         flush_output(user_error)
     ;   true
     ).
@@ -12677,8 +12679,8 @@ escape_unicode([A, B|C], D) :-
     B =< 0xDFFF,
     E is 0x10000+(A-0xD800)*0x400+(B-0xDC00),
     (   0x100000 =< E
-    ->  with_output_to(codes(F), format('\\U00~16R', [E]))
-    ;   with_output_to(codes(F), format('\\U000~16R', [E]))
+    ->  with_output_to(codes(F), format("\\U00~16R", [E]))
+    ;   with_output_to(codes(F), format("\\U000~16R", [E]))
     ),
     append(F, G, D),
     !,
@@ -13872,11 +13874,11 @@ uuid(UUID) :-
     D is random(0x3fff) \/ 0x8000,
     E is random(0xffffffffffff),
     format(atom(UUID),
-           '~`0t~16r~8+-~|\c
+           "~`0t~16r~8+-~|\c
             ~`0t~16r~4+-~|\c
             ~`0t~16r~4+-~|\c
             ~`0t~16r~4+-~|\c
-            ~`0t~16r~12+', [A, B, C, D, E]).
+            ~`0t~16r~12+", [A, B, C, D, E]).
 
 regex(Pattern, String, List) :-
     escape_atom(Pattern, Pat),
@@ -13902,7 +13904,7 @@ fm(A) :-
     (   nonvar(A),
         A = !
     ->  true
-    ;   format(user_error, '*** ~q~n', [A]),
+    ;   format(user_error, "*** ~q~n", [A]),
         flush_output(user_error)
     ),
     cnt(fm).
@@ -13910,7 +13912,7 @@ fm(A) :-
 mf(A) :-
     forall(
         catch(A, _, fail),
-        (   write(user_error, '*** '),
+        (   format(user_error, "*** ", []),
             portray_clause(user_error, A),
             cnt(mf)
         )
