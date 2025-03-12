@@ -5,6 +5,7 @@
 % See https://github.com/eyereasoner/eye
 %
 
+:- use_module(library(apply)).
 :- use_module(library(lists)).
 :- use_module(library(gensym)).
 :- use_module(library(system)).
@@ -22,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.11.2 (2025-03-12)').
+version_info('EYE v11.11.3 (2025-03-12)').
 
 license_info('MIT License
 
