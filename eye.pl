@@ -5050,13 +5050,13 @@ indentation(C) :-
 %
 % 1/ select rule Conc :+ Prem
 % 2/ prove Prem and if it fails backtrack to 1/
-% 3/ if Conc = true assert answer(Prem)
-%    else if Conc = false output fuse and steps
-%    else if ~Conc assert Conc and retract brake
+% 3/ if Conc = true assert answer + step
+%    else if Conc = false output fuse + steps and stop
+%    else if ~Conc assert Conc + step and retract brake
 % 4/ backtrack to 2/ and if it fails go to 5/
 % 5/ if brake
 %       if not stable start again at 1/
-%       else output answers andsteps and stop
+%       else output answers + steps and stop
 %    else assert brake and start again at 1/
 %
 eam :-
@@ -5098,8 +5098,8 @@ eam :-
                 eam
             ;   format(':- op(1200, xfx, :+).~n~n'),
                 forall(
-                    answer(Prem),
-                    portray_clause(answer(Prem))
+                    answer(P),
+                    portray_clause(answer(P))
                 ),
                 (   \+flag('nope'),
                     step(_, _, _),
