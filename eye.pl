@@ -22,7 +22,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.11.1 (2025-03-11)').
+version_info('EYE v11.11.2 (2025-03-12)').
 
 license_info('MIT License
 
@@ -177,7 +177,7 @@ eye
 :- dynamic(semantics/2).
 :- dynamic(shellcache/2).
 :- dynamic(tabl/3).
-:- dynamic(step/2).
+:- dynamic(step/3).
 :- dynamic(tmpfile/1).
 :- dynamic(tuple/2).
 :- dynamic(tuple/3).
@@ -573,8 +573,11 @@ gre(Argus) :-
             Exc3,
             (   (   Exc3 = halt(0)
                 ->  true
-                ;   format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
-                    flush_output(user_error),
+                ;   (   \+flag(arvol)
+                    ->  format(user_error, '** ERROR ** eam ** ~w~n', [Exc3]),
+                        flush_output(user_error)
+                    ;   true
+                    ),
                     (   Exc3 = inference_fuse(_)
                     ->  nb_setval(exit_code, 2)
                     ;   nb_setval(exit_code, 3)
@@ -5058,32 +5061,30 @@ indentation(C) :-
 %
 eam :-
     (   (Conc :+ Prem),                     % 1/
+        copy_term((Conc :+ Prem), Rule),
         catch(call(Prem), _, fail),         % 2/
         (   Conc = true                     % 3/
-        ->  (   \+answer(Prem)
-            ->  assertz(answer(Prem))
-            ;   true
-            )
+        ->  aconj(answer(Prem)),
+            aconj(step(Rule, Prem, Conc))
         ;   (   Conc = false
             ->  format(':- op(1200, xfx, :+).~n~n'),
                 portray_clause(fuse(Prem)),
-                (   step(_, _),
+                (   step(_, _, _),
                     nl
                 ->  forall(
-                        step(P, C),
-                        portray_clause(step(P, C))
+                        step(R, P, C),
+                        portray_clause(step(R, P, C))
                     )
                 ;   true
                 ),
-                !,
-                fail
+                throw(inference_fuse(Prem))
             ;   (   Conc \= (_ :+ _)
                 ->  skolemize(Conc, 0, _)
                 ;   true
                 ),
                 \+catch(call(Conc), _, fail),
-                astep(Conc),
-                astep(step(Prem, Conc)),
+                aconj(Conc),
+                aconj(step(Rule, Prem, Conc)),
                 retract(brake)
             )
         ),
@@ -5101,11 +5102,11 @@ eam :-
                     portray_clause(answer(Prem))
                 ),
                 (   \+flag('nope'),
-                    step(_, _),
+                    step(_, _, _),
                     nl
                 ->  forall(
-                        step(P, C),
-                        portray_clause(step(P, C))
+                        step(R, P, C),
+                        portray_clause(step(R, P, C))
                     )
                 ;   true
                 )
@@ -5115,11 +5116,11 @@ eam :-
         )
     ).
 
-% assert new step
-astep((B, C)) :-
-    astep(B),
-    astep(C).
-astep(A) :-
+% assert conjunction
+aconj((B, C)) :-
+    aconj(B),
+    aconj(C).
+aconj(A) :-
     (   \+ A
     ->  assertz(A)
     ;   true
