@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.11.5 (2025-03-13)').
+version_info('EYE v11.12.0 (2025-03-15)').
 
 license_info('MIT License
 
@@ -207,6 +207,7 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/graph#statement>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#and>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
@@ -5529,6 +5530,64 @@ prepare_builtins :-
     ->  retractall(flag(rdflists)),
         assertz(flag(rdflists))
     ;   true
+    ),
+
+    % rdfnexus
+    (   '<http://www.w3.org/2000/10/swap/log#and>'(_, _)
+    ->  retractall(flag(nexus)),
+        assertz(flag(nexus)),
+
+        % create terms
+        (   pred(P),
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
+            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
+            P \= '<http://www.w3.org/2000/10/swap/log#and>',
+            P \= '<http://www.w3.org/2000/10/swap/log#triple>',
+            X =.. [P, _, _],
+            call(X),
+            ground(X),
+            getterm(X, Y),
+            (   Y = X
+            ->  true
+            ;   retract(X),
+                assertz(Y),
+                dynify(Y)
+            ),
+            fail
+        ;   true
+        ),
+
+        % create forward rules
+        assertz(implies((
+                '<http://www.w3.org/2000/10/swap/log#implies>'(A, B),
+                ground([A, B]),
+                retract('<http://www.w3.org/2000/10/swap/log#implies>'(A, B)),
+                conj_list(B, L),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, B], [Q, I], beta(U))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>')),
+
+        % create backward rules
+        assertz(implies((
+                retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(B, A))
+                ), ':-'(B, A), '<>')),
+
+        % create queries
+        assertz(implies((
+                retract('<http://www.w3.org/2000/10/swap/log#query>'(A, B)),
+                djiti_answer(answer(B), J),
+                findvars([A, B], V, alpha),
+                list_to_set(V, U),
+                makevars([A, J], [Q, I], beta(U))
+                ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>'))
+    ;   forall(
+            retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
+            assertz(':-'(A, B))
+        )
     ),
 
     % rdftrig
@@ -13123,6 +13182,19 @@ getterm(A, [B|C]) :-
     ->  true
     ;   throw(malformed_list_invalid_rest(E))
     ).
+getterm(A, B) :-
+    '<http://www.w3.org/2000/10/swap/log#and>'(A, C),
+    !,
+    getterm(C, D),
+    findall(E,
+        (   member(F, D),
+            '<http://www.w3.org/2000/10/swap/log#triple>'(F, G),
+            getterm(G, [H, I, J]),
+            E =.. [I, H, J]
+        ),
+        K
+    ),
+    conj_list(B, K).
 getterm(reifiedtriple(S, P, O, N), reifiedtriple(S, P, O, N)) :-
     var(P),
     !.
