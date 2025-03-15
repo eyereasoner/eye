@@ -1,0 +1,25 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+# facts
+:alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5.
+:bob :hasDog :dog6, :dog7.
+
+# policy rule
+[ log:and (
+    [ log:triple (var:Subject :hasDog var:Any)]
+    [ log:triple ((1 [ log:and ([ log:triple (var:Subject :hasDog var:Dog)])] var:List) log:collectAllIn var:Scope)]
+    [ log:triple (var:List math:sum var:Count)]
+    [ log:triple (var:Count math:greaterThan 4)]
+)] log:implies [ log:and (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)] log:query [ log:and (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)].
