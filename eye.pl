@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.1 (2025-03-15)').
+version_info('EYE v11.12.2 (2025-03-15)').
 
 license_info('MIT License
 
@@ -5664,6 +5664,7 @@ prepare_builtins :-
                 list_to_set(V, U),
                 makevars([A, J], [Q, I], beta(U))
                 ), '<http://www.w3.org/2000/10/swap/log#implies>'(Q, I), '<>'))
+    ;   flag(nexus)
     ;   forall(
             retract('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'(A, B)),
             assertz(':-'(A, B))

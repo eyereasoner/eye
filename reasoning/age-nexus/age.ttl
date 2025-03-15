@@ -1,0 +1,26 @@
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix time: <http://www.w3.org/2000/10/swap/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://example.org/#>.
+
+# person data
+:patH :birthDay "1944-08-21"^^xsd:date.
+
+# is the age of a person above some duration?
+[ log:and (
+    [ log:triple (var:S :ageAbove var:A)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:S :birthDay var:B)]
+    [ log:triple ("" time:localTime var:D)]
+    [ log:triple ((var:D var:B) math:difference var:F)]
+    [ log:triple (var:F math:greaterThan var:A)]    
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:S :ageAbove "P80Y"^^xsd:duration)]
+)] log:query [ log:and (
+    [ log:triple (var:S :ageAbove "P80Y"^^xsd:duration)]
+)].
