@@ -1,0 +1,13 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+# facts
+:stone :color :black.
+:stone :color :white.
+
+# inference fuse
+[ log:and (
+    [ log:triple (var:X :color :black)]
+    [ log:triple (var:X :color :white)]
+)] log:implies false.
