@@ -1,7 +1,7 @@
 # nexus
 
 - nexus supports reasoning with forward rules described in RDF as
-e.g.
+  e.g.
 ```
     # subclass rule
     [ log:and (
@@ -13,7 +13,7 @@ e.g.
 ```
 
 - nexus supports reasoning with backward rules described in RDF as
-e.g.
+  e.g.
 ```
     # is the age of a person above some duration?
     [ log:and (
@@ -27,7 +27,7 @@ e.g.
 ```
 
 - nexus supports querying with queries described in RDF as
-e.g.
+  e.g.
 ```
     # who is a what?
     [ log:and (
@@ -40,8 +40,8 @@ e.g.
 - A forward rule with `log:implies false` is an inference fuse.
 
 - The `var:` prefix is `<http://www.w3.org/2000/10/swap/var#>` and is used for
-variables that are interpreted as universally quantified variables except for
-forward rule conclusion-only variables which are interpreted existentially.
+  variables that are interpreted universally except for forward rule
+  conclusion-only variables which are interpreted existentially.
 
 - Literal subjects are described as
     ```
