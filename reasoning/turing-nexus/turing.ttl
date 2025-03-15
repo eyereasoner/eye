@@ -1,0 +1,107 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# interpreter for Turing machine
+[ log:and (
+    [ log:triple (() :compute var:OutTape)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:Machine :start var:I)]
+    [ log:triple ((var:I () "#" ()) :find var:OutTape)]
+)].
+
+[ log:and (
+    [ log:triple (var:List :compute var:OutTape)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:List list:firstRest (var:Head var:Tail))]
+    [ log:triple (var:Machine :start var:I)]
+    [ log:triple ((var:I () var:Head var:Tail) :find var:OutTape)]
+)].
+
+[ log:and (
+    [ log:triple ((var:State var:Left var:Cell var:Right) :find var:OutTape)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:State var:Cell var:Write var:Move) :tape var:Next)]
+    [ log:triple ((var:Move var:Left var:Write var:Right var:A var:B var:C) :move true)]
+    [ log:triple ((var:Next var:A var:B var:C) :continue var:OutTape)]
+)].
+
+[ log:and (
+    [ log:triple ((:halt var:Left var:Cell var:Right) :continue var:OutTape)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:Left :reverse var:R)]
+    [ log:triple (var:List list:firstRest (var:Cell var:Right))]
+    [ log:triple ((var:R var:List) list:append var:OutTape)]
+)].
+
+[ log:and (
+    [ log:triple ((var:State var:Left var:Cell var:Right) :continue var:OutTape)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:State var:Left var:Cell var:Right) :find var:OutTape)]
+)].
+
+[ log:and (
+    [ log:triple ((:left () var:Cell var:Right () "#" var:L) :move true)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:L list:firstRest (var:Cell var:Right))]
+)].
+
+[ log:and (
+    [ log:triple ((:left var:List var:Cell var:Right var:Tail var:Head var:L) :move true)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:List list:firstRest (var:Head var:Tail))]
+    [ log:triple (var:L list:firstRest (var:Cell var:Right))]
+)].
+
+[ log:and (
+    [ log:triple ((:stop var:Left var:Cell var:Right var:Left var:Cell var:Right) :move true)]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple ((:right var:Left var:Cell () var:L "#" ()) :move true)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:L list:firstRest (var:Cell var:Left))]
+)].
+
+[ log:and (
+    [ log:triple ((:right var:Left var:Cell var:List var:L var:Head var:Tail) :move true)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:List list:firstRest (var:Head var:Tail))]
+    [ log:triple (var:L list:firstRest (var:Cell var:Left))]
+)].
+
+[ log:and (
+    [ log:triple (() :reverse ())]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple (var:List :reverse var:Reverse)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:List list:firstRest (var:Head var:Tail))]
+    [ log:triple (var:Tail :reverse var:R)]
+    [ log:triple ((var:R (var:Head)) list:append var:Reverse)]
+)].
+
+# a Turing machine to add 1 to a binary number
+:add1 :start 0.
+
+(0 0 0 :right) :tape 0.
+(0 1 1 :right) :tape 0.
+(0 "#" "#" :left) :tape 1.
+(1 0 1 :stop) :tape :halt.
+(1 1 0 :left) :tape 1.
+(1 "#" 1 :stop) :tape :halt.
+
+# query
+[ log:and (
+    [ log:triple ((1 0 1 0 0 1) :compute var:A1)]
+    [ log:triple ((1 0 1 1 1 1) :compute var:A2)]
+    [ log:triple ((1 1 1 1 1 1) :compute var:A3)]
+    [ log:triple (() :compute var:A4)]
+)] log:query [ log:and (
+    [ log:triple ((1 0 1 0 0 1) :compute var:A1)]
+    [ log:triple ((1 0 1 1 1 1) :compute var:A2)]
+    [ log:triple ((1 1 1 1 1 1) :compute var:A3)]
+    [ log:triple (() :compute var:A4)]
+)].
