@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.4 (2025-03-16)').
+version_info('EYE v11.12.5 (2025-03-17)').
 
 license_info('MIT License
 
@@ -13120,7 +13120,8 @@ getterm(A, B) :-
         ),
         K
     ),
-    conj_list(B, K).
+    conj_list(M, K),
+    conjify(M, B).
 getterm(reifiedtriple(S, P, O, N), reifiedtriple(S, P, O, N)) :-
     var(P),
     !.
