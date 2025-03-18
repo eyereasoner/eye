@@ -4,7 +4,6 @@
 #
 # See https://github.com/SEMICeu/LinkedDataEventStreams
 
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix tree: <https://w3id.org/tree#>.
 @prefix ldes: <https://w3id.org/ldes#>.
 @prefix dcat: <http://www.w3.org/ns/dcat#>.
@@ -38,19 +37,19 @@
 _:bn_1 log:and (
     ## The (updated) representation of this particular dataset
     ## ...
-    [ log:triple (<https://example.org/Dataset1> rdf:type dcat:Dataset)]
+    [ log:triple (<https://example.org/Dataset1> a dcat:Dataset)]
 ).
 
 _:bn_2 log:and (
-    [ log:triple (<https://example.org/Dataset1#Event1> rdf:type as:Create)]
-    [ log:triple (<https://example.org/Dataset1#Event1> rdf:type prov:Activity)]
+    [ log:triple (<https://example.org/Dataset1#Event1> a as:Create)]
+    [ log:triple (<https://example.org/Dataset1#Event1> a prov:Activity)]
     [ log:triple (<https://example.org/Dataset1#Event1> as:object <https://example.org/Dataset1>)]
     [ log:triple (<https://example.org/Dataset1#Event1> as:published "2023-10-01T12:00:00Z"^^xsd:dateTime)]
 ).
 
 _:bn_3 log:and (
     # Signature
-    [ log:triple (_:bn_5 rdf:type :DataIntegrityProof)]
+    [ log:triple (_:bn_5 a :DataIntegrityProof)]
     # ...
     [ log:triple (_:bn_5 :signature "rCWNBuxBK1In93X8dvuK1ss91LK0rMiA2KzvsNaEhdGt7PTD5aQ0X58TzbvnTOhvl9t5bRGoOHnxfys52Q9bWjnmD4GoljEWVWFSrBnORsLBOLwcAnLRfEtTvz4t0EYV")]
     [ log:triple (_:bn_5 :target (_:bn_1 _:bn_2 _:bn_4))]
@@ -58,10 +57,10 @@ _:bn_3 log:and (
 
 _:bn_4 log:and (
     ## We want to indicate that this specific member must be removed after 1 month
-    [ log:triple (_:bn_6 rdf:type :Policy)]
+    [ log:triple (_:bn_6 a :Policy)]
     [ log:triple (_:bn_6 :target (_:bn_1 _:bn_2 _:bn_3))]
     [ log:triple (_:bn_6 :duty _:bn_7)]
-    [ log:triple (_:bn_7 rdf:type :RemovalDuty)]
+    [ log:triple (_:bn_7 a :RemovalDuty)]
     [ log:triple (_:bn_7 :after "P1M")]
 ).
 
@@ -69,7 +68,7 @@ _:bn_4 log:and (
 [ log:and (
     [ log:triple (var:Node log:and var:Content)]
     [ log:triple (var:Content list:member var:Item1)]
-    [ log:triple (var:Item1 log:triple (var:Pol rdf:type :Policy))]
+    [ log:triple (var:Item1 log:triple (var:Pol a :Policy))]
     [ log:triple (var:Content list:member var:Item2)]
     [ log:triple (var:Item2 log:triple (var:Pol :target var:Target))]
     [ log:triple (var:Content list:member var:Item)]
