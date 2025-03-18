@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.7 (2025-03-18)').
+version_info('EYE v11.12.8 (2025-03-18)').
 
 license_info('MIT License
 
@@ -5472,14 +5472,7 @@ prepare_builtins :-
         assertz(flag(nexus)),
 
         % create terms
-        (   pred(P),
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#first>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>',
-            P \= '<http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>',
-            P \= '<http://www.w3.org/2000/10/swap/log#and>',
-            P \= '<http://www.w3.org/2000/10/swap/log#triple>',
+        (   member(P, ['<http://www.w3.org/2000/10/swap/log#implies>', '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', '<http://www.w3.org/2000/10/swap/log#query>']),
             X =.. [P, _, _],
             call(X),
             ground(X),
