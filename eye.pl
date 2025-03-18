@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.8 (2025-03-18)').
+version_info('EYE v11.12.9 (2025-03-18)').
 
 license_info('MIT License
 
@@ -432,6 +432,10 @@ gre(Argus) :-
     ),
     atomic_list_concat(['https://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
+    (   flag(quantify, _)
+    ->  assertz(flag(quantify, 'http://josd.github.io/.well-known/genid/pP7dSETOSHCTU6bSn:iLn_1X3mg'))
+    ;   true
+    ),
     (   (   flag(strings)
         ;   flag(image, _)
         )
