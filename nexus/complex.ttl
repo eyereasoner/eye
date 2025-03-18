@@ -1,0 +1,147 @@
+# ---------------
+# Complex numbers
+# ---------------
+#
+# See https://en.wikipedia.org/wiki/Complex_number)]
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix complex: <http://eyereasoner.github.io/complex#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# exponentiation
+[ log:and (
+    [ log:triple (((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:A var:B) complex:polar (var:R var:T))]
+    [ log:triple ((var:R var:C) math:exponentiation var:Z1)]
+    [ log:triple (var:D math:negation var:Z2)]
+    [ log:triple ((var:Z2 var:T) math:product var:Z3)]
+    [ log:triple ((2.718281828459045 var:Z3) math:exponentiation var:Z4)]
+    [ log:triple ((2.718281828459045 var:Z5) math:exponentiation var:R)]
+    [ log:triple ((var:D var:Z5) math:product var:Z6)]
+    [ log:triple ((var:C var:T) math:product var:Z7)]
+    [ log:triple ((var:Z6 var:Z7) math:sum var:Z8)]
+    [ log:triple (var:Z8 math:cos var:Z9)]
+    [ log:triple ((var:Z1 var:Z4 var:Z9) math:product var:E)]
+    [ log:triple (var:Z8 math:sin var:Z10)]
+    [ log:triple ((var:Z1 var:Z4 var:Z10) math:product var:F)]
+)].
+
+# asin
+[ log:and (
+    [ log:triple ((var:A var:B) complex:asin (var:C var:D))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((1 var:A) math:sum var:Z1)]
+    [ log:triple ((var:Z1 2) math:exponentiation var:Z2)]
+    [ log:triple ((var:B 2) math:exponentiation var:Z3)]
+    [ log:triple ((var:Z2 var:Z3) math:sum var:Z4)]
+    [ log:triple ((var:Z4 0.5) math:exponentiation var:Z5)]
+    [ log:triple ((1 var:A) math:difference var:Z6)]
+    [ log:triple ((var:Z6 2) math:exponentiation var:Z7)]
+    [ log:triple ((var:Z7 var:Z3) math:sum var:Z8)]
+    [ log:triple ((var:Z8 0.5) math:exponentiation var:Z9)]
+    [ log:triple ((var:Z5 var:Z9) math:difference var:Z10)]
+    [ log:triple ((var:Z10 2) math:quotient var:E)]
+    [ log:triple ((var:Z5 var:Z9) math:sum var:Z11)]
+    [ log:triple ((var:Z11 2) math:quotient var:F)]
+    [ log:triple (var:E math:asin var:C)]
+    [ log:triple ((var:F 2) math:exponentiation var:Z12)]
+    [ log:triple ((var:Z12 1) math:difference var:Z13)]
+    [ log:triple ((var:Z13 0.5) math:exponentiation var:Z14)]
+    [ log:triple ((var:F var:Z14) math:sum var:Z15)]
+    [ log:triple ((2.718281828459045 var:D) math:exponentiation var:Z15)]
+)].
+
+# acos
+[ log:and (
+    [ log:triple ((var:A var:B) complex:acos (var:C var:D))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((1 var:A) math:sum var:Z1)]
+    [ log:triple ((var:Z1 2) math:exponentiation var:Z2)]
+    [ log:triple ((var:B 2) math:exponentiation var:Z3)]
+    [ log:triple ((var:Z2 var:Z3) math:sum var:Z4)]
+    [ log:triple ((var:Z4 0.5) math:exponentiation var:Z5)]
+    [ log:triple ((1 var:A) math:difference var:Z6)]
+    [ log:triple ((var:Z6 2) math:exponentiation var:Z7)]
+    [ log:triple ((var:Z7 var:Z3) math:sum var:Z8)]
+    [ log:triple ((var:Z8 0.5) math:exponentiation var:Z9)]
+    [ log:triple ((var:Z5 var:Z9) math:difference var:Z10)]
+    [ log:triple ((var:Z10 2) math:quotient var:E)]
+    [ log:triple ((var:Z5 var:Z9) math:sum var:Z11)]
+    [ log:triple ((var:Z11 2) math:quotient var:F)]
+    [ log:triple (var:E math:acos var:C)]
+    [ log:triple ((var:F 2) math:exponentiation var:Z12)]
+    [ log:triple ((var:Z12 1) math:difference var:Z13)]
+    [ log:triple ((var:Z13 0.5) math:exponentiation var:Z14)]
+    [ log:triple ((var:F var:Z14) math:sum var:Z15)]
+    [ log:triple ((2.718281828459045 var:U) math:exponentiation var:Z15)]
+    [ log:triple (var:U math:negation var:D)]
+)].
+
+# polar
+[ log:and (
+    [ log:triple ((var:X var:Y) complex:polar(var:R var:Tp))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:X 2) math:exponentiation var:Z1)]
+    [ log:triple ((var:Y 2) math:exponentiation var:Z2)]
+    [ log:triple ((var:Z1 var:Z2) math:sum var:Z3)]
+    [ log:triple ((var:Z3 0.5) math:exponentiation var:R)]
+    [ log:triple (var:X math:absoluteValue var:Z4)]
+    [ log:triple ((var:Z4 var:R) math:quotient var:Z5)]
+    [ log:triple (var:Z5 math:acos var:T)]
+    [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
+)].
+
+# dial
+[ log:and (
+    [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:X math:notLessThan 0)]
+    [ log:triple (var:Y math:notLessThan 0)]
+    [ log:triple ((0 var:T) math:sum var:Tp)]
+)].
+
+[ log:and (
+    [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:X math:lessThan 0)]
+    [ log:triple (var:Y math:notLessThan 0)]
+    [ log:triple ((3.141592653589793 var:T) math:difference var:Tp)]
+)].
+
+[ log:and (
+    [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:X math:lessThan 0)]
+    [ log:triple (var:Y math:lessThan 0)]
+    [ log:triple ((3.141592653589793 var:T) math:sum var:Tp)]
+)].
+
+[ log:and (
+    [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:X math:notLessThan 0)]
+    [ log:triple (var:Y math:lessThan 0)]
+    [ log:triple ((3.141592653589793 2) math:product var:Z1)]
+    [ log:triple ((var:Z1 var:T) math:difference var:Tp)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (((-1 0) (0.5 0)) complex:exponentiation var:C1)]
+    [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2)]
+    [ log:triple (((0 1) (0 1)) complex:exponentiation var:C3)]
+    [ log:triple (((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:C4)]
+    [ log:triple ((2 0) complex:asin var:C5)]
+    [ log:triple ((2 0) complex:acos var:C6)]
+)] log:query [ log:and (
+    [ log:triple (((-1 0) (0.5 0)) complex:exponentiation var:C1)]
+    [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2)]
+    [ log:triple (((0 1) (0 1)) complex:exponentiation var:C3)]
+    [ log:triple (((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:C4)]
+    [ log:triple ((2 0) complex:asin var:C5)]
+    [ log:triple ((2 0) complex:acos var:C6)]
+)].

@@ -1,0 +1,59 @@
+# ----------
+# Easter day
+# ----------
+#
+# See https://en.wikipedia.org/wiki/Date_of_Easter
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# calculate easter day
+[ log:and (
+    [ log:triple (var:x0 :easter (var:x34 var:x32))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:x0 19) math:remainder var:x1)]
+    [ log:triple ((var:x0 100) math:integerQuotient var:x2)]
+    [ log:triple ((var:x0 100) math:remainder var:x3)]
+    [ log:triple ((var:x2 4) math:integerQuotient var:x4)]
+    [ log:triple ((var:x2 4) math:remainder var:x5)]
+    [ log:triple ((var:x2 8) math:sum var:x6)]
+    [ log:triple ((var:x6 25) math:integerQuotient var:x7)]
+    [ log:triple ((var:x2 var:x7) math:difference var:x8)]
+    [ log:triple ((var:x8 1) math:sum var:x9)]
+    [ log:triple ((var:x9 3) math:integerQuotient var:x10)]
+    [ log:triple ((19 var:x1) math:product var:x11)]
+    [ log:triple ((var:x11 var:x2) math:sum var:x12)]
+    [ log:triple ((var:x12 var:x4) math:difference var:x13)]
+    [ log:triple ((var:x13 var:x10) math:difference var:x14)]
+    [ log:triple ((var:x14 15) math:sum var:x15)]
+    [ log:triple ((var:x15 30) math:remainder var:x16)]
+    [ log:triple ((var:x3 4) math:integerQuotient var:x17)]
+    [ log:triple ((var:x3 4) math:remainder var:x18)]
+    [ log:triple ((2 var:x5) math:product var:x19)]
+    [ log:triple ((2 var:x17) math:product var:x20)]
+    [ log:triple (var:x16 math:negation var:x21)]
+    [ log:triple (var:x18 math:negation var:x22)]
+    [ log:triple ((32 var:x19 var:x20 var:x21 var:x22) math:sum var:x23)]
+    [ log:triple ((var:x23 7) math:remainder var:x24)]
+    [ log:triple ((11 var:x16) math:product var:x25)]
+    [ log:triple ((22 var:x24) math:product var:x26)]
+    [ log:triple ((var:x1 var:x25 var:x26) math:sum var:x27)]
+    [ log:triple ((var:x27 451) math:integerQuotient var:x28)]
+    [ log:triple ((7 var:x28) math:product var:x29)]
+    [ log:triple (var:x29 math:negation var:x30)]
+    [ log:triple ((var:x16 var:x24 var:x30 114) math:sum var:x31)]
+    [ log:triple ((var:x31 31) math:integerQuotient var:x32)]
+    [ log:triple ((var:x31 31) math:remainder var:x33)]
+    [ log:triple ((var:x33 1) math:sum var:x34)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (27 log:repeat var:x0)]
+    [ log:triple ((2024 var:x0) math:sum var:x1)]
+    [ log:triple (var:x1 :easter (var:x2 var:x3))]
+)] log:query [ log:and (
+    [ log:triple (var:x1 :easter (var:x2 var:x3))]
+)].

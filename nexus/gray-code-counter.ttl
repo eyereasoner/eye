@@ -1,0 +1,84 @@
+# -----------------
+# Gray Code Counter
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Gray_code
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+(0 0) :and 0.
+(0 1) :and 0.
+(1 0) :and 0.
+(1 1) :and 1.
+
+(0 0) :or 0.
+(0 1) :or 1.
+(1 0) :or 1.
+(1 1) :or 1.
+
+[] rdf:value 0; :inv 1.
+[] rdf:value 1; :inv 0.
+
+[ log:and (
+    [ log:triple ((var:D 0 var:Q) :dff var:Q)]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple ((var:D 1 var:Q) :dff var:D)]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple ((var:A var:B) :neta var:Q)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:A var:B) :and var:T1)]
+    [ log:triple (var:A :inv var:NA)]
+    [ log:triple (var:B :inv var:NB)]
+    [ log:triple ((var:NA var:NB) :and var:T2)]
+    [ log:triple ((var:T1 var:T2) :or var:Q)]
+)].
+
+[ log:and (
+    [ log:triple ((var:A var:B var:C) :netb (var:Q1 var:Q2))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:A var:C) :and var:T1)]
+    [ log:triple (var:C :inv var:NC)]
+    [ log:triple ((var:B var:NC) :and var:T2)]
+    [ log:triple (var:A :inv var:NA)]
+    [ log:triple ((var:NA var:C) :and var:T3)]
+    [ log:triple ((var:T1 var:T2) :or var:Q1)]
+    [ log:triple ((var:T2 var:T3) :or var:Q2)]
+)].
+
+[ log:and (
+    [ log:triple ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))]
+    [ log:triple ((var:Qa var:Qb) :neta var:D3)]
+    [ log:triple ((var:D1 var:C var:Qa) :dff var:Za)]
+    [ log:triple ((var:D2 var:C var:Qb) :dff var:Zb)]
+    [ log:triple ((var:D3 var:C var:Qc) :dff var:Zc)]
+)].
+
+[ log:and (
+    [ log:triple ((() var:S) :testgcc ())]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple ((var:Cc var:S) :testgcc var:Nc)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:Cc list:firstRest (var:C var:Cs))]
+    [ log:triple (var:Nc list:firstRest (var:N var:Ns))]
+    [ log:triple ((var:C var:S) :gcc var:N)]
+    [ log:triple ((var:Cs var:N) :testgcc var:Ns)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)]
+)] log:query [ log:and (
+    [ log:triple (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)]
+)].

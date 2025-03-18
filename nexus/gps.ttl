@@ -1,0 +1,161 @@
+# ------------------------------
+# Goal driven Parallel Sequences
+# ------------------------------
+#
+# Inspired by https://www.cs.cmu.edu/~fp/courses/15816-s12/lectures/01-inference.pdf
+#
+# [[
+# In linear logic we are instead concerned with the change of truth with a
+# change of state. We model this in a very simple way: when an inference rule
+# is applied we consume the propositions used as bodys and produce the
+# propositions in the heads, thereby effecting an overall change in state.
+# ]]
+#
+# See https://github.com/hongsun502/wstLogic
+# Weighted state transition logic (wstLogic) for future state prediction
+#
+# Current adaptive systems are mostly built on detecting an event and take
+# corresponding adaptations. Weighted state transition logic aims to model
+# the future state, and allows to carry adaptive pathway management based
+# on the predicted future state.
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix gps: <http://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# find paths in the state space from initial state to goal state within limits
+[ log:and (
+    [ log:triple (() gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort)))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (() gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1)))]
+)].
+
+[ log:and (
+    [ log:triple (() gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (() gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
+)].
+
+[ log:and (
+    [ log:triple (() gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:Goal log:call true)]
+)].
+
+[ log:and (
+    [ log:triple (() gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s
+        var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n))]
+    [ log:triple ((var:Maps_s (var:Map)) list:append var:Maps_t)]
+    [ log:triple (var:Maps_t gps:stagecount var:Stagecount)]
+    [ log:triple (var:Stagecount math:notGreaterThan var:MaxStagecount)]
+    [ log:triple ((var:Duration_s var:Duration_n) math:sum var:Duration_t)]
+    [ log:triple (var:Duration_t math:notGreaterThan var:MaxDuration)]
+    [ log:triple ((var:Cost_s var:Cost_n) math:sum var:Cost_t)]
+    [ log:triple (var:Cost_t math:notGreaterThan var:MaxCost)]
+    [ log:triple ((var:Belief_s var:Belief_n) math:product var:Belief_t)]
+    [ log:triple (var:Belief_t math:notLessThan var:MinBelief)]
+    [ log:triple ((var:Comfort_s var:Comfort_n) math:product var:Comfort_t)]
+    [ log:triple (var:Comfort_t math:notLessThan var:MinComfort)]
+    [ log:triple ((var:Path_s (var:Action)) list:append var:Path_t)]
+    [ log:triple (var:From log:becomes var:To)]
+    [ log:triple (
+        [ log:and (
+            [ log:triple (() gps:findpaths (var:Maps_t var:Goal var:Path_t var:Duration_t var:Cost_t var:Belief_t var:Comfort_t
+                var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
+        )] log:callWithCleanup [ log:and (
+            [ log:triple (var:To log:becomes var:From)]
+        )]
+    )]
+)].
+
+# counting the number of stages (a stage is a sequence of gps in the same map)
+[ log:and (
+    [ log:triple (() gps:stagecount 1)]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple (var:A gps:stagecount var:B)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:A list:firstRest (var:C var:D))]
+    [ log:triple (var:D list:firstRest (var:E var:F))]
+    [ log:triple (var:C log:notEqualTo var:E)]
+    [ log:triple (var:D gps:stagecount var:G)]
+    [ log:triple ((var:G 1) math:sum var:B)]
+)].
+
+[ log:and (
+    [ log:triple (var:A gps:stagecount var:B)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:A list:firstRest (var:C var:D))]
+    [ log:triple (var:D gps:stagecount var:B)]
+)].
+
+# current state as practical example
+:i1 :location :Gent.
+
+# map of Belgium
+[ log:and (
+    [ log:triple (:map-BE gps:description ([ log:and (
+        [ log:triple (var:S :location :Gent)]
+    )] true [ log:and (
+        [ log:triple (var:S :location :Brugge)]
+    )] :drive_gent_brugge 1500.0 0.006 0.96 0.99))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:S :location var:L)]
+)].
+
+[ log:and (
+    [ log:triple (:map-BE gps:description ([ log:and (
+        [ log:triple (var:S :location :Gent)]
+    )] true [ log:and (
+        [ log:triple (var:S :location :Kortrijk)]
+    )] :drive_gent_kortrijk 1600.0 0.007 0.96 0.99))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:S :location var:L)]
+)].
+
+[ log:and (
+    [ log:triple (:map-BE gps:description ([ log:and (
+        [ log:triple (var:S :location :Kortrijk)]
+    )] true [ log:and (
+        [ log:triple (var:S :location :Brugge)]
+    )] :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:S :location var:L)]
+)].
+
+[ log:and (
+    [ log:triple (:map-BE gps:description ([ log:and (
+        [ log:triple (var:S :location :Brugge)]
+    )] true [ log:and (
+        [ log:triple (var:S :location :Oostende)]
+    )] :drive_brugge_oostende 900.0 0.004 0.98 1.0))]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:S :location var:L)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (() gps:findpath (
+        [ log:and (
+            [ log:triple (var:S :location :Oostende)]
+        )]
+        var:PATH
+        var:DURATION
+        var:COST
+        var:BELIEF
+        var:COMFORT
+        (5000.0 5.0 0.2 0.4 1)))]
+)] log:query [ log:and (
+    [ log:triple (var:S gps:path (var:PATH var:DURATION var:COST var:BELIEF var:COMFORT))]
+)].

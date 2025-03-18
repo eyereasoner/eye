@@ -1,0 +1,28 @@
+# --------------------------
+# Scoped Negation As Failure
+# --------------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Alice :loves :Bob.
+:Bob a :Person.
+
+# rule
+[ log:and (
+    [ log:triple (var:SCOPE log:notIncludes [ log:and (
+        [ log:triple (:Alice :hates var:X)]
+    )])]
+    [ log:triple (var:X a :Person)]
+)] log:implies [ log:and (
+    [ log:triple (:Alice :hates :Nobody)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:s :hates var:o)]
+)] log:query [ log:and (
+    [ log:triple (var:s :hates var:o)]
+)].

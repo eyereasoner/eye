@@ -1,0 +1,28 @@
+# ------------------
+# Socrates inference
+# ------------------
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix ex: <http://example.org/#>.
+
+# facts
+ex:Socrates rdf:type ex:Human.
+ex:Human rdfs:subClassOf ex:Mortal.
+
+# subclass rule
+[ log:and (
+    [ log:triple (var:A rdfs:subClassOf var:B)]
+    [ log:triple (var:S rdf:type var:A)]
+)] log:implies [ log:and (
+    [ log:triple (var:S rdf:type var:B)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:WHO rdf:type var:WHAT)]
+)] log:query [ log:and (
+    [ log:triple (var:WHO rdf:type var:WHAT)]
+)].
