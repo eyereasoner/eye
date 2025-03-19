@@ -1,6 +1,6 @@
 # nexus
 
-- nexus supports reasoning with forward rules described in rdf core as
+- nexus supports reasoning with forward rules described in RDF Core as
   e.g.
     ```
     # subclass rule
@@ -12,7 +12,7 @@
     )].
     ```
 
-- nexus supports reasoning with backward rules described in rdf core as
+- nexus supports reasoning with backward rules described in RDF Core as
   e.g.
     ```
     # is the age of a person above some duration?
@@ -26,7 +26,7 @@
     )].
     ```
 
-- nexus supports querying with queries described in rdf core as
+- nexus supports querying with queries described in RDF Core as
   e.g.
     ```
     # who is a what?
@@ -38,9 +38,9 @@
     ```
 
 > [!NOTE]
-> a forward rule with `log:implies false` is an inference fuse
+> A forward rule with `log:implies false` is an inference fuse.
 
 > [!NOTE]
-> the `var:` prefix is `<http://www.w3.org/2000/10/swap/var#>` and is used for
+> The `var:` prefix is `<http://www.w3.org/2000/10/swap/var#>` and is used for
   variables that are interpreted universally except for forward rule
-  conclusion-only variables which are interpreted existentially
+  conclusion-only variables which are interpreted existentially.
