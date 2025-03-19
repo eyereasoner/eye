@@ -2,7 +2,7 @@
 % ono -- Jos De Roo
 % -----------------
 %
-% See https://github.com/eyereasoner/ono
+% See https://github.com/eyereasoner/eye/blob/master/ono/README.md
 %
 
 :- use_module(library(lists)).
