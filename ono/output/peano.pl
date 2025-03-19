@@ -1,0 +1,5 @@
+:- op(1200, xfx, :+).
+
+answer(('urn:example:multiply'(s(0),s(s(0)),s(s(0))),'urn:example:add'(s(s(0)),s(s(s(0))),s(s(s(s(s(0)))))),'urn:example:factorial'(s(s(s(s(s(0))))),s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(...))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))).
+
+step((true:+'urn:example:multiply'(s(0),s(s(0)),A),'urn:example:add'(A,s(s(s(0))),B),'urn:example:factorial'(B,C)),('urn:example:multiply'(s(0),s(s(0)),s(s(0))),'urn:example:add'(s(s(0)),s(s(s(0))),s(s(s(s(s(0)))))),'urn:example:factorial'(s(s(s(s(s(0))))),s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(s(...)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))),true).
