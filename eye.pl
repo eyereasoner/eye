@@ -432,7 +432,7 @@ gre(Argus) :-
     ),
     atomic_list_concat(['https://eyereasoner.github.io/.well-known/genid/', Genid, '#'], Sns),
     nb_setval(var_ns, Sns),
-    (   flag(quantify, _)
+    (   \+flag(quantify, _)
     ->  assertz(flag(quantify, 'http://josd.github.io/.well-known/genid/pP7dSETOSHCTU6bSn:iLn_1X3mg'))
     ;   true
     ),
