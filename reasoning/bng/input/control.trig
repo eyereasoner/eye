@@ -1,0 +1,93 @@
+# ---------------
+# Control Systems
+# ---------------
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# input
+:input1 :measurement1 (6 11).
+:input2 :measurement2 true.
+:input3 :measurement3 56967.
+
+# disturbance
+:disturbance1 :measurement3 35766.
+:disturbance2 :measurement1 (45 39).
+
+# state
+:state1 :observation1 80.
+:state2 :observation2 false.
+:state3 :observation3 22.
+
+# output
+:output2 :measurement4 24.
+:output2 :target2 29.
+
+# forward rules
+_:bng_1 log:implies _:bng_2.
+
+_:bng_1 {
+    :input1 :measurement10 var:M1.
+    :input2 :measurement2 true.
+    :disturbance1 :measurement3 var:D1.
+    (var:M1 19.6) math:product var:C1.          # proportial part
+    (10 var:C2) math:exponentiation var:D1.     # compensation part
+    (var:C1 var:C2) math:difference var:C.      # simple feedforward control
+}
+
+_:bng_2 {
+    :actuator1 :control1 var:C.
+}
+
+_:bng_3 log:implies _:bng_4.
+
+_:bng_3 {
+    :input3 :measurement3 var:M3.
+    :state3 :observation3 var:P3.
+    :output2 :measurement4 var:M4.
+    :output2 :target2 var:T2.
+    (var:T2 var:M4) math:difference var:E.      # error
+    (var:P3 var:M4) math:difference var:D.      # differential error
+    (5.8 var:E) math:product var:C1.            # proportial part
+    (7.3 var:E) math:quotient var:N.            # nonlinear factor
+    (var:N var:D) math:product var:C2.          # nonlinear differential part
+    (var:C1 var:C2) math:sum var:C.             # PND feedback control
+}
+
+_:bng_4 {
+    :actuator2 :control1 var:C.
+}
+
+# backward rules
+_:bng_5 log:isImpliedBy _:bng_6.
+
+_:bng_5 {
+    var:I :measurement10 var:M.
+}
+
+_:bng_6 {
+    var:I :measurement1 (var:M1 var:M2).
+    var:M1 math:lessThan var:M2.
+    (var:M2 var:M1) math:difference var:M3.
+    (var:M3 0.5) math:exponentiation var:M.
+}
+
+_:bng_7 log:isImpliedBy _:bng_8.
+
+_:bng_7 {
+    var:I :measurement10 var:M1.
+}
+
+_:bng_8 {
+    var:I :measurement1 (var:M1 var:M2).
+    var:M1 math:notLessThan var:M2.
+}
+
+# query
+_:bng_9 log:query _:bng_9.
+
+_:bng_9 {
+    var:O :control1 var:C.
+}

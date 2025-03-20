@@ -1,0 +1,106 @@
+# -----------------
+# Gray Code Counter
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Gray_code
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+(0 0) :and 0.
+(0 1) :and 0.
+(1 0) :and 0.
+(1 1) :and 1.
+
+(0 0) :or 0.
+(0 1) :or 1.
+(1 0) :or 1.
+(1 1) :or 1.
+
+[] rdf:value 0; :inv 1.
+[] rdf:value 1; :inv 0.
+
+_:bng_1 log:isImpliedBy true.
+
+_:bng_1 {
+    (var:D 0 var:Q) :dff var:Q.
+}
+
+_:bng_2 log:isImpliedBy true.
+
+_:bng_2 {
+    (var:D 1 var:Q) :dff var:D.
+}
+
+_:bng_3 log:isImpliedBy _:bng_4.
+
+_:bng_3 {
+    (var:A var:B) :neta var:Q.
+}
+
+_:bng_4 {
+    (var:A var:B) :and var:T1.
+    var:A :inv var:NA.
+    var:B :inv var:NB.
+    (var:NA var:NB) :and var:T2.
+    (var:T1 var:T2) :or var:Q.
+}
+
+_:bng_5 log:isImpliedBy _:bng_6.
+
+_:bng_5 {
+    (var:A var:B var:C) :netb (var:Q1 var:Q2).
+}
+
+_:bng_6 {
+    (var:A var:C) :and var:T1.
+    var:C :inv var:NC.
+    (var:B var:NC) :and var:T2.
+    var:A :inv var:NA.
+    (var:NA var:C) :and var:T3.
+    (var:T1 var:T2) :or var:Q1.
+    (var:T2 var:T3) :or var:Q2.
+}
+
+_:bng_7 log:isImpliedBy _:bng_8.
+
+_:bng_7 {
+    (var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc).
+}
+
+_:bng_8 {
+    (var:Qa var:Qb var:Qc) :netb (var:D1 var:D2).
+    (var:Qa var:Qb) :neta var:D3.
+    (var:D1 var:C var:Qa) :dff var:Za.
+    (var:D2 var:C var:Qb) :dff var:Zb.
+    (var:D3 var:C var:Qc) :dff var:Zc.
+}
+
+_:bng_9 log:isImpliedBy true.
+
+_:bng_9 {
+    (() var:S) :testgcc ().
+}
+
+_:bng_10 log:isImpliedBy _:bng_11.
+
+_:bng_10 {
+    (var:Cc var:S) :testgcc var:Nc.
+}
+
+_:bng_11 {
+    var:Cc list:firstRest (var:C var:Cs).
+    var:Nc list:firstRest (var:N var:Ns).
+    (var:C var:S) :gcc var:N.
+    (var:Cs var:N) :testgcc var:Ns.
+}
+
+# query
+_:bng_12 log:query _:bng_12.
+
+_:bng_12 {
+    ((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q.
+}

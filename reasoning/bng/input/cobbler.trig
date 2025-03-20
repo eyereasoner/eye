@@ -1,0 +1,20 @@
+# ------------
+# Good Cobbler
+# ------------
+#
+# Example from https://shs.hal.science/halshs-04148373/document
+# Using functional logic http://intrologic.stanford.edu/chapters/chapter_11.html
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# some x is a good cobbler
+_:x :is (:good :Cobbler).
+
+# is there some x which is good at some y
+_:bng_1 log:query _:bng_1.
+
+_:bng_1 {
+    var:x :is (:good var:y).
+}

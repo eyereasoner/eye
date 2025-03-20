@@ -1,0 +1,33 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# graph statement
+_:bng_1 {
+    :u :v :w.
+    :x :y :z.
+}
+
+# void statement
+_:bng_1 graph:statement _:bng_1.
+
+# forward rule
+_:bng_2 log:implies _:bng_3.
+
+_:bng_2 {
+    var:X graph:statement _:bng_1.
+}
+
+_:bng_3 {
+    :test :is true.
+}
+
+# query
+_:bng_3 log:query _:bng_3.
+
+_:bng_4 log:query _:bng_4.
+
+_:bng_4 {
+    var:G graph:statement var:C.
+}

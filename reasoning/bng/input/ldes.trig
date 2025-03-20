@@ -1,0 +1,87 @@
+# ------------
+# LDES example
+# ------------
+#
+# See https://github.com/SEMICeu/LinkedDataEventStreams
+
+@prefix tree: <https://w3id.org/tree#>.
+@prefix ldes: <https://w3id.org/ldes#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix patch: <http://example.org/patch#>.
+@prefix as: <http://example.org/as#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+:LDES a ldes:EventStream ;
+    rdfs:comment "An LDES with per member: an ActivityStreams update, the payload and the signature of the payload";
+    tree:view <> ;
+    tree:member <A> .
+
+## Imagine we would like to create a transactional profile of LDES, including things like policies, transactions, policies, ways to upsert/remove sets of triples, etc.
+<A> a patch:Event ;
+    patch:processingMethod patch:Upsert ;
+    patch:upsertKey <https://example.org/Dataset1> ;
+    patch:transaction :Transaction1 ;
+    patch:upsertPayload _:bng_1 ;
+    patch:sequence 1 ;
+    patch:time "2024-09-09T13:27:33.681Z";
+    patch:provenance _:bng_2 ;
+    patch:signature _:bng_3 ;
+    patch:policy _:bng_4 .
+
+_:bng_1 {
+     ## The (updated) representation of this particular dataset
+     ## ...
+     <https://example.org/Dataset1> a dcat:Dataset .
+
+}
+
+_:bng_2 {
+     <https://example.org/Dataset1#Event1> a as:Create, prov:Activity ;
+       as:object <https://example.org/Dataset1> ;
+       as:published "2023-10-01T12:00:00Z"^^xsd:dateTime .
+}
+
+_:bng_3 {
+     # Signature
+     [] a :DataIntegrityProof;
+        # ...
+        :signature "rCWNBuxBK1In93X8dvuK1ss91LK0rMiA2KzvsNaEhdGt7PTD5aQ0X58TzbvnTOhvl9t5bRGoOHnxfys52Q9bWjnmD4GoljEWVWFSrBnORsLBOLwcAnLRfEtTvz4t0EYV";
+        :target (_:bng_1 _:bng_2 _:bng_4) .
+}
+
+_:bng_4 {
+      ## We want to indicate that this specific member must be removed after 1 month
+      [] a :Policy ;
+          :target (_:bng_1 _:bng_2 _:bng_3) ;
+          :duty [
+                 a :RemovalDuty ;
+                 :after "P1M" 
+         ] .
+}
+
+# query
+_:bng_5 log:query _:bng_6.
+
+_:bng_5 {
+    var:Node graph:statement var:ContentGraph.
+    var:ContentGraph log:includes _:bng_7.
+    var:ContentGraph log:includes _:bng_8.
+}
+
+_:bng_6 {
+    :answer :is var:ContentGraph.
+}
+
+_:bng_7 {
+    var:Pol a :Policy.
+}
+
+_:bng_8 {
+    var:Pol :target var:Target.
+}

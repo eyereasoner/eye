@@ -1,0 +1,182 @@
+# -------------
+# RESTdesc path
+# -------------
+#
+# See https://github.com/RubenVerborgh/RESTdesc-Composition-Benchmark
+
+@prefix http: <http://www.w3.org/2011/http#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# initial
+:x :rel1 :y.
+
+# RESTdesc
+_:bng_1 log:implies _:bng_2.
+
+_:bng_1 {
+    var:a1 :rel1 var:b1.
+}
+
+_:bng_2{
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel2 var:b1.
+    var:a2 :rel2 var:b2.
+    var:a3 :rel2 var:b3.
+}
+
+_:bng_3 log:implies _:bng_4.
+
+_:bng_3 {
+    var:a1 :rel2 var:b1.
+    var:a2 :rel2 var:b2.
+    var:a3 :rel2 var:b3.
+}
+
+_:bng_4 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel3 var:b1.
+    var:a2 :rel3 var:b2.
+    var:a3 :rel3 var:b3.
+}
+
+_:bng_5 log:implies _:bng_6.
+
+_:bng_5 {
+    var:a1 :rel3 var:b1.
+    var:a2 :rel3 var:b2.
+    var:a3 :rel3 var:b3.
+}
+
+_:bng_6 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel4 var:b1.
+    var:a2 :rel4 var:b2.
+    var:a3 :rel4 var:b3.
+}
+
+_:bng_7 log:implies _:bng_8.
+
+_:bng_7 {
+    var:a1 :rel4 var:b1.
+    var:a2 :rel4 var:b2.
+    var:a3 :rel4 var:b3.
+}
+
+_:bng_8 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel5 var:b1.
+    var:a2 :rel5 var:b2.
+    var:a3 :rel5 var:b3.
+}
+
+_:bng_9 log:implies _:bng_10.
+
+_:bng_9 {
+    var:a1 :rel5 var:b1.
+    var:a2 :rel5 var:b2.
+    var:a3 :rel5 var:b3.
+}
+
+_:bng_10 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel6 var:b1.
+    var:a2 :rel6 var:b2.
+    var:a3 :rel6 var:b3.
+}
+
+_:bng_11 log:implies _:bng_12.
+
+_:bng_11 {
+    var:a1 :rel6 var:b1.
+    var:a2 :rel6 var:b2.
+    var:a3 :rel6 var:b3.
+}
+
+_:bng_12 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel7 var:b1.
+    var:a2 :rel7 var:b2.
+    var:a3 :rel7 var:b3.
+}
+
+_:bng_13 log:implies _:bng_14.
+
+_:bng_13 {
+    var:a1 :rel7 var:b1.
+    var:a2 :rel7 var:b2.
+    var:a3 :rel7 var:b3.
+}
+
+_:bng_14 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel8 var:b1.
+    var:a2 :rel8 var:b2.
+    var:a3 :rel8 var:b3.
+}
+
+_:bng_15 log:implies _:bng_16.
+
+_:bng_15 {
+    var:a1 :rel8 var:b1.
+    var:a2 :rel8 var:b2.
+    var:a3 :rel8 var:b3.
+}
+
+_:bng_16 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel9 var:b1.
+    var:a2 :rel9 var:b2.
+    var:a3 :rel9 var:b3.
+}
+
+_:bng_17 log:implies _:bng_18.
+
+_:bng_17 {
+    var:a1 :rel9 var:b1.
+    var:a2 :rel9 var:b2.
+    var:a3 :rel9 var:b3.
+}
+
+_:bng_18 {
+    var:request http:methodName "GET";
+        http:requestURI var:a1;
+        http:resp var:resp.
+    var:resp http:body var:b1.
+    var:a1 :rel10 var:b1.
+    var:a2 :rel10 var:b2.
+    var:a3 :rel10 var:b3.
+    var:a1 :relGoal var:b1.
+}
+
+# query
+_:bng_19 log:query _:bng_19.
+
+_:bng_19 {
+    :x :relGoal :y.
+}
