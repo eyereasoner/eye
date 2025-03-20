@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.10 (2025-03-19)').
+version_info('EYE v11.12.11 (2025-03-21)').
 
 license_info('MIT License
 
@@ -5030,7 +5030,7 @@ eam(Recursion) :-
         ;   true
         ),
         (   flag('no-ucall')
-        ->  catch(call_residue_vars(call(Prem), []), Exc,
+        ->  catch(call(Prem), Exc,
                 (   Exc = error(existence_error(procedure, _), _)
                 ->  fail
                 ;   throw(Exc)
