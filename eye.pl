@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.12.11 (2025-03-21)').
+version_info('EYE v11.12.12 (2025-03-21)').
 
 license_info('MIT License
 
@@ -65,6 +65,7 @@ eye
     --intermediate <n3p-file>       output all <data> to <n3p-file>
     --license                       show license info
     --max-inferences <nr>           halt after maximum number of inferences
+    --no-call-residue-vars          no check for residue vars for forward rules
     --no-distinct-input             no distinct triples in the input
     --no-distinct-output            no distinct answers in the output
     --no-numerals                   no numerals in the output
@@ -751,6 +752,11 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     opts(Argus, Args).
 opts(['--no-bnode-relabeling'|Argus], Args) :-
     !,
+    opts(Argus, Args).
+opts(['--no-call-residue-vars'|Argus], Args) :-
+    !,
+    retractall(flag('no-call-residue-vars')),
+    assertz(flag('no-call-residue-vars')),
     opts(Argus, Args).
 opts(['--no-distinct-input'|Argus], Args) :-
     !,
@@ -5029,17 +5035,33 @@ eam(Recursion) :-
             flush_output(user_error)
         ;   true
         ),
-        (   flag('no-ucall')
-        ->  catch(call(Prem), Exc,
-                (   Exc = error(existence_error(procedure, _), _)
-                ->  fail
-                ;   throw(Exc)
+        (   flag('no-call-residue-vars')
+        ->  (   flag('no-ucall')
+            ->  catch(call(Prem), Exc,
+                    (   Exc = error(existence_error(procedure, _), _)
+                    ->  fail
+                    ;   throw(Exc)
+                    )
+                )
+            ;   catch(ucall(Prem), Exc,
+                    (   Exc = error(existence_error(procedure, _), _)
+                    ->  fail
+                    ;   throw(Exc)
+                    )
                 )
             )
-        ;   catch(call_residue_vars(ucall(Prem), []), Exc,
-                (   Exc = error(existence_error(procedure, _), _)
-                ->  fail
-                ;   throw(Exc)
+        ;   (   flag('no-ucall')
+            ->  catch(call_residue_vars(call(Prem), []), Exc,
+                    (   Exc = error(existence_error(procedure, _), _)
+                    ->  fail
+                    ;   throw(Exc)
+                    )
+                )
+            ;   catch(call_residue_vars(ucall(Prem), []), Exc,
+                    (   Exc = error(existence_error(procedure, _), _)
+                    ->  fail
+                    ;   throw(Exc)
+                    )
                 )
             )
         ),
