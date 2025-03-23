@@ -1,0 +1,21 @@
+# ---------------------
+# Newton-Raphson method
+# ---------------------
+#
+# See https://en.wikipedia.org/wiki/Newton%27s_method
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# query
+[ log:and (
+    [ log:triple (("consult" "input/newton-raphson.pl") log:program true)]
+    [ log:triple ((1 1.0 1.0e-15) :findRoot var:Root1)]
+    [ log:triple ((2 2.0 1.0e-15) :findRoot var:Root2)]
+    [ log:triple ((3 3.0 1.0e-15) :findRoot var:Root3)]
+)] log:query [ log:and (
+    [ log:triple ((1 1.0 1.0e-15) :findRoot var:Root1)]
+    [ log:triple ((2 2.0 1.0e-15) :findRoot var:Root2)]
+    [ log:triple ((3 3.0 1.0e-15) :findRoot var:Root3)]
+)].
