@@ -2,6 +2,7 @@
 # Universal statements
 # --------------------
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -9,7 +10,7 @@
 
 # \Every x: type(x, Resource
 [ log:and (
-    [ log:triple (var:X a rdfs:Resource)]
+    [ log:triple (var:X rdf:type rdfs:Resource)]
 )] log:isImpliedBy true.
 
 # Everybody loves somebody who is lonely
@@ -27,9 +28,9 @@
 
 # queries
 [ log:and (
-    [ log:triple (:pat a rdfs:Resource)]
+    [ log:triple (:pat rdf:type rdfs:Resource)]
 )] log:query [ log:and (
-    [ log:triple (:pat a rdfs:Resource)]
+    [ log:triple (:pat rdf:type rdfs:Resource)]
 )].
 
 [ log:and (

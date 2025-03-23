@@ -4,6 +4,7 @@
 #
 # Proving a derived rule.
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <https://eyereasoner.github.io/ns#>.
@@ -15,11 +16,11 @@
 
 # rule derivation
 [ log:and (
-    [ log:triple (var:x a :Cat)]
+    [ log:triple (var:x rdf:type :Cat)]
 )] log:implies [ log:and (
     [ log:triple (
         [ log:and (
-            [ log:triple (var:y a :Dog)]
+            [ log:triple (var:y rdf:type :Dog)]
         )] log:implies [ log:and (
             [ log:triple (:test :is true)]
         )]

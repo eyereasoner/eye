@@ -4,45 +4,46 @@
 #
 # Original http://www.w3.org/2000/10/swap/test/reason/witch.n3
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
 #[1] \forall x, BURNS(x) /\ WOMAN(x) => WITCH(x)
 [ log:and (
-    [ log:triple (var:x a :BURNS)]
-    [ log:triple (var:x a :WOMAN)]
+    [ log:triple (var:x rdf:type :BURNS)]
+    [ log:triple (var:x rdf:type :WOMAN)]
 )] log:implies [ log:and (
-    [ log:triple (var:x a :WITCH)]
+    [ log:triple (var:x rdf:type :WITCH)]
 )].
 
 #[2] WOMAN(GIRL)
-:GIRL a :WOMAN.
+:GIRL rdf:type :WOMAN.
 
 #[3] \forall x, ISMADEOFWOOD(x) => BURNS(x)
 [ log:and (
-    [ log:triple (var:x a :ISMADEOFWOOD)]
+    [ log:triple (var:x rdf:type :ISMADEOFWOOD)]
 )] log:implies [ log:and (
-    [ log:triple (var:x a :BURNS)]
+    [ log:triple (var:x rdf:type :BURNS)]
 )].
 
 #[4] \forall x, FLOATS(x) => ISMADEOFWOOD(x)
 [ log:and (
-    [ log:triple (var:x a :FLOATS)]
+    [ log:triple (var:x rdf:type :FLOATS)]
 )] log:implies [ log:and (
-    [ log:triple (var:x a :ISMADEOFWOOD)]
+    [ log:triple (var:x rdf:type :ISMADEOFWOOD)]
 )].
 
 #[5] FLOATS(DUCK)
 
-:DUCK a :FLOATS.
+:DUCK rdf:type :FLOATS.
 
 #[6] \forall x,y FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
 [ log:and (
-    [ log:triple (var:x a :FLOATS)]
+    [ log:triple (var:x rdf:type :FLOATS)]
     [ log:triple (var:x :SAMEWEIGHT var:y)]
 )] log:implies [ log:and (
-    [ log:triple (var:y a :FLOATS)]
+    [ log:triple (var:y rdf:type :FLOATS)]
 )].
 
 # and, by experiment
@@ -51,7 +52,7 @@
 
 # query
 [ log:and (
-    [ log:triple (var:S a :WITCH)]
+    [ log:triple (var:S rdf:type :WITCH)]
 )] log:query [ log:and (
-    [ log:triple (var:S a :WITCH)]
+    [ log:triple (var:S rdf:type :WITCH)]
 )].

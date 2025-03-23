@@ -4,6 +4,7 @@
 #
 # See https://web.archive.org/web/20220119222608/http://responder.ruleml.org/WellnessRules/files/WellnessRulesN3-2009-11-10.pdf
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -30014,15 +30015,15 @@
 
 # subclass rule
 [ log:and (
-    [ log:triple (var:S a var:D)]
+    [ log:triple (var:S rdf:type var:D)]
 )] log:isImpliedBy [ log:and (
     [ log:triple (var:C rdfs:subClassOf var:D)]
-    [ log:triple (var:S a var:C)]
+    [ log:triple (var:S rdf:type var:C)]
 )].
 
 # query
 [ log:and (
-    [ log:triple (var:X a :A2)]
+    [ log:triple (var:X rdf:type :A2)]
 )] log:query [ log:and (
-    [ log:triple (var:X a :A2)]
+    [ log:triple (var:X rdf:type :A2)]
 )].
