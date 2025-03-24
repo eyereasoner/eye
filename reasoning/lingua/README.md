@@ -1,8 +1,6 @@
-# bng
+# lingua
 
-blank node graphs can contain data, logic and proofs described in RDF.
-
-- bng supports reasoning with forward rules described in RDF
+- lingua supports reasoning with forward rules described in RDF
   e.g.
     ```
     # rdfs subclass
@@ -18,7 +16,7 @@ blank node graphs can contain data, logic and proofs described in RDF.
     }
     ```
 
-- bng supports reasoning with backward rules described in RDF
+- lingua supports reasoning with backward rules described in RDF
   e.g.
     ```
     # is the age of a person above some duration?
@@ -36,7 +34,7 @@ blank node graphs can contain data, logic and proofs described in RDF.
     }
     ```
 
-- bng supports reasoning with queries described in RDF
+- lingua supports reasoning with queries described in RDF
   e.g.
     ```
     # query for people above 80 years old
