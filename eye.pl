@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.0 (2025-03-25)').
+version_info('EYE v11.13.1 (2025-03-25)').
 
 license_info('MIT License
 
@@ -2224,10 +2224,14 @@ pathitem(set(Distinct), Triples) -->
     {   sort(List, Distinct)
     },
     ['$', ')'].
-pathitem(fterm(List), Triples) -->
+pathitem(Fterm, Triples) -->
     ['(', '|'],
     !,
-    pathlist(List, Triples),
+    expression(Functor, Triples1),
+    pathlist(Args, Triples2),
+    {   Fterm =.. [Functor|Args],
+        append(Triples1, Triples2, Triples)
+    },
     ['|', ')'].
 pathitem(List, Triples) -->
     ['('],
@@ -4226,27 +4230,15 @@ wt1(set(X)) :-
     write('($'),
     wl(X),
     write(' $)').
-wt1(fterm(X)) :-
-    !,
-    write('(|'),
-    wl(X),
-    write(' |)').
 wt1('$VAR'(X)) :-
     !,
     write('?V'),
     write(X).
 wt1(X) :-
-    X =.. [B|C],
-    (   atom(B),
-        \+ (sub_atom(B, 0, 1, _, '<'), sub_atom(B, _, 1, 0, '>'))
-    ->  write('"'),
-        writeq(X),
-        write('"')
-    ;   wt(C),
-        write(' '),
-        wp(B),
-        write(' true')
-    ).
+    X =.. Y,
+    write('(|'),
+    wl(Y),
+    write(' |)').
 
 wt2((X, Y)) :-
     !,
