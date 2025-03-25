@@ -9,36 +9,36 @@
 
 {?P :pickup true} <= {
     ?P :chopstick (?L ?R).
-    ("mutex_lock" ?L) log:program true.
-    ("mutex_lock" ?R) log:program true.
+    ("mutex_lock" ?L) log:pro true.
+    ("mutex_lock" ?R) log:pro true.
 }.
 
 {?P :putdown true} <= {
     ?P :chopstick (?L ?R).
-    ("mutex_unlock" ?R) log:program true.
-    ("mutex_unlock" ?L) log:program true.
+    ("mutex_unlock" ?R) log:pro true.
+    ("mutex_unlock" ?L) log:pro true.
 }.
 
 {?P :run (?T ?S)} <= {
-    ("sleep" ?T) log:program true.
-    #("format" "# ~w thinking for ~w seconds~n" (?P ?T)) log:program true.
+    ("sleep" ?T) log:pro true.
+    #("format" "# ~w thinking for ~w seconds~n" (?P ?T)) log:pro true.
     ?P :pickup true.
-    ("sleep" ?S) log:program true.
-    #("format" "# ~w eating for ~w seconds~n" (?P ?S)) log:program true.
+    ("sleep" ?S) log:pro true.
+    #("format" "# ~w eating for ~w seconds~n" (?P ?S)) log:pro true.
     ?P :putdown true.
 }.
 
 {
-    ("thread_create" {:person1 :run (0.100 0.100)} ?A ()) log:program true.
-    ("thread_create" {:person2 :run (0.200 0.200)} ?B ()) log:program true.
-    ("thread_create" {:person3 :run (0.300 0.300)} ?C ()) log:program true.
-    ("thread_create" {:person4 :run (0.250 0.200)} ?D ()) log:program true.
-    ("thread_create" {:person5 :run (0.025 0.100)} ?E ()) log:program true.
-    ("thread_join" ?A ?F) log:program true.
-    ("thread_join" ?B ?G) log:program true.
-    ("thread_join" ?C ?H) log:program true.
-    ("thread_join" ?D ?I) log:program true.
-    ("thread_join" ?E ?J) log:program true.
+    ("thread_create" {:person1 :run (0.100 0.100)} ?A ()) log:pro true.
+    ("thread_create" {:person2 :run (0.200 0.200)} ?B ()) log:pro true.
+    ("thread_create" {:person3 :run (0.300 0.300)} ?C ()) log:pro true.
+    ("thread_create" {:person4 :run (0.250 0.200)} ?D ()) log:pro true.
+    ("thread_create" {:person5 :run (0.025 0.100)} ?E ()) log:pro true.
+    ("thread_join" ?A ?F) log:pro true.
+    ("thread_join" ?B ?G) log:pro true.
+    ("thread_join" ?C ?H) log:pro true.
+    ("thread_join" ?D ?I) log:pro true.
+    ("thread_join" ?E ?J) log:pro true.
 } => {
     :all :got :dinner.
 }.

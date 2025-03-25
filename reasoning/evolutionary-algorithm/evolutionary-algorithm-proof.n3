@@ -67,8 +67,6 @@
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
 @prefix : <https://eyereasoner.github.io/ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix n3: <http://www.w3.org/2004/06/rei#>.
-@prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -81,20 +79,17 @@ skolem:lemma1 a r:Inference;
         "METHINKS IT IS LIKE A WEASEL" :solve true.
     };
     r:evidence (
-        [ a r:Fact; r:gives {("consult" "./evolutionary-algorithm.pl") log:program true}]
-        [ a r:Fact; r:gives {("seed(_S)" 12) log:programTerm (| "seed" 12 |)}]
-        [ a r:Fact; r:gives {("set_random" (| "seed" 12 |)) log:program true}]
+        [ a r:Fact; r:gives {("consult" "./evolutionary-algorithm.pl") log:pro true}]
+        [ a r:Fact; r:gives {("set_random" (| "seed" 12 |)) log:pro true}]
         [ a r:Fact; r:gives {"METHINKS IT IS LIKE A WEASEL" :solve true}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (| "seed" 12 |)];
     r:rule skolem:lemma2.
 
 skolem:lemma2 a r:Extraction;
     r:gives {
-        @forAll var:x_0. {
-            ("consult" "./evolutionary-algorithm.pl") log:program true.
-            ("seed(_S)" 12) log:programTerm var:x_0.
-            ("set_random" var:x_0) log:program true.
+        {
+            ("consult" "./evolutionary-algorithm.pl") log:pro true.
+            ("set_random" (| "seed" 12 |)) log:pro true.
             "METHINKS IT IS LIKE A WEASEL" :solve true.
         } => {
             "METHINKS IT IS LIKE A WEASEL" :solve true.

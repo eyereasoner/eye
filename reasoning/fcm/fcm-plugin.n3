@@ -12,7 +12,7 @@
 {   ?SCOPE e:call {
         ("if_then_else"
             {
-                ("nb_getval" "fnet" "done") log:program true.
+                ("nb_getval" "fnet" "done") log:pro true.
             }
             true
             {
@@ -29,12 +29,12 @@
                                     }
                                     true
                                     {
-                                        ("assertz" {(?X) fcm:fm true}) log:program true.
+                                        ("assertz" {(?X) fcm:fm true}) log:pro true.
                                     }
-                                ) log:program true.
-                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:program true.
+                                ) log:pro true.
+                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:pro true.
                             }
-                        ) log:program true.
+                        ) log:pro true.
                         ("forall"
                             {
                                 (?X ?Y) fl:sigma ?V6.
@@ -46,21 +46,21 @@
                                     }
                                     true
                                     {
-                                        ("assertz" {(?X) fcm:fs true}) log:program true.
+                                        ("assertz" {(?X) fcm:fs true}) log:pro true.
                                     }
-                                ) log:program true.
+                                ) log:pro true.
                                 ("if_then_else"
                                     {
                                         (?Y) fcm:fs true.
                                     }
                                     true
                                     {
-                                        ("assertz" {(?Y) fcm:fs true}) log:program true.
+                                        ("assertz" {(?Y) fcm:fs true}) log:pro true.
                                     }
-                                ) log:program true.
+                                ) log:pro true.
                             }
-                        ) log:program true.
-                        ("between" 1 20 ?J) log:program true.
+                        ) log:pro true.
+                        ("between" 1 20 ?J) log:pro true.
                         (?X) fcm:fm true.
                         (?Y) fcm:fs true.
                         ("findall"
@@ -71,7 +71,7 @@
                                 ("(2*_M-1)*(2*_W-1)" ?M ?W) e:calculate ?I.
                             }
                             ?L
-                        ) log:program true.
+                        ) log:pro true.
                         ("if_then_else"
                             {
                                 ?L log:equalTo ().
@@ -80,18 +80,18 @@
                             {
                                 ?L math:sum ?S.
                                 ("1/(1+exp(-_S))" ?S) e:calculate ?Z.
-                                ("retractall" {?X fcm:pi (?Y ?V1)}) log:program true.
-                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:program true.
+                                ("retractall" {?X fcm:pi (?Y ?V1)}) log:pro true.
+                                ("assertz" {?X fcm:pi (?Y ?Z)}) log:pro true.
                             }
-                        ) log:program true.
-                        ("fail") log:program true.
+                        ) log:pro true.
+                        ("fail") log:pro true.
                     }
                     {
-                        ("nb_setval" "fnet" "done") log:program true.
+                        ("nb_setval" "fnet" "done") log:pro true.
                     }
-                ) log:program true.
+                ) log:pro true.
             }
-        ) log:program true.
+        ) log:pro true.
         ?A fcm:pi (?B ?U).
         ("if_then_else"
             {
@@ -103,6 +103,6 @@
             {
                 ?C log:equalTo ?U.
             }
-        ) log:program true.
+        ) log:pro true.
     }
 }.

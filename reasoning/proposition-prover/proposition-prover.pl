@@ -7,9 +7,9 @@
 :- op(500, fx, +).      % assertion
 :- op(500, fx, -).      % denial
 
-'<https://eyereasoner.github.io/ns#propositionProver>'(PremiseLit, ConclusionLit) :-
-    '<http://www.w3.org/2000/10/swap/log#programTerm>'([PremiseLit], Premise),
-    '<http://www.w3.org/2000/10/swap/log#programTerm>'([ConclusionLit], Conclusion),
+'<https://eyereasoner.github.io/ns#propositionProver>'(literal(PremiseAtom, _), literal(ConclusionAtom, _)) :-
+    read_term_from_atom(PremiseAtom, Premise, []),
+    read_term_from_atom(ConclusionAtom, Conclusion, []),
     opposite(Conclusion, Denial),
     add_conjunction(Premise, Denial, fs([],[],[],[])).
 

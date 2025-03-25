@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.1 (2025-03-25)').
+version_info('EYE v11.13.2 (2025-03-25)').
 
 license_info('MIT License
 
@@ -2229,7 +2229,8 @@ pathitem(Fterm, Triples) -->
     !,
     expression(Functor, Triples1),
     pathlist(Args, Triples2),
-    {   Fterm =.. [Functor|Args],
+    {   parsify([Functor|Args], List),
+        Fterm =.. List,
         append(Triples1, Triples2, Triples)
     },
     ['|', ')'].
@@ -4041,7 +4042,7 @@ wt0(:-) :-
 wt0(fail) :-
     !,
     write('("fail") '),
-    wp('<http://www.w3.org/2000/10/swap/log#program>'),
+    wp('<http://www.w3.org/2000/10/swap/log#pro>'),
     write(' true').
 wt0([]) :-
     !,
@@ -4625,9 +4626,9 @@ wtn(X) :-
     X =.. [B|C],
     (   atom(B),
         \+ (sub_atom(B, 0, 1, _, '<'), sub_atom(B, _, 1, 0, '>'))
-    ->  write('"'),
-        writeq(X),
-        write('"')
+    ->  write('(|'),
+        wl([B|C]),
+        write(' |)')
     ;   wt(C),
         write(' '),
         wp(B),
@@ -7981,7 +7982,7 @@ userInput(A, B) :-
         )
     ).
 
-'<http://www.w3.org/2000/10/swap/log#program>'(A, B) :-
+'<http://www.w3.org/2000/10/swap/log#pro>'(A, B) :-
     \+flag(restricted),
     atomify(A, C),
     D =.. C,
@@ -7989,11 +7990,6 @@ userInput(A, B) :-
     ->  catch(call(D), _, fail)
     ;   \+catch(call(D), _, fail)
     ).
-
-'<http://www.w3.org/2000/10/swap/log#programTerm>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], C) :-
-    \+flag(restricted),
-    atomify(B, D),
-    read_term_from_atom(A, C, [variables(D)]).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
     when(
@@ -12704,13 +12700,13 @@ conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([lite
         '<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
     !,
     D =.. [A|B].
-conjify('<http://www.w3.org/2000/10/swap/log#program'([literal(when, type('<http://www.w3.org/2001/XMLSchema#string>')),
-        '<http://www.w3.org/2000/10/swap/log#program>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
+conjify('<http://www.w3.org/2000/10/swap/log#pro'([literal(when, type('<http://www.w3.org/2001/XMLSchema#string>')),
+        '<http://www.w3.org/2000/10/swap/log#pro>'([literal(A, type('<http://www.w3.org/2001/XMLSchema#string>'))|B], true), C], true), when(D, C)) :-
     !,
     D =.. [A|B].
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#derive>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.
-conjify('<http://www.w3.org/2000/10/swap/log#program>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
+conjify('<http://www.w3.org/2000/10/swap/log#pro>'([literal(!, type('<http://www.w3.org/2001/XMLSchema#string>'))], true), !) :-
     !.
 conjify('<http://eulersharp.sourceforge.net/2003/03swap/prolog#cut>'([], true), !) :-
     !.
@@ -12731,6 +12727,15 @@ atomify(literal(A, type('<http://www.w3.org/2001/XMLSchema#string>')), A) :-
     atom(A),
     !.
 atomify(A, A).
+
+parsify([A|B], [C|D]) :-
+    !,
+    parsify(A, C),
+    parsify(B, D).
+parsify(literal(A, type('\'<http://www.w3.org/2001/XMLSchema#string>\'')), A) :-
+    atom(A),
+    !.
+parsify(A, A).
 
 commonvars('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#transaction>'(A, _), B, C) :-
     !,
