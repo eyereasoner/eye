@@ -4558,10 +4558,7 @@ wt2(X) :-
         \+sub_atom(P, 0, 2, _, '_:'),
         P \= true,
         P \= false
-    ->  /*write('"'),
-        writeq(X),
-        write('"'),*/
-        write('(|'),
+    ->  write('(|'),
         wl([P, S, O]),
         write(' |)')
     ;   wm(S),
