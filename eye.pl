@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.2 (2025-03-25)').
+version_info('EYE v11.13.3 (2025-03-26)').
 
 license_info('MIT License
 
@@ -107,9 +107,6 @@ eye
     --pass-only-new                 output only new derived triples
     --query <n3-query>              output filtered with filter rules').
 
-:- op(1200, xfx, :+).
-
-:- dynamic((:+)/2).
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
@@ -976,10 +973,7 @@ args(['--n3p', Argument|Args]) :-
         ->  http_open(Arg, In, []),
             set_stream(In, encoding(utf8))
         ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
+            ->  sub_atom(Arg, 7, _, 0, File)
             ;   File = Arg
             ),
             (   File = '-'
@@ -1108,10 +1102,7 @@ args(['--trig', Argument|Args]) :-
         ->  http_open(Arg, In, []),
             set_stream(In, encoding(utf8))
         ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
+            ->  sub_atom(Arg, 7, _, 0, File)
             ;   File = Arg
             ),
             (   File = '-'
@@ -1331,10 +1322,7 @@ n3_n3p(Argument, Mode) :-
         ->  http_open(Arg, In, []),
             set_stream(In, encoding(utf8))
         ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
+            ->  sub_atom(Arg, 7, _, 0, File)
             ;   File = Arg
             ),
             (   File = '-'
@@ -1573,10 +1561,7 @@ n3_n3p(Argument, Mode) :-
                     ;   djiti_assertz(Rt),
                         cnt(sc),
                         (   flag(intermediate, Out)
-                        ->  (   Rt = implies(PPP, CCC, _)
-                            ->  portray_clause(Out, (CCC :+ PPP))
-                            ;   portray_clause(Out, Rt)
-                            )
+                        ->  portray_clause(Out, Rt)
                         ;   true
                         )
                     )
@@ -4573,9 +4558,12 @@ wt2(X) :-
         \+sub_atom(P, 0, 2, _, '_:'),
         P \= true,
         P \= false
-    ->  write('"'),
+    ->  /*write('"'),
         writeq(X),
-        write('"')
+        write('"'),*/
+        write('(|'),
+        wl([P, S, O]),
+        write(' |)')
     ;   wm(S),
         write(' '),
         wp(P),
@@ -4647,8 +4635,12 @@ wg(X) :-
         ;   prolog_sym(_, F, _),
             F \= true,
             F \= false,
-            F \= '-',
+            F \= op,
+            F \= +,
+            F \= -,
+            F \= *,
             F \= /,
+            F \= ^,
             !
         ;   A = 2,
             F \= '.',
