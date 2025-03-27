@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.3 (2025-03-26)').
+version_info('EYE v11.13.4 (2025-03-27)').
 
 license_info('MIT License
 
@@ -4543,10 +4543,6 @@ wt2(prolog:X) :-
     ;   prolog_sym(Y, X, _)
     ),
     atomic_list_concat(['<http://eulersharp.sourceforge.net/2003/03swap/prolog#', Y, '>'], Z),
-    wt0(Z).
-wt2(X-Y) :-
-    !,
-    term_to_atom(X-Y, Z),
     wt0(Z).
 wt2(X) :-
     X =.. [P, S, O],

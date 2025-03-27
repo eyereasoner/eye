@@ -1,8 +1,5 @@
-'<urn:example:derivative>'([literal(A, _), literal(B, _)], C) :-
-    term_to_atom(At, A),
-    term_to_atom(Bt, B),
-    derivative(At, Bt, Ct),
-    term_to_atom(Ct, C).
+'<urn:example:derivative>'([A, B], C) :-
+    derivative(A, B, C).
 
 derivative(U, X, Y) :-
     d(U, X, V),
