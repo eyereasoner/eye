@@ -1,6 +1,6 @@
 '<urn:example:derivative>'([literal(A, _), literal(B, _)], C) :-
-    read_term_from_atom(A, At, []),
-    read_term_from_atom(B, Bt, []),
+    term_to_atom(At, A),
+    term_to_atom(Bt, B),
     derivative(At, Bt, Ct),
     term_to_atom(Ct, C).
 

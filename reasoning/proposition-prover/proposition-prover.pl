@@ -8,8 +8,8 @@
 :- op(500, fx, -).      % denial
 
 '<https://eyereasoner.github.io/ns#propositionProver>'(literal(PremiseAtom, _), literal(ConclusionAtom, _)) :-
-    read_term_from_atom(PremiseAtom, Premise, []),
-    read_term_from_atom(ConclusionAtom, Conclusion, []),
+    term_to_atom(Premise, PremiseAtom),
+    term_to_atom(Conclusion, ConclusionAtom),
     opposite(Conclusion, Denial),
     add_conjunction(Premise, Denial, fs([],[],[],[])).
 

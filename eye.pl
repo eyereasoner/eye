@@ -4629,15 +4629,7 @@ wg(X) :-
     functor(X, F, A),
     (   (   F = exopred,
             !
-        ;   prolog_sym(_, F, _),
-            F \= true,
-            F \= false,
-            F \= op,
-            F \= +,
-            F \= -,
-            F \= *,
-            F \= /,
-            F \= ^,
+        ;   F = ',',
             !
         ;   A = 2,
             F \= '.',
