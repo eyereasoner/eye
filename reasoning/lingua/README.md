@@ -55,6 +55,6 @@
 
 > [!NOTE]
 > Literal subjects are described as
-  ```
-  [] rdf:value "aha"; :p :o.
-  ```
+    ```
+    [] rdf:value "aha"; :p :o.
+    ```
