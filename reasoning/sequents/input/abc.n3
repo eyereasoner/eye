@@ -7,16 +7,16 @@
 # not i element of C
 {
     :i a :C.
-} => ().
+} => ($ $).
 
 # all A are B or C
 {
     ?S a :A.
-} => ({
+} => ($ {
     ?S a :B.
 } {
     ?S a :C.
-}).
+} $).
 
 # query
 {

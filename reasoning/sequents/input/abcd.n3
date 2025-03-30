@@ -7,23 +7,23 @@
 # i is not an element of C
 {
     :i a :C.
-} => ().
+} => ($ $).
 
 # i is not an element of D
 {
     :i a :D.
-} => ().
+} => ($ $).
 
 # all A are B or C or D
 {
     ?S a :A.
-} => ({
+} => ($ {
     ?S a :B.
 } {
     ?S a :C.
 } {
     ?S a :D.
-}).
+} $).
 
 # query
 {

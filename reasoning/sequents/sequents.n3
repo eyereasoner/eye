@@ -17,7 +17,7 @@
 {
     ?A => ?B.
     ?B list:select (?C ?D).
-    ?C => ().
+    ?C => ($ $).
 } => {
     ?A => ?D.
 }.
@@ -26,9 +26,9 @@
 {
     ?A => ?B.
     ?B list:isList false.
-    ?B => ().
+    ?B => ($ $).
 } => {
-    ?A => ().
+    ?A => ($ $).
 }.
 
 # rewriting A (factoring)
@@ -43,26 +43,26 @@
 {
     ?A => ?B.
     ?B list:select (?C ?D).
-    ({ ?C => () } ?A) graph:union ?E.
+    ({ ?C => ($ $) } ?A) graph:union ?E.
 } => {
     ?E => ?D.
 }.
 
 # rewriting C (contrapositive)
 {
-    ?A => ().
+    ?A => ($ $).
     ?A graph:list ?B.
     ?B list:select (?C ?M).
     ?C log:isBuiltin false.
     ?E graph:list ?M.
 } => {
     ?E => {
-        ?C => ().
+        ?C => ($ $).
     }.
 }.
 
 # inference fuse
 {
-    ?A => ().
+    ?A => ($ $).
     ?A log:call true.
 } => false.

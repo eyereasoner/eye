@@ -5,11 +5,11 @@
 10 a :NaturalNumber.
 
 # All x : (X a EvenNumber) OR (X a OddNumber)
-true => ({
+true => ($ {
     ?x a :OddNumber.
 } {
     ?x a :EvenNumber.
-}).
+} $).
 
 # All x,y : (X a NaturalNumber) ->  (y = x-1, y > 0 a NaturalNumber)
 {
@@ -27,7 +27,7 @@ true => ({
 } => {
     {
         ?x a :OddNumber.
-    } => ().
+    } => ($ $).
 }.
 
 # query

@@ -11,7 +11,7 @@
 } => {
     {
         ?Y a :Winner.
-    } => ().
+    } => ($ $).
 }.
 
 # It is impossible that both X and Y are winners
@@ -21,7 +21,7 @@
     ?Y a :Runner.
     ?Y a :Winner.
     ?Y log:notEqualTo ?X.
-} => ().
+} => ($ $).
 
 # facts
 :Joe a :Runner.
@@ -42,9 +42,9 @@
 {
     {
         ?S a :Winner.
-    } => ().
+    } => ($ $).
 } log:query {
     {
         ?S a :Winner.
-    } => ().
+    } => ($ $).
 }.

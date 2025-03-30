@@ -7,20 +7,20 @@
 # all cars are green or blue
 {
     ?A a :Car.
-} => ({
+} => ($ {
     ?A :is :green.
 } {
     ?A :is :blue.
-}).
+} $).
 
 # green things are nice or pretty
 {
     ?A :is :green.
-} => ({
+} => ($ {
     ?A :is :nice.
 } {
     ?A :is :pretty.
-}).
+} $).
 
 # pretty things are beautiful
 {
@@ -35,7 +35,7 @@
 } => {
     {
         ?A :is :beautiful.
-    } => ().
+    } => ($ $).
 }.
 
 # blue things are beautiful
