@@ -1,6 +1,6 @@
-% ----------------------
+% -------------------
 % arcus -- Jos De Roo
-% ----------------------
+% -------------------
 %
 % See https://github.com/eyereasoner/eye/tree/master/reasoning/arcus
 %
