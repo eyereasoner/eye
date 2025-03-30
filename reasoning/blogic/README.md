@@ -1,5 +1,7 @@
 # blogic
 
+## Reasoning with RDF Surfaces
+
 See https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
 and https://github.com/w3c-cg/rdfsurfaces
 

@@ -1,6 +1,6 @@
 # arcus
 
-## Reasoning in webized prolog
+## Reasoning with webized prolog
 
 - webized prolog basically means that prolog atoms can be IRIs
 - besides top-down reasoning with `conclusion :- premise` rules, it also supports bottom-up reasoning with `conclusion :+ premise` rules

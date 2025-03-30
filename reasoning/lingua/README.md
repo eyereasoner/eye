@@ -1,6 +1,8 @@
 # lingua
 
-- lingua supports reasoning with forward rules described in RDF
+## Reasoning with logic described in RDF 1.1
+
+- lingua supports reasoning with forward rules described in RDF 1.1
   e.g.
     ```
     # rdfs subclass
@@ -16,7 +18,7 @@
     }
     ```
 
-- lingua supports reasoning with backward rules described in RDF
+- lingua supports reasoning with backward rules described in RDF 1.1
   e.g.
     ```
     # is the age of a person above some duration?
@@ -34,7 +36,7 @@
     }
     ```
 
-- lingua supports reasoning with queries described in RDF
+- lingua supports reasoning with queries described in RDF 1.1
   e.g.
     ```
     # query for people above 80 years old

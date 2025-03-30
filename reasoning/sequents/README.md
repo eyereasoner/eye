@@ -1,6 +1,6 @@
 # sequents
 
-Implications with disjunction in the conclusion giving FOL expressivity.
+## Reasoning with disjunction in rule conclusion
 
 ## examples:
 
