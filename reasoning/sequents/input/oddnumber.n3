@@ -1,0 +1,38 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix : <http://example.org/#>.
+
+10 a :NaturalNumber.
+
+# All x : (X a EvenNumber) OR (X a OddNumber)
+true => ({
+    ?x a :OddNumber.
+} {
+    ?x a :EvenNumber.
+}).
+
+# All x,y : (X a NaturalNumber) ->  (y = x-1, y > 0 a NaturalNumber)
+{
+    ?x a :NaturalNumber.
+    (?x -1) math:sum ?y.
+    ?y math:greaterThan 0.
+} => {
+    ?y a :NaturalNumber.
+}.
+
+# All x : (X a NaturalNumber) -> ( x : 2 = 0 , not(X a OddNumber) )
+{
+    ?x a :NaturalNumber.
+    (?x 2) math:remainder 0.
+} => {
+    {
+        ?x a :OddNumber.
+    } => ().
+}.
+
+# query
+{
+    ?x a ?y.
+} log:query {
+    ?x a ?y.
+}.
