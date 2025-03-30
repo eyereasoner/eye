@@ -54,8 +54,4 @@
   conclusion-only variables which are interpreted existentially.
 
 > [!NOTE]
-> Literal subjects are described as
-
-    ```
-    [] rdf:value "aha"; :p :o.
-    ```
+> Literal subjects are described as e.g. `[] rdf:value "aha"; :p :o.`
