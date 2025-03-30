@@ -4,7 +4,8 @@ Implications with disjunction in the conclusion giving FOL expressivity.
 
 ## Examples:
 
-### all cars are green or blue
+```
+# all cars are green or blue
 {
     ?A a :Car.
 } => ($ {
@@ -12,9 +13,11 @@ Implications with disjunction in the conclusion giving FOL expressivity.
 } {
     ?A :is :blue.
 } $).
-
-### negation
+```
+```
+# negation
 {
     ?A a :Car.
     ?A a :Horse.
 } => ($ $).
+```
