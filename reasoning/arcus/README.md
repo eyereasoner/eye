@@ -1,4 +1,4 @@
-# setarcos
+# arcus
 
 - webized prolog basically means that prolog atoms can be IRIs
 - besides top-down reasoning with `conclusion :- premise` rules, it also supports bottom-up reasoning with `conclusion :+ premise` rules
@@ -19,11 +19,6 @@
 - performing bottom-up proof steps `step/3`
 - avoiding loops that could occur with top-down reasoning
 
-## Testing
+## Testing with Trealla Prolog
 
-- install [trealla](https://github.com/trealla-prolog/trealla?tab=readme-ov-file#building) and run `./test`
-
-## Background
-
-- personal notes by Tim Berners-Lee: [Design Issues](https://www.w3.org/DesignIssues/)
-- book of Markus Triska: [The Power of Prolog](https://www.metalevel.at/prolog)
+- install [trealla](https://github.com/trealla-prolog/trealla?tab=readme-ov-file#building) and run `./test-trealla` to get `output-trealla/`.

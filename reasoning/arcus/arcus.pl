@@ -1,8 +1,8 @@
 % ----------------------
-% setarcos -- Jos De Roo
+% arcus -- Jos De Roo
 % ----------------------
 %
-% See https://github.com/josd/setarcos
+% See https://github.com/eyereasoner/eye/tree/master/reasoning/arcus
 %
 
 :- use_module(library(lists)).
@@ -19,7 +19,7 @@
 :- dynamic(limit/1).
 :- dynamic(step/3).
 
-version('setarcos v1.1.1 (2025-03-29)').
+version('arcus v1.1.1 (2025-03-29)').
 
 % main goal
 main :-
@@ -40,7 +40,7 @@ main :-
         (Conc :+ Prem),
         dynify((Conc :+ Prem))
     ),
-    catch(setarcos, E,
+    catch(arcus, E,
         (   E = halt(Exit)
         ->  true
         ;   format(user_error, "*** ~w~n", [E]),
@@ -64,7 +64,7 @@ main :-
     halt(Exit).
 
 %
-% setarcos 
+% arcus 
 %
 % 1/ select rule Conc :+ Prem
 % 2/ prove Prem and if it fails backtrack to 1/
@@ -78,7 +78,7 @@ main :-
 %    else assert brake and start again at 1/
 %
 
-setarcos :-
+arcus :-
     (   (Conc :+ Prem),                         % 1/
         copy_term((Conc :+ Prem), Rule),
         Prem,                                   % 2/
@@ -114,7 +114,7 @@ setarcos :-
                 Closure < Limit,
                 NewClosure is Closure+1,
                 becomes(closure(Closure), closure(NewClosure)),
-                setarcos
+                arcus
             ;   format(":- op(1200, xfx, :+).~n~n", []),
                 forall(
                     answer(P),
@@ -130,7 +130,7 @@ setarcos :-
                 )
             )
         ;   assertz(brake),
-            setarcos
+            arcus
         )
     ).
 
