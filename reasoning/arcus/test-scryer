@@ -1,0 +1,48 @@
+#!/bin/bash
+
+RED="\e[31m"
+GREEN="\e[32m"
+YELLOW="\e[33m"
+NORMAL="\e[0;39m"
+
+OK=0
+DIFF=0
+
+echo -e "${YELLOW}------------------------------------------${NORMAL}"
+echo -e "${YELLOW}running the arcus examples and test cases${NORMAL}"
+echo -e "${YELLOW}using arcus $(scryer-prolog -g main arcus.pl 2>&1 | awk '{ print $2 }') and scryer $(scryer-prolog --version 2>&1 | sed 's/-.*//')${NORMAL}"
+echo -e "${YELLOW}------------------------------------------${NORMAL}"
+echo ""
+
+pad () {
+    [ "$#" -gt 1 ]
+    [ -n "$2" ]
+    printf "%$2.${2#-}s" "$1"
+}
+
+begin=$(($(date +%s)))
+for file in input/*.pl
+do
+    f="$(basename ${file})"
+    echo -en "$(pad "${f}" -30)"
+    start=$(($(date +%s%N)/1000000))
+    scryer-prolog -g main arcus.pl "${file}" > output-scryer/${f}
+    end=$(($(date +%s%N)/1000000))
+    echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
+    if [[ $(git diff output-trealla/${f} | wc -l) -eq 0 ]]; then
+        echo -e "${GREEN}OK${NORMAL}"
+        ((OK++))
+    else
+        echo -e "${RED}DIFF${NORMAL}"
+        ((DIFF++))
+    fi
+done
+end=$(($(date +%s)))
+echo ""
+
+echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${DIFF} DIFF${NORMAL}"
+if [[ ${DIFF} -eq 0 ]]; then
+    exit 0
+else
+    exit 2
+fi

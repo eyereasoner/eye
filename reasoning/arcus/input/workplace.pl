@@ -10,12 +10,12 @@
     between(X, Y, N),
     number_codes(N, J),
     atom_codes(I, J),
-    atomic_list_concat(['urn:example:alice', I, ''], A),
+    atom_concat('urn:example:alice', I, A),
     assertz('urn:example:does'(A, 'urn:example:log_off_at_end_of_shift')),
-    atomic_list_concat(['urn:example:bob', I, ''], B),
+    atom_concat('urn:example:bob', I, B),
     assertz('urn:example:does'(B, 'urn:example:work_related_task')),
     assertz('urn:example:does'(B, 'urn:example:log_off_at_end_of_shift')),
-    atomic_list_concat(['urn:example:carol', I, ''], C),
+    atom_concat('urn:example:carol', I, C),
     assertz('urn:example:does'(C, 'urn:example:access_social_media')),
     fail;
     true.
