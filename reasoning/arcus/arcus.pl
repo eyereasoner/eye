@@ -19,7 +19,7 @@
 :- dynamic(limit/1).
 :- dynamic(step/3).
 
-version('arcus v1.1.1 (2025-03-29)').
+version('arcus v1.1.2 (2025-03-30)').
 
 % main goal
 main :-
