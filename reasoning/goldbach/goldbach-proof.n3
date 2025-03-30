@@ -1,0 +1,691 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:component skolem:lemma7;
+    r:component skolem:lemma8;
+    r:component skolem:lemma9;
+    r:component skolem:lemma10;
+    r:component skolem:lemma11;
+    r:component skolem:lemma12;
+    r:component skolem:lemma13;
+    r:component skolem:lemma14;
+    r:component skolem:lemma15;
+    r:component skolem:lemma16;
+    r:component skolem:lemma17;
+    r:component skolem:lemma18;
+    r:component skolem:lemma19;
+    r:component skolem:lemma20;
+    r:component skolem:lemma21;
+    r:component skolem:lemma22;
+    r:component skolem:lemma23;
+    r:component skolem:lemma24;
+    r:component skolem:lemma25;
+    r:component skolem:lemma26;
+    r:component skolem:lemma27;
+    r:component skolem:lemma28;
+    r:component skolem:lemma29;
+    r:component skolem:lemma30;
+    r:component skolem:lemma31;
+    r:component skolem:lemma32;
+    r:component skolem:lemma33;
+    r:component skolem:lemma34;
+    r:component skolem:lemma35;
+    r:gives {
+        4 :goldbach (2 2).
+        8 :goldbach (3 5).
+        16 :goldbach (3 13).
+        32 :goldbach (3 29).
+        64 :goldbach (3 61).
+        128 :goldbach (19 109).
+        256 :goldbach (5 251).
+        512 :goldbach (3 509).
+        1024 :goldbach (3 1021).
+        2048 :goldbach (19 2029).
+        4096 :goldbach (3 4093).
+        8192 :goldbach (13 8179).
+        16384 :goldbach (3 16381).
+        32768 :goldbach (19 32749).
+        65536 :goldbach (17 65519).
+        131072 :goldbach (13 131059).
+        262144 :goldbach (5 262139).
+        524288 :goldbach (19 524269).
+        1048576 :goldbach (3 1048573).
+        2097152 :goldbach (19 2097133).
+        4194304 :goldbach (3 4194301).
+        8388608 :goldbach (37 8388571).
+        16777216 :goldbach (3 16777213).
+        33554432 :goldbach (61 33554371).
+        67108864 :goldbach (5 67108859).
+        134217728 :goldbach (79 134217649).
+        268435456 :goldbach (89 268435367).
+        536870912 :goldbach (3 536870909).
+        1073741824 :goldbach (41 1073741783).
+        2147483648 :goldbach (19 2147483629).
+        4294967296 :goldbach (5 4294967291).
+        8589934592 :goldbach (79 8589934513).
+        17179869184 :goldbach (41 17179869143).
+        34359738368 :goldbach (31 34359738337).
+        68719476736 :goldbach (5 68719476731).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        4 :goldbach (2 2).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 2}]
+        [ a r:Fact; r:gives {(2 2) math:exponentiation 4}]
+        [ a r:Fact; r:gives {(4 2) math:remainder 0}]
+        [ a r:Fact; r:gives {4 :goldbach (2 2)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2];
+    r:rule skolem:lemma36.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        8 :goldbach (3 5).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 3}]
+        [ a r:Fact; r:gives {(2 3) math:exponentiation 8}]
+        [ a r:Fact; r:gives {(8 2) math:remainder 0}]
+        [ a r:Fact; r:gives {8 :goldbach (3 5)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 8];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 5];
+    r:rule skolem:lemma36.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        16 :goldbach (3 13).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 4}]
+        [ a r:Fact; r:gives {(2 4) math:exponentiation 16}]
+        [ a r:Fact; r:gives {(16 2) math:remainder 0}]
+        [ a r:Fact; r:gives {16 :goldbach (3 13)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 16];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 13];
+    r:rule skolem:lemma36.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        32 :goldbach (3 29).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 5}]
+        [ a r:Fact; r:gives {(2 5) math:exponentiation 32}]
+        [ a r:Fact; r:gives {(32 2) math:remainder 0}]
+        [ a r:Fact; r:gives {32 :goldbach (3 29)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 32];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 29];
+    r:rule skolem:lemma36.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        64 :goldbach (3 61).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 6}]
+        [ a r:Fact; r:gives {(2 6) math:exponentiation 64}]
+        [ a r:Fact; r:gives {(64 2) math:remainder 0}]
+        [ a r:Fact; r:gives {64 :goldbach (3 61)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 6];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 64];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 61];
+    r:rule skolem:lemma36.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        128 :goldbach (19 109).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 7}]
+        [ a r:Fact; r:gives {(2 7) math:exponentiation 128}]
+        [ a r:Fact; r:gives {(128 2) math:remainder 0}]
+        [ a r:Fact; r:gives {128 :goldbach (19 109)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 128];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 109];
+    r:rule skolem:lemma36.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        256 :goldbach (5 251).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 8}]
+        [ a r:Fact; r:gives {(2 8) math:exponentiation 256}]
+        [ a r:Fact; r:gives {(256 2) math:remainder 0}]
+        [ a r:Fact; r:gives {256 :goldbach (5 251)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 8];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 256];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 251];
+    r:rule skolem:lemma36.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        512 :goldbach (3 509).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 9}]
+        [ a r:Fact; r:gives {(2 9) math:exponentiation 512}]
+        [ a r:Fact; r:gives {(512 2) math:remainder 0}]
+        [ a r:Fact; r:gives {512 :goldbach (3 509)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 9];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 512];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 509];
+    r:rule skolem:lemma36.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        1024 :goldbach (3 1021).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 10}]
+        [ a r:Fact; r:gives {(2 10) math:exponentiation 1024}]
+        [ a r:Fact; r:gives {(1024 2) math:remainder 0}]
+        [ a r:Fact; r:gives {1024 :goldbach (3 1021)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 10];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1024];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1021];
+    r:rule skolem:lemma36.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        2048 :goldbach (19 2029).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 11}]
+        [ a r:Fact; r:gives {(2 11) math:exponentiation 2048}]
+        [ a r:Fact; r:gives {(2048 2) math:remainder 0}]
+        [ a r:Fact; r:gives {2048 :goldbach (19 2029)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 11];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2048];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2029];
+    r:rule skolem:lemma36.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        4096 :goldbach (3 4093).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 12}]
+        [ a r:Fact; r:gives {(2 12) math:exponentiation 4096}]
+        [ a r:Fact; r:gives {(4096 2) math:remainder 0}]
+        [ a r:Fact; r:gives {4096 :goldbach (3 4093)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 12];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4096];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 4093];
+    r:rule skolem:lemma36.
+
+skolem:lemma12 a r:Inference;
+    r:gives {
+        8192 :goldbach (13 8179).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 13}]
+        [ a r:Fact; r:gives {(2 13) math:exponentiation 8192}]
+        [ a r:Fact; r:gives {(8192 2) math:remainder 0}]
+        [ a r:Fact; r:gives {8192 :goldbach (13 8179)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 8192];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 8179];
+    r:rule skolem:lemma36.
+
+skolem:lemma13 a r:Inference;
+    r:gives {
+        16384 :goldbach (3 16381).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 14}]
+        [ a r:Fact; r:gives {(2 14) math:exponentiation 16384}]
+        [ a r:Fact; r:gives {(16384 2) math:remainder 0}]
+        [ a r:Fact; r:gives {16384 :goldbach (3 16381)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 14];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 16384];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 16381];
+    r:rule skolem:lemma36.
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        32768 :goldbach (19 32749).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 15}]
+        [ a r:Fact; r:gives {(2 15) math:exponentiation 32768}]
+        [ a r:Fact; r:gives {(32768 2) math:remainder 0}]
+        [ a r:Fact; r:gives {32768 :goldbach (19 32749)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 15];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 32768];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 32749];
+    r:rule skolem:lemma36.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        65536 :goldbach (17 65519).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 16}]
+        [ a r:Fact; r:gives {(2 16) math:exponentiation 65536}]
+        [ a r:Fact; r:gives {(65536 2) math:remainder 0}]
+        [ a r:Fact; r:gives {65536 :goldbach (17 65519)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 16];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 65536];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 17];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 65519];
+    r:rule skolem:lemma36.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        131072 :goldbach (13 131059).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 17}]
+        [ a r:Fact; r:gives {(2 17) math:exponentiation 131072}]
+        [ a r:Fact; r:gives {(131072 2) math:remainder 0}]
+        [ a r:Fact; r:gives {131072 :goldbach (13 131059)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 17];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 131072];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 131059];
+    r:rule skolem:lemma36.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        262144 :goldbach (5 262139).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 18}]
+        [ a r:Fact; r:gives {(2 18) math:exponentiation 262144}]
+        [ a r:Fact; r:gives {(262144 2) math:remainder 0}]
+        [ a r:Fact; r:gives {262144 :goldbach (5 262139)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 18];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 262144];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 262139];
+    r:rule skolem:lemma36.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        524288 :goldbach (19 524269).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 19}]
+        [ a r:Fact; r:gives {(2 19) math:exponentiation 524288}]
+        [ a r:Fact; r:gives {(524288 2) math:remainder 0}]
+        [ a r:Fact; r:gives {524288 :goldbach (19 524269)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 524288];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 524269];
+    r:rule skolem:lemma36.
+
+skolem:lemma19 a r:Inference;
+    r:gives {
+        1048576 :goldbach (3 1048573).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 20}]
+        [ a r:Fact; r:gives {(2 20) math:exponentiation 1048576}]
+        [ a r:Fact; r:gives {(1048576 2) math:remainder 0}]
+        [ a r:Fact; r:gives {1048576 :goldbach (3 1048573)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 20];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1048576];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1048573];
+    r:rule skolem:lemma36.
+
+skolem:lemma20 a r:Inference;
+    r:gives {
+        2097152 :goldbach (19 2097133).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 21}]
+        [ a r:Fact; r:gives {(2 21) math:exponentiation 2097152}]
+        [ a r:Fact; r:gives {(2097152 2) math:remainder 0}]
+        [ a r:Fact; r:gives {2097152 :goldbach (19 2097133)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 21];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2097152];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2097133];
+    r:rule skolem:lemma36.
+
+skolem:lemma21 a r:Inference;
+    r:gives {
+        4194304 :goldbach (3 4194301).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 22}]
+        [ a r:Fact; r:gives {(2 22) math:exponentiation 4194304}]
+        [ a r:Fact; r:gives {(4194304 2) math:remainder 0}]
+        [ a r:Fact; r:gives {4194304 :goldbach (3 4194301)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 22];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4194304];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 4194301];
+    r:rule skolem:lemma36.
+
+skolem:lemma22 a r:Inference;
+    r:gives {
+        8388608 :goldbach (37 8388571).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 23}]
+        [ a r:Fact; r:gives {(2 23) math:exponentiation 8388608}]
+        [ a r:Fact; r:gives {(8388608 2) math:remainder 0}]
+        [ a r:Fact; r:gives {8388608 :goldbach (37 8388571)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 23];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 8388608];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 37];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 8388571];
+    r:rule skolem:lemma36.
+
+skolem:lemma23 a r:Inference;
+    r:gives {
+        16777216 :goldbach (3 16777213).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 24}]
+        [ a r:Fact; r:gives {(2 24) math:exponentiation 16777216}]
+        [ a r:Fact; r:gives {(16777216 2) math:remainder 0}]
+        [ a r:Fact; r:gives {16777216 :goldbach (3 16777213)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 24];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 16777216];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 16777213];
+    r:rule skolem:lemma36.
+
+skolem:lemma24 a r:Inference;
+    r:gives {
+        33554432 :goldbach (61 33554371).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 25}]
+        [ a r:Fact; r:gives {(2 25) math:exponentiation 33554432}]
+        [ a r:Fact; r:gives {(33554432 2) math:remainder 0}]
+        [ a r:Fact; r:gives {33554432 :goldbach (61 33554371)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 25];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 33554432];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 61];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 33554371];
+    r:rule skolem:lemma36.
+
+skolem:lemma25 a r:Inference;
+    r:gives {
+        67108864 :goldbach (5 67108859).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 26}]
+        [ a r:Fact; r:gives {(2 26) math:exponentiation 67108864}]
+        [ a r:Fact; r:gives {(67108864 2) math:remainder 0}]
+        [ a r:Fact; r:gives {67108864 :goldbach (5 67108859)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 26];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 67108864];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 67108859];
+    r:rule skolem:lemma36.
+
+skolem:lemma26 a r:Inference;
+    r:gives {
+        134217728 :goldbach (79 134217649).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 27}]
+        [ a r:Fact; r:gives {(2 27) math:exponentiation 134217728}]
+        [ a r:Fact; r:gives {(134217728 2) math:remainder 0}]
+        [ a r:Fact; r:gives {134217728 :goldbach (79 134217649)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 27];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 134217728];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 79];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 134217649];
+    r:rule skolem:lemma36.
+
+skolem:lemma27 a r:Inference;
+    r:gives {
+        268435456 :goldbach (89 268435367).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 28}]
+        [ a r:Fact; r:gives {(2 28) math:exponentiation 268435456}]
+        [ a r:Fact; r:gives {(268435456 2) math:remainder 0}]
+        [ a r:Fact; r:gives {268435456 :goldbach (89 268435367)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 28];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 268435456];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 89];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 268435367];
+    r:rule skolem:lemma36.
+
+skolem:lemma28 a r:Inference;
+    r:gives {
+        536870912 :goldbach (3 536870909).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 29}]
+        [ a r:Fact; r:gives {(2 29) math:exponentiation 536870912}]
+        [ a r:Fact; r:gives {(536870912 2) math:remainder 0}]
+        [ a r:Fact; r:gives {536870912 :goldbach (3 536870909)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 29];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 536870912];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 536870909];
+    r:rule skolem:lemma36.
+
+skolem:lemma29 a r:Inference;
+    r:gives {
+        1073741824 :goldbach (41 1073741783).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 30}]
+        [ a r:Fact; r:gives {(2 30) math:exponentiation 1073741824}]
+        [ a r:Fact; r:gives {(1073741824 2) math:remainder 0}]
+        [ a r:Fact; r:gives {1073741824 :goldbach (41 1073741783)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 30];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1073741824];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 41];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1073741783];
+    r:rule skolem:lemma36.
+
+skolem:lemma30 a r:Inference;
+    r:gives {
+        2147483648 :goldbach (19 2147483629).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 31}]
+        [ a r:Fact; r:gives {(2 31) math:exponentiation 2147483648}]
+        [ a r:Fact; r:gives {(2147483648 2) math:remainder 0}]
+        [ a r:Fact; r:gives {2147483648 :goldbach (19 2147483629)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 31];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2147483648];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 19];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 2147483629];
+    r:rule skolem:lemma36.
+
+skolem:lemma31 a r:Inference;
+    r:gives {
+        4294967296 :goldbach (5 4294967291).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 32}]
+        [ a r:Fact; r:gives {(2 32) math:exponentiation 4294967296}]
+        [ a r:Fact; r:gives {(4294967296 2) math:remainder 0}]
+        [ a r:Fact; r:gives {4294967296 :goldbach (5 4294967291)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 32];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 4294967296];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 4294967291];
+    r:rule skolem:lemma36.
+
+skolem:lemma32 a r:Inference;
+    r:gives {
+        8589934592 :goldbach (79 8589934513).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 33}]
+        [ a r:Fact; r:gives {(2 33) math:exponentiation 8589934592}]
+        [ a r:Fact; r:gives {(8589934592 2) math:remainder 0}]
+        [ a r:Fact; r:gives {8589934592 :goldbach (79 8589934513)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 33];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 8589934592];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 79];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 8589934513];
+    r:rule skolem:lemma36.
+
+skolem:lemma33 a r:Inference;
+    r:gives {
+        17179869184 :goldbach (41 17179869143).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 34}]
+        [ a r:Fact; r:gives {(2 34) math:exponentiation 17179869184}]
+        [ a r:Fact; r:gives {(17179869184 2) math:remainder 0}]
+        [ a r:Fact; r:gives {17179869184 :goldbach (41 17179869143)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 34];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 17179869184];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 41];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 17179869143];
+    r:rule skolem:lemma36.
+
+skolem:lemma34 a r:Inference;
+    r:gives {
+        34359738368 :goldbach (31 34359738337).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 35}]
+        [ a r:Fact; r:gives {(2 35) math:exponentiation 34359738368}]
+        [ a r:Fact; r:gives {(34359738368 2) math:remainder 0}]
+        [ a r:Fact; r:gives {34359738368 :goldbach (31 34359738337)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 35];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 34359738368];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 31];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 34359738337];
+    r:rule skolem:lemma36.
+
+skolem:lemma35 a r:Inference;
+    r:gives {
+        68719476736 :goldbach (5 68719476731).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./goldbach.pl") log:pro true}]
+        [ a r:Fact; r:gives {37 log:repeat 36}]
+        [ a r:Fact; r:gives {(2 36) math:exponentiation 68719476736}]
+        [ a r:Fact; r:gives {(68719476736 2) math:remainder 0}]
+        [ a r:Fact; r:gives {68719476736 :goldbach (5 68719476731)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 36];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 68719476736];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 68719476731];
+    r:rule skolem:lemma36.
+
+skolem:lemma36 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            ("consult" "./goldbach.pl") log:pro true.
+            37 log:repeat var:x_0.
+            (2 var:x_0) math:exponentiation var:x_1.
+            (var:x_1 2) math:remainder 0 .
+            var:x_1 :goldbach (var:x_2 var:x_3).
+        } => {
+            var:x_1 :goldbach (var:x_2 var:x_3).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/goldbach/goldbach-query.n3>].
+

@@ -1,0 +1,13 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+{
+    ("consult" "./conflict-resolution.pl") log:pro true.
+    :john :accessControl (:report1 ?A).
+    :jane :accessControl (:report2 ?B).
+    :bob :accessControl (:report1 ?C).
+} => {
+    :john :accessControl (:report1 ?A).
+    :jane :accessControl (:report2 ?B).
+    :bob :accessControl (:report1 ?C).
+}.

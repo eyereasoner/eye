@@ -1,0 +1,11 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+{
+    ("consult" "./wolf-goat-cabbage.pl") log:pro true.
+    ("between" 1 10 ?I) log:pro true.
+    ("length" ?L ?I) log:pro true.
+    ("solution" ("w" "w" "w" "w") ?L) log:pro true.
+} => {
+    ?L a :Solution.
+}.

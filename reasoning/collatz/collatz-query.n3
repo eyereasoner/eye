@@ -1,0 +1,12 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+{
+    ("consult" "./collatz.pl") log:pro true.
+    10000 log:repeat ?N0.
+    (?N0 1) math:sum ?N.
+    ?N :collatz ?M.
+} => {
+    ?N :collatz ?M.
+}.

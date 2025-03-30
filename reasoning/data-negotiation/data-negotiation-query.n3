@@ -1,0 +1,9 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <urn:example:>.
+
+{
+    ("consult" "./data-negotiation.pl") log:pro true.
+    :agent1 :negotiate (:agent2 :data4).
+} => {
+    :agent1 :negotiate (:agent2 :data4).
+}.

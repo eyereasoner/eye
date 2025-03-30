@@ -1,0 +1,47 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        (1 1.0 1.0e-15) :findRoot 1.4142135623730951 .
+        (2 2.0 1.0e-15) :findRoot 2.7182818284590455 .
+        (3 3.0 1.0e-15) :findRoot 3.141592653589793 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (1 1.0 1.0e-15) :findRoot 1.4142135623730951 .
+        (2 2.0 1.0e-15) :findRoot 2.7182818284590455 .
+        (3 3.0 1.0e-15) :findRoot 3.141592653589793 .
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "./newton-raphson.pl") log:pro true}]
+        [ a r:Fact; r:gives {(1 1.0 1.0e-15) :findRoot 1.4142135623730951}]
+        [ a r:Fact; r:gives {(2 2.0 1.0e-15) :findRoot 2.7182818284590455}]
+        [ a r:Fact; r:gives {(3 3.0 1.0e-15) :findRoot 3.141592653589793}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1.4142135623730951];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 2.7182818284590455];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 3.141592653589793];
+    r:rule skolem:lemma2.
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            ("consult" "./newton-raphson.pl") log:pro true.
+            (1 1.0 1.0e-15) :findRoot var:x_0.
+            (2 2.0 1.0e-15) :findRoot var:x_1.
+            (3 3.0 1.0e-15) :findRoot var:x_2.
+        } => {
+            (1 1.0 1.0e-15) :findRoot var:x_0.
+            (2 2.0 1.0e-15) :findRoot var:x_1.
+            (3 3.0 1.0e-15) :findRoot var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/newton-raphson/newton-raphson-query.n3>].
+
