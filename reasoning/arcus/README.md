@@ -23,11 +23,11 @@
 
 ## Testing with Trealla Prolog
 
-- install [trealla](https://github.com/trealla-prolog/trealla?tab=readme-ov-file#building) and run `./test-trealla` to get `output-trealla/`.
+- install [Trealla Prolog](https://github.com/trealla-prolog/trealla?tab=readme-ov-file#building) and run `./test-trealla` to get `output-trealla/`.
 
 ## Testing with Scryer Prolog
 
-- install [scryer](https://github.com/mthom/scryer-prolog?tab=readme-ov-file#installing-scryer-prolog) and run `./test-scryer` to get `output-scryer/`.
+- install [Scryer Prolog](https://github.com/mthom/scryer-prolog?tab=readme-ov-file#installing-scryer-prolog) and run `./test-scryer` to get `output-scryer/`.
 
 ## Background
 
