@@ -1,4 +1,4 @@
-# Web Logic examples
+# blogic
 
 See https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
 and https://github.com/w3c-cg/rdfsurfaces

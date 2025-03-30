@@ -1,8 +1,8 @@
-# Sequents
+# sequents
 
 Implications with disjunction in the conclusion giving FOL expressivity.
 
-## Examples:
+## examples:
 
 ```
 # all cars are green or blue
