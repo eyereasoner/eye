@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.5 (2025-04-02)').
+version_info('EYE v11.13.6 (2025-04-02)').
 
 license_info('MIT License
 
@@ -7959,7 +7959,8 @@ userInput(A, B) :-
     ;   \+catch(call(D), _, fail)
     ),
     (   D = consult(_)
-    ->  forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)))
+    ->  forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#query>'(Prem, Prem))),
+        forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)))
     ;   true
     ).
 
