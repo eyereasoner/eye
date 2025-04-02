@@ -5,6 +5,8 @@
 % See https://github.com/eyereasoner/eye
 %
 
+:- op(1200, xfx, :+).
+
 :- use_module(library(apply)).
 :- use_module(library(lists)).
 :- use_module(library(gensym)).
@@ -23,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.13.4 (2025-03-27)').
+version_info('EYE v11.13.5 (2025-04-02)').
 
 license_info('MIT License
 
@@ -107,6 +109,7 @@ eye
     --pass-only-new                 output only new derived triples
     --query <n3-query>              output filtered with filter rules').
 
+:- dynamic((:+)/2).
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
@@ -468,18 +471,6 @@ gre(Argus) :-
     ),
     args(Args),
     prepare_builtins,
-    (   implies(_, Conc, _),
-        (   var(Conc)
-        ;   Conc \= answer(_, _, _),
-            Conc \= (answer(_, _, _), _)
-        )
-    ->  true
-    ;   (   \+flag(image, _),
-            \+flag(tactic, 'linear-select')
-        ->  assertz(flag(tactic, 'linear-select'))
-        ;   true
-        )
-    ),
     findall(Sc,
         (   scope(Sc)
         ),
@@ -7966,6 +7957,10 @@ userInput(A, B) :-
     (   B = true
     ->  catch(call(D), _, fail)
     ;   \+catch(call(D), _, fail)
+    ),
+    (   D = consult(_)
+    ->  forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)))
+    ;   true
     ).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
