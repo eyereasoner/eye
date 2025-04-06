@@ -1,0 +1,54 @@
+# Code taken from https://www.ic.unicamp.br/~meidanis/courses/mc336/2009s2/prolog/problemas/
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+4 :goldbach (2 2).
+{ ?N :goldbach ?L } <= {
+    (?N 2) math:remainder 0.
+    ?N math:greaterThan 4.
+    ?N :goldb (?L 3).
+}.
+
+{ ?N :goldb ((?P ?Q) ?P) } <= {
+    (?N ?P) math:difference ?Q.
+    true :is_prime ?Q.
+    true log:callWithCut true.
+}.
+
+{ ?N :goldb (?L ?P) } <= {
+    ?P math:lessThan ?N.
+    ?P :next_prime ?P1.
+    ?N :goldb (?L ?P1).
+}.
+
+{ ?P :next_prime ?P1 } <= {
+    (?P 2) math:sum ?P1.
+    true :is_prime ?P1.
+    true log:callWithCut true.
+}.
+
+{ ?P :next_prime ?P1 } <= {
+    (?P 2) math:sum ?P2.
+    ?P2 :next_prime ?P1.
+}.
+
+true :is_prime 2.
+true :is_prime 3.
+{ true :is_prime ?P } <= {
+    ?P math:greaterThan 3.
+    (?P 2) math:remainder 1.
+    ({ ?P :has_factor 3 } false true) log:ifThenElseIn (?Context -1).
+}.
+
+{ ?N :has_factor ?L } <= {
+    (?N ?L) math:remainder 0.
+    true log:callWithCut true.
+}.
+
+{ ?N :has_factor ?L } <= {
+    (?L ?L)!math:product math:lessThan ?N.
+    (?L 2) math:sum ?L2.
+    ?N :has_factor ?L2.
+}.
