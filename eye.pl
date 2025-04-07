@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.14.1 (2025-04-04)').
+version_info('EYE v11.14.2 (2025-04-07)').
 
 license_info('MIT License
 
@@ -476,7 +476,19 @@ gre(Argus) :-
     ),
     args(Args),
     prepare_builtins,
-    findall(Sc,
+    (   implies(_, Conc, _),
+         (   var(Conc)
+         ;   Conc \= answer(_, _, _),
+             Conc \= (answer(_, _, _), _)
+         )
+     ->  true
+     ;   (   \+flag(image, _),
+             \+flag(tactic, 'linear-select')
+         ->  assertz(flag(tactic, 'linear-select'))
+         ;   true
+         )
+     ),
+     findall(Sc,
         (   scope(Sc)
         ),
         Scope
