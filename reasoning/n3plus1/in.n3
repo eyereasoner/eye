@@ -1,4 +1,5 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -48,3 +49,5 @@ _:i {
 :liz :marriedTo :richard
     {| :from 1964; :to 1975 |}
     {| :from 1980; :to 2001 |} .
+
+:a :name "Alice" ~ :t {| :statedBy :bob ; :recorded "2021-07-07"^^xsd:date |} .
