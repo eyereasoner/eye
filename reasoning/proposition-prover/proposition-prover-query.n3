@@ -1,0 +1,18 @@
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+{
+    ("consult" "./proposition-prover.pl") log:pro true.
+    {
+        "-a" :propositionProver "+to_be # -to_be".
+        "-a & -a" :propositionProver "-a".
+        "-a" :propositionProver "+b # -a".
+        "-a & -b" :propositionProver "-b & -a".
+        "-a" :propositionProver "-b # (+b & -a)".
+        "-a # (-b # +c)" :propositionProver "-b # (-a # +c)".
+        "-a # +b" :propositionProver "(+b & -c) # (-a # +c)".
+        "(-a # +c) & (-b # +c)" :propositionProver "(-a & -b) # +c".
+    } graph:member ?M.
+    ?M log:call true.
+} => ?M.
