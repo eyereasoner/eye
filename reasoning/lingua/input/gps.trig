@@ -1,0 +1,220 @@
+# ------------------------------
+# Goal driven Parallel Sequences
+# ------------------------------
+#
+# Inspired by https://www.cs.cmu.edu/~fp/courses/15816-s12/lectures/01-inference.pdf
+#
+# [[
+# In linear logic we are instead concerned with the change of truth with a
+# change of state. We model this in a very simple way: when an inference rule
+# is applied we consume the propositions used as bodys and produce the
+# propositions in the heads, thereby effecting an overall change in state.
+# ]]
+#
+# See https://github.com/hongsun502/wstLogic
+# Weighted state transition logic (wstLogic) for future state prediction
+#
+# Current adaptive systems are mostly built on detecting an event and take
+# corresponding adaptations. Weighted state transition logic aims to model
+# the future state, and allows to carry adaptive pathway management based
+# on the predicted future state.
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix gps: <http://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# find paths in the state space from initial state to goal state within limits
+_:bng_1 log:isImpliedBy _:bng_2.
+
+_:bng_1 {
+    () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort)).
+}
+
+_:bng_2 {
+    () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1)).
+}
+
+_:bng_3 log:isImpliedBy _:bng_4.
+
+_:bng_3 {
+    () gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_4 {
+    () gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_5 log:isImpliedBy _:bng_6.
+
+_:bng_5 {
+    () gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_6 {
+    var:Goal log:call true.
+}
+
+_:bng_7 log:isImpliedBy _:bng_8.
+
+_:bng_7 {
+    () gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_8 {
+    var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n).
+    (var:Maps_s (var:Map)) list:append var:Maps_t.
+    var:Maps_t gps:stagecount var:Stagecount.
+    var:Stagecount math:notGreaterThan var:MaxStagecount.
+    (var:Duration_s var:Duration_n) math:sum var:Duration_t.
+    var:Duration_t math:notGreaterThan var:MaxDuration.
+    (var:Cost_s var:Cost_n) math:sum var:Cost_t.
+    var:Cost_t math:notGreaterThan var:MaxCost.
+    (var:Belief_s var:Belief_n) math:product var:Belief_t.
+    var:Belief_t math:notLessThan var:MinBelief.
+    (var:Comfort_s var:Comfort_n) math:product var:Comfort_t.
+    var:Comfort_t math:notLessThan var:MinComfort.
+    (var:Path_s (var:Action)) list:append var:Path_t.
+    var:From log:becomes var:To.
+    _:bng_9 log:callWithCleanup _:bng_10.
+}
+
+_:bng_9 {
+    () gps:findpaths (var:Maps_t var:Goal var:Path_t var:Duration_t var:Cost_t var:Belief_t var:Comfort_t var:Path var:Duration var:Cost var:Belief var:Comfort
+        (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)).
+}
+
+_:bng_10 {
+    var:To log:becomes var:From.
+}
+
+# counting the number of stages (a stage is a sequence of gps in the same map)
+_:bng_11 log:isImpliedBy true.
+
+_:bng_11 {
+    () gps:stagecount 1.
+}
+
+_:bng_12 log:isImpliedBy _:bng_13.
+
+_:bng_12 {
+    var:A gps:stagecount var:B.
+}
+
+_:bng_13 {
+    var:A list:firstRest (var:C var:D).
+    var:D list:firstRest (var:E var:F).
+    var:C log:notEqualTo var:E.
+    var:D gps:stagecount var:G.
+    (var:G 1) math:sum var:B.
+}
+
+_:bng_14 log:isImpliedBy _:bng_15.
+
+_:bng_14 {
+    var:A gps:stagecount var:B.
+}
+
+_:bng_15 {
+    var:A list:firstRest (var:C var:D).
+    var:D gps:stagecount var:B.
+}
+
+# current state as practical example
+:i1 :location :Gent.
+
+# map of Belgium
+_:bng_16 log:isImpliedBy _:bng_17.
+
+_:bng_16 {
+    :map-BE gps:description (_:bng_18 true _:bng_19 :drive_gent_brugge 1500.0 0.006 0.96 0.99).
+}
+
+_:bng_17 {
+    var:S :location var:L.
+}
+
+_:bng_18 {
+    var:S :location :Gent.
+}
+
+_:bng_19 {
+    var:S :location :Brugge.
+}
+
+_:bng_20 log:isImpliedBy _:bng_21.
+
+_:bng_20 {
+    :map-BE gps:description (_:bng_22 true _:bng_23 :drive_gent_kortrijk 1600.0 0.007 0.96 0.99).
+}
+
+_:bng_21 {
+    var:S :location var:L.
+}
+
+_:bng_22 {
+    var:S :location :Gent.
+}
+
+_:bng_23 {
+    var:S :location :Kortrijk.
+}
+
+_:bng_24 log:isImpliedBy _:bng_25.
+
+_:bng_24 {
+    :map-BE gps:description (_:bng_26 true _:bng_27 :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99).
+}
+
+_:bng_25 {
+    var:S :location var:L.
+}
+
+_:bng_26 {
+    var:S :location :Kortrijk.
+}
+
+_:bng_27 {
+    var:S :location :Brugge.
+}
+
+_:bng_28 log:isImpliedBy _:bng_29.
+
+_:bng_28 {
+    :map-BE gps:description (_:bng_30 true _:bng_31 :drive_brugge_oostende 900.0 0.004 0.98 1.0).
+}
+
+_:bng_29 {
+    var:S :location var:L.
+}
+
+_:bng_30 {
+    var:S :location :Brugge.
+}
+
+_:bng_31 {
+    var:S :location :Oostende.
+}
+
+# query
+_:bng_32 log:query _:bng_33.
+
+_:bng_32 {
+    () gps:findpath (_:bng_34 var:PATH var:DURATION var:COST var:BELIEF var:COMFORT (5000.0 5.0 0.2 0.4 1)).
+}
+
+_:bng_33 {
+    var:S gps:path (var:PATH var:DURATION var:COST var:BELIEF var:COMFORT).
+}
+
+_:bng_34 {
+    var:S :location :Oostende.
+}

@@ -1,0 +1,36 @@
+# ----------------------
+# Graph equality example
+# ----------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+_:bng_1 {
+    :A :B :C.
+    :D :E _:bng_2.
+}
+
+_:bng_2 {
+    :F :G var:H.
+}
+
+_:bng_3 {
+    :D :E _:bng_4.
+    :A :B :C.
+}
+
+_:bng_4 {
+    :F :G var:I.
+}
+
+#query
+_:bng_5 log:query _:bng_6.
+
+_:bng_5 {
+    _:bng_1 log:equalTo _:bng_3.
+}
+
+_:bng_6 {
+    :test :is true.
+}

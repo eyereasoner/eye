@@ -1,0 +1,40 @@
+# ---------------
+# Towers of Hanoi
+# ---------------
+#
+# See https://en.wikipedia.org/wiki/Tower_of_Hanoi
+# Taken from the book "The Art of Prolog" by Leon Sterling and Ehud Shapiro
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# M is the sequence of moves to move N disks from X to Y using Z as intermediary
+_:bng_1 log:isImpliedBy _:bng_2.
+
+_:bng_1 {
+    (var:N var:X var:Y var:Z) :moves var:M.
+}
+
+_:bng_2 {
+    var:N math:greaterThan 1.
+    (var:N 1) math:difference var:N1.
+    (var:N1 var:X var:Z var:Y) :moves var:M1.
+    (var:N1 var:Z var:Y var:X) :moves var:M2.
+    (var:M1 ((var:X var:Y)) var:M2) list:append var:M.
+}
+
+_:bng_3 log:isImpliedBy true.
+
+_:bng_3 {
+    (1 var:X var:Y var:Z) :moves ((var:X var:Y)).
+}
+
+# query
+_:bng_4 log:query _:bng_4.
+
+_:bng_4 {
+    (6 :left :right :center) :moves var:M.
+}

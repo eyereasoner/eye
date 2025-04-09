@@ -1,0 +1,89 @@
+# -----------------------------
+# Access control policy example
+# -----------------------------
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+:test1 :policy :PolicyX;
+    :has :A, :B, :C.
+
+:PolicyX a :Policy;
+    :allOf :A, :B;
+    :anyOf :C;
+    :noneOf :D.
+
+_:bng_1 log:isImpliedBy _:bng_2.
+
+_:bng_1 {
+    var:Pol :pass :allOfTest.
+}
+
+_:bng_2 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (_:bng_3 _:bng_4) log:forAllIn var:X.
+}
+
+_:bng_3 {
+    var:Pol :allOf var:Field.
+}
+
+_:bng_4 {
+    var:Test :has var:Field.
+}
+
+_:bng_5 log:isImpliedBy _:bng_6.
+
+_:bng_5 {
+    var:Pol :pass :anyOfTest.
+}
+
+_:bng_6 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:bng_7 var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    (var:L) log:notEqualTo (0).
+}
+
+_:bng_7 {
+    var:Pol :anyOf var:Field.
+    var:Test :has var:Field.
+}
+
+_:bng_8 log:isImpliedBy _:bng_9.
+
+_:bng_8 {
+    var:Pol :pass :noneOfTest.
+}
+
+_:bng_9 {
+    var:Test :policy var:Pol.
+    var:Pol a :Policy.
+    (var:Field _:bng_10 var:List) log:collectAllIn var:X.
+    var:List list:length var:L.
+    (var:L) log:equalTo (0).
+}
+
+_:bng_10 {
+    var:Pol :noneOf var:Field.
+    var:Test :has var:Field.
+}
+
+# query
+_:bng_11 log:query _:bng_12.
+
+_:bng_11 {
+    var:Pol a :Policy.
+    var:Pol :pass :allOfTest.
+    var:Pol :pass :anyOfTest.
+    var:Pol :pass :noneOfTest.
+}
+
+_:bng_12 {
+    :test :for var:Pol.
+    :test :is true.
+}

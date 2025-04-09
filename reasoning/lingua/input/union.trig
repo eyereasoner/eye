@@ -1,0 +1,31 @@
+# -------------------
+# Graph union example
+# -------------------
+
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+_:bng_1 {
+    :A :B :C.
+    :A :X :C.
+    :D :E :F.
+}
+
+_:bng_2 {
+    :A :Y :C.
+    :A :B :C.
+}
+
+#query
+_:bng_3 log:query _:bng_4.
+
+_:bng_3 {
+    (_:bng_1 _:bng_2) graph:union var:U.
+}
+
+_:bng_4 {
+    :result :is var:R.
+    var:R graph:statement var:U.
+}

@@ -1,0 +1,26 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# i element of A
+:i a :A.
+
+# not i element of C
+{
+    :i a :C.
+} => ($ $).
+
+# all A are B or C
+{
+    ?S a :A.
+} => ($ {
+    ?S a :B.
+} {
+    ?S a :C.
+} $).
+
+# query
+{
+    ?S a ?C.
+} log:query {
+    ?S a ?C.
+}.

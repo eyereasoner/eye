@@ -1,0 +1,50 @@
+# -----------------
+# Takeuchi Function
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Tak_(function)
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# tak backward rules
+_:bng_1 log:isImpliedBy _:bng_2.
+
+_:bng_1 {
+    (var:X var:Y var:Z) :tak var:Z.
+}
+
+_:bng_2 {
+    _:bng_3 log:call true.
+    [] rdf:value true; log:callWithCut true.
+}
+
+_:bng_3 {
+    var:X math:notGreaterThan var:Y.
+}
+
+_:bng_4 log:isImpliedBy _:bng_5.
+
+_:bng_4 {
+    (var:X var:Y var:Z) :tak var:A.
+}
+
+_:bng_5 {
+    (var:X 1) math:difference var:X1.
+    (var:X1 var:Y var:Z) :tak var:A1.
+    (var:Y 1) math:difference var:Y1.
+    (var:Y1 var:Z var:X) :tak var:A2.
+    (var:Z 1) math:difference var:Z1.
+    (var:Z1 var:X var:Y) :tak var:A3.
+    (var:A1 var:A2 var:A3) :tak var:A.
+}
+
+# query
+_:bng_6 log:query _:bng_6.
+
+_:bng_6 {
+    (18 13 8) :tak var:A.
+}

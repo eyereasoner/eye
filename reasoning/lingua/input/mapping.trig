@@ -1,0 +1,31 @@
+# ----------------------
+# Schema mapping example
+# ----------------------
+
+@prefix schema: <http://schema.org/>.
+@prefix foaf: <http://xmlns.com/foaf/0.1/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# sample data
+:Pat a schema:Person.
+
+# mapping rules: every foaf person is a schema person and vice versa
+_:bng_1 log:implies _:bng_2.
+_:bng_2 log:implies _:bng_1.
+
+_:bng_1 {
+    var:S a foaf:Person
+}
+
+_:bng_2 {
+    var:S a schema:Person.
+}
+
+# query
+_:bng_3 log:query _:bng_3.
+
+_:bng_3 {
+    var:WHO a var:WHAT.
+}

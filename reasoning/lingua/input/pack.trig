@@ -1,0 +1,46 @@
+# ------------
+# pack example
+# ------------
+#
+# See https://github.com/Dexagod/DataPack?tab=readme-ov-file#package-modeling
+
+@prefix pack: <https://example.org/ns/package#>.
+@prefix sign: <https://example.org/ns/signature#>.
+@prefix pol: <https://example.org/ns/policy#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://example.org/#>.
+
+[] pack:package _:bng_1 .
+
+_:bng_1 {
+    [] pack:content _:bng_2 ;
+        pack:origin :Endpoint ;
+        pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime ;
+        pack:hasContentSignature [
+            a sign:Signature ;
+            sign:issuer :Alice ;
+            sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime ;
+            sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us"
+        ] .
+}
+
+_:bng_2 {
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime .
+}
+
+# query
+_:bng_3 log:query var:C.
+
+_:bng_3 {
+    var:S pack:package var:O.
+    var:O graph:statement var:G.
+    var:G log:includes _:bng_4.
+}
+
+_:bng_4 {
+    var:N pack:content var:C.
+}

@@ -1,0 +1,18 @@
+# --------------
+# Crypto example
+# --------------
+
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+:Let :param "hello world".
+
+# query
+[ log:and (
+    [ log:triple (:Let :param var:X)]
+    [ log:triple (var:X crypto:sha512 var:Y)]
+)] log:query [ log:and (
+    [ log:triple (var:X :sha512 var:Y)]
+)].
