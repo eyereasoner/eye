@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.14.2 (2025-04-07)').
+version_info('EYE v11.15.0 (2025-04-11)').
 
 license_info('MIT License
 
@@ -96,6 +96,7 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
+    --prolog <uri>                  Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rule
     --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rule
@@ -376,6 +377,7 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--n3',
             '--n3p',
             '--output',
+            '--prolog',
             '--proof',
             '--quantify',
             '--query',
@@ -430,6 +432,11 @@ gre(Argus) :-
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
+    ;   true
+    ),
+    (   memberchk('--prolog', Args)
+    ->  retractall(flag(prolog)),
+        assertz(flag(prolog))
     ;   true
     ),
     (   flag('skolem-genid', Genid)
@@ -562,11 +569,27 @@ gre(Argus) :-
     (   flag(profile)
     ->  asserta(pce_profile:pce_show_profile :- fail),
         profile(eam(0))
-    ;   catch(eam(0), Exc3,
+    ;   catch(
+            (   eam(0),
+                (   flag(prolog)
+                ->  assertz(closure(0)),
+                    assertz(limit(-1)),
+                    forall(
+                        (Conc :+ Prem),
+                        dynify((Conc :+ Prem))
+                    ),
+                    eam
+                ;   true
+                )
+            ),
+            Exc3,
             (   (   Exc3 = halt(0)
                 ->  true
-                ;   format(user_error, "** ERROR ** eam ** ~w~n", [Exc3]),
-                    flush_output(user_error),
+                ;   (   \+flag(prolog)
+                    ->  format(user_error, "** ERROR ** eam ** ~w~n", [Exc3]),
+                        flush_output(user_error)
+                    ;   true
+                    ),
                     (   Exc3 = halt(Exit)
                     ->  nb_setval(exit_code, Exit)
                     ;   (   Exc3 = inference_fuse(_)
@@ -917,6 +940,7 @@ opts([Arg|_], _) :-
             '--not-entail',
             '--pass',
             '--pass-all',
+            '--prolog',
             '--proof',
             '--query',
             '--sparql-backward',
@@ -1056,6 +1080,47 @@ args(['--pass-all'|Args]) :-
     ;   true
     ),
     args(Args).
+args(['--prolog', Argument|Args]) :-
+    !,
+    cnt(doc_nr),
+    absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   wcacher(Arg, File)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
+            flush_output(user_error)
+        ),
+        open(File, read, In, [encoding(utf8)])
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w ", [Arg]),
+            flush_output(user_error)
+        ),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            File = Arg
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    load_files(File, [stream(In)]),
+    close(In),
+    args(Args).
 args(['--proof', Arg|Args]) :-
     !,
     absolute_uri(Arg, A),
@@ -1189,7 +1254,8 @@ args(['--trig', Argument|Args]) :-
             ->  format(Out, "~q.~n", [Triple])
             ;   true
             ),
-            (   \+flag(nope)
+            (   \+flag(nope),
+                \+flag(prolog)
             ->  assertz(prfstep(Triple, true, _, Triple, _, forward, R))
             ;   true
             )
@@ -13867,3 +13933,174 @@ mf(A) :-
         )
     ),
     flush_output(user_error).
+
+% -----------------
+% eye arcus machine
+% -----------------
+%
+% 1/ select rule Conc :+ Prem
+% 2/ prove Prem and if it fails backtrack to 1/
+% 3/ if Conc = true assert answer + step
+%    else if Conc = false output fuse + steps and stop
+%    else if ~Conc assert Conc + step and retract brake
+% 4/ backtrack to 2/ and if it fails go to 5/
+% 5/ if brake
+%       if not stable start again at 1/
+%       else output answers + steps and stop
+%    else assert brake and start again at 1/
+%
+
+eam :-
+    (   (Conc :+ Prem),                         % 1/
+        copy_term((Conc :+ Prem), Rule),
+        Prem,                                   % 2/
+        (   Conc = true                         % 3/
+        ->  aconj(answer(Prem)),
+            aconj(step(Rule, Prem, Conc))
+        ;   (   Conc = false
+            ->  format(":- op(1200, xfx, :+).~n~n", []),
+                portray_clause(fuse(Prem)),
+                (   step(_, _, _),
+                    nl
+                ->  forall(
+                        step(R, P, C),
+                        portray_clause(step(R, P, C))
+                    )
+                ;   true
+                ),
+                throw(halt(2))
+            ;   (   Conc \= (_ :+ _)
+                ->  skolemize(Conc, 0, _)
+                ;   true
+                ),
+                \+ Conc,
+                aconj(Conc),
+                aconj(step(Rule, Prem, Conc)),
+                retract(brake)
+            )
+        ),
+        fail                                    % 4/
+    ;   (   brake                               % 5/
+        ->  (   closure(Closure),
+                limit(Limit),
+                Closure < Limit,
+                NewClosure is Closure+1,
+                becomes(closure(Closure), closure(NewClosure)),
+                eam
+            ;   format(":- op(1200, xfx, :+).~n~n", []),
+                forall(
+                    answer(P),
+                    portray_clause(answer(P))
+                ),
+                (   step(_, _, _),
+                    nl
+                ->  forall(
+                        step(R, P, C),
+                        portray_clause(step(R, P, C))
+                    )
+                ;   true
+                )
+            )
+        ;   assertz(brake),
+            eam
+        )
+    ).
+
+% assert conjunction
+aconj((B, C)) :-
+    aconj(B),
+    aconj(C).
+aconj(A) :-
+    (   \+ A
+    ->  assertz(A)
+    ;   true
+    ).
+
+% skolemize
+skolemize(Term, N0, N) :-
+    term_variables(Term, Vars),
+    skolemize_(Vars, N0, N).
+
+skolemize_([], N, N) :-
+    !.
+skolemize_([Sk|Vars], N0, N) :-
+    number_chars(N0, C0),
+    atom_chars(A0, C0),
+    atom_concat('sk_', A0, Sk),
+    N1 is N0+1,
+    skolemize_(Vars, N1, N).
+
+% stable(+Level)
+%   fail if the deductive closure at Level is not yet stable
+stable(Level) :-
+    limit(Limit),
+    (   Limit < Level
+    ->  becomes(limit(Limit), limit(Level))
+    ;   true
+    ),
+    closure(Closure),
+    Level =< Closure.
+
+% linear implication
+becomes(A, B) :-
+    catch(A, _, fail),
+    clist(A, C),
+    forall(
+        member(D, C),
+        retract(D)
+    ),
+    clist(B, E),
+    forall(
+        member(F, E),
+        assertz(F)
+    ).
+
+% conjunction tofro list
+clist(true, []).
+clist(A, [A]) :-
+    A \= (_, _),
+    A \= false,
+    !.
+clist((A, B), [A|C]) :-
+    clist(B, C).
+
+% make dynamic predicates
+dyn(A) :-
+    var(A),
+    !.
+dyn(A) :-
+    atomic(A),
+    !.
+dyn([]) :-
+    !.
+dyn([A|B]) :-
+    !,
+    dyn(A),
+    dyn(B).
+dyn(A) :-
+    A =.. [B|C],
+    length(C, N),
+    (   current_predicate(B/N)
+    ->  true
+    ;   functor(T, B, N),
+        catch((assertz(T), retract(T)), _, true)
+    ),
+    dyn(C).
+
+% debugging tools
+f(A) :-
+    format(user_error, "*** ~q~n", [A]),
+    count(f, B),
+    C is B+1,
+    becomes(count(f, B), count(f, C)).
+
+m(A) :-
+    forall(
+        catch(A, _, fail),
+        (   format(user_error, "*** ", []),
+            portray_clause(user_error, A),
+            count(m, B),
+            C is B+1,
+            becomes(count(m, B), count(m, C))
+        )
+    ).
