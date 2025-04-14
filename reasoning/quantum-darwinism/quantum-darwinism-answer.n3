@@ -1,0 +1,24 @@
+@prefix : <http://example.org/quantum#>.
+
+:state1 :hasDecohered true.
+:state3 :hasDecohered true.
+:state1 :isObservable true.
+:state3 :isObservable true.
+:alice :estimatesAmplitude 0.9 .
+:bob :estimatesAmplitude 0.9 .
+:carol :estimatesAmplitude 0.4 .
+:dave :estimatesAmplitude 0.3 .
+:alice :agreesWith :bob.
+:carol :disagreesWith :dave.
+:state5 :hasAmplitude 0.9 .
+:state5 a :QuantumState.
+:state6 :hasAmplitude 0.4 .
+:state6 a :QuantumState.
+:state5 :isPointerState true.
+:state5 :entangledWith :state3.
+:state6 :entangledWith :state4.
+:state1 :selectedByEnvironment true.
+:state3 :selectedByEnvironment true.
+:state5 :selectedByEnvironment true.
+:state5 :hasDecohered true.
+:state5 :isObservable true.
