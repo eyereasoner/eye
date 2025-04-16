@@ -1,0 +1,12 @@
+prefix earl: <http://www.w3.org/ns/earl#>
+prefix log: <http://www.w3.org/2000/10/swap/log#>
+prefix tuner: <https://api-tuner.described.at/>
+prefix graph: <http://www.w3.org/2000/10/swap/graph#>
+
+{
+  ?test a earl:TestCase ; tuner:formula ?formula .
+
+  ?formula log:call true .
+} => {
+   ?test earl:outcome earl:passed .
+} .

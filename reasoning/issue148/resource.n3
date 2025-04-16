@@ -1,0 +1,31 @@
+PREFIX string: <http://www.w3.org/2000/10/swap/string#>
+prefix resource: <https://api-tuner.described.at/resource#>
+prefix tuner: <https://api-tuner.described.at/>
+prefix log: <http://www.w3.org/2000/10/swap/log#>
+prefix graph: <http://www.w3.org/2000/10/swap/graph#>
+
+{
+  (?resource ?res) resource:getIn ?scope
+} <= {
+  ( <#getRequest>!log:uri "&resource=" ?resource!log:uri ) string:concatenation ?idStr .
+  ?id log:uri ?idStr .
+
+  ({[
+      a tuner:Request ;
+        tuner:method "GET" ;
+        tuner:url ?resource ;
+   ]} ?res) resource:requestIn ( ?scope ?id ) .
+} .
+
+{
+  (?g ?res) resource:requestIn ( ?scope ?id )
+} <= {
+  ({ ?scope ?id [] } false true) log:ifThenElseIn [].
+
+  ?g log:includes { ?req a tuner:Request } .
+
+  ( ?g { ?scope ?id ?req } ) graph:union ?union .
+  true log:becomes ?union .
+
+  ?scope!?id tuner:response ?res .
+} .

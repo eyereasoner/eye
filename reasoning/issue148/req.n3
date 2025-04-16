@@ -1,0 +1,36 @@
+PREFIX string: <http://www.w3.org/2000/10/swap/string#>
+PREFIX hydra: <http://www.w3.org/ns/hydra/core#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX earl: <http://www.w3.org/ns/earl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX tuner: <https://api-tuner.described.at/>
+prefix resource: <https://api-tuner.described.at/resource#>
+prefix schema: <http://schema.org/>
+PREFIX qlever: <https://qlever.described.at/>
+
+<#withResourcePath>
+  a earl:TestCase ;
+  tuner:formula {
+    (<http://example.com> ?res) resource:getIn [] .
+
+    ?res!tuner:body string:contains "Example"
+  } ;
+.
+
+<#withoutResourcePath>
+  a earl:TestCase ;
+  tuner:formula {
+    (<http://example.com> ?res) resource:getIn [] .
+
+    ?res tuner:body ?b .
+    ?b string:contains "Example" .
+  } ;
+.
+
+{
+  (<http://example.com> ?res) resource:getIn [] .
+
+  ?res!tuner:body string:contains "Example"
+} => {
+  <#withoutFormula> earl:outcome earl:passed .
+} .

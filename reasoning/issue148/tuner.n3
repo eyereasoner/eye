@@ -1,0 +1,27 @@
+prefix tuner: <https://api-tuner.described.at/>
+prefix log: <http://www.w3.org/2000/10/swap/log#>
+prefix string: <http://www.w3.org/2000/10/swap/string#>
+prefix list: <http://www.w3.org/2000/10/swap/list#>
+prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+{
+  ?req tuner:response ?res .
+} <= {
+  {
+    ?req a tuner:Request .
+    ?req tuner:method ?method .
+    ?req tuner:url ?endpointUri .
+  } .
+  ({ ?req tuner:done true } false true) log:ifThenElseIn ?SCOPE .
+  true log:becomes { ?req tuner:done true } .
+
+  "file://response"^log:uri log:semantics ?res .
+} .
+
+{
+  ?res tuner:body ?body .
+} <= {
+  ?res log:includes {
+    [] a tuner:Response ; tuner:body ?body .
+  } .
+} .
