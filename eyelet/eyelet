@@ -1,0 +1,4 @@
+#!/bin/bash
+export EYELET=$(dirname "$(readlink -f "$0")")/eyelet.pl
+
+tpl -g main ${EYELET} "$@"
