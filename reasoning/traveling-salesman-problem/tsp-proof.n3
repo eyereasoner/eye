@@ -1,0 +1,245 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/tsp#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        (:a :b :f :c :e :d :a) :isOptimalPath 90 .
+        (:a :d :e :c :f :b :a) :isOptimalPath 90 .
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (:a :b :f :c :e :d :a) :isOptimalPath 90 .
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :b :f :c :e :d :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 90];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        (:a :d :e :c :f :b :a) :isOptimalPath 90 .
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo (:a :d :e :c :f :b :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 90];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        (:a :b :f :c :e :d :a) :isOptimalPath 90 .
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma7
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1) log:notIncludes {
+            _:sk_723 :totalLength _:sk_724.
+            _:sk_723 log:notEqualTo _:sk_22.
+            _:sk_724 math:lessThan 90.
+        }}]
+        [ a r:Fact; r:gives {(:a :b :f :c :e :d :a) list:first :a}]
+        skolem:lemma8
+        [ a r:Fact; r:gives {(:a :b :c :d :e :f) list:first :a}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :b :f :c :e :d :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 90];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_723"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_724"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ n3:uri "http://example.org/tsp#a"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo (:a :b :c :d :e :f)];
+    r:rule skolem:lemma9.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :isOptimalPath var:x_1.
+        } => {
+            var:x_0 :isOptimalPath var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-query.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        (:a :d :e :c :f :b :a) :isOptimalPath 90 .
+    };
+    r:evidence (
+        skolem:lemma10
+        skolem:lemma11
+        [ a r:Fact; r:gives {((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1) log:notIncludes {
+            _:sk_725 :totalLength _:sk_726.
+            _:sk_725 log:notEqualTo _:sk_66.
+            _:sk_726 math:lessThan 90.
+        }}]
+        [ a r:Fact; r:gives {(:a :d :e :c :f :b :a) list:first :a}]
+        skolem:lemma8
+        [ a r:Fact; r:gives {(:a :b :c :d :e :f) list:first :a}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_66"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :d :e :c :f :b :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 90];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_725"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_726"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ n3:uri "http://example.org/tsp#a"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_8"]; r:boundTo (:a :b :c :d :e :f)];
+    r:rule skolem:lemma9.
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        _:sk_22 :route (:a :b :f :c :e :d :a).
+    };
+    r:evidence (
+        skolem:lemma8
+        [ a r:Fact; r:gives {(:a :b :c :d :e :f) list:permutation (:a :b :f :c :e :d)}]
+        [ a r:Fact; r:gives {(:a :b :f :c :e :d) list:first :a}]
+        [ a r:Fact; r:gives {((:a :b :f :c :e :d) (:a)) list:append (:a :b :f :c :e :d :a)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :b :c :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (:a :b :f :c :e :d)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/tsp#a"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (:a :b :f :c :e :d :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        _:sk_22 :totalLength 90 .
+    };
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives {(:a :b :f :c :e :d :a) :sumDistance 90}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :b :f :c :e :d :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 90];
+    r:rule skolem:lemma13.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        _:sk_2 :allCities (:a :b :c :d :e :f).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(_:sk_0 {
+            _:sk_0 :distance _:sk_1.
+        } ((:a :b) (:a :c) (:a :d) (:a :e) (:a :f) (:b :c) (:b :d) (:b :e) (:b :f) (:c :d) (:c :e) (:c :f) (:d :e) (:d :f) (:e :f) (:b :a) (:c :a) (:d :a) (:e :a) (:f :a) (:c :b) (:d :b) (:e :b) (:f :b) (:d :c) (:e :c) (:f :c) (:e :d) (:f :d) (:f :e))) log:collectAllIn ((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1)}]
+        [ a r:Fact; r:gives {((:a :b) (:a :c) (:a :d) (:a :e) (:a :f) (:b :c) (:b :d) (:b :e) (:b :f) (:c :d) (:c :e) (:c :f) (:d :e) (:d :f) (:e :f) (:b :a) (:c :a) (:d :a) (:e :a) (:f :a) (:c :b) (:d :b) (:e :b) (:f :b) (:d :c) (:e :c) (:f :c) (:e :d) (:f :d) (:f :e)) list:append (:a :b :a :c :a :d :a :e :a :f :b :c :b :d :b :e :b :f :c :d :c :e :c :f :d :e :d :f :e :f :b :a :c :a :d :a :e :a :f :a :c :b :d :b :e :b :f :b :d :c :e :c :f :c :e :d :f :d :f :e)}]
+        [ a r:Fact; r:gives {(:a :b :a :c :a :d :a :e :a :f :b :c :b :d :b :e :b :f :c :d :c :e :c :f :d :e :d :f :e :f :b :a :c :a :d :a :e :a :f :a :c :b :d :b :e :b :f :b :d :c :e :c :f :c :e :d :f :d :f :e) list:removeDuplicates (:a :b :c :d :e :f)}]
+        [ a r:Fact; r:gives {(:a :b :c :d :e :f) list:sort (:a :b :c :d :e :f)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-data.n3> <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_0"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo ((:a :b) (:a :c) (:a :d) (:a :e) (:a :f) (:b :c) (:b :d) (:b :e) (:b :f) (:c :d) (:c :e) (:c :f) (:d :e) (:d :f) (:e :f) (:b :a) (:c :a) (:d :a) (:e :a) (:f :a) (:c :b) (:d :b) (:e :b) (:f :b) (:d :c) (:e :c) (:f :c) (:e :d) (:f :d) (:f :e))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (:a :b :a :c :a :d :a :e :a :f :b :c :b :d :b :e :b :f :c :d :c :e :c :f :d :e :d :f :e :f :b :a :c :a :d :a :e :a :f :a :c :b :d :b :e :b :f :b :d :c :e :c :f :c :e :d :f :d :f :e)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (:a :b :c :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo (:a :b :c :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:rule skolem:lemma14.
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6, var:x_7, var:x_8. {
+            var:x_0 :route var:x_1.
+            var:x_0 :totalLength var:x_2.
+            var:x_3 log:notIncludes {
+                var:x_4 :totalLength var:x_5.
+                var:x_4 log:notEqualTo var:x_0.
+                var:x_5 math:lessThan var:x_2.
+            }.
+            var:x_1 list:first var:x_6.
+            var:x_7 :allCities var:x_8.
+            var:x_8 list:first var:x_6.
+        } => {
+            var:x_1 :isOptimalPath var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>].
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        _:sk_66 :route (:a :d :e :c :f :b :a).
+    };
+    r:evidence (
+        skolem:lemma8
+        [ a r:Fact; r:gives {(:a :b :c :d :e :f) list:permutation (:a :d :e :c :f :b)}]
+        [ a r:Fact; r:gives {(:a :d :e :c :f :b) list:first :a}]
+        [ a r:Fact; r:gives {((:a :d :e :c :f :b) (:a)) list:append (:a :d :e :c :f :b :a)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :b :c :d :e :f)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (:a :d :e :c :f :b)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/tsp#a"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo (:a :d :e :c :f :b :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_66"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        _:sk_66 :totalLength 90 .
+    };
+    r:evidence (
+        skolem:lemma10
+        [ a r:Fact; r:gives {(:a :d :e :c :f :b :a) :sumDistance 90}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_66"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (:a :d :e :c :f :b :a)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 90];
+    r:rule skolem:lemma13.
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. @forSome var:x_5. {
+            var:x_0 :allCities var:x_1.
+            var:x_1 list:permutation var:x_2.
+            var:x_2 list:first var:x_3.
+            (var:x_2 (var:x_3)) list:append var:x_4.
+        } => {
+            var:x_5 :route var:x_4.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 :route var:x_1.
+            var:x_1 :sumDistance var:x_2.
+        } => {
+            var:x_0 :totalLength var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>].
+
+skolem:lemma14 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4, var:x_5, var:x_6. @forSome var:x_7. {
+            (var:x_0 {
+                var:x_0 :distance var:x_1.
+            } var:x_2) log:collectAllIn var:x_3.
+            var:x_2 list:append var:x_4.
+            var:x_4 list:removeDuplicates var:x_5.
+            var:x_5 list:sort var:x_6.
+        } => {
+            var:x_7 :allCities var:x_6.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/traveling-salesman-problem/tsp-solver.n3>].
+
