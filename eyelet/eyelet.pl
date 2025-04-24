@@ -185,6 +185,10 @@ eyelet :-
     nonvar(A),
     nth0(B, A, C).
 
+'http://www.w3.org/2000/10/swap/list#permutation'(A, B) :-
+    nonvar(A),
+    permutation(A, B).
+
 'http://www.w3.org/2000/10/swap/list#remove'([A, B], C) :-
     nonvar(A),
     nonvar(B),
@@ -775,6 +779,10 @@ skolemize_([Sk|Vars], N0, N) :-
 % stable(+Level)
 %   fail if the deductive closure at Level is not yet stable
 stable(Level) :-
+    (   Level = 1
+    ->  true
+    ;   true
+    ),
     limit(Limit),
     (   Limit < Level
     ->  becomes(limit(Limit), limit(Level))
