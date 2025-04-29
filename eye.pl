@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.1 (2025-04-29)').
+version_info('EYE v11.16.2 (2025-04-29)').
 
 license_info('MIT License
 
@@ -54,6 +54,7 @@ eye
     swipl -g main eye.pl --
 <options>
     --analytic-proof                proofs contain component lemmas
+    --bnode-relabeling              blank nodes have graph term scope
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
@@ -676,6 +677,11 @@ opts(['--analytic-proof'|Argus], Args) :-
     !,
     retractall(flag('analytic-proof')),
     assertz(flag('analytic-proof')),
+    opts(Argus, Args).
+opts(['--bnode-relabeling'|Argus], Args) :-
+    !,
+    retractall(flag('bnode-relabeling')),
+    assertz(flag('bnode-relabeling')),
     opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
@@ -2695,11 +2701,15 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   evar(Label, S, 0)
+        (   flag('bnode-relabeling')
+        ->  nb_getval(fdepth, D)
+        ;   D = 0
+        ),
+        (   evar(Label, S, D)
         ->  true
         ;   atom_concat(Label, '_', M),
             gensym(M, S),
-            assertz(evar(Label, S, 0))
+            assertz(evar(Label, S, D))
         ),
         (   (   nb_getval(entail_mode, false),
                 nb_getval(fdepth, 0)
