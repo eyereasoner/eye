@@ -1,0 +1,93 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:component skolem:lemma6;
+    r:gives {
+        (| "display" "user_1" (| "perm" ("Patrick") |) (| "not" ("Brugge" 1971) |) |).
+        (| "display" "user_1" (| "perm" ("Brugge") |) (| "not" ("Patrick" 1971) |) |).
+        (| "display" "user_1" (| "perm" (1971) |) (| "not" ("Patrick" "Brugge") |) |).
+        (| "display" "user_1" (| "perm" ("Brugge" "Patrick") |) (| "not" (1971) |) |).
+        (| "display" "user_1" (| "perm" (1971 "Patrick") |) (| "not" ("Brugge") |) |).
+        (| "display" "user_1" (| "perm" (1971 "Brugge") |) (| "not" ("Patrick") |) |).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" ("Patrick") |) (| "not" ("Brugge" 1971) |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" ("Patrick") |) (| "not" ("Brugge" 1971) |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" ("Patrick") |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" ("Brugge" 1971) |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" ("Brugge") |) (| "not" ("Patrick" 1971) |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" ("Brugge") |) (| "not" ("Patrick" 1971) |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" ("Brugge") |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" ("Patrick" 1971) |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" (1971) |) (| "not" ("Patrick" "Brugge") |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" (1971) |) (| "not" ("Patrick" "Brugge") |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" (1971) |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" ("Patrick" "Brugge") |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" ("Brugge" "Patrick") |) (| "not" (1971) |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" ("Brugge" "Patrick") |) (| "not" (1971) |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" ("Brugge" "Patrick") |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" (1971) |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" (1971 "Patrick") |) (| "not" ("Brugge") |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" (1971 "Patrick") |) (| "not" ("Brugge") |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" (1971 "Patrick") |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" ("Brugge") |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
+skolem:lemma6 a r:Inference;
+    r:gives {
+        (| "display" "user_1" (| "perm" (1971 "Brugge") |) (| "not" ("Patrick") |) |).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {(| "display" "user_1" (| "perm" (1971 "Brugge") |) (| "not" ("Patrick") |) |)}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "user_1"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (| "perm" (1971 "Brugge") |)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo (| "not" ("Patrick") |)];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. (| "display" var:x_0 var:x_1 var:x_2 |) => (| "display" var:x_0 var:x_1 var:x_2 |)}].
+
