@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.3 (2025-05-02)').
+version_info('EYE v11.16.4 (2025-05-02)').
 
 license_info('MIT License
 
@@ -54,7 +54,6 @@ eye
     swipl -g main eye.pl --
 <options>
     --analytic-proof                proofs contain component lemmas
-    --bnode-relabeling              blank nodes have graph term scope
     --csv-separator <separator>     CSV separator such as , or ;
     --debug                         output debug info on stderr
     --debug-cnt                     output debug info about counters on stderr
@@ -417,6 +416,7 @@ gre(Argus) :-
     nb_setval(fnet, not_done),
     nb_setval(tabl, -1),
     nb_setval(tuple, -1),
+    nb_setval(bnode_relabel, false),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -678,11 +678,6 @@ opts(['--analytic-proof'|Argus], Args) :-
     retractall(flag('analytic-proof')),
     assertz(flag('analytic-proof')),
     opts(Argus, Args).
-opts(['--bnode-relabeling'|Argus], Args) :-
-    !,
-    retractall(flag('bnode-relabeling')),
-    assertz(flag('bnode-relabeling')),
-    opts(Argus, Args).
 opts(['--csv-separator', Separator|Argus], Args) :-
     !,
     retractall(flag('csv-separator')),
@@ -762,9 +757,6 @@ opts(['--max-inferences', Lim|Argus], Args) :-
     ),
     retractall(flag('max-inferences', _)),
     assertz(flag('max-inferences', Limit)),
-    opts(Argus, Args).
-opts(['--no-bnode-relabeling'|Argus], Args) :-
-    !,
     opts(Argus, Args).
 opts(['--no-call-residue-vars'|Argus], Args) :-
     !,
@@ -963,7 +955,9 @@ args(['--n3', Arg|Args]) :-
     ->  portray_clause(Out, scope(R))
     ;   true
     ),
+    nb_setval(bnode_relabel, true),
     n3_n3p(Arg, data),
+    nb_setval(bnode_relabel, false),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -1279,7 +1273,18 @@ args(['--turtle', Arg|Args]) :-
     !,
     args(['--trig', Arg|Args]).
 args([Arg|Args]) :-
-    args(['--n3', Arg|Args]).
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    n3_n3p(Arg, data),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
+    args(Args).
 
 n3pin(Rt, In, File, Mode) :-
     (   Rt = ':-'(Rg)
@@ -2708,7 +2713,7 @@ symbol(Name) -->
     {   atom_codes(Lbl, LblCodes),
         subst([[[0'-], [0'_, 0'M, 0'I, 0'N, 0'U, 0'S, 0'_]], [[0'.], [0'_, 0'D, 0'O, 0'T, 0'_]]], LblCodes, LblTidy),
         atom_codes(Label, LblTidy),
-        (   flag('bnode-relabeling')
+        (   nb_getval(bnode_relabel, true)
         ->  nb_getval(fdepth, D)
         ;   D = 0
         ),
