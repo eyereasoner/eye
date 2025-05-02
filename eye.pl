@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.2 (2025-04-29)').
+version_info('EYE v11.16.3 (2025-05-02)').
 
 license_info('MIT License
 
@@ -2561,6 +2561,12 @@ qname(URI) -->
     },
     !.
 
+separate -->
+    [';'],
+    !.
+separate -->
+    [].
+
 simpleStatement([Rule]) -->
     [name(Construct)],
     {   downcase_atom(Construct, 'construct')
@@ -2575,6 +2581,7 @@ simpleStatement([Rule]) -->
     ['{'],
     formulacontent(Prem),
     ['}'],
+    separate,
     withoutdot,
     {   (   nb_getval(sparql_backward, true)
         ->  Rule = ':-'(Conc, Prem)
