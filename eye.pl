@@ -5,8 +5,6 @@
 % See https://github.com/eyereasoner/eye
 %
 
-:- op(1200, xfx, :+).
-
 :- use_module(library(apply)).
 :- use_module(library(lists)).
 :- use_module(library(gensym)).
@@ -25,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.4 (2025-05-02)').
+version_info('EYE v11.16.5 (2025-05-02)').
 
 license_info('MIT License
 
@@ -96,10 +94,9 @@ eye
 <data>
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
-    --prolog <uri>                  Prolog code
     --proof <uri>                   N3 proof lemmas
-    --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rule
-    --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rule
+    --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rules
+    --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rules
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
 <query>
@@ -112,7 +109,6 @@ eye
     --pass-only-new                 output only new derived triples
     --query <query>                 output filtered with filter rules').
 
-:- dynamic((:+)/2).
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
@@ -376,7 +372,6 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--max-inferences',
             '--n3',
             '--n3p',
-            '--prolog',
             '--output',
             '--proof',
             '--quantify',
@@ -917,7 +912,6 @@ opts([Arg|_], _) :-
             '--not-entail',
             '--pass',
             '--pass-all',
-            '--prolog',
             '--proof',
             '--query',
             '--sparql-backward',
@@ -1058,49 +1052,6 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
-    args(Args).
-args(['--prolog', Argument|Args]) :-
-    !,
-    cnt(doc_nr),
-    absolute_uri(Argument, Arg),
-    atomic_list_concat(['<', Arg, '>'], R),
-    assertz(scope(R)),
-    (   wcacher(Arg, File)
-    ->  (   flag(quiet)
-        ->  true
-        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
-            flush_output(user_error)
-        ),
-        open(File, read, In, [encoding(utf8)])
-    ;   (   flag(quiet)
-        ->  true
-        ;   format(user_error, "GET ~w ", [Arg]),
-            flush_output(user_error)
-        ),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  http_open(Arg, In, []),
-            set_stream(In, encoding(utf8)),
-            File = Arg
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
-            ;   File = Arg
-            ),
-            (   File = '-'
-            ->  In = user_input
-            ;   open(File, read, In, [encoding(utf8)])
-            )
-        )
-    ),
-    load_files(File, [stream(In)]),
-    close(In),
-    forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#query>'(Prem, Prem))),
-    forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc))),
     args(Args).
 args(['--proof', Arg|Args]) :-
     !,
@@ -8094,11 +8045,6 @@ userInput(A, B) :-
     (   B = true
     ->  catch(call(D), _, fail)
     ;   \+catch(call(D), _, fail)
-    ),
-    (   D = consult(_)
-    ->  forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#query>'(Prem, Prem))),
-        forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)))
-    ;   true
     ).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
