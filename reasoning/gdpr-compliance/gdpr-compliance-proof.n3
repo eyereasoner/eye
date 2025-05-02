@@ -1,0 +1,444 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/gdpr#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :jane_smith a :GDPRCompliant.
+        :john_doe a :GDPRCompliant.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :jane_smith a :GDPRCompliant.
+    };
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :john_doe a :GDPRCompliant.
+    };
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:rule skolem:lemma4.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :jane_smith a :GDPRCompliant.
+    };
+    r:evidence (
+        skolem:lemma6
+        skolem:lemma7
+        skolem:lemma8
+        skolem:lemma9
+        skolem:lemma10
+        skolem:lemma11
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#support"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 a :GDPRCompliant.
+        } => {
+            var:x_0 a :GDPRCompliant.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance-query.n3>].
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :john_doe a :GDPRCompliant.
+    };
+    r:evidence (
+        skolem:lemma13
+        skolem:lemma14
+        skolem:lemma15
+        skolem:lemma16
+        skolem:lemma17
+        skolem:lemma18
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#marketing"]];
+    r:rule skolem:lemma12.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :jane_smith a :DataSubject.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma7 a r:Inference;
+    r:gives {
+        :jane_smith :lawfulPurpose :support.
+    };
+    r:evidence (
+        skolem:lemma19
+        skolem:lemma20
+        skolem:lemma21
+        skolem:lemma22
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#support"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_6"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/gdpr#contract"]];
+    r:rule skolem:lemma23.
+
+skolem:lemma8 a r:Inference;
+    r:gives {
+        :jane_smith :retentionOKFor :support.
+    };
+    r:evidence (
+        skolem:lemma24
+        skolem:lemma25
+        skolem:lemma26
+        [ a r:Fact; r:gives {365 math:notGreaterThan 730}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_12"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/gdpr#support"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 365];
+    r:rule skolem:lemma27.
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        :jane_smith :minimizationOKFor :support.
+    };
+    r:evidence (
+        skolem:lemma19
+        skolem:lemma28
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#support"]];
+    r:rule skolem:lemma29.
+
+skolem:lemma10 a r:Inference;
+    r:gives {
+        :jane_smith :processorOK true.
+    };
+    r:evidence (
+        skolem:lemma30
+        skolem:lemma31
+        skolem:lemma32
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#dpo_corp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:rule skolem:lemma33.
+
+skolem:lemma11 a r:Inference;
+    r:gives {
+        :jane_smith :rightsOK true.
+    };
+    r:evidence (
+        skolem:lemma34
+        skolem:lemma35
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#jane_smith"]];
+    r:rule skolem:lemma36.
+
+skolem:lemma12 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 a :DataSubject.
+            var:x_0 :lawfulPurpose var:x_1.
+            var:x_0 :retentionOKFor var:x_1.
+            var:x_0 :minimizationOKFor var:x_1.
+            var:x_0 :processorOK true.
+            var:x_0 :rightsOK true.
+        } => {
+            var:x_0 a :GDPRCompliant.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives {
+        :john_doe a :DataSubject.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma14 a r:Inference;
+    r:gives {
+        :john_doe :lawfulPurpose :marketing.
+    };
+    r:evidence (
+        skolem:lemma37
+        skolem:lemma38
+        skolem:lemma39
+        skolem:lemma40
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#marketing"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/gdpr#consent"]];
+    r:rule skolem:lemma23.
+
+skolem:lemma15 a r:Inference;
+    r:gives {
+        :john_doe :retentionOKFor :marketing.
+    };
+    r:evidence (
+        skolem:lemma41
+        skolem:lemma42
+        skolem:lemma43
+        [ a r:Fact; r:gives {180 math:notGreaterThan 730}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_8"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/gdpr#marketing"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 180];
+    r:rule skolem:lemma27.
+
+skolem:lemma16 a r:Inference;
+    r:gives {
+        :john_doe :minimizationOKFor :marketing.
+    };
+    r:evidence (
+        skolem:lemma37
+        skolem:lemma44
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#marketing"]];
+    r:rule skolem:lemma29.
+
+skolem:lemma17 a r:Inference;
+    r:gives {
+        :john_doe :processorOK true.
+    };
+    r:evidence (
+        skolem:lemma30
+        skolem:lemma31
+        skolem:lemma45
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#dpo_corp"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:rule skolem:lemma33.
+
+skolem:lemma18 a r:Inference;
+    r:gives {
+        :john_doe :rightsOK true.
+    };
+    r:evidence (
+        skolem:lemma46
+        skolem:lemma47
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/gdpr#john_doe"]];
+    r:rule skolem:lemma36.
+
+skolem:lemma19 a r:Extraction;
+    r:gives {
+        :jane_smith :hasProcessingPurpose :support.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma20 a r:Extraction;
+    r:gives {
+        :jane_smith :hasLawfulBasis skolem:e_6.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma21 a r:Extraction;
+    r:gives {
+        skolem:e_6 :purpose :support.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma22 a r:Extraction;
+    r:gives {
+        skolem:e_6 :basis :contract.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma23 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 :hasProcessingPurpose var:x_1.
+            var:x_0 :hasLawfulBasis var:x_2.
+            var:x_2 :purpose var:x_1.
+            var:x_2 :basis var:x_3.
+        } => {
+            var:x_0 :lawfulPurpose var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma24 a r:Extraction;
+    r:gives {
+        :jane_smith :hasRetention skolem:e_12.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma25 a r:Extraction;
+    r:gives {
+        skolem:e_12 :purpose :support.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma26 a r:Extraction;
+    r:gives {
+        skolem:e_12 :days 365 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma27 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
+            var:x_0 :hasRetention var:x_1.
+            var:x_1 :purpose var:x_2.
+            var:x_1 :days var:x_3.
+            var:x_3 math:notGreaterThan 730.
+        } => {
+            var:x_0 :retentionOKFor var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma28 a r:Extraction;
+    r:gives {
+        :jane_smith :isMinimalFor :support.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma29 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 :hasProcessingPurpose var:x_1.
+            var:x_0 :isMinimalFor var:x_1.
+        } => {
+            var:x_0 :minimizationOKFor var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma30 a r:Extraction;
+    r:gives {
+        :dpo_corp a :Processor.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma31 a r:Extraction;
+    r:gives {
+        :dpo_corp :signedDPA true.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma32 a r:Extraction;
+    r:gives {
+        :dpo_corp :processes :jane_smith.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma33 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            var:x_0 a :Processor.
+            var:x_0 :signedDPA true.
+            var:x_0 :processes var:x_1.
+        } => {
+            var:x_1 :processorOK true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma34 a r:Extraction;
+    r:gives {
+        :jane_smith :exercisedRight :access.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma35 a r:Extraction;
+    r:gives {
+        :jane_smith :exercisedRight :rectify.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma36 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :exercisedRight :access.
+            var:x_0 :exercisedRight :rectify.
+        } => {
+            var:x_0 :rightsOK true.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma37 a r:Extraction;
+    r:gives {
+        :john_doe :hasProcessingPurpose :marketing.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma38 a r:Extraction;
+    r:gives {
+        :john_doe :hasLawfulBasis skolem:e_2.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma39 a r:Extraction;
+    r:gives {
+        skolem:e_2 :purpose :marketing.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma40 a r:Extraction;
+    r:gives {
+        skolem:e_2 :basis :consent.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma41 a r:Extraction;
+    r:gives {
+        :john_doe :hasRetention skolem:e_8.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma42 a r:Extraction;
+    r:gives {
+        skolem:e_8 :purpose :marketing.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma43 a r:Extraction;
+    r:gives {
+        skolem:e_8 :days 180 .
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma44 a r:Extraction;
+    r:gives {
+        :john_doe :isMinimalFor :marketing.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma45 a r:Extraction;
+    r:gives {
+        :dpo_corp :processes :john_doe.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma46 a r:Extraction;
+    r:gives {
+        :john_doe :exercisedRight :access.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+
+skolem:lemma47 a r:Extraction;
+    r:gives {
+        :john_doe :exercisedRight :rectify.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/gdpr-compliance/gdpr-compliance.n3>].
+

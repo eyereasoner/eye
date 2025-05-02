@@ -1,0 +1,97 @@
+# A minimal GDPR compliance example created with the help of ChatGPT
+
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix : <http://example.org/gdpr#> .
+
+# Data Subjects
+:jane_smith a :DataSubject .
+:john_doe a :DataSubject .
+
+# Personal Data
+:john_doe :hasPersonalData :email, :name .
+:jane_smith :hasPersonalData :address .
+
+# Processing Purposes
+:john_doe :hasProcessingPurpose :marketing, :analytics .
+:jane_smith :hasProcessingPurpose :support .
+
+# Lawful Basis
+:marketing :hasLawfulBasis :consent .
+:analytics :hasLawfulBasis :legitimate_interest .
+:support :hasLawfulBasis :contract .
+
+# Link subjects to lawful basis
+:john_doe :hasLawfulBasis [ :purpose :marketing; :basis :consent ] .
+:john_doe :hasLawfulBasis [ :purpose :analytics; :basis :legitimate_interest ] .
+:jane_smith :hasLawfulBasis [ :purpose :support; :basis :contract ] .
+
+# Retention periods
+:john_doe :hasRetention [ :purpose :marketing; :days 180 ] .
+:john_doe :hasRetention [ :purpose :analytics; :days 730 ] .
+:jane_smith :hasRetention [ :purpose :support; :days 365 ] .
+
+# Data Minimization
+:john_doe :isMinimalFor :marketing .
+:john_doe :isMinimalFor :analytics .
+:jane_smith :isMinimalFor :support .
+
+# Processor
+:dpo_corp a :Processor ;
+    :signedDPA true ;
+    :processes :john_doe, :jane_smith .
+
+# Data Subject Rights
+:john_doe :exercisedRight :access, :rectify .
+:jane_smith :exercisedRight :access, :rectify .
+
+# Rule: Check lawful basis per purpose
+{
+    ?S :hasProcessingPurpose ?P .
+    ?S :hasLawfulBasis [ :purpose ?P; :basis ?B ] .
+} => {
+    ?S :lawfulPurpose ?P .
+} .
+
+# Rule: Check retention (<= 730 days)
+{
+    ?S :hasRetention [ :purpose ?P; :days ?D ] .
+    ?D math:notGreaterThan 730 .
+} => {
+    ?S :retentionOKFor ?P .
+} .
+
+# Rule: Data minimization
+{
+    ?S :hasProcessingPurpose ?P .
+    ?S :isMinimalFor ?P .
+} => {
+    ?S :minimizationOKFor ?P .
+} .
+
+# Rule: Processor has signed DPA
+{
+    ?P a :Processor ; :signedDPA true ; :processes ?S .
+} => {
+    ?S :processorOK true .
+} .
+
+# Rule: Data subject rights
+{
+    ?S :exercisedRight :access, :rectify .
+} => {
+    ?S :rightsOK true .
+} .
+
+# Final Compliance
+{
+    ?S a :DataSubject .
+    ?S :lawfulPurpose ?P .
+    ?S :retentionOKFor ?P .
+    ?S :minimizationOKFor ?P .
+    ?S :processorOK true .
+    ?S :rightsOK true .
+} => {
+    ?S a :GDPRCompliant .
+} .
