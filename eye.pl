@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.5 (2025-05-02)').
+version_info('EYE v11.16.6 (2025-05-05)').
 
 license_info('MIT License
 
@@ -2529,6 +2529,10 @@ simpleStatement([Rule]) -->
     },
     !,
     ['{'],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J)
+    },
     formulacontent(Conc),
     ['}'],
     [name(Where)],
@@ -2536,6 +2540,8 @@ simpleStatement([Rule]) -->
     },
     ['{'],
     formulacontent(Prem),
+    {   nb_setval(fdepth, I)
+    },
     ['}'],
     separate,
     withoutdot,
