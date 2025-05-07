@@ -3,23 +3,15 @@ PREFIX : <https://eyereasoner.github.io/eye/reasoning#>
 
 CONSTRUCT {
     (0 ?A ?B) :fib ?A.
-}
-
-WHERE {
-} ;
+} WHERE {} ;
 
 CONSTRUCT {
     (1 ?A ?B) :fib ?B.
-}
-
-WHERE {
-} ;
+} WHERE {} ;
 
 CONSTRUCT {
     (?X ?A ?B) :fib ?Y.
-}
-
-WHERE {
+} WHERE {
     ?X math:greaterThan 1.
     (?X 1) math:difference ?C.
     (?A ?B) math:sum ?D.
@@ -28,8 +20,6 @@ WHERE {
 
 CONSTRUCT {
     (?X) :fibonacci ?Y.
-}
-
-WHERE {
+} WHERE {
     (?X 0 1) :fib ?Y.
 }
