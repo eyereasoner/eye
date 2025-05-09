@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.6 (2025-05-05)').
+version_info('EYE v11.16.7 (2025-05-09)').
 
 license_info('MIT License
 
@@ -425,6 +425,7 @@ gre(Argus) :-
     nb_setval(wn, 0),
     nb_setval(prepare, false),
     nb_setval(sparql_backward, false),
+    nb_setval(prefix, false),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -2018,7 +2019,8 @@ declaration -->
         resolve_uri(U, V, URI),
         retractall(ns(Prefix, _)),
         assertz(ns(Prefix, URI)),
-        put_pfx(Prefix, URI)
+        put_pfx(Prefix, URI),
+        nb_setval(prefix, true)
     },
     withoutdot.
 
@@ -3652,7 +3654,10 @@ wh :-
             (   pfx(A, B),
                 \+wpfx(A)
             ),
-            (   format("@prefix ~w ~w.~n", [A, B]),
+            (   (   nb_getval(prefix, true)
+                ->  format("PREFIX ~w ~w~n", [A, B])
+                ;   format("@prefix ~w ~w.~n", [A, B])
+                ),
                 assertz(wpfx(A)),
                 nb_setval(wpfx, true)
             )
