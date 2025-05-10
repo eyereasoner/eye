@@ -1,0 +1,11 @@
+PREFIX : <http://example.org/#>
+
+# a Turing machine to add 1 to a binary number
+:add1 :start 0.
+
+(0 0 0 :right) :tape 0.
+(0 1 1 :right) :tape 0.
+(0 "#" "#" :left) :tape 1.
+(1 0 1 :stop) :tape :halt.
+(1 1 0 :left) :tape 1.
+(1 "#" 1 :stop) :tape :halt.
