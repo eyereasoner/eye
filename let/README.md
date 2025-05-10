@@ -1,4 +1,4 @@
-# Linking Every Thing
+# eyelet
 
 - assert triples with `--sparql-forward`
     ```
