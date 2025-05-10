@@ -1,0 +1,8 @@
+PREFIX gps: <https://eyereasoner.github.io/eye/reasoning/gps/gps-schema#>
+PREFIX : <https://eyereasoner.github.io/eye/reasoning#>
+
+CONSTRUCT {
+    ?SUBJECT gps:path (?PATH ?DURATION ?COST ?BELIEF ?COMFORT).
+} WHERE {
+    ?SCOPE gps:findpath ({?SUBJECT :location :Oostende} ?PATH ?DURATION ?COST ?BELIEF ?COMFORT (5000.0 5.0 0.2 0.4 1)).
+}

@@ -1,0 +1,25 @@
+PREFIX nepo: <http://neptune.aws.com/ontology/airroutes/>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX : <http://example.org/#>
+
+# connectivity
+CONSTRUCT {
+    (?from ?to ?visited ?length ?max) :route (?from ?to).
+} WHERE {
+    ?length math:notGreaterThan ?max.
+    ?from nepo:hasOutboundRouteTo ?to.
+    ?visited list:notMember ?to.
+} ;
+
+CONSTRUCT {
+    (?from ?to ?visited ?length ?max) :route ?route.
+} WHERE {
+    ?length math:notGreaterThan ?max.
+    ?from nepo:hasOutboundRouteTo ?via.
+    ?visited list:notMember ?via.
+    ?newVisited list:firstRest (?from ?visited).
+    (?length 1) math:sum ?newLength.
+    (?via ?to ?newVisited ?newLength ?max) :route ?newRoute.
+    ?route list:firstRest (?from ?newRoute).
+}

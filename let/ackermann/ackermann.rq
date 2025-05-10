@@ -1,0 +1,53 @@
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+# ackermann(x, y)
+CONSTRUCT {
+    (?X ?Y) :ackermann ?A.
+} WHERE {
+    (?Y 3) math:sum ?B.
+    (?X ?B 2) :ackermann ?C.
+    (?C 3) math:difference ?A.
+} ;
+
+# ackermann(x, y, z)
+# succ (x=0)
+CONSTRUCT {
+    (0 ?Y ?Z) :ackermann ?A.
+} WHERE {
+    true log:callWithCut true.
+    (?Y 1) math:sum ?A.
+} ;
+
+# sum (x=1)
+CONSTRUCT {
+    (1 ?Y ?Z) :ackermann ?A.
+} WHERE {
+    true log:callWithCut true.
+    (?Y ?Z) math:sum ?A.
+} ;
+
+# product (x=2)
+CONSTRUCT {
+    (2 ?Y ?Z) :ackermann ?A.
+} WHERE {
+    true log:callWithCut true.
+    (?Y ?Z) math:product ?A.
+} ;
+
+# exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
+CONSTRUCT {
+    (?X 0 ?Z) :ackermann 1.
+} WHERE {
+    true log:callWithCut true.
+} ;
+
+CONSTRUCT {
+    (?X ?Y ?Z) :ackermann ?A.
+} WHERE {
+    (?Y 1) math:difference ?B.
+    (?X ?B ?Z) :ackermann ?C.
+    (?X 1) math:difference ?D.
+    (?D ?C ?Z) :ackermann ?A.
+}

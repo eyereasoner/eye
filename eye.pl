@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.16.8 (2025-05-09)').
+version_info('EYE v11.17.0 (2025-05-10)').
 
 license_info('MIT License
 
@@ -95,6 +95,9 @@ eye
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
+    --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rules
+    --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rules
+    --sparql-fuse <uri>             SPARQL CONSTRUCT WHERE inference fuses
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
 <query>
@@ -375,6 +378,9 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--quantify',
             '--query',
             '--skolem-genid',
+            '--sparql-backward',
+            '--sparql-forward',
+            '--sparql-fuse',
             '--tactic',
             '--trig',
             '--turtle'
@@ -420,6 +426,9 @@ gre(Argus) :-
     nb_setval(doc_nr, 0),
     nb_setval(wn, 0),
     nb_setval(prepare, false),
+    nb_setval(sparql_backward, false),
+    nb_setval(sparql_fuse, false),
+    nb_setval(prefix, false),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -909,6 +918,9 @@ opts([Arg|_], _) :-
             '--pass-all',
             '--proof',
             '--query',
+            '--sparql-backward',
+            '--sparql-forward',
+            '--sparql-fuse',
             '--trig',
             '--turtle'
         ]
@@ -1072,6 +1084,52 @@ args(['--proof', Arg|Args]) :-
 args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
+    args(Args).
+args(['--sparql-backward', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    nb_setval(sparql_backward, true),
+    n3_n3p(Arg, data),
+    nb_setval(sparql_backward, false),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
+    args(Args).
+args(['--sparql-forward', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    n3_n3p(Arg, data),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
+    args(Args).
+args(['--sparql-fuse', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    nb_setval(sparql_fuse, true),
+    n3_n3p(Arg, data),
+    nb_setval(sparql_fuse, false),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
     args(Args).
 args(['--trig', Argument|Args]) :-
     !,
@@ -1981,7 +2039,8 @@ declaration -->
         resolve_uri(U, V, URI),
         retractall(ns(Prefix, _)),
         assertz(ns(Prefix, URI)),
-        put_pfx(Prefix, URI)
+        put_pfx(Prefix, URI),
+        nb_setval(prefix, true)
     },
     withoutdot.
 
@@ -2486,6 +2545,36 @@ separate -->
 separate -->
     [].
 
+simpleStatement([Rule]) -->
+    [name(Construct)],
+    {   downcase_atom(Construct, 'construct')
+    },
+    !,
+    ['{'],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J)
+    },
+    formulacontent(Conc),
+    ['}'],
+    [name(Where)],
+    {   downcase_atom(Where, 'where')
+    },
+    ['{'],
+    formulacontent(Prem),
+    {   nb_setval(fdepth, I)
+    },
+    ['}'],
+    separate,
+    withoutdot,
+    {   (   nb_getval(sparql_backward, true)
+        ->  Rule = ':-'(Conc, Prem)
+        ;   (   nb_getval(sparql_fuse, true)
+            ->  Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, false)
+            ;   Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, Conc)
+            )
+        )
+    }.
 simpleStatement(Quads) -->
     [name(Name)],
     {   downcase_atom(Name, 'graph')
@@ -3588,7 +3677,10 @@ wh :-
             (   pfx(A, B),
                 \+wpfx(A)
             ),
-            (   format("@prefix ~w ~w.~n", [A, B]),
+            (   (   nb_getval(prefix, true)
+                ->  format("PREFIX ~w ~w~n", [A, B])
+                ;   format("@prefix ~w ~w.~n", [A, B])
+                ),
                 assertz(wpfx(A)),
                 nb_setval(wpfx, true)
             )
