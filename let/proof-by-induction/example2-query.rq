@@ -1,0 +1,10 @@
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+CONSTRUCT {
+    ?A :recursionCount ?B.
+} WHERE {
+    1000 log:repeat ?A.
+    ?A :kaprekar (0 ?B).
+}
