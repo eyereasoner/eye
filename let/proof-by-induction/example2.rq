@@ -16,9 +16,23 @@ CONSTRUCT {
     (?D ">=") list:sort ?F.
     ?E :digitsToNumber ?G.
     ?F :digitsToNumber ?H.
+    (?H ?G) math:difference 6174.
+    (?B 1) math:sum ?C.
+}
+
+CONSTRUCT {
+    ?A :kaprekar (?B ?C).
+} WHERE {
+    ?A math:notEqualTo 0.
+    ?A :numberToDigits ?D.
+    (?D "=<") list:sort ?E.
+    (?D ">=") list:sort ?F.
+    ?E :digitsToNumber ?G.
+    ?F :digitsToNumber ?H.
     (?H ?G) math:difference ?I.
+    ?I math:notEqualTo 6174.
     (?B 1) math:sum ?J.
-    ({ ?I math:equalTo 6174 } { ?C log:equalTo ?J } { ?I :kaprekar (?J ?C) }) log:ifThenElseIn ?SCOPE.
+    ?I :kaprekar (?J ?C).
 }
 
 # convert 4 digit number to digits
