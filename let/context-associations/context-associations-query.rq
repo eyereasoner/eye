@@ -18,33 +18,33 @@ CONSTRUCT {
             <<?person rdf:type foaf:Person>>,
             <<?person foaf:age ?age>>.
 
+    ?age math:notLessThan 18.
+
     ?policyCollection rdf:type ca:Collection;
         ca:contains
+            <<?permission odrl:assigner ?person>>,
+            <<?permission odrl:target ?dataCollection>>,
             <<?agreement rdf:type odrl:Agreement>>,
             <<?agreement odrl:permission ?permission>>,
             <<?permission odrl:action odrl:use>>,
-            <<?permission odrl:assigner ?person>>,
-            <<?permission odrl:target ?dataCollection>>,
             <<?permission odrl:constraint ?constraint>>,
             <<?constraint odrl:leftOperand <https://w3id.org/oac#Purpose>>>,
             <<?constraint odrl:operator odrl:eq >>,
             <<?constraint odrl:rightOperand ?purpose>>.
 
+    ?purpose list:in (dpv:Personalisation dpv:ServiceProvision).
+
     ?dataSignatureCollection rdf:type ca:Collection;
         ca:contains
+            <<?dataSignature sign:target ?dataCollection>>,
             <<?dataSignature rdf:type sign:DataIntegrityProof>>,
-            <<?dataSignature sign:issuer ?dataSignatureIssuer>>,
-            <<?dataSignature sign:target ?dataCollection>>.
+            <<?dataSignature sign:issuer ?dataSignatureIssuer>>.
+
+    ?dataSignatureIssuer log:equalTo <https://overheid.be/ca>.
 
     ?policySignatureCollection rdf:type ca:Collection;
         ca:contains
-            <<?policySignature rdf:type sign:DataIntegrityProof>>,
             <<?policySignature sign:issuer ?person>>,
-            <<?policySignature sign:target ?policyCollection>>.
-
-    FILTER (?age >= 18)
-
-    FILTER (?purpose IN ( dpv:Personalisation, dpv:ServiceProvision ) )
-
-    FILTER (?dataSignatureIssuer = <https://overheid.be/ca>)
+            <<?policySignature sign:target ?policyCollection>>,
+            <<?policySignature rdf:type sign:DataIntegrityProof>>.
 }
