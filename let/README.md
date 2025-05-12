@@ -8,9 +8,9 @@
     # subclass rule
     [ log:and (
         [ log:triple (var:A rdfs:subClassOf var:B)]
-        [ log:triple (var:S a var:A)]
+        [ log:triple (var:S rdf:type var:A)]
     )] log:implies [ log:and (
-        [ log:triple (var:S a var:B)]
+        [ log:triple (var:S rdf:type var:B)]
     )].
     ```
 
@@ -33,9 +33,9 @@
     ```
     # who is a what?
     [ log:and (
-        [ log:triple (var:WHO a var:WHAT)]
+        [ log:triple (var:WHO rdf:type var:WHAT)]
     )] log:query [ log:and (
-        [ log:triple (var:WHO a var:WHAT)]
+        [ log:triple (var:WHO rdf:type var:WHAT)]
     )].
     ```
 
