@@ -1,0 +1,73 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/eye/reasoning/cs#>.
+
+# input
+:input1 :measurement1 (6 11).
+:input2 :measurement2 true.
+:input3 :measurement3 56967.
+
+# disturbance
+:disturbance1 :measurement3 35766.
+:disturbance2 :measurement1 (45 39).
+
+# state
+:state1 :observation1 80.
+:state2 :observation2 false.
+:state3 :observation3 22.
+
+# output
+:output2 :measurement4 24.
+:output2 :target2 29.
+
+# forward rules
+[ log:and (
+    [ log:triple (:input1 :measurement10 var:M1)]
+    [ log:triple (:input2 :measurement2 true)]
+    [ log:triple (:disturbance1 :measurement3 var:D1)]
+    [ log:triple ((var:M1 19.6) math:product var:C1)]           # proportial part
+    [ log:triple ((10 var:C2) math:exponentiation var:D1)]      # compensation part
+    [ log:triple ((var:C1 var:C2) math:difference var:C)]       # simple feedforward control
+)] log:implies [ log:and (
+    [ log:triple (:actuator1 :control1 var:C)]
+)].
+
+[ log:and (
+    [ log:triple (:input3 :measurement3 var:M3)]
+    [ log:triple (:state3 :observation3 var:P3)]
+    [ log:triple (:output2 :measurement4 var:M4)]
+    [ log:triple (:output2 :target2 var:T2)]
+    [ log:triple ((var:T2 var:M4) math:difference var:E)]       # error
+    [ log:triple ((var:P3 var:M4) math:difference var:D)]       # differential error
+    [ log:triple ((5.8 var:E) math:product var:C1)]             # proportial part
+    [ log:triple ((7.3 var:E) math:quotient var:N)]             # nonlinear factor
+    [ log:triple ((var:N var:D) math:product var:C2)]           # nonlinear differential part
+    [ log:triple ((var:C1 var:C2) math:sum var:C)]              # PND feedback control
+)] log:implies [ log:and (
+    [ log:triple (:actuator2 :control1 var:C)]
+)].
+
+# backward rules
+[ log:and (
+    [ log:triple (var:I :measurement10 var:M)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:I :measurement1 (var:M1 var:M2))]
+    [ log:triple (var:M1 math:lessThan var:M2)]
+    [ log:triple ((var:M2 var:M1) math:difference var:M3)]
+    [ log:triple ((var:M3 0.5) math:exponentiation var:M)]
+)].
+
+[ log:and (
+    [ log:triple (var:I :measurement10 var:M1)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:I :measurement1 (var:M1 var:M2))]
+    [ log:triple (var:M1 math:notLessThan var:M2)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:O :control1 var:C)]
+)] log:query [ log:and (
+    [ log:triple (var:O :control1 var:C)]
+)].

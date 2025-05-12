@@ -1,7 +1,14 @@
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-PREFIX : <http://example.org/#>
+# ----------------------
+# Traversing graph paths
+# ----------------------
+#
+# Examples of graph based reasoning.
 
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# French roads
 :paris :oneway :orleans.
 :paris :oneway :chartres.
 :paris :oneway :amiens.
@@ -13,5 +20,24 @@ PREFIX : <http://example.org/#>
 :lemans :oneway :tours.
 :angers :oneway :nantes.
 
-:oneway rdfs:subPropertyOf :path.
-:path a owl:TransitiveProperty.
+# oneway subproperty of path
+[ log:and (
+    [ log:triple (var:A :oneway var:B)]
+)] log:implies [ log:and (
+    [ log:triple (var:A :path var:B)]
+)].
+
+# path transitive property
+[ log:and (
+    [ log:triple (var:A :path var:B)]
+    [ log:triple (var:B :path var:C)]
+)] log:implies [ log:and (
+    [ log:triple (var:A :path var:C)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (var:A :path :nantes)]
+)] log:query [ log:and (
+    [ log:triple (var:A :path :nantes)]
+)].

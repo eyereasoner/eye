@@ -1,4 +1,20 @@
-PREFIX : <https://eyereasoner.github.io/ns#>
+# ------------
+# Good Cobbler
+# ------------
+#
+# Example from https://shs.hal.science/halshs-04148373/document
+# Using functional logic http://intrologic.stanford.edu/chapters/chapter_11.html
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
 
 # joe is a good cobbler
-:joe :is [ :goodAt :Cobbler ].
+:joe :is (:good :Cobbler).
+
+# query: is there some x which is good at some y?
+[ log:and (
+    [ log:triple (var:X :is (:good var:Y))]
+)] log:query [ log:and (
+    [ log:triple (var:X :is (:good var:Y))]
+)].

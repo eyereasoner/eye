@@ -1,0 +1,24 @@
+# -----------------------
+# Basic Monadic Benchmark
+# -----------------------
+#
+# tested with input of 10^n triples generated with http://josd.github.io/bmb/graphgen.n3
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://eulersharp.sourceforge.net/2007/07test/graph#>.
+
+[ log:and (
+    [ log:triple (var:D0 var:R var:D1)]
+    [ log:triple (var:D1 var:R var:D2)]
+    [ log:triple (var:D2 var:R var:D3)]
+    [ log:triple (var:D3 var:R var:D4)]
+    [ log:triple (var:D4 var:R var:D5)]
+    [ log:triple (var:D5 var:R var:D6)]
+    [ log:triple (var:D6 var:R var:D7)]
+    [ log:triple (var:D7 var:R var:D8)]
+    [ log:triple (var:D8 var:R var:D9)]
+    [ log:triple (var:D9 var:R var:D0)]
+)] log:query [ log:and (
+    [ log:triple (var:R :cycle (var:D0 var:D1 var:D2 var:D3 var:D4 var:D5 var:D6 var:D7 var:D8 var:D9 var:D0))]
+)].
