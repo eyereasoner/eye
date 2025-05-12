@@ -1,0 +1,75 @@
+# ------------
+# 4 Color test
+# ------------
+#
+# See https://en.wikipedia.org/wiki/Four_color_theorem
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# map of European Union
+:Belgium :neighbours (:France :Netherlands :Luxemburg :Germany).
+:Netherlands :neighbours (:Belgium :Germany).
+:Luxemburg :neighbours (:Belgium :France :Germany).
+:France :neighbours (:Spain :Belgium :Luxemburg :Germany :Italy).
+:Germany :neighbours (:Netherlands :Belgium :Luxemburg :Denmark :France :Austria :Poland :Czech_Republic).
+:Italy :neighbours (:France :Austria :Slovenia).
+:Denmark :neighbours (:Germany).
+:Ireland :neighbours ().
+:Greece :neighbours (:Bulgaria).
+:Spain :neighbours (:France :Portugal).
+:Portugal :neighbours (:Spain).
+:Austria :neighbours (:Czech_Republic :Germany :Hungary :Italy :Slovenia :Slovakia).
+:Sweden :neighbours (:Finland).
+:Finland :neighbours (:Sweden).
+:Cyprus :neighbours ().
+:Malta :neighbours ().
+:Poland :neighbours (:Germany :Czech_Republic :Slovakia :Lithuania).
+:Hungary :neighbours (:Austria :Slovakia :Romania :Croatia :Slovenia).
+:Czech_Republic :neighbours (:Germany :Poland :Slovakia :Austria).
+:Slovakia :neighbours (:Czech_Republic :Poland :Hungary :Austria).
+:Slovenia :neighbours (:Austria :Italy :Hungary :Croatia).
+:Estonia :neighbours (:Latvia).
+:Latvia :neighbours (:Estonia :Lithuania).
+:Lithuania :neighbours (:Latvia :Poland).
+:Bulgaria :neighbours (:Romania :Greece).
+:Romania :neighbours (:Hungary :Bulgaria).
+:Croatia :neighbours (:Slovenia :Hungary).
+
+# rules
+[ log:and (
+    [ log:triple (var:MAP :color var:PLACES)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (((var:PLACE var:X) [ log:and (
+        [ log:triple (var:PLACE :neighbours var:Y)]
+    )] var:PLACES) log:collectAllIn var:SCOPE)]
+    [ log:triple (var:PLACES :places true)]
+    [ log:triple (true log:callWithCut true)]
+)].
+
+[ log:and (
+    [ log:triple (() :places true)]
+)] log:isImpliedBy true.
+
+[ log:and (
+    [ log:triple (var:PLACES :places true)]
+)] log:isImpliedBy [ log:and (
+    [ log:triple (var:PLACES list:firstRest ((var:PLACE var:COLOR) var:TAIL))]
+    [ log:triple (var:TAIL :places true)]
+    [ log:triple (var:PLACE :neighbours var:NEIGHBOURS)]
+    [ log:triple ((:red :green :blue :yellow) list:member var:COLOR)]
+    [ log:triple ((1 [ log:and (
+    [ log:triple (var:TAIL list:member (var:NEIGHBOUR var:COLOR))]
+        [ log:triple (var:NEIGHBOURS list:member var:NEIGHBOUR)]
+    )] ()) log:collectAllIn var:SCOPE)]
+)].
+
+# query
+[ log:and (
+    [ log:triple (:mapEU :color var:PLACES)]
+)] log:query [ log:and (
+    [ log:triple (:mapEU :color var:PLACES)]
+)].
+
