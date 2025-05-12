@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.17.0 (2025-05-10)').
+version_info('EYE v11.17.1 (2025-05-12)').
 
 license_info('MIT License
 
@@ -97,7 +97,6 @@ eye
     --proof <uri>                   N3 proof lemmas
     --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rules
     --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rules
-    --sparql-fuse <uri>             SPARQL CONSTRUCT WHERE inference fuses
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
 <query>
@@ -380,7 +379,6 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--skolem-genid',
             '--sparql-backward',
             '--sparql-forward',
-            '--sparql-fuse',
             '--tactic',
             '--trig',
             '--turtle'
@@ -427,7 +425,6 @@ gre(Argus) :-
     nb_setval(wn, 0),
     nb_setval(prepare, false),
     nb_setval(sparql_backward, false),
-    nb_setval(sparql_fuse, false),
     nb_setval(prefix, false),
     opts(Argus, Args),
     (   Args = []
@@ -920,7 +917,6 @@ opts([Arg|_], _) :-
             '--query',
             '--sparql-backward',
             '--sparql-forward',
-            '--sparql-fuse',
             '--trig',
             '--turtle'
         ]
@@ -1111,22 +1107,6 @@ args(['--sparql-forward', Arg|Args]) :-
     ;   true
     ),
     n3_n3p(Arg, data),
-    nb_setval(fdepth, 0),
-    nb_setval(pdepth, 0),
-    nb_setval(cdepth, 0),
-    args(Args).
-args(['--sparql-fuse', Arg|Args]) :-
-    !,
-    absolute_uri(Arg, A),
-    atomic_list_concat(['<', A, '>'], R),
-    assertz(scope(R)),
-    (   flag(intermediate, Out)
-    ->  portray_clause(Out, scope(R))
-    ;   true
-    ),
-    nb_setval(sparql_fuse, true),
-    n3_n3p(Arg, data),
-    nb_setval(sparql_fuse, false),
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
@@ -2569,7 +2549,7 @@ simpleStatement([Rule]) -->
     withoutdot,
     {   (   nb_getval(sparql_backward, true)
         ->  Rule = ':-'(Conc, Prem)
-        ;   (   nb_getval(sparql_fuse, true)
+        ;   (   Conc = '\'<http://www.w3.org/2000/10/swap/log#allPossibleCases>\''(_, [])
             ->  Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, false)
             ;   Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, Conc)
             )

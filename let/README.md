@@ -1,6 +1,6 @@
 # eyelet
 
-- assert triples with `--sparql-forward`
+- assert triples
     ```
     CONSTRUCT {
         triples
@@ -16,9 +16,11 @@
     }
     ```
 
-- detect inconsistencies with `--sparql-fuse`
+- detect inconsistencies
     ```
-    CONSTRUCT {} WHERE {
+    CONSTRUCT {
+        (vars) log:allPossibleCases ().
+    } WHERE {
         inconsistency
     }
     ```
