@@ -1,0 +1,45 @@
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX var: <http://www.w3.org/2000/10/swap/var#>
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+# closed set of possible cases
+CONSTRUCT {
+    (var:X) log:allPossibleCases (
+        << var:X a :Negative >>
+        << var:X a :Zero >>
+        << var:X a :Positive >>
+    )
+} WHERE {}
+
+# theorems
+CONSTRUCT {
+    :theorem1 a :Theorem.
+    :theorem2 a :Theorem.
+    :theorem3 a :Theorem.
+} WHERE {}
+
+# prove possible cases
+
+CONSTRUCT { :theorem1 :isProvenFor ?X } WHERE { ?X a :Negative }
+CONSTRUCT { :theorem1 :isProvenFor ?X } WHERE { ?X a :Zero } 
+CONSTRUCT { :theorem1 :isProvenFor ?X } WHERE { ?X a :Positive }
+
+CONSTRUCT { :theorem2 :isProvenFor ?X } WHERE { ?X a :Negative }
+CONSTRUCT { :theorem2 :isProvenFor ?X } WHERE { ?X a :Positive }
+
+CONSTRUCT { :theorem3 :isProvenFor ?X } WHERE { ?X a :Negative }
+CONSTRUCT { :theorem3 :isProvenFor ?X } WHERE { ?X a :Zero } 
+CONSTRUCT { :theorem3 :isProvenFor ?X } WHERE { ?X a :Positive }
+
+# proof by cases
+CONSTRUCT {
+    ?T :isProvenFor ?X.
+} WHERE {
+    (?X) log:allPossibleCases ?Y.
+    ?T a :Theorem.
+    (
+        { ?Y list:member << ?X a ?Z >> }
+        { CONSTRUCT { ?T :isProvenFor ?X } WHERE { ?X a ?Z } }
+    ) log:forAllIn ?SCOPE.
+}
