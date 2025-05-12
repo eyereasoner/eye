@@ -1,8 +1,8 @@
-# nexus
+# eyelet
 
-## Reasoning with logic described in RDF 1.0
+## reasoning with logic described in RDF Core
 
-- nexus supports reasoning with forward rules described in RDF 1.0 as
+- eyelet supports reasoning with forward rules described in RDF Core as
   e.g.
     ```
     # subclass rule
@@ -14,7 +14,7 @@
     )].
     ```
 
-- nexus supports reasoning with backward rules described in RDF 1.0 as
+- eyelet supports reasoning with backward rules described in RDF Core as
   e.g.
     ```
     # is the age of a person above some duration?
@@ -28,7 +28,7 @@
     )].
     ```
 
-- nexus supports querying with queries described in RDF 1.0 as
+- eyelet supports querying with queries described in RDF Core as
   e.g.
     ```
     # who is a what?
