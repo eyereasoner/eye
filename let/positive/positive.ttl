@@ -1,0 +1,28 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+# proof by contradiction
+[ log:graph (
+    [ log:triple (10 log:repeat var:X)]
+    [ log:triple ([ log:graph (
+        [ log:triple ([ log:graph (
+            [ log:triple (var:X math:notLessThan 0)]
+        )] log:implies [ log:graph (
+            [ log:triple (var:X :is :Positive)]
+        )])]
+        [ log:triple ([ log:graph (
+            [ log:triple (var:X :is :Positive)]
+        )] log:implies false)]
+    )] log:satisfiable false)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :is :Positive)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (var:X :is :Positive)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:X :is :Positive)]
+)].
