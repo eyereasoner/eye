@@ -5,7 +5,9 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <https://eyereasoner.github.io/ns#>.
 
-4 :goldbach (2 2).
+[ log:graph (
+    [ log:triple (4 :goldbach (2 2))]
+)] log:isImpliedBy true.
 
 [ log:graph (
     [ log:triple (var:N :goldbach var:L)]
@@ -46,8 +48,13 @@
     [ log:triple (var:P2 :next_prime var:P1)]
 )].
 
-true :is_prime 2.
-true :is_prime 3.
+[ log:graph (
+    [ log:triple (true :is_prime 2)]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple (true :is_prime 3)]
+)] log:isImpliedBy true.
 
 [ log:graph (
     [ log:triple (true :is_prime var:P)]
@@ -75,7 +82,6 @@ true :is_prime 3.
 )] log:isImpliedBy [ log:graph (
     [ log:triple ((var:L var:L) math:product var:P)]
     [ log:triple (var:P math:lessThan var:N)]
-    [ log:triple ((var:L var:L)!math:product math:lessThan var:N)]
     [ log:triple ((var:L 2) math:sum var:L2)]
     [ log:triple (var:N :has_factor var:L2)]
 )].
@@ -87,5 +93,5 @@ true :is_prime 3.
     [ log:triple ((var:N 2) math:remainder 0)]
     [ log:triple (var:N :goldbach (var:P1 var:P2))]
 )] log:impliesAnswer [ log:graph (
-    [ log:triple (var:N :goldbach (var:P1 var:P2))]
+    [ log:triple ((var:N) :goldbach (var:P1 var:P2))]
 )].
