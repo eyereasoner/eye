@@ -1,0 +1,39 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+[ log:graph (
+    [ log:triple (var:N :collatz (var:N (var:N)))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (true log:callWithCut true)]
+)].
+
+[ log:graph (
+    [ log:triple (var:N0 :collatz (var:N var:M))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((
+        [ log:graph (
+            [ log:triple ((var:N0 2) math:remainder 0)]
+        )]
+        [ log:graph (
+            [ log:triple ((var:N0 2) math:integerQuotient var:N1)]
+        )]
+        [ log:graph (
+            [ log:triple ((3 var:N0) math:product var:N2)]
+            [ log:triple ((var:N2 1) math:sum var:N1)]
+        )]
+    ) log:ifThenElseIn var:SCOPE)]
+    [ log:triple (var:N1 :collatz (var:N var:J))]
+    [ log:triple (var:M list:firstRest (var:N0 var:J))]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (1000 log:repeat var:N0)]
+    [ log:triple ((var:N0 1) math:sum var:N)]
+    [ log:triple (var:N :collatz (1 var:M))]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ((var:N) :collatz (1 var:M))]
+)].
