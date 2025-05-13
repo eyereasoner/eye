@@ -1,0 +1,91 @@
+# Code taken from https://www.ic.unicamp.br/~meidanis/courses/mc336/2009s2/prolog/problemas/
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+4 :goldbach (2 2).
+
+[ log:graph (
+    [ log:triple (var:N :goldbach var:L)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:N 2) math:remainder 0)]
+    [ log:triple (var:N math:greaterThan 4)]
+    [ log:triple (var:N :goldb (var:L 3))]
+)].
+
+[ log:graph (
+    [ log:triple (var:N :goldb ((var:P var:Q) var:P))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:N var:P) math:difference var:Q)]
+    [ log:triple (true :is_prime var:Q)]
+    [ log:triple (true log:callWithCut true)]
+)].
+
+[ log:graph (
+    [ log:triple (var:N :goldb (var:L var:P))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:P math:lessThan var:N)]
+    [ log:triple (var:P :next_prime var:P1)]
+    [ log:triple (var:N :goldb (var:L var:P1))]
+)].
+
+[ log:graph (
+    [ log:triple (var:P :next_prime var:P1)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:P 2) math:sum var:P1)]
+    [ log:triple (true :is_prime var:P1)]
+    [ log:triple (true log:callWithCut true)]
+)].
+
+[ log:graph (
+    [ log:triple (var:P :next_prime var:P1)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:P 2) math:sum var:P2)]
+    [ log:triple (var:P2 :next_prime var:P1)]
+)].
+
+true :is_prime 2.
+true :is_prime 3.
+
+[ log:graph (
+    [ log:triple (true :is_prime var:P)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:P math:greaterThan 3)]
+    [ log:triple ((var:P 2) math:remainder 1)]
+    [ log:triple ((
+        [ log:graph (
+            [ log:triple (var:P :has_factor 3)]
+        )]
+        false
+        true
+    ) log:ifThenElseIn (var:Context -1))]
+)].
+
+[ log:graph (
+    [ log:triple (var:N :has_factor var:L)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:N var:L) math:remainder 0)]
+    [ log:triple (true log:callWithCut true)]
+)].
+
+[ log:graph (
+    [ log:triple (var:N :has_factor var:L)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:L var:L) math:product var:P)]
+    [ log:triple (var:P math:lessThan var:N)]
+    [ log:triple ((var:L var:L)!math:product math:lessThan var:N)]
+    [ log:triple ((var:L 2) math:sum var:L2)]
+    [ log:triple (var:N :has_factor var:L2)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (36 log:repeat var:I)]
+    [ log:triple ((2 var:I) math:exponentiation var:N)]
+    [ log:triple ((var:N 2) math:remainder 0)]
+    [ log:triple (var:N :goldbach (var:P1 var:P2))]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:N :goldbach (var:P1 var:P2))]
+)].
