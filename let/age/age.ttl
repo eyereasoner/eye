@@ -15,9 +15,9 @@
 :patH :birthDay "1944-08-21"^^xsd:date.
 
 # is the age of a person above some duration?
-[ log:and (
+[ log:graph (
     [ log:triple (var:S :ageAbove var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:S :birthDay var:B)]
     [ log:triple ("" time:localTime var:D)]
     [ log:triple ((var:D var:B) math:difference var:F)]
@@ -25,8 +25,8 @@
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (var:S :ageAbove "P80Y"^^xsd:duration)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:S :ageAbove "P80Y"^^xsd:duration)]
 )].

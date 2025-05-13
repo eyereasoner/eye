@@ -27,33 +27,33 @@
 @prefix : <http://example.org/#>.
 
 # find paths in the state space from initial state to goal state within limits
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort)))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (() gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort 1)))]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:findpath (var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (() gps:findpaths (() var:Goal () 0.0 0.0 1.0 1.0 var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:findpaths (var:Maps var:Goal var:Path var:Duration var:Cost var:Belief var:Comfort var:Path var:Duration var:Cost var:Belief var:Comfort
         (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:Goal log:call true)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:findpaths (var:Maps_s var:Goal var:Path_s var:Duration_s var:Cost_s var:Belief_s var:Comfort_s
         var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:Map gps:description (var:From var:Transition var:To var:Action var:Duration_n var:Cost_n var:Belief_n var:Comfort_n))]
     [ log:triple ((var:Maps_s (var:Map)) list:append var:Maps_t)]
     [ log:triple (var:Maps_t gps:stagecount var:Stagecount)]
@@ -69,23 +69,23 @@
     [ log:triple ((var:Path_s (var:Action)) list:append var:Path_t)]
     [ log:triple (var:From log:becomes var:To)]
     [ log:triple (
-        [ log:and (
+        [ log:graph (
             [ log:triple (() gps:findpaths (var:Maps_t var:Goal var:Path_t var:Duration_t var:Cost_t var:Belief_t var:Comfort_t
                 var:Path var:Duration var:Cost var:Belief var:Comfort (var:MaxDuration var:MaxCost var:MinBelief var:MinComfort var:MaxStagecount)))]
-        )] log:callWithCleanup [ log:and (
+        )] log:callWithCleanup [ log:graph (
             [ log:triple (var:To log:becomes var:From)]
         )]
     )]
 )].
 
 # counting the number of stages (a stage is a sequence of gps in the same map)
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:stagecount 1)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple (var:A gps:stagecount var:B)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:A list:firstRest (var:C var:D))]
     [ log:triple (var:D list:firstRest (var:E var:F))]
     [ log:triple (var:C log:notEqualTo var:E)]
@@ -93,9 +93,9 @@
     [ log:triple ((var:G 1) math:sum var:B)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (var:A gps:stagecount var:B)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:A list:firstRest (var:C var:D))]
     [ log:triple (var:D gps:stagecount var:B)]
 )].
@@ -104,50 +104,50 @@
 :i1 :location :Gent.
 
 # map of Belgium
-[ log:and (
-    [ log:triple (:map-BE gps:description ([ log:and (
+[ log:graph (
+    [ log:triple (:map-BE gps:description ([ log:graph (
         [ log:triple (var:S :location :Gent)]
-    )] true [ log:and (
+    )] true [ log:graph (
         [ log:triple (var:S :location :Brugge)]
     )] :drive_gent_brugge 1500.0 0.006 0.96 0.99))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:S :location var:L)]
 )].
 
-[ log:and (
-    [ log:triple (:map-BE gps:description ([ log:and (
+[ log:graph (
+    [ log:triple (:map-BE gps:description ([ log:graph (
         [ log:triple (var:S :location :Gent)]
-    )] true [ log:and (
+    )] true [ log:graph (
         [ log:triple (var:S :location :Kortrijk)]
     )] :drive_gent_kortrijk 1600.0 0.007 0.96 0.99))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:S :location var:L)]
 )].
 
-[ log:and (
-    [ log:triple (:map-BE gps:description ([ log:and (
+[ log:graph (
+    [ log:triple (:map-BE gps:description ([ log:graph (
         [ log:triple (var:S :location :Kortrijk)]
-    )] true [ log:and (
+    )] true [ log:graph (
         [ log:triple (var:S :location :Brugge)]
     )] :drive_kortrijk_brugge 1600.0 0.007 0.96 0.99))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:S :location var:L)]
 )].
 
-[ log:and (
-    [ log:triple (:map-BE gps:description ([ log:and (
+[ log:graph (
+    [ log:triple (:map-BE gps:description ([ log:graph (
         [ log:triple (var:S :location :Brugge)]
-    )] true [ log:and (
+    )] true [ log:graph (
         [ log:triple (var:S :location :Oostende)]
     )] :drive_brugge_oostende 900.0 0.004 0.98 1.0))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:S :location var:L)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (() gps:findpath (
-        [ log:and (
+        [ log:graph (
             [ log:triple (var:S :location :Oostende)]
         )]
         var:PATH
@@ -156,6 +156,6 @@
         var:BELIEF
         var:COMFORT
         (5000.0 5.0 0.2 0.4 1)))]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:S gps:path (var:PATH var:DURATION var:COST var:BELIEF var:COMFORT))]
 )].

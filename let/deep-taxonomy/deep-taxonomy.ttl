@@ -30011,16 +30011,16 @@
 :N10000 rdfs:subClassOf :A2.
 
 # subclass rule
-[ log:and (
+[ log:graph (
     [ log:triple (var:A rdfs:subClassOf var:B)]
     [ log:triple (var:S rdf:type var:A)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:S rdf:type var:B)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (var:X rdf:type :A2)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:X rdf:type :A2)]
 )].

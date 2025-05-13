@@ -21,23 +21,23 @@
 :angers :oneway :nantes.
 
 # oneway subproperty of path
-[ log:and (
+[ log:graph (
     [ log:triple (var:A :oneway var:B)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:A :path var:B)]
 )].
 
 # path transitive property
-[ log:and (
+[ log:graph (
     [ log:triple (var:A :path var:B)]
     [ log:triple (var:B :path var:C)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:A :path var:C)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (var:A :path :nantes)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:A :path :nantes)]
 )].

@@ -10,10 +10,10 @@
 @prefix : <http://example.org/#>.
 
 #[1] \forall x, BURNS(x) /\ WOMAN(x) => WITCH(x)
-[ log:and (
+[ log:graph (
     [ log:triple (var:x rdf:type :BURNS)]
     [ log:triple (var:x rdf:type :WOMAN)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:x rdf:type :WITCH)]
 )].
 
@@ -21,16 +21,16 @@
 :GIRL rdf:type :WOMAN.
 
 #[3] \forall x, ISMADEOFWOOD(x) => BURNS(x)
-[ log:and (
+[ log:graph (
     [ log:triple (var:x rdf:type :ISMADEOFWOOD)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:x rdf:type :BURNS)]
 )].
 
 #[4] \forall x, FLOATS(x) => ISMADEOFWOOD(x)
-[ log:and (
+[ log:graph (
     [ log:triple (var:x rdf:type :FLOATS)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:x rdf:type :ISMADEOFWOOD)]
 )].
 
@@ -39,10 +39,10 @@
 :DUCK rdf:type :FLOATS.
 
 #[6] \forall x,y FLOATS(x) /\ SAMEWEIGHT(x,y) => FLOATS(y)
-[ log:and (
+[ log:graph (
     [ log:triple (var:x rdf:type :FLOATS)]
     [ log:triple (var:x :SAMEWEIGHT var:y)]
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (var:y rdf:type :FLOATS)]
 )].
 
@@ -51,8 +51,8 @@
 :DUCK :SAMEWEIGHT :GIRL.
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (var:S rdf:type :WITCH)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:S rdf:type :WITCH)]
 )].

@@ -10,9 +10,9 @@
 @prefix : <http://example.org/#>.
 
 # calculate easter day
-[ log:and (
+[ log:graph (
     [ log:triple (var:x0 :easter (var:x34 var:x32))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:x0 19) math:remainder var:x1)]
     [ log:triple ((var:x0 100) math:integerQuotient var:x2)]
     [ log:triple ((var:x0 100) math:remainder var:x3)]
@@ -50,10 +50,10 @@
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (27 log:repeat var:x0)]
     [ log:triple ((2024 var:x0) math:sum var:x1)]
     [ log:triple (var:x1 :easter (var:x2 var:x3))]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple ((var:x1) :easter (var:x2 var:x3))]
 )].

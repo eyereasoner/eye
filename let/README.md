@@ -6,10 +6,10 @@
   e.g.
     ```
     # subclass rule
-    [ log:and (
+    [ log:graph (
         [ log:triple (var:A rdfs:subClassOf var:B)]
         [ log:triple (var:S rdf:type var:A)]
-    )] log:implies [ log:and (
+    )] log:implies [ log:graph (
         [ log:triple (var:S rdf:type var:B)]
     )].
     ```
@@ -18,9 +18,9 @@
   e.g.
     ```
     # is the age of a person above some duration?
-    [ log:and (
+    [ log:graph (
         [ log:triple (var:S :ageAbove var:A)]
-    )] log:isImpliedBy [ log:and (
+    )] log:isImpliedBy [ log:graph (
         [ log:triple (var:S :birthDay var:B)]
         [ log:triple ("" time:localTime var:D)]
         [ log:triple ((var:D var:B) math:difference var:F)]
@@ -32,9 +32,9 @@
   e.g.
     ```
     # who is a what?
-    [ log:and (
+    [ log:graph (
         [ log:triple (var:WHO rdf:type var:WHAT)]
-    )] log:query [ log:and (
+    )] log:impliesAnswer [ log:graph (
         [ log:triple (var:WHO rdf:type var:WHAT)]
     )].
     ```

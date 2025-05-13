@@ -12,9 +12,9 @@
 @prefix : <http://example.org/#>.
 
 # exponentiation
-[ log:and (
+[ log:graph (
     [ log:triple (((var:A var:B) (var:C var:D)) complex:exponentiation (var:E var:F))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A var:B) complex:polar (var:R var:T))]
     [ log:triple ((var:R var:C) math:exponentiation var:Z1)]
     [ log:triple (var:D math:negation var:Z2)]
@@ -31,9 +31,9 @@
 )].
 
 # asin
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A var:B) complex:asin (var:C var:D))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((1 var:A) math:sum var:Z1)]
     [ log:triple ((var:Z1 2) math:exponentiation var:Z2)]
     [ log:triple ((var:B 2) math:exponentiation var:Z3)]
@@ -56,9 +56,9 @@
 )].
 
 # acos
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A var:B) complex:acos (var:C var:D))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((1 var:A) math:sum var:Z1)]
     [ log:triple ((var:Z1 2) math:exponentiation var:Z2)]
     [ log:triple ((var:B 2) math:exponentiation var:Z3)]
@@ -82,9 +82,9 @@
 )].
 
 # polar
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y) complex:polar(var:R var:Tp))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:X 2) math:exponentiation var:Z1)]
     [ log:triple ((var:Y 2) math:exponentiation var:Z2)]
     [ log:triple ((var:Z1 var:Z2) math:sum var:Z3)]
@@ -96,33 +96,33 @@
 )].
 
 # dial
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:X math:notLessThan 0)]
     [ log:triple (var:Y math:notLessThan 0)]
     [ log:triple ((0 var:T) math:sum var:Tp)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:X math:lessThan 0)]
     [ log:triple (var:Y math:notLessThan 0)]
     [ log:triple ((3.141592653589793 var:T) math:difference var:Tp)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:X math:lessThan 0)]
     [ log:triple (var:Y math:lessThan 0)]
     [ log:triple ((3.141592653589793 var:T) math:sum var:Tp)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y var:T) complex:dial var:Tp)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:X math:notLessThan 0)]
     [ log:triple (var:Y math:lessThan 0)]
     [ log:triple ((3.141592653589793 2) math:product var:Z1)]
@@ -130,14 +130,14 @@
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (((-1 0) (0.5 0)) complex:exponentiation var:C1)]
     [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2)]
     [ log:triple (((0 1) (0 1)) complex:exponentiation var:C3)]
     [ log:triple (((2.718281828459045 0) (-1.57079632679 0)) complex:exponentiation var:C4)]
     [ log:triple ((2 0) complex:asin var:C5)]
     [ log:triple ((2 0) complex:acos var:C6)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (((-1 0) (0.5 0)) complex:exponentiation var:C1)]
     [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation var:C2)]
     [ log:triple (((0 1) (0 1)) complex:exponentiation var:C3)]

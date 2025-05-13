@@ -9,34 +9,34 @@
 @prefix : <http://example.org/#>.
 
 # \Every x: type(x, Resource
-[ log:and (
+[ log:graph (
     [ log:triple (var:X rdf:type rdfs:Resource)]
 )] log:isImpliedBy true.
 
 # Everybody loves somebody who is lonely
-[ log:and (
+[ log:graph (
     [ log:triple (var:A :loves var:B)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A) log:skolem var:B)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (var:B :is :lonely)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A) log:skolem var:B)]
 )].
 
 # queries
-[ log:and (
+[ log:graph (
     [ log:triple (:pat rdf:type rdfs:Resource)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (:pat rdf:type rdfs:Resource)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (:bob :loves var:X)]
     [ log:triple (var:X :is :lonely)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (:bob :loves var:X)]
     [ log:triple (var:X :is :lonely)]
 )].

@@ -12,9 +12,9 @@
 @prefix : <http://example.org/#>.
 
 # M is the sequence of moves to move N disks from X to Y using Z as intermediary
-[ log:and (
+[ log:graph (
     [ log:triple ((var:N var:X var:Y var:Z) :moves var:M)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:N math:greaterThan 1)]
     [ log:triple ((var:N 1) math:difference var:N1)]
     [ log:triple ((var:N1 var:X var:Z var:Y) :moves var:M1)]
@@ -22,13 +22,13 @@
     [ log:triple ((var:M1 ((var:X var:Y)) var:M2) list:append var:M)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((1 var:X var:Y var:Z) :moves ((var:X var:Y)))]
 )] log:isImpliedBy true.
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple ((6 :left :right :center) :moves var:M)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple ((6 :left :right :center) :moves var:M)]
 )].

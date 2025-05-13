@@ -10,73 +10,73 @@
 @prefix : <http://example.org/#>.
 
 # meta-interpreter rules
-[ log:and (
+[ log:graph (
     [ log:triple (() :mi ())]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple (() :mi var:A)]
-)] log:isImpliedBy  [ log:and (
+)] log:isImpliedBy  [ log:graph (
     [ log:triple (var:A list:firstRest (var:G var:Gs))]
     [ log:triple (() :headBody (var:G var:Goals var:Gs))]
     [ log:triple (() :mi var:Goals)]
 )].
 
 # general head-body rules
-[ log:and (
-    [ log:triple (() :headBody ([ log:and (
+[ log:graph (
+    [ log:triple (() :headBody ([ log:graph (
         [ log:triple (() :mi ())]
     )] var:Rs var:Rs))]
 )] log:isImpliedBy true.
 
-[ log:and (
-    [ log:triple (() :headBody ([ log:and (
+[ log:graph (
+    [ log:triple (() :headBody ([ log:graph (
         [ log:triple (() :mi var:A)]
     )] var:B var:Rs))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:A list:firstRest (var:G var:Gs))]
-    [ log:triple (var:B list:firstRest ([ log:and (
+    [ log:triple (var:B list:firstRest ([ log:graph (
         [ log:triple (() :headBody (var:G var:Goals var:Gs))]
     )] var:C))]
-    [ log:triple (var:C list:firstRest ([ log:and (
+    [ log:triple (var:C list:firstRest ([ log:graph (
         [ log:triple (() :mi var:Goals)]
     )] var:Rs))]
 )].
 
-[ log:and (
-    [ log:triple (() :headBody ([ log:and (
+[ log:graph (
+    [ log:triple (() :headBody ([ log:graph (
         [ log:triple (() :headBody (var:Head var:Goals0 var:Goals))]
     )] var:Rs var:Rs))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (() :headBody (var:Head var:Goals0 var:Goals))]
 )].
 
 # natnum head-body rules
-[ log:and (
-    [ log:triple (() :headBody ([ log:and (
+[ log:graph (
+    [ log:triple (() :headBody ([ log:graph (
         [ log:triple (() :natnum (0))]
     )] var:Rs var:Rs))]
 )] log:isImpliedBy true.
 
-[ log:and (
-    [ log:triple (() :headBody ([ log:and (
+[ log:graph (
+    [ log:triple (() :headBody ([ log:graph (
         [ log:triple (() :natnum (:s var:X))]
     )] var:A var:Rs))]
-)] log:isImpliedBy [ log:and (
-    [ log:triple (var:A list:firstRest ([ log:and (
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:A list:firstRest ([ log:graph (
         [ log:triple (() :natnum var:X)]
     )] var:Rs))]
 )].
 
 # query
-[ log:and (
-    [ log:triple (() :mi ([ log:and (
-        [ log:triple (() :mi ([ log:and (
-            [ log:triple (() :mi ([ log:and (
+[ log:graph (
+    [ log:triple (() :mi ([ log:graph (
+        [ log:triple (() :mi ([ log:graph (
+            [ log:triple (() :mi ([ log:graph (
                 [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
             )]))]
         )]))]
     )]))]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
 )].

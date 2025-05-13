@@ -39,37 +39,37 @@
 :Croatia :neighbours (:Slovenia :Hungary).
 
 # rules
-[ log:and (
+[ log:graph (
     [ log:triple (var:MAP :color var:PLACES)]
-)] log:isImpliedBy [ log:and (
-    [ log:triple (((var:PLACE var:X) [ log:and (
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (((var:PLACE var:X) [ log:graph (
         [ log:triple (var:PLACE :neighbours var:Y)]
     )] var:PLACES) log:collectAllIn var:SCOPE)]
     [ log:triple (var:PLACES :places true)]
     [ log:triple (true log:callWithCut true)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (() :places true)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple (var:PLACES :places true)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:PLACES list:firstRest ((var:PLACE var:COLOR) var:TAIL))]
     [ log:triple (var:TAIL :places true)]
     [ log:triple (var:PLACE :neighbours var:NEIGHBOURS)]
     [ log:triple ((:red :green :blue :yellow) list:member var:COLOR)]
-    [ log:triple ((1 [ log:and (
+    [ log:triple ((1 [ log:graph (
     [ log:triple (var:TAIL list:member (var:NEIGHBOUR var:COLOR))]
         [ log:triple (var:NEIGHBOURS list:member var:NEIGHBOUR)]
     )] ()) log:collectAllIn var:SCOPE)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (:mapEU :color var:PLACES)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (:mapEU :color var:PLACES)]
 )].
 

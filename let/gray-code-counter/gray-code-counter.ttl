@@ -22,17 +22,17 @@
 (0) :inv 1.
 (1) :inv 0.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:D 0 var:Q) :dff var:Q)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:D 1 var:Q) :dff var:D)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A var:B) :neta var:Q)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A var:B) :and var:T1)]
     [ log:triple ((var:A) :inv var:NA)]
     [ log:triple ((var:B) :inv var:NB)]
@@ -40,9 +40,9 @@
     [ log:triple ((var:T1 var:T2) :or var:Q)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A var:B var:C) :netb (var:Q1 var:Q2))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A var:C) :and var:T1)]
     [ log:triple ((var:C) :inv var:NC)]
     [ log:triple ((var:B var:NC) :and var:T2)]
@@ -52,9 +52,9 @@
     [ log:triple ((var:T2 var:T3) :or var:Q2)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:C (var:Qa var:Qb var:Qc)) :gcc (var:Za var:Zb var:Zc))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:Qa var:Qb var:Qc) :netb (var:D1 var:D2))]
     [ log:triple ((var:Qa var:Qb) :neta var:D3)]
     [ log:triple ((var:D1 var:C var:Qa) :dff var:Za)]
@@ -62,13 +62,13 @@
     [ log:triple ((var:D3 var:C var:Qc) :dff var:Zc)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((() var:S) :testgcc ())]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:Cc var:S) :testgcc var:Nc)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:Cc list:firstRest (var:C var:Cs))]
     [ log:triple (var:Nc list:firstRest (var:N var:Ns))]
     [ log:triple ((var:C var:S) :gcc var:N)]
@@ -76,8 +76,8 @@
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (((1 1 1 1 1 1 1 1 1) (0 0 0)) :testgcc var:Q)]
 )].

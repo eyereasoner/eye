@@ -7,17 +7,17 @@
 @prefix : <http://example.org/#>.
 
 # connectivity
-[ log:and (
+[ log:graph (
     [ log:triple ((var:from var:to var:visited var:length var:max) :route (var:from var:to))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:length math:notGreaterThan var:max)]
     [ log:triple (var:from nepo:hasOutboundRouteTo var:to)]
     [ log:triple (var:visited list:notMember var:to)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:from var:to var:visited var:length var:max) :route var:route)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:length math:notGreaterThan var:max)]
     [ log:triple (var:from nepo:hasOutboundRouteTo var:via)]
     [ log:triple (var:visited list:notMember var:via)]
@@ -28,14 +28,14 @@
 )].
 
 # query: find routes from Manchester-Boston Regional Airport to Helsinki Vantaa Airport with at most 2 stopovers
-[ log:and (
+[ log:graph (
     [ log:triple (var:source rdfs:label "Manchester-Boston Regional Airport")]
     [ log:triple (var:destination rdfs:label "Helsinki Vantaa Airport")]
     [ log:triple ((var:source var:destination () 0 2) :route var:airports)]
-    [ log:triple ((var:city [ log:and (
+    [ log:triple ((var:city [ log:graph (
         [ log:triple (var:airports list:member var:airport)]
         [ log:triple (var:airport rdfs:label var:city)]
     )] var:route) log:collectAllIn var:scope)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (:discovered :airroute var:route)]
 )].

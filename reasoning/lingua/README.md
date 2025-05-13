@@ -40,7 +40,7 @@
   e.g.
     ```
     # query for people above 80 years old
-    _:bng_3 log:query _:bng_3.
+    _:bng_3 log:impliesAnswer _:bng_3.
 
     _:bng_3 {
         var:S :ageAbove "P80Y"^^xsd:duration.

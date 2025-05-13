@@ -13,8 +13,8 @@
 :joe :is (:good :Cobbler).
 
 # query: is there some x which is good at some y?
-[ log:and (
+[ log:graph (
     [ log:triple (var:X :is (:good var:Y))]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:X :is (:good var:Y))]
 )].

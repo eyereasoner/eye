@@ -9,51 +9,51 @@
 @prefix : <http://example.org/#>.
 
 # add
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A 0) :add var:A)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A (:s var:B)) :add (:s var:C))]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A var:B) :add var:C)]
 )].
 
 # multiply
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A 0) :multiply 0)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:A (:s var:B)) :multiply var:C)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A var:B) :multiply var:D)]
     [ log:triple ((var:A var:D) :add var:C)]
 )].
 
 # factorial
-[ log:and (
+[ log:graph (
     [ log:triple (var:A :factorial var:B)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:A (:s 0)) :fac var:B)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((0 var:A) :fac var:A)]
 )] log:isImpliedBy true.
 
-[ log:and (
+[ log:graph (
     [ log:triple (((:s var:A) var:B) :fac var:C)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:B (:s var:A)) :multiply var:D)]
     [ log:triple ((var:A var:D) :fac var:C)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (((:s 0) (:s (:s (:s 0)))) :multiply var:A)]
     [ log:triple ((var:A (:s (:s 0))) :add var:B)]
     [ log:triple (var:B :factorial var:C)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:B :factorial var:C)]
 )].

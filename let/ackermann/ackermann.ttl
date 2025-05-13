@@ -26,9 +26,9 @@
 @prefix : <http://example.org/#>.
 
 # ackermann(x, y)
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y) :ackermann var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:Y 3) math:sum var:B)]
     [ log:triple ((var:X var:B 2) :ackermann var:C)]
     [ log:triple ((var:C 3) math:difference var:A)]
@@ -36,39 +36,39 @@
 
 # ackermann(x, y, z)
 # succ (x=0)
-[ log:and (
+[ log:graph (
     [ log:triple ((0 var:Y var:Z) :ackermann var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple(true log:callWithCut true)]
     [ log:triple ((var:Y 1) math:sum var:A)]
 )].
 
 # sum (x=1)
-[ log:and (
+[ log:graph (
     [ log:triple ((1 var:Y var:Z) :ackermann var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple(true log:callWithCut true)]
     [ log:triple ((var:Y var:Z) math:sum var:A)]
 )].
 
 # product (x=2)
-[ log:and (
+[ log:graph (
     [ log:triple ((2 var:Y var:Z) :ackermann var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple(true log:callWithCut true)]
     [ log:triple ((var:Y var:Z) math:product var:A)]
 )].
 
 # exponentiation (x=3), tetration (x=4), pentation (x=5), hexation (x=6), etc
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X 0 var:Z) :ackermann 1)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple(true log:callWithCut true)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple ((var:X var:Y var:Z) :ackermann var:A)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple ((var:Y 1) math:difference var:B)]
     [ log:triple ((var:X var:B var:Z) :ackermann var:C)]
     [ log:triple ((var:X 1) math:difference var:D)]
@@ -76,7 +76,7 @@
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple ((0 0) :ackermann var:A0)]
     [ log:triple ((0 6) :ackermann var:A1)]
     [ log:triple ((1 2) :ackermann var:A2)]
@@ -88,7 +88,7 @@
     [ log:triple ((4 0) :ackermann var:A8)]
     [ log:triple ((4 1) :ackermann var:A9)]
     [ log:triple ((4 2) :ackermann var:A10)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple ((0 0) :ackermann var:A0)]
     [ log:triple ((0 6) :ackermann var:A1)]
     [ log:triple ((1 2) :ackermann var:A2)]

@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.18.0 (2025-05-12)').
+version_info('EYE v11.19.0 (2025-05-13)').
 
 license_info('MIT License
 
@@ -204,15 +204,15 @@ eye
 :- dynamic('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'/2).
 :- dynamic('<http://www.w3.org/2000/01/rdf-schema#subClassOf>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/graph#statement>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#and>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#callWithCleanup>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#collectAllIn>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#component>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#graph>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#implies>'/2).
+:- dynamic('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#isImpliedBy>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#outputString>'/2).
-:- dynamic('<http://www.w3.org/2000/10/swap/log#query>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/log#table>'/2).
 :- dynamic('<http://www.w3.org/2000/10/swap/reason#source>'/2).
 
@@ -1033,8 +1033,8 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     assertz(implies(':-'(C, A),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-    assertz(implies('<http://www.w3.org/2000/10/swap/log#query>'(A, C),
-            answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
+    assertz(implies('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, C),
+            answer('<http://www.w3.org/2000/10/swap/log#impliesAnswer>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
     (   flag(intermediate, Out)
     ->  portray_clause(Out, implies((exopred(P, S, O), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(P, '<http://www.w3.org/2000/10/swap/log#implies>')),
             answer(P, S, O), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
@@ -1042,8 +1042,8 @@ args(['--pass-all'|Args]) :-
             answer('<http://www.w3.org/2000/10/swap/log#implies>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies((':-'(C, A), \+'<http://www.w3.org/2000/10/swap/log#equalTo>'(A, true)),
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
-        portray_clause(Out, implies('<http://www.w3.org/2000/10/swap/log#query>'(A, C),
-            answer('<http://www.w3.org/2000/10/swap/log#query>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
+        portray_clause(Out, implies('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, C),
+            answer('<http://www.w3.org/2000/10/swap/log#impliesAnswer>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
     ;   true
     ),
     args(Args).
@@ -1717,14 +1717,14 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     ),
     writeln('.'),
     tr_n3p(Z, Src, Mode).
-tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
+tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#impliesAnswer>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+atomic(X),
         \+atomic(Y)
     ->  djiti_answer(answer(Y), A),
         write(implies(X, A, Src)),
         writeln('.')
-    ;   write('\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)),
+    ;   write('\'<http://www.w3.org/2000/10/swap/log#impliesAnswer>\''(X, Y)),
         writeln('.')
     ),
     tr_n3p(Z, Src, Mode).
@@ -2681,7 +2681,7 @@ uri(Name) -->
 verb('\'<http://www.w3.org/2000/10/swap/log#implies>\'', []) -->
     ['=', '>'],
     !.
-verb('\'<http://www.w3.org/2000/10/swap/log#query>\'', []) -->
+verb('\'<http://www.w3.org/2000/10/swap/log#impliesAnswer>\'', []) -->
     ['=', '^'],
     !.
 verb('\'<http://www.w3.org/2002/07/owl#sameAs>\'', []) -->
@@ -4505,7 +4505,7 @@ wt2(':-'(X, Y)) :-
     ;   true
     ),
     !.
-wt2('<http://www.w3.org/2000/10/swap/log#query>'(X, Y)) :-
+wt2('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(X, Y)) :-
     \+flag('rdf-trig-output'),
     (   rule_uvar(R)
     ->  true
@@ -4721,7 +4721,7 @@ wp(':-') :-
     \+flag('rdf-trig-output'),
     !,
     write('<=').
-wp('<http://www.w3.org/2000/10/swap/log#query>') :-
+wp('<http://www.w3.org/2000/10/swap/log#impliesAnswer>') :-
     \+flag('no-qnames'),
     \+flag('rdf-trig-output'),
     !,
@@ -5431,7 +5431,7 @@ djiti_fact(':-'(A, B), ':-'(C, D)) :-
         ;   conj_append(E, istep(G, E, C, F), D)
         )
     ).
-djiti_fact('<http://www.w3.org/2000/10/swap/log#query>'(A, B), C) :-
+djiti_fact('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, B), C) :-
     \+atomic(A),
     \+atomic(B),
     djiti_answer(answer(B), D),
@@ -5499,12 +5499,12 @@ prepare_builtins :-
     ),
 
     % rdfnexus
-    (   '<http://www.w3.org/2000/10/swap/log#and>'(_, _)
+    (   '<http://www.w3.org/2000/10/swap/log#graph>'(_, _)
     ->  retractall(flag(nexus)),
         assertz(flag(nexus)),
 
         % create terms
-        (   member(P, ['<http://www.w3.org/2000/10/swap/log#implies>', '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', '<http://www.w3.org/2000/10/swap/log#query>']),
+        (   member(P, ['<http://www.w3.org/2000/10/swap/log#implies>', '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', '<http://www.w3.org/2000/10/swap/log#impliesAnswer>']),
             X =.. [P, _, _],
             call(X),
             ground(X),
@@ -5536,7 +5536,7 @@ prepare_builtins :-
 
         % create queries
         assertz(implies((
-                retract('<http://www.w3.org/2000/10/swap/log#query>'(A, B)),
+                retract('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, B)),
                 djiti_answer(answer(B), J),
                 findvars([A, B], V, alpha),
                 list_to_set(V, U),
@@ -5613,7 +5613,7 @@ prepare_builtins :-
 
         % create queries
         assertz(implies((
-                '<http://www.w3.org/2000/10/swap/log#query>'(An, Bn),
+                '<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(An, Bn),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(An, A),
                 '<http://www.w3.org/2000/10/swap/graph#statement>'(Bn, B),
                 djiti_answer(answer(B), J),
@@ -13140,7 +13140,7 @@ getterm(A, [B|C]) :-
     ;   throw(malformed_list_invalid_rest(E))
     ).
 getterm(A, B) :-
-    '<http://www.w3.org/2000/10/swap/log#and>'(A, C),
+    '<http://www.w3.org/2000/10/swap/log#graph>'(A, C),
     !,
     getterm(C, D),
     findall(E,

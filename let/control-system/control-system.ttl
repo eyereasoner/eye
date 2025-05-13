@@ -22,18 +22,18 @@
 :output2 :target2 29.
 
 # forward rules
-[ log:and (
+[ log:graph (
     [ log:triple (:input1 :measurement10 var:M1)]
     [ log:triple (:input2 :measurement2 true)]
     [ log:triple (:disturbance1 :measurement3 var:D1)]
     [ log:triple ((var:M1 19.6) math:product var:C1)]           # proportial part
     [ log:triple ((10 var:C2) math:exponentiation var:D1)]      # compensation part
     [ log:triple ((var:C1 var:C2) math:difference var:C)]       # simple feedforward control
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (:actuator1 :control1 var:C)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (:input3 :measurement3 var:M3)]
     [ log:triple (:state3 :observation3 var:P3)]
     [ log:triple (:output2 :measurement4 var:M4)]
@@ -44,30 +44,30 @@
     [ log:triple ((7.3 var:E) math:quotient var:N)]             # nonlinear factor
     [ log:triple ((var:N var:D) math:product var:C2)]           # nonlinear differential part
     [ log:triple ((var:C1 var:C2) math:sum var:C)]              # PND feedback control
-)] log:implies [ log:and (
+)] log:implies [ log:graph (
     [ log:triple (:actuator2 :control1 var:C)]
 )].
 
 # backward rules
-[ log:and (
+[ log:graph (
     [ log:triple (var:I :measurement10 var:M)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:I :measurement1 (var:M1 var:M2))]
     [ log:triple (var:M1 math:lessThan var:M2)]
     [ log:triple ((var:M2 var:M1) math:difference var:M3)]
     [ log:triple ((var:M3 0.5) math:exponentiation var:M)]
 )].
 
-[ log:and (
+[ log:graph (
     [ log:triple (var:I :measurement10 var:M1)]
-)] log:isImpliedBy [ log:and (
+)] log:isImpliedBy [ log:graph (
     [ log:triple (var:I :measurement1 (var:M1 var:M2))]
     [ log:triple (var:M1 math:notLessThan var:M2)]
 )].
 
 # query
-[ log:and (
+[ log:graph (
     [ log:triple (var:O :control1 var:C)]
-)] log:query [ log:and (
+)] log:impliesAnswer [ log:graph (
     [ log:triple (var:O :control1 var:C)]
 )].
