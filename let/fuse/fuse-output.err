@@ -7,8 +7,8 @@
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 
 # inference fuse
-{
-    :stone :color :black.
-    :stone :color :white.
-} => false.
+[ log:graph (
+    [ log:triple (:stone :color :black)].
+    [ log:triple (:stone :color :white)]
+)] log:implies false.
 )

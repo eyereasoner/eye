@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.0 (2025-05-13)').
+version_info('EYE v11.19.1 (2025-05-14)').
 
 license_info('MIT License
 
@@ -421,6 +421,7 @@ gre(Argus) :-
     nb_setval(wn, 0),
     nb_setval(prepare, false),
     nb_setval(prefix, false),
+    nb_setval(loggraph, false),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -4074,7 +4075,8 @@ wt0(X) :-
     atom(X),
     atom_concat(some, Y, X),
     !,
-    (   \+flag('no-qvars')
+    (   \+flag('no-qvars'),
+        nb_getval(loggraph, false)
     ->  (   rule_uvar(L),
             (   ncllit
             ->  (   memberchk(X, L)
@@ -4091,7 +4093,7 @@ wt0(X) :-
         ;   write('_:sk_')
         ),
         write(Y)
-    ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#some_', Y, '>'], Z),
+    ;   atomic_list_concat(['<http://www.w3.org/2000/10/swap/var#v_', Y, '>'], Z),
         wt0(Z)
     ).
 wt0(X) :-
@@ -4398,6 +4400,7 @@ wt2('<http://eulersharp.sourceforge.net/2003/03swap/log-rules#conditional>'([X|Y
     write('}').
 wt2('<http://www.w3.org/2000/10/swap/log#implies>'(X, Y)) :-
     \+flag('rdf-trig-output'),
+    \+flag(rdfcore),
     (   flag(nope)
     ->  U = X
     ;   (   X = when(A, B)
@@ -4507,6 +4510,7 @@ wt2(':-'(X, Y)) :-
     !.
 wt2('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(X, Y)) :-
     \+flag('rdf-trig-output'),
+    \+flag(rdfcore),
     (   rule_uvar(R)
     ->  true
     ;   R = [],
@@ -4583,7 +4587,13 @@ wt2(X) :-
     ->  write('(|'),
         wl([P, S, O]),
         write(' |)')
-    ;   wm(S),
+    ;   (   nb_getval(loggraph, true)
+        ->  write('[ '),
+            wp('<http://www.w3.org/2000/10/swap/log#triple>'),
+            write(' (')
+        ;   true
+        ),
+        wm(S),
         write(' '),
         wp(P),
         write(' '),
@@ -4591,6 +4601,10 @@ wt2(X) :-
             prolog_sym(_, O, _)
         ->  write(O)
         ;   wg(O)
+        ),
+        (   nb_getval(loggraph, true)
+        ->  write(')]')
+        ;   true
         )
     ).
 
@@ -4683,7 +4697,13 @@ wg(X) :-
             ->  nb_setval(keep_ng, true)
             ;   true
             ),
-            write('{'),
+            (   flag(rdfcore)
+            ->  write('[ '),
+                wp('<http://www.w3.org/2000/10/swap/log#graph>'),
+                write(' ('),
+                nb_setval(loggraph, true)
+            ;   write('{')
+            ),
             indentation(4),
             (   flag(strings)
             ->  true
@@ -4698,32 +4718,43 @@ wg(X) :-
             indentation(-4),
             (   flag(strings)
             ->  true
-            ;   write('.'),
+            ;   (   flag(rdfcore)
+                ->  true
+                ;   write('.')
+                ),
                 nl,
                 indent
             ),
-            write('}')
+            (   flag(rdfcore)
+            ->  write(')]'),
+                nb_setval(loggraph, false)
+            ;   write('}')
+            )
         )
     ;   wt(X)
     ).
 
 wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     \+flag('no-qnames'),
+    nb_getval(loggraph, false),
     !,
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
     \+flag('no-qnames'),
     \+flag('rdf-trig-output'),
+    \+flag(rdfcore),
     !,
     write('=>').
 wp(':-') :-
     \+flag('no-qnames'),
     \+flag('rdf-trig-output'),
+    \+flag(rdfcore),
     !,
     write('<=').
 wp('<http://www.w3.org/2000/10/swap/log#impliesAnswer>') :-
     \+flag('no-qnames'),
     \+flag('rdf-trig-output'),
+    \+flag(rdfcore),
     !,
     write('=^').
 wp(X) :-
@@ -4750,7 +4781,9 @@ wl([X|Y]) :-
     wl(Y).
 
 wm(A) :-
-    (   flag('rdf-trig-output'),
+    (   (   flag('rdf-trig-output')
+        ;   flag(rdfcore)
+        ),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
         wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>'),
@@ -5498,10 +5531,10 @@ prepare_builtins :-
     ;   true
     ),
 
-    % rdfnexus
+    % rdfcore
     (   '<http://www.w3.org/2000/10/swap/log#graph>'(_, _)
-    ->  retractall(flag(nexus)),
-        assertz(flag(nexus)),
+    ->  retractall(flag(rdfcore)),
+        assertz(flag(rdfcore)),
 
         % create terms
         (   member(P, ['<http://www.w3.org/2000/10/swap/log#implies>', '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', '<http://www.w3.org/2000/10/swap/log#impliesAnswer>']),
@@ -5547,8 +5580,8 @@ prepare_builtins :-
 
     % rdftrig
     (   quad(triple(_, _, _), _)
-    ->  retractall(flag(rdfpackages)),
-        assertz(flag(rdfpackages)),
+    ->  retractall(flag(rdftrig)),
+        assertz(flag(rdftrig)),
 
         % create trig graphs
         (   graphid(G),
@@ -11957,7 +11990,7 @@ cc([A|B], [C|D]) :-
         labelvars(C, 0, _, avar),
         (   \+cc(C)
         ->  assertz(cc(C))
-        ;   \+flag(rdfpackages)
+        ;   \+flag(rdftrig)
         )
     ;   C = A
     ),

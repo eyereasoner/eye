@@ -1,4 +1,9 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <https://eyereasoner.github.io/ns#>.
 
-:ground :isNot :wet.
-:it :isNot :raining.
+[ log:graph (
+    [ log:triple (:ground :is :wet)]
+)] log:implies false.
+[ log:graph (
+    [ log:triple (:it :is :raining)]
+)] log:implies false.
