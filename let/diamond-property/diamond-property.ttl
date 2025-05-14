@@ -1,0 +1,106 @@
+# original version at http://www.ii.uib.no/~bezem/GL/dpe.in
+# DP(r) log:implies DP(re), i.e. the diamond property is preserved under reflexive closure
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <dpe#>.
+
+:a :re :b.
+:a :re :c.
+
+# equality axioms
+[ log:graph (
+    [ log:triple (var:X :re var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :e var:X)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :re var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:Y :e var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :e var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:Y :e var:X)]
+)].
+
+[ log:graph (
+    [ log:triple (var:Y :not_e var:X)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :not_e var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :not_re var:Z)]
+    [ log:triple (var:Y :re var:Z)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :not_e var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :e var:Y)]
+    [ log:triple (var:X :not_re var:Z)]
+)] log:implies [ log:graph (
+    [ log:triple (var:Y :not_e var:Z)]
+)].
+
+# basic facts on re
+[ log:graph (
+    [ log:triple (var:X :e var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :re var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :r var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :re var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :re var:Y)]
+    [ log:triple (var:X :not_e var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :r var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (var:X :re var:Y)]
+    [ log:triple (var:X :not_r var:Y)]
+)] log:implies [ log:graph (
+    [ log:triple (var:X :e var:Y)]
+)].
+
+# DP
+[ log:graph (
+    [ log:triple (var:X :r var:Y)]
+    [ log:triple (var:X :r var:Z)]
+)] log:implies [ log:graph (
+    [ log:triple (var:Y :r var:U)]
+    [ log:triple (var:Z :r var:U)]
+)].
+
+# assuming the negation of the query so that it can be discharged when the query succeeds
+[ log:graph (
+    [ log:triple (:b :re var:X)]
+)] log:implies [ log:graph (
+    [ log:triple (:c :not_re var:X)]
+)].
+
+[ log:graph (
+    [ log:triple (:c :re var:X)]
+)] log:implies [ log:graph (
+    [ log:triple (:b :not_re var:X)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (:b :re var:X)]
+    [ log:triple (:c :re var:X)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (:b :re var:X)]
+    [ log:triple (:c :re var:X)]
+)].
