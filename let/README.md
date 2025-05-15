@@ -1,6 +1,6 @@
 # eyelet
 
-## reasoning with logic described in RDF Core
+## eye reasoning in RDF Core
 
 - eyelet supports reasoning with forward rules described in RDF Core as
   e.g.
