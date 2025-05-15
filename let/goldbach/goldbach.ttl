@@ -1,5 +1,6 @@
 # Code taken from https://www.ic.unicamp.br/~meidanis/courses/mc336/2009s2/prolog/problemas/
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -93,5 +94,5 @@
     [ log:triple ((var:N 2) math:remainder 0)]
     [ log:triple (var:N :goldbach (var:P1 var:P2))]
 )] log:impliesAnswer [ log:graph (
-    [ log:triple ((var:N) :goldbach (var:P1 var:P2))]
+    [ log:triple (var:N :goldbach (var:P1 var:P2))]
 )].
