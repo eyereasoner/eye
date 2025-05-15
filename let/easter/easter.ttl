@@ -4,6 +4,7 @@
 #
 # See https://en.wikipedia.org/wiki/Date_of_Easter
 
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -55,5 +56,5 @@
     [ log:triple ((2024 var:x0) math:sum var:x1)]
     [ log:triple (var:x1 :easter (var:x2 var:x3))]
 )] log:impliesAnswer [ log:graph (
-    [ log:triple ((var:x1) :easter (var:x2 var:x3))]
+    [ log:triple (var:x1 :easter (var:x2 var:x3))]
 )].
