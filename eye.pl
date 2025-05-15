@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.1 (2025-05-14)').
+version_info('EYE v11.19.2 (2025-05-15)').
 
 license_info('MIT License
 
@@ -1719,6 +1719,17 @@ tr_n3p([':-'(Y, X)|Z], Src, Mode) :-
     writeln('.'),
     tr_n3p(Z, Src, Mode).
 tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#impliesAnswer>\''(X, Y)|Z], Src, Mode) :-
+    !,
+    (   \+atomic(X),
+        \+atomic(Y)
+    ->  djiti_answer(answer(Y), A),
+        write(implies(X, A, Src)),
+        writeln('.')
+    ;   write('\'<http://www.w3.org/2000/10/swap/log#impliesAnswer>\''(X, Y)),
+        writeln('.')
+    ),
+    tr_n3p(Z, Src, Mode).
+tr_n3p(['\'<http://www.w3.org/2000/10/swap/log#query>\''(X, Y)|Z], Src, Mode) :-
     !,
     (   \+atomic(X),
         \+atomic(Y)
