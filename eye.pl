@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.2 (2025-05-15)').
+version_info('EYE v11.19.3 (2025-05-18)').
 
 license_info('MIT License
 
@@ -8619,7 +8619,8 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   product(X, Y)
+        (   getlist(X, Z),
+            product(Z, Y)
         )
     ).
 
@@ -8724,7 +8725,8 @@ userInput(A, B) :-
     when(
         (   ground(X)
         ),
-        (   sum(X, Y)
+        (   getlist(X, Z),
+            sum(Z, Y)
         )
     ).
 
