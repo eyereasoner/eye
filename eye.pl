@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.3 (2025-05-18)').
+version_info('EYE v11.19.4 (2025-05-22)').
 
 license_info('MIT License
 
@@ -5548,7 +5548,12 @@ prepare_builtins :-
         assertz(flag(rdfcore)),
 
         % create terms
-        (   member(P, ['<http://www.w3.org/2000/10/swap/log#implies>', '<http://www.w3.org/2000/10/swap/log#isImpliedBy>', '<http://www.w3.org/2000/10/swap/log#impliesAnswer>']),
+        (   member(P, [
+                '<http://www.w3.org/2000/10/swap/log#implies>',
+                '<http://www.w3.org/2000/10/swap/log#isImpliedBy>',
+                '<http://www.w3.org/2000/10/swap/log#impliesAnswer>',
+                '<http://www.w3.org/2000/10/swap/log#onNegativeSurface>'
+            ]),
             X =.. [P, _, _],
             call(X),
             ground(X),
