@@ -28,6 +28,21 @@
     )].
     ```
 
+- eye/let supports reasoning with RDF Surfaces described in RDF Core as
+  e.g.
+    ```
+    # all cars are green or blue
+    (_:A) log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A rdf:type :Car)]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (_:A :is :green)]
+        )])]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (_:A :is :blue)]
+        )])]
+    )].
+    ```
+
 - eye/let supports querying with queries described in RDF Core as
   e.g.
     ```
