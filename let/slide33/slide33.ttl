@@ -1,0 +1,60 @@
+# -----------------------
+# OWL restriction example
+# -----------------------
+#
+# See slide 33 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/ns#>.
+
+# owl restriction
+:aaa owl:onProperty :bbb.
+:aaa owl:allValuesFrom :ccc.
+
+# the following 2 triples should entail :yyy rdf:type :ccc.
+#:xxx rdf:type :aaa.
+#:xxx :bbb :yyy.
+
+# the following codex should entail :xxx rdf:type :aaa.
+(_:y) log:onNegativeSurface [ log:graph (
+    [ log:triple (:xxx :bbb _:y)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:y rdf:type :ccc)]
+    )])]
+)].
+
+# owl:allValuseFrom description logic
+(_:a _:b _:c) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:a owl:onProperty _:b)]
+    [ log:triple (_:a owl:allValuesFrom _:c)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple ((_:x _:y) log:onNegativeSurface [ log:graph (
+            [ log:triple (_:x rdf:type _:a)]
+            [ log:triple (_:x _:b _:y)]
+            [ log:triple (() log:onNegativeSurface [ log:graph (
+                [ log:triple (_:y rdf:type _:c)]
+            )])]
+        )])]
+        [ log:triple ((_:x) log:onNegativeSurface [ log:graph (
+            [ log:triple ((_:y) log:onNegativeSurface [ log:graph (
+                [ log:triple (_:x _:b _:y)]
+                [ log:triple (() log:onNegativeSurface [ log:graph (
+                    [ log:triple (_:y rdf:type _:c)]
+                )])]
+            )])]
+            [ log:triple (() log:onNegativeSurface [ log:graph (
+                [ log:triple (_:x rdf:type _:a)]
+            )])]
+        )])]
+    )])]
+)].
+
+# query
+(_:S _:C) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:S rdf:type _:C)]
+    [ log:triple (() log:onNegativeAnswerSurface [ log:graph (
+        [ log:triple (_:S rdf:type _:C)]
+    )])]
+)].

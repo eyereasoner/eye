@@ -1,0 +1,26 @@
+# ---------------
+# Ghent Inference
+# ---------------
+#
+# See slide 32 at https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+:Ghent a :City.
+
+(_:S) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:S rdf:type :City)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:S rdf:type :HumanCommunity)]
+    )])]
+)].
+
+# query
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Ghent rdf:type :HumanCommunity)]
+    [ log:triple (() log:onNegativeAnswerSurface [ log:graph (
+        [ log:triple (:Ghent rdf:type :HumanCommunity)]
+    )])]
+)].
