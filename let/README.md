@@ -1,8 +1,8 @@
-# eye/let
+# eyelet
 
 ## eye reasoning in RDF Core
 
-- eye/let supports reasoning with forward rules described in RDF Core as
+- eyelet supports reasoning with forward rules described in RDF Core as
   e.g.
     ```
     # subclass rule
@@ -14,7 +14,7 @@
     )].
     ```
 
-- eye/let supports reasoning with backward rules described in RDF Core as
+- eyelet supports reasoning with backward rules described in RDF Core as
   e.g.
     ```
     # is the age of a person above some duration?
@@ -28,7 +28,7 @@
     )].
     ```
 
-- eye/let supports reasoning with RDF Surfaces described in RDF Core as
+- eyelet supports reasoning with RDF Surfaces described in RDF Core as
   e.g.
     ```
     # all cars are green or blue
@@ -43,7 +43,7 @@
     )].
     ```
 
-- eye/let supports querying with queries described in RDF Core as
+- eyelet supports querying with queries described in RDF Core as
   e.g.
     ```
     # who is a what?
