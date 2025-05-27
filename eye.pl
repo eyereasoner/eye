@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.4 (2025-05-22)').
+version_info('EYE v11.19.5 (2025-05-27)').
 
 license_info('MIT License
 
@@ -95,6 +95,8 @@ eye
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
+    --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rules
+    --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rules
     --trig <uri>                    TriG data
     --turtle <uri>                  Turtle triples
 <query>
@@ -375,6 +377,8 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--quantify',
             '--query',
             '--skolem-genid',
+            '--sparql-backward',
+            '--sparql-forward',
             '--tactic',
             '--trig',
             '--turtle'
@@ -420,6 +424,7 @@ gre(Argus) :-
     nb_setval(doc_nr, 0),
     nb_setval(wn, 0),
     nb_setval(prepare, false),
+    nb_setval(sparql_backward, false),
     nb_setval(prefix, false),
     nb_setval(loggraph, false),
     opts(Argus, Args),
@@ -911,6 +916,8 @@ opts([Arg|_], _) :-
             '--pass-all',
             '--proof',
             '--query',
+            '--sparql-backward',
+            '--sparql-forward',
             '--trig',
             '--turtle'
         ]
@@ -1074,6 +1081,36 @@ args(['--proof', Arg|Args]) :-
 args(['--query', Arg|Args]) :-
     !,
     n3_n3p(Arg, query),
+    args(Args).
+args(['--sparql-backward', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    nb_setval(sparql_backward, true),
+    n3_n3p(Arg, data),
+    nb_setval(sparql_backward, false),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
+    args(Args).
+args(['--sparql-forward', Arg|Args]) :-
+    !,
+    absolute_uri(Arg, A),
+    atomic_list_concat(['<', A, '>'], R),
+    assertz(scope(R)),
+    (   flag(intermediate, Out)
+    ->  portray_clause(Out, scope(R))
+    ;   true
+    ),
+    n3_n3p(Arg, data),
+    nb_setval(fdepth, 0),
+    nb_setval(pdepth, 0),
+    nb_setval(cdepth, 0),
     args(Args).
 args(['--trig', Argument|Args]) :-
     !,
@@ -2500,6 +2537,36 @@ separate -->
 separate -->
     [].
 
+simpleStatement([Rule]) -->
+    [name(Construct)],
+    {   downcase_atom(Construct, 'construct')
+    },
+    !,
+    ['{'],
+    {   nb_getval(fdepth, I),
+        J is I+1,
+        nb_setval(fdepth, J)
+    },
+    formulacontent(Conc),
+    ['}'],
+    [name(Where)],
+    {   downcase_atom(Where, 'where')
+    },
+    ['{'],
+    formulacontent(Prem),
+    {   nb_setval(fdepth, I)
+    },
+    ['}'],
+    separate,
+    withoutdot,
+    {   (   nb_getval(sparql_backward, true)
+        ->  Rule = ':-'(Conc, Prem)
+        ;   (   Conc = '\'<http://www.w3.org/2000/10/swap/log#allPossibleCases>\''(_, [])
+            ->  Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, false)
+            ;   Rule = '\'<http://www.w3.org/2000/10/swap/log#implies>\''(Prem, Conc)
+            )
+        )
+    }.
 simpleStatement(Quads) -->
     [name(Name)],
     {   downcase_atom(Name, 'graph')
