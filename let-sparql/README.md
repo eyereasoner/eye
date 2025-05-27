@@ -1,4 +1,4 @@
-# eyelet
+# eyelet-sparql
 
 - assert triples
     ```
