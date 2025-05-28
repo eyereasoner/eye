@@ -7,12 +7,12 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        :joe :is (| :good :Cobbler |).
+        :joe :is (:good :Cobbler).
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        :joe :is (| :good :Cobbler |).
+        :joe :is (:good :Cobbler).
     };
     r:evidence (
         skolem:lemma2
@@ -23,16 +23,16 @@ skolem:lemma1 a r:Inference;
 
 skolem:lemma2 a r:Extraction;
     r:gives {
-        :joe :is (| :good :Cobbler |).
+        :joe :is (:good :Cobbler).
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/good-cobbler/cobbler.n3>].
 
 skolem:lemma3 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1. {
-            var:x_0 :is (| :good var:x_1 |).
+            var:x_0 :is (:good var:x_1).
         } => {
-            var:x_0 :is (| :good var:x_1 |).
+            var:x_0 :is (:good var:x_1).
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/good-cobbler/cobbler-query.n3>].
