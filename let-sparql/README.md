@@ -25,7 +25,7 @@
     }
     ```
 
-- answer queries with `--query`
+- answer queries with `--sparql-query`
     ```
     CONSTRUCT {
         answer

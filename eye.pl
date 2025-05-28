@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.5 (2025-05-27)').
+version_info('EYE v11.19.6 (2025-05-29)').
 
 license_info('MIT License
 
@@ -107,7 +107,8 @@ eye
     --pass-all-ground               ground the rules and run --pass-all
     --pass-merged                   output merged data without deductive closure
     --pass-only-new                 output only new derived triples
-    --query <query>                 output filtered with filter rules').
+    --query <query>                 output filtered with filter rules
+    --sparql-query <query>          output answer of sparql query').
 
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
@@ -379,6 +380,7 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--skolem-genid',
             '--sparql-backward',
             '--sparql-forward',
+            '--sparql-query',
             '--tactic',
             '--trig',
             '--turtle'
@@ -918,6 +920,7 @@ opts([Arg|_], _) :-
             '--query',
             '--sparql-backward',
             '--sparql-forward',
+            '--sparql-query',
             '--trig',
             '--turtle'
         ]
@@ -1111,6 +1114,10 @@ args(['--sparql-forward', Arg|Args]) :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
+    args(Args).
+args(['--sparql-query', Arg|Args]) :-
+    !,
+    n3_n3p(Arg, query),
     args(Args).
 args(['--trig', Argument|Args]) :-
     !,
