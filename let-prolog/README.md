@@ -1,4 +1,4 @@
-# eyelet
+# eyelet-prolog
 
 ## eye reasoning in prolog
 
