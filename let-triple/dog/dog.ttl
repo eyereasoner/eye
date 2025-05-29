@@ -1,0 +1,31 @@
+# -------------------
+# Dog license example
+# -------------------
+#
+# If you have more than 4 dogs you need a license.
+
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:alice :hasDog :dog1, :dog2, :dog3, :dog4, :dog5.
+:bob :hasDog :dog6, :dog7.
+
+# policy rule
+[ log:graph (
+    [ log:triple (var:Subject :hasDog var:Any)]
+    [ log:triple ((1 [ log:graph ([ log:triple (var:Subject :hasDog var:Dog)])] var:List) log:collectAllIn var:Scope)]
+    [ log:triple (var:List math:sum var:Count)]
+    [ log:triple (var:Count math:greaterThan 4)]
+)] log:implies [ log:graph (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:Subject :mustHave :dogLicense)]
+)].

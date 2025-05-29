@@ -1,0 +1,71 @@
+# -----------------
+# Fibonacci numbers
+# -----------------
+#
+# See https://en.wikipedia.org/wiki/Fibonacci_number
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+[ log:graph (
+    [ log:triple (var:X :fibonacci var:Y)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:X 0 1) :fib var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple ((0 var:A var:B) :fib var:A)]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple ((1 var:A var:B) :fib var:B)]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple ((var:X var:A var:B) :fib var:Y)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:X math:greaterThan 1)]
+    [ log:triple ((var:X 1) math:difference var:J)]
+    [ log:triple ((var:A var:B) math:sum var:K)]
+    [ log:triple ((var:J var:B var:K) :fib var:Y)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (0 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (0 :fibonacci var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (1 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (1 :fibonacci var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (6 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (6 :fibonacci var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (91 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (91 :fibonacci var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (283 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (283 :fibonacci var:Y)]
+)].
+
+[ log:graph (
+    [ log:triple (3674 :fibonacci var:Y)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (3674 :fibonacci var:Y)]
+)].

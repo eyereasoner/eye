@@ -1,0 +1,83 @@
+# -----------------------
+# Medication prescription
+# -----------------------
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# patient Ann
+:Ann :has :Fever.
+
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Ann :has :AllergyForAspirin)]
+)].
+
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Ann :has :ActivePepticUlcerDisease)]
+)].
+
+# patient Joe
+:Joe :has :AcuteMyocardialInfarction.
+:Joe :has :AllergyForAspirin.
+
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Joe :has :ActivePepticUlcerDisease)]
+)].
+
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Joe :has :SevereAsthma)]
+)].
+
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:Joe :has :ChronicObstructivePulmonaryDisease)]
+)].
+
+# medication prescription logic
+(_:WHO) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:WHO :has :Fever)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :AllergyForAspirin)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :ActivePepticUlcerDisease)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :isPrescribed :aspirinHighDose)]
+    )])]
+)].
+
+(_:WHO) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:WHO :has :AcuteMyocardialInfarction)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :AllergyForAspirin)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :ActivePepticUlcerDisease)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :isPrescribed :aspirinLowDose)]
+    )])]
+)].
+
+(_:WHO) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:WHO :has :AcuteMyocardialInfarction)]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :SevereAsthma)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :has :ChronicObstructivePulmonaryDisease)]
+    )])]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:WHO :isPrescribed :betaBlocker)]
+    )])]
+)].
+
+# query
+(_:WHO _:WHAT) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:WHO :isPrescribed _:WHAT)]
+    [ log:triple (() log:onNegativeAnswerSurface [ log:graph (
+        [ log:triple (_:WHO :isPrescribed _:WHAT)]
+    )])]
+)].
+
+

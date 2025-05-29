@@ -1,0 +1,68 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+# recursive case till 6174 is reached
+[ log:graph (
+    [ log:triple (var:A :kaprekar (var:B var:C))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:A math:notEqualTo 0)]
+    [ log:triple (var:A :numberToDigits var:D)]
+    [ log:triple ((var:D "=<") list:sort var:E)]
+    [ log:triple ((var:D ">=") list:sort var:F)]
+    [ log:triple (var:E :digitsToNumber var:G)]
+    [ log:triple (var:F :digitsToNumber var:H)]
+    [ log:triple ((var:H var:G) math:difference var:I)]
+    [ log:triple ((var:B 1) math:sum var:J)]
+    [ log:triple ((
+        [ log:graph (
+            [ log:triple (var:I math:equalTo 6174)]
+        )]
+        [ log:graph (
+            [ log:triple (var:C log:equalTo var:J)]
+        )]
+        [ log:graph (
+            [ log:triple (var:I :kaprekar (var:J var:C))]
+        )]
+    ) log:ifThenElseIn var:scope)]
+)].
+
+# convert 4 digit number to digits
+[ log:graph (
+    [ log:triple (var:A :numberToDigits (var:B var:C var:D var:E))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:A 1000) math:integerQuotient var:B)]
+    [ log:triple ((var:A 1000) math:remainder var:F)]
+    [ log:triple ((var:F 100) math:integerQuotient var:C)]
+    [ log:triple ((var:F 100) math:remainder var:G)]
+    [ log:triple ((var:G 10) math:integerQuotient var:D)]
+    [ log:triple ((var:G 10) math:remainder var:E)]
+)].
+
+# convert 4 digits to number
+[ log:graph (
+    [ log:triple ((var:A var:B var:C var:D) :digitsToNumber var:E)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:A 1000) math:product var:F)]
+    [ log:triple ((var:B 100) math:product var:G)]
+    [ log:triple ((var:C 10) math:product var:H)]
+    [ log:triple ((var:F var:G var:H var:D) math:sum var:E)]
+)].
+
+# recursion count
+[ log:graph (
+    [ log:triple (var:I :recursionCount var:J)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:I :kaprekar (0 var:J))]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (10000 log:repeat var:I)]
+    [ log:triple (var:I :recursionCount var:N)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:I :recursionCount var:N)]
+)].

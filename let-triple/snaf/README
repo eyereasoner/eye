@@ -1,0 +1,14 @@
+--------------------------
+Scoped Negation As Failure
+--------------------------
+
+Examples from Patrick Hochstenbach and testing log:includes and log:notIncludes with an e:Scope subject.
+
+For a short description of e:Scope see https://github.com/eyereasoner/eye/blob/2d2512674555f21e1cc93bbd5bbe8c65ad693e4d/log-rules.n3#L65
+
+[[
+e:Scope a rdfs:Class;
+    rdfs:comment "class of (context recursion) pairs where a context is a list of consulted URI's and a recursion is the deductive closure recursion number";
+    rdfs:subClassOf e:Tuple;
+    e:tupleTypes (e:Context e:Recursion).
+]]

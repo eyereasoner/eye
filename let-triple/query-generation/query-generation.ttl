@@ -1,0 +1,19 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# facts
+:Socrates a :Human.
+
+# query
+[ log:graph (
+    [ log:triple (var:I rdf:type var:C)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ([ log:graph (
+        [ log:triple (var:WHO rdf:type var:WHAT)]
+    )] log:impliesAnswer [ log:graph (
+        [ log:triple (var:WHO rdf:type var:WHAT)]
+    )])]
+)].
