@@ -1,0 +1,11 @@
+:- op(1200, xfx, :+).
+
+answer(compute([1, 0, 1, 0, 0, 1], [1, 0, 1, 0, 1, 0, #])).
+answer(compute([1, 0, 1, 1, 1, 1], [1, 1, 0, 0, 0, 0, #])).
+answer(compute([1, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, #])).
+answer(compute([], [1, #])).
+
+step((true:+compute([1, 0, 1, 0, 0, 1], _)), compute([1, 0, 1, 0, 0, 1], [1, 0, 1, 0, 1, 0, #]), true).
+step((true:+compute([1, 0, 1, 1, 1, 1], _)), compute([1, 0, 1, 1, 1, 1], [1, 1, 0, 0, 0, 0, #]), true).
+step((true:+compute([1, 1, 1, 1, 1, 1], _)), compute([1, 1, 1, 1, 1, 1], [1, 0, 0, 0, 0, 0, 0, #]), true).
+step((true:+compute([], _)), compute([], [1, #]), true).
