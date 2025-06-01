@@ -1,23 +1,18 @@
 """
-Socratic Dialogue Emulator (no external LLM)
-===========================================
-This script *simulates* a conversation between a “Socratic teacher” and a
-“student” **without** relying on any language‑model API or local checkpoint. The
-utterances are stitched together from lightweight templates and a tiny
-knowledge base, so the code runs anywhere Python 3 is available.
+Socratic Dialogue Emulator (deterministic)
+========================================
+This script *simulates* a Socratic conversation between a teacher and a student
+**without** any external LLM.  All variability now comes from Python’s `random`
+module, but we expose a `--seed` flag (default **42**) so that every run with
+the same arguments produces identical output.
 
-It is intended for:
-* quick demos where network access is unavailable / undesired,
-* deterministic unit‑tests for chat orchestration layers, or
-* teaching the skeleton of an agent loop before swapping in a real LLM.
-
----------------------------------------------------------------------
-Quick start
----------------------------------------------------------------------
+Usage
+-----
 ```bash
-python dialog.py --topic "Pythagorean theorem" --steps 6
+python socratic_llm_dialog.py --topic "Pythagorean theorem" --steps 6 --seed 42
 ```
-> Only the Python standard library is used—no extra pip installs.
+Change the seed (or omit the flag) if you ever *do* want different dialogue.
+Only the Python standard library is required.
 """
 from __future__ import annotations
 
@@ -27,9 +22,9 @@ import re
 from collections import defaultdict
 from typing import List
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Minimal stop‑word list for quick "keyword" extraction
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 _STOPWORDS = {
     "the","a","an","and","or","but","if","while","as","of","to","in","on","for","with",
     "about","is","are","was","were","be","being","been","it","this","that","those","these",
@@ -49,9 +44,9 @@ def extract_keywords(text: str, n: int = 3) -> List[str]:
     sorted_words = sorted(counts.items(), key=lambda t: (-t[1], text.lower().find(t[0])))
     return [w for w, _ in sorted_words[:n]] or ["it"]  # fallback
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Tiny knowledge base (feel free to extend!)
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 _FACTS = {
     "pythagorean theorem": [
         "It states that in a right‑angled triangle, the square of the hypotenuse equals the sum of the squares of the other two sides.",
@@ -76,9 +71,9 @@ _GENERIC_FACTS = [
     "Practical applications influence how society values the concept.",
 ]
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Dialogue agents
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 class Teacher:
     """Generates Socratic questions based on the student’s latest answer."""
 
@@ -121,9 +116,9 @@ class Student:
         self.index += 1
         return f"I believe {kw} is important because {fact}"
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # Main loop
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 def socratic_dialog(topic: str, steps: int):
     teacher, student = Teacher(), Student(topic)
@@ -150,15 +145,19 @@ def socratic_dialog(topic: str, steps: int):
     print("Teacher (closing): You have reflected on several aspects of the topic.")
     print("                 Consider how these ideas might apply in practice as your next inquiry.")
 
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 # CLI entry‑point
-# -----------------------------------------------------------------------------
+# ----------------------------------------------------------------------------
 
 def main():
-    parser = argparse.ArgumentParser(description="Run a self‑contained Socratic dialogue emulator.")
+    parser = argparse.ArgumentParser(description="Run a deterministic Socratic dialogue emulator.")
     parser.add_argument("--topic", default="Pythagorean theorem", help="Subject to discuss")
     parser.add_argument("--steps", type=int, default=5, help="Number of Q&A cycles after the opening exchange")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducibility")
     args = parser.parse_args()
+
+    # One call is enough because the script only uses functions from the global RNG
+    random.seed(args.seed)
 
     socratic_dialog(args.topic, args.steps)
 
