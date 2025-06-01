@@ -1,8 +1,8 @@
-# lingua
+# eyelet-trigua
 
-## Reasoning with logic described in RDF 1.1
+## eye reasoning in RDF TriG
 
-- lingua supports reasoning with forward rules described in RDF 1.1
+- eyelet-trigua supports reasoning with forward rules described in RDF TriG
   e.g.
     ```
     # rdfs subclass
@@ -18,7 +18,7 @@
     }
     ```
 
-- lingua supports reasoning with backward rules described in RDF 1.1
+- eyelet-trigua supports reasoning with backward rules described in RDF TriG
   e.g.
     ```
     # is the age of a person above some duration?
@@ -36,7 +36,7 @@
     }
     ```
 
-- lingua supports reasoning with queries described in RDF 1.1
+- eyelet-trigua supports reasoning with queries described in RDF TriG
   e.g.
     ```
     # query for people above 80 years old
