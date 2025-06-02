@@ -1,8 +1,6 @@
 % Goal driven Parallel Sequences -- Jos De Roo
 % See background paper https://www.sciencedirect.com/science/article/pii/S1532046421000794
 
-:- op(1200, xfx, :+).
-
 % find paths in the state space from initial state to goal state within limits
 findpath(_SCOPE, [Goal, Path, Duration, Cost, Belief, Comfort, Limits]) :-
     findpaths([], Goal, [], 0.0, 0.0, 1.0, 1.0, Path, Duration, Cost, Belief, Comfort, Limits).
@@ -101,8 +99,7 @@ description(
 location(i1, gent) :+ true.
 
 % query
-true :+
-    findpath(
+true :+ findpath(
         map_be,
         [   location(_SUBJECT, oostende),
             _PATH,
