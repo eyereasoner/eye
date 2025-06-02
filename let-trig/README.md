@@ -1,8 +1,8 @@
-# eyelet-trigua
+# eyelet-trig
 
-## eye reasoning in RDF TriG
+## eye reasoning in trig
 
-- eyelet-trigua supports reasoning with forward rules described in RDF TriG
+- eyelet-trig supports reasoning with forward rules described in trig
   e.g.
     ```
     # rdfs subclass
@@ -18,7 +18,7 @@
     }
     ```
 
-- eyelet-trigua supports reasoning with backward rules described in RDF TriG
+- eyelet-trig supports reasoning with backward rules described in trig
   e.g.
     ```
     # is the age of a person above some duration?
@@ -36,7 +36,7 @@
     }
     ```
 
-- eyelet-trigua supports reasoning with queries described in RDF TriG
+- eyelet-trig supports reasoning with queries described in trig
   e.g.
     ```
     # query for people above 80 years old
