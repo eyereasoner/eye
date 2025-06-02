@@ -1,6 +1,6 @@
-# sequents
+# eyelet-clogic
 
-## Reasoning with disjunction in rule conclusion
+## reasoning with coherent logic
 
 ## examples:
 
