@@ -6,12 +6,14 @@ YELLOW="\e[33m"
 NORMAL="\e[0;39m"
 
 OK=0
-DIFF=0
+FAILED=0
 
-echo -e "${YELLOW}------------------------------------------${NORMAL}"
-echo -e "${YELLOW}running the blogic examples and test cases${NORMAL}"
+version=$(eye --version 2>&1 | grep EYE | awk '{ print $2 }')
+
+echo -e "${YELLOW}---------------------------------------------${NORMAL}"
+echo -e "${YELLOW}running eyelet-lingua examples and test cases${NORMAL}"
 echo -e "${YELLOW}using eye v$(eye --version 2>&1 | grep EYE | awk '{ print substr($2,2) }') and swipl v$(swipl --version 2>&1 | awk '{ print $3 }')${NORMAL}"
-echo -e "${YELLOW}------------------------------------------${NORMAL}"
+echo -e "${YELLOW}---------------------------------------------${NORMAL}"
 echo ""
 
 pad () {
@@ -21,27 +23,27 @@ pad () {
 }
 
 begin=$(($(date +%s)))
-for file in input/*.n3s
+for file in input/*.trig
 do
     f="$(basename ${file})"
     echo -en "$(pad "${f}" -30)"
     start=$(($(date +%s%N)/1000000))
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope ${file} --output output/${f}
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope --rdf-trig-output "${file}" > output/${f} 2>&1
     end=$(($(date +%s%N)/1000000))
     echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
     if [[ $(git diff output/${f} | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else
-        echo -e "${RED}DIFF${NORMAL}"
-        ((DIFF++))
+        echo -e "${RED}FAILED${NORMAL}"
+        ((FAILED++))
     fi
 done
 end=$(($(date +%s)))
 echo ""
 
-echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${DIFF} DIFF${NORMAL}"
-if [[ ${DIFF} -eq 0 ]]; then
+echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${FAILED} FAILED${NORMAL}"
+if [[ ${FAILED} -eq 0 ]]; then
     exit 0
 else
     exit 2

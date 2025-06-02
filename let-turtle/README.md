@@ -1,8 +1,8 @@
 # eyelet-turtle
 
-## eye reasoning in turtle
+## eye reasoning in RDF Turtle
 
-- eyelet-turtle supports reasoning with forward rules described in turtle
+- eyelet-turtle supports reasoning with forward rules described in RDF Turtle
   e.g.
     ```
     # subclass rule
@@ -14,7 +14,7 @@
     )].
     ```
 
-- eyelet-turtle supports reasoning with backward rules described in turtle
+- eyelet-turtle supports reasoning with backward rules described in RDF Turtle
   e.g.
     ```
     # is the age of a person above some duration?
@@ -28,7 +28,7 @@
     )].
     ```
 
-- eyelet-turtle supports reasoning with RDF Surfaces described in turtle
+- eyelet-turtle supports reasoning with RDF Surfaces described in RDF Turtle
   e.g.
     ```
     # all cars are green or blue
@@ -43,7 +43,7 @@
     )].
     ```
 
-- eyelet-turtle supports querying with queries described in turtle
+- eyelet-turtle supports querying with queries described in RDF Turtle
   e.g.
     ```
     # who is a what?
