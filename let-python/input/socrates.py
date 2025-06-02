@@ -1,22 +1,37 @@
-# See https://en.wikipedia.org/wiki/Inference
+# --- simple inference engine -----------------------------------------------
+
+# storage for asserted facts
+_facts: set[tuple[str, str]] = set()
+
+def assert_type(subject: str, category: str) -> None:
+    """Add a fact type(S, C) to the knowledge base."""
+    _facts.add((subject, category))
+
+def _infer() -> None:
+    """Apply the rule   type(X,'Man') → type(X,'Mortal')   until saturation."""
+    changed = True
+    while changed:                      # keep looping until no new facts
+        changed = False
+        new_facts = {
+            (s, "Mortal")
+            for (s, c) in _facts
+            if c == "Man" and (s, "Mortal") not in _facts
+        }
+        if new_facts:                   # at least one new fact was derived
+            _facts.update(new_facts)
+            changed = True
+
+def query_type() -> list[tuple[str, str]]:
+    """Return every known (explicit + inferred) type/2 fact."""
+    _infer()
+    return sorted(_facts)
+# ---------------------------------------------------------------------------
+
+# seed the knowledge base with the fact from your program
+assert_type("Socrates", "Man")
 
 if __name__ == "__main__":
-    element_of = [
-        ('who#socrates', 'class#man')
-    ]
+    # equivalent to the Prolog query: ?- type(_, _).
+    for fact in query_type():
+        print(f"type{fact}")
 
-    subclass_of = [
-        ('class#man', 'class#animate'),
-        ('class#animate', 'class#mortal')
-    ]
-
-    while True:
-        ol = len(element_of)
-        for (A, B) in element_of:
-            for (C, D) in subclass_of:
-                if C == B and (A, D) not in element_of:
-                    element_of += [(A, D)]
-        if len(element_of) == ol:
-            break
-
-    print("element_of = %s" % (element_of))
