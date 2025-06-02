@@ -1,6 +1,4 @@
-// inference.js
 // A tiny forward-chaining inference engine for the predicate type/2
-// Run with:  node inference.js
 
 // ---------------------------------------------------------------------------
 // knowledge base (set of [subject, category] tuples)
