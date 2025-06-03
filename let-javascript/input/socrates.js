@@ -1,65 +1,39 @@
-// A tiny forward-chaining inference engine for the predicate type/2
+// -------------------------------------------------------------------------
+// % Socrates is a mortal
+//
+// type('Socrates', 'Man').
+//
+// type(X, 'Mortal') :-
+//     type(X, 'Man').
+//
+// % query
+// ?- type(_, _).
+// -------------------------------------------------------------------------
 
-// ---------------------------------------------------------------------------
-// knowledge base (set of [subject, category] tuples)
-// ---------------------------------------------------------------------------
-const facts = new Set();
+// ----- extensional facts (the Prolog database) --------------------------
+const FACTS = [
+  ['Socrates', 'Man']
+];
 
-/**
- * Serialises a tuple so it can live in a Set.
- */
-function key(subject, category) {
-  return `${subject}::${category}`;
-}
+// ----- forward-chaining rule -------------------------------------------
+// JS version of  type(X,'Mortal') :- type(X,'Man').
+function inferAll(facts) {
+  const derived = new Set(facts.map(f => JSON.stringify(f))); // avoid duplicates
 
-/**
- * Assert an explicit fact  type(S, C).
- */
-function assertType(subject, category) {
-  facts.add(key(subject, category));
-}
-
-/**
- * Apply the rule  type(X,'Man') ⇒ type(X,'Mortal')  until no new facts arise.
- */
-function infer() {
-  let changed = true;
-  while (changed) {
-    changed = false;
-
-    for (const k of Array.from(facts)) {
-      const [subject, category] = k.split("::");
-      if (category === "Man") {
-        const mortalKey = key(subject, "Mortal");
-        if (!facts.has(mortalKey)) {
-          facts.add(mortalKey);
-          changed = true;
-        }
-      }
+  for (const [x, cls] of facts) {
+    if (cls === 'Man') {
+      derived.add(JSON.stringify([x, 'Mortal']));
     }
   }
+  return [...derived].map(JSON.parse);   // back to plain arrays
 }
 
-/**
- * Equivalent to the Prolog query  ?- type(_, _).
- * Returns an array of [Subject, Category] pairs, sorted for stable output.
- */
-function queryType() {
-  infer();
-  return Array.from(facts)
-    .map(k => k.split("::"))
-    .sort(([a1, b1], [a2, b2]) =>
-      a1 === a2 ? b1.localeCompare(b2) : a1.localeCompare(a2)
-    );
-}
-
-// ---------------------------------------------------------------------------
-// Seed the knowledge base and run the “?- type(_, _).” query
-// ---------------------------------------------------------------------------
-assertType("Socrates", "Man");
-
-if (require.main === module) {
-  for (const [subject, category] of queryType()) {
-    console.log(`type('${subject}', '${category}')`);
+// ----- “query”  type(_, _)  --------------------------------------------
+function main() {
+  const allFacts = inferAll(FACTS);
+  for (const [x, y] of allFacts) {
+    console.log(`type(${x}, ${y})`);
   }
 }
+
+main();
