@@ -1,6 +1,6 @@
 # eyelet-nodejs
 
-### eye reasoning in nodejs
+### eye reasoning in javascript
 
 Install nodejs https://nodejs.org/en/download
 
