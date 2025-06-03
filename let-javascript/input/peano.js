@@ -1,52 +1,78 @@
-// ------------------------------------------------------------
-// Peano arithmetic in Node.js – direct translation from Prolog
-// ------------------------------------------------------------
+// -------------------------------------------------------------------------
+// % Peano arithmetic
+// % See https://en.wikipedia.org/wiki/Peano_axioms
+//
+// Numbers are represented as 0 and nested s/1 functors:
+//     0         → 0
+//     s(0)      → 1
+//     s(s(0))   → 2
+// etc.
+//
+// In JavaScript we perform the calculations with plain integers for speed
+// and provide helper functions that render / parse Peano terms so the
+// printed output matches the Prolog style.
+// -------------------------------------------------------------------------
 
-// add/3  —  add(A,B,C)  ⇔  C = A + B
+// ---------- helper: int  → Peano string ---------------------------------
+function toPeano(n) {
+  return n === 0 ? "0" : `s(${toPeano(n - 1)})`;
+}
+
+// ---------- add ---------------------------------------------------------
+// % add
+// add(A, 0, A).
+// add(A, s(B), s(C)) :-
+//     add(A, B, C).
 function add(a, b) {
-  if (b === 0)            // add(A, 0, A).
-    return a;
-
-  // add(A, s(B), s(C)) :- add(A, B, C).
-  const c = add(a, b - 1);
-  return c + 1;           // s(C)
+  return b === 0 ? a : 1 + add(a, b - 1);
 }
 
-// multiply/3  —  multiply(A,B,C)  ⇔  C = A × B
+// ---------- multiply ----------------------------------------------------
+// % multiply
+// multiply(_, 0, 0).
+// multiply(A, s(B), C) :-
+//     multiply(A, B, D),
+//     add(A, D, C).
 function multiply(a, b) {
-  if (b === 0)            // multiply(_, 0, 0).
-    return 0;
-
-  // multiply(A, s(B), C) :- multiply(A,B,D), add(A,D,C).
-  const d = multiply(a, b - 1);
-  return add(a, d);
+  return b === 0 ? 0 : add(a, multiply(a, b - 1));
 }
 
-// factorial/2  —  factorial(N,F)  ⇔  F = N!
+// ---------- factorial (wrapper + worker) -------------------------------
+// % factorial
+// factorial(A, B) :-
+//     fac(A, s(0), B).
+//
+// fac(0, A, A).
+// fac(s(A), B, C) :-
+//     multiply(B, s(A), D),
+//     fac(A, D, C).
 function factorial(n) {
-  return fac(n, 1);       // fac/3 helper mirroring the Prolog version
+  function fac(a, acc) {
+    return a === 0 ? acc : fac(a - 1, multiply(acc, a));
+  }
+  return fac(n, 1); // s(0) = 1
 }
 
-function fac(n, acc) {
-  if (n === 0)            // fac(0, A, A).
-    return acc;
+// -------------------------------------------------------------------------
+// % query
+// ?-
+//     multiply(s(0), s(s(0)), A),
+//     add(A, s(s(s(0))), B),
+//     factorial(B, _).
+//
+// JavaScript: perform the same steps and print Peano + decimal values.
+// -------------------------------------------------------------------------
+(function runQuery() {
+  // multiply(s(0), s(s(0)), A)   → 1 * 2 = 2
+  const A = multiply(1, 2);
 
-  // fac(s(A), B, C) :- multiply(B, s(A), D), fac(A, D, C).
-  const d = multiply(acc, n); // s(A)  ≙  n
-  return fac(n - 1, d);
-}
+  // add(A, s(s(s(0))), B)        → 2 + 3 = 5
+  const B = add(A, 3);
 
-// ------------------------------------------------------------
-// Demo: exact counterpart of the original Prolog query
-// ------------------------------------------------------------
-// ?- multiply(s(0), s(s(0)), A),
-//    add(A, s(s(s(0))), B),
-//    factorial(B, _).
+  // factorial(B, _)              → 5! = 120
+  const factB = factorial(B);
 
-const A = multiply(1, 2);  // s(0) × s(s(0))  = 1 × 2  = 2
-const B = add(A, 3);       // 2 + s(s(s(0))) = 2 + 3 = 5
-const F = factorial(B);    // 5! = 120
-
-console.log('A =', A);     // → 2
-console.log('B =', B);     // → 5
-console.log('B! =', F);    // → 120
+  console.log(`A  = ${toPeano(A)}   // ${A}`);
+  console.log(`B  = ${toPeano(B)}   // ${B}`);
+  console.log(`B! = ${toPeano(factB)}   // ${factB}`);
+})();
