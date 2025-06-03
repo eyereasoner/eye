@@ -1,4 +1,4 @@
-# eyelet-clogic
+# clogic
 
 ## reasoning with coherent logic
 
