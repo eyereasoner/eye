@@ -1,4 +1,4 @@
-# eyelet-nodejs
+# eyelet-javascript
 
 ### eye reasoning in javascript
 

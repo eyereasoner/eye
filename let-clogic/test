@@ -8,10 +8,10 @@ NORMAL="\e[0;39m"
 OK=0
 DIFF=0
 
-echo -e "${YELLOW}---------------------------------------------${NORMAL}"
+echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo -e "${YELLOW}running eyelet-clogic examples and test cases${NORMAL}"
-echo -e "${YELLOW}using clogic.n3 and swipl v$(swipl --version 2>&1 | awk '{ print $3 }')${NORMAL}"
-echo -e "${YELLOW}---------------------------------------------${NORMAL}"
+echo -e "${YELLOW}using eye v$(eye --version 2>&1 | grep EYE | awk '{ print substr($2,2) }') and swipl v$(swipl --version 2>&1 | awk '{ print $3 }')${NORMAL}"
+echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo ""
 
 pad () {
@@ -24,7 +24,7 @@ begin=$(($(date +%s)))
 for file in input/*.n3c
 do
     f="$(basename ${file})"
-    echo -en "$(pad "${f}" -30)"
+    echo -en "$(pad "${f}" -34)"
     start=$(($(date +%s%N)/1000000))
     eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope clogic.n3 ${file} --output output/${f}
     end=$(($(date +%s%N)/1000000))

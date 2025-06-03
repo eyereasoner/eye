@@ -8,10 +8,10 @@ NORMAL="\e[0;39m"
 OK=0
 DIFF=0
 
-echo -e "${YELLOW}---------------------------------------------${NORMAL}"
+echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo -e "${YELLOW}running eyelet-prolog examples and test cases${NORMAL}"
 echo -e "${YELLOW}using eyelet $(scryer-prolog -g main eyelet.pl 2>&1 | awk '{ print $2 }') and scryer $(scryer-prolog --version 2>&1 | sed 's/-.*//')${NORMAL}"
-echo -e "${YELLOW}---------------------------------------------${NORMAL}"
+echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo ""
 
 pad () {
@@ -24,7 +24,7 @@ begin=$(($(date +%s)))
 for file in input/*.pl
 do
     f="$(basename ${file})"
-    echo -en "$(pad "${f}" -30)"
+    echo -en "$(pad "${f}" -34)"
     start=$(($(date +%s%N)/1000000))
     scryer-prolog -g main eyelet.pl "${file}" > output-scryer/${f}
     end=$(($(date +%s%N)/1000000))
