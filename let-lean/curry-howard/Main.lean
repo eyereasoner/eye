@@ -2,6 +2,11 @@
 swapData is an ordinary function on tuples.
 swapProof is **the same λ-term**, but its type says
            P ∧ Q → Q ∧ P.
+
+The key takeaway is: exactly one λ-expression acts as
+both executable code and constructive proof.
+Lean merely checks it against two different types
+living in different universes (Type vs Prop).
 -/
 
 def swapData {α β : Type} : α × β → β × α :=
