@@ -1,4 +1,6 @@
-import Std
+/-
+  gps example
+-/
 
 --──────────────────────────
 --  Basic domain definitions
@@ -6,7 +8,7 @@ import Std
 
 inductive City where
   | gent | brugge | kortrijk | oostende
-  deriving Repr, DecidableEq, BEq
+  deriving Repr, DecidableEq
 
 instance : ToString City where
   toString
@@ -56,15 +58,23 @@ structure Solution where
   comfort  : Float
   deriving Repr
 
+/--  
+Count how many *different* map files occur in a list.  
+Consecutive duplicates are treated as the same stage.  
+-/
 partial def stagecount : List String → Nat
 | []            => 1
 | [_]           => 1
 | m₁ :: m₂ :: t =>
-  if m₁ = m₂ then
+  if decide (m₁ = m₂) then
     stagecount (m₂ :: t)
   else
     stagecount (m₂ :: t) + 1
 
+/--  
+Depth-first search through `descriptions`, respecting the given `Limits`.  
+Returns **all** admissible paths from `current` to `goal`.  
+-/
 partial def findpaths
     (mapsSoFar : List String)
     (current   : City)
@@ -73,11 +83,13 @@ partial def findpaths
     (dur cost belief comfort : Float)
     (lim       : Limits)
     : List Solution := by
-  if current == goal then
+  -- Reached the destination → emit one solution
+  if decide (current = goal) then
     exact [⟨pathSoFar, dur, cost, belief, comfort⟩]
   else
+    -- Otherwise explore all outgoing edges from `current`
     exact descriptions.foldl (init := []) fun acc step =>
-      if step.origin == current then
+      if decide (step.origin = current) then
         let maps' := mapsSoFar ++ [step.mp]
         let admissible :=
           (decide (stagecount maps' ≤ lim.maxStagecount)) &&
@@ -100,8 +112,13 @@ partial def findpaths
       else
         acc
 
+/-- Convenience wrapper with neutral accumulators. -/
 def findpath (start goal : City) (lim : Limits) : List Solution :=
   findpaths [] start goal [] 0.0 0.0 1.0 1.0 lim
+
+--──────────────────────────
+--  Demo
+--──────────────────────────
 
 def exampleLimits : Limits :=
 { maxDuration   := 5000.0
