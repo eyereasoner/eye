@@ -1,5 +1,4 @@
 import Std
-open Std
 
 --──────────────────────────
 --  Basic domain definitions
