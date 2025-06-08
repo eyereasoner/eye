@@ -1,0 +1,82 @@
+@prefix :     <http://example.org/dtt#> .
+@prefix ex:   <http://example.org/ex#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+
+########################################################################
+#  0.  Core universe and meta-predicates
+########################################################################
+
+:Type        a log:Class .              # universe of small types
+:hasType     a log:Property .           # judgement  t : T
+:kind        a log:Property .           # marks a type’s “category” (profession, …)
+:goodOf      a log:Property .           # GoodP  ——►  profession P
+
+########################################################################
+#  1.  Professions are (first-class) types
+########################################################################
+
+ex:Profession           a :Type .
+
+ex:Cobbler   a :Type ;  :kind ex:Profession .
+ex:Physician a :Type ;  :kind ex:Profession .
+
+########################################################################
+#  2.  Domain notions each profession cares about
+########################################################################
+
+# Shoes and their quality ------------------------------------------------
+ex:Quality     a :Type .
+ex:Excellent   :hasType ex:Quality .
+
+ex:Shoe        a :Type .
+
+:produces      a log:Property .   # cobbler ⟶ shoe
+:quality       a log:Property .
+
+# Treatments and outcomes -----------------------------------------------
+ex:Outcome     a :Type .
+ex:Recovered   :hasType ex:Outcome .
+
+:treats        a log:Property .   # physician ⟶ case
+:outcome       a log:Property .
+:patientOf     a log:Property .   # convenience inverse
+
+########################################################################
+#  3.  (Dependent) type constructor   Good : Profession → Type
+########################################################################
+
+# For every *profession* P, create the dependent type  GoodP
+{ ?P :kind ex:Profession . } =>
+{ [ a :Type ; :goodOf ?P ] . } .
+
+########################################################################
+#  4.  Excellence rules (= “is a GoodCobber/GoodPhysician”)
+########################################################################
+
+# ———————————————   Good Cobbler   ———————————————
+{ ?x :hasType   ex:Cobbler ;
+     :produces  ?shoe .
+  ?shoe :quality ex:Excellent . } =>
+{ ?x :hasType [ a :Type ; :goodOf ex:Cobbler ] . } .
+
+# ———————————————   Good Physician   ——————————————
+{ ?x :hasType  ex:Physician ;
+     :treats   ?case .
+  ?case :outcome ex:Recovered . } =>
+{ ?x :hasType [ a :Type ; :goodOf ex:Physician ] . } .
+
+########################################################################
+#  5.  Concrete individuals that satisfy the criteria
+########################################################################
+
+# A cobbler who makes excellent shoes
+ex:alice      :hasType  ex:Cobbler .
+ex:shoe₁      :hasType  ex:Shoe ;
+              :quality  ex:Excellent .
+ex:alice      :produces ex:shoe₁ .
+
+# A physician who cures patients
+ex:bob        :hasType  ex:Physician .
+ex:case₁      :outcome  ex:Recovered ;
+              :patientOf ex:bob .
+ex:bob        :treats   ex:case₁ .
