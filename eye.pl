@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.7 (2025-06-01)').
+version_info('EYE v11.19.8 (2025-06-11)').
 
 license_info('MIT License
 
@@ -7743,23 +7743,26 @@ userInput(A, B) :-
         ;   nonvar(C)
         ),
         (   ground(A),
+            getcodes(A, Ac),
+            atom_codes(Aa, Ac),
+            Al = literal(Aa, type('<http://www.w3.org/2001/XMLSchema#string>')),
             (   var(B)
             ->  (   member(B, ['<http://www.w3.org/2001/XMLSchema#integer>', '<http://www.w3.org/2001/XMLSchema#double>',
                     '<http://www.w3.org/2001/XMLSchema#date>', '<http://www.w3.org/2001/XMLSchema#time>', '<http://www.w3.org/2001/XMLSchema#dateTime>',
                     '<http://www.w3.org/2001/XMLSchema#yearMonthDuration>', '<http://www.w3.org/2001/XMLSchema#dayTimeDuration>', '<http://www.w3.org/2001/XMLSchema#duration>']),
-                    dtlit([A, B], C),
+                    dtlit([Al, B], C),
                     getnumber(C, D),
                     dtlit([_, B], D)
                 ->  true
-                ;   (   dtlit([A, '<http://www.w3.org/2001/XMLSchema#boolean>'], C),
+                ;   (   dtlit([Al, '<http://www.w3.org/2001/XMLSchema#boolean>'], C),
                         getbool(C, _),
                         B = '<http://www.w3.org/2001/XMLSchema#boolean>'
                     ->  true
                     ;   B = '<http://www.w3.org/2001/XMLSchema#string>',
-                        C = A
+                        C = Al
                     )
                 )
-            ;   A = literal(E, _),
+            ;   Al = literal(E, _),
                 (   B = prolog:atom
                 ->  C = E
                 ;   C = literal(E, type(B))
