@@ -1,6 +1,6 @@
 """
-sequents_reasoner.py – a minimal forward‑chaining reasoner **with proof trees**
-==========================================================================
+beetle12.py – a minimal forward‑chaining reasoner **with proof trees**
+=================================================================
 This script materialises all logical consequences of Jos De Roo’s N3
 "sequents" demo and **records every inference step** so that complete
 proof trees can be displayed for any derived triple.
@@ -11,7 +11,7 @@ The N3 rules have been hard‑coded exactly as in the original example
 independently asserted, which is sound because any particular branch is
 already entailed by the rule.
 
-Run it with plain `python sequents_reasoner.py` – you’ll see all `:is`
+Run it with plain `python beetle12.py` – you’ll see all `:is`
 facts for `:beetle` **together with** the proof showing *why* each fact
 holds.
 """
