@@ -1,0 +1,50 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# Exclusive or example.
+# If X is a winner, then Y is not a winner
+{
+    ?X a :Runner.
+    ?X a :Winner.
+    ?Y a :Runner.
+    ?Y log:notEqualTo ?X.
+} => {
+    {
+        ?Y a :Winner.
+    } => ($ $).
+}.
+
+# It is impossible that both X and Y are winners
+{
+    ?X a :Runner.
+    ?X a :Winner.
+    ?Y a :Runner.
+    ?Y a :Winner.
+    ?Y log:notEqualTo ?X.
+} => ($ $).
+
+# facts
+:Joe a :Runner.
+:Vic a :Runner.
+:Ray a :Runner.
+:Tom a :Runner.
+
+:Vic a :Winner.
+#:Ray a :Winner.
+
+# query
+{
+    ?S ?P ?O.
+} log:impliesAnswer {
+    ?S ?P ?O.
+}.
+
+{
+    {
+        ?S a :Winner.
+    } => ($ $).
+} log:impliesAnswer {
+    {
+        ?S a :Winner.
+    } => ($ $).
+}.

@@ -1,0 +1,85 @@
+# ----------------
+# Peano arithmetic
+# ----------------
+#
+# See https://en.wikipedia.org/wiki/Peano_axioms
+
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# add
+_:bng_1 log:isImpliedBy true.
+
+_:bng_1 {
+    (var:A 0) :add var:A.
+}
+
+_:bng_2 log:isImpliedBy _:bng_3.
+
+_:bng_2 {
+    (var:A (:s var:B)) :add (:s var:C).
+}
+
+_:bng_3 {
+    (var:A var:B) :add var:C.
+}
+
+# multiply
+_:bng_4 log:isImpliedBy true.
+
+_:bng_4 {
+    (var:A 0) :multiply 0.
+}
+
+_:bng_5 log:isImpliedBy _:bng_6.
+
+_:bng_5 {
+    (var:A (:s var:B)) :multiply var:C.
+}
+
+_:bng_6 {
+    (var:A var:B) :multiply var:D.
+    (var:A var:D) :add var:C.
+}
+
+# factorial
+_:bng_7 log:isImpliedBy _:bng_8.
+
+_:bng_7 {
+    var:A :factorial var:B.
+}
+
+_:bng_8 {
+    (var:A (:s 0)) :fac var:B.
+}
+
+_:bng_9 log:isImpliedBy true.
+
+_:bng_9 {
+    (0 var:A) :fac var:A.
+}
+
+_:bng_10 log:isImpliedBy _:bng_11.
+
+_:bng_10 {
+    ((:s var:A) var:B) :fac var:C.
+}
+
+_:bng_11 {
+    (var:B (:s var:A)) :multiply var:D.
+    (var:A var:D) :fac var:C.
+}
+
+# query
+_:bng_12 log:impliesAnswer _:bng_13.
+
+_:bng_12 {
+    ((:s 0) (:s (:s (:s 0)))) :multiply var:A.
+    (var:A (:s (:s 0))) :add var:B.
+    var:B :factorial var:C.
+}
+
+_:bng_13 {
+    var:B :factorial var:C.
+}

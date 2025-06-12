@@ -1,0 +1,22 @@
+PREFIX pack: <https://example.org/ns/package#>
+PREFIX sign: <https://example.org/ns/signature#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX vcard: <http://www.w3.org/2006/vcard/ns#>
+
+[] pack:package _:bng_1 .
+
+_:bng_1 {
+    [] pack:content _:bng_2 ;
+        pack:origin :Endpoint ;
+        pack:createdAt "2024-01-08T17:08:52.165Z"^^xsd:dateTime ;
+        pack:hasContentSignature [
+            a sign:Signature ;
+            sign:issuer :Alice ;
+            sign:created "2024-01-08T17:08:52.166Z"^^xsd:dateTime ;
+            sign:proofValue "sSJ0xHT7yH2MeYjI6I7fVy+PRfh/EDJkTEOhbCA2BYcd+GBJRD1BQV1rwVe69cNPHhtvGKbITIf7TBlbpkE6YANMNNS2aSQMw8i6TLTXa16zhukp+V1nLYKE/51rt/Us"
+        ] .
+}
+
+_:bng_2 {
+    :Bob vcard:bday "2000-01-01T09:00:00.000Z"^^xsd:dateTime .
+}

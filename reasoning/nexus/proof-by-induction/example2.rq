@@ -1,0 +1,58 @@
+# Kaprekar's constant
+# see https://en.wikipedia.org/wiki/6174
+
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+# recursive case till 6174 is reached
+CONSTRUCT {
+    ?A :kaprekar (?B ?C).
+} WHERE {
+    ?A math:notEqualTo 0.
+    ?A :numberToDigits ?D.
+    (?D "=<") list:sort ?E.
+    (?D ">=") list:sort ?F.
+    ?E :digitsToNumber ?G.
+    ?F :digitsToNumber ?H.
+    (?H ?G) math:difference 6174.
+    (?B 1) math:sum ?C.
+}
+
+CONSTRUCT {
+    ?A :kaprekar (?B ?C).
+} WHERE {
+    ?A math:notEqualTo 0.
+    ?A :numberToDigits ?D.
+    (?D "=<") list:sort ?E.
+    (?D ">=") list:sort ?F.
+    ?E :digitsToNumber ?G.
+    ?F :digitsToNumber ?H.
+    (?H ?G) math:difference ?I.
+    ?I math:notEqualTo 6174.
+    (?B 1) math:sum ?J.
+    ?I :kaprekar (?J ?C).
+}
+
+# convert 4 digit number to digits
+CONSTRUCT {
+    ?A :numberToDigits (?B ?C ?D ?E).
+} WHERE {
+    (?A 1000) math:integerQuotient ?B.
+    (?A 1000) math:remainder ?F.
+    (?F 100) math:integerQuotient ?C.
+    (?F 100) math:remainder ?G.
+    (?G 10) math:integerQuotient ?D.
+    (?G 10) math:remainder ?E.
+}
+
+# convert 4 digits to number
+CONSTRUCT {
+    (?A ?B ?C ?D) :digitsToNumber ?E.
+} WHERE {
+    (?A 1000) math:product ?F.
+    (?B 100) math:product ?G.
+    (?C 10) math:product ?H.
+    (?F ?G ?H ?D) math:sum ?E.
+}

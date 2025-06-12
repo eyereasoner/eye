@@ -1,0 +1,20 @@
+# Proving the sum of the first n natural numbers
+
+PREFIX math: <http://www.w3.org/2000/10/swap/math#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <https://eyereasoner.github.io/ns#>
+
+# base case: the sum of the first 0 numbers is 0.
+CONSTRUCT {
+    0 :sum 0.
+} WHERE {}
+
+# recursive case: the sum of the first n numbers is the sum of the first n-1 numbers plus n.
+CONSTRUCT {
+    ?N :sum ?Sum.
+} WHERE {
+    ?N math:greaterThan 0.
+    (?N 1) math:difference ?N1.
+    ?N1 :sum ?Sum1.
+    (?Sum1 ?N) math:sum ?Sum.
+}

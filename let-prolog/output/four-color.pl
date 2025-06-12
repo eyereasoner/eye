@@ -1,5 +1,0 @@
-:- op(1200, xfx, :+).
-
-answer(colors(mapEU, [['Belgium', yellow], ['Netherlands', green], ['Luxemburg', green], ['France', blue], ['Germany', red], ['Italy', red], ['Denmark', green], ['Ireland', red], ['Greece', red], ['Spain', green], ['Portugal', red], ['Austria', yellow], ['Sweden', green], ['Finland', red], ['Cyprus', red], ['Malta', red], ['Poland', blue], ['Hungary', blue], ['Czech Republic', green], ['Slovakia', red], ['Slovenia', green], ['Estonia', red], ['Latvia', green], ['Lithuania', red], ['Bulgaria', green], ['Romania', red], ['Croatia', red]])).
-
-step((true:+colors(mapEU, _)), colors(mapEU, [['Belgium', yellow], ['Netherlands', green], ['Luxemburg', green], ['France', blue], ['Germany', red], ['Italy', red], ['Denmark', green], ['Ireland', red], ['Greece', red], ['Spain', green], ['Portugal', red], ['Austria', yellow], ['Sweden', green], ['Finland', red], ['Cyprus', red], ['Malta', red], ['Poland', blue], ['Hungary', blue], ['Czech Republic', green], ['Slovakia', red], ['Slovenia', green], ['Estonia', red], ['Latvia', green], ['Lithuania', red], ['Bulgaria', green], ['Romania', red], ['Croatia', red]]), true).

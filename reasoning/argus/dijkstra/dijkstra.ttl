@@ -1,0 +1,68 @@
+# Dijkstra's algorithm to find the shortest path
+# Original from https://github.com/agx-r/Dijkstra-s-Algorithm
+
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <https://eyereasoner.github.io/ns#>.
+
+# edges
+(:a :b) :edge 4 .
+(:a :c) :edge 2 .
+(:b :c) :edge 1 .
+(:b :d) :edge 5 .
+(:c :d) :edge 8 .
+(:c :e) :edge 10 .
+(:d :e) :edge 2 .
+(:d :f) :edge 6 .
+(:e :f) :edge 3 .
+
+[ log:graph (
+    [ log:triple ((var:A var:B) :edge var:C)]
+)] log:implies [ log:graph (
+    [ log:triple ((var:B var:A) :edge var:C)]
+)].
+
+# Dijkstra's algorithm
+[ log:graph (
+    [ log:triple ((var:Start var:Goal) :dijkstra (var:Path var:Cost))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((((0 var:Start)) var:Goal ()) :dijkstra2 (var:RevPath var:Cost))]
+    [ log:triple (var:RevPath list:reverse var:Path)]
+)].
+
+[ log:graph (
+    [ log:triple ((var:L1 var:Goal var:L2) :dijkstra2 (var:L3 var:Cost))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:L1 list:firstRest (var:L4 var:L5))]
+    [ log:triple (var:L4 list:firstRest (var:Cost var:L3))]
+    [ log:triple (var:L3 list:firstRest (var:Goal var:Path))]
+)].
+
+[ log:graph (
+    [ log:triple ((var:L1 var:Goal var:Visited) :dijkstra2 (var:ResultPath var:ResultCost))]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:L1 list:firstRest (var:L2 var:Queue))]
+    [ log:triple (var:L2 list:firstRest (var:Cost var:L3))]
+    [ log:triple (var:L3 list:firstRest (var:Node var:Path))]
+    [ log:triple ((var:L4 [ log:graph (
+        [ log:triple (var:L4 list:firstRest (var:NewCost var:L5))]
+        [ log:triple (var:L5 list:firstRest (var:Neighbor var:L6))]
+        [ log:triple (var:L6 list:firstRest (var:Node var:Path))]
+        [ log:triple ((var:Node var:Neighbor) :edge var:Weight)]
+        [ log:triple (var:Visited list:notMember var:Neighbor)]
+        [ log:triple ((var:Cost var:Weight) math:sum var:NewCost)]
+    )] var:Neighbors) log:collectAllIn var:SCOPE)]
+    [ log:triple ((var:Queue var:Neighbors) list:append var:NewQueue)]
+    [ log:triple (var:NewQueue list:sort var:SortedQueue)]
+    [ log:triple (var:L7 list:firstRest (var:Node var:Visited))]
+    [ log:triple ((var:SortedQueue var:Goal var:L7) :dijkstra2 (var:ResultPath var:ResultCost))]
+)].
+
+# query
+[ log:graph (
+    [ log:triple ((:a :f) :dijkstra (var:Path var:Cost))]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ((:a :f) :dijkstra (var:Path var:Cost))]
+)].

@@ -1,0 +1,14 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX list: <http://www.w3.org/2000/10/swap/list#>
+PREFIX log: <http://www.w3.org/2000/10/swap/log#>
+PREFIX : <http://example.org/#>
+
+# find routes from Manchester-Boston Regional Airport to Helsinki Vantaa Airport with at most 2 stopovers
+CONSTRUCT {
+    :discovered :airroute ?route.
+} WHERE {
+    ?source rdfs:label "Manchester-Boston Regional Airport".
+    ?destination rdfs:label "Helsinki Vantaa Airport".
+    (?source ?destination () 0 2) :route ?airports.
+    (?city {?airports list:member ?airport. ?airport rdfs:label ?city} ?route) log:collectAllIn ?scope.
+}

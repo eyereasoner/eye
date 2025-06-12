@@ -1,0 +1,19 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+# RDFS subproperty rule
+CONSTRUCT {
+    ?S ?P ?O.
+} WHERE {
+    ?Q rdfs:subPropertyOf ?P.
+    ?S ?Q ?O.
+} ;
+
+# OWL transitive property rule
+CONSTRUCT {
+    ?S ?P ?O.
+} WHERE {
+    ?P a owl:TransitiveProperty.
+    ?S ?P ?X.
+    ?X ?P ?O.
+}
