@@ -1,6 +1,6 @@
 """
-beetle6.py – tiny tableau‑style reasoner for the RDF‑Surfaces example
-===================================================================
+beetle6.py – RDF‑Surfaces tableau reasoner with **skeptical semantics**
+======================================================================
 
 This is a *toy* implementation that follows the logical reading of Pat Hayes’s
 “RDF Surfaces” (a.k.a. Notation3 Negative Surface) rules used in the example.
@@ -20,246 +20,225 @@ The script:
 
 Because the example is tiny, the tableau never grows beyond four
 branches, so brute‑force is perfectly fine.
+
+This version guarantees that only facts true in **all** consistent
+branches are reported as entailed, mirroring the skeptical behaviour you
+requested (identical to the updated *sequents_reasoner.py*).
+
+Key changes
+-----------
+* **Deterministic branching:** branches are explored in a stable, sorted
+  order so the proof output is reproducible.
+* **Skeptical intersection:** after the tableau finishes we intersect
+  the fact sets of *all* consistent worlds.
+* **Query CLI:** run `python beetle6.py --query beetle is nice` to check
+  a specific triple, or omit `--query` to list everything entailed.
 """
 from __future__ import annotations
+import argparse
 from dataclasses import dataclass, field
 from typing import Dict, List, Set, Tuple
-import itertools
 
 # ---------------------------------------------------------------------------
 # Basic structures
 # ---------------------------------------------------------------------------
 Triple = Tuple[str, str, str]  # (subject, predicate, object)
 
-@dataclass
+@dataclass(frozen=True)
 class Derivation:
-    """One inference step that produced *fact* inside a branch."""
-
     rule: str
-    premises: List[Triple]
-
+    premises: Tuple[Triple, ...]
 
 @dataclass
 class World:
-    """A single tableau branch (set of ground facts plus proof info)."""
+    """One tableau branch (its facts + proofs)."""
 
     facts: Set[Triple] = field(default_factory=set)
     proofs: Dict[Triple, Derivation] = field(default_factory=dict)
-    applied_det: Set[Triple] = field(default_factory=set)      # deterministic
-    applied_disj: Set[Triple] = field(default_factory=set)     # disjunctions
+    branched_on: Set[Triple] = field(default_factory=set)
     inconsistent: bool = False
 
     def clone(self) -> "World":
-        """Deep‑copy world so that child branch inherits everything."""
         return World(
             facts=set(self.facts),
             proofs=dict(self.proofs),
-            applied_det=set(self.applied_det),
-            applied_disj=set(self.applied_disj),
+            branched_on=set(self.branched_on),
             inconsistent=self.inconsistent,
         )
 
-
 # ---------------------------------------------------------------------------
-# Rules encoded as Python data
+# Rules
 # ---------------------------------------------------------------------------
-# Deterministic: (trigger_pred, trigger_obj)  →  (new_pred, new_obj, name)
 DETERMINISTIC_RULES: Dict[Tuple[str, str], Tuple[str, str, str]] = {
     ("is", "pretty"): ("is", "beautiful", "pretty→beautiful"),
     ("is", "blue"):   ("is", "beautiful", "blue→beautiful"),
 }
 
-# Disjunctive:  (trigger_pred, trigger_obj)  →  [branches]
-# each branch = (new_pred, new_obj, name)
 DISJUNCTIVE_RULES: Dict[Tuple[str, str], List[Tuple[str, str, str]]] = {
-    ("a",  "Car"):    [("is", "green",  "car→green"),
-                        ("is", "blue",   "car→blue")],
-
-    ("is", "green"): [("is", "nice",   "green→nice"),
-                        ("is", "pretty", "green→pretty")],
+    ("a", "Car"):      [("is", "green",  "car→green"),
+                         ("is", "blue",   "car→blue")],
+    ("is", "green"):   [("is", "nice",  "green→nice"),
+                         ("is", "pretty", "green→pretty")],
 }
 
-# Contradiction: both triples present → ⊥
+# Contradiction pattern: ?S a Car.  &  ?S is beautiful.  ⇒  ⊥
 CONTRADICTION_PAIRS: List[Tuple[Triple, Triple]] = [
-    # pattern placeholders – the "?S" will be matched against *same* subject
     (("?S", "a", "Car"), ("?S", "is", "beautiful")),
 ]
 
-
 # ---------------------------------------------------------------------------
-# Helper matching utilities
+# Helper – pattern matching utilities
 # ---------------------------------------------------------------------------
 
 def match_pattern(pattern: Triple, fact: Triple) -> Dict[str, str] | None:
-    """Return substitution mapping for variables in *pattern* or None."""
-    sub: Dict[str, str] = {}
+    subs: Dict[str, str] = {}
     for p, f in zip(pattern, fact):
         if p.startswith("?"):
-            var = p
-            if var in sub:
-                if sub[var] != f:
-                    return None  # inconsistent binding
+            if p in subs:
+                if subs[p] != f:
+                    return None
             else:
-                sub[var] = f
+                subs[p] = f
         elif p != f:
             return None
-    return sub
+    return subs
 
 
-def instantiate(pattern: Triple, sub: Dict[str, str]) -> Triple:
-    return tuple(sub.get(x, x) for x in pattern)  # type: ignore[arg-type]
-
+def instantiate(pattern: Triple, subs: Dict[str, str]) -> Triple:
+    s, p, o = pattern
+    return (subs.get(s, s), subs.get(p, p), subs.get(o, o))
 
 # ---------------------------------------------------------------------------
-# Reasoner
+# Deterministic propagation and contradiction check
 # ---------------------------------------------------------------------------
 
-def process_deterministic(world: World) -> bool:
-    """Add deterministic consequences until saturation.  Return *changed*."""
-    changed = False
-    while True:
-        added = False
-        for triple in list(world.facts):
-            if triple in world.applied_det:
-                continue
-            key = (triple[1], triple[2])
+def propagate(world: World) -> None:
+    """Add deterministic consequences until fix‑point and mark contradictions."""
+    changed = True
+    while changed and not world.inconsistent:
+        changed = False
+        for s, p, o in sorted(list(world.facts)):
+            key = (p, o)
             if key in DETERMINISTIC_RULES:
                 np, no, name = DETERMINISTIC_RULES[key]
-                new = (triple[0], np, no)
+                new = (s, np, no)
                 if new not in world.facts:
                     world.facts.add(new)
-                    world.proofs[new] = Derivation(name, [triple])
-                    added = True
-                world.applied_det.add(triple)
-        if not added:
-            break
-        changed = True
-    return changed
+                    world.proofs[new] = Derivation(name, ((s, p, o),))
+                    changed = True
 
+        # check contradictions
+        for patt1, patt2 in CONTRADICTION_PAIRS:
+            for t1 in world.facts:
+                subs = match_pattern(patt1, t1)
+                if subs is None:
+                    continue
+                t2 = instantiate(patt2, subs)
+                if t2 in world.facts:
+                    world.inconsistent = True
+                    return
 
-def check_contradictions(world: World) -> None:
-    for patt1, patt2 in CONTRADICTION_PAIRS:
-        for t1 in world.facts:
-            sub = match_pattern(patt1, t1)
-            if sub is None:
-                continue
-            t2 = instantiate(patt2, sub)
-            if t2 in world.facts:
-                world.inconsistent = True
-                return
+# ---------------------------------------------------------------------------
+# Branch expansion (first unapplied disjunction – deterministic order)
+# ---------------------------------------------------------------------------
 
-
-def expand_world(world: World) -> List[World]:
-    """Return child worlds produced by FIRST unapplied disjunction (if any).
-    If none, return empty list.
-    """
-    for triple in world.facts:
-        if triple in world.applied_disj:
+def expand(world: World) -> List[World]:
+    for triple in sorted(world.facts):
+        if triple in world.branched_on:
             continue
         key = (triple[1], triple[2])
         if key in DISJUNCTIVE_RULES:
-            branches: List[World] = []
+            children: List[World] = []
             for np, no, name in DISJUNCTIVE_RULES[key]:
                 child = world.clone()
                 new = (triple[0], np, no)
                 child.facts.add(new)
-                child.proofs[new] = Derivation(name, [triple])
-                child.applied_disj.add(triple)
-                branches.append(child)
-            # mark the parent as branched so it will not appear again
-            world.inconsistent = True  # effectively discard parent branch
-            return branches
-    return []  # no unapplied disjunctions
+                child.proofs[new] = Derivation(name, (triple,))
+                child.branched_on.add(triple)
+                propagate(child)
+                children.append(child)
+            return children
+    return []  # no disjunction available
 
+# ---------------------------------------------------------------------------
+# Tableau driver – returns **all** consistent finished worlds
+# ---------------------------------------------------------------------------
 
-def tableau(start: World) -> List[World]:
-    """Return **all consistent** saturated worlds reachable from *start*."""
-    queue: List[World] = [start]
+def tableau(root: World) -> List[World]:
+    queue: List[World] = [root]
     finals: List[World] = []
 
     while queue:
-        w = queue.pop()
+        w = queue.pop(0)  # FIFO for deterministic order
         if w.inconsistent:
             continue
-
-        changed = True
-        while changed and not w.inconsistent:
-            changed = process_deterministic(w)
-            check_contradictions(w)
-
-        if w.inconsistent:
-            continue
-
-        children = expand_world(w)
-        if children:
-            queue.extend(children)
+        kids = expand(w)
+        if kids:
+            queue.extend(kids)
         else:
-            finals.append(w)  # no more branching; keep this world
-
+            finals.append(w)
     return finals
 
-
 # ---------------------------------------------------------------------------
-# Pretty‑print a proof tree for one world
+# Proof pretty‑printer (from first world – they all support entailed facts)
 # ---------------------------------------------------------------------------
 
 def print_proof(triple: Triple, proofs: Dict[Triple, Derivation],
-                indent: int = 0, seen: Set[Triple] | None = None) -> None:
+                indent: int = 0, seen: Set[Triple] | None = None):
     if seen is None:
         seen = set()
     lead = "  " * indent
-    s, p, o = triple
-    print(f"{lead}{s} {p} {o}.")
+    print(f"{lead}{triple[0]} {triple[1]} {triple[2]}.")
     if triple in seen:
         print(f"{lead}  (seen above)\n")
         return
     seen.add(triple)
 
     deriv = proofs.get(triple)
-    if deriv is None:
-        print(f"{lead}  (axiom)\n")
-        return
-    if deriv.rule == "axiom":
+    if deriv is None or deriv.rule == "axiom":
         print(f"{lead}  └─ AXIOM\n")
         return
+
     print(f"{lead}  └─[Rule: {deriv.rule}]")
     for prem in deriv.premises:
         print_proof(prem, proofs, indent + 2, seen)
 
-
 # ---------------------------------------------------------------------------
-# Main – build initial world, run tableau, answer query
+# Main entry‑point
 # ---------------------------------------------------------------------------
 
-def main() -> None:
-    # build initial world with axiom
-    initial = World()
+def main():
+    parser = argparse.ArgumentParser("beetle6 – skeptical RDF‑Surfaces reasoner")
+    parser.add_argument("--query", nargs=3, metavar=("S", "P", "O"), help="triple to test")
+    args = parser.parse_args()
+
+    root = World()
     axiom = ("beetle", "a", "Car")
-    initial.facts.add(axiom)
-    initial.proofs[axiom] = Derivation("axiom", [])
+    root.facts.add(axiom)
+    root.proofs[axiom] = Derivation("axiom", tuple())
 
-    finals = tableau(initial)
+    propagate(root)
+    finals = tableau(root)
 
     if not finals:
-        print("No consistent world – theory is inconsistent.")
+        print("Theory inconsistent – no models.")
         return
 
-    print(f"Found {len(finals)} consistent world(s).\n")
-
-    # intersection of facts across all consistent worlds
     common: Set[Triple] = set.intersection(*(w.facts for w in finals))
 
-    query = ("beetle", "is", "nice")
-    entailed = query in common
-
-    if entailed:
-        print(":beetle :is :nice.  is **entailed**.\n")
-        # Show proof from first world
-        print("One proof:\n")
-        print_proof(query, finals[0].proofs)
+    if args.query:
+        q = tuple(args.query)
+        if q in common:
+            print("\nEntailed – proof (one branch):\n")
+            print_proof(q, finals[0].proofs)
+        else:
+            print("Not entailed under skeptical semantics.")
     else:
-        print(":beetle :is :nice.  is **NOT** entailed.\n")
+        print(f"\n{len(finals)} consistent world(s).  Skeptical intersection facts:\n")
+        for t in sorted(common):
+            print_proof(t, finals[0].proofs)
 
 
 if __name__ == "__main__":
     main()
+
