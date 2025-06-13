@@ -6,7 +6,7 @@ Install python https://www.python.org/downloads/
 
 Install the required python packages via
 ```
-python3 -m pip install sympy
+pip install sympy problog
 ```
 
 To test it run
