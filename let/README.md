@@ -1,8 +1,10 @@
 # eyelet
 
-### eye reasoning in Python
+## eye reasoning in Python
+The purpose of eyelet is to do an "independent eye reasoning", so to speak a second eye(let)
 
-Install python https://www.python.org/downloads/
+## Install and test
+Install Python https://www.python.org/downloads/
 
 Install the required python packages via
 ```
