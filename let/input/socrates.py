@@ -34,4 +34,3 @@ if __name__ == "__main__":
     # equivalent to the Prolog query: ?- type(_, _).
     for fact in query_type():
         print(f"type{fact}")
-

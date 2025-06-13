@@ -8,13 +8,6 @@ verbatim into ProbLog and turn each goal into a `query/1`.  Because the
 program is deterministic, every query should succeed with probability
 **1.0**.
 
-Changes vs. the original:
-* Replaced the custom query operator (`:+`) with native `query/1`.
-* Used the atom `hash` instead of `#` for the blank symbol (avoids
-  parsing issues in ProbLog).
-* Added explicit `:-` after the `op/3` directive to silence loader
-  warnings.
-
 Run:
 ```bash
 pip install problog

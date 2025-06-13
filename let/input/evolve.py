@@ -114,4 +114,3 @@ if __name__ == "__main__":
     best, best_fit = evolve()
     print("\nBest individual :", ["{:+.3f}".format(x) for x in best])
     print("Best fitness     :", best_fit)
-

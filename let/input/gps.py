@@ -174,5 +174,4 @@ if __name__ == "__main__":
         print("No path satisfies the constraints.")
     else:
         for i, (acts, dur, cst, bel, com) in enumerate(paths, 1):
-            print(f"Solution {i}:\n  path     = {acts}\n  duration = {dur}\n  cost     = {cst}\n  belief   = {bel}\n  comfort  = {com}\n")
-
+            print(f"Solution {i}:\n  path     = {acts}\n  duration = {dur}\n  cost     = {cst}\n  belief   = {bel}\n  comfort  = {com}")
