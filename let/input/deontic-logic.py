@@ -40,6 +40,7 @@ light(red): 0.5
 light(green): 0.5
 action(stop): 0.45
 action(go): 0.55
+```
 
 This captures a simple *ought‑to‑do* deontic logic in a probabilistic
 setting.
