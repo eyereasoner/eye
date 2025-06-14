@@ -1,94 +1,98 @@
 #!/usr/bin/env python3
 """
-Langton's Ant
-=============
+langtons-ant.py
+=====================
 
-A tiny terminal animation of the classic two-state Turing machine.
-Watch how simple rules generate a highway after ~10 000 steps.
+Plain-text Langton’s Ant.
+Prints periodic snapshots instead of an ANSI live animation, making the
+output readable in any log or terminal that supports only basic text.
 
-Controls
---------
-• Pass a step count on the command line to change run length.
-• Ctrl-C to quit early.
+Usage
+-----
+    python langtons-ant.py [steps] [refresh]
+
+    • steps   – total number of simulation steps  (default 11000)
+    • refresh – how often to print a snapshot     (default   100)
 """
 
 from __future__ import annotations
-import sys, time
+import sys
 from typing import Dict, Tuple
 
-# cell states
 WHITE, BLACK = 0, 1
-
-# cardinal directions          N      E      S      W
-DIRS: Tuple[Tuple[int, int], ...] = ((0, -1), (1, 0), (0, 1), (-1, 0))
+DIRS = ((0, -1), (1, 0), (0, 1), (-1, 0))      # N, E, S, W
+Point = Tuple[int, int]
 
 
 class Ant:
-    """Keeps position and heading (index into DIRS)."""
-
-    def __init__(self, x: int, y: int, heading: int = 0):
+    def __init__(self, x: int = 0, y: int = 0, heading: int = 0):
         self.x, self.y, self.h = x, y, heading
 
     def turn_right(self): self.h = (self.h + 1) % 4
     def turn_left(self):  self.h = (self.h - 1) % 4
     def step(self):
         dx, dy = DIRS[self.h]
-        self.x += dx; self.y += dy
+        self.x += dx
+        self.y += dy
 
 
 class Grid:
-    """Sparse infinite grid: dict maps (x, y) → state (0/1)."""
+    def __init__(self):
+        self._cells: Dict[Point, int] = {}
 
-    def __init__(self): self.cells: Dict[Tuple[int, int], int] = {}
+    def color(self, p: Point) -> int:
+        return self._cells.get(p, WHITE)
 
-    def color(self, x: int, y: int) -> int:
-        return self.cells.get((x, y), WHITE)
-
-    def flip(self, x: int, y: int):
-        self.cells[(x, y)] = BLACK if self.color(x, y) == WHITE else WHITE
+    def flip(self, p: Point):
+        self._cells[p] = BLACK if self.color(p) == WHITE else WHITE
 
 
-# ─────────────────────────── rendering ───────────────────────────────────── #
+# ───────────────────────── rendering ───────────────────────── #
 
 def render(grid: Grid, ant: Ant, w: int = 41, h: int = 21) -> str:
     """Return an ASCII snapshot centred on the ant."""
     hw, hh = w // 2, h // 2
-    out = []
-    for y in range(-hh, hh + 1):
+    rows = []
+    for dy in range(-hh, hh + 1):
+        y = ant.y + dy
         row = []
-        for x in range(-hw, hw + 1):
+        for dx in range(-hw, hw + 1):
+            x = ant.x + dx
             if (x, y) == (ant.x, ant.y):
-                row.append('A')                      # the ant
+                row.append('A')
             else:
-                row.append('#' if grid.color(x, y) else '.')
-        out.append(''.join(row))
-    return '\n'.join(out)
+                row.append('#' if grid.color((x, y)) else '.')
+        rows.append(''.join(row))
+    return '\n'.join(rows)
 
 
-# ───────────────────────── simulation loop ───────────────────────────────── #
+# ───────────────────── simulation loop ────────────────────── #
 
-def simulate(steps: int = 11_000, delay: float = 0.02, refresh: int = 100):
-    grid, ant = Grid(), Ant(0, 0, 0)
+def simulate(steps: int, refresh: int):
+    grid, ant = Grid(), Ant()
     for step in range(steps):
-        if grid.color(ant.x, ant.y) == WHITE:        # Rule 1: on white
-            grid.flip(ant.x, ant.y)
+        pos = (ant.x, ant.y)
+
+        # Langton rules
+        if grid.color(pos) == WHITE:
+            grid.flip(pos)
             ant.turn_right()
-        else:                                        # Rule 2: on black
-            grid.flip(ant.x, ant.y)
+        else:
+            grid.flip(pos)
             ant.turn_left()
-        ant.step()                                   # Rule 3: move fwd
+        ant.step()
 
-        if step % refresh == 0:                      # redraw every N steps
-            print("\x1b[H\x1b[J", end='')            # clear ANSI screen
-            print(f"Langton's Ant  –  step {step:,}")
+        # periodic snapshot
+        if step % refresh == 0:
+            print('-' * 60)
+            print(f"Step {step:,}")
             print(render(grid, ant))
-            time.sleep(delay)
+            print()                     # blank line after each frame
 
+
+# ──────────────────────── CLI entry ───────────────────────── #
 
 if __name__ == "__main__":
-    # Optional CLI argument: number of steps
     total_steps = int(sys.argv[1]) if len(sys.argv) > 1 else 11_000
-    try:
-        simulate(total_steps)
-    except KeyboardInterrupt:
-        print("\nSimulation interrupted by user.")
+    refresh_every = int(sys.argv[2]) if len(sys.argv) > 2 else 100
+    simulate(total_steps, refresh_every)
