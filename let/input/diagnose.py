@@ -1,11 +1,15 @@
+# diagnose.py  —  Bayesian diagnosis demo with ProbLog 2
+#
+# Requires:  pip install problog
+
 from problog.program import PrologString
 from problog import get_evaluatable
 
 def diagnose_with_problog(evidence_cough: bool, evidence_fever: bool):
     model = f"""
     % ---- priors ----------------------------------------------------
-    0.10::flu.
-    0.25::covid.
+    0.10::flu.            % prior P(flu)
+    0.25::covid.          % prior P(covid)
 
     % ---- symptom generation ----------------------------------------
     0.40::cough :- flu.
