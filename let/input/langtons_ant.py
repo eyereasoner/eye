@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-langtons-ant.py
-=====================
+langtons_ant.py
+===============
 
 Plain-text Langton’s Ant.
 Prints periodic snapshots instead of an ANSI live animation, making the
@@ -9,7 +9,7 @@ output readable in any log or terminal that supports only basic text.
 
 Usage
 -----
-    python langtons-ant.py [steps] [refresh]
+    python langtons_ant.py [steps] [refresh]
 
     • steps   – total number of simulation steps  (default 11000)
     • refresh – how often to print a snapshot     (default   100)

@@ -1,6 +1,6 @@
 """
-trust-policy.py
-────────────────
+trust_policy.py
+───────────────
 Decision-Theoretic ProbLog example (policies & trust).
 
 Task: decide whether to run an expensive verification on Bob’s token.

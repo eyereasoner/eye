@@ -1,6 +1,6 @@
 """
-defeasible-logic.py – A tiny defeasible‑logic vignette in ProbLog
-==================================================================
+defeasible_logic.py – A tiny defeasible‑logic vignette in ProbLog
+=================================================================
 
 Classical defeasible­‑logic story: **Birds normally fly** but **penguins
 are birds that (normally) do not fly**.  The rule for penguins *defeats*
@@ -29,7 +29,7 @@ Run
 ---
 ```bash
 pip install problog
-python defeasible-logic.py
+python defeasible_logic.py
 ```
 Expected:
 ```

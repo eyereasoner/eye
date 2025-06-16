@@ -1,5 +1,5 @@
 """
-usage-control-policy.py
+usage_control_policy.py
 ───────────────────────
 Decision-Theoretic ProbLog (DTProbLog) demo for *usage-control*.
 

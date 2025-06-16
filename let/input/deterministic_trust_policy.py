@@ -1,5 +1,5 @@
 """
-deterministic-trust-policy.py
+deterministic_trust-policy.py
 ─────────────────────────────
 Deterministic (probability-free) trust policy demo in ProbLog.
 

@@ -1,6 +1,6 @@
 """
 Quantum Darwinism mini‑demo                     (pure Python + NumPy)
-====================================================================
+=====================================================================
 This tiny script illustrates the **redundant storage of classical
 information** that characterises *quantum Darwinism*.
 

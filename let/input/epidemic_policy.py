@@ -1,5 +1,5 @@
 """
-epidemic-policy.py – choose the best combination of
+epidemic_policy.py – choose the best combination of
 vaccination and indoor-mask mandates when a local outbreak
 is possible.
 

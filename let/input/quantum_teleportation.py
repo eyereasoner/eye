@@ -5,7 +5,7 @@ Quantum teleportation demo (pure Python + NumPy)
 Protocol (three qubits)
 -----------------------
         ┌──────────┐
-  ψ  ───►   Alice   │        Bob
+ ψ  ───►   Alice   │        Bob
         └──────────┘
 
 1. Shared entanglement: Alice and Bob pre-share the Bell state
@@ -22,9 +22,9 @@ Protocol (three qubits)
 
 5. Conditional correction: Bob applies
         m₂ m₁ = 00 →  I
-                 01 →  X
-                 10 →  Z
-                 11 →  XZ              (order doesn’t matter up to phase)
+                01 →  X
+                10 →  Z
+                11 →  XZ              (order doesn’t matter up to phase)
    on his qubit B.
 
 Result: Bob’s qubit is now |ψ⟩.  Teleportation is complete; the original

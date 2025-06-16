@@ -1,6 +1,6 @@
 """
-deontic.py – A tiny deontic‑logic scenario in ProbLog
-======================================================
+deontic_logic.py – A tiny deontic‑logic scenario in ProbLog
+===========================================================
 
 Scenario
 --------
@@ -31,7 +31,7 @@ Run
 ----
 ```bash
 pip install problog
-python deontic.py
+python deontic_logic.py
 ```
 Expected output:
 ```

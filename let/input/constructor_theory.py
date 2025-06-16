@@ -1,5 +1,5 @@
 """
-constructor-theory.py
+constructor_theory.py
 =====================
 A concise but expressive playground for **Constructor Theory** ideas
 (David Deutsch & Chiara Marletto).
@@ -14,7 +14,7 @@ A concise but expressive playground for **Constructor Theory** ideas
    == "__main__"` block reproduces the results you observed *and contains
    assertions that serve as *proof‑objects* that those results always hold*.
 
-Run the module directly (``python constructor-theory.py``).  If every
+Run the module directly (``python constructor_theory.py``).  If every
 assertion passes you’ll see the demo output; if any expectation is violated
 Python will raise an `AssertionError`, acting as a **formal witness** that a
 claimed possibility statement fails.

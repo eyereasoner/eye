@@ -1,6 +1,6 @@
 """
-diamond-property.py – Diamond property preserved under reflexive closure (ProbLog)
-=================================================================================
+diamond_property.py – Diamond property preserved under reflexive closure (ProbLog)
+==================================================================================
 
 Formalisation of the meta‑statement:
     **DP(r) ⇒ DP(re)** where *re* is *r* plus reflexivity.
@@ -31,7 +31,7 @@ Finally we query `goal :- dom(X), re(b,X), re(c,X).` which asks whether
 Run:
 ```bash
 pip install problog
-python diamond-property.py
+python diamond_property.py
 ```
 
 Expected output:

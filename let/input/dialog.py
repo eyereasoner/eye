@@ -9,7 +9,7 @@ the same arguments produces identical output.
 Usage
 -----
 ```bash
-python socratic_llm_dialog.py --topic "Pythagorean theorem" --steps 6 --seed 42
+python socratic.py --topic "Pythagorean theorem" --steps 6 --seed 42
 ```
 Change the seed (or omit the flag) if you ever *do* want different dialogue.
 Only the Python standard library is required.

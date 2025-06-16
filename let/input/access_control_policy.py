@@ -1,5 +1,5 @@
 """
-access-control-policy.py
+access_control_policy.py
 ────────────────────────
 Decision-Theoretic ProbLog (DTProbLog) demo in *access control*.
 

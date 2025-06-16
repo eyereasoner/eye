@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-ackermann_iter.py  –  non-recursive Python translation of the EYEREASONER rules
+ackermann.py  –  non-recursive Python translation of the EYEREASONER rules
 
 Two-argument Ackermann                       A₂(x, y) = H(x, y+3, 2) – 3
 Hyper-operation H implemented with *loops*:

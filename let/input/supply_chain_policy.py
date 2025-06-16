@@ -1,5 +1,5 @@
 """
-supply-chain-policy.py
+supply_chain_policy.py
 ----------------------
 Decision-Theoretic ProbLog demo (DTProbLog).
 
