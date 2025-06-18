@@ -1,0 +1,13 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+
+{ 
+  ?uri log:uri "https://wikibus.blob.core.windows.net/sources1/TÜRKKAR CITY ANGEL E.D..pdf" .
+} => {
+  <#test> <#url> ?uri .
+} .
+
+{ 
+  <https://wikibus.blob.core.windows.net/sources1/TU%cc%88RKKAR%20CITY%20ANGEL%20E.D..pdf> log:uri ?string .
+} => {
+  <#test> <#string> ?string .
+} .

@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.8 (2025-06-11)').
+version_info('EYE v11.19.9 (2025-06-18)').
 
 license_info('MIT License
 
@@ -8335,10 +8335,12 @@ userInput(A, B) :-
             ),
             sub_atom(U, 1, _, 1, Z),
             atomic_list_concat(['<', Z, '>'], U),
-            Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
+            url_iri(Z, W),
+            Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
             !
         ;   ground(Y),
-            Y = literal(Z, type('<http://www.w3.org/2001/XMLSchema#string>')),
+            Y = literal(W, type('<http://www.w3.org/2001/XMLSchema#string>')),
+            url_iri(Z, W),
             atomic_list_concat(['<', Z, '>'], X)
         )
     ).
