@@ -1,0 +1,108 @@
+@prefix :        <https://example.org/epidemic#> .
+@prefix prob:    <https://example.org/vocab/prob#> .
+@prefix dec:     <https://example.org/vocab/decision#> .
+@prefix util:    <https://example.org/vocab/util#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix log:     <http://www.w3.org/2000/10/swap/log#> .
+@prefix math:    <http://www.w3.org/2000/10/swap/math#> .
+@prefix string:  <http://www.w3.org/2000/10/swap/string#> .
+
+#####################################################
+#  1. Domain model (unchanged)
+#####################################################
+
+:outbreak  a prob:Event ; prob:probability "0.10"^^xsd:decimal .
+
+:vaccinate a dec:Decision .
+:mask      a dec:Decision .
+
+# Infection dynamics (annotated rules) – same as before
+[ a prob:ConditionalProbability ;
+  prob:given ( :outbreak :vaccinate :mask ) ;
+  prob:consequent :infect ;
+  prob:probability "0.05"^^xsd:decimal ] .
+
+[ a prob:ConditionalProbability ;
+  prob:given ( :outbreak :vaccinate [ log:not :mask ] ) ;
+  prob:consequent :infect ;
+  prob:probability "0.05"^^xsd:decimal ] .
+
+[ a prob:ConditionalProbability ;
+  prob:given ( :outbreak [ log:not :vaccinate ] :mask ) ;
+  prob:consequent :infect ;
+  prob:probability "0.30"^^xsd:decimal ] .
+
+[ a prob:ConditionalProbability ;
+  prob:given ( :outbreak [ log:not :vaccinate ] [ log:not :mask ] ) ;
+  prob:consequent :infect ;
+  prob:probability "0.60"^^xsd:decimal ] .
+
+{ :outbreak log:equals false } => { :infect log:equals false } .
+
+:vaccinate util:utility "-2"^^xsd:integer .
+:mask      util:utility "-1"^^xsd:integer .
+:infect    util:utility "-200"^^xsd:integer .
+:healthy   util:utility "0"^^xsd:integer .
+
+{ :infect log:equals false } => { :healthy log:equals true } .
+
+#####################################################
+# 2.  Pre-computed expected utilities
+#     (could be derived; kept explicit for brevity)
+#####################################################
+
+:pol_vacc_mask
+        a                  dec:Policy ;
+        :vaccinate         1 ;
+        :mask              1 ;
+        util:expectedUtility "-4.00"^^xsd:decimal .
+
+:pol_vacc_nomask
+        a                  dec:Policy ;
+        :vaccinate         1 ;
+        :mask              0 ;
+        util:expectedUtility "-3.00"^^xsd:decimal .
+
+:pol_novacc_mask
+        a                  dec:Policy ;
+        :vaccinate         0 ;
+        :mask              1 ;
+        util:expectedUtility "-7.00"^^xsd:decimal .
+
+:pol_novacc_nomask
+        a                  dec:Policy ;
+        :vaccinate         0 ;
+        :mask              0 ;
+        util:expectedUtility "-12.00"^^xsd:decimal .
+
+#####################################################
+# 3.  N3 rules that *select* the optimal policy
+#####################################################
+
+# Rule 3.1  – A policy is optimal iff no other policy has a larger EU
+{ ?P  util:expectedUtility ?EU .
+  ?SCOPE log:notIncludes { ?Q util:expectedUtility ?EU2 .
+        ?EU2 math:greaterThan ?EU . }
+}
+=> { ?P a dec:OptimalPolicy } .
+
+#################################################################
+# 4.  Pretty-print the answer text  (robust version)
+#################################################################
+
+{ ?P  a dec:OptimalPolicy ;
+      :vaccinate ?V ;
+      :mask      ?M ;
+      util:expectedUtility ?EU .
+
+  ( "Optimal decisions (MEU):\n  - vaccinate: " ?V
+    "\n  - mask: "          ?M
+    "\n\nMaximum expected utility: " ?EU )
+        string:concatenation ?Msg .
+}
+log:impliesAnswer { :answer :text ?Msg } .
+
+#####################################################
+# 5.  Optional: name the optimal policy for convenience
+#####################################################
+{ ?P a dec:OptimalPolicy } => { :policySTAR = ?P } .
