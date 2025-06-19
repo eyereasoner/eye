@@ -1,0 +1,79 @@
+@prefix log:   <http://www.w3.org/2000/10/swap/log#> .
+@prefix :      <http://example.org/policy#> .
+
+###############################################################################
+#  Delegation certificates
+###############################################################################
+:admin       :delegates  :dept_head .
+:dept_head   :delegates  :mgr_alice .
+:mgr_alice   :delegates  :alice .
+:dept_head   :delegates  :bob .          # Bob bypasses mgr_alice
+:admin       :delegates  :vendor_mgr .
+:vendor_mgr  :delegates  :vendor_eve .
+
+###############################################################################
+#  Revocations
+###############################################################################
+:bob   :revoked  true .
+
+###############################################################################
+#  Attributes
+###############################################################################
+:alice      :hasRole   :employee ;
+            :clearance :secret   .
+:bob        :hasRole   :employee ;
+            :clearance :secret   .
+:eve        :hasRole   :contractor ;
+            :clearance :confidential .
+:mgr_alice  :hasRole   :employee ;
+            :clearance :secret   .
+:dept_head  :hasRole   :employee ;
+            :clearance :secret   .
+
+###############################################################################
+#  Context predicate
+###############################################################################
+:work_hours :is true .
+
+###############################################################################
+#  Optional break-glass override (default = false)
+###############################################################################
+:break_glass :is false .            # change to “true” to activate
+
+###############################################################################
+#  Derived trust (transitive, revocation-aware)
+###############################################################################
+{  :admin :delegates ?X .
+   ?SCOPE log:notIncludes { ?X :revoked true } .    # ¬revoked(X)
+} => { ?X :trusted true } .
+
+{  ?Y :delegates ?X .
+   ?Y :trusted  true .
+   ?SCOPE log:notIncludes { ?X :revoked true } .    # ¬revoked(X)
+} => { ?X :trusted true } .
+
+###############################################################################
+#  Authorisation rule
+###############################################################################
+# Main “all-checks-pass” branch
+{  ?U :trusted   true ;
+        :hasRole   :employee ;
+        :clearance :secret .
+   :work_hours :is true
+} => { ?U :allow :read_secret_data } .
+
+# Emergency override branch
+{  :break_glass :is true .
+   ?P :hasRole ?R .
+} => { ?P :allow :read_secret_data } .
+
+###############################################################################
+# Query with explicit yes/no answers for the five principals
+###############################################################################
+# “Yes” branch
+{ ?P :allow :read_secret_data } log:impliesAnswer { ?P :auth true } .
+
+# “No” branch
+{ ?P :hasRole ?R .
+  ?SCOPE log:notIncludes { ?P :allow :read_secret_data } .
+} log:impliesAnswer { ?P :auth false } .
