@@ -1,0 +1,23 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix ex:  <http://example.org/nixon#> .
+
+###############################################################################
+# Facts
+###############################################################################
+ex:RichardNixon  a ex:Quaker, ex:Republican .
+
+###############################################################################
+# Rule 2  (higher priority)  – “Usually Republicans are NOT pacifist”
+###############################################################################
+{ ?x a ex:Republican }  =>  { ?x a ex:NonPacifist } .
+
+###############################################################################
+# Rule 1  (lower priority)  – “Usually Quakers are pacifist”
+# Fires only when NON-pacifism has **not** already been derived for ?x
+###############################################################################
+{ ?x a ex:Quaker .
+  ?SCOPE log:notIncludes { ?x a ex:NonPacifist } .      # SNAF guard
+}  =>  { ?x a ex:Pacifist } .
+
+# query
+{ ?x a ?y } log:impliesAnswer { ?x a ?y }.
