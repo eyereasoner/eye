@@ -24,7 +24,6 @@
 #  ----------------------------------------------------
 #  The rule fires **only if** the current KB *does not* include
 #  { ?X :abnormal true }  — that is SNAF via log:notIncludes.
-#  We reify the conclusion to keep the 0.9 weight as an annotation.
 # --------------------------------------------------------------------------
 {
     ?X a :Bird .
@@ -32,13 +31,6 @@
 }
 =>
 {
-    [] a :WeightedFact ;
-       :subject     ?X ;
-       :predicate   :flies ;
-       :object      true ;
-       :probability "0.9"^^xsd:decimal .
-
-    # For convenience also assert the plain fact:
     ?X :flies true .
 } .
 
