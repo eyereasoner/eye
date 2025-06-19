@@ -1,0 +1,59 @@
+@prefix :     <http://example.org/defeasible#> .
+@prefix log:  <http://www.w3.org/2000/10/swap/log#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# --------------------------------------------------------------------------
+#  Strict facts
+# --------------------------------------------------------------------------
+:tweety  a :Bird .
+:polly   a :Penguin .
+
+# --------------------------------------------------------------------------
+#  Taxonomy: every penguin is a bird
+# --------------------------------------------------------------------------
+{ ?X a :Penguin }  =>  { ?X a :Bird } .
+
+# --------------------------------------------------------------------------
+#  Defeater: penguins are abnormal with respect to flying
+# --------------------------------------------------------------------------
+{ ?X a :Penguin }  =>  { ?X :abnormal true } .
+
+# --------------------------------------------------------------------------
+#  Defeasible default: birds (normally) fly
+#  ----------------------------------------------------
+#  The rule fires **only if** the current KB *does not* include
+#  { ?X :abnormal true }  — that is SNAF via log:notIncludes.
+#  We reify the conclusion to keep the 0.9 weight as an annotation.
+# --------------------------------------------------------------------------
+{
+    ?X a :Bird .
+    ?SCOPE log:notIncludes { ?X :abnormal true } .
+}
+=>
+{
+    [] a :WeightedFact ;
+       :subject     ?X ;
+       :predicate   :flies ;
+       :object      true ;
+       :probability "0.9"^^xsd:decimal .
+
+    # For convenience also assert the plain fact:
+    ?X :flies true .
+} .
+
+# --------------------------------------------------------------------------
+#  Closed-world *no-fly* conclusion
+#  “If X is a bird and the current knowledge base does NOT already
+#   contain { X :flies true } then assert { X :flies false }.”
+# --------------------------------------------------------------------------
+{
+    ?X     a :Bird .
+    ?SCOPE log:notIncludes { ?X :flies true } .
+}
+=>
+{ ?X :flies false } .
+
+# query
+{ ?X :flies ?Y } log:impliesAnswer { ?X :flies ?Y }.
+
