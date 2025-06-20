@@ -4,9 +4,9 @@ Conway’s Game of Life — 32×32 torus, reproducible random demo
 Python 3.8+      (June 2025)
 
 Usage:
-    python life32_seed.py              # default density 0.25, seed 12345
-    python life32_seed.py 0.40         # 40 % density, same seed
-    python life32_seed.py 0.30 9999    # 30 %, user-chosen seed
+    python conway.py              # default density 0.25, seed 12345
+    python conway.py 0.40         # 40 % density, same seed
+    python conway.py 0.30 9999    # 30 %, user-chosen seed
 """
 import random
 import sys
@@ -33,7 +33,7 @@ def parse_cli() -> tuple[float, int]:
         return float(sys.argv[1]), DEFAULT_SEED
     if len(sys.argv) >= 3:
         return float(sys.argv[1]), int(sys.argv[2])
-    raise SystemExit("Usage: life32_seed.py [density [seed]]")
+    raise SystemExit("Usage: conway.py [density [seed]]")
 
 
 def random_world(density: float, seed: int) -> World:
