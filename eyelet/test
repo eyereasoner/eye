@@ -9,7 +9,7 @@ OK=0
 DIFF=0
 
 echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
-echo -e "${YELLOW}running eyelet-c examples and test cases${NORMAL}"
+echo -e "${YELLOW}running eyelet examples and test cases${NORMAL}"
 echo -e "${YELLOW}using gcc v$(gcc -dumpfullversion)${NORMAL}"
 echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo ""
@@ -26,7 +26,7 @@ do
     f="$(basename ${file})"
     echo -en "$(pad "${f%.c}" -34)"
     start=$(($(date +%s%N)/1000000))
-    gcc -O2 -std=c11 ${file} -lm -lgmp -o bin/${f%.c} && ./bin/${f%.c} > output/${f%.c}.txt
+    gcc -O2 -std=c11 -Wall -o bin/${f%.c} ${file} -lm -lgmp && ./bin/${f%.c} > output/${f%.c}.txt
     end=$(($(date +%s%N)/1000000))
     echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
     if [[ $(git diff output/${f%.c}.txt | wc -l) -eq 0 ]]; then

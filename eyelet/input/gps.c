@@ -27,13 +27,6 @@ typedef enum {
     LOCATION_COUNT
 } Location;
 
-static const char *location_name[LOCATION_COUNT] = {
-    "gent",
-    "brugge",
-    "kortrijk",
-    "oostende"
-};
-
 // One edge in the state-space graph.
 // (The Prolog code calls this a description row.)
 typedef struct {
