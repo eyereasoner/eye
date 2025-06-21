@@ -266,3 +266,4 @@ int main(void)
     enumerate_paths(goal, start, &limits);
     return 0;
 }
+

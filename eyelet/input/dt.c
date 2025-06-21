@@ -1,6 +1,6 @@
-/* taxonomy.c
+/* dt.c
    A direct, algorithmic translation of the Prolog “Deep taxonomy”.
-   gcc -std=c11 -Wall -Wextra taxonomy.c -o taxonomy
+   gcc -std=c11 -Wall -Wextra dt.c -o dt
 */
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,3 +54,4 @@ int main(void)
     printf("z  J42 : %s\n", type("z", "J42")  ? "true" : "false");
     printf("foo N3 : %s\n", type("foo", "N3") ? "true" : "false");
 }
+

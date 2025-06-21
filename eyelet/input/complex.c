@@ -47,3 +47,4 @@ int main(void)
     printf("C6 = %.15f %+.15fi\n", creal(C6), cimag(C6));
     return 0;
 }
+
