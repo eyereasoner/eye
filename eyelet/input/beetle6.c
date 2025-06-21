@@ -59,8 +59,7 @@ static void simulate(unsigned long trials)
         return;
     }
 
-    printf("Accepted worlds: %lu (from %lu trials, acceptance ≈ %.2f%%)\n",
-           accepted, trials, 100.0 * accepted / trials);
+    printf("Trials: %lu\n", trials);
     printf("is(nice,beetle):      %.2f\n", (double)acc_nice  / accepted);
     printf("is(beautiful,beetle): %.2f\n", (double)acc_beaut / accepted);
     printf("is(blue,beetle):      %.2f\n", (double)acc_blue  / accepted);
