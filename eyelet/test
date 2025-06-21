@@ -26,7 +26,7 @@ do
     f="$(basename ${file})"
     echo -en "$(pad "${f%.c}" -34)"
     start=$(($(date +%s%N)/1000000))
-    gcc -O2 -std=c11 -Wall -o bin/${f%.c} ${file} -lm -lgmp && ./bin/${f%.c} > output/${f%.c}.txt
+    gcc -O2 -std=c11 -Wall ${file} -o bin/${f%.c} -lm -lgmp && ./bin/${f%.c} > output/${f%.c}.txt
     end=$(($(date +%s%N)/1000000))
     echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
     if [[ $(git diff output/${f%.c}.txt | wc -l) -eq 0 ]]; then

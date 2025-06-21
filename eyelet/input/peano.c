@@ -4,7 +4,7 @@
  *     B  = s(s(s(s(s(0)))))
  *     B! = s(...(0))      // 120 nested “s(”
  *
- *   gcc -std=c99 -Wall -Wextra -O2 peano_peano.c -o peano_peano
+ *   gcc -std=c99 -Wall -Wextra -O2 peano.c -o peano
  */
 
 #include <stdio.h>
