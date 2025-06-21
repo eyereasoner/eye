@@ -46,7 +46,7 @@ static void simulate(unsigned long worlds)
 }
 
 /* ------------------------------------------------------------------ */
-int main(int argc, char *argv[])
+int main(void)
 {
     simulate(1000000);
     return 0;
