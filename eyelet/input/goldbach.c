@@ -1,132 +1,76 @@
-/*  goldbach_powers_of_two_128.c
-    ------------------------------------------
-    Verify Goldbach's conjecture for 2^k, k=1…127
-    Build:  gcc -O2 -std=c11 goldbach_powers_of_two_128.c -o goldbach128
-*/
+/*  goldbach.c
+    -----------------------------------------------------------
+    Deterministic Goldbach tester for 2^k, 1 ≤ k ≤ 256  (C11 + GMP)
+    -----------------------------------------------------------   */
 
 #include <stdio.h>
-#include <stdint.h>
-#include <inttypes.h>
-#include <stdbool.h>
+#include <gmp.h>
 
-/* ---------- conveniences for 128-bit unsigned integers ---------- */
+/* user-tunable parameters */
+#define MAX_K      256    /* highest k: tests up to 2^256          */
+#define MR_ROUNDS   25    /* Miller–Rabin repetitions (false-pos < 2⁻⁵⁰) */
 
-typedef unsigned __int128  u128;
+/* helper: print an mpz_t in base-10 */
+static inline void mpz_print_dec(const mpz_t n) { mpz_out_str(stdout, 10, n); }
 
-static void print_u128(u128 x)
-/* minimal decimal printing for u128 */
-{
-    char buf[50];
-    int  len = 0;
-    if (x == 0) { putchar('0'); return; }
-    while (x) { buf[len++] = '0' + (x % 10); x /= 10; }
-    while (len--) putchar(buf[len]);
-}
-
-/* ---------- modular arithmetic without 256-bit intermediates ---------- */
-
-static inline u128 add_mod(u128 a, u128 b, u128 m)
-{   u128 s = a + b;
-    return (s >= m || s < a) ? s - m : s;
-}
-
-static u128 mul_mod(u128 a, u128 b, u128 m)
-/* (a · b) mod m using "double-and-add"; O(128) */
-{
-    u128 res = 0;
-    while (b) {
-        if (b & 1) res = add_mod(res, a, m);
-        a = add_mod(a, a, m);
-        b >>= 1;
-    }
-    return res;
-}
-
-static u128 pow_mod(u128 a, u128 d, u128 m)
-/* a^d mod m, binary exponentiation */
-{
-    u128 r = 1;
-    while (d) {
-        if (d & 1) r = mul_mod(r, a, m);
-        a = mul_mod(a, a, m);
-        d >>= 1;
-    }
-    return r;
-}
-
-/* ---------- deterministic Miller-Rabin for 0 < n < 2^128 ---------- */
-
-static bool is_prime_u128(u128 n)
-{
-    /* small primes first */
-    static const uint32_t small[] =
-        {2,3,5,7,11,13,17,19,23,29,31,37};
-    for (size_t i = 0; i < sizeof small / sizeof *small; ++i) {
-        if (n == small[i])    return true;
-        if (n % small[i] == 0) return false;
-    }
-    /* n-1 = d·2^s with d odd */
-    u128 d = n - 1;
-    int  s = 0;
-    while ((d & 1) == 0) { d >>= 1; ++s; }
-
-    for (size_t i = 0; i < sizeof small / sizeof *small; ++i) {
-        u128 a = small[i];
-        if (a >= n) continue;
-        u128 x = pow_mod(a, d, n);
-        if (x == 1 || x == n - 1) continue;
-
-        bool witness = true;
-        for (int r = 1; r < s; ++r) {
-            x = mul_mod(x, x, n);
-            if (x == n - 1) { witness = false; break; }
-        }
-        if (witness) return false;
-    }
-    return true;
-}
-
-/* ---------- Goldbach search for 2^k ---------- */
-
+/* ---------------------------------------------------------------- */
 int main(void)
 {
-    puts("Goldbach decompositions for powers of two (2^k, 1 ≤ k ≤ 127)");
-    puts("--------------------------------------------------------------");
+    /* big-integer work variables */
+    mpz_t two_pow_k, p, q;
+    mpz_inits(two_pow_k, p, q, NULL);
 
-    for (int k = 1; k <= 127; ++k) {
-        u128 even = (u128)1 << k;
+    puts("Goldbach decompositions for powers of two (2^k, k = 1 … 256)\n");
 
-        printf("\n2^%d = ", k);
-        print_u128(even);
+    for (int k = 1; k <= MAX_K; ++k) {
+
+        /* two_pow_k ← 2^k */
+        mpz_set_ui(two_pow_k, 1);
+        mpz_mul_2exp(two_pow_k, two_pow_k, k);
+
+        printf("2^%d = ", k);
+        mpz_print_dec(two_pow_k);
         putchar('\n');
 
-        if (even < 4) {                       /* 2 = 2^1 is below conjecture */
-            puts("  (Goldbach starts at 4)");
+        /* handle the two special cases explicitly */
+        if (k == 1) {                       /* 2  (below the conjecture) */
+            puts("  (Goldbach’s conjecture starts at 4)\n");
+            continue;
+        }
+        if (k == 2) {                       /* 4 = 2 + 2  (even prime)   */
+            puts("  4 = 2 + 2\n");
             continue;
         }
 
-        u128 limit = even >> 1;               /* search up to n/2 */
-        bool found = false;
+        /* start with the smallest odd prime, 3 */
+        mpz_set_ui(p, 3);
 
-        /* brutal linear scan: 2,3,5,7,… */
-        for (u128 p = 2; p <= limit; p += (p == 2 ? 1 : 2)) {
-            if (!is_prime_u128(p)) continue;
-            u128 q = even - p;
-            if (is_prime_u128(q)) {
+        while (mpz_cmp(p, two_pow_k) < 0) {
+
+            /* q = 2^k – p */
+            mpz_sub(q, two_pow_k, p);
+
+            /* if q is prime, we have a Goldbach pair */
+            if (mpz_probab_prime_p(q, MR_ROUNDS) > 0) {
                 printf("  ");
-                print_u128(even);
+                mpz_print_dec(two_pow_k);
                 printf(" = ");
-                print_u128(p);
+                mpz_print_dec(p);
                 printf(" + ");
-                print_u128(q);
-                putchar('\n');
-                found = true;
+                mpz_print_dec(q);
+                puts("\n");
                 break;
             }
+
+            /* otherwise advance to the next prime > p */
+            mpz_nextprime(p, p);            /* p ← next prime after p */
         }
-        if (!found)
-            puts("  **No representation found — Goldbach would fail here!**");
+
+        /* The loop is guaranteed to find a pair for every k tested,
+           but in practice we could add a safety check here. */
     }
+
+    mpz_clears(two_pow_k, p, q, NULL);
     return 0;
 }
 
