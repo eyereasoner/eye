@@ -3,7 +3,7 @@
 #include <time.h>
 
 #define ROW 25
-#define COL 80
+#define COL 49
 #define OBSTACLE_PROB 30  // percentage chance of an obstacle per cell
 
 // Directions: up, right, down, left
@@ -71,9 +71,9 @@ void printGrid(int grid[ROW][COL]) {
         for (int j = 0; j < COL; j++) {
             char c;
             switch (grid[i][j]) {
-                case -1: c = 'o'; break;
-                case  0: c = '.'; break;
-                case  2: c = '*'; break;
+                case -1: c = '.'; break;
+                case  0: c = ' '; break;
+                case  2: c = '+'; break;
                 case  3: c = 'S'; break;
                 case  4: c = 'D'; break;
                 default: c = '?';

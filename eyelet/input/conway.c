@@ -6,7 +6,7 @@
  *
  * Run with optional arguments:
  *   ./life [rows] [cols] [generations]
- *   (Defaults: rows=25, cols=80, generations=100)
+ *   (Defaults: rows=25, cols=49, generations=100)
  *
  * The program uses a toroidal (wrap‑around) grid. Living cells are drawn as
  * 'O', dead cells as '.'. The screen is cleared between generations using ANSI
@@ -66,7 +66,7 @@ static void display(int rows, int cols, char **grid) {
 }
 
 int main(int argc, char *argv[]) {
-    int rows = 25, cols = 80, generations = 100;
+    int rows = 25, cols = 49, generations = 100;
     if (argc > 1) rows = atoi(argv[1]);
     if (argc > 2) cols = atoi(argv[2]);
     if (argc > 3) generations = atoi(argv[3]);
