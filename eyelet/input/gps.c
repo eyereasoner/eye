@@ -1,15 +1,8 @@
-// Goal-Driven Parallel Sequences (Prolog → C)
-// Translation by ChatGPT – June 2025
+// Goal-Driven Parallel Sequences (N3 → C)
 // ------------------------------------------------------------
-// The program reproduces (most of) the behaviour of the original
-// Prolog search.  It performs a depth-first search from an initial
+// The program performs a depth-first search from an initial
 // state to a goal state while respecting cumulative limits on
 // duration, cost, belief, comfort and number of stages.
-//
-// 2025-06-04 – *Update*: The code now enumerates **all** admissible
-// solution paths instead of stopping after the first one.  All
-// original comments have been retained; additional comments are
-// clearly marked with “(added)”.
 // ------------------------------------------------------------
 #include <stdio.h>
 #include <stdbool.h>
@@ -28,7 +21,6 @@ typedef enum {
 } Location;
 
 // One edge in the state-space graph.
-// (The Prolog code calls this a description row.)
 typedef struct {
     Location from;
     Location to;
@@ -48,7 +40,7 @@ static const Transition transitions[] = {
 };
 static const size_t TRANSITION_COUNT = sizeof(transitions) / sizeof(transitions[0]);
 
-// Limits structure – mirrors the 7-element list in Prolog query
+// Limits structure – mirrors the 7-element list in the query
 typedef struct {
     double max_duration;
     double max_cost;
@@ -74,7 +66,7 @@ typedef struct {
 // ------------------------------
 static int stage_count(const int *maps, int len)
 {
-    if (len == 0) return 1;            // Prolog’s base case
+    if (len == 0) return 1;
     int stages = 1;
     for (int i = 1; i < len; ++i) {
         if (maps[i] != maps[i - 1])
@@ -266,7 +258,7 @@ static void enumerate_paths(Location goal, Location start, const Limits *limits)
 }
 
 // ------------------------------
-// Main driver – mirrors the sample Prolog query.
+// Main driver – mirrors the sample query.
 // ------------------------------
 int main(void)
 {
