@@ -16,5 +16,5 @@ def easter(year):
     return date(year, month, day)
 
 if __name__ == "__main__":
-    for y in range(2021, 2050):
+    for y in range(2021, 5301):
         print("easter(%d) = %s" % (y, easter(y)))

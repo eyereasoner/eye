@@ -2,7 +2,7 @@ import math
 
 # ---------- 1. 64-bit–safe deterministic primality test ----------
 def is_prime(n: int) -> bool:
-    """Return True iff n is prime (valid for 0 < n < 2⁶⁴)."""
+    """Return True iff n is prime (valid for 0 < n < 2^256)."""
     if n < 2:
         return False
     # Trial-divide by a handful of small primes first
@@ -19,7 +19,7 @@ def is_prime(n: int) -> bool:
         d //= 2
         s += 1
 
-    # Deterministic witness set for < 2⁶⁴ (Jaeschke 1993, Sorenson 2015)
+    # Deterministic witness set for < 2^256 (Jaeschke 1993, Sorenson 2015)
     for a in (2, 3, 5, 7, 11, 13, 17):
         if a >= n:        # (happens only for very small n)
             continue
@@ -58,11 +58,12 @@ def goldbach_pair(even: int) -> tuple[int, int]:
     return None
 
 
-# ---------- 3. Test on 2² … 2⁶⁴ ----------
+# ---------- 3. Test on 2^2 … 2^256 ----------
 if __name__ == "__main__":
     print(f"{'n':>2}  {'2^n':>26}  {'p':>12}  {'q':>26}")
     print("-" * 72)
-    for n in range(2, 65):          # 2 ≤ n ≤ 65
+    for n in range(2, 257):         # 2 ≤ n ≤ 257
         N = 1 << n                  # 2 ** n via bit-shift
         p, q = goldbach_pair(N)
         print(f"{n:2,d}  {N:26,d}  {p:12,d}  {q:26,d}")
+
