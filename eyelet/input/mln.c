@@ -98,7 +98,7 @@ static double world_log_weight(const int Anc[PERSONS][PERSONS])
 /* ---------- Gibbs sampling routine ------------------------------ */
 int main(void)
 {
-    srand((unsigned)time(NULL));
+    srand(0);
 
     int Anc[PERSONS][PERSONS] = {0};           /* current world (all false) */
     double tally[PERSONS][PERSONS] = {0};      /* counts for marginals */
