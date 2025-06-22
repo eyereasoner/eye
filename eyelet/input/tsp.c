@@ -147,7 +147,7 @@ void evolve(void)
 
 int main(void)
 {
-    srand(1);
+    srand(0);
 
     /* --- 1.  generate random coordinates & precompute matrix --- */
     for (int i = 0; i < NUM_CITIES; ++i) {

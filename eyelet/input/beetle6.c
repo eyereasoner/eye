@@ -23,7 +23,7 @@ static void simulate(unsigned long trials)
     unsigned long acc_beaut = 0;         /* sanity check: should stay 0 */
     unsigned long accepted = 0;
 
-    srand((unsigned)time(NULL));
+    srand(0);
 
     for (unsigned long i = 0; i < trials; ++i) {
 
@@ -60,9 +60,9 @@ static void simulate(unsigned long trials)
     }
 
     printf("Trials: %lu\n", trials);
-    printf("is(nice,beetle):      %.2f\n", (double)acc_nice  / accepted);
-    printf("is(beautiful,beetle): %.2f\n", (double)acc_beaut / accepted);
-    printf("is(blue,beetle):      %.2f\n", (double)acc_blue  / accepted);
+    printf("is(nice,beetle):      %.6f\n", (double)acc_nice  / accepted);
+    printf("is(beautiful,beetle): %.6f\n", (double)acc_beaut / accepted);
+    printf("is(blue,beetle):      %.6f\n", (double)acc_blue  / accepted);
 }
 
 /* ------------------------------------------------------------------ */

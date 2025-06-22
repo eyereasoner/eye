@@ -65,7 +65,7 @@ Individual* select_parent(Individual *population) {
 }
 
 int main() {
-    srand(2);
+    srand(0);
     int len = strlen(TARGET);
     Individual population[POP_SIZE];
 

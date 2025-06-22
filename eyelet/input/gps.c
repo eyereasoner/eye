@@ -166,6 +166,66 @@ static void print_path(const Path *p, int index)
 }
 
 // ------------------------------
+// Second-pass DFS reconstruction
+// (was nested; now hoisted to global scope for standard compliance)
+// ------------------------------
+struct Rec;
+typedef struct Rec {
+    int (*fn)(const Limits*, Location, Location, struct Rec*, Path*, int*, int, int*);
+} Rec;
+
+static int rec_fn(
+    const Limits *limits,
+    Location goal,
+    Location loc,
+    Rec *self,
+    Path *path,
+    int *maps_r,
+    int maps_len_r,
+    int *solution_index)
+{
+    if (loc == goal) {
+        print_path(path, ++(*solution_index));
+        return 1;
+    }
+    for (size_t i = 0; i < TRANSITION_COUNT; ++i) {
+        const Transition *t = &transitions[i];
+        if (t->from != loc)
+            continue;
+
+        double dur = path->duration + t->duration;
+        double cost = path->cost + t->cost;
+        double bel = path->belief * t->belief;
+        double com = path->comfort * t->comfort;
+
+        int maps_tmp[MAX_PATH_LEN];
+        memcpy(maps_tmp, maps_r, maps_len_r * sizeof(int));
+        maps_tmp[maps_len_r] = 0;
+        int stage = stage_count(maps_tmp, maps_len_r + 1);
+        if (stage > limits->max_stagecount)
+            continue;
+
+        if (dur > limits->max_duration || cost > limits->max_cost ||
+            bel < limits->min_belief || com < limits->min_comfort)
+            continue;
+
+        Path next = *path;
+        next.edges[next.length++] = t;
+        next.duration = dur;
+        next.cost = cost;
+        next.belief = bel;
+        next.comfort = com;
+
+        int maps_next[MAX_PATH_LEN];
+        memcpy(maps_next, maps_r, maps_len_r * sizeof(int));
+        maps_next[maps_len_r] = 0;
+
+        self->fn(limits, goal, t->to, self, &next, maps_next, maps_len_r + 1, solution_index);
+    }
+    return 0;
+}
+
+// ------------------------------
 // Wrapper that captures each solution as the DFS unwinds (added)
 // ------------------------------
 static void enumerate_paths(Location goal, Location start, const Limits *limits)
@@ -201,50 +261,8 @@ static void enumerate_paths(Location goal, Location start, const Limits *limits)
     // We re-run DFS but now print every time we hit the goal.
     int solution_index = 0;
 
-    // Local recursive lambda-like static function (C99 GCC/Clang extension).
-    struct Rec {
-        int (*fn)(struct Rec*, Location, Path*, int*, int);
-    } rec;
-
-    int rec_fn(struct Rec* self, Location loc, Path* path, int *maps_r, int maps_len_r) {
-        if (loc == goal) {
-            print_path(path, ++solution_index);
-            return 1;
-        }
-        for (size_t i = 0; i < TRANSITION_COUNT; ++i) {
-            const Transition *t = &transitions[i];
-            if (t->from != loc)
-                continue;
-            double dur = path->duration + t->duration;
-            double cost = path->cost + t->cost;
-            double bel = path->belief * t->belief;
-            double com = path->comfort * t->comfort;
-            int stage;
-            {
-                int maps_tmp[MAX_PATH_LEN];
-                memcpy(maps_tmp, maps_r, maps_len_r * sizeof(int));
-                maps_tmp[maps_len_r] = 0;
-                stage = stage_count(maps_tmp, maps_len_r + 1);
-                if (stage > limits->max_stagecount) continue;
-            }
-            if (dur > limits->max_duration || cost > limits->max_cost ||
-                bel < limits->min_belief || com < limits->min_comfort)
-                continue;
-            Path next = *path;
-            next.edges[next.length++] = t;
-            next.duration = dur;
-            next.cost = cost;
-            next.belief = bel;
-            next.comfort = com;
-            int maps_next[MAX_PATH_LEN];
-            memcpy(maps_next, maps_r, maps_len_r * sizeof(int));
-            maps_next[maps_len_r] = 0;
-            self->fn(self, t->to, &next, maps_next, maps_len_r + 1);
-        }
-        return 0;
-    }
-    rec.fn = rec_fn;
-    rec.fn(&rec, start, &root, maps, 0);
+    Rec rec = { .fn = rec_fn };
+    rec.fn(limits, goal, start, &rec, &root, maps, maps_len, &solution_index);
 }
 
 // ------------------------------

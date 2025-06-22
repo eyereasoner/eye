@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    srand(1);
+    srand(0);
     initialize(rows, cols, grid);
 
     for (int gen = 0; gen < generations; ++gen) {

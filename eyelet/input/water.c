@@ -24,7 +24,7 @@ static void simulate(unsigned long worlds)
     unsigned long cnt_gas = 0;
     unsigned long cnt_observ = 0;
 
-    srand((unsigned)time(NULL));
+    srand(0);
 
     for (unsigned long i = 0; i < worlds; ++i) {
         /* 0 = solid, 1 = liquid, 2 = gas */
@@ -39,10 +39,10 @@ static void simulate(unsigned long worlds)
     }
 
     printf("Worlds: %lu\n", worlds);
-    printf("is(observable,water): %.2f\n", (double)cnt_observ / worlds);
-    printf("is(solid,water):      %.2f\n", (double)cnt_solid  / worlds);
-    printf("is(liquid,water):     %.2f\n", (double)cnt_liquid / worlds);
-    printf("is(gas,water):        %.2f\n", (double)cnt_gas    / worlds);
+    printf("is(observable,water): %.6f\n", (double)cnt_observ / worlds);
+    printf("is(solid,water):      %.6f\n", (double)cnt_solid  / worlds);
+    printf("is(liquid,water):     %.6f\n", (double)cnt_liquid / worlds);
+    printf("is(gas,water):        %.6f\n", (double)cnt_gas    / worlds);
 }
 
 /* ------------------------------------------------------------------ */

@@ -14,7 +14,7 @@ static void simulate(unsigned long n)
     unsigned long blue_cnt  = 0;
     unsigned long beautiful_cnt = 0;         /* for completeness */
 
-    srand((unsigned)time(NULL));
+    srand(0);
 
     for (unsigned long i = 0; i < n; ++i) {
         /* Sample exclusive disjunction: 0 = green, 1 = blue */
@@ -30,9 +30,9 @@ static void simulate(unsigned long n)
     }
 
     printf("Samples: %lu\n", n);
-    printf("is(beautiful,beetle): %.2f\n", (double)beautiful_cnt / n);
-    printf("is(green,beetle):     %.2f\n", (double)green_cnt      / n);
-    printf("is(blue,beetle):      %.2f\n", (double)blue_cnt       / n);
+    printf("is(beautiful,beetle): %.6f\n", (double)beautiful_cnt / n);
+    printf("is(green,beetle):     %.6f\n", (double)green_cnt      / n);
+    printf("is(blue,beetle):      %.6f\n", (double)blue_cnt       / n);
 }
 
 /* --------------------------------------------------------------------- */

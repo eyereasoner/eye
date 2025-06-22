@@ -34,7 +34,7 @@ static void simulate(unsigned long worlds)
     unsigned long cnt_nice11   = 0, cnt_nice12   = 0, cnt_nice21   = 0, cnt_nice22   = 0;
     */
 
-    srand((unsigned)time(NULL));
+    srand(0);
 
     for (unsigned long i = 0; i < worlds; ++i) {
 
@@ -82,9 +82,9 @@ static void simulate(unsigned long worlds)
     }
 
     printf("Worlds: %lu\n", worlds);
-    printf("is(beautiful,beetle): %.2f\n", (double)cnt_beautiful / worlds);
-    printf("is(green,beetle):     %.2f\n", (double)cnt_green     / worlds);
-    printf("is(blue,beetle):      %.2f\n", (double)cnt_blue      / worlds);
+    printf("is(beautiful,beetle): %.6f\n", (double)cnt_beautiful / worlds);
+    printf("is(green,beetle):     %.6f\n", (double)cnt_green     / worlds);
+    printf("is(blue,beetle):      %.6f\n", (double)cnt_blue      / worlds);
 }
 
 /* ------------------------------------------------------------------ */
