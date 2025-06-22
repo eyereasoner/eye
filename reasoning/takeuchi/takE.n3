@@ -7,25 +7,25 @@
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
     r:gives {
-        (18 13 8) :tak 13 .
+        (14 7 0) :tak 7 .
     }.
 
 skolem:lemma1 a r:Inference;
     r:gives {
-        (18 13 8) :tak 13 .
+        (14 7 0) :tak 7 .
     };
     r:evidence (
-        [ a r:Fact; r:gives {(18 13 8) :tak 13}]
+        [ a r:Fact; r:gives {(14 7 0) :tak 7}]
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 13];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 7];
     r:rule skolem:lemma2.
 
 skolem:lemma2 a r:Extraction;
     r:gives {
         @forAll var:x_0. {
-            (18 13 8) :tak var:x_0.
+            (14 7 0) :tak var:x_0.
         } => {
-            (18 13 8) :tak var:x_0.
+            (14 7 0) :tak var:x_0.
         }.
     };
     r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/takeuchi/takQ.n3>].
