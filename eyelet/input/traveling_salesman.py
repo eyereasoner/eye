@@ -2,33 +2,68 @@
 traveling_salesman.py
 =====================
 
-Two reference implementations of the Traveling Salesman Problem (TSP):
+• brute_force_tsp – factorial-time exhaustive search
+• held_karp_tsp   – O(n²·2ⁿ) Held–Karp dynamic programming
 
-* brute_force_tsp  – factorial-time exhaustive search
-* held_karp_tsp    – O(n² · 2ⁿ) dynamic programming (Held–Karp)
+Both solvers are now *deterministic*:
 
-Run the file directly to see both solvers in action on a tiny data set.
+  – exact arithmetic with squared distances
+  – explicit tie-breaking (length, then lexicographic order)
+  – canonical orientation (tour vs. its reverse)
 """
 
 from __future__ import annotations
+
 import itertools
 import math
 from functools import lru_cache
 from typing import List, Tuple
 
+# --------------------------------------------------------------------------- #
+#  type aliases                                                               #
+# --------------------------------------------------------------------------- #
+
+Point = Tuple[float, float]   # 2-D coordinate
+Tour  = Tuple[int, ...]       # city indices in visiting order
 
 # --------------------------------------------------------------------------- #
-#  helpers                                                                    #
+#  numeric helpers                                                            #
 # --------------------------------------------------------------------------- #
 
-Point = Tuple[float, float]          # 2-D coordinate
-Tour  = Tuple[int, ...]              # city indices in visiting order
+def dist2(a: Point, b: Point) -> float:
+    """Squared Euclidean distance (keeps everything exact for integer coords)."""
+    dx = a[0] - b[0]
+    dy = a[1] - b[1]
+    return dx * dx + dy * dy
 
 
-def distance(a: Point, b: Point) -> float:
-    """Euclidean distance between two points."""
-    return math.hypot(a[0] - b[0], a[1] - b[1])
+EPS = 1e-12  # tolerance for floating-point noise
 
+
+def strictly_better(cand_len: float, cand_tour: Tour,
+                    best_len: float | None, best_tour: Tour | None) -> bool:
+    """
+    Return True if (cand_len, cand_tour) should replace (best_len, best_tour).
+
+    Primary key: shorter length.
+    Secondary key: lexicographically smaller tour, for deterministic ties.
+    """
+    if best_len is None or best_tour is None:
+        return True
+    if cand_len + EPS < best_len:
+        return True
+    if abs(cand_len - best_len) <= EPS:
+        return cand_tour < best_tour
+    return False
+
+
+def canonicalise(tour: Tour) -> Tour:
+    """
+    Return the lexicographically smaller of `tour` and its reverse.
+    Assumes tour[0] == tour[-1].
+    """
+    rev = tour[::-1]
+    return tour if tour < rev else rev
 
 # --------------------------------------------------------------------------- #
 #  Algorithm 1 – Brute force                                                  #
@@ -36,32 +71,30 @@ def distance(a: Point, b: Point) -> float:
 
 def brute_force_tsp(coords: List[Point], start: int = 0) -> Tuple[Tour, float]:
     """
-    Exhaustive TSP search.
-
-    Parameters
-    ----------
-    coords : list[Point]
-        Coordinates of every city (index == city id).
-    start : int, default 0
-        Starting city (also the final city because the tour is cyclic).
+    Exact TSP via exhaustive permutation search.
 
     Returns
     -------
     (tour, length) : (Tuple[int], float)
-        `tour`  – order of cities, starting and ending with `start`.
-        `length` – total Euclidean length of the tour.
+        tour   – order of cities, starting and ending with `start`.
+        length – total Euclidean length of the tour.
     """
     n = len(coords)
-    best_order, best_len = None, math.inf
+    best_order, best_len2 = None, None  # squared length
 
-    for perm in itertools.permutations(range(1, n)):     # keep start fixed
-        order: Tour = (start, ) + perm + (start, )
-        total = sum(distance(coords[order[i]], coords[order[i + 1]])
-                    for i in range(n))
-        if total < best_len:
-            best_order, best_len = order, total
+    for perm in itertools.permutations(range(n)):
+        if perm[0] != start:
+            continue                     # keep the start city fixed
 
-    return best_order, best_len
+        order: Tour = perm + (start,)
+        total2 = sum(dist2(coords[order[i]], coords[order[i + 1]])
+                     for i in range(n))  # n edges
+
+        if strictly_better(total2, order, best_len2, best_order):
+            best_order, best_len2 = order, total2
+
+    best_order = canonicalise(best_order)
+    return best_order, math.sqrt(best_len2)
 
 
 # --------------------------------------------------------------------------- #
@@ -70,37 +103,41 @@ def brute_force_tsp(coords: List[Point], start: int = 0) -> Tuple[Tour, float]:
 
 def held_karp_tsp(coords: List[Point], start: int = 0) -> Tuple[Tour, float]:
     """
-    Exact TSP via Held–Karp dynamic programming.
+    Exact TSP via Held–Karp DP.
 
-    O(n² · 2ⁿ) time and O(n · 2ⁿ) memory – practical up to ~22–24 cities on
-    a modern laptop.
-
-    Returns the same (tour, length) tuple as `brute_force_tsp`.
+    O(n² · 2ⁿ) time, O(n · 2ⁿ) memory – practical up to ~22–24 cities.
     """
     n = len(coords)
 
     @lru_cache(maxsize=None)
     def dp(mask: int, last: int) -> Tuple[float, Tour]:
         """
-        Minimum length to reach subset `mask` and stop at `last`.
+        Minimum *squared* length to reach subset `mask` and stop at `last`.
 
-        `mask` is an n-bit bitmask where bit i == 1 means city i is included.
+        `mask` – an n-bit bitmask where bit i == 1 means city i has been visited.
+        Returns (len2, suffix_tour) where suffix_tour *starts* at `last`
+        and ends with `start`.
         """
-        if mask == (1 << n) - 1:                         # all cities visited
-            return distance(coords[last], coords[start]), (start,)
+        if mask == (1 << n) - 1:              # all cities visited
+            return dist2(coords[last], coords[start]), (start,)
 
-        best_len, best_path = math.inf, None
+        best_len2, best_path = None, None
         for nxt in range(n):
-            if mask & (1 << nxt):                        # already visited?
+            if mask & (1 << nxt):             # already visited?
                 continue
-            cand_len, cand_path = dp(mask | (1 << nxt), nxt)
-            cand_len += distance(coords[last], coords[nxt])
-            if cand_len < best_len:
-                best_len, best_path = cand_len, (nxt,) + cand_path
-        return best_len, best_path
+            cand_len2, cand_path = dp(mask | (1 << nxt), nxt)
+            cand_len2 += dist2(coords[last], coords[nxt])
 
-    length, suffix = dp(1 << start, start)
-    return (start,) + suffix, length
+            if strictly_better(cand_len2, (nxt,) + cand_path,
+                               best_len2, best_path):
+                best_len2, best_path = cand_len2, (nxt,) + cand_path
+
+        return best_len2, best_path
+
+    len2, suffix = dp(1 << start, start)
+    tour = (start,) + suffix
+    tour = canonicalise(tour)
+    return tour, math.sqrt(len2)
 
 
 # --------------------------------------------------------------------------- #
