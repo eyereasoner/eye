@@ -71,7 +71,7 @@ def bob_decode(state: np.ndarray) -> tuple[int, int]:
     state = kron(H, I) @ state
     # Probabilities for |00>, |01>, |10>, |11>
     probs = np.abs(state)**2
-    outcome = np.argmax(probs)
+    outcome = np.argmax(probs).item()
     # Convert basis index back to bit pair
     return ((outcome >> 1) & 1, outcome & 1)
 
