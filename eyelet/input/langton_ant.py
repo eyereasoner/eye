@@ -49,7 +49,7 @@ class Grid:
 
 # ───────────────────────── rendering ───────────────────────── #
 
-def render(grid: Grid, ant: Ant, w: int = 41, h: int = 21) -> str:
+def render(grid: Grid, ant: Ant, w: int = 49, h: int = 25) -> str:
     """Return an ASCII snapshot centred on the ant."""
     hw, hh = w // 2, h // 2
     rows = []
@@ -84,7 +84,7 @@ def simulate(steps: int, refresh: int):
 
         # periodic snapshot
         if step % refresh == 0:
-            print('-' * 60)
+            print('-' * 49)
             print(f"Step {step:,}")
             print(render(grid, ant))
             print()                     # blank line after each frame

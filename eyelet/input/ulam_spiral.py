@@ -14,8 +14,8 @@ What it does
 import math
 
 # ── tweakables ─────────────────────────────────────────
-SIZE       = 87        # grid width/height (odd number works best)
-PRIME_CHAR = "*"       # how a prime is drawn
+SIZE       = 49        # grid width/height (odd number works best)
+PRIME_CHAR = "+"       # how a prime is drawn
 NONPRIME   = " "       # how a non-prime cell is drawn
 # ------------------------------------------------------
 
