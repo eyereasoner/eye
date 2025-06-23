@@ -60,10 +60,8 @@ def goldbach_pair(even: int) -> tuple[int, int]:
 
 # ---------- 3. Test on 2^2 … 2^256 ----------
 if __name__ == "__main__":
-    print(f"{'n':>2}  {'2^n':>26}  {'p':>12}  {'q':>26}")
-    print("-" * 72)
     for n in range(2, 257):         # 2 ≤ n ≤ 257
         N = 1 << n                  # 2 ** n via bit-shift
         p, q = goldbach_pair(N)
-        print(f"{n:2,d}  {N:26,d}  {p:12,d}  {q:26,d}")
+        print("2^%d = %d = %d + %d " % (n, N, p, q))
 

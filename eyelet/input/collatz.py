@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-collatz.py  —  Verify the Collatz conjecture for n = 1 … 1 000 000
+collatz.py  —  Verify the Collatz conjecture for n = 1 … 100 000
 Fast version that memoises total-stopping-times.
 """
 
 from __future__ import annotations
 from typing import Dict, Tuple
 
-LIMIT      = 1_000_000        # highest start value to test
+LIMIT      = 100_000          # highest start value to test
 MAX_STEPS  = 10_000           # guard against runaway loops
 
 
