@@ -16,3 +16,4 @@ if __name__ == "__main__":
 
     for c in cases:
         print("%s = %s" % (c, eval(c)))
+

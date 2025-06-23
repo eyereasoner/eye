@@ -61,7 +61,7 @@ def render(grid: Grid, ant: Ant, w: int = 41, h: int = 21) -> str:
             if (x, y) == (ant.x, ant.y):
                 row.append('A')
             else:
-                row.append('#' if grid.color((x, y)) else '.')
+                row.append('o' if grid.color((x, y)) else '.')
         rows.append(''.join(row))
     return '\n'.join(rows)
 
@@ -96,3 +96,4 @@ if __name__ == "__main__":
     total_steps = int(sys.argv[1]) if len(sys.argv) > 1 else 11_000
     refresh_every = int(sys.argv[2]) if len(sys.argv) > 2 else 100
     simulate(total_steps, refresh_every)
+

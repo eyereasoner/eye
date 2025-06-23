@@ -1,67 +1,80 @@
-# ------------------
-# Collatz conjecture
-# ------------------
-#
-# See https://en.wikipedia.org/wiki/Collatz_conjecture
+#!/usr/bin/env python3
+"""
+collatz.py  —  Verify the Collatz conjecture for n = 1 … 1 000 000
+Fast version that memoises total-stopping-times.
+"""
 
-from functools import lru_cache
+from __future__ import annotations
+from typing import Dict, Tuple
 
-# ---------- helpers that mirror the N3 math built-ins ----------
-def remainder(a: int, b: int) -> int:        #  (a b) math:remainder ?r
-    return a % b
+LIMIT      = 1_000_000        # highest start value to test
+MAX_STEPS  = 10_000           # guard against runaway loops
 
-def integer_quotient(a: int, b: int) -> int: #  (a b) math:integerQuotient ?q
-    return a // b
 
-def collatz_step(n: int) -> int:
+def collatz_steps(n: int,
+                  cache: Dict[int, int]) -> Tuple[int, int]:
     """
-    Implements the if-then-else block in the N3 rule:
-        even  -> n/2
-        odd   -> 3*n + 1
+    Return (steps, peak) for start value n.
+    *steps* is the total-stopping-time (including the final 1 → stop).
+    *peak* is the highest integer reached along the way.
+
+    Every discovered steps-count is cached for reuse.
     """
-    return integer_quotient(n, 2) if remainder(n, 2) == 0 else 3 * n + 1
+    x = n
+    steps = 0
+    peak  = x
+    path  = []                     # numbers whose steps aren't cached yet
 
-# ---------- :collatz predicate translated to a Python function ----------
-@lru_cache(maxsize=None)          # caches every call exactly like log:callWithCut
-def collatz(n: int) -> tuple[int, ...]:
-    """
-    The two N3 rules become:
+    while x != 1 and x not in cache:
+        path.append(x)
+        steps += 1
+        if steps > MAX_STEPS:
+            raise RuntimeError(
+                f"Exceeded {MAX_STEPS} steps for n = {n} "
+                "→ conjecture possibly false!"
+            )
 
-    1.  Base rule
-        { ?N :collatz (?N (?N)) }            <= { true log:callWithCut true. }
-        →  in Python: when n == 1 return (1,)
+        # Collatz rule
+        x = 3 * x + 1 if x & 1 else x >> 1
+        if x > peak:
+            peak = x
 
-    2.  Recursive rule (build list via list:firstRest)
-        { ?N0 :collatz (?N ?M) }             <= { … }
-        →  in Python: prepend n to the list returned by the recursive call
-    """
-    if n == 1:                               # base rule
-        return (1,)                          #   ( ?M == (1) )
+    # We now know the tail length:
+    tail = cache.get(x, 0)         # 0 if x == 1, otherwise cached value
+    total = steps + tail           # full length for *n*
 
-    next_n = collatz_step(n)                 #   ?N1 in the N3 code
-    return (n,) + collatz(next_n)            #   list:firstRest (?N0 ?J)
+    # Write results for the entire discovered path back into the cache
+    #   (path[-1] is the number just before an already-cached value)
+    for s, value in enumerate(reversed(path), 1):
+        cache[value] = tail + s
+
+    return total, peak
 
 
-# ---------- the N3 “query” block translated ----------
-def run_query(limit: int = 10000) -> dict[int, tuple[int, ...]]:
-    """
-    Mirrors the block:
+def main() -> None:
 
-        {
-            10000 log:repeat ?N0.
-            (?N0 1) math:sum ?N.
-            ?N :collatz (1 ?M).
-        } log:query { … }
+    # cache[integer] = total-stopping-time(integer)
+    cache: Dict[int, int] = {1: 0}
 
-    In practice:
-      • log:repeat enumerates 0..limit-1
-      • math:sum (?N0 1) → N0 + 1   → numbers 1..limit
-      • :collatz (1 ?M)  → call our Python collatz()
-    """
-    return {n0 + 1: collatz(n0 + 1) for n0 in range(limit)}
+    worst_n    = 0
+    worst_step = 0
+    worst_peak = 0
+
+    for n in range(1, LIMIT + 1):
+        steps, peak = collatz_steps(n, cache)
+
+        if steps > worst_step:
+            worst_step, worst_peak, worst_n = steps, peak, n
+        elif peak > worst_peak:
+            worst_peak = peak
+
+    # ─── results ────────────────────────────────────────────────────────────
+    print(f"Checked n = 1 … {LIMIT:,}")
+    print(f"Longest total-stopping-time   : {worst_step} steps (for n = {worst_n})")
+    print(f"Highest value ever observed   : {worst_peak}")
+    print("Collatz conjecture holds for all tested numbers ✔️")
 
 
 if __name__ == "__main__":
-    sequences = run_query(10000)   # exactly what the N3 query asks for
-    for n, seq in sequences.items():
-        print(f"{n:4} ➜ {seq}")
+    main()
+

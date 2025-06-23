@@ -269,3 +269,4 @@ if __name__ == "__main__":
     assert ledger.is_possible(double_not) is True, "Ledger should confirm double NOT possible"
 
     print("\n✅ All constructor‑theory assertions passed.")
+

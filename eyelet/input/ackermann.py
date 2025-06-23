@@ -61,3 +61,4 @@ if __name__ == "__main__":
         label = f"A{idx}"
 
         print(f"{label} = {value}")
+

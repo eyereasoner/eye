@@ -64,3 +64,4 @@ def print_prime_spiral(size: int) -> None:
 
 if __name__ == "__main__":
     print_prime_spiral(SIZE)
+

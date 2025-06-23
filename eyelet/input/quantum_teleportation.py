@@ -130,3 +130,4 @@ for (m2, m1), P in projectors.items():
     fidelity = np.real_if_close(np.conjugate(psi) @ (rho_B @ psi))
 
     print(f"Outcome m₂m₁ = {m2}{m1}  (prob {prob:.3f})  ⇒  fidelity = {fidelity:.6f}")
+

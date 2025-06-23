@@ -27,3 +27,4 @@ for _ in range(HEIGHT):
 
     # next row via Pascal’s rule mod 2 → XOR of adjacent bits, wrapped in 1’s
     row = [1] + [row[i] ^ row[i + 1] for i in range(len(row) - 1)] + [1]
+

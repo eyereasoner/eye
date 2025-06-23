@@ -55,3 +55,4 @@ def apply(sym, pts):
 print("\nExample: where each symmetry sends the triangle’s vertices:")
 for name, perm in elements.items():
     print(f"{name:>3}: {apply(perm, triangle)}")
+

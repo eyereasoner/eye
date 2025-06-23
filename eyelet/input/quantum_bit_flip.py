@@ -111,3 +111,4 @@ for error_qubit in [None, 0, 1, 2]:
     fidelity = abs(np.vdot(psi1, decoded))**2
     label = "none" if error_qubit is None else f"X on qubit {error_qubit}"
     print(f"{label:<14}  →  fidelity = {fidelity:.6f}")
+

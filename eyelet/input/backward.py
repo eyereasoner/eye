@@ -27,3 +27,4 @@ if __name__ == "__main__":
 
     print(f"{x} :moreInterestingThan {y}  →  {result}")
     # →  5 :moreInterestingThan 3  →  True
+

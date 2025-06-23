@@ -1,5 +1,5 @@
 """
-Python translation of the EYE/N3 GPS example.
+Python translation of EYE/N3 GPS - Goal driven Parallel Sequences -- Jos De Roo
 
 This script replicates the logic of the original N3 rules:
  - "Maps" are edges that describe state transitions.
@@ -175,3 +175,4 @@ if __name__ == "__main__":
     else:
         for i, (acts, dur, cst, bel, com) in enumerate(paths, 1):
             print(f"Solution {i}:\n  path     = {acts}\n  duration = {dur}\n  cost     = {cst}\n  belief   = {bel}\n  comfort  = {com}")
+

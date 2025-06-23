@@ -86,3 +86,4 @@ if __name__ == "__main__":
     print("------------ --------")
     for bits in itertools.product([0, 1], repeat=2):
         print(f"   {bits}     {superdense(bits)}")
+

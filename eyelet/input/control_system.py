@@ -109,3 +109,4 @@ def control1() -> List[Tuple[str, float]]:
 if __name__ == "__main__":
     for actuator, value in control1():
         print(f"{actuator}: {value:.4f}")
+

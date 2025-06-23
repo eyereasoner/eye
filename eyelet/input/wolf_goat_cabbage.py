@@ -70,3 +70,4 @@ def enumerate_solutions(max_depth=MAX_DEPTH):
 if __name__ == "__main__":
     for sol in enumerate_solutions():
         print(prolog_fact(sol))
+

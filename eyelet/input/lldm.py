@@ -137,3 +137,4 @@ if __name__ == "__main__":
     print(f"dCm      = {m.dCm:+.3f} cm")
     print(f"LLDAlarm = {m.LLDAlarm}")
     # → dCm = -1.908 cm  →  alarm raised (outside ±1.25 cm)
+

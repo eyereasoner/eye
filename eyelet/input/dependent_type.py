@@ -156,3 +156,4 @@ for ind in INDIVIDUALS:
     goodies = [t.name for t in ind.types if t in GOOD_TYPES.values()]
     if goodies:
         print(f" • {ind.name}  ⟶  {', '.join(goodies)}")
+

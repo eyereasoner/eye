@@ -1,94 +1,83 @@
 #!/usr/bin/env python3
 """
-Conway’s Game of Life — 32×32 torus, reproducible random demo
-Python 3.8+      (June 2025)
+Conway’s Game of Life — ASCII Edition (Python)
+---------------------------------------------
+Run with optional CLI args:
 
-Usage:
-    python conway.py              # default density 0.25, seed 12345
-    python conway.py 0.40         # 40 % density, same seed
-    python conway.py 0.30 9999    # 30 %, user-chosen seed
+    python life.py [rows] [cols] [generations]
+
+Defaults: rows=25, cols=49, generations=100
 """
+
 import random
 import sys
 import time
 from typing import List
 
-SIZE               = 32         # board is SIZE × SIZE
-DEFAULT_DENSITY    = 0.25       # fraction of live cells at start
-DEFAULT_SEED       = 12345      # fixed seed → reproducible run
-GENERATIONS        = 100        # how many steps to simulate
-FRAME_DELAY_SEC    = 0.0        # pause between frames (seconds)
+ALIVE = "O"
+DEAD  = "."
 
-World = List[List[bool]]        # type alias
-
-
-# ----------------------------------------------------------------------
-# Helpers
-# ----------------------------------------------------------------------
-def parse_cli() -> tuple[float, int]:
-    """Read optional density and seed from the command line."""
-    if len(sys.argv) == 1:
-        return DEFAULT_DENSITY, DEFAULT_SEED
-    if len(sys.argv) == 2:
-        return float(sys.argv[1]), DEFAULT_SEED
-    if len(sys.argv) >= 3:
-        return float(sys.argv[1]), int(sys.argv[2])
-    raise SystemExit("Usage: conway.py [density [seed]]")
+# --------------------------------------------------------------------------- #
+def initialize(rows: int, cols: int) -> List[List[str]]:
+    """Return a 2-D list seeded with 20 % live cells."""
+    return [
+        [ALIVE if random.randrange(5) == 0 else DEAD for _ in range(cols)]
+        for _ in range(rows)
+    ]
 
 
-def random_world(density: float, seed: int) -> World:
-    """Create a SIZE×SIZE world with the given density of live cells."""
-    random.seed(seed)
-    return [[random.random() < density for _ in range(SIZE)]
-            for _ in range(SIZE)]
-
-
-def count_neighbors(world: World, x: int, y: int) -> int:
-    """Toroidal count of live neighbors around (x, y)."""
+def neighbors(grid: List[List[str]], r: int, c: int) -> int:
+    """Count the eight toroidal neighbours of cell (r,c)."""
+    rows, cols = len(grid), len(grid[0])
     cnt = 0
-    for dx in (-1, 0, 1):
-        for dy in (-1, 0, 1):
-            if dx == dy == 0:
+    for dr in (-1, 0, 1):
+        for dc in (-1, 0, 1):
+            if dr == 0 and dc == 0:
                 continue
-            nx = (x + dx) % SIZE
-            ny = (y + dy) % SIZE
-            cnt += world[ny][nx]
+            nr = (r + dr) % rows
+            nc = (c + dc) % cols
+            if grid[nr][nc] == ALIVE:
+                cnt += 1
     return cnt
 
 
-def next_generation(world: World) -> World:
-    """Compute the next world according to standard Life rules."""
-    new = [[False] * SIZE for _ in range(SIZE)]
-    for y in range(SIZE):
-        for x in range(SIZE):
-            n = count_neighbors(world, x, y)
-            new[y][x] = n == 3 or (world[y][x] and n == 2)
-    return new
+def step(grid: List[List[str]]) -> List[List[str]]:
+    """Compute one generation and return the new grid (ping-pong buffer)."""
+    rows, cols = len(grid), len(grid[0])
+    nxt = [[DEAD] * cols for _ in range(rows)]
+    for r in range(rows):
+        for c in range(cols):
+            n = neighbors(grid, r, c)
+            if grid[r][c] == ALIVE:
+                nxt[r][c] = ALIVE if n in (2, 3) else DEAD
+            else:
+                nxt[r][c] = ALIVE if n == 3 else DEAD
+    return nxt
 
 
-def print_world(world: World, gen: int) -> None:
-    """Pretty-print the board as ASCII."""
-    print(f"Generation {gen}")
-    for row in world:
-        print(''.join('O' if cell else '.' for cell in row))
-    print()                       # blank line after each frame
+def display(grid: List[List[str]], generation: int) -> None:
+    # ANSI clear-screen; comment out if unwanted
+    # sys.stdout.write("\033[H\033[J")
+    print(f"Generation {generation}")
+    for row in grid:
+        print("".join(row))
+    sys.stdout.flush()
 
 
-# ----------------------------------------------------------------------
-# Main simulation loop
-# ----------------------------------------------------------------------
-def run(density: float = DEFAULT_DENSITY,
-        seed: int = DEFAULT_SEED,
-        gens: int = GENERATIONS,
-        delay: float = FRAME_DELAY_SEC) -> None:
-    """Run the Game of Life for *gens* generations."""
-    world = random_world(max(0.0, min(1.0, density)), seed)
-    for g in range(gens):
-        print_world(world, g)
-        time.sleep(delay)
-        world = next_generation(world)
+# --------------------------------------------------------------------------- #
+def main(argv: List[str]) -> None:
+    rows  = int(argv[1]) if len(argv) > 1 else 25
+    cols  = int(argv[2]) if len(argv) > 2 else 49
+    gens  = int(argv[3]) if len(argv) > 3 else 100
 
+    random.seed(0)
+    grid = initialize(rows, cols)
+
+    for gen in range(gens):
+        display(grid, gen)
+        grid = step(grid)
+        # time.sleep(0.10)   # 100 ms delay; uncomment if you like
 
 if __name__ == "__main__":
-    dens, rng_seed = parse_cli()
-    run(dens, rng_seed)
+    main(sys.argv)
+

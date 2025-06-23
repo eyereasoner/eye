@@ -74,3 +74,4 @@ if __name__ == "__main__":
     print(f"A  = {to_peano(A)}   # {A}")
     print(f"B  = {to_peano(B)}   # {B}")
     print(f"B! = {to_peano(fact_B)}   # {fact_B}")
+

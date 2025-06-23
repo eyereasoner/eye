@@ -54,3 +54,4 @@ if __name__ == "__main__":
     print("Shortest distances from A:")
     for v in sorted(dist):
         print(f"  A → {v}: {dist[v]}")
+

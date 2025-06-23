@@ -84,3 +84,4 @@ if __name__ == "__main__":
         print_board(example)
     else:
         print("No solution exists")
+

@@ -44,3 +44,4 @@ for k in sorted(dist):
     print(f"{k:2d} → {dist[k]:4d}")
 print("\nExample numbers that need 7 steps:", max_cases[:10])
 print("Non-converging rep-digits:", [f'{x:04d}' for x in non_conv])
+

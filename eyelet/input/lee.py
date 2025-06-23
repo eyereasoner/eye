@@ -1,62 +1,112 @@
-# See https://en.wikipedia.org/wiki/Lee_algorithm
-# Original code from https://stackoverflow.com/questions/45969687/python-maze-route-finding
+#!/usr/bin/env python3
+from collections import deque
+from dataclasses import dataclass
+import random
 
-def gen_lee(start, size, traversable):
-    neighbor_offsets = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    score = 0
-    lee_map = [[None for _ in range(size)] for _ in range(size)]
-    node_list = [start]
-    lee_map[start[0]][start[1]] = 0
-    for node in node_list:
-        score = lee_map[node[0]][node[1]]
-        for neighbor_offset in neighbor_offsets:
-            neighbor_x = node[0] + neighbor_offset[0]
-            neighbor_y = node[1] + neighbor_offset[1]
-            if neighbor_x < 0 or \
-               neighbor_y < 0 or \
-               neighbor_x >= size or \
-               neighbor_y >= size:
-                continue  # Skip out of map neighbors
-            if not traversable[neighbor_x][neighbor_y]:
-                continue  # Skip untraversable neighbors
-            if lee_map[neighbor_x][neighbor_y] is None:
-                node_list.append((neighbor_x, neighbor_y))
-                lee_map[neighbor_x][neighbor_y] = score + 1
-    return lee_map
+# --- constants ---------------------------------------------------------------
+ROW = 25
+COL = 49
+OBSTACLE_PROB = 30               # % chance that a cell is an obstacle
 
-def find_path(start, destination, lee_map):
-    neighbor_offsets = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    path = [destination]
-    node = destination
-    score = lee_map[destination[0]][destination[1]]
-    for sc in range(score):
-        for neighbor_offset in neighbor_offsets:
-            neighbor_x = node[0] + neighbor_offset[0]
-            neighbor_y = node[1] + neighbor_offset[1]
-            if lee_map[neighbor_x][neighbor_y] == score - sc - 1:
-                path.append((neighbor_x, neighbor_y))
-                node = (neighbor_x, neighbor_y)
-                break
-    return path
+# directions: up, right, down, left
+D_ROW = (-1, 0, 1, 0)
+D_COL = (0, 1, 0, -1)
+
+# --- helpers -----------------------------------------------------------------
+@dataclass(frozen=True)
+class Point:
+    row: int
+    col: int
+
+
+def is_valid(grid, visited, r, c):
+    """Return True if (r,c) is inside the board, walkable, and unvisited."""
+    return (
+        0 <= r < ROW
+        and 0 <= c < COL
+        and grid[r][c] == 0          # walkable cell
+        and not visited[r][c]
+    )
+
+
+def lee(grid, src: Point, dst: Point):
+    """Lee-algorithm BFS.  
+    Marks the shortest path in-place and returns True if a path exists."""
+    visited = [[False] * COL for _ in range(ROW)]
+    dist    = [[-1] * COL for _ in range(ROW)]
+    prev    = [[None] * COL for _ in range(ROW)]
+
+    q = deque()
+    q.append(src)
+    visited[src.row][src.col] = True
+    dist[src.row][src.col] = 0
+    prev[src.row][src.col] = Point(-1, -1)     # sentinel
+
+    # --- BFS ------------------------------------------------------------------
+    while q:
+        p = q.popleft()
+        if p == dst:
+            break
+        for dr, dc in zip(D_ROW, D_COL):
+            nr, nc = p.row + dr, p.col + dc
+            if is_valid(grid, visited, nr, nc):
+                q.append(Point(nr, nc))
+                visited[nr][nc] = True
+                dist[nr][nc] = dist[p.row][p.col] + 1
+                prev[nr][nc] = p
+
+    # --- back-trace -----------------------------------------------------------
+    if not visited[dst.row][dst.col]:
+        return False                  # no path
+
+    cur = dst
+    while cur != src:
+        grid[cur.row][cur.col] = 2    # mark path
+        cur = prev[cur.row][cur.col]
+
+    grid[src.row][src.col] = 3        # start
+    grid[dst.row][dst.col] = 4        # destination
+    return True
+
+
+def print_grid(grid):
+    """Pretty-print the grid using the same glyphs as the C version."""
+    lookup = {
+        -1: '.',    # obstacle
+         0: ' ',    # empty
+         2: '+',    # path
+         3: 'S',    # start
+         4: 'D'     # destination
+    }
+    for row in grid:
+        print("".join(lookup.get(cell, '?') for cell in row))
+
+
+# --- main --------------------------------------------------------------------
+def main():
+    random.seed(0)                    # reproducible obstacles
+
+    # generate grid
+    grid = [
+        [
+            -1 if random.randrange(100) < OBSTACLE_PROB else 0
+            for _ in range(COL)
+        ]
+        for _ in range(ROW)
+    ]
+
+    src = Point(0, 0)
+    dst = Point(ROW - 1, COL - 1)
+    grid[src.row][src.col] = 0        # ensure walkable
+    grid[dst.row][dst.col] = 0
+
+    if lee(grid, src, dst):
+        print("Path found:\n")
+        print_grid(grid)
+    else:
+        print("No path exists")
+
 
 if __name__ == "__main__":
-    traversable = [[1 for _ in range(20) ] for _ in range(20)]
-    traversable[2][2] = 0
-    traversable[2][3] = 0
-    traversable[2][4] = 0
-    traversable[2][5] = 0
-    traversable[2][6] = 0
-    traversable[2][7] = 0
-    traversable[2][8] = 0
-    traversable[6][6] = 0
-    traversable[6][7] = 0
-    traversable[6][8] = 0
-    traversable[7][6] = 0
-    traversable[7][7] = 0
-    traversable[7][8] = 0
+    main()
 
-    lee_map = gen_lee((1, 1), 20, traversable)
-    print("lee_map_1 = %s" % (lee_map))
-
-    lee_path = find_path((1, 1), (9, 6), lee_map)
-    print("lee_path_1 = %s" % (lee_path))

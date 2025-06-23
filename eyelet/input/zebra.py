@@ -108,3 +108,4 @@ def zebra() -> tuple[str, str]:
 if __name__ == "__main__":
     water, zebra = zebra()
     print(f"{water.capitalize()} drinks water; {zebra.capitalize()} owns the zebra.")
+
