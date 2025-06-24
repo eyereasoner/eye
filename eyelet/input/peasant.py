@@ -1,3 +1,9 @@
+import sys
+
+if hasattr(sys, 'set_int_max_str_digits'):
+    # adjust this limit as needed
+    sys.set_int_max_str_digits(10000000)
+
 def peasant_multiply(a: int, b: int) -> int:
     """
     Multiply two integers using the ancient Egyptian (peasant) multiplication method.
@@ -55,6 +61,15 @@ def peasant_power(base: int, exponent: int) -> int:
 
 # If run as a script, demonstrate usage
 if __name__ == "__main__":
-    print("Peasant Multiply 18 x 23 =", peasant_multiply(18, 23))
-    print("Peasant Power 3^5 =", peasant_power(3, 5))
+    print("3 x 0 =", peasant_multiply(3, 0))
+    print("5 x 6 =", peasant_multiply(5, 6))
+    print("238 x 13 =", peasant_multiply(238, 13))
+    print("8367238 x 27133 =", peasant_multiply(8367238, 27133))
+    print("62713345408367238 x 40836723862713345 =", peasant_multiply(62713345408367238, 40836723862713345))
+    print("4083672386271334562713345408367238 x 4083672386271334562713345408367238 =", peasant_multiply(4083672386271334562713345408367238, 4083672386271334562713345408367238))
+
+    print("3^0 =", peasant_power(3, 0))
+    print("5^6 =", peasant_power(5, 6))
+    print("238^13 =", peasant_power(238, 13))
+    print("8367238^2713 =", peasant_power(8367238, 2713))
 
