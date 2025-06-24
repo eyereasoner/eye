@@ -196,7 +196,7 @@ aunt  = lambda x, y: call_fresh(lambda p: conj(parent(p, y), sister(x, p)))
 # -----------------------------------------------------------------------------
 if __name__ == "__main__":
     print("Children of robert:", run_unique(None, lambda q: child(q, "robert")))
-    print("Grandparents of patricia:", run_unique(None, lambda q: grandparent(q, "patricia")))
+    print("All grandparents:", run_unique(None, lambda q: call_fresh(lambda r: grandparent(q, r))))
     print("Sisters of james:", run_unique(None, lambda q: sister(q, "james")))
     print("Uncles of james:", run_unique(None, lambda q: uncle(q, "james")))
 
