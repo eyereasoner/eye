@@ -1,55 +1,86 @@
-# takuzu.py ─ A compact 6×6 Takuzu / Binairo solver
+# takuzu.py  –  Find *all* solutions of a 6×6 Takuzu / Binairo puzzle
+# -------------------------------------------------------------------
+#  -1  → blank       (you may also keep the EMPTY alias if you prefer)
+#   0  → digit 0
+#   1  → digit 1
+#
+#  The rules enforced are the classic four:
+#    1. 3 zeros and 3 ones in every row
+#    2. 3 zeros and 3 ones in every column
+#    3. no "000" / "111" triples horizontally or vertically
+#    4. finished rows and columns are pair-wise unique
+#
+#  The one public function, `solve_all(grid, limit=None)`, returns a Python
+#  list containing *every* valid completed grid.  If `limit` is a positive
+#  integer, the search stops once that many solutions have been found
+#  (useful when you only need to know whether a puzzle is unique).
+
 from typing import List, Optional, Tuple
 
-N     = 6          # board is ALWAYS 6×6
-HALF  = N // 2     # = 3
-EMPTY = -1         # convenience alias
+N      = 6
+HALF   = N // 2       # = 3
+EMPTY  = -1
+Grid   = List[List[int]]
 
-Grid = List[List[int]]        # -1 = blank, 0/1 = clues / solution
 
-# ───────────────────────────────── Solver ─────────────────────────────────────
-def solve(grid: Grid) -> Optional[Grid]:
-    """Return a completed 6×6 grid or None if the puzzle is unsatisfiable."""
-    r, c = _find_empty(grid)
-    if r is None:                               # nothing left → solved
-        return [row[:] for row in grid]
+# ────────────────────────────── core solver ──────────────────────────────
+def solve_all(grid: Grid, limit: Optional[int] = None) -> List[Grid]:
+    """Return a list with *all* solutions.  If `limit` is given, stop early."""
+    solutions: List[Grid] = []
 
-    for val in (0, 1):
-        grid[r][c] = val
-        if _is_locally_valid(grid, r, c):
-            res = solve(grid)
-            if res:
-                return res
-        grid[r][c] = EMPTY                      # undo & try the other value
-    return None
+    def backtrack() -> None:
+        # Early exit if we've hit the caller-requested limit
+        if limit is not None and len(solutions) >= limit:
+            return
 
-# ───────────────────────────── Helper functions ──────────────────────────────
-def _find_empty(grid: Grid) -> Tuple[Optional[int], Optional[int]]:
+        r, c = _find_empty(grid)
+        if r is None:                         # fully filled → record a solution
+            solutions.append([row[:] for row in grid])
+            return
+
+        for val in (0, 1):
+            grid[r][c] = val
+            if _is_locally_valid(grid, r, c):
+                backtrack()
+            grid[r][c] = EMPTY                # undo
+
+    backtrack()
+    return solutions
+
+
+# ────────────────────────────── utilities ───────────────────────────────
+def _find_empty(g: Grid) -> Tuple[Optional[int], Optional[int]]:
     for i in range(N):
         for j in range(N):
-            if grid[i][j] == EMPTY:
+            if g[i][j] == EMPTY:
                 return i, j
     return None, None
 
+
 def _is_locally_valid(g: Grid, r: int, c: int) -> bool:
     return (
-        _check_line(g[r])                                # row
-        and _check_line([g[i][c] for i in range(N)])     # column
+        _check_line(g[r])                                # row rules
+        and _check_line([g[i][c] for i in range(N)])     # col rules
         and _unique_rows(g, r)
         and _unique_cols(g, c)
     )
 
+
 def _check_line(line: List[int]) -> bool:
-    zeros, ones = line.count(0), line.count(1)
-    if zeros > HALF or ones > HALF:          # over-filled
+    zeros = line.count(0)
+    ones  = line.count(1)
+
+    if zeros > HALF or ones > HALF:
         return False
-    if EMPTY not in line and zeros != HALF:  # finished but unbalanced
+    if EMPTY not in line and zeros != HALF:
         return False
-    # no three consecutive equals
+
+    # no three consecutive identical digits
     for i in range(N - 2):
-        if line[i] != EMPTY and line[i] == line[i+1] == line[i+2]:
+        if line[i] != EMPTY and line[i] == line[i + 1] == line[i + 2]:
             return False
     return True
+
 
 def _unique_rows(g: Grid, r: int) -> bool:
     row = g[r]
@@ -59,6 +90,7 @@ def _unique_rows(g: Grid, r: int) -> bool:
         if i != r and EMPTY not in g[i] and g[i] == row:
             return False
     return True
+
 
 def _unique_cols(g: Grid, c: int) -> bool:
     col = [g[i][c] for i in range(N)]
@@ -70,22 +102,24 @@ def _unique_cols(g: Grid, c: int) -> bool:
             return False
     return True
 
-# ─────────────────────────────── Demo puzzle ─────────────────────────────────
+
+# ─────────────────────────────── demo ───────────────────────────────────
 if __name__ == "__main__":
     puzzle = [
-        [EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY,     1, EMPTY, EMPTY, EMPTY],
-        [EMPTY, EMPTY, EMPTY, EMPTY, 0,     EMPTY],
-        [EMPTY, EMPTY,     0, EMPTY, EMPTY, EMPTY],
-        [    0,     0, EMPTY, EMPTY,     1, EMPTY],
-        [0,     EMPTY, EMPTY,     0,     1, EMPTY],
+        [EMPTY, 0,     1,     EMPTY, EMPTY, EMPTY],
+        [EMPTY, EMPTY, EMPTY, 0,     EMPTY, 1    ],
+        [1,     EMPTY, EMPTY, EMPTY, 0,     EMPTY],
+        [EMPTY, 1,     EMPTY, EMPTY, EMPTY, 0    ],
+        [EMPTY, EMPTY, 0,     EMPTY, 1,     EMPTY],
+        [0,     EMPTY, EMPTY, EMPTY, EMPTY, EMPTY],
     ]
 
-    solution = solve(puzzle)
-    if solution:
-        print("Solved 6×6 grid:")
-        for row in solution:
+    sols = solve_all(puzzle)        # or solve_all(puzzle, limit=2) etc.
+    print(f"{len(sols)} solution(s) found.\n")
+
+    for n, sol in enumerate(sols, 1):
+        print(f"Solution #{n}")
+        for row in sol:
             print(*row)
-    else:
-        print("No solution found.")
+        print()
 
