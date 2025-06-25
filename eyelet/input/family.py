@@ -1,220 +1,158 @@
 """
-family.py — a tiny self‑contained microKanren implementation in Python with
+family.py — a self‑contained family tree implementation in Python with
 a small family knowledge‑base (father, mother, child, brother, sister, uncle,
 aunt, grandfather, grandmother, …).
+
+It’s a very typical Python approach:
+
+* Data lives in ordered dict / lists.
+* Each relation (father, mother, sibling, uncle …) is a plain function that
+  returns a *list* of strings.
+* Every query runs deterministic loops over the facts.
+
+Run the file directly to see demo output, or import the functions elsewhere.
 """
-from itertools import count
-from typing import Dict, Iterable, Callable, List, Tuple, Any
+from __future__ import annotations
 
-# -----------------------------------------------------------------------------
-# microKanren core
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Raw, ordered facts
+# ---------------------------------------------------------------------------
 
-class Var:
-    __slots__ = ("n",)
-    def __init__(self, n: int):
-        self.n = n
-    def __repr__(self):
-        return f"_{self.n}"
-    def __hash__(self):
-        return hash(self.n)
-    def __eq__(self, other):
-        return isinstance(other, Var) and self.n == other.n
-
-_counter = count()                    # fresh‑variable counter
-Subst = Dict[Var, Any]                # substitution type alias
-
-
-def fresh_var() -> Var:
-    return Var(next(_counter))
-
-
-def walk(u: Any, s: Subst) -> Any:
-    while isinstance(u, Var) and u in s:
-        u = s[u]
-    return u
-
-
-def ext(s: Subst, v: Var, val: Any) -> Subst:
-    s2 = s.copy(); s2[v] = val; return s2
-
-
-def unify(u: Any, v: Any, s: Subst) -> Subst | None:
-    u, v = walk(u, s), walk(v, s)
-    if isinstance(u, Var):
-        return ext(s, u, v)
-    if isinstance(v, Var):
-        return ext(s, v, u)
-    if type(u) != type(v):
-        return None
-    if isinstance(u, (tuple, list)):
-        if len(u) != len(v):
-            return None
-        for a, b in zip(u, v):
-            s = unify(a, b, s)
-            if s is None:
-                return None
-        return s
-    return s if u == v else None
-
-Goal = Callable[[Subst], Iterable[Subst]]
-
-
-def succeed(s: Subst):
-    yield s
-
-def fail(_: Subst):
-    if False:
-        yield  # never
-
-
-def eq(u: Any, v: Any) -> Goal:
-    return lambda s: (x for x in (unify(u, v, s),) if x is not None)
-
-
-def disj(*goals: Goal) -> Goal:
-    # Preserve argument order deterministically
-    return lambda s: (g for goal in goals for g in goal(s))
-
-
-def conj(*goals: Goal) -> Goal:
-    if not goals:
-        return succeed
-    first, *rest = goals
-    def goal(s: Subst):
-        for s1 in first(s):
-            yield from conj(*rest)(s1)
-    return goal
-
-
-def call_fresh(f: Callable[[Var], Goal]) -> Goal:
-    return lambda s: f(fresh_var())(s)
-
-
-def neq(u: Any, v: Any) -> Goal:
-    def goal(s: Subst):
-        u1, v1 = walk(u, s), walk(v, s)
-        if isinstance(u1, Var) or isinstance(v1, Var):
-            yield from disj(conj(eq(u1, v1), fail), succeed)(s)
-        elif u1 != v1:
-            yield s
-    return goal
-
-# -----------------------------------------------------------------------------
-# Reification & run helpers
-# -----------------------------------------------------------------------------
-
-def reify(q: Any, s: Subst) -> Any:
-    mapping: Dict[Var, str] = {}
-    def walk_star(u: Any):
-        u = walk(u, s)
-        if isinstance(u, Var):
-            if u not in mapping:
-                mapping[u] = f"_{len(mapping)}"
-            return mapping[u]
-        if isinstance(u, (tuple, list)):
-            return tuple(walk_star(x) for x in u)
-        return u
-    return walk_star(q)
-
-
-def run(n: int | None, goal_builder: Callable[[Var], Goal]) -> List[Any]:
-    q = fresh_var()
-    goal = goal_builder(q)
-    out: List[Any] = []
-    for s in goal({}):
-        out.append(reify(q, s))
-        if n is not None and len(out) >= n:
-            break
-    return out
-
-
-def run_unique(n: int | None, goal_builder: Callable[[Var], Goal]) -> List[Any]:
-    seen, out = set(), []
-    for ans in run(None, goal_builder):
-        if ans not in seen:
-            seen.add(ans)
-            out.append(ans)
-            if n is not None and len(out) >= n:
-                break
-    return out
-
-# -----------------------------------------------------------------------------
-# Ordered family facts & derived relations
-# -----------------------------------------------------------------------------
-
-FatherFacts: List[Tuple[str, str]] = [
+FATHER: list[tuple[str, str]] = [
     ("john", "linda"),
     ("john", "robert"),
     ("robert", "james"),
     ("robert", "patricia"),
     ("michael", "barbara"),
 ]
-
-MotherFacts: List[Tuple[str, str]] = [
+MOTHER: list[tuple[str, str]] = [
     ("mary", "linda"),
     ("mary", "robert"),
     ("linda", "jane"),
     ("linda", "patrick"),
     ("barbara", "anne"),
 ]
+MALES   = ["john", "robert", "james", "michael", "patrick"]
+FEMALES = ["mary", "linda", "patricia", "barbara", "anne", "jane"]
 
-Males   = ["john", "robert", "james", "michael", "patrick"]
-Females = ["mary", "linda", "patricia", "barbara", "anne", "jane"]
+# Helper indices for fast lookup ------------------------------------------------
+_children_of: dict[str, list[str]] = {}
+_parents_of : dict[str, list[str]] = {}
 
+for p,c in FATHER+MOTHER:
+    _children_of.setdefault(p, []).append(c)
+    _parents_of.setdefault(c, []).append(p)
 
-def fact_relation(facts: List[Tuple[str, str]]):
-    def rel(x: Any, y: Any) -> Goal:
-        # Build goals in the fixed order of the list
-        return disj(*(conj(eq(x, a), eq(y, b)) for a, b in facts))
-    return rel
+# ---------------------------------------------------------------------------
+# Primitive relations (use only the raw facts / indexes)
+# ---------------------------------------------------------------------------
 
-father = fact_relation(FatherFacts)
-mother = fact_relation(MotherFacts)
+def father(person: str) -> list[str]:
+    return [p for p,c in FATHER if p == person] or []  # silly but keeps API symmetric
 
-def male(x):   return disj(*(eq(x, m) for m in Males))
-def female(x): return disj(*(eq(x, f) for f in Females))
+def fathers_of(child: str) -> list[str]:
+    return [p for p,c in FATHER if c == child]
 
-parent      = lambda x, y: disj(father(x, y), mother(x, y))
-child       = lambda x, y: parent(y, x)
+def mother(person: str) -> list[str]:
+    return [p for p,c in MOTHER if p == person]
 
-def sibling(x, y):
-    return conj(call_fresh(lambda p: conj(parent(p, x), parent(p, y))), neq(x, y))
+def mothers_of(child: str) -> list[str]:
+    return [p for p,c in MOTHER if c == child]
 
-brother     = lambda x, y: conj(sibling(x, y), male(x))
-sister      = lambda x, y: conj(sibling(x, y), female(x))
+def parents_of(child: str) -> list[str]:
+    return fathers_of(child) + mothers_of(child)
 
-grandparent = lambda x, y: call_fresh(lambda p: conj(parent(x, p), parent(p, y)))
-grandfather = lambda x, y: conj(grandparent(x, y), male(x))
-grandmother = lambda x, y: conj(grandparent(x, y), female(x))
+def children_of(parent: str) -> list[str]:
+    return _children_of.get(parent, [])
 
-uncle = lambda x, y: call_fresh(lambda p: conj(parent(p, y), brother(x, p)))
-aunt  = lambda x, y: call_fresh(lambda p: conj(parent(p, y), sister(x, p)))
+# Gender helpers --------------------------------------------------------------
 
-# -----------------------------------------------------------------------------
+def is_male(p: str)   -> bool: return p in MALES
+
+def is_female(p: str) -> bool: return p in FEMALES
+
+# ---------------------------------------------------------------------------
+# Derived relations
+# ---------------------------------------------------------------------------
+
+def siblings(person: str) -> list[str]:
+    sibs: list[str] = []
+    for parent in _parents_of.get(person, []):
+        sibs.extend([c for c in _children_of.get(parent, []) if c != person])
+    # preserve order, remove dupes
+    seen: set[str] = set(); ordered = []
+    for x in sibs:
+        if x not in seen:
+            seen.add(x)
+            ordered.append(x)
+    return ordered
+
+def brothers(person: str) -> list[str]:
+    return [s for s in siblings(person) if is_male(s)]
+
+def sisters(person: str) -> list[str]:
+    return [s for s in siblings(person) if is_female(s)]
+
+def grandparents(person: str) -> list[str]:
+    gps: list[str] = []
+    for parent in _parents_of.get(person, []):
+        gps.extend(_parents_of.get(parent, []))
+    # unique preservation
+    seen: set[str] = set(); ordered=[]
+    for g in gps:
+        if g not in seen:
+            seen.add(g); ordered.append(g)
+    return ordered
+
+def grandfathers(person: str) -> list[str]:
+    return [g for g in grandparents(person) if is_male(g)]
+
+def grandmothers(person: str) -> list[str]:
+    return [g for g in grandparents(person) if is_female(g)]
+
+def all_grandparents() -> list[str]:
+    """Return every person who has at least one grand-child, preserving fact order."""
+    ordered_parents = [p for p, _ in FATHER + MOTHER]          # order that parents appear
+    gps = []
+    for p in ordered_parents:
+        if any(gp for gp in children_of(p) if children_of(gp)):  # p ➜ child ➜ grand-child
+            if p not in gps:
+                gps.append(p)
+    return gps
+
+def uncles(person: str) -> list[str]:
+    uncs: list[str] = []
+    for parent in _parents_of.get(person, []):
+        uncs.extend(brothers(parent))
+    # unique + order
+    seen=set(); ordered=[]
+    for u in uncs:
+        if u not in seen:
+            seen.add(u); ordered.append(u)
+    return ordered
+
+def aunts(person: str) -> list[str]:
+    ant: list[str] = []
+    for parent in _parents_of.get(person, []):
+        ant.extend(sisters(parent))
+    seen=set(); ordered=[]
+    for a in ant:
+        if a not in seen:
+            seen.add(a); ordered.append(a)
+    return ordered
+
+# ---------------------------------------------------------------------------
 # Demo
-# -----------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 if __name__ == "__main__":
-    print("Children of robert:", run_unique(None, lambda q: child(q, "robert")))
-    print("All grandparents:", run_unique(None, lambda q: call_fresh(lambda r: grandparent(q, r))))
-    print("Sisters of james:", run_unique(None, lambda q: sister(q, "james")))
-    print("Uncles of james:", run_unique(None, lambda q: uncle(q, "james")))
+    print("Children of robert:", children_of("robert"))
+    print("Grandparents of patricia:", grandparents("patricia"))
+    print("All grandparents:", all_grandparents())
+    print("Sisters of james:", sisters("james"))
+    print("Uncles of james:", uncles("james"))
 
-    print("(Unique) sibling pairs:")
-
-# Build a goal that reifies a *tuple* (x, y) rather than a single var
-
-def sibling_pair(pair):
-    return call_fresh(
-        lambda x: call_fresh(
-            lambda y: conj(
-                eq(pair, (x, y)),       # pair = (x, y)
-                sibling(x, y),
-                male(x)                 # optional: only show male first
-            )
-        )
-    )
-
-for tup in run_unique(10, sibling_pair):
-    print("  ", tup)
+    print("Sibling pairs (male first):")
+    for p in MALES:
+        for sib in siblings(p):
+            print("  ", (p, sib))
 

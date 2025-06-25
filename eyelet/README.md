@@ -1,10 +1,10 @@
 # eyelet
 
-## eye reasoning cases in Python
+## Looking at eye cases through python glasses
 
-Install Python https://www.python.org/downloads/
+Install python https://www.python.org/downloads/
 
-Install the required Python packages
+Install the required python packages
 ```
 pip install sympy numpy
 ```
