@@ -8,6 +8,7 @@ class Person:
         self.gender = gender
         self.parents = set()
         self.children = set()
+        self.spouse = None
 
     def __repr__(self):
         return self.name
@@ -72,7 +73,7 @@ class FamilyTree:
         siblings = set()
         for parent in person.parents:
             siblings.update(parent.children)
-        siblings.discard(person)  # Remove self
+        siblings.discard(person)
         return sorted(siblings, key=lambda x: x.name)
     
     def get_brothers(self, name):
@@ -105,12 +106,16 @@ class FamilyTree:
         if not person: return []
         
         uncles = set()
+        # Parent's brothers (blood uncles)
         for parent in person.parents:
-            # Get parent's siblings (only male ones)
-            for grandparent in parent.parents:
-                for sibling in grandparent.children:
-                    if sibling != parent and sibling.gender == 'male':
-                        uncles.add(sibling)
+            uncles.update(self.get_brothers(parent.name))
+        
+        # Spouses of parent's sisters (aunts by marriage)
+        for parent in person.parents:
+            for aunt in self.get_sisters(parent.name):
+                if aunt.spouse and aunt.spouse.gender == 'male':
+                    uncles.add(aunt.spouse)
+                    
         return sorted(uncles, key=lambda x: x.name)
     
     def get_aunts(self, name):
@@ -118,17 +123,34 @@ class FamilyTree:
         if not person: return []
         
         aunts = set()
+        # Parent's sisters (blood aunts)
         for parent in person.parents:
-            for grandparent in parent.parents:
-                for sibling in grandparent.children:
-                    if sibling != parent and sibling.gender == 'female':
-                        aunts.add(sibling)
+            aunts.update(self.get_sisters(parent.name))
+        
+        # Spouses of parent's brothers (uncles by marriage)
+        for parent in person.parents:
+            for uncle in self.get_brothers(parent.name):
+                if uncle.spouse and uncle.spouse.gender == 'female':
+                    aunts.add(uncle.spouse)
+                    
         return sorted(aunts, key=lambda x: x.name)
+    
+    def add_spouse(self, name1, name2):
+        person1 = self.people.get(name1)
+        person2 = self.people.get(name2)
+        if not person1 or not person2:
+            raise ValueError("One or both persons not found")
+        
+        if person1.gender == person2.gender:
+            raise ValueError("Spouses must be different genders")
+            
+        person1.spouse = person2
+        person2.spouse = person1
     
     def __str__(self):
         return f"FamilyTree with {len(self.people)} members"
 
-# Example usage
+# Example usage with spouse relationships
 if __name__ == "__main__":
     family = FamilyTree()
     
@@ -139,9 +161,15 @@ if __name__ == "__main__":
     family.add_person("Mom", "female")
     family.add_person("Child1", "male")
     family.add_person("Child2", "female")
-    family.add_person("Uncle", "male")
-    family.add_person("Aunt", "female")
+    family.add_person("Uncle", "male")        # Dad's brother
+    family.add_person("Aunt", "female")       # Uncle's wife
     family.add_person("Cousin", "male")
+    family.add_person("MomSister", "female")  # Mom's sister
+    
+    # Add spouses
+    family.add_spouse("Grandpa", "Grandma")
+    family.add_spouse("Dad", "Mom")
+    family.add_spouse("Uncle", "Aunt")
     
     # Establish relationships
     family.add_relationship("Grandpa", "Dad")
@@ -153,13 +181,22 @@ if __name__ == "__main__":
     family.add_relationship("Dad", "Child2")
     family.add_relationship("Mom", "Child2")
     family.add_relationship("Uncle", "Cousin")
+    family.add_relationship("Aunt", "Cousin")
+    
+    # Add maternal side
+    family.add_person("MaternalGrandpa", "male")
+    family.add_person("MaternalGrandma", "female")
+    family.add_relationship("MaternalGrandpa", "Mom")
+    family.add_relationship("MaternalGrandma", "Mom")
+    family.add_relationship("MaternalGrandpa", "MomSister")
+    family.add_relationship("MaternalGrandma", "MomSister")
     
     # Query relationships
     print(f"Father of Child1: {family.get_father('Child1')}")
     print(f"Mother of Child2: {family.get_mother('Child2')}")
-    print(f"Children of Dad: {family.get_children('Dad')}")
-    print(f"Siblings of Child1: {family.get_siblings('Child1')}")
-    print(f"Brothers of Child2: {family.get_brothers('Child2')}")
-    print(f"Grandparents of Child1: {family.get_grandparents('Child1')}")
-    print(f"Uncles of Child1: {family.get_uncles('Child1')}")
-    print(f"Aunts of Child2: {family.get_aunts('Child2')}")
+    print(f"Children of Dad: {[c.name for c in family.get_children('Dad')]}")
+    print(f"Siblings of Child1: {[s.name for s in family.get_siblings('Child1')]}")
+    print(f"Brothers of Child2: {[b.name for b in family.get_brothers('Child2')]}")
+    print(f"Grandparents of Child1: {[g.name for g in family.get_grandparents('Child1')]}")
+    print(f"Uncles of Child1: {[u.name for u in family.get_uncles('Child1')]}")
+    print(f"Aunts of Child2: {[a.name for a in family.get_aunts('Child2')]}")
