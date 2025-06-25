@@ -16,13 +16,13 @@ for any |ψ⟩ = α|0⟩ + β|1⟩, the encoded state is |ψ̄⟩ = α|0̄⟩ + 
 Error-correction strategy
 -------------------------
 1. **Bit-flip stage (X errors)** – treat each 3-qubit block as the
-   standard repetition code.  
-   Measure the two Z-parities inside every block  
+   standard repetition code.
+   Measure the two Z-parities inside every block
    (Z₀Z₁ & Z₁Z₂, Z₃Z₄ & Z₄Z₅, …) and apply X to the offending
    qubit determined by the ±1 syndrome.
 
 2. **Phase-flip stage (Z errors)** – after bit-flip cleanup each block is
-   effectively a single “logical” qubit in a phase-repetition code.  
+   effectively a single “logical” qubit in a phase-repetition code.
    Measure
        M₁ = X₀X₁X₂X₃X₄X₅  (blocks 0⊕1)
        M₂ = X₃X₄X₅X₆X₇X₈  (blocks 1⊕2)

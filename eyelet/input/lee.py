@@ -30,7 +30,7 @@ def is_valid(grid, visited, r, c):
 
 
 def lee(grid, src: Point, dst: Point):
-    """Lee-algorithm BFS.  
+    """Lee-algorithm BFS.
     Marks the shortest path in-place and returns True if a path exists."""
     visited = [[False] * COL for _ in range(ROW)]
     dist    = [[-1] * COL for _ in range(ROW)]

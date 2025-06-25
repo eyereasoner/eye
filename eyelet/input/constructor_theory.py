@@ -77,7 +77,7 @@ class Task:
     def __matmul__(self, other: "Task"):
         """Series: *self ∘ other* (apply **other first**, then self).
 
-        • Same substrate → compose mappings.  
+        • Same substrate → compose mappings.
         • Disjoint substrates → commute ⇒ return a *ParallelTask*.
         """
         if self.substrate is other.substrate:
