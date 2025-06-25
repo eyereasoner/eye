@@ -6,7 +6,7 @@ Install python https://www.python.org/downloads/
 
 Install the required python packages
 ```
-pip install sympy numpy
+pip install numpy sympy rdflib
 ```
 
 Run
