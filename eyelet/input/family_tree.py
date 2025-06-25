@@ -61,7 +61,8 @@ class FamilyTree:
     
     def get_children(self, name):
         person = self.people.get(name)
-        return list(person.children) if person else []
+        if not person: return []
+        return sorted(person.children, key=lambda x: x.name)
     
     def get_siblings(self, name):
         person = self.people.get(name)
@@ -70,16 +71,17 @@ class FamilyTree:
         
         siblings = set()
         for parent in person.parents:
-            for child in parent.children:
-                if child != person:
-                    siblings.add(child)
-        return list(siblings)
+            siblings.update(parent.children)
+        siblings.discard(person)  # Remove self
+        return sorted(siblings, key=lambda x: x.name)
     
     def get_brothers(self, name):
-        return [s for s in self.get_siblings(name) if s.gender == 'male']
+        brothers = [s for s in self.get_siblings(name) if s.gender == 'male']
+        return sorted(brothers, key=lambda x: x.name)
     
     def get_sisters(self, name):
-        return [s for s in self.get_siblings(name) if s.gender == 'female']
+        sisters = [s for s in self.get_siblings(name) if s.gender == 'female']
+        return sorted(sisters, key=lambda x: x.name)
     
     def get_grandparents(self, name):
         person = self.people.get(name)
@@ -88,13 +90,15 @@ class FamilyTree:
         grandparents = set()
         for parent in person.parents:
             grandparents.update(parent.parents)
-        return list(grandparents)
+        return sorted(grandparents, key=lambda x: x.name)
     
     def get_grandfathers(self, name):
-        return [g for g in self.get_grandparents(name) if g.gender == 'male']
+        grandfathers = [g for g in self.get_grandparents(name) if g.gender == 'male']
+        return sorted(grandfathers, key=lambda x: x.name)
     
     def get_grandmothers(self, name):
-        return [g for g in self.get_grandparents(name) if g.gender == 'female']
+        grandmothers = [g for g in self.get_grandparents(name) if g.gender == 'female']
+        return sorted(grandmothers, key=lambda x: x.name)
     
     def get_uncles(self, name):
         person = self.people.get(name)
@@ -102,11 +106,12 @@ class FamilyTree:
         
         uncles = set()
         for parent in person.parents:
+            # Get parent's siblings (only male ones)
             for grandparent in parent.parents:
-                for uncle_aunt in grandparent.children:
-                    if uncle_aunt != parent and uncle_aunt.gender == 'male':
-                        uncles.add(uncle_aunt)
-        return list(uncles)
+                for sibling in grandparent.children:
+                    if sibling != parent and sibling.gender == 'male':
+                        uncles.add(sibling)
+        return sorted(uncles, key=lambda x: x.name)
     
     def get_aunts(self, name):
         person = self.people.get(name)
@@ -115,10 +120,10 @@ class FamilyTree:
         aunts = set()
         for parent in person.parents:
             for grandparent in parent.parents:
-                for uncle_aunt in grandparent.children:
-                    if uncle_aunt != parent and uncle_aunt.gender == 'female':
-                        aunts.add(uncle_aunt)
-        return list(aunts)
+                for sibling in grandparent.children:
+                    if sibling != parent and sibling.gender == 'female':
+                        aunts.add(sibling)
+        return sorted(aunts, key=lambda x: x.name)
     
     def __str__(self):
         return f"FamilyTree with {len(self.people)} members"
@@ -127,7 +132,7 @@ class FamilyTree:
 if __name__ == "__main__":
     family = FamilyTree()
     
-    # Add ALL family members first
+    # Add family members
     family.add_person("Grandpa", "male")
     family.add_person("Grandma", "female")
     family.add_person("Dad", "male")
@@ -136,7 +141,7 @@ if __name__ == "__main__":
     family.add_person("Child2", "female")
     family.add_person("Uncle", "male")
     family.add_person("Aunt", "female")
-    family.add_person("Cousin", "male")  # Added missing person
+    family.add_person("Cousin", "male")
     
     # Establish relationships
     family.add_relationship("Grandpa", "Dad")
@@ -147,7 +152,7 @@ if __name__ == "__main__":
     family.add_relationship("Mom", "Child1")
     family.add_relationship("Dad", "Child2")
     family.add_relationship("Mom", "Child2")
-    family.add_relationship("Uncle", "Cousin")  # Fixed typo (was "Uncle")
+    family.add_relationship("Uncle", "Cousin")
     
     # Query relationships
     print(f"Father of Child1: {family.get_father('Child1')}")
@@ -158,4 +163,3 @@ if __name__ == "__main__":
     print(f"Grandparents of Child1: {family.get_grandparents('Child1')}")
     print(f"Uncles of Child1: {family.get_uncles('Child1')}")
     print(f"Aunts of Child2: {family.get_aunts('Child2')}")
-
