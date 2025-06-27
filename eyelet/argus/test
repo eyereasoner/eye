@@ -1,10 +1,5 @@
 #!/bin/bash
 
-pushd argus > /dev/null
-./test
-popd > /dev/null
-echo ""
-
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
@@ -14,7 +9,7 @@ OK=0
 DIFF=0
 
 echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
-echo -e "${YELLOW}running eyelet examples and test cases${NORMAL}"
+echo -e "${YELLOW}running argus examples and test cases${NORMAL}"
 echo -e "${YELLOW}using python v$(python --version 2>&1 | awk '{ print $2 }')${NORMAL}"
 echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
 echo ""
@@ -26,21 +21,22 @@ pad () {
 }
 
 begin=$(($(date +%s)))
-for file in input/*.py
+for dir in */
 do
-    f="$(basename ${file})"
-    echo -en "$(pad "${f}" -34)"
+    pushd "${dir}" > /dev/null
+    echo -en "$(pad "${file}${dir}" -34)"
     start=$(($(date +%s%N)/1000000))
-    python "${file}" > output/${f%.py}.txt
+    ./test > /dev/null
     end=$(($(date +%s%N)/1000000))
     echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
-    if [[ $(git diff output/${f%.py}.txt | wc -l) -eq 0 ]]; then
+    if [[ $(git diff . | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else
         echo -e "${RED}DIFF${NORMAL}"
         ((DIFF++))
     fi
+    popd  > /dev/null
 done
 end=$(($(date +%s)))
 echo ""
