@@ -1,14 +1,14 @@
 @prefix : <http://example.org/#> .
 @prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix proof: <http://www.w3.org/2000/10/swap/reason#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix trace: <http://example.org/trace#> .
 @prefix var: <http://www.w3.org/2000/10/swap/var#> .
 
 :Socrates a :Human,
         :Mortal .
 
-[] trace:produced ( [ log:triple ( :Socrates rdf:type :Mortal ) ] ) ;
-    trace:used ( [ log:triple ( :Human rdfs:subClassOf :Mortal ) ] [ log:triple ( :Socrates rdf:type :Human ) ] ) ;
-    trace:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A rdfs:subClassOf var:B ) ] [ log:triple ( var:S rdf:type var:A ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:S rdf:type var:B ) ] ) ] ) ] ) .
+[] proof:produced ( [ log:triple ( :Socrates rdf:type :Mortal ) ] ) ;
+    proof:used ( [ log:triple ( :Human rdfs:subClassOf :Mortal ) ] [ log:triple ( :Socrates rdf:type :Human ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A rdfs:subClassOf var:B ) ] [ log:triple ( var:S rdf:type var:A ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:S rdf:type var:B ) ] ) ] ) ] ) .
 

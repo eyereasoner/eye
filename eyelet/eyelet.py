@@ -7,7 +7,7 @@ Forward   rules :  [ … ] log:implies       [ … ] .
 Backward  rules :  [ … ] log:isImpliedBy   [ … ] .
 Answer    rules :  [ … ] log:impliesAnswer [ … ] .
 
-Add --trace to embed one provenance node per forward rule.
+Add --proof to embed one provenance node per forward rule.
 
 • Handles RDF lists in triples (e.g. :joe :is (:good :Cobbler)).
 • Built-ins implemented:
@@ -35,8 +35,8 @@ from rdflib.namespace  import RDF, XSD
 LOG   = Namespace("http://www.w3.org/2000/10/swap/log#")
 MATH  = Namespace("http://www.w3.org/2000/10/swap/math#")
 TIME  = Namespace("http://www.w3.org/2000/10/swap/time#")
+PROOF = Namespace("http://www.w3.org/2000/10/swap/reason#")
 VAR   = Namespace("http://www.w3.org/2000/10/swap/var#")
-TRACE = Namespace("http://example.org/trace#")
 
 # a term can be an rdflib node *or* a tuple representing an RDF list
 Term   = Union[URIRef, BNode, Literal, Tuple]
@@ -211,16 +211,16 @@ class Rule:
 
 # ───── reasoner ──────────────────────────────────────────────────
 class Reasoner:
-    def __init__(self, trace=False):
+    def __init__(self, proof=False):
         self.data  = Graph()
         self.rules: List[Rule] = []
-        self.trace = trace
-        if trace: self.data.bind("trace", TRACE)
-        self._traced: Set[Rule] = set()
+        self.proof = proof
+        if proof: self.data.bind("proof", PROOF)
+        self._proofd: Set[Rule] = set()
 
     # deterministic helper
     def _sort(self, triples):
-        if not self.trace: return triples
+        if not self.proof: return triples
         return sorted(triples, key=lambda t:(str(t[0]),str(t[1]),str(t[2])))
 
     # ─ load files ───────────────────────────────────────────────
@@ -245,11 +245,11 @@ class Reasoner:
                     if not new: continue
                     for t in self._sort(new): self._add_fact(t)
                     changed=True
-                    if self.trace and r not in self._traced:
-                        self._record_trace(r,env,new)
+                    if self.proof and r not in self._proofd:
+                        self._record_proof(r,env,new)
 
     def _iter_facts_any(self):
-        src = self.data if not self.trace else self._sort(self.data)
+        src = self.data if not self.proof else self._sort(self.data)
         for s,p,o in src:
             yield tuple(_to_python(x,self.data) for x in (s,p,o))
 
@@ -259,27 +259,27 @@ class Reasoner:
         o=_from_python(t[2],self.data) if isinstance(t[2],tuple) else t[2]
         self.data.add((s,p,o))
 
-    def _record_trace(self,r,env,prod):
-        self._traced.add(r)
+    def _record_proof(self,r,env,prod):
+        self._proofd.add(r)
         node=BNode()
-        self.data.add((node,TRACE.viaRule,
+        self.data.add((node,PROOF.viaRule,
                        Collection(self.data,BNode(),[r.term]).uri))
         used=_triples_to_list(self.data,
                               [self._subst(t,env) for t in r.body])
-        self.data.add((node,TRACE.used,used))
-        self.data.add((node,TRACE.produced,
+        self.data.add((node,PROOF.used,used))
+        self.data.add((node,PROOF.produced,
                        _triples_to_list(self.data,prod)))
 
     # ─ Q&A ─────────────────────────────────────────────────────
     def answers(self):
         g=Graph(); g.namespace_manager=self.data.namespace_manager
-        if self.trace: g.bind("trace", TRACE)
+        if self.proof: g.bind("proof", PROOF)
         for r in self.rules:
             if r.kind!="answer": continue
             for env in self.ask(r.body):
                 for t in self._apply(r.head,env):
                     g.add(_triple_to_rdflib(t,g))
-        if self.trace: _copy_trace_nodes(self.data,g)
+        if self.proof: _copy_proof_nodes(self.data,g)
         return g
 
     def ask(self, goals): yield from self._prove(goals,{})
@@ -365,7 +365,7 @@ class Reasoner:
             tuple(sorted(str(t) for t in r.head)),
             tuple(sorted(str(t) for t in r.body))))
 
-# ───── misc helpers (deterministic in trace) ─────────────────────
+# ───── misc helpers (deterministic in proof) ─────────────────────
 def _graph_to_pats(list_node,g):
     if list_node is None: return []
     pats=[]
@@ -400,9 +400,9 @@ def _triples_to_list(g,tris):
 def _triple_to_rdflib(tr,g):
     return tuple(_from_python(x,g) if isinstance(x,tuple) else x for x in tr)
 
-def _copy_trace_nodes(src,dst):
-    q=[s for s,_,_ in src.triples((None,TRACE.viaRule,None))]
-    dst += src.triples((None,TRACE.viaRule,None))
+def _copy_proof_nodes(src,dst):
+    q=[s for s,_,_ in src.triples((None,PROOF.viaRule,None))]
+    dst += src.triples((None,PROOF.viaRule,None))
     seen=set(q)
     while q:
         n=q.pop(0)
@@ -429,10 +429,10 @@ def _copy_list_structure(src,dst,head,q,seen):
 # ───── CLI ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     if len(sys.argv)<2:
-        sys.exit("Usage: python eyelet.py [--trace] file.ttl [more.ttl …]")
-    want_trace="--trace" in sys.argv
-    files=[f for f in sys.argv[1:] if f!="--trace"]
-    R=Reasoner(trace=want_trace)
+        sys.exit("Usage: python eyelet.py [--proof] file.ttl [more.ttl …]")
+    want_proof="--proof" in sys.argv
+    files=[f for f in sys.argv[1:] if f!="--proof"]
+    R=Reasoner(proof=want_proof)
     R.load(*files)
     R.forward_chain()
     R.answers().serialize(sys.stdout.buffer, format="turtle")
