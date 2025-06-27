@@ -1,43 +1,50 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-eyelet.py – a tiny EYE–style reasoner
-=====================================
+eyelet.py – pocket-sized EYE-style reasoner with provenance
+===========================================================
 
- • forward  rules  – log:implies
- • backward rules  – log:isImpliedBy
- • answer   rules  – log:impliesAnswer
-   (CLI prints only the instantiated heads of answer rules)
+ • log:implies       – forward rules
+ • log:isImpliedBy   – backward rules
+ • log:impliesAnswer – answer rules
+   (CLI prints only instantiated answer-heads;
+    add --trace to embed one provenance node per forward rule)
 
-Supported built-ins (numeric literals only):
- • math:difference
- • math:greaterThan
+Built-ins implemented (numeric literals only)
+   • math:difference
+   • math:greaterThan
 """
 
 import sys
-from pathlib import Path
-from typing import Dict, Iterator, List, Optional, Sequence, Tuple, Union
+from typing import Dict, List, Optional, Sequence, Tuple, Union, Iterator, Set
 
 from rdflib import Graph, BNode, URIRef, Literal, Namespace
 from rdflib.collection import Collection
 from rdflib.namespace import RDF, XSD
 
-# ───── namespaces ────────────────────────────────────────────────────
-LOG  = Namespace("http://www.w3.org/2000/10/swap/log#")
-MATH = Namespace("http://www.w3.org/2000/10/swap/math#")
-VAR  = Namespace("http://www.w3.org/2000/10/swap/var#")
+# ─── namespaces ────────────────────────────────────────────────────
+LOG   = Namespace("http://www.w3.org/2000/10/swap/log#")
+MATH  = Namespace("http://www.w3.org/2000/10/swap/math#")
+VAR   = Namespace("http://www.w3.org/2000/10/swap/var#")
+TRACE = Namespace("http://example.org/trace#")
 
 Triple = Tuple[Union[URIRef, BNode, Literal],
                Union[URIRef, BNode],
                Union[URIRef, BNode, Literal]]
-Subst  = Dict[URIRef, Union[URIRef, BNode, Literal]]
+Subst = Dict[URIRef, Union[URIRef, BNode, Literal]]
 
-# ───── variable helpers & unification ────────────────────────────────
+# ─── variable helpers / unification ────────────────────────────────
 def is_var(t) -> bool:
     return isinstance(t, URIRef) and str(t).startswith(str(VAR))
 
 def subst_term(t, σ: Subst):
     return σ.get(t, t) if is_var(t) else t
+
+def _extend(v: URIRef, x, σ: Subst) -> Optional[Subst]:
+    if v in σ and σ[v] != x:
+        return None
+    s2 = dict(σ); s2[v] = x
+    return s2
 
 def unify_term(a, b, σ: Subst) -> Optional[Subst]:
     a, b = subst_term(a, σ), subst_term(b, σ)
@@ -49,12 +56,6 @@ def unify_term(a, b, σ: Subst) -> Optional[Subst]:
         return _extend(b, a, σ)
     return None
 
-def _extend(v: URIRef, x, σ: Subst) -> Optional[Subst]:
-    if v in σ and σ[v] != x:
-        return None
-    σ2 = dict(σ); σ2[v] = x
-    return σ2
-
 def unify_triple(pat: Triple, fact: Triple, σ: Subst) -> Optional[Subst]:
     for p, f in zip(pat, fact):
         σ = unify_term(p, f, σ)
@@ -62,17 +63,17 @@ def unify_triple(pat: Triple, fact: Triple, σ: Subst) -> Optional[Subst]:
             return None
     return σ
 
-# ───── mini built-ins ────────────────────────────────────────────────
-def _num(node) -> Optional[float]:
-    if isinstance(node, Literal):
+# ─── mini built-ins ────────────────────────────────────────────────
+def _num(n) -> Optional[float]:
+    if isinstance(n, Literal):
         try:
-            return float(node)
+            return float(n)
         except Exception:
             return None
     return None
 
 def eval_builtin(pred: URIRef, args: Tuple, σ: Subst) -> Optional[Subst]:
-    if pred == MATH.difference:                      # ((A B) math:difference F)
+    if pred == MATH.difference:                 # ((A B) math:difference F)
         (pair,), F = args[:-1], args[-1]
         if not (isinstance(pair, tuple) and len(pair) == 2):
             return None
@@ -81,35 +82,69 @@ def eval_builtin(pred: URIRef, args: Tuple, σ: Subst) -> Optional[Subst]:
             return None
         return unify_term(F, Literal(a - b, datatype=XSD.decimal), σ)
 
-    if pred == MATH.greaterThan:                     # (F math:greaterThan A)
+    if pred == MATH.greaterThan:                # (F math:greaterThan A)
         F, A = args
         f, a = _num(subst_term(F, σ)), _num(subst_term(A, σ))
         if f is None or a is None:
             return None
         return σ if f > a else None
 
-    return None                                      # unsupported
+    return None
 
-# ───── rule container ────────────────────────────────────────────────
+# ─── helper to turn pattern lists into an RDF rule term ────────────
+def _make_rule_term(g: Graph,
+                    body_pats: List[Triple],
+                    head_pats: List[Triple]) -> BNode:
+    """Return a blank node encoding the rule in N3 style."""
+    def _pat_list(pats):
+        items = []
+        for s, p, o in pats:
+            tbn = BNode()
+            g.add((tbn, LOG.triple,
+                   Collection(g, BNode(), [s, p, o]).uri))
+            items.append(tbn)
+        return Collection(g, BNode(), items).uri
+
+    body_list = _pat_list(body_pats)
+    head_list = _pat_list(head_pats)
+
+    body_bn = BNode(); g.add((body_bn, LOG.graph, body_list))
+    head_bn = BNode(); g.add((head_bn, LOG.graph, head_list))
+
+    rule_bn = BNode()
+    g.add((rule_bn, LOG.triple,
+           Collection(g, BNode(), [body_bn, LOG.implies, head_bn]).uri))
+    return rule_bn
+
+# ─── rule container ────────────────────────────────────────────────
 class Rule:
-    def __init__(self, head: List[Triple], body: List[Triple], kind: str):
-        self.head, self.body, self.kind = head, body, kind   # forward | backward | answer
+    def __init__(self, head, body, kind, term):
+        self.head, self.body, self.kind, self.term = head, body, kind, term
 
-# ───── reasoner core ────────────────────────────────────────────────
+# ─── reasoner core ─────────────────────────────────────────────────
 class Reasoner:
-    def __init__(self):
-        self.data  = Graph()
+    def __init__(self, trace=False):
+        self.data = Graph()
         self.rules: List[Rule] = []
+        self.trace = trace
+        if trace:
+            self.data.bind("trace", TRACE)
+        self._traced_rules: Set[Rule] = set()   # ensure one provenance node / rule
 
-    # ── I/O ─────────────────────────────────────────────────────────
-    def load(self, *files: Union[str, Path]):
-        for p in files:
-            g = Graph(); g.parse(p)
+    # ─ I/O ───────────────────────────────────────────────────────
+    def load(self, *files):
+        for path in files:
+            g = Graph(); g.parse(path)
+
+            # copy prefixes (incl. default :)
+            for pfx, uri in g.namespace_manager.namespaces():
+                self.data.bind(pfx or "", uri, replace=False)
+
             self._extract_rules(g)
-            self.data += g                                   # keep only facts
+            self.data += g                       # keep only fact triples
 
-    # ── forward chaining ───────────────────────────────────────────
-    def forward_chain(self, limit: int = 50):
+    # ─ forward chaining ─────────────────────────────────────────
+    def forward_chain(self, limit=50):
         changed = True
         while changed and limit:
             changed, limit = False, limit - 1
@@ -117,48 +152,68 @@ class Reasoner:
                 if r.kind != "forward":
                     continue
                 for env in self._match_body(r.body):
-                    for t in self._apply(r.head, env):
-                        if t not in self.data:
-                            self.data.add(t)
-                            changed = True
+                    new = [t for t in self._apply(r.head, env)
+                           if t not in self.data]
+                    if not new:
+                        continue
+                    for t in new:
+                        self.data.add(t)
+                    changed = True
+                    if self.trace and r not in self._traced_rules:
+                        self._record_trace(r, env, new)
 
-    # ── backward chaining / ask ────────────────────────────────────
-    def ask(self, goals: Sequence[Triple]) -> Iterator[Subst]:
-        yield from self._prove(goals, {})
+    def _record_trace(self, rule: Rule, env: Subst, produced: List[Triple]):
+        """Add a provenance node for this rule (once)."""
+        self._traced_rules.add(rule)
+        node = BNode()
+        self.data.add((node, TRACE.viaRule,
+                       Collection(self.data, BNode(), [rule.term]).uri))
+        used  = _triples_to_list(
+            self.data, [self._subst(t, env) for t in rule.body])
+        prod  = _triples_to_list(self.data, produced)
+        self.data.add((node, TRACE.used,     used))
+        self.data.add((node, TRACE.produced, prod))
 
+    # ─ query / answers ──────────────────────────────────────────
     def answers(self) -> Graph:
-        out = Graph()
+        g = Graph()
+        g.namespace_manager = self.data.namespace_manager
+        if self.trace:
+            g.bind("trace", TRACE)
+
         for r in self.rules:
             if r.kind != "answer":
                 continue
             for env in self.ask(r.body):
                 for t in self._apply(r.head, env):
-                    out.add(t)
-        return out
+                    g.add(t)
 
-    # ── proof search (depth-first) ────────────────────────────────
+        if self.trace:
+            _copy_trace_nodes(self.data, g)
+
+        return g
+
+    def ask(self, goals):
+        yield from self._prove(goals, {})
+
+    # ─ proof search ────────────────────────────────────────────
     def _prove(self, goals: Sequence[Triple], σ: Subst) -> Iterator[Subst]:
         if not goals:
-            yield σ
-            return
-
+            yield σ; return
         g0, *rest = goals
         g0 = self._subst(g0, σ)
 
-        # built-in as goal
         if isinstance(g0[1], URIRef) and str(g0[1]).startswith(str(MATH)):
             σ2 = eval_builtin(g0[1], (g0[0], g0[2]), σ)
             if σ2 is not None:
                 yield from self._prove(rest, σ2)
-            return                                   # no facts/rules needed
+            return
 
-        # explicit facts
         for fact in self.data.triples(self._rdflib_pat(g0)):
             σ2 = unify_triple(g0, fact, σ)
             if σ2 is not None:
                 yield from self._prove(rest, σ2)
 
-        # backward rules
         for r in self.rules:
             if r.kind != "backward":
                 continue
@@ -166,25 +221,23 @@ class Reasoner:
                 σ2 = unify_triple(g0, h, σ)
                 if σ2 is None:
                     continue
-                new_goals = [self._subst(p, σ2) for p in r.body] + \
-                            [self._subst(p, σ2) for p in r.head if p is not h] + rest
+                new_goals = ([self._subst(p, σ2) for p in r.body] +
+                             [self._subst(p, σ2) for p in r.head if p is not h] +
+                             rest)
                 yield from self._prove(new_goals, σ2)
 
-    # ── body matcher (forward rules) ───────────────────────────────
-    def _match_body(self, body: List[Triple]) -> Iterator[Subst]:
+    # ─ body matcher ────────────────────────────────────────────
+    def _match_body(self, body):
         envs: List[Subst] = [{}]
         for pat in body:
             nxt: List[Subst] = []
             for σ in envs:
                 gpat = self._subst(pat, σ)
-
-                # built-in in body
                 if isinstance(gpat[1], URIRef) and str(gpat[1]).startswith(str(MATH)):
                     res = eval_builtin(gpat[1], (gpat[0], gpat[2]), σ)
                     if res is not None:
                         nxt.append(res)
                     continue
-
                 for fact in self.data.triples(self._rdflib_pat(gpat)):
                     σ2 = unify_triple(gpat, fact, σ)
                     if σ2 is not None:
@@ -194,73 +247,108 @@ class Reasoner:
                 break
         yield from envs
 
-    # ── tiny helpers ───────────────────────────────────────────────
-    def _subst(self, t: Triple, σ: Subst) -> Triple:
-        return tuple(subst_term(x, σ) for x in t)    # type: ignore
-
-    def _apply(self, triples: List[Triple], σ: Subst):
-        for t in triples:
-            yield self._subst(t, σ)
-
+    # ─ helpers ──────────────────────────────────────────────────
+    def _subst(self, t, σ): return tuple(subst_term(x, σ) for x in t)  # type: ignore
+    def _apply(self, ts, σ): yield from (self._subst(t, σ) for t in ts)
     @staticmethod
-    def _rdflib_pat(p: Triple):
-        return tuple(None if is_var(x) else x for x in p)
+    def _rdflib_pat(t): return tuple(None if is_var(x) else x for x in t)
 
-    # ── rule extraction & cleanup ──────────────────────────────────
+    # ─ rule extraction ──────────────────────────────────────────
     def _extract_rules(self, g: Graph):
+
+        def _add_rule(head_pats, body_pats, kind):
+            term = _make_rule_term(self.data, body_pats, head_pats)
+            self.rules.append(Rule(head_pats, body_pats, kind, term))
+
         # forward
-        for a, _, b in list(g.triples((None, LOG.implies, None))):
-            self._store_rule(a, b, "forward", g)
-        # backward  (*** body = object, head = subject ***)
-        for a, _, b in list(g.triples((None, LOG.isImpliedBy, None))):
-            self._store_rule(b, a, "backward", g)   # <-- order fixed here
+        for s, _, o in list(g.triples((None, LOG.implies, None))):
+            body_pats = _graph_to_pats(g.value(s, LOG.graph), g)
+            head_pats = _graph_to_pats(g.value(o, LOG.graph), g)
+            _add_rule(head_pats, body_pats, "forward")
+            _scrub(s, g); _scrub(o, g)
+
+        # backward
+        for s, _, o in list(g.triples((None, LOG.isImpliedBy, None))):
+            body_pats = _graph_to_pats(g.value(o, LOG.graph), g)
+            head_pats = _graph_to_pats(g.value(s, LOG.graph), g)
+            _add_rule(head_pats, body_pats, "backward")
+            _scrub(s, g); _scrub(o, g)
+
         # answer
-        for a, _, b in list(g.triples((None, LOG.impliesAnswer, None))):
-            self._store_rule(a, b, "answer", g)
+        for s, _, o in list(g.triples((None, LOG.impliesAnswer, None))):
+            body_pats = _graph_to_pats(g.value(s, LOG.graph), g)
+            head_pats = _graph_to_pats(g.value(o, LOG.graph), g)
+            _add_rule(head_pats, body_pats, "answer")
+            _scrub(s, g); _scrub(o, g)
 
-    def _store_rule(self, subj, obj, kind, g: Graph):
-        body = _graph_to_patterns(g.value(subj, LOG.graph), g)
-        head = _graph_to_patterns(g.value(obj,  LOG.graph), g)
-        self.rules.append(Rule(head, body, kind))
-        _scrub(subj, g); _scrub(obj, g)
-
-# ───── helpers (no reasoner state) ────────────────────────────────────
-def _graph_to_patterns(list_node, g: Graph) -> List[Triple]:
+# ─── helper functions (no state) ───────────────────────────────────
+def _graph_to_pats(list_node, g):
     if list_node is None:
         return []
-    patterns: List[Triple] = []
-    for triple_node in Collection(g, list_node):
-        triple_list = g.value(triple_node, LOG.triple)
-        if triple_list is None:
+    out = []
+    for tbn in Collection(g, list_node):
+        inner = g.value(tbn, LOG.triple)
+        if inner is None:
             continue
-        parts = list(Collection(g, triple_list))
-        if len(parts) < 3:
-            continue
-        s, p, o = parts[:3]
-        patterns.append((s, p, o))
-    return patterns
+        items = list(Collection(g, inner))
+        if len(items) >= 3:
+            out.append(tuple(items[:3]))
+    return out
 
-def _scrub(node, g: Graph):
-    """Remove rule-description triples from the graph."""
+def _scrub(node, g):
     todo = [node]
     while todo:
         n = todo.pop()
         for s, p, o in list(g.triples((n, None, None))):
             g.remove((s, p, o))
-            if p in (RDF.first, RDF.rest, LOG.graph, LOG.triple):
+            if p in (LOG.graph, LOG.triple, RDF.first, RDF.rest):
                 todo.append(o)
 
-# ───── CLI ──────────────────────────────────────────────────────────
+# ─── trace utilities ──────────────────────────────────────────────
+def _triple_bnode(g, triple):
+    bn = BNode()
+    g.add((bn, LOG.triple, Collection(g, BNode(), list(triple)).uri))
+    return bn
+
+def _triples_to_list(g, triples):
+    return Collection(g, BNode(),
+                      [_triple_bnode(g, t) for t in triples]).uri
+
+def _copy_trace_nodes(src: Graph, dst: Graph):
+    q = [s for s, _, _ in src.triples((None, TRACE.viaRule, None))]
+    dst += src.triples((None, TRACE.viaRule, None))
+    seen: Set[BNode] = set(q)
+    while q:
+        n = q.pop()
+        for s, p, o in src.triples((n, None, None)):
+            dst.add((s, p, o))
+            if isinstance(o, BNode) and o not in seen:
+                seen.add(o); q.append(o)
+            if p == LOG.triple and isinstance(o, BNode):
+                _copy_list_structure(src, dst, o, q, seen)
+
+def _copy_list_structure(src, dst, head, q, seen):
+    node = head
+    while node and node != RDF.nil and (node, RDF.first, None) in src:
+        if node not in seen:
+            seen.add(node); q.append(node)
+        for t in src.triples((node, None, None)):
+            dst.add(t)
+            if isinstance(t[2], BNode) and t[2] not in seen:
+                seen.add(t[2]); q.append(t[2])
+        node = src.value(node, RDF.rest)
+
+# ─── CLI ───────────────────────────────────────────────────────────
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        sys.exit("Usage: python eyelet.py file.ttl [more.ttl …]")
+        sys.exit("Usage: python eyelet.py [--trace] file.ttl [more.ttl …]")
 
-    r = Reasoner()
-    r.load(*sys.argv[1:])
-    r.forward_chain()
+    want_trace = "--trace" in sys.argv
+    files = [f for f in sys.argv[1:] if f != "--trace"]
 
-    answers = r.answers()
-    (answers if len(answers) else r.data).serialize(
-        sys.stdout.buffer, format="turtle"
-    )
+    R = Reasoner(trace=want_trace)
+    R.load(*files)
+    R.forward_chain()
+
+    R.answers().serialize(sys.stdout.buffer, format="turtle")
 
