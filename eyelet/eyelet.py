@@ -20,6 +20,14 @@ import sys, re
 from datetime import datetime, date, time as _time, timedelta
 from typing   import Dict, List, Optional, Tuple, Union, Set
 
+# ─── deterministic blank-node IDs ───────────────────────────────
+import uuid, itertools
+_uuid_counter          = itertools.count()
+_original_uuid4        = uuid.uuid4          # just in case
+def _deterministic_uuid4():
+    return uuid.UUID(int=next(_uuid_counter))   # 00000000-0000-…-000000000000, 1, 2, …
+uuid.uuid4 = _deterministic_uuid4
+
 from rdflib            import Graph, BNode, URIRef, Literal, Namespace
 from rdflib.collection import Collection
 from rdflib.namespace  import RDF, XSD
@@ -360,11 +368,14 @@ class Reasoner:
     def _apply(self, ts, σ): yield from (self._subst(t, σ) for t in ts)
 
     # ─ rule extraction ─────────────────────────────────────────
+    # ─ rule extraction ─────────────────────────────────────────
     def _extract_rules(self, g):
         def _add(head, body, kind):
             self.rules.append(
                 Rule(head, body, kind,
                      _make_rule_term(self.data, body, head)))
+
+        # collect rules in whatever order rdflib gives us …
         for s,_,o in list(g.triples((None, LOG.implies, None))):
             body=_graph_to_pats(g.value(s, LOG.graph), g)
             head=_graph_to_pats(g.value(o, LOG.graph), g)
@@ -377,6 +388,13 @@ class Reasoner:
             body=_graph_to_pats(g.value(s, LOG.graph), g)
             head=_graph_to_pats(g.value(o, LOG.graph), g)
             _add(head, body, "answer");   _scrub(s,g); _scrub(o,g)
+
+        # ─── make the rule list deterministic ────────────
+        kind_rank = {"forward": 0, "backward": 1, "answer": 2}
+        self.rules.sort(
+            key=lambda r: (kind_rank[r.kind],
+                           tuple(sorted(str(t) for t in r.head)),
+                           tuple(sorted(str(t) for t in r.body))))
 
 # ───── misc helpers (deterministic in trace) ─────────────────────
 def _graph_to_pats(list_node, g):
