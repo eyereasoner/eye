@@ -413,32 +413,32 @@ def _triples_to_list(g,tris):
 def _triple_to_rdflib(tr,g):
     return tuple(_from_python(x,g) if isinstance(x,tuple) else x for x in tr)
 
-def _copy_trace_nodes(src,dst):
-    q=sorted([s for s,_,_ in src.triples((None, TRACE.viaRule, None))],
-             key=str)
+def _copy_trace_nodes(src: Graph, dst: Graph):
+    # FIX ↓  keep creation order of top-level provenance nodes
+    q = [s for s, _, _ in src.triples((None, TRACE.viaRule, None))]
     dst += src.triples((None, TRACE.viaRule, None))
-    seen=set(q)
+    seen: Set[BNode] = set(q)
     while q:
-        n=q.pop(0)
-        for s,p,o in sorted(src.triples((n,None,None)),
-                            key=lambda t:(str(t[0]),str(t[1]),str(t[2]))):
-            dst.add((s,p,o))
-            if isinstance(o,BNode) and o not in seen:
+        n = q.pop(0)                     # FIFO keeps rule-firing order
+        triples = list(src.triples((n, None, None)))
+        for s, p, o in sorted(triples, key=lambda t: (str(t[1]), str(t[2]))):
+            dst.add((s, p, o))
+            if isinstance(o, BNode) and o not in seen:
                 seen.add(o); q.append(o)
-            if p==LOG.triple and isinstance(o,BNode):
-                _copy_list_structure(src,dst,o,q,seen)
+            if p == LOG.triple and isinstance(o, BNode):
+                _copy_list_structure(src, dst, o, q, seen)
 
-def _copy_list_structure(src,dst,head,q,seen):
-    node=head
-    while node and node!=RDF.nil and (node,RDF.first,None) in src:
+def _copy_list_structure(src, dst, head, q, seen):
+    node = head
+    while node and node != RDF.nil and (node, RDF.first, None) in src:
         if node not in seen:
             seen.add(node); q.append(node)
-        for t in sorted(src.triples((node,None,None)),
-                        key=lambda t:(str(t[0]),str(t[1]),str(t[2]))):
+        inner = list(src.triples((node, None, None)))
+        for t in sorted(inner, key=lambda t: (str(t[1]), str(t[2]))):
             dst.add(t)
-            if isinstance(t[2],BNode) and t[2] not in seen:
+            if isinstance(t[2], BNode) and t[2] not in seen:
                 seen.add(t[2]); q.append(t[2])
-        node=src.value(node,RDF.rest)
+        node = src.value(node, RDF.rest)
 
 # ───── CLI ───────────────────────────────────────────────────────
 if __name__ == "__main__":
