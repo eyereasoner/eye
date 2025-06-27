@@ -6,6 +6,10 @@
 
 :GIRL a :WITCH .
 
+[] trace:produced ( [ log:triple ( :DUCK rdf:type :ISMADEOFWOOD ) ] ) ;
+    trace:used ( [ log:triple ( :DUCK rdf:type :FLOATS ) ] ) ;
+    trace:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:x rdf:type :FLOATS ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:x rdf:type :ISMADEOFWOOD ) ] ) ] ) ] ) .
+
 [] trace:produced ( [ log:triple ( :GIRL rdf:type :WITCH ) ] ) ;
     trace:used ( [ log:triple ( :GIRL rdf:type :BURNS ) ] [ log:triple ( :GIRL rdf:type :WOMAN ) ] ) ;
     trace:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:x rdf:type :BURNS ) ] [ log:triple ( var:x rdf:type :WOMAN ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:x rdf:type :WITCH ) ] ) ] ) ] ) .
@@ -17,8 +21,4 @@
 [] trace:produced ( [ log:triple ( :DUCK rdf:type :BURNS ) ] ) ;
     trace:used ( [ log:triple ( :DUCK rdf:type :ISMADEOFWOOD ) ] ) ;
     trace:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:x rdf:type :ISMADEOFWOOD ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:x rdf:type :BURNS ) ] ) ] ) ] ) .
-
-[] trace:produced ( [ log:triple ( :DUCK rdf:type :ISMADEOFWOOD ) ] ) ;
-    trace:used ( [ log:triple ( :DUCK rdf:type :FLOATS ) ] ) ;
-    trace:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:x rdf:type :FLOATS ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:x rdf:type :ISMADEOFWOOD ) ] ) ] ) ] ) .
 
