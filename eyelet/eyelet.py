@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-eyelet.py – pocket-sized EYE-style reasoner (RDF-list aware)
-============================================================
+eyelet.py – pocket-sized EYE-style reasoner
+===========================================
 
 Forward   rules :  [ … ] log:implies       [ … ] .
 Backward  rules :  [ … ] log:isImpliedBy   [ … ] .
@@ -18,7 +18,7 @@ Add --trace to embed one provenance node per forward rule.
 
 import sys, re
 from datetime import datetime, date, time as _time, timedelta
-from typing  import Dict, List, Optional, Tuple, Union, Set
+from typing   import Dict, List, Optional, Tuple, Union, Set
 
 from rdflib            import Graph, BNode, URIRef, Literal, Namespace
 from rdflib.collection import Collection
@@ -109,21 +109,19 @@ _DUR_RE = re.compile(
 )
 
 def _duration_to_days(lit: Literal) -> Optional[float]:
-    """Roughly convert xsd:duration → decimal days (1 y = 365 d, 1 M = 30 d)."""
+    """Roughly convert xsd:duration → decimal days (365 d/y, 30 d/M)."""
     if not (isinstance(lit, Literal) and lit.datatype == XSD.duration):
         return None
     m = _DUR_RE.match(str(lit))
     if not m:
         return None
-    parts = {k: int(v) if v else 0 for k, v in m.groupdict().items()}
-    days  = parts["years"] * 365 + parts["months"] * 30 + parts["days"]
-    secs  = (parts["hours"] * 3600 +
-             parts["minutes"] * 60 +
-             parts["seconds"])
+    p = {k: int(v) if v else 0 for k, v in m.groupdict().items()}
+    days = p["years"] * 365 + p["months"] * 30 + p["days"]
+    secs = p["hours"] * 3600 + p["minutes"] * 60 + p["seconds"]
     return days + secs / 86400.0
 
 def _num(lit: Literal):
-    """Try to turn a Literal into a float (xsd:decimal, integer, or duration)."""
+    """Literal → float (xsd:decimal/int or xsd:duration)."""
     if not isinstance(lit, Literal):
         return None
     if lit.datatype == XSD.duration:
@@ -134,97 +132,73 @@ def _num(lit: Literal):
         return None
 
 def _iso_to_py(lit: Literal):
-    """Parse xsd:dateTime/date/time into the corresponding Python object."""
+    """Parse xsd:dateTime/date/time → Python dt/date/time."""
     if not isinstance(lit, Literal):
         return None
     if lit.datatype == XSD.dateTime:
-        try:
-            return datetime.fromisoformat(str(lit))
-        except ValueError:
-            return None
+        try: return datetime.fromisoformat(str(lit))
+        except ValueError: return None
     if lit.datatype == XSD.date:
-        try:
-            return date.fromisoformat(str(lit))
-        except ValueError:
-            return None
+        try: return date.fromisoformat(str(lit))
+        except ValueError: return None
     if lit.datatype == XSD.time:
-        try:
-            return _time.fromisoformat(str(lit))
-        except ValueError:
-            return None
+        try: return _time.fromisoformat(str(lit))
+        except ValueError: return None
     return None
 
-def _timedelta_to_decimal_days(td: timedelta) -> Literal:
+def _td_to_dec(td: timedelta):
     return Literal(td.total_seconds() / 86400.0, datatype=XSD.decimal)
 
 def _align_dt_pair(a_dt, b_dt):
-    """
-    Make any pair of date/time objects subtractable by:
-      • attaching a plain time to the other's date,
-      • promoting plain dates to midnight datetimes,
-      • attaching two plain times to today().
-    """
-    # both xsd:time → today + those times
+    """Glue mismatched date/time objects so subtraction works."""
     if isinstance(a_dt, _time) and isinstance(b_dt, _time):
         today = date.today()
         return (datetime.combine(today, a_dt),
                 datetime.combine(today, b_dt))
-
-    # one side is time, the other carries a date part
     if isinstance(a_dt, _time) and isinstance(b_dt, (date, datetime)):
-        base = b_dt.date() if isinstance(b_dt, datetime) else b_dt
-        a_dt = datetime.combine(base, a_dt)
+        a_dt = datetime.combine(b_dt.date() if isinstance(b_dt, datetime) else b_dt, a_dt)
     if isinstance(b_dt, _time) and isinstance(a_dt, (date, datetime)):
-        base = a_dt.date() if isinstance(a_dt, datetime) else a_dt
-        b_dt = datetime.combine(base, b_dt)
-
-    # promote plain dates
+        b_dt = datetime.combine(a_dt.date() if isinstance(a_dt, datetime) else a_dt, b_dt)
     if isinstance(a_dt, date) and not isinstance(a_dt, datetime):
-        a_dt = datetime.combine(a_dt, _time(0, 0))
+        a_dt = datetime.combine(a_dt, _time(0,0))
     if isinstance(b_dt, date) and not isinstance(b_dt, datetime):
-        b_dt = datetime.combine(b_dt, _time(0, 0))
+        b_dt = datetime.combine(b_dt, _time(0,0))
     return a_dt, b_dt
 
 # ───── built-ins ────────────────────────────────────────────────
 def eval_builtin(pred: URIRef, args: Tuple, σ: Subst):
-    # ─── math:difference ────────────────────────────────────────
+    # math:difference
     if pred == MATH.difference:
         (pair,), F = args[:-1], args[-1]
         if not (isinstance(pair, tuple) and len(pair) == 2):
             return None
         a_raw, b_raw = (subst_term(z, σ) for z in pair)
 
-        # numeric branch
         a_num, b_num = _num(a_raw), _num(b_raw)
         if a_num is not None and b_num is not None:
-            return unify_term(F,
-                              Literal(a_num - b_num, datatype=XSD.decimal),
-                              σ)
+            return unify_term(F, Literal(a_num - b_num, datatype=XSD.decimal), σ)
 
-        # ISO date/time branch
         a_dt, b_dt = _iso_to_py(a_raw), _iso_to_py(b_raw)
         if a_dt is not None and b_dt is not None:
             a_dt, b_dt = _align_dt_pair(a_dt, b_dt)
-            return unify_term(F,
-                              _timedelta_to_decimal_days(a_dt - b_dt),
-                              σ)
+            return unify_term(F, _td_to_dec(a_dt - b_dt), σ)
         return None
 
-    # ─── math:greaterThan ───────────────────────────────────────
+    # math:greaterThan
     if pred == MATH.greaterThan:
         F, A = args
         f, a = _num(subst_term(F, σ)), _num(subst_term(A, σ))
         return σ if (f is not None and a is not None and f > a) else None
 
-    # ─── time:localTime ─────────────────────────────────────────
+    # time:localTime
     if pred == TIME.localTime:
-        _subj, obj = args       # subject is "" in N3; ignored here
+        _subj, obj = args
         now = datetime.now().isoformat(timespec="seconds")
         return unify_term(obj, Literal(now, datatype=XSD.dateTime), σ)
 
     return None
 
-# ───── rule-term constructor (unchanged) ─────────────────────────
+# ───── rule term constructor (unchanged) ─────────────────────────
 def _make_rule_term(g: Graph, body: List[Triple], head: List[Triple]):
     def _pat_list(pats):
         items=[]
@@ -249,7 +223,7 @@ class Rule:
     def __init__(self, head, body, kind, term):
         self.head, self.body, self.kind, self.term = head, body, kind, term
 
-# ───── reasoner (tweaked only to recognise TIME built-ins) ───────
+# ───── reasoner ──────────────────────────────────────────────────
 class Reasoner:
     def __init__(self, trace=False):
         self.data  = Graph()
@@ -259,6 +233,12 @@ class Reasoner:
             self.data.bind("trace", TRACE)
         self._traced: Set[Rule] = set()
 
+    # ─── deterministic helpers (only if trace) ──────────────────
+    def _sort(self, triples):
+        if not self.trace:
+            return triples
+        return sorted(triples, key=lambda t: (str(t[0]), str(t[1]), str(t[2])))
+
     # ─ load files ───────────────────────────────────────────────
     def load(self, *files):
         for p in files:
@@ -266,26 +246,29 @@ class Reasoner:
             for pfx, uri in g.namespace_manager.namespaces():
                 self.data.bind(pfx or "", uri, replace=False)
             self._extract_rules(g)
-            self.data += g                    # keep only fact triples
+            self.data += g     # keep only fact triples
 
     # ─ forward chaining ─────────────────────────────────────────
     def forward_chain(self, limit=50):
         changed = True
         while changed and limit:
             changed, limit = False, limit - 1
-            for r in self.rules:
+            for r in self.rules:          # rule list is already stable
                 if r.kind != "forward": continue
                 for env in self._match_body(r.body):
                     new = [t for t in self._apply(r.head, env)
                            if t not in self._iter_facts_any()]
                     if not new: continue
-                    for t in new: self._add_fact(t)
+                    for t in self._sort(new):
+                        self._add_fact(t)
                     changed = True
                     if self.trace and r not in self._traced:
                         self._record_trace(r, env, new)
 
+    # fast iterable of all facts
     def _iter_facts_any(self):
-        for s,p,o in self.data:
+        src = self.data if not self.trace else self._sort(self.data)
+        for s,p,o in src:
             yield tuple(_to_python(x, self.data) for x in (s,p,o))
 
     def _add_fact(self, t):
@@ -347,8 +330,9 @@ class Reasoner:
     def _iter_facts(self, pat):
         def conv(x): return None if (is_var(x) or isinstance(x, tuple)) \
                                else _from_python(x, self.data)
-        for s,p,o in self.data.triples(
-                (conv(pat[0]), conv(pat[1]), conv(pat[2]))):
+        triples = self.data.triples((conv(pat[0]), conv(pat[1]), conv(pat[2])))
+        triples = self._sort(triples)
+        for s,p,o in triples:
             yield tuple(_to_python(x, self.data) for x in (s,p,o))
 
     # ─ body matcher ────────────────────────────────────────────
@@ -394,7 +378,7 @@ class Reasoner:
             head=_graph_to_pats(g.value(o, LOG.graph), g)
             _add(head, body, "answer");   _scrub(s,g); _scrub(o,g)
 
-# ───── misc helpers (unchanged) ──────────────────────────────────
+# ───── misc helpers (deterministic in trace) ─────────────────────
 def _graph_to_pats(list_node, g):
     if list_node is None: return []
     pats=[]
@@ -430,12 +414,14 @@ def _triple_to_rdflib(tr,g):
     return tuple(_from_python(x,g) if isinstance(x,tuple) else x for x in tr)
 
 def _copy_trace_nodes(src,dst):
-    q=[s for s,_,_ in src.triples((None, TRACE.viaRule, None))]
+    q=sorted([s for s,_,_ in src.triples((None, TRACE.viaRule, None))],
+             key=str)
     dst += src.triples((None, TRACE.viaRule, None))
     seen=set(q)
     while q:
-        n=q.pop()
-        for s,p,o in src.triples((n,None,None)):
+        n=q.pop(0)
+        for s,p,o in sorted(src.triples((n,None,None)),
+                            key=lambda t:(str(t[0]),str(t[1]),str(t[2]))):
             dst.add((s,p,o))
             if isinstance(o,BNode) and o not in seen:
                 seen.add(o); q.append(o)
@@ -447,11 +433,12 @@ def _copy_list_structure(src,dst,head,q,seen):
     while node and node!=RDF.nil and (node,RDF.first,None) in src:
         if node not in seen:
             seen.add(node); q.append(node)
-        for t in src.triples((node,None,None)):
+        for t in sorted(src.triples((node,None,None)),
+                        key=lambda t:(str(t[0]),str(t[1]),str(t[2]))):
             dst.add(t)
             if isinstance(t[2],BNode) and t[2] not in seen:
                 seen.add(t[2]); q.append(t[2])
-        node=src.value(node, RDF.rest)
+        node=src.value(node,RDF.rest)
 
 # ───── CLI ───────────────────────────────────────────────────────
 if __name__ == "__main__":
