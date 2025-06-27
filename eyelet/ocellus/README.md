@@ -1,8 +1,8 @@
-# argus
+# ocellus
 
 ## A pocket-sized EYE-style reasoner in Python
 
-- argus supports reasoning with forward rules described in RDF Turtle
+- ocellus supports reasoning with forward rules described in RDF Turtle
   e.g.
     ```
     # subclass rule
@@ -14,7 +14,7 @@
     )].
     ```
 
-- argus supports reasoning with backward rules described in RDF Turtle
+- ocellus supports reasoning with backward rules described in RDF Turtle
   e.g.
     ```
     # is the age of a person above some duration?
@@ -28,7 +28,7 @@
     )].
     ```
 
-- argus supports querying with queries described in RDF Turtle
+- ocellus supports querying with queries described in RDF Turtle
   e.g.
     ```
     # who is a what?

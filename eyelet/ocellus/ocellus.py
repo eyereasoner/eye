@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-argus.py – pocket-sized EYE-style reasoner in Python
+ocellus.py – pocket-sized EYE-style reasoner in Python
 
 Forward   rules :  [ … ] log:implies       [ … ] .
 Backward  rules :  [ … ] log:isImpliedBy   [ … ] .
@@ -429,7 +429,7 @@ def _copy_list_structure(src,dst,head,q,seen):
 # ───── CLI ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     if len(sys.argv)<2:
-        sys.exit("Usage: python argus.py [--proof] file.ttl [more.ttl …]")
+        sys.exit("Usage: python ocellus.py [--proof] file.ttl [more.ttl …]")
     want_proof="--proof" in sys.argv
     files=[f for f in sys.argv[1:] if f!="--proof"]
     R=Reasoner(proof=want_proof)
