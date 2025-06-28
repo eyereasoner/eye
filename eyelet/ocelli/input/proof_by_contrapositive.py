@@ -150,7 +150,8 @@ if __name__ == "__main__":
     derived = [r for r in kb1.rules if r.head==(FALSE,) and
                len(r.body)==1 and isinstance(r.body[0], Lit)]
     print("\nExample 1  – derived rules of the form ‹something› ⇒ FALSE")
-    for r in derived:
+    sorted_derived = sorted(derived, key=str)
+    for r in sorted_derived:
         print(" ", r)
 
     # —— Example 2 ————————————————————————————————
