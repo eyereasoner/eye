@@ -12,15 +12,15 @@ import sys, re
 from datetime import datetime, date, time as _time, timedelta
 from typing import Dict, List, Optional, Tuple, Union, Set
 
-from rdflib import Graph, BNode, URIRef, Literal, Namespace
-from rdflib.collection import Collection
-from rdflib.namespace import RDF, XSD
-
 # --- deterministic blank-node IDs ---
 _uuid_counter = itertools.count()
 def _det_uuid4():
     return uuid.UUID(int=next(_uuid_counter))
 uuid.uuid4 = _det_uuid4
+
+from rdflib import Graph, BNode, URIRef, Literal, Namespace
+from rdflib.collection import Collection
+from rdflib.namespace import RDF, XSD
 
 # --- Namespaces ---
 LOG   = Namespace("http://www.w3.org/2000/10/swap/log#")
