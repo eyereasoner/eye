@@ -3,47 +3,36 @@
 """
 ocellus.py – pocket-sized EYE-style reasoner in Python
 
-Forward   rules :  [ … ] log:implies       [ … ] .
-Backward  rules :  [ … ] log:isImpliedBy   [ … ] .
-Answer    rules :  [ … ] log:impliesAnswer [ … ] .
-
 Add --proof to embed one provenance node per forward rule.
-
-• Handles RDF lists in triples (e.g. :joe :is (:good :Cobbler)).
-• Built-ins implemented:
-      – math:difference   | math:greaterThan
-      – time:localTime
+Add --nt for N-Triples output (for deterministic regression testing).
 """
 
-# ─── deterministic blank-node IDs (MUST come before rdflib import) ──────
 import uuid, itertools
-_uuid_counter   = itertools.count()
-def _det_uuid4():
-    return uuid.UUID(int=next(_uuid_counter))
-uuid.uuid4 = _det_uuid4           # monkey-patch once; restore later if needed
-# ------------------------------------------------------------------------
-
 import sys, re
 from datetime import datetime, date, time as _time, timedelta
-from typing  import Dict, List, Optional, Tuple, Union, Set
+from typing import Dict, List, Optional, Tuple, Union, Set
 
-from rdflib            import Graph, BNode, URIRef, Literal, Namespace
+from rdflib import Graph, BNode, URIRef, Literal, Namespace
 from rdflib.collection import Collection
-from rdflib.namespace  import RDF, XSD
+from rdflib.namespace import RDF, XSD
 
-# ───── namespaces ────────────────────────────────────────────────
+# --- deterministic blank-node IDs ---
+_uuid_counter = itertools.count()
+def _det_uuid4():
+    return uuid.UUID(int=next(_uuid_counter))
+uuid.uuid4 = _det_uuid4
+
+# --- Namespaces ---
 LOG   = Namespace("http://www.w3.org/2000/10/swap/log#")
 MATH  = Namespace("http://www.w3.org/2000/10/swap/math#")
 TIME  = Namespace("http://www.w3.org/2000/10/swap/time#")
 PROOF = Namespace("http://www.w3.org/2000/10/swap/reason#")
 VAR   = Namespace("http://www.w3.org/2000/10/swap/var#")
 
-# a term can be an rdflib node *or* a tuple representing an RDF list
 Term   = Union[URIRef, BNode, Literal, Tuple]
 Triple = Tuple[Term, Term, Term]
 Subst  = Dict[URIRef, Term]
 
-# ───── list helpers ──────────────────────────────────────────────
 def _to_python(node: Term, g: Graph, _memo=None) -> Term:
     if _memo is None:
         _memo = {}
@@ -69,7 +58,6 @@ def _from_python(term: Term, g: Graph) -> Term:
     Collection(g, head, [_from_python(x, g) for x in term])
     return head
 
-# ───── variable helpers & unification ────────────────────────────
 def is_var(t): return isinstance(t, URIRef) and str(t).startswith(str(VAR))
 
 def subst_term(t: Term, σ: Subst):
@@ -101,7 +89,6 @@ def unify_triple(pat: Triple, fact: Triple, σ: Subst):
         if σ is None: return None
     return σ
 
-# ───── literal helpers ───────────────────────────────────────────
 _DUR_RE = re.compile(
     r"^P(?:(?P<years>\d+)Y)?(?:(?P<months>\d+)M)?(?:(?P<days>\d+)D)?"
     r"(?:T(?:(?P<hours>\d+)H)?(?:(?P<minutes>\d+)M)?(?:(?P<seconds>\d+)S)?)?$"
@@ -155,17 +142,14 @@ def _align_dt(a_dt, b_dt):
         b_dt = datetime.combine(b_dt, _time(0,0))
     return a_dt, b_dt
 
-# ───── built-ins ────────────────────────────────────────────────
 def eval_builtin(pred: URIRef, args: Tuple, σ: Subst):
     if pred == MATH.difference:
         (pair,), F = args[:-1], args[-1]
         if not (isinstance(pair, tuple) and len(pair)==2): return None
         a_raw, b_raw = (subst_term(z, σ) for z in pair)
-
         a_num, b_num = _num(a_raw), _num(b_raw)
         if a_num is not None and b_num is not None:
             return unify_term(F, Literal(a_num-b_num, datatype=XSD.decimal), σ)
-
         a_dt, b_dt = _iso_to_py(a_raw), _iso_to_py(b_raw)
         if a_dt is not None and b_dt is not None:
             a_dt, b_dt = _align_dt(a_dt, b_dt)
@@ -184,7 +168,6 @@ def eval_builtin(pred: URIRef, args: Tuple, σ: Subst):
 
     return None
 
-# ───── rule term constructor ────────────────────────────────────
 def _make_rule_term(g: Graph, body: List[Triple], head: List[Triple]):
     def _pat_list(pats):
         items=[]
@@ -204,12 +187,10 @@ def _make_rule_term(g: Graph, body: List[Triple], head: List[Triple]):
            Collection(g,BNode(),[b_bn, LOG.implies, h_bn]).uri))
     return rule_bn
 
-# ───── rule container ────────────────────────────────────────────
 class Rule:
     def __init__(self, head, body, kind, term):
         self.head, self.body, self.kind, self.term = head, body, kind, term
 
-# ───── reasoner ──────────────────────────────────────────────────
 class Reasoner:
     def __init__(self, proof=False):
         self.data  = Graph()
@@ -218,13 +199,11 @@ class Reasoner:
         if proof: self.data.bind("proof", PROOF)
         self._proofd: Set[Rule] = set()
 
-    # deterministic helper
     def _sort(self, triples):
         if not self.proof: return triples
         return sorted(triples, key=lambda t:(str(t[0]),str(t[1]),str(t[2])))
 
-    # ─ load files ───────────────────────────────────────────────
-    def load(self,*files):
+    def load(self, *files):
         for p in files:
             g=Graph(); g.parse(p)
             for pfx,uri in g.namespace_manager.namespaces():
@@ -232,7 +211,6 @@ class Reasoner:
             self._extract_rules(g)
             self.data += g      # facts only
 
-    # ─ forward chaining ─────────────────────────────────────────
     def forward_chain(self, limit=50):
         changed=True
         while changed and limit:
@@ -270,7 +248,6 @@ class Reasoner:
         self.data.add((node,PROOF.produced,
                        _triples_to_list(self.data,prod)))
 
-    # ─ Q&A ─────────────────────────────────────────────────────
     def answers(self):
         g=Graph(); g.namespace_manager=self.data.namespace_manager
         if self.proof: g.bind("proof", PROOF)
@@ -284,7 +261,6 @@ class Reasoner:
 
     def ask(self, goals): yield from self._prove(goals,{})
 
-    # ─ proof search ────────────────────────────────────────────
     def _prove(self,goals,σ):
         if not goals: yield σ; return
         g0,*rest=goals
@@ -315,7 +291,6 @@ class Reasoner:
         for s,p,o in self._sort(triples):
             yield tuple(_to_python(x,self.data) for x in (s,p,o))
 
-    # ─ body matcher ────────────────────────────────────────────
     def _match_body(self,body):
         envs=[{}]
         for pat in body:
@@ -335,11 +310,9 @@ class Reasoner:
             if not envs: break
         yield from envs
 
-    # ─ helpers ────────────────────────────────────────────────
     def _subst(self,t,σ): return tuple(subst_term(x,σ) for x in t)
     def _apply(self,ts,σ): yield from (self._subst(t,σ) for t in ts)
 
-    # ─ rule extraction ─────────────────────────────────────────
     def _extract_rules(self,g):
         def _add(head,body,kind):
             self.rules.append(
@@ -358,14 +331,12 @@ class Reasoner:
                  _graph_to_pats(g.value(s,LOG.graph),g),"answer")
             _scrub(s,g); _scrub(o,g)
 
-        # ─── sort rules once for determinism ──────────────────
         kind_rank={"forward":0,"backward":1,"answer":2}
         self.rules.sort(key=lambda r:(
             kind_rank[r.kind],
             tuple(sorted(str(t) for t in r.head)),
             tuple(sorted(str(t) for t in r.body))))
 
-# ───── misc helpers (deterministic in proof) ─────────────────────
 def _graph_to_pats(list_node,g):
     if list_node is None: return []
     pats=[]
@@ -411,29 +382,22 @@ def _copy_proof_nodes(src,dst):
             dst.add((s,p,o))
             if isinstance(o,BNode) and o not in seen:
                 seen.add(o); q.append(o)
-            if p==LOG.triple and isinstance(o,BNode):
-                _copy_list_structure(src,dst,o,q,seen)
 
-def _copy_list_structure(src,dst,head,q,seen):
-    node=head
-    while node and node!=RDF.nil and (node,RDF.first,None) in src:
-        if node not in seen: seen.add(node); q.append(node)
-        inner=sorted(src.triples((node,None,None)),
-                     key=lambda t:(str(t[1]),str(t[2])))
-        for t in inner:
-            dst.add(t)
-            if isinstance(t[2],BNode) and t[2] not in seen:
-                seen.add(t[2]); q.append(t[2])
-        node=src.value(node,RDF.rest)
-
-# ───── CLI ───────────────────────────────────────────────────────
 if __name__ == "__main__":
     if len(sys.argv)<2:
         sys.exit("Usage: python ocellus.py [--proof] file.ttl [more.ttl …]")
     want_proof="--proof" in sys.argv
-    files=[f for f in sys.argv[1:] if f!="--proof"]
+    files=[f for f in sys.argv[1:] if f not in ("--proof", "--nt")]
+    use_nt="--nt" in sys.argv
     R=Reasoner(proof=want_proof)
     R.load(*files)
     R.forward_chain()
-    R.answers().serialize(sys.stdout.buffer, format="turtle")
+    g = R.answers()
+    if use_nt:
+        # N-Triples (deterministic, easy for diffing)
+        out = g.serialize(format="nt")
+        sys.stdout.write(''.join(sorted(out.splitlines(keepends=True))))
+    else:
+        # Default: Turtle
+        g.serialize(sys.stdout.buffer, format="turtle")
 
