@@ -1,0 +1,12 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix proof: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix var: <http://www.w3.org/2000/10/swap/var#> .
+
+:joe :is ( :good :Cobbler ) .
+
+[] proof:produced ( [ log:triple ( :joe :is ( :good :Cobbler ) ) ] ) ;
+    proof:used ( [ log:triple ( :joe :is ( :good :Cobbler ) ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:X :is ( :good var:Y ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( var:X :is ( :good var:Y ) ) ] ) ] ) ] ) .
+
