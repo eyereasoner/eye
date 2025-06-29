@@ -452,8 +452,8 @@ class Reasoner:
             yield tuple(_to_python(x, self.data) for x in (s, p, o))
 
     def _iter_facts_any(self):
-        """Iterate *all* facts (optionally sorted for deterministic proofs)."""
-        src = self.data if not self.proof else self._sort(self.data)
+        """Iterate *all* facts (sorted for deterministic proofs)."""
+        src = sorted(self.data, key=lambda t: (str(t[0]), str(t[1]), str(t[2])))
         for s, p, o in src:
             yield tuple(_to_python(x, self.data) for x in (s, p, o))
 
