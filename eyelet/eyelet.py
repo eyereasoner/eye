@@ -313,9 +313,7 @@ class Reasoner:
     # ---------------------------------------------------------------------
 
     def _sort(self, triples):
-        """Deterministic order when proofs are requested (for diff‑ing)."""
-        if not self.proof:
-            return triples
+        """Deterministic order."""
         return sorted(triples, key=lambda t: (str(t[0]), str(t[1]), str(t[2])))
 
     # ---------------------------------------------------------------------
