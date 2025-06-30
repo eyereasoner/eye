@@ -1,0 +1,64 @@
+@prefix ct:  <http://example.org/ct#>.
+@prefix ex:  <http://example.org/ex#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix owl: <http://www.w3.org/2002/07/owl#>.
+
+# ————————————————————— Core vocabulary —————————————————————
+ct:Task         a owl:Class.          
+ct:Constructor  a owl:Class.
+ct:substrate    a owl:ObjectProperty.
+ct:inputState   a owl:ObjectProperty.
+ct:outputState  a owl:ObjectProperty.
+ct:constructs   a owl:ObjectProperty.
+ct:sequence     a owl:ObjectProperty.
+ct:possible     a owl:DatatypeProperty.
+ct:impossible   a owl:DatatypeProperty.
+
+# ————————————————————— Substrate & states —————————————————————
+ex:Bit  a ct:substrate.
+
+ex:0 a ex:Bit.
+ex:1 a ex:Bit.
+
+# ————————————————————— Example Tasks —————————————————————
+ex:BitFlip  a ct:Task;
+    ct:substrate   ex:Bit;
+    ct:inputState  ex:0, ex:1;
+    ct:outputState ex:1, ex:0.
+
+ex:CopyBit  a ct:Task;
+    ct:substrate   ex:Bit;
+    ct:inputState  ex:0, ex:1;
+    ct:outputState ex:0, ex:0, ex:1, ex:1.
+
+ex:EraseBit a ct:Task;
+    ct:substrate   ex:Bit;
+    ct:inputState  ex:0, ex:1;
+    ct:outputState ex:0.
+
+ex:EntropyDecrease a ct:Task;
+    ct:substrate ex:Bit.
+
+# ————————————————————— Constructors —————————————————————
+ex:CNOTGate    a ct:Constructor; ct:constructs ex:CopyBit.
+ex:NANDMachine a ct:Constructor; ct:constructs ex:BitFlip, ex:EraseBit.
+
+# ————————————————————— Rules —————————————————————
+# CT-1: “Constructor ⇒ task possible”
+{ ?C a ct:Constructor.• ?C ct:constructs ?T.• }
+    => { ?T ct:possible true.• }.
+
+# CT-Impossible: tasks that contradict a law
+{ ?T a ct:Task.• 
+  ?T log:notIncludes { ?T ct:possible true.• }.• 
+  ?T = ex:EntropyDecrease.• }
+    => { ?T ct:impossible true.• }.
+
+# CT-2: Composition principle
+{ ?T1 ct:possible true.• ?T2 ct:possible true.• }
+    => { [ a ct:Task; ct:sequence ( ?T1 ?T2 ) ] ct:possible true.• }.
+
+# ————————————————————— Query helper —————————————————————
+{ ?T ct:possible true.• }
+    => { log:outputString ( "Possible task: " ?T ).• }.
+
