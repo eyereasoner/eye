@@ -95,9 +95,8 @@ if proof_data:
     for person, dogs in proof_data.items():
         dog_list = ", ".join(dogs)
         print(
-            f"{person} has {len(dogs)} dogs ({dog_list}), which is more "
-            f"than the limit of 4 → asserted "
-            f"({person}, mustHave, dogLicense)."
+            f"{person} has {len(dogs)} dogs ({', '.join(sorted(dogs))}), which "
+            f"is more than the limit of 4 → asserted ({person}, mustHave, dogLicense)."
         )
 else:
     print("\n(no licence obligations derived)")
