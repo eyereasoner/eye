@@ -1,7 +1,7 @@
 
 === Query ('Alice', 'can_access', 'accounting_doc') ===
 Step 001: prove ('Alice', 'can_access', 'accounting_doc')
-→ via R-access-purpose
+→ via R-access-any
   Step 002: prove ('Alice', 'has_current_permission', '?perm')
   → via R-user-current-perm
     Step 003: prove ('Alice', 'has_permission_obj', '?perm')
@@ -16,106 +16,252 @@ Step 001: prove ('Alice', 'can_access', 'accounting_doc')
       ✓ fact
       Step 008: prove ('DATE_TODAY', 'before', 'DATE_2025-12-31')
       ✓ fact
-  Step 009: prove ('PERM_PRIV_ACC', 'permits_purpose', '?purpose')
+  Step 009: prove ('PERM_PRIV_ACC', 'permits_purpose', 'ANY')
+      → via R-perm-assign
+        Step 010: prove ('MANAGER', 'has_role', 'MANAGER')
+        → via R-role-inherit
+          Step 011: prove ('MANAGER', 'has_role', '?r1')
+          → via R-role-inherit
+            Step 012: prove ('MANAGER', 'has_role', '?r1')
+      → via R-role-inherit
+        Step 013: prove ('Alice', 'has_role', '?r1')
+        ✓ fact
+        Step 014: prove ('MANAGER', 'inherits_from', '?r')
+        ✓ fact
+      Step 015: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 016: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 017: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 018: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 019: prove ('PERM_PUB_ANY', 'permits_purpose', 'ANY')
   ✓ fact
-  Step 010: prove ('accounting_doc', 'requires_permission', 'PERM_PRIV_ACC')
+  Step 020: prove ('accounting_doc', 'requires_permission', 'PERM_PUB_ANY')
+      → via R-perm-assign
+        Step 021: prove ('EMPLOYEE', 'has_role', 'EMPLOYEE')
+        → via R-role-inherit
+          Step 022: prove ('EMPLOYEE', 'has_role', 'MANAGER')
+          → via R-role-inherit
+            Step 023: prove ('EMPLOYEE', 'has_role', 'MANAGER')
+        → via R-role-inherit
+          Step 024: prove ('Alice', 'has_role', '?r1')
+          ✓ fact
+          Step 025: prove ('MANAGER', 'inherits_from', 'MANAGER')
+→ via R-access-purpose
+  Step 026: prove ('Alice', 'has_current_permission', '?perm')
+  → via R-user-current-perm
+    Step 027: prove ('Alice', 'has_permission_obj', '?perm')
+    → via R-perm-assign
+      Step 028: prove ('Alice', 'has_role', '?r')
+      ✓ fact
+      Step 029: prove ('MANAGER', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 030: prove ('PERM_PRIV_ACC', 'is_current', 'true')
+    → via R-perm-current
+      Step 031: prove ('PERM_PRIV_ACC', 'valid_until', '?exp')
+      ✓ fact
+      Step 032: prove ('DATE_TODAY', 'before', 'DATE_2025-12-31')
+      ✓ fact
+  Step 033: prove ('PERM_PRIV_ACC', 'permits_purpose', '?purpose')
   ✓ fact
-  Step 011: prove ('accounting_doc', 'usage_purpose', 'ACCOUNTING')
+  Step 034: prove ('accounting_doc', 'requires_permission', 'PERM_PRIV_ACC')
+  ✓ fact
+  Step 035: prove ('accounting_doc', 'usage_purpose', 'ACCOUNTING')
   ✓ fact
 ✔ PROVED
 
 
 === Query ('Bob', 'can_access', 'accounting_doc') ===
-Step 012: prove ('Bob', 'can_access', 'accounting_doc')
-→ via R-access-purpose
-  Step 013: prove ('Bob', 'has_current_permission', '?perm')
-  → via R-user-current-perm
-    Step 014: prove ('Bob', 'has_permission_obj', '?perm')
-    → via R-perm-assign
-      Step 015: prove ('Bob', 'has_role', '?r')
-      ✓ fact
-      Step 016: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
-      ✓ fact
-    Step 017: prove ('PERM_PUB_ANY', 'is_current', 'true')
-    → via R-perm-current
-      Step 018: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
-      ✓ fact
-      Step 019: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
-      ✓ fact
-  Step 020: prove ('PERM_PUB_ANY', 'permits_purpose', '?purpose')
-  ✓ fact
-  Step 021: prove ('accounting_doc', 'requires_permission', 'PERM_PUB_ANY')
-      → via R-perm-assign
-        Step 022: prove ('EMPLOYEE', 'has_role', 'EMPLOYEE')
-        → via R-role-inherit
-          Step 023: prove ('EMPLOYEE', 'has_role', '?r1')
-          → via R-role-inherit
-            Step 024: prove ('EMPLOYEE', 'has_role', '?r1')
-      → via R-role-inherit
-        Step 025: prove ('Bob', 'has_role', '?r1')
-        ✓ fact
-        Step 026: prove ('EMPLOYEE', 'inherits_from', '?r')
-        → via R-role-inherit
-          Step 027: prove ('Bob', 'has_role', '?r1')
-          ✓ fact
-          Step 028: prove ('EMPLOYEE', 'inherits_from', 'EMPLOYEE')
+Step 036: prove ('Bob', 'can_access', 'accounting_doc')
 → via R-access-any
+  Step 037: prove ('Bob', 'has_current_permission', '?perm')
+  → via R-user-current-perm
+    Step 038: prove ('Bob', 'has_permission_obj', '?perm')
+    → via R-perm-assign
+      Step 039: prove ('Bob', 'has_role', '?r')
+      ✓ fact
+      Step 040: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 041: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 042: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 043: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 044: prove ('PERM_PUB_ANY', 'permits_purpose', 'ANY')
+  ✓ fact
+      → via R-perm-assign
+      → via R-role-inherit
+        Step 045: prove ('Bob', 'has_role', '?r1')
+        ✓ fact
+        Step 046: prove ('EMPLOYEE', 'inherits_from', '?r')
+        → via R-role-inherit
+          Step 047: prove ('Bob', 'has_role', '?r1')
+          ✓ fact
+          Step 048: prove ('EMPLOYEE', 'inherits_from', 'EMPLOYEE')
+→ via R-access-purpose
+  Step 049: prove ('Bob', 'has_current_permission', '?perm')
+  → via R-user-current-perm
+    Step 050: prove ('Bob', 'has_permission_obj', '?perm')
+    → via R-perm-assign
+      Step 051: prove ('Bob', 'has_role', '?r')
+      ✓ fact
+      Step 052: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 053: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 054: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 055: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 056: prove ('PERM_PUB_ANY', 'permits_purpose', '?purpose')
+  ✓ fact
+      → via R-perm-assign
+      → via R-role-inherit
+        Step 057: prove ('Bob', 'has_role', '?r1')
+        ✓ fact
+        → via R-role-inherit
+          Step 058: prove ('Bob', 'has_role', '?r1')
+          ✓ fact
 ✗ NOT PROVED
 
 
 === Query ('Bob', 'can_access', 'public_doc') ===
-Step 029: prove ('Bob', 'can_access', 'public_doc')
-→ via R-access-purpose
+Step 059: prove ('Bob', 'can_access', 'public_doc')
 → via R-access-any
-✗ NOT PROVED
+  Step 060: prove ('Bob', 'has_current_permission', '?perm')
+  → via R-user-current-perm
+    Step 061: prove ('Bob', 'has_permission_obj', '?perm')
+    → via R-perm-assign
+      Step 062: prove ('Bob', 'has_role', '?r')
+      ✓ fact
+      Step 063: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 064: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 065: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 066: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 067: prove ('PERM_PUB_ANY', 'permits_purpose', 'ANY')
+  ✓ fact
+  Step 068: prove ('public_doc', 'requires_permission', 'PERM_PUB_ANY')
+  ✓ fact
+✔ PROVED
 
 
 === Query ('Charlie', 'can_access', 'accounting_doc') ===
-Step 030: prove ('Charlie', 'can_access', 'accounting_doc')
-→ via R-access-purpose
-  Step 031: prove ('Charlie', 'has_current_permission', '?perm')
+Step 069: prove ('Charlie', 'can_access', 'accounting_doc')
+→ via R-access-any
+  Step 070: prove ('Charlie', 'has_current_permission', '?perm')
   → via R-user-current-perm
-    Step 032: prove ('Charlie', 'has_permission_obj', '?perm')
+    Step 071: prove ('Charlie', 'has_permission_obj', '?perm')
     → via R-perm-assign
-      Step 033: prove ('Charlie', 'has_role', '?r')
+      Step 072: prove ('Charlie', 'has_role', '?r')
       ✓ fact
-      Step 034: prove ('ADMIN', 'has_permission_obj', '?perm')
+      Step 073: prove ('ADMIN', 'has_permission_obj', '?perm')
       ✓ fact
-    Step 035: prove ('PERM_CONF_ANY', 'is_current', 'true')
+    Step 074: prove ('PERM_CONF_ANY', 'is_current', 'true')
     → via R-perm-current
-      Step 036: prove ('PERM_CONF_ANY', 'valid_until', '?exp')
+      Step 075: prove ('PERM_CONF_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 076: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 077: prove ('PERM_CONF_ANY', 'permits_purpose', 'ANY')
+  ✓ fact
+  Step 078: prove ('accounting_doc', 'requires_permission', 'PERM_CONF_ANY')
+      → via R-perm-assign
+        Step 079: prove ('ADMIN', 'has_role', 'ADMIN')
+        → via R-role-inherit
+          Step 080: prove ('ADMIN', 'has_role', '?r1')
+          → via R-role-inherit
+            Step 081: prove ('ADMIN', 'has_role', '?r1')
+      → via R-role-inherit
+        Step 082: prove ('Charlie', 'has_role', '?r1')
+        ✓ fact
+        Step 083: prove ('ADMIN', 'inherits_from', '?r')
+        ✓ fact
+      Step 084: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 085: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 086: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 087: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 088: prove ('PERM_PUB_ANY', 'permits_purpose', 'ANY')
+  ✓ fact
+      → via R-perm-assign
+        ✓ fact
+      Step 089: prove ('MANAGER', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 090: prove ('PERM_PRIV_ACC', 'is_current', 'true')
+    → via R-perm-current
+      Step 091: prove ('PERM_PRIV_ACC', 'valid_until', '?exp')
+      ✓ fact
+      Step 092: prove ('DATE_TODAY', 'before', 'DATE_2025-12-31')
       ✓ fact
       → via R-perm-assign
-        Step 037: prove ('ADMIN', 'has_role', 'ADMIN')
         → via R-role-inherit
-          Step 038: prove ('ADMIN', 'has_role', '?r1')
-          → via R-role-inherit
-            Step 039: prove ('ADMIN', 'has_role', '?r1')
-      → via R-role-inherit
-        Step 040: prove ('Charlie', 'has_role', '?r1')
-        ✓ fact
-        Step 041: prove ('ADMIN', 'inherits_from', '?r')
-        ✓ fact
-        ✓ fact
-      Step 042: prove ('MANAGER', 'has_permission_obj', '?perm')
+          Step 093: prove ('Charlie', 'has_role', '?r1')
+          ✓ fact
+          Step 094: prove ('ADMIN', 'inherits_from', 'ADMIN')
+→ via R-access-purpose
+  Step 095: prove ('Charlie', 'has_current_permission', '?perm')
+  → via R-user-current-perm
+    Step 096: prove ('Charlie', 'has_permission_obj', '?perm')
+    → via R-perm-assign
+      Step 097: prove ('Charlie', 'has_role', '?r')
       ✓ fact
-    Step 043: prove ('PERM_PRIV_ACC', 'is_current', 'true')
+      Step 098: prove ('ADMIN', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 099: prove ('PERM_CONF_ANY', 'is_current', 'true')
     → via R-perm-current
-      Step 044: prove ('PERM_PRIV_ACC', 'valid_until', '?exp')
+      Step 100: prove ('PERM_CONF_ANY', 'valid_until', '?exp')
       ✓ fact
-      Step 045: prove ('DATE_TODAY', 'before', 'DATE_2025-12-31')
+      Step 101: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
       ✓ fact
-  Step 046: prove ('PERM_PRIV_ACC', 'permits_purpose', '?purpose')
+  Step 102: prove ('PERM_CONF_ANY', 'permits_purpose', '?purpose')
   ✓ fact
-  Step 047: prove ('accounting_doc', 'requires_permission', 'PERM_PRIV_ACC')
+      → via R-perm-assign
+      → via R-role-inherit
+        Step 103: prove ('Charlie', 'has_role', '?r1')
+        ✓ fact
+        Step 104: prove ('ADMIN', 'inherits_from', '?r')
+        ✓ fact
+      Step 105: prove ('EMPLOYEE', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 106: prove ('PERM_PUB_ANY', 'is_current', 'true')
+    → via R-perm-current
+      Step 107: prove ('PERM_PUB_ANY', 'valid_until', '?exp')
+      ✓ fact
+      Step 108: prove ('DATE_TODAY', 'before', 'DATE_2030-01-01')
+      ✓ fact
+  Step 109: prove ('PERM_PUB_ANY', 'permits_purpose', '?purpose')
   ✓ fact
-  Step 048: prove ('accounting_doc', 'usage_purpose', 'ACCOUNTING')
+      → via R-perm-assign
+        ✓ fact
+      Step 110: prove ('MANAGER', 'has_permission_obj', '?perm')
+      ✓ fact
+    Step 111: prove ('PERM_PRIV_ACC', 'is_current', 'true')
+    → via R-perm-current
+      Step 112: prove ('PERM_PRIV_ACC', 'valid_until', '?exp')
+      ✓ fact
+      Step 113: prove ('DATE_TODAY', 'before', 'DATE_2025-12-31')
+      ✓ fact
+  Step 114: prove ('PERM_PRIV_ACC', 'permits_purpose', '?purpose')
+  ✓ fact
+  Step 115: prove ('accounting_doc', 'requires_permission', 'PERM_PRIV_ACC')
+  ✓ fact
+  Step 116: prove ('accounting_doc', 'usage_purpose', 'ACCOUNTING')
   ✓ fact
 ✔ PROVED
 
 
 === Query ('Charlie', 'communicates_with', 'Alice') ===
-Step 049: prove ('Charlie', 'communicates_with', 'Alice')
+Step 117: prove ('Charlie', 'communicates_with', 'Alice')
 ✓ fact
 ✔ PROVED
 
