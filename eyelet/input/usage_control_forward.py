@@ -1,9 +1,9 @@
-# usage_control_reasoner.py  (Python 3.x)
+# usage_control_forward.py  (Python 3.x)
 
 from itertools import product
 from copy import deepcopy
 
-# ░░░ 1. Seed facts  ░░░
+# --- 1. Seed facts  ---
 facts = {
     # --- property meta ---
     ("inherits_from", "a", "TRANSITIVE_RELATION"),
@@ -49,7 +49,7 @@ facts = {
     ("Alice", "communicates_with", "Charlie"),
 }
 
-# ░░░ 2. Rules ░░░
+# --- 2. Rules ---
 rules = [
     # symmetry & transitivity (generic, use predicate variable)
     ("R-sym",
@@ -93,7 +93,7 @@ rules = [
      ("?u", "can_access", "?res")),
 ]
 
-# ░░░ 3. Deterministic forward-chaining engine ░░░
+# --- 3. Deterministic forward-chaining engine ---
 def is_var(t): return isinstance(t, str) and t.startswith("?")
 def unify(pat, fact, θ):
     θ = dict(θ)
@@ -131,7 +131,7 @@ while changed:
                 print(f"Step {step:02}: {new}   (by {rid})")
                 changed = True
 
-# ░░░ 4. Full fix-point & sample queries ░░░
+# --- 4. Full fix-point & sample queries ---
 print(f"\n=== Fix-point reached – {len(facts)} facts ===")
 for t in sorted(facts):
     print(t)
