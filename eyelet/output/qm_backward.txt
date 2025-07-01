@@ -1,0 +1,46 @@
+
+Initial groups:
+  0 ones: ['0000']
+  1 ones: ['0001', '0010']
+  2 ones: ['0011', '0101']
+  3 ones: ['0111', '1011']
+  4 ones: ['1111']
+
+=== Iteration 0 ===
+  combine 0000 + 0001  →  000-
+  combine 0000 + 0010  →  00-0
+  combine 0001 + 0011  →  00-1
+  combine 0001 + 0101  →  0-01
+  combine 0010 + 0011  →  001-
+  combine 0011 + 0111  →  0-11
+  combine 0011 + 1011  →  -011
+  combine 0101 + 0111  →  01-1
+  combine 0111 + 1111  →  -111
+  combine 1011 + 1111  →  1-11
+
+=== Iteration 1 ===
+  combine 00-0 + 00-1  →  00--
+  combine 000- + 001-  →  00--
+  combine 0-01 + 0-11  →  0--1
+  combine 00-1 + 01-1  →  0--1
+  combine -011 + -111  →  --11
+  combine 0-11 + 1-11  →  --11
+
+=== Iteration 2 ===
+
+Prime implicants found:
+  --11
+  0--1
+  00--
+
+Prime-implicant chart  (minterm → covering primes)
+   1: ['0--1', '00--']
+   3: ['--11', '0--1', '00--']
+   7: ['--11', '0--1']
+  11: ['--11']
+  15: ['--11']
+
+Selected minimal cover: {'--11', '0--1'}
+
+Minimal Sum-of-Products:
+  f = CD  +  ¬AD
