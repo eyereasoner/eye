@@ -1,10 +1,10 @@
 
 Initial groups:
-  0 ones: ['0000']
-  1 ones: ['0001', '0010']
-  2 ones: ['0011', '0101']
-  3 ones: ['0111', '1011']
-  4 ones: ['1111']
+  0: ['0000']
+  1: ['0001', '0010']
+  2: ['0011', '0101']
+  3: ['0111', '1011']
+  4: ['1111']
 
 === Iteration 0 ===
   combine 0000 + 0001  →  000-
@@ -19,28 +19,31 @@ Initial groups:
   combine 1011 + 1111  →  1-11
 
 === Iteration 1 ===
-  combine 00-0 + 00-1  →  00--
   combine 000- + 001-  →  00--
-  combine 0-01 + 0-11  →  0--1
+  combine 00-0 + 00-1  →  00--
   combine 00-1 + 01-1  →  0--1
-  combine -011 + -111  →  --11
+  combine 0-01 + 0-11  →  0--1
   combine 0-11 + 1-11  →  --11
+  combine -011 + -111  →  --11
 
 === Iteration 2 ===
 
-Prime implicants found:
-  --11
-  0--1
+Prime implicants:
   00--
+  0--1
+  --11
 
-Prime-implicant chart  (minterm → covering primes)
+Chart (minterm → covering primes)
    1: ['00--', '0--1']
-   3: ['00--', '--11', '0--1']
-   7: ['--11', '0--1']
+   3: ['00--', '0--1', '--11']
+   7: ['0--1', '--11']
   11: ['--11']
   15: ['--11']
+
+Essential primes: {'--11'}
+Remaining minterms to cover: {1}
 
 Selected minimal cover: {'00--', '--11'}
 
 Minimal Sum-of-Products:
-  f = CD  +  ¬A¬B
+  f = ¬A¬B  +  CD
