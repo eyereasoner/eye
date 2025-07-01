@@ -113,7 +113,8 @@ for r in range(len(noness)+1):
         break
 
 minimal_cover = essential | best_cover
-print("\nSelected minimal cover:", minimal_cover)
+ordered_cover = sorted(minimal_cover, key=pat_key)
+print("\nSelected minimal cover:", ordered_cover)
 
 # ─── 5. SOP expression ───────────────────────────────────────
 def pat2term(p: str) -> str:
@@ -123,7 +124,7 @@ def pat2term(p: str) -> str:
         elif b == '0':out.append('¬'+v)
     return ''.join(out) or '1'
 
-sop = '  +  '.join(pat2term(p) for p in sorted(minimal_cover, key=pat_key))
+sop = '  +  '.join(pat2term(p) for p in ordered_cover)
 print("\nMinimal Sum-of-Products:")
 print("  f =", sop)
 
