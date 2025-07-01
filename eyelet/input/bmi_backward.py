@@ -1,6 +1,27 @@
 #!/usr/bin/env python3
 """
-bmi_backward.py  –  backward-chaining proof with BMI evidence
+bmi_backward.py  –  Goal-directed derivation of BMI and weight status
+
+Data  (identical to bmi example)
+--------------------------------
+john weight  92.0   # kilograms
+john height  1.83   # metres
+mary weight  65.0
+mary height  1.71
+
+Rules
+-----
+R-bmi
+    { ?P weight ?W . ?P height ?H . }
+        => { ?P bmi ?B }            (B = W / H²)
+
+R-status
+    { ?P bmi ?B .  ?B >= 25 }       # overweight threshold
+        => { status(?P,true) }.
+
+Query
+-----
+?- status(P,true).
 """
 
 from itertools import count
