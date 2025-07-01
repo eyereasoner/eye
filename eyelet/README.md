@@ -1,6 +1,6 @@
 # eyelet
 
-## Looking at eye reasoning cases through python glasses
+## A peek at eye reasoning through python's eyes
 
 Install python https://www.python.org/downloads/
 
