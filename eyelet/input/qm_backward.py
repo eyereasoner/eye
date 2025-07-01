@@ -1,34 +1,29 @@
 #!/usr/bin/env python3
 """
-qm_backward.py  –  Quine-McCluskey with backward-proof trace
+qm_backward_trace.py  –  Quine-McCluskey with *deterministic* backward proof
 
-Target Boolean function (4 variables A,B,C,D):
-    f = Σ m(1, 3, 7, 11, 15)  +  Σ d(0, 2, 5)
+Function
+    f(A,B,C,D) = Σ m(1,3,7,11,15) + Σ d(0,2,5)
 
-Expected minimal SOP:
-    f =  C·D  +  ¬A¬B
+Chosen minimal cover (lexicographically first):
+    {'00--', '--11'}   →   f = CD  +  ¬A¬B
 """
 
 from itertools import combinations
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set
 
-# ─────────────────────────────────────────────────────────────
-# 0. Input sets
-# ─────────────────────────────────────────────────────────────
+# ─── Data sets ───────────────────────────────────────────────
 MINTERMS = {1, 3, 7, 11, 15}
 DONTCARE = {0, 2, 5}
-ALL      = MINTERMS | DONTCARE             # combine for algorithm
-WIDTH    = 4                               # four variables
+ALL      = sorted(MINTERMS | DONTCARE)
+WIDTH    = 4
+VARS     = ['A','B','C','D']
 
-# ─────────────────────────────────────────────────────────────
-# 1. Helper functions
-# ─────────────────────────────────────────────────────────────
-def bits(n: int) -> str:
-    """Return n as WIDTH-bit binary string."""
-    return f"{n:0{WIDTH}b}"
+bits = lambda n: f"{n:0{WIDTH}b}"
+pat_key = lambda p: ''.join({'0':'0','1':'1','-':'2'}[ch] for ch in p)
 
-def combine(a: str, b: str) -> str | None:
-    """Return merged pattern with exactly ONE differing bit → '-', else None."""
+# ─── Helper functions ────────────────────────────────────────
+def combine(a: str, b: str) -> str|None:
     diff, out = 0, []
     for x, y in zip(a, b):
         if x != y:
@@ -36,122 +31,99 @@ def combine(a: str, b: str) -> str | None:
             out.append('-')
         else:
             out.append(x)
-        if diff > 1:
-            return None
+        if diff > 1: return None
     return ''.join(out) if diff == 1 else None
 
-def covers(pat: str, m: int) -> bool:
-    """Does implicant pattern cover minterm m ?"""
-    return all(p == '-' or p == b for p, b in zip(pat, bits(m)))
+covers = lambda pat,m: all(p == '-' or p == b for p,b in zip(pat,bits(m)))
 
-# ─────────────────────────────────────────────────────────────
-# 2. Initial grouping by #ones – proof start
-# ─────────────────────────────────────────────────────────────
+# ─── 1. Initial grouping ─────────────────────────────────────
 groups: Dict[int, List[str]] = {}
-for num in sorted(ALL):
-    groups.setdefault(bits(num).count('1'), []).append(bits(num))
+for n in ALL:
+    groups.setdefault(bits(n).count('1'), []).append(bits(n))
+for k in groups: groups[k].sort(key=pat_key)
 
 print("\nInitial groups:")
-for ones in sorted(groups):
-    print(f"  {ones} ones: {groups[ones]}")
+for k in sorted(groups):
+    print(f"  {k}: {groups[k]}")
 
-# ─────────────────────────────────────────────────────────────
-# 3. Iterative combination (prints every step)
-# ─────────────────────────────────────────────────────────────
+# ─── 2. Iterative combination (proof trace) ──────────────────
 primes: Set[str] = set()
 iteration = 0
 while True:
     print(f"\n=== Iteration {iteration} ===")
     next_groups: Dict[int, List[str]] = {}
-    used: Set[str] = set()
+    used = set()
 
-    # Compare group i with i+1
     for i in sorted(groups):
         for p in groups[i]:
-            for q in groups.get(i + 1, []):
+            for q in groups.get(i+1, []):
                 merged = combine(p, q)
                 if merged:
                     print(f"  combine {p} + {q}  →  {merged}")
                     next_groups.setdefault(merged.count('1'), []).append(merged)
-                    used |= {p, q}
+                    used.update({p, q})
 
-    # Patterns not used become primes
-    for lst in groups.values():
-        primes |= {pat for pat in lst if pat not in used}
-
-    if not next_groups:           # no further combination possible
+    primes.update(p for lst in groups.values() for p in lst if p not in used)
+    if not next_groups:
         break
-
-    # Deduplicate in next iteration
     for k in next_groups:
-        next_groups[k] = sorted(set(next_groups[k]))
-
+        next_groups[k] = sorted(set(next_groups[k]), key=pat_key)
     groups = next_groups
     iteration += 1
 
-print("\nPrime implicants found:")
-for p in sorted(primes):
+print("\nPrime implicants:")
+for p in sorted(primes, key=pat_key):
     print(" ", p)
 
-# ─────────────────────────────────────────────────────────────
-# 4. Prime-implicant chart (backward justification)
-# ─────────────────────────────────────────────────────────────
-chart: Dict[int, List[str]] = {m: [] for m in MINTERMS}
+# ─── 3. Prime-implicant chart ────────────────────────────────
+chart = {m: [] for m in MINTERMS}
 for p in primes:
     for m in MINTERMS:
         if covers(p, m):
             chart[m].append(p)
+for m in chart: chart[m].sort(key=pat_key)
 
-print("\nPrime-implicant chart  (minterm → covering primes)")
+print("\nChart (minterm → covering primes)")
 for m in sorted(chart):
     print(f"  {m:>2}: {chart[m]}")
 
-# ─────────────────────────────────────────────────────────────
-# 5. Essential primes + minimal cover (tiny brute force)
-# ─────────────────────────────────────────────────────────────
-essential: Set[str] = set()
-remaining = set(MINTERMS)
+# ─── 4. Essentials & deterministic minimal cover ─────────────
+essential = {plist[0] for plist in chart.values() if len(plist) == 1}
+print("\nEssential primes:", essential)
 
-# (a) Essentials: minterms covered by exactly one prime
-for m, plist in chart.items():
-    if len(plist) == 1:
-        essential.add(plist[0])
-for p in essential:
-    remaining -= {m for m in remaining if covers(p, m)}
-
-# (b) Choose among non-essential primes to cover the rest
-noness = [p for p in primes if p not in essential]
-minimal_cover = set(essential)
-
+remaining = {m for m in MINTERMS if not any(covers(p, m) for p in essential)}
 if remaining:
-    for r in range(1, len(noness) + 1):
-        for combo in combinations(noness, r):
-            covered = set()
-            for pat in combo:
-                covered |= {m for m in remaining if covers(pat, m)}
-            if covered == remaining:
-                minimal_cover |= set(combo)     # ← fixed line
-                remaining = set()
-                break
-        if not remaining:
-            break
+    print("Remaining minterms to cover:", remaining)
+else:
+    print("All minterms covered by essentials.")
 
+noness = sorted([p for p in primes if p not in essential], key=pat_key)
+
+best_cover: Set[str] = set()
+for r in range(len(noness)+1):
+    candidates = []
+    for combo in combinations(noness, r):
+        rest = set(remaining)
+        for pat in combo:
+            rest = {m for m in rest if not covers(pat, m)}
+        if not rest:
+            candidates.append(tuple(sorted(combo, key=pat_key)))
+    if candidates:
+        best_cover = set(min(candidates, key=lambda tup:[pat_key(p) for p in tup]))
+        break
+
+minimal_cover = essential | best_cover
 print("\nSelected minimal cover:", minimal_cover)
 
-# ─────────────────────────────────────────────────────────────
-# 6. Convert patterns to human-readable literals
-# ─────────────────────────────────────────────────────────────
-vars = ['A', 'B', 'C', 'D']
-def pat_to_product(pat: str) -> str:
-    term = []
-    for v, bit in zip(vars, pat):
-        if bit == '1':
-            term.append(v)
-        elif bit == '0':
-            term.append('¬' + v)
-    return ''.join(term) if term else '1'
+# ─── 5. SOP expression ───────────────────────────────────────
+def pat2term(p: str) -> str:
+    out = []
+    for v, b in zip(VARS, p):
+        if b == '1':  out.append(v)
+        elif b == '0':out.append('¬'+v)
+    return ''.join(out) or '1'
 
-expression = '  +  '.join(pat_to_product(p) for p in sorted(minimal_cover))
+sop = '  +  '.join(pat2term(p) for p in sorted(minimal_cover, key=pat_key))
 print("\nMinimal Sum-of-Products:")
-print("  f =", expression)
+print("  f =", sop)
 
