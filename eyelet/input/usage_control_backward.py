@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 usage_control_backward.py
-Goal-directed version of usage_control_forward.py that terminates.
+Goal-directed version of usage_control_forward.py.
 
 Key design choices
 ------------------
@@ -89,13 +89,17 @@ def T(s): return tuple(s.split())
 
 raw_rules=[
     ("R-role-inherit",     "?u has_role ?r2",
-                           ["?u has_role ?r1","?r1 inherits_from ?r2"]),
+                           ["?u has_role ?r1",
+                            "?r1 inherits_from ?r2"]),
     ("R-perm-assign",      "?u has_permission_obj ?perm",
-                           ["?u has_role ?r","?r has_permission_obj ?perm"]),
+                           ["?u has_role ?r",
+                            "?r has_permission_obj ?perm"]),
     ("R-perm-current",     "?perm is_current true",
-                           ["?perm valid_until ?exp","DATE_TODAY before ?exp"]),
+                           ["?perm valid_until ?exp",
+                            "DATE_TODAY before ?exp"]),
     ("R-user-current-perm","?u has_current_permission ?perm",
-                           ["?u has_permission_obj ?perm","?perm is_current true"]),
+                           ["?u has_permission_obj ?perm",
+                            "?perm is_current true"]),
     ("R-access-purpose",   "?u can_access ?res",
                            ["?u has_current_permission ?perm",
                             "?perm permits_purpose ?purpose",
