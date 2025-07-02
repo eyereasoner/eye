@@ -1,0 +1,43 @@
+
+=== FD1: Either we raise taxes or the nation will collapse.
+Step 01: prove ('fallacy', 'false_dilemma', 'FD1')
+→ via R-fd
+  Step 02: prove ('FD1', 'either_or', True)
+  ✓ fact ('FD1', 'either_or', True)
+  Step 03: prove ('FD1', 'alts', False)
+  ✓ fact ('FD1', 'alts', False)
+Result: false dilemma
+
+
+=== FD2: Either we raise taxes or cut spending — or some mix of both.
+Step 04: prove ('fallacy', 'false_dilemma', 'FD2')
+→ via R-fd
+  Step 05: prove ('FD2', 'either_or', True)
+  ✓ fact ('FD2', 'either_or', True)
+  Step 06: prove ('FD2', 'alts', False)
+✗ sub-goal fails: ('FD2', 'alts', False)
+Result: no fallacy
+
+
+=== FD3: You are either with us or against us.
+Step 07: prove ('fallacy', 'false_dilemma', 'FD3')
+→ via R-fd
+  Step 08: prove ('FD3', 'either_or', True)
+  ✓ fact ('FD3', 'either_or', True)
+  Step 09: prove ('FD3', 'alts', False)
+  ✓ fact ('FD3', 'alts', False)
+Result: false dilemma
+
+
+=== FD4: We could raise taxes, cut spending, or issue bonds.
+Step 10: prove ('fallacy', 'false_dilemma', 'FD4')
+→ via R-fd
+  Step 11: prove ('FD4', 'either_or', True)
+✗ sub-goal fails: ('FD4', 'either_or', True)
+Result: no fallacy
+
+Summary:
+  FD1: false dilemma
+  FD2: ok
+  FD3: false dilemma
+  FD4: ok
