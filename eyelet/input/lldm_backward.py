@@ -1,6 +1,6 @@
 """
-lldm_backward.py – verbose “proof trace” for the leg-length
-discrepancy algorithm (Medicad demo).
+lldm_backward.py – for the leg-length discrepancy algorithm.
+See Medicad demo http://www.agfa.com/w3c/2002/10/medicad/op/
 
 Given four landmark points p1…p4 it emits a 30-step explanation
 showing *every* equation, substituted numbers, intermediate result and
@@ -17,12 +17,6 @@ p4      54.7    28.5    left-shoulder landmark on femoral line L3
 Usage (demo values from the original N3 file are in __main__):
     python lldm_backward.py
 """
-
-#!/usr/bin/env python3
-# leg_length_trace.py
-#
-# Reproduces the verbose 30-step proof-style output for the leg-length
-# discrepancy calculation, byte-for-byte (except for normal whitespace).
 
 from math import sqrt
 
