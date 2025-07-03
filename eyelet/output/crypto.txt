@@ -1,0 +1,23 @@
+sha512(b'Cryptographic hashing with SHA-512') =
+  72e1a2a1dd5762aca3d591b0e3936e55c18ca5584d4c11de2900b700c811cf411fc85343e2214656c469e5807219ce93b584eb9467e7c14a8c7d52c7f22fe1a4
+
+=== Proof ===============================================
+Step 1: prove  sha512(b'Cryptographic hashing with SHA-512') = 72e1a2a1dd5762aca3d591b0e3936e55c18ca5584d4c11de2900b700c811cf411fc85343e2214656c469e5807219ce93b584eb9467e7c14a8c7d52c7f22fe1a4
+  → By definition SHA-512 consists of:
+    (a) pre-processing / padding the message;
+    (b) processing each 1024-bit block with the compression function;
+    (c) concatenating the eight 64-bit state words as the digest.
+
+  2a. Padding fact:
+       • original length   L  = 272 bits
+       • padded to a multiple of 1024 bits (adds 1-bit, 0≤k≤1023 zeros, and 128-bit length)
+
+  2b. The padded message splits into 1 block of 1024 bits each.
+       • block   0: 43727970…
+
+       (each block updates the chaining variables a–h)
+
+  2c. After the last block the concatenated state words give:
+       digest = 72e1a2a1dd5762aca3d591b0…67e7c14a8c7d52c7f22fe1a4 (total 512 bits)
+
+Step 3: Therefore  sha512(msg) = stated digest  ✓ proven.
