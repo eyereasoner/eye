@@ -1,5 +1,5 @@
 """
-lldm_backward.py – for the leg-length discrepancy algorithm.
+lldm.py – for the leg-length discrepancy algorithm.
 See Medicad demo http://www.agfa.com/w3c/2002/10/medicad/op/
 
 Given four landmark points p1…p4 it emits a 30-step explanation
@@ -15,7 +15,7 @@ p3       3.6    29.8    right-shoulder landmark on femoral line L3
 p4      54.7    28.5    left-shoulder landmark on femoral line L3
 
 Usage (demo values from the original N3 file are in __main__):
-    python lldm_backward.py
+    python lldm.py
 """
 
 from math import sqrt

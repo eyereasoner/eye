@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-graph_backward.py  –  Prolog-style proofs for  ?- path(X, nantes)
+graph.py  –  Prolog-style proofs for  ?- path(X, nantes)
 
 Rules
 -----

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-qm_backward_trace.py  –  Quine-McCluskey with *deterministic* backward proof
+quine_mccluskey.py  –  Quine-McCluskey with *deterministic* backward proof
 
 Function
     f(A,B,C,D) = Σ m(1,3,7,11,15) + Σ d(0,2,5)

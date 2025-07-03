@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-fallacy_backward_full.py
+fallacy_full.py
 Demonstrates a complete backward-chaining proof for
 fallacy(ad_hominem, Argument).
 """

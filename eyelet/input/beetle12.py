@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-beetle12_backward.py
+beetle12.py
 Back-chaining probability proof for the “Beetle-12” annotated-disjunction
 example.
 

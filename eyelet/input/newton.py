@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-newton_backward.py
+newton.py
 ──────────────────────────────────────────────────────────────
 Backward-chaining “proof” of a root obtained by Newton-Raphson.
 

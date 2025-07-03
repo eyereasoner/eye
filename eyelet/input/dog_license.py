@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-dog_licence_backward.py
+dog_licence.py
 Backward-chaining proof for the “more than four dogs → dog licence” rule.
 
 Rule

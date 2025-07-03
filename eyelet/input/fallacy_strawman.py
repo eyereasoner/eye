@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-strawman_backward.py
+strawman.py
 Backward-chaining proof for the *straw-man* fallacy.
 
 Rule

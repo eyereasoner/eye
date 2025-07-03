@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-wind_bbn_backward.py
+wind_bbn.py
 ──────────────────────────────────────────────────────────────
 Goal-driven (backward) proof in a Bayesian Belief Network (BBN).
 

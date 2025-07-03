@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-bmi_backward.py  –  Goal-directed derivation of BMI and weight status
+bmi.py  –  Goal-directed derivation of BMI and weight status
 
 Data  (identical to bmi example)
 --------------------------------

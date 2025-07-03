@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-bbn_backward.py
+bbn.py
 A backward-chaining “proof” in a Bayesian Belief Network.
 
 Variables (binary):

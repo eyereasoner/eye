@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-clinic_bbn_backward.py
+clinic_bbn.py
 ─────────────────────────────────────────────────────────────
 Goal-directed (“backward”) variable-elimination proof in a
 small clinical Bayesian network.

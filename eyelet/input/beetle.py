@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-beetle_backward.py
+beetle.py
 Back-chaining proof for the simple Beetle example.
 
 Facts

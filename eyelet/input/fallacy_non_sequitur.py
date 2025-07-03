@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-non_sequitur_backward.py
+non_sequitur.py
 Identify the *non-sequitur* fallacy via backward chaining.
 
 Rule

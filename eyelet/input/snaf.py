@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-snaf_backward.py  –  scoped negation-as-failure (SNAF) toy proof
+snaf.py  –  scoped negation-as-failure (SNAF) toy proof
 
 Data set
 ========

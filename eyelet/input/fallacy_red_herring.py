@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-red_herring_backward.py
+red_herring.py
 Detects the *red-herring* fallacy via backward chaining.
 
 Rule

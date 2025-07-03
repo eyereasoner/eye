@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-fcm_backward.py  –  toy Fuzzy Cognitive Map proven by backward chaining
+fcm.py  –  toy Fuzzy Cognitive Map proven by backward chaining
 ────────────────────────────────────────────────────────────────────────
 
 Concepts

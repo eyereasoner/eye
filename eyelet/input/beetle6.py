@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-beetle6_backward.py
+beetle6.py
 Backward-proof version of beetle6.py (exclusive choices + evidence).
 
 Worlds before evidence

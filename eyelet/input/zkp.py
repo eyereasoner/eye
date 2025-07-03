@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-zkp_backward.py  –  toy zero-knowledge proof (ZKP) with backward chaining
+zkp.py  –  toy zero-knowledge proof (ZKP) with backward chaining
 ───────────────────────────────────────────────────────────────────────────
 Scenario
 --------

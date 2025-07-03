@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-false_dilemma_backward.py
+false_dilemma.py
 Detects the *false dilemma* fallacy with backward-chaining proof.
 
 Rule

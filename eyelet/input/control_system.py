@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-control_backward.py
+control.py
 Backward-chaining proof for Jos De Roo’s “Control System” demo.
 """
 

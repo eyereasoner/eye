@@ -1,5 +1,5 @@
 """
-fuse_backward.py  –  backward-chaining demo for
+fuse.py  –  backward-chaining demo for
 https://github.com/eyereasoner/eye/blob/master/reasoning/fuse/fuse.n3
 
 Data

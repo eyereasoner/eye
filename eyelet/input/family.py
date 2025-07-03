@@ -1,5 +1,5 @@
 """
-family_backward.py  –  goal-oriented (backward-chaining) proof with trace.
+family.py  –  goal-oriented (backward-chaining) proof with trace.
 
 The data and rules are identical to the forward-chaining demo, but the
 engine *starts from the goal* and works backwards. This is also called a

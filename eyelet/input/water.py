@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-water_backward.py
+water.py
 Backward-proof version of water.py (annotated disjunction).
 
 Facts

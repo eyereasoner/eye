@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-mmln_backward.py
+mmln.py
 ──────────────────────────────────────────────────────────────
 Generic backward-proof engine for the Greek-vase MMLN.
 See https://github.com/eyereasoner/eye/tree/master/reasoning/mmln

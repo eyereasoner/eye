@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-wallet_bbn_backward.py
+wallet_bbn.py
 ────────────────────────────────────────────────────────────────
 Backward-chaining Bayesian proof for an “agentic wallet”.
 

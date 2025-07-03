@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-four_numbers_backward.py
+four_numbers.py
 Find {x1,x2,x3,x4} such that
 
     Σ xi      =  26

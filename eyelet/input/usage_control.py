@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-usage_control_backward.py
+usage_control.py
 Goal-directed version of usage_control_forward.py.
 
 Key design choices
