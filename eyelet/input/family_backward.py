@@ -1,113 +1,120 @@
 """
-backward_family.py  –  backward-chaining with proof trace
+family_backward.py  –  goal-oriented (backward-chaining) proof with trace.
+
 The data and rules are identical to the forward-chaining demo, but the
-engine now *starts from the goal* and works backwards.
+engine *starts from the goal* and works backwards. This is also called a
+goal-oriented proof or SLD-resolution tree (in Prolog terminology).
 """
 
 from itertools import count
-from copy import deepcopy
 
 # ──────────────────────────────────────────────────────────────
-# Facts
+# 1. Facts: base knowledge (as (subject, relation, object) triples)
 # ──────────────────────────────────────────────────────────────
 facts = {
     ("alice", "a", "FEMALE"),
     ("bob",   "a", "MALE"),
     ("carol", "a", "FEMALE"),
     ("dave",  "a", "MALE"),
-
     ("alice", "parent", "bob"),
     ("bob",   "parent", "carol"),
-
     ("friend_of", "a", "SYMMETRIC_RELATION"),
     ("alice", "friend_of", "dave"),
 }
 
 # ──────────────────────────────────────────────────────────────
-# Rules (rule-id, body, head)
+# 2. Rules: (rule_id, [body_goals], head)
+#    Each rule is Horn-style: body (list of goals), head (conclusion)
 # ──────────────────────────────────────────────────────────────
 rules = [
-    ("R-gp",  [("?x","parent","?y"), ("?y","parent","?z")],
-               ("?x","grandparent","?z")),
-    ("R-mom", [("?x","parent","?y"), ("?x","a","FEMALE")],
-               ("?x","mother","?y")),
-    ("R-dad", [("?x","parent","?y"), ("?x","a","MALE")],
-               ("?x","father","?y")),
-    ("R-gma", [("?x","grandparent","?y"), ("?x","a","FEMALE")],
-               ("?x","grandmother","?y")),
-    ("R-gpa", [("?x","grandparent","?y"), ("?x","a","MALE")],
-               ("?x","grandfather","?y")),
-    ("R-sym", [("?p","a","SYMMETRIC_RELATION"), ("?x","?p","?y")],
-               ("?y","?p","?x")),
+    ("R-gp",  [("?x", "parent", "?y"), ("?y", "parent", "?z")],
+               ("?x", "grandparent", "?z")),
+    ("R-mom", [("?x", "parent", "?y"), ("?x", "a", "FEMALE")],
+               ("?x", "mother", "?y")),
+    ("R-dad", [("?x", "parent", "?y"), ("?x", "a", "MALE")],
+               ("?x", "father", "?y")),
+    ("R-gma", [("?x", "grandparent", "?y"), ("?x", "a", "FEMALE")],
+               ("?x", "grandmother", "?y")),
+    ("R-gpa", [("?x", "grandparent", "?y"), ("?x", "a", "MALE")],
+               ("?x", "grandfather", "?y")),
+    ("R-sym", [("?p", "a", "SYMMETRIC_RELATION"), ("?x", "?p", "?y")],
+               ("?y", "?p", "?x")),
 ]
 
 # ──────────────────────────────────────────────────────────────
-# Unification helpers
+# 3. Unification and substitution utilities
 # ──────────────────────────────────────────────────────────────
-is_var = lambda t: isinstance(t,str) and t.startswith("?")
+
+is_var = lambda t: isinstance(t, str) and t.startswith("?")
 
 def unify(pattern, datum, θ):
-    """Return a substitution that makes pattern = datum under θ, or None."""
-    θ = dict(θ)
+    """Unify a pattern triple with a datum triple under substitution θ.
+       Returns an extended substitution dict if unification succeeds, else None."""
+    θ = dict(θ)  # shallow copy to avoid side effects
     for p, d in zip(pattern, datum):
         if is_var(p):
-            if p in θ and θ[p] != d:
-                return None
-            θ[p] = d
+            if p in θ:
+                if θ[p] != d:
+                    return None
+            else:
+                θ[p] = d
         elif p != d:
             return None
     return θ
 
-def subst(triple, θ):          # apply substitution
-    return tuple(θ.get(t,t) for t in triple)
+def subst(triple, θ):
+    """Apply substitution θ to a triple, replacing variables with their values."""
+    return tuple(θ.get(t, t) for t in triple)
 
 # ──────────────────────────────────────────────────────────────
-# Pretty printing helpers
+# 4. Proof tracing and indentation helpers
 # ──────────────────────────────────────────────────────────────
 step_no = count(1)
-indent   = lambda d: "  "*d
+def indent(d):
+    return "  " * d
 
 # ──────────────────────────────────────────────────────────────
-# Depth-first backward-chaining prover (with tracing)
+# 5. Backward-chaining prover (depth-first, prints trace)
 # ──────────────────────────────────────────────────────────────
 def bc_prove(goal, θ, depth, path):
     g = subst(goal, θ)
     tag = next(step_no)
     print(f"{indent(depth)}Step {tag:02}: prove {g}")
 
-    # 1. Try ground facts
+    # 1. Try all ground facts
     for fact in facts:
         θ2 = unify(g, fact, {})
         if θ2 is not None:
             print(f"{indent(depth)}  ✓ fact {fact}")
             yield {**θ, **θ2}
-            return            # first fact suffices for this demo
+            return  # stop at first fact for tidy trace
 
-    # 2. Try rules whose head unifies with the goal
+    # 2. Try all rules whose head unifies with the goal
     for rid, body, head in rules:
         θ_head = unify(head, g, {})
-        if θ_head is None:            # head doesn’t match
-            continue
+        if θ_head is None:
+            continue  # head doesn't match goal
+
         head_inst = subst(head, θ_head)
         key = (rid, head_inst)
-        if key in path:               # loop guard
+        if key in path:  # loop detection
             continue
 
         print(f"{indent(depth)}  → via {rid}")
-        # prove body sequentially
+        # Prove each goal in the rule body, in order
         def prove_seq(i, θ_curr):
             if i == len(body):
                 yield θ_curr
             else:
-                for θ_next in bc_prove(body[i], θ_curr, depth+1, path|{key}):
-                    yield from prove_seq(i+1, θ_next)
+                for θ_next in bc_prove(body[i], θ_curr, depth + 1, path | {key}):
+                    yield from prove_seq(i + 1, θ_next)
 
         for θ_final in prove_seq(0, {**θ, **θ_head}):
             yield θ_final
-            return                    # stop after first proof to keep trace tidy
+            return  # stop after first proof to keep trace tidy
 
 # ──────────────────────────────────────────────────────────────
-# Convenience wrapper
+# 6. Convenience wrapper to ask a question and print trace
 # ──────────────────────────────────────────────────────────────
 def ask(goal):
     print(f"\n=== Proving {goal} ===")
@@ -118,13 +125,15 @@ def ask(goal):
     return False
 
 # ──────────────────────────────────────────────────────────────
-# Demo queries
+# 7. Example queries
 # ──────────────────────────────────────────────────────────────
-for g in [
-    ("alice","grandparent","carol"),
-    ("alice","grandmother","carol"),
-    ("bob",  "father",     "carol"),
-    ("dave", "friend_of",  "alice"),
-]:
-    ask(g)
+if __name__ == "__main__":
+    queries = [
+        ("alice", "grandparent", "carol"),
+        ("alice", "grandmother", "carol"),
+        ("bob",   "father",      "carol"),
+        ("dave",  "friend_of",   "alice"),
+    ]
+    for g in queries:
+        ask(g)
 
