@@ -1,64 +1,73 @@
+#!/usr/bin/env python3
 """
-beetle.py
-=========
+beetle_backward.py
+Back-chaining proof for the simple Beetle example.
 
-Logic recap
------------
+Facts
+-----
     car(beetle).
-    car → green ⊕ blue         (exclusive, 0.5 each)
-    green ∨ blue → beautiful
 
-Because every possible world contains either *green* or *blue*,
-*beautiful* is certain (probability 1).
+Exclusive choice (annotated disjunction, 0.5 each)
+    green(beetle)  ⊕  blue(beetle)
 
-Queries
--------
-    prop(beautiful,beetle)
-    prop(green,beetle)
-    prop(blue,beetle)
+Rule
+----
+    beautiful(X) ← green(X) ∨ blue(X)
+
+Worlds
+------
+W₁:  green  (weight 0.5)
+W₂:  blue   (weight 0.5)
 """
 
 from typing import Dict, List, Tuple
 
-# ───────────────────────────────────────────────────────────────
-# 1 ▸  Enumerate the two mutually exclusive worlds
-# ───────────────────────────────────────────────────────────────
-World = Tuple[str, float]          # (colour, probability weight)
+# ─────────────────────────────────────────────────────────────
+# 1.  Two mutually-exclusive worlds
+# ─────────────────────────────────────────────────────────────
+World = Tuple[str, float]     # (colour, probability)
+WORLDS: List[World] = [("green", 0.5), ("blue", 0.5)]
 
-WORLD_LIST: List[World] = [
-    ("green", 0.5),
-    ("blue",  0.5),
-]
+# ─────────────────────────────────────────────────────────────
+# 2.  Atom truth lookup inside a world
+# ─────────────────────────────────────────────────────────────
+def atom_true(atom: str, colour: str) -> bool:
+    """Return whether atom holds in the world whose colour is `colour`."""
+    if atom == "green":
+        return colour == "green"
+    if atom == "blue":
+        return colour == "blue"
+    if atom == "beautiful":
+        return colour in ("green", "blue")          # rule satisfied
+    return False
 
-# ───────────────────────────────────────────────────────────────
-# 2 ▸  Collect probabilities for the three queries
-# ───────────────────────────────────────────────────────────────
-def evaluate_queries(worlds: List[World]) -> Dict[str, float]:
-    probs = {
-        "prop(beautiful,beetle)": 0.0,
-        "prop(green,beetle)":     0.0,
-        "prop(blue,beetle)":      0.0,
-    }
+# ─────────────────────────────────────────────────────────────
+# 3.  Backward-proof for one query
+# ─────────────────────────────────────────────────────────────
+def backward_prove(atom: str) -> float:
+    prob = 0.0
+    print(f"\n=== Proving prop({atom},beetle) ===")
+    for idx, (colour, weight) in enumerate(WORLDS, 1):
+        holds = atom_true(atom, colour)
+        print(f"World {idx}: colour={colour:<5} weight={weight:.3f}   "
+              f"{'✓' if holds else '✗'} {atom}")
+        if holds:
+            prob += weight
 
-    for colour, weight in worlds:
-        # colour itself
-        probs[f"prop({colour},beetle)"] += weight
-        # beauty rule (holds in both worlds)
-        probs["prop(beautiful,beetle)"] += weight
+    print(f"Probability = {prob}\n")
+    return prob
 
-    return probs
-
-
-# ───────────────────────────────────────────────────────────────
-# 3 ▸  Main
-# ───────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────
+# 4.  Run all three queries and summarise
+# ─────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    results = evaluate_queries(WORLD_LIST)
+    results: Dict[str, float] = {}
+    for goal in ("beautiful", "green", "blue"):
+        results[f"prop({goal},beetle)"] = backward_prove(goal)
 
-    for q in (
-        "prop(beautiful,beetle)",
-        "prop(green,beetle)",
-        "prop(blue,beetle)",
-    ):
+    print("=== Summary ===")
+    for q in ("prop(beautiful,beetle)",
+              "prop(green,beetle)",
+              "prop(blue,beetle)"):
         print(f"{q}: {results[q]}")
 

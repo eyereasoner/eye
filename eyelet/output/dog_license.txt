@@ -1,4 +1,15 @@
------ Triples -----
+
+=== Proving licence obligation for alice ===
+Step 01: prove ('alice', 'mustHave', 'dogLicense')
+→ via R-licence
+      ↪ alice owns 5 dogs (dog1, dog2, dog3, dog4, dog5) > 4 ✓
+
+=== Proving licence obligation for bob ===
+Step 02: prove ('bob', 'mustHave', 'dogLicense')
+→ via R-licence
+      ↪ bob owns only 2 dogs ✗
+
+----- Triples (sorted) -----
 alice  hasDog  dog1 .
 alice  hasDog  dog2 .
 alice  hasDog  dog3 .
@@ -9,4 +20,4 @@ bob  hasDog  dog6 .
 bob  hasDog  dog7 .
 
 ----- Proof explanations -----
-alice has 5 dogs (dog1, dog2, dog3, dog4, dog5), which is more than the limit of 4 → asserted (alice, mustHave, dogLicense).
+alice has 5 dogs (dog1, dog2, dog3, dog4, dog5) → mustHave dogLicense.

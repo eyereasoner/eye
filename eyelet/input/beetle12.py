@@ -1,104 +1,90 @@
+#!/usr/bin/env python3
 """
-beetle12.py
-===========
+beetle12_backward.py
+Back-chaining probability proof for the “Beetle-12” annotated-disjunction
+example.
 
-Facts
------
-    car(beetle).
+Exclusive choice tree for *beetle* (weights = 1/2 each branch):
+    colour:  green | blue
+    under green:  nice | pretty
+    under nice/pretty:  1 | 2
+    under x1/x2:        1 | 2      (nice11 … pretty22)
 
-Annotated disjunctions  (all branches weight ½, and are exclusive)
-------------------------------------------------------------------
-    green ∨ blue                       (root)
-    nice ∨ pretty                      (under green)
-    nice1 ∨ nice2 ,  pretty1 ∨ pretty2
-    nice11 ∨ nice12, nice21 ∨ nice22,
-    pretty11 ∨ pretty12, pretty21 ∨ pretty22
+Worlds (leaf atoms & weights)
+    blue                : 0.50
+    nice11 nice12 …     : 0.0625 each  (8 leaves, total 0.50)
 
 Deterministic rules
--------------------
     beautiful ← blue
-    beautiful ← any of {pretty11, pretty12, pretty21, pretty22,
-                        nice11, nice12, nice21, nice22}
-
-Queries
--------
-    prop(beautiful,beetle)
-    prop(green,beetle)
-    prop(blue,beetle)
+    beautiful ← any leaf starting with nice or pretty
 """
 
 from typing import List, Tuple, Dict
 
+# ───────────────────────────────────────────────────────────
+# 1.  Enumerate exclusive worlds for *beetle*
+# ───────────────────────────────────────────────────────────
+World = Tuple[str, float]          # (leaf_atom , probability)
 
-# ───────────────────────────────────────────────────────────────
-# 1 ▸  Enumerate mutually-exclusive worlds
-# ───────────────────────────────────────────────────────────────
-World = Tuple[str, float]           # (leaf atom, probability weight)
+def worlds() -> List[World]:
+    """Generate the 9 mutually-exclusive worlds."""
+    out: List[World] = [("blue", 0.5)]        # blue ends the branch
 
-def generate_worlds() -> List[World]:
-    worlds: List[World] = []
+    p_leaf = 0.5 * 0.5 * 0.5 * 0.5            # = 0.0625
+    for qual in ("nice", "pretty"):
+        for i in ("1", "2"):
+            for j in ("1", "2"):
+                out.append((f"{qual}{i}{j}", p_leaf))
+    return out
 
-    for colour in ("green", "blue"):
-        p_colour = 0.5
+WORLDS = worlds()
 
-        if colour == "blue":                 # blue stops the branch
-            worlds.append(("blue", p_colour))
-            continue
+# ───────────────────────────────────────────────────────────
+# 2.  Backward-proof routine for each query atom
+# ───────────────────────────────────────────────────────────
+def prove(goal: str) -> float:
+    """
+    Print a proof trace for `goal` (beautiful/green/blue) and
+    return its probability.
+    """
+    total = 0.0
+    print(f"\n=== Proving prop({goal},beetle) ===")
+    for idx, (leaf, w) in enumerate(WORLDS, 1):
+        print(f"World {idx:02}  leaf={leaf:<8} weight={w:.4f}")
+        holds = False
 
-        # colour == green: expand the full Beetle-12 tree
-        for quality in ("nice", "pretty"):
-            p_quality = p_colour * 0.5
+        if goal == "blue":
+            holds = (leaf == "blue")
 
-            for idx1 in ("1", "2"):
-                p_lvl3 = p_quality * 0.5
-                prefix = f"{quality}{idx1}"
+        elif goal == "green":
+            holds = (leaf != "blue")          # any leaf means green
 
-                for idx2 in ("1", "2"):
-                    leaf  = f"{prefix}{idx2}"
-                    p_leaf = p_lvl3 * 0.5
-                    worlds.append((leaf, p_leaf))
+        elif goal == "beautiful":
+            if leaf == "blue":
+                print("   reason: blue  ⇒ beautiful")
+                holds = True
+            elif leaf.startswith(("nice", "pretty")):
+                print("   reason: leaf is nice*/pretty*  ⇒ beautiful")
+                holds = True
 
-    return worlds
+        print("   ", "✓ holds" if holds else "✗ fails")
+        if holds:
+            total += w
 
+    print(f"Probability = {total:.12f}")
+    return total
 
-# ───────────────────────────────────────────────────────────────
-# 2 ▸  Accumulate query probabilities
-# ───────────────────────────────────────────────────────────────
-def evaluate_queries(worlds: List[World]) -> Dict[str, float]:
-    probs = {
-        "prop(beautiful,beetle)": 0.0,
-        "prop(green,beetle)":     0.0,
-        "prop(blue,beetle)":      0.0,
-    }
-
-    for atom, weight in worlds:
-        # Identify the root colour:
-        if atom == "blue":
-            probs["prop(blue,beetle)"] += weight
-        else:                      # every other leaf means the root was green
-            probs["prop(green,beetle)"] += weight
-
-        # Beauty rule covers blue plus every nice*/pretty* leaf
-        if atom == "blue" or atom.startswith(("pretty", "nice")):
-            probs["prop(beautiful,beetle)"] += weight
-
-    return probs
-
-
-# ───────────────────────────────────────────────────────────────
-# 3 ▸  Main
-# ───────────────────────────────────────────────────────────────
-def main() -> None:
-    worlds  = generate_worlds()
-    results = evaluate_queries(worlds)
-
-    for q in (
-        "prop(beautiful,beetle)",
-        "prop(green,beetle)",
-        "prop(blue,beetle)",
-    ):
-        print(f"{q}: {results[q]}")
-
+# ───────────────────────────────────────────────────────────
+# 3.  Run the three queries & summarise
+# ───────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    main()
+    probs: Dict[str, float] = {}
+    for atom in ("beautiful", "green", "blue"):
+        probs[f"prop({atom},beetle)"] = prove(atom)
+
+    print("\n=== Summary ===")
+    for q in ("prop(beautiful,beetle)",
+              "prop(green,beetle)",
+              "prop(blue,beetle)"):
+        print(f"{q}: {probs[q]}")
 

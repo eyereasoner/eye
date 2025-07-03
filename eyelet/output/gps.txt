@@ -1,12 +1,22 @@
-Solution 1:
-  path     = ['drive_gent_kortrijk', 'drive_kortrijk_brugge', 'drive_brugge_oostende']
-  duration = 4100.0
-  cost     = 0.018000000000000002
-  belief   = 0.903168
-  comfort  = 0.9801
-Solution 2:
-  path     = ['drive_gent_brugge', 'drive_brugge_oostende']
-  duration = 2400.0
-  cost     = 0.01
-  belief   = 0.9408
-  comfort  = 0.99
+Step 01: at Gent (dur=0, cost=0.000, bel=1.000, comf=1.000)
+→ drive_gent_brugge
+  Step 02: at Brugge (dur=1500, cost=0.006, bel=0.960, comf=0.990)
+  → drive_brugge_oostende
+    Step 03: at Oostende (dur=2400, cost=0.010, bel=0.941, comf=0.990)
+    ✓ goal & constraints OK
+→ drive_gent_kortrijk
+  Step 04: at Kortrijk (dur=1600, cost=0.007, bel=0.960, comf=0.990)
+  → drive_kortrijk_brugge
+    Step 05: at Brugge (dur=3200, cost=0.014, bel=0.922, comf=0.980)
+    → drive_brugge_oostende
+      Step 06: at Oostende (dur=4100, cost=0.018, bel=0.903, comf=0.980)
+      ✓ goal & constraints OK
+
+Solutions (Gent → Oostende):
+
+1. drive_gent_brugge → drive_brugge_oostende
+   dur=2400, cost=0.010, bel=0.941, comf=0.990
+
+2. drive_gent_kortrijk → drive_kortrijk_brugge → drive_brugge_oostende
+   dur=4100, cost=0.018, bel=0.903, comf=0.980
+

@@ -1,104 +1,134 @@
-"""
-witch.py – derive that GIRL is a WITCH
+# Backward‑style proof for the “witch” example
+# -------------------------------------------
+#
+# Query:  ?S a :WITCH.
+#
+# This script:
+#   1.  Loads the Monty‑Python rules & facts.
+#   2.  Forward‑chains once, *recording a justification* for every
+#       derived fact.
+#   3.  Walks those justifications backward to print a readable
+#       proof trace for each individual that ends up being a witch.
 
-Direct translation of https://www.w3.org/2000/10/swap/test/reason/witch.n3:
-
-    @prefix : <witch#>.
-    @keywords is, of, a.
-
-    { ?x a BURNS. ?x a WOMAN }   => { ?x a WITCH }.           # R1
-    GIRL a WOMAN.                                               
-
-    { ?x a ISMADEOFWOOD. }      => { ?x a BURNS. }            # R2
-    { ?x a FLOATS }             => { ?x a ISMADEOFWOOD }.     # R3
-    DUCK a FLOATS.                                               
-
-    { ?x a FLOATS. ?x SAMEWEIGHT ?y } => { ?y a FLOATS }.     # R4
-    DUCK SAMEWEIGHT GIRL.
-"""
-from itertools import product
-from copy import deepcopy
-
-# ---------------------------------------------------------------------------
-# Knowledge base (initial facts)
-# ---------------------------------------------------------------------------
-facts = {
-    ("GIRL", "a", "WOMAN"),
-    ("DUCK", "a", "FLOATS"),
-    ("DUCK", "SAMEWEIGHT", "GIRL"),
-}
-
-# Rules  (id, antecedents, consequent)
-rules = [
-    ("R1", [("?x", "a", "BURNS"), ("?x", "a", "WOMAN")], ("?x", "a", "WITCH")),
-    ("R2", [("?x", "a", "ISMADEOFWOOD")],              ("?x", "a", "BURNS")),
-    ("R3", [("?x", "a", "FLOATS")],                    ("?x", "a", "ISMADEOFWOOD")),
-    ("R4", [("?x", "a", "FLOATS"), ("?x", "SAMEWEIGHT", "?y")],
-           ("?y", "a", "FLOATS")),
+# 1 ▸ KB ----------------------------------------------------------------------
+facts = [
+    ('isa', 'GIRL', 'WOMAN'),
+    ('isa', 'DUCK', 'FLOATS'),
+    ('sameweight', 'DUCK', 'GIRL'),
 ]
 
-# ---------------------------------------------------------------------------
-# Utilities
-# ---------------------------------------------------------------------------
-is_var = lambda t: isinstance(t, str) and t.startswith("?")
+rules = [
+    {
+        'name': 'burns_woman_witch',                # BURNS(x) ∧ WOMAN(x) → WITCH(x)
+        'premises': [('isa', '?x', 'BURNS'),
+                     ('isa', '?x', 'WOMAN')],
+        'consequent': ('isa', '?x', 'WITCH')
+    },
+    {
+        'name': 'wood_burns',                       # ISMADEOFWOOD(x) → BURNS(x)
+        'premises': [('isa', '?x', 'ISMADEOFWOOD')],
+        'consequent': ('isa', '?x', 'BURNS')
+    },
+    {
+        'name': 'floats_wood',                      # FLOATS(x) → ISMADEOFWOOD(x)
+        'premises': [('isa', '?x', 'FLOATS')],
+        'consequent': ('isa', '?x', 'ISMADEOFWOOD')
+    },
+    {
+        'name': 'floats_sameweight',                # FLOATS(x) ∧ SAMEWEIGHT(x,y) → FLOATS(y)
+        'premises': [('isa', '?x', 'FLOATS'),
+                     ('sameweight', '?x', '?y')],
+        'consequent': ('isa', '?y', 'FLOATS')
+    },
+]
 
-def unify(pattern, fact, theta):
-    """Try to extend substitution theta so pattern matches fact."""
-    theta = dict(theta)
-    for p, f in zip(pattern, fact):
-        if is_var(p):
-            if p in theta and theta[p] != f:
-                return None
-            theta[p] = f
-        elif p != f:
-            return None
-    return theta
+# 2 ▸  Mini pattern‑matcher utilities ----------------------------------------
+def is_var(t): return isinstance(t, str) and t.startswith('?')
 
-def apply_subst(triple, theta):
-    return tuple(theta.get(t, t) for t in triple)
+def substitute(term, env, seen=None):
+    """Replace variables in *term* using *env*, guarding against cycles."""
+    if seen is None:
+        seen = set()
+    if is_var(term):
+        if term in seen:
+            return term
+        seen.add(term)
+        return substitute(env.get(term, term), env, seen)
+    if isinstance(term, tuple):
+        return tuple(substitute(t, env, set()) for t in term)
+    return term
 
-# ---------------------------------------------------------------------------
-# Forward-chaining reasoner with proof logging
-# ---------------------------------------------------------------------------
-proof = {f: ("GIVEN", []) for f in facts}
-step = 0
+def unify(pat, fact, env):
+    """Return extended env if pat ∪ env unifies with fact, else None."""
+    pat = substitute(pat, env)
+    fact = substitute(fact, env)
+    if pat == fact:
+        return env
+    if is_var(pat):
+        new = env.copy(); new[pat] = fact; return new
+    if is_var(fact):
+        return unify(fact, pat, env)
+    if isinstance(pat, tuple) and isinstance(fact, tuple) and len(pat) == len(fact):
+        for pi, fi in zip(pat, fact):
+            env = unify(pi, fi, env)
+            if env is None: return None
+        return env
+    return None
+
+# 3 ▸  Forward‑chaining with justification tracking --------------------------
+derived = set(facts)
+why = {f: ('fact', None) for f in facts}      # fact → (rule, [supporting facts])
+
 changed = True
 while changed:
     changed = False
-    for rid, ants, cons in rules:
-        # collect candidate matches for each antecedent
-        matches = [[] for _ in ants]
-        for i, ant in enumerate(ants):
-            for fact in facts:
-                sub = unify(ant, fact, {})
-                if sub is not None:
-                    matches[i].append((fact, sub))
-
-        # try all combinations of antecedent matches
-        for combo in product(*matches):
-            subst, used = {}, []
-            consistent = True
-            for fact, sub in combo:
-                used.append(fact)
-                for v, val in sub.items():
-                    if v in subst and subst[v] != val:
-                        consistent = False
-                        break
-                    subst[v] = val
-                if not consistent:
-                    break
-            if not consistent:
-                continue
-            new_fact = apply_subst(cons, subst)
-            if new_fact not in facts:
-                step += 1
-                facts.add(new_fact)
-                proof[new_fact] = (rid, deepcopy(used))
-                print(f"Step {step:02}: {new_fact[0]} {new_fact[1]} {new_fact[2]}   "
-                      f"(by {rid} using {used})")
+    for rule in rules:
+        envs = [({}, [])]                     # list of (env, supports)
+        for prem in rule['premises']:
+            next_envs = []
+            for env, supports in envs:
+                pattern = substitute(prem, env)
+                for fact in derived:
+                    env2 = unify(pattern, fact, env.copy())
+                    if env2 is not None:
+                        next_envs.append((env2, supports + [fact]))
+            envs = next_envs
+        for env, supports in envs:
+            cons = substitute(rule['consequent'], env)
+            if cons not in derived:
+                derived.add(cons)
+                why[cons] = (rule['name'], supports)
                 changed = True
 
-print("\n=== Fix-point reached ===")
-goal = ("GIRL", "a", "WITCH")
-print(f"{'PROVED' if goal in facts else 'NOT PROVED'}: {goal}")
+# 4 ▸  Pretty proof printer ---------------------------------------------------
+def term_str(t):
+    if t[0] == 'isa':
+        return f"{t[2]}({t[1]})"
+    if t[0] == 'sameweight':
+        return f"SAMEWEIGHT({t[1]}, {t[2]})"
+    return str(t)
+
+def print_proof(goal):
+    step = {'n': 0}
+    def rec(fact, depth):
+        indent = '  ' * depth
+        step['n'] += 1
+        print(f"{indent}Step {step['n']:02d}: prove {term_str(fact)}")
+        rule, supports = why[fact]
+        if rule == 'fact':
+            print(f"{indent}  ✓ fact")
+        else:
+            print(f"{indent}  → via {rule}")
+            for sup in supports:
+                rec(sup, depth + 1)
+    rec(goal, 0)
+    print("✔ PROVED\n")
+
+# 5 ▸  Show all witches -------------------------------------------------------
+witches = [s for p, s, c in derived if p == 'isa' and c == 'WITCH']
+
+print("=== All proofs for  ?- ?S a :WITCH ===\n")
+for s in sorted(witches):
+    print(f"--- Proof for S = {s} ---")
+    print_proof(('isa', s, 'WITCH'))
 

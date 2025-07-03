@@ -1,9 +1,57 @@
-Children of robert: ['james', 'patricia']
-Grandparents of patricia: ['john', 'mary']
-All grandparents: ['john', 'michael', 'mary']
-Sisters of james: ['patricia']
-Uncles of james: []
-Sibling pairs (male first):
-   ('robert', 'linda')
-   ('james', 'patricia')
-   ('patrick', 'jane')
+
+=== Proving ('alice', 'grandparent', 'carol') ===
+Step 01: prove ('alice', 'grandparent', 'carol')
+  → via R-gp
+  Step 02: prove ('alice', 'parent', '?y')
+    ✓ fact ('alice', 'parent', 'bob')
+  Step 03: prove ('bob', 'parent', 'carol')
+    ✓ fact ('bob', 'parent', 'carol')
+✔ PROVED ('alice', 'grandparent', 'carol')
+
+
+=== Proving ('alice', 'grandmother', 'carol') ===
+Step 04: prove ('alice', 'grandmother', 'carol')
+  → via R-gma
+  Step 05: prove ('alice', 'grandparent', 'carol')
+    → via R-gp
+    Step 06: prove ('alice', 'parent', 'carol')
+      → via R-sym
+      Step 07: prove ('parent', 'a', 'SYMMETRIC_RELATION')
+        → via R-sym
+        Step 08: prove ('a', 'a', 'SYMMETRIC_RELATION')
+          → via R-sym
+          Step 09: prove ('a', 'a', 'SYMMETRIC_RELATION')
+    → via R-sym
+    Step 10: prove ('grandparent', 'a', 'SYMMETRIC_RELATION')
+      → via R-sym
+      Step 11: prove ('a', 'a', 'SYMMETRIC_RELATION')
+        → via R-sym
+        Step 12: prove ('a', 'a', 'SYMMETRIC_RELATION')
+  → via R-sym
+  Step 13: prove ('grandmother', 'a', 'SYMMETRIC_RELATION')
+    → via R-sym
+    Step 14: prove ('a', 'a', 'SYMMETRIC_RELATION')
+      → via R-sym
+      Step 15: prove ('a', 'a', 'SYMMETRIC_RELATION')
+✗ NOT PROVED
+
+
+=== Proving ('bob', 'father', 'carol') ===
+Step 16: prove ('bob', 'father', 'carol')
+  → via R-dad
+  Step 17: prove ('bob', 'parent', 'carol')
+    ✓ fact ('bob', 'parent', 'carol')
+  Step 18: prove ('bob', 'a', 'MALE')
+    ✓ fact ('bob', 'a', 'MALE')
+✔ PROVED ('bob', 'father', 'carol')
+
+
+=== Proving ('dave', 'friend_of', 'alice') ===
+Step 19: prove ('dave', 'friend_of', 'alice')
+  → via R-sym
+  Step 20: prove ('friend_of', 'a', 'SYMMETRIC_RELATION')
+    ✓ fact ('friend_of', 'a', 'SYMMETRIC_RELATION')
+  Step 21: prove ('alice', 'friend_of', 'dave')
+    ✓ fact ('alice', 'friend_of', 'dave')
+✔ PROVED ('dave', 'friend_of', 'alice')
+

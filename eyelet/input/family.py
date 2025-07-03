@@ -1,158 +1,139 @@
 """
-family.py — a self‑contained family tree implementation in Python with
-a small family knowledge‑base (father, mother, child, brother, sister, uncle,
-aunt, grandfather, grandmother, …).
+family_backward.py  –  goal-oriented (backward-chaining) proof with trace.
 
-It’s a very typical Python approach:
-
-* Data lives in ordered dict / lists.
-* Each relation (father, mother, sibling, uncle …) is a plain function that
-  returns a *list* of strings.
-* Every query runs deterministic loops over the facts.
-
-Run the file directly to see demo output, or import the functions elsewhere.
+The data and rules are identical to the forward-chaining demo, but the
+engine *starts from the goal* and works backwards. This is also called a
+goal-oriented proof or SLD-resolution tree (in Prolog terminology).
 """
-from __future__ import annotations
 
-# ---------------------------------------------------------------------------
-# Raw, ordered facts
-# ---------------------------------------------------------------------------
+from itertools import count
 
-FATHER: list[tuple[str, str]] = [
-    ("john", "linda"),
-    ("john", "robert"),
-    ("robert", "james"),
-    ("robert", "patricia"),
-    ("michael", "barbara"),
+# ──────────────────────────────────────────────────────────────
+# 1. Facts: base knowledge (as (subject, relation, object) triples)
+# ──────────────────────────────────────────────────────────────
+facts = {
+    ("alice", "a", "FEMALE"),
+    ("bob",   "a", "MALE"),
+    ("carol", "a", "FEMALE"),
+    ("dave",  "a", "MALE"),
+    ("alice", "parent", "bob"),
+    ("bob",   "parent", "carol"),
+    ("friend_of", "a", "SYMMETRIC_RELATION"),
+    ("alice", "friend_of", "dave"),
+}
+
+# ──────────────────────────────────────────────────────────────
+# 2. Rules: (rule_id, [body_goals], head)
+#    Each rule is Horn-style: body (list of goals), head (conclusion)
+# ──────────────────────────────────────────────────────────────
+rules = [
+    ("R-gp",  [("?x", "parent", "?y"), ("?y", "parent", "?z")],
+               ("?x", "grandparent", "?z")),
+    ("R-mom", [("?x", "parent", "?y"), ("?x", "a", "FEMALE")],
+               ("?x", "mother", "?y")),
+    ("R-dad", [("?x", "parent", "?y"), ("?x", "a", "MALE")],
+               ("?x", "father", "?y")),
+    ("R-gma", [("?x", "grandparent", "?y"), ("?x", "a", "FEMALE")],
+               ("?x", "grandmother", "?y")),
+    ("R-gpa", [("?x", "grandparent", "?y"), ("?x", "a", "MALE")],
+               ("?x", "grandfather", "?y")),
+    ("R-sym", [("?p", "a", "SYMMETRIC_RELATION"), ("?x", "?p", "?y")],
+               ("?y", "?p", "?x")),
 ]
-MOTHER: list[tuple[str, str]] = [
-    ("mary", "linda"),
-    ("mary", "robert"),
-    ("linda", "jane"),
-    ("linda", "patrick"),
-    ("barbara", "anne"),
-]
-MALES   = ["john", "robert", "james", "michael", "patrick"]
-FEMALES = ["mary", "linda", "patricia", "barbara", "anne", "jane"]
 
-# Helper indices for fast lookup ------------------------------------------------
-_children_of: dict[str, list[str]] = {}
-_parents_of : dict[str, list[str]] = {}
+# ──────────────────────────────────────────────────────────────
+# 3. Unification and substitution utilities
+# ──────────────────────────────────────────────────────────────
 
-for p,c in FATHER+MOTHER:
-    _children_of.setdefault(p, []).append(c)
-    _parents_of.setdefault(c, []).append(p)
+is_var = lambda t: isinstance(t, str) and t.startswith("?")
 
-# ---------------------------------------------------------------------------
-# Primitive relations (use only the raw facts / indexes)
-# ---------------------------------------------------------------------------
+def unify(pattern, datum, θ):
+    """Unify a pattern triple with a datum triple under substitution θ.
+       Returns an extended substitution dict if unification succeeds, else None."""
+    θ = dict(θ)  # shallow copy to avoid side effects
+    for p, d in zip(pattern, datum):
+        if is_var(p):
+            if p in θ:
+                if θ[p] != d:
+                    return None
+            else:
+                θ[p] = d
+        elif p != d:
+            return None
+    return θ
 
-def father(person: str) -> list[str]:
-    return [p for p,c in FATHER if p == person] or []  # silly but keeps API symmetric
+def subst(triple, θ):
+    """Apply substitution θ to a triple, replacing variables with their values."""
+    return tuple(θ.get(t, t) for t in triple)
 
-def fathers_of(child: str) -> list[str]:
-    return [p for p,c in FATHER if c == child]
+# ──────────────────────────────────────────────────────────────
+# 4. Proof tracing and indentation helpers
+# ──────────────────────────────────────────────────────────────
+step_no = count(1)
+def indent(d):
+    return "  " * d
 
-def mother(person: str) -> list[str]:
-    return [p for p,c in MOTHER if p == person]
+# ──────────────────────────────────────────────────────────────
+# 5. Backward-chaining prover (depth-first, prints trace)
+# ──────────────────────────────────────────────────────────────
+def bc_prove(goal, θ, depth, path):
+    g = subst(goal, θ)
+    tag = next(step_no)
+    print(f"{indent(depth)}Step {tag:02}: prove {g}")
 
-def mothers_of(child: str) -> list[str]:
-    return [p for p,c in MOTHER if c == child]
+    # 1. Try all ground facts
+    for fact in facts:
+        θ2 = unify(g, fact, {})
+        if θ2 is not None:
+            print(f"{indent(depth)}  ✓ fact {fact}")
+            yield {**θ, **θ2}
+            return  # stop at first fact for tidy trace
 
-def parents_of(child: str) -> list[str]:
-    return fathers_of(child) + mothers_of(child)
+    # 2. Try all rules whose head unifies with the goal
+    for rid, body, head in rules:
+        θ_head = unify(head, g, {})
+        if θ_head is None:
+            continue  # head doesn't match goal
 
-def children_of(parent: str) -> list[str]:
-    return _children_of.get(parent, [])
+        head_inst = subst(head, θ_head)
+        key = (rid, head_inst)
+        if key in path:  # loop detection
+            continue
 
-# Gender helpers --------------------------------------------------------------
+        print(f"{indent(depth)}  → via {rid}")
+        # Prove each goal in the rule body, in order
+        def prove_seq(i, θ_curr):
+            if i == len(body):
+                yield θ_curr
+            else:
+                for θ_next in bc_prove(body[i], θ_curr, depth + 1, path | {key}):
+                    yield from prove_seq(i + 1, θ_next)
 
-def is_male(p: str)   -> bool: return p in MALES
+        for θ_final in prove_seq(0, {**θ, **θ_head}):
+            yield θ_final
+            return  # stop after first proof to keep trace tidy
 
-def is_female(p: str) -> bool: return p in FEMALES
+# ──────────────────────────────────────────────────────────────
+# 6. Convenience wrapper to ask a question and print trace
+# ──────────────────────────────────────────────────────────────
+def ask(goal):
+    print(f"\n=== Proving {goal} ===")
+    for θ in bc_prove(goal, {}, 0, frozenset()):
+        print(f"✔ PROVED {subst(goal, θ)}\n")
+        return True
+    print("✗ NOT PROVED\n")
+    return False
 
-# ---------------------------------------------------------------------------
-# Derived relations
-# ---------------------------------------------------------------------------
-
-def siblings(person: str) -> list[str]:
-    sibs: list[str] = []
-    for parent in _parents_of.get(person, []):
-        sibs.extend([c for c in _children_of.get(parent, []) if c != person])
-    # preserve order, remove dupes
-    seen: set[str] = set(); ordered = []
-    for x in sibs:
-        if x not in seen:
-            seen.add(x)
-            ordered.append(x)
-    return ordered
-
-def brothers(person: str) -> list[str]:
-    return [s for s in siblings(person) if is_male(s)]
-
-def sisters(person: str) -> list[str]:
-    return [s for s in siblings(person) if is_female(s)]
-
-def grandparents(person: str) -> list[str]:
-    gps: list[str] = []
-    for parent in _parents_of.get(person, []):
-        gps.extend(_parents_of.get(parent, []))
-    # unique preservation
-    seen: set[str] = set(); ordered=[]
-    for g in gps:
-        if g not in seen:
-            seen.add(g); ordered.append(g)
-    return ordered
-
-def grandfathers(person: str) -> list[str]:
-    return [g for g in grandparents(person) if is_male(g)]
-
-def grandmothers(person: str) -> list[str]:
-    return [g for g in grandparents(person) if is_female(g)]
-
-def all_grandparents() -> list[str]:
-    """Return every person who has at least one grand-child, preserving fact order."""
-    ordered_parents = [p for p, _ in FATHER + MOTHER]          # order that parents appear
-    gps = []
-    for p in ordered_parents:
-        if any(gp for gp in children_of(p) if children_of(gp)):  # p ➜ child ➜ grand-child
-            if p not in gps:
-                gps.append(p)
-    return gps
-
-def uncles(person: str) -> list[str]:
-    uncs: list[str] = []
-    for parent in _parents_of.get(person, []):
-        uncs.extend(brothers(parent))
-    # unique + order
-    seen=set(); ordered=[]
-    for u in uncs:
-        if u not in seen:
-            seen.add(u); ordered.append(u)
-    return ordered
-
-def aunts(person: str) -> list[str]:
-    ant: list[str] = []
-    for parent in _parents_of.get(person, []):
-        ant.extend(sisters(parent))
-    seen=set(); ordered=[]
-    for a in ant:
-        if a not in seen:
-            seen.add(a); ordered.append(a)
-    return ordered
-
-# ---------------------------------------------------------------------------
-# Demo
-# ---------------------------------------------------------------------------
+# ──────────────────────────────────────────────────────────────
+# 7. Example queries
+# ──────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    print("Children of robert:", children_of("robert"))
-    print("Grandparents of patricia:", grandparents("patricia"))
-    print("All grandparents:", all_grandparents())
-    print("Sisters of james:", sisters("james"))
-    print("Uncles of james:", uncles("james"))
-
-    print("Sibling pairs (male first):")
-    for p in MALES:
-        for sib in siblings(p):
-            print("  ", (p, sib))
+    queries = [
+        ("alice", "grandparent", "carol"),
+        ("alice", "grandmother", "carol"),
+        ("bob",   "father",      "carol"),
+        ("dave",  "friend_of",   "alice"),
+    ]
+    for g in queries:
+        ask(g)
 
