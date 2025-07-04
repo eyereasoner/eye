@@ -1,6 +1,6 @@
 # eyelet
 
-## A peek at eye reasoning through python's eyes
+## Independent implementation of goal directed proofs
 
 Install python https://www.python.org/downloads/
 
