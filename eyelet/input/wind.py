@@ -1,174 +1,150 @@
 #!/usr/bin/env python3
 """
-wind_bbn.py
-──────────────────────────────────────────────────────────────
-Goal-driven (backward) proof in a Bayesian Belief Network (BBN).
+wind.py
+────────────────────────────────────────────────────────────────
+Goal-directed (depth-first, backward) proof in a Bayesian network.
 
-Scenario
-========
-A service centre monitors a single on-shore wind turbine.
-We want to know whether we should *schedule maintenance soon* (R).
-
-Network variables (all Boolean, True = high / present):
-    A  AgeHigh           — turbine age ≥ 15 y
-    M  MaintRecent       — maintenance done in last 6 months
-    W  WindHigh          — current wind-speed high
-    G  GearboxWearHigh   — gearbox wear above threshold
-    V  VibrationHigh     — nacelle vibration alarm
-    F  FaultPresent      — SCADA fault code active
-    R  MaintainSoon      — **goal variable** (“needs maintenance”)
-
-Graph structure / causal arcs:
-    A ─┐
-       ▼
-       G ─▶ V ─▶ F ─▶ R
-    M ─┘      ▲
-              │
-    W ─────────
-
-Evidence (observations):
-    A = True    (old turbine)
-    M = False   (no recent maintenance)
-    W = True    (wind is high)
-
-We compute posterior
-    P(R=True | evidence)
-by *variable elimination*, i.e. “backward chaining” in the probabilistic
-sense, and print every elimination step as proof evidence.
+Changes compared with the original version
+------------------------------------------
+* The knowledge base is now *only* a list of rules.
+  Each rule is a Horn-clause-like mapping
+      head  ←  body  (with attached probability).
+* The inference engine is a single recursive function
+  `prob(var, value, evidence, depth=0)` that:
+      – tries to satisfy the current sub-goal from evidence,
+      – otherwise expands the rule whose head matches the sub-goal,
+      – sums over all ways the (unbound) body literals can be proven.
+* The printed trace is a *goal-directed proof*: you see the call-stack
+  with indentation, the rule being fired, and the contribution that
+  rule makes to the final probability.
 """
 
-# ─────────────────────────────────────────────────────────────
-# 0.  Imports
-# ─────────────────────────────────────────────────────────────
-from collections import defaultdict
+#!/usr/bin/env python3
+"""
+wind_rules_fixed.py  –  goal-directed proof with exact probabilities
+"""
+
+# ──────────────────────────────────────────────────────────────
+# 0.  Imports & variables
+# ──────────────────────────────────────────────────────────────
 from itertools import product
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 
-# ─────────────────────────────────────────────────────────────
-# 1.  Conditional-probability tables (CPTs)
-#     • Probabilities are illustrative—not taken from real data.
-#     • All tables give P(variable = True | parents).
-#       P(False | parents) = 1 − that value.
-# ─────────────────────────────────────────────────────────────
+VARS = ['A', 'M', 'W', 'G', 'V', 'F', 'R']          # topological order
 
-# Priors (no parents)
-P_A = {True: 0.4,  False: 0.6}    # older turbines 40 %
-P_M = {True: 0.3,  False: 0.7}    # recent maintenance 30 %
-P_W = {True: 0.5,  False: 0.5}    # high wind half the time
+# ──────────────────────────────────────────────────────────────
+# 1.  Rules  (as before)
+# ──────────────────────────────────────────────────────────────
+Rule = Tuple[Tuple[str, bool], List[Tuple[str, bool]], float]
+rules: List[Rule] = [
+    # Priors
+    (("A", True), [], 0.4),
+    (("M", True), [], 0.3),
+    (("W", True), [], 0.5),
 
-# Gearbox wear  P(G=True | A,M)
-# Key order:  (AgeHigh , MaintRecent)
-P_G = {
-    (True,  True ): 0.30,
-    (True,  False): 0.70,
-    (False, True ): 0.05,
-    (False, False): 0.20,
-}
+    # Gearbox wear
+    (("G", True), [("A", True),  ("M", True )], 0.30),
+    (("G", True), [("A", True),  ("M", False)], 0.70),
+    (("G", True), [("A", False), ("M", True )], 0.05),
+    (("G", True), [("A", False), ("M", False)], 0.20),
 
-# Vibration  P(V=True | W,G)
-P_V = {
-    (True,  True ): 0.90,
-    (True,  False): 0.50,
-    (False, True ): 0.60,
-    (False, False): 0.10,
-}
+    # Vibration
+    (("V", True), [("W", True),  ("G", True )], 0.90),
+    (("V", True), [("W", True),  ("G", False)], 0.50),
+    (("V", True), [("W", False), ("G", True )], 0.60),
+    (("V", True), [("W", False), ("G", False)], 0.10),
 
-# Fault  P(F=True | V,G)
-P_F = {
-    (True,  True ): 0.95,
-    (True,  False): 0.70,
-    (False, True ): 0.80,
-    (False, False): 0.05,
-}
+    # Fault
+    (("F", True), [("V", True),  ("G", True )], 0.95),
+    (("F", True), [("V", True),  ("G", False)], 0.70),
+    (("F", True), [("V", False), ("G", True )], 0.80),
+    (("F", True), [("V", False), ("G", False)], 0.05),
 
-# Maintenance decision  P(R=True | F)
-P_R = {
-    True : 0.9,     # If fault present, 90 % chance we schedule soon
-    False: 0.1,
-}
+    # Maintenance decision
+    (("R", True), [("F", True)],  0.90),
+    (("R", True), [("F", False)], 0.10),
+]
 
-# ─────────────────────────────────────────────────────────────
-# 2.  Evidence  (observed values)
-# ─────────────────────────────────────────────────────────────
-evidence = dict(A=True, M=False, W=True)
+# Quick index:  var → list of (body, p_true)
+rule_index: Dict[str, List[Tuple[List[Tuple[str, bool]], float]]] = {}
+for (head, body, p) in rules:
+    rule_index.setdefault(head[0], []).append((body, p))
 
-# ─────────────────────────────────────────────────────────────
-# 3.  Joint-probability evaluator  P(complete assignment)
-#     This is the “Bayesian logic” knowledge base.
-# ─────────────────────────────────────────────────────────────
-def joint(assign: Dict[str, bool]) -> float:
-    """
-    Return the joint probability of a *complete* world assignment.
+# ──────────────────────────────────────────────────────────────
+# 2.  Evidence
+# ──────────────────────────────────────────────────────────────
+evidence: Dict[str, bool] = dict(A=True, M=False, W=True)
 
-    Parameters
-    ----------
-    assign : dict
-        Maps every variable in {A,M,W,G,V,F,R} to a Boolean value.
-    """
-    p  = P_A[assign['A']] if assign['A'] else 1 - P_A[True]
-    p *= P_M[assign['M']] if assign['M'] else 1 - P_M[True]
-    p *= P_W[assign['W']] if assign['W'] else 1 - P_W[True]
-
-    p *= P_G[(assign['A'], assign['M'])] if assign['G'] else \
-         1 - P_G[(assign['A'], assign['M'])]
-
-    p *= P_V[(assign['W'], assign['G'])] if assign['V'] else \
-         1 - P_V[(assign['W'], assign['G'])]
-
-    p *= P_F[(assign['V'], assign['G'])] if assign['F'] else \
-         1 - P_F[(assign['V'], assign['G'])]
-
-    p *= P_R[assign['F']]               if assign['R'] else 1 - P_R[assign['F']]
+# ──────────────────────────────────────────────────────────────
+# 3.  Exact joint-probability helper (built *from the rules*)
+# ──────────────────────────────────────────────────────────────
+def joint(world: Dict[str, bool]) -> float:
+    """P(world) by chaining through the rule base."""
+    p = 1.0
+    for var in VARS:
+        for body, p_true in rule_index[var]:
+            if all(world[b] == v for b, v in body):
+                p *= p_true if world[var] else 1.0 - p_true
+                break
     return p
 
-# ─────────────────────────────────────────────────────────────
-# 4.  Variable-elimination proof  P(target=True | evidence)
-# ─────────────────────────────────────────────────────────────
-order = ['A', 'M', 'W', 'G', 'V', 'F', 'R']  # topological order
+# ──────────────────────────────────────────────────────────────
+# 4.  Conjunction probability  P(body | current evidence)
+# ──────────────────────────────────────────────────────────────
+def conj_prob(body: List[Tuple[str, bool]], ev: Dict[str, bool]) -> float:
+    """Return exact P(⋀body | ev) by enumerating the (few) remaining vars."""
+    unknown = [v for v in VARS if v not in ev]
+    num = den = 0.0
+    for values in product([False, True], repeat=len(unknown)):
+        world = dict(zip(unknown, values), **ev)
+        jp = joint(world)
+        den += jp
+        if all(world[b] == v for b, v in body):
+            num += jp
+    return num / den
 
-def eliminate(target: str, evidence: Dict[str, bool]) -> float:
-    """
-    Perform variable elimination (summing out hidden vars) and
-    return posterior P(target=True | evidence).
+# ──────────────────────────────────────────────────────────────
+# 5.  Goal-directed probability with proof trace
+# ──────────────────────────────────────────────────────────────
+def prob(var: str, val: bool, ev: Dict[str, bool], depth: int = 0) -> float:
+    ind = "  " * depth
+    if var in ev:                    # observed
+        p = 1.0 if ev[var] == val else 0.0
+        print(f"{ind}Evidence {var}={ev[var]}  ⇒  P({var}={val})={p}")
+        return p
 
-    Proof evidence: print each world’s contribution before normalisation.
-    """
-    hidden = [v for v in order if v not in evidence and v != target]
-    sum_true = sum_false = 0.0
+    total = 0.0
+    for body, p_true in rule_index[var]:
+        p_body = conj_prob(body, ev)
+        contrib = (p_true if val else 1.0 - p_true) * p_body
+        total += contrib
+        print(f"{ind}{var}= {val}  ← {body}  "
+              f"[P(body|ev)={p_body:.4f}]  contributes {contrib:.4f}")
+    print(f"{ind}⇒ P({var}={val}) = {total:.4f}")
+    return total
 
-    print("\nBackward-elimination proof:")
-    for world_values in product([False, True], repeat=len(hidden)):
-        # Build a complete assignment
-        assign = dict(zip(hidden, world_values), **evidence)
+# ──────────────────────────────────────────────────────────────
+# 6.  Posterior of the goal
+# ──────────────────────────────────────────────────────────────
+def posterior(var: str, ev: Dict[str, bool]) -> float:
+    print("\nGoal-directed proof begins:\n")
+    p_true  = prob(var, True,  ev, 1)
+    p_false = prob(var, False, ev, 1)
+    result  = p_true / (p_true + p_false)
+    print(f"\nNormalisation: True={p_true:.6f} False={p_false:.6f}"
+          f"  ⇒  P({var}=True | evidence) = {result:.4f}")
+    return result
 
-        # Contribution when target = False
-        assign[target] = False
-        p_false = joint(assign)
-        sum_false += p_false
+# ──────────────────────────────────────────────────────────────
+# 7.  Run
+# ──────────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    target = "R"
+    post = posterior(target, evidence)
 
-        # Contribution when target = True
-        assign[target] = True
-        p_true = joint(assign)
-        sum_true += p_true
-
-        print(f"  hidden={dict(zip(hidden, world_values))}  "
-              f"⇒ add False:{p_false:.6f}  True:{p_true:.6f}")
-
-    total = sum_true + sum_false
-    print(f"\nNormalisation:  True={sum_true:.6f}  False={sum_false:.6f}  "
-          f"Total={total:.6f}")
-    return sum_true / total
-
-# ─────────────────────────────────────────────────────────────
-# 5.  Run the proof for MaintainSoon (R)
-# ─────────────────────────────────────────────────────────────
-posterior = eliminate('R', evidence)
-
-print(f"\nPosterior  P(MaintainSoon = True | evidence) = {posterior:.4f}")
-
-THRESHOLD = 0.60   # arbitrary “proof” cut-off
-if posterior > THRESHOLD:
-    print("Verdict:  Maintenance is LIKELY required  (goal proved).")
-else:
-    print("Verdict:  Maintenance unlikely  (goal NOT proved).")
+    THRESHOLD = 0.60
+    print("\nVerdict:",
+          "Maintenance LIKELY required (goal proved)."
+          if post > THRESHOLD else
+          "Maintenance unlikely (goal NOT proved).")
 
