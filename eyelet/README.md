@@ -7,6 +7,7 @@
 - https://github.com/eyereasoner/eye/blob/master/eyelet/output/graph.txt
 - https://github.com/eyereasoner/eye/blob/master/eyelet/output/gps.txt
 - https://github.com/eyereasoner/eye/blob/master/eyelet/output/path_discovery.txt
+- https://github.com/eyereasoner/eye/blob/master/eyelet/output/complex.txt
 
 Install python https://www.python.org/downloads/
 
