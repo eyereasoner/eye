@@ -311,7 +311,6 @@ def _cli() -> None:
 
     G = parse_routes(args.kg.read_text())
 
-    t0 = time.perf_counter()
     total_routes = 0
     stopovers_list = []
 
@@ -337,7 +336,6 @@ def _cli() -> None:
     except (SearchAborted, RouteError) as exc:
         print("⚠️", exc, file=sys.stderr)
     finally:
-        elapsed = time.perf_counter() - t0
         print(f"\n{'=' * 40}")
         print("Search Summary:")
         print(f"Total routes found:     {total_routes}")
@@ -347,7 +345,6 @@ def _cli() -> None:
             avg = sum(stopovers_list) / len(stopovers_list)
             print(f"Average stopovers:      {avg:.2f}")
         print(f"Strategy used:          {args.strategy}")
-        print(f"Elapsed time:           {elapsed:.2f} seconds")
         print(f"{'=' * 40}")
 
 if __name__ == "__main__":
