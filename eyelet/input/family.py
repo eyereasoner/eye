@@ -91,13 +91,14 @@ def bc_prove(goal, θ, depth, path):
 
     # 2. Try all rules whose head unifies with the goal
     for rid, body, head in rules:
-        θ_head = unify(head, g, {})
+        body_std, head_std = standardise_apart(body, head)   # ← NEW
+        θ_head = unify(head_std, g, {})
         if θ_head is None:
-            continue  # head doesn't match goal
+            continue        # head doesn't match goal
 
         head_inst = subst(head, θ_head)
         key = (rid, head_inst)
-        if key in path:  # loop detection
+        if key in path:     # loop detection
             continue
 
         print(f"{indent(depth)}  → via {rid}")
@@ -112,6 +113,18 @@ def bc_prove(goal, θ, depth, path):
         for θ_final in prove_seq(0, {**θ, **θ_head}):
             yield θ_final
             return  # stop after first proof to keep trace tidy
+
+fresh = count(1).__next__          # 1, 2, 3, …
+def standardise_apart(body, head):
+    """Return a *renamed-apart* copy of this rule."""
+    rename = {}
+    def fresh_term(t):
+        if isinstance(t, str) and t.startswith("?"):
+            rename.setdefault(t, f"{t}_{fresh()}")
+            return rename[t]
+        return t
+    return [tuple(map(fresh_term, triple)) for triple in body], \
+           tuple(map(fresh_term, head))
 
 # ──────────────────────────────────────────────────────────────
 # 6. Convenience wrapper to ask a question and print trace
