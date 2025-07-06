@@ -301,7 +301,7 @@ def _cli() -> None:
     ap.add_argument("--start", default="airroutes_AIRPORT_4011")
     ap.add_argument("--goal", default="airroutes_AIRPORT_421")
     ap.add_argument("-k", "--max-stopovers", type=int, default=2)
-    ap.add_argument("-n", "--max-routes", type=int, default=1000)
+    ap.add_argument("-n", "--max-routes", type=int, default=10_000)
     ap.add_argument("--frontier", type=int, default=100_000)
     ap.add_argument("--nodes", type=int, default=1_000_000)
     ap.add_argument("-s", "--strategy", default="iddfs",
