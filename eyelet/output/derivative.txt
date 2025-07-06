@@ -1,9 +1,0 @@
-diff(cos(x), x) = -sin(x)
-diff(x**4, x, x, x) = 24*x
-diff(exp(x*y*z), x, y, y, z, z, z, z) = x**3*y**2*(x**3*y**3*z**3 + 14*x**2*y**2*z**2 + 52*x*y*z + 48)*exp(x*y*z)
-diff((x + 1)*((x**2 + 2)*(x**3 + 3)), x) = 3*x**2*(x + 1)*(x**2 + 2) + 2*x*(x + 1)*(x**3 + 3) + (x**2 + 2)*(x**3 + 3)
-diff(x/x/x/x/x/x/x/x/x/x, x) = -8/x**9
-diff(log(log(log(log(log(log(log(log(log(log(x)))))))))), x) = 1/(x*log(x)*log(log(x))*log(log(log(x)))*log(log(log(log(x))))*log(log(log(log(log(x)))))*log(log(log(log(log(log(x))))))*log(log(log(log(log(log(log(x)))))))*log(log(log(log(log(log(log(log(x))))))))*log(log(log(log(log(log(log(log(log(x))))))))))
-diff(x*x*x*x*x*x*x*x*x*x, x) = 10*x**9
-Matrix([x**3 + 5*y**4 - 9*z, exp(x*y*z)]).jacobian([x, y, z]) = Matrix([[3*x**2, 20*y**3, -9], [y*z*exp(x*y*z), x*z*exp(x*y*z), x*y*exp(x*y*z)]])
-hessian(x**3 + 5*y**4 - 9*z, [x, y, z]) = Matrix([[6*x, 0, 0], [0, 60*y**2, 0], [0, 0, 0]])
