@@ -1,0 +1,36 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        ((-1 0 1 -1 -1 -1) (-1 -1 -1 0 -1 1) (1 -1 -1 -1 0 -1) (-1 1 -1 -1 -1 0) (-1 -1 0 -1 1 -1) (0 -1 -1 -1 -1 -1)) :solutions (((1 0 1 0 1 0) (0 1 1 0 0 1) (1 0 0 1 0 1) (0 1 1 0 1 0) (1 0 0 1 1 0) (0 1 0 1 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (0 1 0 1 1 0) (1 0 0 1 1 0) (0 1 1 0 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (1 1 0 1 0 0) (0 1 0 1 1 0) (0 0 1 0 1 1))).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        ((-1 0 1 -1 -1 -1) (-1 -1 -1 0 -1 1) (1 -1 -1 -1 0 -1) (-1 1 -1 -1 -1 0) (-1 -1 0 -1 1 -1) (0 -1 -1 -1 -1 -1)) :solutions (((1 0 1 0 1 0) (0 1 1 0 0 1) (1 0 0 1 0 1) (0 1 1 0 1 0) (1 0 0 1 1 0) (0 1 0 1 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (0 1 0 1 1 0) (1 0 0 1 1 0) (0 1 1 0 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (1 1 0 1 0 0) (0 1 0 1 1 0) (0 0 1 0 1 1))).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {("consult" "takuzu.pl") log:pro true}]
+        [ a r:Fact; r:gives {("solve" ((-1 0 1 -1 -1 -1) (-1 -1 -1 0 -1 1) (1 -1 -1 -1 0 -1) (-1 1 -1 -1 -1 0) (-1 -1 0 -1 1 -1) (0 -1 -1 -1 -1 -1)) (((1 0 1 0 1 0) (0 1 1 0 0 1) (1 0 0 1 0 1) (0 1 1 0 1 0) (1 0 0 1 1 0) (0 1 0 1 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (0 1 0 1 1 0) (1 0 0 1 1 0) (0 1 1 0 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (1 1 0 1 0 0) (0 1 0 1 1 0) (0 0 1 0 1 1)))) log:pro true}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((-1 0 1 -1 -1 -1) (-1 -1 -1 0 -1 1) (1 -1 -1 -1 0 -1) (-1 1 -1 -1 -1 0) (-1 -1 0 -1 1 -1) (0 -1 -1 -1 -1 -1))];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (((1 0 1 0 1 0) (0 1 1 0 0 1) (1 0 0 1 0 1) (0 1 1 0 1 0) (1 0 0 1 1 0) (0 1 0 1 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (0 1 0 1 1 0) (1 0 0 1 1 0) (0 1 1 0 0 1)) ((1 0 1 1 0 0) (0 1 0 0 1 1) (1 0 1 0 0 1) (1 1 0 1 0 0) (0 1 0 1 1 0) (0 0 1 0 1 1)))];
+    r:rule skolem:lemma2.
+
+skolem:lemma2 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            ("consult" "takuzu.pl") log:pro true.
+            ("solve" var:x_0 var:x_1) log:pro true.
+        } => {
+            var:x_0 :solutions var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/takuzu/takuzu-query.n3>].
+

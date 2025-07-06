@@ -1,0 +1,11 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+# query
+{
+    ("consult" "takuzu.pl") log:pro true.
+    ("solve" ?Puzzle ?Solutions) log:pro true.
+} log:impliesAnswer {
+    ?Puzzle :solutions ?Solutions.
+}.
+
