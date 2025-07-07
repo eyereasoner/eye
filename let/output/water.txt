@@ -1,0 +1,45 @@
+
+=== Proof for prop(observable,water) ===
+World 1: phase =  solid, weight = 0.333
+  need solid/liq/gas → sub-goal solid(water)
+    ✓ holds
+World 2: phase = liquid, weight = 0.333
+  need solid/liq/gas → sub-goal liquid(water)
+    ✓ holds
+World 3: phase =    gas, weight = 0.333
+  need solid/liq/gas → sub-goal gas(water)
+    ✓ holds
+→  prob = 1.000000000000
+
+=== Proof for prop(solid,water) ===
+World 1: phase =  solid, weight = 0.333
+    ✓ holds
+World 2: phase = liquid, weight = 0.333
+    ✗ fails
+World 3: phase =    gas, weight = 0.333
+    ✗ fails
+→  prob = 0.333333333333
+
+=== Proof for prop(liquid,water) ===
+World 1: phase =  solid, weight = 0.333
+    ✗ fails
+World 2: phase = liquid, weight = 0.333
+    ✓ holds
+World 3: phase =    gas, weight = 0.333
+    ✗ fails
+→  prob = 0.333333333333
+
+=== Proof for prop(gas,water) ===
+World 1: phase =  solid, weight = 0.333
+    ✗ fails
+World 2: phase = liquid, weight = 0.333
+    ✗ fails
+World 3: phase =    gas, weight = 0.333
+    ✓ holds
+→  prob = 0.333333333333
+
+=== Summary ===
+prop(observable,water): 1.0
+prop(solid,water): 0.3333333333333333
+prop(liquid,water): 0.3333333333333333
+prop(gas,water): 0.3333333333333333

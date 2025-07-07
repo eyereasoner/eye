@@ -1,0 +1,12 @@
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix proof: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+:test :is true .
+
+[] proof:produced ( [ log:triple ( :test :is true ) ] ) ;
+    proof:used ( [ log:triple ( 5 :moreInterestingThan 3 ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( 5 :moreInterestingThan 3 ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( :test :is true ) ] ) ] ) ] ) .
+
