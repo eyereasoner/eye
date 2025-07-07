@@ -42,6 +42,91 @@ from typing import Dict, List, Optional, Tuple, Union, Set, Iterable
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.collection import Collection
 from rdflib.namespace import RDF, XSD
+from rdflib.namespace import RDF, XSD
+# ---- rdflib Turtle patch: always print list heads as collections ----------
+from rdflib.plugins.serializers.turtle import TurtleSerializer, OBJECT
+from rdflib.term import BNode as _BNode
+
+_node_name = next((n for n in ("_serialize_node", "_serialize_term", "label")
+                   if hasattr(TurtleSerializer, n)), None)
+
+if _node_name and not hasattr(TurtleSerializer, "_eyelet_patch"):
+    _orig_node = getattr(TurtleSerializer, _node_name)
+
+    def _mark_done(s, head):
+        stk = [head]
+        while stk:
+            n = stk.pop()
+            if not isinstance(n, _BNode) or n in s._serialized:
+                continue
+            s.subjectDone(n)
+            nxt = s.store.value(n, RDF.rest)
+            if nxt and nxt != RDF.nil:
+                stk.append(nxt)
+            fst = s.store.value(n, RDF.first)
+            if isinstance(fst, _BNode):
+                stk.append(fst)
+
+    def _node_lists(self, node, position):            # monkey-patch
+        if isinstance(node, _BNode):
+            try:
+                items = list(Collection(self.store, node))
+            except Exception:
+                items = []
+            if items:                                 # list head
+                _mark_done(self, node)
+                inner = " ".join(_orig_node(self, i, position) for i in items)
+                return f"( {inner} )"
+        return _orig_node(self, node, position)
+
+    setattr(TurtleSerializer, _node_name, _node_lists)
+    TurtleSerializer._eyelet_patch = True
+
+    # ---- patch subject serializer so list heads in *subject* position
+    #      are printed as “( … )” and rdf:first/rest arcs are suppressed ----
+    if not hasattr(TurtleSerializer, "_eyelet_subject_patch"):
+        _orig_s_sq = TurtleSerializer.s_squared          # type: ignore[attr-defined]
+
+        def _s_squared_lists(self: TurtleSerializer, subj):             # type: ignore
+            if not isinstance(subj, _BNode):
+                return _orig_s_sq(self, subj)
+            try:
+                items = list(Collection(self.store, subj))
+            except Exception:
+                return _orig_s_sq(self, subj)
+            if not items:                        # not a list head
+                return _orig_s_sq(self, subj)
+
+            _mark_done(self, subj)
+
+            # gather predicates other than rdf:first/rest
+            props = self.buildPredicateHash(subj)
+            props.pop(RDF.first, None)
+            props.pop(RDF.rest,  None)
+            if not props:
+                return True                      # nothing to print
+
+            # now we know we have something to say – print subject collection
+            self.write("\n" + self.indent() + "( ")
+            for i, itm in enumerate(items):
+                if i:
+                    self.write(" ")
+                self.path(itm, OBJECT)
+            self.write(" )")
+
+            plist = self.sortProperties(props)
+            self.write(" ")
+            self.verb(plist[0])
+            self.objectList(props[plist[0]])
+            for p in plist[1:]:
+                self.write(" ;\n" + self.indent(1))
+                self.verb(p, newline=True)
+                self.objectList(props[p])
+            self.write(" .")
+            return True
+
+        TurtleSerializer.s_squared = _s_squared_lists   # type: ignore[assignment]
+        TurtleSerializer._eyelet_subject_patch = True
 
 # Public type aliases ---------------------------------------------------------
 Term:   type = Union[URIRef, BNode, Literal, Tuple]  # a term or a Python tuple
@@ -55,6 +140,7 @@ Subst:  type = Dict[URIRef, Term]                    # variable → term mapping
 LOG   = Namespace("http://www.w3.org/2000/10/swap/log#")
 MATH  = Namespace("http://www.w3.org/2000/10/swap/math#")
 TIME  = Namespace("http://www.w3.org/2000/10/swap/time#")
+LIST  = Namespace("http://www.w3.org/2000/10/swap/list#")
 PROOF = Namespace("http://www.w3.org/2000/10/swap/reason#")
 VAR   = Namespace("http://www.w3.org/2000/10/swap/var#")
 
@@ -86,6 +172,8 @@ def _from_python(term: Term, g: Graph) -> Term:
     """Convert a Python tuple back into an RDF list (shared nodes allowed)."""
     if not isinstance(term, tuple):
         return term
+    if len(term) == 0:
+        return RDF.nil
     head = BNode()
     Collection(g, head, [_from_python(x, g) for x in term])
     return head
@@ -98,7 +186,7 @@ def is_var(t: Term) -> bool:
     """Is *t* a log:variables (URIs under ``var:``)?"""
     return isinstance(t, URIRef) and str(t).startswith(str(VAR))
 
-def subst_term(t: Term, σ: Subst) -> Term:  # noqa: D401 – σ = substitution
+def subst_term(t: Term, σ: Subst) -> Term:
     """Recursively substitute variables in *t* according to σ (Greek sigma)."""
     if isinstance(t, tuple):
         return tuple(subst_term(x, σ) for x in t)
@@ -178,7 +266,7 @@ def _num(lit: Literal) -> Optional[float]:
         return _duration_to_days(lit)
     try:
         return float(lit)
-    except Exception:  # noqa: BLE001 – fall back
+    except Exception:
         return None
 
 def _iso_to_py(lit: Literal):
@@ -205,7 +293,7 @@ def _td_to_dec(td: timedelta) -> Literal:
     """Convert timedelta → xsd:decimal (days)."""
     return Literal(td.total_seconds() / 86400.0, datatype=XSD.decimal)
 
-def _align_dt(a_dt, b_dt):  # noqa: D401 – helper
+def _align_dt(a_dt, b_dt):
     """Align *date* / *time* / *datetime* operands so they can be subtracted."""
     if isinstance(a_dt, _time) and isinstance(b_dt, _time):
         today = date.today()
@@ -248,6 +336,48 @@ def eval_builtin(pred: URIRef, args: Tuple, σ: Subst) -> Optional[Subst]:
         _subj, obj = args
         now = datetime.now().isoformat(timespec="seconds")
         return unify_term(obj, Literal(now, datatype=XSD.dateTime), σ)
+
+    # list:append -------------------------------------------------------------
+    if pred == LIST.append:
+        lists_term, result_term = args
+        lists_val  = subst_term(lists_term,  σ)
+        result_val = subst_term(result_term, σ)
+        if not isinstance(lists_val, tuple):
+            return None
+
+        def _concat(ts):
+            acc = []
+            for t in ts:
+                if not isinstance(t, tuple):
+                    return None
+                acc.extend(t)
+            return tuple(acc)
+
+        # all pieces ground ⇒ single concat
+        if all(isinstance(li, tuple) for li in lists_val):
+            return unify_term(result_term, _concat(lists_val), σ)
+
+        # exactly two vars + ground result ⇒ enumerate every split
+        if isinstance(result_val, tuple) and len(lists_val) == 2:
+            L1_var, L2_var = lists_term
+            R = result_val
+            sols = []
+            for i in range(len(R) + 1):
+                head, tail = R[:i], R[i:]
+                σ1 = unify_term(L1_var, tuple(head), σ)
+                if σ1 is None:
+                    continue
+                σ2 = unify_term(L2_var, tuple(tail), σ1)
+                if σ2 is not None:
+                    sols.append(σ2)
+            return sols or None
+
+        # partial concat when result still a var
+        cat = _concat(lists_val)
+        if cat is not None and is_var(result_term):
+            return unify_term(result_term, cat, σ)
+
+        return None
 
     return None
 
@@ -411,11 +541,17 @@ class Reasoner:
 
         # Built‑ins ↔︎ log:magic predicates
         if isinstance(g0[1], URIRef) and (
-            str(g0[1]).startswith(str(MATH)) or str(g0[1]).startswith(str(TIME))
+            str(g0[1]).startswith(str(MATH))
+            or str(g0[1]).startswith(str(TIME))
+            or str(g0[1]).startswith(str(LIST))
         ):
-            σ2 = eval_builtin(g0[1], (g0[0], g0[2]), σ)
-            if σ2:
-                yield from self._prove(rest, σ2)
+            res = eval_builtin(g0[1], (g0[0], g0[2]), σ)
+            if res:
+                if isinstance(res, (list, tuple, set)):   # multi-solutions
+                    for σ2 in res:
+                        yield from self._prove(rest, σ2)
+                else:
+                    yield from self._prove(rest, res)
             return
 
         # Match against facts
@@ -470,11 +606,16 @@ class Reasoner:
             for σ in envs:
                 gpat = self._subst(pat, σ)
                 if isinstance(gpat[1], URIRef) and (
-                    str(gpat[1]).startswith(str(MATH)) or str(gpat[1]).startswith(str(TIME))
+                    str(gpat[1]).startswith(str(MATH))
+                    or str(gpat[1]).startswith(str(TIME))
+                    or str(gpat[1]).startswith(str(LIST))
                 ):
                     res = eval_builtin(gpat[1], (gpat[0], gpat[2]), σ)
                     if res:
-                        nxt.append(res)
+                        if isinstance(res, (list, tuple, set)):
+                            nxt.extend(res)
+                        else:
+                            nxt.append(res)
                     continue
                 for fact in self._iter_facts(gpat):
                     σ2 = unify_triple(gpat, fact, σ)
@@ -671,5 +812,8 @@ if __name__ == "__main__":
         out = g.serialize(format="nt")
         sys.stdout.write("".join(sorted(out.splitlines(keepends=True))))
     else:
-        g.serialize(sys.stdout.buffer, format="turtle")
+        # rdflib leaves one-or-more blank lines at the end; strip them
+        txt = g.serialize(format="turtle")
+        sys.stdout.write(txt.rstrip() + "\n")
+    print()
 
