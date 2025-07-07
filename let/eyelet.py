@@ -42,7 +42,6 @@ from typing import Dict, List, Optional, Tuple, Union, Set, Iterable
 from rdflib import BNode, Graph, Literal, Namespace, URIRef
 from rdflib.collection import Collection
 from rdflib.namespace import RDF, XSD
-from rdflib.namespace import RDF, XSD
 # ---- rdflib Turtle patch: always print list heads as collections ----------
 from rdflib.plugins.serializers.turtle import TurtleSerializer, OBJECT
 from rdflib.term import BNode as _BNode
