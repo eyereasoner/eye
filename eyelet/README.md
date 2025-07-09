@@ -1,6 +1,6 @@
 # eyelet
 
-## eye reasoning in RDF Turtle
+## eyelet is N3 Logic using RDF Turtle syntax
 
 - eyelet supports reasoning with forward rules described in RDF Turtle
   e.g.
