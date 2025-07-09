@@ -121,3 +121,4 @@ This expression fails if beauty **is provable**, confirming the correctness of t
 * ⟹ **Beetle is beautiful**
 
 The N3 logic system correctly performs **disjunction elimination** and **derives the conclusion** through **negative surface reasoning**.
+

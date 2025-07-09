@@ -101,3 +101,4 @@ So, if the inference engine **rejects** this query, that confirms:
 * The query fails, confirming that the system **correctly infers** the conclusion.
 
 This is a textbook use of **negative surface logic** for **constructive reasoning via contradiction** in N3.
+
