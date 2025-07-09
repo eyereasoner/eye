@@ -84,6 +84,5 @@ It recursively computes the sequence of moves required to transfer `N` disks fro
 > \[!NOTE]
 > Moves are represented as lists of pairs `(X Y)`, and combined using `list:append`.
 
-> \[!REFERENCE]
-> Based on [*The Art of Prolog*](https://en.wikipedia.org/wiki/The_Art_of_Prolog) and N3 logic modeling using Eyelet.
+**Reference:** Based on [_The Art of Prolog_](https://en.wikipedia.org/wiki/The_Art_of_Prolog) and N3 logic modeling using Eyelet.
 
