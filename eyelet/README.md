@@ -1,63 +1,91 @@
-# eyelet
+# Eyelet
 
-## eyelet is N3 Logic using RDF Turtle syntax
+## N3 Logic Reasoning with RDF Turtle Syntax
 
-- eyelet supports reasoning with forward rules described in RDF Turtle
-  e.g.
-    ```
-    # subclass rule
-    [ log:graph (
-        [ log:triple (var:A rdfs:subClassOf var:B)]
-        [ log:triple (var:S rdf:type var:A)]
-    )] log:implies [ log:graph (
-        [ log:triple (var:S rdf:type var:B)]
-    )].
-    ```
+**Eyelet** enables expressive reasoning using N3 Logic written in RDF Turtle syntax. It supports:
 
-- eyelet supports reasoning with backward rules described in RDF Turtle
-  e.g.
-    ```
-    # is the age of a person above some duration?
-    [ log:graph (
-        [ log:triple (var:S :ageAbove var:A)]
-    )] log:isImpliedBy [ log:graph (
-        [ log:triple (var:S :birthDay var:B)]
-        [ log:triple ("" time:localTime var:D)]
-        [ log:triple ((var:D var:B) math:difference var:F)]
-        [ log:triple (var:F math:greaterThan var:A)]
-    )].
-    ```
+---
 
-- eyelet supports reasoning with RDF Surfaces described in RDF Turtle
-  e.g.
-    ```
-    # all cars are green or blue
-    (_:A) log:onNegativeSurface [ log:graph (
-        [ log:triple (_:A rdf:type :Car)]
-        [ log:triple (() log:onNegativeSurface [ log:graph (
-            [ log:triple (_:A :is :green)]
-        )])]
-        [ log:triple (() log:onNegativeSurface [ log:graph (
-            [ log:triple (_:A :is :blue)]
-        )])]
-    )].
-    ```
+### ✅ Forward Rules
 
-- eyelet supports querying with queries described in RDF Turtle
-  e.g.
-    ```
-    # who is a what?
-    [ log:graph (
-        [ log:triple (var:WHO rdf:type var:WHAT)]
-    )] log:impliesAnswer [ log:graph (
-        [ log:triple (var:WHO rdf:type var:WHAT)]
-    )].
-    ```
+Eyelet allows reasoning with forward rules written in RDF Turtle.
 
-> [!NOTE]
-> A forward rule with `log:implies false` is an inference fuse.
+**Example: Subclass inference**
 
-> [!NOTE]
-> The `var:` prefix is `<http://www.w3.org/2000/10/swap/var#>` and is used for
-  variables that are interpreted universally except for forward rule
-  conclusion-only variables which are interpreted existentially.
+```turtle
+# Subclass rule
+[ log:graph (
+    [ log:triple (var:A rdfs:subClassOf var:B) ]
+    [ log:triple (var:S rdf:type var:A) ]
+)] log:implies [ log:graph (
+    [ log:triple (var:S rdf:type var:B) ]
+)].
+```
+
+---
+
+### ✅ Backward Rules
+
+Eyelet supports reasoning with backward rules, enabling goal-directed inference.
+
+**Example: Checking if a person's age is above a threshold**
+
+```turtle
+# Is the age of a person above some duration?
+[ log:graph (
+    [ log:triple (var:S :ageAbove var:A) ]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:S :birthDay var:B) ]
+    [ log:triple ("" time:localTime var:D) ]
+    [ log:triple ((var:D var:B) math:difference var:F) ]
+    [ log:triple (var:F math:greaterThan var:A) ]
+)].
+```
+
+---
+
+### ✅ RDF Surfaces
+
+Eyelet handles RDF Surfaces, enabling reasoning over negated or hypothetical graphs.
+
+**Example: Cars are either green or blue**
+
+```turtle
+# All cars are green or blue
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A rdf:type :Car) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :green) ]
+    ) ]) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :blue) ]
+    ) ]) ]
+)].
+```
+
+---
+
+### ✅ Querying
+
+Eyelet supports structured queries in RDF Turtle.
+
+**Example: Who is a what?**
+
+```turtle
+# Who is a what?
+[ log:graph (
+    [ log:triple (var:WHO rdf:type var:WHAT) ]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:WHO rdf:type var:WHAT) ]
+)].
+```
+
+---
+
+> \[!NOTE]
+> A forward rule with `log:implies false` acts as an **inference fuse**.
+
+> \[!NOTE]
+> The `var:` prefix refers to `<http://www.w3.org/2000/10/swap/var#>`.
+> Variables are universally quantified, except those used only in the conclusion of a forward rule, which are **existentially** interpreted.
+
