@@ -1,6 +1,38 @@
-@prefix : <http://example.org/#>.
+@prefix : <http://example.org/#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix proof: <http://www.w3.org/2000/10/swap/reason#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix var: <http://www.w3.org/2000/10/swap/var#> .
 
-:angers :path :nantes.
-:lemans :path :nantes.
-:chartres :path :nantes.
-:paris :path :nantes.
+:paris :path :nantes .
+
+:chartres :path :nantes .
+
+:lemans :path :nantes .
+
+:angers :path :nantes .
+
+[] proof:produced ( [ log:triple ( :angers :path :nantes ) ] ) ;
+    proof:used ( [ log:triple ( :angers :oneway :nantes ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :oneway var:B ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:A :path var:B ) ] ) ] ) ] ) .
+
+[] proof:produced ( [ log:triple ( :chartres :path :angers ) ] ) ;
+    proof:used ( [ log:triple ( :chartres :path :lemans ) ] [ log:triple ( :lemans :path :angers ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :path var:B ) ] [ log:triple ( var:B :path var:C ) ] ) ] log:implies [ log:graph ( [ log:triple ( var:A :path var:C ) ] ) ] ) ] ) .
+
+[] proof:produced ( [ log:triple ( :angers :path :nantes ) ] ) ;
+    proof:used ( [ log:triple ( :angers :path :nantes ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] ) ] ) .
+
+[] proof:produced ( [ log:triple ( :chartres :path :nantes ) ] ) ;
+    proof:used ( [ log:triple ( :chartres :path :nantes ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] ) ] ) .
+
+[] proof:produced ( [ log:triple ( :lemans :path :nantes ) ] ) ;
+    proof:used ( [ log:triple ( :lemans :path :nantes ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] ) ] ) .
+
+[] proof:produced ( [ log:triple ( :paris :path :nantes ) ] ) ;
+    proof:used ( [ log:triple ( :paris :path :nantes ) ] ) ;
+    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( var:A :path :nantes ) ] ) ] ) ] ) .
+

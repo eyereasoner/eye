@@ -1,0 +1,11 @@
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# query
+[ log:graph (
+    [ log:triple ((0 1 2 3 4 5 6 7 8 9) math:sum var:X)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ((0 1 2 3 4 5 6 7 8 9) math:sum var:X)]
+)].
