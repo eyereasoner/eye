@@ -1,37 +1,7 @@
-@prefix list: <http://www.w3.org/2000/10/swap/list#> .
-@prefix log: <http://www.w3.org/2000/10/swap/log#> .
-@prefix proof: <http://www.w3.org/2000/10/swap/reason#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix var: <http://www.w3.org/2000/10/swap/var#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
 
-(  ()  ( 1 2 3 4 ) )  list:append ( 1 2 3 4 ) .
-
-[] proof:produced ( [ log:triple ( ( () ( 1 2 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:used ( [ log:triple ( ( () ( 1 2 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] ) ] ) .
-
-(  ( 1 )  ( 2 3 4 ) )  list:append ( 1 2 3 4 ) .
-
-[] proof:produced ( [ log:triple ( ( ( 1 ) ( 2 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:used ( [ log:triple ( ( ( 1 ) ( 2 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] ) ] ) .
-
-(  ( 1 2 )  ( 3 4 ) )  list:append ( 1 2 3 4 ) .
-
-[] proof:produced ( [ log:triple ( ( ( 1 2 ) ( 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:used ( [ log:triple ( ( ( 1 2 ) ( 3 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] ) ] ) .
-
-(  ( 1 2 3 )  ( 4 ) )  list:append ( 1 2 3 4 ) .
-
-[] proof:produced ( [ log:triple ( ( ( 1 2 3 ) ( 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:used ( [ log:triple ( ( ( 1 2 3 ) ( 4 ) ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] ) ] ) .
-
-(  ( 1 2 3 4 )  () )  list:append ( 1 2 3 4 ) .
-
-[] proof:produced ( [ log:triple ( ( ( 1 2 3 4 ) () ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:used ( [ log:triple ( ( ( 1 2 3 4 ) () ) list:append ( 1 2 3 4 ) ) ] ) ;
-    proof:viaRule ( [ log:triple ( [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] log:impliesAnswer [ log:graph ( [ log:triple ( ( var:A var:B ) list:append ( 1 2 3 4 ) ) ] ) ] ) ] ) .
-
+(() (1 2 3 4)) list:append (1 2 3 4).
+((1) (2 3 4)) list:append (1 2 3 4).
+((1 2) (3 4)) list:append (1 2 3 4).
+((1 2 3) (4)) list:append (1 2 3 4).
+((1 2 3 4) ()) list:append (1 2 3 4).
