@@ -1,0 +1,63 @@
+@prefix : <http://example.org/> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# --- Sensor Data ---
+:turbine1 :vibration "0.42"^^xsd:decimal.
+:turbine1 :temperature "78"^^xsd:decimal.
+:turbine1 :rpm "1650"^^xsd:decimal.
+:turbine1 :gearboxStatus :degraded.
+
+# --- Threshold Values ---
+:highVibrationThreshold :value "0.35"^^xsd:decimal.
+:highTemperatureThreshold :value "75"^^xsd:decimal.
+:criticalRPM :value "1800"^^xsd:decimal.
+
+# --- Rule: Vibration Anomaly ---
+{
+  ?T :vibration ?V.
+  :highVibrationThreshold :value ?VT.
+  ?V math:greaterThan ?VT.
+} => {
+  ?T :hasAnomaly :highVibration.
+}.
+
+# --- Rule: Temperature Anomaly ---
+{
+  ?T :temperature ?Temp.
+  :highTemperatureThreshold :value ?TT.
+  ?Temp math:greaterThan ?TT.
+} => {
+  ?T :hasAnomaly :highTemperature.
+}.
+
+# --- Rule: Combined Anomalies Trigger Urgent Inspection ---
+{
+  ?T :hasAnomaly :highVibration.
+  ?T :hasAnomaly :highTemperature.
+} => {
+  ?T :requires :urgentInspection.
+}.
+
+# --- Rule: Gearbox Status Triggers Maintenance ---
+{
+  ?T :gearboxStatus :degraded.
+} => {
+  ?T :requires :gearboxMaintenance.
+}.
+
+# --- Query: Detected Anomalies ---
+{
+  ?T :hasAnomaly ?Anomaly.
+} =^ {
+  ?T :hasAnomaly ?Anomaly.
+}.
+
+# --- Query: Required Actions ---
+{
+  ?T :requires ?Action.
+} =^ {
+  ?T :requires ?Action.
+}.
+
