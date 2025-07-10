@@ -20,14 +20,14 @@ This Eyelet program models the classic **Zebra Puzzle**, also known as **Einstei
 ```turtle
 [ log:graph (
     [ log:triple (var:L log:equalTo (
-        ;; House order (left to right)
+        # House order (left to right)
         (var:A1 :norwegian var:A2 var:A3 var:A4)
         (:blue var:A5 var:A6 var:A7 var:A8)
         (var:A9 var:A10 var:A11 :milk var:A12)
         var:A13 var:A14
     )) ]
 
-    ;; Neighbors and relationships
+    # Neighbors and relationships
     [ log:triple (var:L :pair ((var:A15 var:A16 var:A17 var:A18 :blends)
                                (var:A19 var:A20 :cats var:A21 var:A22))) ]
     [ log:triple (var:L :pair ((var:A23 var:A24 :horse var:A25 var:A26)
@@ -37,7 +37,7 @@ This Eyelet program models the classic **Zebra Puzzle**, also known as **Einstei
     [ log:triple (var:L :pair ((var:A38 var:A39 var:A40 var:A41 :blends)
                                (var:A42 var:A43 var:A44 :water var:A45))) ]
 
-    ;; Membership constraints
+    # Membership constraints
     [ log:triple (var:L list:member (:red :brit var:A46 var:A47 var:A48)) ]
     [ log:triple (var:L list:member (var:A49 :swede :dogs var:A50 var:A51)) ]
     [ log:triple (var:L list:member (var:A52 :dane var:A53 :tea var:A54)) ]
