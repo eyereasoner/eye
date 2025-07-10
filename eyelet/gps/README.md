@@ -10,7 +10,7 @@ This example demonstrates **goal-driven reasoning** with **state transitions** u
 
 ## 📘 Prefixes
 
-```n3
+```ttl
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -76,7 +76,7 @@ Transitions define how the system evolves:
 
 Initial state:
 
-```n3
+```ttl
 :i1 :location :Gent.
 ```
 
@@ -84,7 +84,7 @@ Initial state:
 
 ## ❓ Query: Reach Oostende
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (() gps:findpath (
       [ log:graph ([ log:triple (var:S :location :Oostende) ])]

@@ -8,7 +8,7 @@ This example demonstrates **disjunction elimination** using **Notation3 (N3)** a
 
 ### Prefixes
 
-```n3
+```ttl
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
@@ -20,7 +20,7 @@ This example demonstrates **disjunction elimination** using **Notation3 (N3)** a
 
 ### 1. Beetle is a car
 
-```n3
+```ttl
 :beetle a :Car.
 ```
 
@@ -28,7 +28,7 @@ This example demonstrates **disjunction elimination** using **Notation3 (N3)** a
 
 Expressed as a **refutation**:
 
-```n3
+```ttl
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A rdf:type :Car)]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -48,7 +48,7 @@ Logical form:
 
 ### 3. Green things are beautiful
 
-```n3
+```ttl
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A :is :green)]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -63,7 +63,7 @@ Logical form:
 
 ### 4. Blue things are beautiful
 
-```n3
+```ttl
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A :is :blue)]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -96,7 +96,7 @@ This follows the classical rule:
 
 ## ❓ Query (for contradiction)
 
-```n3
+```ttl
 (_:S) log:onNegativeSurface [ log:graph (
   [ log:triple (_:S :is :beautiful)]
   [ log:triple (() log:onNegativeAnswerSurface [ log:graph (

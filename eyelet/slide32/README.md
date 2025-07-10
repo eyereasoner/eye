@@ -8,7 +8,7 @@ This example uses **Notation3 (N3)** and **negative surface logic** to encode a 
 
 ### Prefixes
 
-```n3
+```ttl
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
@@ -20,7 +20,7 @@ This example uses **Notation3 (N3)** and **negative surface logic** to encode a 
 
 ### 1. Ghent is a city
 
-```n3
+```ttl
 :Ghent a :City.
 ```
 
@@ -28,7 +28,7 @@ This example uses **Notation3 (N3)** and **negative surface logic** to encode a 
 
 ### 2. It is **impossible** that a city is not a human community
 
-```n3
+```ttl
 (_:S) log:onNegativeSurface [ log:graph (
   [ log:triple (_:S rdf:type :City)]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -69,7 +69,7 @@ We conclude:
 
 ## ❓ Query (to confirm entailment)
 
-```n3
+```ttl
 () log:onNegativeSurface [ log:graph (
   [ log:triple (:Ghent rdf:type :HumanCommunity)]
   [ log:triple (() log:onNegativeAnswerSurface [ log:graph (

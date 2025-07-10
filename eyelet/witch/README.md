@@ -8,7 +8,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### Prefixes
 
-```n3
+```ttl
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -21,7 +21,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[1] If someone **burns** and is a **woman**, they are a **witch**
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:x rdf:type :BURNS)]
   [ log:triple (var:x rdf:type :WOMAN)]
@@ -36,7 +36,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[2] GIRL is a woman
 
-```n3
+```ttl
 :GIRL rdf:type :WOMAN.
 ```
 
@@ -44,7 +44,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[3] If something is made of wood, it burns
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:x rdf:type :ISMADEOFWOOD)]
 )] log:implies [ log:graph (
@@ -58,7 +58,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[4] If something floats, it is made of wood
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:x rdf:type :FLOATS)]
 )] log:implies [ log:graph (
@@ -72,7 +72,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[5] DUCK floats
 
-```n3
+```ttl
 :DUCK rdf:type :FLOATS.
 ```
 
@@ -80,7 +80,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[6] If `x` floats and is the **same weight** as `y`, then `y` floats too
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:x rdf:type :FLOATS)]
   [ log:triple (var:x :SAMEWEIGHT var:y)]
@@ -93,7 +93,7 @@ This example humorously formalizes a chain of reasoning that leads to the conclu
 
 ### \[7] DUCK and GIRL have the same weight
 
-```n3
+```ttl
 :DUCK :SAMEWEIGHT :GIRL.
 ```
 
@@ -111,7 +111,7 @@ Through chaining the rules, we derive:
 
 ✅ Final inference:
 
-```n3
+```ttl
 :GIRL rdf:type :WITCH.
 ```
 
@@ -119,7 +119,7 @@ Through chaining the rules, we derive:
 
 ## ❓ Query
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:S rdf:type :WITCH)]
 )] log:impliesAnswer [ log:graph (
@@ -133,7 +133,7 @@ This asks:
 
 The reasoner will return:
 
-```n3
+```ttl
 :GIRL rdf:type :WITCH.
 ```
 

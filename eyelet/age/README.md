@@ -6,7 +6,7 @@ This example implements a logic-based **age checking system** in **Notation3 (N3
 
 ## 📘 Prefixes
 
-```n3
+```ttl
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix time: <http://www.w3.org/2000/10/swap/time#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
@@ -21,7 +21,7 @@ This example implements a logic-based **age checking system** in **Notation3 (N3
 
 ### 🎂 Birthday
 
-```n3
+```ttl
 :patH :birthDay "1944-08-21"^^xsd:date.
 ```
 
@@ -33,7 +33,7 @@ Pat H was born on August 21, 1944.
 
 The rule checks whether a person is **older than a given duration**.
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:S :ageAbove var:A)]
 )] log:isImpliedBy [ log:graph (
@@ -61,7 +61,7 @@ This performs:
 
 ## ❓ Query
 
-```n3
+```ttl
 [ log:graph (
   [ log:triple (var:S :ageAbove "P80Y"^^xsd:duration)]
 )] log:impliesAnswer [ log:graph (
@@ -75,7 +75,7 @@ This asks:
 
 The system will answer:
 
-```n3
+```ttl
 :patH :ageAbove "P80Y"^^xsd:duration.
 ```
 
