@@ -1,4 +1,4 @@
-# 🚀 Goal-Driven Parallel Sequences – State-Based Planning in N3 Logic
+# 🚀 Goal-Driven Parallel Sequences in Eyelet
 
 This example demonstrates **goal-driven reasoning** with **state transitions** using **Notation3 (N3)**. Inspired by **linear logic** and planning systems, it models how propositions (facts) **change state** as transitions are applied — enabling **adaptive, cost-aware pathfinding** toward a goal.
 
