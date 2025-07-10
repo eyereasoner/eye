@@ -2,6 +2,8 @@
 
 This example uses **Notation3 (N3)** and **negative surface logic** to encode a **universal implication** (i.e., "all cities are human communities") via **refutation**. The reasoning is based on deriving a contradiction from the negation of the intended conclusion.
 
+See slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-invited-talk
+
 ---
 
 ## 📘 Setup
