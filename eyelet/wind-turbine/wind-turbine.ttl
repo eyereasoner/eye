@@ -1,0 +1,65 @@
+@prefix : <http://example.org/windturbine#> .
+@prefix math: <http://www.w3.org/2000/10/swap/math#> .
+@prefix log: <http://www.w3.org/2000/10/swap/log#> .
+@prefix var: <http://www.w3.org/2000/10/swap/var#> .
+
+# --- Sensor Data ---
+
+:turbine1 :vibration 0.42 .          # measured in mm/s
+:turbine1 :temperature 78 .          # °C
+:turbine1 :rpm 1650 .
+:turbine1 :gearboxStatus :degraded .
+
+# --- Thresholds ---
+
+:highVibrationThreshold :value 0.35 .
+:highTemperatureThreshold :value 75 .
+:criticalRPM :value 1800 .
+
+# --- Rule: Vibration anomaly detection ---
+[ log:graph (
+    [ log:triple (var:T :vibration var:V) ]
+    [ log:triple (:highVibrationThreshold :value var:VT) ]
+    [ log:triple (var:V math:greaterThan var:VT) ]
+)] log:implies [ log:graph (
+    [ log:triple (var:T :hasAnomaly :highVibration) ]
+)] .
+
+# --- Rule: Temperature anomaly detection ---
+[ log:graph (
+    [ log:triple (var:T :temperature var:Temp) ]
+    [ log:triple (:highTemperatureThreshold :value var:TT) ]
+    [ log:triple (var:Temp math:greaterThan var:TT) ]
+)] log:implies [ log:graph (
+    [ log:triple (var:T :hasAnomaly :highTemperature) ]
+)] .
+
+# --- Rule: Combined anomaly leading to maintenance recommendation ---
+[ log:graph (
+    [ log:triple (var:T :hasAnomaly :highVibration) ]
+    [ log:triple (var:T :hasAnomaly :highTemperature) ]
+)] log:implies [ log:graph (
+    [ log:triple (var:T :requires :urgentInspection) ]
+)] .
+
+# --- Rule: Gearbox degradation triggers maintenance ---
+[ log:graph (
+    [ log:triple (var:T :gearboxStatus :degraded) ]
+)] log:implies [ log:graph (
+    [ log:triple (var:T :requires :gearboxMaintenance) ]
+)] .
+
+# --- Query: Which anomalies are detected? ---
+[ log:graph (
+    [ log:triple (var:T :hasAnomaly var:Anomaly) ]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:T :hasAnomaly var:Anomaly) ]
+)] .
+
+# --- Query: What actions are required? ---
+[ log:graph (
+    [ log:triple (var:T :requires var:Action) ]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:T :requires var:Action) ]
+)] .
+

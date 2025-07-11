@@ -1,0 +1,79 @@
+# ------------
+# LDES example
+# ------------
+#
+# See https://github.com/SEMICeu/LinkedDataEventStreams
+
+@prefix tree: <https://w3id.org/tree#>.
+@prefix ldes: <https://w3id.org/ldes#>.
+@prefix dcat: <http://www.w3.org/ns/dcat#>.
+@prefix prov: <http://www.w3.org/ns/prov#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix patch: <http://example.org/patch#>.
+@prefix as: <http://example.org/as#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+:LDES a ldes:EventStream ;
+    rdfs:comment "An LDES with per member: an ActivityStreams update, the payload and the signature of the payload";
+    tree:view <> ;
+    tree:member <A> .
+
+## Imagine we would like to create a transactional profile of LDES, including things like policies, transactions, policies, ways to upsert/remove sets of triples, etc.
+<A> a patch:Event ;
+    patch:processingMethod patch:Upsert ;
+    patch:upsertKey <https://example.org/Dataset1> ;
+    patch:transaction :Transaction1 ;
+    patch:upsertPayload _:bn_1 ;
+    patch:sequence 1 ;
+    patch:time "2024-09-09T13:27:33.681Z" ;
+    patch:provenance _:bn_2 ;
+    patch:signature _:bn_3 ;
+    patch:policy _:bn_4 .
+
+_:bn_1 log:graph (
+    ## The (updated) representation of this particular dataset
+    ## ...
+    [ log:triple (<https://example.org/Dataset1> rdf:type dcat:Dataset)]
+).
+
+_:bn_2 log:graph (
+    [ log:triple (<https://example.org/Dataset1#Event1> rdf:type as:Create)]
+    [ log:triple (<https://example.org/Dataset1#Event1> rdf:type prov:Activity)]
+    [ log:triple (<https://example.org/Dataset1#Event1> as:object <https://example.org/Dataset1>)]
+    [ log:triple (<https://example.org/Dataset1#Event1> as:published "2023-10-01T12:00:00Z"^^xsd:dateTime)]
+).
+
+_:bn_3 log:graph (
+    # Signature
+    [ log:triple (_:bn_5 rdf:type :DataIntegrityProof)]
+    # ...
+    [ log:triple (_:bn_5 :signature "rCWNBuxBK1In93X8dvuK1ss91LK0rMiA2KzvsNaEhdGt7PTD5aQ0X58TzbvnTOhvl9t5bRGoOHnxfys52Q9bWjnmD4GoljEWVWFSrBnORsLBOLwcAnLRfEtTvz4t0EYV")]
+    [ log:triple (_:bn_5 :target (_:bn_1 _:bn_2 _:bn_4))]
+).
+
+_:bn_4 log:graph (
+    ## We want to indicate that this specific member must be removed after 1 month
+    [ log:triple (_:bn_6 rdf:type :Policy)]
+    [ log:triple (_:bn_6 :target (_:bn_1 _:bn_2 _:bn_3))]
+    [ log:triple (_:bn_6 :duty _:bn_7)]
+    [ log:triple (_:bn_7 rdf:type :RemovalDuty)]
+    [ log:triple (_:bn_7 :after "P1M")]
+).
+
+# query
+[ log:graph (
+    [ log:triple (var:Node log:graph var:Content)]
+    [ log:triple (var:Content list:member var:Item1)]
+    [ log:triple (var:Item1 log:triple (var:Pol rdf:type :Policy))]
+    [ log:triple (var:Content list:member var:Item2)]
+    [ log:triple (var:Item2 log:triple (var:Pol :target var:Target))]
+    [ log:triple (var:Content list:member var:Item)]
+    [ log:triple (var:Item log:triple var:Triple)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (var:Item log:triple var:Triple)]
+)].

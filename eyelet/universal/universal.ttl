@@ -1,0 +1,42 @@
+# --------------------
+# Universal statements
+# --------------------
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+# \Every x: type(x, Resource
+[ log:graph (
+    [ log:triple (var:X rdf:type rdfs:Resource)]
+)] log:isImpliedBy true.
+
+# Everybody loves somebody who is lonely
+[ log:graph (
+    [ log:triple (var:A :loves var:B)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:A) log:skolem var:B)]
+)].
+
+[ log:graph (
+    [ log:triple (var:B :is :lonely)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:A) log:skolem var:B)]
+)].
+
+# queries
+[ log:graph (
+    [ log:triple (:pat rdf:type rdfs:Resource)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (:pat rdf:type rdfs:Resource)]
+)].
+
+[ log:graph (
+    [ log:triple (:bob :loves var:X)]
+    [ log:triple (var:X :is :lonely)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (:bob :loves var:X)]
+    [ log:triple (var:X :is :lonely)]
+)].

@@ -1,0 +1,82 @@
+# Translated from https://hanslen.github.io/2016/05/02/AI-problem-N-queens-problem-%E2%80%93-solved-in-prolog/
+
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://eexample.org/#>.
+
+[ log:graph (
+    [ log:triple (var:N :queens var:Qs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((1 var:N) :range var:Us)]
+    [ log:triple ((var:Us ()) :queens3 var:Qs)]
+)].
+
+[ log:graph (
+    [ log:triple ((() var:Qs) :queens3 var:Qs)]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple ((var:Us var:Ps) :queens3 var:Qs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:Us list:select (var:Q var:Us1))]
+    [ log:triple ((
+        [ log:graph (
+            [ log:triple (var:Q :attack var:Ps)]
+        )]
+        false
+        true
+    ) log:ifThenElseIn var:SCOPE)]
+    [ log:triple (var:QPs list:firstRest (var:Q var:Ps))]
+    [ log:triple ((var:Us1 var:QPs) :queens3 var:Qs)]
+)].
+
+[ log:graph (
+    [ log:triple ((var:J var:J) :range (var:J))]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple ((var:I var:J) :range var:INs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:INs list:firstRest (var:I var:Ns))]
+    [ log:triple (var:I math:lessThan var:J)]
+    [ log:triple ((var:I 1) math:sum var:I1)]
+    [ log:triple ((var:I1 var:J) :range var:Ns)]
+)].
+
+[ log:graph (
+    [ log:triple (var:Q :attack var:Qs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple ((var:Q 1) :attack3 var:Qs)]
+)].
+
+[ log:graph (
+    [ log:triple ((var:X var:N) :attack3 var:YYs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:YYs list:firstRest (var:Y var:Ys))]
+    [ log:triple ((var:Y var:N) math:sum var:X)]
+)].
+
+[ log:graph (
+    [ log:triple ((var:X var:N) :attack3 var:YYs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:YYs list:firstRest (var:Y var:Ys))]
+    [ log:triple ((var:Y var:N) math:difference var:X)]
+)].
+
+[ log:graph (
+    [ log:triple ((var:X var:N) :attack3 var:YYs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:YYs list:firstRest (var:Y var:Ys))]
+    [ log:triple ((var:N 1) math:sum var:N1)]
+    [ log:triple ((var:X var:N1) :attack3 var:Ys)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (8 :queens var:Qs)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple (8 :queens var:Qs)]
+)].

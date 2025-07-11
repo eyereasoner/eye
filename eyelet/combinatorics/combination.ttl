@@ -1,0 +1,28 @@
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+
+[ log:graph (
+    [ log:triple ((0 var:A) :combination ())]
+)] log:isImpliedBy true.
+
+[ log:graph (
+    [ log:triple ((var:I var:As) :combination var:Bs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:I math:greaterThan 0)]
+    [ log:triple (var:As list:select (var:B var:Cs))]
+    [ log:triple ((var:I 1) math:difference var:J)]
+    [ log:triple ((var:J var:Cs) :combination var:Ds)]
+    [ log:triple (var:Es list:firstRest (var:B var:Ds))]
+    [ log:triple (var:Es list:sort var:Bs)]
+)].
+
+# query
+[ log:graph (
+    [ log:triple (6 log:repeat var:I)]
+    [ log:triple ((var:I (1 2 3 4 5)) :combination var:C)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ((var:I (1 2 3 4 5)) :combination var:C)]
+)].
