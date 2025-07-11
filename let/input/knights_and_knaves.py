@@ -1,3 +1,27 @@
+"""
+Knights and Knaves Puzzle Solver (Pure Python)
+
+This script solves a logical puzzle involving 8 individuals (A to H), where:
+- Each person is either a Knight (who always tells the truth) or a Knave (who always lies).
+- Each person makes a statement about themselves or others.
+- The goal is to determine who is a Knight and who is a Knave based on their statements.
+
+Approach:
+- This version uses brute-force (2^8 = 256 combinations) to check all possible assignments.
+- It verifies whether each person's statement logically matches their role.
+- It outputs the first valid solution (deterministic) and explains the logic behind it.
+
+Statements in this setup:
+  A: "B is a Knave."
+  B: "C is a Knight."
+  C: "D is a Knave."
+  D: "E and F are of the same type."
+  E: "G is a Knave."
+  F: "I am a Knight."
+  G: "H is a Knave."
+  H: "A is a Knight."
+"""
+
 from itertools import product  # Used to generate all possible Knight/Knave combinations
 
 def knights_and_knaves():
