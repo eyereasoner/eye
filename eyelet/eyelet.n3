@@ -6,7 +6,14 @@
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
 @prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
-# resolution A (proof by cases)
+# --------------------
+# Resolution Rules
+# --------------------
+
+# resolution A (proof by cases - constructive selection)
+# From A implies B, and B selects a case C and remainder D,
+# if C implies E and E is not a list, combine E and D to get G.
+# Then conclude: A implies G.
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -17,7 +24,9 @@
     ?A => ?G.
 }.
 
-# resolution B (proof by cases)
+# resolution B (proof by cases - elimination of invalid case)
+# From A implies B, and B selects case C and D,
+# if C leads to contradiction, then conclude A implies D.
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -27,6 +36,8 @@
 }.
 
 # resolution C (modus tollens)
+# If A implies B, B is not a list, and B leads to contradiction,
+# then conclude A leads to contradiction.
 {
     ?A => ?B.
     ?B list:isList false.
@@ -35,7 +46,13 @@
     ?A => ($ $).
 }.
 
+# --------------------
+# Rewriting Rules
+# --------------------
+
 # rewriting A (factoring)
+# Remove duplicate elements from B in the implication A => B
+# to get a simplified form C: A => C.
 {
     ?A => ?B.
     ?B list:removeDuplicates (?C).
@@ -43,7 +60,10 @@
     ?A => ?C.
 }.
 
-# rewriting B (contrapositive)
+# rewriting B (contrapositive - with union)
+# Given A implies B, and B selects C and D,
+# form a graph union E of A and the negation of C,
+# then E implies D.
 {
     ?A => ?B.
     ?B list:select (?C ?D).
@@ -52,7 +72,11 @@
     ?E => ?D.
 }.
 
-# rewriting C (contrapositive)
+# rewriting C (contrapositive in list structure)
+# Given A implies contradiction, and A is a list B,
+# select a clause C from B (remaining list is M),
+# if C is not a built-in, build a new list E from M,
+# then from E we conclude C implies contradiction.
 {
     ?A => ($ $).
     ?A graph:list ?B.
@@ -65,8 +89,15 @@
     }.
 }.
 
+# --------------------
+# Terminal Inference Guard
+# --------------------
+
 # inference fuse
+# If A implies contradiction and A was invoked (`log:call true`),
+# then the whole system is inconsistent (false).
 {
     ?A => ($ $).
     ?A log:call true.
 } => false.
+
