@@ -85,9 +85,10 @@ The inference engine applies patterns like:
 ### 1. Contrapositive Reasoning
 
 ```n3
-# If it's not green, then it's not a car (from earlier rule)
+# If A is neither green nor blue, then it cannot be a car
 {
-    ?A :is :red.
+    ?A :is :green => ($ $).
+    ?A :is :blue => ($ $).
 } => {
     ?A a :Car => ($ $).
 }.
