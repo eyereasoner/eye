@@ -1,0 +1,96 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives {
+        :model :is ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :D.
+        } {
+            :Pat :canDo :E.
+        }).
+        :model :is ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :E.
+        }).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :model :is ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :D.
+        } {
+            :Pat :canDo :E.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :Pat a vcard:Individual.
+            :Pat :canDo :E.
+        } :findModel (() () ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :D.
+        } {
+            :Pat :canDo :E.
+        }))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Pat"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :Pat :canDo :A.
+    } {
+        :Pat :canDo :D.
+    } {
+        :Pat :canDo :E.
+    })];
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :model :is ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :E.
+        }).
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {{
+            :Pat a vcard:Individual.
+            :Pat :canDo :E.
+        } :findModel (() () ({
+            :Pat :canDo :A.
+        } {
+            :Pat :canDo :E.
+        }))}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Pat"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :Pat :canDo :A.
+    } {
+        :Pat :canDo :E.
+    })];
+    r:rule skolem:lemma3.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1. {
+            {
+                var:x_0 a vcard:Individual.
+                var:x_0 :canDo :E.
+            } :findModel (() () var:x_1).
+        } => {
+            :model :is var:x_1.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/eyelet/input/steps.n3>].
+

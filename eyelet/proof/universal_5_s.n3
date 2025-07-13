@@ -1,0 +1,76 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        :This :is :Working.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :This :is :Working.
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :This :is :Working.
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#y"]];
+    r:rule skolem:lemma5.
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        {
+            :This :is :Working.
+        } => {
+            :This :is :Working.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/eyelet/input/universal_5_s.n3>].
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        skolem:y :is :happy.
+    };
+    r:evidence (
+        skolem:lemma6
+    );
+    r:rule skolem:lemma7.
+
+skolem:lemma5 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :is :happy.
+        } => {
+            :This :is :Working.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/eyelet/input/universal_5_s.n3>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        :sun :is :shining.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/eyelet/input/universal_5_s.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        {
+            :sun :is :shining.
+        } => {
+            skolem:y :is :happy.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <file:///home/jdroo/github.com/eyereasoner/eye/eyelet/input/universal_5_s.n3>].
+

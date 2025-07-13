@@ -1,0 +1,26 @@
+# ------------------
+# Socrates inference
+# ------------------
+
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/socrates#>.
+
+# facts
+:Socrates a :Human.
+:Human rdfs:subClassOf :Mortal.
+
+# subclass rule
+{
+    ?A rdfs:subClassOf ?B.
+    ?S a ?A.
+} => ($ {
+    ?S a ?B.
+} $).
+
+# query
+{
+    ?WHO a ?WHAT.
+} =^ {
+    ?WHO a ?WHAT.
+}.
