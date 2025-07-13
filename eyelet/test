@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Colors
 RED="\e[31m"
 GREEN="\e[32m"
 YELLOW="\e[33m"
@@ -8,42 +9,59 @@ NORMAL="\e[0;39m"
 OK=0
 DIFF=0
 
-echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
-echo -e "${YELLOW}running eyelet examples and test cases${NORMAL}"
-echo -e "${YELLOW}using eye v$(eye --version 2>&1 | grep EYE | awk '{ print substr($2,2) }') and swipl v$(swipl --version 2>&1 | awk '{ print $3 }')${NORMAL}"
-echo -e "${YELLOW}-------------------------------------------------${NORMAL}"
-echo ""
+# Header
+printf "${YELLOW}-------------------------------------------------${NORMAL}\n"
+printf "${YELLOW}Running Eyelet examples and test cases${NORMAL}\n"
+printf "${YELLOW}Using eye v%s and swipl v%s${NORMAL}\n" \
+  "$(eye --version 2>&1 | awk '/EYE/ { print substr($2,2) }')" \
+  "$(swipl --version 2>&1 | awk '{ print $3 }')"
+printf "${YELLOW}-------------------------------------------------${NORMAL}\n\n"
 
+# Function for padding
 pad () {
-    [ "$#" -gt 1 ]
-    [ -n "$2" ]
-    printf "%$2.${2#-}s" "$1"
+    local str="$1"
+    local width="$2"
+    printf "%*s" "$width" "$str"
 }
 
-begin=$(($(date +%s)))
-for file in input/*.n3
-do
-    f="$(basename ${file})"
-    echo -en "$(pad "${f}" -34)"
-    start=$(($(date +%s%N)/1000000))
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 --nope eyelet.n3 ${file} --output output/${f}
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 eyelet.n3 ${file} --output proof/${f}
-    end=$(($(date +%s%N)/1000000))
-    echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
-    if (( $(git diff output/${f} | wc -l) == 0 || $(git diff proof/${f} | wc -l) == 0 )); then
-        echo -e "${GREEN}OK${NORMAL}"
+begin=$(date +%s)
+
+for file in input/*.n3; do
+    f="$(basename "$file")"
+    printf "%s" "$(pad "$f" -34)"
+
+    start_ms=$(($(date +%s%N)/1000000))
+
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
+        --wcache https://eyereasoner.github.io/eye/eyelet \
+        . --nope https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
+        https://eyereasoner.github.io/eye/eyelet/"$file" \
+        --output output/"$f"
+
+    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
+        --wcache https://eyereasoner.github.io/eye/eyelet \
+        . https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
+        https://eyereasoner.github.io/eye/eyelet/"$file" \
+        --output proof/"$f"
+
+    end_ms=$(($(date +%s%N)/1000000))
+    duration_ms=$((end_ms - start_ms))
+    printf "${YELLOW}%s${NORMAL} " "$(pad "${duration_ms} msec" 12)"
+
+    if git diff --quiet output/"$f" && git diff --quiet proof/"$f"; then
+        printf "${GREEN}OK${NORMAL}\n"
         ((OK++))
     else
-        echo -e "${RED}DIFF${NORMAL}"
+        printf "${RED}DIFF${NORMAL}\n"
         ((DIFF++))
     fi
 done
-end=$(($(date +%s)))
-echo ""
 
-echo -e "${YELLOW}`expr $end - $begin` sec${NORMAL} ${GREEN}${OK} OK${NORMAL} ${RED}${DIFF} DIFF${NORMAL}"
-if [[ ${DIFF} -eq 0 ]]; then
-    exit 0
-else
-    exit 2
-fi
+end=$(date +%s)
+total_runtime=$((end - begin))
+
+printf "\n${YELLOW}%d sec${NORMAL} ${GREEN}%d OK${NORMAL} ${RED}%d DIFF${NORMAL}\n" \
+  "$total_runtime" "$OK" "$DIFF"
+
+exit $(( DIFF == 0 ? 0 : 2 ))
+
