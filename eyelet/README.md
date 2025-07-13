@@ -87,10 +87,10 @@ The inference engine applies patterns like:
 ```n3
 # If A is neither green nor blue, then it cannot be a car
 {
-    ?A :is :green => ($ $).
-    ?A :is :blue => ($ $).
+    { ?A :is :green } => ($ $).
+    { ?A :is :blue } => ($ $).
 } => {
-    ?A a :Car => ($ $).
+    { ?A a :Car } => ($ $).
 }.
 ```
 
