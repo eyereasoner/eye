@@ -11,7 +11,7 @@ DIFF=0
 
 # Header
 printf "${YELLOW}-------------------------------------------------${NORMAL}\n"
-printf "${YELLOW}Running Eyelet examples and test cases${NORMAL}\n"
+printf "${YELLOW}Running sequents examples and test cases${NORMAL}\n"
 printf "${YELLOW}Using eye v%s and swipl v%s${NORMAL}\n" \
   "$(eye --version 2>&1 | awk '/EYE/ { print substr($2,2) }')" \
   "$(swipl --version 2>&1 | awk '{ print $3 }')"
@@ -34,17 +34,17 @@ for file in input/*.n3; do
 
     eye --quiet \
         --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
-        --wcache https://eyereasoner.github.io/eye/eyelet . \
+        --wcache https://eyereasoner.github.io/eye/reasoning .. \
         --nope \
-        --n3 https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
-        --n3 https://eyereasoner.github.io/eye/eyelet/"$file" \
+        --n3 https://eyereasoner.github.io/eye/reasoning/sequents/sequents.n3 \
+        --n3 https://eyereasoner.github.io/eye/reasoning/sequents/"$file" \
         --output output/"$f"
 
     eye --quiet \
         --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
-        --wcache https://eyereasoner.github.io/eye/eyelet . \
-        --n3 https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
-        --n3 https://eyereasoner.github.io/eye/eyelet/"$file" \
+        --wcache https://eyereasoner.github.io/eye/reasoning .. \
+        --n3 https://eyereasoner.github.io/eye/reasoning/sequents/sequents.n3 \
+        --n3 https://eyereasoner.github.io/eye/reasoning/sequents/"$file" \
         --output proof/"$f"
 
     end_ms=$(($(date +%s%N)/1000000))

@@ -4,6 +4,7 @@
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
 
 skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma1;
@@ -39,7 +40,7 @@ skolem:lemma3 a r:Extraction;
     r:gives {
         :i a :A.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/input/abc.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequents/input/abcd.n3>].
 
 skolem:lemma4 a r:Extraction;
     r:gives {
@@ -49,13 +50,16 @@ skolem:lemma4 a r:Extraction;
             var:x_0 a var:x_1.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/input/abc.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequents/input/abcd.n3>].
 
 skolem:lemma5 a r:Inference;
     r:gives {
         :i a :B.
     };
     r:evidence (
+        [ a r:Fact; r:gives {{
+            :i a :D.
+        } => ($ $)}]
         skolem:lemma3
     );
     r:rule skolem:lemma6.
@@ -63,6 +67,9 @@ skolem:lemma5 a r:Inference;
 skolem:lemma6 a r:Inference;
     r:gives {
         {
+            {
+                :i a :D.
+            } => ($ $).
             :i a :A.
         } => {
             :i a :B.
@@ -77,6 +84,9 @@ skolem:lemma6 a r:Inference;
         })}]
     );
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        {
+            :i a :D.
+        } => ($ $).
         :i a :A.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
@@ -90,9 +100,79 @@ skolem:lemma6 a r:Inference;
 skolem:lemma7 a r:Inference;
     r:gives {
         {
+            {
+                :i a :D.
+            } => ($ $).
             :i a :A.
         } => ({
             :i a :B.
+        }).
+    };
+    r:evidence (
+        skolem:lemma9
+        [ a r:Fact; r:gives {({
+            :i a :B.
+        } {
+            :i a :D.
+        }) list:select ({
+            :i a :D.
+        } ({
+            :i a :B.
+        }))}]
+        [ a r:Fact; r:gives {({
+            {
+                :i a :D.
+            } => ($ $).
+        } {
+            :i a :A.
+        }) graph:union {
+            {
+                :i a :D.
+            } => ($ $).
+            :i a :A.
+        }}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo {
+        :i a :A.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ({
+        :i a :B.
+    } {
+        :i a :D.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
+        :i a :D.
+    }];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
+        :i a :B.
+    })];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo {
+        {
+            :i a :D.
+        } => ($ $).
+        :i a :A.
+    }];
+    r:rule skolem:lemma10.
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        @forAll var:x_0, var:x_1, var:x_2. {
+            var:x_0 => var:x_1.
+            var:x_1 list:removeDuplicates (var:x_2).
+        } => {
+            var:x_0 => var:x_2.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequents/sequents.n3>].
+
+skolem:lemma9 a r:Inference;
+    r:gives {
+        {
+            :i a :A.
+        } => ({
+            :i a :B.
+        } {
+            :i a :D.
         }).
     };
     r:evidence (
@@ -102,15 +182,21 @@ skolem:lemma7 a r:Inference;
             :i a :B.
         } {
             :i a :C.
+        } {
+            :i a :D.
         } $)}]
         [ a r:Fact; r:gives {($ {
             :i a :B.
         } {
             :i a :C.
+        } {
+            :i a :D.
         } $) list:select ({
             :i a :C.
         } ({
             :i a :B.
+        } {
+            :i a :D.
         }))}]
         [ a r:Fact; r:gives {{
             :i a :C.
@@ -123,27 +209,34 @@ skolem:lemma7 a r:Inference;
         :i a :B.
     } {
         :i a :C.
+    } {
+        :i a :D.
     } $)];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo {
         :i a :C.
     }];
     r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo ({
         :i a :B.
+    } {
+        :i a :D.
     })];
-    r:rule skolem:lemma9.
+    r:rule skolem:lemma11.
 
-skolem:lemma8 a r:Extraction;
+skolem:lemma10 a r:Extraction;
     r:gives {
-        @forAll var:x_0, var:x_1, var:x_2. {
+        @forAll var:x_0, var:x_1, var:x_2, var:x_3, var:x_4. {
             var:x_0 => var:x_1.
-            var:x_1 list:removeDuplicates (var:x_2).
+            var:x_1 list:select (var:x_2 var:x_3).
+            ({
+                var:x_2 => ($ $).
+            } var:x_0) graph:union var:x_4.
         } => {
-            var:x_0 => var:x_2.
+            var:x_4 => var:x_3.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/eyelet.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequents/sequents.n3>].
 
-skolem:lemma9 a r:Extraction;
+skolem:lemma11 a r:Extraction;
     r:gives {
         @forAll var:x_0, var:x_1, var:x_2, var:x_3. {
             var:x_0 => var:x_1.
@@ -153,5 +246,5 @@ skolem:lemma9 a r:Extraction;
             var:x_0 => var:x_3.
         }.
     };
-    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/eyelet.n3>].
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/sequents/sequents.n3>].
 
