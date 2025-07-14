@@ -1,0 +1,63 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives {
+        {
+            :tweety :can :fly.
+        } => ($ $).
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        {
+            :tweety :can :fly.
+        } => ($ $).
+    };
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule skolem:lemma3.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        {
+            :tweety :can :fly.
+        } => ($ $).
+    };
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org#tweety"]];
+    r:rule [ a r:Fact; r:gives {@forSome var:x_0. {
+        var:x_0 a :Penguin.
+    } => {
+        {
+            var:x_0 :can :fly.
+        } => ($ $).
+    }}].
+
+skolem:lemma3 a r:Extraction;
+    r:gives {
+        {
+            {
+                :tweety :can :fly.
+            } => ($ $).
+        } => {
+            {
+                :tweety :can :fly.
+            } => ($ $).
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/input/tweety.n3>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives {
+        :tweety a :Penguin.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/input/tweety.n3>].
+

@@ -1,0 +1,24 @@
+@prefix : <http://example.org#>.
+
+### --- Facts ---
+{
+    :ground :is :wet.
+} => ($ $).
+
+### --- Rule 1: If it's raining, then the ground is wet ---
+{
+    :sky :has :rain.
+} => {
+    :ground :is :wet.
+}.
+
+### --- Goal: Prove that it is not raining ---
+{
+    {
+        :sky :has :rain.
+    } => ($ $).
+} =^ {
+    {
+        :sky :has :rain.
+    } => ($ $).
+}.
