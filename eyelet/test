@@ -32,16 +32,19 @@ for file in input/*.n3; do
 
     start_ms=$(($(date +%s%N)/1000000))
 
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
-        --wcache https://eyereasoner.github.io/eye/eyelet \
-        . --nope https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
-        https://eyereasoner.github.io/eye/eyelet/"$file" \
+    eye --quiet \
+        --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
+        --wcache https://eyereasoner.github.io/eye/eyelet . \
+        --nope \
+        --n3 https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
+        --n3 https://eyereasoner.github.io/eye/eyelet/"$file" \
         --output output/"$f"
 
-    eye --quiet --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
-        --wcache https://eyereasoner.github.io/eye/eyelet \
-        . https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
-        https://eyereasoner.github.io/eye/eyelet/"$file" \
+    eye --quiet \
+        --skolem-genid 8b98b360-9a70-4845-b52c-c675af60ad01 \
+        --wcache https://eyereasoner.github.io/eye/eyelet . \
+        --n3 https://eyereasoner.github.io/eye/eyelet/eyelet.n3 \
+        --n3 https://eyereasoner.github.io/eye/eyelet/"$file" \
         --output proof/"$f"
 
     end_ms=$(($(date +%s%N)/1000000))
