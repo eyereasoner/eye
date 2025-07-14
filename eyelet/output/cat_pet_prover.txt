@@ -1,0 +1,11 @@
+01. ¬Animal(Whiskers) | ¬Domestic(Whiskers)   (from ¬Pet(Whiskers) , Pet(x) | ¬Animal(x) | ¬Domestic(x))
+02. ¬Carnivore(Whiskers) | ¬Domestic(Whiskers)   (from ¬Animal(Whiskers) | ¬Domestic(Whiskers) , Animal(x) | ¬Carnivore(x))
+03. ¬Domestic(Whiskers) | ¬Mammal(Whiskers)   (from ¬Animal(Whiskers) | ¬Domestic(Whiskers) , Animal(x) | ¬Mammal(x))
+04. ¬Animal(Whiskers)   (from ¬Animal(Whiskers) | ¬Domestic(Whiskers) , Domestic(Whiskers))
+05. ¬Domestic(Whiskers)   (from ¬Carnivore(Whiskers) | ¬Domestic(Whiskers) , Carnivore(Whiskers))
+06. ¬Carnivore(Whiskers)   (from ¬Carnivore(Whiskers) | ¬Domestic(Whiskers) , Domestic(Whiskers))
+07. ¬Mammal(Whiskers)   (from ¬Domestic(Whiskers) | ¬Mammal(Whiskers) , Domestic(Whiskers))
+08. ¬Cat(Whiskers) | ¬Domestic(Whiskers)   (from ¬Domestic(Whiskers) | ¬Mammal(Whiskers) , Mammal(x) | ¬Cat(x))
+09. ⊥   (from ¬Domestic(Whiskers) , Domestic(Whiskers))
+
+Empty clause derived – goal is proved.
