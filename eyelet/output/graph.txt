@@ -1,0 +1,51 @@
+
+=== All proofs for  ?- path(X, nantes) ===
+
+
+--- Proof for X = angers ---
+Step 01: prove path(angers, nantes)
+  ✓ oneway fact
+✔ PROVED
+Shortest chain: angers → nantes
+
+
+--- Proof for X = chartres ---
+Step 01: prove path(chartres, nantes)
+  → via oneway(chartres, lemans)
+  Step 02: prove path(lemans, nantes)
+    → via oneway(lemans, angers)
+    Step 03: prove path(angers, nantes)
+      ✓ oneway fact
+✔ PROVED
+Shortest chain: chartres → lemans → angers → nantes
+
+
+--- Proof for X = lemans ---
+Step 01: prove path(lemans, nantes)
+  → via oneway(lemans, angers)
+  Step 02: prove path(angers, nantes)
+    ✓ oneway fact
+✔ PROVED
+Shortest chain: lemans → angers → nantes
+
+
+--- Proof for X = paris ---
+Step 01: prove path(paris, nantes)
+  → via oneway(paris, amiens)
+  Step 02: prove path(amiens, nantes)
+  → via oneway(paris, chartres)
+  Step 03: prove path(chartres, nantes)
+    → via oneway(chartres, lemans)
+    Step 04: prove path(lemans, nantes)
+      → via oneway(lemans, angers)
+      Step 05: prove path(angers, nantes)
+        ✓ oneway fact
+✔ PROVED
+Shortest chain: paris → chartres → lemans → angers → nantes
+
+
+=== Summary ===
+X = angers    path: angers → nantes
+X = chartres  path: chartres → lemans → angers → nantes
+X = lemans    path: lemans → angers → nantes
+X = paris     path: paris → chartres → lemans → angers → nantes
