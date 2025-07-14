@@ -1,22 +1,22 @@
 @prefix : <http://example.org#>.
 
-### --- Facts ---
+# facts
 :tweety a :Penguin.
 
-### --- Rule 1: Penguin implies Bird ---
+# Penguin implies Bird
 {
     ?X a :Penguin.
 } => {
     ?X a :Bird.
 }.
 
-### --- Rule 2: Penguins cannot fly (negation) ---
+# Penguins cannot fly (negation)
 {
     ?X a :Penguin.
     ?X :can :fly.
 } => ($ $).
 
-### --- Rule 3: Birds can fly or are penguins (disjunction) ---
+# Birds can fly or are penguins (disjunction)
 {
     ?X a :Bird.
 } => ($ {
@@ -25,7 +25,7 @@
     ?X a :Penguin.
 } $).
 
-### --- Goal: Prove that Tweety cannot fly ---
+# goal: prove that tweety cannot fly
 {
     {
         :tweety :can :fly.
