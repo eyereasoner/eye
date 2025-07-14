@@ -1,6 +1,6 @@
 @prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
 @prefix r: <http://www.w3.org/2000/10/swap/reason#>.
-@prefix : <http://www.agfa.com/w3c/euler/graph.axiom#>.
+@prefix : <http://example.org/#>.
 @prefix n3: <http://www.w3.org/2004/06/rei#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 
@@ -23,7 +23,7 @@ skolem:lemma1 a r:Inference;
     r:evidence (
         skolem:lemma5
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
     r:rule skolem:lemma6.
 
 skolem:lemma2 a r:Inference;
@@ -33,7 +33,7 @@ skolem:lemma2 a r:Inference;
     r:evidence (
         skolem:lemma7
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
     r:rule skolem:lemma6.
 
 skolem:lemma3 a r:Inference;
@@ -43,7 +43,7 @@ skolem:lemma3 a r:Inference;
     r:evidence (
         skolem:lemma8
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#chartres"]];
     r:rule skolem:lemma6.
 
 skolem:lemma4 a r:Inference;
@@ -53,7 +53,7 @@ skolem:lemma4 a r:Inference;
     r:evidence (
         skolem:lemma9
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#paris"]];
     r:rule skolem:lemma6.
 
 skolem:lemma5 a r:Inference;
@@ -63,8 +63,8 @@ skolem:lemma5 a r:Inference;
     r:evidence (
         skolem:lemma10
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1. {
         var:x_0 :oneway var:x_1.
     } => {
@@ -89,9 +89,9 @@ skolem:lemma7 a r:Inference;
         skolem:lemma11
         skolem:lemma5
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#angers"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#angers"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
         var:x_0 :oneway var:x_1.
         var:x_1 :path var:x_2.
@@ -107,9 +107,9 @@ skolem:lemma8 a r:Inference;
         skolem:lemma12
         skolem:lemma7
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#lemans"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#chartres"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#lemans"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
         var:x_0 :oneway var:x_1.
         var:x_1 :path var:x_2.
@@ -125,9 +125,9 @@ skolem:lemma9 a r:Inference;
         skolem:lemma13
         skolem:lemma8
     );
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#paris"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#chartres"]];
-    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://www.agfa.com/w3c/euler/graph.axiom#nantes"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#paris"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#chartres"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#nantes"]];
     r:rule [ a r:Fact; r:gives {@forSome var:x_0, var:x_1, var:x_2. {
         var:x_0 :oneway var:x_1.
         var:x_1 :path var:x_2.

@@ -1,11 +1,8 @@
 # -----------------------
-# Tracersing French roads
+# Traversing French roads
 # -----------------------
 
-@prefix log: <http://www.w3.org/2000/10/swap/log#>.
-@prefix owl: <http://www.w3.org/2002/07/owl#>.
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
-@prefix : <http://www.agfa.com/w3c/euler/graph.axiom#>.
+@prefix : <http://example.org/#>.
 
 :paris :oneway :orleans.
 :paris :oneway :chartres.
@@ -18,17 +15,12 @@
 :lemans :oneway :tours.
 :angers :oneway :nantes.
 
-:oneway rdfs:subPropertyOf :path.
-:path a owl:TransitiveProperty.
-
-# rdfs subPropertOf
 {
     ?S :oneway ?O.
 } => ($ {
     ?S :path ?O.
 } $).
 
-# owl TransitiveProperty
 {
     ?S :oneway ?X.
     ?X :path ?O.
