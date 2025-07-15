@@ -5,8 +5,8 @@
 | file / folder       | role                    | notes                                                                                                 |
 | ------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------- |
 | `eyelet.py`         | 🧠 *engine*             | Generic SOS resolution prover.  Reads KBs from text files whose syntax is described below.            |
-| `input/*.txt`       | 📄 *knowledge‑bases*    | One KB per file.  Each ends with `GOAL:` specifying the literal to prove.  *Add as many as you like!* |
-| `output/*.txt`      | 📄 *proof-explanations* | a breadth‑first derivation.  The last line `⊥` means empty clause derived so goal is entailed.        |
+| `input/*.txt`       | 📄 *knowledge‑bases*    | One KB per file.  Each ends with `GOAL:` specifying the literal to prove.                             |
+| `output/*.txt`      | 🎉 *proof-explanations* | a breadth‑first derivation.  The last line `⊥` means empty clause derived so goal is entailed.        |
 
 ---
 
@@ -29,9 +29,9 @@ python eyelet.py <your‑kb>.txt
 ### Example
 
 ```bash
-$ python eyelet.py beetle12.txt
+$ python eyelet.py input/beetle12.txt
 
-Knowledge base loaded from 'beetle12.txt'.  Goal: Beautiful(beetle)
+Knowledge base loaded from 'input/beetle12.txt'.  Goal: Beautiful(beetle)
 
 01. ¬Blue(beetle) | Beautiful(beetle)            (from ¬Beautiful(beetle) , ¬Blue(x) | Beautiful(x))
 02. Beautiful(beetle)                            (from 01 , Car(beetle) | Green(beetle) | Blue(beetle))
