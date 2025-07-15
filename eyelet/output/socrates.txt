@@ -1,18 +1,6 @@
-=== All proofs for  ?- isa(S, C) ===
+Knowledge base loaded from 'input/socrates.txt'.  Goal: Mortal(Socrates)
 
---- Proof for S = Socrates, C = Human ---
-Step 01: prove isa(Socrates, Human)
-  ✓ fact
-✔ PROVED
-Shortest chain: Socrates → Human
+01. ¬Human(Socrates)   (from ¬Mortal(Socrates) , Mortal(x) | ¬Human(x))
+02. ⊥   (from ¬Human(Socrates) , Human(Socrates))
 
---- Proof for S = Socrates, C = Mortal ---
-Step 01: prove isa(Socrates, Mortal)
-  → via subclass_rule
-  Step 02: prove subclass(?A, Mortal)
-    ✓ fact
-  Step 03: prove isa(Socrates, ?A)
-    ✓ fact
-✔ PROVED
-Shortest chain: Socrates → Human → Mortal
-
+Empty clause derived — theorem proved.

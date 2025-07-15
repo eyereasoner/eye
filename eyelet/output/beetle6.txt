@@ -1,19 +1,22 @@
+Knowledge base loaded from 'input/beetle6.txt'.  Goal: Nice(Beetle)
 
-=== Proving prop(nice,beetle) ===
-World 1: nice    weight=1.000   ✓ nice
-Probability = 1.0
+01. Pretty(Beetle) | ¬Green(Beetle)   (from ¬Nice(Beetle) , Nice(x) | Pretty(x) | ¬Green(x))
+02. Beautiful(Beetle) | ¬Green(Beetle)   (from Pretty(Beetle) | ¬Green(Beetle) , Beautiful(x) | ¬Pretty(x))
+03. Blue(Beetle) | Pretty(Beetle) | ¬Car(Beetle)   (from Pretty(Beetle) | ¬Green(Beetle) , Blue(x) | Green(x) | ¬Car(x))
+04. Beautiful(Beetle) | Blue(Beetle) | ¬Car(Beetle)   (from Beautiful(Beetle) | ¬Green(Beetle) , Blue(x) | Green(x) | ¬Car(x))
+05. ¬Car(Beetle) | ¬Green(Beetle)   (from Beautiful(Beetle) | ¬Green(Beetle) , ¬Beautiful(x) | ¬Car(x))
+06. Beautiful(Beetle) | Pretty(Beetle) | ¬Car(Beetle)   (from Blue(Beetle) | Pretty(Beetle) | ¬Car(Beetle) , Beautiful(x) | ¬Blue(x))
+07. Blue(Beetle) | Pretty(Beetle)   (from Blue(Beetle) | Pretty(Beetle) | ¬Car(Beetle) , Car(Beetle))
+08. Beautiful(Beetle) | ¬Car(Beetle)   (from Beautiful(Beetle) | Blue(Beetle) | ¬Car(Beetle) , Beautiful(x) | ¬Blue(x))
+09. Beautiful(Beetle) | Blue(Beetle)   (from Beautiful(Beetle) | Blue(Beetle) | ¬Car(Beetle) , Car(Beetle))
+10. Blue(Beetle) | ¬Car(Beetle)   (from Beautiful(Beetle) | Blue(Beetle) | ¬Car(Beetle) , ¬Beautiful(x) | ¬Car(x))
+11. ¬Green(Beetle)   (from ¬Car(Beetle) | ¬Green(Beetle) , Car(Beetle))
+12. Beautiful(Beetle) | Pretty(Beetle)   (from Beautiful(Beetle) | Pretty(Beetle) | ¬Car(Beetle) , Car(Beetle))
+13. Pretty(Beetle) | ¬Car(Beetle)   (from Beautiful(Beetle) | Pretty(Beetle) | ¬Car(Beetle) , ¬Beautiful(x) | ¬Car(x))
+14. Beautiful(Beetle)   (from Beautiful(Beetle) | ¬Car(Beetle) , Car(Beetle))
+15. ¬Car(Beetle)   (from Beautiful(Beetle) | ¬Car(Beetle) , ¬Beautiful(x) | ¬Car(x))
+16. Blue(Beetle)   (from Blue(Beetle) | ¬Car(Beetle) , Car(Beetle))
+17. Pretty(Beetle)   (from Pretty(Beetle) | ¬Car(Beetle) , Car(Beetle))
+18. ⊥   (from ¬Car(Beetle) , Car(Beetle))
 
-
-=== Proving prop(beautiful,beetle) ===
-World 1: nice    weight=1.000   ✗ beautiful
-Probability = 0.0
-
-
-=== Proving prop(blue,beetle) ===
-World 1: nice    weight=1.000   ✗ blue
-Probability = 0.0
-
-=== Summary ===
-prop(nice,beetle): 1.0
-prop(beautiful,beetle): 0.0
-prop(blue,beetle): 0.0
+Empty clause derived — theorem proved.

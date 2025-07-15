@@ -1,22 +1,13 @@
+Knowledge base loaded from 'input/beetle.txt'.  Goal: Beautiful(Beetle)
 
-=== Proving prop(beautiful,beetle) ===
-World 1: colour=green weight=0.500   ✓ beautiful
-World 2: colour=blue  weight=0.500   ✓ beautiful
-Probability = 1.0
+01. ¬Blue(Beetle)   (from ¬Beautiful(Beetle) , Beautiful(x) | ¬Blue(x))
+02. ¬Green(Beetle)   (from ¬Beautiful(Beetle) , Beautiful(x) | ¬Green(x))
+03. Green(Beetle) | ¬Car(Beetle)   (from ¬Blue(Beetle) , Blue(x) | Green(x) | ¬Car(x))
+04. Blue(Beetle) | ¬Car(Beetle)   (from ¬Green(Beetle) , Blue(x) | Green(x) | ¬Car(x))
+05. ¬Car(Beetle)   (from ¬Green(Beetle) , Green(Beetle) | ¬Car(Beetle))
+06. Beautiful(Beetle) | ¬Car(Beetle)   (from Green(Beetle) | ¬Car(Beetle) , Beautiful(x) | ¬Green(x))
+07. Green(Beetle)   (from Green(Beetle) | ¬Car(Beetle) , Car(Beetle))
+08. Blue(Beetle)   (from Blue(Beetle) | ¬Car(Beetle) , Car(Beetle))
+09. ⊥   (from ¬Car(Beetle) , Car(Beetle))
 
-
-=== Proving prop(green,beetle) ===
-World 1: colour=green weight=0.500   ✓ green
-World 2: colour=blue  weight=0.500   ✗ green
-Probability = 0.5
-
-
-=== Proving prop(blue,beetle) ===
-World 1: colour=green weight=0.500   ✗ blue
-World 2: colour=blue  weight=0.500   ✓ blue
-Probability = 0.5
-
-=== Summary ===
-prop(beautiful,beetle): 1.0
-prop(green,beetle): 0.5
-prop(blue,beetle): 0.5
+Empty clause derived — theorem proved.
