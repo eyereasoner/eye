@@ -1,124 +1,132 @@
 #!/usr/bin/env python3
-"""
-unicorn_prover.py
-─────────────────
-A minimal deterministic first‑order resolution prover that outputs the
-complete goal‑directed proof for the “Unicorn is magical” example.
+"""unicorn_prover.py
+────────────────────
+A **deterministic set‑of‑support resolution prover** that shows—using six
+clauses of background knowledge—that **the Unicorn is magical**.
 
-Knowledge‑base (CNF)             Query (proved by refutation)
-──────────────────────────────── ─────────────────────────────
-1. ¬Mythical(x) ∨ Immortal(x)    Magical(Unicorn)      ← we negate this
-2. Mythical(x)  ∨ Mortal(x)
-3. Mythical(x)  ∨ Mammal(x)
-4. ¬Immortal(x) ∨ Horned(x)
-5. ¬Mammal(x)   ∨ Horned(x)
-6. ¬Horned(x)   ∨ Magical(x)
+# Knowledge base (already in CNF)
+─────────────────────────────────
+| # | Clause (variables ∀‑quantified)          | English reading                                    |
+|---|------------------------------------------|----------------------------------------------------|
+| 1 |  ¬Mythical(x) ∨ Immortal(x)              | If *x* is mythical then *x* is immortal.           |
+| 2 |   Mythical(x) ∨ Mortal(x)                | If *x* is not mythical then *x* is mortal.         |
+| 3 |   Mythical(x) ∨ Mammal(x)                | Mythical creatures are mammals (inclusive).        |
+| 4 |  ¬Immortal(x) ∨ Horned(x)                | Non‑immortals are horned.                          |
+| 5 |  ¬Mammal(x)   ∨ Horned(x)                | Non‑mammals are horned.                            |
+| 6 |  ¬Horned(x)   ∨ Magical(x)               | Horned creatures are magical.                      |
 
-Expected output (always identical):
-
-01. ¬Horned(Unicorn)   (from ¬Magical(Unicorn) , Magical(x) | ¬Horned(x))
-02. ¬Immortal(Unicorn) (from ¬Horned(Unicorn) , Horned(x) | ¬Immortal(x))
-03. ¬Mammal(Unicorn)   (from ¬Horned(Unicorn) , Horned(x) | ¬Mammal(x))
-04. ¬Mythical(Unicorn) (from ¬Immortal(Unicorn) , Immortal(x) | ¬Mythical(x))
-05. Mythical(Unicorn)  (from ¬Mammal(Unicorn) , Mythical(x) | Mammal(x))
-06. Mammal(Unicorn)    (from ¬Mythical(Unicorn) , Mythical(x) | Mammal(x))
-07. Mortal(Unicorn)    (from ¬Mythical(Unicorn) , Mythical(x) | Mortal(x))
-08. ⊥                  (from ¬Mythical(Unicorn) , Mythical(Unicorn))
-
-Empty clause derived – goal is proved.
+Goal: prove ``Magical(Unicorn)`` by contradiction.  Negate the goal and run
+breadth‑first SOS resolution.  The expected eight‑step proof is printed in the
+original skeleton and reproduced by this script.
 """
 
-import re, itertools
-# ─────────────────────────────────────────────────────────────────────────────
-#  Tiny term / literal data types
-# ─────────────────────────────────────────────────────────────────────────────
-VAR = re.compile(r"^[a-z][A-Za-z0-9_]*$")           # variable ⇒ lower‑case token
+from __future__ import annotations
 
+import re
+import itertools
+
+# ─────────────────────────────  Variable regex  ────────────────────────────
+VAR = re.compile(r"^[a-z][A-Za-z0-9_]*$")
+
+
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Term, Literal, Clause                                                 │
+# ╰────────────────────────────────────────────────────────────────────────╯
 
 class Term:
     __slots__ = ("functor", "args")
 
-    def __init__(self, functor, args=None):
+    def __init__(self, functor: str, args: list["Term"] | tuple["Term", ...] | None = None):
         self.functor = functor
         self.args = tuple(args) if args else tuple()
 
-    def is_var(self):
+    def is_var(self) -> bool:
         return VAR.match(self.functor) and not self.args
 
     def __repr__(self):
-        return (self.functor if not self.args
-                else f"{self.functor}({', '.join(map(repr, self.args))})")
+        return self.functor if not self.args else f"{self.functor}({', '.join(map(repr, self.args))})"
 
-    def __hash__(self):  return hash((self.functor, self.args))
+    def __hash__(self):
+        return hash((self.functor, self.args))
 
-    def __eq__(self, other):  return (self.functor, self.args) == (other.functor, other.args)
+    def __eq__(self, other: object):
+        return isinstance(other, Term) and (self.functor, self.args) == (other.functor, other.args)
 
 
 class Literal:
     __slots__ = ("pred", "args", "neg")
 
-    def __init__(self, pred, args, neg=False):
-        self.pred, self.args, self.neg = pred, tuple(args), neg
+    def __init__(self, pred: str, args: list[Term], neg: bool = False):
+        self.pred = pred
+        self.args = tuple(args)
+        self.neg = neg
 
-    def negate(self):  return Literal(self.pred, self.args, not self.neg)
+    def negate(self):
+        return Literal(self.pred, self.args, not self.neg)
 
-    def substitute(self, θ):  # apply substitution
+    def substitute(self, θ: dict[Term, Term]):
         return Literal(self.pred, [substitute(a, θ) for a in self.args], self.neg)
 
     def __repr__(self):
         return ("¬" if self.neg else "") + f"{self.pred}({', '.join(map(repr, self.args))})"
 
-    def __hash__(self):  return hash((self.pred, self.args, self.neg))
+    def __hash__(self):
+        return hash((self.pred, self.args, self.neg))
 
-    def __eq__(self, o):  return (self.pred, self.args, self.neg) == (o.pred, o.args, o.neg)
+    def __eq__(self, other: object):
+        return isinstance(other, Literal) and (self.pred, self.args, self.neg) == (other.pred, other.args, other.neg)
 
 
-Clause = frozenset  # just an immutable set of Literal objects
+Clause = frozenset[Literal]  # the empty clause represents ⊥
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Parsing helpers  (very small but good enough for this demo)
-# ─────────────────────────────────────────────────────────────────────────────
-def tokenize(s):
-    for tok in re.finditer(r"[A-Za-z0-9_]+|[(),]", s):
-        yield tok.group(0)
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Parsing utilities                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+def tokenize(s: str):
+    for m in re.finditer(r"[A-Za-z0-9_]+|[(),]", s):
+        yield m.group(0)
 
 
 def next_peek(it):
     try:
         tok = next(it)
     except StopIteration:
-        return None
-    it = itertools.chain([tok], it)        # put it back
-    return tok
+        return None, it
+    it = itertools.chain([tok], it)
+    return tok, it
 
 
 def parse_term(tokens):
     tok = next(tokens)
-    if next_peek(tokens) == '(':           # function symbol
-        next(tokens)                       # consume '('
-        args = []
-        if next_peek(tokens) != ')':       # any arguments?
+    peek, tokens = next_peek(tokens)
+    if peek == '(':  # compound term
+        next(tokens)  # consume '('
+        args: list[Term] = []
+        if next_peek(tokens)[0] != ')':
             while True:
                 args.append(parse_term(tokens))
                 sep = next(tokens)
-                if sep == ')': break
-                if sep != ',': raise ValueError("expected ',' in term")
+                if sep == ')':
+                    break
+                if sep != ',':
+                    raise ValueError("Malformed term – expected ',' or ')'.")
         else:
-            next(tokens)                   # consume ')'
+            next(tokens)  # consume ')'
         return Term(tok, args)
-    return Term(tok)                       # constant or variable
+    return Term(tok)  # constant or variable
 
 
-def parse_literal(text):
+def parse_literal(text: str) -> Literal:
     text = text.strip()
-    neg = text[0] in {'~', '¬'}
+    neg = text.startswith(('¬', '~'))
     if neg:
         text = text[1:].strip()
     head, tail = text.split('(', 1)
-    arg_tokens = tokenize(tail[:-1])       # strip final ')'
-    args = []
-    if tail[:-1]:                          # non‑empty argument list
+    arg_tokens = tokenize(tail[:-1])  # drop trailing ')'
+    args: list[Term] = []
+    if tail[:-1]:
         while True:
             args.append(parse_term(arg_tokens))
             try:
@@ -126,38 +134,39 @@ def parse_literal(text):
             except StopIteration:
                 break
             if comma != ',':
-                raise ValueError("expected ',' between arguments")
+                raise ValueError("Malformed literal – expected ','.")
     return Literal(head, args, neg)
 
 
-def parse_clause(line):                    # "A(x) | ¬B(x)"
+def parse_clause(line: str) -> Clause:
     return frozenset(parse_literal(part) for part in line.split('|'))
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Unification   (Robinson 1965, with occurs‑check)
-# ─────────────────────────────────────────────────────────────────────────────
-def substitute(term, θ):
-    if term.is_var():
-        seen = set()
-        while term.is_var() and term in θ and term not in seen:
-            seen.add(term)
-            term = θ[term]
-        return term
-    if term.args:
-        return Term(term.functor, [substitute(a, θ) for a in term.args])
-    return term
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Unification with occurs‑check                                         │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+def substitute(t: Term, θ: dict[Term, Term]) -> Term:
+    if t.is_var():
+        seen: set[Term] = set()
+        while t.is_var() and t in θ and t not in seen:
+            seen.add(t)
+            t = θ[t]
+        return t
+    if t.args:
+        return Term(t.functor, [substitute(a, θ) for a in t.args])
+    return t
 
 
-def occurs(var, term, θ):
-    if var == term:
+def occurs(v: Term, t: Term, θ: dict[Term, Term]) -> bool:
+    if v == t:
         return True
-    if term.is_var() and term in θ:
-        return occurs(var, θ[term], θ)
-    return any(occurs(var, a, θ) for a in term.args) if term.args else False
+    if t.is_var() and t in θ:
+        return occurs(v, θ[t], θ)
+    return any(occurs(v, a, θ) for a in t.args) if t.args else False
 
 
-def unify(x, y, θ=None):
+def unify(x: Term, y: Term, θ: dict[Term, Term] | None = None):
     if θ is None:
         θ = {}
     x, y = substitute(x, θ), substitute(y, θ)
@@ -182,66 +191,61 @@ def unify(x, y, θ=None):
     return θ
 
 
-def unify_tuple(args1, args2):
-    θ = {}
-    for a, b in zip(args1, args2):
-        θ = unify(a, b, θ)
+def unify_tuple(a1: tuple[Term, ...], a2: tuple[Term, ...]):
+    θ: dict[Term, Term] = {}
+    for s, t in zip(a1, a2):
+        θ = unify(s, t, θ)
         if θ is None:
             return None
     return θ
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Resolution (set‑of‑support, deterministic)
-# ─────────────────────────────────────────────────────────────────────────────
-def clause_str(c):
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Resolution engine                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+def clause_str(c: Clause):
     return "⊥" if not c else " | ".join(sorted(map(repr, c)))
 
 
-def resolve(ci, cj):                       # deterministic ordering
+def resolve(ci: Clause, cj: Clause):
     for Li in sorted(ci, key=repr):
         for Lj in sorted(cj, key=repr):
             if Li.pred == Lj.pred and Li.neg != Lj.neg:
                 θ = unify_tuple(Li.args, Lj.args)
                 if θ is None:
                     continue
-                resolvent = frozenset(
-                    (ci | cj) - {Li, Lj}
-                )
+                resolvent = frozenset((ci | cj) - {Li, Lj})
                 resolvent = frozenset(L.substitute(θ) for L in resolvent)
-                # drop tautologies
                 if any(L.negate() in resolvent for L in resolvent):
                     continue
                 yield resolvent
 
 
-def prove(kb, negated_goal):
-    sos = [negated_goal]                   # queue keeps insertion order
-    all_clauses = set(kb) | {negated_goal}
-    derived_from = {}
+def prove(kb: list[Clause], neg_goal: Clause):
+    sos: list[Clause] = [neg_goal]
+    all_clauses: set[Clause] = set(kb) | {neg_goal}
     step = 0
     while sos:
         Ci = sos.pop(0)
         for Cj in sorted(all_clauses, key=clause_str):
-            for resolvent in resolve(Ci, Cj):
-                if resolvent in all_clauses:
+            for R in resolve(Ci, Cj):
+                if R in all_clauses:
                     continue
                 step += 1
-                print(f"{step:02d}. {clause_str(resolvent)}   "
-                      f"(from {clause_str(Ci)} , {clause_str(Cj)})")
-                derived_from[resolvent] = (Ci, Cj)
-                if not resolvent:          # empty clause found
+                print(f"{step:02d}. {clause_str(R)}   (from {clause_str(Ci)} , {clause_str(Cj)})")
+                if not R:
                     print("\nEmpty clause derived – goal is proved.")
                     return True
-                sos.append(resolvent)
-                all_clauses.add(resolvent)
+                sos.append(R)
+                all_clauses.add(R)
     print("Proof failed – goal not entailed.")
     return False
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Embedded knowledge‑base and (negated) goal
-# ─────────────────────────────────────────────────────────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Knowledge base and negated goal                                       │
+# ╰────────────────────────────────────────────────────────────────────────╯
 KB_TEXT = [
     "¬Mythical(x) | Immortal(x)",
     "Mythical(x) | Mortal(x)",
@@ -250,14 +254,14 @@ KB_TEXT = [
     "¬Mammal(x) | Horned(x)",
     "¬Horned(x) | Magical(x)",
 ]
-KB = [parse_clause(line) for line in KB_TEXT]
 
-NEGATED_GOAL = parse_clause("¬Magical(Unicorn)")
+KB: list[Clause] = [parse_clause(line) for line in KB_TEXT]
+NEGATED_GOAL: Clause = parse_clause("¬Magical(Unicorn)")
 
 
-# ─────────────────────────────────────────────────────────────────────────────
-#  Main
-# ─────────────────────────────────────────────────────────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Script entry point                                                    │
+# ╰────────────────────────────────────────────────────────────────────────╯
 if __name__ == "__main__":
     prove(KB, NEGATED_GOAL)
 
