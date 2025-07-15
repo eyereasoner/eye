@@ -1,53 +1,52 @@
 #!/usr/bin/env python3
-"""
-Bell‑type contradiction prover (deterministic first‑order resolution)
-====================================================================
-This stand‑alone script shows—purely in propositional/first‑order logic—why a
-single *local‑realist* hidden‑variable assignment cannot reproduce the quartet
-of pairwise correlations that quantum mechanics predicts for a maximally
-entangled two‑qubit state (e.g. the singlet or CHSH/GHZ scenarios).
+"""bell_contradiction_prover.py
+────────────────────────────────
+A **deterministic first‑order resolution prover** that exposes the logical
+incompatibility of *local‑realist* hidden‑variable assignments with the set of
+pairwise correlations predicted by quantum mechanics for a maximally entangled
+***two‑qubit*** state (e.g. CHSH/Bell/Clauser–Horne settings).
 
-Logical encodings
------------------
-We label the four **binary** measurement outcomes as variables
+The script is intentionally *self‑contained* and heavily documented so that
+students can trace every step—from parsing and unification to the derivation
+of the empty clause ⊥ using a *set‑of‑support* search strategy.
 
-    A0  – Alice’s outcome if she chooses setting 0
-    A1  – Alice’s outcome if she chooses setting 1
-    B0  – Bob’s   outcome if he chooses setting 0
-    B1  – Bob’s   outcome if he chooses setting 1
+# Physical background
+─────────────────────
+We imagine two spatially separated experimenters—*Alice* and *Bob*—who each
+choose between **two** binary measurements (settings 0 or 1) and record a
+±1 or (equivalently) 0/1 outcome.
 
-A *local deterministic* hidden‑variable model would pre‑assign each of these
-four variables a definite bit (0 or 1) **independently of the distant
-party’s measurement choice**.  Quantum mechanics, however, predicts that a
-maximally entangled state can satisfy the following correlations in a single
-run of the experiment:
+* ``A0``  – Alice’s outcome if she measures setting 0
+* ``A1``  – Alice’s outcome if she measures setting 1
+* ``B0``  – Bob’s   outcome if he measures setting 0
+* ``B1``  – Bob’s   outcome if he measures setting 1
+
+Under *local determinism*, a hidden‑variable λ must fix all four outcomes
+**prior** to any measurement choice.  Quantum mechanics nevertheless allows
+a single entangled pair to satisfy the following correlations *simultaneously*:
 
     (1)  A0 = B0
     (2)  A0 = B1
     (3)  A1 = B0
-    (4)  A1 ≠ B1   (this is the CHSH/Clauser–Horne–Shimony–Holt clash)
+    (4)  A1 ≠ B1   ← the crucial CHSH twist
 
-If one tries to satisfy all four simultaneously with fixed 0/1 values, the
-first three equalities chain together to imply A1 = B1, contradicting (4).
+Chaining (1)–(3) logically forces A1 = B1, contradicting (4).  Our prover
+formalises this contradiction in *classical* logic with only eight clauses.
 
-CNF translation
-~~~~~~~~~~~~~~~
-We use a unary predicate **T(x)** meaning "x takes the value 1".  Equality
-constraints become pairs of clauses, e.g. A0 = B0 translates to
+# Logical encoding
+──────────────────
+Define a unary predicate ``T(x)`` meaning “the bit *x* equals 1”.
 
-    (¬T(A0) ∨ T(B0)) ∧ (T(A0) ∨ ¬T(B0))
+* Equality of two bits *p = q* ⇢
 
-and the inequality A1 ≠ B1 translates to
+      (¬T(p) ∨ T(q)) ∧ (T(p) ∨ ¬T(q))
 
-    (¬T(A1) ∨ ¬T(B1)) ∧ (T(A1) ∨ T(B1)).
+* Inequality *p ≠ q* ⇢
 
-Goal and proof
---------------
-*Goal.*  Show that the assumption **¬T(A1)** is inconsistent with the eight
-clauses above.  (Equivalently, prove T(A1).)
+      (¬T(p) ∨ ¬T(q)) ∧ (T(p) ∨ T(q))
 
-A deterministic set‑of‑support resolution strategy derives the empty clause ⊥
-in **five steps**:
+All four correlations give **four pairs** of clauses.  We then *assume*
+¬T(A1) (i.e. A₁ = 0) and show that resolution derives ⊥ in five steps:
 
     01. ¬T(B0)
     02. ¬T(A0)
@@ -55,171 +54,229 @@ in **five steps**:
     04.  T(A1)
     05.  ⊥
 
-Line 05 establishes the contradiction: no deterministic local assignment can
-fulfil the quantum correlations.
+Line 05 completes the refutation: the assumption of a single local hidden‑
+variable assignment conflicts with the quantum predictions.
 """
 
-import re, itertools
+from __future__ import annotations
 
-# ──────────────────────  Tiny term & literal data types  ──────────────────────
-VAR_RE = re.compile(r"^[a-z][A-Za-z0-9_]*$")  # variables start lower‑case
+import re
+import itertools  # imported for future extensions; not used directly here
 
+# ─────────────────────────────── Regex helper ──────────────────────────────
+# A *variable* token starts with a lowercase ASCII letter.  Anything else is
+# treated as a constant functor/predicate symbol.
+VAR_RE = re.compile(r"^[a-z][A-Za-z0-9_]*$")
+
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Term, Literal and Clause data structures                              │
+# ╰────────────────────────────────────────────────────────────────────────╯
 
 class Term:
-    """Constant, variable or (unused) functional term."""
+    """A first‑order term: **variable**, **constant** or **function term**.
+
+    Attributes
+    ----------
+    functor : str
+        Symbol of the term.  For variables this is just their *name*; for
+        constants it is the constant symbol; for compound terms it is the
+        function symbol.
+    args : tuple[Term, ...]
+        Argument list.  Empty for variables and constants.
+    """
+
     __slots__ = ("functor", "args")
 
-    def __init__(self, functor, args=None):
+    def __init__(self, functor: str, args: list["Term"] | tuple["Term", ...] | None = None):
         self.functor = functor
         self.args = tuple(args) if args else tuple()
 
-    # A variable is identified purely by its *lower‑case* token with no args.
-    def is_var(self):
+    # ------------------------------------------------------------------ #
+    def is_var(self) -> bool:
+        """Return *True* iff the term qualifies syntactically as a variable."""
         return VAR_RE.match(self.functor) and not self.args
 
-    # Nicely formatted representation
-    def __repr__(self):
-        return self.functor if not self.args else f"{self.functor}({', '.join(map(repr, self.args))})"
+    # ------------------------------------------------------------------ #
+    def __repr__(self) -> str:
+        if not self.args:  # variable or constant
+            return self.functor
+        return f"{self.functor}({', '.join(map(repr, self.args))})"
 
-    # Hash/eq make Term usable as dictionary key & set element
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.functor, self.args))
 
-    def __eq__(self, other):
-        return (self.functor, self.args) == (other.functor, other.args)
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, Term) and (self.functor, self.args) == (other.functor, other.args)
 
 
 class Literal:
-    """Positive or negated predicate applied to terms."""
+    """A (possibly negated) atomic predicate application."""
+
     __slots__ = ("pred", "args", "neg")
 
-    def __init__(self, pred, args, neg=False):
-        self.pred, self.args, self.neg = pred, tuple(args), neg
+    def __init__(self, pred: str, args: list[Term], neg: bool = False):
+        self.pred = pred
+        self.args = tuple(args)
+        self.neg = neg  # polarity
 
-    def negate(self):
+    # ------------------------------------------------------------------ #
+    def negate(self) -> "Literal":
         return Literal(self.pred, self.args, not self.neg)
 
-    def substitute(self, theta):
-        return Literal(self.pred, [substitute(a, theta) for a in self.args], self.neg)
+    def substitute(self, θ: dict[Term, Term]) -> "Literal":
+        return Literal(self.pred, [substitute(a, θ) for a in self.args], self.neg)
 
-    def __repr__(self):
-        return ("¬" if self.neg else "") + f"{self.pred}({', '.join(map(repr, self.args))})"
+    # ------------------------------------------------------------------ #
+    def __repr__(self) -> str:
+        args_repr = ", ".join(map(repr, self.args))
+        return ("¬" if self.neg else "") + f"{self.pred}({args_repr})"
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.pred, self.args, self.neg))
 
-    def __eq__(self, other):
-        return (self.pred, self.args, self.neg) == (other.pred, other.args, other.neg)
+    def __eq__(self, other: object) -> bool:
+        return (isinstance(other, Literal) and
+                (self.pred, self.args, self.neg) == (other.pred, other.args, other.neg))
 
 
-Clause = frozenset  # for clarity: a clause is an immutable set of Literals
+# A **clause** is a frozenset of literals; the empty set denotes ⊥ (false).
+Clause = frozenset[Literal]
 
-# ───────────────────────────────  Micro parser  ──────────────────────────────
+
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Parsing utilities                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
 
 def parse_literal(text: str) -> Literal:
-    """Parse a string like '¬T(A0)' or 'T(B1)' into a Literal object."""
+    """Convert textual literal syntax into a :class:`Literal` object.
+
+    Examples
+    --------
+    >>> parse_literal('T(A0)')
+    >>> parse_literal('¬T(B1)')
+    """
     text = text.strip()
-    neg = text.startswith(("¬", "~"))
+    neg = text.startswith(('¬', '~'))
     if neg:
         text = text[1:].strip()
 
-    # Simple regex: predicate followed by parenthesised arg list.
     m = re.match(r"^([A-Za-z0-9_]+)\(([^)]*)\)$", text)
     if not m:
         raise ValueError(f"Bad literal syntax: {text}")
 
-    pred, arg_str = m.group(1), m.group(2)
-    args = [Term(a.strip()) for a in arg_str.split(',') if a.strip()]
+    pred, args_str = m.groups()
+    args = [Term(a.strip()) for a in args_str.split(',') if a.strip()]
     return Literal(pred, args, neg)
 
 
 def parse_clause(line: str) -> Clause:
-    """Split on '|' and parse each literal into a Clause."""
+    """Parse a disjunction *L₁ | L₂ | …* into a :class:`Clause`."""
     return frozenset(parse_literal(part) for part in line.split('|'))
 
-# ─────────────────────────────  Unification  ────────────────────────────────
 
-def substitute(term: Term, theta):
-    """Recursively apply substitution *theta* to a term."""
-    if term.is_var():
-        while term in theta:
-            term = theta[term]
-        return term
-    if term.args:
-        return Term(term.functor, [substitute(a, theta) for a in term.args])
-    return term
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Unification with occurs‑check                                         │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+def substitute(t: Term, θ: dict[Term, Term]) -> Term:
+    """Apply substitution θ to term *t* (with path compression for vars)."""
+    if t.is_var():
+        while t in θ:
+            t = θ[t]
+        return t
+    if t.args:
+        return Term(t.functor, [substitute(a, θ) for a in t.args])
+    return t  # constant
 
 
-def occurs(var: Term, term: Term, theta) -> bool:
-    """Occurs‑check to prevent infinite substitutions."""
-    if var == term:
+def occurs(v: Term, t: Term, θ: dict[Term, Term]) -> bool:
+    """Return *True* if variable *v* occurs *directly or indirectly* in *t*."""
+    if v == t:
         return True
-    if term.is_var() and term in theta:
-        return occurs(var, theta[term], theta)
-    return any(occurs(var, a, theta) for a in term.args)
+    if t.is_var() and t in θ:
+        return occurs(v, θ[t], θ)
+    return any(occurs(v, a, θ) for a in t.args)
 
 
-def unify(x: Term, y: Term, theta=None):
-    """Standard Robinson unification with occurs‑check."""
-    if theta is None:
-        theta = {}
-    x, y = substitute(x, theta), substitute(y, theta)
+def unify(x: Term, y: Term, θ: dict[Term, Term] | None = None) -> dict[Term, Term] | None:
+    """Robinson unification algorithm with explicit occurs‑check."""
+    if θ is None:
+        θ = {}
+
+    x, y = substitute(x, θ), substitute(y, θ)
+
     if x == y:
-        return theta
+        return θ
+
     if x.is_var():
-        if occurs(x, y, theta):
+        if occurs(x, y, θ):
             return None
-        theta[x] = y
-        return theta
+        θ[x] = y
+        return θ
+
     if y.is_var():
-        if occurs(y, x, theta):
+        if occurs(y, x, θ):
             return None
-        theta[y] = x
-        return theta
+        θ[y] = x
+        return θ
+
     if x.functor != y.functor or len(x.args) != len(y.args):
         return None
+
     for xi, yi in zip(x.args, y.args):
-        theta = unify(xi, yi, theta)
-        if theta is None:
+        θ = unify(xi, yi, θ)
+        if θ is None:
             return None
-    return theta
+    return θ
 
 
-def unify_tuple(a1, a2):
-    theta = {}
+def unify_tuple(a1: tuple[Term, ...], a2: tuple[Term, ...]) -> dict[Term, Term] | None:
+    """Unify two tuples of terms (argument lists)."""
+    θ: dict[Term, Term] = {}
     for s, t in zip(a1, a2):
-        theta = unify(s, t, theta)
-        if theta is None:
+        θ = unify(s, t, θ)
+        if θ is None:
             return None
-    return theta
+    return θ
 
-# ─────────────────────────  Deterministic resolution  ──────────────────────
 
-def clause_str(clause):
-    """Pretty‑print a clause; use '⊥' for the empty clause."""
-    return "⊥" if not clause else " | ".join(sorted(map(repr, clause)))
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Resolution engine                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
+def clause_str(c: Clause) -> str:
+    """Return a human‑friendly string representation of a clause."""
+    return "⊥" if not c else " | ".join(sorted(map(repr, c)))
 
 
 def resolve(ci: Clause, cj: Clause):
-    """Generate all resolvents of two clauses (deterministic order)."""
+    """Yield every non‑tautological *resolvent* of clauses ci and cj.
+
+    The deterministic order imposed by ``sorted`` ensures that every run of
+    the program prints the **same** proof sequence.
+    """
     for Li in sorted(ci, key=repr):
         for Lj in sorted(cj, key=repr):
             if Li.pred == Lj.pred and Li.neg != Lj.neg:
-                theta = unify_tuple(Li.args, Lj.args)
-                if theta is None:
+                θ = unify_tuple(Li.args, Lj.args)
+                if θ is None:
                     continue
+
+                # Merge literals except the complementary pair and apply θ.
                 resolvent = frozenset((ci | cj) - {Li, Lj})
-                resolvent = frozenset(L.substitute(theta) for L in resolvent)
-                # Skip tautologies like P | ¬P.
+                resolvent = frozenset(L.substitute(θ) for L in resolvent)
+
+                # Skip tautological resolvents containing P and ¬P.
                 if any(L.negate() in resolvent for L in resolvent):
                     continue
+
                 yield resolvent
 
 
-def prove(kb, negated_goal):
-    """Set‑of‑support resolution with FIFO queue for determinism."""
-    sos = [negated_goal]
-    all_clauses = set(kb) | {negated_goal}
+def prove(kb: list[Clause], neg_goal: Clause) -> bool:
+    """Deterministic *set‑of‑support* resolution refutation procedure."""
+    sos = [neg_goal]                    # FIFO queue (breadth‑first search)
+    all_clauses = set(kb) | {neg_goal}
     step = 0
 
     while sos:
@@ -227,43 +284,53 @@ def prove(kb, negated_goal):
         for Cj in sorted(all_clauses, key=clause_str):
             for R in resolve(Ci, Cj):
                 if R in all_clauses:
-                    continue
+                    continue  # already known
+
                 step += 1
                 print(f"{step:02d}. {clause_str(R)}   (from {clause_str(Ci)} , {clause_str(Cj)})")
-                if not R:  # empty clause => contradiction
+
+                if not R:  # derived ⊥
                     print("\nEmpty clause derived – contradiction established.")
                     return True
+
                 sos.append(R)
                 all_clauses.add(R)
+
+    # Should never reach here for the Bell example.
     print("No contradiction found (should not happen in this Bell example).")
     return False
 
-# ───────────────────  Knowledge‑base (eight clauses)  ──────────────────────
-# Each pair encodes equality or inequality of two bits as explained above.
+
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Knowledge base: eight clauses for the four correlations               │
+# ╰────────────────────────────────────────────────────────────────────────╯
 KB_TEXT = [
-    # (1)  A0 = B0  →  two clauses
+    # (1)  A0 = B0
     "¬T(A0) | T(B0)",
-    "T(A0)  | ¬T(B0)",
+    " T(A0) | ¬T(B0)",
 
     # (2)  A0 = B1
     "¬T(A0) | T(B1)",
-    "T(A0)  | ¬T(B1)",
+    " T(A0) | ¬T(B1)",
 
     # (3)  A1 = B0
     "¬T(A1) | T(B0)",
-    "T(A1)  | ¬T(B0)",
+    " T(A1) | ¬T(B0)",
 
-    # (4)  A1 ≠ B1  (inequality – the CHSH twist)
+    # (4)  A1 ≠ B1   (CHSH inequality)
     "¬T(A1) | ¬T(B1)",
-    "T(A1)  |  T(B1)",
+    " T(A1) |  T(B1)",
 ]
 
-KB = [parse_clause(line) for line in KB_TEXT]
+KB: list[Clause] = [parse_clause(line) for line in KB_TEXT]
 
-# Negated goal: assume A1 is 0 ⇒ prove contradiction.
-NEGATED_GOAL = parse_clause("¬T(A1)")
+# Negated goal: assume A1 = 0 (¬T(A1)) and derive a contradiction.
+NEGATED_GOAL: Clause = parse_clause("¬T(A1)")
 
-# ───────────────────────────────────  Main  ─────────────────────────────────
+
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Script entry point                                                    │
+# ╰────────────────────────────────────────────────────────────────────────╯
 if __name__ == "__main__":
     prove(KB, NEGATED_GOAL)
 
