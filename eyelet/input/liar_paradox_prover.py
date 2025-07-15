@@ -46,7 +46,10 @@ import itertools  # (imported for possible extensions; not strictly needed)
 VAR_RE = re.compile(r"^[a-z][A-Za-z0-9_]*$")  # pre‑compiled for speed
 
 
-# ──────────────────────────────── Term class ───────────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Term, Literal and Clause data structures                              │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
 class Term:
     """Represents either a **variable**, a **constant**, or a **function term**.
 
@@ -89,7 +92,6 @@ class Term:
         return isinstance(other, Term) and (self.functor, self.args) == (other.functor, other.args)
 
 
-# ─────────────────────────────── Literal class ─────────────────────────────
 class Literal:
     """Represents an *possibly negated* atomic predicate.
 
@@ -139,7 +141,10 @@ class Literal:
 Clause = frozenset[Literal]
 
 
-# ───────────────────────────── Mini‑parser utils ───────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Parsing utilities                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
 def parse_literal(txt: str) -> Literal:
     """Parse a literal from text of the form ``T(x,y)`` or ``¬T(x)``."""
     txt = txt.strip()
@@ -164,7 +169,10 @@ def parse_clause(line: str) -> Clause:
     return frozenset(parse_literal(part) for part in line.split('|'))
 
 
-# ───────────────────────────── Unification logic ───────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Unification with occurs‑check                                         │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
 def substitute(t: Term, θ: dict[Term, Term]) -> Term:
     """Recursively apply substitution θ to term *t*.
 
@@ -240,7 +248,10 @@ def unify_tuple(a1: tuple[Term, ...], a2: tuple[Term, ...]) -> dict[Term, Term] 
     return θ
 
 
-# ───────────────────── Deterministic resolution rules ──────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Resolution engine                                                     │
+# ╰────────────────────────────────────────────────────────────────────────╯
+
 def clause_str(c: Clause) -> str:
     """Pretty render a clause for console output."""
     return "⊥" if not c else " | ".join(sorted(map(repr, c)))
@@ -316,6 +327,9 @@ def prove(kb: list[Clause], neg_goal: Clause) -> bool:
     print("No contradiction found (this should not happen).")  # safeguard
     return False
 
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Knowledge base + negated goal clauses                                 │
+# ╰────────────────────────────────────────────────────────────────────────╯
 
 # ──────────────────── Knowledge base + negated goal clauses ────────────────
 KB_TEXT = [
@@ -327,7 +341,9 @@ KB: list[Clause] = [parse_clause(line) for line in KB_TEXT]
 NEGATED_GOAL: Clause = parse_clause("¬T(Liar)")
 
 
-# ────────────────────────────────── Entrypoint ─────────────────────────────
+# ╭────────────────────────────────────────────────────────────────────────╮
+# │  Script entry point                                                    │
+# ╰────────────────────────────────────────────────────────────────────────╯
 if __name__ == "__main__":
     prove(KB, NEGATED_GOAL)
 
