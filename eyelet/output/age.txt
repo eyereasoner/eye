@@ -1,0 +1,20 @@
+Knowledge base loaded from 'input/age.txt'.  Goal: ageAbove(PatH,P80Y)
+
+01. ¬birthDay(PatH, b) | ¬difference(d, b, f) | ¬greaterThan(f, P80Y) | ¬localTime(d)   (from ¬ageAbove(PatH, P80Y) , ageAbove(s, a) | ¬birthDay(s, b) | ¬difference(d, b, f) | ¬greaterThan(f, a) | ¬localTime(d))
+02. ¬difference(d, D19440821, f) | ¬greaterThan(f, P80Y) | ¬localTime(d)   (from ¬birthDay(PatH, b) | ¬difference(d, b, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , birthDay(PatH, D19440821))
+03. ¬birthDay(PatH, D19440821) | ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630)   (from ¬birthDay(PatH, b) | ¬difference(d, b, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , difference(D20250630, D19440821, N80_86))
+04. ¬birthDay(PatH, b) | ¬difference(d, b, N80_86) | ¬localTime(d)   (from ¬birthDay(PatH, b) | ¬difference(d, b, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , greaterThan(N80_86, P80Y))
+05. ¬birthDay(PatH, b) | ¬difference(D20250630, b, f) | ¬greaterThan(f, P80Y)   (from ¬birthDay(PatH, b) | ¬difference(d, b, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , localTime(D20250630))
+06. ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630)   (from ¬difference(d, D19440821, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , difference(D20250630, D19440821, N80_86))
+07. ¬difference(d, D19440821, N80_86) | ¬localTime(d)   (from ¬difference(d, D19440821, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , greaterThan(N80_86, P80Y))
+08. ¬difference(D20250630, D19440821, f) | ¬greaterThan(f, P80Y)   (from ¬difference(d, D19440821, f) | ¬greaterThan(f, P80Y) | ¬localTime(d) , localTime(D20250630))
+09. ¬birthDay(PatH, D19440821) | ¬localTime(D20250630)   (from ¬birthDay(PatH, D19440821) | ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630) , greaterThan(N80_86, P80Y))
+10. ¬birthDay(PatH, D19440821) | ¬greaterThan(N80_86, P80Y)   (from ¬birthDay(PatH, D19440821) | ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630) , localTime(D20250630))
+11. ¬birthDay(PatH, b) | ¬difference(D20250630, b, N80_86)   (from ¬birthDay(PatH, b) | ¬difference(d, b, N80_86) | ¬localTime(d) , localTime(D20250630))
+12. ¬localTime(D20250630)   (from ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630) , greaterThan(N80_86, P80Y))
+13. ¬greaterThan(N80_86, P80Y)   (from ¬greaterThan(N80_86, P80Y) | ¬localTime(D20250630) , localTime(D20250630))
+14. ¬difference(D20250630, D19440821, N80_86)   (from ¬difference(d, D19440821, N80_86) | ¬localTime(d) , localTime(D20250630))
+15. ¬birthDay(PatH, D19440821)   (from ¬birthDay(PatH, D19440821) | ¬localTime(D20250630) , localTime(D20250630))
+16. ⊥   (from ¬localTime(D20250630) , localTime(D20250630))
+
+Empty clause derived — goal is entailed. 🎉
