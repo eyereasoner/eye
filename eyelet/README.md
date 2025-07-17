@@ -2,8 +2,6 @@
 
 ## EYE for Logic expressed in Turtle
 
----
-
 ### ✅ Forward Rules
 
 eyelet allows reasoning with forward rules written in RDF Turtle.
