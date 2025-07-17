@@ -1,0 +1,67 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix :    <urn:example:>.
+
+# -------------
+# Facts
+# -------------
+:beetle a :Car.
+
+# -----------------------------------------------
+# Rules and (in one case) an explicit inconsistency
+# -----------------------------------------------
+
+# All cars are green OR blue
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A rdf:type :Car) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :green) ]
+    ) ]) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :blue) ]
+    ) ]) ]
+)].
+
+# Green things are nice OR pretty
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A :is :green) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :nice) ]
+    ) ]) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :pretty) ]
+    ) ]) ]
+)].
+
+# Pretty things are beautiful
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A :is :pretty) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :beautiful) ]
+    ) ]) ]
+)].
+
+# Cars are NOT beautiful  (negated surface: Car ∧ Beautiful is impossible)
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A rdf:type :Car) ]
+    [ log:triple (_:A :is :beautiful) ]
+)].
+
+# Blue things are beautiful
+(_:A) log:onNegativeSurface [ log:graph (
+    [ log:triple (_:A :is :blue) ]
+    [ log:triple (() log:onNegativeSurface [ log:graph (
+        [ log:triple (_:A :is :beautiful) ]
+    ) ]) ]
+)].
+
+# -------------
+# Query
+# -------------
+() log:onNegativeSurface [ log:graph (
+    [ log:triple (:beetle :is :nice) ]
+    [ log:triple (() log:onNegativeAnswerSurface [ log:graph (
+        [ log:triple (:beetle :is :nice) ]
+    ) ]) ]
+)].
+
