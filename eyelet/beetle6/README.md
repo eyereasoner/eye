@@ -1,4 +1,4 @@
-# 🪲 Beetle–Nice Example – Disjunction Elimination in N3 Logic (eyelet)
+# 🪲 Beetle–Nice Example – Disjunction Elimination in N3 Logic
 
 This example shows **disjunction elimination** carried out by the [**EYE** reasoner](https://github.com/eyereasoner/eye) using the **eyelet** surface for N3 logic.  It is an extended variant of the classic “Beetle” puzzle: the only way to avoid contradiction is to conclude that **the Beetle is *nice***.
 
