@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.10 (2025-07-17)').
+version_info('EYE v11.19.11 (2025-07-17)').
 
 license_info('MIT License
 
@@ -4388,9 +4388,15 @@ wt1('$VAR'(X)) :-
     write(X).
 wt1(X) :-
     X =.. Y,
-    write('(|'),
+    (   flag(rdfcore)
+    ->  write('(')
+    ;   write('(|')
+    ),
     wl(Y),
-    write(' |)').
+    (   flag(rdfcore)
+    ->  write(' )')
+    ;   write(' |)')
+    ).
 
 wt2((X, Y)) :-
     !,
@@ -4725,9 +4731,15 @@ wt2(X) :-
         \+sub_atom(P, 0, 2, _, '_:'),
         P \= true,
         P \= false
-    ->  write('(|'),
+    ->  (   flag(rdfcore)
+        ->  write('(')
+        ;   write('(|')
+        ),
         wl([P, S, O]),
-        write(' |)')
+        (   flag(rdfcore)
+        ->  write(' )')
+        ;   write(' |)')
+        )
     ;   (   loggraph
         ->  write('[ '),
             wp('<http://www.w3.org/2000/10/swap/log#triple>'),
@@ -4788,9 +4800,15 @@ wtn(X) :-
     X =.. [B|C],
     (   atom(B),
         \+ (sub_atom(B, 0, 1, _, '<'), sub_atom(B, _, 1, 0, '>'))
-    ->  write('(|'),
+    ->  (   flag(rdfcore)
+        ->  write('(')
+        ;   write('(|')
+        ),
         wl([B|C]),
-        write(' |)')
+        (   flag(rdfcore)
+        ->  write(' )')
+        ;   write(' |)')
+        )
     ;   wt(C),
         write(' '),
         wp(B),
