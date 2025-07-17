@@ -1,0 +1,34 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (:joe :is (:good :Cobbler))]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:joe :is (:good :Cobbler))]
+    )];
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#joe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#Cobbler"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :is (:good var:x_1))]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :is (:good var:x_1))]
+    )])])]].
+
+skolem:lemma2 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:joe :is (:good :Cobbler))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/good-cobbler/good-cobbler.ttl>].
+

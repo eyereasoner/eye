@@ -1,0 +1,58 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix : <http://example.org/#>.
+@prefix crypto: <http://www.w3.org/2000/10/swap/crypto#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (var:v_6 :subject "hello world")]
+        [ log:triple (var:v_6 crypto:md5 "5eb63bbbe01eeed093cb22bb8f5acdc3")]
+        [ log:triple (var:v_6 crypto:sha "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed")]
+        [ log:triple (var:v_6 crypto:sha256 "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9")]
+        [ log:triple (var:v_6 crypto:sha512 "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f")]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (var:v_6 :subject "hello world")]
+        [ log:triple (var:v_6 crypto:md5 "5eb63bbbe01eeed093cb22bb8f5acdc3")]
+        [ log:triple (var:v_6 crypto:sha "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed")]
+        [ log:triple (var:v_6 crypto:sha256 "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9")]
+        [ log:triple (var:v_6 crypto:sha512 "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f")]
+    )];
+    r:evidence (
+        skolem:lemma2
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ("hello world" crypto:md5 "5eb63bbbe01eeed093cb22bb8f5acdc3")])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ("hello world" crypto:sha "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed")])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ("hello world" crypto:sha256 "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9")])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ("hello world" crypto:sha512 "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f")])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo "hello world"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo "5eb63bbbe01eeed093cb22bb8f5acdc3"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo "2aae6c35c94fcfb415dbe95f408b9ce91ee846ed"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo "b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9"];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo "309ecc489c12d6eb4cc40f50c902f2b4d0ed77ee511a7c7a9bcd3ca86d4cd86f989dd35bc5ff499670da34255b45b0cfd830e81f605dcf7dc5542e93ae9cd76f"];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (:Let :param var:x_0)]
+        [ log:triple (var:x_0 crypto:md5 var:x_1)]
+        [ log:triple (var:x_0 crypto:sha var:x_2)]
+        [ log:triple (var:x_0 crypto:sha256 var:x_3)]
+        [ log:triple (var:x_0 crypto:sha512 var:x_4)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_5 :subject var:x_0)]
+        [ log:triple (var:x_5 crypto:md5 var:x_1)]
+        [ log:triple (var:x_5 crypto:sha var:x_2)]
+        [ log:triple (var:x_5 crypto:sha256 var:x_3)]
+        [ log:triple (var:x_5 crypto:sha512 var:x_4)]
+    )])])]].
+
+skolem:lemma2 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:Let :param "hello world")]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/crypto/crypto.ttl>].
+

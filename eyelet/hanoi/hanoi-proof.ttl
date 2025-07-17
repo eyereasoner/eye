@@ -1,0 +1,27 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple ((6 :left :right :center) :moves ((:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right)))]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((6 :left :right :center) :moves ((:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right)))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((6 :left :right :center) :moves ((:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right)))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo ((:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:right :center) (:left :center) (:right :left) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right) (:left :center) (:right :left) (:right :center) (:left :center) (:left :right) (:center :right) (:center :left) (:right :left) (:center :right) (:left :center) (:left :right) (:center :right))];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple ((6 :left :right :center) :moves var:x_0)]
+    )] log:implies [ log:graph (
+        [ log:triple ((6 :left :right :center) :moves var:x_0)]
+    )])])]].
+

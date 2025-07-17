@@ -1,0 +1,36 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (() :mi ([ log:graph (
+            [ log:triple (() :mi ([ log:graph (
+                [ log:triple (() :mi ([ log:graph (
+                    [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
+                )]))]
+            )]))]
+        )]))])]]
+    );
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (() :mi ([ log:graph (
+            [ log:triple (() :mi ([ log:graph (
+                [ log:triple (() :mi ([ log:graph (
+                    [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
+                )]))]
+            )]))]
+        )]))]
+    )] log:implies [ log:graph (
+        [ log:triple (() :natnum (:s (:s (:s (:s (:s (0)))))))]
+    )])])]].
+

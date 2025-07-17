@@ -1,0 +1,109 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:gives [ log:graph (
+        [ log:triple (:Ann :isPrescribed :aspirinHighDose)]
+        [ log:triple (:Joe :isPrescribed :betaBlocker)]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:Ann :isPrescribed :aspirinHighDose)]
+    )];
+    r:evidence (
+        skolem:lemma3
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ann"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#aspirinHighDose"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :isPrescribed var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :isPrescribed var:x_1)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:Joe :isPrescribed :betaBlocker)]
+    )];
+    r:evidence (
+        skolem:lemma4
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Joe"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#betaBlocker"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :isPrescribed var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :isPrescribed var:x_1)]
+    )])])]].
+
+skolem:lemma3 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:Ann :isPrescribed :aspirinHighDose)]
+    )];
+    r:evidence (
+        skolem:lemma5
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (:Ann :has :AllergyForAspirin)]
+        )])])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (:Ann :has :ActivePepticUlcerDisease)]
+        )])])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Ann"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :has :Fever)]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (var:x_0 :has :AllergyForAspirin)]
+        )])]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (var:x_0 :has :ActivePepticUlcerDisease)]
+        )])]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :isPrescribed :aspirinHighDose)]
+    )])])]].
+
+skolem:lemma4 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:Joe :isPrescribed :betaBlocker)]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (:Joe :has :SevereAsthma)]
+        )])])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (:Joe :has :ChronicObstructivePulmonaryDisease)]
+        )])])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#Joe"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :has :AcuteMyocardialInfarction)]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (var:x_0 :has :SevereAsthma)]
+        )])]
+        [ log:triple (() log:onNegativeSurface [ log:graph (
+            [ log:triple (var:x_0 :has :ChronicObstructivePulmonaryDisease)]
+        )])]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :isPrescribed :betaBlocker)]
+    )])])]].
+
+skolem:lemma5 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:Ann :has :Fever)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/prescription/prescription.ttl>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:Joe :has :AcuteMyocardialInfarction)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/eyelet/prescription/prescription.ttl>].
+

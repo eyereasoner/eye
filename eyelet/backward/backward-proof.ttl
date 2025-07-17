@@ -1,0 +1,24 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (:test :is true)]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:test :is true)]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (5 :moreInterestingThan 3)])]]
+    );
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (5 :moreInterestingThan 3)]
+    )] log:implies [ log:graph (
+        [ log:triple (:test :is true)]
+    )])])]].
+

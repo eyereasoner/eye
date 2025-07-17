@@ -23,7 +23,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.9 (2025-06-18)').
+version_info('EYE v11.19.10 (2025-07-17)').
 
 license_info('MIT License
 
@@ -153,6 +153,7 @@ eye
 :- dynamic(keep_skolem/1).
 :- dynamic(lemma/6).                % lemma(Count, Source, Premise, Conclusion, Premise-Conclusion_index, Rule)
 :- dynamic(limit/1).
+:- dynamic(loggraph/0).
 :- dynamic(mtime/2).
 :- dynamic(n3s/2).
 :- dynamic(ncllit/0).
@@ -428,7 +429,6 @@ gre(Argus) :-
     nb_setval(prepare, false),
     nb_setval(sparql_backward, false),
     nb_setval(prefix, false),
-    nb_setval(loggraph, false),
     opts(Argus, Args),
     (   Args = []
     ->  opts(['--help'], _)
@@ -3862,7 +3862,13 @@ w3 :-
         wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
         (   nb_getval(empty_gives, true)
         ->  write(' true.')
-        ;   write(' {'),
+        ;   (   flag(rdfcore)
+            ->  write(' [ '),
+                wp('<http://www.w3.org/2000/10/swap/log#graph>'),
+                write(' ('),
+                assertz(loggraph)
+            ;   write(' {')
+            ),
             indentation(4),
             (   prfstep(answer(B1, B2, B3), _, _, _, _, _, _),
                 relabel([B1, B2, B3], [C1, C2, C3]),
@@ -3877,7 +3883,10 @@ w3 :-
                 wq(D, Q),
                 wt(C),
                 ws(C),
-                write('.'),
+                (   flag(rdfcore)
+                ->  true
+                ;   write('.')
+                ),
                 cnt(output_statements),
                 fail
             ;   true
@@ -3885,7 +3894,12 @@ w3 :-
             indentation(-4),
             nl,
             indent,
-            write('}.')
+            (   flag(rdfcore)
+            ->  write(')].'),
+                retract(loggraph),
+                !
+            ;   write('}.')
+            )
         ),
         indentation(-4),
         nl,
@@ -3943,7 +3957,13 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
     ->  write(' true;')
-    ;   write(' {'),
+    ;   (   flag(rdfcore)
+        ->  write(' [ '),
+            wp('<http://www.w3.org/2000/10/swap/log#graph>'),
+            write(' ('),
+            assertz(loggraph)
+        ;   write(' {')
+        ),
         nl,
         indentation(4),
         indent,
@@ -3957,11 +3977,19 @@ wj(Cnt, A, true, C, Rule) :-        % wj(Count, Source, Premise, Conclusion, Rul
             wt(C)
         ),
         ws(C),
-        write('.'),
+        (   flag(rdfcore)
+        ->  true
+        ;   write('.')
+        ),
         nl,
         indentation(-4),
         indent,
-        write('};')
+        (   flag(rdfcore)
+        ->  write(')];'),
+            retract(loggraph),
+            !
+        ;   write('};')
+        )
     ),
     nl,
     indent,
@@ -3999,7 +4027,13 @@ wj(Cnt, A, B, C, Rule) :-
     wp('<http://www.w3.org/2000/10/swap/reason#gives>'),
     (   C = true
     ->  write(' true;')
-    ;   write(' {'),
+    ;   (   flag(rdfcore)
+        ->  write(' [ '),
+            wp('<http://www.w3.org/2000/10/swap/log#graph>'),
+            write(' ('),
+            assertz(loggraph)
+        ;   write(' {')
+        ),
         nl,
         Rule = '<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc),
         nb_getval(wn, W),
@@ -4031,11 +4065,19 @@ wj(Cnt, A, B, C, Rule) :-
         wq(D, Q),
         wt(C),
         ws(C),
-        write('.'),
+        (   flag(rdfcore)
+        ->  true
+        ;   write('.')
+        ),
         nl,
         indentation(-4),
         indent,
-        write('};')
+        (   flag(rdfcore)
+        ->  write(')];'),
+            retract(loggraph),
+            !
+        ;   write('};')
+        )
     ),
     nl,
     indent,
@@ -4090,13 +4132,24 @@ wr(Y) :-
     write(' '),
     (   Y = true
     ->  wt(Y)
-    ;   write('{'),
+    ;   (   flag(rdfcore)
+        ->  write('[ '),
+            wp('<http://www.w3.org/2000/10/swap/log#graph>'),
+            write(' ('),
+            assertz(loggraph)
+        ;   write('{')
+        ),
         labelvars(Y, 0, _, avar),
         getvars(Y, Z),
         wq(Z, some),
         X = Y,
         wt(X),
-        write('}')
+        (   flag(rdfcore)
+        ->  write(')]'),
+            retract(loggraph),
+            !
+        ;   write('}')
+        )
     ),
     write(']').
 
@@ -4161,7 +4214,7 @@ wt0(X) :-
     atom_concat(some, Y, X),
     !,
     (   \+flag('no-qvars'),
-        nb_getval(loggraph, false)
+        \+loggraph
     ->  (   rule_uvar(L),
             (   ncllit
             ->  (   memberchk(X, L)
@@ -4350,7 +4403,10 @@ wt2((X, Y)) :-
         write(' true')
     ;   wt(X),
         ws(X),
-        write('.'),
+        (   loggraph
+        ->  true
+        ;   write('.')
+        ),
         (   flag(strings)
         ->  write(' ')
         ;   nl,
@@ -4672,7 +4728,7 @@ wt2(X) :-
     ->  write('(|'),
         wl([P, S, O]),
         write(' |)')
-    ;   (   nb_getval(loggraph, true)
+    ;   (   loggraph
         ->  write('[ '),
             wp('<http://www.w3.org/2000/10/swap/log#triple>'),
             write(' (')
@@ -4687,7 +4743,7 @@ wt2(X) :-
         ->  write(O)
         ;   wg(O)
         ),
-        (   nb_getval(loggraph, true)
+        (   loggraph
         ->  write(')]')
         ;   true
         )
@@ -4786,7 +4842,7 @@ wg(X) :-
             ->  write('[ '),
                 wp('<http://www.w3.org/2000/10/swap/log#graph>'),
                 write(' ('),
-                nb_setval(loggraph, true)
+                assertz(loggraph)
             ;   write('{')
             ),
             indentation(4),
@@ -4812,7 +4868,8 @@ wg(X) :-
             ),
             (   flag(rdfcore)
             ->  write(')]'),
-                nb_setval(loggraph, false)
+                retract(loggraph),
+                !
             ;   write('}')
             )
         )
@@ -4821,7 +4878,7 @@ wg(X) :-
 
 wp('<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>') :-
     \+flag('no-qnames'),
-    nb_getval(loggraph, false),
+    \+loggraph,
     !,
     write('a').
 wp('<http://www.w3.org/2000/10/swap/log#implies>') :-
@@ -4867,7 +4924,8 @@ wl([X|Y]) :-
 
 wm(A) :-
     (   (   flag('rdf-trig-output')
-        ;   flag(rdfcore)
+        ;   flag(rdfcore),
+            \+loggraph
         ),
         raw_type(A, '<http://www.w3.org/2000/10/swap/log#Literal>')
     ->  write('[] '),
@@ -4878,6 +4936,9 @@ wm(A) :-
     ;   wg(A)
     ).
 
+wq(_, _) :-
+    flag(rdfcore),
+    !.
 wq([], _) :-
     !.
 wq([X|Y], allv) :-

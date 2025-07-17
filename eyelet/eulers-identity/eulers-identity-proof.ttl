@@ -1,0 +1,35 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix complex: <http://eyereasoner.github.io/eye/complex#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (-1.0 1.2246467991473532e-16))]
+        [ log:triple (((-1.0 1.2246467991473532e-16) (1 0)) complex:sum (0.0 1.2246467991473532e-16))]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (-1.0 1.2246467991473532e-16))]
+        [ log:triple (((-1.0 1.2246467991473532e-16) (1 0)) complex:sum (0.0 1.2246467991473532e-16))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (-1.0 1.2246467991473532e-16))])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (((-1.0 1.2246467991473532e-16) (1 0)) complex:sum (0.0 1.2246467991473532e-16))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo -1.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 1.2246467991473532e-16];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0.0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo 1.2246467991473532e-16];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (var:x_0 var:x_1))]
+        [ log:triple (((var:x_0 var:x_1) (1 0)) complex:sum (var:x_2 var:x_3))]
+    )] log:implies [ log:graph (
+        [ log:triple (((2.718281828459045 0) (0 3.141592653589793)) complex:exponentiation (var:x_0 var:x_1))]
+        [ log:triple (((var:x_0 var:x_1) (1 0)) complex:sum (var:x_2 var:x_3))]
+    )])])]].
+
