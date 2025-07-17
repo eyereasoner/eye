@@ -1,6 +1,6 @@
 # eyelet
 
-## EYE reasoning with Logic expressed Turtle
+## EYE for Logic expressed in Turtle
 
 ---
 
