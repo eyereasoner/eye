@@ -64,7 +64,7 @@ So we *encode* the contradictory pair and mark it unsatisfiable, extracting the 
 ## ▶️ Run
 
 ```bash
-eye --quiet --nope contradiction.ttl
+eye --quiet --nope positive.ttl
 ```
 
 Drop `--nope` to see the proof steps for each `X`.
