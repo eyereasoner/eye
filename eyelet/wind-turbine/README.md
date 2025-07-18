@@ -33,7 +33,7 @@ And safe operational thresholds:
 
 If the turbine's vibration exceeds the threshold:
 
-```n3
+```turtle
 :turbine1 :vibration ?V .
 :highVibrationThreshold :value ?VT .
 ?V math:greaterThan ?VT .
@@ -43,7 +43,7 @@ If the turbine's vibration exceeds the threshold:
 
 ### 🔴 Temperature Anomaly Detection
 
-```n3
+```turtle
 :turbine1 :temperature ?T .
 :highTemperatureThreshold :value ?TT .
 ?T math:greaterThan ?TT .
@@ -53,7 +53,7 @@ If the turbine's vibration exceeds the threshold:
 
 ### 🚨 Combined Anomaly → Urgent Maintenance
 
-```n3
+```turtle
 :turbine1 :hasAnomaly :highVibration .
 :turbine1 :hasAnomaly :highTemperature .
 =>
@@ -62,7 +62,7 @@ If the turbine's vibration exceeds the threshold:
 
 ### ⚙️ Gearbox Degradation → Maintenance
 
-```n3
+```turtle
 :turbine1 :gearboxStatus :degraded .
 =>
 :turbine1 :requires :gearboxMaintenance .
@@ -74,13 +74,13 @@ If the turbine's vibration exceeds the threshold:
 
 ### 🔍 Which anomalies are detected?
 
-```n3
+```turtle
 :turbine1 :hasAnomaly ?Anomaly .
 ```
 
 ### 🛠 What actions are required?
 
-```n3
+```turtle
 :turbine1 :requires ?Action .
 ```
 

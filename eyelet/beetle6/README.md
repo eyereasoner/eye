@@ -8,7 +8,7 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### Prefixes
 
-```ttl
+```turtle
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix :    <urn:example:>.
@@ -20,13 +20,13 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### 1. Beetle is a car
 
-```ttl
+```turtle
 :beetle a :Car.
 ```
 
 ### 2. All cars are green **or** blue *(refutation rule)*
 
-```ttl
+```turtle
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A rdf:type :Car) ]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -44,7 +44,7 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### 3. Green things are **nice** or **pretty**
 
-```ttl
+```turtle
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A :is :green) ]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -62,7 +62,7 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### 4. Pretty things are **beautiful**
 
-```ttl
+```turtle
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A :is :pretty) ]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -77,7 +77,7 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### 5. Cars are **not** beautiful *(explicit contradiction)*
 
-```ttl
+```turtle
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A rdf:type :Car) ]
   [ log:triple (_:A :is :beautiful) ]
@@ -90,7 +90,7 @@ This example shows **disjunction elimination** carried out by the [**EYE** reaso
 
 ### 6. Blue things are **beautiful**
 
-```ttl
+```turtle
 (_:A) log:onNegativeSurface [ log:graph (
   [ log:triple (_:A :is :blue) ]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -129,7 +129,7 @@ Because every disjunct except the *green ∧ nice* case collapses into contrad
 
 ## ❓ Query (posed as a refutation)
 
-```ttl
+```turtle
 () log:onNegativeSurface [ log:graph (
   [ log:triple (:beetle :is :nice) ]
   [ log:triple (() log:onNegativeAnswerSurface [ log:graph (
@@ -164,7 +164,7 @@ eye beetle-nice.n3 --quiet
 
 Expected output:
 
-```n3
+```turtle
 { :beetle :is :nice. }
 ```
 

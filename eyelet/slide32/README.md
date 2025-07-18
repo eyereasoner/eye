@@ -10,7 +10,7 @@ See slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-i
 
 ### Prefixes
 
-```ttl
+```turtle
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix : <http://example.org/#>.
@@ -22,7 +22,7 @@ See slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-i
 
 ### 1. Ghent is a city
 
-```ttl
+```turtle
 :Ghent a :City.
 ```
 
@@ -30,7 +30,7 @@ See slide 32 example from https://www.slideshare.net/PatHayes/blogic-iswc-2009-i
 
 ### 2. It is **impossible** that a city is not a human community
 
-```ttl
+```turtle
 (_:S) log:onNegativeSurface [ log:graph (
   [ log:triple (_:S rdf:type :City)]
   [ log:triple (() log:onNegativeSurface [ log:graph (
@@ -71,7 +71,7 @@ We conclude:
 
 ## ❓ Query (to confirm entailment)
 
-```ttl
+```turtle
 () log:onNegativeSurface [ log:graph (
   [ log:triple (:Ghent rdf:type :HumanCommunity)]
   [ log:triple (() log:onNegativeAnswerSurface [ log:graph (

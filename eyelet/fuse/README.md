@@ -6,7 +6,7 @@ This example demonstrates how **Notation3 (N3)** logic can be used to detect **c
 
 ## 📘 Prefixes
 
-```ttl
+```turtle
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
@@ -16,7 +16,7 @@ This example demonstrates how **Notation3 (N3)** logic can be used to detect **c
 
 ## 🧾 Facts
 
-```ttl
+```turtle
 :stone :color :black.
 :stone :color :white.
 ```
@@ -27,7 +27,7 @@ The stone is said to be both **black** and **white**.
 
 ## 🔥 Inconsistency Rule ("Inference Fuse")
 
-```ttl
+```turtle
 [ log:graph (
   [ log:triple (var:X :color :black)]
   [ log:triple (var:X :color :white)]

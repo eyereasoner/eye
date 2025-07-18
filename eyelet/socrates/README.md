@@ -8,7 +8,7 @@ This example demonstrates how **class inheritance** (via `rdfs:subClassOf`) work
 
 ### Prefixes
 
-```ttl
+```turtle
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
@@ -22,13 +22,13 @@ This example demonstrates how **class inheritance** (via `rdfs:subClassOf`) work
 
 ### 1. Socrates is a human
 
-```ttl
+```turtle
 :Socrates a :Human.
 ```
 
 ### 2. Human is a subclass of Mortal
 
-```ttl
+```turtle
 :Human rdfs:subClassOf :Mortal.
 ```
 
@@ -36,7 +36,7 @@ This example demonstrates how **class inheritance** (via `rdfs:subClassOf`) work
 
 ## 📐 Subclass Rule (RDFS Inference Rule)
 
-```ttl
+```turtle
 [ log:graph (
   [ log:triple (var:A rdfs:subClassOf var:B)]
   [ log:triple (var:S rdf:type var:A)]
@@ -61,7 +61,7 @@ In this case:
 
 ## ❓ Query
 
-```ttl
+```turtle
 [ log:graph (
   [ log:triple (var:WHO rdf:type var:WHAT)]
 )] log:impliesAnswer [ log:graph (
@@ -77,7 +77,7 @@ It will match any `(WHO rdf:type WHAT)` triple that can be derived.
 
 So, in this case, it should yield:
 
-```ttl
+```turtle
 :Socrates rdf:type :Mortal.
 ```
 

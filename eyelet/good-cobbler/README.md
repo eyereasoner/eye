@@ -10,7 +10,7 @@ This example demonstrates **functional logic** in **Notation3 (N3)**, where a re
 
 ## 📘 Prefixes
 
-```ttl
+```turtle
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
@@ -20,7 +20,7 @@ This example demonstrates **functional logic** in **Notation3 (N3)**, where a re
 
 ## 🧾 Fact
 
-```ttl
+```turtle
 :joe :is (:good :Cobbler).
 ```
 
@@ -31,7 +31,7 @@ This uses a **functional term** `(:good :Cobbler)` as the object of the `:is` re
 
 ## ❓ Query
 
-```ttl
+```turtle
 [ log:graph (
   [ log:triple (var:X :is (:good var:Y))]
 )] log:impliesAnswer [ log:graph (
@@ -45,7 +45,7 @@ This asks:
 
 ### Expected Answer:
 
-```ttl
+```turtle
 :joe :is (:good :Cobbler).
 ```
 

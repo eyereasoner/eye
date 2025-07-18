@@ -10,7 +10,7 @@ This example models the **Ackermann function** using **Notation3 (N3)** and logi
 
 ## 📘 Prefixes
 
-```ttl
+```turtle
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix log: <http://www.w3.org/2000/10/swap/log#>.
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
@@ -23,7 +23,7 @@ This example models the **Ackermann function** using **Notation3 (N3)** and logi
 
 ### Base Case: `ackermann(0, y) = y + 1`
 
-```ttl
+```turtle
 ((0 Y Z) :ackermann A) ⇐ A = Y + 1
 ```
 
@@ -42,7 +42,7 @@ This example models the **Ackermann function** using **Notation3 (N3)** and logi
 
 ### General Case (Recursive Step for X > 0, Y > 0):
 
-```ttl
+```turtle
 ackermann(X, Y, Z) = ackermann(X-1, ackermann(X, Y-1, Z), Z)
 ```
 
@@ -50,7 +50,7 @@ ackermann(X, Y, Z) = ackermann(X-1, ackermann(X, Y-1, Z), Z)
 
 ### Edge Case:
 
-```ttl
+```turtle
 ackermann(X, 0, Z) = 1  # For X > 0
 ```
 

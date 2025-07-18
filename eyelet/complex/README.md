@@ -10,7 +10,7 @@ Inspired by: [Wikipedia – Complex Numbers](https://en.wikipedia.org/wiki/Compl
 
 ### Prefixes
 
-```ttl
+```turtle
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
 @prefix math: <http://www.w3.org/2000/10/swap/math#>.
 @prefix complex: <http://eyereasoner.github.io/complex#>.
@@ -75,7 +75,7 @@ Each is defined as a separate rule block (`complex:asin`, `complex:acos`)
 
 Evaluates the following:
 
-```ttl
+```turtle
 [ log:graph (
   [ log:triple (((-1 0) (0.5 0)) complex:exponentiation var:C1)]
   [ log:triple (((2.718... 0) (0 π)) complex:exponentiation var:C2)]
