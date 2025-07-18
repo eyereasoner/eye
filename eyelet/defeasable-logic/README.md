@@ -13,7 +13,7 @@ The model illustrates:
 
 We begin with two individuals:
 
-```ttl
+```turtle
 :tweety  rdf:type :Bird ;
          :abnormal false .
 
@@ -24,7 +24,7 @@ We begin with two individuals:
 
 ### 1. Penguins are Birds
 
-```ttl
+```turtle
 [ log:graph ( [ log:triple (var:X rdf:type :Penguin) ] ) ]
     log:implies
 [ log:graph ( [ log:triple (var:X rdf:type :Bird) ] ) ].
@@ -32,7 +32,7 @@ We begin with two individuals:
 
 ### 2. Penguins are Abnormal
 
-```ttl
+```turtle
 [ log:graph ( [ log:triple (var:X rdf:type :Penguin) ] ) ]
     log:implies
 [ log:graph ( [ log:triple (var:X :abnormal true) ] ) ].
@@ -40,7 +40,7 @@ We begin with two individuals:
 
 ### 3. Normal Birds Fly (with probability 0.9)
 
-```ttl
+```turtle
 [ log:graph (
     [ log:triple (var:X rdf:type :Bird) ]
     [ log:triple (var:X :abnormal false) ]
@@ -52,7 +52,7 @@ We begin with two individuals:
 
 ### 4. Abnormal Birds Do NOT Fly (with probability 0.0)
 
-```ttl
+```turtle
 [ log:graph (
     [ log:triple (var:X rdf:type :Bird) ]
     [ log:triple (var:X :abnormal true) ]
@@ -66,7 +66,7 @@ We begin with two individuals:
 
 To retrieve answers for flight, probability, and abnormality:
 
-```ttl
+```turtle
 [ log:graph ( [ log:triple (var:A :flies var:B) ] ) ]
     log:impliesAnswer
 [ log:graph ( [ log:triple (var:A :flies var:B) ] ) ].
@@ -90,7 +90,7 @@ eye --quiet [--nope] tweety.ttl
 
 You should get results like:
 
-```ttl
+```turtle
 :tweety :abnormal false.
 :tweety :flies true.
 :tweety :fliesProb "0.9"^^xsd:double.
