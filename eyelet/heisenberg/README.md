@@ -31,11 +31,11 @@ eye --quiet [--nope] heisenberg.ttl
 EYE prints the answer graph:
 
 ```turtle
-{ :psi  a :QuantumState.
-        ...
-        :xpStatus   "saturates";
-        :sxszStatus "saturates";
-        :xszStatus  "satisfied". }
+:psi a :QuantumState.
+    ...
+    :xpStatus   "saturates";
+    :sxszStatus "saturates";
+    :xszStatus  "satisfied".
 ```
 
 If you edit one of the numeric facts (say lower `:deltaP`), re‑run EYE and watch the status flip to **violated** – the rules are purely algebraic.
@@ -44,7 +44,7 @@ If you edit one of the numeric facts (say lower `:deltaP`), re‑run EYE and wat
 
 ## 📝 How it works
 
-1. **Facts** record the standard deviations (ΔX, ΔP, ΔSx, ΔSz) and the Robertson bounds ½|⟨\[A,B]⟩| calculated in Python.
+1. **Facts** record the standard deviations (ΔX, ΔP, ΔSx, ΔSz) and the Robertson bounds ½|⟨\[A,B]⟩|.
 2. **Forward rules** compute each product ΔA·ΔB and store it as `:prod…`.
 3. A small mapping `(:prodXP :boundXP) :statusPredicate :xpStatus.` lets generic rules discover which status‑property to assert.
 4. **Classification rules** compare product vs. bound with an ε tolerance (1 × 10⁻¹²):
