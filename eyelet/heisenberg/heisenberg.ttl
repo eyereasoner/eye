@@ -1,0 +1,104 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log:  <http://www.w3.org/2000/10/swap/log#>.
+@prefix var:  <http://www.w3.org/2000/10/swap/var#>.
+@prefix :     <http://example.org/#>.
+
+# ------------------------------------------------
+# Facts: uncertainties and Heisenberg bounds
+# ------------------------------------------------
+:psi  a :QuantumState;
+      :deltaX   "0.7071067811865476"^^xsd:double;
+      :deltaP   "0.7071067811865476"^^xsd:double;
+      :deltaSx  "0.5"^^xsd:double;
+      :deltaSz  "0.5"^^xsd:double;
+
+      :boundXP    "0.5"^^xsd:double;
+      :boundSxSz  "0.25"^^xsd:double;
+      :boundXSz   "0.0"^^xsd:double.
+
+# ------------------------------------------------
+# I.  Derive the products  ΔA·ΔB
+# ------------------------------------------------
+# ΔX·ΔP → :prodXP
+[ log:graph (
+    [ log:triple (:psi :deltaX var:dX) ]
+    [ log:triple (:psi :deltaP var:dP) ]
+    [ log:triple ((var:dX var:dP) math:product var:prod) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi :prodXP var:prod) ]
+) ].
+
+# ΔSx·ΔSz → :prodSxSz
+[ log:graph (
+    [ log:triple (:psi :deltaSx var:d1) ]
+    [ log:triple (:psi :deltaSz  var:d2) ]
+    [ log:triple ((var:d1 var:d2) math:product var:prod) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi :prodSxSz var:prod) ]
+) ].
+
+# ΔX·ΔSz → :prodXSz
+[ log:graph (
+    [ log:triple (:psi :deltaX var:dX) ]
+    [ log:triple (:psi :deltaSz var:dZ) ]
+    [ log:triple ((var:dX var:dZ) math:product var:prod) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi :prodXSz var:prod) ]
+) ].
+
+# ------------------------------------------------
+# II.  Mapping product‑predicate → status‑predicate
+# ------------------------------------------------
+(:prodXP :boundXP)      :statusPredicate :xpStatus.
+(:prodSxSz :boundSxSz)  :statusPredicate :sxszStatus.
+(:prodXSz :boundXSz)    :statusPredicate :xszStatus.
+
+# ------------------------------------------------
+# III.  Classification rules
+# ------------------------------------------------
+
+# A.  “saturates”  (|prod−bound| < ε)
+[ log:graph (
+    [ log:triple ((var:prodPred var:boundPred) :statusPredicate var:statPred) ]
+    [ log:triple (:psi var:prodPred var:prod) ]          # :prodXP etc.
+    [ log:triple (:psi var:boundPred var:bound) ]        # :boundXP etc.
+    [ log:triple ((var:prod var:bound) math:difference var:diff) ]
+    [ log:triple (var:diff math:absoluteValue var:gap) ]
+    [ log:triple (var:gap math:lessThan 1e-12) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi var:statPred "saturates") ]
+) ].
+
+# B.  “violated”  (bound − prod > ε)
+[ log:graph (
+    [ log:triple ((var:prodPred var:boundPred) :statusPredicate var:statPred) ]
+    [ log:triple (:psi var:prodPred var:prod) ]
+    [ log:triple (:psi var:boundPred var:bound) ]
+    [ log:triple ((var:bound var:prod) math:difference var:gap) ]
+    [ log:triple (var:gap math:greaterThan 1e-12) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi var:statPred "violated") ]
+) ].
+
+# C.  “satisfied” (prod − bound > ε)
+[ log:graph (
+    [ log:triple ((var:prodPred var:boundPred) :statusPredicate var:statPred) ]
+    [ log:triple (:psi var:prodPred var:prod) ]
+    [ log:triple (:psi var:boundPred var:bound) ]
+    [ log:triple ((var:prod var:bound) math:difference var:gap) ]
+    [ log:triple (var:gap math:greaterThan 1e-12) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi var:statPred "satisfied") ]
+) ].
+
+# ------------------------------------------------
+# IV.  Answer rule – list every status triple
+# ------------------------------------------------
+[ log:graph (
+    [ log:triple (:psi var:statPred var:label) ]
+) ] log:impliesAnswer [ log:graph (
+    [ log:triple (:psi var:statPred var:label) ]
+) ].
+
