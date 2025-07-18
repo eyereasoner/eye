@@ -4,6 +4,7 @@
 @prefix var: <http://www.w3.org/2000/10/swap/var#>.
 @prefix : <http://example.org/#>.
 
+# combination
 [ log:graph (
     [ log:triple ((0 var:A) :combination ())]
 )] log:isImpliedBy true.
@@ -19,10 +20,26 @@
     [ log:triple (var:Es list:sort var:Bs)]
 )].
 
+# permutation
+() :permutation ().
+
+[ log:graph (
+    [ log:triple (var:As :permutation var:Bs)]
+)] log:isImpliedBy [ log:graph (
+    [ log:triple (var:Bs list:firstRest (var:B var:Cs))]
+    [ log:triple (var:As list:select (var:B var:Ds))]
+    [ log:triple (var:Ds :permutation var:Cs)]
+)].
+
 # query
 [ log:graph (
     [ log:triple (6 log:repeat var:I)]
     [ log:triple ((var:I (1 2 3 4 5)) :combination var:C)]
 )] log:impliesAnswer [ log:graph (
     [ log:triple ((var:I (1 2 3 4 5)) :combination var:C)]
+)].
+[ log:graph (
+    [ log:triple ((1 2 3 4 5) :permutation var:P)]
+)] log:impliesAnswer [ log:graph (
+    [ log:triple ((1 2 3 4 5) :permutation var:P)]
 )].

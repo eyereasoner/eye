@@ -126,7 +126,71 @@ skolem:proof a r:Proof, r:Conjunction;
     r:component skolem:lemma118;
     r:component skolem:lemma119;
     r:component skolem:lemma120;
+    r:component skolem:lemma121;
+    r:component skolem:lemma122;
+    r:component skolem:lemma123;
+    r:component skolem:lemma124;
+    r:component skolem:lemma125;
+    r:component skolem:lemma126;
+    r:component skolem:lemma127;
+    r:component skolem:lemma128;
+    r:component skolem:lemma129;
+    r:component skolem:lemma130;
+    r:component skolem:lemma131;
+    r:component skolem:lemma132;
+    r:component skolem:lemma133;
+    r:component skolem:lemma134;
+    r:component skolem:lemma135;
+    r:component skolem:lemma136;
+    r:component skolem:lemma137;
+    r:component skolem:lemma138;
+    r:component skolem:lemma139;
+    r:component skolem:lemma140;
+    r:component skolem:lemma141;
+    r:component skolem:lemma142;
+    r:component skolem:lemma143;
+    r:component skolem:lemma144;
+    r:component skolem:lemma145;
+    r:component skolem:lemma146;
+    r:component skolem:lemma147;
+    r:component skolem:lemma148;
+    r:component skolem:lemma149;
+    r:component skolem:lemma150;
+    r:component skolem:lemma151;
+    r:component skolem:lemma152;
     r:gives [ log:graph (
+        [ log:triple ((0 (1 2 3 4 5)) :combination ())]
+        [ log:triple ((1 (1 2 3 4 5)) :combination (1))]
+        [ log:triple ((1 (1 2 3 4 5)) :combination (2))]
+        [ log:triple ((1 (1 2 3 4 5)) :combination (3))]
+        [ log:triple ((1 (1 2 3 4 5)) :combination (4))]
+        [ log:triple ((1 (1 2 3 4 5)) :combination (5))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 2))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 3))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 4))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 5))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 3))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 4))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 5))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (3 4))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (3 5))]
+        [ log:triple ((2 (1 2 3 4 5)) :combination (4 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 3))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 4))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 3 4))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 3 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 4 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 3 4))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 3 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 4 5))]
+        [ log:triple ((3 (1 2 3 4 5)) :combination (3 4 5))]
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 4))]
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 5))]
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 4 5))]
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 3 4 5))]
+        [ log:triple ((4 (1 2 3 4 5)) :combination (2 3 4 5))]
+        [ log:triple ((5 (1 2 3 4 5)) :combination (1 2 3 4 5))]
         [ log:triple ((1 2 3 4 5) :permutation (1 2 3 4 5))]
         [ log:triple ((1 2 3 4 5) :permutation (1 2 3 5 4))]
         [ log:triple ((1 2 3 4 5) :permutation (1 2 4 3 5))]
@@ -251,6 +315,550 @@ skolem:proof a r:Proof, r:Conjunction;
 
 skolem:lemma1 a r:Inference;
     r:gives [ log:graph (
+        [ log:triple ((0 (1 2 3 4 5)) :combination ())]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 0)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((0 (1 2 3 4 5)) :combination ())])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 0];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo ()];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((1 (1 2 3 4 5)) :combination (1))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 1)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 (1 2 3 4 5)) :combination (1))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma3 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((1 (1 2 3 4 5)) :combination (2))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 1)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 (1 2 3 4 5)) :combination (2))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma4 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((1 (1 2 3 4 5)) :combination (3))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 1)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 (1 2 3 4 5)) :combination (3))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (3)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma5 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((1 (1 2 3 4 5)) :combination (4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 1)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 (1 2 3 4 5)) :combination (4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma6 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((1 (1 2 3 4 5)) :combination (5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 1)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 (1 2 3 4 5)) :combination (5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 1];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma7 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 2))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (1 2))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma8 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 3))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (1 3))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 3)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma9 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (1 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma10 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (1 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (1 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma11 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 3))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (2 3))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 3)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma12 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (2 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma13 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (2 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (2 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma14 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (3 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (3 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (3 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma15 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (3 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (3 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (3 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma16 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((2 (1 2 3 4 5)) :combination (4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 2)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((2 (1 2 3 4 5)) :combination (4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 2];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma17 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 3))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 2 3))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 3)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma18 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 2 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma19 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 2 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 2 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma20 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 3 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 3 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 3 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma21 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 3 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 3 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 3 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma22 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (1 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (1 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma23 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 3 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (2 3 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 3 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma24 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 3 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (2 3 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 3 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma25 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (2 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (2 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma26 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((3 (1 2 3 4 5)) :combination (3 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 3)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((3 (1 2 3 4 5)) :combination (3 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 3];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (3 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma27 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 4))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 4)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 4))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 3 4)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma28 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 4)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((4 (1 2 3 4 5)) :combination (1 2 3 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 3 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma29 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 2 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 4)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((4 (1 2 3 4 5)) :combination (1 2 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma30 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((4 (1 2 3 4 5)) :combination (1 3 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 4)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((4 (1 2 3 4 5)) :combination (1 3 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 3 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma31 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((4 (1 2 3 4 5)) :combination (2 3 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 4)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((4 (1 2 3 4 5)) :combination (2 3 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 4];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (2 3 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma32 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((5 (1 2 3 4 5)) :combination (1 2 3 4 5))]
+    )];
+    r:evidence (
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (6 log:repeat 5)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((5 (1 2 3 4 5)) :combination (1 2 3 4 5))])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo 5];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (1 2 3 4 5)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (6 log:repeat var:x_0)]
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 (1 2 3 4 5)) :combination var:x_1)]
+    )])])]].
+
+skolem:lemma33 a r:Inference;
+    r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 3 4 5))]
     )];
     r:evidence (
@@ -263,7 +871,7 @@ skolem:lemma1 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma2 a r:Inference;
+skolem:lemma34 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 3 5 4))]
     )];
@@ -277,7 +885,7 @@ skolem:lemma2 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma3 a r:Inference;
+skolem:lemma35 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 4 3 5))]
     )];
@@ -291,7 +899,7 @@ skolem:lemma3 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma4 a r:Inference;
+skolem:lemma36 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 4 5 3))]
     )];
@@ -305,7 +913,7 @@ skolem:lemma4 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma5 a r:Inference;
+skolem:lemma37 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 5 3 4))]
     )];
@@ -319,7 +927,7 @@ skolem:lemma5 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma6 a r:Inference;
+skolem:lemma38 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 2 5 4 3))]
     )];
@@ -333,7 +941,7 @@ skolem:lemma6 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma7 a r:Inference;
+skolem:lemma39 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 2 4 5))]
     )];
@@ -347,7 +955,7 @@ skolem:lemma7 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma8 a r:Inference;
+skolem:lemma40 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 2 5 4))]
     )];
@@ -361,7 +969,7 @@ skolem:lemma8 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma9 a r:Inference;
+skolem:lemma41 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 4 2 5))]
     )];
@@ -375,7 +983,7 @@ skolem:lemma9 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma10 a r:Inference;
+skolem:lemma42 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 4 5 2))]
     )];
@@ -389,7 +997,7 @@ skolem:lemma10 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma11 a r:Inference;
+skolem:lemma43 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 5 2 4))]
     )];
@@ -403,7 +1011,7 @@ skolem:lemma11 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma12 a r:Inference;
+skolem:lemma44 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 3 5 4 2))]
     )];
@@ -417,7 +1025,7 @@ skolem:lemma12 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma13 a r:Inference;
+skolem:lemma45 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 2 3 5))]
     )];
@@ -431,7 +1039,7 @@ skolem:lemma13 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma14 a r:Inference;
+skolem:lemma46 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 2 5 3))]
     )];
@@ -445,7 +1053,7 @@ skolem:lemma14 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma15 a r:Inference;
+skolem:lemma47 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 3 2 5))]
     )];
@@ -459,7 +1067,7 @@ skolem:lemma15 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma16 a r:Inference;
+skolem:lemma48 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 3 5 2))]
     )];
@@ -473,7 +1081,7 @@ skolem:lemma16 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma17 a r:Inference;
+skolem:lemma49 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 5 2 3))]
     )];
@@ -487,7 +1095,7 @@ skolem:lemma17 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma18 a r:Inference;
+skolem:lemma50 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 4 5 3 2))]
     )];
@@ -501,7 +1109,7 @@ skolem:lemma18 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma19 a r:Inference;
+skolem:lemma51 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 2 3 4))]
     )];
@@ -515,7 +1123,7 @@ skolem:lemma19 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma20 a r:Inference;
+skolem:lemma52 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 2 4 3))]
     )];
@@ -529,7 +1137,7 @@ skolem:lemma20 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma21 a r:Inference;
+skolem:lemma53 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 3 2 4))]
     )];
@@ -543,7 +1151,7 @@ skolem:lemma21 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma22 a r:Inference;
+skolem:lemma54 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 3 4 2))]
     )];
@@ -557,7 +1165,7 @@ skolem:lemma22 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma23 a r:Inference;
+skolem:lemma55 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 4 2 3))]
     )];
@@ -571,7 +1179,7 @@ skolem:lemma23 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma24 a r:Inference;
+skolem:lemma56 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (1 5 4 3 2))]
     )];
@@ -585,7 +1193,7 @@ skolem:lemma24 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma25 a r:Inference;
+skolem:lemma57 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 3 4 5))]
     )];
@@ -599,7 +1207,7 @@ skolem:lemma25 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma26 a r:Inference;
+skolem:lemma58 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 3 5 4))]
     )];
@@ -613,7 +1221,7 @@ skolem:lemma26 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma27 a r:Inference;
+skolem:lemma59 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 4 3 5))]
     )];
@@ -627,7 +1235,7 @@ skolem:lemma27 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma28 a r:Inference;
+skolem:lemma60 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 4 5 3))]
     )];
@@ -641,7 +1249,7 @@ skolem:lemma28 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma29 a r:Inference;
+skolem:lemma61 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 5 3 4))]
     )];
@@ -655,7 +1263,7 @@ skolem:lemma29 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma30 a r:Inference;
+skolem:lemma62 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 1 5 4 3))]
     )];
@@ -669,7 +1277,7 @@ skolem:lemma30 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma31 a r:Inference;
+skolem:lemma63 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 1 4 5))]
     )];
@@ -683,7 +1291,7 @@ skolem:lemma31 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma32 a r:Inference;
+skolem:lemma64 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 1 5 4))]
     )];
@@ -697,7 +1305,7 @@ skolem:lemma32 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma33 a r:Inference;
+skolem:lemma65 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 4 1 5))]
     )];
@@ -711,7 +1319,7 @@ skolem:lemma33 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma34 a r:Inference;
+skolem:lemma66 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 4 5 1))]
     )];
@@ -725,7 +1333,7 @@ skolem:lemma34 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma35 a r:Inference;
+skolem:lemma67 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 5 1 4))]
     )];
@@ -739,7 +1347,7 @@ skolem:lemma35 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma36 a r:Inference;
+skolem:lemma68 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 3 5 4 1))]
     )];
@@ -753,7 +1361,7 @@ skolem:lemma36 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma37 a r:Inference;
+skolem:lemma69 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 1 3 5))]
     )];
@@ -767,7 +1375,7 @@ skolem:lemma37 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma38 a r:Inference;
+skolem:lemma70 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 1 5 3))]
     )];
@@ -781,7 +1389,7 @@ skolem:lemma38 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma39 a r:Inference;
+skolem:lemma71 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 3 1 5))]
     )];
@@ -795,7 +1403,7 @@ skolem:lemma39 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma40 a r:Inference;
+skolem:lemma72 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 3 5 1))]
     )];
@@ -809,7 +1417,7 @@ skolem:lemma40 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma41 a r:Inference;
+skolem:lemma73 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 5 1 3))]
     )];
@@ -823,7 +1431,7 @@ skolem:lemma41 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma42 a r:Inference;
+skolem:lemma74 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 4 5 3 1))]
     )];
@@ -837,7 +1445,7 @@ skolem:lemma42 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma43 a r:Inference;
+skolem:lemma75 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 1 3 4))]
     )];
@@ -851,7 +1459,7 @@ skolem:lemma43 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma44 a r:Inference;
+skolem:lemma76 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 1 4 3))]
     )];
@@ -865,7 +1473,7 @@ skolem:lemma44 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma45 a r:Inference;
+skolem:lemma77 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 3 1 4))]
     )];
@@ -879,7 +1487,7 @@ skolem:lemma45 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma46 a r:Inference;
+skolem:lemma78 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 3 4 1))]
     )];
@@ -893,7 +1501,7 @@ skolem:lemma46 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma47 a r:Inference;
+skolem:lemma79 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 4 1 3))]
     )];
@@ -907,7 +1515,7 @@ skolem:lemma47 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma48 a r:Inference;
+skolem:lemma80 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (2 5 4 3 1))]
     )];
@@ -921,7 +1529,7 @@ skolem:lemma48 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma49 a r:Inference;
+skolem:lemma81 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 2 4 5))]
     )];
@@ -935,7 +1543,7 @@ skolem:lemma49 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma50 a r:Inference;
+skolem:lemma82 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 2 5 4))]
     )];
@@ -949,7 +1557,7 @@ skolem:lemma50 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma51 a r:Inference;
+skolem:lemma83 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 4 2 5))]
     )];
@@ -963,7 +1571,7 @@ skolem:lemma51 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma52 a r:Inference;
+skolem:lemma84 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 4 5 2))]
     )];
@@ -977,7 +1585,7 @@ skolem:lemma52 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma53 a r:Inference;
+skolem:lemma85 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 5 2 4))]
     )];
@@ -991,7 +1599,7 @@ skolem:lemma53 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma54 a r:Inference;
+skolem:lemma86 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 1 5 4 2))]
     )];
@@ -1005,7 +1613,7 @@ skolem:lemma54 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma55 a r:Inference;
+skolem:lemma87 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 1 4 5))]
     )];
@@ -1019,7 +1627,7 @@ skolem:lemma55 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma56 a r:Inference;
+skolem:lemma88 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 1 5 4))]
     )];
@@ -1033,7 +1641,7 @@ skolem:lemma56 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma57 a r:Inference;
+skolem:lemma89 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 4 1 5))]
     )];
@@ -1047,7 +1655,7 @@ skolem:lemma57 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma58 a r:Inference;
+skolem:lemma90 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 4 5 1))]
     )];
@@ -1061,7 +1669,7 @@ skolem:lemma58 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma59 a r:Inference;
+skolem:lemma91 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 5 1 4))]
     )];
@@ -1075,7 +1683,7 @@ skolem:lemma59 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma60 a r:Inference;
+skolem:lemma92 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 2 5 4 1))]
     )];
@@ -1089,7 +1697,7 @@ skolem:lemma60 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma61 a r:Inference;
+skolem:lemma93 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 1 2 5))]
     )];
@@ -1103,7 +1711,7 @@ skolem:lemma61 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma62 a r:Inference;
+skolem:lemma94 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 1 5 2))]
     )];
@@ -1117,7 +1725,7 @@ skolem:lemma62 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma63 a r:Inference;
+skolem:lemma95 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 2 1 5))]
     )];
@@ -1131,7 +1739,7 @@ skolem:lemma63 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma64 a r:Inference;
+skolem:lemma96 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 2 5 1))]
     )];
@@ -1145,7 +1753,7 @@ skolem:lemma64 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma65 a r:Inference;
+skolem:lemma97 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 5 1 2))]
     )];
@@ -1159,7 +1767,7 @@ skolem:lemma65 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma66 a r:Inference;
+skolem:lemma98 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 4 5 2 1))]
     )];
@@ -1173,7 +1781,7 @@ skolem:lemma66 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma67 a r:Inference;
+skolem:lemma99 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 1 2 4))]
     )];
@@ -1187,7 +1795,7 @@ skolem:lemma67 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma68 a r:Inference;
+skolem:lemma100 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 1 4 2))]
     )];
@@ -1201,7 +1809,7 @@ skolem:lemma68 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma69 a r:Inference;
+skolem:lemma101 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 2 1 4))]
     )];
@@ -1215,7 +1823,7 @@ skolem:lemma69 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma70 a r:Inference;
+skolem:lemma102 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 2 4 1))]
     )];
@@ -1229,7 +1837,7 @@ skolem:lemma70 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma71 a r:Inference;
+skolem:lemma103 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 4 1 2))]
     )];
@@ -1243,7 +1851,7 @@ skolem:lemma71 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma72 a r:Inference;
+skolem:lemma104 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (3 5 4 2 1))]
     )];
@@ -1257,7 +1865,7 @@ skolem:lemma72 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma73 a r:Inference;
+skolem:lemma105 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 2 3 5))]
     )];
@@ -1271,7 +1879,7 @@ skolem:lemma73 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma74 a r:Inference;
+skolem:lemma106 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 2 5 3))]
     )];
@@ -1285,7 +1893,7 @@ skolem:lemma74 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma75 a r:Inference;
+skolem:lemma107 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 3 2 5))]
     )];
@@ -1299,7 +1907,7 @@ skolem:lemma75 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma76 a r:Inference;
+skolem:lemma108 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 3 5 2))]
     )];
@@ -1313,7 +1921,7 @@ skolem:lemma76 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma77 a r:Inference;
+skolem:lemma109 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 5 2 3))]
     )];
@@ -1327,7 +1935,7 @@ skolem:lemma77 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma78 a r:Inference;
+skolem:lemma110 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 1 5 3 2))]
     )];
@@ -1341,7 +1949,7 @@ skolem:lemma78 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma79 a r:Inference;
+skolem:lemma111 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 1 3 5))]
     )];
@@ -1355,7 +1963,7 @@ skolem:lemma79 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma80 a r:Inference;
+skolem:lemma112 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 1 5 3))]
     )];
@@ -1369,7 +1977,7 @@ skolem:lemma80 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma81 a r:Inference;
+skolem:lemma113 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 3 1 5))]
     )];
@@ -1383,7 +1991,7 @@ skolem:lemma81 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma82 a r:Inference;
+skolem:lemma114 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 3 5 1))]
     )];
@@ -1397,7 +2005,7 @@ skolem:lemma82 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma83 a r:Inference;
+skolem:lemma115 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 5 1 3))]
     )];
@@ -1411,7 +2019,7 @@ skolem:lemma83 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma84 a r:Inference;
+skolem:lemma116 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 2 5 3 1))]
     )];
@@ -1425,7 +2033,7 @@ skolem:lemma84 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma85 a r:Inference;
+skolem:lemma117 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 1 2 5))]
     )];
@@ -1439,7 +2047,7 @@ skolem:lemma85 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma86 a r:Inference;
+skolem:lemma118 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 1 5 2))]
     )];
@@ -1453,7 +2061,7 @@ skolem:lemma86 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma87 a r:Inference;
+skolem:lemma119 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 2 1 5))]
     )];
@@ -1467,7 +2075,7 @@ skolem:lemma87 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma88 a r:Inference;
+skolem:lemma120 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 2 5 1))]
     )];
@@ -1481,7 +2089,7 @@ skolem:lemma88 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma89 a r:Inference;
+skolem:lemma121 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 5 1 2))]
     )];
@@ -1495,7 +2103,7 @@ skolem:lemma89 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma90 a r:Inference;
+skolem:lemma122 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 3 5 2 1))]
     )];
@@ -1509,7 +2117,7 @@ skolem:lemma90 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma91 a r:Inference;
+skolem:lemma123 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 1 2 3))]
     )];
@@ -1523,7 +2131,7 @@ skolem:lemma91 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma92 a r:Inference;
+skolem:lemma124 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 1 3 2))]
     )];
@@ -1537,7 +2145,7 @@ skolem:lemma92 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma93 a r:Inference;
+skolem:lemma125 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 2 1 3))]
     )];
@@ -1551,7 +2159,7 @@ skolem:lemma93 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma94 a r:Inference;
+skolem:lemma126 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 2 3 1))]
     )];
@@ -1565,7 +2173,7 @@ skolem:lemma94 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma95 a r:Inference;
+skolem:lemma127 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 3 1 2))]
     )];
@@ -1579,7 +2187,7 @@ skolem:lemma95 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma96 a r:Inference;
+skolem:lemma128 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (4 5 3 2 1))]
     )];
@@ -1593,7 +2201,7 @@ skolem:lemma96 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma97 a r:Inference;
+skolem:lemma129 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 2 3 4))]
     )];
@@ -1607,7 +2215,7 @@ skolem:lemma97 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma98 a r:Inference;
+skolem:lemma130 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 2 4 3))]
     )];
@@ -1621,7 +2229,7 @@ skolem:lemma98 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma99 a r:Inference;
+skolem:lemma131 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 3 2 4))]
     )];
@@ -1635,7 +2243,7 @@ skolem:lemma99 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma100 a r:Inference;
+skolem:lemma132 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 3 4 2))]
     )];
@@ -1649,7 +2257,7 @@ skolem:lemma100 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma101 a r:Inference;
+skolem:lemma133 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 4 2 3))]
     )];
@@ -1663,7 +2271,7 @@ skolem:lemma101 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma102 a r:Inference;
+skolem:lemma134 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 1 4 3 2))]
     )];
@@ -1677,7 +2285,7 @@ skolem:lemma102 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma103 a r:Inference;
+skolem:lemma135 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 1 3 4))]
     )];
@@ -1691,7 +2299,7 @@ skolem:lemma103 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma104 a r:Inference;
+skolem:lemma136 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 1 4 3))]
     )];
@@ -1705,7 +2313,7 @@ skolem:lemma104 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma105 a r:Inference;
+skolem:lemma137 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 3 1 4))]
     )];
@@ -1719,7 +2327,7 @@ skolem:lemma105 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma106 a r:Inference;
+skolem:lemma138 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 3 4 1))]
     )];
@@ -1733,7 +2341,7 @@ skolem:lemma106 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma107 a r:Inference;
+skolem:lemma139 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 4 1 3))]
     )];
@@ -1747,7 +2355,7 @@ skolem:lemma107 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma108 a r:Inference;
+skolem:lemma140 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 2 4 3 1))]
     )];
@@ -1761,7 +2369,7 @@ skolem:lemma108 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma109 a r:Inference;
+skolem:lemma141 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 1 2 4))]
     )];
@@ -1775,7 +2383,7 @@ skolem:lemma109 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma110 a r:Inference;
+skolem:lemma142 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 1 4 2))]
     )];
@@ -1789,7 +2397,7 @@ skolem:lemma110 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma111 a r:Inference;
+skolem:lemma143 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 2 1 4))]
     )];
@@ -1803,7 +2411,7 @@ skolem:lemma111 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma112 a r:Inference;
+skolem:lemma144 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 2 4 1))]
     )];
@@ -1817,7 +2425,7 @@ skolem:lemma112 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma113 a r:Inference;
+skolem:lemma145 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 4 1 2))]
     )];
@@ -1831,7 +2439,7 @@ skolem:lemma113 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma114 a r:Inference;
+skolem:lemma146 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 3 4 2 1))]
     )];
@@ -1845,7 +2453,7 @@ skolem:lemma114 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma115 a r:Inference;
+skolem:lemma147 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 1 2 3))]
     )];
@@ -1859,7 +2467,7 @@ skolem:lemma115 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma116 a r:Inference;
+skolem:lemma148 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 1 3 2))]
     )];
@@ -1873,7 +2481,7 @@ skolem:lemma116 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma117 a r:Inference;
+skolem:lemma149 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 2 1 3))]
     )];
@@ -1887,7 +2495,7 @@ skolem:lemma117 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma118 a r:Inference;
+skolem:lemma150 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 2 3 1))]
     )];
@@ -1901,7 +2509,7 @@ skolem:lemma118 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma119 a r:Inference;
+skolem:lemma151 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 3 1 2))]
     )];
@@ -1915,7 +2523,7 @@ skolem:lemma119 a r:Inference;
         [ log:triple ((1 2 3 4 5) :permutation var:x_0)]
     )])])]].
 
-skolem:lemma120 a r:Inference;
+skolem:lemma152 a r:Inference;
     r:gives [ log:graph (
         [ log:triple ((1 2 3 4 5) :permutation (5 4 3 2 1))]
     )];
