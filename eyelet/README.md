@@ -1,6 +1,4 @@
-# eyelet
-
-## EYE for Logic Expressed in Turtle
+# eyelet - EYE for Logic Expressed in Turtle
 
 ### ✅ Forward Rules
 
