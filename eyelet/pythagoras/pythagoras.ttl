@@ -1,0 +1,37 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix log:  <http://www.w3.org/2000/10/swap/log#>.
+@prefix var:  <http://www.w3.org/2000/10/swap/var#>.
+@prefix :     <http://example.org/#>.
+
+# ------------------------------------------------
+# 1.  Generic Pythagoras rule
+#     Square(A,A²) ∧ Square(B,B²) ∧ Square(C,C²) ∧ Add(A²,B²,C²)
+#        ⇒  Pythagoras(A,B,C)
+# ------------------------------------------------
+[ log:graph (
+    [ log:triple (var:A :Square var:A2) ]
+    [ log:triple (var:B :Square var:B2) ]
+    [ log:triple (var:C :Square var:C2) ]
+    [ log:triple ((var:A2 var:B2) :Add var:C2) ]     # Add(A²,B²,C²)
+) ] log:implies [ log:graph (
+    [ log:triple ((var:A var:B var:C) :Pythagoras true) ]
+) ].
+
+# ------------------------------------------------
+# 2.  Ground facts for one right‑angled triangle
+# ------------------------------------------------
+:a :Square :a2 .
+:b :Square :b2 .
+:c :Square :c2 .
+(:a2 :b2) :Add :c2 .
+
+# ------------------------------------------------
+# 3.  Query – ask EYE to confirm Pythagoras(a,b,c)
+# ------------------------------------------------
+[ log:graph (
+    [ log:triple ((:a :b :c) :Pythagoras true) ]
+) ] log:impliesAnswer [ log:graph (
+    [ log:triple ((:a :b :c) :Pythagoras true) ]
+) ].
+
