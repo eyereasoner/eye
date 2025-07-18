@@ -1,64 +1,126 @@
-# ⚛️ Heisenberg‑1D Example – Uncertainty Relations in N3 Logic
+# ⚛️ Heisenberg Uncertainty – Eyelet Classification Demo
 
-This mini–knowledge‑base shows how the Heisenberg uncertainty principle can be **mirrored** in pure [eyelet](https://github.com/eyereasoner/eye/tree/master/eyelet#readme) / N3 rules and queried with the [**EYE** reasoner](https://github.com/eyereasoner/eye).
+We encode one quantum state `:psi` (1D HO ground × spinor) with its
+standard deviations:
 
-We encode one‑electron data (ground harmonic‑oscillator ⊗ spin‑½ state) and let EYE classify the three uncertainty pairs:
+* ΔX = ΔP = 0.7071067811865476
+* ΔSx = ΔSz = 0.5
 
-| Pair | Operators                             | Bound | Result        |
-| ---- | ------------------------------------- | ----- | ------------- |
-| XP   | position **X** & momentum **P**       | ½     | **saturates** |
-| SxSz | orthogonal spin components **Sx, Sz** | ¼     | **saturates** |
-| XSz  | commuting observables **X, Sz**       | 0     | **satisfied** |
+Robertson lower bounds:
 
----
+| Pair  | Bound |
+|-------|-------|
+| X,P   | 0.5   |
+| Sx,Sz | 0.25  |
+| X,Sz  | 0.0   |
 
-## 📂 Files
-
-| File                         | Purpose                                                         |
-| ---------------------------- | --------------------------------------------------------------- |
-| `heisenberg.ttl`             | Facts + rules + answer‑rule – run this file only                |
-| `heisenberg-answer.ttl`      | the answers that eye is giving                                  |
-| `heisenberg-proof.ttl`       | the proof that eye is giving                                    |
+The KB *derives products*, *maps each (product,bound) pair to a status
+predicate*, then *classifies* every pair as **saturates**, **satisfied**, or
+**violated** (none violated here), and finally answers with the status triples.
 
 ---
 
-## ▶️ Running the example
-
-```bash
-eye --quiet [--nope] heisenberg.ttl
-```
-
-EYE prints the answer graph:
+## 🧾 Core facts (fragment)
 
 ```turtle
-:psi a :QuantumState.
-    ...
-    :xpStatus   "saturates";
-    :sxszStatus "saturates";
-    :xszStatus  "satisfied".
+:psi a :QuantumState;
+     :deltaX "0.7071067811865476"^^xsd:double;
+     :deltaP "0.7071067811865476"^^xsd:double;
+     :deltaSx "0.5"^^xsd:double;
+     :deltaSz "0.5"^^xsd:double;
+     :boundXP "0.5"^^xsd:double;
+     :boundSxSz "0.25"^^xsd:double;
+     :boundXSz "0.0"^^xsd:double.
+````
+
+---
+
+## 🧮 Product derivation (one pattern)
+
+```turtle
+# ΔX·ΔP → :prodXP
+[ log:graph (
+    [ log:triple (:psi :deltaX var:dX) ]
+    [ log:triple (:psi :deltaP var:dP) ]
+    [ log:triple ((var:dX var:dP) math:product var:prod) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi :prodXP var:prod) ]
+) ].
 ```
 
-If you edit one of the numeric facts (say lower `:deltaP`), re‑run EYE and watch the status flip to **violated** – the rules are purely algebraic.
+(Analogous rules produce `:prodSxSz` and `:prodXSz`.)
 
 ---
 
-## 📝 How it works
+## 🔗 Mapping products to status predicates
 
-1. **Facts** record the standard deviations (ΔX, ΔP, ΔSx, ΔSz) and the Robertson bounds ½|⟨\[A,B]⟩|.
-2. **Forward rules** compute each product ΔA·ΔB and store it as `:prod…`.
-3. A small mapping `(:prodXP :boundXP) :statusPredicate :xpStatus.` lets generic rules discover which status‑property to assert.
-4. **Classification rules** compare product vs. bound with an ε tolerance (1 × 10⁻¹²):
-
-   * `violated`   → prod < bound
-   * `saturates` → |prod − bound| < ε
-   * `satisfied` → prod > bound
-5. The **answer rule** returns every `:psi ?status ?label` triple.
-
-Because X and P are in the ground state of the HO, ΔXΔP = ½ exactly, so the XP pair *saturates* the canonical limit.  Spin behaves analogously, while X and Sz commute so the lower bound is zero, merely *satisfied*.
+```turtle
+(:prodXP   :boundXP)   :statusPredicate :xpStatus.
+(:prodSxSz :boundSxSz) :statusPredicate :sxszStatus.
+(:prodXSz  :boundXSz)  :statusPredicate :xszStatus.
+```
 
 ---
 
-## ✨ Try your own state
+## 🧪 Classification (excerpt)
 
-Replace the four `:delta…` numbers with values from another wave‑function (or a lab measurement) and EYE will instantly tell you whether each uncertainty relation holds, saturates, or is violated.
+```turtle
+# “saturates” (|prod - bound| < 1e-12)
+[ log:graph (
+    [ log:triple ((var:prodPred var:boundPred) :statusPredicate var:statPred) ]
+    [ log:triple (:psi var:prodPred var:prod) ]
+    [ log:triple (:psi var:boundPred var:bound) ]
+    [ log:triple ((var:prod var:bound) math:difference var:diff) ]
+    [ log:triple (var:diff math:absoluteValue var:gap) ]
+    [ log:triple (var:gap math:lessThan 1e-12) ]
+) ] log:implies [ log:graph (
+    [ log:triple (:psi var:statPred "saturates") ]
+) ].
+```
+
+Two more similar rules tag `violated` or `satisfied` depending on the sign and
+size of the difference.
+
+---
+
+## ❓ Answer rule
+
+```turtle
+[ log:graph ( [ log:triple (:psi var:statPred var:label) ] ) ]
+  log:impliesAnswer
+[ log:graph ( [ log:triple (:psi var:statPred var:label) ] ) ].
+```
+
+---
+
+## ▶️ Run
+
+```bash
+eye --quiet --nope heisenberg.ttl
+```
+
+**Expected answer:**
+
+```turtle
+:psi :xpStatus "saturates";
+       :sxszStatus "saturates";
+       :xszStatus "satisfied".
+```
+
+Drop `--nope` for the proof.
+
+---
+
+## 🔍 Interpretation
+
+* **X,P** ground state of HO saturates ΔX·ΔP = ½.
+* **Sx,Sz** spinor chosen to saturate ΔSx·ΔSz = ¼.
+* **X,Sz** commute ⇒ bound 0; product is positive ⇒ only *satisfied* (not 0).
+
+---
+
+## 🔧 Tweak ideas
+
+* Change a variance (e.g. shrink `:deltaP`) to trigger a **violated** status.
+* Add more states (`:psi2`, …) — the generic rules classify them automatically.
 
