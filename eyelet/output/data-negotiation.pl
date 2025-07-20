@@ -1,0 +1,15 @@
+:- op(1200, xfx, :+).
+
+answer(negotiate(agent1,[agent2,data4])).
+
+step((request_data(A,B,C):+hasData(A,D),hasData(B,E),member(C,E), \+member(C,D),policy(A,[request,C])),(hasData(agent1,[data1,data2,data3]),hasData(agent2,[data4,data5,data6]),member(data4,[data4,data5,data6]), \+member(data4,[data1,data2,data3]),policy(agent1,[request,data4])),request_data(agent1,agent2,data4)).
+step((request_data(A,B,C):+hasData(A,D),hasData(B,E),member(C,E), \+member(C,D),policy(A,[request,C])),(hasData(agent1,[data1,data2,data3]),hasData(agent2,[data4,data5,data6]),member(data6,[data4,data5,data6]), \+member(data6,[data1,data2,data3]),policy(agent1,[request,data6])),request_data(agent1,agent2,data6)).
+step((accept_request(A,B,C):+hasData(A,D),member(C,D),policy(A,[accept,C]),becomes(hasData(B,E),hasData(B,[C|E]))),(hasData(agent2,[data4,data5,data6]),member(data4,[data4,data5,data6]),policy(agent2,[accept,data4]),becomes(hasData(agent1,[data1,data2,data3]),hasData(agent1,[data4,data1,data2,data3]))),accept_request(agent2,agent1,data4)).
+step((accept_request(A,B,C):+hasData(A,D),member(C,D),policy(A,[accept,C]),becomes(hasData(B,E),hasData(B,[C|E]))),(hasData(agent2,[data4,data5,data6]),member(data4,[data4,data5,data6]),policy(agent2,[accept,data4]),becomes(hasData(agent2,[data4,data5,data6]),hasData(agent2,[data4,data4,data5,data6]))),accept_request(agent2,agent2,data4)).
+step((accept_request(A,B,C):+hasData(A,D),member(C,D),policy(A,[accept,C]),becomes(hasData(B,E),hasData(B,[C|E]))),(hasData(agent2,[data4,data5,data6]),member(data6,[data4,data5,data6]),policy(agent2,[accept,data6]),becomes(hasData(agent1,[data4,data1,data2,data3]),hasData(agent1,[data6,data4,data1,data2,data3]))),accept_request(agent2,agent1,data6)).
+step((accept_request(A,B,C):+hasData(A,D),member(C,D),policy(A,[accept,C]),becomes(hasData(B,E),hasData(B,[C|E]))),(hasData(agent2,[data4,data5,data6]),member(data6,[data4,data5,data6]),policy(agent2,[accept,data6]),becomes(hasData(agent2,[data4,data4,data5,data6]),hasData(agent2,[data6,data4,data4,data5,data6]))),accept_request(agent2,agent2,data6)).
+step((reject_request(A,B,C):+hasData(A,D),(\+member(C,D); \+policy(A,[accept,C]))),(hasData(agent1,[data6,data4,data1,data2,data3]),(\+member(sk_1,[data6,data4,data1,data2,data3]); \+policy(agent1,[accept,sk_1]))),reject_request(agent1,sk_0,sk_1)).
+step((reject_request(A,B,C):+hasData(A,D),(\+member(C,D); \+policy(A,[accept,C]))),(hasData(agent2,[data6,data4,data4,data5,data6]),(\+member(sk_1,[data6,data4,data4,data5,data6]); \+policy(agent2,[accept,sk_1]))),reject_request(agent2,sk_0,sk_1)).
+step((negotiate(A,[B,C]):+request_data(A,B,C),(accept_request(B,A,C);reject_request(B,A,C))),(request_data(agent1,agent2,data4),(accept_request(agent2,agent1,data4);reject_request(agent2,agent1,data4))),negotiate(agent1,[agent2,data4])).
+step((negotiate(A,[B,C]):+request_data(A,B,C),(accept_request(B,A,C);reject_request(B,A,C))),(request_data(agent1,agent2,data6),(accept_request(agent2,agent1,data6);reject_request(agent2,agent1,data6))),negotiate(agent1,[agent2,data6])).
+step((true:+negotiate(agent1,[agent2,data4])),negotiate(agent1,[agent2,data4]),true).
