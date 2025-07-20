@@ -1,0 +1,75 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple ((:a :b :c) :Pythagoras true)]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((:a :b :c) :Pythagoras true)]
+    )];
+    r:evidence (
+        skolem:lemma2
+    );
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple ((:a :b :c) :Pythagoras true)]
+    )] log:implies [ log:graph (
+        [ log:triple ((:a :b :c) :Pythagoras true)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple ((:a :b :c) :Pythagoras true)]
+    )];
+    r:evidence (
+        skolem:lemma3
+        skolem:lemma4
+        skolem:lemma5
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#a"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#a2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ n3:uri "http://example.org/#b"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ n3:uri "http://example.org/#b2"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ n3:uri "http://example.org/#c"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo [ n3:uri "http://example.org/#c2"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :Square var:x_1)]
+        [ log:triple (var:x_2 :Square var:x_3)]
+        [ log:triple (var:x_4 :Square var:x_5)]
+        [ log:triple ((var:x_1 var:x_3) :Add var:x_5)]
+    )] log:implies [ log:graph (
+        [ log:triple ((var:x_0 var:x_2 var:x_4) :Pythagoras true)]
+    )])])]].
+
+skolem:lemma3 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:a :Square :a2)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/pythagoras/pythagoras.ttl>].
+
+skolem:lemma4 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:b :Square :b2)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/pythagoras/pythagoras.ttl>].
+
+skolem:lemma5 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:c :Square :c2)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/pythagoras/pythagoras.ttl>].
+
+skolem:lemma6 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple ((:a2 :b2) :Add :c2)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/pythagoras/pythagoras.ttl>].
+

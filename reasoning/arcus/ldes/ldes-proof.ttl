@@ -1,0 +1,224 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix : <http://example.org/#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_22 log:triple (skolem:e_bn_6_1 rdf:type :Policy))]
+        [ log:triple (skolem:e_23 log:triple (skolem:e_bn_6_1 :target (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)))]
+        [ log:triple (skolem:e_24 log:triple (skolem:e_bn_6_1 :duty skolem:e_bn_7_1))]
+        [ log:triple (skolem:e_25 log:triple (skolem:e_bn_7_1 rdf:type :RemovalDuty))]
+        [ log:triple (skolem:e_26 log:triple (skolem:e_bn_7_1 :after "P1M"))]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_22 log:triple (skolem:e_bn_6_1 rdf:type :Policy))]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_4_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_6_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (skolem:e_bn_6_1 rdf:type :Policy)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 log:graph var:x_1)]
+        [ log:triple (var:x_1 list:member var:x_2)]
+        [ log:triple (var:x_2 log:triple (var:x_3 rdf:type :Policy))]
+        [ log:triple (var:x_1 list:member var:x_4)]
+        [ log:triple (var:x_4 log:triple (var:x_3 :target var:x_5))]
+        [ log:triple (var:x_1 list:member var:x_6)]
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_23 log:triple (skolem:e_bn_6_1 :target (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)))]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_4_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_6_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (skolem:e_bn_6_1 :target (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1))];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 log:graph var:x_1)]
+        [ log:triple (var:x_1 list:member var:x_2)]
+        [ log:triple (var:x_2 log:triple (var:x_3 rdf:type :Policy))]
+        [ log:triple (var:x_1 list:member var:x_4)]
+        [ log:triple (var:x_4 log:triple (var:x_3 :target var:x_5))]
+        [ log:triple (var:x_1 list:member var:x_6)]
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )])])]].
+
+skolem:lemma3 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_24 log:triple (skolem:e_bn_6_1 :duty skolem:e_bn_7_1))]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_24)])]]
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_4_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_6_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_24"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (skolem:e_bn_6_1 :duty skolem:e_bn_7_1)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 log:graph var:x_1)]
+        [ log:triple (var:x_1 list:member var:x_2)]
+        [ log:triple (var:x_2 log:triple (var:x_3 rdf:type :Policy))]
+        [ log:triple (var:x_1 list:member var:x_4)]
+        [ log:triple (var:x_4 log:triple (var:x_3 :target var:x_5))]
+        [ log:triple (var:x_1 list:member var:x_6)]
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )])])]].
+
+skolem:lemma4 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_25 log:triple (skolem:e_bn_7_1 rdf:type :RemovalDuty))]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_25)])]]
+        skolem:lemma10
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_4_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_6_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_25"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (skolem:e_bn_7_1 rdf:type :RemovalDuty)];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 log:graph var:x_1)]
+        [ log:triple (var:x_1 list:member var:x_2)]
+        [ log:triple (var:x_2 log:triple (var:x_3 rdf:type :Policy))]
+        [ log:triple (var:x_1 list:member var:x_4)]
+        [ log:triple (var:x_4 log:triple (var:x_3 :target var:x_5))]
+        [ log:triple (var:x_1 list:member var:x_6)]
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )])])]].
+
+skolem:lemma5 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_26 log:triple (skolem:e_bn_7_1 :after "P1M"))]
+    )];
+    r:evidence (
+        skolem:lemma6
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_22)])]]
+        skolem:lemma7
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_23)])]]
+        skolem:lemma8
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26) list:member skolem:e_26)])]]
+        skolem:lemma11
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_4_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_22"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_bn_6_1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_23"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_6"]; r:boundTo [ a r:Existential; n3:nodeId "https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#e_26"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_7"]; r:boundTo (skolem:e_bn_7_1 :after "P1M")];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 log:graph var:x_1)]
+        [ log:triple (var:x_1 list:member var:x_2)]
+        [ log:triple (var:x_2 log:triple (var:x_3 rdf:type :Policy))]
+        [ log:triple (var:x_1 list:member var:x_4)]
+        [ log:triple (var:x_4 log:triple (var:x_3 :target var:x_5))]
+        [ log:triple (var:x_1 list:member var:x_6)]
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_6 log:triple var:x_7)]
+    )])])]].
+
+skolem:lemma6 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_bn_4_1 log:graph (skolem:e_22 skolem:e_23 skolem:e_24 skolem:e_25 skolem:e_26))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_22 log:triple (skolem:e_bn_6_1 rdf:type :Policy))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_23 log:triple (skolem:e_bn_6_1 :target (skolem:e_bn_1_1 skolem:e_bn_2_1 skolem:e_bn_3_1)))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_24 log:triple (skolem:e_bn_6_1 :duty skolem:e_bn_7_1))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_25 log:triple (skolem:e_bn_7_1 rdf:type :RemovalDuty))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (skolem:e_26 log:triple (skolem:e_bn_7_1 :after "P1M"))]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/ldes/ldes.ttl>].
+

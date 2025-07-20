@@ -1,0 +1,180 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/windturbine#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :hasAnomaly :highVibration)]
+        [ log:triple (:turbine1 :hasAnomaly :highTemperature)]
+        [ log:triple (:turbine1 :requires :urgentInspection)]
+        [ log:triple (:turbine1 :requires :gearboxMaintenance)]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :hasAnomaly :highVibration)]
+    )];
+    r:evidence (
+        skolem:lemma5
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/windturbine#highVibration"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly var:x_1)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :hasAnomaly :highTemperature)]
+    )];
+    r:evidence (
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/windturbine#highTemperature"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly var:x_1)]
+    )])])]].
+
+skolem:lemma3 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :requires :urgentInspection)]
+    )];
+    r:evidence (
+        skolem:lemma7
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/windturbine#urgentInspection"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :requires var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :requires var:x_1)]
+    )])])]].
+
+skolem:lemma4 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :requires :gearboxMaintenance)]
+    )];
+    r:evidence (
+        skolem:lemma8
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/windturbine#gearboxMaintenance"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :requires var:x_1)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :requires var:x_1)]
+    )])])]].
+
+skolem:lemma5 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :hasAnomaly :highVibration)]
+    )];
+    r:evidence (
+        skolem:lemma9
+        skolem:lemma10
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (0.42 math:greaterThan 0.35)])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 0.42];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 0.35];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :vibration var:x_1)]
+        [ log:triple (:highVibrationThreshold :value var:x_2)]
+        [ log:triple (var:x_1 math:greaterThan var:x_2)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly :highVibration)]
+    )])])]].
+
+skolem:lemma6 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :hasAnomaly :highTemperature)]
+    )];
+    r:evidence (
+        skolem:lemma11
+        skolem:lemma12
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (78 math:greaterThan 75)])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo 78];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo 75];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :temperature var:x_1)]
+        [ log:triple (:highTemperatureThreshold :value var:x_2)]
+        [ log:triple (var:x_1 math:greaterThan var:x_2)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly :highTemperature)]
+    )])])]].
+
+skolem:lemma7 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :requires :urgentInspection)]
+    )];
+    r:evidence (
+        skolem:lemma5
+        skolem:lemma6
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :hasAnomaly :highVibration)]
+        [ log:triple (var:x_0 :hasAnomaly :highTemperature)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :requires :urgentInspection)]
+    )])])]].
+
+skolem:lemma8 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :requires :gearboxMaintenance)]
+    )];
+    r:evidence (
+        skolem:lemma13
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/windturbine#turbine1"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :gearboxStatus :degraded)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :requires :gearboxMaintenance)]
+    )])])]].
+
+skolem:lemma9 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :vibration 0.42)] 
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/wind-turbine/wind-turbine.ttl>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:highVibrationThreshold :value 0.35)] 
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/wind-turbine/wind-turbine.ttl>].
+
+skolem:lemma11 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :temperature 78)] 
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/wind-turbine/wind-turbine.ttl>].
+
+skolem:lemma12 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:highTemperatureThreshold :value 75)] 
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/wind-turbine/wind-turbine.ttl>].
+
+skolem:lemma13 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:turbine1 :gearboxStatus :degraded)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/wind-turbine/wind-turbine.ttl>].
+

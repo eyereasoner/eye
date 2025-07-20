@@ -1,0 +1,63 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:gives [ log:graph (
+        [ log:triple (:alice :mustHave :dogLicense)]
+    )].
+
+skolem:lemma1 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:alice :mustHave :dogLicense)]
+    )];
+    r:evidence (
+        skolem:lemma2
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#alice"]];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :mustHave :dogLicense)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :mustHave :dogLicense)]
+    )])])]].
+
+skolem:lemma2 a r:Inference;
+    r:gives [ log:graph (
+        [ log:triple (:alice :mustHave :dogLicense)]
+    )];
+    r:evidence (
+        skolem:lemma3
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 [ log:graph (
+            [ log:triple (:alice :hasDog var:v_7)]
+        )] (1 1 1 1 1)) log:collectAllIn ((<https://eyereasoner.github.io/eye/reasoning/arcus/dog/dog.ttl>) 1))])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple ((1 1 1 1 1) math:sum 5)])]]
+        [ a r:Fact; r:gives [ log:graph ([ log:triple (5 math:greaterThan 4)])]]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#alice"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_1"]; r:boundTo [ n3:uri "http://example.org/#dog1"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_4"]; r:boundTo ((<https://eyereasoner.github.io/eye/reasoning/arcus/dog/dog.ttl>) 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_2"]; r:boundTo [ a r:Existential; n3:nodeId "_:sk_7"]];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_3"]; r:boundTo (1 1 1 1 1)];
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_5"]; r:boundTo 5];
+    r:rule [ a r:Fact; r:gives [ log:graph ([ log:triple ([ log:graph (
+        [ log:triple (var:x_0 :hasDog var:x_1)]
+        [ log:triple ((1 [ log:graph (
+            [ log:triple (var:x_0 :hasDog var:x_2)]
+        )] var:x_3) log:collectAllIn var:x_4)]
+        [ log:triple (var:x_3 math:sum var:x_5)]
+        [ log:triple (var:x_5 math:greaterThan 4)]
+    )] log:implies [ log:graph (
+        [ log:triple (var:x_0 :mustHave :dogLicense)]
+    )])])]].
+
+skolem:lemma3 a r:Extraction;
+    r:gives [ log:graph (
+        [ log:triple (:alice :hasDog :dog1)]
+    )];
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/arcus/dog/dog.ttl>].
+
