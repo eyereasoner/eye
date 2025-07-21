@@ -1,4 +1,9 @@
-# eyelet
+# eyelet arvol
+
+The name arvol is inspired by https://en.wikipedia.org/wiki/Arvol_Looking_Horse and also by the middle letters RVO https://en.wikipedia.org/wiki/Roger_Van_Overstraeten who founded imec.
+
+Beatriz Esteves:
+It is similar to the way one spells 'tree' in Portuguese, which is also a good analogy, strong roots, strong fruits :)
 
 ## eye reasoning in prolog
 
