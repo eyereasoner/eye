@@ -1,0 +1,81 @@
+
+sqrt(-1) = I
+=== Proof ===============================================
+Step 01: recognise  -1 = e^{iπ}  (principal argument π)
+Step 02: √(-1) = √(e^{iπ}) = e^{iπ/2}
+Step 03: e^{iπ/2} = i
+✔ PROVED  √(-1) = i
+
+exp(I*pi) + 1 = 0
+=== Proof ===============================================
+Step 01: Euler  e^{iθ} = cosθ + i sinθ  ⇒  e^{iπ} = -1
+Step 02: e^{iπ} + 1 = -1 + 1 = 0
+✔ PROVED  e^{iπ}+1 = 0
+
+log(-1) = I*pi
+=== Proof ===============================================
+Step 01: principal log:  log z = ln|z| + i·Arg(z)
+         |−1| = 1 ⇒ ln|z| = 0,   Arg(−1)=π
+Step 02: log(−1) = 0 + iπ
+✔ PROVED  log(−1) = iπ
+
+log(-I) = -I*pi/2
+=== Proof ===============================================
+Step 01: |−i| = 1,  Arg(−i)=−π/2  (principal value)
+Step 02: log(−i) = 0 + i(−π/2) = −iπ/2
+✔ PROVED
+
+log(I*x) = log(I*x)
+=== Proof ===============================================
+Step 01:  I·x = |x|·e^{iπ/2}  (assuming x>0 for principal branch)
+Step 02:  log(Ix) = ln|x| + iπ/2
+✔ PROVED  log(Ix) = log(x) + iπ/2
+
+cos(I*x) = cosh(x)
+=== Proof ===============================================
+Step 01: cos(i x) = (e^{ix·i} + e^{−ix·i})/2
+                 = (e^{−x} + e^{x})/2
+                 = cosh x
+✔ PROVED  cos(i x) = cosh(x)
+
+sin(I*x) = I*sinh(x)
+=== Proof ===============================================
+Step 01: sin(i x) = (e^{ix·i} − e^{−ix·i})/(2i)
+                 = (e^{−x} − e^{x})/(2i)
+                 = i·sinh x
+✔ PROVED  sin(i x) = i·sinh(x)
+
+asin(I*x) = I*asinh(x)
+=== Proof ===============================================
+Step 01: Definition  asin z = −i log( i z + √(1−z²) )
+Step 02: Substitute z = i x  →  asin(i x) = i asinh x
+✔ PROVED
+
+N(sqrt(I)) = 0.7071067812 + 0.7071067812*I
+=== Proof ===============================================
+Step 01:  I = e^{iπ/2}
+Step 02:  √I = e^{iπ/4} = cos(π/4) + i sin(π/4)
+         = (1/√2)(1 + i)
+✔ PROVED  √I ≈ 0.7071067812 + 0.7071067812*I
+
+N(acos(2)) = 1.316957897*I
+=== Proof ===============================================
+Step 01: For |z|>1, acos z = i·ln( z + √(z² − 1) )  (principal)
+Step 02: z=2 ⇒ √(2²−1)=√3  ⇒  acos(2)=i ln(2+√3)
+         ≈ 1.316957897*I
+✔ PROVED
+
+N(asin(2)) = 1.570796327 - 1.316957897*I
+=== Proof ===============================================
+Step 01: asin z = π/2 − acos z
+Step 02: Using acos(2) result  →  asin(2)=π/2 − i ln(2+√3)
+         ≈ 1.570796327 - 1.316957897*I
+✔ PROVED
+
+N(I**I, 136) = 0.2078795763507619085469556198349787700338778416317696080751358830554198772854821397886002778654260353405217733072350218081906197303746640
+=== Proof ===============================================
+Step 01: i^i = e^{i·log(i)}
+Step 02: log(i) = iπ/2  (principal)
+Step 03: i·log(i) = i(iπ/2) = −π/2
+Step 04: e^{−π/2} ≈ 0.207879576...
+✔ PROVED  i^i = e^{-π/2} ≈ 0.20787957635076

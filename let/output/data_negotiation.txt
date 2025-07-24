@@ -1,0 +1,11 @@
+=== Clinical-data Negotiation Demo ============================
+
+Request by Dr.Smith      Field=Diagnosis      Purpose=Treatment  Identifiable=yes  Consent=no   ->  GRANTED
+Request by ResearchLab   Field=Date-of-Birth  Purpose=Research   Identifiable=yes  Consent=yes  ->  DENIED
+Request by ResearchLab   Field=Date-of-Birth  Purpose=Research   Identifiable=no   Consent=yes  ->  GRANTED-WITH-DEID
+Request by ResearchLab   Field=Lab-Results    Purpose=Research   Identifiable=no   Consent=no   ->  DENIED
+Request by BillingSvc    Field=Patient-ID     Purpose=Billing    Identifiable=yes  Consent=no   ->  DENIED
+Request by ResearchLab   Field=Patient-ID     Purpose=Research   Identifiable=yes  Consent=no   ->  DENIED
+Request by ResearchLab   Field=Patient-ID     Purpose=Research   Identifiable=no   Consent=yes  ->  GRANTED-WITH-DEID
+
+===============================================================
