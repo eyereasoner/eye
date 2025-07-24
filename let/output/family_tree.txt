@@ -25,14 +25,14 @@ Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
 
 === Proof for ('Child2', 'sibling', 'Child1')   (θ = {}) ===
 ('Child2', 'sibling', 'Child1')   [via sibling]
-  ('Dad', 'parent', 'Child2')   [fact]
-  ('Dad', 'parent', 'Child1')   [fact]
+  ('Mom', 'parent', 'Child2')   [fact]
+  ('Mom', 'parent', 'Child1')   [fact]
 
 === Proof for ('Child1', 'brother', 'Child2')   (θ = {}) ===
 ('Child1', 'brother', 'Child2')   [via brother]
   ('Child1', 'sibling', 'Child2')   [via sibling]
-    ('Dad', 'parent', 'Child1')   [fact]
-    ('Dad', 'parent', 'Child2')   [fact]
+    ('Mom', 'parent', 'Child1')   [fact]
+    ('Mom', 'parent', 'Child2')   [fact]
   ('Child1', 'a', 'MALE')   [fact]
 
 === Proof for ('Grandpa', 'grandparent', 'Child1')   (θ = {}) ===
@@ -68,8 +68,8 @@ Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
 ('Dad', 'uncle', 'Child1')   [via uncle-blood]
   ('Dad', 'brother', 'Dad')   [via brother]
     ('Dad', 'sibling', 'Dad')   [via sibling]
-      ('Grandma', 'parent', 'Dad')   [fact]
-      ('Grandma', 'parent', 'Dad')   [fact]
+      ('Grandpa', 'parent', 'Dad')   [fact]
+      ('Grandpa', 'parent', 'Dad')   [fact]
     ('Dad', 'a', 'MALE')   [fact]
   ('Dad', 'parent', 'Child1')   [fact]
 
@@ -90,8 +90,8 @@ Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
 ('Mom', 'aunt', 'Child2')   [via aunt-blood]
   ('Mom', 'sister', 'Mom')   [via sister]
     ('Mom', 'sibling', 'Mom')   [via sibling]
-      ('MaternalGrandpa', 'parent', 'Mom')   [fact]
-      ('MaternalGrandpa', 'parent', 'Mom')   [fact]
+      ('MaternalGrandma', 'parent', 'Mom')   [fact]
+      ('MaternalGrandma', 'parent', 'Mom')   [fact]
     ('Mom', 'a', 'FEMALE')   [fact]
   ('Mom', 'parent', 'Child2')   [fact]
 
@@ -103,13 +103,6 @@ Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
       ('MaternalGrandma', 'parent', 'Mom')   [fact]
     ('MomSister', 'a', 'FEMALE')   [fact]
   ('Mom', 'parent', 'Child2')   [fact]
-
-=== Proof for ('Grandpa', 'grandfather', 'Child2')   (θ = {'?x': 'Child2'}) ===
-('Grandpa', 'grandfather', 'Child2')   [via grandfather]
-  ('Grandpa', 'grandparent', 'Child2')   [via grandparent]
-    ('Grandpa', 'parent', 'Dad')   [fact]
-    ('Dad', 'parent', 'Child2')   [fact]
-  ('Grandpa', 'a', 'MALE')   [fact]
 
 === Proof for ('Grandpa', 'grandfather', 'Child1')   (θ = {'?x': 'Child1'}) ===
 ('Grandpa', 'grandfather', 'Child1')   [via grandfather]
@@ -123,4 +116,11 @@ Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
   ('Grandpa', 'grandparent', 'Cousin')   [via grandparent]
     ('Grandpa', 'parent', 'Uncle')   [fact]
     ('Uncle', 'parent', 'Cousin')   [fact]
+  ('Grandpa', 'a', 'MALE')   [fact]
+
+=== Proof for ('Grandpa', 'grandfather', 'Child2')   (θ = {'?x': 'Child2'}) ===
+('Grandpa', 'grandfather', 'Child2')   [via grandfather]
+  ('Grandpa', 'grandparent', 'Child2')   [via grandparent]
+    ('Grandpa', 'parent', 'Dad')   [fact]
+    ('Dad', 'parent', 'Child2')   [fact]
   ('Grandpa', 'a', 'MALE')   [fact]
