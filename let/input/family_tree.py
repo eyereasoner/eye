@@ -119,12 +119,13 @@ rules = [
 # 3.  forward saturation  (★ Peirce cut-erasure loop ★)
 #     proofs[(S,P,O)] = ("fact", [])  or  (rule_id, [premise1,premise2])
 # ──────────────────────────────────────────────────────────────
-proofs = {f: ("fact", []) for f in base_facts}
+proofs = {f: ("fact", []) for f in sorted(base_facts)}
+facts = set(proofs.keys())
 
 changed = True
 while changed:
     changed = False
-    cur = list(facts)
+    cur = sorted(facts)  # deterministic iteration
     for rid, p1, p2, head in rules:
         for f1 in cur:
             θ1 = unify(p1, f1, {})
