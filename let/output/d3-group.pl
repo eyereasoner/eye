@@ -1,0 +1,12 @@
+validGroup([identity,rotation_120,rotation_240,reflection_a,reflection_b,reflection_c]).
+validGroup([identity,rotation_120,rotation_240,reflection_a,reflection_b]).
+validGroup([identity,rotation_120,rotation_240,reflection_a,reflection_c]).
+validGroup([identity,rotation_120,rotation_240,reflection_a]).
+validGroup([identity,rotation_120,rotation_240,reflection_b,reflection_c]).
+validGroup([identity,rotation_120,rotation_240,reflection_b]).
+validGroup([identity,rotation_120,rotation_240,reflection_c]).
+validGroup([identity,rotation_120,rotation_240]).
+validGroup([identity,reflection_a]).
+validGroup([identity,reflection_b]).
+validGroup([identity,reflection_c]).
+validGroup([identity]).

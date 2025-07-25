@@ -5,6 +5,8 @@
 % See https://github.com/eyereasoner/eye
 %
 
+:- op(1200, xfx, :+).
+
 :- use_module(library(apply)).
 :- use_module(library(lists)).
 :- use_module(library(gensym)).
@@ -23,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.19.11 (2025-07-17)').
+version_info('EYE v11.20.0 (2025-07-25)').
 
 license_info('MIT License
 
@@ -92,6 +94,7 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
+    --let <uri>                     logic expression trees
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
     --proof <uri>                   N3 proof lemmas
@@ -110,6 +113,7 @@ eye
     --query <query>                 output filtered with filter rules
     --sparql-query <query>          output answer of sparql query').
 
+:- dynamic((:+)/2).
 :- dynamic(answer/1).
 :- dynamic(answer/3).               % answer(Predicate, Subject, Object)
 :- dynamic(apfx/2).
@@ -371,6 +375,7 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--csv-separator',
             '--hmac-key',
             '--image',
+            '--let',
             '--max-inferences',
             '--n3',
             '--n3p',
@@ -911,6 +916,7 @@ opts([Arg|_], _) :-
     \+memberchk(Arg, [
             '--entail',
             '--help',
+            '--let',
             '--n3',
             '--n3p',
             '--not-entail',
@@ -938,6 +944,53 @@ args(['--entail', Arg|Args]) :-
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
+    args(Args).
+args(['--let', Argument|Args]) :-
+    !,
+    cnt(doc_nr),
+    absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   wcacher(Arg, File)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
+            flush_output(user_error)
+        ),
+        open(File, read, In, [encoding(utf8)])
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w ", [Arg]),
+            flush_output(user_error)
+        ),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            File = Arg
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    load_files(File, [stream(In)]),
+    close(In),
+    forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(Prem, Prem))),
+    forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc))),
+    (   \+flag(let)
+    ->  assertz(flag(let))
+    ;   true
+    ),
     args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
@@ -4161,6 +4214,10 @@ we(X) :-
     write('.'),
     nl.
 
+wt(X) :-
+    flag(let),
+    !,
+    write(X).
 wt(X) :-
     var(X),
     !,
@@ -8197,6 +8254,11 @@ userInput(A, B) :-
     (   B = true
     ->  catch(call(D), _, fail)
     ;   \+catch(call(D), _, fail)
+    ),
+    (   D = consult(_)
+    ->  forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(Prem, Prem))),
+        forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc)))
+    ;   true
     ).
 
 '<http://www.w3.org/2000/10/swap/log#racine>'(A, B) :-
@@ -12126,6 +12188,20 @@ unify(A, B) :-
     unify(S, T),
     unify(O, R).
 unify(A, A).
+
+% linear implication
+becomes(A, B) :-
+    catch(A, _, fail),
+    conj_list(A, C),
+    forall(
+        member(D, C),
+        retract(D)
+    ),
+    conj_list(B, E),
+    forall(
+        member(F, E),
+        assertz(F)
+    ).
 
 conj_list(true, []) :-
     !.
