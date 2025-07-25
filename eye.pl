@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.0 (2025-07-25)').
+version_info('EYE v11.20.1 (2025-07-26)').
 
 license_info('MIT License
 
@@ -5690,6 +5690,38 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, B), C) :-
     \+atomic(B),
     djiti_answer(answer(B), D),
     makevars(implies(A, D, '<>'), C, zeta),
+    \+C,
+    !.
+djiti_fact((true :+ A), C) :-
+    \+atomic(A),
+    djiti_answer(answer(A), B),
+    makevars(implies(B, B, '<>'), C, zeta),
+    \+C,
+    !.
+djiti_fact((B :+ A), C) :-
+    nonvar(B),
+    (   \+atomic(A)
+    ;   \+atomic(B)
+    ),
+    (   conj_list(B, D)
+    ->  true
+    ;   D = B
+    ),
+    forall(
+        member(E, D),
+        (   unify(E, F),
+            (   F =.. [P, _, _],
+                \+fpred(P)
+            ->  assertz(fpred(P))
+            ;   true
+            )
+        )
+    ),
+    (   retwist(A, B, Z)
+    ->  true
+    ;   Z = '<>'
+    ),
+    makevars(implies(A, B, Z), C, zeta),
     \+C,
     !.
 djiti_fact(quad(T, G), quad(T, G)) :-
@@ -12031,6 +12063,9 @@ within_scope([A, B]) :-
         recursion(B)
     ),
     nb_getval(scope, A).
+
+stable(Level) :-
+    within_scope([_, Level]).
 
 exo_pred(exopred(P, S, O), A) :-
     atomic(P),
