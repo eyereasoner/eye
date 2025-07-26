@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.1 (2025-07-26)').
+version_info('EYE v11.20.2 (2025-07-26)').
 
 license_info('MIT License
 
@@ -5690,14 +5690,14 @@ djiti_fact('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, B), C) :-
     \+atomic(B),
     djiti_answer(answer(B), D),
     makevars(implies(A, D, '<>'), C, zeta),
-    \+C,
-    !.
+    !,
+    \+C.
 djiti_fact((true :+ A), C) :-
     \+atomic(A),
     djiti_answer(answer(A), B),
     makevars(implies(B, B, '<>'), C, zeta),
-    \+C,
-    !.
+    !,
+    \+C.
 djiti_fact((B :+ A), C) :-
     nonvar(B),
     (   \+atomic(A)
@@ -5722,8 +5722,8 @@ djiti_fact((B :+ A), C) :-
     ;   Z = '<>'
     ),
     makevars(implies(A, B, Z), C, zeta),
-    \+C,
-    !.
+    !,
+    \+C.
 djiti_fact(quad(T, G), quad(T, G)) :-
     !,
     (   \+graphid(G)
