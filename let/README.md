@@ -1,9 +1,7 @@
-# logic expression trees - let
-
-aka arvol inspired by https://en.wikipedia.org/wiki/Arvol_Looking_Horse and also by the middle letters RVO https://en.wikipedia.org/wiki/Roger_Van_Overstraeten who founded imec.
-
-Beatriz Esteves:
-It is similar to the way one spells 'tree' in Portuguese, which is also a good analogy, strong roots, strong fruits :)
+# let
+- a declarative language based on Prolog syntax, leveraging tree structures both for representing data (as terms) and for program execution (through proof and search trees)
+- aka arvol inspired by https://en.wikipedia.org/wiki/Arvol_Looking_Horse and also by the middle letters RVO https://en.wikipedia.org/wiki/Roger_Van_Overstraeten who founded imec
+- Beatriz Esteves: it is similar to the way one spells 'tree' in Portuguese, which is also a good analogy, strong roots, strong fruits :)
 
 ## let reasoning
 
