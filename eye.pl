@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.3 (2025-07-27)').
+version_info('EYE v11.20.4 (2025-07-27)').
 
 license_info('MIT License
 
@@ -94,9 +94,9 @@ eye
     --warn                          output warning info on stderr
     --wcache <uri> <file>           to tell that <uri> is cached as <file>
 <data>
-    --let <uri>                     logic expression trees
     --n3 <uri>                      N3 triples and rules
     --n3p <uri>                     N3P intermediate
+    --prolog <uri>                  Prolog facts and rules
     --proof <uri>                   N3 proof lemmas
     --sparql-backward <uri>         SPARQL CONSTRUCT WHERE backward rules
     --sparql-forward <uri>          SPARQL CONSTRUCT WHERE forward rules
@@ -375,11 +375,11 @@ argv([Arg|Argvs], [U, V|Argus]) :-
             '--csv-separator',
             '--hmac-key',
             '--image',
-            '--let',
             '--max-inferences',
             '--n3',
             '--n3p',
             '--output',
+            '--prolog',
             '--proof',
             '--quantify',
             '--query',
@@ -916,12 +916,12 @@ opts([Arg|_], _) :-
     \+memberchk(Arg, [
             '--entail',
             '--help',
-            '--let',
             '--n3',
             '--n3p',
             '--not-entail',
             '--pass',
             '--pass-all',
+            '--prolog',
             '--proof',
             '--query',
             '--sparql-backward',
@@ -944,53 +944,6 @@ args(['--entail', Arg|Args]) :-
     nb_setval(entail_mode, true),
     n3_n3p(Arg, entail),
     nb_setval(entail_mode, false),
-    args(Args).
-args(['--let', Argument|Args]) :-
-    !,
-    cnt(doc_nr),
-    absolute_uri(Argument, Arg),
-    atomic_list_concat(['<', Arg, '>'], R),
-    assertz(scope(R)),
-    (   wcacher(Arg, File)
-    ->  (   flag(quiet)
-        ->  true
-        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
-            flush_output(user_error)
-        ),
-        open(File, read, In, [encoding(utf8)])
-    ;   (   flag(quiet)
-        ->  true
-        ;   format(user_error, "GET ~w ", [Arg]),
-            flush_output(user_error)
-        ),
-        (   (   sub_atom(Arg, 0, 5, _, 'http:')
-            ->  true
-            ;   sub_atom(Arg, 0, 6, _, 'https:')
-            )
-        ->  http_open(Arg, In, []),
-            set_stream(In, encoding(utf8)),
-            File = Arg
-        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
-            ->  (   parse_url(Arg, Parts)
-                ->  memberchk(path(File), Parts)
-                ;   sub_atom(Arg, 7, _, 0, File)
-                )
-            ;   File = Arg
-            ),
-            (   File = '-'
-            ->  In = user_input
-            ;   open(File, read, In, [encoding(utf8)])
-            )
-        )
-    ),
-    load_files(File, [stream(In)]),
-    close(In),
-    forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(Prem, Prem))),
-    forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc))),
-    (   \+flag(let)
-    ->  assertz(flag(let))
-    ;   true
-    ),
     args(Args).
 args(['--not-entail', Arg|Args]) :-
     !,
@@ -1108,6 +1061,53 @@ args(['--pass-all'|Args]) :-
             answer(':-', C, A), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>')),
         portray_clause(Out, implies('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(A, C),
             answer('<http://www.w3.org/2000/10/swap/log#impliesAnswer>', A, C), '<http://eulersharp.sourceforge.net/2003/03swap/pass-all>'))
+    ;   true
+    ),
+    args(Args).
+args(['--prolog', Argument|Args]) :-
+    !,
+    cnt(doc_nr),
+    absolute_uri(Argument, Arg),
+    atomic_list_concat(['<', Arg, '>'], R),
+    assertz(scope(R)),
+    (   wcacher(Arg, File)
+    ->  (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w FROM ~w ", [Arg, File]),
+            flush_output(user_error)
+        ),
+        open(File, read, In, [encoding(utf8)])
+    ;   (   flag(quiet)
+        ->  true
+        ;   format(user_error, "GET ~w ", [Arg]),
+            flush_output(user_error)
+        ),
+        (   (   sub_atom(Arg, 0, 5, _, 'http:')
+            ->  true
+            ;   sub_atom(Arg, 0, 6, _, 'https:')
+            )
+        ->  http_open(Arg, In, []),
+            set_stream(In, encoding(utf8)),
+            File = Arg
+        ;   (   sub_atom(Arg, 0, 5, _, 'file:')
+            ->  (   parse_url(Arg, Parts)
+                ->  memberchk(path(File), Parts)
+                ;   sub_atom(Arg, 7, _, 0, File)
+                )
+            ;   File = Arg
+            ),
+            (   File = '-'
+            ->  In = user_input
+            ;   open(File, read, In, [encoding(utf8)])
+            )
+        )
+    ),
+    load_files(File, [stream(In)]),
+    close(In),
+    forall(retract((true :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#impliesAnswer>'(Prem, Prem))),
+    forall(retract((Conc :+ Prem)), djiti_assertz('<http://www.w3.org/2000/10/swap/log#implies>'(Prem, Conc))),
+    (   \+flag(prolog)
+    ->  assertz(flag(prolog))
     ;   true
     ),
     args(Args).
@@ -3828,7 +3828,7 @@ w3 :-
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
     (   flag(nope)
-    ;   flag(let)
+    ;   flag(prolog)
     ),
     !,
     (   query(Q, A),
@@ -3878,7 +3878,7 @@ w3 :-
         fail
     ;   true
     ),
-    (   flag(let),
+    (   flag(prolog),
         \+flag(nope)
     ->  nl,
         (   prfstep(_, Premise, _,Conclusion, '<http://www.w3.org/2000/10/swap/log#implies>'(P, C), _, _),
@@ -4229,7 +4229,7 @@ we(X) :-
     nl.
 
 wt(X) :-
-    flag(let),
+    flag(prolog),
     !,
     write(X).
 wt(X) :-
