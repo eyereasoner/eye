@@ -11,3 +11,4 @@
     ```
     ./test
     ```
+  to get [output](output) from [input](input)
