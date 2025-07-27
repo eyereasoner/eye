@@ -16,6 +16,12 @@ The script:
     3. prints the same relationship queries as the OO demo,
     4. prints a full Peirce proof tree for every ground query,
     5. prints a variable query:  (“Grandpa”, “grandfather”, ?x).
+
+Determinism notes:
+- Base facts are stored in a list and seeded in sorted order.
+- Each saturation round iterates facts in sorted order.
+- prove_query iterates proofs in sorted key order.
+- q(...) returns subjects in sorted order.
 """
 
 from itertools import count
@@ -41,15 +47,16 @@ def subst(triple, θ):
 
 gensym = count(1).__next__
 def apart(body, head):
-    """Standardise-apart a rule copy."""
+    """Standardise-apart a rule copy (unused in this script)."""
     ren = {}
     f = lambda t: ren.setdefault(t, f"{t}_{gensym()}") if is_var(t) else t
     return [tuple(map(f, t)) for t in body], tuple(map(f, head))
 
 # ──────────────────────────────────────────────────────────────
 # 1.  base β-graphs (assertions) – gender, parent, spouse
+#     Use a LIST (not a set), and seed things in sorted order.
 # ──────────────────────────────────────────────────────────────
-base_facts = {
+base_facts = [
     # gender
     ("Grandpa", "a", "MALE"),   ("Grandma", "a", "FEMALE"),
     ("Dad", "a", "MALE"),       ("Mom", "a", "FEMALE"),
@@ -72,12 +79,13 @@ base_facts = {
     ("Grandpa", "spouse", "Grandma"),
     ("Dad",     "spouse", "Mom"),
     ("Uncle",   "spouse", "Aunt"),
-}
+]
 
 facts = set(base_facts)        # will grow during saturation
 
 # ──────────────────────────────────────────────────────────────
 # 2.  two-premise composition rules (pure Peirce)
+#     (Keep rule order fixed; we iterate rules in this order.)
 # ──────────────────────────────────────────────────────────────
 rules = [
     ("sym-spouse", ("?x","spouse","?y"), ("?x","a","?G"),
@@ -118,26 +126,30 @@ rules = [
 # ──────────────────────────────────────────────────────────────
 # 3.  forward saturation  (★ Peirce cut-erasure loop ★)
 #     proofs[(S,P,O)] = ("fact", [])  or  (rule_id, [premise1,premise2])
+#     Seed proofs in a deterministic (sorted) order.
 # ──────────────────────────────────────────────────────────────
-proofs = {f: ("fact", []) for f in base_facts}
+proofs = {}
+for f in sorted(base_facts):
+    proofs[f] = ("fact", [])
 
 changed = True
 while changed:
     changed = False
-    cur = list(facts)
-    for rid, p1, p2, head in rules:
-        for f1 in cur:
+    # Iterate over a frozen snapshot of facts in sorted order.
+    cur = sorted(facts)
+    for rid, p1, p2, head in rules:           # rule order is fixed
+        for f1 in cur:                         # facts in sorted order
             θ1 = unify(p1, f1, {})
             if θ1 is None:
                 continue
-            for f2 in cur:
+            for f2 in cur:                     # facts in sorted order
                 θ2 = unify(p2, f2, θ1)
                 if θ2 is None:
                     continue
                 new = subst(head, θ2)
                 if new not in facts:
                     facts.add(new)
-                    proofs[new] = (rid, [f1, f2])
+                    proofs[new] = (rid, [f1, f2])  # store premises in fixed order
                     changed = True
 
 # ──────────────────────────────────────────────────────────────
@@ -152,14 +164,15 @@ def show_ground(triple, depth=0):
     else:
         rid = kind
         print(f"{ind}{triple}   [via {rid}]")
-        for pr in prem:
+        for pr in prem:                 # premises are already in a deterministic order
             show_ground(pr, depth + 1)
 
 def prove_query(pattern):
     """Match the (possibly variable) pattern against all facts
-       and print one proof per answer."""
+       and print one proof per answer, in a deterministic order."""
     found = False
-    for fact in proofs:
+    # Scan proofs in sorted key order instead of insertion order.
+    for fact in sorted(proofs.keys()):
         θ = unify(pattern, fact, {})
         if θ is None:
             continue
@@ -172,10 +185,12 @@ def prove_query(pattern):
 
 # ──────────────────────────────────────────────────────────────
 # 5.  convenience accessors  (same API as OO version)
+#     Ensure q returns results in sorted order.
 # ──────────────────────────────────────────────────────────────
 def q(pred, s=None, o=None):
-    return [S for (S,P,O) in facts
-            if P == pred and (s is None or S == s) and (o is None or O == o)]
+    return sorted(
+        [S for (S, P, O) in facts if P == pred and (s is None or S == s) and (o is None or O == o)]
+    )
 
 father   = lambda c: next(iter(q("father", None, c)), None)
 mother   = lambda c: next(iter(q("mother", None, c)), None)
