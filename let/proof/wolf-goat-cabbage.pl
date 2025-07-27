@@ -1,0 +1,41 @@
+solution(1,10,7,[w,w,w,w],[goat,nothing,wolf,goat,cabbage,nothing,goat]).
+solution(1,10,7,[w,w,w,w],[goat,nothing,cabbage,goat,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,goat,goat,nothing,wolf,goat,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,goat,goat,nothing,cabbage,goat,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,wolf,wolf,goat,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,wolf,cabbage,goat,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,goat,goat,goat,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,goat,cabbage,wolf,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,goat,cabbage,cabbage,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,goat,cabbage,nothing,goat,goat,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,wolf,goat,cabbage,nothing,nothing,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,goat,wolf,wolf,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,goat,wolf,cabbage,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,goat,wolf,nothing,goat,goat,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,goat,wolf,nothing,nothing,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,goat,goat,goat,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,cabbage,wolf,goat,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,cabbage,cabbage,cabbage,goat,wolf,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,nothing,nothing,wolf,goat,cabbage,nothing,goat]).
+solution(1,10,9,[w,w,w,w],[goat,nothing,nothing,nothing,cabbage,goat,wolf,nothing,goat]).
+
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 7, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, goat]), answer(solution(1, 10, 7, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 7, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, goat]), answer(solution(1, 10, 7, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, goat, goat, nothing, wolf, goat, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, goat, goat, nothing, wolf, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, goat, goat, nothing, cabbage, goat, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, goat, goat, nothing, cabbage, goat, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, wolf, wolf, goat, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, wolf, wolf, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, wolf, cabbage, goat, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, wolf, cabbage, goat, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, goat, goat, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, goat, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, wolf, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, wolf, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, cabbage, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, cabbage, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, goat, goat, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, goat, goat, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, nothing, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, wolf, goat, cabbage, nothing, nothing, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, wolf, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, wolf, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, cabbage, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, cabbage, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, goat, goat, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, goat, goat, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, nothing, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, wolf, nothing, nothing, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, goat, goat, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, goat, goat, goat, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, cabbage, wolf, goat, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, cabbage, wolf, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, cabbage, cabbage, goat, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, cabbage, cabbage, cabbage, goat, wolf, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, nothing, nothing, wolf, goat, cabbage, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, nothing, nothing, wolf, goat, cabbage, nothing, goat]))).
+step(rule(solution(1, 10, A, [w, w, w, w], B), answer(solution(1, 10, A, [w, w, w, w], B))), solution(1, 10, 9, [w, w, w, w], [goat, nothing, nothing, nothing, cabbage, goat, wolf, nothing, goat]), answer(solution(1, 10, 9, [w, w, w, w], [goat, nothing, nothing, nothing, cabbage, goat, wolf, nothing, goat]))).

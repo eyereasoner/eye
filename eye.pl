@@ -25,7 +25,7 @@
 :- catch(use_module(library(process)), _, true).
 :- catch(use_module(library(http/http_open)), _, true).
 
-version_info('EYE v11.20.2 (2025-07-26)').
+version_info('EYE v11.20.3 (2025-07-27)').
 
 license_info('MIT License
 
@@ -3827,7 +3827,9 @@ w3 :-
     nb_setval(fdepth, 0),
     nb_setval(pdepth, 0),
     nb_setval(cdepth, 0),
-    flag(nope),
+    (   flag(nope)
+    ;   flag(let)
+    ),
     !,
     (   query(Q, A),
         (   Q = \+(R)
@@ -3874,6 +3876,18 @@ w3 :-
             cnt(output_statements)
         ),
         fail
+    ;   true
+    ),
+    (   flag(let),
+        \+flag(nope)
+    ->  nl,
+        (   prfstep(_, Premise, _,Conclusion, '<http://www.w3.org/2000/10/swap/log#implies>'(P, C), _, _),
+            djiti_answer(Co, C),
+            djiti_answer(Conc, Conclusion),
+            portray_clause(step(rule(P, Co), Premise, Conc)),
+            fail
+        ;   true
+        )
     ;   true
     ).
 
@@ -5595,8 +5609,7 @@ djiti_answer(answer((A, B)), (C, D)) :-
     djiti_answer(answer(B), D).
 djiti_answer(answer(A), answer(P, S, O)) :-
     (   nonvar(A)
-    ;   atom(P),
-        S \= void
+    ;   atom(P)
     ),
     A =.. [P, S, O],
     !.
