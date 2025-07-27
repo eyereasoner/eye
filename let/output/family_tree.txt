@@ -1,0 +1,126 @@
+Father of Child1: Dad
+Mother of Child2: Mom
+Children of Dad: ['Dad', 'Dad']
+Siblings of Child1: []
+Brothers of Child2: ['Child1']
+Grandparents of Child1: ['Grandma', 'Grandpa', 'MaternalGrandma', 'MaternalGrandpa']
+Uncles of Child1: ['Dad', 'Uncle']
+Aunts of Child2: ['Aunt', 'Mom', 'MomSister']
+
+=== Proof for ('Dad', 'father', 'Child1')   (θ = {}) ===
+('Dad', 'father', 'Child1')   [via father]
+  ('Dad', 'parent', 'Child1')   [fact]
+  ('Dad', 'a', 'MALE')   [fact]
+
+=== Proof for ('Mom', 'mother', 'Child2')   (θ = {}) ===
+('Mom', 'mother', 'Child2')   [via mother]
+  ('Mom', 'parent', 'Child2')   [fact]
+  ('Mom', 'a', 'FEMALE')   [fact]
+
+=== Proof for ('Dad', 'parent', 'Child1')   (θ = {}) ===
+('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Dad', 'parent', 'Child2')   (θ = {}) ===
+('Dad', 'parent', 'Child2')   [fact]
+
+=== Proof for ('Child2', 'sibling', 'Child1')   (θ = {}) ===
+('Child2', 'sibling', 'Child1')   [via sibling]
+  ('Dad', 'parent', 'Child2')   [fact]
+  ('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Child1', 'brother', 'Child2')   (θ = {}) ===
+('Child1', 'brother', 'Child2')   [via brother]
+  ('Child1', 'sibling', 'Child2')   [via sibling]
+    ('Dad', 'parent', 'Child1')   [fact]
+    ('Dad', 'parent', 'Child2')   [fact]
+  ('Child1', 'a', 'MALE')   [fact]
+
+=== Proof for ('Grandpa', 'grandparent', 'Child1')   (θ = {}) ===
+('Grandpa', 'grandparent', 'Child1')   [via grandparent]
+  ('Grandpa', 'parent', 'Dad')   [fact]
+  ('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Grandma', 'grandparent', 'Child1')   (θ = {}) ===
+('Grandma', 'grandparent', 'Child1')   [via grandparent]
+  ('Grandma', 'parent', 'Dad')   [fact]
+  ('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('MaternalGrandpa', 'grandparent', 'Child1')   (θ = {}) ===
+('MaternalGrandpa', 'grandparent', 'Child1')   [via grandparent]
+  ('MaternalGrandpa', 'parent', 'Mom')   [fact]
+  ('Mom', 'parent', 'Child1')   [fact]
+
+=== Proof for ('MaternalGrandma', 'grandparent', 'Child1')   (θ = {}) ===
+('MaternalGrandma', 'grandparent', 'Child1')   [via grandparent]
+  ('MaternalGrandma', 'parent', 'Mom')   [fact]
+  ('Mom', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Uncle', 'uncle', 'Child1')   (θ = {}) ===
+('Uncle', 'uncle', 'Child1')   [via uncle-blood]
+  ('Uncle', 'brother', 'Dad')   [via brother]
+    ('Uncle', 'sibling', 'Dad')   [via sibling]
+      ('Grandpa', 'parent', 'Uncle')   [fact]
+      ('Grandpa', 'parent', 'Dad')   [fact]
+    ('Uncle', 'a', 'MALE')   [fact]
+  ('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Dad', 'uncle', 'Child1')   (θ = {}) ===
+('Dad', 'uncle', 'Child1')   [via uncle-blood]
+  ('Dad', 'brother', 'Dad')   [via brother]
+    ('Dad', 'sibling', 'Dad')   [via sibling]
+      ('Grandma', 'parent', 'Dad')   [fact]
+      ('Grandma', 'parent', 'Dad')   [fact]
+    ('Dad', 'a', 'MALE')   [fact]
+  ('Dad', 'parent', 'Child1')   [fact]
+
+=== Proof for ('Aunt', 'aunt', 'Child2')   (θ = {}) ===
+('Aunt', 'aunt', 'Child2')   [via aunt-mar]
+  ('Aunt', 'spouse', 'Uncle')   [via sym-spouse]
+    ('Uncle', 'spouse', 'Aunt')   [fact]
+    ('Uncle', 'a', 'MALE')   [fact]
+  ('Uncle', 'uncle', 'Child2')   [via uncle-blood]
+    ('Uncle', 'brother', 'Dad')   [via brother]
+      ('Uncle', 'sibling', 'Dad')   [via sibling]
+        ('Grandpa', 'parent', 'Uncle')   [fact]
+        ('Grandpa', 'parent', 'Dad')   [fact]
+      ('Uncle', 'a', 'MALE')   [fact]
+    ('Dad', 'parent', 'Child2')   [fact]
+
+=== Proof for ('Mom', 'aunt', 'Child2')   (θ = {}) ===
+('Mom', 'aunt', 'Child2')   [via aunt-blood]
+  ('Mom', 'sister', 'Mom')   [via sister]
+    ('Mom', 'sibling', 'Mom')   [via sibling]
+      ('MaternalGrandma', 'parent', 'Mom')   [fact]
+      ('MaternalGrandma', 'parent', 'Mom')   [fact]
+    ('Mom', 'a', 'FEMALE')   [fact]
+  ('Mom', 'parent', 'Child2')   [fact]
+
+=== Proof for ('MomSister', 'aunt', 'Child2')   (θ = {}) ===
+('MomSister', 'aunt', 'Child2')   [via aunt-blood]
+  ('MomSister', 'sister', 'Mom')   [via sister]
+    ('MomSister', 'sibling', 'Mom')   [via sibling]
+      ('MaternalGrandma', 'parent', 'MomSister')   [fact]
+      ('MaternalGrandma', 'parent', 'Mom')   [fact]
+    ('MomSister', 'a', 'FEMALE')   [fact]
+  ('Mom', 'parent', 'Child2')   [fact]
+
+=== Proof for ('Grandpa', 'grandfather', 'Cousin')   (θ = {'?x': 'Cousin'}) ===
+('Grandpa', 'grandfather', 'Cousin')   [via grandfather]
+  ('Grandpa', 'grandparent', 'Cousin')   [via grandparent]
+    ('Grandpa', 'parent', 'Uncle')   [fact]
+    ('Uncle', 'parent', 'Cousin')   [fact]
+  ('Grandpa', 'a', 'MALE')   [fact]
+
+=== Proof for ('Grandpa', 'grandfather', 'Child1')   (θ = {'?x': 'Child1'}) ===
+('Grandpa', 'grandfather', 'Child1')   [via grandfather]
+  ('Grandpa', 'grandparent', 'Child1')   [via grandparent]
+    ('Grandpa', 'parent', 'Dad')   [fact]
+    ('Dad', 'parent', 'Child1')   [fact]
+  ('Grandpa', 'a', 'MALE')   [fact]
+
+=== Proof for ('Grandpa', 'grandfather', 'Child2')   (θ = {'?x': 'Child2'}) ===
+('Grandpa', 'grandfather', 'Child2')   [via grandfather]
+  ('Grandpa', 'grandparent', 'Child2')   [via grandparent]
+    ('Grandpa', 'parent', 'Dad')   [fact]
+    ('Dad', 'parent', 'Child2')   [fact]
+  ('Grandpa', 'a', 'MALE')   [fact]
