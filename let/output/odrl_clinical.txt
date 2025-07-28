@@ -1,0 +1,24 @@
+
+=== A) Standard path (consent revoked) ===
+DECISION: DENY
+REASONING TRACE:
+- Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+- Permission found for action 'view' by user 'clinician789'
+- Purpose constraint passed: 'TREATMENT' is allowed
+- Consent constraint failed: consent is 'revoked', required 'granted'
+
+=== B) Break-glass path (view with justification) ===
+DECISION: ALLOW
+REASONING TRACE:
+- Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+- Break-glass conditions met: EMERGENCY + justification present + within window.
+- Bypassing consent and prohibitions for 'view' (minimum necessary applies).
+- Post-hoc obligations pending: notify_privacy_officer, post_incident_review_within
+- Standard obligation 'audit' has been fulfilled.
+- All break-glass checks passed. Permission granted immediately.
+
+=== C) Break-glass export attempt (denied) ===
+DECISION: DENY
+REASONING TRACE:
+- Evaluating policy for patient='patient123', resource='Observation', category='laboratory'
+- Break-glass only permits 'view' access; other actions remain restricted.

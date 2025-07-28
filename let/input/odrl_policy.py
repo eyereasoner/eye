@@ -102,11 +102,9 @@ decision, trace = check_policy(user, action, target, now)
 # -------------------------------
 # 🖨 Output: Decision & Thinking
 # -------------------------------
-print(f"USER: {user}")
-print(f"ACTION: {action}")
-print(f"TARGET: {target}")
-print("\nDECISION:", "ALLOW" if decision else "DENY")
-print("\nREASONING TRACE:")
+print(f"\n=== {user} {action} {target} ===")
+print("DECISION:", "ALLOW" if decision else "DENY")
+print("REASONING TRACE:")
 for step in trace:
     print("-", step)
 
