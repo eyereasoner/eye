@@ -7,7 +7,7 @@
     pip install numpy sympy
     ```
 
-- Run [brain](brain) (branches of intelligence) [dump](brain/dump)
+- Run [brain](brain) (branches of intelligence) and get [dump](brain/dump)
     ```
     ./test
     ```
