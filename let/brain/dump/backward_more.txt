@@ -10,11 +10,11 @@ Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
 === Query ('A', ':moreInterestingThan', 'C') ===
 Answer 1: YES  (instance = ('A', ':moreInterestingThan', 'C'))
 Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
-  Goal: ('A', ':moreInterestingThan', '?Y_288')  via R1_score
-    ✓ memoized ('A', ':score', '?SX_289')
+  Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
+    ✓ memoized ('A', ':score', 8)
     ✓ fact ('B', ':score', 5)
     ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
-  ✓ Proven: ('A', ':moreInterestingThan', '?Y_288')
+  ✓ Proven: ('A', ':moreInterestingThan', 'B')
   ✓ fact ('B', ':moreInterestingThan', 'C')
 ✓ Proven: ('A', ':moreInterestingThan', 'C')
 
@@ -53,44 +53,44 @@ Why not?
 Answer 1: YES  (instance = ('B', ':moreInterestingThan', 'C'))  bindings={'?Who': 'B'}
 ✓ fact ('B', ':moreInterestingThan', 'C')
 Answer 2: YES  (instance = ('A', ':moreInterestingThan', 'C'))  bindings={'?Who': 'A'}
-Goal: ('?Who', ':moreInterestingThan', 'C')  via R3_transitive
-  Goal: ('?X_4461', ':moreInterestingThan', '?Y_4461')  via R1_score
-    ✓ memoized ('?X_4480', ':score', '?SX_4480')
-    ✓ memoized ('?Y_4480', ':score', '?SY_4480')
+Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
+  Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
+    ✓ memoized ('A', ':score', 8)
+    ✓ memoized ('B', ':score', 5)
     ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
-  ✓ Proven: ('?X_4461', ':moreInterestingThan', '?Y_4461')
+  ✓ Proven: ('A', ':moreInterestingThan', 'B')
   ✓ fact ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('?Who', ':moreInterestingThan', 'C')
+✓ Proven: ('A', ':moreInterestingThan', 'C')
 Answer 3: YES  (instance = ('D', ':moreInterestingThan', 'C'))  bindings={'?Who': 'D'}
-Goal: ('?Who', ':moreInterestingThan', 'C')  via R3_transitive
-  Goal: ('?X_4461', ':moreInterestingThan', '?Y_4461')  via R2_award_boring
-    ✓ memoized ('?X_4541', ':hasAward', True)
+Goal: ('D', ':moreInterestingThan', 'C')  via R3_transitive
+  Goal: ('D', ':moreInterestingThan', 'B')  via R2_award_boring
+    ✓ memoized ('D', ':hasAward', True)
     ✓ fact ('B', ':boring', True)
-  ✓ Proven: ('?X_4461', ':moreInterestingThan', '?Y_4461')
+  ✓ Proven: ('D', ':moreInterestingThan', 'B')
   ✓ memoized ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('?Who', ':moreInterestingThan', 'C')
+✓ Proven: ('D', ':moreInterestingThan', 'C')
 
 === Query ('?X', ':moreInterestingThan', '?Y') ===
 Answer 1: YES  (instance = ('B', ':moreInterestingThan', 'C'))  bindings={'?X': 'B', '?Y': 'C'}
 ✓ fact ('B', ':moreInterestingThan', 'C')
 Answer 2: YES  (instance = ('D', ':moreInterestingThan', 'B'))  bindings={'?X': 'D', '?Y': 'B'}
-Goal: ('?X', ':moreInterestingThan', '?Y')  via R2_award_boring
+Goal: ('D', ':moreInterestingThan', 'B')  via R2_award_boring
   ✓ fact ('D', ':hasAward', True)
   ✓ fact ('B', ':boring', True)
-✓ Proven: ('?X', ':moreInterestingThan', '?Y')
+✓ Proven: ('D', ':moreInterestingThan', 'B')
 Answer 3: YES  (instance = ('D', ':moreInterestingThan', 'C'))  bindings={'?X': 'D', '?Y': 'C'}
-Goal: ('?X', ':moreInterestingThan', '?Y')  via R3_transitive
-  ✓ memoized ('?X_5046', ':moreInterestingThan', '?Y_5046')
+Goal: ('D', ':moreInterestingThan', 'C')  via R3_transitive
+  ✓ memoized ('D', ':moreInterestingThan', 'B')
   ✓ fact ('B', ':moreInterestingThan', 'C')
-✓ Proven: ('?X', ':moreInterestingThan', '?Y')
+✓ Proven: ('D', ':moreInterestingThan', 'C')
 Answer 4: YES  (instance = ('A', ':moreInterestingThan', 'B'))  bindings={'?X': 'A', '?Y': 'B'}
-Goal: ('?X', ':moreInterestingThan', '?Y')  via R1_score
-  ✓ memoized ('?X_5077', ':score', '?SX_5077')
-  ✓ memoized ('?Y_5077', ':score', '?SY_5077')
+Goal: ('A', ':moreInterestingThan', 'B')  via R1_score
+  ✓ memoized ('A', ':score', 8)
+  ✓ memoized ('B', ':score', 5)
   ✓ builtin (8, 'math:greaterThan', 5) (8 > 5)
-✓ Proven: ('?X', ':moreInterestingThan', '?Y')
+✓ Proven: ('A', ':moreInterestingThan', 'B')
 Answer 5: YES  (instance = ('A', ':moreInterestingThan', 'C'))  bindings={'?X': 'A', '?Y': 'C'}
-Goal: ('?X', ':moreInterestingThan', '?Y')  via R3_transitive
-  ✓ memoized ('?X_5094', ':moreInterestingThan', '?Y_5094')
-  ✓ memoized ('B', ':moreInterestingThan', '?Z_5094')
-✓ Proven: ('?X', ':moreInterestingThan', '?Y')
+Goal: ('A', ':moreInterestingThan', 'C')  via R3_transitive
+  ✓ memoized ('A', ':moreInterestingThan', 'B')
+  ✓ memoized ('B', ':moreInterestingThan', 'C')
+✓ Proven: ('A', ':moreInterestingThan', 'C')

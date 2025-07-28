@@ -1,14 +1,5 @@
 """
-Tabled backward-chaining (tiny N3-ish demo) with a COMPACT failure printer.
-This treats strings starting with "?" as variables (e.g., "?X").
-All other strings are constants (e.g., "A", "B", "C", "D").
-
-Key improvement
----------------
-We add a **local fixpoint loop** per goal in `prove_tabled`: after collecting
-facts, we apply rules repeatedly until no new instances are added to the table
-entry for that goal's predicate. This lets recursive rules (like transitivity)
-see newly derived answers in the same call, producing the full closure.
+Tabled backward-chaining tiny N3-ish demo.
 
 Representation
 --------------
@@ -23,13 +14,14 @@ Features
 - Standardize-apart on each rule application (avoids variable capture)
 - Variant-based tabling (memoization) with in-progress detection
 - **Local fixpoint per goal** (saturates recursive rules like transitivity)
-- Proof trees for successful derivations
+- Proof trees for successful derivations (now show resolved instances)
 - Compact failure explanations (depth/width/line caps + grouping)
 
-With the KB below, the open query:
+With the KB below, the open queries return (order may vary):
+  ask(("?Who", ":moreInterestingThan", "C"), show_all=True)
+    -> B (fact), A (A>B & B>C), D (D>B & B>C)
   ask(("?X", ":moreInterestingThan", "?Y"), show_all=True)
-returns (order may vary):
-  B>C, D>B, A>B, D>C, A>C
+    -> B>C, D>B, A>B, D>C, A>C
 """
 
 from itertools import count
@@ -96,11 +88,17 @@ FACTS: List[Triple] = [
 # -----------------------------------------------------------------------------
 
 def is_var(t: Any) -> bool:
-    """A term is a variable iff it's a string starting with '?'."""
+    """
+    A term is a variable iff it's a string starting with '?'.
+    We do NOT treat uppercase identifiers as variables in this version.
+    """
     return isinstance(t, str) and t.startswith("?")
 
 def walk(t: Any, theta: Subst) -> Any:
-    """Follow substitutions to a representative (cycle‑guarded)."""
+    """
+    Follow substitutions to a representative (may end at a var or constant).
+    Includes a small cycle guard in case of cyclic bindings (rare here).
+    """
     seen = set()
     while is_var(t) and t in theta:
         if t in seen:
@@ -110,23 +108,36 @@ def walk(t: Any, theta: Subst) -> Any:
     return t
 
 def subst_term(t: Any, theta: Subst) -> Any:
+    """Apply substitution 'theta' to a single term."""
     return walk(t, theta)
 
 def subst_triple(tr: Triple, theta: Subst) -> Triple:
+    """Apply substitution 'theta' to a triple (only S and O; P is a predicate/IRI)."""
     s, p, o = tr
     return (subst_term(s, theta), p, subst_term(o, theta))
 
 def unify(a: Any, b: Any, theta: Subst) -> Optional[Subst]:
+    """
+    Unify two terms (not triples), returning an extended substitution or None.
+    - Variables (strings starting with '?') can bind to anything (var or constant).
+    - Constants must be equal.
+    """
     a, b = walk(a, theta), walk(b, theta)
     if a == b:
         return theta
     if is_var(a):
-        t2 = dict(theta); t2[a] = b; return t2
+        theta2 = dict(theta); theta2[a] = b
+        return theta2
     if is_var(b):
-        t2 = dict(theta); t2[b] = a; return t2
-    return None
+        theta2 = dict(theta); theta2[b] = a
+        return theta2
+    return None  # both are non-vars and not equal
 
 def unify_triples(pat: Triple, fact: Triple, theta: Subst) -> Optional[Subst]:
+    """
+    Unify two triples positionally (predicates must match exactly).
+    Returns an extended substitution or None if unification fails.
+    """
     s1, p1, o1 = pat
     s2, p2, o2 = fact
     if p1 != p2:
@@ -144,7 +155,10 @@ def unify_triples(pat: Triple, fact: Triple, theta: Subst) -> Optional[Subst]:
 _fresh = count(1)
 
 def std_apart_rule(rule: Tuple[str, Triple, List[Triple]]) -> Tuple[str, Triple, List[Triple]]:
-    """Rename ?Vars in a rule with a fresh numeric suffix on each application."""
+    """
+    Standardize variables apart each time we apply a rule, so distinct uses
+    don't share variable names/bindings. We append a fresh suffix to each ?Var.
+    """
     rid, head, body = rule
     n = next(_fresh)
     mapping: Dict[str, str] = {}
@@ -167,10 +181,14 @@ def std_apart_rule(rule: Tuple[str, Triple, List[Triple]]) -> Tuple[str, Triple,
 # -----------------------------------------------------------------------------
 
 def is_builtin(pred: str) -> bool:
+    """We model only math:greaterThan/2 for this example."""
     return pred == "math:greaterThan"
 
 def eval_builtin(goal: Triple) -> Tuple[bool, str]:
-    """Built-ins succeed only when their arguments are ground."""
+    """
+    Evaluate supported built-ins on ground terms and return (truth, reason).
+    Built-in succeeds only when its arguments are ground (no variables).
+    """
     s, p, o = goal
     if p == "math:greaterThan":
         if is_var(s) or is_var(o):
@@ -188,8 +206,9 @@ def eval_builtin(goal: Triple) -> Tuple[bool, str]:
 
 def canonicalize_goal(g: Triple) -> Triple:
     """
-    Alpha‑variant canonicalization: replace variables by ?v0, ?v1 ... in
-    order of first appearance; keep constants as‑is; predicate unchanged.
+    Alpha-variant canonicalization: replace variables by ?v0, ?v1 ... in
+    order of first appearance; keep constants as-is; predicate unchanged.
+    This lets us memoize by 'goal shape' irrespective of specific variable names.
     """
     s, p, o = g
     mapping: Dict[str, str] = {}
@@ -212,12 +231,21 @@ def canonicalize_goal(g: Triple) -> Triple:
 
 @dataclass
 class ProofNode:
+    """
+    Proof tree node kinds:
+      - "fact":    succeeded by matching a ground fact
+      - "builtin": succeeded by evaluating a built-in
+      - "rule":    succeeded by applying a rule (children are subproofs)
+      - "memo":    succeeded by reusing a memoized instance (tabling)
+    `goal` in nodes is the **resolved instance** for readability.
+    """
     goal: Triple
     kind: str                        # "fact", "builtin", "rule", or "memo"
-    detail: Optional[str] = None
+    detail: Optional[str] = None     # fact tuple, rule id, builtin reason, or "memo"
     children: List["ProofNode"] = field(default_factory=list)
 
 def pp_proof(node: ProofNode, indent: int = 0) -> None:
+    """Readable proof tree printer (now prints resolved instances)."""
     pad = "  " * indent
     if node.kind == "rule":
         print(f"{pad}Goal: {node.goal}  via {node.detail}")
@@ -242,25 +270,39 @@ def pp_failure(node: Failure,
                max_depth: int = 6,
                max_children: int = 3,
                max_lines: int = 60) -> None:
-    """Compact failure tree printer (depth/width/line caps + grouping)."""
+    """
+    Compact failure tree printer:
+      - limits total lines (max_lines)
+      - limits recursion depth (max_depth)
+      - shows at most max_children per level
+      - groups identical child failures and prints "×N"
+    """
     state = {"lines": 0}
+
     def _pp(n: Failure, d: int) -> None:
         if state["lines"] >= max_lines:
             return
         pad = "  " * d
         print(f"{pad}✗ {n.goal} — {n.reason}")
         state["lines"] += 1
+
         if not n.children:
             return
+
         if d >= max_depth:
             if state["lines"] < max_lines:
                 print(pad + "  … (more detail truncated)")
                 state["lines"] += 1
             return
+
+        # Group identical children by (goal, reason)
         groups = defaultdict(list)
         for ch in n.children:
             groups[(ch.goal, ch.reason)].append(ch)
+
+        # Largest groups first
         grouped = sorted(groups.items(), key=lambda kv: len(kv[1]), reverse=True)
+
         shown = 0
         for (g_goal, g_reason), group in grouped:
             if shown >= max_children:
@@ -269,16 +311,23 @@ def pp_failure(node: Failure,
                     print(pad + f"  … ({remaining} similar branches hidden)")
                     state["lines"] += 1
                 break
-            rep = group[0]; times = len(group)
+
+            rep = group[0]
+            times = len(group)
             suffix = f" ×{times}" if times > 1 else ""
             if state["lines"] >= max_lines:
                 break
             print(f"{pad}  ↳ {g_goal} — {g_reason}{suffix}")
             state["lines"] += 1
+
+            # Recurse into a representative sub-branch
             for grand in rep.children[:max_children]:
-                if state["lines"] >= max_lines: break
+                if state["lines"] >= max_lines:
+                    break
                 _pp(grand, d + 2)
+
             shown += 1
+
     _pp(node, indent)
 
 # -----------------------------------------------------------------------------
@@ -288,7 +337,7 @@ def pp_failure(node: Failure,
 @dataclass
 class TableEntry:
     key: Triple                           # canonicalized goal
-    instances: Set[Triple] = field(default_factory=set)  # proven instances
+    instances: Set[Triple] = field(default_factory=set)  # proven instances (resolved)
     in_progress: bool = False
     completed: bool = False
 
@@ -300,7 +349,10 @@ DEFAULT_DEPTH_LIMIT = 200  # secondary safety net
 # -----------------------------------------------------------------------------
 
 def table_answers_for(goal_inst: Triple, theta: Subst) -> Iterable[Tuple[Subst, ProofNode]]:
-    """Yield answers by unifying already-memoized instances with the current goal."""
+    """
+    Yield answers by unifying already-memoized instances with the current goal.
+    **Proof display fix**: show the resolved instance after unification.
+    """
     canon = canonicalize_goal(goal_inst)
     entry = TABLE.get(canon)
     if not entry or not entry.instances:
@@ -308,7 +360,8 @@ def table_answers_for(goal_inst: Triple, theta: Subst) -> Iterable[Tuple[Subst, 
     for inst in list(entry.instances):
         s2 = unify_triples(goal_inst, inst, dict(theta))
         if s2 is not None:
-            yield s2, ProofNode(goal=goal_inst, kind="memo", detail="memoized")
+            shown = subst_triple(goal_inst, s2)  # resolved instance for display
+            yield s2, ProofNode(goal=shown, kind="memo", detail="memoized")
 
 def prove_tabled(
     goal: Triple,
@@ -356,7 +409,7 @@ def prove_tabled(
             inst = g  # ground by construction when builtin succeeds
             if inst not in entry.instances:
                 entry.instances.add(inst)
-                yield theta, ProofNode(goal=g, kind="builtin", detail=reason)
+                yield theta, ProofNode(goal=inst, kind="builtin", detail=reason)
         entry.in_progress = False
         entry.completed = True
         return
@@ -370,7 +423,8 @@ def prove_tabled(
             inst = subst_triple(g, theta2)
             if inst not in entry.instances:
                 entry.instances.add(inst)
-                yield theta2, ProofNode(goal=g, kind="fact", detail=str(fact))
+                # **Proof display fix**: show resolved instance
+                yield theta2, ProofNode(goal=inst, kind="fact", detail=str(fact))
 
     # 3) Rules (apply to **local fixpoint**: loop until no new instances)
     changed = True
@@ -392,10 +446,10 @@ def prove_tabled(
                     return
                 first, rest = goals[0], goals[1:]
                 # IMPORTANT: If `first` is the same predicate as `g`, and our table
-                # is in_progress, `prove_tabled`(first, ...) will yield only the
-                # **current memoized** answers. Because we're in a while-loop that
-                # repeats until no new instances are added, newly derived answers
-                # will be picked up on the next iteration.
+                # is in_progress, `prove_tabled`(first, ...) yields only **current memo**
+                # answers. Because we're in a while-loop that repeats until no new
+                # instances are added, newly derived answers will be picked up on the
+                # next iteration of the outer loop (local fixpoint).
                 for th1, proof_first in prove_tabled(first, th, depth + 1, depth_limit):
                     for th2, proof_rest in prove_body(rest, th1):
                         yield th2, [proof_first] + proof_rest
@@ -405,21 +459,16 @@ def prove_tabled(
                 if inst not in entry.instances:
                     entry.instances.add(inst)
                     changed = True
-                    yield th_final, ProofNode(goal=g, kind="rule", detail=rid, children=children)
+                    # **Proof display fix**: show resolved instance
+                    yield th_final, ProofNode(goal=inst, kind="rule", detail=rid, children=children)
 
     # Done expanding this goal to local fixpoint
     entry.in_progress = False
     entry.completed = True
 
 # -----------------------------------------------------------------------------
-# Diagnosis (unchanged from prior version; compact-aware)
+# Diagnosis (compact-aware; mirrors the prover but collects reasons)
 # -----------------------------------------------------------------------------
-
-@dataclass
-class Failure:
-    goal: Triple
-    reason: str
-    children: List["Failure"] = field(default_factory=list)
 
 def diagnose(
     goal: Triple,
@@ -427,7 +476,10 @@ def diagnose(
     depth: int = 0,
     depth_limit: int = DEFAULT_DEPTH_LIMIT,
 ) -> Failure:
-    """Explain why a goal cannot be proven (compact tree of reasons)."""
+    """
+    Explain why a goal cannot be proven (at the current KB state).
+    Uses similar logic to the prover, but accumulates reasons instead of proofs.
+    """
     if depth > depth_limit:
         return Failure(goal=subst_triple(goal, theta), reason=f"depth limit {depth_limit} exceeded")
 
@@ -449,7 +501,7 @@ def diagnose(
             return Failure(goal=g, reason=f"builtin {p} failed: {reason}")
         return Failure(goal=g, reason=f"unexpected: builtin {p} succeeded")
 
-    # Facts quick check
+    # Facts quick check (same predicate)
     has_same_pred_fact = False
     for fact in FACTS:
         if fact[1] != p:
