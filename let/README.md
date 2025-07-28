@@ -11,4 +11,4 @@
     ```
     ./test
     ```
-  to get [output](output) from [input](input)
+  to get [brain](brain) ('bra'nches of 'in'telligence) [dump](brain/dump)

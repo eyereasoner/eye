@@ -22,15 +22,15 @@ pad () {
 
 begin=$(($(date +%s)))
 
-for file in input/*.py
+for file in brain/*.py
 do
     f="$(basename ${file})"
     echo -en "$(pad "${f}" -34)"
     start=$(($(date +%s%N)/1000000))
-    python "${file}" > output/${f%.py}.txt
+    python "${file}" > brain/dump/${f%.py}.txt
     end=$(($(date +%s%N)/1000000))
     echo -en "${YELLOW}$(pad "`expr $end - $start` msec" 12)${NORMAL} "
-    if [[ $(git diff output/${f%.py}.txt | wc -l) -eq 0 ]]; then
+    if [[ $(git diff brain/dump/${f%.py}.txt | wc -l) -eq 0 ]]; then
         echo -e "${GREEN}OK${NORMAL}"
         ((OK++))
     else

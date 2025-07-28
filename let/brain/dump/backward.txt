@@ -1,0 +1,13 @@
+
+=== Query (5, ':moreInterestingThan', 3) ===
+Answer 1: YES  (instance = (5, ':moreInterestingThan', 3))
+Goal: (5, ':moreInterestingThan', 3)  via R-moreInteresting
+  ✓ builtin (5, 'math:greaterThan', 3) (5 > 3)
+✓ Proven: (5, ':moreInterestingThan', 3)
+
+=== Query (3, ':moreInterestingThan', 5) ===
+Answer: NO
+Why not?
+✗ (3, ':moreInterestingThan', 5)  — all applicable rules' bodies failed
+  ✗ (3, ':moreInterestingThan', 5)  — rule R-moreInteresting body not provable
+    ✗ (3, 'math:greaterThan', 5)  — builtin math:greaterThan failed: 3 > 5

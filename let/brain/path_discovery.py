@@ -297,7 +297,7 @@ def prove(
 
 def _cli() -> None:
     ap = argparse.ArgumentParser(description="Enumerate routes with goal-driven proofs.")
-    ap.add_argument("--kg", type=Path, default="input/path_discovery.txt")
+    ap.add_argument("--kg", type=Path, default="brain/path_discovery.txt")
     ap.add_argument("--start", default="airroutes_AIRPORT_4011")
     ap.add_argument("--goal", default="airroutes_AIRPORT_421")
     ap.add_argument("-k", "--max-stopovers", type=int, default=2)
