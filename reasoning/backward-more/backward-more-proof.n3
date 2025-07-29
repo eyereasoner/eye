@@ -1,0 +1,113 @@
+@prefix skolem: <https://eyereasoner.github.io/.well-known/genid/8b98b360-9a70-4845-b52c-c675af60ad01#>.
+@prefix r: <http://www.w3.org/2000/10/swap/reason#>.
+@prefix : <http://example.org/#>.
+@prefix n3: <http://www.w3.org/2004/06/rei#>.
+@prefix var: <http://www.w3.org/2000/10/swap/var#>.
+
+skolem:proof a r:Proof, r:Conjunction;
+    r:component skolem:lemma1;
+    r:component skolem:lemma2;
+    r:component skolem:lemma3;
+    r:component skolem:lemma4;
+    r:component skolem:lemma5;
+    r:gives {
+        :A :moreInterestingThan :B.
+        :A :moreInterestingThan :C.
+        :D :moreInterestingThan :B.
+        :B :moreInterestingThan :C.
+        :D :moreInterestingThan :C.
+    }.
+
+skolem:lemma1 a r:Inference;
+    r:gives {
+        :A :moreInterestingThan :B.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:A :moreInterestingThan :B}]
+    );
+    r:rule skolem:lemma6.
+
+skolem:lemma2 a r:Inference;
+    r:gives {
+        :A :moreInterestingThan :C.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:A :moreInterestingThan :C}]
+    );
+    r:rule skolem:lemma7.
+
+skolem:lemma3 a r:Inference;
+    r:gives {
+        :D :moreInterestingThan :B.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:D :moreInterestingThan :B}]
+    );
+    r:rule skolem:lemma8.
+
+skolem:lemma4 a r:Inference;
+    r:gives {
+        :B :moreInterestingThan :C.
+    };
+    r:evidence (
+        skolem:lemma9
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#B"]];
+    r:rule skolem:lemma10.
+
+skolem:lemma5 a r:Inference;
+    r:gives {
+        :D :moreInterestingThan :C.
+    };
+    r:evidence (
+        [ a r:Fact; r:gives {:D :moreInterestingThan :C}]
+    );
+    r:binding [ r:variable [ n3:uri "http://www.w3.org/2000/10/swap/var#x_0"]; r:boundTo [ n3:uri "http://example.org/#D"]];
+    r:rule skolem:lemma10.
+
+skolem:lemma6 a r:Extraction;
+    r:gives {
+        {
+            :A :moreInterestingThan :B.
+        } => {
+            :A :moreInterestingThan :B.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query.n3>].
+
+skolem:lemma7 a r:Extraction;
+    r:gives {
+        {
+            :A :moreInterestingThan :C.
+        } => {
+            :A :moreInterestingThan :C.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query.n3>].
+
+skolem:lemma8 a r:Extraction;
+    r:gives {
+        {
+            :D :moreInterestingThan :B.
+        } => {
+            :D :moreInterestingThan :B.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query.n3>].
+
+skolem:lemma9 a r:Extraction;
+    r:gives {
+        :B :moreInterestingThan :C.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more.n3>].
+
+skolem:lemma10 a r:Extraction;
+    r:gives {
+        @forAll var:x_0. {
+            var:x_0 :moreInterestingThan :C.
+        } => {
+            var:x_0 :moreInterestingThan :C.
+        }.
+    };
+    r:because [ a r:Parsing; r:source <https://eyereasoner.github.io/eye/reasoning/backward-more/backward-more-query.n3>].
+

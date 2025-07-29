@@ -1,0 +1,45 @@
+@prefix : <http://example.org/#>.
+
+# 1) Score rule: A > B (8 > 5)
+{
+    :A :moreInterestingThan :B.
+} => {
+    :A :moreInterestingThan :B.
+}.
+
+# 2) Transitivity: A > B and (fact) B > C  ⇒  A > C (no score for C)
+{
+    :A :moreInterestingThan :C.
+} => {
+    :A :moreInterestingThan :C.
+}.
+
+# 3) Context rule: D has an award and B is boring  ⇒  D > B
+{
+    :D :moreInterestingThan :B.
+} => {
+    :D :moreInterestingThan :B.
+}.
+
+# 4) Failure example: C > A should fail (compact explanation)
+{
+    :C :moreInterestingThan :A.
+} => {
+    :C :moreInterestingThan :A.
+}.
+
+# 5) Open variable: Who is moreInterestingThan C?
+#    Expect B (fact), A (via A>B & B>C), and D (via D>B & B>C).
+{
+    ?Who :moreInterestingThan :C.
+} => {
+    ?Who :moreInterestingThan :C.
+}.
+
+# 6) Both ends open: expect B>C, D>B, A>B, D>C, A>C (order may vary)
+{
+    ?X :moreInterestingThan ?Y.
+} => {
+    ?X :moreInterestingThan ?Y.
+}.
+
