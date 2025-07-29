@@ -1,0 +1,34 @@
+
+=== Part A: Series identity e^{i x} = cos x + i sin x ===
+
+First few terms of e^{i x} = sum_{n>=0} (i x)^n / n!
+  n=0: (i x)^0/n! -> 1 * x^0 / 1 = +1 * 1 * x^0
+  n=1: (i x)^1/n! -> i * x^1 / 1 = +1 * i * x^1
+  n=2: (i x)^2/n! -> -1 * x^2 / 2 = -1/2 * -1 * x^2
+  n=3: (i x)^3/n! -> -i * x^3 / 6 = -1/6 * -i * x^3
+  n=4: (i x)^4/n! -> 1 * x^4 / 24 = +1/24 * 1 * x^4
+  n=5: (i x)^5/n! -> i * x^5 / 120 = +1/120 * i * x^5
+  n=6: (i x)^6/n! -> -1 * x^6 / 720 = -1/720 * -1 * x^6
+  n=7: (i x)^7/n! -> -i * x^7 / 5040 = -1/5040 * -i * x^7
+  n=8: (i x)^8/n! -> 1 * x^8 / 40320 = +1/40320 * 1 * x^8
+  n=9: (i x)^9/n! -> i * x^9 / 362880 = +1/362880 * i * x^9
+
+Grouping real (even n) and imaginary (odd n) terms gives exactly:
+  Real:   1 - x^2/2! + x^4/4! - x^6/6! + ...  = cos x
+  Imag i: x - x^3/3! + x^5/5! - x^7/7! + ...  = i sin x
+Therefore, by power-series definitions, e^{i x} = cos x + i sin x.
+
+=== Part B: Rigorous numerical bound at x = pi ===
+
+Using 60 Decimal digits of precision.
+Computed pi  ≈ 3.14159265358979323846264338327950288419716939937510582097494
+sin(pi) approx = 1.052539246779335820159768934637566798245098001598536703727E-56
+  remainder bound ≤ 4.17481802550280232192225374464237850564673215300877371075727E-54
+cos(pi) approx = -0.999999999999999999999999999999999999999999999999999999788983
+  remainder bound ≤ 8.10620368826859172018314209435424776528774589092806444287853E-53
+
+Thus, a rigorous bound for |e^(i*pi) + 1| is
+  ≤ |(cos(pi) approx + 1)| + cos_rem + |sin(pi) approx| + sin_rem
+  = 8.54583973006565128819552723775312318265066420423054035065799E-53
+
+SUCCESS: |e^(i*pi) + 1| ≤ 1E-50. Within this epsilon, e^(i*pi)+1 = 0.
