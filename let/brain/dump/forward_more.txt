@@ -1,0 +1,29 @@
+✓ fact (':B', ':moreInterestingThan', ':C')
+✓ :A > :B  via score rule (8 > 5)
+✓ :D > :B  via award/boring rule
+✓ :A > :C  via transitivity (:A > :B and :B > :C)
+✓ :D > :C  via transitivity (:D > :B and :B > :C)
+
+=== Query (':A', ':moreInterestingThan', ':B') ===
+YES
+
+=== Query (':A', ':moreInterestingThan', ':C') ===
+YES
+
+=== Query (':D', ':moreInterestingThan', ':B') ===
+YES
+
+=== Query (':C', ':moreInterestingThan', ':A') ===
+NO
+
+=== Who is more interesting than :C? ===
+:A
+:B
+:D
+
+=== All pairs ?X > ?Y ===
+:A > :B
+:A > :C
+:B > :C
+:D > :B
+:D > :C
