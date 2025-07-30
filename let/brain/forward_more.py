@@ -3,7 +3,7 @@
 forward_more.py – forward-chaining with full proof trace
 """
 
-from typing import List, Set, Tuple
+from typing import List, Set, Tuple, TypeVar, Dict
 
 # ---------- FACTS ----------
 facts = {
@@ -27,50 +27,59 @@ def award(e: str) -> bool:
 def boring(e: str) -> bool:
     return any(v is True for s, p, v in facts if s == e and p == ":boring")
 
-# ---------- RULE APPLICATION ----------
+# ---------- DETERMINISTIC FORWARD CHAIN ----------
 derived: Set[Tuple[str, str, str]] = set()
+order: List[Tuple[str, str, str, str]] = []  # (a, b, rule, reason)
 
-def add(triple: Tuple[str, str, str], reason: str):
-    if triple not in derived:
-        derived.add(triple)
-        print(reason)
-
-# ----- 1. direct facts -----
+# 1. direct facts
 for t in facts:
     if t[1] == ":moreInterestingThan":
-        add(t, f"✓ fact {t}")
+        if t not in derived:
+            derived.add(t)
+            order.append((t[0], t[2], "fact", f"✓ fact {t}"))
 
-# ----- 2. score rule -----
+# 2. score rule (lexicographic)
 for a in entities:
     for b in entities:
         sa, sb = score(a), score(b)
         if sa is not None and sb is not None and sa > sb:
-            add((a, ":moreInterestingThan", b),
-                f"✓ {a} > {b}  via score rule ({sa} > {sb})")
+            triple = (a, ":moreInterestingThan", b)
+            if triple not in derived:
+                derived.add(triple)
+                order.append((a, b, "score", f"✓ {a} > {b}  via score rule ({sa} > {sb})"))
 
-# ----- 3. award / boring rule -----
+# 3. award / boring rule (lexicographic)
 for a in entities:
     for b in entities:
         if award(a) and boring(b):
-            add((a, ":moreInterestingThan", b),
-                f"✓ {a} > {b}  via award/boring rule")
+            triple = (a, ":moreInterestingThan", b)
+            if triple not in derived:
+                derived.add(triple)
+                order.append((a, b, "award", f"✓ {a} > {b}  via award/boring rule"))
 
-# ----- 4. transitive closure -----
+# 4. transitive closure (fixed-point, lexicographic)
 changed = True
 while changed:
     changed = False
     for (a, _, b) in list(derived):
         for (b2, _, c) in list(derived):
-            if b == b2 and (a, ":moreInterestingThan", c) not in derived:
-                add((a, ":moreInterestingThan", c),
-                    f"✓ {a} > {c}  via transitivity ({a} > {b} and {b} > {c})")
-                changed = True
+            if b == b2:
+                triple = (a, ":moreInterestingThan", c)
+                if triple not in derived:
+                    derived.add(triple)
+                    order.append((a, c, "trans", f"✓ {a} > {c}  via transitivity ({a} > {b} and {b} > {c})"))
+                    changed = True
 
 # ---------- QUERY ANSWERER ----------
 def prove(a: str, b: str) -> bool:
     return (a, ":moreInterestingThan", b) in derived
 
 def run_all():
+    # print derivations in fixed order
+    for _, _, _, line in order:
+        print(line)
+
+    # queries
     queries = [(":A", ":B"), (":A", ":C"), (":D", ":B"), (":C", ":A")]
     for a, b in queries:
         print(f"\n=== Query ('{a}', ':moreInterestingThan', '{b}') ===")
