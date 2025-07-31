@@ -1,15 +1,13 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission:  ex:alice may odrl:read ex:resourceX.
-  (F1) Prohibition: ex:alice must-not odrl:read ex:resourceX.
-  Both rules have no conditions/refinements (they are unconditional).
-
-Derivation:
-  (S1) Because (P1) is unconditional, for any world w, Perm(read) holds in w.
-  (S2) Because (F1) is unconditional, for any world w, Prohib(read) holds in w.
-  (C) For arbitrary w, Perm(read) ∧ Prohib(read). Since w was arbitrary,
-      this holds for all worlds. Therefore the policies conflict in every
-      possible state of the world ⇒ Global state: Conflict.
+[1] Premise: ∀w. Perm(ex:alice, odrl:read, ex:resourceX, w)  // Unconditional Permission: holds in every world
+[2] Premise: ∀w. Proh(ex:alice, odrl:read, ex:resourceX, w)  // Unconditional Prohibition: holds in every world
+[3] Universe-Def: W := all possible worlds  // No constraints/refinements restrict applicability
+[4] Arbitrary-World [3]: w0 ∈ W (arbitrary)  // World chosen arbitrarily; proof must not depend on which one
+[5] Universal-Elim [1, 4]: Perm(ex:alice, odrl:read, ex:resourceX, w0)  // Instantiate unconditional Permission at w0
+[6] Universal-Elim [2, 4]: Proh(ex:alice, odrl:read, ex:resourceX, w0)  // Instantiate unconditional Prohibition at w0
+[7] And-Intro [5, 6]: (Perm(ex:alice, odrl:read, ex:resourceX, w0) ∧ Proh(ex:alice, odrl:read, ex:resourceX, w0))  // Clash at the arbitrary world
+[8] ForAll-Intro [7]: ∀w. (Perm(ex:alice, odrl:read, ex:resourceX, w) ∧ Proh(ex:alice, odrl:read, ex:resourceX, w))  // Since w0 was arbitrary, the conjunction holds in all worlds
+[9] Classification [8]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // Perm and Proh hold in every possible world

@@ -1,118 +1,202 @@
 #!/usr/bin/env python3
 """
-Testcase-1: Permission vs Prohibition (unconditional, same subject/action/target)
-================================================================================
+Generic explicit-step proof builder for unconditional Permission vs Prohibition
+==============================================================================
 
-Scenario (from ODRL Test Conflicts, testcase-1):
-  - policy1a: Alice is permitted to read resource X.
-  - policy1b: Alice is prohibited to read resource X.
-  - No constraints/refinements/conditions on either rule.
+Testcase-1 summary:
+  - Unconditional Permission: ex:alice may odrl:read ex:resourceX.
+  - Unconditional Prohibition: ex:alice must-not odrl:read ex:resourceX.
+  - No refinements/constraints => both rules apply in every possible world.
 
-Expected global activation state: Conflict
-  "The policies permit and prohibit the action for any possible state of the world."
+Therefore, in *every* world w: Perm(read,w) ∧ Proh(read,w) ⇒ Global state: Conflict.
 
-This script:
-  1) Encodes the two unconditional rules.
-  2) Classifies the global activation state using simple, explicit criteria.
-  3) Always prints:
-       - The URI for the global result
-       - A concise goal-oriented proof explanation
+This program provides:
+  - A tiny, reusable proof kernel (terms, formulas, explicit steps).
+  - A generic builder `build_unconditional_conflict_proof` that works for any
+    (assignee, action, target) triple with unconditional Permission & Prohibition.
 
 No external libraries required.
 """
 
-from dataclasses import dataclass
-from typing import Optional, List
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Any, List, Optional, Tuple
 
-# --- Policy modeling ----------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Tiny logic: terms, formulas, pretty-printers (generic)
+# -----------------------------------------------------------------------------
 
 @dataclass(frozen=True)
-class Rule:
-    kind: str          # "permission" or "prohibition"
-    assignee: str      # e.g., "ex:alice"
-    action: str        # e.g., "odrl:read"
-    target: str        # e.g., "ex:resourceX"
-    refinement: Optional[str] = None  # None means unconditional
+class Term:
+    name: str
+    def __str__(self) -> str: return self.name
 
-# Instantiate the two rules exactly as described
-POLICY_1A = Rule(kind="permission",  assignee="ex:alice", action="odrl:read", target="ex:resourceX")
-POLICY_1B = Rule(kind="prohibition", assignee="ex:alice", action="odrl:read", target="ex:resourceX")
+@dataclass(frozen=True)
+class Atom:
+    pred: str
+    args: Tuple[Any, ...]
+    def pretty(self) -> str:
+        def fmt(x: Any) -> str: return x if isinstance(x, str) else str(x)
+        return f"{self.pred}(" + ", ".join(fmt(a) for a in self.args) + ")"
 
-# --- Classification logic -----------------------------------------------------
+@dataclass(frozen=True)
+class And:
+    left: Any
+    right: Any
+    def pretty(self) -> str:
+        L = self.left.pretty() if hasattr(self.left, "pretty") else str(self.left)
+        R = self.right.pretty() if hasattr(self.right, "pretty") else str(self.right)
+        return f"({L} ∧ {R})"
+
+@dataclass(frozen=True)
+class ForAll:
+    var: Term
+    body: Any  # body may reference var (here: Perm/Proh(..., var))
+    def pretty(self) -> str:
+        return f"∀{self.var}. {self.body.pretty()}"
+
+# -----------------------------------------------------------------------------
+# Proof kernel (pretty output only)
+# -----------------------------------------------------------------------------
+
+@dataclass
+class Conclusion:
+    kind: str
+    payload: Any
+    def pretty(self) -> str:
+        k, p = self.kind, self.payload
+        if k == "formula":        return p.pretty()
+        if k == "universe-def":   return f"{p[0]} := {p[1]}"
+        if k == "choose-world":   return f"{p[0]} ∈ {p[1]} (arbitrary)"
+        if k == "classification": return f"Global activation state = {p}"
+        return str(p)
+
+@dataclass
+class Step:
+    id: int
+    rule: str
+    premises: List[int]
+    conclusion: Conclusion
+    notes: Optional[str] = None
+
+@dataclass
+class Proof:
+    steps: List[Step] = field(default_factory=list)
+    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
+        sid = len(self.steps) + 1
+        self.steps.append(Step(sid, rule, premises, conclusion, notes))
+        return sid
+    def pretty(self) -> str:
+        lines = []
+        for s in self.steps:
+            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
+            note = f"  // {s.notes}" if s.notes else ""
+            lines.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
+        return "\n".join(lines)
+
+# -----------------------------------------------------------------------------
+# Reusable builders for unconditional premises
+# -----------------------------------------------------------------------------
+
+def forall_perm_unconditional(var: Term, assignee: str, action: str, target: str) -> ForAll:
+    # Unconditional: holds for all worlds (no antecedent)
+    return ForAll(var, Atom("Perm", (assignee, action, target, var)))
+
+def forall_proh_unconditional(var: Term, assignee: str, action: str, target: str) -> ForAll:
+    # Unconditional: holds for all worlds (no antecedent)
+    return ForAll(var, Atom("Proh", (assignee, action, target, var)))
+
+# -----------------------------------------------------------------------------
+# Report URIs
+# -----------------------------------------------------------------------------
 
 REPORT_URIS = {
-    "Conflict":    "https://w3id.org/force/compliance-report#Conflict",
-    "Ambiguous":   "https://w3id.org/force/compliance-report#Ambiguous",
-    "Prohibited":  "https://w3id.org/force/compliance-report#Prohibited",
-    "Permitted":   "https://w3id.org/force/compliance-report#Permitted",
-    "NoConflict":  "https://w3id.org/force/compliance-report#NoConflict",
+    "Conflict":   "https://w3id.org/force/compliance-report#Conflict",
+    "Ambiguous":  "https://w3id.org/force/compliance-report#Ambiguous",
+    "Prohibited": "https://w3id.org/force/compliance-report#Prohibited",
+    "Permitted":  "https://w3id.org/force/compliance-report#Permitted",
+    "NoConflict": "https://w3id.org/force/compliance-report#NoConflict",
 }
 
-def conflict_always(permission: Rule, prohibition: Rule) -> bool:
+# -----------------------------------------------------------------------------
+# Generic proof builder for unconditional Permission vs Prohibition
+# -----------------------------------------------------------------------------
+
+def build_unconditional_conflict_proof(assignee: str, action: str, target: str,
+                                       universe_name: str = "W",
+                                       witness_name: str = "w0") -> Tuple[Proof, str]:
     """
-    Returns True iff:
-      - one rule is a permission and the other is a prohibition,
-      - same assignee, action, and target,
-      - both are unconditional (no refinements),
-      - therefore both apply in *every* state of the world.
+    Build an explicit proof that unconditional Permission and Prohibition
+    on the same (assignee, action, target) yield Conflict.
     """
-    same_triplet = (
-        permission.assignee == prohibition.assignee and
-        permission.action  == prohibition.action  and
-        permission.target  == prohibition.target
-    )
-    unconditional = (permission.refinement is None and prohibition.refinement is None)
-    return (permission.kind == "permission"
-            and prohibition.kind == "prohibition"
-            and same_triplet
-            and unconditional)
+    proof = Proof()
+    w = Term("w")
 
-def classify_global(permission: Rule, prohibition: Rule) -> str:
-    if conflict_always(permission, prohibition):
-        return REPORT_URIS["Conflict"]
-    # The testcase is specifically the unconditional clash,
-    # but we keep fallbacks for completeness.
-    return REPORT_URIS["NoConflict"]
+    # [1] Unconditional Permission premise
+    perm_prem = forall_perm_unconditional(w, assignee, action, target)
+    s1 = proof.add("Premise", [], Conclusion("formula", perm_prem),
+                   notes="Unconditional Permission: holds in every world")
 
-# --- Proof construction -------------------------------------------------------
+    # [2] Unconditional Prohibition premise
+    proh_prem = forall_proh_unconditional(w, assignee, action, target)
+    s2 = proof.add("Premise", [], Conclusion("formula", proh_prem),
+                   notes="Unconditional Prohibition: holds in every world")
 
-def build_goal_oriented_proof(permission: Rule, prohibition: Rule) -> str:
-    """
-    Goal-oriented proof that the global activation state is Conflict.
+    # [3] Define the universe of worlds
+    s3 = proof.add("Universe-Def", [], Conclusion("universe-def", (universe_name, "all possible worlds")),
+                   notes="No constraints/refinements restrict applicability")
 
-    Goal G:
-      Show that for every possible state of the world w,
-      Perm(read) and Prohib(read) both hold for the same subject/action/target.
-    """
-    lines: List[str] = []
-    lines.append("--- Goal-Oriented Proof Explanation ---\n")
-    lines.append("Policies:")
-    lines.append(f"  (P1) Permission:  {permission.assignee} may {permission.action} {permission.target}.")
-    lines.append(f"  (F1) Prohibition: {prohibition.assignee} must-not {prohibition.action} {prohibition.target}.")
-    lines.append("  Both rules have no conditions/refinements (they are unconditional).")
-    lines.append("")
-    lines.append("Derivation:")
-    lines.append("  (S1) Because (P1) is unconditional, for any world w, Perm(read) holds in w.")
-    lines.append("  (S2) Because (F1) is unconditional, for any world w, Prohib(read) holds in w.")
-    lines.append("  (C) For arbitrary w, Perm(read) ∧ Prohib(read). Since w was arbitrary,")
-    lines.append("      this holds for all worlds. Therefore the policies conflict in every")
-    lines.append("      possible state of the world ⇒ Global state: Conflict.")
-    return "\n".join(lines)
+    # [4] Choose an arbitrary world w0 ∈ W
+    s4 = proof.add("Arbitrary-World", [s3], Conclusion("choose-world", (witness_name, universe_name)),
+                   notes="World chosen arbitrarily; proof must not depend on which one")
 
-# --- Main ---------------------------------------------------------------------
+    # [5] Universal-Elim on Permission at w0
+    inst_perm = Atom("Perm", (assignee, action, target, witness_name))
+    s5 = proof.add("Universal-Elim", [s1, s4], Conclusion("formula", inst_perm),
+                   notes="Instantiate unconditional Permission at w0")
+
+    # [6] Universal-Elim on Prohibition at w0
+    inst_proh = Atom("Proh", (assignee, action, target, witness_name))
+    s6 = proof.add("Universal-Elim", [s2, s4], Conclusion("formula", inst_proh),
+                   notes="Instantiate unconditional Prohibition at w0")
+
+    # [7] ∧-Introduction: Perm ∧ Proh at w0
+    conj = And(inst_perm, inst_proh)
+    s7 = proof.add("And-Intro", [s5, s6], Conclusion("formula", conj),
+                   notes="Clash at the arbitrary world")
+
+    # [8] ∀-Introduction: generalize clash to all worlds
+    general = ForAll(w, And(
+        Atom("Perm", (assignee, action, target, w)),
+        Atom("Proh", (assignee, action, target, w))
+    ))
+    s8 = proof.add("ForAll-Intro", [s7], Conclusion("formula", general),
+                   notes="Since w0 was arbitrary, the conjunction holds in all worlds")
+
+    # [9] Classification: Conflict
+    result_uri = REPORT_URIS["Conflict"]
+    proof.add("Classification", [s8], Conclusion("classification", result_uri),
+              notes="Perm and Proh hold in every possible world")
+
+    return proof, result_uri
+
+# -----------------------------------------------------------------------------
+# Demonstration: instantiate for testcase-1
+# -----------------------------------------------------------------------------
 
 def main() -> None:
-    permission  = POLICY_1A
-    prohibition = POLICY_1B
+    assignee = "ex:alice"
+    action   = "odrl:read"
+    target   = "ex:resourceX"
 
-    result_uri = classify_global(permission, prohibition)
+    proof, result_uri = build_unconditional_conflict_proof(assignee, action, target)
 
-    # Always print the expected URI first (required by test harnesses)
+    # 1) Expected URI first
     print(result_uri)
 
-    # Then print a compact, goal-oriented proof explanation
-    print()
-    print(build_goal_oriented_proof(permission, prohibition))
+    # 2) Pretty, numbered proof
+    print("\n=== Pretty Proof ===\n")
+    print(proof.pretty())
 
 if __name__ == "__main__":
     main()

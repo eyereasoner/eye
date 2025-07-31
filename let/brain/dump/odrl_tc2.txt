@@ -1,17 +1,16 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission:  ex:alice may odrl:read ex:resourceX.
-  (F1) Prohibition: ex:alice must-not odrl:use ex:resourceX.
-  Both rules are unconditional (no constraints/refinements).
-
-Action taxonomy:
-  (T) odrl:read is a subclass (narrower action) of odrl:use (odrl:read ⊑ odrl:use).
-
-Derivation:
-  (S1) From (F1) and (T), Prohibition(odrl:use) ⇒ Prohibition(odrl:read).
-  (S2) From (P1), Permission(odrl:read) holds unconditionally.
-  (C) For any world w, Permission(odrl:read) ∧ Prohibition(odrl:read).
-      Since w was arbitrary, this holds for all worlds ⇒ Global state: Conflict.
+[1] Premise: ∀w. Perm(ex:alice, odrl:read, ex:resourceX, w)  // Unconditional Permission on odrl:read
+[2] Premise: ∀w. Proh(ex:alice, odrl:use, ex:resourceX, w)  // Unconditional Prohibition on odrl:use
+[3] Taxonomy-Fact: odrl:read ⊑ odrl:use  // Action hierarchy contains this subaction relation
+[4] Subsumption-Rule [3]: Proh(odrl:use) ⇒ Proh(odrl:read)  // If child ⊑ parent then Proh(parent, t, w) ⇒ Proh(child, t, w)
+[5] Universe-Def: W := all possible worlds  // No conditions restrict applicability
+[6] Arbitrary-World [5]: w0 ∈ W (arbitrary)  // World chosen arbitrarily; argument must not depend on which one
+[7] Universal-Elim [1, 6]: Perm(ex:alice, odrl:read, ex:resourceX, w0)  // Instantiate Permission(odrl:read) at w0
+[8] Universal-Elim [2, 6]: Proh(ex:alice, odrl:use, ex:resourceX, w0)  // Instantiate Prohibition(odrl:use) at w0
+[9] Subsumption-Apply [4, 8]: Proh(ex:alice, odrl:read, ex:resourceX, w0)  // Apply Prohibition subsumption along child ⊑ parent
+[10] And-Intro [7, 9]: (Perm(ex:alice, odrl:read, ex:resourceX, w0) ∧ Proh(ex:alice, odrl:read, ex:resourceX, w0))  // Clash at the arbitrary world
+[11] ForAll-Intro [10]: ∀w. (Perm(ex:alice, odrl:read, ex:resourceX, w) ∧ Proh(ex:alice, odrl:read, ex:resourceX, w))  // Since w0 was arbitrary, the conjunction holds in all worlds
+[12] Classification [11]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // Perm and Proh on the same (child) action hold in every world
