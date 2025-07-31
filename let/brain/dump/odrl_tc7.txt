@@ -1,27 +1,21 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission:  ex:alice may odrl:read ex:collectionX.
-  (F1) Prohibition: ex:alice must-not odrl:read ex:collectionY.
-  Both rules are unconditional (no constraints/refinements).
-
-Asset facts and overlap:
-  Members(X) = ['ex:document1', 'ex:document2']
-  Members(Y) = ['ex:document1', 'ex:document2', 'ex:document3']
-  Overlap X ∩ Y = ['ex:document1', 'ex:document2']
-
-Collection lifting:
-  (L1) If Perm(act, C) and partOf(a, C), then Perm(act, a).
-  (L2) If Proh(act, C) and partOf(a, C), then Proh(act, a).
-
-Witness construction:
-  Choose a := ex:document1 ∈ X ∩ Y.
-  From (P1) and (L1): Perm(read, a).
-  From (F1) and (L2): Proh(read, a).
-  Therefore Perm(read, a) ∧ Proh(read, a) holds.
-
-Conclusion:
-  Since both rules are unconditional and the overlap is factual,
-  the clash persists in every possible world ⇒ Global state: Conflict.
+[1] Premise: ∀w. Perm(ex:alice, odrl:read, ex:collectionX, w)  // Unconditional Permission on ex:collectionX
+[2] Premise: ∀w. Proh(ex:alice, odrl:read, ex:collectionY, w)  // Unconditional Prohibition on ex:collectionY
+[3] Members-Fact: Members(ex:collectionX) = [ex:document1, ex:document2]  // All assets in the permission collection
+[4] Members-Fact: Members(ex:collectionY) = [ex:document1, ex:document2, ex:document3]  // All assets in the prohibition collection
+[5] Overlap-Fact [3, 4]: Overlap = [ex:document1, ex:document2]  // Non-empty intersection of members
+[6] Collection-Lifting-Rule (Perm): Perm(act, C, w) ∧ partOf(a, C) ⇒ Perm(act, a, w)  // From Perm(act, C, w) and partOf(a, C) infer Perm(act, a, w)
+[7] Collection-Lifting-Rule (Proh): Proh(act, C, w) ∧ partOf(a, C) ⇒ Proh(act, a, w)  // From Proh(act, C, w) and partOf(a, C) infer Proh(act, a, w)
+[8] Universe-Def: W := all possible worlds  // No constraints/refinements restrict applicability
+[9] Arbitrary-World [8]: w0 ∈ W (arbitrary)  // World chosen arbitrarily; argument must not depend on which one
+[10] Choose-Asset [5]: ex:document1 ∈ Overlap (witness asset)  // Pick witness asset a = ex:document1
+[11] Universal-Elim [1, 9]: Perm(ex:alice, odrl:read, ex:collectionX, w0)  // Instantiate collection permission at w0
+[12] Lifting-Apply (Perm) [6, 11, 10]: Perm(ex:alice, odrl:read, ex:document1, w0)  // Apply lifting via partOf(ex:document1, ex:collectionX)
+[13] Universal-Elim [2, 9]: Proh(ex:alice, odrl:read, ex:collectionY, w0)  // Instantiate collection prohibition at w0
+[14] Lifting-Apply (Proh) [7, 13, 10]: Proh(ex:alice, odrl:read, ex:document1, w0)  // Apply lifting via partOf(ex:document1, ex:collectionY)
+[15] And-Intro [12, 14]: (Perm(ex:alice, odrl:read, ex:document1, w0) ∧ Proh(ex:alice, odrl:read, ex:document1, w0))  // Clash at the arbitrary world on the same asset
+[16] ForAll-Intro [15]: ∀w. (Perm(ex:alice, odrl:read, ex:document1, w) ∧ Proh(ex:alice, odrl:read, ex:document1, w))  // Since w0 was arbitrary, the clash holds in all worlds
+[17] Classification [16]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // Unconditional rules + factual overlap ⇒ standing clash in every world

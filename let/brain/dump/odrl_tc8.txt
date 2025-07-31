@@ -1,23 +1,18 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission:  ex:alice may ex:rent ex:collectionX.
-  (P2) Permission:  ex:alice may ex:sell ex:collectionX.
-  (F1) Prohibition: ex:alice must-not ex:rentsell ex:collectionX.
-  All three rules are unconditional (no constraints/refinements).
-
-Action axiom (intersection):
-  (A) ex:rentsell ≡ ex:rent ⊓ ex:sell.
-
-Derivation:
-  (S1) From (P1) and (P2): Perm(ex:rent) ∧ Perm(ex:sell).
-  (S2) From (A) and (S1): Perm(ex:rentsell) (permission on each component yields permission on their intersection).
-  (S3) From (F1): Proh(ex:rentsell).
-  (C) Therefore, in any world w, Perm(ex:rentsell) ∧ Proh(ex:rentsell).
-      Since w was arbitrary and the rules are unconditional, the global state is Conflict.
-
-Intuition ("drink & drive" analogy):
-  Being allowed to do X and allowed to do Y, while being forbidden to do X AND Y together,
-  creates a direct clash once the composite action X∧Y is recognized as an action in its own right.
+[1] Premise: ∀w. Perm(ex:alice, ex:rent, ex:collectionX, w)  // Unconditional Permission on component action ex:rent
+[2] Premise: ∀w. Perm(ex:alice, ex:sell, ex:collectionX, w)  // Unconditional Permission on component action ex:sell
+[3] Premise: ∀w. Proh(ex:alice, ex:rentsell, ex:collectionX, w)  // Unconditional Prohibition on composite action ex:rentsell
+[4] Action-Def (∩): ex:rentsell ≡ ex:rent ⊓ ex:sell  // Composite action defined as an intersection of component actions
+[5] Perm-Intro(∩) [4]: ∧i Perm(Ai,t,w) ⇒ Perm(∩Ai,t,w)  // From all component permissions infer permission on the composite
+[6] Universe-Def: W := all possible worlds  // No constraints/refinements restrict applicability
+[7] Arbitrary-World [6]: w0 ∈ W (arbitrary)  // World chosen arbitrarily; argument must not depend on which one
+[8] Universal-Elim [1, 7]: Perm(ex:alice, ex:rent, ex:collectionX, w0)  // Instantiate component permission ex:rent at w0
+[9] Universal-Elim [2, 7]: Perm(ex:alice, ex:sell, ex:collectionX, w0)  // Instantiate component permission ex:sell at w0
+[10] Intersection-Apply (Perm) [5, 8, 9]: Perm(ex:alice, ex:rentsell, ex:collectionX, w0)  // All component permissions hold ⇒ permission on the composite
+[11] Universal-Elim [3, 7]: Proh(ex:alice, ex:rentsell, ex:collectionX, w0)  // Instantiate composite prohibition at the same world
+[12] And-Intro [10, 11]: (Perm(ex:alice, ex:rentsell, ex:collectionX, w0) ∧ Proh(ex:alice, ex:rentsell, ex:collectionX, w0))  // Clash at the arbitrary world on the same composite action
+[13] ForAll-Intro [12]: ∀w. (Perm(ex:alice, ex:rentsell, ex:collectionX, w) ∧ Proh(ex:alice, ex:rentsell, ex:collectionX, w))  // Since w0 was arbitrary, the clash holds in all worlds
+[14] Classification [13]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // Unconditional component permissions + prohibition on their intersection ⇒ standing clash
