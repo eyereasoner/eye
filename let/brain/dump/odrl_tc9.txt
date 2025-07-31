@@ -1,19 +1,14 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies (activation windows over odrl:dateTime):
-  (P1) Permission window : [2025-01-01, 2025-12-31]  (i.e., 2025-01-01 ≤ d ≤ 2025-12-31).
-  (F1) Prohibition window: (-∞, 2026-01-01)  (i.e., d < 2026-01-01).
-
-Overlap analysis:
-  (I) Intersection = [2025-01-01, 2025-12-31] (this is exactly the entire year 2025).
-
-Witness construction:
-  Choose d := 2025-01-01 ∈ Intersection.
-  From (P1): Perm(odrl:read, d).
-  From (F1): Proh(odrl:read, d).
-
-Conclusion:
-  Since the overlap equals the whole permission window and both rules are unconditional
-  beyond their date constraints, the clash holds for every day in 2025 ⇒ Global state: Conflict.
+[1] Premise: ∀d∈[2025-01-01, 2025-12-31] Perm(odrl:read, ex:resourceX, d)  // Permission premise over dates
+[2] Premise: ∀d∈(-∞, 2026-01-01) Proh(odrl:read, ex:resourceX, d)  // Prohibition premise over dates
+[3] Interval-Intersection: [2025-01-01, 2025-12-31] ∩ (-∞, 2026-01-01) = [2025-01-01, 2025-12-31]  // Compute overlap of activation windows
+[4] Definition [3]: I := [2025-01-01, 2025-12-31]  // Name the overlap interval as I
+[5] Choose [4]: 2025-01-01 ∈ [2025-01-01, 2025-12-31]  // Witness date d0 = 2025-01-01
+[6] Universal-Elim [1, 5]: Perm(odrl:read, ex:resourceX, 2025-01-01)  // Instantiate permission at d0
+[7] Universal-Elim [2, 5]: Proh(odrl:read, ex:resourceX, 2025-01-01)  // Instantiate prohibition at d0
+[8] And-Intro [6, 7]: (Perm(odrl:read, ex:resourceX, 2025-01-01) ∧ Proh(odrl:read, ex:resourceX, 2025-01-01))  // Clash at the witness date
+[9] ForAll-Intro [8]: ∀d∈[2025-01-01, 2025-12-31] (Perm(odrl:read, ex:resourceX, d) ∧ Proh(odrl:read, ex:resourceX, d))  // Generalize the clash over all dates in the overlap I
+[10] Classification [9]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // Overlap equals permission window ⇒ standing clash
