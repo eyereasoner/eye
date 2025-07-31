@@ -1,0 +1,20 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Goal G: ∃a  (Perm(pay,a) ∧ Prohib(pay,a))  for the same subject, action, and target.
+
+Policy facts:
+  (P1) Permission: pay > 10.00 Euro  (policy11a).
+  (P2) Obligation: pay < 10.00 Euro  (policy11b).
+
+Deontic axiom (used as a rule):
+  (D) From O(pay < 10.00 Euro) infer F(pay > 10.00 Euro).
+
+Subgoals and derivation:
+  (S1) From (P2) and (D) derive Prohib(pay > 10.00 Euro).
+  (S2) Choose witness amount a := 10.01 Euro with a > 10.00 (witness is in the overlap).
+  (S3) From (P1) and a > 10.00, derive Perm(pay,a).
+  (S4) From (S1) and a > 10.00, derive Prohib(pay,a).
+  (C) From (S3) and (S4), Perm(pay,a) ∧ Prohib(pay,a). Therefore ∃a … holds.
+Conclusion: Goal G is satisfied ⇒ Conflict.
