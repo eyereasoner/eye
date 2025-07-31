@@ -1,11 +1,21 @@
-Posterior P(goal | ¬dp_viol) = 1.0
+Applying evidence: require ¬dp_viol (drop worlds that violate the diamond property).
+W1: [ab=e, ac=e]        dp_viol = FALSE → KEEP
+W2: [ab=e, ac=r]        dp_viol = FALSE → KEEP
+W3: [ab=r, ac=e]        dp_viol = FALSE → KEEP
+W4: [ab=r, ac=r]        dp_viol = TRUE  → DROP
+Surviving worlds: [ab=e, ac=e], [ab=e, ac=r], [ab=r, ac=e]
 
-Explanation:
-─────────────
-Total possible worlds:       4
-Worlds violating dp_viol:    1
-Worlds consistent with ¬dp:  3
-In all valid worlds, the goal holds: [True, True, True]
+Surviving worlds detail (e and r edges):
+  [ab=e, ac=e]: e=[('a', 'a'), ('a', 'b'), ('a', 'c'), ('b', 'a'), ('b', 'b'), ('c', 'a'), ('c', 'c')], r=[]
+  [ab=e, ac=r]: e=[('a', 'a'), ('a', 'b'), ('b', 'a'), ('b', 'b'), ('c', 'c')], r=[('a', 'c')]
+  [ab=r, ac=e]: e=[('a', 'a'), ('a', 'c'), ('b', 'b'), ('c', 'a'), ('c', 'c')], r=[('a', 'b')]
 
-Since all valid worlds satisfy the goal,
-we conclude that P(goal | ¬dp_viol) = 1.0.
+=== Proving goal: ∃U. re(b,U) ∧ re(c,U) ===
+World 1: [ab=e, ac=e]        ✓ goal  (witness U = c)
+World 2: [ab=e, ac=r]        ✓ goal  (witness U = c)
+World 3: [ab=r, ac=e]        ✓ goal  (witness U = b)
+Result: VALID given evidence — goal holds in all 3 surviving worlds.
+
+=== Summary ===
+Total worlds: 4  |  Violating: 1  |  Surviving: 3
+goal: VALID (in all surviving worlds)

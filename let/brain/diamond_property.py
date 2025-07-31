@@ -1,47 +1,49 @@
+#!/usr/bin/env python3
 """
 diamond_property.py
-───────────────────
-
-Illustrates the "Diamond property under reflexive closure" from logic and knowledge representation.
+Purely logical version of the diamond-property example.
 
 Domain   : {a, b, c}
 Base     : base_re(a,b), base_re(a,c)
-Choice   : Each base edge is classified independently as either:
-             e (equality, with reflexive/symmetric behavior) OR
+Choice   : Each base edge is independently classified as either:
+             e (equality, with reflexive & symmetric behavior) OR
              r (directed relation)
-           → 2 edges × 2 choices → 4 possible worlds.
+           → 4 possible worlds.
 
-Rules    :
+Rules
+-----
   • e is reflexive (∀x. e(x,x)) and symmetric (e(x,y) ⇒ e(y,x))
   • re = e ∪ r, closed under:  e(x,y) ∧ re(y,z) ⇒ re(x,z)
-  • Diamond-property violation: ∃x. r(x,y), r(x,z), where y≠z and y,z are r-leaves.
-  • Evidence: Only keep worlds where diamond-property is *not* violated.
+  • Diamond-property violation (dp_viol):
+      ∃x. r(x,y) ∧ r(x,z), with y≠z and y,z have no outgoing r-edges.
+  • Evidence: keep only worlds with ¬dp_viol.
 
-Query    : goal :- ∃U. re(b,U) ∧ re(c,U)
+Query
+-----
+  goal :- ∃U. re(b,U) ∧ re(c,U)
 
-Expected :
-    After conditioning on no diamond-property violation (dp_viol = false),
-    the goal should hold with posterior probability 1.0.
+We print a trace showing which worlds survive the evidence and whether the
+goal holds in each surviving world, then classify the query as
+VALID / SATISFIABLE / UNSATISFIABLE over the surviving worlds.
 """
 
 from itertools import product
-from typing import Dict, List, Set, Tuple
+from typing import Dict, List, Set, Tuple, Optional
 
 # ───────────────────────────────────────────────────────────────
-# 1 ▸ Domain Setup
+# 1) Domain & Base
 # ───────────────────────────────────────────────────────────────
-DOM = {"a", "b", "c"}                           # finite domain
-BASE_EDGES = [("a", "b"), ("a", "c")]           # edges in base relation
-WORLD_WEIGHT = 0.25                             # uniform prior over 4 possible edge labelings
-
+DOM: Set[str] = {"a", "b", "c"}
+BASE_EDGES: List[Tuple[str, str]] = [("a", "b"), ("a", "c")]  # order matters for naming
 
 # ───────────────────────────────────────────────────────────────
-# 2 ▸ Core Logic Helpers
+# 2) Core Logic
 # ───────────────────────────────────────────────────────────────
 def closure_re(e: Set[Tuple[str, str]], r: Set[Tuple[str, str]]) -> Set[Tuple[str, str]]:
     """
     Compute re(x,z) by closing under:
         e(x,y) ∧ re(y,z) ⇒ re(x,z)
+    with re initially e ∪ r.
     """
     re = set(e) | set(r)
     changed = True
@@ -54,13 +56,12 @@ def closure_re(e: Set[Tuple[str, str]], r: Set[Tuple[str, str]]) -> Set[Tuple[st
                     changed = True
     return re
 
-
 def dp_violates(r: Set[Tuple[str, str]]) -> bool:
     """
-    Check for diamond-property violation:
-        ∃x. r(x,y), r(x,z) with y ≠ z, and both y,z have no outgoing r-edges.
+    Diamond-property violation:
+        ∃x. r(x,y) ∧ r(x,z) with y≠z, and y,z have no outgoing r-edges (r-leaves).
     """
-    succ = {n: set() for n in DOM}
+    succ: Dict[str, Set[str]] = {n: set() for n in DOM}
     for x, y in r:
         succ[x].add(y)
 
@@ -73,94 +74,144 @@ def dp_violates(r: Set[Tuple[str, str]]) -> bool:
                     return True
     return False
 
-
-def goal_holds(re: Set[Tuple[str, str]]) -> bool:
+def goal_holds(re: Set[Tuple[str, str]]) -> Tuple[bool, Optional[str]]:
     """
     goal :- ∃U. re(b,U) ∧ re(c,U)
+    Returns (holds?, witness_U_or_None).
     """
     for u in DOM:
         if ("b", u) in re and ("c", u) in re:
-            return True
-    return False
-
+            return True, u
+    return False, None
 
 # ───────────────────────────────────────────────────────────────
-# 3 ▸ World Enumeration
+# 3) World Enumeration (no weights)
 # ───────────────────────────────────────────────────────────────
+def world_name(flags: Tuple[bool, bool]) -> str:
+    """
+    Name worlds by how each base edge is labeled:
+      True  = equality (e), False = relation (r).
+    """
+    lab = []
+    for (x, y), is_eq in zip(BASE_EDGES, flags):
+        lab.append(f"{x}{y}={'e' if is_eq else 'r'}")
+    return "[" + ", ".join(lab) + "]"
+
 def enumerate_worlds() -> List[Dict]:
     """
-    Generate all possible worlds (edge labelings),
-    compute re closure, check goal and dp_viol violation.
+    Generate all 4 worlds (edge labelings), compute re, dp_viol, and goal.
     """
     worlds: List[Dict] = []
-
-    # Each base edge has 2 options: equality (e) or relation (r)
-    for flags in product([True, False], repeat=2):  # 4 worlds total
-        e: Set[Tuple[str, str]] = {(x, x) for x in DOM}   # reflexivity
+    for flags in product([True, False], repeat=len(BASE_EDGES)):  # (e/e), (e/r), (r/e), (r/r)
+        # e is always reflexive; add symmetric pairs for e-labeled base edges
+        e: Set[Tuple[str, str]] = {(x, x) for x in DOM}
         r: Set[Tuple[str, str]] = set()
 
         for (edge, is_eq) in zip(BASE_EDGES, flags):
+            a, b = edge
             if is_eq:
-                e.add(edge)
-                e.add((edge[1], edge[0]))  # symmetry
+                e.add((a, b))
+                e.add((b, a))  # symmetry for e
             else:
-                r.add(edge)
+                r.add((a, b))  # directed
 
         re = closure_re(e, r)
         violates = dp_violates(r)
-        goal = goal_holds(re)
+        holds, witness = goal_holds(re)
 
         worlds.append({
+            "id": world_name(flags),
             "e": e,
             "r": r,
             "re": re,
-            "valid": not violates,
-            "goal": goal,
-            "weight": WORLD_WEIGHT
+            "violates": violates,
+            "goal": holds,
+            "witness": witness,
         })
-
     return worlds
 
-
 # ───────────────────────────────────────────────────────────────
-# 4 ▸ Posterior Inference
+# 4) Evidence filtering and logical proof
 # ───────────────────────────────────────────────────────────────
-def posterior_goal() -> float:
+def apply_evidence(worlds: List[Dict]) -> List[Dict]:
     """
-    Compute posterior probability of goal after conditioning on dp_viol = false.
+    Evidence: keep only worlds with no diamond-property violation.
     """
-    worlds = enumerate_worlds()
-    valid_worlds = [w for w in worlds if w["valid"]]
-    total_weight = sum(w["weight"] for w in valid_worlds)
+    print("Applying evidence: require ¬dp_viol (drop worlds that violate the diamond property).")
+    kept: List[Dict] = []
+    for i, w in enumerate(worlds, 1):
+        if w["violates"]:
+            print(f"W{i}: {w['id']:<18}  dp_viol = TRUE  → DROP")
+        else:
+            print(f"W{i}: {w['id']:<18}  dp_viol = FALSE → KEEP")
+            kept.append(w)
+    if not kept:
+        print("No worlds survive the evidence.")
+    else:
+        print("Surviving worlds:", ", ".join(w["id"] for w in kept))
+    return kept
 
-    goal_weight = sum(w["weight"] for w in valid_worlds if w["goal"])
-    return goal_weight / total_weight
+def prove_goal(valid_worlds: List[Dict]) -> List[str]:
+    """
+    Print a proof trace for goal :- ∃U. re(b,U) ∧ re(c,U)
+    over the surviving worlds and return the list of world ids where it holds.
+    """
+    print("\n=== Proving goal: ∃U. re(b,U) ∧ re(c,U) ===")
+    holds_in: List[str] = []
+    if not valid_worlds:
+        print("No surviving worlds — query is UNSATISFIABLE by vacuity.")
+        return holds_in
 
+    for i, w in enumerate(valid_worlds, 1):
+        if w["goal"]:
+            witness = w["witness"]
+            print(f"World {i}: {w['id']:<18}  ✓ goal  (witness U = {witness})")
+            holds_in.append(w["id"])
+        else:
+            print(f"World {i}: {w['id']:<18}  ✗ goal")
+
+    n = len(valid_worlds)
+    k = len(holds_in)
+    if k == n:
+        print(f"Result: VALID given evidence — goal holds in all {n} surviving worlds.")
+    elif k == 0:
+        print(f"Result: UNSATISFIABLE — goal fails in all {n} surviving worlds.")
+    else:
+        print(f"Result: SATISFIABLE (but not valid) — holds in {k}/{n} surviving worlds.")
+    return holds_in
 
 # ───────────────────────────────────────────────────────────────
-# 5 ▸ Main Entry Point with Explanation
+# 5) Main
 # ───────────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    worlds = enumerate_worlds()
-    valid_worlds = [w for w in worlds if w["valid"]]
-    invalid_worlds = [w for w in worlds if not w["valid"]]
-    total_valid = len(valid_worlds)
-    total_invalid = len(invalid_worlds)
+    all_worlds = enumerate_worlds()
+    valid_worlds = apply_evidence(all_worlds)
 
-    prob_goal = posterior_goal()
+    # Optional: quick summary of which edges are in e and r for surviving worlds
+    if valid_worlds:
+        print("\nSurviving worlds detail (e and r edges):")
+        for w in valid_worlds:
+            e_edges = sorted(list(w["e"]))
+            r_edges = sorted(list(w["r"]))
+            print(f"  {w['id']}: e={e_edges}, r={r_edges}")
 
-    print(f"Posterior P(goal | ¬dp_viol) = {prob_goal:.1f}")
-    print("\nExplanation:")
-    print("─────────────")
-    print(f"Total possible worlds:       {len(worlds)}")
-    print(f"Worlds violating dp_viol:    {total_invalid}")
-    print(f"Worlds consistent with ¬dp:  {total_valid}")
-    print(f"In all valid worlds, the goal holds: {[w['goal'] for w in valid_worlds]}")
+    # Prove the query over the surviving worlds
+    holds_in = prove_goal(valid_worlds)
 
-    if all(w["goal"] for w in valid_worlds):
-        print("\nSince all valid worlds satisfy the goal,")
-        print("we conclude that P(goal | ¬dp_viol) = 1.0.")
+    # Summary
+    print("\n=== Summary ===")
+    total = len(all_worlds)
+    valid = len(valid_worlds)
+    invalid = total - valid
+    print(f"Total worlds: {total}  |  Violating: {invalid}  |  Surviving: {valid}")
+    if valid == 0:
+        print("goal: UNSATISFIABLE (no surviving worlds)")
     else:
-        print("\nSome valid worlds do not satisfy the goal,")
-        print(f"so P(goal | ¬dp_viol) = {prob_goal:.2f}")
+        k = len(holds_in)
+        if k == valid:
+            print("goal: VALID (in all surviving worlds)")
+        elif k == 0:
+            print("goal: UNSATISFIABLE (in surviving worlds)")
+        else:
+            print(f"goal: SATISFIABLE in {k}/{valid} surviving worlds")
 

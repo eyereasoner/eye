@@ -1,137 +1,156 @@
 #!/usr/bin/env python3
 """
-wallet_bbn.py
-────────────────────────────────────────────────────────────────
-Backward-chaining Bayesian proof for an “agentic wallet”.
+wallet.py
+Purely logical backward-proof version of the “agentic wallet”.
 
-Variables (Boolean, True = present)
------------------------------------
-D  DeviceSecure      – signer phone / HSM is secure
-N  NetworkSecure     – RPC / Wi-Fi link is secure
-U  UserKeyComp       – user’s private key compromised
-A  AgentBug          – wallet’s autonomous agent contains a bug
-R  RiskHigh          – overall transaction risk is high
-M  RequireMultisig   – wallet switches to multisig mode   (goal)
+Variables (Booleans)
+--------------------
+D  DeviceSecure
+N  NetworkSecure
+U  UserKeyComp
+A  AgentBug
+R  RiskHigh
+M  RequireMultisig   ← goal
 
-Structure
----------
-D ─┐                ┌────────► Agent bug lifts risk ────┐
-   │                │                                   ▼
-   ▼                ▼                                   R ─▶ M
-   U  (key comp)    A  (agent bug)  ────────────────────┘
-   ▲
-   │
-N ─┘   (insecure network raises key-comp risk)
+Deterministic rules (logical, no CPTs)
+--------------------------------------
+1) Key compromise risk:
+     U ← (¬D) ∨ (¬N)
+   (If either device or network is insecure, key-comp risk is present.)
 
-CPTs (illustrative numbers)
----------------------------
-• If either *device* or *network* is insecure, key-comp risk rises.
-• Agent-bug prior 5 %.
-• RiskHigh if (U or A) according to noisy-OR.
-• Multisig is required if RiskHigh with 90 %, otherwise 5 %.
+2) Risk:
+     R ← U ∨ A
+   (Either key compromise or an agent bug is sufficient to make risk high.)
+
+3) Multisig policy:
+     M ← R
+   (Multisig is required whenever risk is high.)
 
 Evidence
 --------
-DeviceSecure   = False    (phone OS is outdated)
-NetworkSecure  = False    (unencrypted Wi-Fi)
-AgentBug       = *unknown* (no latest audit report)
+D = False   (device insecure)
+N = False   (network insecure)
+A is unknown (two exclusive worlds remain: A=False or A=True)
 
-Goal
-----
-Prove that P(RequireMultisig = True | evidence) > 0.7
+Queries
+-------
+M, R, U, A, D, N
 
-All elimination steps are printed as Bayesian “proof evidence”.
+For each query we print a proof trace over the surviving worlds and classify the
+result as VALID / SATISFIABLE / UNSATISFIABLE. With the evidence above, M is VALID.
 """
 
-from itertools import product
-from typing import Dict
+from typing import Dict, List, Tuple
 
 # ─────────────────────────────────────────────────────────────
-# 1.  CPTs (all values True-probabilities; False = 1−True)
+# 1) Evidence (observed facts)
 # ─────────────────────────────────────────────────────────────
-
-# Priors for device / network security
-P_D = {True: 0.80,  False: 0.20}           # DeviceSecure
-P_N = {True: 0.85,  False: 0.15}           # NetworkSecure
-
-# Agent code bug (independent prior)
-P_A = {True: 0.05,  False: 0.95}
-
-# Key-compromise  P(U=True | D,N)
-P_U = {
-    (True,  True ): 0.01,
-    (True,  False): 0.10,
-    (False, True ): 0.20,
-    (False, False): 0.90,   # ← very risky if both insecure
-}
-
-# RiskHigh  P(R=True | U,A)  (noisy-OR style)
-P_R = {
-    (False, False): 0.02,
-    (True,  False): 0.95,   # ← higher than before
-    (False, True ): 0.90,   # ← higher than before
-    (True,  True ): 0.98,
-}
-
-# Multisig decision  P(M=True | RiskHigh)
-P_M = {
-    True : 0.90,
-    False: 0.0001,          # ← wallet almost never uses single-sig if risk low
+EVIDENCE: Dict[str, bool] = {
+    "D": False,   # DeviceSecure
+    "N": False,   # NetworkSecure
+    # "A" is intentionally left unknown
 }
 
 # ─────────────────────────────────────────────────────────────
-# 2.  Evidence  (observed)
+# 2) Deterministic propagation (rules)
 # ─────────────────────────────────────────────────────────────
-evidence = dict(
-    D=False,   # insecure device (outdated OS)
-    N=False,   # insecure network (open Wi-Fi)
-)
+def derive_state(partial: Dict[str, bool]) -> Dict[str, bool]:
+    """
+    Given a partial assignment for D, N, A (A may be provided),
+    derive U, R, M deterministically and return the full state.
+    """
+    D = partial["D"]
+    N = partial["N"]
+    A = partial["A"]
 
-# ─────────────────────────────────────────────────────────────
-# 3.  Joint probability of a complete assignment
-# ─────────────────────────────────────────────────────────────
-def joint(a: Dict[str,bool]) -> float:
-    """P(assignment)  where assignment has all variables."""
-    p  = P_D[a['D']]
-    p *= P_N[a['N']]
-    p *= P_U[(a['D'], a['N'])]     if a['U'] else 1-P_U[(a['D'], a['N'])]
-    p *= P_A[a['A']]              if a['A'] else 1-P_A[True]
-    p *= P_R[(a['U'], a['A'])]     if a['R'] else 1-P_R[(a['U'], a['A'])]
-    p *= P_M[a['R']]              if a['M'] else 1-P_M[a['R']]
-    return p
+    # Rules
+    U = (not D) or (not N)   # U ← (¬D) ∨ (¬N)
+    R = U or A               # R ← U ∨ A
+    M = R                    # M ← R
 
-order = ['D','N','U','A','R','M']          # DAG topological order
+    return {"D": D, "N": N, "A": A, "U": U, "R": R, "M": M}
 
 # ─────────────────────────────────────────────────────────────
-# 4.  Variable-elimination proof  P(M=True | evidence)
+# 3) Enumerate surviving worlds under evidence (no weights)
 # ─────────────────────────────────────────────────────────────
-def eliminate(target:str, evidence:Dict[str,bool]) -> float:
-    hidden = [v for v in order if v not in evidence and v != target]
-    t_sum = f_sum = 0.0
+def enumerate_worlds(evidence: Dict[str, bool]) -> List[Dict[str, bool]]:
+    """
+    Evidence fixes D and N. A is unknown → two exclusive worlds: A=False/True.
+    U, R, M are derived deterministically by the rules.
+    """
+    worlds: List[Dict[str, bool]] = []
+    for A in (False, True):
+        base = dict(evidence)
+        base["A"] = A
+        worlds.append(derive_state(base))
+    return worlds
 
-    print("\nBackward-elimination rows:")
-    for vals in product([False,True], repeat=len(hidden)):
-        world = dict(zip(hidden, vals), **evidence)
-
-        world[target] = False
-        pf = joint(world); f_sum += pf
-
-        world[target] = True
-        pt = joint(world); t_sum += pt
-
-        print(f"  {dict(zip(hidden,vals))}  →  add  F:{pf:.6f}  T:{pt:.6f}")
-
-    total = t_sum + f_sum
-    print(f"\nNormalisation  True={t_sum:.6f}  False={f_sum:.6f}  Total={total:.6f}")
-    return t_sum / total
+WORLDS = enumerate_worlds(EVIDENCE)
 
 # ─────────────────────────────────────────────────────────────
-# 5.  Run the proof
+# 4) Proof routine and classification
 # ─────────────────────────────────────────────────────────────
-posterior = eliminate('M', evidence)
+def prove(var: str) -> List[int]:
+    """
+    Print a proof trace for boolean variable `var` over the surviving worlds,
+    and return the list of world indices (1-based) where it holds.
+    """
+    assert var in ("D","N","U","A","R","M"), f"Unknown variable: {var}"
+    print(f"\n=== Proving {var} ===")
 
-print(f"\nPosterior  P(Multisig=True | evidence) = {posterior:.4f}")
-THRESH = 0.70
-print("Verdict:", "Activate MULTISIG." if posterior > THRESH
-                  else "Single-sig acceptable.")
+    holds_in: List[int] = []
+    for i, w in enumerate(WORLDS, 1):
+        truth = w[var]
+
+        # Reasons for transparency
+        reason = ""
+        if var == "U":
+            reason = f" (U ← ¬D ∨ ¬N; D={w['D']}, N={w['N']} ⇒ U={w['U']})"
+        elif var == "R":
+            reason = f" (R ← U ∨ A; U={w['U']}, A={w['A']} ⇒ R={w['R']})"
+        elif var == "M":
+            reason = f" (M ← R; R={w['R']} ⇒ M={w['M']})"
+        elif var in ("D","N","A"):
+            reason = " (given/evidence or open choice)"
+
+        print(f"World {i}: D={w['D']} N={w['N']} A={w['A']} U={w['U']} R={w['R']} M={w['M']}   "
+              f"{'✓' if truth else '✗'} {var}{reason}")
+
+        if truth:
+            holds_in.append(i)
+
+    n = len(WORLDS)
+    k = len(holds_in)
+    if k == n:
+        print(f"Result: VALID — {var} holds in all {n} surviving worlds.")
+    elif k == 0:
+        print(f"Result: UNSATISFIABLE — {var} is false in all {n} surviving worlds.")
+    else:
+        print(f"Result: SATISFIABLE (but not valid) — holds in {k}/{n} surviving worlds.")
+
+    return holds_in
+
+# ─────────────────────────────────────────────────────────────
+# 5) Run the queries & summarise (logical status only)
+# ─────────────────────────────────────────────────────────────
+if __name__ == "__main__":
+    queries = ["M", "R", "U", "A", "D", "N"]
+    results = {q: prove(q) for q in queries}
+
+    print("\n=== Summary ===")
+    n = len(WORLDS)
+    for q in queries:
+        k = len(results[q])
+        if k == n:
+            status = "VALID"
+        elif k == 0:
+            status = "UNSATISFIABLE"
+        else:
+            status = f"SATISFIABLE in {k}/{n} worlds"
+        extra = "" if k in (0, n) else " → " + ", ".join(str(i) for i in results[q])
+        print(f"{q}: {status}{extra}")
+
+    # Policy verdict (logical analogue of the original numeric goal)
+    print("\nVerdict (logical): Since M is VALID under the evidence, "
+          "the wallet must require MULTISIG.")
 
