@@ -7,9 +7,7 @@ This research presents a novel approach to computational reasoning by using **La
 
 ## Conceptual Overview
 
-<p align="center">
-  <img src="let.png" alt="Conceptual Overview of LET" width="50%">
-</p>
+![Conceptual Overview of LET](let.png)
 
 ---
 
@@ -21,7 +19,7 @@ This research presents a novel approach to computational reasoning by using **La
 
    ```bash
    pip install numpy sympy
-````
+   ````
 
 ---
 
