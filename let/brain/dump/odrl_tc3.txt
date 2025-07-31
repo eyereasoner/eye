@@ -1,0 +1,19 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (O1) Obligation:  ex:alice must odrl:read ex:resourceX.
+  (F1) Prohibition: ex:alice must-not odrl:read ex:resourceX.
+  Both rules are unconditional (no constraints/refinements).
+
+Derivation:
+  (S1) Because (O1) is unconditional, for any world w, O(read) holds in w.
+  (S2) Because (F1) is unconditional, for any world w, F(read) holds in w.
+  (C) For arbitrary w, O(read) ∧ F(read). Since w was arbitrary,
+      this holds for all worlds. Therefore the policies conflict in every
+      possible state of the world ⇒ Global state: Conflict.
+
+Optional deontic note:
+  From O(read) we may infer P(read). Hence P(read) ∧ F(read) also holds in all worlds,
+  matching the testcase phrasing “permit and prohibit … for any possible state of the world.”

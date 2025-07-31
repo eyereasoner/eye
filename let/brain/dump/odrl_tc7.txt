@@ -1,0 +1,27 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission:  ex:alice may odrl:read ex:collectionX.
+  (F1) Prohibition: ex:alice must-not odrl:read ex:collectionY.
+  Both rules are unconditional (no constraints/refinements).
+
+Asset facts and overlap:
+  Members(X) = ['ex:document1', 'ex:document2']
+  Members(Y) = ['ex:document1', 'ex:document2', 'ex:document3']
+  Overlap X ∩ Y = ['ex:document1', 'ex:document2']
+
+Collection lifting:
+  (L1) If Perm(act, C) and partOf(a, C), then Perm(act, a).
+  (L2) If Proh(act, C) and partOf(a, C), then Proh(act, a).
+
+Witness construction:
+  Choose a := ex:document1 ∈ X ∩ Y.
+  From (P1) and (L1): Perm(read, a).
+  From (F1) and (L2): Proh(read, a).
+  Therefore Perm(read, a) ∧ Proh(read, a) holds.
+
+Conclusion:
+  Since both rules are unconditional and the overlap is factual,
+  the clash persists in every possible world ⇒ Global state: Conflict.

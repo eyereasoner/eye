@@ -1,0 +1,20 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission:  ex:alice may odrl:read ex:collectionX.
+  (F1) Prohibition: ex:alice must-not odrl:read ex:document2.
+  Both rules are unconditional (no constraints/refinements).
+
+Asset structure:
+  (A) ex:document2 is partOf ex:collectionX.
+Collection lifting rule:
+  (L) If Perm(act, C) and partOf(a, C), then Perm(act, a).
+
+Derivation:
+  (S1) From (P1), Perm(read, ex:collectionX).
+  (S2) From (A) and (L), Perm(read, ex:document2).
+  (S3) From (F1), Prohib(read, ex:document2).
+  (C) Therefore, in any world w, Perm(read, ex:document2) ∧ Prohib(read, ex:document2).
+      Since w was arbitrary, the policies conflict in every possible world ⇒ Global state: Conflict.

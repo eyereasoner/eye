@@ -1,0 +1,22 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission with duty: ex:alice may odrl:use ex:resourceX
+       provided she fulfills duty D: ex:signContract (assigner ex:bob, target ex:contract).
+  (F1) Prohibition: ex:alice must-not ex:signContract ex:contract (assigner ex:bob).
+
+Deontic reading of duties:
+  (D) A duty attached to a permission induces an obligation to perform the duty action
+      for the same subject/assigner/target when exercising the permission.
+
+Derivation:
+  (S1) From (P1) and (D): Obligation O(ex:signContract on ex:contract, assigner ex:bob) holds for ex:alice.
+  (S2) From (F1): Prohibition F(ex:signContract on ex:contract, assigner ex:bob) holds for ex:alice.
+  (S3) O and F refer to the *same* action/assignee/assigner/target.
+  (C) Therefore, for any world w, O(signContract) ∧ F(signContract) holds ⇒ Global state: Conflict.
+
+Intuition:
+  The permission can only be exercised by fulfilling the duty (signing),
+  yet signing is prohibited. The system simultaneously requires and forbids the very same act.

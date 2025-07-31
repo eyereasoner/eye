@@ -1,0 +1,17 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission:  ex:alice may odrl:read ex:resourceX.
+  (F1) Prohibition: ex:alice must-not odrl:use ex:resourceX.
+  Both rules are unconditional (no constraints/refinements).
+
+Action taxonomy:
+  (T) odrl:read is a subclass (narrower action) of odrl:use (odrl:read ⊑ odrl:use).
+
+Derivation:
+  (S1) From (F1) and (T), Prohibition(odrl:use) ⇒ Prohibition(odrl:read).
+  (S2) From (P1), Permission(odrl:read) holds unconditionally.
+  (C) For any world w, Permission(odrl:read) ∧ Prohibition(odrl:read).
+      Since w was arbitrary, this holds for all worlds ⇒ Global state: Conflict.

@@ -1,0 +1,23 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission:  ex:alice may ex:rent ex:collectionX.
+  (P2) Permission:  ex:alice may ex:sell ex:collectionX.
+  (F1) Prohibition: ex:alice must-not ex:rentsell ex:collectionX.
+  All three rules are unconditional (no constraints/refinements).
+
+Action axiom (intersection):
+  (A) ex:rentsell ≡ ex:rent ⊓ ex:sell.
+
+Derivation:
+  (S1) From (P1) and (P2): Perm(ex:rent) ∧ Perm(ex:sell).
+  (S2) From (A) and (S1): Perm(ex:rentsell) (permission on each component yields permission on their intersection).
+  (S3) From (F1): Proh(ex:rentsell).
+  (C) Therefore, in any world w, Perm(ex:rentsell) ∧ Proh(ex:rentsell).
+      Since w was arbitrary and the rules are unconditional, the global state is Conflict.
+
+Intuition ("drink & drive" analogy):
+  Being allowed to do X and allowed to do Y, while being forbidden to do X AND Y together,
+  creates a direct clash once the composite action X∧Y is recognized as an action in its own right.

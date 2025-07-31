@@ -1,0 +1,21 @@
+https://w3id.org/force/compliance-report#Conflict
+
+--- Goal-Oriented Proof Explanation ---
+
+Policies:
+  (P1) Permission:  ex:alice may odrl:read ex:resourceX
+       when ex:age == 18.
+  (F1) Prohibition: ex:alice must-not odrl:read ex:resourceX
+       when ex:age == 18.
+
+Precondition analysis:
+  The constraints are identical, so their intersection is the singleton set {ex:age = 18}.
+
+Witness construction:
+  Choose world w := (age=18). Then (P1) holds in w and (F1) holds in w.
+
+Derivation:
+  (S1) In w, Permission(odrl:read) holds (by P1).
+  (S2) In w, Prohibition(odrl:read) holds (by F1).
+  (C) Therefore, in every world that satisfies both policies’ preconditions
+      (i.e., the intersection {w}), Perm ∧ Prohib holds ⇒ Global state: Conflict.
