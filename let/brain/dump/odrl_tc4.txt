@@ -1,22 +1,17 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission with duty: ex:alice may odrl:use ex:resourceX
-       provided she fulfills duty D: ex:signContract (assigner ex:bob, target ex:contract).
-  (F1) Prohibition: ex:alice must-not ex:signContract ex:contract (assigner ex:bob).
-
-Deontic reading of duties:
-  (D) A duty attached to a permission induces an obligation to perform the duty action
-      for the same subject/assigner/target when exercising the permission.
-
-Derivation:
-  (S1) From (P1) and (D): Obligation O(ex:signContract on ex:contract, assigner ex:bob) holds for ex:alice.
-  (S2) From (F1): Prohibition F(ex:signContract on ex:contract, assigner ex:bob) holds for ex:alice.
-  (S3) O and F refer to the *same* action/assignee/assigner/target.
-  (C) Therefore, for any world w, O(signContract) ∧ F(signContract) holds ⇒ Global state: Conflict.
-
-Intuition:
-  The permission can only be exercised by fulfilling the duty (signing),
-  yet signing is prohibited. The system simultaneously requires and forbids the very same act.
+[1] Premise: ∀w. PermWithDuty(ex:alice, odrl:use, ex:resourceX, ex:signContract, ex:bob, ex:contract, w)  // Permission with attached duty holds in every world
+[2] Duty-Induces-Obligation [1]: PermWithDuty(…, ex:alice, ex:signContract, ex:bob, ex:contract, w) ⇒ Obl(ex:alice, ex:signContract, ex:bob, ex:contract, w)  // To exercise the permission, the duty must be fulfilled
+[3] Derive-Universal [2]: ∀w. Obl(ex:alice, ex:signContract, ex:bob, ex:contract, w)  // Obligation on the duty induced by the permission-with-duty
+[4] Premise: ∀w. Proh(ex:alice, ex:signContract, ex:bob, ex:contract, w)  // Unconditional Prohibition on the duty action
+[5] Universe-Def: W := all possible worlds  // No external conditions restrict applicability
+[6] Arbitrary-World [5]: w0 ∈ W (arbitrary)  // World chosen arbitrarily; argument must not depend on which one
+[7] Universal-Elim [3, 6]: Obl(ex:alice, ex:signContract, ex:bob, ex:contract, w0)  // Instantiate the induced obligation on the duty at w0
+[8] Deontic-Axiom: O(a) ⇒ P(a)  // From obligation, permission follows (O⇒P)
+[9] Deontic-Apply [8, 7]: Perm(ex:alice, ex:signContract, ex:bob, ex:contract, w0)  // Apply O⇒P at w0
+[10] Universal-Elim [4, 6]: Proh(ex:alice, ex:signContract, ex:bob, ex:contract, w0)  // Instantiate the prohibition on the duty at w0
+[11] And-Intro [9, 10]: (Perm(ex:alice, ex:signContract, ex:bob, ex:contract, w0) ∧ Proh(ex:alice, ex:signContract, ex:bob, ex:contract, w0))  // Clash at the arbitrary world on the duty action
+[12] ForAll-Intro [11]: ∀w. (Perm(ex:alice, ex:signContract, ex:bob, ex:contract, w0) ∧ Proh(ex:alice, ex:signContract, ex:bob, ex:contract, w))  // Since w0 was arbitrary, the clash holds in all worlds
+[13] Classification [12]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // The duty is simultaneously (Perm|Obl) and Proh in every world

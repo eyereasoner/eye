@@ -1,187 +1,269 @@
 #!/usr/bin/env python3
 """
-Testcase-4: A duty which is prohibited to be fulfilled
-======================================================
+Generic explicit-step proof builder: Permission-with-Duty vs Prohibition
+=======================================================================
 
-Scenario (from ODRL Test Conflicts, testcase-4):
-  - policy4a: Permission to odrl:use ex:resourceX, with a duty that Alice must ex:signContract
-              (assigner ex:bob, target ex:contract).
-  - policy4b: Prohibition for Alice to ex:signContract (assigner ex:bob, target ex:contract).
+Testcase-4 summary:
+  - Permission to odrl:use ex:resourceX with a duty to ex:signContract (assigner ex:bob, target ex:contract).
+  - Prohibition to ex:signContract (assigner ex:bob, target ex:contract).
+  - Intuition: Exercising the permission requires fulfilling the duty (signing), yet signing is prohibited.
 
-Expected global activation state: Conflict
-  "The policies permit and prohibit the action for any possible state of the world."
-
-Reading used:
-  In ODRL, a permission with an attached duty is commonly understood as:
-    To exercise the permission, the duty must (be allowed to) be fulfilled.
-  We model the duty as an *obligation-to-sign* attached to the permission and check whether
-  this obligation clashes with an explicit prohibition to sign.
-
-This script:
-  1) Encodes policy4a (permission-with-duty) and policy4b (prohibition).
-  2) Derives an implied obligation from the duty in policy4a:
-       Duty(signContract)  ⇒  Obligation(signContract)  (for the same subject/assigner/target)
-  3) Detects unconditional clash with policy4b's Prohibition(signContract).
-  4) Always prints:
-       - The URI for the global result
-       - A concise goal-oriented proof explanation
+This program provides:
+  - A tiny reusable proof kernel (terms, formulas, explicit steps).
+  - A generic builder `build_duty_prohibited_conflict_proof` that works for any
+    (assignee, perm_action, perm_target, duty_action, duty_assigner, duty_target)
+    paired with a prohibition on the same duty action/assigner/target.
 
 No external libraries required.
 """
 
-from dataclasses import dataclass
-from typing import Optional, List
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Any, List, Optional, Tuple
 
-# --- Policy modeling ----------------------------------------------------------
-
-@dataclass(frozen=True)
-class Duty:
-    action: str          # e.g., "ex:signContract"
-    assignee: str        # "ex:alice"
-    assigner: str        # "ex:bob"
-    target: str          # "ex:contract"
+# -----------------------------------------------------------------------------
+# Tiny logic: terms, formulas, pretty-printers (generic)
+# -----------------------------------------------------------------------------
 
 @dataclass(frozen=True)
-class PermissionWithDuty:
-    kind: str            # "permission"
-    assignee: str        # "ex:alice"
-    action: str          # "odrl:use"
-    target: str          # "ex:resourceX"
-    duty: Duty
+class Term:
+    name: str
+    def __str__(self) -> str: return self.name
 
 @dataclass(frozen=True)
-class Prohibition:
-    kind: str            # "prohibition"
-    assignee: str        # "ex:alice"
-    action: str          # "ex:signContract"
-    target: str          # "ex:contract"
-    assigner: str        # "ex:bob"
+class Atom:
+    pred: str
+    args: Tuple[Any, ...]
+    def pretty(self) -> str:
+        def fmt(x: Any) -> str: return x if isinstance(x, str) else str(x)
+        return f"{self.pred}(" + ", ".join(fmt(a) for a in self.args) + ")"
 
 @dataclass(frozen=True)
-class Obligation:
-    kind: str            # "obligation"
-    assignee: str
-    action: str
-    target: str
-    assigner: str
+class And:
+    left: Any
+    right: Any
+    def pretty(self) -> str:
+        L = self.left.pretty() if hasattr(self.left, "pretty") else str(self.left)
+        R = self.right.pretty() if hasattr(self.right, "pretty") else str(self.right)
+        return f"({L} ∧ {R})"
 
-# Instantiate the two rules exactly as described in the testcase
-POLICY_4A = PermissionWithDuty(
-    kind="permission",
-    assignee="ex:alice",
-    action="odrl:use",
-    target="ex:resourceX",
-    duty=Duty(
-        action="ex:signContract",
-        assignee="ex:alice",
-        assigner="ex:bob",
-        target="ex:contract",
-    )
-)
-POLICY_4B = Prohibition(
-    kind="prohibition",
-    assignee="ex:alice",
-    action="ex:signContract",
-    target="ex:contract",
-    assigner="ex:bob",
-)
+@dataclass(frozen=True)
+class ForAll:
+    var: Term
+    body: Any
+    def pretty(self) -> str:
+        return f"∀{self.var}. {self.body.pretty()}"
 
-# --- Conflict detection -------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Proof kernel (pretty output only)
+# -----------------------------------------------------------------------------
+
+@dataclass
+class Conclusion:
+    kind: str
+    payload: Any
+    def pretty(self) -> str:
+        k, p = self.kind, self.payload
+        if k == "formula":        return p.pretty()
+        if k == "universe-def":   return f"{p[0]} := {p[1]}"
+        if k == "choose-world":   return f"{p[0]} ∈ {p[1]} (arbitrary)"
+        if k == "duty-obligation":return f"PermWithDuty(…, {p}) ⇒ Obl({p})"
+        if k == "deontic-axiom":  return "O(a) ⇒ P(a)"
+        if k == "classification": return f"Global activation state = {p}"
+        return str(p)
+
+@dataclass
+class Step:
+    id: int
+    rule: str
+    premises: List[int]
+    conclusion: Conclusion
+    notes: Optional[str] = None
+
+@dataclass
+class Proof:
+    steps: List[Step] = field(default_factory=list)
+    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
+        sid = len(self.steps) + 1
+        self.steps.append(Step(sid, rule, premises, conclusion, notes))
+        return sid
+    def pretty(self) -> str:
+        lines = []
+        for s in self.steps:
+            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
+            note = f"  // {s.notes}" if s.notes else ""
+            lines.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
+        return "\n".join(lines)
+
+# -----------------------------------------------------------------------------
+# Reusable builders for premises
+# -----------------------------------------------------------------------------
+
+def forall_permission_with_duty(var: Term,
+                                assignee: str,
+                                perm_action: str,
+                                perm_target: str,
+                                duty_action: str,
+                                duty_assigner: str,
+                                duty_target: str) -> ForAll:
+    """
+    ∀w. PermWithDuty(assignee, perm_action, perm_target,
+                     duty_action, duty_assigner, duty_target, w)
+    """
+    return ForAll(var, Atom("PermWithDuty", (assignee, perm_action, perm_target,
+                                             duty_action, duty_assigner, duty_target, var)))
+
+def forall_prohibition_on_duty(var: Term,
+                               assignee: str,
+                               duty_action: str,
+                               duty_assigner: str,
+                               duty_target: str) -> ForAll:
+    """ ∀w. Proh(assignee, duty_action, duty_assigner, duty_target, w) """
+    return ForAll(var, Atom("Proh", (assignee, duty_action, duty_assigner, duty_target, var)))
+
+# -----------------------------------------------------------------------------
+# Report URIs
+# -----------------------------------------------------------------------------
 
 REPORT_URIS = {
-    "Conflict":    "https://w3id.org/force/compliance-report#Conflict",
-    "Ambiguous":   "https://w3id.org/force/compliance-report#Ambiguous",
-    "Prohibited":  "https://w3id.org/force/compliance-report#Prohibited",
-    "Permitted":   "https://w3id.org/force/compliance-report#Permitted",
-    "NoConflict":  "https://w3id.org/force/compliance-report#NoConflict",
+    "Conflict":   "https://w3id.org/force/compliance-report#Conflict",
+    "Ambiguous":  "https://w3id.org/force/compliance-report#Ambiguous",
+    "Prohibited": "https://w3id.org/force/compliance-report#Prohibited",
+    "Permitted":  "https://w3id.org/force/compliance-report#Permitted",
+    "NoConflict": "https://w3id.org/force/compliance-report#NoConflict",
 }
 
-def obligation_from_duty(p: PermissionWithDuty) -> Obligation:
+# -----------------------------------------------------------------------------
+# Generic proof builder: Permission-with-Duty vs Prohibition on the duty
+# -----------------------------------------------------------------------------
+
+def build_duty_prohibited_conflict_proof(
+    assignee: str,
+    perm_action: str,
+    perm_target: str,
+    duty_action: str,
+    duty_assigner: str,
+    duty_target: str,
+    universe_name: str = "W",
+    witness_name: str = "w0",
+    show_O_implies_P: bool = True
+) -> Tuple[Proof, str]:
     """
-    Convert the duty attached to a permission into an obligation on the same
-    subject/assigner/target for the duty's action, to capture that the duty
-    must (be allowed to) be fulfilled in order to exercise the permission.
+    Construct an explicit proof that:
+      ∀w PermWithDuty(perm, duty)  and  ∀w Proh(duty)
+      together entail a clash on the duty action in every world.
+
+    Rules used (generic):
+      - Duty-Induces-Obligation: from PermWithDuty(…, duty, w) infer Obl(duty, w).
+      - (optional) Deontic O⇒P: from Obl(duty, w) infer Perm(duty, w).
     """
-    d = p.duty
-    return Obligation(
-        kind="obligation",
-        assignee=d.assignee,
-        action=d.action,
-        target=d.target,
-        assigner=d.assigner,
-    )
+    proof = Proof()
+    w = Term("w")
 
-def unconditional_conflict(obligation: Obligation, prohibition: Prohibition) -> bool:
-    """
-    Returns True iff the obligation and prohibition are on the *same*
-    assignee, action, target, and assigner — hence they clash in every world.
-    """
-    return (
-        obligation.assignee == prohibition.assignee and
-        obligation.action   == prohibition.action   and
-        obligation.target   == prohibition.target   and
-        obligation.assigner == prohibition.assigner
-    )
+    # [1] Premise: Permission-with-duty (unconditional apart from the duty itself)
+    pmd_prem = forall_permission_with_duty(w, assignee, perm_action, perm_target,
+                                           duty_action, duty_assigner, duty_target)
+    s1 = proof.add("Premise", [], Conclusion("formula", pmd_prem),
+                   notes="Permission with attached duty holds in every world")
 
-def classify_global(p: PermissionWithDuty, prohib: Prohibition) -> str:
-    implied_ob = obligation_from_duty(p)
-    if unconditional_conflict(implied_ob, prohib):
-        return REPORT_URIS["Conflict"]
-    return REPORT_URIS["NoConflict"]
+    # [2] Generic rule: Duty-Induces-Obligation (we record the rule then derive a universal)
+    duty_sig = f"{assignee}, {duty_action}, {duty_assigner}, {duty_target}, w"
+    s2 = proof.add("Duty-Induces-Obligation", [s1],
+                   Conclusion("duty-obligation", duty_sig),
+                   notes="To exercise the permission, the duty must be fulfilled")
 
-# --- Proof construction -------------------------------------------------------
+    # [3] Derived universal: ∀w. Obl(assignee, duty_action, duty_assigner, duty_target, w)
+    obl_univ = ForAll(w, Atom("Obl", (assignee, duty_action, duty_assigner, duty_target, w)))
+    s3 = proof.add("Derive-Universal", [s2], Conclusion("formula", obl_univ),
+                   notes="Obligation on the duty induced by the permission-with-duty")
 
-def build_goal_oriented_proof(p: PermissionWithDuty, prohib: Prohibition) -> str:
-    """
-    Goal-oriented proof that the global activation state is Conflict.
+    # [4] Premise: Prohibition on the duty (unconditional)
+    proh_prem = forall_prohibition_on_duty(w, assignee, duty_action, duty_assigner, duty_target)
+    s4 = proof.add("Premise", [], Conclusion("formula", proh_prem),
+                   notes="Unconditional Prohibition on the duty action")
 
-    Goal G:
-      Show that for every possible state of the world w,
-      O(signContract) and F(signContract) both hold for the same subject/assigner/target.
+    # [5] Universe of worlds (unrestricted)
+    s5 = proof.add("Universe-Def", [], Conclusion("universe-def", (universe_name, "all possible worlds")),
+                   notes="No external conditions restrict applicability")
 
-    Strategy:
-      1) From policy4a's duty, derive an obligation to sign (to exercise the permission).
-      2) From policy4b, there is a prohibition to sign.
-      3) The obligation and prohibition are about the *same* action/party/object ⇒ clash in all worlds.
-    """
-    ob = obligation_from_duty(p)
+    # [6] Choose an arbitrary world w0 ∈ W
+    s6 = proof.add("Arbitrary-World", [s5], Conclusion("choose-world", (witness_name, universe_name)),
+                   notes="World chosen arbitrarily; argument must not depend on which one")
 
-    lines: List[str] = []
-    lines.append("--- Goal-Oriented Proof Explanation ---\n")
-    lines.append("Policies:")
-    lines.append(f"  (P1) Permission with duty: {p.assignee} may {p.action} {p.target}")
-    lines.append(f"       provided she fulfills duty D: {p.duty.action} (assigner {p.duty.assigner}, target {p.duty.target}).")
-    lines.append(f"  (F1) Prohibition: {prohib.assignee} must-not {prohib.action} {prohib.target} (assigner {prohib.assigner}).")
-    lines.append("")
-    lines.append("Deontic reading of duties:")
-    lines.append("  (D) A duty attached to a permission induces an obligation to perform the duty action")
-    lines.append("      for the same subject/assigner/target when exercising the permission.")
-    lines.append("")
-    lines.append("Derivation:")
-    lines.append(f"  (S1) From (P1) and (D): Obligation O({ob.action} on {ob.target}, assigner {ob.assigner}) holds for {ob.assignee}.")
-    lines.append(f"  (S2) From (F1): Prohibition F({prohib.action} on {prohib.target}, assigner {prohib.assigner}) holds for {prohib.assignee}.")
-    lines.append("  (S3) O and F refer to the *same* action/assignee/assigner/target.")
-    lines.append("  (C) Therefore, for any world w, O(signContract) ∧ F(signContract) holds ⇒ Global state: Conflict.")
-    lines.append("")
-    lines.append("Intuition:")
-    lines.append("  The permission can only be exercised by fulfilling the duty (signing),")
-    lines.append("  yet signing is prohibited. The system simultaneously requires and forbids the very same act.")
-    return "\n".join(lines)
+    # [7] UE: Obl(duty) at w0
+    inst_obl = Atom("Obl", (assignee, duty_action, duty_assigner, duty_target, witness_name))
+    s7 = proof.add("Universal-Elim", [s3, s6], Conclusion("formula", inst_obl),
+                   notes="Instantiate the induced obligation on the duty at w0")
 
-# --- Main ---------------------------------------------------------------------
+    # (optional) O⇒P to show Permit & Prohibit explicitly on the duty
+    if show_O_implies_P:
+        s8 = proof.add("Deontic-Axiom", [], Conclusion("deontic-axiom", None),
+                       notes="From obligation, permission follows (O⇒P)")
+        inst_perm = Atom("Perm", (assignee, duty_action, duty_assigner, duty_target, witness_name))
+        s9 = proof.add("Deontic-Apply", [s8, s7], Conclusion("formula", inst_perm),
+                       notes="Apply O⇒P at w0")
+        perm_step_id_for_conj = s9
+    else:
+        perm_step_id_for_conj = s7  # use Obl directly in the conjunction (O ∧ F)
+
+    # [10] UE: Proh(duty) at w0
+    inst_proh = Atom("Proh", (assignee, duty_action, duty_assigner, duty_target, witness_name))
+    s10 = proof.add("Universal-Elim", [s4, s6], Conclusion("formula", inst_proh),
+                    notes="Instantiate the prohibition on the duty at w0")
+
+    # [11] ∧-Introduction: (Perm|Obl) ∧ Proh on the duty at w0
+    left_atom = (Atom("Perm", (assignee, duty_action, duty_assigner, duty_target, witness_name))
+                 if show_O_implies_P else
+                 Atom("Obl", (assignee, duty_action, duty_assigner, duty_target, witness_name)))
+    conj = And(left_atom, inst_proh)
+    s11 = proof.add("And-Intro", [perm_step_id_for_conj, s10], Conclusion("formula", conj),
+                    notes="Clash at the arbitrary world on the duty action")
+
+    # [12] ∀-Introduction: generalize clash to all worlds
+    general = ForAll(w, And(
+        left_atom.__class__(*left_atom.__dict__.values()) if hasattr(left_atom, "__dict__") else left_atom,
+        Atom("Proh", (assignee, duty_action, duty_assigner, duty_target, w))
+    ))
+    s12 = proof.add("ForAll-Intro", [s11], Conclusion("formula", general),
+                    notes="Since w0 was arbitrary, the clash holds in all worlds")
+
+    # [13] Classification: Conflict
+    result_uri = REPORT_URIS["Conflict"]
+    proof.add("Classification", [s12], Conclusion("classification", result_uri),
+              notes="The duty is simultaneously (Perm|Obl) and Proh in every world")
+
+    return proof, result_uri
+
+# -----------------------------------------------------------------------------
+# Demonstration: instantiate for testcase-4
+# -----------------------------------------------------------------------------
 
 def main() -> None:
-    permission_with_duty = POLICY_4A
-    prohibition          = POLICY_4B
+    assignee      = "ex:alice"
+    perm_action   = "odrl:use"
+    perm_target   = "ex:resourceX"
+    duty_action   = "ex:signContract"
+    duty_assigner = "ex:bob"
+    duty_target   = "ex:contract"
 
-    result_uri = classify_global(permission_with_duty, prohibition)
+    proof, result_uri = build_duty_prohibited_conflict_proof(
+        assignee=assignee,
+        perm_action=perm_action,
+        perm_target=perm_target,
+        duty_action=duty_action,
+        duty_assigner=duty_assigner,
+        duty_target=duty_target,
+        universe_name="W",
+        witness_name="w0",
+        show_O_implies_P=True  # set False if you prefer O ∧ F instead of P ∧ F
+    )
 
-    # Always print the expected URI first (required by test harnesses)
+    # 1) Expected URI first
     print(result_uri)
 
-    # Then print a compact, goal-oriented proof explanation
-    print()
-    print(build_goal_oriented_proof(permission_with_duty, prohibition))
+    # 2) Pretty, numbered proof
+    print("\n=== Pretty Proof ===\n")
+    print(proof.pretty())
 
 if __name__ == "__main__":
     main()
