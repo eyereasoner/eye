@@ -1,22 +1,20 @@
 
 === Proving prop(beautiful,beetle) ===
-World 1: colour=green weight=0.500   ✓ beautiful
-World 2: colour=blue  weight=0.500   ✓ beautiful
-Probability = 1.0
-
+World 1: colour=green  ✓ beautiful (because green ⇒ beautiful)
+World 2: colour=blue   ✓ beautiful (because blue ⇒ beautiful)
+Result: VALID — prop(beautiful,beetle) is true in all 2 worlds.
 
 === Proving prop(green,beetle) ===
-World 1: colour=green weight=0.500   ✓ green
-World 2: colour=blue  weight=0.500   ✗ green
-Probability = 0.5
-
+World 1: colour=green  ✓ green
+World 2: colour=blue   ✗ green
+Result: SATISFIABLE (but not valid) — holds in 1/2 worlds.
 
 === Proving prop(blue,beetle) ===
-World 1: colour=green weight=0.500   ✗ blue
-World 2: colour=blue  weight=0.500   ✓ blue
-Probability = 0.5
+World 1: colour=green  ✗ blue
+World 2: colour=blue   ✓ blue
+Result: SATISFIABLE (but not valid) — holds in 1/2 worlds.
 
 === Summary ===
-prop(beautiful,beetle): 1.0
-prop(green,beetle): 0.5
-prop(blue,beetle): 0.5
+prop(beautiful,beetle): VALID
+prop(green,beetle): SATISFIABLE in 1/2 worlds → green
+prop(blue,beetle): SATISFIABLE in 1/2 worlds → blue

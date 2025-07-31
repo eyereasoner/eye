@@ -1,77 +1,41 @@
 
 === Proving prop(beautiful,beetle) ===
-World 01  leaf=blue     weight=0.5000
-   reason: blue  ⇒ beautiful
-    ✓ holds
-World 02  leaf=nice11   weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 03  leaf=nice12   weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 04  leaf=nice21   weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 05  leaf=nice22   weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 06  leaf=pretty11 weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 07  leaf=pretty12 weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 08  leaf=pretty21 weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-World 09  leaf=pretty22 weight=0.0625
-   reason: leaf is nice*/pretty*  ⇒ beautiful
-    ✓ holds
-Probability = 1.000000000000
+World 01  leaf=blue      reason: blue ⇒ beautiful  ✓ holds
+World 02  leaf=nice11    reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 03  leaf=nice12    reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 04  leaf=nice21    reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 05  leaf=nice22    reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 06  leaf=pretty11  reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 07  leaf=pretty12  reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 08  leaf=pretty21  reason: nice*/pretty* ⇒ beautiful  ✓ holds
+World 09  leaf=pretty22  reason: nice*/pretty* ⇒ beautiful  ✓ holds
+Result: VALID — prop(beautiful,beetle) is true in all 9 worlds.
 
 === Proving prop(green,beetle) ===
-World 01  leaf=blue     weight=0.5000
-    ✗ fails
-World 02  leaf=nice11   weight=0.0625
-    ✓ holds
-World 03  leaf=nice12   weight=0.0625
-    ✓ holds
-World 04  leaf=nice21   weight=0.0625
-    ✓ holds
-World 05  leaf=nice22   weight=0.0625
-    ✓ holds
-World 06  leaf=pretty11 weight=0.0625
-    ✓ holds
-World 07  leaf=pretty12 weight=0.0625
-    ✓ holds
-World 08  leaf=pretty21 weight=0.0625
-    ✓ holds
-World 09  leaf=pretty22 weight=0.0625
-    ✓ holds
-Probability = 0.500000000000
+World 01  leaf=blue      ✗ fails
+World 02  leaf=nice11    ✓ holds
+World 03  leaf=nice12    ✓ holds
+World 04  leaf=nice21    ✓ holds
+World 05  leaf=nice22    ✓ holds
+World 06  leaf=pretty11  ✓ holds
+World 07  leaf=pretty12  ✓ holds
+World 08  leaf=pretty21  ✓ holds
+World 09  leaf=pretty22  ✓ holds
+Result: SATISFIABLE (but not valid) — holds in 8/9 worlds.
 
 === Proving prop(blue,beetle) ===
-World 01  leaf=blue     weight=0.5000
-    ✓ holds
-World 02  leaf=nice11   weight=0.0625
-    ✗ fails
-World 03  leaf=nice12   weight=0.0625
-    ✗ fails
-World 04  leaf=nice21   weight=0.0625
-    ✗ fails
-World 05  leaf=nice22   weight=0.0625
-    ✗ fails
-World 06  leaf=pretty11 weight=0.0625
-    ✗ fails
-World 07  leaf=pretty12 weight=0.0625
-    ✗ fails
-World 08  leaf=pretty21 weight=0.0625
-    ✗ fails
-World 09  leaf=pretty22 weight=0.0625
-    ✗ fails
-Probability = 0.500000000000
+World 01  leaf=blue      ✓ holds
+World 02  leaf=nice11    ✗ fails
+World 03  leaf=nice12    ✗ fails
+World 04  leaf=nice21    ✗ fails
+World 05  leaf=nice22    ✗ fails
+World 06  leaf=pretty11  ✗ fails
+World 07  leaf=pretty12  ✗ fails
+World 08  leaf=pretty21  ✗ fails
+World 09  leaf=pretty22  ✗ fails
+Result: SATISFIABLE (but not valid) — holds in 1/9 worlds.
 
 === Summary ===
-prop(beautiful,beetle): 1.0
-prop(green,beetle): 0.5
-prop(blue,beetle): 0.5
+prop(beautiful,beetle): VALID   
+prop(green,beetle): SATISFIABLE in 8/9 worlds  → nice11, nice12, nice21, nice22, pretty11, pretty12, pretty21, pretty22
+prop(blue,beetle): SATISFIABLE in 1/9 worlds  → blue

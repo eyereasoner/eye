@@ -1,90 +1,121 @@
 #!/usr/bin/env python3
 """
 beetle12.py
-Back-chaining probability proof for the “Beetle-12” annotated-disjunction
-example.
+Back-chaining *logical* proof for the “Beetle-12” annotated-disjunction example.
 
-Exclusive choice tree for *beetle* (weights = 1/2 each branch):
+Exclusive choice tree for *beetle* (no weights, just exclusive branches):
     colour:  green | blue
     under green:  nice | pretty
     under nice/pretty:  1 | 2
     under x1/x2:        1 | 2      (nice11 … pretty22)
 
-Worlds (leaf atoms & weights)
-    blue                : 0.50
-    nice11 nice12 …     : 0.0625 each  (8 leaves, total 0.50)
+Worlds (leaf atoms)
+    blue
+    nice11 nice12 nice21 nice22 pretty11 pretty12 pretty21 pretty22
 
 Deterministic rules
     beautiful ← blue
     beautiful ← any leaf starting with nice or pretty
 """
 
-from typing import List, Tuple, Dict
+from typing import List, Dict
 
 # ───────────────────────────────────────────────────────────
 # 1.  Enumerate exclusive worlds for *beetle*
 # ───────────────────────────────────────────────────────────
-World = Tuple[str, float]          # (leaf_atom , probability)
+World = str  # a leaf atom naming an exclusive world
 
 def worlds() -> List[World]:
     """Generate the 9 mutually-exclusive worlds."""
-    out: List[World] = [("blue", 0.5)]        # blue ends the branch
-
-    p_leaf = 0.5 * 0.5 * 0.5 * 0.5            # = 0.0625
+    out: List[World] = ["blue"]  # blue ends that branch
     for qual in ("nice", "pretty"):
         for i in ("1", "2"):
             for j in ("1", "2"):
-                out.append((f"{qual}{i}{j}", p_leaf))
+                out.append(f"{qual}{i}{j}")
     return out
 
 WORLDS = worlds()
 
 # ───────────────────────────────────────────────────────────
-# 2.  Backward-proof routine for each query atom
+# 2.  Logical entailment check per world (no numeric aggregation)
 # ───────────────────────────────────────────────────────────
-def prove(goal: str) -> float:
+def holds_in_world(goal: str, leaf: World) -> bool:
     """
-    Print a proof trace for `goal` (beautiful/green/blue) and
-    return its probability.
+    Return True iff `goal` holds in the given world `leaf` under the rules.
+    Allowed goals: 'beautiful', 'green', 'blue'.
     """
-    total = 0.0
+    if goal == "blue":
+        return leaf == "blue"
+
+    if goal == "green":
+        # 'green' is any non-blue leaf
+        return leaf != "blue"
+
+    if goal == "beautiful":
+        # Deterministic rules
+        if leaf == "blue":
+            return True
+        if leaf.startswith(("nice", "pretty")):
+            return True
+        return False
+
+    raise ValueError(f"Unknown goal: {goal!r}")
+
+def prove(goal: str) -> List[World]:
+    """
+    Print a proof trace for `goal` (beautiful/green/blue)
+    and return the list of worlds where it holds.
+    """
     print(f"\n=== Proving prop({goal},beetle) ===")
-    for idx, (leaf, w) in enumerate(WORLDS, 1):
-        print(f"World {idx:02}  leaf={leaf:<8} weight={w:.4f}")
-        holds = False
+    holds_in: List[World] = []
 
-        if goal == "blue":
-            holds = (leaf == "blue")
+    for idx, leaf in enumerate(WORLDS, 1):
+        print(f"World {idx:02}  leaf={leaf:<8}", end="  ")
+        holds = holds_in_world(goal, leaf)
 
-        elif goal == "green":
-            holds = (leaf != "blue")          # any leaf means green
-
-        elif goal == "beautiful":
+        # Show the reason for the *beautiful* rule cases
+        if goal == "beautiful":
             if leaf == "blue":
-                print("   reason: blue  ⇒ beautiful")
-                holds = True
+                print("reason: blue ⇒ beautiful", end="  ")
             elif leaf.startswith(("nice", "pretty")):
-                print("   reason: leaf is nice*/pretty*  ⇒ beautiful")
-                holds = True
+                print("reason: nice*/pretty* ⇒ beautiful", end="  ")
 
-        print("   ", "✓ holds" if holds else "✗ fails")
+        print("✓ holds" if holds else "✗ fails")
+
         if holds:
-            total += w
+            holds_in.append(leaf)
 
-    print(f"Probability = {total:.12f}")
-    return total
+    n = len(WORLDS)
+    k = len(holds_in)
+    if k == n:
+        print(f"Result: VALID — prop({goal},beetle) is true in all {n} worlds.")
+    elif k == 0:
+        print(f"Result: UNSATISFIABLE — prop({goal},beetle) is false in all {n} worlds.")
+    else:
+        print(f"Result: SATISFIABLE (but not valid) — holds in {k}/{n} worlds.")
+
+    return holds_in
 
 # ───────────────────────────────────────────────────────────
-# 3.  Run the three queries & summarise
+# 3.  Run the three queries & summarise (logical status only)
 # ───────────────────────────────────────────────────────────
 if __name__ == "__main__":
-    probs: Dict[str, float] = {}
+    results: Dict[str, List[World]] = {}
     for atom in ("beautiful", "green", "blue"):
-        probs[f"prop({atom},beetle)"] = prove(atom)
+        results[f"prop({atom},beetle)"] = prove(atom)
 
     print("\n=== Summary ===")
     for q in ("prop(beautiful,beetle)",
               "prop(green,beetle)",
               "prop(blue,beetle)"):
-        print(f"{q}: {probs[q]}")
+        worlds_where = results[q]
+        n = len(WORLDS)
+        k = len(worlds_where)
+        if k == n:
+            status = "VALID"
+        elif k == 0:
+            status = "UNSATISFIABLE"
+        else:
+            status = f"SATISFIABLE in {k}/{n} worlds"
+        print(f"{q}: {status}  {(' ' if k==n or k==0 else '→ ' + ', '.join(worlds_where))}")
 

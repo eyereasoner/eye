@@ -1,19 +1,22 @@
+Applying evidence: bad ← beautiful ; evidence(bad,false)
+W1: blue     beautiful holds ⇒ bad would be true ⇒ DROP
+W2: nice     beautiful false ⇒ bad false ⇒ KEEP
+W3: pretty   beautiful holds ⇒ bad would be true ⇒ DROP
+Surviving worlds: nice
 
 === Proving prop(nice,beetle) ===
-World 1: nice    weight=1.000   ✓ nice
-Probability = 1.0
-
+World 1: nice     ✓ nice
+Result: VALID — prop(nice,beetle) is true in all 1 surviving worlds.
 
 === Proving prop(beautiful,beetle) ===
-World 1: nice    weight=1.000   ✗ beautiful
-Probability = 0.0
-
+World 1: nice     ✗ beautiful
+Result: UNSATISFIABLE — prop(beautiful,beetle) is false in all 1 surviving worlds.
 
 === Proving prop(blue,beetle) ===
-World 1: nice    weight=1.000   ✗ blue
-Probability = 0.0
+World 1: nice     ✗ blue
+Result: UNSATISFIABLE — prop(blue,beetle) is false in all 1 surviving worlds.
 
 === Summary ===
-prop(nice,beetle): 1.0
-prop(beautiful,beetle): 0.0
-prop(blue,beetle): 0.0
+prop(nice,beetle): VALID
+prop(beautiful,beetle): UNSATISFIABLE
+prop(blue,beetle): UNSATISFIABLE
