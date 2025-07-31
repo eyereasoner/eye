@@ -1,20 +1,16 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Goal G: ∃a  (Perm(pay,a) ∧ Prohib(pay,a))  for the same subject, action, and target.
-
-Policy facts:
-  (P1) Permission: pay > 10.00 Euro  (policy11a).
-  (P2) Obligation: pay < 10.00 Euro  (policy11b).
-
-Deontic axiom (used as a rule):
-  (D) From O(pay < 10.00 Euro) infer F(pay > 10.00 Euro).
-
-Subgoals and derivation:
-  (S1) From (P2) and (D) derive Prohib(pay > 10.00 Euro).
-  (S2) Choose witness amount a := 10.01 Euro with a > 10.00 (witness is in the overlap).
-  (S3) From (P1) and a > 10.00, derive Perm(pay,a).
-  (S4) From (S1) and a > 10.00, derive Prohib(pay,a).
-  (C) From (S3) and (S4), Perm(pay,a) ∧ Prohib(pay,a). Therefore ∃a … holds.
-Conclusion: Goal G is satisfied ⇒ Conflict.
+[1] Premise: ∀a∈(10.00, +∞) Perm(odrl:pay, ex:resourceX, a, dbpedia:Euro)  // Permission over (10.00, +∞)
+[2] Premise: ∀a∈(-∞, 10.00) Obl(odrl:pay, ex:resourceX, a, dbpedia:Euro)  // Obligation over (-∞, 10.00)
+[3] Deontic Obl⇒Proh [2]: O(odrl:pay ∈ (-∞, 10.00)) ⇒ F(odrl:pay ∈ (10.00, +∞))  // From obligation refinement derive a prohibition refinement
+[4] Derive-Universal [3]: ∀a∈(10.00, +∞) Proh(odrl:pay, ex:resourceX, a, dbpedia:Euro)  // General prohibition premise induced by the obligation
+[5] Interval-Intersection: (10.00, +∞) ∩ (10.00, +∞) = (10.00, +∞)  // Overlap of permission and derived prohibition refinements
+[6] Definition [5]: I := (10.00, +∞)  // Name the overlap interval as I
+[7] Choose [6]: 10.01 ∈ (10.00, +∞)  // Witness amount a0 = 10.01 dbpedia:Euro
+[8] Universal-Elim [1, 7]: Perm(odrl:pay, ex:resourceX, 10.01, dbpedia:Euro)  // Instantiate permission at the witness
+[9] Universal-Elim [4, 7]: Proh(odrl:pay, ex:resourceX, 10.01, dbpedia:Euro)  // Instantiate prohibition at the witness
+[10] And-Intro [8, 9]: (Perm(odrl:pay, ex:resourceX, 10.01, dbpedia:Euro) ∧ Proh(odrl:pay, ex:resourceX, 10.01, dbpedia:Euro))  // Clash at the witness amount
+[11] ForAll-Intro [10]: ∀a∈(10.00, +∞) (Perm(odrl:pay, ex:resourceX, a, dbpedia:Euro) ∧ Proh(odrl:pay, ex:resourceX, a, dbpedia:Euro))  // Generalize the clash to all amounts in I
+[12] Classification [11]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // I equals the entire permission refinement ⇒ standing clash
