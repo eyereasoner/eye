@@ -6,7 +6,7 @@ This research presents a novel approach to computational reasoning by using **La
 ---
 
 ## Conceptual Overview
-
+```
 ┌───────────────────────┐    ┌───────────────────────┐    ┌───────────────────────┐
 │    RDF Data (Facts)   │    │     N3 Logic Rules    │    │       Goal / Query     │
 └───────────┬───────────┘    └───────────┬───────────┘    └───────────┬───────────┘
@@ -26,7 +26,7 @@ This research presents a novel approach to computational reasoning by using **La
                │   • Produces expected results                  │
                │   • Outputs goal-oriented proof                │
                └───────────────────────────────────────────────┘
-
+```
 ---
 
 ## Installation
