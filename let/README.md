@@ -8,23 +8,23 @@ This research presents a novel approach to computational reasoning by using **La
 ## Conceptual Overview
 ```
 ┌───────────────────────┐    ┌───────────────────────┐    ┌───────────────────────┐
-│    RDF Data (Facts)   │    │     N3 Logic Rules    │    │       Goal / Query     │
+│    RDF Data (Facts)   │    │     N3 Logic Rules    │    │       Goal / Query    │
 └───────────┬───────────┘    └───────────┬───────────┘    └───────────┬───────────┘
             │                            │                            │
             └─────────────┐              │              ┌─────────────┘
                           ▼              ▼              ▼
                ┌───────────────────────────────────────────────┐
-               │           LLM (e.g., ChatGPT o3)               │
-               │   • Translates RDF + N3                        │
-               │   • Synthesizes Python code                    │
-               │   • Constructs proof strategy                  │
-               └───────────────────────────┬───────────────────┘
-                                           ▼
+               │           LLM (e.g., ChatGPT o3)              │
+               │   • Translates RDF + N3                       │
+               │   • Synthesizes Python code                   │
+               │   • Constructs proof strategy                 │
+               └─────────────────────────┬─────────────────────┘
+                                         ▼
                ┌───────────────────────────────────────────────┐
                │        Self-contained Python Program          │
-               │   • Executes reasoning steps                   │
-               │   • Produces expected results                  │
-               │   • Outputs goal-oriented proof                │
+               │   • Executes reasoning steps                  │
+               │   • Produces expected results                 │
+               │   • Outputs goal-oriented proof               │
                └───────────────────────────────────────────────┘
 ```
 ---
