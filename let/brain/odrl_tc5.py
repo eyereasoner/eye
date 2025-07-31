@@ -1,179 +1,286 @@
 #!/usr/bin/env python3
 """
-Testcase-5: Permission vs Prohibition with constraints (age == 18)
-==================================================================
+Generic explicit-step proof builder for equality-based activation conditions
+===========================================================================
 
-Scenario (from ODRL Test Conflicts, testcase-5):
-  - policy5a: Permission to odrl:read ex:resourceX when ex:age = 18.
-  - policy5b: Prohibition to odrl:read ex:resourceX when ex:age = 18.
+Testcase-5 summary:
+  - Permission:  odrl:read ex:resourceX  when ex:age = 18.
+  - Prohibition: odrl:read ex:resourceX  when ex:age = 18.
+  The activation conditions are identical; whenever the condition holds
+  the action is both permitted and prohibited ⇒ Conflict.
 
-Expected global activation state: Conflict
-  Rationale: The policies’ preconditions are identical (age == 18). In every
-  world satisfying those preconditions, the action is simultaneously permitted
-  and prohibited. Therefore the combined policies are in Conflict.  [testcase-5]
+This script provides:
+  - A tiny reusable proof kernel (terms, formulas, explicit steps).
+  - A generic builder `build_equality_overlap_proof` that works for any
+    discrete attribute with equality conditions (e.g., age==k, region==EU, …).
+
+No external libraries required.
 """
 
-from dataclasses import dataclass
-from typing import Optional, List
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Any, Iterable, List, Optional, Set, Tuple, Union, FrozenSet
 
-# --- Basic model for this testcase -------------------------------------------
+# -----------------------------------------------------------------------------
+# Helpers for finite sets (generic over discrete attributes)
+# -----------------------------------------------------------------------------
 
-@dataclass(frozen=True)
-class World:
-    age: int  # ex:age for Alice
+def set_str(S: FrozenSet[Any]) -> str:
+    return "{" + ", ".join(map(str, sorted(S))) + "}"
 
-    def __repr__(self) -> str:
-        return f"(age={self.age})"
+def pick_witness(S: FrozenSet[Any]) -> Any:
+    assert len(S) > 0, "Cannot pick a witness from an empty set."
+    return sorted(S)[0]
 
-@dataclass(frozen=True)
-class Constraint:
-    left_operand: str   # "ex:age"
-    operator: str       # "odrl:eq"
-    right_operand: int  # 18
-
-    def holds_in(self, w: World) -> bool:
-        if self.left_operand != "ex:age":
-            raise ValueError("This demo only supports ex:age as leftOperand.")
-        if self.operator != "odrl:eq":
-            raise ValueError("This demo only supports odrl:eq.")
-        return w.age == self.right_operand
-
-    def intersection(self, other: "Constraint") -> Optional["Constraint"]:
-        """
-        Intersection over the same variable with eq:
-          eq(18) ∧ eq(18) = eq(18)
-          eq(18) ∧ eq(21) = ⊥ (empty)
-        """
-        if (self.left_operand, self.operator) != (other.left_operand, other.operator):
-            return None
-        if self.right_operand == other.right_operand:
-            return Constraint(self.left_operand, self.operator, self.right_operand)
-        return None  # disjoint
+# -----------------------------------------------------------------------------
+# Tiny logic: terms, formulas, pretty-printers (generic)
+# -----------------------------------------------------------------------------
 
 @dataclass(frozen=True)
-class Rule:
-    kind: str          # "permission" or "prohibition"
-    assignee: str      # "ex:alice"
-    action: str        # "odrl:read"
-    target: str        # "ex:resourceX"
-    constraint: Constraint
+class Term:
+    name: str
+    def __str__(self) -> str: return self.name
 
-# Instantiate the two rules exactly as described in the testcase
-POLICY_5A = Rule(
-    kind="permission",
-    assignee="ex:alice",
-    action="odrl:read",
-    target="ex:resourceX",
-    constraint=Constraint("ex:age", "odrl:eq", 18),
-)
-POLICY_5B = Rule(
-    kind="prohibition",
-    assignee="ex:alice",
-    action="odrl:read",
-    target="ex:resourceX",
-    constraint=Constraint("ex:age", "odrl:eq", 18),
-)
+@dataclass(frozen=True)
+class Atom:
+    pred: str
+    args: Tuple[Any, ...]
+    def pretty(self) -> str:
+        def fmt(x: Any) -> str: return x if isinstance(x, str) else str(x)
+        return f"{self.pred}(" + ", ".join(fmt(a) for a in self.args) + ")"
 
-# --- Report URIs --------------------------------------------------------------
+@dataclass(frozen=True)
+class And:
+    left: Any
+    right: Any
+    def pretty(self) -> str:
+        L = self.left.pretty() if hasattr(self.left, "pretty") else str(self.left)
+        R = self.right.pretty() if hasattr(self.right, "pretty") else str(self.right)
+        return f"({L} ∧ {R})"
+
+@dataclass(frozen=True)
+class ForAllInSet:
+    var: Term
+    S: FrozenSet[Any]           # finite activation set for the condition
+    body: Atom                  # usually Perm/Proh(..., var)
+    def pretty(self) -> str:
+        return f"∀{self.var}∈{set_str(self.S)} {self.body.pretty()}"
+
+# -----------------------------------------------------------------------------
+# Proof kernel (pretty output only)
+# -----------------------------------------------------------------------------
+
+@dataclass
+class Conclusion:
+    kind: str
+    payload: Any
+    def pretty(self) -> str:
+        k, p = self.kind, self.payload
+        if k == "formula":        return p.pretty()
+        if k == "set-eq":
+            leftA, leftB, inter = p
+            return f"{set_str(leftA)} ∩ {set_str(leftB)} = {set_str(inter)}"
+        if k == "set-def":        return f"{p[0]} := {set_str(p[1])}"
+        if k == "membership":     return f"{p[0]} ∈ {set_str(p[1])}"
+        if k == "classification": return f"Global activation state = {p}"
+        return str(p)
+
+@dataclass
+class Step:
+    id: int
+    rule: str
+    premises: List[int]
+    conclusion: Conclusion
+    notes: Optional[str] = None
+
+@dataclass
+class Proof:
+    steps: List[Step] = field(default_factory=list)
+    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
+        sid = len(self.steps) + 1
+        self.steps.append(Step(sid, rule, premises, conclusion, notes))
+        return sid
+    def pretty(self) -> str:
+        lines = []
+        for s in self.steps:
+            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
+            note = f"  // {s.notes}" if s.notes else ""
+            lines.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
+        return "\n".join(lines)
+
+# -----------------------------------------------------------------------------
+# Reusable builders for equality-based premises
+# -----------------------------------------------------------------------------
+
+def forall_perm_eq(var: Term, attr_name: str, attr_values: FrozenSet[Any],
+                   assignee: str, action: str, target: str) -> ForAllInSet:
+    """
+    ∀v ∈ attr_values. Perm(assignee, action, target, attr_name=v)
+    """
+    return ForAllInSet(var, attr_values, Atom("Perm", (assignee, action, target, f"{attr_name}={var.name}")))
+
+def forall_proh_eq(var: Term, attr_name: str, attr_values: FrozenSet[Any],
+                   assignee: str, action: str, target: str) -> ForAllInSet:
+    """
+    ∀v ∈ attr_values. Proh(assignee, action, target, attr_name=v)
+    """
+    return ForAllInSet(var, attr_values, Atom("Proh", (assignee, action, target, f"{attr_name}={var.name}")))
+
+# -----------------------------------------------------------------------------
+# Report URIs and classification (generic over finite sets)
+# -----------------------------------------------------------------------------
 
 REPORT_URIS = {
-    "Conflict":    "https://w3id.org/force/compliance-report#Conflict",
-    "Ambiguous":   "https://w3id.org/force/compliance-report#Ambiguous",
-    "Prohibited":  "https://w3id.org/force/compliance-report#Prohibited",
-    "Permitted":   "https://w3id.org/force/compliance-report#Permitted",
-    "NoConflict":  "https://w3id.org/force/compliance-report#NoConflict",
+    "Conflict":   "https://w3id.org/force/compliance-report#Conflict",
+    "Ambiguous":  "https://w3id.org/force/compliance-report#Ambiguous",
+    "Prohibited": "https://w3id.org/force/compliance-report#Prohibited",
+    "Permitted":  "https://w3id.org/force/compliance-report#Permitted",
+    "NoConflict": "https://w3id.org/force/compliance-report#NoConflict",
 }
 
-# --- Classification logic -----------------------------------------------------
+@dataclass
+class OverlapResult:
+    uri: str
+    overlap: FrozenSet[Any]
+    mode: str  # "empty" | "subset_conflict" | "proh_subset_ambiguous" | "partial_ambiguous"
 
-def same_subject_action_target(a: Rule, b: Rule) -> bool:
-    return (a.assignee == b.assignee and a.action == b.action and a.target == b.target)
+def classify_overlap(perm_set: FrozenSet[Any], proh_set: FrozenSet[Any]) -> OverlapResult:
+    inter = perm_set.intersection(proh_set)
+    if len(inter) == 0:
+        return OverlapResult(REPORT_URIS["NoConflict"], frozenset(), "empty")
+    if perm_set.issubset(proh_set):
+        return OverlapResult(REPORT_URIS["Conflict"], inter, "subset_conflict")
+    if proh_set.issubset(perm_set):
+        return OverlapResult(REPORT_URIS["Ambiguous"], inter, "proh_subset_ambiguous")
+    return OverlapResult(REPORT_URIS["Ambiguous"], inter, "partial_ambiguous")
 
-def conflict_on_intersection(permission: Rule, prohibition: Rule) -> bool:
+# -----------------------------------------------------------------------------
+# Generic proof builder for equality-based activation overlap
+# -----------------------------------------------------------------------------
+
+def build_equality_overlap_proof(
+    attr_name: str,
+    perm_values: FrozenSet[Any],
+    proh_values: FrozenSet[Any],
+    assignee: str,
+    action: str,
+    target: str,
+    overlap_name: str = "I",
+    witness_label: str = "v0"
+) -> Tuple[Proof, str]:
     """
-    We restrict attention to the set of worlds where *both* rules can apply,
-    i.e., the intersection of their preconditions. If that intersection is
-    non-empty and on every world in that intersection both rules hold, we
-    classify as Conflict (which matches testcase-5).
+    Build an explicit proof for equality-based activation sets:
+      - ∀v ∈ P: Perm(...)
+      - ∀v ∈ F: Proh(...)
+      - Overlap I = P ∩ F
+    Classification:
+      - NoConflict if I=∅
+      - Conflict    if P ⊆ F  (standing clash on all permitted points)
+      - Ambiguous   otherwise
     """
-    if not (permission.kind == "permission" and prohibition.kind == "prohibition"):
-        return False
-    if not same_subject_action_target(permission, prohibition):
-        return False
+    proof = Proof()
+    v = Term("v")
 
-    inter = permission.constraint.intersection(prohibition.constraint)
-    if inter is None:
-        # No world satisfies both constraints simultaneously -> no conflict.
-        return False
+    # [1] Permission premise over perm_values
+    perm_prem = forall_perm_eq(v, attr_name, perm_values, assignee, action, target)
+    s1 = proof.add("Premise", [], Conclusion("formula", perm_prem),
+                   notes=f"Permission holds whenever {attr_name} ∈ {set_str(perm_values)}")
 
-    # For eq-constraints, the intersection describes exactly one world.
-    witness_world = World(age=inter.right_operand)
+    # [2] Prohibition premise over proh_values
+    proh_prem = forall_proh_eq(v, attr_name, proh_values, assignee, action, target)
+    s2 = proof.add("Premise", [], Conclusion("formula", proh_prem),
+                   notes=f"Prohibition holds whenever {attr_name} ∈ {set_str(proh_values)}")
 
-    # Both rules apply in that world (by construction) -> immediate clash.
-    perm_holds = permission.constraint.holds_in(witness_world)
-    prohib_holds = prohibition.constraint.holds_in(witness_world)
-    return perm_holds and prohib_holds
+    # [3] Set intersection P ∩ F
+    inter = perm_values.intersection(proh_values)
+    if len(inter) == 0:
+        s3 = proof.add("Set-Intersection", [], Conclusion("set-eq", (perm_values, proh_values, inter)),
+                       notes="No shared activations")
+        res = classify_overlap(perm_values, proh_values)
+        proof.add("Classification", [s3], Conclusion("classification", res.uri),
+                  notes="No overlap ⇒ no direct clash")
+        return proof, res.uri
 
-def classify_global(permission: Rule, prohibition: Rule) -> str:
-    if conflict_on_intersection(permission, prohibition):
-        return REPORT_URIS["Conflict"]
-    # For completeness; not expected for this testcase.
-    return REPORT_URIS["NoConflict"]
+    s3 = proof.add("Set-Intersection", [], Conclusion("set-eq", (perm_values, proh_values, inter)),
+                   notes="Compute overlap of activation sets")
 
-# --- Goal-oriented proof construction ----------------------------------------
+    # [4] Define overlap name
+    s4 = proof.add("Definition", [s3], Conclusion("set-def", (overlap_name, inter)),
+                   notes=f"Name the overlap as {overlap_name}")
 
-def build_goal_oriented_proof(permission: Rule, prohibition: Rule) -> str:
-    """
-    Goal G:
-      Show Conflict by exhibiting a world w in which both rules apply.
+    # [5] Choose a witness value from the overlap
+    w = pick_witness(inter)
+    s5 = proof.add("Choose", [s4], Conclusion("membership", (w, inter)),
+                   notes=f"Witness {witness_label} = {w} ∈ {overlap_name}")
 
-    Strategy:
-      1) Observe the constraints are identical: ex:age == 18.
-      2) Choose witness world w := (age = 18).
-      3) In w, Permission(read) and Prohibition(read) both hold for the same
-         subject/action/target.
-      4) Since the intersection of preconditions is precisely {w}, *every*
-         world compatible with both policies is a clash ⇒ Conflict.
-    """
-    inter = permission.constraint.intersection(prohibition.constraint)
-    assert inter is not None
-    w = World(age=inter.right_operand)
+    # [6] UE: Perm at the witness
+    inst_perm = Atom("Perm", (assignee, action, target, f"{attr_name}={witness_label}"))
+    s6 = proof.add("Universal-Elim", [s1, s5], Conclusion("formula", inst_perm),
+                   notes="Instantiate permission at the witness")
 
-    lines: List[str] = []
-    lines.append("--- Goal-Oriented Proof Explanation ---\n")
-    lines.append("Policies:")
-    lines.append(f"  (P1) Permission:  {permission.assignee} may {permission.action} {permission.target}")
-    lines.append(f"       when {permission.constraint.left_operand} == {permission.constraint.right_operand}.")
-    lines.append(f"  (F1) Prohibition: {prohibition.assignee} must-not {prohibition.action} {prohibition.target}")
-    lines.append(f"       when {prohibition.constraint.left_operand} == {prohibition.constraint.right_operand}.")
-    lines.append("")
-    lines.append("Precondition analysis:")
-    lines.append("  The constraints are identical, so their intersection is the singleton set {ex:age = 18}.")
-    lines.append("")
-    lines.append("Witness construction:")
-    lines.append(f"  Choose world w := {w}. Then (P1) holds in w and (F1) holds in w.")
-    lines.append("")
-    lines.append("Derivation:")
-    lines.append("  (S1) In w, Permission(odrl:read) holds (by P1).")
-    lines.append("  (S2) In w, Prohibition(odrl:read) holds (by F1).")
-    lines.append("  (C) Therefore, in every world that satisfies both policies’ preconditions")
-    lines.append("      (i.e., the intersection {w}), Perm ∧ Prohib holds ⇒ Global state: Conflict.")
-    return "\n".join(lines)
+    # [7] UE: Proh at the witness
+    inst_proh = Atom("Proh", (assignee, action, target, f"{attr_name}={witness_label}"))
+    s7 = proof.add("Universal-Elim", [s2, s5], Conclusion("formula", inst_proh),
+                   notes="Instantiate prohibition at the witness")
 
-# --- Main ---------------------------------------------------------------------
+    # [8] ∧-Introduction: Perm ∧ Proh at the witness value
+    conj = And(inst_perm, inst_proh)
+    s8 = proof.add("And-Intro", [s6, s7], Conclusion("formula", conj),
+                   notes="Clash at the witness point")
+
+    # [9] ∀-Introduction over the entire overlap I
+    general = ForAllInSet(v, inter, And(
+        Atom("Perm", (assignee, action, target, f"{attr_name}=v")),
+        Atom("Proh", (assignee, action, target, f"{attr_name}=v"))
+    ))
+    s9 = proof.add("ForAll-Intro", [s8], Conclusion("formula", general),
+                   notes=f"Generalize the clash over all elements of {overlap_name}")
+
+    # [10] Classification based on set relationship
+    res = classify_overlap(perm_values, proh_values)
+    reasoning = {
+        "subset_conflict":       f"{overlap_name} equals the entire permission activation set ⇒ standing clash",
+        "partial_ambiguous":     f"{overlap_name} is a strict partial overlap ⇒ some values permit, some prohibit",
+        "proh_subset_ambiguous": f"Prohibition ⊆ Permission ⇒ both clash (inside {overlap_name}) and permit-only values (outside)",
+        "empty":                 "No shared values ⇒ no direct clash",
+    }[res.mode]
+    proof.add("Classification", [s9], Conclusion("classification", res.uri), notes=reasoning)
+
+    return proof, res.uri
+
+# -----------------------------------------------------------------------------
+# Demonstration: instantiate for testcase-5
+# -----------------------------------------------------------------------------
 
 def main() -> None:
-    permission  = POLICY_5A
-    prohibition = POLICY_5B
+    # Labels
+    assignee = "ex:alice"
+    action   = "odrl:read"
+    target   = "ex:resourceX"
+    attr     = "ex:age"
 
-    result_uri = classify_global(permission, prohibition)
+    # Equality conditions from the testcase: age == 18 on both sides
+    perm_values = frozenset({18})
+    proh_values = frozenset({18})
 
-    # Always print the expected URI first (required by test harnesses)
+    # Build proof with the generic engine
+    proof, result_uri = build_equality_overlap_proof(
+        attr_name=attr,
+        perm_values=perm_values,
+        proh_values=proh_values,
+        assignee=assignee,
+        action=action,
+        target=target,
+        overlap_name="I",
+        witness_label="v0"
+    )
+
+    # 1) Print expected URI first
     print(result_uri)
 
-    # Then print a compact, goal-oriented proof explanation
-    print()
-    print(build_goal_oriented_proof(permission, prohibition))
+    # 2) Pretty, numbered proof
+    print("\n=== Pretty Proof ===\n")
+    print(proof.pretty())
 
 if __name__ == "__main__":
     main()

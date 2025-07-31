@@ -1,21 +1,14 @@
 https://w3id.org/force/compliance-report#Conflict
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission:  ex:alice may odrl:read ex:resourceX
-       when ex:age == 18.
-  (F1) Prohibition: ex:alice must-not odrl:read ex:resourceX
-       when ex:age == 18.
-
-Precondition analysis:
-  The constraints are identical, so their intersection is the singleton set {ex:age = 18}.
-
-Witness construction:
-  Choose world w := (age=18). Then (P1) holds in w and (F1) holds in w.
-
-Derivation:
-  (S1) In w, Permission(odrl:read) holds (by P1).
-  (S2) In w, Prohibition(odrl:read) holds (by F1).
-  (C) Therefore, in every world that satisfies both policies’ preconditions
-      (i.e., the intersection {w}), Perm ∧ Prohib holds ⇒ Global state: Conflict.
+[1] Premise: ∀v∈{18} Perm(ex:alice, odrl:read, ex:resourceX, ex:age=v)  // Permission holds whenever ex:age ∈ {18}
+[2] Premise: ∀v∈{18} Proh(ex:alice, odrl:read, ex:resourceX, ex:age=v)  // Prohibition holds whenever ex:age ∈ {18}
+[3] Set-Intersection: {18} ∩ {18} = {18}  // Compute overlap of activation sets
+[4] Definition [3]: I := {18}  // Name the overlap as I
+[5] Choose [4]: 18 ∈ {18}  // Witness v0 = 18 ∈ I
+[6] Universal-Elim [1, 5]: Perm(ex:alice, odrl:read, ex:resourceX, ex:age=v0)  // Instantiate permission at the witness
+[7] Universal-Elim [2, 5]: Proh(ex:alice, odrl:read, ex:resourceX, ex:age=v0)  // Instantiate prohibition at the witness
+[8] And-Intro [6, 7]: (Perm(ex:alice, odrl:read, ex:resourceX, ex:age=v0) ∧ Proh(ex:alice, odrl:read, ex:resourceX, ex:age=v0))  // Clash at the witness point
+[9] ForAll-Intro [8]: ∀v∈{18} (Perm(ex:alice, odrl:read, ex:resourceX, ex:age=v) ∧ Proh(ex:alice, odrl:read, ex:resourceX, ex:age=v))  // Generalize the clash over all elements of I
+[10] Classification [9]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // I equals the entire permission activation set ⇒ standing clash
