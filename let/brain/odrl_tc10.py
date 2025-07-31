@@ -1,206 +1,271 @@
 #!/usr/bin/env python3
 """
-Testcase-10: Permission(student) ∨ Permission(employee); Prohibition(student ∧ employee)
-=======================================================================================
+Generic explicit-step proof builder for rule-based worlds (testcase-10)
+======================================================================
 
-Scenario (from ODRL Test Conflicts, testcase-10):
-  - Alice is allowed to read if she is a student OR an employee.
-  - Alice is prohibited to read if she is BOTH a student AND an employee.
-  - The provided state-of-the-world (SOTW) has Alice as BOTH student and employee.
+Scenario (ODRL Test Conflicts, testcase-10):
+  - Permission to read if Student OR Employee.
+  - Prohibition to read if Student AND Employee.
 
-Global classification expected: Ambiguous
-  "Some states of the world permit an action while other states of the world prohibit the action."
+Expected global activation state: Ambiguous
+  Some worlds permit the action, while other worlds prohibit it.
 
-This script:
-  1) Encodes the policies directly (no network access).
-  2) Evaluates them across all states of the world for two predicates:
-        Student(Alice) ∈ {False, True}
-        Employee(Alice) ∈ {False, True}
-  3) Decides the global activation state using the following semantics:
+This program uses a generic, reusable proof kernel for finite boolean "worlds".
+You can reuse the builder by changing:
+  - the antecedent predicates that imply Permission,
+  - the antecedent predicates whose conjunction implies Prohibition,
+  - the action/target labels.
 
-     For each world w, compute:
-       Perm(w)  := (Student(w) or Employee(w))
-       Proh(w)  := (Student(w) and Employee(w))
-       Conflict(w) := Perm(w) and Proh(w)
-
-     Aggregate over all worlds W:
-       - ConflictAlways  := for all w in W, Conflict(w)
-       - ExistsPermitted := exists w in W s.t. Perm(w)     (note: Conflict(w) implies Perm(w))
-       - ExistsProhibit  := exists w in W s.t. Proh(w)     (note: Conflict(w) implies Proh(w))
-
-     Global outcome:
-       if ConflictAlways:           https://w3id.org/force/compliance-report#Conflict
-       elif ExistsPermitted and ExistsProhibit:
-                                    https://w3id.org/force/compliance-report#Ambiguous
-       elif ExistsProhibit and not ExistsPermitted:
-                                    https://w3id.org/force/compliance-report#Prohibited
-       elif ExistsPermitted and not ExistsProhibit:
-                                    https://w3id.org/force/compliance-report#Permitted
-       else:                        https://w3id.org/force/compliance-report#NoConflict
-
-  4) Always prints:
-       - The URI for the global result
-       - A concise goal-oriented proof explanation with explicit witness worlds
-
-Note: The provided SOTW (Student=True, Employee=True) is used as a *witness*,
-but the classification is made by quantifying over all possible worlds.
+No external libraries required.
 """
 
-from dataclasses import dataclass
-from typing import List, Tuple
+from __future__ import annotations
+from dataclasses import dataclass, field
+from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
-# --- Policy modeling (specialized to this testcase) --------------------------
-
-@dataclass(frozen=True)
-class World:
-    student: bool
-    employee: bool
-
-    def __repr__(self) -> str:
-        s = "T" if self.student else "F"
-        e = "T" if self.employee else "F"
-        return f"(Student={s}, Employee={e})"
+# -----------------------------------------------------------------------------
+# Tiny logic: terms, formulas, and pretty-printers (generic)
+# -----------------------------------------------------------------------------
 
 @dataclass(frozen=True)
-class Evaluation:
-    world: World
-    permitted: bool
-    prohibited: bool
+class Term:
+    name: str
+    def __str__(self) -> str: return self.name
 
-    @property
-    def conflict(self) -> bool:
-        return self.permitted and self.prohibited
+@dataclass(frozen=True)
+class Atom:
+    pred: str
+    args: Tuple[Any, ...]
+    def pretty(self) -> str:
+        def fmt(a: Any) -> str:
+            return a if isinstance(a, str) else str(a)
+        return f"{self.pred}(" + ", ".join(fmt(x) for x in self.args) + ")"
 
-def eval_policies(world: World) -> Evaluation:
+@dataclass(frozen=True)
+class And:
+    left: Any
+    right: Any
+    def pretty(self) -> str:
+        L = self.left.pretty() if hasattr(self.left, "pretty") else str(self.left)
+        R = self.right.pretty() if hasattr(self.right, "pretty") else str(self.right)
+        return f"({L} ∧ {R})"
+
+@dataclass(frozen=True)
+class Imp:
+    ant: Any
+    cons: Any
+    def pretty(self) -> str:
+        A = self.ant.pretty() if hasattr(self.ant, "pretty") else str(self.ant)
+        C = self.cons.pretty() if hasattr(self.cons, "pretty") else str(self.cons)
+        return f"({A} → {C})"
+
+@dataclass(frozen=True)
+class ForAll:
+    var: Term
+    body: Any  # usually an Imp with var occurrences
+    def pretty(self) -> str:
+        return f"∀{self.var}. {self.body.pretty()}"
+
+# -----------------------------------------------------------------------------
+# Proof kernel (generic, reusable)
+# -----------------------------------------------------------------------------
+
+@dataclass
+class Conclusion:
+    kind: str
+    payload: Any
+    def pretty(self) -> str:
+        k, p = self.kind, self.payload
+        if k == "formula":       return p.pretty()
+        if k == "world-def":     return f"{p[0]} := {p[1]}"
+        if k == "world-fact":    return f"{p[0]}[{p[1]}] = {p[2]}"
+        if k == "choose-world":  return f"{p[0]} := {p[1]}"
+        if k == "classification":return f"Global activation state = {p}"
+        return str(p)
+
+@dataclass
+class Step:
+    id: int
+    rule: str
+    premises: List[int]
+    conclusion: Conclusion
+    notes: Optional[str] = None
+
+@dataclass
+class Proof:
+    steps: List[Step] = field(default_factory=list)
+    def add(self, rule: str, premises: List[int], conclusion: Conclusion, notes: Optional[str] = None) -> int:
+        sid = len(self.steps) + 1
+        self.steps.append(Step(sid, rule, premises, conclusion, notes))
+        return sid
+    def pretty(self) -> str:
+        lines = []
+        for s in self.steps:
+            prem = f" [{', '.join(map(str, s.premises))}]" if s.premises else ""
+            note = f"  // {s.notes}" if s.notes else ""
+            lines.append(f"[{s.id}] {s.rule}{prem}: {s.conclusion.pretty()}{note}")
+        return "\n".join(lines)
+
+# -----------------------------------------------------------------------------
+# World model and evaluation (generic for boolean predicates)
+# -----------------------------------------------------------------------------
+
+World = Dict[str, bool]
+
+def enumerate_worlds(predicates: Sequence[str]) -> List[World]:
+    """All boolean assignments over the given predicate names."""
+    preds = list(predicates)
+    n = len(preds)
+    worlds: List[World] = []
+    for mask in range(1 << n):
+        w = {preds[i]: bool((mask >> i) & 1) for i in range(n)}
+        worlds.append(w)
+    return worlds
+
+def world_str(w: World) -> str:
+    return "(" + ", ".join(f"{k}={'T' if v else 'F'}" for k, v in sorted(w.items())) + ")"
+
+# -----------------------------------------------------------------------------
+# Reusable builders for testcase-10-like structures
+# -----------------------------------------------------------------------------
+
+def forall_perm_rule(var: Term, antecedent_pred: str, action: str, target: str) -> ForAll:
+    return ForAll(var, Imp(Atom(antecedent_pred, (var,)), Atom("Perm", (action, target, var))))
+
+def forall_proh_rule_conj(var: Term, antecedents: Sequence[str], action: str, target: str) -> ForAll:
+    assert len(antecedents) >= 2, "Use at least a binary conjunction for the prohibition antecedent."
+    conj = Atom(antecedents[0], (var,))
+    for p in antecedents[1:]:
+        conj = And(conj, Atom(p, (var,)))
+    return ForAll(var, Imp(conj, Atom("Proh", (action, target, var))))
+
+def eval_perm_proh_in_world(w: World,
+                            perm_ants: Sequence[str],
+                            proh_ants: Sequence[str]) -> Tuple[bool, bool, bool]:
+    perm = any(w.get(p, False) for p in perm_ants)
+    proh = all(w.get(p, False) for p in proh_ants)
+    conflict = perm and proh
+    return perm, proh, conflict
+
+def classify_worlds(worlds: Sequence[World],
+                    perm_ants: Sequence[str],
+                    proh_ants: Sequence[str]) -> str:
+    exists_perm = exists_proh = TrueConflictEverywhere = False
+    any_conflict = True
+    # Evaluate each world
+    per_flags = []
+    proh_flags = []
+    conf_flags = []
+    for w in worlds:
+        p, f, c = eval_perm_proh_in_world(w, perm_ants, proh_ants)
+        per_flags.append(p); proh_flags.append(f); conf_flags.append(c)
+    exists_perm = any(per_flags)
+    exists_proh = any(proh_flags)
+    conflict_always = all(conf_flags)
+    if conflict_always: return "https://w3id.org/force/compliance-report#Conflict"
+    if exists_perm and exists_proh: return "https://w3id.org/force/compliance-report#Ambiguous"
+    if exists_proh and not exists_perm: return "https://w3id.org/force/compliance-report#Prohibited"
+    if exists_perm and not exists_proh: return "https://w3id.org/force/compliance-report#Permitted"
+    return "https://w3id.org/force/compliance-report#NoConflict"
+
+# -----------------------------------------------------------------------------
+# Generic proof builder for "Perm if any antecedent" and "Proh if all antecedents"
+# -----------------------------------------------------------------------------
+
+def build_ambiguous_proof(perm_antecedents: Sequence[str],
+                          proh_antecedents: Sequence[str],
+                          action: str,
+                          target: str,
+                          universe_name: str = "W",
+                          w_perm_name: str = "w_perm",
+                          w_proh_name: str = "w_proh") -> Tuple[Proof, str]:
     """
-    Permissions:
-      P1: permission if student
-      P2: permission if employee
-      => permitted(w) = student(w) OR employee(w)
-
-    Prohibition:
-      F1: prohibition if student AND employee
-      => prohibited(w) = student(w) AND employee(w)
+    Build an explicit proof:
+      Premises → Define universe → Choose witnesses → UE + Modus Ponens → ∧-Intro → Classification.
     """
-    perm = (world.student or world.employee)
-    prohib = (world.student and world.employee)
-    return Evaluation(world, perm, prohib)
+    proof = Proof()
+    var = Term("w")
 
-# --- Classification logic -----------------------------------------------------
+    # [1..k] Permission premises: ∀w. Antecedent_i(w) → Perm(action,target,w)
+    perm_prem_steps: List[int] = []
+    for ant in perm_antecedents:
+        s = proof.add("Premise", [], Conclusion("formula", forall_perm_rule(var, ant, action, target)),
+                      notes=f"If {ant}(w) then Perm({action},{target},w)")
+        perm_prem_steps.append(s)
 
-REPORT_URIS = {
-    "Conflict":    "https://w3id.org/force/compliance-report#Conflict",
-    "Ambiguous":   "https://w3id.org/force/compliance-report#Ambiguous",
-    "Prohibited":  "https://w3id.org/force/compliance-report#Prohibited",
-    "Permitted":   "https://w3id.org/force/compliance-report#Permitted",
-    "NoConflict":  "https://w3id.org/force/compliance-report#NoConflict",
-}
+    # [k+1] Prohibition premise: ∀w. (∧ antecedents)(w) → Proh(action,target,w)
+    proh_step = proof.add("Premise", [],
+                          Conclusion("formula", forall_proh_rule_conj(var, proh_antecedents, action, target)),
+                          notes=f"If {' ∧ '.join(proh_antecedents)}(w) then Proh({action},{target},w)")
 
-def classify(evals: List[Evaluation]) -> str:
-    conflict_always = all(ev.conflict for ev in evals)
-    exists_perm     = any(ev.permitted for ev in evals)
-    exists_prohib   = any(ev.prohibited for ev in evals)
+    # [..] Define the universe of worlds
+    preds = sorted(set(list(perm_antecedents) + list(proh_antecedents)))
+    worlds = enumerate_worlds(preds)
+    proof.add("Universe-Def", [], Conclusion("world-def", (universe_name, f"{{ all assignments over {preds} }}")),
+              notes=f"{len(worlds)} worlds total: " + ", ".join(world_str(w) for w in worlds))
 
-    if conflict_always:
-        return REPORT_URIS["Conflict"]
-    if exists_perm and exists_prohib:
-        return REPORT_URIS["Ambiguous"]
-    if exists_prohib and not exists_perm:
-        return REPORT_URIS["Prohibited"]
-    if exists_perm and not exists_prohib:
-        return REPORT_URIS["Permitted"]
-    return REPORT_URIS["NoConflict"]
+    # Pick a permitted-only witness: first antecedent true, others false
+    w_perm = {p: (p == perm_antecedents[0]) for p in preds}
+    # Pick a prohibited witness: all proh antecedents true (and thus also permits via at least one perm antecedent here)
+    w_proh = {p: (p in proh_antecedents) for p in preds}
 
-# --- Proof construction -------------------------------------------------------
+    # [..] Choose witnesses
+    s_wperm = proof.add("Choose-World", [], Conclusion("choose-world", (w_perm_name, world_str(w_perm))),
+                        notes=f"{w_perm_name} ∈ {universe_name}")
+    s_wproh = proof.add("Choose-World", [], Conclusion("choose-world", (w_proh_name, world_str(w_proh))),
+                        notes=f"{w_proh_name} ∈ {universe_name}")
 
-def build_goal_oriented_proof(evals: List[Evaluation]) -> str:
-    """
-    Goal: Decide the global activation state. Show "Ambiguous" by witness worlds.
+    # Facts for witnesses (Student/Employee truth values)
+    for name, w in [(w_perm_name, w_perm), (w_proh_name, w_proh)]:
+        for k, v in sorted(w.items()):
+            proof.add("World-Fact", [], Conclusion("world-fact", (name, k, "T" if v else "F")))
 
-    Strategy:
-      - Exhibit a world where the action is PROHIBITED.
-      - Exhibit (possibly another) world where the action is PERMITTED.
-      - Show not-all-worlds are in conflict.
-    """
-    # Partition worlds by outcome
-    conflict_ws   = [ev.world for ev in evals if ev.conflict]
-    permitted_ws  = [ev.world for ev in evals if ev.permitted and not ev.prohibited]
-    prohibited_ws = [ev.world for ev in evals if ev.prohibited and not ev.permitted]
-    pure_neutral  = [ev.world for ev in evals if not ev.permitted and not ev.prohibited]
+    # Derive Perm at w_perm from corresponding premise
+    # Use the premise whose antecedent we set True in w_perm
+    perm_ant_for_wperm = perm_antecedents[0]
+    proof.add("Universal-Elim + MP", [perm_prem_steps[0], s_wperm],
+              Conclusion("formula", Atom("Perm", (action, target, w_perm_name))),
+              notes=f"From {perm_ant_for_wperm}({w_perm_name})")
 
-    # In this testcase there is a conflict world (T,T); there may be a pure permitted world (T,F or F,T)
-    # and a neutral world (F,F). We'll construct witnesses accordingly.
-    lines: List[str] = []
-    lines.append("--- Goal-Oriented Proof Explanation ---\n")
-    lines.append("Policies:")
-    lines.append("  (P1) Permission to read if recipient is a student.")
-    lines.append("  (P2) Permission to read if recipient is an employee.")
-    lines.append("  (F1) Prohibition to read if recipient is both a student AND an employee.")
-    lines.append("")
-    lines.append("World evaluation (Student, Employee) ↦ {Perm, Prohib, Conflict}:")
-    for ev in evals:
-        w = ev.world
-        lines.append(f"  {w}: Perm={ev.permitted}, Prohib={ev.prohibited}, Conflict={ev.conflict}")
-    lines.append("")
+    # Derive Proh at w_proh from prohibition premise, using conjunction of all proh antecedents
+    proof.add("Universal-Elim + MP", [proh_step, s_wproh],
+              Conclusion("formula", Atom("Proh", (action, target, w_proh_name))),
+              notes=f"From {' ∧ '.join(a + '(' + w_proh_name + ')' for a in proh_antecedents)}")
 
-    # Witness worlds
-    # A world with prohibition (possibly conflict world)
-    w_prohib = None
-    for ev in evals:
-        if ev.prohibited:
-            w_prohib = ev.world
+    # (Optional) Also show Perm holds in w_proh (since at least one perm antecedent is true there)
+    # Pick the first perm antecedent present in w_proh to witness Perm
+    for i, ant in enumerate(perm_antecedents):
+        if ant in proh_antecedents:  # in testcase-10 both Student and Employee imply permission
+            proof.add("Universal-Elim + MP", [perm_prem_steps[i], s_wproh],
+                      Conclusion("formula", Atom("Perm", (action, target, w_proh_name))),
+                      notes=f"From {ant}({w_proh_name})")
             break
 
-    # A world with permission (prefer a pure-permitted witness if available)
-    w_permit = None
-    if permitted_ws:
-        w_permit = permitted_ws[0]
-    else:
-        # fall back to any world where permitted holds (could be a conflict world)
-        for ev in evals:
-            if ev.permitted:
-                w_permit = ev.world
-                break
+    # Classification (computed over all worlds)
+    result_uri = classify_worlds(worlds, perm_antecedents, proh_antecedents)
+    proof.add("Classification", [], Conclusion("classification", result_uri),
+              notes="∃ permitted-only world and ∃ prohibited world; not all worlds are conflicts")
 
-    lines.append("Witness construction:")
-    if w_permit is not None:
-        lines.append(f"  (W1) Permitted world: {w_permit}  — satisfies P1 ∨ P2.")
-    if w_prohib is not None:
-        lines.append(f"  (W2) Prohibited world: {w_prohib} — satisfies F1 (student ∧ employee).")
-    if conflict_ws:
-        lines.append(f"  (W3) Conflict world exists: {conflict_ws[0]} — both permitted and prohibited here.")
-    if pure_neutral:
-        lines.append(f"  (W4) Neutral world exists: {pure_neutral[0]} — neither permitted nor prohibited.")
+    return proof, result_uri
 
-    lines.append("")
-    lines.append("Derivation:")
-    lines.append("  (S1) ∃ world with Prohib(read): witness W2.")
-    lines.append("  (S2) ∃ world with Perm(read): witness W1.")
-    lines.append("  (S3) Not all worlds are conflicts (e.g., W1 is pure-permitted or W4 is neutral).")
-    lines.append("  (C) Since some worlds permit and some worlds prohibit, but not all are conflicts,")
-    lines.append("      the global activation state is Ambiguous.")
-    return "\n".join(lines)
-
-# --- Main ---------------------------------------------------------------------
+# -----------------------------------------------------------------------------
+# Demonstration: testcase-10 plugged into the generic builder
+# -----------------------------------------------------------------------------
 
 def main() -> None:
-    # Enumerate all worlds (Student, Employee) for Alice
-    worlds: List[World] = [
-        World(False, False),  # neither
-        World(True,  False),  # student only
-        World(False, True),   # employee only
-        World(True,  True),   # both (the provided SOTW)
-    ]
+    action = "odrl:read"
+    target = "ex:resourceX"
+    perm_antecedents = ["Student", "Employee"]         # P if Student; P if Employee
+    proh_antecedents = ["Student", "Employee"]         # F if Student ∧ Employee
 
-    evals = [eval_policies(w) for w in worlds]
-    result_uri = classify(evals)
+    proof, result_uri = build_ambiguous_proof(perm_antecedents, proh_antecedents, action, target)
 
-    # Always print the expected URI first (required by test harnesses)
+    # 1) Always print the expected URI first
     print(result_uri)
 
-    # Then print a compact, goal-oriented proof explanation
-    print()
-    print(build_goal_oriented_proof(evals))
+    # 2) Pretty, numbered proof with explicit steps
+    print("\n=== Pretty Proof ===\n")
+    print(proof.pretty())
 
 if __name__ == "__main__":
     main()

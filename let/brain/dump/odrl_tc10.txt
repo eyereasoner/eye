@@ -1,27 +1,18 @@
 https://w3id.org/force/compliance-report#Ambiguous
 
---- Goal-Oriented Proof Explanation ---
+=== Pretty Proof ===
 
-Policies:
-  (P1) Permission to read if recipient is a student.
-  (P2) Permission to read if recipient is an employee.
-  (F1) Prohibition to read if recipient is both a student AND an employee.
-
-World evaluation (Student, Employee) ↦ {Perm, Prohib, Conflict}:
-  (Student=F, Employee=F): Perm=False, Prohib=False, Conflict=False
-  (Student=T, Employee=F): Perm=True, Prohib=False, Conflict=False
-  (Student=F, Employee=T): Perm=True, Prohib=False, Conflict=False
-  (Student=T, Employee=T): Perm=True, Prohib=True, Conflict=True
-
-Witness construction:
-  (W1) Permitted world: (Student=T, Employee=F)  — satisfies P1 ∨ P2.
-  (W2) Prohibited world: (Student=T, Employee=T) — satisfies F1 (student ∧ employee).
-  (W3) Conflict world exists: (Student=T, Employee=T) — both permitted and prohibited here.
-  (W4) Neutral world exists: (Student=F, Employee=F) — neither permitted nor prohibited.
-
-Derivation:
-  (S1) ∃ world with Prohib(read): witness W2.
-  (S2) ∃ world with Perm(read): witness W1.
-  (S3) Not all worlds are conflicts (e.g., W1 is pure-permitted or W4 is neutral).
-  (C) Since some worlds permit and some worlds prohibit, but not all are conflicts,
-      the global activation state is Ambiguous.
+[1] Premise: ∀w. (Student(w) → Perm(odrl:read, ex:resourceX, w))  // If Student(w) then Perm(odrl:read,ex:resourceX,w)
+[2] Premise: ∀w. (Employee(w) → Perm(odrl:read, ex:resourceX, w))  // If Employee(w) then Perm(odrl:read,ex:resourceX,w)
+[3] Premise: ∀w. ((Student(w) ∧ Employee(w)) → Proh(odrl:read, ex:resourceX, w))  // If Student ∧ Employee(w) then Proh(odrl:read,ex:resourceX,w)
+[4] Universe-Def: W := { all assignments over ['Employee', 'Student'] }  // 4 worlds total: (Employee=F, Student=F), (Employee=T, Student=F), (Employee=F, Student=T), (Employee=T, Student=T)
+[5] Choose-World: w_perm := (Employee=F, Student=T)  // w_perm ∈ W
+[6] Choose-World: w_proh := (Employee=T, Student=T)  // w_proh ∈ W
+[7] World-Fact: w_perm[Employee] = F
+[8] World-Fact: w_perm[Student] = T
+[9] World-Fact: w_proh[Employee] = T
+[10] World-Fact: w_proh[Student] = T
+[11] Universal-Elim + MP [1, 5]: Perm(odrl:read, ex:resourceX, w_perm)  // From Student(w_perm)
+[12] Universal-Elim + MP [3, 6]: Proh(odrl:read, ex:resourceX, w_proh)  // From Student(w_proh) ∧ Employee(w_proh)
+[13] Universal-Elim + MP [1, 6]: Perm(odrl:read, ex:resourceX, w_proh)  // From Student(w_proh)
+[14] Classification: Global activation state = https://w3id.org/force/compliance-report#Ambiguous  // ∃ permitted-only world and ∃ prohibited world; not all worlds are conflicts
