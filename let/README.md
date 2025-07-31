@@ -8,7 +8,7 @@ This research presents a novel approach to computational reasoning by using **La
 ## Conceptual Overview
 
 <p align="center">
-  <img src="let.png" alt="Conceptual Overview of LET" width="70%">
+  <img src="let.png" alt="Conceptual Overview of LET" width="50%">
 </p>
 
 ---
