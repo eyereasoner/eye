@@ -3,10 +3,10 @@
 diamond_property.py
 Purely logical version of the diamond-property example.
 
-Domain   : {a, b, c}
+Domain   : {a, b, c}  (fixed iteration order)
 Base     : base_re(a,b), base_re(a,c)
-Choice   : Each base edge is independently classified as either:
-             e (equality, with reflexive & symmetric behavior) OR
+Choice   : Each base edge independently labeled:
+             e (equality, reflexive & symmetric) OR
              r (directed relation)
            → 4 possible worlds.
 
@@ -31,10 +31,12 @@ from itertools import product
 from typing import Dict, List, Set, Tuple, Optional
 
 # ───────────────────────────────────────────────────────────────
-# 1) Domain & Base
+# 1) Domain & Base (deterministic iteration order)
 # ───────────────────────────────────────────────────────────────
-DOM: Set[str] = {"a", "b", "c"}
-BASE_EDGES: List[Tuple[str, str]] = [("a", "b"), ("a", "c")]  # order matters for naming
+DOM_ORDER: Tuple[str, ...] = ("a", "b", "c")  # fixed order for iteration/printing
+DOM_SET: Set[str] = set(DOM_ORDER)            # for O(1) membership when needed
+
+BASE_EDGES: List[Tuple[str, str]] = [("a", "b"), ("a", "c")]  # ordered
 
 # ───────────────────────────────────────────────────────────────
 # 2) Core Logic
@@ -44,13 +46,16 @@ def closure_re(e: Set[Tuple[str, str]], r: Set[Tuple[str, str]]) -> Set[Tuple[st
     Compute re(x,z) by closing under:
         e(x,y) ∧ re(y,z) ⇒ re(x,z)
     with re initially e ∪ r.
+    (Iteration order is made deterministic; result is the same.)
     """
     re = set(e) | set(r)
     changed = True
     while changed:
         changed = False
-        for (x, y1) in e:
-            for (y2, z) in list(re):
+        # iterate in a deterministic order
+        for (x, y1) in sorted(e):
+            # snapshot of current re, iterated in a deterministic order
+            for (y2, z) in sorted(list(re)):
                 if y1 == y2 and (x, z) not in re:
                     re.add((x, z))
                     changed = True
@@ -61,12 +66,12 @@ def dp_violates(r: Set[Tuple[str, str]]) -> bool:
     Diamond-property violation:
         ∃x. r(x,y) ∧ r(x,z) with y≠z, and y,z have no outgoing r-edges (r-leaves).
     """
-    succ: Dict[str, Set[str]] = {n: set() for n in DOM}
+    succ: Dict[str, Set[str]] = {n: set() for n in DOM_ORDER}  # deterministic key order
     for x, y in r:
         succ[x].add(y)
 
-    for x in DOM:
-        ys = list(succ[x])
+    for x in DOM_ORDER:  # deterministic iteration over x
+        ys = sorted(succ[x])  # deterministic list of successors
         for i in range(len(ys)):
             for j in range(i + 1, len(ys)):
                 y, z = ys[i], ys[j]
@@ -78,37 +83,39 @@ def goal_holds(re: Set[Tuple[str, str]]) -> Tuple[bool, Optional[str]]:
     """
     goal :- ∃U. re(b,U) ∧ re(c,U)
     Returns (holds?, witness_U_or_None).
+    Witness selection uses DOM_ORDER for determinism.
     """
-    for u in DOM:
+    for u in DOM_ORDER:
         if ("b", u) in re and ("c", u) in re:
             return True, u
     return False, None
 
 # ───────────────────────────────────────────────────────────────
-# 3) World Enumeration (no weights)
+# 3) World Enumeration (no weights; deterministic order)
 # ───────────────────────────────────────────────────────────────
 def world_name(flags: Tuple[bool, bool]) -> str:
     """
     Name worlds by how each base edge is labeled:
       True  = equality (e), False = relation (r).
     """
-    lab = []
+    parts = []
     for (x, y), is_eq in zip(BASE_EDGES, flags):
-        lab.append(f"{x}{y}={'e' if is_eq else 'r'}")
-    return "[" + ", ".join(lab) + "]"
+        parts.append(f"{x}{y}={'e' if is_eq else 'r'}")
+    return "[" + ", ".join(parts) + "]"
 
 def enumerate_worlds() -> List[Dict]:
     """
-    Generate all 4 worlds (edge labelings), compute re, dp_viol, and goal.
+    Generate all 4 worlds (edge labelings) in a deterministic order:
+      flags iterate lexicographically over (True, False) × (True, False).
+    Compute re, dp_viol, and goal.
     """
     worlds: List[Dict] = []
     for flags in product([True, False], repeat=len(BASE_EDGES)):  # (e/e), (e/r), (r/e), (r/r)
         # e is always reflexive; add symmetric pairs for e-labeled base edges
-        e: Set[Tuple[str, str]] = {(x, x) for x in DOM}
+        e: Set[Tuple[str, str]] = {(x, x) for x in DOM_ORDER}  # reflexivity in fixed order
         r: Set[Tuple[str, str]] = set()
 
-        for (edge, is_eq) in zip(BASE_EDGES, flags):
-            a, b = edge
+        for (a, b), is_eq in zip(BASE_EDGES, flags):
             if is_eq:
                 e.add((a, b))
                 e.add((b, a))  # symmetry for e
@@ -131,11 +138,12 @@ def enumerate_worlds() -> List[Dict]:
     return worlds
 
 # ───────────────────────────────────────────────────────────────
-# 4) Evidence filtering and logical proof
+# 4) Evidence filtering and logical proof (deterministic printing)
 # ───────────────────────────────────────────────────────────────
 def apply_evidence(worlds: List[Dict]) -> List[Dict]:
     """
     Evidence: keep only worlds with no diamond-property violation.
+    Printing is deterministic by construction of `worlds`.
     """
     print("Applying evidence: require ¬dp_viol (drop worlds that violate the diamond property).")
     kept: List[Dict] = []
@@ -155,6 +163,7 @@ def prove_goal(valid_worlds: List[Dict]) -> List[str]:
     """
     Print a proof trace for goal :- ∃U. re(b,U) ∧ re(c,U)
     over the surviving worlds and return the list of world ids where it holds.
+    Witness selection is deterministic.
     """
     print("\n=== Proving goal: ∃U. re(b,U) ∧ re(c,U) ===")
     holds_in: List[str] = []
@@ -187,12 +196,12 @@ if __name__ == "__main__":
     all_worlds = enumerate_worlds()
     valid_worlds = apply_evidence(all_worlds)
 
-    # Optional: quick summary of which edges are in e and r for surviving worlds
+    # Deterministic summary of surviving E and R edges
     if valid_worlds:
         print("\nSurviving worlds detail (e and r edges):")
         for w in valid_worlds:
-            e_edges = sorted(list(w["e"]))
-            r_edges = sorted(list(w["r"]))
+            e_edges = sorted(w["e"])  # deterministic
+            r_edges = sorted(w["r"])  # deterministic
             print(f"  {w['id']}: e={e_edges}, r={r_edges}")
 
     # Prove the query over the surviving worlds
