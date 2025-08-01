@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 """
-Hypothesis → Observation (list membership + tensor unpacking)
--------------------------------------------------------------
-
-N3 mirrored:
+Hypothesis → Observation (list membership + tensor unpacking), with full member-by-member proof
+-----------------------------------------------------------------------------------------------
 
 Data:
   t:* t:position-tensor (lat lon).
@@ -16,7 +14,7 @@ Rule:
   =>
   { ?T h:location (?LA ?LO). }
 
-Query/Observation:
+Observation/Query:
   { h:traveler1 h:location (51.0535 3.7304). } => { h:traveler1 h:location (51.0535 3.7304). }.
 """
 
@@ -47,7 +45,7 @@ H_IN_ONE_OF: List[str] = [
 ]
 
 TRAVELER = "h:traveler1"
-OBS_LOC = "(51.0535 3.7304)"  # the observed location in the query
+OBS_LOC = "(51.0535 3.7304)"  # from the query
 
 def fmt_pair(lat: float, lon: float) -> str:
     return f"({lat:.4f} {lon:.4f})"
@@ -67,7 +65,7 @@ class KB:
         return [t for t in self.triples if p is None or t[1] == p]
 
 # -----------------------------------------------------------------------------
-# Pretty-proof kernel (same style as earlier examples)
+# Pretty-proof kernel
 # -----------------------------------------------------------------------------
 
 @dataclass
@@ -101,15 +99,11 @@ class Proof:
         return "\n".join(lines)
 
 # -----------------------------------------------------------------------------
-# Apply the rule: from inOneOf + list:in + position-tensor → h:location
+# Derivation: enumerate ALL member cases explicitly in the proof
 # -----------------------------------------------------------------------------
 
-def derive_locations(kb: KB, proof: Proof) -> List[str]:
-    """
-    Derive all h:location pairs for h:traveler1 by iterating the inOneOf list and
-    looking up each member's position-tensor.
-    """
-    # "Facts" intro (hypothesis + tensors)
+def derive_locations_full(kb: KB, proof: Proof) -> None:
+    # Facts/hypothesis
     proof.add("Facts", [], Conclusion("text",
         f"{TRAVELER} h:inOneOf ({' '.join(H_IN_ONE_OF)}) ;  t:* t:position-tensor (lat lon)"))
 
@@ -121,27 +115,25 @@ def derive_locations(kb: KB, proof: Proof) -> List[str]:
             "{ ?T h:inOneOf ?LIST. ?C list:in ?LIST. ?C t:position-tensor (?LA ?LO). }"
             " => { ?T h:location (?LA ?LO). }"
         ),
-        notes="Instantiate ?T=h:traveler1, ?LIST=(…cities…)"
+        notes="We will enumerate all ?C ∈ ?LIST"
     )
 
-    derived = []
-    # Iterate members (?C list:in ?LIST)
+    # Enumerate members explicitly
+    s_list = proof.add("List-Enumerate", [s_rule],
+                       Conclusion("text", "Members: " + ", ".join(H_IN_ONE_OF)))
+
     for C in H_IN_ONE_OF:
+        s_in = proof.add("List-In", [s_list], Conclusion("text", f"{C} ∈ LIST"))
         if C in POS_TENSOR:
             la, lo = POS_TENSOR[C]
             pair = fmt_pair(la, lo)
+            s_tensor = proof.add("Use-Tensor", [s_in], Conclusion("text", f"{C} t:position-tensor {pair}"))
             kb.add(TRAVELER, "h:location", pair)
-            derived.append(pair)
-            proof.add(
-                "Member-Case",
-                [s_rule],
-                Conclusion("text", f"C={C} ∈ LIST; {C} t:position-tensor {pair} ⇒ {TRAVELER} h:location {pair}")
-            )
+            proof.add("Head-Intro", [s_tensor],
+                      Conclusion("formula", f"{TRAVELER} h:location {pair}"),
+                      notes="Instantiate rule head with (?LA ?LO)")
         else:
-            proof.add("Member-Case", [s_rule],
-                      Conclusion("text", f"C={C} ∈ LIST; NO position-tensor — no emission"))
-
-    return derived
+            proof.add("No-Tensor", [s_in], Conclusion("text", f"{C} has no tensor — no emission"))
 
 # -----------------------------------------------------------------------------
 # Driver (query answering + proof)
@@ -151,28 +143,23 @@ def main():
     kb = KB()
     proof = Proof()
 
-    # Derive all candidate locations for the traveler
-    locs = derive_locations(kb, proof)
+    # Derive all locations from the hypothesis list
+    derive_locations_full(kb, proof)
 
-    # Check the observation
+    # Check observation
     entailed = (TRAVELER, "h:location", OBS_LOC) in kb.triples
 
-    # Report answers (all locations + whether the observation is entailed)
+    # Print derived locations
     print("# Derived locations for h:traveler1")
     for s, p, o in sorted(kb.ask(p="h:location")):
         print(f"{s} {p} {o}")
+
     print("\n# Observation")
     print(f"{TRAVELER} h:location {OBS_LOC}  --  {'ENTAILED' if entailed else 'NOT entailed'}")
 
-    # Build a short goal-oriented proof for the observation
+    # Goal & short closing
     proof.add("Goal", [], Conclusion("goal", f"{TRAVELER} h:location {OBS_LOC}"))
-    # Choose the explaining member explicitly: t:Ghent-Belgium
-    ghent = "t:Ghent-Belgium"
-    gh_pair = fmt_pair(*POS_TENSOR[ghent])
-    proof.add("Pick-Member", [], Conclusion("text", f"{ghent} list:in (…); matches hypothesis list"))
-    proof.add("Use-Tensor", [], Conclusion("text", f"{ghent} t:position-tensor {gh_pair}"))
-    proof.add("Head-Intro", [], Conclusion("formula", f"{TRAVELER} h:location {gh_pair}"),
-              notes="Instantiate rule with ?C=t:Ghent-Belgium, (?LA ?LO)=(51.0535 3.7304)")
+    proof.add("Observation-Check", [], Conclusion("text", "Entailed by the Ghent member case"))
 
     print("\n=== Pretty Proof ===\n")
     print(proof.pretty())

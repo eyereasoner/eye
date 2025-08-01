@@ -11,13 +11,22 @@ h:traveler1 h:location (51.0535 3.7304)  --  ENTAILED
 === Pretty Proof ===
 
 [1] Facts: h:traveler1 h:inOneOf (t:Antwerp-Belgium t:Boston-USA t:Cambridge-USA t:Ghent-Belgium t:Ostend-Belgium) ;  t:* t:position-tensor (lat lon)
-[2] Premise-Rule: { ?T h:inOneOf ?LIST. ?C list:in ?LIST. ?C t:position-tensor (?LA ?LO). } => { ?T h:location (?LA ?LO). } // Instantiate ?T=h:traveler1, ?LIST=(…cities…)
-[3] Member-Case [2]: C=t:Antwerp-Belgium ∈ LIST; t:Antwerp-Belgium t:position-tensor (51.2192 4.4029) ⇒ h:traveler1 h:location (51.2192 4.4029)
-[4] Member-Case [2]: C=t:Boston-USA ∈ LIST; t:Boston-USA t:position-tensor (42.3584 -71.0598) ⇒ h:traveler1 h:location (42.3584 -71.0598)
-[5] Member-Case [2]: C=t:Cambridge-USA ∈ LIST; t:Cambridge-USA t:position-tensor (42.3736 -71.1097) ⇒ h:traveler1 h:location (42.3736 -71.1097)
-[6] Member-Case [2]: C=t:Ghent-Belgium ∈ LIST; t:Ghent-Belgium t:position-tensor (51.0535 3.7304) ⇒ h:traveler1 h:location (51.0535 3.7304)
-[7] Member-Case [2]: C=t:Ostend-Belgium ∈ LIST; t:Ostend-Belgium t:position-tensor (51.2154 2.9286) ⇒ h:traveler1 h:location (51.2154 2.9286)
-[8] Goal: h:traveler1 h:location (51.0535 3.7304)
-[9] Pick-Member: t:Ghent-Belgium list:in (…); matches hypothesis list
-[10] Use-Tensor: t:Ghent-Belgium t:position-tensor (51.0535 3.7304)
-[11] Head-Intro: h:traveler1 h:location (51.0535 3.7304) // Instantiate rule with ?C=t:Ghent-Belgium, (?LA ?LO)=(51.0535 3.7304)
+[2] Premise-Rule: { ?T h:inOneOf ?LIST. ?C list:in ?LIST. ?C t:position-tensor (?LA ?LO). } => { ?T h:location (?LA ?LO). } // We will enumerate all ?C ∈ ?LIST
+[3] List-Enumerate [2]: Members: t:Antwerp-Belgium, t:Boston-USA, t:Cambridge-USA, t:Ghent-Belgium, t:Ostend-Belgium
+[4] List-In [3]: t:Antwerp-Belgium ∈ LIST
+[5] Use-Tensor [4]: t:Antwerp-Belgium t:position-tensor (51.2192 4.4029)
+[6] Head-Intro [5]: h:traveler1 h:location (51.2192 4.4029) // Instantiate rule head with (?LA ?LO)
+[7] List-In [3]: t:Boston-USA ∈ LIST
+[8] Use-Tensor [7]: t:Boston-USA t:position-tensor (42.3584 -71.0598)
+[9] Head-Intro [8]: h:traveler1 h:location (42.3584 -71.0598) // Instantiate rule head with (?LA ?LO)
+[10] List-In [3]: t:Cambridge-USA ∈ LIST
+[11] Use-Tensor [10]: t:Cambridge-USA t:position-tensor (42.3736 -71.1097)
+[12] Head-Intro [11]: h:traveler1 h:location (42.3736 -71.1097) // Instantiate rule head with (?LA ?LO)
+[13] List-In [3]: t:Ghent-Belgium ∈ LIST
+[14] Use-Tensor [13]: t:Ghent-Belgium t:position-tensor (51.0535 3.7304)
+[15] Head-Intro [14]: h:traveler1 h:location (51.0535 3.7304) // Instantiate rule head with (?LA ?LO)
+[16] List-In [3]: t:Ostend-Belgium ∈ LIST
+[17] Use-Tensor [16]: t:Ostend-Belgium t:position-tensor (51.2154 2.9286)
+[18] Head-Intro [17]: h:traveler1 h:location (51.2154 2.9286) // Instantiate rule head with (?LA ?LO)
+[19] Goal: h:traveler1 h:location (51.0535 3.7304)
+[20] Observation-Check: Entailed by the Ghent member case
