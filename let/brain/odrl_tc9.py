@@ -298,7 +298,7 @@ def main() -> None:
     PERM_IV = iv_intersection(iv("gteq", date.fromisoformat("2025-01-01")),
                               iv("lteq", date.fromisoformat("2025-12-31")))
     assert PERM_IV is not None
-    PROH_IV = iv("lt", date.fromisoformat("2026-01-01"))
+    PROH_IV = iv("lt", date.fromisoformat("2024-01-01"))
 
     # Build universal premises generically
     d = Term("d")

@@ -1,14 +1,8 @@
-https://w3id.org/force/compliance-report#Conflict
+https://w3id.org/force/compliance-report#NoConflict
 
 === Pretty Proof ===
 
 [1] Premise: ∀d∈[2025-01-01, 2025-12-31] Perm(odrl:read, ex:resourceX, d)  // Permission premise over an activation interval
-[2] Premise: ∀d∈(-∞, 2026-01-01) Proh(odrl:read, ex:resourceX, d)  // Prohibition premise over an activation interval
-[3] Interval-Intersection: [2025-01-01, 2025-12-31] ∩ (-∞, 2026-01-01) = [2025-01-01, 2025-12-31]  // Compute overlap of activation windows
-[4] Definition [3]: I := [2025-01-01, 2025-12-31]  // Name the overlap interval as I
-[5] Choose [4]: 2025-01-01 ∈ [2025-01-01, 2025-12-31]  // Witness d0 = 2025-01-01 ∈ I
-[6] Universal-Elim [1, 5]: Perm(odrl:read, ex:resourceX, 2025-01-01)  // Instantiate permission at the witness
-[7] Universal-Elim [2, 5]: Proh(odrl:read, ex:resourceX, 2025-01-01)  // Instantiate prohibition at the witness
-[8] And-Intro [6, 7]: (Perm(odrl:read, ex:resourceX, 2025-01-01) ∧ Proh(odrl:read, ex:resourceX, 2025-01-01))  // Clash at the witness point
-[9] ForAll-Intro [8]: ∀d∈[2025-01-01, 2025-12-31] (Perm(odrl:read, ex:resourceX, d) ∧ Proh(odrl:read, ex:resourceX, d))  // Generalize the clash over all I
-[10] Classification [9]: Global activation state = https://w3id.org/force/compliance-report#Conflict  // I equals the entire permission window ⇒ standing clash
+[2] Premise: ∀d∈(-∞, 2024-01-01) Proh(odrl:read, ex:resourceX, d)  // Prohibition premise over an activation interval
+[3] Interval-Intersection: [2025-01-01, 2025-12-31] ∩ (-∞, 2024-01-01) = [0001-01-01, 0001-01-01]  // Overlap is empty
+[4] Classification [3]: Global activation state = https://w3id.org/force/compliance-report#NoConflict  // No shared activation dates ⇒ no direct clash
