@@ -1,0 +1,11 @@
+# Derived type assertions (?S a ?C)
+:Ghent a :City
+:Ghent a :HumanCommunity
+
+=== Pretty Proof ===
+
+[1] Facts: :Ghent a :City
+[2] Goal: { ?S a ?C }
+[3] Premise-Rule: { ?x a :City } => { ?x a :HumanCommunity } . // Universal over ?x
+[4] Apply-Rule [3]: :Ghent a :HumanCommunity // Since :Ghent a :City
+[5] Answer: :Ghent a :City ; :Ghent a :HumanCommunity // All entailed type assertions

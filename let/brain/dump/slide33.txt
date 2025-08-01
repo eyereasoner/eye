@@ -1,0 +1,11 @@
+# Derived type assertions (?S a ?C)
+:xxx a :aaa
+
+=== Pretty Proof ===
+
+[1] Facts: :aaa owl:onProperty :bbb ; :aaa owl:allValuesFrom :ccc
+[2] Given-Rule: { :xxx :bbb ?y. } => { ?y a :ccc. }  (R_given)
+[3] Premise-Rule (meta): { ?a owl:onProperty ?b. ?a owl:allValuesFrom ?c. { ?x ?b ?y. } => { ?y a ?c. }. } => { { ?x a ?a. ?x ?b ?y. } => { ?y a ?c. }. ?x a ?a. }. // OWL allValuesFrom internalization
+[4] Derive-Rule [3]: { :xxx a :aaa. :xxx :bbb ?y. } => { ?y a :ccc. }. // from restriction (:aaa onProperty :bbb; allValuesFrom :ccc) and R_given
+[5] Classify [3]: :xxx a :aaa // OWL allValuesFrom ⇒ membership
+[6] Answer: :xxx a :aaa // All entailed type assertions
