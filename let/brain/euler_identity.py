@@ -26,7 +26,7 @@ EPS = Decimal('1e-50')  # target epsilon for the final bound
 # Utilities: arctan and pi via Machin formula
 # ----------------------------
 def arctan_decimal(x: Decimal, tol: Decimal) -> Decimal:
-    """
+    r"""
     arctan(x) = sum_{n=0}^\infty (-1)^n x^{2n+1}/(2n+1), for |x| <= 1.
     Stops when the next term < tol.
     """
@@ -66,7 +66,7 @@ def compute_pi(dps: int) -> Decimal:
 # Alternating Taylor series for sin and cos with rigorous remainder bound
 # ----------------------------
 def sin_with_bound(x: Decimal, tol: Decimal):
-    """
+    r"""
     sin(x) = sum_{n=0}^\infty (-1)^n x^{2n+1}/(2n+1)!
     We compute by recurrence on terms:
        t_{n+1} = - t_n * x^2 / ((2n+2)(2n+3)), starting with t_0 = x.
@@ -89,7 +89,7 @@ def sin_with_bound(x: Decimal, tol: Decimal):
         s = s_next
 
 def cos_with_bound(x: Decimal, tol: Decimal):
-    """
+    r"""
     cos(x) = sum_{n=0}^\infty (-1)^n x^{2n}/(2n)!
     Recurrence:
        t_0 = 1
